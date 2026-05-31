@@ -9,3 +9,6 @@ venv/
 
 # The web app is its own git repository
 web/
+
+# Claude Code runtime artifacts
+.claude/
