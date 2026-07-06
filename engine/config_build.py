@@ -106,8 +106,9 @@ def tournament_records(tours: pd.DataFrame) -> list[dict]:
             "cardValueCeiling": _s(r.get("ceiling")),
             "cardValueFloor": _s(r.get("floor")),
             "teamValueCap": _s(r.get("capnum")) if _yn(r.get("capyn")) else None,
-            # 've' cap semantics TBD — stored raw until LJ confirms meaning
-            "veCap": _s(r.get("vecapnum")) if _yn(r.get("vecap")) else None,
+            # variant cap (LJ 2026-07-06): max number of boosted variant cards
+            # allowed on the roster; 0 = variants banned entirely
+            "variantCap": _s(r.get("vecapnum")) if _yn(r.get("vecap")) else None,
             "dh": _yn(r.get("dh")),
             "modernRE": _yn(r.get("modern")),
             "reYear": _s(r.get("year")),
@@ -265,7 +266,7 @@ def build() -> dict:
         if t["endDate"] is None:
             contexts.append(ctx_for(t["name"], "tournament", t["modernRE"], t["reYear"], {
                 "rules": {k: t[k] for k in (
-                    "cardValueCeiling", "cardValueFloor", "teamValueCap", "veCap",
+                    "cardValueCeiling", "cardValueFloor", "teamValueCap", "variantCap",
                     "dh", "mode", "cardEraMax", "cardEraMin")},
                 "cardEligibility": t["cardEligibility"],
             }))

@@ -197,7 +197,12 @@
 6. PLAN.md Day 5 items; fold `web/.git` into root repo (still separate).
 
 ## Open questions for LJ
-- `veCap` column meaning in the Tournaments sheet? (stored raw meanwhile)
+- ~~`veCap` meaning~~ ✅ RESOLVED (LJ 2026-07-06): **variant cap** — max boosted
+  variant cards allowed on the roster (0 = variants banned). Config key is now
+  `variantCap`; 20 active contexts carry one, 5 ban variants outright.
+  FUTURE WORK: lineup optimizer + draft board should enforce `variantCap`
+  when a tournament context is selected (cap the count of `var === "Y"` cards
+  in the pool/lineup; currently unenforced).
 - Pack schedules per DraftType (round-by-round: tier, shown, picks) — fill in
   `engine/config/tournaments.json → draftTypes`. Also: is the 15:00 clock global
   per draft or per pick, and which types are "Speed"-clocked?
