@@ -4,7 +4,7 @@
 > built, decisions made along the way, and what's next. Keep it updated at the
 > end of every working session.
 
-**Last updated:** 2026-07-06 (session 2 — Fable; Days 1–4 complete, Day 5 remains)
+**Last updated:** 2026-07-06 (session 2 — Fable; **ALL 5 DAYS COMPLETE**)
 
 ## Environment
 - Python: **use `.venv/bin/python`** (repo-root venv; pandas 3.0.3 + lxml + openpyxl).
@@ -168,7 +168,17 @@
 - Still config-blocked for full fidelity: real `packSchedule` per DraftType
   (LJ) would enable round-driven tier expectations + supply depletion.
 
-## Not done yet ⏳ (in priority order)
+### Day 5 ✅
+- E2E drill: `python -m engine build` runs the whole pipeline (config →
+  ingest → curves → projections → calibrate) in **~9 seconds**; app verified
+  on the output (explorer 2,633 cards incl. Perfect filter, all pages live).
+- `README.md`: quick start, weekly refresh runbook, CLI table, methodology.
+- **web/ folded into the root repo** (old web history ended at 1b8ff70; single
+  history now). `.claude/launch.json` name "web" for preview.
+- Skipped stretch items: PTCS tracker port, buy/sell value screen, auto-watch
+  folder — all listed below as future work.
+
+## Future work / still open ⏳
 2. **Collection re-export with CID+Tier** still wanted (kills the 516-card
    unmatched tail + removes fingerprint fragility for Live cards). When it
    lands: extend `load_collection`/`pool_build` to prefer the export's CID and
