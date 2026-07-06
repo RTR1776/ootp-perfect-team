@@ -156,6 +156,10 @@ def fit_curves() -> dict:
     out["hit"]["hbp_rate_env"] = round(float(hit["bat_HP"].sum() / hit["bat_PA"].sum()), 5)
     out["pit"]["hbp_rate_env"] = round(float(pit["pit_HP"].sum() / pit["pit_BF"].sum()), 5)
     CURVES_OUT.write_text(json.dumps(out, indent=2))
+    # the webapp's TS engine port (Card Lab) reads the same curves
+    web_copy = ROOT / "web" / "public" / "data" / "curves.json"
+    web_copy.parent.mkdir(parents=True, exist_ok=True)
+    web_copy.write_text(json.dumps(out, indent=2))
     return out
 
 

@@ -17,6 +17,7 @@ matched collection (ACT == Yes / VAR == Y).
 from __future__ import annotations
 
 import json
+import math
 from datetime import datetime
 from pathlib import Path
 
@@ -111,6 +112,18 @@ def build_projections(out_path: Path = OUT_JSON) -> dict:
         except Exception as e:  # keep going; surface in payload
             records.append({"name": row.get("Name"), "error": str(e)})
 
+    # Python json.dumps writes literal NaN (invalid JSON — browsers reject it);
+    # scrub every NaN picked up from pandas before serializing.
+    def _no_nan(o):
+        if isinstance(o, float) and math.isnan(o):
+            return None
+        if isinstance(o, dict):
+            return {k: _no_nan(v) for k, v in o.items()}
+        if isinstance(o, list):
+            return [_no_nan(v) for v in o]
+        return o
+
+    records = _no_nan(records)
     payload = {
         "baselines": baselines,
         "pt_env": pt_env(),  # league frame the v2 projections live in
