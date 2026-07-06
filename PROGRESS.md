@@ -4,7 +4,7 @@
 > built, decisions made along the way, and what's next. Keep it updated at the
 > end of every working session.
 
-**Last updated:** 2026-07-06 (session 2 — Fable; Days 1 AND 2 complete)
+**Last updated:** 2026-07-06 (session 2 — Fable; Days 1, 2 AND 3 complete)
 
 ## Environment
 - Python: **use `.venv/bin/python`** (repo-root venv; pandas 3.0.3 + lxml + openpyxl).
@@ -123,12 +123,35 @@
 - CLI now: `config | ingest | match | curves | projections | calibrate |
   watch | build` (build chains everything).
 
-## Not done yet ⏳ (in priority order)
+### Day 3 webapp ✅ (verified live in the browser via preview)
+- **Context switcher** in the header: all 116 contexts grouped
+  (Season/Tournaments/Perfect Drafts), persisted in localStorage
+  (`lib/contexts.ts`). An era is expressed as a **pseudo-Park** (component
+  multipliers vs the modern window) and composed multiplicatively onto the
+  physical park — the existing park machinery applies it for free. Verified:
+  Daily Deadball context drops the variants' lineup gain +0.17 → +0.05 r/g.
+- **Optimizer on evidence blends**: `blendedWoba/blendedFip` helpers in
+  types.ts; hitter wOBA scaled by blend/proj ratio after park adjustment;
+  pitcher FIP uses blend directly; league frame from `pt_env` via
+  `setRunEnv()` (data.ts syncs on load). "All Diamonds" pool now includes
+  Perfect tier.
+- **/tournaments**: meta browser per tourney type (env badge, wOBA-vs-env %,
+  owned tags, hitters/pitchers, my-cards filter) + Calibration tab (4 recharts
+  scatters w/ R², top evidence movers).
+- **/lab Card Lab**: paste header+rows from ANY export (184-col stats, 64-col
+  ratings CSV, 43-col collection; CSV or TSV; quote-aware parser; pandas-style
+  dedup of repeated headers). `lib/project.ts` = TS port of projections2.py;
+  **parity self-checked**: pasted card whose CID exists in projections.json
+  gets a "matches engine" badge (tolerance ±0.002 wOBA / ±0.05 FIP) — verified
+  green on a real paste. Shows lineup run-delta vs active 26 + who it
+  displaces. Sidebar: Card Lab nav item.
+- **Gotchas fixed**: Python `json.dumps` writes literal `NaN` which browsers
+  reject — pool_build now NaN-scrubs (this had silently broken every data
+  page until diagnosed via preview). Tabs primitive gained
+  uncontrolled mode + `TabsContent`. `Tier` type + TIER_COLORS/ORDER gained
+  "Perfect". `.claude/launch.json` added (`preview_start` name: "web").
 
-1. **Day 3 webapp** note: the lineup optimizer should consume
-   `evidence.woba_blend_vL/vR` (fall back to projection when absent) — that's
-   the whole point of Day 2. Explorer wOBA/FIP columns now show PT-frame
-   values (lower than v1's MLB-frame numbers — expected, not a bug).
+## Not done yet ⏳ (in priority order)
 2. **Collection re-export with CID+Tier** still wanted (kills the 516-card
    unmatched tail + removes fingerprint fragility for Live cards). When it
    lands: extend `load_collection`/`pool_build` to prefer the export's CID and
