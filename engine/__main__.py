@@ -37,7 +37,9 @@ def main() -> None:
     p_watch.add_argument("--label", required=True,
                          help="tournament label for this batch, e.g. diamondslotsdaily")
 
-    sub.add_parser("build", help="config + ingest (full refresh of derived JSON)")
+    sub.add_parser("match", help="resolve CIDs for the collection export")
+    sub.add_parser("projections", help="regenerate projections.json + team.json from merged pool")
+    sub.add_parser("build", help="full refresh: config + ingest + match + projections")
 
     args = ap.parse_args()
 
@@ -53,10 +55,19 @@ def main() -> None:
     elif args.cmd == "watch":
         import watcher
         watcher.watch(args.label)
+    elif args.cmd == "match":
+        import cid_match
+        df = cid_match.match_collection()
+        n, m = len(df), int(df["CID"].notna().sum())
+        print(f"matched {m}/{n} ({m/n:.1%}) -> {cid_match.OUT_MATCHED}")
+    elif args.cmd == "projections":
+        import pool_build
+        print(json.dumps(pool_build.build_projections(), indent=2))
     elif args.cmd == "build":
-        import config_build, ingest
+        import config_build, ingest, pool_build
         print(json.dumps({"config": config_build.build(),
-                          "tourneys": ingest.build_tourneys_json()}, indent=2))
+                          "tourneys": ingest.build_tourneys_json(),
+                          "projections": pool_build.build_projections()}, indent=2))
 
 
 if __name__ == "__main__":

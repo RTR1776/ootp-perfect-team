@@ -4,7 +4,7 @@
 > built, decisions made along the way, and what's next. Keep it updated at the
 > end of every working session.
 
-**Last updated:** 2026-07-06 (session 2 — Fable)
+**Last updated:** 2026-07-06 (session 2 — Fable; Day 1 complete)
 
 ## Environment
 - Python: **use `.venv/bin/python`** (repo-root venv; pandas 3.0.3 + lxml + openpyxl).
@@ -63,15 +63,38 @@
 ### Repo hygiene
 - venv created; `app/` (empty) removed; R scripts archived under `reference/`.
 
+### CID matching + projections regen (Day 1 finished) ✅
+- **Tier mapping (LJ, 2026-07-06):** card VAL/CVAL → tier: <60 Iron, 60–69
+  Bronze, 70–79 Silver, 80–89 Gold, 90–99 Diamond, 100–101 Perfect.
+  `cid_match.tier_from_val`.
+- **Old ratings CSV recovered from git** (`f9625c9:Ratings/...`, cached to
+  `data-store/ratings_full_2026-05-30.csv`) — full 64-col schema incl. CID,
+  CTier, per-position ratings. This is the projections.py input schema.
+- `engine/cid_match.py` — collection→CID matcher. Match rate **80.8%**
+  (2,171/2,687); unmatched are mostly post-May Iron/Bronze commons never seen
+  in league/tourney exports (only 4 Diamonds, 0 Perfects missed). Key lessons
+  encoded there: collection spells handedness out (Right/Left/Switch vs R/L/S);
+  collection "CON vL/vR" = pitcher control = old-CSV "CON vL_1/vR_1"; **Live
+  cards' ratings drift weekly** so fingerprinting is tolerance-based similarity
+  (|Δ|/25 scale), not equality; CID-collision pass keeps best score.
+- `engine/pool_build.py` — merged master pool (old CSV base + ACT/BUY/VAR
+  refresh from collection + 609 post-May cards synthesized from 184-col
+  exports; hitter CON≈BA substitution, MOV absent→engine skips) →
+  **projections.json regenerated: 2,633 cards, 0 errors**, `owned` +
+  `ratings_source` fields added; team.json refreshed (26 active, 14 variants).
+  `pnpm build` passes on the new data. ✓
+- NOTE: **active roster fully turned over since May** (now Pujols/Wagner/
+  Speaker/Campanella/Paige era-mix) — old memory rosters are obsolete;
+  team.json is the truth.
+- CLI now: `config | ingest | match | projections | watch | build` (build =
+  everything; ~2 min).
+
 ## Not done yet ⏳ (in priority order)
 
-1. **Projections regen (Day 1 finish)** — blocked-ish: collection export lacks
-   CID. Either LJ re-exports with CID+Tier, or implement the name+B/T+ratings
-   fingerprint matcher vs league/tourney files + old projections.json
-   (`engine/ootp_export.py` is where it belongs). Then re-point
-   `engine/projections.py` at the collection loader and regenerate
-   `web/public/data/projections.json` (+ `owned:false` cards from the union of
-   league/tourney pools) and refresh `team.json` from ACT.
+1. **Collection re-export with CID+Tier** still wanted (kills the 516-card
+   unmatched tail + removes fingerprint fragility for Live cards). When it
+   lands: extend `load_collection`/`pool_build` to prefer the export's CID and
+   report diffs vs the matcher.
 2. **Day 2 calibration** — `engine/observed.py`/`calibrate.py` per PLAN.md §3.
    League-relative normalization; shrinkage k≈220 PA / 60 IP; `evidence` block.
 3. **Day 3 webapp** — context switcher consuming `contexts.json` (already
