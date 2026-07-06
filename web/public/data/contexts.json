@@ -1,0 +1,5509 @@
+{
+ "generatedAt": "2026-07-06T15:43:40",
+ "draftTypes": {
+  "Nearly Perfect": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Includes Perfect-tier packs."
+  },
+  "Mixed Bag 1": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Mixed-tier packs, variant 1."
+  },
+  "Historic": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Historic (non-live) pool."
+  },
+  "Historic Double": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Historic pool, double picks."
+  },
+  "Rocking Chair": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Veteran/era-restricted pool."
+  },
+  "Diamond And Gold Only": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Packs limited to Diamond and Gold tiers."
+  },
+  "Silver Only": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Silver-tier packs only."
+  },
+  "Non Live": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "No Live cards."
+  },
+  "Live": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Live cards only."
+  },
+  "Double": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Two picks on some/all packs."
+  },
+  "Half and Half": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Half one pool/rule, half another."
+  },
+  "Original": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "The OG PD format."
+  },
+  "Positional": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Packs grouped by position."
+  },
+  "Pitchers First": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Pitching rounds come first."
+  },
+  "Original OOTP Era": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Original format, OOTP-era pool."
+  },
+  "Non Live Speed": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "No Live cards; reduced clock."
+  },
+  "Speed": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Reduced clock."
+  },
+  "8 Round": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "8 rounds only \u2014 schedule differs from 26-pick standard."
+  },
+  "Silver, Bronze, and Iron": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Lower-tier pool."
+  },
+  "Mixed Bag 2": {
+   "totalPicks": 26,
+   "packSize": 6,
+   "clockSeconds": 900,
+   "packSchedule": null,
+   "notes": "Mixed-tier packs, variant 2."
+  }
+ },
+ "contexts": [
+  {
+   "key": "season:pt_season",
+   "label": "PT Season (home: 2013 Citi Field)",
+   "kind": "season",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": "Citi Field 2013"
+  },
+  {
+   "key": "tournament:daily_bronze_cap",
+   "label": "Daily Bronze Cap",
+   "kind": "tournament",
+   "reYear": 1927,
+   "re": {
+    "window": [
+     1925,
+     1929
+    ],
+    "BB_rate": 0.08099,
+    "K_rate": 0.05278,
+    "HBP_rate": 0.00489,
+    "HR_per_BIP": 0.01382,
+    "2B_per_BIP": 0.05008,
+    "3B_per_BIP": 0.01426,
+    "BABIP": 0.29205,
+    "BA": 0.2842,
+    "OBP": 0.34714,
+    "SLG": 0.40028,
+    "R_per_G": 5.0171,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 40,
+    "teamValueCap": 1375,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5F7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_bronze_only_cap",
+   "label": "Daily Bronze Only Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 60,
+    "teamValueCap": 1670,
+    "veCap": 8,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_bronze_only_historical",
+   "label": "Daily Bronze Only Historical",
+   "kind": "tournament",
+   "reYear": 1999,
+   "re": {
+    "window": [
+     1997,
+     2001
+    ],
+    "BB_rate": 0.09025,
+    "K_rate": 0.1684,
+    "HBP_rate": 0.00871,
+    "HR_per_BIP": 0.03863,
+    "2B_per_BIP": 0.06336,
+    "3B_per_BIP": 0.00668,
+    "BABIP": 0.29972,
+    "BA": 0.26768,
+    "OBP": 0.33871,
+    "SLG": 0.42721,
+    "R_per_G": 4.91389,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 60,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2024,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_early_bronze",
+   "label": "Daily Early Bronze",
+   "kind": "tournament",
+   "reYear": 1971,
+   "re": {
+    "window": [
+     1969,
+     1973
+    ],
+    "BB_rate": 0.08796,
+    "K_rate": 0.14577,
+    "HBP_rate": 0.00547,
+    "HR_per_BIP": 0.02697,
+    "2B_per_BIP": 0.04456,
+    "3B_per_BIP": 0.0074,
+    "BABIP": 0.27735,
+    "BA": 0.25054,
+    "OBP": 0.31976,
+    "SLG": 0.37067,
+    "R_per_G": 4.04317,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": false,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_early_iron",
+   "label": "Daily Early Iron",
+   "kind": "tournament",
+   "reYear": 1987,
+   "re": {
+    "window": [
+     1985,
+     1989
+    ],
+    "BB_rate": 0.08592,
+    "K_rate": 0.14857,
+    "HBP_rate": 0.00508,
+    "HR_per_BIP": 0.02978,
+    "2B_per_BIP": 0.05315,
+    "3B_per_BIP": 0.00724,
+    "BABIP": 0.28403,
+    "BA": 0.25723,
+    "OBP": 0.32359,
+    "SLG": 0.39108,
+    "R_per_G": 4.34607,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 59,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 10,
+    "dh": false,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_iron_1970_2024",
+   "label": "Daily Iron 1970-2024",
+   "kind": "tournament",
+   "reYear": 1998,
+   "re": {
+    "window": [
+     1996,
+     2000
+    ],
+    "BB_rate": 0.09154,
+    "K_rate": 0.16679,
+    "HBP_rate": 0.00827,
+    "HR_per_BIP": 0.03826,
+    "2B_per_BIP": 0.06275,
+    "3B_per_BIP": 0.00665,
+    "BABIP": 0.30079,
+    "BA": 0.26887,
+    "OBP": 0.34037,
+    "SLG": 0.42726,
+    "R_per_G": 4.96558,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 59,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1970
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_iron_cap",
+   "label": "Daily Iron Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 59,
+    "cardValueFloor": 40,
+    "teamValueCap": 1250,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_iron_lunchpail",
+   "label": "Daily Iron Lunchpail",
+   "kind": "tournament",
+   "reYear": 1968,
+   "re": {
+    "window": [
+     1966,
+     1970
+    ],
+    "BB_rate": 0.08355,
+    "K_rate": 0.15434,
+    "HBP_rate": 0.00591,
+    "HR_per_BIP": 0.0271,
+    "2B_per_BIP": 0.04427,
+    "3B_per_BIP": 0.0081,
+    "BABIP": 0.27539,
+    "BA": 0.24631,
+    "OBP": 0.31301,
+    "SLG": 0.36644,
+    "R_per_G": 3.93896,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 59,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": false,
+    "mode": "BO7",
+    "cardEraMax": 1969,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_late_bronze",
+   "label": "Daily Late Bronze",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 10,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_late_iron",
+   "label": "Daily Late Iron",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 59,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 0,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_live_bronze",
+   "label": "Daily Live Bronze",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": false,
+    "snapshot": false,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:daily_live_iron",
+   "label": "Daily Live Iron",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 59,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": false,
+    "snapshot": false,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:daily_low_bronze_up_to_1969",
+   "label": "Daily Low Bronze Up To 1969",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 64,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": false,
+    "mode": "BO7",
+    "cardEraMax": 1969,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_low_iron",
+   "label": "Daily Low Iron",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 49,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 7,
+    "dh": true,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_non_live_bronze",
+   "label": "Daily Non-Live Bronze",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 0,
+    "dh": true,
+    "mode": "BO3F5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": false,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_non_live_iron",
+   "label": "Daily Non-Live Iron",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 59,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": false,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_early_silver",
+   "label": "Daily Early Silver",
+   "kind": "tournament",
+   "reYear": 1992,
+   "re": {
+    "window": [
+     1990,
+     1994
+    ],
+    "BB_rate": 0.08679,
+    "K_rate": 0.15105,
+    "HBP_rate": 0.00612,
+    "HR_per_BIP": 0.0289,
+    "2B_per_BIP": 0.05548,
+    "3B_per_BIP": 0.00723,
+    "BABIP": 0.28963,
+    "BA": 0.2605,
+    "OBP": 0.3278,
+    "SLG": 0.39375,
+    "R_per_G": 4.42082,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 0,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_gold",
+   "label": "Daily Gold",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_gold_cap",
+   "label": "Daily Gold Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 40,
+    "teamValueCap": 1822,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5F7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_gold_only",
+   "label": "Daily Gold Only",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 80,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_gold_only_cap",
+   "label": "Daily Gold Only Cap",
+   "kind": "tournament",
+   "reYear": 1998,
+   "re": {
+    "window": [
+     1996,
+     2000
+    ],
+    "BB_rate": 0.09154,
+    "K_rate": 0.16679,
+    "HBP_rate": 0.00827,
+    "HR_per_BIP": 0.03826,
+    "2B_per_BIP": 0.06275,
+    "3B_per_BIP": 0.00665,
+    "BABIP": 0.30079,
+    "BA": 0.26887,
+    "OBP": 0.34037,
+    "SLG": 0.42726,
+    "R_per_G": 4.96558,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 80,
+    "teamValueCap": 2170,
+    "veCap": 0,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_live_gold",
+   "label": "Daily Live Gold",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": false,
+    "snapshot": false,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:daily_live_silver",
+   "label": "Daily Live Silver",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": false,
+    "snapshot": false,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:daily_low_gold",
+   "label": "Daily Low Gold",
+   "kind": "tournament",
+   "reYear": 1919,
+   "re": {
+    "window": [
+     1917,
+     1921
+    ],
+    "BB_rate": 0.07311,
+    "K_rate": 0.073,
+    "HBP_rate": 0.00643,
+    "HR_per_BIP": 0.00691,
+    "2B_per_BIP": 0.04146,
+    "3B_per_BIP": 0.01516,
+    "BABIP": 0.28553,
+    "BA": 0.26673,
+    "OBP": 0.32711,
+    "SLG": 0.35517,
+    "R_per_G": 4.14811,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 84,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 5,
+    "dh": false,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_low_silver",
+   "label": "Daily Low Silver",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 74,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_silver_and_gold_only_cap",
+   "label": "Daily Silver and Gold Only Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 70,
+    "teamValueCap": 2000,
+    "veCap": 10,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_silver_cap",
+   "label": "Daily Silver Cap",
+   "kind": "tournament",
+   "reYear": 1999,
+   "re": {
+    "window": [
+     1997,
+     2001
+    ],
+    "BB_rate": 0.09025,
+    "K_rate": 0.1684,
+    "HBP_rate": 0.00871,
+    "HR_per_BIP": 0.03863,
+    "2B_per_BIP": 0.06336,
+    "3B_per_BIP": 0.00668,
+    "BABIP": 0.29972,
+    "BA": 0.26768,
+    "OBP": 0.33871,
+    "SLG": 0.42721,
+    "R_per_G": 4.91389,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 40,
+    "teamValueCap": 1500,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_silver_only",
+   "label": "Daily Silver Only",
+   "kind": "tournament",
+   "reYear": 1987,
+   "re": {
+    "window": [
+     1985,
+     1989
+    ],
+    "BB_rate": 0.08592,
+    "K_rate": 0.14857,
+    "HBP_rate": 0.00508,
+    "HR_per_BIP": 0.02978,
+    "2B_per_BIP": 0.05315,
+    "3B_per_BIP": 0.00724,
+    "BABIP": 0.28403,
+    "BA": 0.25723,
+    "OBP": 0.32359,
+    "SLG": 0.39108,
+    "R_per_G": 4.34607,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 70,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO3F5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_silver_only_cap",
+   "label": "Daily Silver Only Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 70,
+    "teamValueCap": 1905,
+    "veCap": 7,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_super_silver_supper",
+   "label": "Daily Super Silver Supper",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_deadball",
+   "label": "Daily Deadball",
+   "kind": "tournament",
+   "reYear": 1919,
+   "re": {
+    "window": [
+     1917,
+     1921
+    ],
+    "BB_rate": 0.07311,
+    "K_rate": 0.073,
+    "HBP_rate": 0.00643,
+    "HR_per_BIP": 0.00691,
+    "2B_per_BIP": 0.04146,
+    "3B_per_BIP": 0.01516,
+    "BABIP": 0.28553,
+    "BA": 0.26673,
+    "OBP": 0.32711,
+    "SLG": 0.35517,
+    "R_per_G": 4.14811,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": false,
+    "mode": "BO7",
+    "cardEraMax": 1919,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_diamond",
+   "label": "Daily Diamond",
+   "kind": "tournament",
+   "reYear": 1996,
+   "re": {
+    "window": [
+     1994,
+     1998
+    ],
+    "BB_rate": 0.0895,
+    "K_rate": 0.16581,
+    "HBP_rate": 0.00795,
+    "HR_per_BIP": 0.0363,
+    "2B_per_BIP": 0.06177,
+    "3B_per_BIP": 0.00678,
+    "BABIP": 0.30022,
+    "BA": 0.26778,
+    "OBP": 0.33769,
+    "SLG": 0.42106,
+    "R_per_G": 4.87037,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 99,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_diamond_cap",
+   "label": "Daily Diamond Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 99,
+    "cardValueFloor": 40,
+    "teamValueCap": 1911,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_diamond_only",
+   "label": "Daily Diamond Only",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 99,
+    "cardValueFloor": 90,
+    "teamValueCap": null,
+    "veCap": 5,
+    "dh": true,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_live_diamond",
+   "label": "Daily Live Diamond",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 99,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": false,
+    "snapshot": false,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:daily_live_low_diamond",
+   "label": "Daily Live Low Diamond",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 94,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": false,
+    "snapshot": false,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:daily_live_open",
+   "label": "Daily Live Open",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": false,
+    "snapshot": false,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:daily_low_diamond",
+   "label": "Daily Low Diamond",
+   "kind": "tournament",
+   "reYear": 1980,
+   "re": {
+    "window": [
+     1978,
+     1982
+    ],
+    "BB_rate": 0.08363,
+    "K_rate": 0.12672,
+    "HBP_rate": 0.00446,
+    "HR_per_BIP": 0.02489,
+    "2B_per_BIP": 0.04984,
+    "3B_per_BIP": 0.00816,
+    "BABIP": 0.28337,
+    "BA": 0.26134,
+    "OBP": 0.32509,
+    "SLG": 0.38528,
+    "R_per_G": 4.24657,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 94,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_non_live_open",
+   "label": "Daily Non-Live Open",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5F7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": false,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_open_high_cap",
+   "label": "Daily Open High Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": 1875,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO3F5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_open_low_cap",
+   "label": "Daily Open Low Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": 1500,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:daily_wide_open",
+   "label": "Daily Wide Open",
+   "kind": "tournament",
+   "reYear": 1968,
+   "re": {
+    "window": [
+     1966,
+     1970
+    ],
+    "BB_rate": 0.08355,
+    "K_rate": 0.15434,
+    "HBP_rate": 0.00591,
+    "HR_per_BIP": 0.0271,
+    "2B_per_BIP": 0.04427,
+    "3B_per_BIP": 0.0081,
+    "BABIP": 0.27539,
+    "BA": 0.24631,
+    "OBP": 0.31301,
+    "SLG": 0.36644,
+    "R_per_G": 3.93896,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:friday_all_that_and_a_bag_of_chips_cap",
+   "label": "Friday All That and a Bag of Chips Cap",
+   "kind": "tournament",
+   "reYear": 1993,
+   "re": {
+    "window": [
+     1991,
+     1995
+    ],
+    "BB_rate": 0.0877,
+    "K_rate": 0.15373,
+    "HBP_rate": 0.00663,
+    "HR_per_BIP": 0.03048,
+    "2B_per_BIP": 0.05675,
+    "3B_per_BIP": 0.00717,
+    "BABIP": 0.29198,
+    "BA": 0.26231,
+    "OBP": 0.33049,
+    "SLG": 0.39999,
+    "R_per_G": 4.5401,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 90,
+    "teamValueCap": 2444,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:friday_gold_cap",
+   "label": "Friday Gold Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 40,
+    "teamValueCap": 1626,
+    "veCap": 9,
+    "dh": true,
+    "mode": "BO5F7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:friday_night_live",
+   "label": "Friday Night Live",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:monday_morning_mashup",
+   "label": "Monday Morning Mashup",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": false,
+    "unsung": false,
+    "snapshot": false,
+    "nel": true,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:monday_night_gold_rush",
+   "label": "Monday Night Gold Rush",
+   "kind": "tournament",
+   "reYear": 1968,
+   "re": {
+    "window": [
+     1966,
+     1970
+    ],
+    "BB_rate": 0.08355,
+    "K_rate": 0.15434,
+    "HBP_rate": 0.00591,
+    "HR_per_BIP": 0.0271,
+    "2B_per_BIP": 0.04427,
+    "3B_per_BIP": 0.0081,
+    "BABIP": 0.27539,
+    "BA": 0.24631,
+    "OBP": 0.31301,
+    "SLG": 0.36644,
+    "R_per_G": 3.93896,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 10,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:monday_up_and_at_them_bronze",
+   "label": "Monday Up and At Them Bronze",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 5,
+    "dh": true,
+    "mode": "BO5F7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:saturday_iron_warriors",
+   "label": "Saturday Iron Warriors",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 59,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 8,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:saturday_low_gold_power_to_live_plus",
+   "label": "Saturday Low Gold Power To Live Plus",
+   "kind": "tournament",
+   "reYear": 2000,
+   "re": {
+    "window": [
+     1998,
+     2002
+    ],
+    "BB_rate": 0.0898,
+    "K_rate": 0.16794,
+    "HBP_rate": 0.00892,
+    "HR_per_BIP": 0.03875,
+    "2B_per_BIP": 0.06351,
+    "3B_per_BIP": 0.00668,
+    "BABIP": 0.29805,
+    "BA": 0.2666,
+    "OBP": 0.33758,
+    "SLG": 0.42665,
+    "R_per_G": 4.88203,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 84,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 6,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1993
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:saturday_sleepless_silver_only",
+   "label": "Saturday Sleepless Silver Only",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 70,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:saturday_up_late_with_snapshots",
+   "label": "Saturday Up Late With Snapshots",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": false,
+    "unsung": false,
+    "snapshot": true,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:sunday_bronze_brunch_cap",
+   "label": "Sunday Bronze Brunch Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 69,
+    "cardValueFloor": 40,
+    "teamValueCap": 1399,
+    "veCap": null,
+    "dh": false,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:sunday_high_gold_and_diamond_only_cap",
+   "label": "Sunday High Gold and Diamond Only Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 99,
+    "cardValueFloor": 85,
+    "teamValueCap": 2370,
+    "veCap": 10,
+    "dh": true,
+    "mode": "BO5F7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:sunday_open_main_event",
+   "label": "Sunday Open Main Event",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:the_dank_wednesday_night",
+   "label": "The Dank Wednesday Night",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 49,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 0,
+    "dh": true,
+    "mode": "BO7F9",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:thursday_gold_time_machine_cap",
+   "label": "Thursday Gold Time Machine Cap",
+   "kind": "tournament",
+   "reYear": 1955,
+   "re": {
+    "window": [
+     1953,
+     1957
+    ],
+    "BB_rate": 0.09209,
+    "K_rate": 0.1147,
+    "HBP_rate": 0.00514,
+    "HR_per_BIP": 0.02857,
+    "2B_per_BIP": 0.04536,
+    "3B_per_BIP": 0.00961,
+    "BABIP": 0.2754,
+    "BA": 0.25996,
+    "OBP": 0.33132,
+    "SLG": 0.39402,
+    "R_per_G": 4.44612,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 89,
+    "cardValueFloor": 40,
+    "teamValueCap": 1444,
+    "veCap": null,
+    "dh": false,
+    "mode": "BO7",
+    "cardEraMax": 1969,
+    "cardEraMin": 1920
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:thursday_live_cap",
+   "label": "Thursday Live Cap",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": 1750,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": false,
+    "snapshot": false,
+    "nel": false,
+    "fl": false,
+    "legend": false,
+    "hh": false,
+    "allstar": false,
+    "rookie": false
+   }
+  },
+  {
+   "key": "tournament:thursday_silver_spectacular",
+   "label": "Thursday Silver Spectacular",
+   "kind": "tournament",
+   "reYear": 1944,
+   "re": {
+    "window": [
+     1942,
+     1946
+    ],
+    "BB_rate": 0.087,
+    "K_rate": 0.07651,
+    "HBP_rate": 0.00366,
+    "HR_per_BIP": 0.01254,
+    "2B_per_BIP": 0.04397,
+    "3B_per_BIP": 0.01029,
+    "BABIP": 0.27256,
+    "BA": 0.25769,
+    "OBP": 0.32619,
+    "SLG": 0.35311,
+    "R_per_G": 4.20535,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": false,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:tuesday_ice_to_see_you",
+   "label": "Tuesday Ice To See You",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 99,
+    "cardValueFloor": 90,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO5",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:tuesday_overnight_under_the_covers",
+   "label": "Tuesday Overnight Under The Covers",
+   "kind": "tournament",
+   "reYear": 1928,
+   "re": {
+    "window": [
+     1926,
+     1930
+    ],
+    "BB_rate": 0.08052,
+    "K_rate": 0.05619,
+    "HBP_rate": 0.00492,
+    "HR_per_BIP": 0.01431,
+    "2B_per_BIP": 0.05107,
+    "3B_per_BIP": 0.01456,
+    "BABIP": 0.29363,
+    "BA": 0.28485,
+    "OBP": 0.34746,
+    "SLG": 0.40353,
+    "R_per_G": 5.05667,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 1929,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:tuesday_sporer_s_sandlot",
+   "label": "Tuesday Sporer's Sandlot",
+   "kind": "tournament",
+   "reYear": 1981,
+   "re": {
+    "window": [
+     1979,
+     1983
+    ],
+    "BB_rate": 0.08336,
+    "K_rate": 0.12871,
+    "HBP_rate": 0.0044,
+    "HR_per_BIP": 0.02548,
+    "2B_per_BIP": 0.05032,
+    "3B_per_BIP": 0.00817,
+    "BABIP": 0.28448,
+    "BA": 0.262,
+    "OBP": 0.32541,
+    "SLG": 0.38755,
+    "R_per_G": 4.29159,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 79,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": 10,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 1999,
+    "cardEraMin": 1920
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:wednesday_low_diamond_extravaganza",
+   "label": "Wednesday Low Diamond Extravaganza",
+   "kind": "tournament",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 94,
+    "cardValueFloor": 40,
+    "teamValueCap": null,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1875
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "tournament:wednesday_ootp_era_cap",
+   "label": "Wednesday OOTP Era Cap",
+   "kind": "tournament",
+   "reYear": 1999,
+   "re": {
+    "window": [
+     1997,
+     2001
+    ],
+    "BB_rate": 0.09025,
+    "K_rate": 0.1684,
+    "HBP_rate": 0.00871,
+    "HR_per_BIP": 0.03863,
+    "2B_per_BIP": 0.06336,
+    "3B_per_BIP": 0.00668,
+    "BABIP": 0.29972,
+    "BA": 0.26768,
+    "OBP": 0.33871,
+    "SLG": 0.42721,
+    "R_per_G": 4.91389,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "rules": {
+    "cardValueCeiling": 105,
+    "cardValueFloor": 40,
+    "teamValueCap": 1726,
+    "veCap": null,
+    "dh": true,
+    "mode": "BO7",
+    "cardEraMax": 2025,
+    "cardEraMin": 1999
+   },
+   "cardEligibility": {
+    "live": true,
+    "unsung": true,
+    "snapshot": true,
+    "nel": true,
+    "fl": true,
+    "legend": true,
+    "hh": true,
+    "allstar": true,
+    "rookie": true
+   }
+  },
+  {
+   "key": "draft:sunday_pd_main_event",
+   "label": "Sunday PD Main Event",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Nearly Perfect",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:monday_morning_mayhem",
+   "label": "Monday Morning Mayhem",
+   "kind": "draft",
+   "reYear": 1987,
+   "re": {
+    "window": [
+     1985,
+     1989
+    ],
+    "BB_rate": 0.08592,
+    "K_rate": 0.14857,
+    "HBP_rate": 0.00508,
+    "HR_per_BIP": 0.02978,
+    "2B_per_BIP": 0.05315,
+    "3B_per_BIP": 0.00724,
+    "BABIP": 0.28403,
+    "BA": 0.25723,
+    "OBP": 0.32359,
+    "SLG": 0.39108,
+    "R_per_G": 4.34607,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Mixed Bag 1",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7F9"
+   }
+  },
+  {
+   "key": "draft:monday_trim_those_sideburns",
+   "label": "Monday Trim Those Sideburns",
+   "kind": "draft",
+   "reYear": 1992,
+   "re": {
+    "window": [
+     1990,
+     1994
+    ],
+    "BB_rate": 0.08679,
+    "K_rate": 0.15105,
+    "HBP_rate": 0.00612,
+    "HR_per_BIP": 0.0289,
+    "2B_per_BIP": 0.05548,
+    "3B_per_BIP": 0.00723,
+    "BABIP": 0.28963,
+    "BA": 0.2605,
+    "OBP": 0.3278,
+    "SLG": 0.39375,
+    "R_per_G": 4.42082,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Historic",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": false,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:monday_night_history_lesson",
+   "label": "Monday Night History Lesson",
+   "kind": "draft",
+   "reYear": 1998,
+   "re": {
+    "window": [
+     1996,
+     2000
+    ],
+    "BB_rate": 0.09154,
+    "K_rate": 0.16679,
+    "HBP_rate": 0.00827,
+    "HR_per_BIP": 0.03826,
+    "2B_per_BIP": 0.06275,
+    "3B_per_BIP": 0.00665,
+    "BABIP": 0.30079,
+    "BA": 0.26887,
+    "OBP": 0.34037,
+    "SLG": 0.42726,
+    "R_per_G": 4.96558,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Historic Double",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO9"
+   }
+  },
+  {
+   "key": "draft:tuesday_rocking_chair",
+   "label": "Tuesday Rocking Chair",
+   "kind": "draft",
+   "reYear": 1970,
+   "re": {
+    "window": [
+     1968,
+     1972
+    ],
+    "BB_rate": 0.08588,
+    "K_rate": 0.14982,
+    "HBP_rate": 0.00574,
+    "HR_per_BIP": 0.02602,
+    "2B_per_BIP": 0.04396,
+    "3B_per_BIP": 0.00753,
+    "BABIP": 0.27508,
+    "BA": 0.2468,
+    "OBP": 0.31508,
+    "SLG": 0.36366,
+    "R_per_G": 3.89961,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Rocking Chair",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": false,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:tuesday_diamond_and_gold",
+   "label": "Tuesday Diamond and Gold",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Diamond And Gold Only",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:tuesday_after_dinner_silver_snack",
+   "label": "Tuesday After Dinner Silver Snack",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Silver Only",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:wednesday_it_s_still_dark_out",
+   "label": "Wednesday It's Still Dark Out",
+   "kind": "draft",
+   "reYear": 1962,
+   "re": {
+    "window": [
+     1960,
+     1964
+    ],
+    "BB_rate": 0.08428,
+    "K_rate": 0.14508,
+    "HBP_rate": 0.00553,
+    "HR_per_BIP": 0.03036,
+    "2B_per_BIP": 0.04573,
+    "3B_per_BIP": 0.0086,
+    "BABIP": 0.27765,
+    "BA": 0.25337,
+    "OBP": 0.31953,
+    "SLG": 0.38555,
+    "R_per_G": 4.24838,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Non Live",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO9"
+   }
+  },
+  {
+   "key": "draft:wednesday_live",
+   "label": "Wednesday Live",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Live",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:wednesday_double_pd",
+   "label": "Wednesday Double PD",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Double",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:thursday_nearly_perfect_lunch_bunch",
+   "label": "Thursday Nearly Perfect Lunch Bunch",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Nearly Perfect",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:thursday_night_put_it_in_the_books",
+   "label": "Thursday Night Put It In The Books",
+   "kind": "draft",
+   "reYear": 1987,
+   "re": {
+    "window": [
+     1985,
+     1989
+    ],
+    "BB_rate": 0.08592,
+    "K_rate": 0.14857,
+    "HBP_rate": 0.00508,
+    "HR_per_BIP": 0.02978,
+    "2B_per_BIP": 0.05315,
+    "3B_per_BIP": 0.00724,
+    "BABIP": 0.28403,
+    "BA": 0.25723,
+    "OBP": 0.32359,
+    "SLG": 0.39108,
+    "R_per_G": 4.34607,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Historic Double",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:thursday_half_and_half",
+   "label": "Thursday Half and Half",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Half and Half",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": false,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:friday_working_through_lunch",
+   "label": "Friday Working Through Lunch",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Original",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:friday_summer_hours",
+   "label": "Friday Summer Hours",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Positional",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO5F7"
+   }
+  },
+  {
+   "key": "draft:friday_night_live_pd",
+   "label": "Friday Night Live PD",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Live",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:saturday_can_t_sleep_clown_will_eat_me",
+   "label": "Saturday Can't Sleep Clown Will Eat Me",
+   "kind": "draft",
+   "reYear": 1989,
+   "re": {
+    "window": [
+     1987,
+     1991
+    ],
+    "BB_rate": 0.08564,
+    "K_rate": 0.14999,
+    "HBP_rate": 0.0054,
+    "HR_per_BIP": 0.02861,
+    "2B_per_BIP": 0.05334,
+    "3B_per_BIP": 0.00719,
+    "BABIP": 0.28519,
+    "BA": 0.25705,
+    "OBP": 0.32339,
+    "SLG": 0.38778,
+    "R_per_G": 4.31206,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Pitchers First",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:saturday_yardwork_avoision",
+   "label": "Saturday Yardwork Avoision",
+   "kind": "draft",
+   "reYear": 1996,
+   "re": {
+    "window": [
+     1994,
+     1998
+    ],
+    "BB_rate": 0.0895,
+    "K_rate": 0.16581,
+    "HBP_rate": 0.00795,
+    "HR_per_BIP": 0.0363,
+    "2B_per_BIP": 0.06177,
+    "3B_per_BIP": 0.00678,
+    "BABIP": 0.30022,
+    "BA": 0.26778,
+    "OBP": 0.33769,
+    "SLG": 0.42106,
+    "R_per_G": 4.87037,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Silver Only",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:twipt_saturday_showdown",
+   "label": "TWIPT Saturday Showdown",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Double",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO1F3"
+   }
+  },
+  {
+   "key": "draft:sunday_ootp_brunch_spectacular",
+   "label": "Sunday OOTP Brunch Spectacular",
+   "kind": "draft",
+   "reYear": 2007,
+   "re": {
+    "window": [
+     2005,
+     2009
+    ],
+    "BB_rate": 0.08541,
+    "K_rate": 0.17164,
+    "HBP_rate": 0.00917,
+    "HR_per_BIP": 0.03673,
+    "2B_per_BIP": 0.06533,
+    "3B_per_BIP": 0.00671,
+    "BABIP": 0.29986,
+    "BA": 0.26569,
+    "OBP": 0.33377,
+    "SLG": 0.42155,
+    "R_per_G": 4.70199,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Original OOTP Era",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:sunday_bbq_and_baseball",
+   "label": "Sunday BBQ and Baseball",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Non Live",
+   "cadence": "Weekly Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_pitchers_first",
+   "label": "Daily Pitchers First",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Pitchers First",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_shiny_happy_silver_laughing",
+   "label": "Daily Shiny Happy Silver Laughing",
+   "kind": "draft",
+   "reYear": 1991,
+   "re": {
+    "window": [
+     1989,
+     1993
+    ],
+    "BB_rate": 0.08594,
+    "K_rate": 0.14919,
+    "HBP_rate": 0.00578,
+    "HR_per_BIP": 0.02718,
+    "2B_per_BIP": 0.05381,
+    "3B_per_BIP": 0.00718,
+    "BABIP": 0.28687,
+    "BA": 0.25788,
+    "OBP": 0.32458,
+    "SLG": 0.38555,
+    "R_per_G": 4.28882,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Silver Only",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_all_silver_all_the_time",
+   "label": "Daily All-Silver All The Time",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Silver Only",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_live_afternoon_nap",
+   "label": "Daily Live Afternoon Nap",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Live",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO3"
+   }
+  },
+  {
+   "key": "draft:daily_rocking_chair_lunch",
+   "label": "Daily Rocking Chair Lunch",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Rocking Chair",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_yada_yada_yada___ath",
+   "label": "Daily Yada Yada Yada - ATH",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Positional",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:dr__dynastic_s_daily_disarray",
+   "label": "Dr. Dynastic's Daily Disarray",
+   "kind": "draft",
+   "reYear": 2019,
+   "re": {
+    "window": [
+     2017,
+     2021
+    ],
+    "BB_rate": 0.08607,
+    "K_rate": 0.22586,
+    "HBP_rate": 0.01068,
+    "HR_per_BIP": 0.04893,
+    "2B_per_BIP": 0.06583,
+    "3B_per_BIP": 0.00604,
+    "BABIP": 0.29609,
+    "BA": 0.2494,
+    "OBP": 0.32077,
+    "SLG": 0.41999,
+    "R_per_G": 4.61793,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Non Live Speed",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_evening_rocking_chair",
+   "label": "Daily Evening Rocking Chair",
+   "kind": "draft",
+   "reYear": 1977,
+   "re": {
+    "window": [
+     1975,
+     1979
+    ],
+    "BB_rate": 0.08583,
+    "K_rate": 0.12834,
+    "HBP_rate": 0.00487,
+    "HR_per_BIP": 0.02471,
+    "2B_per_BIP": 0.04896,
+    "3B_per_BIP": 0.00839,
+    "BABIP": 0.28298,
+    "BA": 0.26019,
+    "OBP": 0.32606,
+    "SLG": 0.38301,
+    "R_per_G": 4.25063,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Rocking Chair",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO5"
+   }
+  },
+  {
+   "key": "draft:daily_i_have_misplaced_my_pants___np",
+   "label": "Daily I Have Misplaced My Pants - NP",
+   "kind": "draft",
+   "reYear": 1996,
+   "re": {
+    "window": [
+     1994,
+     1998
+    ],
+    "BB_rate": 0.0895,
+    "K_rate": 0.16581,
+    "HBP_rate": 0.00795,
+    "HR_per_BIP": 0.0363,
+    "2B_per_BIP": 0.06177,
+    "3B_per_BIP": 0.00678,
+    "BABIP": 0.30022,
+    "BA": 0.26778,
+    "OBP": 0.33769,
+    "SLG": 0.42106,
+    "R_per_G": 4.87037,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Nearly Perfect",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_historical_primetime",
+   "label": "Daily Historical Primetime",
+   "kind": "draft",
+   "reYear": 1962,
+   "re": {
+    "window": [
+     1960,
+     1964
+    ],
+    "BB_rate": 0.08428,
+    "K_rate": 0.14508,
+    "HBP_rate": 0.00553,
+    "HR_per_BIP": 0.03036,
+    "2B_per_BIP": 0.04573,
+    "3B_per_BIP": 0.0086,
+    "BABIP": 0.27765,
+    "BA": 0.25337,
+    "OBP": 0.31953,
+    "SLG": 0.38555,
+    "R_per_G": 4.24838,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Historic",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": false,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_non_live_evening",
+   "label": "Daily Non-Live Evening",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Non Live",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:laptophound_s_daily_late_lower_level_leisure_lounge",
+   "label": "Laptophound's Daily Late Lower Level Leisure Lounge",
+   "kind": "draft",
+   "reYear": 1996,
+   "re": {
+    "window": [
+     1994,
+     1998
+    ],
+    "BB_rate": 0.0895,
+    "K_rate": 0.16581,
+    "HBP_rate": 0.00795,
+    "HR_per_BIP": 0.0363,
+    "2B_per_BIP": 0.06177,
+    "3B_per_BIP": 0.00678,
+    "BABIP": 0.30022,
+    "BA": 0.26778,
+    "OBP": 0.33769,
+    "SLG": 0.42106,
+    "R_per_G": 4.87037,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Positional",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": false,
+    "mode": "BO5F7"
+   }
+  },
+  {
+   "key": "draft:daily_mixed_bag_evening",
+   "label": "Daily Mixed Bag Evening",
+   "kind": "draft",
+   "reYear": 1968,
+   "re": {
+    "window": [
+     1966,
+     1970
+    ],
+    "BB_rate": 0.08355,
+    "K_rate": 0.15434,
+    "HBP_rate": 0.00591,
+    "HR_per_BIP": 0.0271,
+    "2B_per_BIP": 0.04427,
+    "3B_per_BIP": 0.0081,
+    "BABIP": 0.27539,
+    "BA": 0.24631,
+    "OBP": 0.31301,
+    "SLG": 0.36644,
+    "R_per_G": 3.93896,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Mixed Bag 1",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_back_to_basics___og",
+   "label": "Daily Back To Basics - OG",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Original",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO5"
+   }
+  },
+  {
+   "key": "draft:daily_cromulent_evening___og",
+   "label": "Daily Cromulent Evening - OG",
+   "kind": "draft",
+   "reYear": 1996,
+   "re": {
+    "window": [
+     1994,
+     1998
+    ],
+    "BB_rate": 0.0895,
+    "K_rate": 0.16581,
+    "HBP_rate": 0.00795,
+    "HR_per_BIP": 0.0363,
+    "2B_per_BIP": 0.06177,
+    "3B_per_BIP": 0.00678,
+    "BABIP": 0.30022,
+    "BA": 0.26778,
+    "OBP": 0.33769,
+    "SLG": 0.42106,
+    "R_per_G": 4.87037,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Original",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_up_late_with_diamond_and_gold",
+   "label": "Daily Up Late with Diamond and Gold",
+   "kind": "draft",
+   "reYear": 1987,
+   "re": {
+    "window": [
+     1985,
+     1989
+    ],
+    "BB_rate": 0.08592,
+    "K_rate": 0.14857,
+    "HBP_rate": 0.00508,
+    "HR_per_BIP": 0.02978,
+    "2B_per_BIP": 0.05315,
+    "3B_per_BIP": 0.00724,
+    "BABIP": 0.28403,
+    "BA": 0.25723,
+    "OBP": 0.32359,
+    "SLG": 0.39108,
+    "R_per_G": 4.34607,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Diamond And Gold Only",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_struggling_to_sleep",
+   "label": "Daily Struggling To Sleep",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Positional",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO5"
+   }
+  },
+  {
+   "key": "draft:daily_non_live_after_dark_speed",
+   "label": "Daily Non-Live After Dark Speed",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Non Live Speed",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO5"
+   }
+  },
+  {
+   "key": "draft:daily_west_coast_best_coast___dbl",
+   "label": "Daily West Coast Best Coast - DBL",
+   "kind": "draft",
+   "reYear": 1958,
+   "re": {
+    "window": [
+     1956,
+     1960
+    ],
+    "BB_rate": 0.08825,
+    "K_rate": 0.12875,
+    "HBP_rate": 0.00521,
+    "HR_per_BIP": 0.03016,
+    "2B_per_BIP": 0.04611,
+    "3B_per_BIP": 0.00898,
+    "BABIP": 0.27581,
+    "BA": 0.25708,
+    "OBP": 0.32559,
+    "SLG": 0.39259,
+    "R_per_G": 4.34608,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Double",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO3F5"
+   }
+  },
+  {
+   "key": "draft:daily_up_all_night___og",
+   "label": "Daily Up All Night - OG",
+   "kind": "draft",
+   "reYear": 2000,
+   "re": {
+    "window": [
+     1998,
+     2002
+    ],
+    "BB_rate": 0.0898,
+    "K_rate": 0.16794,
+    "HBP_rate": 0.00892,
+    "HR_per_BIP": 0.03875,
+    "2B_per_BIP": 0.06351,
+    "3B_per_BIP": 0.00668,
+    "BABIP": 0.29805,
+    "BA": 0.2666,
+    "OBP": 0.33758,
+    "SLG": 0.42665,
+    "R_per_G": 4.88203,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Original",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO3"
+   }
+  },
+  {
+   "key": "draft:daily_rise_and_shine___og",
+   "label": "Daily Rise and Shine - OG",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Original",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO5F7"
+   }
+  },
+  {
+   "key": "draft:daily_morning_coffee_speed",
+   "label": "Daily Morning Coffee Speed",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Speed",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO3"
+   }
+  },
+  {
+   "key": "draft:daily_nearly_perfect_wake_up_call",
+   "label": "Daily Nearly Perfect Wake-up Call",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Nearly Perfect",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_live_breakfast",
+   "label": "Daily Live Breakfast",
+   "kind": "draft",
+   "reYear": 2019,
+   "re": {
+    "window": [
+     2017,
+     2021
+    ],
+    "BB_rate": 0.08607,
+    "K_rate": 0.22586,
+    "HBP_rate": 0.01068,
+    "HR_per_BIP": 0.04893,
+    "2B_per_BIP": 0.06583,
+    "3B_per_BIP": 0.00604,
+    "BABIP": 0.29609,
+    "BA": 0.2494,
+    "OBP": 0.32077,
+    "SLG": 0.41999,
+    "R_per_G": 4.61793,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Live",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_bagels_and_schmear_with_evcinnyc",
+   "label": "Daily Bagels and Schmear with EVCinNYC",
+   "kind": "draft",
+   "reYear": 1923,
+   "re": {
+    "window": [
+     1921,
+     1925
+    ],
+    "BB_rate": 0.07666,
+    "K_rate": 0.05404,
+    "HBP_rate": 0.0058,
+    "HR_per_BIP": 0.01238,
+    "2B_per_BIP": 0.04728,
+    "3B_per_BIP": 0.01484,
+    "BABIP": 0.29479,
+    "BA": 0.28536,
+    "OBP": 0.34595,
+    "SLG": 0.39603,
+    "R_per_G": 5.01547,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Historic Double",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": false,
+    "mode": "BO5"
+   }
+  },
+  {
+   "key": "draft:daily_scrum",
+   "label": "Daily Scrum",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "8 Round",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:laptophound_s_daily_lower_level_leisure_lounge",
+   "label": "Laptophound's Daily Lower Level Leisure Lounge",
+   "kind": "draft",
+   "reYear": 1908,
+   "re": {
+    "window": [
+     1906,
+     1910
+    ],
+    "BB_rate": 0.07022,
+    "K_rate": 0.10094,
+    "HBP_rate": 0.00836,
+    "HR_per_BIP": 0.00371,
+    "2B_per_BIP": 0.03494,
+    "3B_per_BIP": 0.01363,
+    "BABIP": 0.27356,
+    "BA": 0.24481,
+    "OBP": 0.30649,
+    "SLG": 0.3129,
+    "R_per_G": 3.57821,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Silver, Bronze, and Iron",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": false,
+    "mode": "BO7F9"
+   }
+  },
+  {
+   "key": "draft:daily_morning_mix_up",
+   "label": "Daily Morning Mix-up",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Mixed Bag 2",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO5F7"
+   }
+  },
+  {
+   "key": "draft:daily_diamond_and_gold_only",
+   "label": "Daily Diamond and Gold Only",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Diamond And Gold Only",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  },
+  {
+   "key": "draft:daily_don_t_forget_to_pick_up_the_kids",
+   "label": "Daily Don't Forget to Pick up the Kids",
+   "kind": "draft",
+   "reYear": null,
+   "re": {
+    "window": [
+     2020,
+     2026
+    ],
+    "BB_rate": 0.08503,
+    "K_rate": 0.22649,
+    "HBP_rate": 0.01126,
+    "HR_per_BIP": 0.04551,
+    "2B_per_BIP": 0.06364,
+    "3B_per_BIP": 0.00536,
+    "BABIP": 0.29169,
+    "BA": 0.24438,
+    "OBP": 0.31575,
+    "SLG": 0.40421,
+    "R_per_G": 4.46182,
+    "w": {
+     "BB": 0.69,
+     "HBP": 0.72,
+     "1B": 0.89,
+     "2B": 1.27,
+     "3B": 1.62,
+     "HR": 2.1
+    }
+   },
+   "park": null,
+   "draftType": "Positional",
+   "cadence": "Daily Draft",
+   "rules": {
+    "dh": true,
+    "mode": "BO7"
+   }
+  }
+ ]
+}

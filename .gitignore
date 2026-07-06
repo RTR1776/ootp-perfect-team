@@ -7,8 +7,8 @@ __pycache__/
 .venv/
 venv/
 
-# The web app is its own git repository
-web/
+# (web/ was folded into this repo on 2026-07-06; old head 1b8ff70)
+
 
 # Claude Code runtime artifacts
 .claude/

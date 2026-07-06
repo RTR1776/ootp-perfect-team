@@ -75,7 +75,7 @@ def main() -> None:
         import config_build, ingest, curves, pool_build, calibrate
         print(json.dumps({"config": config_build.build(),
                           "tourneys": ingest.build_tourneys_json(),
-                          "curves": {k: v["r2"] for kind in ("hit", "pit")
+                          "curves": {f"{kind}_{k}": v["r2"] for kind in ("hit", "pit")
                                      for k, v in curves.fit_curves()[kind].items()
                                      if isinstance(v, dict)},
                           "projections": pool_build.build_projections(),
