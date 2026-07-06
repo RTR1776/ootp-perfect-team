@@ -12,3 +12,9 @@ web/
 
 # Claude Code runtime artifacts
 .claude/
+
+# LibreOffice lock files
+.~lock*
+
+# generated intermediate store
+data-store/
