@@ -4,7 +4,7 @@
 > built, decisions made along the way, and what's next. Keep it updated at the
 > end of every working session.
 
-**Last updated:** 2026-07-06 (session 2 — Fable; Days 1, 2 AND 3 complete)
+**Last updated:** 2026-07-06 (session 2 — Fable; Days 1–4 complete, Day 5 remains)
 
 ## Environment
 - Python: **use `.venv/bin/python`** (repo-root venv; pandas 3.0.3 + lxml + openpyxl).
@@ -150,6 +150,23 @@
   page until diagnosed via preview). Tabs primitive gained
   uncontrolled mode + `TabsContent`. `Tier` type + TIER_COLORS/ORDER gained
   "Perfect". `.claude/launch.json` added (`preview_start` name: "web").
+
+### Day 4 draft assistant ✅ (verified live)
+- Design deviation from PLAN (better): **board computed client-side** in
+  `web/src/lib/draft.ts` from projections + selected context — no per-context
+  engine precompute needed, always in sync. `python -m engine draft-board`
+  therefore NOT needed; skip it.
+- Scoring encodes the PD guides: gap-clustered tiers per bucket, VAR vs
+  replacement (depth×need-th best still available), quota urgency vs picks
+  remaining, defense tiebreak; weights centralized in `DRAFT_WEIGHTS`.
+- `/draft` UI: fuzzy pack entry (Enter adds, Esc clears, arrows navigate),
+  Best Pick verdict, editable quota grid (defaults sum to 26: 2×C..RF, 1 DH,
+  4 SP, 5 RP — LJ tunes per DraftType), roster-math alert, 15:00 clock,
+  drafted list, undo/reset; session in localStorage (`pt.draft.v1`).
+- Verified: Wagner/Campanella/Zaun pack → Wagner best with high urgency;
+  Iron filler negative; pick persists across reload.
+- Still config-blocked for full fidelity: real `packSchedule` per DraftType
+  (LJ) would enable round-driven tier expectations + supply depletion.
 
 ## Not done yet ⏳ (in priority order)
 2. **Collection re-export with CID+Tier** still wanted (kills the 516-card
