@@ -4,7 +4,7 @@
 > built, decisions made along the way, and what's next. Keep it updated at the
 > end of every working session.
 
-**Last updated:** 2026-07-06 (session 2 — Fable; Day 1 complete)
+**Last updated:** 2026-07-06 (session 2 — Fable; Days 1 AND 2 complete)
 
 ## Environment
 - Python: **use `.venv/bin/python`** (repo-root venv; pandas 3.0.3 + lxml + openpyxl).
@@ -89,21 +89,62 @@
 - CLI now: `config | ingest | match | projections | watch | build` (build =
   everything; ~2 min).
 
+### Day 2 calibration ✅ — WITH A MAJOR ENGINE FIX
+- **v1 engine was broken for pitchers** (diagnosed by component): the
+  hand-tuned `(rating/50)^0.55` curve saturates at PT rating ranges —
+  projected K/9 averaged 16.75 vs observed 7.58 (corr 0.22), HR/9 2× too high,
+  so composite FIP ordering was noise (corr 0.03) even though the sim follows
+  ratings tightly (raw STU→K9 +0.84, CON→BB9 −0.88).
+- **`engine/curves.py`**: fits log(rate/env) = α + β·log(rating/50) per
+  component from the league vL/vR files (ratings+outcomes same rows).
+  R²: hit K .88, BB .87, HR .78, XBH .57, BABIP .26; pit K .68, BB .74,
+  HR .51, BABIP .17 (DIPS lives — pitchers barely control BABIP, like real
+  baseball). Rating range 4–230 so low-tier extrapolation is covered.
+- **`engine/projections2.py`**: v2 engine on fitted curves, in the
+  **modern-PT-league frame** (env rates in curves.json; payload has `pt_env`
+  {wOBA .3232, FIP 4.055}). v2 validation: projK9↔obsK9 corr **+0.885**
+  (means 7.80 vs 7.58), projFIP↔obsFIP **+0.61**. Overall lines = 28/72 (hit)
+  / 45/55 (pit) blends of splits.
+- **Manager platooning discovered**: hitters' PA-share vs L averages .372,
+  sd .128, corr +0.77 with the card's platoon gap → observed 'all' split is
+  usage-contaminated. Calibration fits **splits only**; overall is constructed.
+  (Kept in evidence as `*_obs_rel_all_usage` for reference.)
+- **`engine/observed.py`** (env-relative observed metrics; league-strength
+  offsets: PEL pitchers +3.1% FIP vs HD — applied; hitters −0.4% — ignored)
+  and **`engine/calibrate.py`**: weighted fits obs_rel ~ a+b·proj_rel per
+  split — **b 0.78–1.03, R² 0.54–0.70** (in the plan's target zone).
+  Shrinkage blend k=220 PA / 60 IP. Every card now carries an `evidence`
+  block: `woba/fip_cal_rel_vL/vR`, `blend_rel`, absolute `*_blend_vL/vR/all`,
+  obs values + n, sources, `siera_obs`. Report artifact:
+  `web/public/data/calibration_report.json` (scatter points + topMovers).
+- Spot-checks: Speaker (70k PA) blend snaps to obs; Whitey Ford blend 3.74 vs
+  cal 3.94 (earned by 8k IP); small-sample relievers properly shrunk.
+  `pnpm build` passes.
+- CLI now: `config | ingest | match | curves | projections | calibrate |
+  watch | build` (build chains everything).
+
 ## Not done yet ⏳ (in priority order)
 
-1. **Collection re-export with CID+Tier** still wanted (kills the 516-card
+1. **Day 3 webapp** note: the lineup optimizer should consume
+   `evidence.woba_blend_vL/vR` (fall back to projection when absent) — that's
+   the whole point of Day 2. Explorer wOBA/FIP columns now show PT-frame
+   values (lower than v1's MLB-frame numbers — expected, not a bug).
+2. **Collection re-export with CID+Tier** still wanted (kills the 516-card
    unmatched tail + removes fingerprint fragility for Live cards). When it
    lands: extend `load_collection`/`pool_build` to prefer the export's CID and
    report diffs vs the matcher.
-2. **Day 2 calibration** — `engine/observed.py`/`calibrate.py` per PLAN.md §3.
-   League-relative normalization; shrinkage k≈220 PA / 60 IP; `evidence` block.
-3. **Day 3 webapp** — context switcher consuming `contexts.json` (already
+3. **Day 2 leftovers (minor)**: tourney observations feed evidence pooling for
+   the 'all' split only (no split files exist per tourney); consider
+   uncertainty flags in UI for cards with n<150 PA. MOV rating dropped from v2
+   pitcher model (not present in 184-col exports; league data can't fit it).
+4. **Day 3 webapp** — context switcher consuming `contexts.json` (already
    shipped to public/data), `/tournaments` page over `tourneys.json`, Card Lab
-   with TS projection port.
-4. **Day 4 draft helper** — needs `packSchedule` per DraftType from LJ (config
+   with TS projection port (port projections2.py — the v2 curve engine — NOT
+   projections.py; curves.json ships to the app or gets inlined).
+5. **Day 4 draft helper** — needs `packSchedule` per DraftType from LJ (config
    scaffold ready); draft-board precompute (`python -m engine draft-board`) not
    started.
-5. PLAN.md Day 5 items; fold `web/.git` into root repo (still separate).
+6. PLAN.md Day 5 items; fold `web/.git` into root repo (still separate).
 
 ## Open questions for LJ
 - `veCap` column meaning in the Tournaments sheet? (stored raw meanwhile)

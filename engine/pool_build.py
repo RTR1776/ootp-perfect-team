@@ -24,7 +24,7 @@ import pandas as pd
 
 from cid_match import (match_collection, build_reference_pools, tier_from_val,
                        OUT_MATCHED)
-from projections import project_card
+from projections2 import project_card, pt_env  # v2 empirical-curve engine
 from league_baselines import load_baselines
 
 HERE = Path(__file__).resolve().parent
@@ -113,6 +113,7 @@ def build_projections(out_path: Path = OUT_JSON) -> dict:
 
     payload = {
         "baselines": baselines,
+        "pt_env": pt_env(),  # league frame the v2 projections live in
         "card_count": len(records),
         "generatedAt": datetime.now().isoformat(timespec="seconds"),
         "note": ("merged pool: old ratings CSV + stats-export cards; "

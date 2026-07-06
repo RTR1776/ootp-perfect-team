@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-07-06T14:40:29",
+  "k_PA": 220.0,
+  "k_IP": 60.0,
+  "leagueStrengthOffsets": {
+    "hit_woba_rel_pel_minus_hd": -0.0041,
+    "hit_n_shared": 51,
+    "pit_fip_rel_pel_minus_hd": 0.0309,
+    "pit_n_shared": 46
+  },
+  "pelPitcherOffsetApplied": 0.0309,
+  "fits": {
+    "hit_vL": {
+      "a": 0.2186,
+      "b": 0.782,
+      "r2": 0.536,
+      "n": 96,
+      "proj_mean": 0.3216,
+      "obs_mean_env": 0.3241
+    },
+    "hit_vR": {
+      "a": 0.1568,
+      "b": 0.8436,
+      "r2": 0.698,
+      "n": 98,
+      "proj_mean": 0.3241,
+      "obs_mean_env": 0.3233
+    },
+    "pit_vL": {
+      "a": -0.0359,
+      "b": 1.0286,
+      "r2": 0.579,
+      "n": 74,
+      "proj_mean": 4.0529,
+      "obs_mean_env": 4.1314
+    },
+    "pit_vR": {
+      "a": 0.0513,
+      "b": 0.9414,
+      "r2": 0.651,
+      "n": 81,
+      "proj_mean": 3.9798,
+      "obs_mean_env": 3.9654
+    }
+  }
+}

@@ -39,7 +39,9 @@ def main() -> None:
 
     sub.add_parser("match", help="resolve CIDs for the collection export")
     sub.add_parser("projections", help="regenerate projections.json + team.json from merged pool")
-    sub.add_parser("build", help="full refresh: config + ingest + match + projections")
+    sub.add_parser("curves", help="refit empirical rating->outcome curves from league data")
+    sub.add_parser("calibrate", help="fit projections vs observed; blend evidence into projections.json")
+    sub.add_parser("build", help="full refresh: config + ingest + curves + projections + calibrate")
 
     args = ap.parse_args()
 
@@ -63,11 +65,21 @@ def main() -> None:
     elif args.cmd == "projections":
         import pool_build
         print(json.dumps(pool_build.build_projections(), indent=2))
+    elif args.cmd == "curves":
+        import curves
+        print(json.dumps(curves.fit_curves(), indent=2))
+    elif args.cmd == "calibrate":
+        import calibrate
+        print(json.dumps(calibrate.calibrate(), indent=2))
     elif args.cmd == "build":
-        import config_build, ingest, pool_build
+        import config_build, ingest, curves, pool_build, calibrate
         print(json.dumps({"config": config_build.build(),
                           "tourneys": ingest.build_tourneys_json(),
-                          "projections": pool_build.build_projections()}, indent=2))
+                          "curves": {k: v["r2"] for kind in ("hit", "pit")
+                                     for k, v in curves.fit_curves()[kind].items()
+                                     if isinstance(v, dict)},
+                          "projections": pool_build.build_projections(),
+                          "calibration": calibrate.calibrate()["fits"]}, indent=2))
 
 
 if __name__ == "__main__":

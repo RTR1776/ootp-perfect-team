@@ -1,0 +1,119 @@
+{
+  "generatedAt": "2026-07-06T14:37:11",
+  "frame": "modern PT league (env_rate per component, splits pooled)",
+  "hit": {
+    "k": {
+      "alpha": 0.6241,
+      "beta": -0.7586,
+      "r2": 0.879,
+      "n": 192,
+      "env_rate": 0.19406,
+      "rating_range": [
+        60,
+        230
+      ],
+      "rating": "K"
+    },
+    "bb": {
+      "alpha": -0.8156,
+      "beta": 1.0374,
+      "r2": 0.87,
+      "n": 192,
+      "env_rate": 0.08084,
+      "rating_range": [
+        37,
+        204
+      ],
+      "rating": "EYE"
+    },
+    "hr": {
+      "alpha": -1.0714,
+      "beta": 1.3257,
+      "r2": 0.784,
+      "n": 190,
+      "env_rate": 0.03613,
+      "rating_range": [
+        4,
+        160
+      ],
+      "rating": "POW"
+    },
+    "xbh": {
+      "alpha": -0.5883,
+      "beta": 0.7512,
+      "r2": 0.573,
+      "n": 192,
+      "env_rate": 0.07285,
+      "rating_range": [
+        34,
+        164
+      ],
+      "rating": "GAP"
+    },
+    "babip": {
+      "alpha": -0.1466,
+      "beta": 0.1637,
+      "r2": 0.261,
+      "n": 192,
+      "env_rate": 0.30164,
+      "rating_range": [
+        51,
+        164
+      ],
+      "rating": "BA"
+    },
+    "xbh_3b_share": 0.0943,
+    "hbp_rate_env": 0.00835
+  },
+  "pit": {
+    "k": {
+      "alpha": -0.4466,
+      "beta": 0.5251,
+      "r2": 0.677,
+      "n": 155,
+      "env_rate": 0.19416,
+      "rating_range": [
+        48,
+        187
+      ],
+      "rating": "STU"
+    },
+    "bb": {
+      "alpha": 0.6083,
+      "beta": -0.9419,
+      "r2": 0.74,
+      "n": 155,
+      "env_rate": 0.08077,
+      "rating_range": [
+        22,
+        158
+      ],
+      "rating": "CON"
+    },
+    "hr": {
+      "alpha": 0.7531,
+      "beta": -0.905,
+      "r2": 0.508,
+      "n": 154,
+      "env_rate": 0.0361,
+      "rating_range": [
+        53,
+        169
+      ],
+      "rating": "HRA"
+    },
+    "babip": {
+      "alpha": 0.0877,
+      "beta": -0.1057,
+      "r2": 0.171,
+      "n": 155,
+      "env_rate": 0.30148,
+      "rating_range": [
+        50,
+        175
+      ],
+      "rating": "PBABIP"
+    },
+    "hbp_rate_env": 0.00837
+  }
+}
