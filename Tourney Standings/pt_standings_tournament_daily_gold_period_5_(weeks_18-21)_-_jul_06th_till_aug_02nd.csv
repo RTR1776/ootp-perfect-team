@@ -1,0 +1,791 @@
+//Rank,User,Team,Points,Played,Combined,Best
+1,AW13,AW Bees - GH,667,140,4311,1
+2,Calis,New York Brownies,546,139,4410,1
+3,Infinite,Murray Giants,469,119,3458,1
+4,Mark_in_MS,Oxford Rebels TBD,465,145,5058,1
+5,bphilb,Sanford Riverwalks - GH,431,135,4637,1
+6,Capes,Wheatfield Underdogs - GH,351,135,5321,1
+7,brando99,Lyman Legends,323,98,3053,1
+8,BigDonkey,Triad Junkies,300,63,2194,1
+9,Bigtoe26,Duluth Superiors,297,72,2668,1
+10,kdwayne,Lexington Minutemen,258,69,2535,1
+11,norton,Utah Sting,227,82,2941,1
+12,jrynmac,Queso Cats,209,49,1529,1
+13,reds750,Why Knots,209,65,2554,1
+14,Eltoasto,Shibuya Shredders - GH,206,51,1480,1
+15,Bonkers25,Brooklyn Cyclones,206,57,2492,1
+16,BteamBomber,Henry Murder Hornets,205,122,5178,1
+17,nevermind,Oslo Fightin' Vegans,202,90,3896,1
+18,hotroute07,Telluride Giants - CG,200,27,517,1
+19,cpm120,Satellite Beach Manatees,198,41,1024,1
+20,BriDav00,Peninsula Whips,188,37,891,1
+21,dkudela,Pronouncers of Nonsense,186,56,1846,1
+22,Raptor,Ogden Raptors - HotL,185,105,4668,1
+23,TheSlugfather,Dallas Skyline Sluggers-CG,181,43,1200,1
+24,cwhitman,Castroville Mashers - CG DCFC,179,35,681,1
+25,RedHistorian,Millbrook Dam Busters - HotL,172,48,1489,1
+26,Dono43,Corio Tigers,172,74,2953,1
+27,LeoRemus,Ottawa Lynx - HotL,171,49,1536,1
+28,AngusFrankfurter,Cherry Grove Lazer Raptors,167,31,1516,1
+29,Jacket1515,Sixes Tornadoes,166,68,2083,2
+30,mikezone13,Eastwood Woodies,165,55,2091,1
+31,GypsySon,West Valley Wazzirds,164,42,1453,1
+32,NateLovesGallo,Gotham City Batmen,164,57,2717,1
+33,gpiazza,Denver White Elephants,162,42,1921,2
+34,BlueSamuraiG,Vegas Shrimp Cocktails Hot,160,66,2680,1
+35,joshparkin,MBQ Warriors,156,53,2023,1
+36,Duncaroo,West Hartford Max Oysters - CG,155,26,640,1
+37,mjtebo,Madison Mohicans - CG,155,37,1085,1
+38,jbiggs78,Charlotte Hellcats GH,149,37,986,1
+39,aal333,Chicago Beans - CG,144,30,567,1
+40,JimmyJazz,Greystones Finches,143,39,1421,1
+41,Michigator,Pawtuckett Poets,143,113,5093,2
+42,MaxLP80,Bonney Lake LPs - GH,140,33,904,1
+43,Kilgore_Trout,Herky Hyenas,140,37,1333,1
+44,KnightShade,Baton Rouge Sharks,140,78,2860,4
+45,malivion,Dewey Decimals,137,35,875,2
+46,hemizen07,Great Lakes Pontooners,134,101,4604,4
+47,Kerim,NoseKerim Astea Kerim,129,35,936,2
+48,lava,Bloody Nines - CG,128,30,916,1
+49,famarte,Cibao Aguilas,127,35,1418,1
+50,ryan-koziol,Chicago Gamblers - E6,127,38,1065,1
+51,dag,Chicago Rat Finks,127,65,2776,1
+52,Daviddonovan,San Dimas Time Travelers - BFF,126,34,1144,1
+53,dylanb29,London Knights,126,42,1647,1
+54,andyg24,Sheffield Artefact Sceptics,124,29,595,1
+55,DarkChaosGaming,Tulsa Goldies,124,38,1633,1
+56,mannyt,Roaming Rascals CG BFF,124,47,1713,1
+57,runningitup,Hopkins Hoppers,124,51,2212,1
+58,ezradenney,Al Amedans,124,88,3813,4
+59,pwtigers,Flyball Sluggers,124,91,4140,1
+60,jpalm,Globo Gym Purple Cobras,122,44,1378,4
+61,thirdteam,Winnipeg Blue Bombers,121,42,1658,1
+62,mrogner,Chico Heat BFF,121,44,1723,1
+63,MJBreit,Tulsa Doom,120,32,1089,1
+64,RTR1776,Kansas City Torrent,119,63,2272,2
+65,asb12,San Diego Anchors,117,31,1217,1
+66,streamteam,Charlotte Dachshunds - GH,117,53,2155,1
+67,bierhoff00,Texas Briskets,116,34,1071,1
+68,dsslow,Diablos Rojos del Mexico,116,58,2356,1
+69,Substituted,Chicago Gamblers - GH,112,38,1208,1
+70,ckmental,Archdale Fear,112,43,1232,1
+71,alsocoleman,Big Yahoo Ball Club,112,46,1573,4
+72,twinsfan,Everett Aqua Sox,111,46,1025,2
+73,thelwynn,Laffy Comedians - CG,110,21,738,1
+74,jrooney325,Hudson Railers,109,31,989,2
+75,danielsonmanlet,Atlantic City Surf,109,33,741,2
+76,Beckdawg,Charlotte Sundevils - CG,108,33,1428,2
+77,dgray4l,Homestead Grays - HotL,108,33,1636,1
+78,willnick,Warner Robins Demons - HotL,108,43,2006,1
+79,ColeTop10,Toronto Terns,108,45,1365,2
+80,tycho566,Pleasant Hill Mounds,107,41,1209,2
+81,Undrdog44,Stanislaus Rock-a-Chaws - GH,107,45,1480,2
+82,shadowlab2000,Shakedown 1977 Microbus TTC - HotL,104,41,1137,3
+83,JamoreLoL,Compton Corgis - HotL,103,63,2742,3
+84,ryanp18,Detroit Tigers,102,21,805,1
+85,Hensword,Kolnes Eagles,101,53,2172,3
+86,dstaley,Guerreros de Oaxaca,100,48,1933,3
+87,ktoering,OOTP 26 Imperfects TTC,99,83,3887,4
+88,BeatleBoy9112,B-Town Barnstormers PCK,98,12,326,1
+89,philo1,Grover Beach Grouches,97,28,795,1
+90,BThom,Ann Arbor Blue - CG,97,29,931,2
+91,kirkeby14,Amarillo Armadillos,97,60,2688,4
+92,cf97ab,London Tigers,96,34,976,1
+93,eatemuptigers,Motor City Kitties - HotL,94,40,1982,1
+94,owenthejammy1,Moonsault Collective MCs,94,41,2139,1
+95,bdcable2,Cibolo Packsters PCK,93,21,977,1
+96,ItsHellboy,Sacramento Tuxedos - CG,93,26,921,1
+97,DDawson1990,Exeter Padres,92,31,1179,3
+98,kj22,Great Lakes Man-of-War-HOTL,91,31,1049,1
+99,ScottyW,Cleveland Commodores,91,44,1932,1
+100,spatrick4,Freedom Grabbers - HotL,89,13,519,1
+101,sprdelfin,Colorado Avalanche,89,49,2351,1
+102,MetaDurden,Third Earth Thundercats - HOTL,88,46,1663,2
+103,fotmb,Thixton Misers,88,57,2702,2
+104,geno36,BunDang TyChe,87,26,994,1
+105,gocanes1962,PSL Hurricanes,86,34,1091,2
+106,friendofrobots,Tortilla Chips,85,35,1159,1
+107,CoachRuffy,St. Kitts Sand Gnats,85,48,2372,3
+108,BeatleBoy911,B-Town Nasty Boyz,84,31,1260,1
+109,Baseball911,Louisville Smell Bats,83,30,1158,1
+110,Lowlyworm,Lowlyworm's Apple Car,83,40,1884,3
+111,DA186,Clarkston Cougars,80,32,1348,4
+112,dadmetalbod,Mt Etna Hotter Otters - HotL,79,27,1056,2
+113,Circusham,Clover Hill Spartans,79,39,2142,2
+114,Grinchful,Houston Harambanators,79,46,2006,3
+115,Nex,Panglao Tarsiers,78,48,1605,3
+116,mofk,Kim Hyeseong Abs,78,49,2935,2
+117,Emmab217,Newark Bears,77,40,1302,2
+118,Circus_Solly1,Brookhaven Barons,76,55,2582,2
+119,BigDingerman,Fort Erie Meteors,75,21,868,1
+120,Itealo55,Itealo GameGetters,75,24,674,3
+121,Isarnan,Dark Web Hackers,75,25,740,1
+122,shift3d,Winnipeg Brew Jays - HotL,75,34,1196,3
+123,cubbyfanboy,Sydney Whalers,75,50,2106,2
+124,foghorn33,Strathroy Royals,72,21,1218,1
+125,Skyrolla91,Portland Grizzlies - CG,71,31,1341,2
+126,ntorsky,Door County Dockers,71,33,1232,3
+127,HermanSmutley,Southend Seasiders,69,21,1082,1
+128,sam10gle,Evermore Larpsharks,68,13,548,1
+129,alien1011,Verona Edge,67,44,2148,2
+130,naede,Imatra Pallo-Veikot,67,45,2382,1
+131,redsoxfaithful,Charlotte Aviators,66,8,223,1
+132,arizonaone,Indiana Rhubarbs,66,34,1147,1
+133,lordkrystic33,Edmonton Lake Monsters,66,34,1443,3
+134,beaureese,Charlotte Phighters,65,49,2267,2
+135,WizardOfMaahs,Nickel Slots And Crock-Pots,64,40,1625,5
+136,mrbill965,Gotham Knights,64,48,1849,2
+137,Razorstackz,Razorstackz Razor,62,21,1447,1
+138,SunnyBurn,Salt Lake Bees,60,42,2115,7
+139,HalfBucks,Candy's Bucks TTC,60,55,2553,3
+140,robertcat,Denver Highlanders,59,21,1316,1
+141,clayhoadley,Watertown Sword Guys TBD,59,22,839,2
+142,odradek,Ghost Town Revenants,59,24,588,3
+143,Lathum,Belmar Brew Crew,59,46,2434,6
+144,Rathier,Wasteland Outlaws,58,19,1142,1
+145,Dbrose1300,Conejo Valley Rabbits,57,13,628,1
+146,saracen31,Split Squid,57,17,1175,2
+147,lisalovesbiology,StufftyTown Stuffties,56,21,728,2
+148,stl_jason,Waffletown Syrups,56,38,1944,4
+149,BradChampion,Worcester Boys of Somers,55,17,518,2
+150,justinthenavy,Bloomingdale troopers,55,20,985,3
+151,jcomey,Albion Rounders,55,21,1090,3
+152,engineno9,Shoreville Wolfpack,55,71,3273,4
+153,thatllhappen,Vista Views,54,27,1172,2
+154,zrog2000,Apex Predators,53,21,1032,3
+155,swgalaxy,Scruffy Nerf Herders,53,44,2573,2
+156,jayz,Hyannis Harbor Hawks,52,20,866,6
+157,richgrisham,Billy Strings,52,21,1193,4
+158,Summit39,Burlington Bees,52,33,2008,3
+159,xero1986,Clarington Coyotes,51,10,426,1
+160,MoonlightMatt,Maple Madness,51,11,338,4
+161,MadMatt,Durham Los Toros,51,18,753,2
+162,FoolsErrand,Dock Ellis Day-Trippers,50,27,1116,2
+163,bb5,Antarctica Penguins,50,30,1429,3
+164,smileyfacejane,Fargo Fielders,49,8,293,1
+165,Buchs76,Atlantic City Trash Chickens,49,26,858,4
+166,jadrien1,jadrien1 no problem,49,41,2258,6
+167,bummahoney,Malazan Bridgeburners,49,48,2074,2
+168,blaikknight8,Springfield Wonderbats,48,20,620,1
+169,silverkhawk,Wilson Horns,48,27,1016,1
+170,madmask,Myrtle Beach MaskMen,47,15,973,1
+171,imwarden,Red Dirt Cowboys,47,27,1145,2
+172,ErieGM,Erie Seawolves,46,10,447,3
+173,downpat75,Idaho Taters,46,11,561,1
+174,heinrich_wilhelm,Atlanta Combine,46,16,961,3
+175,Rob_Deer_in_the_Headlights,El Paso Preguntas,46,21,1334,4
+176,ChrisBT97,Welsh Dragons,46,28,1287,3
+177,JoshJackson42,New England Bees,46,30,1421,4
+178,Nex2,Viking Quest,46,39,1750,5
+179,Joe_Charboneau2,Huatulco Tacos,46,40,1842,2
+180,Buckeye,Columbus Evil Squirrels,45,13,712,3
+181,Placentaur,Bushwick Performative Males,45,17,976,4
+182,bullforce,Sandusky Bullforce,45,18,1005,2
+183,jbeighley78,Charlotte Hellcats Too GH TTC,45,19,566,2
+184,Dr_Chaps,Totskoye Nuclear Bears,45,21,1612,1
+185,hughhudson1115,Chicago Dino Nuggets,44,12,615,2
+186,sourd99,New Planet Gophers TBD,44,17,928,6
+187,IceRayn5,Camjaveratyn O-Forge,44,30,1160,4
+188,mfaybik,Faybik Narwhals,44,31,1624,4
+189,amjohnso,La Crosse Lumber Puppies,44,40,2446,5
+190,Kvothe,Horton Bay Hemingways,44,73,3820,11
+191,68pirate,Central Kentucky Pirates,43,20,1303,4
+192,Xtoforas,Breslau Binturings - HotL,43,21,988,8
+193,Circusham56,Spartan Hill Clovers-PCK,43,24,1538,2
+194,Carini_Harpua,Gamehendge Lizards - HotL,42,11,525,1
+195,rtoro6,Gastonia Peaches,42,20,686,3
+196,badgercd,Capri Badgers,42,27,963,1
+197,BearMountainX,Bear Mountain Bruins,42,27,1114,3
+198,hossrulz,Compton Chronic,42,29,1044,6
+199,MikeBatesTWIBH,Iowa City Prairie Rats,42,29,1560,4
+200,junghwaowh,Andong Samsung Lions,42,39,1819,3
+201,Thistledroyd,Manchester Camels,41,15,744,7
+202,mv1234,Phoenix Mango Slush - HOTL,41,19,1123,2
+203,gocanes1962t4,Little Creek Hurricanes PCK,41,21,1379,4
+204,HanZola,Oslo Royals,41,25,923,3
+205,bwsf93,Newington Nightmares,41,28,1500,3
+206,11wagnerl,Fairview Knights,41,36,1795,4
+207,MattyGVT,West Palm Sharks,40,19,989,8
+208,MrAnthropy,Bob Hamelin Enjoyers,40,21,636,2
+209,mraudit,Meaty Oakers,40,21,1133,6
+210,Centre,Washington Bishops,40,21,1221,2
+211,Kalohn,Mirabel ExNats,40,31,2043,3
+212,KnuckleballGus,Charm City Knuckleballers,39,21,991,1
+213,drshuey,Zanesville Greys,39,38,1806,7
+214,accismusfox,Rocky Mountain Vibes,39,83,4841,5
+215,pwney,Big Memers,38,21,1209,8
+216,timomouse,Sandy Bees,38,31,1782,6
+217,MattHart11,Appleton Fire Ants,37,12,704,2
+218,Feffer,Sack of Wet Mice,37,21,1064,5
+219,Haijopai,Dickshot's Dugout,37,21,1328,3
+220,chefkd3,O'block Scoundrels,37,25,825,4
+221,Warhawk,Arcadia Wyverns,37,41,2000,5
+222,Fabtron7,Ted Williams' Frozen Head - DGAF,36,10,402,2
+223,Tatu,Warner Robins Demons PCK-HotL,36,13,726,2
+224,Tornados,STMDB CAPITALES,36,22,988,2
+225,PlayersToBeNamedLater,Sterling Park Commodores,36,23,1235,5
+226,bearpete,Philadelphia Oil Barons,36,34,1389,7
+227,Primo_Fizz,Scottish Claymores,36,38,2423,10
+228,Spmartin1993,Columbus Fire Ants,35,20,879,3
+229,username0251,Cudahy Day Drinkers,35,21,1038,5
+230,borischarly,Chilliwack Chiefs,35,21,1318,10
+231,jsitko,Pulaski Pils,35,21,1391,4
+232,Karlzab,Lamigo Monkeys,35,22,1285,5
+233,batt27,Felton Plunkers,35,24,972,4
+234,RoJo,Mount Pleasant Mounties,35,29,1436,4
+235,ErieGMv2,Erie Moon Mammoths PCK,34,10,550,4
+236,hometownmarkup,Waltham River Otters,34,25,1487,11
+237,KC_Royal_Red,Kansas City Smoke,34,28,1013,4
+238,Mysttornado,STMDB EXPOS,34,28,1921,6
+239,willhog,Englewood Pirates,34,33,1520,6
+240,sasso,Mooresville Hyons,34,35,1188,6
+241,rumali,Birthday Boys TTC,34,53,2075,9
+242,zukus,Weavers Tomato Plants,33,20,661,4
+243,atwarren44,Transylvania Counts,32,6,211,1
+244,parkjihyo3,sf onces,32,7,364,1
+245,Masten,Edmonds Erasers,32,25,1159,2
+246,yankeecpt,Syracuse ShortBus,32,45,2116,10
+247,Fheee,Huntsville Sweet Biscuits,32,59,2419,9
+248,VinSki,Huntington Bullsharks,31,8,422,3
+249,heathdg,Slightly Crushed PCK,31,13,930,2
+250,zgrizzly,kingsville Jays,31,14,597,5
+251,yetibon,Napoleon Bonapartes,31,18,1061,2
+252,hdpoe,Boxted Thunderbolts,31,26,1347,5
+253,JediRoninX,Jacksonville Rainstorm,31,29,1735,2
+254,pken6,Cobham Musketeers,30,3,85,2
+255,AlbertPujols,Rosarito Ranas,30,20,723,3
+256,Engra0061,Brooklyn Tip-Tops,30,24,1233,6
+257,Mazten,Sultan Swats,30,29,1382,12
+258,babbs,St. Clair Engineers,29,8,522,2
+259,robgisbri2,Reston Blues,29,12,678,6
+260,awful021,Portland Crows,29,15,512,4
+261,Bigphatman87,Brentwood Guggenheims SoM,29,18,1199,4
+262,HermanSmutley1,Billys Bunters,29,21,1262,9
+263,ZadyJones,Zady Zadathans - 643,29,22,1268,5
+264,APB1990,Newcastle Magpies,29,22,1433,8
+265,stevezog1,East Side Educators,29,27,1477,9
+266,kgriffin44,Brethren Bobcats,29,31,2041,6
+267,gustoes,Looking Glass Loopers TBD,29,36,1533,6
+268,cjens,SLC Punks,28,12,286,2
+269,jspy83,Houston Swangas,28,15,410,5
+270,O_Welles,Three Mile Island Atomic Isotopes,28,15,881,3
+271,IceFox,Jeju City Foxes,28,18,520,6
+272,kris024,Trenton Eclipse,28,19,577,6
+273,thegreatbambini,Roselle Rockets,28,19,894,8
+274,MonsterMasher5,Guelph Gryphons,28,20,990,5
+275,rejebebe2,Newcastle Clippers,28,20,1357,5
+276,cmalosh,Milwaukee Braves,28,21,1371,14
+277,BrueskeGoat,Wauconda Black Panthers,28,22,683,5
+278,jowwcamp,Coralville Cunning Stunts,28,38,1586,4
+279,Darkshark17,Detroit P.C. Express,27,11,360,2
+280,BillPitt37,Bethlehem BP-37 Bombers,27,12,342,3
+281,DodgeeBaller,Dodge City Dynamos,27,13,597,2
+282,Jhaelen,Milwaukee Milkmen,27,16,719,2
+283,proteins22,New Old Yankees TTC,27,19,1388,3
+284,DIamondGirl,Sunnyvale Bottlekids,27,24,883,7
+285,GrooveJedi,Johnstown Squatch Nationals,27,28,1412,6
+286,rpatti47,Jersey Devils,27,33,2214,5
+287,Nelmit,Matagorda Bay Tides,27,45,2802,4
+288,davidlopezh,Houston Flying Chanclas,26,12,661,2
+289,piemeister,Gloucester Township Goblins,26,17,1065,2
+290,twinndaddy,OBX Waveriders,26,18,871,4
+291,pray_for_pray,Guro Gunslingers,26,19,1375,8
+292,Kyllen,Washington Border Collies,26,19,1444,7
+293,Donlooky,York Revolution,26,21,1545,5
+294,jsitko2,Montrose Beach Piping Plovers,26,23,1531,6
+295,The_juice,Newport Gull's LE,26,27,1375,10
+296,hauteguy,Santa Monica Haute Guys,25,6,243,4
+297,billk23,Hanover Hammers,25,9,554,2
+298,Chappel27,San Francisco Seals,25,17,660,8
+299,trod,Freedom Grabbers - HotL,25,20,1280,8
+300,Jaultma2,Abbott Station Rail Riders,25,21,1504,7
+301,Citidream,Northville Stallions,25,23,930,8
+302,TeddyO4,Better Off Ted,24,7,389,3
+303,sdkoral,Bad Bunny Maranville,24,8,395,4
+304,Dalepoint,Lake County Captains,24,12,667,8
+305,Cosmey5,Beaver Dam Beavers,24,13,979,2
+306,camel,Dunwich Horror,24,15,435,6
+307,Stockhfcrx,Tidewater Tides,24,21,1449,9
+308,Evno,Tyler Thumbsmashers,24,25,1271,13
+309,b30b30,Santiago Caballeros PCK,24,33,1964,8
+310,duckworth92807,So Cal Spicy Srirachas,23,17,974,12
+311,SirFozzie,Boston Wombats,23,21,976,4
+312,dhornermb,Country Clubbers,22,21,1038,8
+313,Masten19,Yekaterinberg Yaks,22,26,1226,7
+314,Isaac292929,Belltown Crows,22,40,2715,6
+315,seraphucked,Summerglen Seraphs TBD,21,7,214,10
+316,chessafari,Charbonneau Lynx,21,7,306,5
+317,Avitt21,Fuzzy Dunlap,21,13,597,12
+318,Leif2022,Minneapolis Millers,21,25,1170,12
+319,TheCharm,The Way We Became The Brady Bunch TTC,21,26,1344,4
+320,geysers,Tuscaloosa Thunderbirds,21,27,1602,12
+321,redtoss,RETO Dragons,21,33,1697,12
+322,ToxicTerry,Preston Port Rats,20,1,2,2
+323,ianofalltrades,Paso Robles Powerhouse,20,5,145,6
+324,tlasko,Cleveland Spiders - CG,20,6,288,5
+325,CJStark,Cleveland Vulcs,20,8,401,5
+326,Bbarnett98,Reston Wranglers,20,9,376,7
+327,shawnsull10,Wash Park Rangers,20,11,385,2
+328,miketho22,Bend Buzzboys,20,14,484,4
+329,Crazy8,Gandalf's Gryphons,20,14,869,5
+330,Lach,Mooresville Devils,20,15,1075,5
+331,ArtistRanger2,Toronto Terns PCK,20,19,1051,7
+332,JAtlas,Vero Beach Screwballs,20,21,1141,11
+333,StratMJ99,K-State WildCatz,20,23,1231,12
+334,trojanman,Everett Aquasox,20,30,1503,12
+335,bea940,Salem-Keizer Volcanoes,20,30,2054,22
+336,MikeS1963,Mason Comets,20,38,1979,15
+337,nichodav,Oakville A's,19,7,214,3
+338,xiayun2024,NorCal CGE,19,8,352,3
+339,baesdad,Arkansas Assassins,19,10,271,8
+340,andy00aggie,Rockwall Ballers,19,10,393,4
+341,mhilgenkamp1,Fremont Tigers,19,11,512,3
+342,populargoat,Merritt Island Yachters,19,12,512,10
+343,thatsmyboye,Scranton Parade Days,19,12,546,16
+344,JHenryWaugh,Monterey Ostriches,19,13,794,10
+345,fedtero25,Global Rippers PCK,19,15,911,12
+346,SirPeanut,Lima Ligers,19,17,751,10
+347,psyro23,Statesville Shadowcats,19,17,1159,4
+348,tommcaudillo,The Black Freighter TBD,19,19,849,12
+349,RoutineFly,Sioux City Sues,19,21,897,5
+350,hppppy,Lindy Hops,19,21,1490,9
+351,littleMAC77,Liberty Express,19,22,911,5
+352,bryce_harper_3,Chicago Commies,19,26,1419,13
+353,firstresponderpoet78,Windermere RedKnights PCK,19,34,1738,7
+354,stradico,Desert Sand Dwellers,18,6,324,2
+355,Lord2FLI,Bluff City Blues,18,11,354,13
+356,vthokie2012,West Palm Beach Bingo Stars,18,12,770,6
+357,jawa42,New Haven Corsairs,18,12,876,6
+358,mrcollins18,Haverhill Hillies,18,13,608,10
+359,mjs2309,Kansas City Kings,18,19,1266,9
+360,wheresscott,New Jersey BC PCK,18,21,1515,24
+361,RANGERS1030,Absolute Units,18,26,1713,10
+362,bababooey4,Baltimore Bababooey's,17,4,98,4
+363,Masonw,St. Louis Black Cats,17,8,376,6
+364,283pro,Tokyo Shiny Colors,17,8,440,5
+365,mcreynoldsam,Rockwall Winguts,17,9,368,2
+366,Dal8847,Grand Rapids Warriors,17,11,569,7
+367,Tom88,Krakow Hussars,17,11,573,13
+368,Hellslegion88,Outer Rim Purrgil,17,16,1180,26
+369,tmid,Denver Boomers,17,18,835,7
+370,InterestingGames,Interesting Games Interesting,17,18,1006,12
+371,Junasox,Montrose Cobblers,17,20,1061,8
+372,austin09,Presidential Naptime,17,22,1135,6
+373,hipandkneedoc,Asbury Springboks,17,27,1545,13
+374,corbino77,Moncton Mosquitos,17,27,1649,11
+375,Harumf,Borders Scots,17,32,1603,9
+376,bksenior,Canasty Street Weirdos,16,7,503,2
+377,mastastanza,Maryville Isotopes,16,10,493,5
+378,Mabukie,The Real Deals,16,11,680,16
+379,RyanHall,Oceanside Baseballroos,16,11,821,7
+380,IJCrichton2,Beckington Bodgers - PCK,16,13,562,12
+381,ThePhantomPoo,Aurora Angels,16,13,628,5
+382,VinnyNC,Charlotte Crackers,16,22,1014,12
+383,vdog26,Universal Six7s TTC,16,27,1049,10
+384,CT97,Cymru Crushers,16,44,2619,13
+385,BlueBaldric,Atlantis Ancients,15,3,179,4
+386,PitVipers,Winona Lake PitVipers,15,9,662,7
+387,nutbunnies,New Haven Ravens,15,10,536,14
+388,kratos9248,Casselberry Storm,15,12,692,14
+389,Joobacca63,Boston Papis,15,12,752,13
+390,krx929,Pennsylvania Quackers,15,14,777,17
+391,agile,Chicago Exploding Whales,15,16,606,9
+392,Huskies,Arizona Huskies,15,16,1080,17
+393,josh111,Camden Curve,15,17,851,14
+394,noragar,Alexandria SafeZone,15,19,680,10
+395,moggsy,Reno Raccoons,15,20,1336,11
+396,Doubleglaze,Roseburg River Hawks,15,22,1127,8
+397,BRINIC1107,BADLANDS RATTLERS,15,23,1030,12
+398,RalphKraft,Topeka SOX,15,24,1309,6
+399,GoClippers,winning winners,15,26,1133,6
+400,Crimson,Mississauga Maple Trees,14,4,188,6
+401,jvanwinkle72,Jacksonville Cardinals,14,9,625,8
+402,alexothegreat520,Hackensack Bulls,14,12,589,7
+403,stephenwdavis,Reno Rhinos,14,13,600,22
+404,selmes12,Jager Meisters,14,14,1056,11
+405,LV-Kats,Lehigh Valley Kats,14,18,708,6
+406,Talonx,Mount Juliet Golden Retrievers,14,18,1439,10
+407,Richter,Buhners Bombers,13,5,189,8
+408,AGordon1109,Grace Os,13,8,479,15
+409,stoli314,Charleston Dirty Birds,13,10,520,15
+410,ErieLive,Montreal Expos TTC,13,10,526,15
+411,yazfan67,Westborough WooSox,13,11,855,8
+412,davidelgin4,Lake Michigan Beach Bums,13,12,684,9
+413,sfj,Jacksonville Leafs,13,12,841,14
+414,jeeplj,Lynchville Mobster,13,14,919,7
+415,bigsheldy,Sacramento Athletics,13,17,1124,14
+416,Clutschman,Alpine Strangers,13,20,1435,26
+417,StratMJ,Carbondale Saluki's,13,21,819,12
+418,oldbustedjorn,Tatamy Geckos,13,22,976,13
+419,NoahRoman12,Hononegah Hornets,13,23,1253,7
+420,golfhog44,Kenny G's Saxophones,13,29,1827,14
+421,ssanger1974,Southside Hitmen - HOTL,12,5,310,5
+422,tmccubbin,Kerrville Antlers,12,6,336,11
+423,n8kat,Tradewind Tides,12,8,479,6
+424,aarona,Olathe Trailblazers,12,8,557,8
+425,kjs97,Aurora Highlanders,12,12,517,12
+426,TheMcMani,Merrick Mayhem,12,14,528,6
+427,sdrater,Montreal Expos,12,15,936,12
+428,rvd887,KR Royal Chanels,12,17,939,11
+429,rwc497,Lexington Bombers,12,19,1225,5
+430,Karamba88,Krakow God Honour Fatherlan,12,25,1750,14
+431,slimkibbles,Bora Bora Beach Bums,12,26,1041,15
+432,Happypg,Lacoochee Mudcats,12,28,1192,13
+433,JFP,Monroe Braves,11,2,40,7
+434,Blutester1959,Taylor Street Lappers,11,8,464,14
+435,SamwiseGanja,GreenBowl Packers,11,10,369,6
+436,SOdette,Asheville Skydogs,11,11,595,16
+437,Putnybud,Pallenville Sleepers,11,11,685,13
+438,Phredthebaker,Providence Friars - HotL,11,16,664,11
+439,stevez57,Philadelphia Fighting Zs,11,16,1345,14
+440,suprmane,Susquehanna Soniqs,11,17,1287,7
+441,04Monstah,John Henry Must Dye (hiS haIR),11,23,1441,23
+442,LMicheleS,La Quinta Bench Warmers,10,1,3,3
+443,Blazeswim,Crown Point Corn Dogs,10,1,5,5
+444,Woody85,Eugene Anglers,10,1,7,7
+445,gcam62,Dirty South Hit Men,10,8,267,5
+446,Expos1969,Lachute Laurentides,10,8,461,7
+447,TheRick,Rockford Redbirds,10,9,569,15
+448,TheGreatBambi,1st Class Millionaires,10,10,753,13
+449,HarackPhoto,Westerly PauseOx WlyPox,10,11,759,8
+450,art331,Gotham Rogues PCK,10,12,785,21
+451,eggplantparmesan,Eggplant Parmesan,10,13,568,16
+452,OrenthalGames,Deep Space Niners,10,13,1075,12
+453,eamuscatuli,Prestige Worldwide,10,15,595,8
+454,dshaw47,Timbuktu Blues,10,19,796,13
+455,dhennes1,Fayetteville Firestorm-HotL,10,20,1618,19
+456,Stoli406,Casas Adobes Red Foxes,10,22,1487,9
+457,Swift92,Calgary Hitmen,9,3,74,8
+458,jsayer7,Cape Cod Sharks - HotL,9,3,75,5
+459,paochs,The Lou Blues,9,4,164,6
+460,CaseyP,Henerville Hippos,9,7,556,14
+461,JSW123,Melbourne Criminals,9,8,352,9
+462,Quiddle,Longview Lumberjacks,9,9,354,10
+463,dedwar49,St. Lucia Pitons,9,10,362,9
+464,ChinoVot,Madison Monsters,9,10,459,12
+465,darrylm,Edmonton Prospects,9,12,458,9
+466,szczepam,Philly Phlyers,9,13,659,11
+467,tkinsherf,Boston Dash,9,14,984,15
+468,ptotherizzo,Toronto Baccalas,9,15,526,11
+469,schmoova2,Ocean City Crab Rave,9,19,1306,33
+470,JPSwanson91,Ridgefield Resistance,9,20,1654,25
+471,redleggingitout,Cincinnati Skyrosas,9,21,864,11
+472,Dugbark,Louisville Bourbons,8,5,181,11
+473,Torvald78,New York WS Participants TTC,8,7,253,16
+474,martye88,Secaucus Doggies,8,7,478,5
+475,Cav2,Dazed Confused,8,7,506,16
+476,jerseymk,Ocean City Islanders,8,8,532,13
+477,Gnoozhe,Buhl Awesome Snakes,8,8,706,13
+478,TinkerEversChance,Chi City Ballerz,8,9,384,25
+479,Peakashoo,Seoul Dragons,8,12,799,30
+480,bongledongle,Norbury Knobwhompers,8,14,565,15
+481,flash10367,Fightin' Fours TTC,8,16,659,15
+482,SouthSideDP,Leland Lefties,8,16,1007,25
+483,Tvbona,Goshen Fighting Maple Leafs,8,19,1133,21
+484,Duckaneer,Sierra Nevada Nuggets,8,19,1434,19
+485,Kebort31,French Creek Valley,8,24,1239,13
+486,KINGLORDBOT,California Ragebaiters,8,24,1664,11
+487,Anteaterpadre,Miramar Flying Tigers,7,4,158,15
+488,Infractor,Halifax Citadels,7,5,186,13
+489,TeddyO,Joe Buck Yourself,7,5,285,31
+490,Dbsilber,Santa Monica Vikings,7,5,388,9
+491,JeRP,Lawrence Wildboyz,7,6,217,8
+492,TheTyler,Boston Shamrocks,7,7,353,5
+493,crouton215,Chicago Crouton Crushers,7,7,471,13
+494,PSYCHOG,Fishhawk Freedom,7,7,589,10
+495,Donruss87,Alcatraz Jacks,7,9,365,6
+496,aughts10367,Windy City Southside Pale Hose TTC,7,9,663,23
+497,csnay,Connecticut Astronomers,7,10,544,12
+498,jjh471,Connecticut Not Loud People,7,12,769,26
+499,mkeaveney01,Saratoga Colts,7,12,861,18
+500,Tornade,STMDB AS,7,14,668,7
+501,PlayBall2020,Toledo Mighty Hens,7,14,692,15
+502,PAF,Gladstone Athletics,7,16,1017,8
+503,NickVermont,Cologne Wrath,7,16,1216,16
+504,solorush,Sammamish Totems,7,18,928,21
+505,MysterE15,Boise Hawks,6,1,7,7
+506,docox388,Twin City ThunderBirds,6,1,12,12
+507,FongQ,Taiwan No.1,6,1,15,15
+508,MikeAnhingas,Jacksonville Suns,6,2,53,12
+509,tpyufejp,Mucha Fat Cat Fat Cat,6,2,132,11
+510,ssuldae,BUSAN BLUE JAYS,6,3,119,10
+511,Bradeh,Sierra Vista Apaches,6,3,145,12
+512,yuzuru4,SSG Landers,6,3,160,24
+513,ItzNorCally,Humboldt Bay Clams,6,3,222,8
+514,sean11g,Orlando Dreams,6,3,263,15
+515,stevetams,Mesa Soler Socks,6,4,209,7
+516,reddirtdodger,Norman Land Thieves,6,5,412,14
+517,Totaro,Kotonoha Akanetics,6,7,313,22
+518,ManBehavinBadly,Casey 2 Cans,6,7,383,20
+519,pats1776,Somerset Patriots,6,7,468,22
+520,Areme,Costa Rica Coconuts,6,8,421,14
+521,jsitko1,Belmont Biscuits,6,8,534,18
+522,DarylUCLA,UCLA Bruins - BFF,6,9,660,21
+523,Dylan1990,Deep 13 Mad Scientists,6,11,593,9
+524,BusterGrey,Seattle Stealth,6,14,1099,20
+525,Guancous2,Silver Spring Penguins,6,15,896,23
+526,Orion133,Bristol Beacons,6,20,798,17
+527,apkaufman,Cleveland Fighting Walleye,6,29,1688,10
+528,dougdascenzo,Fletcher Froggers,6,35,1920,21
+529,hawkeyemba,Hawkeye Hellraisers,5,4,153,23
+530,XCRunners,Jeepville Wranglers,5,5,208,24
+531,derekofferman7,Bonds Barry Bonds,5,6,241,27
+532,jays4life,Montreal Expos,5,6,249,24
+533,EricByrnes,False Hustle,5,6,367,20
+534,JMDJR1,Billstown Fightins (F2P),5,7,441,15
+535,Gunsmoke,Aberfeldie Falcons,5,7,457,27
+536,brian1zvx,Raheny Robins,5,8,576,20
+537,JRobs42,Tewksbury Minutemen,5,8,584,32
+538,randycapps,Four Oaks Rebels,5,10,707,24
+539,thaines,Jamestown Highlanders,5,10,747,33
+540,mikescott25,Kentucky Headhunters,5,11,815,15
+541,Panzeric,Blissfield Sugarboys,5,11,908,15
+542,huntedsours,Seoul Heroes,5,12,945,29
+543,rrajeevy,New York Jackhammers,5,13,969,28
+544,Brent3232,BYU COUGARS,5,15,676,12
+545,dougthecanuck,Greenisland Blue Jays,5,16,691,10
+546,KoreanExpress,Magnolia Campfires,5,18,1170,10
+547,bmaahs,Tampa Dumpster Fire TTC,4,3,77,9
+548,pken5,Allentown Tiger Cats,4,3,156,22
+549,OpTiamBlitZ,Charlotte Eagles,4,3,160,15
+550,pken2,South Bend Pugilistic Paddies,4,3,185,32
+551,dbecks_89,Kitchener Kings,4,4,126,11
+552,raithshade,Ryansville Ryans,4,4,184,32
+553,Cheesetruck25,Adidas Nylon Pants,4,4,286,25
+554,baseballjuice4254,East Troy Trojans,4,4,292,15
+555,RealVanillaGorilla,Epic Furries,4,5,255,9
+556,Joetime,Dunedin Standard Poodles,4,5,291,26
+557,Sulha,Anyang Baekho,4,5,320,31
+558,andhud,Angkor Koupreys,4,5,407,20
+559,Broadstlegends,Gettysburg Federals,4,5,426,18
+560,GotTheShakes,Detroit Sushi Cats,4,6,319,14
+561,RQIII,Buffalo Braves,4,7,316,14
+562,PeJo,Nantucket Sleighriders,4,7,351,23
+563,rhammondinho,Milwaukee Milkmen,4,7,514,13
+564,MMCOLDAGAIN,City Hospital Doctors,4,7,584,18
+565,bwburke94,Burke Lookouts,4,8,459,20
+566,CloveDistrict2,Paris Armada,4,8,541,18
+567,Dread,Marble Mallards,4,9,542,30
+568,StoneyPenguin20,Lincoln Mets,4,9,642,17
+569,CoachSeering,Illinois College Blueboys,4,9,647,36
+570,Burro317,Portuguese Raging Chickens,4,9,838,19
+571,jabroo1228,Clearwater Phillies,3,1,9,9
+572,GJPulles,Folsom Wolves,3,1,13,13
+573,matsustrak3,Borocay Bombardiers,3,1,18,18
+574,eddienwonton,Alhambra Moors - HotL TTC,3,1,22,22
+575,slider915,Middie Bears,3,1,28,28
+576,J1A19P5,Calgary Vipers,3,1,29,29
+577,Sivloc,St.Louis Cardinal Legends,3,1,29,29
+578,AceBrainteaser,Pop's Volcanos,3,2,74,15
+579,TacocaT371,Monterey Jacks,3,2,75,30
+580,The-Answer,Anaheim Angels,3,2,127,17
+581,astory2go,Rock County Stratocasters,3,2,136,31
+582,Ftbls31fan,Kodiak Chiefs,3,3,117,11
+583,chicoguilbault,Colt Pythons,3,3,154,29
+584,krap4,Salisbury Wild Riders,3,3,220,18
+585,jk11,Orlando Blue Waves,3,3,234,21
+586,Strifeknot,Wokingham Night Shift,3,3,238,23
+587,ItsLolgical,Siloam Springs Brookrunners,3,4,305,14
+588,boomer70,Winnipeg Golden Knights,3,5,350,19
+589,mosesk,Louisville Scarlett,3,5,443,30
+590,jjhels,OKC Black Bears,3,6,231,20
+591,hexoiden,Boston Curves,3,6,428,35
+592,crouton1971,Tennessee Tornado Bats,3,6,447,40
+593,oaky,Ye Ye,3,6,485,43
+594,Weaklink1965,Woodstock Storm,3,6,517,18
+595,bongtana,bongtana bongtana,3,6,552,27
+596,jkmoney044,Fresno Fupas,3,7,333,17
+597,MajorWager,Amish Adjacent Time Travelers,3,7,460,16
+598,ConnorMcCleod,Pittsburgh Cap with Egg,3,9,707,37
+599,doc,K-STATE BATCATS,3,11,690,32
+600,maverickrls,Brooklyn Big E's,3,12,1039,38
+601,deldah35,Bedford Phillies,3,14,996,19
+602,hui,Taiwan Taipei,3,15,1512,27
+603,JuliusR,Green Mt Boys,2,2,79,32
+604,ArmandBaseball,Jacksonville Cthulhu,2,2,85,32
+605,Jojorabbit21,Football Manager 2012,2,2,92,39
+606,Jdfrompd,TTV JDFROMPD,2,2,112,49
+607,dmacgreg37,Notre Dame Fighting Irish,2,3,114,20
+608,boredmetsfan,Beacon Falls Wet Bandits,2,3,162,19
+609,KRAP2,Hersham Horned Frogs,2,3,197,34
+610,thestormbacca,Detroit Wookies,2,3,219,60
+611,sean11k,Las Vegas Gamblers,2,3,221,35
+612,campbell1112,New Platson Grand Petites,2,4,138,19
+613,Snake_Plissken,Kingsport Ancients,2,4,162,23
+614,tksnow8,Seattle SuperSonics,2,4,262,33
+615,Hi_clutch,City Cows,2,5,394,48
+616,tommyhoogy,Puget Sound Giant Pacific Octopi,2,5,415,44
+617,FatBoy08,Story City Storm Chasers,2,6,265,27
+618,johngon,LAKE JACKSON BIG STICKS,2,6,269,31
+619,alesimeon,Perugia Warriors,2,6,380,19
+620,Cajun007,Prarie Cowboys,2,6,423,39
+621,PhatDoinks,Pittsburgh PowerHAUSE,2,7,452,22
+622,lightmoon,Spite Store Hoot Owls,2,7,491,21
+623,froggy8289,Carpentersville Silver Hawks,2,7,556,38
+624,Dernatron26,Hobbiton Hobbits,2,7,589,60
+625,Trigger017,St. Louis Sluggers,2,11,565,18
+626,Thedeityofice-PCK,Pittsburgh Ironmen - PCK,2,11,976,55
+627,chartle85,Clear Spring Blazers,2,13,1345,52
+628,cryptokurt,Bitcoin City Bulls,2,16,1016,23
+629,googs78,Allegheny Foresters,2,20,1937,64
+630,Alvinpaul24,Wash Park Ringers PCK,1,1,17,17
+631,EthanAllen,Green Mountain Boys,1,1,18,18
+632,dpontier13,Omaha Twisters,1,1,18,18
+633,Versace1978,Ratchet City Trash Pandas,1,1,19,19
+634,supernoah,Vancouver Pilots,1,1,19,19
+635,bronxbombers98,Beetle's Boppers,1,1,20,20
+636,cakester5000,Montana Cakester,1,1,22,22
+637,sevenarrows,Redwood Skyhawks,1,1,29,29
+638,jizner22,St. Louis Grandmas,1,1,31,31
+639,x23jE,x23jE x23jE,1,1,31,31
+640,Boom-Boom,Anchorage Sky Hawks,1,1,36,36
+641,Norejus,Lovecraft City Werewolves,1,1,39,39
+642,agarris1,Sticky Bats,1,1,51,51
+643,WeedinMaine,Sabattus Maine Phanatics,1,1,53,53
+644,IJCrichton,Beckington Badgers,1,1,57,57
+645,areyoutyler,Los Angeles Dodgers,1,1,61,61
+646,Luth,Richfield Typewriters,1,1,63,63
+647,miketx56,Borger Busch Slammers,1,1,64,64
+648,Iristhomas1994,Sanford Spinners,1,2,63,25
+649,bizniff,Claude City Octopi,1,2,77,22
+650,frogboutique,Longmont Catboys,1,2,80,23
+651,txtomster,Anderson (TX) Red Raiders,1,2,81,28
+652,bdcable1,Cibolo Anklebiters,1,2,119,35
+653,Reidwk,Lakeland Titans,1,2,126,38
+654,arejujas,Fusion M Asere QueBola,1,2,135,61
+655,rokular01,Youngstown Ironmen,1,2,144,28
+656,PTL0,Boise Potato Mashers,1,2,146,54
+657,ifeelnormal3,Keller Generals,1,2,151,56
+658,Kickster23,Keystone Heights Killers,1,2,152,26
+659,dwhit110,Indianapolis Clowns,1,2,159,55
+660,Doctor,Green Dirigibles,1,2,168,61
+661,drudonohue,Carlos Chaos Cats,1,2,181,59
+662,Scorey,Marengo Dimes,1,3,114,17
+663,chase348,Isleton Tigers,1,3,172,51
+664,shaderaith,Poulsbo Vikings,1,3,185,59
+665,Icdragon13,Cleveland Fossils,1,3,201,47
+666,Ballspiker,Bainbridge Badasses,1,3,285,55
+667,DNX,North Dakota Fighting Sioux,1,3,303,61
+668,mcmiller999,Hagerstown Hellgramites,1,4,186,30
+669,cjbaseball11,Utopia Skywalkers,1,4,362,59
+670,pavspurs,Seoul Kagereru Oidemase Festive,1,4,366,64
+671,BeantownBro,Beantown Bros,1,4,368,27
+672,DocBear,Knockemstiff Golden Horde,1,5,220,19
+673,mppavese,Las Vegas Gamblers,1,5,363,27
+674,netherwarden,Moria Miners,1,5,388,51
+675,NickoVermont,Cologne Rabbit Godfathers,1,5,406,50
+676,guiletrud190,Longueuil Privateers,1,6,342,32
+677,Elite_Czar,Lawrence Lions,1,6,459,36
+678,s1c1l1anm0bst3r,Long Island Ducks,1,6,475,39
+679,haynhuss,Wailuku Hurricanes,1,8,496,41
+680,aaronreilly3,Toms River Barons,1,9,613,20
+681,Delfin,Old Gods of Asgard (PCK),1,9,981,64
+682,Gabagul,Taylor Ham Sandwiches,1,10,911,58
+683,Housebuster,Charlotte Horsemen,1,13,975,33
+684,orioles,Bel Air Orioles,0,1,33,33
+685,rfgh2020,Daegu Pilots,0,1,34,34
+686,qm3125,Dungeon Meshi Marcille,0,1,37,37
+687,Germany_Venom,Ratingen Goose-Necks,0,1,38,38
+688,chelsea0011,Rockland Surf,0,1,38,38
+689,The_K_Man,Aumsville Abyss,0,1,40,40
+690,burkejay,Chicago Blue Jays,0,1,41,41
+691,Grish,Walter's Johnsons,0,1,42,42
+692,petyrgozinya,Chesapeake Bay Retrievers,0,1,43,43
+693,40Calhoun,Charleston Sand Gnats,0,1,45,45
+694,mrconce,Great Lakes Loons,0,1,46,46
+695,Sandmd1,Encinitas Rockfish,0,1,47,47
+696,Lastnline,Nor Cal Vibes,0,1,48,48
+697,Thicketcat,Mt Lookout Locos,0,1,49,49
+698,bmaahs1,Tampa Cubbies TTC,0,1,50,50
+699,Peltini,Tini Winis,0,1,52,52
+700,JJSKI1023,Tucson The Dirty T,0,1,53,53
+701,sm6986,Rajasthan Rifles Rifles,0,1,55,55
+702,T-Minus,NCTC Lions,0,1,56,56
+703,mooon,Waterloo Vikings,0,1,56,56
+704,pauldouglas1973,chicago cubbies pauly,0,1,56,56
+705,TheBurg11,Stuart City Surrender Cobras,0,1,57,57
+706,DanielBougi,Ostrava Arrows,0,1,58,58
+707,giest,Southern Dawgs,0,1,59,59
+708,ThoughtsofSeb,Westchester Warriors,0,1,62,62
+709,friday0408,Boston Philosophers,0,1,62,62
+710,DrewPeacock,Atlantic City Surf,0,1,63,63
+711,Cheech34,Arizona Wavy Gravy,0,1,64,64
+712,Lazygs,Hazlet Hellhounds,0,1,64,64
+713,exhorter24,Burnwell Stars,0,1,64,64
+714,jastyra,Houston Rednecks,0,1,67,67
+715,jaj73,Longview Storm,0,1,69,69
+716,selser80,Philadelphia Sluggers,0,1,72,72
+717,moses_k,Cincinnati Melodies,0,1,75,75
+718,Laval66,Forest Glen Foxes,0,1,79,79
+719,Moankeymage,New Orleans Voo Doo,0,1,82,82
+720,HeavyVeggie,St. John's Clockwork Oranges,0,1,86,86
+721,Footie75,Carbonear Devil Dogs,0,1,92,92
+722,bobbaroo814,Petosky Penny Whistlers PCK,0,1,93,93
+723,PhillyTB13,Philly CheeseMisteaks,0,1,94,94
+724,SamuelBaerga,New Jersey Clippers,0,1,96,96
+725,Cap_Dew,Carolina Sasquatch,0,1,98,98
+726,mightymorlang,Rochester Rage Hawks,0,1,100,100
+727,Jblackwood87,Long Island Ducks,0,1,107,107
+728,Fred_Beretta,HickoryHoller JayBirds,0,1,108,108
+729,Rumps,Marz Martian,0,1,111,111
+730,DGoist,Cranberry Crushers,0,1,112,112
+731,orioledave,Inman O's O's,0,1,112,112
+732,syaver,Carleton Place Moon Mammoths,0,1,112,112
+733,kanady_steve,Fort Hood Lancers,0,1,113,113
+734,TrityJ,Washington Nationals,0,1,115,115
+735,usmc7789,Yonkers DevilDogNutGrinders,0,1,116,116
+736,404found,Phoenix Rebrand 5,0,1,119,119
+737,mfentin21,Grapevine Velocity,0,1,119,119
+738,goldenvides,Halsted Hams,0,1,121,121
+739,Kynan360,Gettysburg Gophers - HotL,0,1,122,122
+740,cakh5050,China ICBMs,0,1,124,124
+741,docnike1972,O Fallon Cubbies,0,1,124,124
+742,intel8088,Dogpatch Skonks,0,1,124,124
+743,Saigaman,Portland Beaver's,0,1,125,125
+744,ztevans,Carolina Mudcats,0,1,125,125
+745,Butang,Hanshin Tigers,0,1,126,126
+746,Prophecy,Marauders TBD,0,1,126,126
+747,Tek15,Ottawa HammerhE6ds,0,1,127,127
+748,jetheeddy,Conemaugh Conspiracy,0,1,127,127
+749,usnspecialist,Bad Intelligence,0,2,85,41
+750,krashl007,Detroit Sultans of Swing,0,2,86,39
+751,lewis1985,Scuderia Ferrari,0,2,91,35
+752,profoundity,Saitama Nandemo,0,2,98,40
+753,metalypuppies2,Little Rock Grays,0,2,120,59
+754,Rothelstein,Dino Nuggets,0,2,128,64
+755,Powser005,Vancouver Timbers,0,2,130,53
+756,rtoro5,Gateway City Gas House Gaang,0,2,131,37
+757,No_Moneyball,Oakland Athletics,0,2,144,71
+758,skjung1998,Loughborough Ducks,0,2,173,82
+759,edmo922,Nome Sayins,0,2,180,62
+760,Thespacemaninla,Koreatown Typesetters,0,2,190,64
+761,jclay31797,West Virginia Black Bears,0,2,190,64
+762,BeamZ,Modesto Nuts,0,2,192,64
+763,tay_cummins,Boulder Buffs,0,2,199,77
+764,Weldon06,Gouverneur Destroyers-E6,0,2,205,79
+765,JACKDADI,Fredericton Brick Squad,0,2,206,79
+766,Rayzor,Shoebox Legends,0,2,206,87
+767,Trenchgun,Homestead Greys,0,2,213,102
+768,MemeManFlan,Fitchburg Falcons,0,2,247,119
+769,Butta2050,Bellingham Legends,0,2,253,126
+770,Brayden15,Long Island Ducks,0,3,128,39
+771,Moby-Dick,Inland Empire 66ers,0,3,158,45
+772,Momosomi,Seoul Super Stars,0,3,160,44
+773,the_k_man_2,Aumsville Ants,0,3,192,34
+774,textilemonster,Kokomo Automakers,0,3,210,51
+775,Coop15,New York Knights,0,3,256,78
+776,Blacktrip,Beaverton Black Wolves,0,3,271,69
+777,Qortar,I2019m Rock hard,0,3,273,74
+778,OBEEFE,Kent Island Sharks,0,3,278,78
+779,bken,Highland Horned Frogs,0,3,296,88
+780,Vamplex,Ottawa Torch,0,3,301,50
+781,brandonkick613,East Meadow Acorns,0,4,318,62
+782,knottaverage,Woodridge WildBois,0,4,347,41
+783,rwd072059,Dothan Peanuts,0,5,265,41
+784,codyjwertz,Duluth Deviled Lettuce,0,5,428,68
+785,Vialabo,El Vampiro Ankle Biters,0,6,485,53
+786,theroc44,New York Titans,0,6,501,39
+787,Monopole,Medford Mallards,0,7,452,50
+788,smc250,San Antonio Rockets,0,7,568,44
+789,yodaslayer24,No money spent 100 completion,0,16,1237,36
+790,Vipdad420,Berlin Speed Dealers,0,16,1802,83

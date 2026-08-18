@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PT Strategy Presets by Environment</title><style>
+:root{--bg:#0f1113;--panel:#171a1d;--panel2:#1d2124;--line:#2b3034;--tx:#e7eaec;--tx2:#9aa3aa;--tx3:#6c757c;
+ --sb:#e0a13a;--sb2:#c98a2c;--neu:#8b939a;--sab:#4a9ad4;--sab2:#3b7fb3;--acc:#5ec2a0;--warn:#d97a5a;}
+@media(prefers-color-scheme:light){:root{--bg:#f7f8f9;--panel:#fff;--panel2:#f1f3f5;--line:#e0e4e8;--tx:#14181b;--tx2:#5a646c;--tx3:#8a939b;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:32px 22px 80px}
+h1{font-size:25px;margin:0 0 4px;letter-spacing:-.02em}
+h2{font-size:15px;margin:38px 0 12px;letter-spacing:.07em;text-transform:uppercase;color:var(--tx2);font-weight:600}
+.sub{color:var(--tx2);font-size:14px;margin:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:17px 19px}
+.lede{border-left:3px solid var(--acc);padding-left:14px;margin:20px 0 0}
+.lede b{color:var(--acc)}
+.ladder{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.rung{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:8px;padding:11px 12px}
+.rung .nm{font-weight:650;font-size:13.5px;margin-bottom:5px}
+.rung .th{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--tx3)}
+.rung .yr{font-size:11.5px;color:var(--tx2);margin-top:7px;line-height:1.5}
+@media(max-width:880px){.ladder{grid-template-columns:repeat(2,1fr)}}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
+input[type=search]{background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:7px;padding:8px 11px;font:inherit;font-size:13.5px;min-width:280px}
+.chip{background:var(--panel2);border:1px solid var(--line);color:var(--tx2);border-radius:99px;padding:5px 11px;font-size:12.5px;cursor:pointer;user-select:none}
+.chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.cnt{color:var(--tx3);font-size:12.5px;margin-left:auto}
+.env{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--c);border-radius:9px;margin-bottom:9px;overflow:hidden}
+.hd{display:grid;grid-template-columns:112px 1fr 190px;gap:14px;align-items:center;padding:13px 16px;cursor:pointer}
+@media(max-width:760px){.hd{grid-template-columns:1fr;gap:8px}}
+.yrbig{font-size:21px;font-weight:650;letter-spacing:-.02em;line-height:1.1}
+.yrbig small{display:block;font-size:11px;font-weight:500;color:var(--tx3);letter-spacing:.03em;margin-top:2px}
+.stats{display:flex;flex-wrap:wrap;gap:0 20px}
+.st{min-width:74px}
+.st .k{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--tx3)}
+.st .v{font-family:ui-monospace,Menlo,monospace;font-size:13.5px}
+.right{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+@media(max-width:760px){.right{align-items:flex-start;text-align:left}}
+.pill{display:inline-block;padding:4px 11px;border-radius:99px;font-size:12.5px;font-weight:650;white-space:nowrap;border:1px solid transparent}
+.pill.big{font-size:15px;padding:7px 16px}
+.p0{background:color-mix(in srgb,var(--sab) 20%,transparent);color:var(--sab);border-color:color-mix(in srgb,var(--sab) 42%,transparent)}
+.p1{background:color-mix(in srgb,var(--sab) 13%,transparent);color:var(--sab);border-color:color-mix(in srgb,var(--sab) 28%,transparent)}
+.p2{background:color-mix(in srgb,var(--neu) 17%,transparent);color:var(--neu);border-color:color-mix(in srgb,var(--neu) 36%,transparent)}
+.p3{background:color-mix(in srgb,var(--sb) 13%,transparent);color:var(--sb);border-color:color-mix(in srgb,var(--sb) 28%,transparent)}
+.p4{background:color-mix(in srgb,var(--sb) 19%,transparent);color:var(--sb);border-color:color-mix(in srgb,var(--sb) 38%,transparent)}
+.p5{background:color-mix(in srgb,var(--sb) 27%,transparent);color:var(--sb);border-color:color-mix(in srgb,var(--sb) 50%,transparent)}
+.cntx{font-size:11.5px;color:var(--tx3)}
+.body{border-top:1px solid var(--line);padding:12px 16px 14px;background:var(--panel2);display:none}
+.env.open .body{display:block}
+.evs{display:flex;flex-wrap:wrap;gap:6px}
+.ev{font-size:12.5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:4px 9px;color:var(--tx2)}
+.ev b{color:var(--tx);font-weight:550}
+.ev.hit{border-color:var(--acc)}
+.ev .x{color:var(--acc);font-size:10.5px;margin-left:5px}
+.adj{margin-top:11px;font-size:12.5px;color:var(--tx2)}
+.adj span{display:inline-block;border:1px solid var(--line);border-radius:5px;padding:3px 8px;margin:3px 5px 0 0;background:var(--panel)}
+.adj span.t{border-color:color-mix(in srgb,var(--acc) 45%,transparent);color:var(--acc)}
+.pos{color:var(--sb)}.neg{color:var(--sab)}
+ul.tight{margin:8px 0 0;padding-left:19px}ul.tight li{margin:6px 0;color:var(--tx2);font-size:13.5px}
+ul.tight li b{color:var(--tx)}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:var(--panel2);padding:1px 5px;border-radius:4px;border:1px solid var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.note{color:var(--tx2);font-size:13px}
+.hint{color:var(--tx3);font-size:12.5px;margin:-4px 0 12px}
+/* calculator */
+.calc{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:18px 20px}
+.frow{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:flex-end}
+.f{display:flex;flex-direction:column;gap:5px}
+.f label{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--tx3)}
+.f input,.f select{background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:7px;
+ padding:8px 10px;font:inherit;font-size:14px;font-family:ui-monospace,Menlo,monospace}
+.f input{width:82px;text-align:right}
+.f select{font-family:inherit;min-width:170px}
+.f.pair{flex-direction:row;align-items:flex-end;gap:6px}
+.dual{display:flex;gap:6px}
+.reset{align-self:flex-end}
+.out{margin-top:18px;border-top:1px solid var(--line);padding-top:17px;display:grid;
+ grid-template-columns:270px 1fr;gap:22px}
+@media(max-width:820px){.out{grid-template-columns:1fr}}
+.verdict{text-align:center;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px}
+.verdict .from{font-size:12px;color:var(--tx3);margin-bottom:8px}
+.arrow{font-size:19px;color:var(--tx3);margin:9px 0 8px;line-height:1}
+.verdict .rg{margin-top:12px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--tx2)}
+.mtab{width:100%;border-collapse:collapse;font-size:13px}
+.mtab th{text-align:right;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--tx3);
+ font-weight:600;padding:0 8px 7px;border-bottom:1px solid var(--line)}
+.mtab th:first-child{text-align:left}
+.mtab td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;
+ font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.mtab td:first-child{text-align:left;font-family:inherit;font-size:13px;color:var(--tx2)}
+.mtab td:first-child small{display:block;color:var(--tx3);font-size:11px;font-family:inherit}
+.dlt{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--tx3)}
+.up{color:var(--sb)}.dn{color:var(--sab)}
+.flag{margin-top:13px;font-size:12.5px;color:var(--tx2);background:var(--panel2);border:1px solid var(--line);
+ border-left:3px solid var(--warn);border-radius:7px;padding:9px 12px}
+.flag b{color:var(--tx)}
+.sens{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
+.sens span{font-size:11.5px;border:1px solid var(--line);border-radius:5px;padding:3px 8px;background:var(--panel2);color:var(--tx2)}
+</style></head><body><div class="wrap">
+<h1>Strategy presets by run environment</h1>
+<p class="sub">26 environments &middot; 77 tournaments &middot; live park-factor calculator &middot; run expectancy solved per era &middot; rebuilt 2026-08-07</p>
+
+<div class="lede">
+The preset is decided by one number: <b>the run value of a sacrifice bunt with runners on 1st &amp; 2nd, nobody out</b> &mdash; the most favorable bunt spot there is. If the bunt loses runs <i>there</i>, small ball loses runs everywhere, and you want Sabermetric. Two modifiers: environments under 4.05 R/G get bumped one notch toward small ball (in low-scoring games win probability rewards the one-run play more than run expectancy does), and anything over 20% strikeouts is capped at Balanced &mdash; a runner on 2nd with two K-prone hitters behind him just dies there.
+</div>
+
+<h2>Park calculator</h2>
+<p class="hint">Pick the era, type the stadium's factors, and the whole model re-solves. Loaded with Friday Nightmare Cap as the example.</p>
+<div class="calc">
+ <div class="frow">
+  <div class="f"><label>Era</label><select id="cEra"></select></div>
+  <div class="f"><label>AVG &nbsp;vs L / vs R</label><div class="dual"><input id="avgL" value="1.14"><input id="avgR" value="1.14"></div></div>
+  <div class="f"><label>HR &nbsp;vs L / vs R</label><div class="dual"><input id="hrL" value="0.880"><input id="hrR" value="0.810"></div></div>
+  <div class="f"><label>2B</label><input id="d2" value="1.070"></div>
+  <div class="f"><label>3B</label><input id="d3" value="1.000"></div>
+  <div class="f"><label>Your lineup</label><select id="lean">
+    <option value="0.45">Balanced (45% LHB)</option>
+    <option value="0.70">Lefty-heavy (70% LHB)</option>
+    <option value="0.20">Righty-heavy (20% LHB)</option></select></div>
+  <div class="f reset"><span class="chip" id="reset">Neutral park</span></div>
+ </div>
+ <div class="out">
+  <div>
+   <div class="verdict">
+     <div class="from">NEUTRAL PARK</div>
+     <span class="pill" id="vFrom"></span>
+     <div class="arrow">&darr;</div>
+     <div class="from">IN THIS PARK</div>
+     <span class="pill big" id="vTo"></span>
+     <div class="rg" id="vRG"></div>
+   </div>
+   <div id="vNotes"></div>
+   <div class="sens" id="vSens"></div>
+  </div>
+  <div>
+   <table class="mtab"><thead><tr><th>What changes</th><th>Neutral</th><th>This park</th><th>&Delta;</th></tr></thead>
+   <tbody id="mBody"></tbody></table>
+   <div class="flag" id="vFlag"></div>
+  </div>
+ </div>
+</div>
+
+<h2>The ladder</h2>
+<div class="ladder" id="ladder"></div>
+
+<h2>Lookup</h2>
+<p class="hint">Type a tournament name to jump to its environment. Click any row to see which events use it. These are <i>neutral-park</i> calls &mdash; run the stadium through the calculator above before you commit.</p>
+<div class="tools">
+  <input type="search" id="q" placeholder="e.g. Iron Lunchpail, Daily Diamond…">
+  <span class="chip" data-f="hist">Historical only</span>
+  <span class="chip" data-f="expand">Expand all</span>
+  <span class="cnt" id="cnt"></span>
+</div>
+<div id="list"></div>
+
+<h2>Why it lands where it does</h2>
+<div class="grid2">
+<div class="card"><b style="font-size:14px">The AVG factor beats the HR factor, ~3 to 1</b>
+<p class="note" style="margin:7px 0 0">A homer-suppressing park reads as a small-ball park and is usually the opposite. Take 1955 in a 1.14&nbsp;AVG / .84&nbsp;HR stadium: the HR suppression alone would say <i>bunt more</i> (+0.058), but the AVG boost alone says <i>bunt never</i> (&minus;0.020) and it wins, dragging 4.45&nbsp;R/G up to 5.19. <b style="color:var(--tx)">If AVG is inflated it's a hitter's park that just doesn't pay in homers</b> &mdash; outs get more expensive, not less.</p></div>
+<div class="card"><b style="font-size:14px">Strikeout rate, not the year</b>
+<p class="note" style="margin:7px 0 0">Advancing a runner only pays if the next hitter puts the ball in play. At 1927's 5.3% K rate the bunt converts constantly; at the PT default's 22.6% it strands. This is why <b style="color:var(--tx)">1927 and 1928 are a trap</b> &mdash; people see "1927" and think deadball, but those are 5.02 R/G seasons, the <i>highest</i>-scoring eras in the set. They earn Moderate Small Ball because nobody strikes out, not because runs are scarce.</p></div>
+<div class="card"><b style="font-size:14px">Steal break-even barely moves</b>
+<p class="note" style="margin:7px 0 0">Across every environment PT uses, the break-even steal rate with nobody out only spans <code>76.5%</code> (1919) to <code>81.7%</code> (2019), and parks move it a point or two at most. <b style="color:var(--tx)">Era and park change whether you bunt far more than whether you run.</b> A genuinely fast card is worth running anywhere; a marginal one isn't worth running anywhere.</p></div>
+<div class="card"><b style="font-size:14px">You can't buy a BABIP park</b>
+<p class="note" style="margin:7px 0 0">A high-AVG park hands its gain to every card regardless of rating &mdash; and the contact rating is &beta;=0.16 / R&sup2;=0.26, near noise, with PBABIP worse. So don't chase contact bats. <b style="color:var(--tx)">What is buyable is what the park makes expensive to lack:</b> K-avoidance (&beta;=&minus;0.76, R&sup2;=0.88) and EYE (&beta;=1.04, R&sup2;=0.87), the two tightest fits in the game.</p></div>
+<div class="card"><b style="font-size:14px">Tier compounds with era</b>
+<p class="note" style="margin:7px 0 0">Iron and Bronze events cap card value at 49&ndash;69. Since <code>HR &prop; (POW/50)^1.33</code>, weak cards deaden the park <i>on top of</i> the era. An Iron event in 1968 is deader than the 1968 number alone says. <b style="color:var(--tx)">Shift low-tier historical events one notch further toward small ball.</b></p></div>
+<div class="card"><b style="font-size:14px">Tactician is a roster call</b>
+<p class="note" style="margin:7px 0 0">It cranks pinch-hitting, L/R matchups and quick hooks &mdash; which pays only when your bench is close to your starters, and that's about your roster, not the era. The one era-independent hook: <b style="color:var(--tx)">no-DH events</b>, where the pitcher's spot creates real pinch-hit and double-switch leverage. Those carry a <span style="color:var(--acc)">no DH</span> tag in the lookup.</p></div>
+</div>
+
+<h2>Method &amp; caveats</h2>
+<div class="card"><ul class="tight">
+<li><b>Run expectancy.</b> A 24-state base/out Markov chain solved to convergence, driven by that environment's K / BB / HBP / HR / 2B / 3B / BABIP rates. Includes GIDP (11.5% of groundouts with a man on first and under two outs), sacrifice flies, and era-varying ground-ball share. The same engine runs in this page, so the calculator is not an approximation of the table &mdash; it <i>is</i> the table, re-solved.</li>
+<li><b>R/G is reported on the stated scale.</b> The raw model runs 2&ndash;9% under each era's real R/G because it doesn't credit errors, wild pitches or passed balls. So park-adjusted R/G is the era's stated figure moved by the model's <i>relative</i> response: <code>stated &times; (model_park / model_neutral)</code>. Absolute levels stay honest; the 4.05 threshold means the same thing everywhere.</li>
+<li><b>Park factors apply to the era rates before solving:</b> <code>BABIP &times; AVG</code>, <code>HR &times; HR</code>, <code>2B &times; 2B</code>, <code>3B &times; 3B</code>. Walks and strikeouts are unaffected by parks. L/R factors are blended by your stated lineup handedness.</li>
+<li><b>The AVG factor is the sensitive input.</b> How much of it lands on balls in play rather than on overall average changes the call &mdash; the calculator shows a sensitivity strip for exactly this. When readings disagree, trust the shared conclusion, not the point estimate.</li>
+<li><b>Era rates.</b> 18 of the 25 historical years come from the Card Lab's fitted era table (<code>PT Card Lab.html</code>). Seven &mdash; 1933, 1942, 1960, 1969, 1979, 1983, 1986 &mdash; were derived from <code>MLB Batting Year-by-Year Averages.xls</code>. On overlapping years the two agree to about &plusmn;0.005 on K rate.</li>
+<li><b>Break-even steal rates run 2&ndash;4 points high</b> versus published MLB tables, for the same missing-advancement reason. The ordering across environments is what the recommendation uses, and that's unaffected.</li>
+<li><b>Tournaments and their parks rotate during the year.</b> The lookup list came from a 2025 scrape of <code>engine/config/tournaments.json</code> and nine events already appear under two different eras. Treat it as a starting point and run the actual stadium through the calculator.</li>
+<li><b>Unorthodox (Random)</b> is never the right answer &mdash; it's a randomizer, so its expected value is the average of the other presets minus the cost of sometimes being badly wrong.</li>
+</ul></div>
+<script>// ---- run-expectancy engine, port of era_re_calc.py / lw.py ----
+const BASES=[];for(let a=0;a<2;a++)for(let b=0;b<2;b++)for(let c=0;c<2;c++)BASES.push([a,b,c]);
+const bidx=b=>b[0]*4+b[1]*2+b[2];
+const EVS=['K','BB','HR','B1','B2','B3','OUT'];
+function probs(e){
+ const bip=1-e.K-e.BB-e.HBP;
+ const HR=e.HR*bip, B2=e.B2*bip, B3=e.B3*bip;
+ const hits=e.BABIP*(bip-HR);
+ const B1=Math.max(hits-B2-B3,0);
+ const OUT=Math.max(bip-HR-B1-B2-B3,0);
+ return {K:e.K, BB:e.BB+e.HBP, HR, B1, B2, B3, OUT};
+}
+const gshare=hrbip=>Math.min(0.62,Math.max(0.42,0.60-4.0*(hrbip-0.014)));
+function trans(b,ev,g,dp,o){
+ const[b1,b2,b3]=b,out=[];
+ if(ev==='K')out.push([b,1,0,1]);
+ else if(ev==='OUT'){const gp=g,fp=1-g;
+  if(b1&&o<2){out.push([[0,b2,b3],2,0,gp*dp]);out.push([[0,1,b3],1,0,gp*(1-dp)]);}
+  else if(b1)out.push([b,1,0,gp]);
+  else{out.push([[0,0,b2],1,b3,gp*0.35]);out.push([b,1,0,gp*0.65]);}
+  if(b3&&o<2){out.push([[b1,b2,0],1,1,fp*0.5]);out.push([b,1,0,fp*0.5]);}
+  else out.push([b,1,0,fp]);}
+ else if(ev==='BB'){
+  if(b1&&b2&&b3)out.push([[1,1,1],0,1,1]);
+  else if(b1&&(b2||b3))out.push([[1,1,1],0,0,1]);
+  else if(b1)out.push([[1,1,b3],0,0,1]);
+  else out.push([[1,b2,b3],0,0,1]);}
+ else if(ev==='B1'){
+  if(b2){out.push([[1,0,b1],0,b3+b2,0.60*0.28]);out.push([[1,b1,0],0,b3+b2,0.60*0.72]);
+         out.push([[1,1,b1],0,b3,0.40*0.28]);out.push([[1,b1,1],0,b3,0.40*0.72]);}
+  else{out.push([[1,0,b1],0,b3,0.28]);out.push([[1,b1,0],0,b3,0.72]);}}
+ else if(ev==='B2'){ if(b1){out.push([[0,1,0],0,b1+b2+b3,0.55]);out.push([[0,1,1],0,b2+b3,0.45]);}
+                     else out.push([[0,1,0],0,b2+b3,1]); }
+ else if(ev==='B3')out.push([[0,0,1],0,b1+b2+b3,1]);
+ else if(ev==='HR')out.push([[0,0,0],0,1+b1+b2+b3,1]);
+ return out;
+}
+function buildRE(p,g,dp){
+ let RE=Array.from({length:8},()=>[0,0,0]);
+ for(let it=0;it<400;it++){
+  const N=Array.from({length:8},()=>[0,0,0]); let mx=0;
+  for(const b of BASES)for(let o=0;o<3;o++){
+   let v=0;
+   for(const ev of EVS){const pr=p[ev]; if(!pr)continue;
+    for(const[ns,oa,r,w]of trans(b,ev,g,dp,o)){const no=o+oa; v+=pr*w*(r+(no>=3?0:RE[bidx(ns)][no]));}}
+   N[bidx(b)][o]=v; mx=Math.max(mx,Math.abs(v-RE[bidx(b)][o]));}
+  RE=N; if(mx<1e-13)break;
+ }
+ return RE;
+}
+function analyze(e){
+ const p=probs(e), g=gshare(e.HR), dp=0.115, RE=buildRE(p,g,dp);
+ const r=(b,o)=>RE[bidx(b)][o];
+ const out={RG:r([0,0,0],0)*9, RE0:r([0,0,0],0), rates:p,
+  bunt_1_0:r([0,1,0],1)-r([1,0,0],0),
+  bunt_12_0:r([0,1,1],1)-r([1,1,0],0),
+  bunt_2_0:r([0,0,1],1)-r([0,1,0],0)};
+ for(let o=0;o<3;o++){const gn=r([0,1,0],o)-r([1,0,0],o), ls=(o<2?r([0,0,0],o+1):0)-r([1,0,0],o);
+  out['SBBE'+o]=-ls/(gn-ls);}
+ // stationary base-out frequency -> linear weights
+ let S=Array.from({length:8},()=>[0,0,0]); S[bidx([0,0,0])][0]=1;
+ const F=Array.from({length:8},()=>[0,0,0]);
+ for(let it=0;it<80;it++){
+  const N=Array.from({length:8},()=>[0,0,0]);
+  for(const b of BASES)for(let o=0;o<3;o++){
+   const m=S[bidx(b)][o]; F[bidx(b)][o]+=m; if(m<1e-12)continue;
+   for(const ev of EVS){const pr=p[ev]; if(!pr)continue;
+    for(const[ns,oa,,w]of trans(b,ev,g,dp,o)){const no=o+oa; if(no<3)N[bidx(ns)][no]+=m*pr*w;}}}
+  S=N;
+ }
+ let tot=0;F.forEach(x=>x.forEach(v=>tot+=v));
+ const lw={};
+ for(const ev of EVS){let v=0;
+  for(const b of BASES)for(let o=0;o<3;o++){const f=F[bidx(b)][o]/tot; if(f<1e-12)continue;
+   for(const[ns,oa,rr,w]of trans(b,ev,g,dp,o)){const no=o+oa;
+    v+=f*w*(rr+(no>=3?0:RE[bidx(ns)][no])-RE[bidx(b)][o]);}}
+  lw[ev]=v;}
+ out.lw=lw;
+ return out;
+}
+function applyPark(e,f){
+ return {...e, BABIP:e.BABIP*f.avg, HR:e.HR*f.hr, B2:e.B2*f.d2, B3:e.B3*f.d3};
+}
+const PRESETS=['Sabermetric','Moderate Sabermetric','Balanced','Traditional','Moderate Small Ball','Small Ball'];
+// The model runs 2-9% under each era's stated R/G (it doesn't credit errors, WP/PB, or
+// extra advancement). So absolute R/G is reported on the STATED scale, moved by the
+// model's RELATIVE response to the park: RG = stated x (model_park / model_neutral).
+function evaluate(rates, statedRG, parkF){
+ const neutral=analyze(rates);
+ const m = parkF ? analyze(applyPark(rates,parkF)) : neutral;
+ const RG = statedRG * (m.RG/neutral.RG);
+ const b=m.bunt_12_0; let i;
+ if(b>=0.090)i=5; else if(b>=0.045)i=4; else if(b>=0.025)i=3;
+ else if(b>=0.005)i=2; else if(b>=-0.030)i=1; else i=0;
+ const notes=[];
+ if(RG<4.05&&i<5){i++;notes.push(`bumped +1 toward small ball (R/G ${RG.toFixed(2)} < 4.05)`);}
+ if(m.rates.K>=0.20&&i>2){i=2;notes.push(`capped at Balanced (K rate ${(m.rates.K*100).toFixed(1)}% strands runners)`);}
+ return {...m, RG, preset:PRESETS[i], pi:i, notes, neutral};
+}
+
+
+const D=[{"year": 1919, "src": "CardLab", "R_g": 4.14811, "K_pa": 0.073, "HR_pa": 0.0058559486, "BABIP": 0.28553, "RE_start": 0.4222245857299278, "bunt_1_0": -0.1901311048182864, "bunt_12_0": 0.1283986303986808, "SBBE0": 0.7649256238120471, "SBBE1": 0.7252970028768229, "SBBE2": 0.6396661720138199, "preset": "Small Ball", "note": "", "n": 2, "events": [{"name": "Daily Deadball", "dh": false, "tier": "Open", "sizes": [64], "multi": false}, {"name": "Daily Low Gold", "dh": false, "tier": "Gold", "sizes": [64], "multi": false}], "rates": {"K": 0.073, "BB": 0.07311, "HBP": 0.00643, "HR": 0.00691, "B2": 0.04146, "B3": 0.01516, "BABIP": 0.28553}}, {"year": 1942, "src": "MLB-derived", "R_g": 4.17, "K_pa": 0.0757734661772417, "HR_pa": 0.0112241030781129, "BABIP": 0.2664281067013663, "RE_start": 0.4141787594474736, "bunt_1_0": -0.1888747393540246, "bunt_12_0": 0.1193305147991485, "SBBE0": 0.7687624353733759, "SBBE1": 0.7328494883810821, "SBBE2": 0.6566158448069246, "preset": "Small Ball", "note": "", "n": 1, "events": [{"name": "Daily Wide Open", "dh": true, "tier": "Open", "sizes": [64], "multi": true}], "rates": {"K": 0.075773, "BB": 0.088359, "HBP": 0.003146, "HR": 0.013479, "B2": 0.044288, "B3": 0.009628, "BABIP": 0.266428}}, {"year": 1944, "src": "CardLab", "R_g": 4.20535, "K_pa": 0.07651, "HR_pa": 0.0104436882, "BABIP": 0.27256, "RE_start": 0.4233476481560938, "bunt_1_0": -0.1927745537456799, "bunt_12_0": 0.1149047235884297, "SBBE0": 0.7700532819717575, "SBBE1": 0.7334026649789482, "SBBE2": 0.6553948886046818, "preset": "Small Ball", "note": "", "n": 1, "events": [{"name": "Thursday Silver Spectacular", "dh": false, "tier": "Weekly", "sizes": [128, 256], "multi": false}], "rates": {"K": 0.07651, "BB": 0.087, "HBP": 0.00366, "HR": 0.01254, "B2": 0.04397, "B3": 0.01029, "BABIP": 0.27256}}, {"year": 1933, "src": "MLB-derived", "R_g": 4.55, "K_pa": 0.0706493506493506, "HR_pa": 0.0114238592186668, "BABIP": 0.2831325301204819, "RE_start": 0.4618358787839783, "bunt_1_0": -0.2093845948696222, "bunt_12_0": 0.1015804469735721, "SBBE0": 0.7782798897502434, "SBBE1": 0.7437978920648507, "SBBE2": 0.6707472583262676, "preset": "Small Ball", "note": "", "n": 1, "events": [{"name": "Daily Open High Cap", "dh": true, "tier": "Open", "sizes": [32, 64], "multi": true}], "rates": {"K": 0.070649, "BB": 0.076104, "HBP": 0.003896, "HR": 0.01345, "B2": 0.049734, "B3": 0.013137, "BABIP": 0.283133}}, {"year": 1927, "src": "CardLab", "R_g": 5.0171, "K_pa": 0.05278, "HR_pa": 0.0119037188, "BABIP": 0.29205, "RE_start": 0.5229215488700232, "bunt_1_0": -0.2382830666152889, "bunt_12_0": 0.0712695483252408, "SBBE0": 0.7907543284864663, "SBBE1": 0.7582820010433999, "SBBE2": 0.6877498087777499, "preset": "Moderate Small Ball", "note": "", "n": 1, "events": [{"name": "Daily Bronze Cap", "dh": true, "tier": "Bronze", "sizes": [32, 64], "multi": false}], "rates": {"K": 0.05278, "BB": 0.08099, "HBP": 0.00489, "HR": 0.01382, "B2": 0.05008, "B3": 0.01426, "BABIP": 0.29205}}, {"year": 1968, "src": "CardLab", "R_g": 3.93896, "K_pa": 0.15434, "HR_pa": 0.0204930199999999, "BABIP": 0.27539, "RE_start": 0.4157805082783899, "bunt_1_0": -0.1876356385411883, "bunt_12_0": 0.0672615689715816, "SBBE0": 0.7771363401837013, "SBBE1": 0.7427965942617578, "SBBE2": 0.6786757319099052, "preset": "Small Ball", "note": "bumped +1 toward small ball (R/G 3.94 < 4.05)", "n": 4, "events": [{"name": "Daily Iron Lunchpail", "dh": false, "tier": "Iron", "sizes": [64], "multi": false}, {"name": "Daily Wide Open", "dh": true, "tier": "Open", "sizes": [64], "multi": true}, {"name": "Monday Night Gold Rush", "dh": true, "tier": "Weekly", "sizes": [128], "multi": true}, {"name": "Thursday Gold Time Machine Cap", "dh": false, "tier": "Weekly", "sizes": [128], "multi": true}], "rates": {"K": 0.15434, "BB": 0.08355, "HBP": 0.00591, "HR": 0.0271, "B2": 0.04427, "B3": 0.0081, "BABIP": 0.27539}}, {"year": 1928, "src": "CardLab", "R_g": 5.05667, "K_pa": 0.05619, "HR_pa": 0.0122832747, "BABIP": 0.29363, "RE_start": 0.5274842345844118, "bunt_1_0": -0.2404673636739752, "bunt_12_0": 0.0664490893519385, "SBBE0": 0.7922438321803247, "SBBE1": 0.7600744403754276, "SBBE2": 0.6903839336350299, "preset": "Moderate Small Ball", "note": "", "n": 1, "events": [{"name": "Tuesday Overnight Under The Covers", "dh": true, "tier": "Weekly", "sizes": [128], "multi": true}], "rates": {"K": 0.05619, "BB": 0.08052, "HBP": 0.00492, "HR": 0.01431, "B2": 0.05107, "B3": 0.01456, "BABIP": 0.29363}}, {"year": 1971, "src": "CardLab", "R_g": 4.04317, "K_pa": 0.14577, "HR_pa": 0.020518776, "BABIP": 0.27735, "RE_start": 0.4325254568894633, "bunt_1_0": -0.1964670216486402, "bunt_12_0": 0.0583893260105201, "SBBE0": 0.7814496060298514, "SBBE1": 0.7472906338574252, "SBBE2": 0.682503097422196, "preset": "Small Ball", "note": "bumped +1 toward small ball (R/G 4.04 < 4.05)", "n": 1, "events": [{"name": "Daily Early Bronze", "dh": false, "tier": "Bronze", "sizes": [64], "multi": false}], "rates": {"K": 0.14577, "BB": 0.08796, "HBP": 0.00547, "HR": 0.02697, "B2": 0.04456, "B3": 0.0074, "BABIP": 0.27735}}, {"year": 1980, "src": "CardLab", "R_g": 4.24657, "K_pa": 0.12672, "HR_pa": 0.0195433791, "BABIP": 0.28337, "RE_start": 0.4581093298194836, "bunt_1_0": -0.2081488880291996, "bunt_12_0": 0.057881671282999, "SBBE0": 0.7854317551527717, "SBBE1": 0.751912832812632, "SBBE2": 0.6864256605369061, "preset": "Moderate Small Ball", "note": "", "n": 1, "events": [{"name": "Daily Low Diamond", "dh": true, "tier": "Diamond", "sizes": [128], "multi": true}], "rates": {"K": 0.12672, "BB": 0.08363, "HBP": 0.00446, "HR": 0.02489, "B2": 0.04984, "B3": 0.00816, "BABIP": 0.28337}}, {"year": 1981, "src": "CardLab", "R_g": 4.29159, "K_pa": 0.12871, "HR_pa": 0.0199643444, "BABIP": 0.28448, "RE_start": 0.4615674771733043, "bunt_1_0": -0.2097311643059035, "bunt_12_0": 0.0543728748511327, "SBBE0": 0.7865299469761214, "SBBE1": 0.7531595025756813, "SBBE2": 0.6882287750687667, "preset": "Moderate Small Ball", "note": "", "n": 1, "events": [{"name": "Tuesday Sporer's Sandlot", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}], "rates": {"K": 0.12871, "BB": 0.08336, "HBP": 0.0044, "HR": 0.02548, "B2": 0.05032, "B3": 0.00817, "BABIP": 0.28448}}, {"year": 1969, "src": "MLB-derived", "R_g": 4.07, "K_pa": 0.1515231092436974, "HR_pa": 0.0213287442636629, "BABIP": 0.2762773722627737, "RE_start": 0.4350417229443428, "bunt_1_0": -0.1986286776548277, "bunt_12_0": 0.0499493810660491, "SBBE0": 0.7841402227628603, "SBBE1": 0.7506647162473686, "SBBE2": 0.6876662809481041, "preset": "Moderate Small Ball", "note": "", "n": 1, "events": [{"name": "Saturday Deadball to Defensive Era", "dh": false, "tier": "Weekly", "sizes": [128], "multi": false}], "rates": {"K": 0.151523, "BB": 0.090599, "HBP": 0.00604, "HR": 0.028369, "B2": 0.043972, "B3": 0.007801, "BABIP": 0.276277}}, {"year": 1962, "src": "CardLab", "R_g": 4.24838, "K_pa": 0.14508, "HR_pa": 0.0232287396, "BABIP": 0.27765, "RE_start": 0.4502803078294777, "bunt_1_0": -0.2042774178794727, "bunt_12_0": 0.0478287003432811, "SBBE0": 0.7866048076300405, "SBBE1": 0.7544906532134942, "SBBE2": 0.6945432119040416, "preset": "Moderate Small Ball", "note": "", "n": 1, "events": [{"name": "Friday Return of the Blue Meanie Cap", "dh": false, "tier": "Weekly", "sizes": [128], "multi": false}], "rates": {"K": 0.14508, "BB": 0.08428, "HBP": 0.00553, "HR": 0.03036, "B2": 0.04573, "B3": 0.0086, "BABIP": 0.27765}}, {"year": 1983, "src": "MLB-derived", "R_g": 4.31, "K_pa": 0.1352415966386554, "HR_pa": 0.020742829505903, "BABIP": 0.2851108764519536, "RE_start": 0.4651451397041657, "bunt_1_0": -0.2121373936814894, "bunt_12_0": 0.0463755535884444, "SBBE0": 0.7892977535910302, "SBBE1": 0.7565211664846171, "SBBE2": 0.6932450259209092, "preset": "Moderate Small Ball", "note": "", "n": 1, "events": [{"name": "Daily Return of the Bronze", "dh": true, "tier": "Bronze", "sizes": [64], "multi": false}], "rates": {"K": 0.135242, "BB": 0.084034, "HBP": 0.004464, "HR": 0.026721, "B2": 0.052415, "B3": 0.008222, "BABIP": 0.285111}}, {"year": 1960, "src": "MLB-derived", "R_g": 4.31, "K_pa": 0.1350364963503649, "HR_pa": 0.0227888606339837, "BABIP": 0.2764601769911504, "RE_start": 0.4637922694004343, "bunt_1_0": -0.2124039019602077, "bunt_12_0": 0.0419432309764673, "SBBE0": 0.7911247838104885, "SBBE1": 0.7601730815589868, "SBBE2": 0.7009360768400652, "preset": "Traditional", "note": "", "n": 2, "events": [{"name": "Daily Early Silver II", "dh": false, "tier": "Silver", "sizes": [64], "multi": false}, {"name": "Daily Non-Live Silver", "dh": false, "tier": "Silver", "sizes": [64], "multi": false}], "rates": {"K": 0.135036, "BB": 0.088373, "HBP": 0.005214, "HR": 0.029543, "B2": 0.04775, "B3": 0.009275, "BABIP": 0.27646}}, {"year": 1955, "src": "CardLab", "R_g": 4.44612, "K_pa": 0.1147, "HR_pa": 0.0225151598999999, "BABIP": 0.2754, "RE_start": 0.4834593520436308, "bunt_1_0": -0.2219018742310833, "bunt_12_0": 0.0399129702087994, "SBBE0": 0.7937711349316672, "SBBE1": 0.7635139889387801, "SBBE2": 0.7038855020249849, "preset": "Traditional", "note": "", "n": 1, "events": [{"name": "Thursday Gold Time Machine Cap", "dh": false, "tier": "Weekly", "sizes": [128], "multi": true}], "rates": {"K": 0.1147, "BB": 0.09209, "HBP": 0.00514, "HR": 0.02857, "B2": 0.04536, "B3": 0.00961, "BABIP": 0.2754}}, {"year": 1979, "src": "MLB-derived", "R_g": 4.46, "K_pa": 0.1248037676609105, "HR_pa": 0.0217811262436008, "BABIP": 0.2858136300417245, "RE_start": 0.4858574450262192, "bunt_1_0": -0.2217715181043045, "bunt_12_0": 0.0383423939523903, "SBBE0": 0.7933251127544186, "SBBE1": 0.761510347527388, "SBBE2": 0.6995699604116299, "preset": "Traditional", "note": "", "n": 1, "events": [{"name": "Saturday Up Late With Snapshots", "dh": true, "tier": "Weekly", "sizes": [128], "multi": true}], "rates": {"K": 0.124804, "BB": 0.084772, "HBP": 0.00471, "HR": 0.027721, "B2": 0.051724, "B3": 0.008452, "BABIP": 0.285814}}, {"year": 1987, "src": "CardLab", "R_g": 4.34607, "K_pa": 0.14857, "HR_pa": 0.0226456054, "BABIP": 0.28403, "RE_start": 0.4642104216344836, "bunt_1_0": -0.2124295426891497, "bunt_12_0": 0.0349310582443402, "SBBE0": 0.7919523551524928, "SBBE1": 0.7596392343609514, "SBBE2": 0.6987568734616603, "preset": "Traditional", "note": "", "n": 2, "events": [{"name": "Daily Early Iron", "dh": false, "tier": "Iron", "sizes": [64, 128], "multi": false}, {"name": "Daily Silver Only", "dh": true, "tier": "Silver", "sizes": [64], "multi": false}], "rates": {"K": 0.14857, "BB": 0.08592, "HBP": 0.00508, "HR": 0.02978, "B2": 0.05315, "B3": 0.00724, "BABIP": 0.28403}}, {"year": 1992, "src": "CardLab", "R_g": 4.42082, "K_pa": 0.15105, "HR_pa": 0.0218495559999999, "BABIP": 0.28963, "RE_start": 0.4745052587603609, "bunt_1_0": -0.218149461586075, "bunt_12_0": 0.0257964918988513, "SBBE0": 0.7949413039244297, "SBBE1": 0.7622080284994269, "SBBE2": 0.7000868903300527, "preset": "Traditional", "note": "", "n": 1, "events": [{"name": "Daily Early Silver", "dh": true, "tier": "Silver", "sizes": [64], "multi": false}], "rates": {"K": 0.15105, "BB": 0.08679, "HBP": 0.00612, "HR": 0.0289, "B2": 0.05548, "B3": 0.00723, "BABIP": 0.28963}}, {"year": 1986, "src": "MLB-derived", "R_g": 4.41, "K_pa": 0.1535041841004184, "HR_pa": 0.0240982998781844, "BABIP": 0.2855067199418815, "RE_start": 0.476822059572747, "bunt_1_0": -0.2192471006241892, "bunt_12_0": 0.0204461311477146, "SBBE0": 0.7968852306274931, "SBBE1": 0.7652945412054165, "SBBE2": 0.7063679109487867, "preset": "Balanced", "note": "", "n": 1, "events": [{"name": "Daily Diamond", "dh": true, "tier": "Diamond", "sizes": [64], "multi": true}], "rates": {"K": 0.153504, "BB": 0.088389, "HBP": 0.004969, "HR": 0.031997, "B2": 0.054501, "B3": 0.007032, "BABIP": 0.285507}}, {"year": 1993, "src": "CardLab", "R_g": 4.5401, "K_pa": 0.15373, "HR_pa": 0.0229191311999999, "BABIP": 0.29198, "RE_start": 0.4877434560417716, "bunt_1_0": -0.2249318398189714, "bunt_12_0": 0.013549982142943, "SBBE0": 0.7991239685310912, "SBBE1": 0.7669246016194528, "SBBE2": 0.7061820642918478, "preset": "Balanced", "note": "", "n": 1, "events": [{"name": "Friday All That and a Bag of Chips Cap", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}], "rates": {"K": 0.15373, "BB": 0.0877, "HBP": 0.00663, "HR": 0.03048, "B2": 0.05675, "B3": 0.00717, "BABIP": 0.29198}}, {"year": 1996, "src": "CardLab", "R_g": 4.87037, "K_pa": 0.16581, "HR_pa": 0.0267436619999999, "BABIP": 0.30022, "RE_start": 0.529394467544326, "bunt_1_0": -0.2460951924723312, "bunt_12_0": -0.0267722717010243, "SBBE0": 0.8120118997759139, "SBBE1": 0.7812193991050971, "SBBE2": 0.7247938947409782, "preset": "Moderate Sabermetric", "note": "", "n": 1, "events": [{"name": "Daily Diamond", "dh": true, "tier": "Diamond", "sizes": [64], "multi": true}], "rates": {"K": 0.16581, "BB": 0.0895, "HBP": 0.00795, "HR": 0.0363, "B2": 0.06177, "B3": 0.00678, "BABIP": 0.30022}}, {"year": 0, "src": "PT default", "R_g": 4.46182, "K_pa": 0.22649, "HR_pa": 0.0308202821999999, "BABIP": 0.29169, "RE_start": 0.470702191493371, "bunt_1_0": -0.2195346565657467, "bunt_12_0": -0.0320928854618713, "SBBE0": 0.8091779140490778, "SBBE1": 0.7783499265903309, "SBBE2": 0.7285976243693383, "preset": "Sabermetric", "note": "", "n": 49, "events": [{"name": "Daily Bronze Only Cap", "dh": true, "tier": "Bronze", "sizes": [64], "multi": false}, {"name": "Daily Diamond Cap", "dh": true, "tier": "Diamond", "sizes": [64], "multi": false}, {"name": "Daily Diamond Only", "dh": true, "tier": "Diamond", "sizes": [64], "multi": false}, {"name": "Daily Early Bronze II", "dh": true, "tier": "Bronze", "sizes": [64], "multi": false}, {"name": "Daily Early Gold", "dh": true, "tier": "Gold", "sizes": [64], "multi": false}, {"name": "Daily Early Iron II", "dh": true, "tier": "Iron", "sizes": [64], "multi": false}, {"name": "Daily Gold", "dh": true, "tier": "Gold", "sizes": [128], "multi": false}, {"name": "Daily Gold Cap", "dh": true, "tier": "Gold", "sizes": [32, 64], "multi": false}, {"name": "Daily Gold Only", "dh": true, "tier": "Gold", "sizes": [64], "multi": false}, {"name": "Daily Iron Cap", "dh": true, "tier": "Iron", "sizes": [32, 64], "multi": false}, {"name": "Daily Late Bronze", "dh": true, "tier": "Bronze", "sizes": [64, 128], "multi": false}, {"name": "Daily Late Bronze II", "dh": true, "tier": "Bronze", "sizes": [64], "multi": false}, {"name": "Daily Late Iron", "dh": true, "tier": "Iron", "sizes": [64], "multi": false}, {"name": "Daily Late Iron II", "dh": true, "tier": "Iron", "sizes": [64], "multi": false}, {"name": "Daily Live Bronze", "dh": true, "tier": "Bronze", "sizes": [64], "multi": false}, {"name": "Daily Live Diamond", "dh": true, "tier": "Diamond", "sizes": [64], "multi": false}, {"name": "Daily Live Gold", "dh": true, "tier": "Gold", "sizes": [64], "multi": false}, {"name": "Daily Live Iron", "dh": true, "tier": "Iron", "sizes": [64], "multi": false}, {"name": "Daily Live Low Diamond", "dh": true, "tier": "Diamond", "sizes": [64], "multi": false}, {"name": "Daily Live Open", "dh": true, "tier": "Open", "sizes": [128], "multi": false}, {"name": "Daily Live Silver", "dh": true, "tier": "Silver", "sizes": [64], "multi": false}, {"name": "Daily Low Bronze Up To 1969", "dh": false, "tier": "Bronze", "sizes": [64], "multi": false}, {"name": "Daily Low Diamond", "dh": true, "tier": "Diamond", "sizes": [128], "multi": true}, {"name": "Daily Low Iron", "dh": true, "tier": "Iron", "sizes": [64], "multi": false}, {"name": "Daily Low Silver", "dh": true, "tier": "Silver", "sizes": [64], "multi": false}, {"name": "Daily Non-Live Bronze", "dh": true, "tier": "Bronze", "sizes": [64], "multi": false}, {"name": "Daily Non-Live Iron", "dh": true, "tier": "Iron", "sizes": [64], "multi": false}, {"name": "Daily Non-Live Open", "dh": true, "tier": "Open", "sizes": [64], "multi": false}, {"name": "Daily Open High Cap", "dh": true, "tier": "Open", "sizes": [64], "multi": true}, {"name": "Daily Open Low Cap", "dh": true, "tier": "Open", "sizes": [32, 64], "multi": false}, {"name": "Daily Silver Only Cap", "dh": true, "tier": "Silver", "sizes": [64], "multi": false}, {"name": "Daily Silver and Gold Only Cap", "dh": true, "tier": "Gold", "sizes": [32, 64], "multi": false}, {"name": "Daily Super Silver Supper", "dh": true, "tier": "Silver", "sizes": [64, 128], "multi": false}, {"name": "Friday Gold Cap", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}, {"name": "Friday Night Live", "dh": true, "tier": "Weekly", "sizes": [128, 256], "multi": false}, {"name": "Monday Morning Mashup", "dh": false, "tier": "Weekly", "sizes": [128], "multi": false}, {"name": "Monday Night Gold Rush", "dh": true, "tier": "Weekly", "sizes": [128], "multi": true}, {"name": "Monday Up and At Them Bronze", "dh": true, "tier": "Weekly", "sizes": [256], "multi": true}, {"name": "Saturday Iron Warriors", "dh": true, "tier": "Weekly", "sizes": [256], "multi": false}, {"name": "Saturday Sleepless Silver Only", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}, {"name": "Saturday Up Late With Snapshots", "dh": true, "tier": "Weekly", "sizes": [128], "multi": true}, {"name": "Sunday Bronze Brunch Cap", "dh": false, "tier": "Weekly", "sizes": [128], "multi": false}, {"name": "Sunday High Gold and Diamond Only Cap", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}, {"name": "Sunday Open Main Event", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}, {"name": "The Dank Wednesday Night", "dh": true, "tier": "Weekly", "sizes": [128, 256], "multi": false}, {"name": "Thursday Live Cap", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}, {"name": "Tuesday Ice To See You", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}, {"name": "Tuesday Overnight Under The Covers", "dh": true, "tier": "Weekly", "sizes": [128], "multi": true}, {"name": "Wednesday Low Diamond Extravaganza", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}], "rates": {"K": 0.22649, "BB": 0.08503, "HBP": 0.01126, "HR": 0.04551, "B2": 0.06364, "B3": 0.00536, "BABIP": 0.29169}}, {"year": 2000, "src": "CardLab", "R_g": 4.88203, "K_pa": 0.16794, "HR_pa": 0.028416925, "BABIP": 0.29805, "RE_start": 0.5370462567097026, "bunt_1_0": -0.2505733650879416, "bunt_12_0": -0.0361339459193783, "SBBE0": 0.8157461557148319, "SBBE1": 0.7859730970569272, "SBBE2": 0.7319459470632349, "preset": "Sabermetric", "note": "", "n": 1, "events": [{"name": "Saturday Low Gold Power To Live Plus", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}], "rates": {"K": 0.16794, "BB": 0.0898, "HBP": 0.00892, "HR": 0.03875, "B2": 0.06351, "B3": 0.00668, "BABIP": 0.29805}}, {"year": 1999, "src": "CardLab", "R_g": 4.91389, "K_pa": 0.1684, "HR_pa": 0.0283018831999999, "BABIP": 0.29972, "RE_start": 0.5399416587302941, "bunt_1_0": -0.2518822269846218, "bunt_12_0": -0.0381410651000175, "SBBE0": 0.8160665332084194, "SBBE1": 0.7860939241306079, "SBBE2": 0.7316974021000562, "preset": "Sabermetric", "note": "", "n": 5, "events": [{"name": "Daily Bronze Only Historical", "dh": true, "tier": "Bronze", "sizes": [64], "multi": false}, {"name": "Daily Late Gold", "dh": false, "tier": "Gold", "sizes": [64], "multi": false}, {"name": "Daily Non-Live Gold", "dh": false, "tier": "Gold", "sizes": [64], "multi": false}, {"name": "Daily Silver Cap", "dh": true, "tier": "Silver", "sizes": [32, 64], "multi": false}, {"name": "Wednesday OOTP Era Cap", "dh": true, "tier": "Weekly", "sizes": [128], "multi": false}], "rates": {"K": 0.1684, "BB": 0.09025, "HBP": 0.00871, "HR": 0.03863, "B2": 0.06336, "B3": 0.00668, "BABIP": 0.29972}}, {"year": 1998, "src": "CardLab", "R_g": 4.96558, "K_pa": 0.16679, "HR_pa": 0.028059884, "BABIP": 0.30079, "RE_start": 0.5434393979126577, "bunt_1_0": -0.2535394201340724, "bunt_12_0": -0.0394924336666109, "SBBE0": 0.816330136545105, "SBBE1": 0.7862021953053078, "SBBE2": 0.7312955231663877, "preset": "Sabermetric", "note": "", "n": 2, "events": [{"name": "Daily Gold Only Cap", "dh": true, "tier": "Gold", "sizes": [64], "multi": false}, {"name": "Daily Iron 1970-2024", "dh": true, "tier": "Iron", "sizes": [64], "multi": false}], "rates": {"K": 0.16679, "BB": 0.09154, "HBP": 0.00827, "HR": 0.03826, "B2": 0.06275, "B3": 0.00665, "BABIP": 0.30079}}, {"year": 2019, "src": "CardLab", "R_g": 4.61793, "K_pa": 0.22586, "HR_pa": 0.0331446927, "BABIP": 0.29609, "RE_start": 0.4990429516229718, "bunt_1_0": -0.2336819348550518, "bunt_12_0": -0.053154328178133, "SBBE0": 0.8169142501109105, "SBBE1": 0.7870448239256296, "SBBE2": 0.7393924338571959, "preset": "Sabermetric", "note": "", "n": 2, "events": [{"name": "Monday Up and At Them Bronze", "dh": true, "tier": "Weekly", "sizes": [256], "multi": true}, {"name": "Saturday High Bronze Only Nightmares", "dh": true, "tier": "Weekly", "sizes": [128, 256], "multi": false}], "rates": {"K": 0.22586, "BB": 0.08607, "HBP": 0.01068, "HR": 0.04893, "B2": 0.06583, "B3": 0.00604, "BABIP": 0.29609}}];
+const P=PRESETS, pi=n=>P.indexOf(n);
+const TH=['bunt &lt; -0.030','-0.030 to 0.005','0.005 to 0.025','0.025 to 0.045','0.045 to 0.090','bunt &ge; 0.090'];
+const CL=['var(--sab)','var(--sab2)','var(--neu)','var(--sb2)','var(--sb)','var(--sb)'];
+const pct=v=>(v*100).toFixed(1)+'%', sg=v=>`<span class="${v>0?'pos':'neg'}">${v>0?'+':''}${v.toFixed(3)}</span>`;
+
+const byP={}; D.forEach(e=>{(byP[e.preset]=byP[e.preset]||[]).push(e.year===0?'PT default':e.year)});
+ladder.innerHTML=P.map((n,i)=>`<div class="rung" style="--c:${CL[i]}"><div class="nm">${n}</div>
+ <div class="th">${TH[i]}</div><div class="yr">${(byP[n]||['—']).join(' · ')}</div></div>`).join('');
+
+/* ---------- calculator ---------- */
+cEra.innerHTML=D.map(e=>`<option value="${e.year}"${e.year===1955?' selected':''}>${e.year===0?'PT default (modern)':e.year} — ${e.preset}</option>`).join('');
+const V=id=>{const x=parseFloat(document.getElementById(id).value);return isFinite(x)&&x>0?x:1;};
+function calc(){
+ const e=D.find(x=>x.year===+cEra.value);
+ const L=parseFloat(lean.value), R=1-L;
+ const f={avg:V('avgL')*L+V('avgR')*R, hr:V('hrL')*L+V('hrR')*R, d2:V('d2'), d3:V('d3')};
+ const n=evaluate(e.rates,e.R_g), p=evaluate(e.rates,e.R_g,f);
+ vFrom.className='pill p'+pi(n.preset); vFrom.textContent=n.preset;
+ vTo.className='pill big p'+pi(p.preset); vTo.textContent=p.preset;
+ const shift=pi(p.preset)-pi(n.preset);
+ vRG.innerHTML=`${n.RG.toFixed(2)} → <b style="color:var(--tx)">${p.RG.toFixed(2)}</b> R/G`+
+   (shift?`<div style="margin-top:6px;color:${shift>0?'var(--sb)':'var(--sab)'}">${Math.abs(shift)} notch${Math.abs(shift)>1?'es':''} ${shift>0?'toward small ball':'toward sabermetric'}</div>`
+        :`<div style="margin-top:6px;color:var(--tx3)">park doesn't move the call</div>`);
+ vNotes.innerHTML=p.notes.length?`<div class="adj">${p.notes.map(x=>`<span>${x}</span>`).join('')}</div>`:'';
+
+ // deltas are sign-only on purpose: "higher" is good for bunt value and bad for steal
+ // break-even, so colouring them would imply a direction the number doesn't carry.
+ const d=(a,b)=>{const q=b-a;return `<span class="dlt">${q>0?'+':''}${q.toFixed(3)}</span>`;};
+ const rows=[
+  ['Bunt, 1st &amp; 2nd, 0 out','the number that decides it',n.bunt_12_0,p.bunt_12_0,3],
+  ['Bunt, 1st only, 0 out','',n.bunt_1_0,p.bunt_1_0,3],
+  ['Bunt, 2nd to 3rd, 0 out','',n.bunt_2_0,p.bunt_2_0,3],
+  ['Steal break-even, 0 out','',n.SBBE0,p.SBBE0,'%'],
+  ['Steal break-even, 1 out','',n.SBBE1,p.SBBE1,'%'],
+  ['Steal break-even, 2 out','',n.SBBE2,p.SBBE2,'%'],
+  ['HR rate','per PA',n.rates.HR,p.rates.HR,'%'],
+  ['Single rate','per PA',n.rates.B1,p.rates.B1,'%'],
+  ['Walk value','runs',n.lw.BB,p.lw.BB,3],
+  ['Strikeout cost','runs',n.lw.K,p.lw.K,3],
+  ['Out cost','runs',n.lw.OUT,p.lw.OUT,3],
+  ['Homer value','runs',n.lw.HR,p.lw.HR,3]];
+ mBody.innerHTML=rows.map(([k,s,a,b,fm])=>{
+   const f2=v=>fm==='%'?pct(v):v.toFixed(3);
+   return `<tr><td>${k}${s?`<small>${s}</small>`:''}</td><td>${f2(a)}</td>
+     <td style="color:var(--tx)">${f2(b)}</td><td>${d(a,b)}</td></tr>`;}).join('');
+
+ // what a card actually banks
+ const bank=(r,k)=>n.rates[r]*n.lw[k], bank2=(r,k)=>p.rates[r]*p.lw[k];
+ const chg=(r,k)=>100*(bank2(r,k)/bank(r,k)-1);
+ const fmt=v=>(v>0?'+':'')+v.toFixed(0)+'%';
+ vFlag.innerHTML=`<b>Per-PA output vs a neutral park:</b> homers ${fmt(chg('HR','HR'))}, singles ${fmt(chg('B1','B1'))}, doubles ${fmt(chg('B2','B2'))}. `+
+  (f.avg>1.02?`You can't buy the singles gain — the park hands it to every card and the contact rating is near noise. Buy what the park makes expensive to lack: K-avoidance and EYE.`
+   :f.avg<0.98?`A suppressed-average park makes each baserunner scarcer; POW and EYE carry more of the load.`
+   :`Average plays neutral here, so the HR factor drives everything.`)+
+  (Math.abs(V('hrL')-V('hrR'))>0.02?` HR splits ${V('hrL').toFixed(3)}/${V('hrR').toFixed(3)} — ${V('hrL')>V('hrR')?'right':'left'}-handed power is taxed harder, so tilt your thump ${V('hrL')>V('hrR')?'left':'right'}.`:'');
+
+ // sensitivity on how much of AVG lands on BABIP
+ vSens.innerHTML='<span style="border:0;background:none;padding-left:0;color:var(--tx3)">If AVG lands at…</span>'+
+  [1,0.75,0.5,0].map(s=>{const a=1+(f.avg-1)*s;
+    const r=evaluate(e.rates,e.R_g,{...f,avg:a});
+    return `<span>${a.toFixed(3)} → <b style="color:${CL[pi(r.preset)]}">${r.preset}</b></span>`;}).join('');
+}
+['cEra','avgL','avgR','hrL','hrR','d2','d3','lean'].forEach(id=>{
+  const el=document.getElementById(id); el.oninput=calc; el.onchange=calc;});
+reset.onclick=()=>{['avgL','avgR','hrL','hrR','d2','d3'].forEach(id=>document.getElementById(id).value='1.000');calc();};
+
+/* ---------- lookup ---------- */
+let st={q:'',hist:false,expand:false}; const open=new Set();
+function draw(){
+ const q=st.q;
+ const rows=D.map(e=>({e,show:(!q||e.events.some(v=>v.name.toLowerCase().includes(q)))&&(!st.hist||e.year>0)}))
+             .filter(r=>r.show);
+ cnt.textContent=rows.length+' of 26 environments';
+ list.innerHTML=rows.map(({e})=>{
+  const i=pi(e.preset), isOpen=st.expand||q||open.has(e.year), tags=[];
+  if(e.note)tags.push(`<span>${e.note}</span>`);
+  if(e.events.some(v=>!v.dh))tags.push(`<span class="t">no DH → try Moderate Tactician</span>`);
+  if(e.events.some(v=>v.tier==='Iron'||v.tier==='Bronze'))tags.push(`<span>low tier → +1 toward small ball</span>`);
+  return `<div class="env ${isOpen?'open':''}" style="--c:${CL[i]}" data-y="${e.year}">
+   <div class="hd">
+    <div class="yrbig">${e.year===0?'Default':e.year}<small>${e.year===0?'MODERN PT RE':e.src.toUpperCase()}</small></div>
+    <div class="stats">
+      <div class="st"><div class="k">R/G</div><div class="v">${e.R_g.toFixed(2)}</div></div>
+      <div class="st"><div class="k">K%</div><div class="v">${pct(e.K_pa)}</div></div>
+      <div class="st"><div class="k">HR%</div><div class="v">${pct(e.HR_pa)}</div></div>
+      <div class="st"><div class="k">Bunt 1&amp;2</div><div class="v">${sg(e.bunt_12_0)}</div></div>
+      <div class="st"><div class="k">Bunt 1st</div><div class="v">${sg(e.bunt_1_0)}</div></div>
+      <div class="st"><div class="k">SB break-even</div><div class="v">${pct(e.SBBE0)}</div></div>
+    </div>
+    <div class="right"><span class="pill p${i}">${e.preset}</span>
+      <span class="cntx">${e.n} tournament${e.n>1?'s':''} ${isOpen?'▾':'▸'}</span></div>
+   </div>
+   <div class="body"><div class="evs">${e.events.map(v=>{
+     const hit=q&&v.name.toLowerCase().includes(q);
+     return `<span class="ev ${hit?'hit':''}"><b>${v.name}</b> · ${v.sizes.join('/')}${!v.dh?' <span class="x">no DH</span>':''}${v.multi?' <span class="x">also elsewhere</span>':''}</span>`;
+   }).join('')}</div>${tags.length?`<div class="adj">${tags.join('')}</div>`:''}</div></div>`;
+ }).join('');
+ document.querySelectorAll('.hd').forEach(h=>h.onclick=()=>{
+   const y=+h.parentElement.dataset.y; open.has(y)?open.delete(y):open.add(y); draw();});
+}
+q.oninput=e=>{st.q=e.target.value.trim().toLowerCase();draw()};
+document.querySelectorAll('.tools .chip').forEach(c=>c.onclick=()=>{st[c.dataset.f]=!st[c.dataset.f];c.classList.toggle('on');draw()});
+draw(); calc();
+</script></div></body></html>

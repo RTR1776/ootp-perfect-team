@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>PT Card Lab — new card projector</title>
+<style>
+:root{--bg:#0c1016;--panel:#141b26;--panel2:#1b2533;--line:#27374d;--txt:#e6edf6;--mut:#8da2bd;
+--accent:#4ea3ff;--good:#3ddc97;--bad:#ff6b6b;--warn:#ffc857;--pur:#b07bff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+h1{font-size:23px;margin:0 0 2px}.sub{color:var(--mut);font-size:13px;margin-bottom:18px}
+.tabs{display:flex;gap:6px;margin-bottom:16px}
+.tab{background:var(--panel);border:1px solid var(--line);color:var(--mut);padding:8px 15px;border-radius:9px;cursor:pointer;font-weight:600;font-size:13px}
+.tab.on{background:var(--accent);color:#06121f;border-color:var(--accent)}
+.view{display:none}.view.on{display:block}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{margin:0 0 12px;font-size:14px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+.rrow{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.rrow label{width:78px;font-size:13px;font-weight:600}
+.rrow input[type=range]{flex:1}
+.rrow .v{width:42px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+input[type=number],select{background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:7px 9px;font-size:13px;width:100%}
+.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--panel2);border-radius:10px;padding:11px 12px}
+.stat .l{color:var(--mut);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px}
+.stat .n{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+.big .n{font-size:26px;color:var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:7px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--mut);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px}
+.pill{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;font-weight:700;margin-left:6px}
+.pill.warn{background:rgba(255,200,87,.18);color:var(--warn)}
+.pill.ok{background:rgba(61,220,151,.18);color:var(--good)}
+.note{color:var(--mut);font-size:12px;margin-top:10px;font-style:italic}
+.bar{height:7px;border-radius:4px;background:var(--panel2);overflow:hidden;margin-top:5px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.eq{font-family:ui-monospace,Menlo,monospace;background:var(--panel2);padding:10px 12px;border-radius:8px;font-size:12.5px;color:var(--good);margin:10px 0}
+.cmp{color:var(--mut);font-size:12px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><div class="wrap">
+<h1>PT Card Lab</h1>
+<div class="sub">Project any card — including one that dropped five minutes ago — straight from its ratings. Model reproduces the engine exactly (hitter OPS ±0.002, pitcher FIP ±0.00).</div>
+<div class="tabs">
+<div class="tab on" data-v="hit">Hitter</div><div class="tab" data-v="pit">Pitcher</div><div class="tab" data-v="eng">How the engine works</div>
+</div>
+
+<div class="view on" id="v-hit"><div class="grid">
+<div class="card"><h3>Ratings</h3><div id="hIn"></div>
+<h3 style="margin-top:16px">Context</h3><select id="hEra"></select>
+<div class="note">Era rescales the run environment — the same card plays differently in 1927 vs 2026.</div></div>
+<div><div class="statgrid" id="hStats"></div>
+<div class="card"><h3>Full line</h3><table id="hTbl"></table>
+<div class="note" id="hWarn"></div></div>
+<div class="card" style="margin-top:14px"><h3>What's driving it</h3><table id="hDrv"></table></div></div>
+</div></div>
+
+<div class="view" id="v-pit"><div class="grid">
+<div class="card"><h3>Ratings</h3><div id="pIn"></div>
+<h3 style="margin-top:16px">Context</h3><select id="pEra"></select></div>
+<div><div class="statgrid" id="pStats"></div>
+<div class="card"><h3>Full line</h3><table id="pTbl"></table><div class="note" id="pWarn"></div></div>
+<div class="card" style="margin-top:14px"><h3>What's driving it</h3><table id="pDrv"></table></div></div>
+</div></div>
+
+<div class="view" id="v-eng"><div class="card">
+<h3>The model</h3>
+<div class="eq">rate = env_rate &times; e<sup>&alpha;</sup> &times; (rating / 50)<sup>&beta;</sup></div>
+<p style="font-size:13.5px;color:var(--mut);margin:6px 0 16px">Every rating maps to one event rate through a power law fitted on real PT league results. <b style="color:var(--txt)">&beta;</b> is the elasticity — how hard that rating pulls. <b style="color:var(--txt)">R&sup2;</b> is how much the sim actually obeys it.</p>
+<table id="engT"></table>
+<div class="note">Ratings are on the ~50 = league-average scale. A rating of 100 is 2&times; average input, not 2&times; the output — the exponent decides that.</div>
+</div></div>
+
+</div>
+<script>
+const D={"curves":{"generatedAt":"2026-07-06T15:43:42","frame":"modern PT league (env_rate per component, splits pooled)","hit":{"k":{"alpha":0.6241,"beta":-0.7586,"r2":0.879,"n":192,"env_rate":0.19406,"rating_range":[60,230],"rating":"K"},"bb":{"alpha":-0.8156,"beta":1.0374,"r2":0.87,"n":192,"env_rate":0.08084,"rating_range":[37,204],"rating":"EYE"},"hr":{"alpha":-1.0714,"beta":1.3257,"r2":0.784,"n":190,"env_rate":0.03613,"rating_range":[4,160],"rating":"POW"},"xbh":{"alpha":-0.5883,"beta":0.7512,"r2":0.573,"n":192,"env_rate":0.07285,"rating_range":[34,164],"rating":"GAP"},"babip":{"alpha":-0.1466,"beta":0.1637,"r2":0.261,"n":192,"env_rate":0.30164,"rating_range":[51,164],"rating":"BA"},"xbh_3b_share":0.0943,"hbp_rate_env":0.00835},"pit":{"k":{"alpha":-0.4466,"beta":0.5251,"r2":0.677,"n":155,"env_rate":0.19416,"rating_range":[48,187],"rating":"STU"},"bb":{"alpha":0.6083,"beta":-0.9419,"r2":0.74,"n":155,"env_rate":0.08077,"rating_range":[22,158],"rating":"CON"},"hr":{"alpha":0.7531,"beta":-0.905,"r2":0.508,"n":154,"env_rate":0.0361,"rating_range":[53,169],"rating":"HRA"},"babip":{"alpha":0.0877,"beta":-0.1057,"r2":0.171,"n":155,"env_rate":0.30148,"rating_range":[50,175],"rating":"PBABIP"},"hbp_rate_env":0.00837}},"eras":{"season:pt_season":{"label":"PT Season (home: 2013 Citi Field)","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1927":{"label":"Daily Bronze Cap","K":0.05278,"BB":0.08099,"HBP":0.00489,"HR":0.01382,"B2":0.05008,"B3":0.01426,"BABIP":0.29205,"R":5.0171},"tournament:daily_bronze_only_cap":{"label":"Daily Bronze Only Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1999":{"label":"Daily Bronze Only Historical","K":0.1684,"BB":0.09025,"HBP":0.00871,"HR":0.03863,"B2":0.06336,"B3":0.00668,"BABIP":0.29972,"R":4.91389},"1971":{"label":"Daily Early Bronze","K":0.14577,"BB":0.08796,"HBP":0.00547,"HR":0.02697,"B2":0.04456,"B3":0.0074,"BABIP":0.27735,"R":4.04317},"1987":{"label":"Daily Early Iron","K":0.14857,"BB":0.08592,"HBP":0.00508,"HR":0.02978,"B2":0.05315,"B3":0.00724,"BABIP":0.28403,"R":4.34607},"1998":{"label":"Daily Iron 1970-2024","K":0.16679,"BB":0.09154,"HBP":0.00827,"HR":0.03826,"B2":0.06275,"B3":0.00665,"BABIP":0.30079,"R":4.96558},"tournament:daily_iron_cap":{"label":"Daily Iron Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1968":{"label":"Daily Iron Lunchpail","K":0.15434,"BB":0.08355,"HBP":0.00591,"HR":0.0271,"B2":0.04427,"B3":0.0081,"BABIP":0.27539,"R":3.93896},"tournament:daily_late_bronze":{"label":"Daily Late Bronze","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_late_iron":{"label":"Daily Late Iron","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_live_bronze":{"label":"Daily Live Bronze","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_live_iron":{"label":"Daily Live Iron","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_low_bronze_up_to_1969":{"label":"Daily Low Bronze Up To 1969","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_low_iron":{"label":"Daily Low Iron","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_non_live_bronze":{"label":"Daily Non-Live Bronze","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_non_live_iron":{"label":"Daily Non-Live Iron","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1992":{"label":"Daily Early Silver","K":0.15105,"BB":0.08679,"HBP":0.00612,"HR":0.0289,"B2":0.05548,"B3":0.00723,"BABIP":0.28963,"R":4.42082},"tournament:daily_gold":{"label":"Daily Gold","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_gold_cap":{"label":"Daily Gold Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_gold_only":{"label":"Daily Gold Only","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_live_gold":{"label":"Daily Live Gold","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_live_silver":{"label":"Daily Live Silver","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1919":{"label":"Daily Low Gold","K":0.073,"BB":0.07311,"HBP":0.00643,"HR":0.00691,"B2":0.04146,"B3":0.01516,"BABIP":0.28553,"R":4.14811},"tournament:daily_low_silver":{"label":"Daily Low Silver","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_silver_and_gold_only_cap":{"label":"Daily Silver and Gold Only Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_silver_only_cap":{"label":"Daily Silver Only Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_super_silver_supper":{"label":"Daily Super Silver Supper","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1996":{"label":"Daily Diamond","K":0.16581,"BB":0.0895,"HBP":0.00795,"HR":0.0363,"B2":0.06177,"B3":0.00678,"BABIP":0.30022,"R":4.87037},"tournament:daily_diamond_cap":{"label":"Daily Diamond Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_diamond_only":{"label":"Daily Diamond Only","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_live_diamond":{"label":"Daily Live Diamond","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_live_low_diamond":{"label":"Daily Live Low Diamond","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_live_open":{"label":"Daily Live Open","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1980":{"label":"Daily Low Diamond","K":0.12672,"BB":0.08363,"HBP":0.00446,"HR":0.02489,"B2":0.04984,"B3":0.00816,"BABIP":0.28337,"R":4.24657},"tournament:daily_non_live_open":{"label":"Daily Non-Live Open","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_open_high_cap":{"label":"Daily Open High Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:daily_open_low_cap":{"label":"Daily Open Low Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1993":{"label":"Friday All That and a Bag of Chips Cap","K":0.15373,"BB":0.0877,"HBP":0.00663,"HR":0.03048,"B2":0.05675,"B3":0.00717,"BABIP":0.29198,"R":4.5401},"tournament:friday_gold_cap":{"label":"Friday Gold Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:friday_night_live":{"label":"Friday Night Live","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:monday_morning_mashup":{"label":"Monday Morning Mashup","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:monday_up_and_at_them_bronze":{"label":"Monday Up and At Them Bronze","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:saturday_iron_warriors":{"label":"Saturday Iron Warriors","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"2000":{"label":"Saturday Low Gold Power To Live Plus","K":0.16794,"BB":0.0898,"HBP":0.00892,"HR":0.03875,"B2":0.06351,"B3":0.00668,"BABIP":0.29805,"R":4.88203},"tournament:saturday_sleepless_silver_only":{"label":"Saturday Sleepless Silver Only","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:saturday_up_late_with_snapshots":{"label":"Saturday Up Late With Snapshots","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:sunday_bronze_brunch_cap":{"label":"Sunday Bronze Brunch Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:sunday_high_gold_and_diamond_only_cap":{"label":"Sunday High Gold and Diamond Only Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:sunday_open_main_event":{"label":"Sunday Open Main Event","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"tournament:the_dank_wednesday_night":{"label":"The Dank Wednesday Night","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1955":{"label":"Thursday Gold Time Machine Cap","K":0.1147,"BB":0.09209,"HBP":0.00514,"HR":0.02857,"B2":0.04536,"B3":0.00961,"BABIP":0.2754,"R":4.44612},"tournament:thursday_live_cap":{"label":"Thursday Live Cap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1944":{"label":"Thursday Silver Spectacular","K":0.07651,"BB":0.087,"HBP":0.00366,"HR":0.01254,"B2":0.04397,"B3":0.01029,"BABIP":0.27256,"R":4.20535},"tournament:tuesday_ice_to_see_you":{"label":"Tuesday Ice To See You","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1928":{"label":"Tuesday Overnight Under The Covers","K":0.05619,"BB":0.08052,"HBP":0.00492,"HR":0.01431,"B2":0.05107,"B3":0.01456,"BABIP":0.29363,"R":5.05667},"1981":{"label":"Tuesday Sporer's Sandlot","K":0.12871,"BB":0.08336,"HBP":0.0044,"HR":0.02548,"B2":0.05032,"B3":0.00817,"BABIP":0.28448,"R":4.29159},"tournament:wednesday_low_diamond_extravaganza":{"label":"Wednesday Low Diamond Extravaganza","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:sunday_pd_main_event":{"label":"Sunday PD Main Event","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1970":{"label":"Tuesday Rocking Chair","K":0.14982,"BB":0.08588,"HBP":0.00574,"HR":0.02602,"B2":0.04396,"B3":0.00753,"BABIP":0.27508,"R":3.89961},"draft:tuesday_diamond_and_gold":{"label":"Tuesday Diamond and Gold","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:tuesday_after_dinner_silver_snack":{"label":"Tuesday After Dinner Silver Snack","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1962":{"label":"Wednesday It's Still Dark Out","K":0.14508,"BB":0.08428,"HBP":0.00553,"HR":0.03036,"B2":0.04573,"B3":0.0086,"BABIP":0.27765,"R":4.24838},"draft:wednesday_live":{"label":"Wednesday Live","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:wednesday_double_pd":{"label":"Wednesday Double PD","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:thursday_nearly_perfect_lunch_bunch":{"label":"Thursday Nearly Perfect Lunch Bunch","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:thursday_half_and_half":{"label":"Thursday Half and Half","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:friday_working_through_lunch":{"label":"Friday Working Through Lunch","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:friday_summer_hours":{"label":"Friday Summer Hours","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:friday_night_live_pd":{"label":"Friday Night Live PD","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1989":{"label":"Saturday Can't Sleep Clown Will Eat Me","K":0.14999,"BB":0.08564,"HBP":0.0054,"HR":0.02861,"B2":0.05334,"B3":0.00719,"BABIP":0.28519,"R":4.31206},"draft:twipt_saturday_showdown":{"label":"TWIPT Saturday Showdown","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"2007":{"label":"Sunday OOTP Brunch Spectacular","K":0.17164,"BB":0.08541,"HBP":0.00917,"HR":0.03673,"B2":0.06533,"B3":0.00671,"BABIP":0.29986,"R":4.70199},"draft:sunday_bbq_and_baseball":{"label":"Sunday BBQ and Baseball","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_pitchers_first":{"label":"Daily Pitchers First","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1991":{"label":"Daily Shiny Happy Silver Laughing","K":0.14919,"BB":0.08594,"HBP":0.00578,"HR":0.02718,"B2":0.05381,"B3":0.00718,"BABIP":0.28687,"R":4.28882},"draft:daily_all_silver_all_the_time":{"label":"Daily All-Silver All The Time","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_live_afternoon_nap":{"label":"Daily Live Afternoon Nap","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_rocking_chair_lunch":{"label":"Daily Rocking Chair Lunch","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_yada_yada_yada___ath":{"label":"Daily Yada Yada Yada - ATH","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"2019":{"label":"Dr. Dynastic's Daily Disarray","K":0.22586,"BB":0.08607,"HBP":0.01068,"HR":0.04893,"B2":0.06583,"B3":0.00604,"BABIP":0.29609,"R":4.61793},"1977":{"label":"Daily Evening Rocking Chair","K":0.12834,"BB":0.08583,"HBP":0.00487,"HR":0.02471,"B2":0.04896,"B3":0.00839,"BABIP":0.28298,"R":4.25063},"draft:daily_non_live_evening":{"label":"Daily Non-Live Evening","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_back_to_basics___og":{"label":"Daily Back To Basics - OG","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_struggling_to_sleep":{"label":"Daily Struggling To Sleep","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_non_live_after_dark_speed":{"label":"Daily Non-Live After Dark Speed","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1958":{"label":"Daily West Coast Best Coast - DBL","K":0.12875,"BB":0.08825,"HBP":0.00521,"HR":0.03016,"B2":0.04611,"B3":0.00898,"BABIP":0.27581,"R":4.34608},"draft:daily_rise_and_shine___og":{"label":"Daily Rise and Shine - OG","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_morning_coffee_speed":{"label":"Daily Morning Coffee Speed","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_nearly_perfect_wake_up_call":{"label":"Daily Nearly Perfect Wake-up Call","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1923":{"label":"Daily Bagels and Schmear with EVCinNYC","K":0.05404,"BB":0.07666,"HBP":0.0058,"HR":0.01238,"B2":0.04728,"B3":0.01484,"BABIP":0.29479,"R":5.01547},"draft:daily_scrum":{"label":"Daily Scrum","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"1908":{"label":"Laptophound's Daily Lower Level Leisure Lounge","K":0.10094,"BB":0.07022,"HBP":0.00836,"HR":0.00371,"B2":0.03494,"B3":0.01363,"BABIP":0.27356,"R":3.57821},"draft:daily_morning_mix_up":{"label":"Daily Morning Mix-up","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_diamond_and_gold_only":{"label":"Daily Diamond and Gold Only","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182},"draft:daily_don_t_forget_to_pick_up_the_kids":{"label":"Daily Don't Forget to Pick up the Kids","K":0.22649,"BB":0.08503,"HBP":0.01126,"HR":0.04551,"B2":0.06364,"B3":0.00536,"BABIP":0.29169,"R":4.46182}}}, C=D.curves, ERAS=D.eras;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const W={BB:.69,HBP:.72,s1:.89,d2:1.27,d3:1.62,HR:2.10}, FIPC=3.10;
+const rate=(c,r)=>c.env_rate*Math.exp(c.alpha)*Math.pow((r||50)/50,c.beta);
+$$('.tab').forEach(t=>t.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
+ $$('.view').forEach(v=>v.classList.remove('on'));$('#v-'+t.dataset.v).classList.add('on')});
+
+const HR_=[["BA","Contact",110],["GAP","Gap",110],["POW","Power",120],["EYE","Eye",110],["K","Avoid K",110]];
+const PR_=[["STU","Stuff",120],["CON","Control",120],["HRA","HR Avoid",120],["PBABIP","pBABIP",110]];
+function mkInputs(el,spec,cb){el.innerHTML='';spec.forEach(([k,lab,dv])=>{
+ const d=document.createElement('div');d.className='rrow';
+ d.innerHTML=`<label title="${k}">${lab}</label><input type="range" min="1" max="250" value="${dv}" id="r_${k}"><span class="v" id="v_${k}">${dv}</span>`;
+ el.appendChild(d);const R=d.querySelector('input');
+ R.oninput=()=>{document.getElementById('v_'+k).textContent=R.value;cb()}})}
+const val=k=>+document.getElementById('r_'+k).value;
+function mkEras(sel){sel.innerHTML='';Object.entries(ERAS).forEach(([k,v])=>{
+ const o=document.createElement('option');o.value=k;o.textContent=(/^\d{4}$/.test(k)?k+' — ':'')+v.label;sel.appendChild(o)});
+ sel.value='season:pt_season'}
+
+function scale(era){ // multiplicative env adjustment vs PT season frame
+ const b=ERAS['season:pt_season'],e=ERAS[era]||b;
+ return {k:e.K/b.K,bb:e.BB/b.BB,hr:e.HR/b.HR,babip:e.BABIP/b.BABIP,xbh:(e.B2+e.B3)/(b.B2+b.B3),hbp:e.HBP/b.HBP};}
+
+function projHit(R,era){const h=C.hit,s=scale(era);
+ const k=rate(h.k,R.K)*s.k, bb=rate(h.bb,R.EYE)*s.bb, hbp=h.hbp_rate_env*s.hbp;
+ const bip=Math.max(1e-6,1-k-bb-hbp);
+ const hr=rate(h.hr,R.POW)*s.hr*bip, bipx=bip-hr;
+ const hits=rate(h.babip,R.BA)*s.babip*bipx;
+ const xbh=Math.min(rate(h.xbh,R.GAP)*s.xbh*bip,hits);
+ const b3=xbh*h.xbh_3b_share,b2=xbh-b3,b1=Math.max(0,hits-xbh);
+ const AB=1-bb-hbp,H=b1+b2+b3+hr;
+ const ba=H/AB,obp=H+bb+hbp,slg=(b1+2*b2+3*b3+4*hr)/AB;
+ const woba=W.BB*bb+W.HBP*hbp+W.s1*b1+W.d2*b2+W.d3*b3+W.HR*hr;
+ return{BA:ba,OBP:obp,SLG:slg,OPS:obp+slg,ISO:slg-ba,wOBA:woba,K:k,BB:bb,HR:hr,BABIP:hits/bipx,
+  HR600:hr*600,parts:{k,bb,hr,b1,b2,b3,hits}};}
+function projPit(R,era){const p=C.pit,s=scale(era);
+ const k=rate(p.k,R.STU)*s.k, bb=rate(p.bb,R.CON)*s.bb, hbp=p.hbp_rate_env*s.hbp;
+ const bip=Math.max(1e-6,1-k-bb-hbp);
+ const hr=rate(p.hr,R.HRA)*s.hr*bip, bipx=bip-hr, hits=rate(p.babip,R.PBABIP)*s.babip*bipx;
+ const outs=k+(bipx-hits), ip=outs/3, p9=x=>9*x/ip;
+ const fip=(13*hr+3*(bb+hbp)-2*k)/ip+FIPC;
+ return{FIP:fip,K9:p9(k),BB9:p9(bb),HR9:p9(hr),WHIP:(hits+hr+bb)/ip,BABIP:hits/bipx,
+  wOBA:W.BB*bb+W.HBP*hbp+W.s1*hits*.78+W.d2*hits*.19+W.d3*hits*.03+W.HR*hr,K:k,BB:bb,parts:{k,bb,hr,hits}};}
+
+const f3=v=>v.toFixed(3).replace(/^0/,''),pc=v=>(100*v).toFixed(1)+'%';
+function stat(l,n,big){return `<div class="stat ${big?'big':''}"><div class="l">${l}</div><div class="n">${n}</div></div>`}
+function rangeWarn(spec,R){const out=[];Object.entries(spec).forEach(([comp,c])=>{
+ const rv=R[c.rating];if(rv==null)return;const [lo,hi]=c.rating_range||[0,999];
+ if(rv<lo||rv>hi)out.push(`${c.rating} ${rv} is outside the fitted range ${lo}–${hi} — extrapolated, treat with caution`)});
+ return out.join(' · ')}
+
+function drawHit(){const R={};HR_.forEach(([k])=>R[k]=val(k));const era=$('#hEra').value,o=projHit(R,era);
+ $('#hStats').innerHTML=stat('OPS',f3(o.OPS),1)+stat('wOBA',f3(o.wOBA))+stat('HR / 600 PA',Math.round(o.HR600))+stat('K%',pc(o.K));
+ $('#hTbl').innerHTML=`<tr><th>stat</th><th>value</th></tr>`+
+  [['AVG',f3(o.BA)],['OBP',f3(o.OBP)],['SLG',f3(o.SLG)],['ISO',f3(o.ISO)],['wOBA',f3(o.wOBA)],
+   ['BABIP',f3(o.BABIP)],['K%',pc(o.K)],['BB%',pc(o.BB)],['HR/PA',pc(o.HR)]]
+   .map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join('');
+ $('#hWarn').innerHTML=rangeWarn(C.hit,R)||'';
+ const rows=[['K rate','K',C.hit.k],['Walks','EYE',C.hit.bb],['Home runs','POW',C.hit.hr],['Extra bases','GAP',C.hit.xbh],['BABIP','BA',C.hit.babip]];
+ $('#hDrv').innerHTML=`<tr><th>driver</th><th>rating</th><th>&beta;</th><th>R&sup2;</th><th>+10 rating</th></tr>`+
+  rows.map(([lab,rk,c])=>{const b=rate(c,R[rk]),u=rate(c,R[rk]+10);const d=100*(u-b)/b;
+  return `<tr><td>${lab}</td><td>${R[rk]}</td><td>${c.beta.toFixed(2)}</td><td>${c.r2.toFixed(2)}${c.r2<.4?'<span class="pill warn">noisy</span>':''}</td><td>${d>0?'+':''}${d.toFixed(1)}%</td></tr>`}).join('');}
+function drawPit(){const R={};PR_.forEach(([k])=>R[k]=val(k));const era=$('#pEra').value,o=projPit(R,era);
+ $('#pStats').innerHTML=stat('FIP',o.FIP.toFixed(2),1)+stat('K/9',o.K9.toFixed(1))+stat('BB/9',o.BB9.toFixed(1))+stat('WHIP',o.WHIP.toFixed(2));
+ $('#pTbl').innerHTML=`<tr><th>stat</th><th>value</th></tr>`+
+  [['FIP',o.FIP.toFixed(2)],['K/9',o.K9.toFixed(1)],['BB/9',o.BB9.toFixed(1)],['HR/9',o.HR9.toFixed(2)],
+   ['WHIP',o.WHIP.toFixed(2)],['BABIP against',f3(o.BABIP)],['wOBA against',f3(o.wOBA)]]
+   .map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join('');
+ $('#pWarn').innerHTML=rangeWarn(C.pit,R)||'';
+ const rows=[['Strikeouts','STU',C.pit.k],['Walks','CON',C.pit.bb],['HR allowed','HRA',C.pit.hr],['BABIP','PBABIP',C.pit.babip]];
+ $('#pDrv').innerHTML=`<tr><th>driver</th><th>rating</th><th>&beta;</th><th>R&sup2;</th><th>+10 rating</th></tr>`+
+  rows.map(([lab,rk,c])=>{const b=rate(c,R[rk]),u=rate(c,R[rk]+10);const d=100*(u-b)/b;
+  return `<tr><td>${lab}</td><td>${R[rk]}</td><td>${c.beta.toFixed(2)}</td><td>${c.r2.toFixed(2)}${c.r2<.4?'<span class="pill warn">noisy</span>':''}</td><td>${d>0?'+':''}${d.toFixed(1)}%</td></tr>`}).join('');}
+
+function drawEng(){const rows=[];
+ [['HITTER',C.hit,[['k','K','fewer strikeouts'],['bb','EYE','more walks'],['hr','POW','more home runs'],['xbh','GAP','more 2B/3B'],['babip','BA','higher BABIP']]],
+  ['PITCHER',C.pit,[['k','STU','more strikeouts'],['bb','CON','fewer walks'],['hr','HRA','fewer HR allowed'],['babip','PBABIP','lower BABIP']]]]
+ .forEach(([grp,spec,list])=>{rows.push(`<tr><td colspan="6" style="color:var(--accent);font-weight:700;padding-top:12px">${grp}</td></tr>`);
+  list.forEach(([c,rk,eff])=>{const cc=spec[c];if(!cc)return;const b=rate(cc,100),u=rate(cc,110);const d=100*(u-b)/b;
+   rows.push(`<tr><td>${rk}</td><td class="cmp">${eff}</td><td>${cc.beta.toFixed(3)}</td><td>${cc.r2.toFixed(3)}${cc.r2<.4?'<span class="pill warn">noisy</span>':cc.r2>.75?'<span class="pill ok">tight</span>':''}</td><td>${cc.env_rate.toFixed(5)}</td><td>${d>0?'+':''}${d.toFixed(1)}%</td></tr>`)})});
+ $('#engT').innerHTML=`<tr><th>rating</th><th>higher rating &rarr;</th><th>&beta;</th><th>R&sup2;</th><th>env rate</th><th>+10 pts</th></tr>`+rows.join('');}
+
+mkInputs($('#hIn'),HR_,drawHit); mkInputs($('#pIn'),PR_,drawPit);
+mkEras($('#hEra')); mkEras($('#pEra'));
+$('#hEra').onchange=drawHit; $('#pEra').onchange=drawPit;
+drawHit();drawPit();drawEng();
+</script></body></html>
