@@ -9,6 +9,7 @@ import {
   Shuffle,
   Trophy,
   FlaskConical,
+  Upload,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,7 @@ const NAV: NavItem[] = [
   { href: "/draft", label: "Draft", icon: Shuffle },
   { href: "/tournaments", label: "Tournaments", icon: Trophy },
   { href: "/lab", label: "Card Lab", icon: FlaskConical },
+  { href: "/upload", label: "Upload", icon: Upload },
 ];
 
 export function Sidebar() {
