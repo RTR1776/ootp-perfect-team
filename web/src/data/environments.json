@@ -1,0 +1,2658 @@
+{
+ "generatedAt": "2026-08-21",
+ "presetLegend": {
+  "order": [
+   "Sabermetric",
+   "Moderate Sabermetric",
+   "Balanced",
+   "Traditional",
+   "Moderate Small Ball",
+   "Small Ball"
+  ],
+  "rules": [
+   "Bunt break-even (runners 1st+2nd, 0 out) sets the base preset band.",
+   "Bumped one step toward small ball when modeled R/G < 4.05.",
+   "Capped at Balanced when K rate >= 20% (strikeouts strand runners)."
+  ]
+ },
+ "environments": [
+  {
+   "year": 0,
+   "src": "PT default",
+   "rg": 4.46,
+   "kPa": 0.226,
+   "hrPa": 0.0308,
+   "babip": 0.292,
+   "reStart": 0.471,
+   "bunt12_0": -0.032,
+   "sbbe0": 0.809,
+   "preset": "Sabermetric",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Bronze Only Cap",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_bronze_only_cap",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 60,
+     "teamCap": 1670,
+     "variantCap": 8,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Diamond Cap",
+     "tier": "Diamond",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_diamond_cap",
+     "kind": "tournament",
+     "valueCeiling": 99,
+     "valueFloor": 40,
+     "teamCap": 1911,
+     "variantCap": null,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Diamond Only",
+     "tier": "Diamond",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_diamond_only",
+     "kind": "tournament",
+     "valueCeiling": 99,
+     "valueFloor": 90,
+     "teamCap": null,
+     "variantCap": 5,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Early Bronze II",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    },
+    {
+     "name": "Daily Early Gold",
+     "tier": "Gold",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    },
+    {
+     "name": "Daily Early Iron II",
+     "tier": "Iron",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    },
+    {
+     "name": "Daily Gold",
+     "tier": "Gold",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:daily_gold",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Gold Cap",
+     "tier": "Gold",
+     "dh": true,
+     "sizes": [
+      32,
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_gold_cap",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 40,
+     "teamCap": 1822,
+     "variantCap": null,
+     "mode": "BO5F7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Gold Only",
+     "tier": "Gold",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_gold_only",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 80,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Iron Cap",
+     "tier": "Iron",
+     "dh": true,
+     "sizes": [
+      32,
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_iron_cap",
+     "kind": "tournament",
+     "valueCeiling": 59,
+     "valueFloor": 40,
+     "teamCap": 1250,
+     "variantCap": null,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Late Bronze",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      64,
+      128
+     ],
+     "multi": false,
+     "key": "tournament:daily_late_bronze",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 10,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Late Bronze II",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    },
+    {
+     "name": "Daily Late Iron",
+     "tier": "Iron",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_late_iron",
+     "kind": "tournament",
+     "valueCeiling": 59,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 0,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Late Iron II",
+     "tier": "Iron",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    },
+    {
+     "name": "Daily Live Bronze",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_live_bronze",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": false,
+      "snapshot": false,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Daily Live Diamond",
+     "tier": "Diamond",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_live_diamond",
+     "kind": "tournament",
+     "valueCeiling": 99,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": false,
+      "snapshot": false,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Daily Live Gold",
+     "tier": "Gold",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_live_gold",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": false,
+      "snapshot": false,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Daily Live Iron",
+     "tier": "Iron",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_live_iron",
+     "kind": "tournament",
+     "valueCeiling": 59,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": false,
+      "snapshot": false,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Daily Live Low Diamond",
+     "tier": "Diamond",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_live_low_diamond",
+     "kind": "tournament",
+     "valueCeiling": 94,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": false,
+      "snapshot": false,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Daily Live Open",
+     "tier": "Open",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:daily_live_open",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": false,
+      "snapshot": false,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Daily Live Silver",
+     "tier": "Silver",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_live_silver",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": false,
+      "snapshot": false,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Daily Low Bronze Up To 1969",
+     "tier": "Bronze",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_low_bronze_up_to_1969",
+     "kind": "tournament",
+     "valueCeiling": 64,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 1969,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Low Diamond",
+     "tier": "Diamond",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:daily_low_diamond",
+     "kind": "tournament",
+     "valueCeiling": 94,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Low Iron",
+     "tier": "Iron",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_low_iron",
+     "kind": "tournament",
+     "valueCeiling": 49,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 7,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Low Silver",
+     "tier": "Silver",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_low_silver",
+     "kind": "tournament",
+     "valueCeiling": 74,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Non-Live Bronze",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_non_live_bronze",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 0,
+     "mode": "BO3F5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": false,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Non-Live Iron",
+     "tier": "Iron",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_non_live_iron",
+     "kind": "tournament",
+     "valueCeiling": 59,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": false,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Non-Live Open",
+     "tier": "Open",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_non_live_open",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO5F7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": false,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Open High Cap",
+     "tier": "Open",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": true,
+     "key": "tournament:daily_open_high_cap",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": 1875,
+     "variantCap": null,
+     "mode": "BO3F5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Open Low Cap",
+     "tier": "Open",
+     "dh": true,
+     "sizes": [
+      32,
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_open_low_cap",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": 1500,
+     "variantCap": null,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Silver Only Cap",
+     "tier": "Silver",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_silver_only_cap",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 70,
+     "teamCap": 1905,
+     "variantCap": 7,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Silver and Gold Only Cap",
+     "tier": "Gold",
+     "dh": true,
+     "sizes": [
+      32,
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_silver_and_gold_only_cap",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 70,
+     "teamCap": 2000,
+     "variantCap": 10,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Super Silver Supper",
+     "tier": "Silver",
+     "dh": true,
+     "sizes": [
+      64,
+      128
+     ],
+     "multi": false,
+     "key": "tournament:daily_super_silver_supper",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Friday Gold Cap",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:friday_gold_cap",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 40,
+     "teamCap": 1626,
+     "variantCap": 9,
+     "mode": "BO5F7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Friday Night Live",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128,
+      256
+     ],
+     "multi": false,
+     "key": "tournament:friday_night_live",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Monday Morning Mashup",
+     "tier": "Weekly",
+     "dh": false,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:monday_morning_mashup",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": false,
+      "unsung": false,
+      "snapshot": false,
+      "nel": true,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Monday Night Gold Rush",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:monday_night_gold_rush",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 10,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Monday Up and At Them Bronze",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      256
+     ],
+     "multi": true,
+     "key": "tournament:monday_up_and_at_them_bronze",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 5,
+     "mode": "BO5F7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Saturday Iron Warriors",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      256
+     ],
+     "multi": false,
+     "key": "tournament:saturday_iron_warriors",
+     "kind": "tournament",
+     "valueCeiling": 59,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 8,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Saturday Sleepless Silver Only",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:saturday_sleepless_silver_only",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 70,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Saturday Up Late With Snapshots",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:saturday_up_late_with_snapshots",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": false,
+      "unsung": false,
+      "snapshot": true,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Sunday Bronze Brunch Cap",
+     "tier": "Weekly",
+     "dh": false,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:sunday_bronze_brunch_cap",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 40,
+     "teamCap": 1399,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Sunday High Gold and Diamond Only Cap",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:sunday_high_gold_and_diamond_only_cap",
+     "kind": "tournament",
+     "valueCeiling": 99,
+     "valueFloor": 85,
+     "teamCap": 2370,
+     "variantCap": 10,
+     "mode": "BO5F7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Sunday Open Main Event",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:sunday_open_main_event",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "The Dank Wednesday Night",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128,
+      256
+     ],
+     "multi": false,
+     "key": "tournament:the_dank_wednesday_night",
+     "kind": "tournament",
+     "valueCeiling": 49,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 0,
+     "mode": "BO7F9",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Thursday Live Cap",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:thursday_live_cap",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": 1750,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": false,
+      "snapshot": false,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    },
+    {
+     "name": "Tuesday Ice To See You",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:tuesday_ice_to_see_you",
+     "kind": "tournament",
+     "valueCeiling": 99,
+     "valueFloor": 90,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Tuesday Overnight Under The Covers",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:tuesday_overnight_under_the_covers",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 1929,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Wednesday Low Diamond Extravaganza",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:wednesday_low_diamond_extravaganza",
+     "kind": "tournament",
+     "valueCeiling": 94,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1919,
+   "src": "CardLab",
+   "rg": 4.15,
+   "kPa": 0.073,
+   "hrPa": 0.0059,
+   "babip": 0.286,
+   "reStart": 0.422,
+   "bunt12_0": 0.128,
+   "sbbe0": 0.765,
+   "preset": "Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Deadball",
+     "tier": "Open",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_deadball",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 1919,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Low Gold",
+     "tier": "Gold",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_low_gold",
+     "kind": "tournament",
+     "valueCeiling": 84,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 5,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1927,
+   "src": "CardLab",
+   "rg": 5.02,
+   "kPa": 0.053,
+   "hrPa": 0.0119,
+   "babip": 0.292,
+   "reStart": 0.523,
+   "bunt12_0": 0.071,
+   "sbbe0": 0.791,
+   "preset": "Moderate Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Bronze Cap",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      32,
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_bronze_cap",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 40,
+     "teamCap": 1375,
+     "variantCap": null,
+     "mode": "BO5F7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1928,
+   "src": "CardLab",
+   "rg": 5.06,
+   "kPa": 0.056,
+   "hrPa": 0.0123,
+   "babip": 0.294,
+   "reStart": 0.527,
+   "bunt12_0": 0.066,
+   "sbbe0": 0.792,
+   "preset": "Moderate Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Tuesday Overnight Under The Covers",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:tuesday_overnight_under_the_covers",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 1929,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1933,
+   "src": "MLB-derived",
+   "rg": 4.55,
+   "kPa": 0.071,
+   "hrPa": 0.0114,
+   "babip": 0.283,
+   "reStart": 0.462,
+   "bunt12_0": 0.102,
+   "sbbe0": 0.778,
+   "preset": "Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Open High Cap",
+     "tier": "Open",
+     "dh": true,
+     "sizes": [
+      32,
+      64
+     ],
+     "multi": true,
+     "key": "tournament:daily_open_high_cap",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": 1875,
+     "variantCap": null,
+     "mode": "BO3F5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1942,
+   "src": "MLB-derived",
+   "rg": 4.17,
+   "kPa": 0.076,
+   "hrPa": 0.0112,
+   "babip": 0.266,
+   "reStart": 0.414,
+   "bunt12_0": 0.119,
+   "sbbe0": 0.769,
+   "preset": "Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Wide Open",
+     "tier": "Open",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": true,
+     "key": "tournament:daily_wide_open",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1944,
+   "src": "CardLab",
+   "rg": 4.21,
+   "kPa": 0.077,
+   "hrPa": 0.0104,
+   "babip": 0.273,
+   "reStart": 0.423,
+   "bunt12_0": 0.115,
+   "sbbe0": 0.77,
+   "preset": "Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Thursday Silver Spectacular",
+     "tier": "Weekly",
+     "dh": false,
+     "sizes": [
+      128,
+      256
+     ],
+     "multi": false,
+     "key": "tournament:thursday_silver_spectacular",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1955,
+   "src": "CardLab",
+   "rg": 4.45,
+   "kPa": 0.115,
+   "hrPa": 0.0225,
+   "babip": 0.275,
+   "reStart": 0.483,
+   "bunt12_0": 0.04,
+   "sbbe0": 0.794,
+   "preset": "Traditional",
+   "note": "",
+   "events": [
+    {
+     "name": "Thursday Gold Time Machine Cap",
+     "tier": "Weekly",
+     "dh": false,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:thursday_gold_time_machine_cap",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 40,
+     "teamCap": 1444,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1920,
+     "eraMax": 1969,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1960,
+   "src": "MLB-derived",
+   "rg": 4.31,
+   "kPa": 0.135,
+   "hrPa": 0.0228,
+   "babip": 0.276,
+   "reStart": 0.464,
+   "bunt12_0": 0.042,
+   "sbbe0": 0.791,
+   "preset": "Traditional",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Early Silver II",
+     "tier": "Silver",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    },
+    {
+     "name": "Daily Non-Live Silver",
+     "tier": "Silver",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    }
+   ]
+  },
+  {
+   "year": 1962,
+   "src": "CardLab",
+   "rg": 4.25,
+   "kPa": 0.145,
+   "hrPa": 0.0232,
+   "babip": 0.278,
+   "reStart": 0.45,
+   "bunt12_0": 0.048,
+   "sbbe0": 0.787,
+   "preset": "Moderate Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Friday Return of the Blue Meanie Cap",
+     "tier": "Weekly",
+     "dh": false,
+     "sizes": [
+      128
+     ],
+     "multi": false
+    }
+   ]
+  },
+  {
+   "year": 1968,
+   "src": "CardLab",
+   "rg": 3.94,
+   "kPa": 0.154,
+   "hrPa": 0.0205,
+   "babip": 0.275,
+   "reStart": 0.416,
+   "bunt12_0": 0.067,
+   "sbbe0": 0.777,
+   "preset": "Small Ball",
+   "note": "bumped +1 toward small ball (R/G 3.94 < 4.05)",
+   "events": [
+    {
+     "name": "Daily Iron Lunchpail",
+     "tier": "Iron",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_iron_lunchpail",
+     "kind": "tournament",
+     "valueCeiling": 59,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 1969,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Wide Open",
+     "tier": "Open",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": true,
+     "key": "tournament:daily_wide_open",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Monday Night Gold Rush",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:monday_night_gold_rush",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 10,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Thursday Gold Time Machine Cap",
+     "tier": "Weekly",
+     "dh": false,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:thursday_gold_time_machine_cap",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 40,
+     "teamCap": 1444,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1920,
+     "eraMax": 1969,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1969,
+   "src": "MLB-derived",
+   "rg": 4.07,
+   "kPa": 0.152,
+   "hrPa": 0.0213,
+   "babip": 0.276,
+   "reStart": 0.435,
+   "bunt12_0": 0.05,
+   "sbbe0": 0.784,
+   "preset": "Moderate Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Saturday Deadball to Defensive Era",
+     "tier": "Weekly",
+     "dh": false,
+     "sizes": [
+      128
+     ],
+     "multi": false
+    }
+   ]
+  },
+  {
+   "year": 1971,
+   "src": "CardLab",
+   "rg": 4.04,
+   "kPa": 0.146,
+   "hrPa": 0.0205,
+   "babip": 0.277,
+   "reStart": 0.433,
+   "bunt12_0": 0.058,
+   "sbbe0": 0.781,
+   "preset": "Small Ball",
+   "note": "bumped +1 toward small ball (R/G 4.04 < 4.05)",
+   "events": [
+    {
+     "name": "Daily Early Bronze",
+     "tier": "Bronze",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_early_bronze",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1979,
+   "src": "MLB-derived",
+   "rg": 4.46,
+   "kPa": 0.125,
+   "hrPa": 0.0218,
+   "babip": 0.286,
+   "reStart": 0.486,
+   "bunt12_0": 0.038,
+   "sbbe0": 0.793,
+   "preset": "Traditional",
+   "note": "",
+   "events": [
+    {
+     "name": "Saturday Up Late With Snapshots",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:saturday_up_late_with_snapshots",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": false,
+      "unsung": false,
+      "snapshot": true,
+      "nel": false,
+      "fl": false,
+      "legend": false,
+      "hh": false,
+      "allstar": false,
+      "rookie": false
+     }
+    }
+   ]
+  },
+  {
+   "year": 1980,
+   "src": "CardLab",
+   "rg": 4.25,
+   "kPa": 0.127,
+   "hrPa": 0.0195,
+   "babip": 0.283,
+   "reStart": 0.458,
+   "bunt12_0": 0.058,
+   "sbbe0": 0.785,
+   "preset": "Moderate Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Low Diamond",
+     "tier": "Diamond",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": true,
+     "key": "tournament:daily_low_diamond",
+     "kind": "tournament",
+     "valueCeiling": 94,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1981,
+   "src": "CardLab",
+   "rg": 4.29,
+   "kPa": 0.129,
+   "hrPa": 0.02,
+   "babip": 0.284,
+   "reStart": 0.462,
+   "bunt12_0": 0.054,
+   "sbbe0": 0.787,
+   "preset": "Moderate Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Tuesday Sporer's Sandlot",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:tuesday_sporer_s_sandlot",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 10,
+     "mode": "BO7",
+     "eraMin": 1920,
+     "eraMax": 1999,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1983,
+   "src": "MLB-derived",
+   "rg": 4.31,
+   "kPa": 0.135,
+   "hrPa": 0.0207,
+   "babip": 0.285,
+   "reStart": 0.465,
+   "bunt12_0": 0.046,
+   "sbbe0": 0.789,
+   "preset": "Moderate Small Ball",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Return of the Bronze",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    }
+   ]
+  },
+  {
+   "year": 1986,
+   "src": "MLB-derived",
+   "rg": 4.41,
+   "kPa": 0.154,
+   "hrPa": 0.0241,
+   "babip": 0.286,
+   "reStart": 0.477,
+   "bunt12_0": 0.02,
+   "sbbe0": 0.797,
+   "preset": "Balanced",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Diamond",
+     "tier": "Diamond",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": true,
+     "key": "tournament:daily_diamond",
+     "kind": "tournament",
+     "valueCeiling": 99,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1987,
+   "src": "CardLab",
+   "rg": 4.35,
+   "kPa": 0.149,
+   "hrPa": 0.0226,
+   "babip": 0.284,
+   "reStart": 0.464,
+   "bunt12_0": 0.035,
+   "sbbe0": 0.792,
+   "preset": "Traditional",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Early Iron",
+     "tier": "Iron",
+     "dh": false,
+     "sizes": [
+      64,
+      128
+     ],
+     "multi": false,
+     "key": "tournament:daily_early_iron",
+     "kind": "tournament",
+     "valueCeiling": 59,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 10,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Silver Only",
+     "tier": "Silver",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_silver_only",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 70,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO3F5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1992,
+   "src": "CardLab",
+   "rg": 4.42,
+   "kPa": 0.151,
+   "hrPa": 0.0218,
+   "babip": 0.29,
+   "reStart": 0.475,
+   "bunt12_0": 0.026,
+   "sbbe0": 0.795,
+   "preset": "Traditional",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Early Silver",
+     "tier": "Silver",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_early_silver",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 0,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1993,
+   "src": "CardLab",
+   "rg": 4.54,
+   "kPa": 0.154,
+   "hrPa": 0.0229,
+   "babip": 0.292,
+   "reStart": 0.488,
+   "bunt12_0": 0.014,
+   "sbbe0": 0.799,
+   "preset": "Balanced",
+   "note": "",
+   "events": [
+    {
+     "name": "Friday All That and a Bag of Chips Cap",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:friday_all_that_and_a_bag_of_chips_cap",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 90,
+     "teamCap": 2444,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1996,
+   "src": "CardLab",
+   "rg": 4.87,
+   "kPa": 0.166,
+   "hrPa": 0.0267,
+   "babip": 0.3,
+   "reStart": 0.529,
+   "bunt12_0": -0.027,
+   "sbbe0": 0.812,
+   "preset": "Moderate Sabermetric",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Diamond",
+     "tier": "Diamond",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": true,
+     "key": "tournament:daily_diamond",
+     "kind": "tournament",
+     "valueCeiling": 99,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1998,
+   "src": "CardLab",
+   "rg": 4.97,
+   "kPa": 0.167,
+   "hrPa": 0.0281,
+   "babip": 0.301,
+   "reStart": 0.543,
+   "bunt12_0": -0.039,
+   "sbbe0": 0.816,
+   "preset": "Sabermetric",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Gold Only Cap",
+     "tier": "Gold",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_gold_only_cap",
+     "kind": "tournament",
+     "valueCeiling": 89,
+     "valueFloor": 80,
+     "teamCap": 2170,
+     "variantCap": 0,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Iron 1970-2024",
+     "tier": "Iron",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_iron_1970_2024",
+     "kind": "tournament",
+     "valueCeiling": 59,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1970,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 1999,
+   "src": "CardLab",
+   "rg": 4.91,
+   "kPa": 0.168,
+   "hrPa": 0.0283,
+   "babip": 0.3,
+   "reStart": 0.54,
+   "bunt12_0": -0.038,
+   "sbbe0": 0.816,
+   "preset": "Sabermetric",
+   "note": "",
+   "events": [
+    {
+     "name": "Daily Bronze Only Historical",
+     "tier": "Bronze",
+     "dh": true,
+     "sizes": [
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_bronze_only_historical",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 60,
+     "teamCap": null,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1875,
+     "eraMax": 2024,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Daily Late Gold",
+     "tier": "Gold",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    },
+    {
+     "name": "Daily Non-Live Gold",
+     "tier": "Gold",
+     "dh": false,
+     "sizes": [
+      64
+     ],
+     "multi": false
+    },
+    {
+     "name": "Daily Silver Cap",
+     "tier": "Silver",
+     "dh": true,
+     "sizes": [
+      32,
+      64
+     ],
+     "multi": false,
+     "key": "tournament:daily_silver_cap",
+     "kind": "tournament",
+     "valueCeiling": 79,
+     "valueFloor": 40,
+     "teamCap": 1500,
+     "variantCap": null,
+     "mode": "BO5",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Wednesday OOTP Era Cap",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:wednesday_ootp_era_cap",
+     "kind": "tournament",
+     "valueCeiling": 105,
+     "valueFloor": 40,
+     "teamCap": 1726,
+     "variantCap": null,
+     "mode": "BO7",
+     "eraMin": 1999,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 2000,
+   "src": "CardLab",
+   "rg": 4.88,
+   "kPa": 0.168,
+   "hrPa": 0.0284,
+   "babip": 0.298,
+   "reStart": 0.537,
+   "bunt12_0": -0.036,
+   "sbbe0": 0.816,
+   "preset": "Sabermetric",
+   "note": "",
+   "events": [
+    {
+     "name": "Saturday Low Gold Power To Live Plus",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128
+     ],
+     "multi": false,
+     "key": "tournament:saturday_low_gold_power_to_live_plus",
+     "kind": "tournament",
+     "valueCeiling": 84,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 6,
+     "mode": "BO7",
+     "eraMin": 1993,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    }
+   ]
+  },
+  {
+   "year": 2019,
+   "src": "CardLab",
+   "rg": 4.62,
+   "kPa": 0.226,
+   "hrPa": 0.0331,
+   "babip": 0.296,
+   "reStart": 0.499,
+   "bunt12_0": -0.053,
+   "sbbe0": 0.817,
+   "preset": "Sabermetric",
+   "note": "",
+   "events": [
+    {
+     "name": "Monday Up and At Them Bronze",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      256
+     ],
+     "multi": true,
+     "key": "tournament:monday_up_and_at_them_bronze",
+     "kind": "tournament",
+     "valueCeiling": 69,
+     "valueFloor": 40,
+     "teamCap": null,
+     "variantCap": 5,
+     "mode": "BO5F7",
+     "eraMin": 1875,
+     "eraMax": 2025,
+     "eligibility": {
+      "live": true,
+      "unsung": true,
+      "snapshot": true,
+      "nel": true,
+      "fl": true,
+      "legend": true,
+      "hh": true,
+      "allstar": true,
+      "rookie": true
+     }
+    },
+    {
+     "name": "Saturday High Bronze Only Nightmares",
+     "tier": "Weekly",
+     "dh": true,
+     "sizes": [
+      128,
+      256
+     ],
+     "multi": false
+    }
+   ]
+  }
+ ]
+}

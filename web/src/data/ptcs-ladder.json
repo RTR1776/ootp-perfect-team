@@ -1,0 +1,107 @@
+{
+ "pointsTable": {
+  "1st": 300,
+  "2nd": 100,
+  "3rd-4th": 75,
+  "5th-8th": 40,
+  "9th-16th": 20,
+  "17th-32nd": 5,
+  "33rd-64th": 2,
+  "65th-128th": 1
+ },
+ "finishes": [
+  {
+   "event": "PTCS 1",
+   "date": "2026-04-11",
+   "berths": [],
+   "tournamentPts": 0,
+   "draftPts": 0,
+   "note": "did not qualify"
+  },
+  {
+   "event": "PTCS 2",
+   "date": "2026-05-09",
+   "berths": [],
+   "tournamentPts": 0,
+   "draftPts": 0,
+   "note": "did not qualify"
+  },
+  {
+   "event": "PTCS 3",
+   "date": "2026-06-06",
+   "berths": [
+    {
+     "berth": "Diamond",
+     "standing": "tournament",
+     "placement": "65th-128th",
+     "points": 1
+    }
+   ],
+   "tournamentPts": 1,
+   "draftPts": 0,
+   "note": "1 berth"
+  },
+  {
+   "event": "PTCS 4",
+   "date": "2026-07-11",
+   "berths": [
+    {
+     "berth": "Diamond",
+     "standing": "tournament",
+     "placement": "9th-16th",
+     "points": 20
+    }
+   ],
+   "tournamentPts": 20,
+   "draftPts": 0,
+   "note": "best PTCS result so far"
+  },
+  {
+   "event": "PTCS 5",
+   "date": "2026-08-08",
+   "berths": [
+    {
+     "berth": "Gold",
+     "standing": "tournament",
+     "placement": "17th-32nd",
+     "points": 5
+    },
+    {
+     "berth": "Diamond",
+     "standing": "tournament",
+     "placement": "33rd-64th",
+     "points": 2
+    },
+    {
+     "berth": "Cap",
+     "standing": "tournament",
+     "placement": "65th-128th",
+     "points": 1
+    },
+    {
+     "berth": "Live",
+     "standing": "tournament",
+     "placement": "65th-128th",
+     "points": 1
+    },
+    {
+     "berth": "Daily PD",
+     "standing": "perfect_draft",
+     "placement": "17th-32nd",
+     "points": 5
+    }
+   ],
+   "tournamentPts": 9,
+   "draftPts": 5,
+   "note": "5 berths - breadth without depth"
+  }
+ ],
+ "ladderRules": {
+  "convexity": "1st=300 vs 9th-16th=20 - berths get you in, DEPTH gets points. A single quarterfinal (40) beats eight 17th-32nds.",
+  "ptwc1": "League play to Aug 23 + PT Live/50 + weekly leaderboard to Aug 2 + PTCS 1-5 + PTMS 1-2 (PTCS 5 was the last input)",
+  "ptwc2": "League play Aug 24 on + PT Live/50 + weekly leaderboard Aug 4-Jan 31 + PTCS 6-11 + PTMS 3-4 (everything scored now feeds this)",
+  "ptms": "Top 128 of EACH cumulative PTCS standing (tournament + perfect draft) qualifies for the PTMS",
+  "capLiveNote": "Cap and Live standings points are excluded from PTWC qualifying (no double-dipping); the PTCS Cap/Live EVENTS you actually played still count toward the PTMS tournament standing - unconfirmed, verify before relying on it."
+ },
+ "forecastRule": "No projection until a category has 3 scoring days; rates computed from each category's own first scoring day, not the period open."
+}

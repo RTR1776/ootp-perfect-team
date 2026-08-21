@@ -12,6 +12,8 @@ import {
   Upload,
   Globe,
   CandlestickChart,
+  Medal,
+  Wind,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -28,8 +30,10 @@ const NAV: NavItem[] = [
   { href: "/lineup", label: "Lineup", icon: ListOrdered },
   { href: "/draft", label: "Draft", icon: Shuffle },
   { href: "/tournaments", label: "Tournaments", icon: Trophy },
+  { href: "/ptcs", label: "PTCS", icon: Medal },
   { href: "/meta", label: "League Meta", icon: Globe },
   { href: "/market", label: "Market", icon: CandlestickChart },
+  { href: "/environments", label: "Environments", icon: Wind },
   { href: "/lab", label: "Card Lab", icon: FlaskConical },
   { href: "/upload", label: "Upload", icon: Upload },
 ];
