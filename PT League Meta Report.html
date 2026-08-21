@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PT League Meta — Aug 21</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  .viz-root {
+    color-scheme: light;
+    --surface-1:#fcfcfb; --page:#f9f9f7;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,0.10);
+    --s1:#2a78d6; --s2:#eb6834;
+    --seq-1:#cde2fb; --seq-2:#9ec5f4; --seq-3:#6da7ec; --seq-4:#3987e5; --seq-5:#256abf;
+    --track:#f0efec;
+    --good:#0ca30c; --warning:#fab219; --critical:#d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:#1a1a19; --page:#0d0d0d;
+      --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#898781;
+      --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+      --s1:#3987e5; --s2:#d95926;
+      --seq-1:#104281; --seq-2:#184f95; --seq-3:#256abf; --seq-4:#3987e5; --seq-5:#6da7ec;
+      --track:#2c2c2a;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:#1a1a19; --page:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --text-muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+    --s1:#3987e5; --s2:#d95926;
+    --seq-1:#104281; --seq-2:#184f95; --seq-3:#256abf; --seq-4:#3987e5; --seq-5:#6da7ec;
+    --track:#2c2c2a;
+  }
+  html,body{margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--page);color:var(--text-primary)}
+  .viz-root{background:var(--page);color:var(--text-primary);min-height:100vh;padding:28px 24px 56px}
+  .wrap{max-width:1120px;margin:0 auto}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+  h1{font-size:21px;font-weight:600;margin:0 0 4px;letter-spacing:-0.01em}
+  .sub{font-size:13px;color:var(--text-secondary);margin:0;max-width:78ch}
+  .themebtn{font:inherit;font-size:12px;color:var(--text-secondary);background:var(--surface-1);border:1px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer}
+  .themebtn:hover{color:var(--text-primary)}
+  .card{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+  .cardtitle{font-size:14px;font-weight:600;margin:0}
+  .cardsub{font-size:12px;color:var(--text-secondary);margin:2px 0 16px;max-width:80ch}
+  .cardhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  /* hero */
+  .herorow{display:grid;grid-template-columns:1.15fr 2fr;gap:18px}
+  @media (max-width:820px){.herorow{grid-template-columns:1fr}}
+  .herolabel{font-size:12px;color:var(--text-secondary);margin-bottom:6px}
+  .herofig{font-size:46px;line-height:1.05;font-weight:600;letter-spacing:-0.03em}
+  .herofig .of{color:var(--text-muted);font-weight:500;font-size:24px}
+  .heronote{font-size:12.5px;color:var(--text-secondary);margin-top:10px;max-width:36ch}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr)}
+  @media (max-width:620px){.kpis{grid-template-columns:repeat(2,1fr);row-gap:18px}}
+  .kpi{padding:2px 16px;border-left:1px solid var(--border)}
+  .kpi:first-child{border-left:0;padding-left:0}
+  .kpi .l{font-size:11px;color:var(--text-secondary);margin-bottom:6px}
+  .kpi .v{font-size:26px;font-weight:600;letter-spacing:-0.02em;line-height:1.1}
+  .kpi .d{font-size:11px;color:var(--text-muted);margin-top:5px}
+  /* nav */
+  .nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+  .nav a{font-size:12px;color:var(--text-secondary);text-decoration:none;border:1px solid var(--border);background:var(--surface-1);border-radius:20px;padding:6px 12px}
+  .nav a:hover{color:var(--text-primary)}
+  /* generic bar rows */
+  .brow{display:grid;grid-template-columns:120px 1fr 56px;align-items:center;gap:10px;padding:4px 0}
+  .brow .n{font-size:12.5px;color:var(--text-primary)}
+  .brow .v{font-size:11.5px;color:var(--text-secondary);text-align:right;font-variant-numeric:tabular-nums}
+  .btrack{position:relative;height:16px;background:var(--track);border-radius:3px}
+  .bfill{position:absolute;top:0;left:0;height:16px;border-radius:3px 4px 4px 3px;background:var(--s1)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media (max-width:820px){.grid2{grid-template-columns:1fr}}
+  .seclabel{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:4px 0 8px}
+  /* fingerprint dot rows */
+  .frow{display:grid;grid-template-columns:150px 1fr 92px;align-items:center;gap:10px;padding:5px 0}
+  .frow .n{font-size:12.5px}
+  .frow .v{font-size:11.5px;color:var(--text-secondary);text-align:right;font-variant-numeric:tabular-nums}
+  .ftrack{position:relative;height:14px;background:var(--track);border-radius:7px}
+  .ftrack .mid{position:absolute;left:50%;top:-2px;height:18px;width:1.5px;background:var(--axis)}
+  .fdot{position:absolute;top:50%;transform:translate(-50%,-50%);width:13px;height:13px;border-radius:50%;background:var(--s1);border:2px solid var(--surface-1)}
+  .fdot.lo{background:var(--s2)}
+  /* tables */
+  table{border-collapse:collapse;width:100%;font-size:12.5px}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);font-weight:600;text-align:left;padding:6px 10px 6px 0;border-bottom:1px solid var(--grid)}
+  td{padding:7px 10px 7px 0;border-bottom:1px solid var(--grid);color:var(--text-primary);font-variant-numeric:tabular-nums}
+  td.num,th.num{text-align:right}
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;padding:2px 8px;border-radius:20px;border:1px solid var(--border);color:var(--text-secondary);white-space:nowrap}
+  .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+  .pbar{display:inline-block;vertical-align:middle;width:84px;height:10px;background:var(--track);border-radius:3px;position:relative;margin-right:8px}
+  .pbar i{position:absolute;left:0;top:0;height:10px;border-radius:3px;background:var(--s1)}
+  .pbar.warn i{background:var(--warning)}
+  .pbar.crit i{background:var(--critical)}
+  /* stacked bars */
+  .srow{display:grid;grid-template-columns:64px 1fr 120px;align-items:center;gap:10px;padding:5px 0}
+  .srow .n{font-size:12.5px}
+  .srow .v{font-size:11px;color:var(--text-secondary);text-align:right;font-variant-numeric:tabular-nums}
+  .stack{display:flex;height:18px;border-radius:3px;overflow:hidden;background:var(--track);gap:2px}
+  .stack i{height:18px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;align-items:center;font-size:11.5px;color:var(--text-secondary);margin:12px 0 2px}
+  .legend .k{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:12px;height:10px;border-radius:2px;display:inline-block}
+  /* grouped month bars */
+  .mchart{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:end;height:170px;padding:6px 4px 0}
+  .mcol{display:flex;flex-direction:column;justify-content:flex-end;gap:0;position:relative}
+  .mpair{display:flex;align-items:flex-end;gap:3px;height:140px}
+  .mbar{width:50%;border-radius:4px 4px 0 0;position:relative}
+  .mbar span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--text-secondary);font-variant-numeric:tabular-nums}
+  .mlab{font-size:11px;color:var(--text-muted);text-align:center;margin-top:6px}
+  .note{font-size:12px;color:var(--text-secondary);border-left:3px solid var(--s1);padding:2px 0 2px 12px;margin:14px 0 2px;max-width:82ch}
+  .note.warn{border-left-color:var(--warning)}
+  .callout{background:color-mix(in oklab, var(--s1) 7%, var(--surface-1));border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:12.5px;margin-top:14px}
+  .big{font-weight:600}
+  .muted{color:var(--text-muted)}
+  .sec{color:var(--text-secondary)}
+  .foot{font-size:11.5px;color:var(--text-muted);max-width:96ch;line-height:1.55}
+</style>
+</head>
+<body>
+<div class="viz-root" id="root">
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1>PT League Meta — what wins at the top</h1>
+    <p class="sub">Perfect League + four High Diamond leagues, week ending Aug 16 · 150 teams, 780 rostered card-seasons · plus the Torrent collection as of Aug 21</p>
+  </div>
+  <button class="themebtn" id="themeToggle" aria-pressed="false">Dark mode</button>
+</header>
+
+<nav class="nav">
+  <a href="#levers">What wins</a><a href="#cwhit">Castroville decoded</a><a href="#creep">Creep &amp; churn</a><a href="#variants">Variants</a><a href="#clans">Clans</a><a href="#torrent">Your roster</a><a href="#method">Method</a>
+</nav>
+
+<section class="card">
+  <div class="herorow">
+    <div>
+      <div class="herolabel">The cwhit thesis — K-avoid &amp; BABIP over Power</div>
+      <div class="herofig">Confirmed<span class="of"> (with a twist)</span></div>
+      <p class="heronote">Castroville runs 97th-percentile K-avoid and BABIP with bottom-fifth Power — and posted the #2 WAR in HD453. But the league-wide data says the single biggest hitting lever is <b>EYE</b>, and the biggest pitching lever is <b>HR-avoid</b>.</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Castroville total WAR</div><div class="v">45.6</div><div class="d">#2 of 30 in HD453</div></div>
+      <div class="kpi"><div class="l">Roster replaced in ~6 weeks</div><div class="v">60%</div><div class="d">28 stay-put teams, July → Aug</div></div>
+      <div class="kpi"><div class="l">PEL usage from July cards</div><div class="v">37%</div><div class="d">56% June + July — creep is real</div></div>
+      <div class="kpi"><div class="l">Torrent roster vs HD bar</div><div class="v">47<span style="font-size:15px;color:var(--text-muted)">th pct</span></div><div class="d">42nd vs PEL — upgrades below</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="levers">
+  <div class="cardhead"><h2 class="cardtitle">What actually predicts winning — 150 teams, ratings vs results</h2></div>
+  <p class="cardsub">Correlation between a team's usage-weighted rating (standardized within its league) and its league-relative outcome. This is the normalization frame: OOTP recenters everything on the league, so what matters is not your rating — it's your rating <i>minus the league mean</i>.</p>
+  <div class="grid2">
+    <div>
+      <div class="seclabel">Hitting rating → team wOBA</div>
+      <div id="offBars"></div>
+      <div class="note">EYE is the strongest single lever (r = .46) and holds up in the multivariate fit (+10.2 per SD, vs +7.5 K-avoid, +7.0 POW, +5.7 BABIP). Nothing is worthless — but plate discipline compounds.</div>
+    </div>
+    <div>
+      <div class="seclabel">Pitching rating → team FIP (|r|, lower FIP)</div>
+      <div id="pitBars"></div>
+      <div class="note">HR-avoid edges Stuff as the top pitching lever (−10.5 vs −9.9 per SD). pBABIP barely matters once the others are in — DIPS lives inside OOTP, at team level too.</div>
+    </div>
+  </div>
+  <div class="seclabel" style="margin-top:20px">Everything vs total WAR</div>
+  <div id="warBars"></div>
+  <div class="note warn">Two non-rating drivers: usage-weighted card value — creep — correlates r = .50 with WAR, as much as any rating. Staff <i>size</i> correlates ~0. Card quality wins; card count doesn't.</div>
+</section>
+
+<section class="card" id="cwhit">
+  <div class="cardhead"><h2 class="cardtitle">Castroville Mashers, decoded</h2></div>
+  <p class="cardsub">cwhit's HD453 team, the week before he was promoted to PEL. Each dot is Castroville's percentile among the 30 HD453 teams — right of the midline is above league average.</p>
+  <div id="fingerprint"></div>
+  <div class="grid2" style="margin-top:16px">
+    <div>
+      <div class="seclabel">How the offense works</div>
+      <p class="sub" style="font-size:12.5px">Lowest strikeout rate in the league (17.3%), 97th-pct team BABIP (.321), 13th-pct home runs — and still the 93rd-pct offense (.338 wOBA). The lineup is Ott and a 102 Vlad as the only power, surrounded by contact monsters: Ozzie Smith (K-avoid 202, POW 35), a 93-value Johnny Bassler (K-avoid 217), Brouthers, Hodapp. He plays sub-100 cards where the contact profile is elite.</p>
+    </div>
+    <div>
+      <div class="seclabel">How the pitching works</div>
+      <p class="sub" style="font-size:12.5px">Not a Control staff — CON is 30th pct. It's an <b>HR-suppression</b> staff: Alexander (HRA 141), Clemens (146), Sabathia (139), Welch (142). 11 starters and 17 total arms (both ~87th pct) spread the innings; HR/9 of 0.886 is among the league's lowest. With league K and BB rates compressed, the homer is the run that kills you — he's priced that in.</p>
+    </div>
+  </div>
+  <div class="callout"><b>The twist:</b> his exact mix isn't the only frontier. Miami Tamps won <i>more</i> WAR in the same league with the opposite build (Power 136, K-avoid 119). What the two share: elite pitching by HR-avoid + Stuff, above-average EYE, and newer-than-league cards. The lever everyone at the top pulls is EYE + HR-avoid; K-avoid/BABIP-vs-Power is a style choice on top of it.</div>
+  <div class="note warn" style="margin-top:12px">Ballparks are <b>not in the league export</b>, so park choice can't be separated from HRA ratings here. His defense reads good-not-elite (ZR +7.3, 70th pct; efficiency ~league). The HR suppression is at least mostly the arms. If you want the park angle, grab the league home-park list and I'll fold it in.</div>
+</section>
+
+<section class="card" id="creep">
+  <div class="cardhead"><h2 class="cardtitle">Creep — the meta has a six-week half-life</h2></div>
+  <p class="cardsub">Share of all usage (PA + IP-weighted) by the card's release month. Cards from the game's first three months are down to a quarter of HD usage and a fifth of PEL usage.</p>
+  <div id="monthChart"></div>
+  <div class="legend"><span class="k"><span class="swatch" style="background:var(--s1)"></span>PEL</span><span class="k"><span class="swatch" style="background:var(--s2)"></span>High Diamond (4 leagues)</span></div>
+  <div class="grid2" style="margin-top:18px">
+    <div>
+      <div class="seclabel">Card-value mix by league (usage-weighted)</div>
+      <div id="valStack"></div>
+      <div class="legend"><span class="k"><span class="swatch" style="background:var(--seq-5)"></span>102</span><span class="k"><span class="swatch" style="background:var(--seq-4)"></span>101</span><span class="k"><span class="swatch" style="background:var(--seq-2)"></span>100</span><span class="k"><span class="swatch" style="background:var(--seq-1)"></span>&lt;100</span></div>
+    </div>
+    <div>
+      <div class="seclabel">Where it's heading</div>
+      <p class="sub" style="font-size:12.5px">PEL already runs <b>53.5%</b> of its usage on 101+ cards; the HD leagues run ~40–47%. The 102 wave has landed — <b>Cy Young SP is on 20 of 150 teams</b>, plus Vlad Guerrero RF and Cannonball Morris SP — and your read that the ceiling ends around 105 means this repeats several more times. A card's edge decays on a ~6-week clock, which is why the shop release date deserves a column in every buy decision.</p>
+      <div class="callout" style="margin-top:10px"><b>Churn:</b> among the 28 teams still in the same league six weeks later, the median roster had <b>62% of its cards replaced</b>. Churn correlates <i>positively</i> with WAR (r = .27) — the good teams are the ones upgrading. Castroville itself wasn't in HD453 in July; he climbed into it.</div>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="variants">
+  <div class="cardhead"><h2 class="cardtitle">Variants — double the density at the top</h2></div>
+  <p class="cardsub">Share of usage on VAR cards, by league. PEL teams lean on variants twice as hard as HD teams — but Castroville won at 8.6%, and variant usage correlates only r = .25 with WAR. Variants are an accelerant, not a requirement.</p>
+  <div id="varBars"></div>
+</section>
+
+
+<section class="card" id="clans">
+  <div class="cardhead"><h2 class="cardtitle">The clan tags — CG, HotL, GH &amp; co. really are the good teams</h2></div>
+  <p class="cardsub">42 of 156 teams carry a clan suffix. They average +2.4 WAR over unaffiliated teams (36.0 vs 33.6, p = .04), and 38% land in the top WAR quartile vs 21% of solos. They are playing exactly the levers from the regression: +0.26 SD EYE, +0.34 SD HR-avoid, more variants (10.0% vs 7.9% of usage), newer cards.</p>
+  <div class="grid2">
+    <div>
+      <div class="seclabel">Average WAR by clan</div>
+      <div id="clanBars"></div>
+      <div class="note">GH is the scariest per-team (41.4 avg across 5). HotL is the biggest (17 teams). CG peaks highest — Castroville. When one of these tags is in your bracket, expect an HR-avoid staff and an up-the-middle defense.</div>
+    </div>
+    <div>
+      <div class="seclabel">Cards clans play far more than solos (roster-penetration gap)</div>
+      <div id="clanCards"></div>
+      <div class="note">The clan-distinctive core is up-the-middle defense + contact (Ozzie, Gibson, Beltran, Wagner, Cholowsky) and HR-avoid arms (Clemens, Sabathia, Josh Johnson, Andrew Miller). You already own and start Gibson and Cholowsky.</div>
+    </div>
+  </div>
+</section>
+
+<section class="card" id="torrent">
+  <div class="cardhead"><h2 class="cardtitle">Kansas City Torrent — the Aug 21 roster vs the level you just joined</h2></div>
+  <p class="cardsub">Every active card's composite percentile against the cards <i>actually being played</i> at its position across the four HD leagues (usage-weighted; hitters: EYE·30 / K-avoid·22 / POW·21 / GAP·10 / defense·17, pitchers: HRA·33 / STU·31 / CON·28 / pBABIP·8 — weights from the league regression). 50 = the median card in use at that spot. Worst first.</p>
+  <div style="overflow-x:auto"><table id="auditTable"></table></div>
+  <div class="callout"><b>The one glaring deficit is EYE.</b> League-wide, EYE is the top hitting lever — and your active hitters sit at these EYE percentiles vs HD usage: <span id="eyeList" class="sec"></span>. Gibson (96) and Cholowsky (62) are the only actives above the median. When you shop, shop EYE first.</div>
+  <div class="seclabel" style="margin-top:18px">Free upgrades — already owned, currently benched</div>
+  <p class="cardsub">Bench cards that outscore a current active at the same position on the same composite (defense included, comparable card value). Zero PP required.</p>
+  <div style="overflow-x:auto"><table id="upTable"></table></div>
+  <div class="note">Marte, Nomar, Cespedes and Beltre are strong <i>sell</i> candidates once swapped out — all four still carry 98–100 value and real market prices. Production-guarded as always: check the vL/vR splits before listing anyone you'd platoon instead.</div>
+</section>
+
+<section class="card" id="method">
+  <div class="cardhead"><h2 class="cardtitle">Method &amp; the normalization frame</h2></div>
+  <p class="foot">
+    <b>Normalization, concretely.</b> OOTP maps each rating to outcomes through <span style="font-variant-numeric:tabular-nums">rate = env_rate × e^α × (rating/50)^β</span> — but in PT leagues the environment recenters on the league itself. So a 125 defense at 2B is only "good" relative to the 2B ratings actually rostered around you; the same card is a plus defender in HD450 and average in PEL. Every percentile in this report is computed against <i>usage-weighted rostered cards</i> — the bar you're actually judged on — not the card pool.<br><br>
+    <b>Data.</b> 15 league exports (PEL + HD450–453, all/vL/vR splits), 4,682 card-season rows, 780 team-rostered stints after pooling; wOBA from standard linear weights, FIP with constant 3.47; team profiles usage-weighted (PA for hitters, IP for pitchers). July comparison recovered from git history (5 leagues, same format). Collection: <i>my cards 8.21.csv</i>, 3,445 cards, 25 active. Release dates joined from the Aug 18 shop export by CID (86% match; the 102s are too new to match).<br><br>
+    <b>Honest caveats.</b> One week of one league instance per file — small samples at team level; correlations, not causation. Ballparks absent from the export. The audit composite can't see the collection's BA/contact column (different scale from the shop's Contact — known gotcha), so contact-driven value is underweighted; Bassler-style cards score better in reality than here. League free agents ("-" org) excluded.
+  </p>
+</section>
+
+<p class="foot" style="text-align:center;margin-top:8px">Built Aug 21, 2026 · data through the week ending Aug 16 · Kansas City Torrent / RTR1776</p>
+</div>
+</div>
+
+<script>
+const DATA = {
+ env:[{lg:"PEL",teams:36,woba:.322,fip:4.38,v102:1.2,v101:52.3,v100:44.2,vlow:2.3,varu:13.4},
+      {lg:"HD453",teams:30,woba:.322,fip:4.35,v102:0.9,v101:46.4,v100:50.7,vlow:2.0,varu:6.5},
+      {lg:"HD452",teams:30,woba:.327,fip:4.44,v102:0.7,v101:39.7,v100:57.8,vlow:1.9,varu:7.7},
+      {lg:"HD451",teams:30,woba:.319,fip:4.36,v102:0.5,v101:39.2,v100:57.9,vlow:2.4,varu:6.8},
+      {lg:"HD450",teams:30,woba:.322,fip:4.43,v102:0.1,v101:39.5,v100:58.3,vlow:2.0,varu:6.7}],
+ offense:[["EYE",.458],["POW",.329],["BABIP",.304],["K-avoid",.131],["GAP",.092]],
+ pitching:[["HR-avoid",.446],["Stuff",.424],["pBABIP",.388],["Control",.319]],
+ war:[["Stuff",.546],["HR-avoid",.536],["pBABIP",.529],["Card value (creep)",.503],["EYE",.493],["Control",.367],["K-avoid",.264],["Variant usage",.251],["POW",.190],["Staff size",.039]],
+ fp:[{label:"Total WAR",pct:93},{label:"Team wOBA",pct:93},{label:"K-avoid rating",pct:97},{label:"BABIP rating",pct:97},{label:"HR-avoid (pitchers)",pct:93},{label:"Roster size",pct:90},{label:"SP count",pct:87},{label:"Variant usage",pct:73},{label:"Control (pitchers)",pct:30},{label:"Power rating",pct:20},{label:"Team HR per PA",pct:13},{label:"Team strikeout rate",pct:0}],
+ months:{labels:["March","April","May","June","July"],
+   pel:[7.9,6.9,8.3,19.2,37.1], hd:[11.9,13.0,11.1,19.4,31.1]},
+ audit:[
+  {pos:"SP",name:"Satchel Paige",cval:100,v:"N",s:22},
+  {pos:"LF",name:"Yoenis Cespedes",cval:98,v:"Y",s:25},
+  {pos:"2B",name:"Ketel Marte",cval:100,v:"N",s:26},
+  {pos:"SS",name:"Nomar Garciaparra",cval:100,v:"N",s:32},
+  {pos:"CL",name:"Jesse Orosco",cval:100,v:"N",s:34},
+  {pos:"SP",name:"Jack Coombs",cval:100,v:"N",s:35},
+  {pos:"LF",name:"Al Simmons",cval:99,v:"N",s:38},
+  {pos:"3B",name:"Adrian Beltre",cval:100,v:"N",s:43},
+  {pos:"1B",name:"Eddie Murray",cval:100,v:"N",s:44},
+  {pos:"CF",name:"George Springer",cval:100,v:"N",s:45},
+  {pos:"SP",name:"Cliff Lee",cval:100,v:"N",s:45},
+  {pos:"RF",name:"Frank Robinson",cval:100,v:"N",s:46},
+  {pos:"2B",name:"Jackie Robinson",cval:100,v:"N",s:47},
+  {pos:"SP",name:"Doug Fister",cval:98,v:"N",s:49},
+  {pos:"2B",name:"Tommy Hinzo",cval:100,v:"N",s:52},
+  {pos:"C",name:"Roy Campanella",cval:100,v:"Y",s:54},
+  {pos:"CL",name:"Tom Henke",cval:100,v:"N",s:55},
+  {pos:"SP",name:"Tyler Anderson",cval:95,v:"N",s:57},
+  {pos:"SS",name:"Roch Cholowsky",cval:101,v:"N",s:58},
+  {pos:"SP",name:"Vida Blue",cval:101,v:"N",s:59},
+  {pos:"CL",name:"Robb Nen",cval:101,v:"N",s:62},
+  {pos:"C",name:"Josh Gibson",cval:101,v:"N",s:64},
+  {pos:"RF",name:"Mel Ott",cval:101,v:"N",s:65},
+  {pos:"SP",name:"CC Sabathia",cval:101,v:"N",s:70},
+  {pos:"CL",name:"Rich Gossage",cval:101,v:"N",s:80}],
+ upgrades:[
+  {pos:"SP",out:"Satchel Paige",outS:22,inn:"Pete Donohue",inS:61,cval:96,v:"N"},
+  {pos:"3B",out:"Adrian Beltre",outS:43,inn:"Mike Schmidt",inS:62,cval:99,v:"N"},
+  {pos:"SS",out:"Nomar Garciaparra",outS:32,inn:"Ethan Holliday",inS:58,cval:95,v:"N"},
+  {pos:"LF",out:"Yoenis Cespedes",outS:25,inn:"Rocky Colavito",inS:52,cval:96,v:"N"},
+  {pos:"SP",out:"Jack Coombs",outS:35,inn:"Steve Carlton",inS:50,cval:96,v:"Y"},
+  {pos:"2B",out:"Ketel Marte",outS:26,inn:"Jose Altuve",inS:48,cval:100,v:"N"}],
+ eye:[{name:"Cespedes",p:0},{name:"Marte",p:2},{name:"Nomar",p:3},{name:"Simmons",p:6},{name:"Beltre",p:1},{name:"F.Robinson",p:38},{name:"Campanella",p:41},{name:"Murray",p:48},{name:"Ott",p:50},{name:"Springer",p:52},{name:"Cholowsky",p:62},{name:"Gibson",p:96}]
+};
+
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+
+/* correlation bar groups */
+function corrBars(mountId, rows, color){
+  const mount=document.getElementById(mountId);
+  const max=Math.max(...rows.map(r=>Math.abs(r[1])));
+  rows.forEach(r=>{
+    const row=el('div','brow');
+    row.appendChild(el('div','n',r[0]));
+    const t=el('div','btrack');
+    const f=el('div','bfill'); f.style.width=(Math.abs(r[1])/max*100)+'%'; if(color)f.style.background=color;
+    t.appendChild(f); row.appendChild(t);
+    row.appendChild(el('div','v',(r[1]<0?'−':'')+Math.abs(r[1]).toFixed(2).replace('0.','.')));
+    mount.appendChild(row);
+  });
+}
+corrBars('offBars',DATA.offense);
+corrBars('pitBars',DATA.pitching);
+corrBars('warBars',DATA.war);
+
+/* fingerprint */
+(function(){
+  const m=document.getElementById('fingerprint');
+  DATA.fp.forEach(d=>{
+    const row=el('div','frow');
+    row.appendChild(el('div','n',d.label));
+    const t=el('div','ftrack');
+    t.appendChild(el('div','mid'));
+    const dot=el('div','fdot'+(d.pct<50?' lo':''));
+    dot.style.left=Math.max(2,Math.min(98,d.pct))+'%';
+    dot.title=d.label+': '+d.pct+'th percentile';
+    t.appendChild(dot); row.appendChild(t);
+    row.appendChild(el('div','v',d.pct+'th pct'));
+    m.appendChild(row);
+  });
+})();
+
+/* month grouped bars */
+(function(){
+  const m=document.getElementById('monthChart');
+  const wrap=el('div','mchart');
+  const max=Math.max(...DATA.months.pel,...DATA.months.hd);
+  DATA.months.labels.forEach((lab,i)=>{
+    const col=el('div','mcol');
+    const pair=el('div','mpair');
+    [[DATA.months.pel[i],'var(--s1)'],[DATA.months.hd[i],'var(--s2)']].forEach(([v,c])=>{
+      const b=el('div','mbar'); b.style.height=(v/max*100)+'%'; b.style.background=c;
+      b.appendChild(el('span',null,v.toFixed(0)+'%'));
+      b.title=lab+': '+v+'%';
+      pair.appendChild(b);
+    });
+    col.appendChild(pair); col.appendChild(el('div','mlab',lab));
+    wrap.appendChild(col);
+  });
+  m.appendChild(wrap);
+})();
+
+/* VAL stacked bars */
+(function(){
+  const m=document.getElementById('valStack');
+  DATA.env.forEach(e=>{
+    const row=el('div','srow');
+    row.appendChild(el('div','n',e.lg));
+    const st=el('div','stack');
+    [[e.v102,'var(--seq-5)','102'],[e.v101,'var(--seq-4)','101'],[e.v100,'var(--seq-2)','100'],[e.vlow,'var(--seq-1)','<100']].forEach(([v,c,lab])=>{
+      if(v<=0)return;
+      const i=el('i'); i.style.width=v+'%'; i.style.background=c; i.title=e.lg+' — VAL '+lab+': '+v.toFixed(1)+'%';
+      st.appendChild(i);
+    });
+    row.appendChild(st);
+    row.appendChild(el('div','v','101+: '+(e.v101+e.v102).toFixed(1)+'%'));
+    m.appendChild(row);
+  });
+})();
+
+/* variant bars */
+(function(){
+  const m=document.getElementById('varBars');
+  const max=Math.max(...DATA.env.map(e=>e.varu));
+  DATA.env.forEach(e=>{
+    const row=el('div','brow');
+    row.appendChild(el('div','n',e.lg));
+    const t=el('div','btrack');
+    const f=el('div','bfill'); f.style.width=(e.varu/max*100)+'%';
+    f.title=e.lg+': '+e.varu+'% of usage on variants';
+    t.appendChild(f); row.appendChild(t);
+    row.appendChild(el('div','v',e.varu.toFixed(1)+'%'));
+    m.appendChild(row);
+  });
+})();
+
+/* audit table */
+(function(){
+  const t=document.getElementById('auditTable');
+  t.innerHTML='<thead><tr><th>Pos</th><th>Card</th><th class="num">Val</th><th>vs HD peers</th><th class="num">Pct</th><th>Read</th></tr></thead>';
+  const tb=el('tbody');
+  DATA.audit.forEach(a=>{
+    const cls=a.s<30?'crit':a.s<45?'warn':'';
+    const read=a.s<30?'replace now':a.s<45?'upgrade target':a.s<60?'holds the line':'carries the roster';
+    const tr=el('tr');
+    tr.innerHTML='<td>'+a.pos+'</td><td>'+a.name+(a.v==='Y'?' <span class="chip">VAR</span>':'')+'</td><td class="num">'+a.cval+'</td>'+
+      '<td><span class="pbar '+cls+'"><i style="width:'+a.s+'%"></i></span></td><td class="num">'+a.s+'</td><td class="sec" style="font-size:11.5px">'+read+'</td>';
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+})();
+
+/* upgrades table */
+(function(){
+  const t=document.getElementById('upTable');
+  t.innerHTML='<thead><tr><th>Pos</th><th>Sits</th><th class="num">Pct</th><th>Plays instead</th><th class="num">Pct</th><th class="num">Val</th></tr></thead>';
+  const tb=el('tbody');
+  DATA.upgrades.forEach(u=>{
+    const tr=el('tr');
+    tr.innerHTML='<td>'+u.pos+'</td><td class="sec">'+u.out+'</td><td class="num sec">'+u.outS+'</td><td class="big">'+u.inn+(u.v==='Y'?' <span class="chip">VAR</span>':'')+'</td><td class="num big">'+u.inS+'</td><td class="num">'+u.cval+'</td>';
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+})();
+
+/* eye list */
+document.getElementById('eyeList').textContent = DATA.eye.map(e=>e.name+' '+e.p).join(' · ');
+
+
+/* clan bars */
+(function(){
+  const rows=[["GH (5)",41.4],["CG (10)",37.0],["BFF (2)",36.8],["HotL (17)",36.4],["Solo avg (114)",33.6],["TBD (5)",29.8]];
+  const m=document.getElementById('clanBars'); const max=Math.max(...rows.map(r=>r[1]));
+  rows.forEach(r=>{const row=el('div','brow');row.appendChild(el('div','n',r[0]));
+    const t=el('div','btrack');const f=el('div','bfill');f.style.width=(r[1]/max*100)+'%';
+    if(r[0].startsWith('Solo'))f.style.background='var(--text-muted)';
+    f.title=r[0]+': '+r[1]+' avg WAR';t.appendChild(f);row.appendChild(t);
+    row.appendChild(el('div','v',r[1].toFixed(1)));m.appendChild(row);});
+})();
+/* clan-distinctive cards */
+(function(){
+  const rows=[["Ozzie Smith SS",25],["J.D. Martinez RF",24],["Josh Gibson C",23],["Lou Gehrig 1B",20],["Carlos Beltran CF",16],["Roger Clemens SP",15],["CC Sabathia SP",15],["Andrew Miller RP",13],["Roch Cholowsky SS",13],["Honus Wagner SS",12]];
+  const m=document.getElementById('clanCards'); const max=rows[0][1];
+  rows.forEach(r=>{const row=el('div','brow');row.appendChild(el('div','n',r[0]));
+    const t=el('div','btrack');const f=el('div','bfill');f.style.width=(r[1]/max*100)+'%';f.style.background='var(--s2)';
+    f.title=r[0]+': +'+r[1]+' pts of roster penetration vs solo teams';t.appendChild(f);row.appendChild(t);
+    row.appendChild(el('div','v','+'+r[1]));m.appendChild(row);});
+})();
+
+/* theme toggle */
+(function(){
+  const btn=document.getElementById('themeToggle'), root=document.documentElement;
+  function apply(mode){
+    if(mode){root.setAttribute('data-theme',mode);}else{root.removeAttribute('data-theme');}
+    const dark = mode==='dark' || (!mode && matchMedia('(prefers-color-scheme: dark)').matches);
+    btn.textContent = dark ? 'Light mode' : 'Dark mode';
+    btn.setAttribute('aria-pressed', dark);
+  }
+  let mode=null;
+  try{ mode=localStorage.getItem('ptmeta-theme'); }catch(e){}
+  apply(mode);
+  btn.addEventListener('click',()=>{
+    const dark = root.getAttribute('data-theme')==='dark' || (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    mode = dark ? 'light' : 'dark';
+    try{ localStorage.setItem('ptmeta-theme',mode); }catch(e){}
+    apply(mode);
+  });
+})();
+</script>
+</body>
+</html>

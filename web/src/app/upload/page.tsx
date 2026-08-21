@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-type Kind = "shop_list" | "collection" | "standings";
+type Kind = "shop_list" | "collection" | "standings" | "league";
 type Status = "analyzing" | "ready" | "committing" | "done" | "error";
 
 interface QueueItem {
@@ -51,12 +51,13 @@ function today(): string {
 }
 
 /** Commit order. The collection is matched against the card universe. */
-const KIND_ORDER: Record<Kind, number> = { shop_list: 0, collection: 1, standings: 2 };
+const KIND_ORDER: Record<Kind, number> = { shop_list: 0, collection: 1, standings: 2, league: 3 };
 
 const KIND_LABEL: Record<Kind, string> = {
   shop_list: "Card shop list",
   collection: "Collection export",
   standings: "Category standings",
+  league: "League season export",
 };
 
 function num(value: unknown): string {
@@ -97,6 +98,37 @@ function Report({
   capturedOn?: string;
   onCapturedOn?: (value: string) => void;
 }) {
+  if (kind === "league") {
+    return (
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <Stat label="League" value={String(stats.league ?? "?")} />
+          <Stat label="Split" value={String(stats.split ?? "all")} />
+          <Stat label="Teams" value={num(stats.teams)} />
+          <Stat label="Rows" value={num(stats.rows)} />
+        </div>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <Stat label="Unique cards" value={num(stats.uniqueCids)} />
+          <Stat label="Clan teams" value={num(stats.clanTeams)} />
+          <Stat label="Free-agent rows" value={num(stats.freeAgentRows)} />
+          <Stat label="Snapshot week" value={String(stats.capturedOn ?? "today")} />
+        </div>
+        {onCapturedOn && (
+          <label className="flex items-center gap-2 text-xs text-muted-foreground">
+            Captured on
+            <input
+              type="date"
+              value={capturedOn ?? ""}
+              onChange={(e) => onCapturedOn(e.target.value)}
+              className="rounded-md border border-border bg-background px-2 py-1 text-xs"
+            />
+            <span>— set this when backfilling an older week&apos;s export.</span>
+          </label>
+        )}
+      </div>
+    );
+  }
+
   if (kind === "shop_list") {
     const valid = stats.tierBandsValid === true;
     const byTier = (stats.byTier ?? {}) as Record<string, number>;
@@ -292,7 +324,7 @@ export default function UploadPage() {
             status: "ready",
             kind,
             stats: json.stats as Record<string, unknown>,
-            capturedOn: kind === "standings" ? today() : undefined,
+            capturedOn: kind === "standings" || kind === "league" ? today() : undefined,
           });
         }
       }

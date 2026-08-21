@@ -20,6 +20,7 @@ import {
 } from "../src/lib/ingest/collection";
 import { parseStandings } from "../src/lib/ingest/standings";
 import { scoreBatch, scoreResult } from "../src/lib/scoring";
+import { parseLeagueExport, ipToDecimal, clanOf } from "../src/lib/ingest/league";
 
 const ROOT = process.env.OOTP_DATA_ROOT ?? join(process.cwd(), "..");
 
@@ -237,6 +238,44 @@ const batch = scoreBatch(
 check("consecutive-day instances both kept", batch.rows.length === 2, `${batch.rows.length} rows`);
 check("re-sent row deduped", batch.duplicates.length === 1, `${batch.duplicates.length}`);
 check("PD Daily total", batch.byCategory["PD Daily"] === 11, `${batch.byCategory["PD Daily"]}`);
+
+/* ---------------------------------------------------------------- */
+
+section("league season export — the meta goldmine");
+{
+  const leagueText = read("League Data/pel_all.csv.csv") ?? read("League Data/pel_all.csv");
+  if (!leagueText) {
+    console.log("  skip — no PEL export under OOTP_DATA_ROOT/League Data");
+  } else {
+    const pel = parseLeagueExport(leagueText, "pel_all.csv.csv");
+    check("league from filename", pel.league === "PEL", String(pel.league));
+    check("split defaults to all", pel.split === "all", pel.split);
+    check("row count", pel.stints.length === 1110, `${pel.stints.length}`);
+    check("36 rostered teams", pel.stats.teams === 36, `${pel.stats.teams}`);
+    check("free agents excluded from teams", pel.stats.freeAgentRows > 0, `${pel.stats.freeAgentRows} FA rows`);
+    const totalUse = pel.stints.filter((s) => !s.isFreeAgent).reduce((a, s) => a + s.use, 0);
+    check("usage accumulates", totalUse > 100000, `${Math.round(totalUse)}`);
+  }
+  const hdText = read("League Data/hd453_all.csv");
+  if (hdText) {
+    const hd = parseLeagueExport(hdText, "hd453_all.csv");
+    check("HD453 from filename", hd.league === "HD453", String(hd.league));
+    const cast = hd.stints.filter((s) => s.org.includes("Castroville"));
+    check("Castroville present", cast.length > 0, `${cast.length} stints`);
+    check("Castroville tagged CG", cast[0]?.clan === "CG", String(cast[0]?.clan));
+    const alexander = cast.find((s) => s.name.includes("Alexander"));
+    check(
+      "IP thirds conversion (216.1 -> 216.33)",
+      alexander != null && Math.abs(alexander.ip - (216 + 1 / 3)) < 0.01,
+      alexander ? alexander.ip.toFixed(2) : "not found",
+    );
+  }
+  check("clanOf: suffix tag", clanOf("Castroville Mashers - CG DCFC") === "CG", "CG");
+  check("clanOf: bare tag", clanOf("Charlotte Hellcats GH") === "GH", "GH");
+  check("clanOf: HotL casing", clanOf("Paris Sloths - HotL") === "HOTL", "HOTL");
+  check("clanOf: plain team null", clanOf("Miami Tamps") === null, "null");
+  check("ipToDecimal thirds", Math.abs(ipToDecimal(197.2) - (197 + 2 / 3)) < 1e-9, "197.2 -> 197.67");
+}
 
 /* ---------------------------------------------------------------- */
 

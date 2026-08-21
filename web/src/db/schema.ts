@@ -353,3 +353,70 @@ export const rosterSlots = pgTable(
   },
   (t) => [index("roster_slots_roster_idx").on(t.rosterId)],
 );
+
+/* ------------------------------------------------------------------ */
+/* League seasons                                                      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * One uploaded league export = one snapshot: a league (PEL, HD450…), a split
+ * (all / vL / vR), and when it was captured. The stint rows hang off it.
+ *
+ * Snapshots are append-only like card snapshots — uploading next week's PEL
+ * file alongside this week's is what makes churn and meta drift measurable.
+ */
+export const leagueSnapshots = pgTable(
+  "league_snapshots",
+  {
+    id: serial("id").primaryKey(),
+    uploadId: integer("upload_id")
+      .notNull()
+      .references(() => uploads.id, { onDelete: "cascade" }),
+    league: text("league").notNull(), // PEL | HD450 | ...
+    split: text("split").notNull().default("all"), // all | vL | vR
+    /** Which week of play the export covers — supplied on upload, defaults to today. */
+    capturedOn: date("captured_on").notNull(),
+    teams: integer("teams").notNull().default(0),
+    rows: integer("rows").notNull().default(0),
+  },
+  (t) => [index("league_snap_idx").on(t.league, t.split, t.capturedOn)],
+);
+
+/**
+ * One row per card per team per snapshot — the atom of the meta analysis.
+ * Ratings and the stat line ride in JSONB: the analytics layer consumes them
+ * whole, and OOTP adds columns often enough that pinning them would churn.
+ */
+export const leagueStints = pgTable(
+  "league_stints",
+  {
+    id: serial("id").primaryKey(),
+    snapshotId: integer("snapshot_id")
+      .notNull()
+      .references(() => leagueSnapshots.id, { onDelete: "cascade" }),
+    cid: integer("cid"),
+    name: text("name").notNull(),
+    pos: text("pos").notNull(),
+    org: text("org").notNull(),
+    /** CG | HOTL | GH | … — the coordinated groups that outperform. Null = solo. */
+    clan: text("clan"),
+    isFreeAgent: boolean("is_free_agent").notNull().default(false),
+    isPitcher: boolean("is_pitcher").notNull().default(false),
+    val: integer("val"),
+    tier: text("tier"),
+    isVariant: boolean("is_variant").notNull().default(false),
+    cardYear: integer("card_year"),
+    pa: integer("pa").notNull().default(0),
+    /** Decimal innings — thirds already converted at ingest. */
+    ip: real("ip").notNull().default(0),
+    use: real("use").notNull().default(0),
+    war: real("war").notNull().default(0),
+    ratings: jsonb("ratings").$type<Record<string, number>>().notNull(),
+    stats: jsonb("stats").$type<Record<string, number>>().notNull(),
+  },
+  (t) => [
+    index("league_stints_snap_idx").on(t.snapshotId),
+    index("league_stints_org_idx").on(t.snapshotId, t.org),
+    index("league_stints_cid_idx").on(t.cid),
+  ],
+);

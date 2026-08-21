@@ -23,14 +23,19 @@ import {
   parseCollection,
 } from "@/lib/ingest/collection";
 import { looksLikeStandings, parseStandings } from "@/lib/ingest/standings";
+import { looksLikeLeagueExport, parseLeagueExport } from "@/lib/ingest/league";
+import { leagueSnapshots, leagueStints } from "@/db/schema";
 
 export const runtime = "nodejs";
 /** The shop list is ~1.5MB and 3,700 rows; the default 10s is not enough. */
 export const maxDuration = 60;
 
-type Kind = "shop_list" | "collection" | "standings";
+type Kind = "shop_list" | "collection" | "standings" | "league";
 
 function detectKind(headerLine: string): Kind | null {
+  // League first: its header also contains POS/Name like the collection's, but
+  // ORG + CID + WAR together only ever appear in a league season export.
+  if (looksLikeLeagueExport(headerLine)) return "league";
   if (looksLikeShopList(headerLine)) return "shop_list";
   if (looksLikeCollection(headerLine)) return "collection";
   if (looksLikeStandings(headerLine)) return "standings";
@@ -69,6 +74,90 @@ export async function POST(request: Request) {
       },
       { status: 422 },
     );
+  }
+
+  /* ---------------------------------------------------------------- */
+
+  if (kind === "league") {
+    const parsed = parseLeagueExport(text, file.name);
+
+    if (!parsed.league) {
+      return NextResponse.json(
+        {
+          error: "Could not tell which league this export is from.",
+          hint: "Keep the original filename — the league (pel / hd450…) and split (vL / vR) are read from it.",
+        },
+        { status: 422 },
+      );
+    }
+    if (parsed.stints.length === 0) {
+      return NextResponse.json({ error: "No rows parsed from the league export." }, { status: 422 });
+    }
+
+    // Same capturedOn convention as standings: the export is a snapshot of the
+    // week it was taken, and only the caller knows when that was on a backfill.
+    const capturedOnRaw = (form.get("capturedOn") as string | null)?.trim() || null;
+    if (capturedOnRaw && !/^\d{4}-\d{2}-\d{2}$/.test(capturedOnRaw)) {
+      return NextResponse.json(
+        { error: "capturedOn must be YYYY-MM-DD.", got: capturedOnRaw },
+        { status: 400 },
+      );
+    }
+    const capturedOn = capturedOnRaw ?? new Date().toISOString().slice(0, 10);
+
+    const report = {
+      league: parsed.league,
+      split: parsed.split,
+      ...parsed.stats,
+      capturedOn,
+      capturedOnWasSupplied: capturedOnRaw != null,
+    };
+
+    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
+
+    const [upload] = await db
+      .insert(uploads)
+      .values({ kind, filename: file.name, rowCount: parsed.stints.length, report })
+      .returning();
+
+    const [snapshot] = await db
+      .insert(leagueSnapshots)
+      .values({
+        uploadId: upload.id,
+        league: parsed.league,
+        split: parsed.split,
+        capturedOn,
+        teams: parsed.stats.teams,
+        rows: parsed.stints.length,
+      })
+      .returning();
+
+    const rows = parsed.stints.map((s) => ({
+      snapshotId: snapshot.id,
+      cid: s.cid,
+      name: s.name,
+      pos: s.pos,
+      org: s.org,
+      clan: s.clan,
+      isFreeAgent: s.isFreeAgent,
+      isPitcher: s.isPitcher,
+      val: s.val,
+      tier: s.tier,
+      isVariant: s.isVariant,
+      cardYear: s.cardYear,
+      pa: s.pa,
+      ip: s.ip,
+      use: s.use,
+      war: s.war,
+      ratings: s.ratings,
+      stats: s.stats,
+    }));
+    // Wide JSONB rows — smaller chunks than the card tables.
+    for (let i = 0; i < rows.length; i += 200) {
+      await db.insert(leagueStints).values(rows.slice(i, i + 200));
+    }
+
+    return NextResponse.json({ kind, uploadId: upload.id, snapshotId: snapshot.id, stats: report });
   }
 
   /* ---------------------------------------------------------------- */
