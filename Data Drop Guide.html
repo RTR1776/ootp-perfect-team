@@ -92,6 +92,9 @@
   .tile .v { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
   .tile .s { font-size: 13px; color: var(--text-2); }
   .tile.block { border-color: var(--warning); box-shadow: inset 3px 0 0 var(--warning); }
+  .tile.live { border-color: var(--good); box-shadow: inset 3px 0 0 var(--good); }
+  .tile a, .alt a { color: var(--accent); text-decoration: none; }
+  .tile a:hover, .alt a:hover { text-decoration: underline; }
   @media (max-width: 560px) { .tiles { grid-template-columns: 1fr; } }
 
   /* ---- sections ---- */
@@ -185,10 +188,10 @@
   <p class="lede">What the app still needs from you, in the order it matters. Drop files in the <code>Inbox</code> folder — no naming, no sorting — and I do the filing.</p>
 
   <div class="tiles">
-    <div class="tile block">
-      <span class="k">Blocking the app</span>
-      <span class="v">Neon, once</span>
-      <span class="s">About 10 minutes. One string to paste.</span>
+    <div class="tile live">
+      <span class="k">The app</span>
+      <span class="v">Live</span>
+      <span class="s"><a href="https://ootp-command-center.vercel.app">ootp-command-center.vercel.app</a></span>
     </div>
     <div class="tile">
       <span class="k">Every Friday</span>
@@ -196,37 +199,21 @@
       <span class="s">Shop list, your cards, league splits.</span>
     </div>
     <div class="tile">
-      <span class="k">Screenshots wanted</span>
+      <span class="k">Still wanted</span>
       <span class="v" id="shots-count">4 left</span>
-      <span class="s">Standings, parks, tournaments, a PD draft.</span>
+      <span class="s">Standings files, parks, tournaments, a PD draft.</span>
     </div>
   </div>
 
-  <!-- ============ NEON ============ -->
-  <section id="neon">
+  <!-- ============ LIVE ============ -->
+  <section id="live">
     <div class="sec-head">
-      <h2>Neon — the one thing only you can do</h2>
-      <span class="when hot">Once · 10 min</span>
+      <h2>The app is live</h2>
+      <span class="when done">Since Aug 22</span>
     </div>
-    <p class="sec-note">The app has a database driver, a schema, and an importer waiting. All it lacks is somewhere to live.</p>
-    <ol class="steps">
-      <li>
-        <strong>neon.tech → Sign up</strong> (signing in with GitHub is fine) <strong>→ New project.</strong>
-        Name it <span class="file">ootp-command-center</span>. Region: <strong>AWS US East (Ohio)</strong> — closest to Kansas City. Leave the Postgres version alone.
-      </li>
-      <li>
-        On the project page, open <strong>Connect</strong> and check that <strong>Connection pooling</strong> is on, then copy the connection string. It looks like this — the <em>-pooler</em> in the host is the tell:
-        <span class="conn">postgresql://neondb_owner:npg_••••@ep-quiet-lake-123456<em>-pooler</em>.us-east-2.aws.neon.tech/neondb?sslmode=require</span>
-      </li>
-      <li>
-        <strong>Paste it to me in chat.</strong> That is the whole job. I generate the <span class="file">AUTH_SECRET</span>; you pick an <span class="file">APP_PASSWORD</span> (or say "you pick" and I'll make one and tell you).
-      </li>
-      <li class="me">
-        <strong>Then I take it from there:</strong> create the Vercel project from the GitHub repo (root <span class="file">web</span>), push the schema, run the PTCS 6 import, load the August exports. You get a URL and a password. If Vercel won't take the three environment variables from my side, I hand you three lines to paste into <em>Settings → Environment Variables</em>.
-      </li>
-    </ol>
+    <p class="sec-note">Neon holds the database, Vercel serves the site, and every push to GitHub redeploys it on its own.</p>
     <div class="alt">
-      <strong>Rather not click through it?</strong> Sign in at neon.tech in Chrome, leave the tab open, and tell me. If the Claude Chrome extension is on, I can do the clicks and copy the string myself.
+      <strong><a href="https://ootp-command-center.vercel.app">ootp-command-center.vercel.app</a></strong> — the password is the <span class="file">APP_PASSWORD</span> line in <span class="file">web/.env.local</span> (I also told you in chat). Already loaded: both shop snapshots, your Aug 21 collection, all 20 league exports, and the PTCS 6 log through Aug 20. Anything you drop in <span class="file">Inbox</span> shows up on the site within minutes of my filing it.
     </div>
   </section>
 
@@ -294,21 +281,21 @@
     </ul>
   </section>
 
-  <!-- ============ SCREENSHOTS ============ -->
+  <!-- ============ STILL WANTED ============ -->
   <section id="shots">
     <div class="sec-head">
-      <h2>Screenshots I still need — once each</h2>
+      <h2>Still wanted — once each</h2>
       <span class="when">Drop in Inbox</span>
     </div>
-    <p class="sec-note">A phone photo of the screen is fine. Each one closes a specific gap.</p>
+    <p class="sec-note">The first one is a download; the rest are screenshots, and a phone photo of the screen is fine. Each one closes a specific gap.</p>
     <ul class="check" data-scope="once">
       <li>
         <label>
           <input type="checkbox" data-key="standings">
           <div>
-            <div class="row-title">PTCS 6 category standings</div>
-            <div class="row-body">Your rank and the points at the berth line in Silver, Gold, Diamond, Cap, PD Daily, PD Weekly.</div>
-            <span class="unlock">The forecast aims at the real cutoff instead of the 135 / 130 guesses, and the berth count per category stops being an assumption.</span>
+            <div class="row-title">PTCS 6 standings files <code>pt_standings_…csv</code></div>
+            <div class="row-body">The standings export from the PT site, one file per category — Silver, Gold, Diamond, Cap, PD Daily, PD Weekly. Keep the filenames as downloaded; the category and period are read from them.</div>
+            <span class="unlock">The app reads the real berth line off the file, so the forecast aims at the actual cutoff instead of the 135 / 130 guesses. Re-drop them each Friday and the line tracks all period.</span>
           </div>
         </label>
       </li>
@@ -353,6 +340,7 @@
       <span class="when done">As of Aug 22</span>
     </div>
     <ul class="have">
+      <li><span><b>Neon + Vercel</b> — database and site live, loaded with everything below</span></li>
       <li><span><b>Shop list as of Aug 20</b> — 3,973 cards with L10 and release dates; filed today</span></li>
       <li><span><b>Your collection, Aug 21</b> — 3,327 owned</span></li>
       <li><span><b>League exports, week ending Aug 16</b> — PEL + HD450–453, all three splits</span></li>
