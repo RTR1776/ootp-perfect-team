@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Torrent Data Drop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --surface-2: #f0efec;
+    --text: #0b0b0b;
+    --text-2: #52514e;
+    --muted: #898781;
+    --border: rgba(11,11,11,0.10);
+    --border-strong: rgba(11,11,11,0.22);
+    --accent: #2a78d6;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(42,120,214,0.10);
+    --good: #0ca30c;
+    --good-soft: rgba(12,163,12,0.12);
+    --warning: #c98600;
+    --warning-soft: rgba(250,178,25,0.16);
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: #0d0d0d;
+      --surface: #1a1a19;
+      --surface-2: #2c2c2a;
+      --text: #ffffff;
+      --text-2: #c3c2b7;
+      --muted: #898781;
+      --border: rgba(255,255,255,0.10);
+      --border-strong: rgba(255,255,255,0.26);
+      --accent: #6da7ec;
+      --accent-ink: #0b0b0b;
+      --accent-soft: rgba(109,167,236,0.14);
+      --good: #3ec43e;
+      --good-soft: rgba(62,196,62,0.14);
+      --warning: #fab219;
+      --warning-soft: rgba(250,178,25,0.14);
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --surface-2: #2c2c2a;
+    --text: #ffffff;
+    --text-2: #c3c2b7;
+    --muted: #898781;
+    --border: rgba(255,255,255,0.10);
+    --border-strong: rgba(255,255,255,0.26);
+    --accent: #6da7ec;
+    --accent-ink: #0b0b0b;
+    --accent-soft: rgba(109,167,236,0.14);
+    --good: #3ec43e;
+    --good-soft: rgba(62,196,62,0.14);
+    --warning: #fab219;
+    --warning-soft: rgba(250,178,25,0.14);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 40px 22px 72px; }
+
+  /* ---- header ---- */
+  .eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 10px;
+  }
+  h1 { font-size: 30px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -0.015em; text-wrap: balance; }
+  .lede { color: var(--text-2); margin: 0; max-width: 60ch; }
+  .lede code { font-size: 0.92em; }
+
+  /* ---- summary tiles ---- */
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 26px 0 8px; }
+  .tile {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .tile .k { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .tile .v { font-size: 19px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+  .tile .s { font-size: 13px; color: var(--text-2); }
+  .tile.block { border-color: var(--warning); box-shadow: inset 3px 0 0 var(--warning); }
+  @media (max-width: 560px) { .tiles { grid-template-columns: 1fr; } }
+
+  /* ---- sections ---- */
+  section { margin-top: 40px; }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  h2 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+  .when {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; background: var(--surface-2); color: var(--text-2);
+    white-space: nowrap;
+  }
+  .when.hot { background: var(--warning-soft); color: var(--text); }
+  .when.done { background: var(--good-soft); color: var(--text); }
+  .sec-note { color: var(--text-2); margin: 0 0 16px; max-width: 64ch; }
+
+  /* ---- numbered steps (a real sequence) ---- */
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; display: grid; gap: 10px; }
+  ol.steps > li {
+    counter-increment: step; position: relative; padding: 14px 16px 14px 52px; min-width: 0;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  }
+  ol.steps > li::before {
+    content: counter(step); position: absolute; left: 16px; top: 14px;
+    width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--accent-ink);
+    font-weight: 700; font-size: 13px; display: grid; place-items: center; font-variant-numeric: tabular-nums;
+  }
+  ol.steps > li.me::before { background: var(--surface-2); color: var(--text-2); }
+  ol.steps strong { font-weight: 600; }
+  .conn {
+    display: block; margin-top: 8px; padding: 9px 11px; border-radius: 7px; max-width: 100%;
+    background: var(--surface-2); font-family: var(--mono); font-size: 12.5px; line-height: 1.5;
+    overflow-x: auto; white-space: nowrap; color: var(--text);
+  }
+  .conn em { font-style: normal; background: var(--accent-soft); color: var(--accent); padding: 0 4px; border-radius: 4px; }
+  .alt {
+    margin-top: 12px; padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--accent-soft);
+    border-radius: 0 8px 8px 0; color: var(--text-2); font-size: 14px;
+  }
+  .alt strong { color: var(--text); font-weight: 600; }
+
+  /* ---- checklist rows ---- */
+  ul.check { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  ul.check li {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    display: grid; grid-template-columns: 22px 1fr; gap: 14px; align-items: start; padding: 13px 16px;
+  }
+  ul.check li.is-done { border-color: var(--good); }
+  ul.check label { display: contents; cursor: pointer; }
+  ul.check input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none; margin: 3px 0 0; width: 20px; height: 20px; border-radius: 6px;
+    border: 1.5px solid var(--border-strong); background: var(--surface); cursor: pointer; position: relative; flex: none;
+  }
+  ul.check input[type="checkbox"]:checked { background: var(--good); border-color: var(--good); }
+  ul.check input[type="checkbox"]:checked::after {
+    content: ""; position: absolute; left: 6px; top: 2px; width: 5px; height: 10px;
+    border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg);
+  }
+  ul.check input[type="checkbox"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .row-title { font-weight: 600; }
+  .row-title code, .file { font-family: var(--mono); font-size: 0.9em; background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+  .row-body { color: var(--text-2); font-size: 14px; margin-top: 2px; }
+  .unlock { display: block; margin-top: 6px; font-size: 13px; color: var(--text-2); }
+  .unlock::before { content: "unlocks"; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-right: 8px; }
+  li.is-done .row-title { color: var(--text-2); text-decoration: line-through; text-decoration-color: var(--muted); }
+
+  /* ---- plain list (things to say in chat) ---- */
+  ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  ul.plain li { padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  ul.plain .row-body { margin-top: 1px; }
+
+  /* ---- have-list ---- */
+  ul.have { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px; }
+  ul.have li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; align-items: start; font-size: 14px; color: var(--text-2); padding: 4px 0; }
+  ul.have li::before { content: ""; width: 16px; height: 16px; margin-top: 3px; border-radius: 50%; background: var(--good-soft); position: relative; }
+  ul.have li b { color: var(--text); font-weight: 600; }
+  @media (max-width: 560px) { ul.have { grid-template-columns: 1fr; } }
+
+  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  footer .file { color: var(--text-2); }
+  .week-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  @media (prefers-reduced-motion: no-preference) {
+    ul.check li { transition: border-color 160ms ease; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <p class="eyebrow">OOTP Command Center · intake</p>
+  <h1>Torrent Data Drop</h1>
+  <p class="lede">What the app still needs from you, in the order it matters. Drop files in the <code>Inbox</code> folder — no naming, no sorting — and I do the filing.</p>
+
+  <div class="tiles">
+    <div class="tile block">
+      <span class="k">Blocking the app</span>
+      <span class="v">Neon, once</span>
+      <span class="s">About 10 minutes. One string to paste.</span>
+    </div>
+    <div class="tile">
+      <span class="k">Every Friday</span>
+      <span class="v">3 exports</span>
+      <span class="s">Shop list, your cards, league splits.</span>
+    </div>
+    <div class="tile">
+      <span class="k">Screenshots wanted</span>
+      <span class="v" id="shots-count">4 left</span>
+      <span class="s">Standings, parks, tournaments, a PD draft.</span>
+    </div>
+  </div>
+
+  <!-- ============ NEON ============ -->
+  <section id="neon">
+    <div class="sec-head">
+      <h2>Neon — the one thing only you can do</h2>
+      <span class="when hot">Once · 10 min</span>
+    </div>
+    <p class="sec-note">The app has a database driver, a schema, and an importer waiting. All it lacks is somewhere to live.</p>
+    <ol class="steps">
+      <li>
+        <strong>neon.tech → Sign up</strong> (signing in with GitHub is fine) <strong>→ New project.</strong>
+        Name it <span class="file">ootp-command-center</span>. Region: <strong>AWS US East (Ohio)</strong> — closest to Kansas City. Leave the Postgres version alone.
+      </li>
+      <li>
+        On the project page, open <strong>Connect</strong> and check that <strong>Connection pooling</strong> is on, then copy the connection string. It looks like this — the <em>-pooler</em> in the host is the tell:
+        <span class="conn">postgresql://neondb_owner:npg_••••@ep-quiet-lake-123456<em>-pooler</em>.us-east-2.aws.neon.tech/neondb?sslmode=require</span>
+      </li>
+      <li>
+        <strong>Paste it to me in chat.</strong> That is the whole job. I generate the <span class="file">AUTH_SECRET</span>; you pick an <span class="file">APP_PASSWORD</span> (or say "you pick" and I'll make one and tell you).
+      </li>
+      <li class="me">
+        <strong>Then I take it from there:</strong> create the Vercel project from the GitHub repo (root <span class="file">web</span>), push the schema, run the PTCS 6 import, load the August exports. You get a URL and a password. If Vercel won't take the three environment variables from my side, I hand you three lines to paste into <em>Settings → Environment Variables</em>.
+      </li>
+    </ol>
+    <div class="alt">
+      <strong>Rather not click through it?</strong> Sign in at neon.tech in Chrome, leave the tab open, and tell me. If the Claude Chrome extension is on, I can do the clicks and copy the string myself.
+    </div>
+  </section>
+
+  <!-- ============ WEEKLY ============ -->
+  <section id="weekly">
+    <div class="sec-head">
+      <h2>Every Friday — the three exports</h2>
+      <span class="when" id="week-chip">This week</span>
+    </div>
+    <p class="sec-note">The same three exports you did on Aug 21. Into <span class="file">Inbox</span>; filenames don't matter. Friday is the anchor only because Aug 21 was one — cards release almost daily (six drops between Aug 12 and Aug 20), so consistency matters more than the day.</p>
+    <ul class="check" data-scope="weekly">
+      <li>
+        <label>
+          <input type="checkbox" data-key="shop">
+          <div>
+            <div class="row-title">Card shop list <code>pt_card_list.csv</code></div>
+            <div class="row-body">The full shop export — every card, L10 price, buy/sell orders, owned flag, release date.</div>
+            <span class="unlock">Price history and the Movers board; card-value creep by release date; buy/sell timing.</span>
+          </div>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" data-key="cards">
+          <div>
+            <div class="row-title">Your collection <code>my cards</code> export</div>
+            <div class="row-body">Same export as <span class="file">my cards 8.21.csv</span>.</div>
+            <span class="unlock">Ownership matching (so I never recommend a card you own), the sell board, the free-upgrade finder.</span>
+          </div>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" data-key="league">
+          <div>
+            <div class="row-title">League export — all, vs L, vs R</div>
+            <div class="row-body">Your HD league, plus PEL if you can still see it. The first one with the Torrent in it is the one I want most.</div>
+            <span class="unlock">Your team's real production instead of ratings; weekly meta creep and churn; the roster audit against actual results.</span>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <p class="week-note" id="week-note"></p>
+  </section>
+
+  <!-- ============ WHEN IT HAPPENS ============ -->
+  <section id="events">
+    <div class="sec-head">
+      <h2>When it happens — just say it in chat</h2>
+      <span class="when">As they come</span>
+    </div>
+    <ul class="plain">
+      <li>
+        <div class="row-title">A PTCS or PTMS finish</div>
+        <div class="row-body">The placing bracket is enough ("9th–16th in Diamond"). PTMS 2 is today, Aug 22.</div>
+      </li>
+      <li>
+        <div class="row-title">Daily PTCS 6 results</div>
+        <div class="row-body">Same as now, until the result-entry page replaces the workbook.</div>
+      </li>
+      <li>
+        <div class="row-title">A tournament you enter that isn't on the presets page</div>
+        <div class="row-body">Its era, park, and cap — the preset call is only as good as those three.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============ SCREENSHOTS ============ -->
+  <section id="shots">
+    <div class="sec-head">
+      <h2>Screenshots I still need — once each</h2>
+      <span class="when">Drop in Inbox</span>
+    </div>
+    <p class="sec-note">A phone photo of the screen is fine. Each one closes a specific gap.</p>
+    <ul class="check" data-scope="once">
+      <li>
+        <label>
+          <input type="checkbox" data-key="standings">
+          <div>
+            <div class="row-title">PTCS 6 category standings</div>
+            <div class="row-body">Your rank and the points at the berth line in Silver, Gold, Diamond, Cap, PD Daily, PD Weekly.</div>
+            <span class="unlock">The forecast aims at the real cutoff instead of the 135 / 130 guesses, and the berth count per category stops being an assumption.</span>
+          </div>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" data-key="parks">
+          <div>
+            <div class="row-title">Ballparks</div>
+            <div class="row-body">The park for your HD league, for PEL, and for any tournament you're running. No export carries it.</div>
+            <span class="unlock">Separates a pitcher's HR-avoid from his park and fixes the defense-vs-ERA read. I already hold factors for every park; I only need the names.</span>
+          </div>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" data-key="tourneys">
+          <div>
+            <div class="row-title">Current tournament list</div>
+            <div class="row-body">Era, park, and value cap for each. The list rotates, so a fresh shot whenever it changes.</div>
+            <span class="unlock">Keeps the /environments page and the preset calls honest.</span>
+          </div>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" data-key="pd">
+          <div>
+            <div class="row-title">One Perfect Draft daily, start to finish</div>
+            <div class="row-body">The draft board or pool, your picks, and the result. Whatever screens exist.</div>
+            <span class="unlock">The first real data for the draft engine — right now it has three guide PDFs and nothing else.</span>
+          </div>
+        </label>
+      </li>
+    </ul>
+    <p class="week-note">One question, no screenshot: do PTCS Cap and Live event finishes count toward the PTMS tournament standing? If you know, say so; if not, skip it.</p>
+  </section>
+
+  <!-- ============ HAVE ============ -->
+  <section id="have">
+    <div class="sec-head">
+      <h2>Already in hand — skip these</h2>
+      <span class="when done">As of Aug 22</span>
+    </div>
+    <ul class="have">
+      <li><span><b>Shop list as of Aug 20</b> — 3,973 cards with L10 and release dates; filed today</span></li>
+      <li><span><b>Your collection, Aug 21</b> — 3,327 owned</span></li>
+      <li><span><b>League exports, week ending Aug 16</b> — PEL + HD450–453, all three splits</span></li>
+      <li><span><b>July league archive</b> — same five leagues</span></li>
+      <li><span><b>PTCS 6 daily log through Aug 20</b> — 18 days</span></li>
+      <li><span><b>PT 27 rules PDF</b> — the PTCS → PTMS → PTWC ladder</span></li>
+      <li><span><b>Ballpark factors</b> — every park; names still needed</span></li>
+      <li><span><b>MLB year-by-year averages</b> and the three Perfect Draft guides</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Inbox → I file into <span class="file">League Data</span>, <span class="file">LJ Cards and Card Shop</span>, <span class="file">Tourney Standings</span>, ingest, and empty it.</span>
+    <span>Lives in the repo as <span class="file">Data Drop Guide.html</span></span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var STORE = "torrent-data-drop-v1";
+  function load() { try { return JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { return {}; } }
+  function save(s) { try { localStorage.setItem(STORE, JSON.stringify(s)); } catch (e) {} }
+
+  // Weekly items reset every Friday: the cycle key is the most recent Friday (local date).
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function localKey(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function cycle() {
+    var d = new Date(); d.setHours(0, 0, 0, 0);
+    var back = (d.getDay() - 5 + 7) % 7;   // days since Friday
+    d.setDate(d.getDate() - back);
+    return d;
+  }
+  var fri = cycle();
+  var key = localKey(fri);
+  var next = new Date(fri); next.setDate(fri.getDate() + 7);
+  var fmt = function (d) { return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" }); };
+
+  var chip = document.getElementById("week-chip");
+  if (chip) chip.textContent = "Week of " + fmt(fri);
+  var note = document.getElementById("week-note");
+  if (note) note.textContent = "Boxes reset on " + fmt(next) + ". They remember themselves in this browser only.";
+
+  var state = load();
+  var boxes = document.querySelectorAll("ul.check input[type=checkbox]");
+  function paint(box) {
+    var li = box.closest("li");
+    if (li) li.classList.toggle("is-done", box.checked);
+  }
+  function countShots() {
+    var left = 0;
+    document.querySelectorAll('ul.check[data-scope="once"] input').forEach(function (b) { if (!b.checked) left++; });
+    var el = document.getElementById("shots-count");
+    if (el) el.textContent = left === 0 ? "All in" : left + " left";
+  }
+  boxes.forEach(function (box) {
+    var scope = box.closest("ul.check").getAttribute("data-scope");
+    var id = scope + ":" + box.getAttribute("data-key");
+    var v = state[id];
+    box.checked = scope === "weekly" ? v === key : v === true;
+    paint(box);
+    box.addEventListener("change", function () {
+      if (scope === "weekly") { if (box.checked) state[id] = key; else delete state[id]; }
+      else { if (box.checked) state[id] = true; else delete state[id]; }
+      save(state); paint(box); countShots();
+    });
+  });
+  countShots();
+})();
+</script>
+
+</body>
+</html>
