@@ -76,6 +76,25 @@ export async function POST(request: Request) {
     );
   }
 
+  /**
+   * Every export is a snapshot of the moment it was downloaded, and nothing
+   * inside the file records that moment. Today is right for a fresh export and
+   * wrong for a backfill — which is exactly when it must be overridable — so the
+   * caller may supply `capturedOn` (YYYY-MM-DD). It stamps the upload row and,
+   * for the shop list, every price snapshot row, so /market's history reads the
+   * true dates.
+   */
+  const capturedOnRaw = (form.get("capturedOn") as string | null)?.trim() || null;
+  if (capturedOnRaw && !/^\d{4}-\d{2}-\d{2}$/.test(capturedOnRaw)) {
+    return NextResponse.json(
+      { error: "capturedOn must be YYYY-MM-DD.", got: capturedOnRaw },
+      { status: 400 },
+    );
+  }
+  const capturedOn = capturedOnRaw ?? new Date().toISOString().slice(0, 10);
+  // Noon UTC so the date survives a round-trip through any timezone.
+  const capturedAt = capturedOnRaw ? new Date(`${capturedOnRaw}T12:00:00Z`) : new Date();
+
   /* ---------------------------------------------------------------- */
 
   if (kind === "league") {
@@ -94,17 +113,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No rows parsed from the league export." }, { status: 422 });
     }
 
-    // Same capturedOn convention as standings: the export is a snapshot of the
-    // week it was taken, and only the caller knows when that was on a backfill.
-    const capturedOnRaw = (form.get("capturedOn") as string | null)?.trim() || null;
-    if (capturedOnRaw && !/^\d{4}-\d{2}-\d{2}$/.test(capturedOnRaw)) {
-      return NextResponse.json(
-        { error: "capturedOn must be YYYY-MM-DD.", got: capturedOnRaw },
-        { status: 400 },
-      );
-    }
-    const capturedOn = capturedOnRaw ?? new Date().toISOString().slice(0, 10);
-
     const report = {
       league: parsed.league,
       split: parsed.split,
@@ -117,7 +125,13 @@ export async function POST(request: Request) {
 
     const [upload] = await db
       .insert(uploads)
-      .values({ kind, filename: file.name, rowCount: parsed.stints.length, report })
+      .values({
+        kind,
+        filename: file.name,
+        rowCount: parsed.stints.length,
+        report,
+        uploadedAt: capturedAt,
+      })
       .returning();
 
     const [snapshot] = await db
@@ -181,7 +195,13 @@ export async function POST(request: Request) {
       );
     }
 
-    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: parsed.stats });
+    const report = {
+      ...(parsed.stats as unknown as Record<string, unknown>),
+      capturedOn,
+      capturedOnWasSupplied: capturedOnRaw != null,
+    };
+
+    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
 
     const [upload] = await db
       .insert(uploads)
@@ -189,7 +209,8 @@ export async function POST(request: Request) {
         kind,
         filename: file.name,
         rowCount: parsed.cards.length,
-        report: parsed.stats as unknown as Record<string, unknown>,
+        report,
+        uploadedAt: capturedAt,
       })
       .returning();
 
@@ -240,6 +261,7 @@ export async function POST(request: Request) {
 
     const snapshotRows = parsed.cards.map((c) => ({
       uploadId: upload.id,
+      capturedAt,
       cardId: c.cardId,
       owned: c.owned,
       buyOrderHigh: c.market.buyOrderHigh,
@@ -254,7 +276,7 @@ export async function POST(request: Request) {
       await db.insert(cardSnapshots).values(snapshotRows.slice(i, i + 500));
     }
 
-    return NextResponse.json({ kind, uploadId: upload.id, stats: parsed.stats });
+    return NextResponse.json({ kind, uploadId: upload.id, stats: report });
   }
 
   /* ---------------------------------------------------------------- */
@@ -289,13 +311,21 @@ export async function POST(request: Request) {
       ...parsed.stats,
       matchRate,
       unmatched: matched.filter((m) => m.cardId == null).length,
+      capturedOn,
+      capturedOnWasSupplied: capturedOnRaw != null,
     };
 
     if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
 
     const [upload] = await db
       .insert(uploads)
-      .values({ kind, filename: file.name, rowCount: matched.length, report })
+      .values({
+        kind,
+        filename: file.name,
+        rowCount: matched.length,
+        report,
+        uploadedAt: capturedAt,
+      })
       .returning();
 
     const rows = matched.map((m) => ({
@@ -330,22 +360,9 @@ export async function POST(request: Request) {
     );
   }
 
-  /**
-   * A standings export is a snapshot as of when it was downloaded, not the
-   * final result for the period in its filename — the PTCS 5 files are named
-   * for a period ending Aug 2 but were taken on Jul 28. Nothing inside the file
-   * records that, so the caller supplies it; today is right for a fresh export
-   * and wrong for a backfill, which is exactly when it must be overridable.
-   */
-  const capturedOnRaw = (form.get("capturedOn") as string | null)?.trim() || null;
-  if (capturedOnRaw && !/^\d{4}-\d{2}-\d{2}$/.test(capturedOnRaw)) {
-    return NextResponse.json(
-      { error: "capturedOn must be YYYY-MM-DD.", got: capturedOnRaw },
-      { status: 400 },
-    );
-  }
-  const capturedOn = capturedOnRaw ?? new Date().toISOString().slice(0, 10);
-
+  // A standings export is a snapshot as of when it was downloaded, not the final
+  // result for the period in its filename — the PTCS 5 files are named for a
+  // period ending Aug 2 but were taken on Jul 28. Hence capturedOn above.
   const report = {
     category: parsed.category,
     period: parsed.period,
@@ -360,7 +377,13 @@ export async function POST(request: Request) {
 
   const [upload] = await db
     .insert(uploads)
-    .values({ kind, filename: file.name, rowCount: parsed.rows.length, report })
+    .values({
+      kind,
+      filename: file.name,
+      rowCount: parsed.rows.length,
+      report,
+      uploadedAt: capturedAt,
+    })
     .returning();
 
   const rows = parsed.rows.map((r) => ({

@@ -12,7 +12,7 @@ export type Tier = (typeof TIERS)[number];
  * `tier` in pt_card_list.csv is a 0-5 code, NOT the mission-value number.
  *
  * Verified on 3,708 cards: the code partitions `Card Value` into six bands with
- * zero overlap — 40-59 / 60-69 / 70-79 / 80-89 / 90-99 / 100-101. If a future
+ * zero overlap — 40-59 / 60-69 / 70-79 / 80-89 / 90-99 / 100+. If a future
  * export breaks that partition, the offset fix in pt-card-list.ts has failed
  * and every column right of `era` is shifted. verify-ingest.ts asserts this.
  */
@@ -25,14 +25,22 @@ export const TIER_BY_CODE: Record<number, Tier> = {
   5: "Perfect",
 };
 
-/** Card Value bands per tier — the cross-check that proves column alignment. */
+/**
+ * Card Value bands per tier — the cross-check that proves column alignment.
+ *
+ * Perfect has no fixed ceiling: the Aug 20 2026 export carried the first 102s
+ * (Cy Young, Ted Williams PTMS 2, Cannonball Morris…) and L.J. expects the
+ * power creep to run to ~105 before PT 27 ends. 110 keeps the tripwire useful —
+ * a shifted column lands ratings or prices here, not 100-something — without
+ * rejecting every export after the next release wave.
+ */
 export const TIER_VALUE_BANDS: Record<Tier, [number, number]> = {
   Iron: [40, 59],
   Bronze: [60, 69],
   Silver: [70, 79],
   Gold: [80, 89],
   Diamond: [90, 99],
-  Perfect: [100, 101],
+  Perfect: [100, 110],
 };
 
 export type Position =
