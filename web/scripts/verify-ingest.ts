@@ -243,7 +243,7 @@ check("PD Daily total", batch.byCategory["PD Daily"] === 11, `${batch.byCategory
 
 section("league season export — the meta goldmine");
 {
-  const leagueText = read("League Data/pel_all.csv.csv") ?? read("League Data/pel_all.csv");
+  const leagueText = read("League Data/2026-08-16/pel_all.csv.csv") ?? read("League Data/2026-08-16/pel_all.csv");
   if (!leagueText) {
     console.log("  skip — no PEL export under OOTP_DATA_ROOT/League Data");
   } else {
@@ -256,7 +256,7 @@ section("league season export — the meta goldmine");
     const totalUse = pel.stints.filter((s) => !s.isFreeAgent).reduce((a, s) => a + s.use, 0);
     check("usage accumulates", totalUse > 100000, `${Math.round(totalUse)}`);
   }
-  const hdText = read("League Data/hd453_all.csv");
+  const hdText = read("League Data/2026-08-16/hd453_all.csv");
   if (hdText) {
     const hd = parseLeagueExport(hdText, "hd453_all.csv");
     check("HD453 from filename", hd.league === "HD453", String(hd.league));
