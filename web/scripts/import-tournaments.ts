@@ -63,6 +63,12 @@ async function main() {
       },
     });
   }
+  // The generic tournament park has no factor row — a neutral one keeps
+  // /build's park chips honest for the ~30 Standard Stadium events.
+  if (!parkByName.has("Standard Stadium")) {
+    await db.insert(parks).values({ name: "Standard Stadium", team: null, avgL: 1, avgR: 1, hrL: 1, hrR: 1, b2: 1, b3: 1 }).onConflictDoNothing();
+    uniqueParks.push({ name: "Standard Stadium", team: null, avgL: 1, avgR: 1, hrL: 1, hrR: 1, b2: 1, b3: 1 });
+  }
   const parkNames = uniqueParks.map((p) => p.name);
   console.log(`parks: ${uniqueParks.length} upserted (${parkRows.length} rows in csv)`);
 

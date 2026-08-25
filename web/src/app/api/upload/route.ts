@@ -24,16 +24,20 @@ import {
 } from "@/lib/ingest/collection";
 import { looksLikeStandings, parseStandings } from "@/lib/ingest/standings";
 import { looksLikeLeagueExport, parseLeagueExport } from "@/lib/ingest/league";
+import { looksLikeDump, parseDump, computeStandings } from "@/lib/analytics/dumps";
+import { periods } from "@/db/schema";
 import { leagueSnapshots, leagueStints } from "@/db/schema";
 
 export const runtime = "nodejs";
 /** The shop list is ~1.5MB and 3,700 rows; the default 10s is not enough. */
 export const maxDuration = 60;
 
-type Kind = "shop_list" | "collection" | "standings" | "league";
+type Kind = "shop_list" | "collection" | "standings" | "league" | "dump";
 
 function detectKind(headerLine: string): Kind | null {
-  // League first: its header also contains POS/Name like the collection's, but
+  // Community finish-order dump: SEP= preamble or num,title,starttime header.
+  if (looksLikeDump(headerLine)) return "dump";
+  // League next: its header also contains POS/Name like the collection's, but
   // ORG + CID + WAR together only ever appear in a league season export.
   if (looksLikeLeagueExport(headerLine)) return "league";
   if (looksLikeShopList(headerLine)) return "shop_list";
@@ -94,6 +98,36 @@ export async function POST(request: Request) {
   const capturedOn = capturedOnRaw ?? new Date().toISOString().slice(0, 10);
   // Noon UTC so the date survives a round-trip through any timezone.
   const capturedAt = capturedOnRaw ? new Date(`${capturedOnRaw}T12:00:00Z`) : new Date();
+
+  /* ---------------------------------------------------------------- */
+
+  if (kind === "dump") {
+    const parsed = parseDump(text);
+    if (!parsed) {
+      return NextResponse.json({ error: "Could not parse the dump." }, { status: 422 });
+    }
+    const [period] = await db.select().from(periods).orderBy(sql`${periods.id} desc`).limit(1);
+    if (!period) {
+      return NextResponse.json(
+        { error: "No PTCS period in the database — run pnpm import:ptcs6 first." },
+        { status: 409 },
+      );
+    }
+    const standings = computeStandings(parsed, { start: period.startsOn, end: period.endsOn });
+    const report = {
+      source: parsed.source,
+      dateMin: parsed.dateMin,
+      dateMax: parsed.dateMax,
+      period: period.name,
+      standings,
+    } as unknown as Record<string, unknown>;
+    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
+    const [upload] = await db
+      .insert(uploads)
+      .values({ kind, filename: file.name, rowCount: parsed.events.length, report, uploadedAt: capturedAt })
+      .returning();
+    return NextResponse.json({ kind, uploadId: upload.id, stats: { source: parsed.source, events: parsed.events.length, dateMax: parsed.dateMax } });
+  }
 
   /* ---------------------------------------------------------------- */
 

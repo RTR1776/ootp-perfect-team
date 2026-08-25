@@ -12,7 +12,8 @@
 
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { dailyTotals, periods } from "@/db/schema";
+import { dailyTotals, periods, uploads } from "@/db/schema";
+import type { DumpStandings } from "@/lib/analytics/dumps";
 import LADDER from "@/data/ptcs-ladder.json";
 import { Card, CardContent } from "@/components/ui/card";
 import { Placeholder } from "@/components/placeholder";
@@ -69,6 +70,32 @@ export default async function PtcsPage() {
     .from(dailyTotals)
     .where(eq(dailyTotals.periodId, period.id))
     .orderBy(asc(dailyTotals.occurredOn));
+
+  // Latest community-dump standings, one per source (tournaments / drafts).
+  const dumpUploads = await db
+    .select({ report: uploads.report, uploadedAt: uploads.uploadedAt, filename: uploads.filename })
+    .from(uploads)
+    .where(eq(uploads.kind, "dump"))
+    .orderBy(desc(uploads.id))
+    .limit(10);
+  const latestBySource = new Map<string, { standings: DumpStandings; dateMax: string }>();
+  for (const u of dumpUploads) {
+    const rep = u.report as { source?: string; dateMax?: string; standings?: DumpStandings } | null;
+    if (rep?.source && rep.standings && !latestBySource.has(rep.source)) {
+      latestBySource.set(rep.source, { standings: rep.standings, dateMax: rep.dateMax ?? "?" });
+    }
+  }
+  const berthRows: { cat: string; pts: number; rank: number | null; scored: number; line: number; dateMax: string }[] = [];
+  const pdSrc = latestBySource.get("drafts");
+  const tourSrc = latestBySource.get("tournaments");
+  for (const [cat, src] of [
+    ["Diamond", tourSrc], ["Bronze", tourSrc], ["Silver", tourSrc], ["Gold", tourSrc],
+    ["Cap", tourSrc], ["Open", tourSrc], ["Iron", tourSrc],
+    ["PD Daily", pdSrc], ["PD Weekly", pdSrc],
+  ] as const) {
+    const c = src?.standings.categories[cat];
+    if (c) berthRows.push({ cat, pts: c.pts, rank: c.rank, scored: c.scored, line: c.lines.l128, dateMax: src!.dateMax });
+  }
 
   const dates = [...new Set(rows.map((r) => r.occurredOn))].sort();
   const byDate = new Map<string, Map<string, { points: number; note: string | null }>>();
@@ -171,6 +198,53 @@ export default async function PtcsPage() {
           </Card>
         ))}
       </div>
+
+      {/* Berth lines from the community dump */}
+      {berthRows.length > 0 && (
+        <Card>
+          <CardContent className="pt-6">
+            <h2 className="mb-1 text-sm font-semibold">Berth lines — computed from the community dump</h2>
+            <p className="mb-4 text-xs text-muted-foreground">
+              Full finish orders × the points table. Line = points at 128th place (berth counts unconfirmed);
+              data through {berthRows[0]?.dateMax}. Drop a fresh dump on Upload to refresh.
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                    <th className="py-1.5 pr-2">Category</th>
+                    <th className="px-2 text-right">Rank</th>
+                    <th className="px-2 text-right">Points</th>
+                    <th className="px-2 text-right">Line (128th)</th>
+                    <th className="px-2 text-right">Cushion</th>
+                    <th className="px-2 text-right">Scored</th>
+                  </tr>
+                </thead>
+                <tbody className="font-mono text-[13px] tabular-nums">
+                  {berthRows.map((r) => {
+                    const cushion = r.pts - r.line;
+                    const inside = r.rank != null && r.rank <= 128;
+                    return (
+                      <tr key={r.cat} className="border-b border-border/50">
+                        <td className="py-1.5 pr-2 font-sans">{r.cat}</td>
+                        <td className={cn("px-2 text-right", inside ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground")}>
+                          {r.rank ?? "—"}
+                        </td>
+                        <td className="px-2 text-right">{r.pts}</td>
+                        <td className="px-2 text-right">{r.line}</td>
+                        <td className={cn("px-2 text-right", cushion >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400")}>
+                          {cushion >= 0 ? `+${cushion}` : cushion}
+                        </td>
+                        <td className="px-2 text-right text-muted-foreground">{r.scored.toLocaleString()}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Category table */}
       <Card>
