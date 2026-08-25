@@ -163,6 +163,23 @@ export default async function BuildPage({
       const bySeries = new Map(seriesRows.map((r) => [r.cardId, r]));
       const byCareer = new Map(careerRows.map((r) => [r.cardId, r as ObservedLine]));
 
+      const KEEP_RATINGS = [
+        "Contact", "Gap", "Power", "Eye", "Avoid Ks", "BABIP",
+        "Contact vL", "Gap vL", "Power vL", "Eye vL", "Avoid K vL", "BABIP vL",
+        "Contact vR", "Gap vR", "Power vR", "Eye vR", "Avoid K vR", "BABIP vR",
+        "Stuff", "Movement", "Control", "pHR", "pBABIP",
+        "Stuff vL", "Movement vL", "Control vL", "pHR vL", "pBABIP vL",
+        "Stuff vR", "Movement vR", "Control vR", "pHR vR", "pBABIP vR",
+        "Speed", "Stealing", "Baserunning", "Stamina",
+        "Pos Rating C", "Pos Rating 1B", "Pos Rating 2B", "Pos Rating 3B",
+        "Pos Rating SS", "Pos Rating LF", "Pos Rating CF", "Pos Rating RF",
+      ];
+      const trim = (r: Record<string, number>) => {
+        const out: Record<string, number> = {};
+        for (const k of KEEP_RATINGS) if (r[k] != null) out[k] = r[k];
+        return out;
+      };
+
       pool = cardRows.map((c) => ({
         cardId: c.cardId,
         name: c.name,
@@ -175,7 +192,7 @@ export default async function BuildPage({
         year: c.year,
         active: activeSet.has(c.cardId),
         variant: variantSet.has(c.cardId),
-        ratings: (c.ratings ?? {}) as Record<string, number>,
+        ratings: trim((c.ratings ?? {}) as Record<string, number>),
         obs: bySeries.get(c.cardId) ?? null,
         career: byCareer.get(c.cardId) ?? null,
       }));
