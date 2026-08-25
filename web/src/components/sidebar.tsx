@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Hammer,
   LayoutGrid,
   Users,
   ListOrdered,
@@ -26,6 +27,7 @@ interface NavItem {
 
 const NAV: NavItem[] = [
   { href: "/", label: "Explorer", icon: LayoutGrid },
+  { href: "/build", label: "Build", icon: Hammer },
   { href: "/roster", label: "Roster", icon: Users },
   { href: "/lineup", label: "Lineup", icon: ListOrdered },
   { href: "/draft", label: "Draft", icon: Shuffle },

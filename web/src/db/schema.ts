@@ -328,6 +328,8 @@ export const ptcsFinishes = pgTable("ptcs_finishes", {
 export const rosters = pgTable("rosters", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  /** The databotai tournament this roster was built for (nullable — legacy rosters predate it). */
+  tournamentId: integer("tournament_id"),
   contextId: text("context_id").references(() => contexts.id, { onDelete: "set null" }),
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -419,4 +421,74 @@ export const leagueStints = pgTable(
     index("league_stints_org_idx").on(t.snapshotId, t.org),
     index("league_stints_cid_idx").on(t.cid),
   ],
+);
+
+/* ------------------------------------------------------------------ */
+/* Tournament catalog (crawled from databotai)                         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Park factors from reference/ballparks.csv — one row per park variant
+ * ("1919 Fenway Park" and "2023 Fenway Park" are different parks).
+ */
+export const parks = pgTable("parks", {
+  name: text("name").primaryKey(),
+  team: text("team"),
+  avgL: real("avg_l"),
+  avgR: real("avg_r"),
+  hrL: real("hr_l"),
+  hrR: real("hr_r"),
+  b2: real("b2"),
+  b3: real("b3"),
+});
+
+/**
+ * One row per tournament as databotai knows it. `series` is the slug that
+ * L.J.'s per-tourney stat exports use as their filename prefix
+ * (earlygold_125.csv → "earlygold"), which is how observed stats join in.
+ */
+export const tournaments = pgTable("tournaments", {
+  /** databotai's tournament id (the /<id>/ page). */
+  id: integer("id").primaryKey(),
+  name: text("name").notNull(),
+  envYear: integer("env_year"),
+  mode: text("mode"),
+  stadium: text("stadium"),
+  /** Stadium with its leading year stripped, matched into parks.name. */
+  parkName: text("park_name"),
+  fee: text("fee"),
+  dh: boolean("dh"),
+  entrants: integer("entrants"),
+  ratingsMin: integer("ratings_min"),
+  ratingsMax: integer("ratings_max"),
+  cardYearMin: integer("card_year_min"),
+  cardYearMax: integer("card_year_max"),
+  simRuns: integer("sim_runs"),
+  series: text("series"),
+  isDraft: boolean("is_draft").notNull().default(false),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/**
+ * Observed per-card performance aggregated across every instance of a
+ * tournament series in Archive/Completed. Counters keep the parser's stat
+ * keys (b1, b2, HRa, Ka…); woba/fip are precomputed at import so pages never
+ * re-derive them.
+ */
+export const observedCardStats = pgTable(
+  "observed_card_stats",
+  {
+    series: text("series").notNull(),
+    cardId: integer("card_id").notNull(),
+    isPitcher: boolean("is_pitcher").notNull(),
+    /** How many tournament instances (files) fed this aggregate. */
+    instances: integer("instances").notNull(),
+    pa: integer("pa").notNull().default(0),
+    ip: real("ip").notNull().default(0),
+    war: real("war").notNull().default(0),
+    woba: real("woba"),
+    fip: real("fip"),
+    counters: jsonb("counters").$type<Record<string, number>>().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.series, t.cardId] }), index("observed_series_idx").on(t.series)],
 );

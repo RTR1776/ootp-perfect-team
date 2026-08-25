@@ -11,7 +11,9 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "verify:ingest": "tsx scripts/verify-ingest.ts",
-    "import:ptcs6": "tsx scripts/import-ptcs6.ts"
+    "import:ptcs6": "tsx scripts/import-ptcs6.ts",
+    "import:tournaments": "tsx scripts/import-tournaments.ts",
+    "import:observed": "tsx scripts/import-observed.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
