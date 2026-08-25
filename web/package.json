@@ -13,7 +13,8 @@
     "verify:ingest": "tsx scripts/verify-ingest.ts",
     "import:ptcs6": "tsx scripts/import-ptcs6.ts",
     "import:tournaments": "tsx scripts/import-tournaments.ts",
-    "import:observed": "tsx scripts/import-observed.ts"
+    "import:observed": "tsx scripts/import-observed.ts",
+    "import:dump": "tsx scripts/import-dump.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
@@ -47,5 +48,12 @@
     "tsx": "^4.23.12",
     "tw-animate-css": "^1.4.0",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }
