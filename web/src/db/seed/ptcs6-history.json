@@ -343,16 +343,32 @@
       "points": {
         "Iron": 0,
         "Bronze": 0,
-        "Silver": 0,
+        "Silver": 1,
         "Gold": 8,
         "Diamond": 0,
-        "Open": 0,
+        "Open": 3,
         "Live": 0,
         "Cap": 7,
-        "PD Daily": 17,
+        "PD Daily": 24,
         "PD Weekly": 0
       },
-      "note": "Gold Slots 5-8 (64) +6G/+6C; Trying to Look Busy D&G 3/4 (64) +10 PDD; Up Late with Rich LAD 3/4 (32) +6 PDD; Sunday High Iron Floor and Gold Ceiling 33-64 (128, Gld+Cp+TW) +1G/+1C; Early Gold 33-64 (128) +1G; Laptophound 5L Deadball 33-64 (128) +1 PDD. ZEROS: Low Diamond 33-64 (64). PARTIAL DAY - screenshot taken Sunday evening; late results may amend this row."
+      "note": "Gold Slots 5-8 (64) +6G/+6C; Trying to Look Busy D&G 3/4 (64) +10 PDD; Up Late with Rich LAD 3/4 (32) +6 PDD; Sunday High Iron Floor and Gold Ceiling 33-64 (128, Gld+Cp+TW) +1G/+1C; Early Gold 33-64 (128) +1G; Laptophound 5L Deadball 33-64 (128) +1 PDD. ZEROS: Low Diamond 33-64 (64). LATE ADDS (Aug 25 screenshot): 6L Power Play 9-16 (128) +6 PDD; OOTP and Chill 17-32 (64) +1 PDD; Late Silver 33-64 (128) +1S; Sunday Open Main Event 33-64 (256) +3 OPEN. Zeros: Bronze PTCS 3 Replay Slots, Golden Heart, Pizza D&G."
+    },
+    {
+      "date": "2026-08-24",
+      "points": {
+        "Iron": 0,
+        "Bronze": 1,
+        "Silver": 0,
+        "Gold": 4,
+        "Diamond": 10,
+        "Open": 0,
+        "Live": 0,
+        "Cap": 4,
+        "PD Daily": 3,
+        "PD Weekly": 0
+      },
+      "note": "LOW DIAMOND 3rd/4th (64) +10 DIAMOND - Diamond crosses the 101-pt estimated target. Wonky Historical Slots 17-32 (128, Gld+Cp+TW) +3G/+3C; Just Order Pizza D&G 9-16 (64) +3 PDD; Gold Slots 17-32 (64) +1G/+1C; Up And At Them Bronze 65-128 (256) +1B. Monday Getting it Started (PD Weekly, 256) ELIMINATED - unscored. ZEROS: Tuck in Time + Snack Time 17-32 (32s pay 0), Silver Slots, Silver Heart, Hitters First, Open Slots 33-64 (64), Gold Floor Cap, 6L Power Play, Bronze OOTP Era, 5L Deadball 65-128 (128)."
     }
   ]
 }
