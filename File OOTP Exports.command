@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Watch OOTP Exports — double-click to run.
+File OOTP Exports — double-click to run, files everything, then quits.
 
-Flow (mirrors the DCFCStats R watcher, no installs needed):
-  1. Pick the tournament you're about to export (searchable list).
-  2. Export from OOTP like normal. The moment a new stats CSV appears in a
-     watched folder, a popup asks for the tourney id (the quick number, or
-     the last three digits of a daily/weekly — no leading zeros).
-  3. Click OK and the file is renamed varname_<id>.csv and moved to the
-     Completed archive. Repeat; pick "Change Tournament" between events.
+No background watcher. Run it AFTER exporting from OOTP (one file or a
+batch). It finds every unfiled stats export in ~/Downloads and the OOTP
+saved-game import_export folders, and for each one asks:
 
-Varnames come from the DCFCStats data-entry sheet (96 tournaments, embedded
-below). Watched folders: ~/Downloads and every OOTP saved-game import_export
-folder. A CSV only triggers the popup if it actually looks like an OOTP
-stats export (first line starts with POS,Name).
+  1. Which tournament?  (searchable list of 96 — type to jump)
+  2. The tourney id     (quick number, or last 3 digits of a daily/weekly
+                         id — leading zeros are stripped automatically)
 
-Quit with Ctrl+C in this Terminal window, or Cancel in the tournament picker.
+Each file is then renamed varname_<id>.csv and:
+  - moved to  Archive/Completed          (the app's ingestion archive)
+  - copied to Tourney Data/DCFC Upload Queue  (grab these when you upload
+    to cwhit/DCFCStats, then clear the folder)
+
+Buttons: Back re-picks the tournament, Skip leaves a file where it is,
+Cancel in the picker also skips. A summary shows when it's done.
 """
 
 from __future__ import annotations  # py3.9-safe: don't evaluate "tuple | None"
@@ -26,20 +27,19 @@ import os
 import re
 import shutil
 import subprocess
-import sys
 import time
 
 HOME = os.path.expanduser("~")
 
 # ----------------------------------------------------------------- config --
-WATCH_DIRS = [
+SCAN_DIRS = [
     os.path.join(HOME, "Downloads"),
 ]
-WATCH_GLOBS = [
+SCAN_GLOBS = [
     os.path.join(HOME, "Application Support/Out of the Park Developments/OOTP Baseball 27/saved_games/*/import_export"),
 ]
 DEST = os.path.join(HOME, "Desktop/OOTP Perfect Team/Archive/Completed")
-POLL_SECONDS = 1.5
+QUEUE = os.path.join(HOME, "Desktop/OOTP Perfect Team/Tourney Data/DCFC Upload Queue")
 # ---------------------------------------------------------------------------
 
 VARNAMES = [
@@ -145,19 +145,25 @@ def osascript(script: str) -> str:
     out = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
     return out.stdout.strip()
 
+def q(s: str) -> str:
+    """Escape a python string for embedding in an AppleScript double-quoted literal."""
+    return s.replace("\\", "\\\\").replace(chr(34), "\\" + chr(34))
+
 def notify(msg: str) -> None:
-    msg = msg.replace("\\", "\\\\").replace('"', '\\"')
     subprocess.run(
-        ["osascript", "-e", f'display notification "{msg}" with title "OOTP Export Watcher"'],
+        ["osascript", "-e", f'display notification "{q(msg)}" with title "File OOTP Exports"'],
         capture_output=True,
     )
 
-def pick_tournament() -> tuple | None:
+def alert(msg: str) -> None:
+    osascript(f'display dialog "{q(msg)}" buttons {{"OK"}} default button "OK" with title "File OOTP Exports"')
+
+def pick_tournament(prompt: str):
     items = [f"{v} — {n}  [{g}]" for v, n, g in VARNAMES]
-    listing = "{" + ", ".join(f'"{i}"' for i in items) + "}"
+    listing = "{" + ", ".join(f'"{q(i)}"' for i in items) + "}"
     res = osascript(
-        f'choose from list {listing} with title "OOTP Export Watcher" '
-        f'with prompt "Which tournament are you exporting? (type to jump)" default items {{"{items[0]}"}}'
+        f'choose from list {listing} with title "File OOTP Exports" '
+        f'with prompt "{q(prompt)}" default items {{"{q(items[0])}"}}'
     )
     if not res or res == "false":
         return None
@@ -167,13 +173,12 @@ def pick_tournament() -> tuple | None:
             return (v, n, g)
     return None
 
-def ask_id(varname: str, filename: str) -> tuple:
-    """Returns (action, id). action in ok|change|skip."""
-    filename = filename.replace('"', "'")
+def ask_id(varname: str, fileinfo: str):
+    """Returns (action, id). action in ok|back|skip."""
     while True:
         res = osascript(
-            f'display dialog "New export detected:\n{filename}\n\nTournament: {varname}\nEnter the tourney id (quick number or last 3 digits, no leading zeros):" '
-            f'default answer "" buttons {{"Skip", "Change Tournament", "OK"}} default button "OK" with title "OOTP Export Watcher"'
+            f'display dialog "{q(fileinfo)}\n\nTournament: {q(varname)}\nTourney id (quick number or last 3 digits, no leading zeros):" '
+            f'default answer "" buttons {{"Skip", "Back", "OK"}} default button "OK" with title "File OOTP Exports"'
         )
         if not res:
             return ("skip", None)
@@ -182,15 +187,15 @@ def ask_id(varname: str, filename: str) -> tuple:
         text = (m.group(2) or "").strip() if m else ""
         if button == "Skip":
             return ("skip", None)
-        if button == "Change Tournament":
-            return ("change", None)
+        if button == "Back":
+            return ("back", None)
         if re.fullmatch(r"\d+", text):
             return ("ok", str(int(text)))  # int() strips leading zeros
         notify("Tourney id must be a number — try again.")
 
-def watch_paths() -> list:
-    dirs = list(WATCH_DIRS)
-    for g in WATCH_GLOBS:
+def scan_paths() -> list:
+    dirs = list(SCAN_DIRS)
+    for g in SCAN_GLOBS:
         dirs.extend(glob.glob(g))
     return [d for d in dirs if os.path.isdir(d)]
 
@@ -202,70 +207,73 @@ def looks_like_export(path: str) -> bool:
     except OSError:
         return False
 
-def settled(path: str) -> bool:
-    """File finished writing: size stable across a short beat."""
-    try:
-        a = os.path.getsize(path); time.sleep(0.4); b = os.path.getsize(path)
-        return a == b and a > 0
-    except OSError:
-        return False
+def find_exports() -> list:
+    found = []
+    for d in scan_paths():
+        for p in glob.glob(os.path.join(d, "*.csv")):
+            if looks_like_export(p):
+                try:
+                    found.append((os.path.getmtime(p), p))
+                except OSError:
+                    pass
+    found.sort()  # oldest first = the order you exported them
+    return found
+
+def short(path: str) -> str:
+    p = path.replace(HOME, "~")
+    return re.sub(r"~/Application Support/.*/saved_games/[0-9a-f]*([0-9a-f]{4})\.pt/import_export", r"OOTP game …\1", p)
 
 def main() -> None:
     os.makedirs(DEST, exist_ok=True)
-    picked = pick_tournament()
-    if not picked:
-        print("No tournament picked — bye.")
+    os.makedirs(QUEUE, exist_ok=True)
+    exports = find_exports()
+    if not exports:
+        alert("No unfiled OOTP exports found in Downloads or the OOTP export folders.\n\nExport from OOTP first, then run this again.")
         return
-    varname = picked[0]
-    print(f"Watching for exports → {varname}  (dest: {DEST})")
-    print("Folders:", *watch_paths(), sep="\n  ")
-    notify(f"Watching for {varname} exports…")
 
-    seen = {}
-    for d in watch_paths():
-        for p in glob.glob(os.path.join(d, "*.csv")):
-            try:
-                seen[p] = os.path.getmtime(p)
-            except OSError:
-                pass
+    filed, skipped = [], 0
+    for i, (mt, p) in enumerate(exports, 1):
+        info = (f"File {i} of {len(exports)}:  {os.path.basename(p)}\n"
+                f"from {short(os.path.dirname(p))}\n"
+                f"exported {time.strftime('%a %b %d, %H:%M', time.localtime(mt))}")
+        varname = None
+        while True:
+            picked = pick_tournament(info + "\n\nWhich tournament is this? (type to jump, Cancel to skip)")
+            if picked is None:
+                skipped += 1
+                print(f"skipped {os.path.basename(p)}")
+                break
+            varname = picked[0]
+            action, tid = ask_id(varname, info)
+            if action == "back":
+                continue
+            if action == "skip":
+                skipped += 1
+                print(f"skipped {os.path.basename(p)}")
+                break
+            name = f"{varname}_{tid}.csv"
+            dest = os.path.join(DEST, name)
+            if os.path.exists(dest):
+                r = osascript(
+                    f'display dialog "{q(name)} already exists in Archive/Completed." '
+                    f'buttons {{"Skip", "Replace"}} default button "Skip" with title "File OOTP Exports"'
+                )
+                if "Replace" not in r:
+                    skipped += 1
+                    print(f"collision, kept old: {name}")
+                    break
+            shutil.copy2(p, os.path.join(QUEUE, name))
+            os.replace(p, dest)
+            filed.append(name)
+            print(f"filed {name}")
+            break
 
-    while True:
-        try:
-            time.sleep(POLL_SECONDS)
-            for d in watch_paths():
-                for p in glob.glob(os.path.join(d, "*.csv")):
-                    try:
-                        m = os.path.getmtime(p)
-                    except OSError:
-                        continue  # vanished mid-poll (browser rename etc.)
-                    if p in seen and seen[p] >= m:
-                        continue
-                    seen[p] = m
-                    if not settled(p) or not looks_like_export(p):
-                        continue
-                    action, tid = ask_id(varname, os.path.basename(p))
-                    while action == "change":
-                        newpick = pick_tournament()
-                        if newpick:
-                            varname = newpick[0]
-                            print(f"Switched to {varname}")
-                        action, tid = ask_id(varname, os.path.basename(p))
-                    if action == "skip":
-                        print(f"skipped {os.path.basename(p)}")
-                        continue
-                    dest = os.path.join(DEST, f"{varname}_{tid}.csv")
-                    if os.path.exists(dest):
-                        notify(f"{os.path.basename(dest)} already exists — left in place.")
-                        print(f"COLLISION: {dest} exists; {p} not moved")
-                        continue
-                    shutil.move(p, dest)
-                    seen.pop(p, None)
-                    seen[dest] = os.path.getmtime(dest)
-                    print(f"✓ {os.path.basename(p)}  →  {os.path.basename(dest)}")
-                    notify(f"Filed {os.path.basename(dest)}")
-        except KeyboardInterrupt:
-            print("\nDone. Files are in", DEST)
-            return
+    lines = "\n".join("  " + n for n in filed) if filed else "  (none)"
+    tail = f"\nSkipped: {skipped}" if skipped else ""
+    alert(f"Filed {len(filed)} export(s) to Archive/Completed:\n{lines}\n\n"
+          f"Copies for the cwhit/DCFC upload are in Tourney Data/DCFC Upload Queue.{tail}")
+    print("Done. App archive:", DEST)
+    print("cwhit upload queue:", QUEUE)
 
 if __name__ == "__main__":
     main()
