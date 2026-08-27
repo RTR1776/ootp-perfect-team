@@ -466,6 +466,8 @@ export const tournaments = pgTable("tournaments", {
   simRuns: integer("sim_runs"),
   series: text("series"),
   isDraft: boolean("is_draft").notNull().default(false),
+  /** True once the game retires the event (e.g. the 8/26 bronze/iron refresh). */
+  retired: boolean("retired").notNull().default(false),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
