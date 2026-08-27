@@ -34,6 +34,13 @@ function slug(s: string): string {
 const SERIES_OVERRIDES: Record<string, string> = {
   "1950tonow": "Wednesday 1950 to Now",
   lgretro: "Daily Low Gold Retrospectus",
+  // slug() doesn't strip "are", and bare prefixes can double-match
+  diamondsforever: "Daily Diamonds are Forever",
+  diamonddaily: "Daily Diamond",
+  liveopendaily: "Daily Live Open",
+  // DCFC weekly varnames that share nothing with the event title
+  diamondweekly: "Wednesday Ice to See You",
+  openweekly: "Sunday Open Main Event",
 };
 
 async function main() {
@@ -84,7 +91,11 @@ async function main() {
   // series slugs from Archive/Completed, when the archive is on this machine
   const completedDir = join(ROOT, "Archive/Completed");
   const prefixes = existsSync(completedDir)
-    ? [...new Set(readdirSync(completedDir).map((f) => f.replace(/_\d+\.csv$/i, "")).filter((f) => !f.endsWith(".csv")))]
+    ? [...new Set(
+        readdirSync(completedDir)
+          .map((f) => f.replace(/_\d+\.csv$/i, ""))
+          .filter((f) => /^[a-z0-9]+$/i.test(f)), // drops .DS_Store, subfolders, unrenamed csvs
+      )]
     : [];
 
   const range = (v: string | undefined) => {
@@ -132,25 +143,33 @@ async function main() {
       };
     });
 
-  // assign series slugs
+  // assign series slugs — overrides claim their rows first so a fuzzy
+  // prefix can never steal a row an override owns (diamondweekly once
+  // grabbed "Daily Diamond" from diamonddaily this way).
   const unplaced: string[] = [];
+  const claimed = new Set<(typeof rows)[number]>();
   for (const prefix of prefixes) {
     const overrideName = SERIES_OVERRIDES[prefix];
-    let hit = overrideName ? rows.find((t) => t.name === overrideName) : undefined;
-    if (!hit) {
-      const base = prefix.toLowerCase().replace(/[^a-z0-9]/g, "").replace(/(weekly|daily)$/, "");
-      const cands = [...new Set([base, base.replace(/and/g, ""), base.replace(/the/g, "")])].filter(Boolean);
-      const scored = rows
-        .flatMap((t) => {
-          const s = slug(t.name);
-          const dayless = slug(t.name.replace(/^(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day\s+/i, ""));
-          return [...new Set([s, dayless])].map((v) => ({ t, v }));
-        })
-        .filter(({ v }) => cands.some((c) => v.includes(c) || c.includes(v)))
-        .sort((a, b) => Math.abs(a.v.length - cands[0].length) - Math.abs(b.v.length - cands[0].length));
-      hit = scored[0]?.t;
-    }
-    if (hit) hit.series = prefix;
+    if (!overrideName) continue;
+    const hit = rows.find((t) => t.name.toLowerCase() === overrideName.toLowerCase());
+    if (hit) { hit.series = prefix; claimed.add(hit); }
+    else unplaced.push(prefix);
+  }
+  for (const prefix of prefixes) {
+    if (SERIES_OVERRIDES[prefix]) continue;
+    const base = prefix.toLowerCase().replace(/[^a-z0-9]/g, "").replace(/(weekly|daily)$/, "");
+    const cands = [...new Set([base, base.replace(/and/g, ""), base.replace(/the/g, "")])].filter(Boolean);
+    const scored = rows
+      .filter((t) => !claimed.has(t))
+      .flatMap((t) => {
+        const s = slug(t.name);
+        const dayless = slug(t.name.replace(/^(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day\s+/i, ""));
+        return [...new Set([s, dayless])].map((v) => ({ t, v }));
+      })
+      .filter(({ v }) => cands.some((c) => v.includes(c) || c.includes(v)))
+      .sort((a, b) => Math.abs(a.v.length - cands[0].length) - Math.abs(b.v.length - cands[0].length));
+    const hit = scored[0]?.t;
+    if (hit) { hit.series = prefix; claimed.add(hit); }
     else unplaced.push(prefix);
   }
 
