@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Torrent Card Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper: #F7F5F0; --card: #FFFFFF; --ink: #1C2126; --sub: #6E6A62;
+    --line: #E2DED4; --accent: #1D6FA5; --accent-soft: #E3EDF4;
+    --sell: #B4552D; --sell-soft: #F6E9E1; --buy: #2E7D57; --buy-soft: #E4F0E9;
+    --gold: #B08A2E; --silver: #8A8F98; --bronze: #8C5A2B; --iron: #5C6066; --dia: #3E7FB4;
+    --flag: #F3ECD9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #15181C; --card: #1D2127; --ink: #E8E5DE; --sub: #9A968D;
+      --line: #31353C; --accent: #4FA3D8; --accent-soft: #1E2C38;
+      --sell: #D97B4A; --sell-soft: #33241C; --buy: #58B183; --buy-soft: #1C2E24;
+      --gold: #CDA84F; --silver: #A2A7B0; --bronze: #B57E47; --iron: #8A8F98; --dia: #6FB3DF;
+      --flag: #2A2A20;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #15181C; --card: #1D2127; --ink: #E8E5DE; --sub: #9A968D;
+    --line: #31353C; --accent: #4FA3D8; --accent-soft: #1E2C38;
+    --sell: #D97B4A; --sell-soft: #33241C; --buy: #58B183; --buy-soft: #1C2E24;
+    --gold: #CDA84F; --silver: #A2A7B0; --bronze: #B57E47; --iron: #8A8F98; --dia: #6FB3DF;
+    --flag: #2A2A20;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    font-size: 15.5px; line-height: 1.55;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px 72px; }
+  header { border-bottom: 3px solid var(--ink); padding-bottom: 18px; margin-bottom: 8px; }
+  .kicker { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  h1 { font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 700; font-size: clamp(40px, 7vw, 62px); line-height: .95; margin: 6px 0 10px; text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+  .meta { color: var(--sub); font-size: 14px; }
+  .meta b { color: var(--ink); }
+  .strip { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 8px; }
+  .tile { flex: 1 1 120px; background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--tc, var(--accent)); border-radius: 4px; padding: 10px 12px; }
+  .tile .n { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 34px; line-height: 1; }
+  .tile .l { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--sub); margin-top: 4px; }
+  .tile .d { font-size: 12.5px; color: var(--sub); margin-top: 2px; }
+  section { margin-top: 44px; }
+  h2 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 30px; text-transform: uppercase; letter-spacing: .02em; margin: 0 0 4px; }
+  h2 .no { color: var(--accent); }
+  .lede { color: var(--sub); max-width: 62ch; margin: 0 0 14px; }
+  .lede b, p b { color: var(--ink); }
+  p { max-width: 68ch; }
+  .callout { background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 0 4px 4px 0; padding: 12px 16px; margin: 16px 0; max-width: 70ch; }
+  .callout.warn { background: var(--flag); border-left-color: var(--gold); }
+  .tablebox { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--card); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--sub); text-align: left; padding: 9px 12px; border-bottom: 2px solid var(--line); white-space: nowrap; }
+  td { padding: 7px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; font-size: 13.5px; }
+  td.big { font-weight: 600; }
+  .chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; padding: 1px 7px; border-radius: 3px; vertical-align: 1px; }
+  .chip.le { background: var(--accent-soft); color: var(--accent); }
+  .chip.var { background: var(--buy-soft); color: var(--buy); }
+  .chip.zero { background: var(--sell-soft); color: var(--sell); }
+  .t-Iron { color: var(--iron); } .t-Bronze { color: var(--bronze); } .t-Silver { color: var(--silver); }
+  .t-Gold { color: var(--gold); } .t-Diamond { color: var(--dia); }
+  .tier { font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; }
+  .pos { color: var(--sub); font-family: "IBM Plex Mono", monospace; font-size: 12.5px; }
+  .up { color: var(--buy); font-weight: 600; } .down { color: var(--sell); font-weight: 600; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+  .foot { margin-top: 56px; border-top: 1px solid var(--line); padding-top: 14px; color: var(--sub); font-size: 13px; max-width: 74ch; }
+  .barrow { display: flex; align-items: center; gap: 8px; }
+  .bar { height: 8px; border-radius: 2px; background: var(--accent); opacity: .85; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">Kansas City Torrent · Perfect Team 27 · Collection audit — Aug 27, 2026</div>
+  <h1>Torrent Card Ledger</h1>
+  <div class="meta"><b>3,500</b> cards scanned · <b>3,428</b> matched to the card database (86% of the 3,973-card set) · <b>75</b> variants · <b>20</b> limited editions · priced from your own 8/27 export</div>
+</header>
+
+<div class="strip">
+  <div class="tile" style="--tc: var(--iron)"><div class="n">1,211</div><div class="l">Iron</div><div class="d">1 LE · 15 VAR</div></div>
+  <div class="tile" style="--tc: var(--bronze)"><div class="n">921</div><div class="l">Bronze</div><div class="d">6 LE · 12 VAR</div></div>
+  <div class="tile" style="--tc: var(--silver)"><div class="n">624</div><div class="l">Silver</div><div class="d">6 LE · 20 VAR</div></div>
+  <div class="tile" style="--tc: var(--gold)"><div class="n">407</div><div class="l">Gold</div><div class="d">4 LE · 17 VAR</div></div>
+  <div class="tile" style="--tc: var(--dia)"><div class="n">217</div><div class="l">Diamond</div><div class="d">3 LE · 10 VAR</div></div>
+</div>
+<p class="meta" style="margin-top:6px">Perfect (48 cards) is set aside per your call — that tier is league business right now.</p>
+
+<section>
+  <h2><span class="no">01</span> · Where you stand on LE + variants</h2>
+  <p class="lede">Your instinct was right — you do own LE and variant Silver pitchers. The real hole is one tier down.</p>
+  <div class="tablebox"><table>
+    <tr><th>Tier</th><th class="num">Hitters</th><th>LE / VAR</th><th class="num">Pitchers</th><th>LE / VAR</th></tr>
+    <tr><td class="tier t-Iron">Iron</td><td class="num">651</td><td>1 LE · 10 VAR</td><td class="num">560</td><td><span class="chip zero">0 LE</span> · 5 VAR</td></tr>
+    <tr><td class="tier t-Bronze">Bronze</td><td class="num">498</td><td>2 LE · 8 VAR</td><td class="num">423</td><td>4 LE · 4 VAR</td></tr>
+    <tr><td class="tier t-Silver">Silver</td><td class="num">351</td><td>4 LE · 13 VAR</td><td class="num">273</td><td>2 LE · 7 VAR</td></tr>
+    <tr><td class="tier t-Gold">Gold</td><td class="num">229</td><td>1 LE · 11 VAR</td><td class="num">178</td><td>3 LE · 6 VAR</td></tr>
+    <tr><td class="tier t-Diamond">Diamond</td><td class="num">132</td><td>2 LE · 7 VAR</td><td class="num">85</td><td>1 LE · 3 VAR</td></tr>
+  </table></div>
+  <div class="callout">
+    <b>Your Silver-pitcher example, answered:</b> you hold two Silver LE arms — Chad Cordero (CL, 74) and Zack Greinke (SP, 78) — plus seven variant Silver pitchers. The actual zeros are <b>Iron pitchers (no LE at all)</b> and Iron overall, which holds just one LE (Andres Galarraga, 1B). Diamond pitching is nearly as thin: Doug Fister is the lone LE, with three variants behind him.
+  </div>
+</section>
+
+<section>
+  <h2><span class="no">02</span> · Old cards, new cards — the creep is real, except at Iron</h2>
+  <p class="lede">Median quality of your cards by release month. Hitters shown as wOBA (higher is better), pitchers as FIP (lower is better).</p>
+  <div class="tablebox"><table>
+    <tr><th>Tier</th><th class="num">Mar</th><th class="num">Apr</th><th class="num">May</th><th class="num">Jun</th><th class="num">Jul</th><th class="num">Aug</th><th>Drift</th></tr>
+    <tr><td class="tier t-Iron">Iron · bat</td><td class="num">.283</td><td class="num">.286</td><td class="num">.282</td><td class="num">.282</td><td class="num">.282</td><td class="num">.286</td><td>flat — the floor tier resists creep</td></tr>
+    <tr><td class="tier t-Bronze">Bronze · bat</td><td class="num">.291</td><td class="num">.291</td><td class="num">.295</td><td class="num">.296</td><td class="num">.307</td><td class="num">.305</td><td><span class="up">+.015</span></td></tr>
+    <tr><td class="tier t-Silver">Silver · bat</td><td class="num">.294</td><td class="num">.312</td><td class="num">.310</td><td class="num">.324</td><td class="num">.324</td><td class="num">.316</td><td><span class="up">+.025</span></td></tr>
+    <tr><td class="tier t-Gold">Gold · bat</td><td class="num">.298</td><td class="num">.313</td><td class="num">.306</td><td class="num">.324</td><td class="num">.328</td><td class="num">.322</td><td><span class="up">+.026</span></td></tr>
+    <tr><td class="tier t-Diamond">Diamond · bat</td><td class="num">.310</td><td class="num">.325</td><td class="num">.324</td><td class="num">.328</td><td class="num">.326</td><td class="num">.328</td><td><span class="up">+.018</span></td></tr>
+    <tr><td class="tier t-Diamond">Diamond · arm</td><td class="num">4.42</td><td class="num">4.25</td><td class="num">4.36</td><td class="num">4.38</td><td class="num">4.22</td><td class="num">4.19</td><td><span class="up">−0.23 FIP</span></td></tr>
+  </table></div>
+  <p>So the rule of thumb holds: a summer release is worth roughly <b>+.02–.03 wOBA</b> over a March card at the same tier — except at Iron, where the caps pin everything down and launch cards compete just fine. The exceptions that play long in the meta are in section 06: launch-batch cards that are <i>still</i> the best you own at their position.</p>
+</section>
+
+<section>
+  <h2><span class="no">03</span> · Positions worth upgrading</h2>
+  <p class="lede">Because you own 86% of the set, true performance holes are rare. Across every tier and position, only four spots exist where a card you <i>don't</i> own beats your best — everything else is depth or collection work.</p>
+  <div class="tablebox"><table>
+    <tr><th>Tier · Pos</th><th>Your best</th><th>Available upgrade</th><th class="num">Theirs</th><th class="num">Gain</th><th class="num">Price*</th></tr>
+    <tr><td><span class="tier t-Gold">Gold</span> <span class="pos">1B</span></td><td class="num">.353</td><td class="big">Brandon Belt</td><td class="num">.430</td><td class="num up">+.077</td><td class="num">55,560</td></tr>
+    <tr><td><span class="tier t-Diamond">Diamond</span> <span class="pos">SP</span></td><td class="num">3.96</td><td class="big">Cole Hamels</td><td class="num">3.74</td><td class="num up">−0.23</td><td class="num">9,009</td></tr>
+    <tr><td><span class="tier t-Iron">Iron</span> <span class="pos">LF</span></td><td class="num">.297</td><td class="big">Henry Rodriguez <span class="chip le">LE</span></td><td class="num">.308</td><td class="num up">+.012</td><td class="num">38,345</td></tr>
+    <tr><td><span class="tier t-Gold">Gold</span> <span class="pos">RF</span></td><td class="num">.336</td><td class="big">Carlos Beltran</td><td class="num">.346</td><td class="num up">+.011</td><td class="num">no listing</td></tr>
+  </table></div>
+  <div class="callout"><b>Belt and Hamels are the two moves that matter.</b> Belt's .430 observed wOBA over real tournament volume is the single biggest gap anywhere in your collection, and Hamels at ~9k is the cheapest genuine upgrade on the board. Depth is thinner than the toplines at a few spots — Iron C, Bronze C/1B/3B/LF/RF, Silver 3B/LF/CF, Gold 2B/LF, Diamond 3B all lean on one card — but the Build page's Upgrades tab now watches those per tournament, so nothing to buy pre-emptively.</div>
+</section>
+
+<section>
+  <h2><span class="no">04</span> · The LE buy board</h2>
+  <p class="lede">93 LEs exist that you don't own. Ranked by performance, these are the ones worth points — best value at the top of each list.</p>
+  <div class="grid2">
+    <div class="tablebox"><table>
+      <tr><th>Hitter LEs</th><th>Tier · Pos</th><th class="num">wOBA</th><th class="num">L10*</th></tr>
+      <tr><td class="big">Oscar Gamble</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">DH</span></td><td class="num">.342</td><td class="num">24,666</td></tr>
+      <tr><td class="big">Junior Spivey</td><td><span class="tier t-Silver">Sil</span> <span class="pos">2B</span></td><td class="num">.340</td><td class="num">25,481</td></tr>
+      <tr><td class="big">Julio Franco</td><td><span class="tier t-Silver">Sil</span> <span class="pos">1B</span></td><td class="num">.340</td><td class="num">33,395</td></tr>
+      <tr><td>Brandon Crawford</td><td><span class="tier t-Gold">Gold</span> <span class="pos">SS</span></td><td class="num">.332</td><td class="num">31,838</td></tr>
+      <tr><td>Sandy Alomar Jr.</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">C</span></td><td class="num">.328</td><td class="num">42,189</td></tr>
+      <tr><td>Bobby Bonilla</td><td><span class="tier t-Gold">Gold</span> <span class="pos">RF</span></td><td class="num">.331</td><td class="num">49,200</td></tr>
+      <tr><td>Morgan Ensberg</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">3B</span></td><td class="num">.332</td><td class="num">60,703</td></tr>
+      <tr><td>Earl Averill</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">CF</span></td><td class="num">.340</td><td class="num">87,251</td></tr>
+      <tr><td>Melky Cabrera</td><td><span class="tier t-Silver">Sil</span> <span class="pos">LF</span></td><td class="num">.336</td><td class="num">87,544</td></tr>
+      <tr><td>Matty Alou</td><td><span class="tier t-Bronze">Brz</span> <span class="pos">CF</span></td><td class="num">.327</td><td class="num">92,999</td></tr>
+    </table></div>
+    <div class="tablebox"><table>
+      <tr><th>Pitcher LEs</th><th>Tier · Pos</th><th class="num">FIP</th><th class="num">L10*</th></tr>
+      <tr><td class="big">Brad Brach</td><td><span class="tier t-Gold">Gold</span> <span class="pos">RP</span></td><td class="num">3.64</td><td class="num">18,700</td></tr>
+      <tr><td class="big">Scott Garrelts</td><td><span class="tier t-Gold">Gold</span> <span class="pos">RP</span></td><td class="num">4.12</td><td class="num">18,661</td></tr>
+      <tr><td class="big">Evan Meek</td><td><span class="tier t-Gold">Gold</span> <span class="pos">RP</span></td><td class="num">4.05</td><td class="num">24,977</td></tr>
+      <tr><td>Roger Clemens</td><td><span class="tier t-Silver">Sil</span> <span class="pos">SP</span></td><td class="num">4.00</td><td class="num">52,389</td></tr>
+      <tr><td>Dave Danforth</td><td><span class="tier t-Gold">Gold</span> <span class="pos">RP</span></td><td class="num">3.92</td><td class="num">55,996</td></tr>
+      <tr><td>Jack Meyer</td><td><span class="tier t-Bronze">Brz</span> <span class="pos">RP</span></td><td class="num">3.97</td><td class="num">55,449</td></tr>
+      <tr><td>Jeremy Jeffress</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">RP</span></td><td class="num">3.77</td><td class="num">59,076</td></tr>
+      <tr><td>Jake Odorizzi</td><td><span class="tier t-Silver">Sil</span> <span class="pos">SP</span></td><td class="num">3.85</td><td class="num">60,825</td></tr>
+      <tr><td>Mariano Rivera</td><td><span class="tier t-Gold">Gold</span> <span class="pos">CL</span></td><td class="num">4.36</td><td class="num">34,700</td></tr>
+      <tr><td>V.B. Mizell</td><td><span class="tier t-Iron">Iron</span> <span class="pos">SP</span></td><td class="num">4.44</td><td class="num">37,533</td></tr>
+    </table></div>
+  </div>
+  <div class="callout warn"><b>*One thing before you spend:</b> these prices are from your Aug 20 shop list — and this week's brand-new LE wave isn't in any export I have yet. Six cards in your own collection (Aug 23 releases) don't match the database either. <b>Send a fresh pt_card_list export</b> and I'll re-rank this board with the new drop included, same day.</div>
+</section>
+
+<section>
+  <h2><span class="no">05</span> · The sell sheet</h2>
+  <p class="lede">Older cards (pre-June), not variants, not LEs, not active, still carrying real market value — and sitting third or worse on your own depth chart. Power creep only erodes these prices from here.</p>
+  <div class="tablebox"><table>
+    <tr><th>Card</th><th>Tier · Pos</th><th>Released</th><th class="num">Your rank</th><th class="num">Sells for ≈</th></tr>
+    <tr><td class="big">Matt Wieters</td><td><span class="tier t-Gold">Gold</span> <span class="pos">C</span></td><td>May 5</td><td class="num">#13</td><td class="num">35,178</td></tr>
+    <tr><td class="big">Jackie Robinson</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">SS</span></td><td>Apr 15</td><td class="num">#17</td><td class="num">27,196</td></tr>
+    <tr><td>Cla Meredith</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">RP</span></td><td>Apr 29</td><td class="num">#4</td><td class="num">19,242</td></tr>
+    <tr><td>Elmer Smith</td><td><span class="tier t-Gold">Gold</span> <span class="pos">RF</span></td><td>Apr 1</td><td class="num">#9</td><td class="num">18,569</td></tr>
+    <tr><td>Brian Giles</td><td><span class="tier t-Gold">Gold</span> <span class="pos">RF</span></td><td>Apr 1</td><td class="num">#7</td><td class="num">18,209</td></tr>
+    <tr><td>Andrew Bailey</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">CL</span></td><td>Apr 29</td><td class="num">#4</td><td class="num">17,910</td></tr>
+    <tr><td>Hilton Smith</td><td><span class="tier t-Gold">Gold</span> <span class="pos">SP</span></td><td>Apr 15</td><td class="num">#77</td><td class="num">17,650</td></tr>
+    <tr><td>Woodie Held</td><td><span class="tier t-Silver">Sil</span> <span class="pos">SS</span></td><td>May 27</td><td class="num">#5</td><td class="num">16,253</td></tr>
+    <tr><td>Bob Miller</td><td><span class="tier t-Bronze">Brz</span> <span class="pos">SP</span></td><td>Apr 1</td><td class="num">#15</td><td class="num">13,689</td></tr>
+    <tr><td>Satchel Paige</td><td><span class="tier t-Gold">Gold</span> <span class="pos">SP</span></td><td>Apr 16</td><td class="num">#37</td><td class="num">13,612</td></tr>
+    <tr><td>Corbin Carroll</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">RF</span></td><td>Mar 13</td><td class="num">#11</td><td class="num">12,430</td></tr>
+    <tr><td>Jo Adell</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">RF</span></td><td>Apr 16</td><td class="num">#7</td><td class="num">11,653</td></tr>
+    <tr><td>Jesus Luzardo</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">SP</span></td><td>Mar 13</td><td class="num">#4</td><td class="num">10,183</td></tr>
+  </table></div>
+  <p>Thirteen cards, roughly <b>232,000 points</b> at recent prices — enough to fund Gamble + Spivey + Franco + Alomar on the hitter board <i>and</i> Brach + Garrelts + Meek + Clemens on the pitcher board, with change left for Hamels. The sell sheet pays for the LE core.</p>
+</section>
+
+<section>
+  <h2><span class="no">06</span> · Old but gold — the exceptions to keep</h2>
+  <p class="lede">Launch-window cards (March–April) that are <i>still</i> #1 or #2 at their tier and position on real tournament samples. These are the meta-survivors you asked about — do not let an age-based cleanup touch them.</p>
+  <div class="tablebox"><table>
+    <tr><th>Card</th><th>Tier · Pos</th><th class="num">Observed</th><th class="num">Sample</th></tr>
+    <tr><td class="big">Jim Tabor</td><td><span class="tier t-Iron">Iron</span> <span class="pos">3B</span></td><td class="num">.448 wOBA</td><td class="num">huge</td></tr>
+    <tr><td class="big">Ival Goodman</td><td><span class="tier t-Silver">Sil</span> <span class="pos">LF</span></td><td class="num">.377 wOBA</td><td class="num">solid</td></tr>
+    <tr><td>Billy Johnson</td><td><span class="tier t-Silver">Sil</span> <span class="pos">3B</span></td><td class="num">.371 wOBA</td><td class="num">solid</td></tr>
+    <tr><td>Dwayne Murphy</td><td><span class="tier t-Silver">Sil</span> <span class="pos">CF</span></td><td class="num">.365 wOBA</td><td class="num">solid</td></tr>
+    <tr><td>Ivey Wingo</td><td><span class="tier t-Bronze">Brz</span> <span class="pos">C</span></td><td class="num">.361 wOBA</td><td class="num">solid</td></tr>
+    <tr><td>Jake Beckley</td><td><span class="tier t-Gold">Gold</span> <span class="pos">1B</span></td><td class="num">.353 wOBA</td><td class="num">solid</td></tr>
+    <tr><td>Bill Perkins</td><td><span class="tier t-Silver">Sil</span> <span class="pos">C</span></td><td class="num">.352 wOBA</td><td class="num">729 PA</td></tr>
+    <tr><td>Garrett Atkins</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">3B</span></td><td class="num">.351 wOBA</td><td class="num">19,835 PA</td></tr>
+    <tr><td>Jose Abreu</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">1B</span></td><td class="num">.345 wOBA</td><td class="num">4,960 PA</td></tr>
+    <tr><td>Larry Doby</td><td><span class="tier t-Diamond">Dia</span> <span class="pos">2B</span></td><td class="num">.343 wOBA</td><td class="num">67,155 PA</td></tr>
+    <tr><td>David Bednar</td><td><span class="tier t-Gold">Gold</span> <span class="pos">CL</span></td><td class="num">3.75 FIP</td><td class="num">329 IP</td></tr>
+    <tr><td>Hector Rondon</td><td><span class="tier t-Iron">Iron</span> <span class="pos">CL</span></td><td class="num">3.59 FIP</td><td class="num">127 IP</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <h2><span class="no">07</span> · Variant micro-buys — pocket change, real coverage</h2>
+  <p class="lede">Here's a quiet edge: variant copies of cheap tier staples trade for a few hundred points, not thousands. Every card below is already a top-3 anchor you own as base — the variant version costs less than one tournament entry and extends your variant coverage for variant-cap events.</p>
+  <div class="tablebox"><table>
+    <tr><th>Card (you own the base)</th><th>Tier · Pos</th><th class="num">Anchor rank</th><th class="num">Variant L10</th></tr>
+    <tr><td>Harry McIntire</td><td><span class="tier t-Iron">Iron</span> <span class="pos">SP</span></td><td class="num">#1</td><td class="num">119</td></tr>
+    <tr><td>Jimmy Austin</td><td><span class="tier t-Iron">Iron</span> <span class="pos">3B</span></td><td class="num">#2</td><td class="num">230</td></tr>
+    <tr><td>Hal McKain</td><td><span class="tier t-Iron">Iron</span> <span class="pos">RP</span></td><td class="num">#2</td><td class="num">238</td></tr>
+    <tr><td>Ivey Wingo</td><td><span class="tier t-Bronze">Brz</span> <span class="pos">C</span></td><td class="num">#1</td><td class="num">285</td></tr>
+    <tr><td>Clyde Milan</td><td><span class="tier t-Bronze">Brz</span> <span class="pos">CF</span></td><td class="num">#2</td><td class="num">336</td></tr>
+    <tr><td>Fred Goldsmith</td><td><span class="tier t-Iron">Iron</span> <span class="pos">SP</span></td><td class="num">#2</td><td class="num">355</td></tr>
+    <tr><td>Gus Mancuso</td><td><span class="tier t-Iron">Iron</span> <span class="pos">C</span></td><td class="num">#1</td><td class="num">399</td></tr>
+    <tr><td>Billy Johnson</td><td><span class="tier t-Silver">Sil</span> <span class="pos">3B</span></td><td class="num">#1</td><td class="num">501</td></tr>
+    <tr><td>Dwayne Murphy</td><td><span class="tier t-Silver">Sil</span> <span class="pos">CF</span></td><td class="num">#1</td><td class="num">501</td></tr>
+    <tr><td>Ival Goodman</td><td><span class="tier t-Silver">Sil</span> <span class="pos">LF</span></td><td class="num">#1</td><td class="num">507</td></tr>
+  </table></div>
+  <p>The whole list runs about <b>3,500 points total</b> — and it directly patches the Iron variant-pitcher shortage from section 01.</p>
+</section>
+
+<section>
+  <h2><span class="no">08</span> · The playbook</h2>
+  <p><b>Now:</b> buy Hamels (~9k) and Belt (~56k) — the only two real performance holes. Grab the variant micro-list (~3.5k). <b>This week:</b> list the sell sheet while prices hold (~232k in), then work the LE boards top-down as budget allows — Gamble, Spivey, Franco, Alomar; Brach, Garrelts, Meek. <b>Before buying any new-wave LE:</b> export a fresh pt_card_list so the board includes this week's drop at live prices. Iron LE pitching can only be fixed by the new wave or future releases — nothing exists to buy yet beyond Mizell.</p>
+</section>
+
+<div class="foot">
+  Method: each card scored by observed tournament performance (wOBA for bats, FIP for arms) when it has ≥150 PA / ≥40 IP in your archive; otherwise by model v0, fit tonight on 1,059 hitter and 835 pitcher observed lines (r² .51 / .25). Owned-card prices from your 8/27 collection export; unowned and variant prices from the 8/20 shop list. Perfect tier excluded per your instruction. Everything here is also live on the Build page — the Upgrades tab re-runs this logic per tournament.
+</div>
+</div>
+
+</body>
+</html>

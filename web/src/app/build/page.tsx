@@ -331,7 +331,7 @@ export default async function BuildPage({
       const [latestShop] = await db
         .select({ id: uploads.id })
         .from(uploads)
-        .where(eq(uploads.kind, "shop"))
+        .where(eq(uploads.kind, "shop_list"))
         .orderBy(desc(uploads.id))
         .limit(1);
       if (latestShop) {
