@@ -24,3 +24,6 @@ Archive/
 
 # Quarantine folder: files staged for L.J. to delete (assistant cannot rm on this machine)
 _to_delete/
+
+# Transient outbox: filed exports awaiting L.J.'s cwhit/DCFC upload, cleared by him
+Tourney Data/DCFC Upload Queue/
