@@ -34,11 +34,14 @@ HOME = os.path.expanduser("~")
 # ----------------------------------------------------------------- config --
 SCAN_DIRS = [
     os.path.join(HOME, "Downloads"),
+    # OOTP's own export dialog writes here (the "Report Written to..." path)
+    os.path.join(HOME, "Application Support/Out of the Park Developments/OOTP Baseball 27/online_data"),
 ]
 SCAN_GLOBS = [
     os.path.join(HOME, "Application Support/Out of the Park Developments/OOTP Baseball 27/saved_games/*/import_export"),
 ]
 DEST = os.path.join(HOME, "Desktop/OOTP Perfect Team/Archive/Completed")
+MAX_AGE_DAYS = 7  # ignore stale stats CSVs (old archives live in online_data too)
 QUEUE = os.path.join(HOME, "Desktop/OOTP Perfect Team/Tourney Data/DCFC Upload Queue")
 # ---------------------------------------------------------------------------
 
@@ -209,11 +212,14 @@ def looks_like_export(path: str) -> bool:
 
 def find_exports() -> list:
     found = []
+    cutoff = time.time() - MAX_AGE_DAYS * 86400
     for d in scan_paths():
         for p in glob.glob(os.path.join(d, "*.csv")):
             if looks_like_export(p):
                 try:
-                    found.append((os.path.getmtime(p), p))
+                    m = os.path.getmtime(p)
+                    if m >= cutoff:
+                        found.append((m, p))
                 except OSError:
                     pass
     found.sort()  # oldest first = the order you exported them
