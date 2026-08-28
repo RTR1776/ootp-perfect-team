@@ -15,7 +15,8 @@
     "import:tournaments": "tsx scripts/import-tournaments.ts",
     "import:observed": "tsx scripts/import-observed.ts",
     "import:dump": "tsx scripts/import-dump.ts",
-    "fit:projection": "tsx scripts/fit-projection.ts"
+    "fit:projection": "tsx scripts/fit-projection.ts",
+    "import:myresults": "tsx scripts/import-myresults.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
 
 export interface ObservedLine {
@@ -155,6 +156,58 @@ const fmt2 = (v: number | null | undefined) => (v == null ? "—" : v.toFixed(2)
 const fmtPts = (v: number | null | undefined) => (v == null || v === 0 ? "—" : v.toLocaleString());
 
 /* ------------------------------------------------------------------ */
+/* hover card preview — art loads only while hovered, never up front   */
+/* ------------------------------------------------------------------ */
+
+interface Peek {
+  cardId: number;
+  title: string;
+  sub: string;
+  stat: string;
+  extra: string | null;
+  top: number;
+  left: number;
+}
+
+function peekFrom(el: HTMLElement, cardId: number, title: string, sub: string, stat: string, extra: string | null): Peek {
+  const r = el.getBoundingClientRect();
+  const H = 240;
+  const top = Math.max(8, Math.min(r.top - 40, window.innerHeight - H - 8));
+  const left = Math.min(r.right + 10, window.innerWidth - 330);
+  return { cardId, title, sub, stat, extra, top, left };
+}
+
+function CardPeek({ p }: { p: Peek }) {
+  const [artOk, setArtOk] = useState(true);
+  useEffect(() => setArtOk(true), [p.cardId]);
+  return (
+    <div
+      className="pointer-events-none fixed z-50 flex w-[320px] gap-3 rounded-lg border border-border bg-background p-3 shadow-xl"
+      style={{ top: p.top, left: p.left }}
+    >
+      {artOk && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={cardArtUrl(p.cardId)}
+          alt=""
+          width={132}
+          height={198}
+          loading="lazy"
+          onError={() => setArtOk(false)}
+          className="h-[198px] w-[132px] shrink-0 rounded object-cover"
+        />
+      )}
+      <div className="min-w-0 text-xs leading-relaxed">
+        <div className="font-sans text-sm font-semibold leading-tight">{p.title}</div>
+        <div className="mt-0.5 text-muted-foreground">{p.sub}</div>
+        <div className="mt-2 font-mono [font-variant-numeric:tabular-nums]">{p.stat}</div>
+        {p.extra && <div className="mt-1 text-muted-foreground">{p.extra}</div>}
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 
 export function RosterBuilder({
   groups,
@@ -179,7 +232,31 @@ export function RosterBuilder({
   const [rosterName, setRosterName] = useState("");
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const [peek, setPeek] = useState<Peek | null>(null);
   const lastTid = useRef<number | null>(null);
+
+  const peekPool = (e: React.MouseEvent<HTMLElement>, c: BuilderCard) => {
+    const stat = c.isPitcher
+      ? `pFIP ${fmt2(c.proj.all)}  ·  vL ${fmt2(c.proj.vL)} / vR ${fmt2(c.proj.vR)}`
+      : `pWOBA ${fmt3(c.proj.all)}  ·  vL ${fmt3(c.proj.vL)} / vR ${fmt3(c.proj.vR)}`;
+    const o = c.obs ?? c.career;
+    const extra = o
+      ? c.isPitcher
+        ? `obs FIP ${fmt2(o.fip)} · ${Math.round(o.ip).toLocaleString()} IP · ${o.instances} runs`
+        : `obs wOBA ${fmt3(o.woba)} · ${o.pa.toLocaleString()} PA · ${o.instances} runs`
+      : "no observed data yet";
+    setPeek(peekFrom(e.currentTarget, c.cardId, c.name,
+      `${c.isPitcher ? c.role ?? "P" : c.pos} · VAL ${c.val ?? "?"}${c.bats ? ` · bats ${c.bats}` : ""}${c.variant ? " · VAR" : ""}`,
+      stat, extra));
+  };
+
+  const peekUpgrade = (e: React.MouseEvent<HTMLElement>, u: UpgradeCard) => {
+    const stat = u.isPitcher
+      ? `pFIP ${fmt2(u.proj.all)}  ·  vL ${fmt2(u.proj.vL)} / vR ${fmt2(u.proj.vR)}`
+      : `pWOBA ${fmt3(u.proj.all)}  ·  vL ${fmt3(u.proj.vL)} / vR ${fmt3(u.proj.vR)}`;
+    const extra = `L10 ${fmtPts(u.last10)} · ask ${fmtPts(u.ask)}`;
+    setPeek(peekFrom(e.currentTarget, u.cardId, u.name, `${u.pos} · VAL ${u.val ?? "?"} · ${u.tier ?? ""}`, stat, extra));
+  };
 
   const dh = tournament?.dh ?? true;
   const lineupPos: string[] = dh ? [...HIT_POS, "DH"] : [...HIT_POS];
@@ -561,7 +638,11 @@ export function RosterBuilder({
                             onClick={() => clickCard(c)}
                             className={cn("cursor-pointer border-b border-border/50 hover:bg-muted/50", inUse && "bg-muted/60")}
                           >
-                            <td className="max-w-[220px] truncate px-1.5 py-1 font-sans">
+                            <td
+                              className="max-w-[220px] truncate px-1.5 py-1 font-sans"
+                              onMouseEnter={(e) => peekPool(e, c)}
+                              onMouseLeave={() => setPeek(null)}
+                            >
                               {c.name}
                               {c.bats && <span className="ml-1 text-[10px] text-muted-foreground">{c.bats}</span>}
                               {c.variant && <span className="ml-1 text-[10px] text-muted-foreground">VAR</span>}
@@ -605,7 +686,13 @@ export function RosterBuilder({
                     <tbody className="font-mono text-[12.5px] leading-tight [font-variant-numeric:tabular-nums]">
                       {upgradeRows.map((u) => (
                         <tr key={u.cardId} className="border-b border-border/50">
-                          <td className="max-w-[220px] truncate px-1.5 py-1 font-sans">{u.name}</td>
+                          <td
+                            className="max-w-[220px] truncate px-1.5 py-1 font-sans"
+                            onMouseEnter={(e) => peekUpgrade(e, u)}
+                            onMouseLeave={() => setPeek(null)}
+                          >
+                            {u.name}
+                          </td>
                           <td className="px-1.5">{u.pos}</td>
                           <td className="px-1.5 text-right">{u.val ?? "—"}</td>
                           <td className="px-1.5">{u.tier ?? "—"}</td>
@@ -693,6 +780,7 @@ export function RosterBuilder({
               {msg && <p className="text-xs text-muted-foreground">{msg}</p>}
             </div>
           </div>
+          {peek && <CardPeek p={peek} />}
         </>
       )}
     </div>

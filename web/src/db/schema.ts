@@ -472,6 +472,25 @@ export const tournaments = pgTable("tournaments", {
 });
 
 /**
+ * Every finish rtr1776 has recorded — one row per tournament/draft entry,
+ * extracted from the community finish-order dumps by
+ * scripts/import-myresults.ts (idempotent upsert by event id).
+ */
+export const myResults = pgTable("my_results", {
+  /** The dump's event id (tournaments 1xxxxxx, drafts 2xxxxxx). */
+  eventId: text("event_id").primaryKey(),
+  source: text("source").notNull(), // tournaments | drafts
+  name: text("name").notNull(),
+  startAt: timestamp("start_at", { withTimezone: true }).notNull(),
+  finish: integer("finish").notNull(),
+  fieldSize: integer("field_size").notNull(),
+  /** PTCS points at the scheduled field size for this finish. */
+  points: integer("points").notNull(),
+  /** Comma-joined PTCS categories this event counts toward ("" = excluded). */
+  categories: text("categories").notNull().default(""),
+});
+
+/**
  * Observed per-card performance aggregated across every instance of a
  * tournament series in Archive/Completed. Counters keep the parser's stat
  * keys (b1, b2, HRa, Ka…); woba/fip are precomputed at import so pages never

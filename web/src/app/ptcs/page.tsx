@@ -12,7 +12,7 @@
 
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { dailyTotals, periods, uploads } from "@/db/schema";
+import { dailyTotals, myResults, periods, uploads } from "@/db/schema";
 import type { DumpStandings } from "@/lib/analytics/dumps";
 import LADDER from "@/data/ptcs-ladder.json";
 import { Card, CardContent } from "@/components/ui/card";
@@ -96,6 +96,23 @@ export default async function PtcsPage() {
     const c = src?.standings.categories[cat];
     if (c) berthRows.push({ cat, pts: c.pts, rank: c.rank, scored: c.scored, line: c.lines.l128, dateMax: src!.dateMax });
   }
+
+  // Team results history from the dumps (import:myresults).
+  const myRows = await db.select().from(myResults).orderBy(desc(myResults.startAt));
+  interface SeriesAgg { name: string; entries: number; points: number; best: number; top16: number; last: Date }
+  const bySeries = new Map<string, SeriesAgg>();
+  for (const r of myRows) {
+    const a = bySeries.get(r.name) ?? { name: r.name, entries: 0, points: 0, best: 999, top16: 0, last: r.startAt };
+    a.entries++; a.points += r.points; a.best = Math.min(a.best, r.finish);
+    if (r.finish <= 16) a.top16++;
+    if (r.startAt > a.last) a.last = r.startAt;
+    bySeries.set(r.name, a);
+  }
+  const seriesAgg = [...bySeries.values()].sort((a, b) => b.points - a.points);
+  const totalEntries = myRows.length;
+  const totalPoints = myRows.reduce((s, r) => s + r.points, 0);
+  const wins = myRows.filter((r) => r.finish === 1).length;
+  const recent = myRows.slice(0, 14);
 
   const dates = [...new Set(rows.map((r) => r.occurredOn))].sort();
   const byDate = new Map<string, Map<string, { points: number; note: string | null }>>();
@@ -241,6 +258,73 @@ export default async function PtcsPage() {
                   })}
                 </tbody>
               </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Team results from the dumps */}
+      {totalEntries > 0 && (
+        <Card>
+          <CardContent className="pt-6">
+            <h2 className="mb-1 text-sm font-semibold">Team results — every entry in the community record</h2>
+            <p className="mb-4 text-xs text-muted-foreground">
+              {totalEntries.toLocaleString()} entries · {wins} wins · {totalPoints.toLocaleString()} lifetime points.
+              From the finish-order dumps (pnpm import:myresults after each new dump).
+            </p>
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="overflow-x-auto">
+                <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">By series (top 15 by points)</div>
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                      <th className="py-1.5 pr-2">Series</th>
+                      <th className="px-2 text-right">In</th>
+                      <th className="px-2 text-right">Pts</th>
+                      <th className="px-2 text-right">Best</th>
+                      <th className="px-2 text-right">Top-16</th>
+                    </tr>
+                  </thead>
+                  <tbody className="font-mono text-[13px] tabular-nums">
+                    {seriesAgg.slice(0, 15).map((s) => (
+                      <tr key={s.name} className="border-b border-border/50">
+                        <td className="max-w-[220px] truncate py-1.5 pr-2 font-sans">{s.name}</td>
+                        <td className="px-2 text-right">{s.entries}</td>
+                        <td className="px-2 text-right font-semibold">{s.points}</td>
+                        <td className={cn("px-2 text-right", s.best === 1 ? "text-emerald-600 dark:text-emerald-400" : "")}>{s.best}</td>
+                        <td className="px-2 text-right text-muted-foreground">{s.top16}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="overflow-x-auto">
+                <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Recent entries</div>
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                      <th className="py-1.5 pr-2">Event</th>
+                      <th className="px-2 text-right">Date</th>
+                      <th className="px-2 text-right">Finish</th>
+                      <th className="px-2 text-right">Pts</th>
+                    </tr>
+                  </thead>
+                  <tbody className="font-mono text-[13px] tabular-nums">
+                    {recent.map((r) => (
+                      <tr key={r.eventId} className="border-b border-border/50">
+                        <td className="max-w-[220px] truncate py-1.5 pr-2 font-sans">{r.name}</td>
+                        <td className="px-2 text-right text-muted-foreground">
+                          {r.startAt.toISOString().slice(5, 10)}
+                        </td>
+                        <td className={cn("px-2 text-right", r.finish <= 8 ? "text-emerald-600 dark:text-emerald-400" : "")}>
+                          {r.finish}/{r.fieldSize}
+                        </td>
+                        <td className="px-2 text-right">{r.points || "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </CardContent>
         </Card>
