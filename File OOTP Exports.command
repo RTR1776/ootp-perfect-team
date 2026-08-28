@@ -184,6 +184,38 @@ WEEKLY_ANCHORS = {
     "wonkyslots": (1430022, 1786986173),
 }
 
+
+TIER_ORDER = ["Diamond", "Gold", "Silver", "Bronze", "Iron", "Open", "Live", "Cap", "Other"]
+
+def tier_of(display_name: str) -> str:
+    """Level wins when present (Diamond & Friends Slots -> Diamond); Cap/Slots
+    only when no level; Live likewise; NEL and oddballs land in Other."""
+    for t in ("Diamond", "Gold", "Silver", "Bronze", "Iron"):
+        if t.lower() in display_name.lower():
+            return t
+    if "open" in display_name.lower():
+        return "Open"
+    if "live" in display_name.lower():
+        return "Live"
+    if "cap" in display_name.lower() or "slots" in display_name.lower():
+        return "Cap"
+    return "Other"
+
+def grouped_items():
+    """Picker rows: tier headers, then dailies, weeklies, quicks within each."""
+    rows = []
+    for tier in TIER_ORDER:
+        block = []
+        for grp in ("daily", "weekly", "quick"):
+            for v, n, g in sorted(VARNAMES, key=lambda x: x[1].lower()):
+                if g == grp and tier_of(n) == tier:
+                    tag = {"daily": "D", "weekly": "W", "quick": "Q"}[g]
+                    block.append((f"{v} — {n}  [{tag}]", v))
+        if block:
+            rows.append((f"────────  {tier.upper()}  ────────", None))
+            rows.extend(block)
+    return rows
+
 def osascript(script: str) -> str:
     out = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
     return out.stdout.strip()
@@ -206,23 +238,32 @@ def alert(msg: str, buttons=("OK",), default=None) -> str:
     return m.group(1).strip() if m else buttons[0]
 
 def pick_tournament(prompt: str):
-    items = [f"{v} — {n}  [{g}]" for v, n, g in VARNAMES]
-    listing = "{" + ", ".join(f'"{q(i)}"' for i in items) + "}"
-    res = osascript(
-        f'choose from list {listing} with title "File OOTP Exports" '
-        f'with prompt "{q(prompt)}" default items {{"{q(items[0])}"}}'
-    )
-    if not res or res == "false":
+    rows = grouped_items()
+    listing = "{" + ", ".join(f'"{q(label)}"' for label, _v in rows) + "}"
+    default = next(label for label, v in rows if v)
+    while True:
+        res = osascript(
+            f'choose from list {listing} with title "File OOTP Exports" '
+            f'with prompt "{q(prompt)}" default items {{"{q(default)}"}}'
+        )
+        if not res or res == "false":
+            return None
+        if res.startswith("────"):
+            notify("That's a section header — pick a tournament under it.")
+            continue
+        varname = res.split(" — ")[0].strip()
+        for v, n, g in VARNAMES:
+            if v == varname:
+                return (v, n, g)
         return None
-    varname = res.split(" — ")[0].strip()
-    for v, n, g in VARNAMES:
-        if v == varname:
-            return (v, n, g)
-    return None
+
+LAST_DAILY_ID = [None]  # sticky: back-filling a week means many same-day dailies in a row
 
 def guess_id(varname: str, group: str, mtime: float) -> str:
     """Best-guess tourney id from the file's timestamp."""
     if group == "daily":
+        if LAST_DAILY_ID[0] is not None:
+            return LAST_DAILY_ID[0]  # repeat whatever you last typed for a daily
         dt = datetime.fromtimestamp(mtime)
         n = (dt.date() - DAILY_EPOCH).days
         if dt.hour < 17:
@@ -253,6 +294,8 @@ def ask_id(varname: str, group: str, fileinfo: str, mtime: float):
         if button == "Back":
             return ("back", None)
         if re.fullmatch(r"\d+", text):
+            if group == "daily":
+                LAST_DAILY_ID[0] = str(int(text))
             return ("ok", str(int(text)))  # int() strips leading zeros
         notify("Tourney id must be a number — try again.")
 
