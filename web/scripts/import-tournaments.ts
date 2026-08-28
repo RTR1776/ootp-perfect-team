@@ -30,17 +30,42 @@ function slug(s: string): string {
     .replace(/[^a-z0-9]/g, "");
 }
 
-/** Known filename-prefix → tournament-name pairs the slug match can't see. */
+/** Known filename-prefix → tournament-name pairs the slug match cannot be
+ * trusted with. Every WEEKLY varname is pinned here (fuzzy matching on
+ * tier words is what once sent goldweekly to Daily Early Gold's row). */
 const SERIES_OVERRIDES: Record<string, string> = {
   "1950tonow": "Wednesday 1950 to Now",
-  lgretro: "Daily Low Gold Retrospectus",
-  // slug() doesn't strip "are", and bare prefixes can double-match
-  diamondsforever: "Daily Diamonds are Forever",
-  diamonddaily: "Daily Diamond",
-  liveopendaily: "Daily Live Open",
-  // DCFC weekly varnames that share nothing with the event title
-  diamondweekly: "Wednesday Ice to See You",
-  openweekly: "Sunday Open Main Event",
+  "bronze10to50": "Daily Bronze 1910-59",
+  "bronzecapweekly": "Saturday Bronze Cap",
+  "bronzeweekly": "Monday Up And At Them Bronze",
+  "c4q1": "Thursday Cwhit's Cap Challenge 1",
+  "c4q2": "Thursday Cwhit's Cap Challenge 2",
+  "c4q3": "Thursday Cwhit's Cap Challenge 3",
+  "c4q4": "Thursday CWhit's Cap Challenge",  // catalog row carries no trailing number
+  "deadballweekly": "Wednesday Night of the Living Deadball",
+  "diamonddaily": "Daily Diamond",
+  "diamondsforever": "Daily Diamonds are Forever",
+  "diamondvariety": "Saturday Diamond Variety",
+  "diamondweekly": "Wednesday Ice to See You",
+  "goldfloorcapweekly": "Monday Gold Floor Cap",
+  "goldweekly": "Thursday Night Gold Rush",
+  "highironfloorgoldceilingweekly": "Sunday High Iron Floor and Gold Ceiling",
+  "ironweekly": "Saturday Iron Warriors",
+  "lgretro": "Daily Low Gold Retrospectus",
+  "livelowdiamondweekly": "Monday Live Low Diamond",
+  "liveopendaily": "Daily Live Open",
+  "liveslotsweekly": "Friday Night Live Slots",
+  "liveweekly": "Tuesday Live",
+  "lowironweekly": "Friday Danksville",
+  "mishmashcap": "Thursday Mishmash Cap",
+  "nelslotsweekly": "Saturday Negro Leagues Slots",
+  "nightmarecap": "Friday Nightmare Cap",
+  "openslotsweekly": "Sunday Open Slots",
+  "openweekly": "Sunday Open Main Event",
+  "sandlot": "Tuesday Sporer's Sandlot",
+  "silverweekly": "Thursday Silver Spectacular",
+  "upto1969weekly": "Tuesday Up to 1969",
+  "wonkyslots": "Monday Wonky Historical Slots",
 };
 
 async function main() {

@@ -21,6 +21,7 @@ import {
   parks,
   rosters,
   rosterSlots,
+  seriesMeta,
   tournaments,
   uploads,
 } from "@/db/schema";
@@ -32,6 +33,7 @@ import {
   type BuilderCard,
   type CatalogGroup,
   type ObservedLine,
+  type SeriesMetaInfo,
   type TournamentInfo,
   type UpgradeCard,
 } from "@/components/roster-builder";
@@ -121,6 +123,7 @@ export default async function BuildPage({
   let tournament: TournamentInfo | null = null;
   let pool: BuilderCard[] = [];
   let upgrades: UpgradeCard[] = [];
+  let meta: SeriesMetaInfo | null = null;
   let savedRosters: { id: number; name: string; slots: { cardId: number; slot: string; versusHand: string | null; lineupOrder: number | null }[] }[] = [];
 
   if (picked) {
@@ -155,6 +158,16 @@ export default async function BuildPage({
       if (full.cardYearMax != null && year != null && year > full.cardYearMax) return false;
       return true;
     };
+
+    if (full.series) {
+      const [m] = await db.select().from(seriesMeta).where(eq(seriesMeta.series, full.series));
+      if (m) {
+        meta = {
+          files: m.files, avgTeams: m.avgTeams, avgSp: m.avgSp, avgRp: m.avgRp,
+          avgBats: m.avgBats, topCards: m.topCards,
+        };
+      }
+    }
 
     const [latestCollection] = await db
       .select({ id: uploads.id })
@@ -374,6 +387,7 @@ export default async function BuildPage({
       tournament={tournament}
       pool={pool}
       upgrades={upgrades}
+      meta={meta}
       savedRosters={savedRosters}
     />
   );

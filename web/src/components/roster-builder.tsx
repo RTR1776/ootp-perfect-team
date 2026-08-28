@@ -72,6 +72,18 @@ export interface CatalogGroup {
   items: { id: number; label: string; hasSeries: boolean; simRuns: number }[];
 }
 
+export interface SeriesMetaInfo {
+  files: number;
+  avgTeams: number | null;
+  avgSp: number | null;
+  avgRp: number | null;
+  avgBats: number | null;
+  topCards: {
+    cardId: number; name: string; pos: string; isPitcher: boolean;
+    teams: number; pct: number; pa: number; ip: number;
+  }[];
+}
+
 export interface TournamentInfo {
   id: number;
   name: string;
@@ -214,12 +226,14 @@ export function RosterBuilder({
   tournament,
   pool,
   upgrades,
+  meta,
   savedRosters,
 }: {
   groups: CatalogGroup[];
   tournament: TournamentInfo | null;
   pool: BuilderCard[];
   upgrades: UpgradeCard[];
+  meta: SeriesMetaInfo | null;
   savedRosters: SavedRoster[];
 }) {
   const router = useRouter();
@@ -580,6 +594,46 @@ export function RosterBuilder({
               ? <Badge>observed: {tournament.series}</Badge>
               : <Badge variant="outline">no observed data yet</Badge>}
           </div>
+
+          {meta && (
+            <div className="rounded-lg border border-border p-3">
+              <div className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="text-sm font-semibold">How teams build here</span>
+                <span className="text-xs text-muted-foreground">
+                  {meta.files} runs archived · ~{meta.avgTeams ?? "?"} teams/run ·
+                  per team: {meta.avgSp ?? "?"} SP · {meta.avgRp ?? "?"} RP · {meta.avgBats ?? "?"} hitters
+                </span>
+              </div>
+              <div className="grid gap-x-6 gap-y-1 text-xs sm:grid-cols-2">
+                {(["bats", "arms"] as const).map((kind) => (
+                  <div key={kind}>
+                    <div className="mb-0.5 font-mono text-[10.5px] uppercase tracking-wide text-muted-foreground">
+                      most-used {kind === "bats" ? "hitters" : "pitchers"}
+                    </div>
+                    <div className="flex flex-wrap gap-x-3 gap-y-0.5">
+                      {meta.topCards
+                        .filter((c) => (kind === "arms") === c.isPitcher)
+                        .slice(0, 8)
+                        .map((c) => (
+                          <span
+                            key={c.cardId}
+                            className="cursor-default whitespace-nowrap"
+                            onMouseEnter={(e) =>
+                              setPeek(peekFrom(e.currentTarget, c.cardId, c.name,
+                                `${c.pos} · used by ${c.teams} teams (${c.pct}%)`,
+                                c.isPitcher ? `${c.ip.toLocaleString()} IP in this series` : `${c.pa.toLocaleString()} PA in this series`,
+                                null))}
+                            onMouseLeave={() => setPeek(null)}
+                          >
+                            {c.name} <span className="text-muted-foreground">{c.pct}%</span>
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
             {/* pool table */}

@@ -490,6 +490,34 @@ export const myResults = pgTable("my_results", {
   categories: text("categories").notNull().default(""),
 });
 
+/** A card's usage line inside one series (for the series meta panel). */
+export interface SeriesTopCard {
+  cardId: number;
+  name: string;
+  pos: string;
+  isPitcher: boolean;
+  teams: number; // team-stints using it
+  pct: number; // share of all team-stints in the series, 0-100
+  pa: number;
+  ip: number;
+}
+
+/**
+ * Per-series usage meta computed at ingest by import:observed — how teams
+ * actually build in each tournament (roster shape + most-used cards).
+ */
+export const seriesMeta = pgTable("series_meta", {
+  series: text("series").primaryKey(),
+  files: integer("files").notNull(),
+  teamStints: integer("team_stints").notNull(),
+  avgTeams: real("avg_teams"),
+  avgSp: real("avg_sp"),
+  avgRp: real("avg_rp"),
+  avgBats: real("avg_bats"),
+  topCards: jsonb("top_cards").$type<SeriesTopCard[]>().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
 /**
  * Observed per-card performance aggregated across every instance of a
  * tournament series in Archive/Completed. Counters keep the parser's stat
