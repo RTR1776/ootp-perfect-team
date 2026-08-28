@@ -151,6 +151,63 @@ VARNAMES = [
     ("silverweekly", "Thursday Silver Spectacular", "weekly"),
     ("upto1969weekly", "Tuesday Up to 1969", "weekly"),
     ("wonkyslots", "Monday Wonky Historical Slots", "weekly"),
+    # ---- Perfect Draft series (our naming — DCFC does not collect draft stats)
+    ("aroundbreakfasttable", "Daily Around the Breakfast Table", "pddaily"),
+    ("aroundhornbeforebed", "Daily Around the Horn Before Bed", "pddaily"),
+    ("aroundhornatnight", "Daily Around the Horn at Night", "pddaily"),
+    ("bagelsschmearevcinnyc", "Daily Bagels and Schmear with EVCinNYC", "pddaily"),
+    ("dontforgetpickkids", "Daily Don't Forget to Pick up the Kids - Live", "pddaily"),
+    ("doubleespressomorning", "Daily Double Espresso Morning", "pddaily"),
+    ("eveningmixedbag", "Daily Evening Mixed Bag", "pddaily"),
+    ("goodorderlyevening", "Daily Good Orderly Evening", "pddaily"),
+    ("historicalprimetime", "Daily Historical Primetime", "pddaily"),
+    ("hittersfirst", "Daily Hitters First", "pddaily"),
+    ("honeyishrunkroster", "Daily Honey I Shrunk the Roster", "pddaily"),
+    ("justorderpizzadinner", "Daily Just Order Pizza for Dinner - D&G", "pddaily"),
+    ("liveallnight", "Daily Live All Night", "pddaily"),
+    ("livebreakfast", "Daily Live Breakfast", "pddaily"),
+    ("livespeedrun", "Daily Live Speed Run", "pddaily"),
+    ("meetingaboutmeetings", "Daily Meeting About Meetings - ORD", "pddaily"),
+    ("mixedlunch", "Daily Mixed Up My Lunch", "pddaily"),
+    ("morningmixedbag", "Daily Morning Mixed Bag", "pddaily"),
+    ("nocturnalmixedbag", "Daily Nocturnal Mixed Bag", "pddaily"),
+    ("ootpchill", "Daily OOTP and Chill", "pddaily"),
+    ("pitchersfirst", "Daily Pitchers First", "pddaily"),
+    ("riseshine", "Daily Rise and Shine", "pddaily"),
+    ("rockingchairlunch", "Daily Rocking Chair Lunch", "pddaily"),
+    ("scrum", "Daily Scrum", "pddaily"),
+    ("snacktimeladder", "Daily Snack Time on the Ladder", "pddaily"),
+    ("strugglingsleep", "Daily Struggling to Sleep - DBL", "pddaily"),
+    ("theyvegoneplaid", "Daily They've Gone to Plaid", "pddaily"),
+    ("thiscouldvebeenemail", "Daily This Could've Been an Email - RCK", "pddaily"),
+    ("tryinglookbusy", "Daily Trying to Look Busy - D&G", "pddaily"),
+    ("tucktime", "Daily Tuck in Time", "pddaily"),
+    ("laterich", "Daily Up Late with Rich - LAD", "pddaily"),
+    ("docrockderby", "Dr. Dynastic's Doc Rock Derby", "pddaily"),
+    ("fridaydraftaboutnothing", "Friday Draft About Nothing", "pdweekly"),
+    ("fridaynightlivepd", "Friday Night Live PD", "pdweekly"),
+    ("fridaywatchingclock", "Friday Watching the Clock - ATH", "pdweekly"),
+    ("5ldeadball", "Laptophound's Daily 5L Deadball", "pddaily"),
+    ("6lpowerplay", "Laptophound's Daily 6L Power Play", "pddaily"),
+    ("mondaygettingstarted", "Monday Getting it Started", "pdweekly"),
+    ("mondaynighthistorylesson", "Monday Night History Lesson", "pdweekly"),
+    ("mondaytrimthosesideburns", "Monday Trim Those Sideburns", "pdweekly"),
+    ("saturdayaroundhornafterdar", "Saturday Around the Horn After Dark", "pdweekly"),
+    ("saturdaycantsleepclownwill", "Saturday Can't Sleep Clown Will Eat Me", "pdweekly"),
+    ("saturdayshrinkage", "Saturday Shrinkage", "pdweekly"),
+    ("sundaymorningmarkusrevenge", "Sunday Morning Markus' Revenge", "pdweekly"),
+    ("sundaypdmainevent", "Sunday PD Main Event", "pdweekly"),
+    ("sundaydownladder", "Sunday Up and Down the Ladder", "pdweekly"),
+    ("twiptsaturdayshowdown", "TWIPT Saturday Showdown", "pdweekly"),
+    ("thursdaydudewherecards", "Thursday Dude Where's My Cards?", "pdweekly"),
+    ("thursdaynightputbooks", "Thursday Night Put it in the Books", "pdweekly"),
+    ("thursdayovernightundercove", "Thursday Overnight Under the Covers", "pdweekly"),
+    ("tuesdaydoublerockingchairs", "Tuesday Double Rocking Chairs", "pdweekly"),
+    ("tuesdayeveningadrenalineru", "Tuesday Evening Adrenaline Rush", "pdweekly"),
+    ("tuesdaylivelampooning", "Tuesday Live Lampooning", "pdweekly"),
+    ("wednesdaydiamondiron", "Wednesday Diamond to Iron", "pdweekly"),
+    ("wednesdaydoublepd", "Wednesday Double PD", "pdweekly"),
+    ("wednesdaywakehistory", "Wednesday Wake Up To History", "pdweekly"),
 ]
 
 # Latest known (event id, unix start) per weekly series — from the community dumps.
@@ -214,7 +271,71 @@ def grouped_items():
         if block:
             rows.append((f"────────  {tier.upper()}  ────────", None))
             rows.extend(block)
+    for grp, label, tag in (("pddaily", "PERFECT DRAFT — DAILY", "PD"), ("pdweekly", "PERFECT DRAFT — WEEKLY", "PW")):
+        block = [(f"{v} — {n}  [{tag}]", v) for v, n, g in sorted(VARNAMES, key=lambda x: x[1].lower()) if g == grp]
+        if block:
+            rows.append((f"────────  {label}  ────────", None))
+            rows.extend(block)
     return rows
+
+DRAFT_ANCHORS = {
+    "aroundbreakfasttable": (2560088, 1787489559),
+    "aroundhornbeforebed": (2610089, 1787543557),
+    "aroundhornatnight": (2600089, 1787536361),
+    "bagelsschmearevcinnyc": (2060162, 1787490879),
+    "dontforgetpickkids": (2130162, 1787512960),
+    "doubleespressomorning": (2040163, 1787569656),
+    "eveningmixedbag": (2540152, 1787530838),
+    "goodorderlyevening": (2590089, 1787533907),
+    "historicalprimetime": (2190163, 1787530966),
+    "hittersfirst": (2580089, 1787507569),
+    "honeyishrunkroster": (2150162, 1787520157),
+    "justorderpizzadinner": (2170163, 1787527364),
+    "liveallnight": (2260163, 1787554361),
+    "livebreakfast": (2050162, 1787487764),
+    "livespeedrun": (2200163, 1787533657),
+    "meetingaboutmeetings": (2090162, 1787498562),
+    "mixedlunch": (2530152, 1787503827),
+    "morningmixedbag": (2520151, 1787488286),
+    "nocturnalmixedbag": (2550152, 1787539943),
+    "ootpchill": (2220163, 1787541760),
+    "pitchersfirst": (2570089, 1787502162),
+    "riseshine": (2030163, 1787566941),
+    "rockingchairlunch": (2100162, 1787501567),
+    "scrum": (2080162, 1787494965),
+    "snacktimeladder": (2120162, 1787509347),
+    "strugglingsleep": (2240163, 1787548961),
+    "theyvegoneplaid": (2210163, 1787537260),
+    "thiscouldvebeenemail": (2140162, 1787516562),
+    "tryinglookbusy": (2110162, 1787505762),
+    "tucktime": (2230163, 1787545341),
+    "laterich": (2250163, 1787552543),
+    "docrockderby": (2160163, 1787522446),
+    "fridaydraftaboutnothing": (2390022, 1787325882),
+    "fridaynightlivepd": (2410023, 1787365394),
+    "fridaywatchingclock": (2400022, 1787342901),
+    "5ldeadball": (2070162, 1787493197),
+    "6lpowerplay": (2180163, 1787532493),
+    "mondaygettingstarted": (2270022, 1786980281),
+    "mondaynighthistorylesson": (2290022, 1787019881),
+    "mondaytrimthosesideburns": (2280022, 1786998196),
+    "saturdayaroundhornafterdar": (2620012, 1787457194),
+    "saturdaycantsleepclownwill": (2420023, 1787379873),
+    "saturdayshrinkage": (2430023, 1787412278),
+    "sundaymorningmarkusrevenge": (2450023, 1787487800),
+    "sundaypdmainevent": (2470023, 1787520280),
+    "sundaydownladder": (2460023, 1787505799),
+    "twiptsaturdayshowdown": (2440023, 1787441078),
+    "thursdaydudewherecards": (2370022, 1787250194),
+    "thursdaynightputbooks": (2380022, 1787275478),
+    "thursdayovernightundercove": (2360022, 1787210663),
+    "tuesdaydoublerockingchairs": (2300022, 1787055797),
+    "tuesdayeveningadrenalineru": (2320022, 1787101789),
+    "tuesdaylivelampooning": (2310022, 1787073799),
+    "wednesdaydiamondiron": (2350022, 1787192596),
+    "wednesdaydoublepd": (2340022, 1787167470),
+    "wednesdaywakehistory": (2330022, 1787149476),
+}
 
 def osascript(script: str) -> str:
     out = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
@@ -271,6 +392,16 @@ def guess_id(varname: str, group: str, mtime: float) -> str:
         return str(max(n, 0))
     if group == "weekly" and varname in WEEKLY_ANCHORS:
         aid, astart = WEEKLY_ANCHORS[varname]
+        weeks = round((mtime - 7 * 86400 - astart) / (7 * 86400))
+        return str(max(aid % 1000 + weeks, 0))
+    if group == "pddaily" and varname in DRAFT_ANCHORS:
+        # each PD daily runs its own day counter — anchor from the dumps
+        aid, astart = DRAFT_ANCHORS[varname]
+        dt = datetime.fromtimestamp(mtime)
+        played = dt.date() if dt.hour >= 17 else date.fromordinal(dt.date().toordinal() - 1)
+        return str(max(aid % 1000 + (played - datetime.fromtimestamp(astart).date()).days, 0))
+    if group == "pdweekly" and varname in DRAFT_ANCHORS:
+        aid, astart = DRAFT_ANCHORS[varname]
         weeks = round((mtime - 7 * 86400 - astart) / (7 * 86400))
         return str(max(aid % 1000 + weeks, 0))
     return ""
@@ -366,10 +497,11 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
             if r != "Replace":
                 print(f"collision, kept old: {name}")
                 return "skip"
-        shutil.copy2(p, os.path.join(QUEUE, name))
+        if not group.startswith("pd"):
+            shutil.copy2(p, os.path.join(QUEUE, name))  # DCFC takes tournament stats only
         os.replace(p, dest)
         filed.append(name)
-        print(f"✓ filed {name}")
+        print(f"✓ filed {name}" + ("  (app only — not queued for DCFC)" if group.startswith("pd") else ""))
         notify(f"Filed {name}")
         return "ok"
 
