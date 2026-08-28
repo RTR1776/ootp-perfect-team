@@ -1,5 +1,4 @@
-import type { Tier } from "@/lib/types";
-import { TIER_COLORS } from "@/lib/tiers";
+import { TIER_COLORS, type Tier } from "@/lib/tiers";
 import { cn } from "@/lib/utils";
 
 export function TierDot({ tier, className }: { tier: Tier; className?: string }) {

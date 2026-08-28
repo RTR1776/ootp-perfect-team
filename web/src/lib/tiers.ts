@@ -1,4 +1,4 @@
-import type { Tier } from "./types";
+export type Tier = "Iron" | "Bronze" | "Silver" | "Gold" | "Diamond" | "Perfect";
 
 export const TIER_COLORS: Record<Tier, string> = {
   Perfect: "#e879f9",

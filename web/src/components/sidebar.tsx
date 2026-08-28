@@ -4,12 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Hammer,
-  LayoutGrid,
-  Users,
-  ListOrdered,
-  Shuffle,
-  Trophy,
-  FlaskConical,
   Upload,
   Globe,
   CandlestickChart,
@@ -26,25 +20,18 @@ interface NavItem {
 }
 
 const NAV: NavItem[] = [
-  { href: "/", label: "Explorer", icon: LayoutGrid },
   { href: "/build", label: "Build", icon: Hammer },
-  { href: "/roster", label: "Roster", icon: Users },
-  { href: "/lineup", label: "Lineup", icon: ListOrdered },
-  { href: "/draft", label: "Draft", icon: Shuffle },
-  { href: "/tournaments", label: "Tournaments", icon: Trophy },
   { href: "/ptcs", label: "PTCS", icon: Medal },
   { href: "/meta", label: "League Meta", icon: Globe },
   { href: "/market", label: "Market", icon: CandlestickChart },
   { href: "/environments", label: "Environments", icon: Wind },
-  { href: "/lab", label: "Card Lab", icon: FlaskConical },
   { href: "/upload", label: "Upload", icon: Upload },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" || pathname.startsWith("/card") : pathname.startsWith(href);
+  const isActive = (href: string) => pathname.startsWith(href);
 
   return (
     <aside className="fixed inset-y-0 left-0 z-30 flex w-60 flex-col border-r border-border bg-card/40 backdrop-blur">
