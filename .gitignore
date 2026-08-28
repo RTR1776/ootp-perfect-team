@@ -21,3 +21,6 @@ data-store/
 
 # raw historical data pile - loaded into the DB, too big for git
 Archive/
+
+# Quarantine folder: files staged for L.J. to delete (assistant cannot rm on this machine)
+_to_delete/
