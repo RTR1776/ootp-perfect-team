@@ -190,8 +190,12 @@ const fmtPts = (v: number | null | undefined) => (v == null || v === 0 ? "—" :
 /* card metric bars — the in-game card face, split vL / vR             */
 /* ------------------------------------------------------------------ */
 
-const BAR_MAX = 175;
-
+/**
+ * Bars are drawn against `scale` — the 99.9th percentile of every rating in
+ * the card table, computed server-side (src/lib/rating-scale.ts) so the
+ * ceiling climbs with each new card set instead of pegging. Anything above
+ * it fills the track and still prints its number.
+ */
 interface MetricSpec { label: string; base: string; vl: string; vr: string }
 
 const HIT_METRICS: MetricSpec[] = [
@@ -210,27 +214,43 @@ const PIT_METRICS: MetricSpec[] = [
   { label: "BABIP", base: "pBABIP", vl: "pBABIP vL", vr: "pBABIP vR" },
 ];
 
-function barColor(v: number): string {
-  if (v >= 100) return "bg-emerald-500";
-  if (v >= 85) return "bg-green-500";
-  if (v >= 70) return "bg-lime-500";
-  if (v >= 55) return "bg-amber-500";
-  if (v >= 40) return "bg-orange-500";
+/** Colour bands ride the same scale, so they track the ceiling too. */
+function barColor(v: number, scale: number): string {
+  const f = v / scale;
+  if (f >= 0.7) return "bg-emerald-500";
+  if (f >= 0.45) return "bg-green-500";
+  if (f >= 0.33) return "bg-lime-500";
+  if (f >= 0.25) return "bg-amber-500";
+  if (f >= 0.15) return "bg-orange-500";
   return "bg-red-500";
 }
 
-function Bar({ v, tone }: { v: number; tone?: string }) {
+function Bar({ v, scale, tone }: { v: number; scale: number; tone?: string }) {
   return (
     <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-muted">
       <div
-        className={cn("h-full rounded-full", tone ?? barColor(v))}
-        style={{ width: `${clamp((v / BAR_MAX) * 100, 2, 100)}%` }}
+        className={cn("h-full rounded-full", tone ?? barColor(v, scale))}
+        style={{ width: `${clamp((v / scale) * 100, 2, 100)}%` }}
       />
     </div>
   );
 }
 
-function SplitRow({ label, l, r, base }: { label: string; l: number | null; r: number | null; base: number | null }) {
+/** A rating past the scale pegs its bar, so the number carries the news. */
+function Val({ v, scale }: { v: number | null; scale: number }) {
+  return (
+    <span
+      className={cn(
+        "w-[26px] shrink-0 text-right font-mono text-[9.5px] [font-variant-numeric:tabular-nums]",
+        v != null && v > scale && "font-bold text-emerald-600 dark:text-emerald-400",
+      )}
+    >
+      {v == null ? "—" : Math.round(v)}
+    </span>
+  );
+}
+
+function SplitRow({ label, l, r, base, scale }: { label: string; l: number | null; r: number | null; base: number | null; scale: number }) {
   const lv = l ?? base, rv = r ?? base;
   if (lv == null && rv == null) return null;
   return (
@@ -240,10 +260,8 @@ function SplitRow({ label, l, r, base }: { label: string; l: number | null; r: n
         {([["L", lv], ["R", rv]] as const).map(([tag, v]) => (
           <div key={tag} className="flex items-center gap-1">
             <span className="w-[7px] shrink-0 font-mono text-[8px] text-muted-foreground/70">{tag}</span>
-            <Bar v={v ?? 0} />
-            <span className="w-[22px] shrink-0 text-right font-mono text-[9.5px] [font-variant-numeric:tabular-nums]">
-              {v == null ? "—" : Math.round(v)}
-            </span>
+            <Bar v={v ?? 0} scale={scale} />
+            <Val v={v} scale={scale} />
           </div>
         ))}
       </div>
@@ -251,31 +269,31 @@ function SplitRow({ label, l, r, base }: { label: string; l: number | null; r: n
   );
 }
 
-function SoloRow({ label, v, tone }: { label: string; v: number | null; tone?: string }) {
+function SoloRow({ label, v, scale, tone }: { label: string; v: number | null; scale: number; tone?: string }) {
   if (v == null) return null;
   return (
     <div className="flex items-center gap-1.5">
       <span className="w-[36px] shrink-0 font-mono text-[9px] uppercase tracking-wide text-muted-foreground">{label}</span>
       <div className="flex flex-1 items-center gap-1">
         <span className="w-[7px] shrink-0" />
-        <Bar v={v} tone={tone} />
-        <span className="w-[22px] shrink-0 text-right font-mono text-[9.5px] [font-variant-numeric:tabular-nums]">{Math.round(v)}</span>
+        <Bar v={v} scale={scale} tone={tone} />
+        <Val v={v} scale={scale} />
       </div>
     </div>
   );
 }
 
-function MetricBars({ r, isPitcher }: { r: Record<string, number>; isPitcher: boolean }) {
+function MetricBars({ r, isPitcher, scale }: { r: Record<string, number>; isPitcher: boolean; scale: number }) {
   const specs = isPitcher ? PIT_METRICS : HIT_METRICS;
   const def = bestDefPos(r);
   return (
     <div className="mt-1.5 flex flex-col gap-[3px]">
       {specs.map((m) => (
-        <SplitRow key={m.label} label={m.label} l={r[m.vl] ?? null} r={r[m.vr] ?? null} base={r[m.base] ?? null} />
+        <SplitRow key={m.label} label={m.label} l={r[m.vl] ?? null} r={r[m.vr] ?? null} base={r[m.base] ?? null} scale={scale} />
       ))}
       {isPitcher
-        ? <SoloRow label="STM" v={r["Stamina"] ?? null} tone="bg-sky-500" />
-        : def.val > 0 && <SoloRow label={`DEF ${def.pos}`} v={def.val} tone="bg-sky-500" />}
+        ? <SoloRow label="STM" v={r["Stamina"] ?? null} scale={scale} tone="bg-sky-500" />
+        : def.val > 0 && <SoloRow label={`DEF ${def.pos}`} v={def.val} scale={scale} tone="bg-sky-500" />}
     </div>
   );
 }
@@ -308,7 +326,7 @@ function peekFrom(
   return { ...base, top, left };
 }
 
-function CardPeek({ p }: { p: Peek }) {
+function CardPeek({ p, scale }: { p: Peek; scale: number }) {
   const [artOk, setArtOk] = useState(true);
   useEffect(() => setArtOk(true), [p.cardId]);
   return (
@@ -331,7 +349,7 @@ function CardPeek({ p }: { p: Peek }) {
       <div className="min-w-0 flex-1 text-xs leading-relaxed">
         <div className="font-sans text-sm font-semibold leading-tight">{p.title}</div>
         <div className="mt-0.5 text-[11px] text-muted-foreground">{p.sub}</div>
-        {p.ratings && <MetricBars r={p.ratings} isPitcher={p.isPitcher} />}
+        {p.ratings && <MetricBars r={p.ratings} isPitcher={p.isPitcher} scale={scale} />}
         <div className="mt-2 font-mono text-[11px] [font-variant-numeric:tabular-nums]">{p.stat}</div>
         {p.extra && <div className="mt-0.5 font-mono text-[11px] text-muted-foreground [font-variant-numeric:tabular-nums]">{p.extra}</div>}
       </div>
@@ -348,6 +366,7 @@ export function RosterBuilder({
   upgrades,
   meta,
   savedRosters,
+  ratingScale,
 }: {
   groups: CatalogGroup[];
   tournament: TournamentInfo | null;
@@ -355,6 +374,8 @@ export function RosterBuilder({
   upgrades: UpgradeCard[];
   meta: SeriesMetaInfo | null;
   savedRosters: SavedRoster[];
+  /** Full-bar rating value; see src/lib/rating-scale.ts. */
+  ratingScale: number;
 }) {
   const router = useRouter();
   const [slots, setSlots] = useState<Record<SlotKey, number | null>>({});
@@ -1074,7 +1095,7 @@ export function RosterBuilder({
               <p className="text-xs text-muted-foreground">
                 {view === "UPG"
                   ? `Best tournament-legal cards you don't own, by model-v0 projection, priced from the latest shop snapshot. Hover a name for the card face.`
-                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. pWOBA/pFIP = model v0 (ratings → observed stats fit). Obs/PA are this tournament only. Hover a name for the card's vL/vR bars; drag a name onto a slot to roster him. Variant limits and LIVE-only rules aren't enforced yet.`}
+                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. pWOBA/pFIP = model v0 (ratings → observed stats fit). Obs/PA are this tournament only. Hover a name for the card's vL/vR bars (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Variant limits and LIVE-only rules aren't enforced yet.`}
               </p>
             </div>
 
@@ -1180,7 +1201,7 @@ export function RosterBuilder({
               {msg && <p className="text-xs text-muted-foreground">{msg}</p>}
             </div>
           </div>
-          {peek && <CardPeek p={peek} />}
+          {peek && <CardPeek p={peek} scale={ratingScale} />}
         </>
       )}
     </div>

@@ -28,6 +28,7 @@ import {
 } from "@/db/schema";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { projFip, projWoba } from "@/lib/analytics/projection";
+import { getRatingScale } from "@/lib/rating-scale";
 import coeffs from "@/lib/analytics/projection-coeffs.json";
 import {
   RosterBuilder,
@@ -79,6 +80,7 @@ export default async function BuildPage({
   searchParams: Promise<{ t?: string }>;
 }) {
   const { t } = await searchParams;
+  const ratingScale = await getRatingScale();
 
   const catalog = await db
     .select({
@@ -368,6 +370,7 @@ export default async function BuildPage({
   return (
     <RosterBuilder
       groups={groups}
+      ratingScale={ratingScale}
       tournament={tournament}
       pool={pool}
       upgrades={upgrades}
