@@ -7,7 +7,7 @@
  * past it within weeks). Hard-coding it means bars silently peg.
  *
  * So the scale is read from the card table itself: the 99.9th percentile of
- * every displayed rating value, rounded up to the next 25. The percentile
+ * every rating the card face draws, rounded up to the next 25. The percentile
  * rather than the max keeps one freak card from squashing everyone else —
  * across 89k rating values only ~48 clear 200, and those clip at a full bar
  * with their number still printed beside it. Each new card import moves the
@@ -23,10 +23,8 @@ import { sql } from "drizzle-orm";
 
 /** The rating keys the card-face bars actually draw. */
 const DISPLAY_KEYS = [
-  "Avoid K vL", "Avoid K vR", "BABIP vL", "BABIP vR", "Gap vL", "Gap vR",
-  "Power vL", "Power vR", "Eye vL", "Eye vR",
-  "Stuff vL", "Stuff vR", "Movement vL", "Movement vR", "Control vL", "Control vR",
-  "pHR vL", "pHR vR", "pBABIP vL", "pBABIP vR", "Stamina",
+  "Avoid Ks", "BABIP", "Gap", "Power", "Eye",
+  "Stuff", "Movement", "Control", "pHR", "pBABIP", "Stamina",
   "Pos Rating C", "Pos Rating 1B", "Pos Rating 2B", "Pos Rating 3B",
   "Pos Rating SS", "Pos Rating LF", "Pos Rating CF", "Pos Rating RF",
 ];

@@ -196,88 +196,71 @@ const fmtPts = (v: number | null | undefined) => (v == null || v === 0 ? "—" :
  * ceiling climbs with each new card set instead of pegging. Anything above
  * it fills the track and still prints its number.
  */
-interface MetricSpec { label: string; base: string; vl: string; vr: string }
+interface MetricSpec { label: string; key: string; alt?: [string, string] }
 
 const HIT_METRICS: MetricSpec[] = [
-  { label: "AVK", base: "Avoid Ks", vl: "Avoid K vL", vr: "Avoid K vR" },
-  { label: "BABIP", base: "BABIP", vl: "BABIP vL", vr: "BABIP vR" },
-  { label: "GAP", base: "Gap", vl: "Gap vL", vr: "Gap vR" },
-  { label: "POW", base: "Power", vl: "Power vL", vr: "Power vR" },
-  { label: "EYE", base: "Eye", vl: "Eye vL", vr: "Eye vR" },
+  { label: "AVK", key: "Avoid Ks", alt: ["Avoid K vL", "Avoid K vR"] },
+  { label: "BABIP", key: "BABIP", alt: ["BABIP vL", "BABIP vR"] },
+  { label: "GAP", key: "Gap", alt: ["Gap vL", "Gap vR"] },
+  { label: "POW", key: "Power", alt: ["Power vL", "Power vR"] },
+  { label: "EYE", key: "Eye", alt: ["Eye vL", "Eye vR"] },
 ];
 
 const PIT_METRICS: MetricSpec[] = [
-  { label: "STU", base: "Stuff", vl: "Stuff vL", vr: "Stuff vR" },
-  { label: "MOV", base: "Movement", vl: "Movement vL", vr: "Movement vR" },
-  { label: "CON", base: "Control", vl: "Control vL", vr: "Control vR" },
-  { label: "HRA", base: "pHR", vl: "pHR vL", vr: "pHR vR" },
-  { label: "BABIP", base: "pBABIP", vl: "pBABIP vL", vr: "pBABIP vR" },
+  { label: "STU", key: "Stuff", alt: ["Stuff vL", "Stuff vR"] },
+  { label: "MOV", key: "Movement", alt: ["Movement vL", "Movement vR"] },
+  { label: "CON", key: "Control", alt: ["Control vL", "Control vR"] },
+  { label: "HRA", key: "pHR", alt: ["pHR vL", "pHR vR"] },
+  { label: "BABIP", key: "pBABIP", alt: ["pBABIP vL", "pBABIP vR"] },
 ];
 
-/** Colour bands ride the same scale, so they track the ceiling too. */
-function barColor(v: number, scale: number): string {
-  const f = v / scale;
-  if (f >= 0.7) return "bg-emerald-500";
-  if (f >= 0.45) return "bg-green-500";
-  if (f >= 0.33) return "bg-lime-500";
-  if (f >= 0.25) return "bg-amber-500";
-  if (f >= 0.15) return "bg-orange-500";
-  return "bg-red-500";
+/** The overall rating, falling back to the split average when it is absent. */
+function overall(r: Record<string, number>, m: MetricSpec): number | null {
+  const v = r[m.key];
+  if (v != null) return v;
+  if (!m.alt) return null;
+  const [l, rr] = [r[m.alt[0]], r[m.alt[1]]];
+  if (l != null && rr != null) return (l + rr) / 2;
+  return l ?? rr ?? null;
 }
 
-function Bar({ v, scale, tone }: { v: number; scale: number; tone?: string }) {
-  return (
-    <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-muted">
-      <div
-        className={cn("h-full rounded-full", tone ?? barColor(v, scale))}
-        style={{ width: `${clamp((v / scale) * 100, 2, 100)}%` }}
-      />
-    </div>
-  );
-}
+/**
+ * OOTP's own rating colours — red at the bottom through orange, gold, green
+ * and teal to blue and purple at the top. Thresholds are absolute (fitted to
+ * the in-game card: 59 orange, 69 gold, 81 green, 92 teal, 130-150 blue, 190
+ * purple) because the game grades the raw rating, not the card's rank; ~50 is
+ * league average, so an average card sits in orange exactly as it does in PT.
+ * Unlike the bar length, these do NOT move with the ceiling.
+ */
+const RATING_BANDS: { min: number; bar: string; text: string }[] = [
+  { min: 175, bar: "bg-purple-500", text: "text-purple-500" },
+  { min: 110, bar: "bg-blue-500", text: "text-blue-500" },
+  { min: 90, bar: "bg-teal-500", text: "text-teal-500" },
+  { min: 80, bar: "bg-green-500", text: "text-green-500" },
+  { min: 65, bar: "bg-amber-400", text: "text-amber-400" },
+  { min: 50, bar: "bg-orange-500", text: "text-orange-500" },
+  { min: -Infinity, bar: "bg-red-500", text: "text-red-500" },
+];
 
-/** A rating past the scale pegs its bar, so the number carries the news. */
-function Val({ v, scale }: { v: number | null; scale: number }) {
-  return (
-    <span
-      className={cn(
-        "w-[26px] shrink-0 text-right font-mono text-[9.5px] [font-variant-numeric:tabular-nums]",
-        v != null && v > scale && "font-bold text-emerald-600 dark:text-emerald-400",
-      )}
-    >
-      {v == null ? "—" : Math.round(v)}
-    </span>
-  );
-}
+const bandOf = (v: number) => RATING_BANDS.find((b) => v >= b.min)!;
 
-function SplitRow({ label, l, r, base, scale }: { label: string; l: number | null; r: number | null; base: number | null; scale: number }) {
-  const lv = l ?? base, rv = r ?? base;
-  if (lv == null && rv == null) return null;
-  return (
-    <div className="flex items-center gap-1.5">
-      <span className="w-[36px] shrink-0 font-mono text-[9px] uppercase tracking-wide text-muted-foreground">{label}</span>
-      <div className="flex flex-1 flex-col gap-[2px]">
-        {([["L", lv], ["R", rv]] as const).map(([tag, v]) => (
-          <div key={tag} className="flex items-center gap-1">
-            <span className="w-[7px] shrink-0 font-mono text-[8px] text-muted-foreground/70">{tag}</span>
-            <Bar v={v ?? 0} scale={scale} />
-            <Val v={v} scale={scale} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SoloRow({ label, v, scale, tone }: { label: string; v: number | null; scale: number; tone?: string }) {
+/**
+ * One rating: the label, the number in its band colour, and a bar of the same
+ * colour. Bar length runs against `scale` (see src/lib/rating-scale.ts) and
+ * pegs at full for the handful of ratings above it — the number still reads
+ * true.
+ */
+function MetricRow({ label, v, scale }: { label: string; v: number | null; scale: number }) {
   if (v == null) return null;
+  const band = bandOf(v);
   return (
     <div className="flex items-center gap-1.5">
-      <span className="w-[36px] shrink-0 font-mono text-[9px] uppercase tracking-wide text-muted-foreground">{label}</span>
-      <div className="flex flex-1 items-center gap-1">
-        <span className="w-[7px] shrink-0" />
-        <Bar v={v} scale={scale} tone={tone} />
-        <Val v={v} scale={scale} />
+      <span className="w-[38px] shrink-0 font-mono text-[9px] uppercase tracking-wide text-muted-foreground">{label}</span>
+      <span className={cn("w-[26px] shrink-0 text-right font-mono text-[10px] font-semibold [font-variant-numeric:tabular-nums]", band.text)}>
+        {Math.round(v)}
+      </span>
+      <div className="h-[6px] flex-1 overflow-hidden rounded-full bg-muted">
+        <div className={cn("h-full rounded-full", band.bar)} style={{ width: `${clamp((v / scale) * 100, 3, 100)}%` }} />
       </div>
     </div>
   );
@@ -287,13 +270,13 @@ function MetricBars({ r, isPitcher, scale }: { r: Record<string, number>; isPitc
   const specs = isPitcher ? PIT_METRICS : HIT_METRICS;
   const def = bestDefPos(r);
   return (
-    <div className="mt-1.5 flex flex-col gap-[3px]">
+    <div className="mt-2 flex flex-col gap-[4px]">
       {specs.map((m) => (
-        <SplitRow key={m.label} label={m.label} l={r[m.vl] ?? null} r={r[m.vr] ?? null} base={r[m.base] ?? null} scale={scale} />
+        <MetricRow key={m.label} label={m.label} v={overall(r, m)} scale={scale} />
       ))}
       {isPitcher
-        ? <SoloRow label="STM" v={r["Stamina"] ?? null} scale={scale} tone="bg-sky-500" />
-        : def.val > 0 && <SoloRow label={`DEF ${def.pos}`} v={def.val} scale={scale} tone="bg-sky-500" />}
+        ? <MetricRow label="STM" v={r["Stamina"] ?? null} scale={scale} />
+        : def.val > 0 && <MetricRow label={`DEF ${def.pos}`} v={def.val} scale={scale} />}
     </div>
   );
 }
@@ -319,7 +302,7 @@ function peekFrom(
   base: Omit<Peek, "top" | "left">,
 ): Peek {
   const r = el.getBoundingClientRect();
-  const H = base.ratings ? 250 : 150;
+  const H = base.ratings ? 235 : 150;
   const W = 400;
   const top = Math.max(8, Math.min(r.top - 40, window.innerHeight - H - 8));
   const left = r.right + 10 + W > window.innerWidth ? Math.max(8, r.left - W - 10) : r.right + 10;
@@ -1095,7 +1078,7 @@ export function RosterBuilder({
               <p className="text-xs text-muted-foreground">
                 {view === "UPG"
                   ? `Best tournament-legal cards you don't own, by model-v0 projection, priced from the latest shop snapshot. Hover a name for the card face.`
-                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. pWOBA/pFIP = model v0 (ratings → observed stats fit). Obs/PA are this tournament only. Hover a name for the card's vL/vR bars (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Variant limits and LIVE-only rules aren't enforced yet.`}
+                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. pWOBA/pFIP = model v0 (ratings → observed stats fit). Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Variant limits and LIVE-only rules aren't enforced yet.`}
               </p>
             </div>
 
