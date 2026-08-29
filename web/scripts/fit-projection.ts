@@ -20,9 +20,9 @@
 
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { inArray, sql } from "drizzle-orm";
+import { eq, inArray, notInArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
-import { cards, observedCardStats } from "../src/db/schema";
+import { cards, observedCardStats, tournaments } from "../src/db/schema";
 
 const HIT_FEATURES = ["Contact", "Gap", "Power", "Eye", "Avoid Ks", "BABIP", "Speed"];
 // Only the three FIP components: Stuff→K, Control→BB, pHR→HR. Movement and
@@ -79,6 +79,19 @@ function weightedR2(rows: number[][], y: number[], w: number[], beta: number[]):
 }
 
 async function main() {
+  // Draft (PD) series stay OUT of the fit: draft pools mix run environments
+  // so widely that including them dilutes the ratings signal (r² .42 → .31
+  // the day the first two PD series landed). They still show as observed
+  // columns everywhere — this only affects the regression sample.
+  const draftSeries = (
+    await db
+      .select({ series: tournaments.series })
+      .from(tournaments)
+      .where(eq(tournaments.isDraft, true))
+  )
+    .map((r) => r.series)
+    .filter((s): s is string => s != null);
+
   const careers = await db
     .select({
       cardId: observedCardStats.cardId,
@@ -88,6 +101,7 @@ async function main() {
       fip: sql<number | null>`sum(${observedCardStats.fip} * ${observedCardStats.ip}) / nullif(sum(case when ${observedCardStats.fip} is not null then ${observedCardStats.ip} end), 0)`,
     })
     .from(observedCardStats)
+    .where(draftSeries.length ? notInArray(observedCardStats.series, draftSeries) : sql`true`)
     .groupBy(observedCardStats.cardId);
 
   const ids = careers.map((c) => c.cardId);

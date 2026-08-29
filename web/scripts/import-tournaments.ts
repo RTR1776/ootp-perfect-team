@@ -38,6 +38,8 @@ const SERIES_OVERRIDES: Record<string, string> = {
   "bronze10to50": "Daily Bronze 1910-59",
   "bronzecapweekly": "Saturday Bronze Cap",
   "bronzeweekly": "Monday Up And At Them Bronze",
+  "5ldeadball": "Laptophound's Daily 5L Deadball",
+  "6lpowerplay": "Laptophound's Daily 6L Power Play",
   "c4q1": "Thursday Cwhit's Cap Challenge 1",
   "c4q2": "Thursday Cwhit's Cap Challenge 2",
   "c4q3": "Thursday Cwhit's Cap Challenge 3",
@@ -164,7 +166,7 @@ async function main() {
         cardYearMax: yMax,
         simRuns: num(r["sim_runs"]),
         series: null as string | null,
-        isDraft: /\bPD\b|Draft/i.test(name),
+        isDraft: /\bPD\b|Draft|Laptop|Doc Rock/i.test(name),
       };
     });
 
