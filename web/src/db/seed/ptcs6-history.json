@@ -423,16 +423,32 @@
       "points": {
         "Iron": 0,
         "Bronze": 0,
-        "Silver": 0,
-        "Gold": 0,
+        "Silver": 25,
+        "Gold": 25,
         "Diamond": 6,
         "Open": 0,
         "Live": 0,
-        "Cap": 0,
-        "PD Daily": 4,
+        "Cap": 15,
+        "PD Daily": 7,
         "PD Weekly": 0
       },
-      "note": "Diamond Heart 5-8 (64) +6 DIAMOND. Snack Time on the Ladder 5-8 (32) +3 PDD; 5L Deadball 33-64 (128) +1 PDD. Friday Draft About Nothing (PDW, 256) ELIMINATED. ZEROS: Open Slots, Early Gold 167, Gold Slots 167. Partial day - morning screenshot, expect late adds."
+      "note": "BEST DAY OF THE PERIOD (+78). GOLDEN HEART WINNER (64) +25 GOLD - first tournament WIN of PTCS 6. Silver Slots 2ND (64) +15 SILVER/+15 CAP; Silver Heart 3rd/4th (64) +10 SILVER; Diamond Heart 5-8 (64) +6 D; Doc Rock Derby 9-16 (64) +3 PDD; Snack Time 5-8 (32) +3 PDD; 5L Deadball 33-64 (128) +1 PDD. Draft About Nothing (PDW) eliminated. ZEROS: Open Slots, Early Gold, Gold Slots, 6L Power Play 168, Late Silver 168, Silver Slamboree. LATE ADDS from Aug 29 screenshot amended this day (+68 over the morning partial)."
+    },
+    {
+      "date": "2026-08-29",
+      "points": {
+        "Iron": 0,
+        "Bronze": 0,
+        "Silver": 0,
+        "Gold": 0,
+        "Diamond": 0,
+        "Open": 0,
+        "Live": 0,
+        "Cap": 0,
+        "PD Daily": 3,
+        "PD Weekly": 0
+      },
+      "note": "Struggling to Sleep 9-16 (64) +3 PDD. Partial day - morning screenshot."
     }
   ]
 }
