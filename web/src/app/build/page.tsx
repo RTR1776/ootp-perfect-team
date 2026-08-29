@@ -5,8 +5,9 @@
  * dailies by tier, weeklies by day, quicks, drafts, specials, retired
  * last; EF events hidden), the chosen tournament's park + legality
  * window, L.J.'s latest collection joined to ratings, model-v0
- * projections per card, observed per-card performance (this series +
- * career), and the suggested-upgrade list of unowned legal cards with
+ * projections per card, observed per-card performance for this series
+ * only (career totals mix parks/eras, so /build never shows them), and
+ * the suggested-upgrade list of unowned legal cards with
  * shop prices. Only tournament-legal cards are sent — ineligible cards
  * never render. All interaction lives in the RosterBuilder client
  * component.
@@ -210,7 +211,7 @@ export default async function BuildPage({
     const activeSet = new Set(owned.filter((o) => o.isActive).map((o) => o.cardId));
     const variantSet = new Set(owned.filter((o) => o.isVariant).map((o) => o.cardId));
 
-    // Observed: this tournament's series, plus a PA/IP-weighted career line.
+    // Observed: this tournament's series only — career mixes parks and eras.
     const seriesRows: ObservedLine[] = full.series
       ? (
           await db
@@ -228,24 +229,7 @@ export default async function BuildPage({
         ).map((r) => ({ ...r, woba: r.woba ?? null, fip: r.fip ?? null }))
       : [];
 
-    const careerRows = ownedIds.length
-      ? await db
-          .select({
-            cardId: observedCardStats.cardId,
-            pa: sql<number>`sum(${observedCardStats.pa})`.mapWith(Number),
-            ip: sql<number>`sum(${observedCardStats.ip})`.mapWith(Number),
-            war: sql<number>`sum(${observedCardStats.war})`.mapWith(Number),
-            woba: sql<number | null>`sum(${observedCardStats.woba} * ${observedCardStats.pa}) / nullif(sum(case when ${observedCardStats.woba} is not null then ${observedCardStats.pa} end), 0)`,
-            fip: sql<number | null>`sum(${observedCardStats.fip} * ${observedCardStats.ip}) / nullif(sum(case when ${observedCardStats.fip} is not null then ${observedCardStats.ip} end), 0)`,
-            instances: sql<number>`sum(${observedCardStats.instances})`.mapWith(Number),
-          })
-          .from(observedCardStats)
-          .where(inArray(observedCardStats.cardId, ownedIds))
-          .groupBy(observedCardStats.cardId)
-      : [];
-
     const bySeries = new Map(seriesRows.map((r) => [r.cardId, r]));
-    const byCareer = new Map(careerRows.map((r) => [r.cardId, r as ObservedLine]));
 
     pool = cardRows
       .filter((c) => isLegal(c.cardValue, c.year))
@@ -269,7 +253,6 @@ export default async function BuildPage({
             ? { all: projFip(r), vL: projFip(r, "vL"), vR: projFip(r, "vR") }
             : { all: projWoba(r), vL: projWoba(r, "vL"), vR: projWoba(r, "vR") },
           obs: bySeries.get(c.cardId) ?? null,
-          career: byCareer.get(c.cardId) ?? null,
         };
       });
 
@@ -332,6 +315,7 @@ export default async function BuildPage({
         pos: isP ? c.pitcherRole ?? "P" : c.position ?? "?",
         isPitcher: isP,
         year: c.year,
+        ratings: trimRatings(r),
         proj: isP
           ? { all: projFip(r), vL: projFip(r, "vL"), vR: projFip(r, "vR") }
           : { all: projWoba(r), vL: projWoba(r, "vL"), vR: projWoba(r, "vR") },
