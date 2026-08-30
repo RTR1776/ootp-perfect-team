@@ -439,16 +439,32 @@
       "points": {
         "Iron": 0,
         "Bronze": 0,
-        "Silver": 0,
+        "Silver": 2,
         "Gold": 15,
         "Diamond": 0,
         "Open": 0,
         "Live": 0,
-        "Cap": 0,
+        "Cap": 1,
+        "PD Daily": 6,
+        "PD Weekly": 0
+      },
+      "note": "LOW GOLD RETROSPECTICUS 2ND (64) +15 GOLD - best Gold day since the Golden Heart win. PDD singles: Struggling to Sleep 9-16 (64) +3, Trying to Look Busy - D&G 17-32 (64) +1. Saturday Shrinkage (PD WEEKLY, 256) ELIMINATED - 0. ZEROS: Silver & Friends Deadball Slots 33-64 (64), Gold Slots 33-64 (64). LATE ADDS from the Aug 30 screenshot (+5): Silver Slots 17-32 (64) +1 S/+1 C; Silver Slamboree 33-64 (128) +1 S; Just Order Pizza 17-32 (64) +1 PDD; This Could've Been an Email 17-32 (64) +1 PDD. LATE ZEROS: Silver Heart 33-64 (64), 6L Power Play 65-128 (128), Saturday Diamond Variety 65-128 (128, Dia+TW), Late Silver 65-128 (128)."
+    },
+    {
+      "date": "2026-08-30",
+      "points": {
+        "Iron": 0,
+        "Bronze": 0,
+        "Silver": 0,
+        "Gold": 6,
+        "Diamond": 0,
+        "Open": 0,
+        "Live": 0,
+        "Cap": 6,
         "PD Daily": 4,
         "PD Weekly": 0
       },
-      "note": "LOW GOLD RETROSPECTICUS 2ND (64) +15 GOLD - best Gold day since the Golden Heart win. PDD singles: Struggling to Sleep 9-16 (64) +3, Trying to Look Busy - D&G 17-32 (64) +1. Saturday Shrinkage (PD WEEKLY, 256) ELIMINATED - 0. ZEROS: Silver & Friends Deadball Slots 33-64 (64, Slv+Cap), Gold Slots 33-64 (64, Gld+Cap). Partial day - evening screenshot."
+      "note": "Gold+Cap doubles: Sunday High Iron Floor and Gold Ceiling 17-32 (128, Gld+Cp+TW) +3 G/+3 C; Gold Slots 9-16 (64) +3 G/+3 C. PDD: Struggling to Sleep 9-16 (64) +3, 5L Deadball 33-64 (128) +1. ZEROS: Low Gold Retrospecticus 33-64 (64), Bagels and Schmear 33-64 (64). Partial day - evening screenshot."
     }
   ]
 }
