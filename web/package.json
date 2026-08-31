@@ -18,7 +18,8 @@
     "fit:projection": "tsx scripts/fit-projection.ts",
     "import:myresults": "tsx scripts/import-myresults.ts",
     "verify:env": "tsx scripts/verify-env.ts",
-    "build:envdata": "node scripts/build-env-data.mjs"
+    "build:envdata": "node scripts/build-env-data.mjs",
+    "inventory": "node scripts/tourney-inventory.mjs && python3 scripts/tourney-inventory-xlsx.py"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
