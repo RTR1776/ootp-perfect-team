@@ -40,6 +40,8 @@ MAIN_CHEV="2252,26"
 MENU_START_SCREEN="2247,351" # MAIN > OOTP Start Screen
 SHOW_PERFECT_DRAFTS="3383,624"
 TAB_YOUR_TOURNAMENTS="2426,70"
+AUTOREFRESH_CHEV="3692,69"   # coming back through the start screen resets this
+AUTOREFRESH_NONE="3627,175"  # to 1 Minute, and then the rows re-sort under us
 
 WAIT_OPEN=18             # Examine → tournament loaded (it is slow; do not trim)
 WAIT_PAGE=6              # page/tab transitions
@@ -49,11 +51,6 @@ WAIT_EXPORT=7            # Write to CSV → file on disk
 # teams is a sanity check: a 64-team draft cannot produce a 128-team file, so a
 # row that has shifted under us is caught before it is filed under a real name.
 WORKLIST=$(cat <<'LIST'
-7   strugglingsleep_170              64
-8   6lpowerplay_170                 128
-9   rockingchairlunch_169            64
-10  sundaydownladder_24             128
-11  5ldeadball_169                  128
 12  bagelsschmearevcinnyc_169        64
 14  6lpowerplay_169                 128
 15  justorderpizzadinner_169         64
@@ -113,6 +110,8 @@ return_to_list() {
   # the first click on the tab often lands while the screen is still building
   click "$TAB_YOUR_TOURNAMENTS"; sleep 3
   click "$TAB_YOUR_TOURNAMENTS"; sleep "$WAIT_PAGE"
+  press "$AUTOREFRESH_CHEV";     sleep 2
+  click "$AUTOREFRESH_NONE";     sleep 3
 }
 
 band() {
@@ -170,6 +169,9 @@ while read -r row out teams; do
     after=$(stat -f '%m %z' "$LAND" 2>/dev/null || echo "none")
     if [ "$after" = "$before" ] || [ "$after" = "none" ]; then
       echo "  · a click missed; nothing filed, nothing else clicked"
+      # almost always a popup that appeared mid-run: OOTP throws a modal every
+      # time one of your tournaments starts or ends, and it blocks every click
+      drain_dialogs
       return_to_list
       continue
     fi
