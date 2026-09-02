@@ -4,18 +4,19 @@
     "startsOn": "2026-08-03",
     "endsOn": "2026-09-06",
     "targets": {
-      "Iron": 135,
-      "Bronze": 130,
-      "Silver": 129,
-      "Gold": 114,
-      "Diamond": 101,
-      "Open": 129,
-      "Live": 176,
-      "Cap": 179,
-      "PD Daily": 334,
-      "PD Weekly": 96
+      "Iron": 107,
+      "Bronze": 124,
+      "Silver": 105,
+      "Gold": 105,
+      "Diamond": 84,
+      "Open": 53,
+      "Live": 125,
+      "Cap": 168,
+      "PD Daily": 315,
+      "PD Weekly": 104
     },
-    "targetsAreOfficial": false
+    "targetsAreOfficial": false,
+    "targetsNote": "128th-place berth lines measured from the pt27 community finish-order dumps (Aug 24 and Aug 31), grown at the observed rate to the Sep 6 period end. Replaces the PTCS5 x 5/4 estimates, which ran 20-50% high in most categories."
   },
   "days": [
     {
