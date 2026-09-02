@@ -498,6 +498,22 @@
         "PD Weekly": 0
       },
       "note": "BRONZE PTCS 3 REPLAY SLOTS 3rd/4th (64) +10 B/+10 CAP - biggest Bronze hit of the period and the swing that puts Bronze within 4 of target. 6L Power Play 5-8 (128) +10 PDD - best PD Daily result since the Aug 26 Deadball 5-8. Perfecto Primetime 9-16 (64) +3 PDD; Early Gold 17-32 (128) +3 G; Silver Slots 17-32 (64) +1 S/+1 C; Diamond & Friends Slots 17-32 (64) +1 D/+1 C. ZEROS: Perfectly Silver 33-64 (64); All-Gold 33-64 (64); All-Silver 33-64 (64); Bronze OOTP Era 65-128 (128); 5L Deadball 65-128 (128); Tuesday Up to 1969 65-128 (128, Op+TW)."
+    },
+    {
+      "date": "2026-09-02",
+      "points": {
+        "Iron": 0,
+        "Bronze": 0,
+        "Silver": 0,
+        "Gold": 0,
+        "Diamond": 0,
+        "Open": 3,
+        "Live": 0,
+        "Cap": 0,
+        "PD Daily": 0,
+        "PD Weekly": 0
+      },
+      "note": "Wednesday 1950 to Now 17-32 (128, Op+TW) +3 OPEN - counted per the game's own Op tag; note the dump model currently EXCLUDES this event, so it may not show up in the community Open standings. ZEROS: Open Slots 33-64 (64, Op+Cp); Early Gold 65-128 (128). Partial day - still playing."
     }
   ]
 }
