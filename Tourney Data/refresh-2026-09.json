@@ -1,0 +1,367 @@
+{
+  "capturedOn": "2026-09-02",
+  "source": "PT community refresh posts (Silver, Iron, Bronze, Perfect Draft)",
+  "note": "Raw refresh text keyed by 3-digit OOTP slot. Slots are REUSED on rename, so a slug's files before and after this refresh describe different tournaments.",
+  "silver": {
+    "123": {
+      "old": "Daily Early Silver",
+      "new": null,
+      "text": "now at 2017 Marlins Park"
+    },
+    "124": {
+      "old": "Daily Late Silver",
+      "new": null,
+      "text": "1992 RE, DH on, 1992 Camden Yards"
+    },
+    "125": {
+      "old": "Daily Silver Cap",
+      "new": "Daily Silver Only Cap",
+      "text": "64 teams, 1888 Cap, 1998 RE, DH on, Variant Cap 11, Heinsohn Park"
+    },
+    "126": {
+      "old": "Daily Live Silver",
+      "new": null,
+      "text": "now at 2026 Yankee Stadium"
+    },
+    "127": {
+      "old": "Daily Silver Slots",
+      "new": null,
+      "text": "16 Silver, 5 Bronze, 5 Iron, 1977 RE, DH off, 1978 Riverfront Stadium"
+    },
+    "165": {
+      "old": "Daily Silver Slamboree",
+      "new": "Daily Silver Snapshots",
+      "text": "128 teams, Snapshots cards only, 1987 RE, DH on, Variants on, 1986 Three Rivers Stadium"
+    },
+    "183": {
+      "old": "Daily Silver Heart",
+      "new": "Daily Roaring Silvers",
+      "text": "Cards up to 1929, 1927 RE, DH off, Variants on, 1927 Yankee Stadium"
+    },
+    "190": {
+      "old": "Daily Silver & Friends Deadball Slots",
+      "new": "Daily Silver & Friends Slots",
+      "text": "SLOTS: 1 Perfect, 1 Diamond, 1 Gold, 21 Silver, 1 Bronze, 1 Iron; Default RE, DH on, Variant Cap 13, 2026 Daikin Park"
+    },
+    "197": {
+      "old": "Daily Low Silver Only",
+      "new": null,
+      "text": "64 teams, Best of 7, Default RE, DH on, Variants on, Heinsohn Park"
+    }
+  },
+  "iron": {
+    "111": {
+      "old": "Daily Iron Lunch",
+      "new": null,
+      "text": "1966 RE"
+    },
+    "112": {
+      "old": "Daily Late Iron",
+      "new": null,
+      "text": "Default RE, DH on, 2026 Chase Field"
+    },
+    "113": {
+      "old": "Daily Iron Strikes Back",
+      "new": null,
+      "text": "DH off, 1990 Anaheim Stadium"
+    },
+    "114": {
+      "old": "Daily Dank",
+      "new": null,
+      "text": "1945 RE, DH off, 1945 Comiskey Park"
+    },
+    "115": {
+      "old": "Daily Iron Cap",
+      "new": null,
+      "text": "1300 cap, Variant Cap 14, 2026 Isotopes Park"
+    },
+    "116": {
+      "old": "Daily Live Iron",
+      "new": null,
+      "text": "2026 Petco Park"
+    },
+    "163": {
+      "old": "Daily Iron Dreamland",
+      "new": null,
+      "text": "1907 RE, 1886 Swampoodle Grounds"
+    },
+    "181": {
+      "old": "Daily Iron Heart",
+      "new": "PTCS 2 Iron Replay",
+      "text": "Nel-SS-UH-HH, 1969 RE, DH off, Variants on, 1964 Shea Stadium"
+    },
+    "188": {
+      "old": "Daily Iron & Friends OOTP Era Slots",
+      "new": null,
+      "text": "SLOTS: 1 Perfect, 1 Diamond, 1 Gold, 1 Silver, 1 Bronze, 21 Irons"
+    },
+    "139": {
+      "old": "Daily Open High Cap",
+      "new": "Daily PTCS 4 Cap Replay",
+      "text": "Historical Legend-All-Star-Future Legend cards only, 1820 cap, 11:50am"
+    }
+  },
+  "bronze": {
+    "117": {
+      "old": "Daily Early Bronze",
+      "new": null,
+      "text": "128 teams, 1942 RE, DH off, Variants off, 1945 Wrigley Field"
+    },
+    "118": {
+      "old": "Daily Return of the Bronze",
+      "new": "Daily Bronze Only Curiosities",
+      "text": "64 teams, UH-SS-RS cards only, Default RE, DH on, Variants on, 2005 Minute Maid Park"
+    },
+    "119": {
+      "old": "Daily Late Bronze",
+      "new": null,
+      "text": "Default RE, 2003 Dodger Stadium"
+    },
+    "120": {
+      "old": "Daily Bronze Cap",
+      "new": "Daily Bronze Only Cap",
+      "text": "1689 cap, 2019 RE, DH on, Variant Cap 13, 2026 American Family Field"
+    },
+    "121": {
+      "old": "Daily Live Bronze",
+      "new": null,
+      "text": "now at 2026 Kauffman Stadium"
+    },
+    "122": {
+      "old": "Daily Low Bronze",
+      "new": "Daily Low Bronze Only",
+      "text": "1955 RE, DH off, Variant Cap 12, 1955 Ebbets Field"
+    },
+    "164": {
+      "old": "Daily Bronze The Sequel",
+      "new": "Daily Bronze 1910-59",
+      "text": "64 teams, 1959 RE, DH on, Variants on, 1959 Seals Stadium"
+    },
+    "182": {
+      "old": "Daily Bronze Heart",
+      "new": "Daily Bronze OOTP Era",
+      "text": "128 teams, 2009 RE, DH on, Variants on, Heinsohn Park"
+    },
+    "189": {
+      "old": "Daily Bronze PTCS 2 Replay Slots",
+      "new": "Daily Bronze PTCS 3 Replay Slots",
+      "text": "SLOTS: 18 Bronze, 8 Iron; 1999 RE, DH on, Variant Cap 13, 2000 Coors Field"
+    }
+  },
+  "perfectDraft": {
+    "203": {
+      "old": "Daily Rise and Shine",
+      "new": "Pick 12 Original PD",
+      "text": "101+ Round 1 and 100 Round 2"
+    },
+    "204": {
+      "old": "Daily Double Espresso Morning",
+      "new": "Pick 12 Double PD",
+      "text": "101+ Round 1"
+    },
+    "252": {
+      "old": "Daily Morning Mixed Bag",
+      "new": "Daily Perfecto Morning",
+      "text": ""
+    },
+    "206": {
+      "old": "Daily Bagels and Schmear with EVCinNYC",
+      "new": null,
+      "text": "new format - see EVCinNYC2 on Twitch"
+    },
+    "208": {
+      "old": "Daily Scrum",
+      "new": "Daily High Heat in the Morning",
+      "text": "HH- 6 Rounds Perfect, 7 Rounds Diamond, Default RE, DH on, LE on, Heinsohn Park"
+    },
+    "209": {
+      "old": "Daily Meeting About Meetings - ORD",
+      "new": "Daily Perfectly Iron",
+      "text": "Only Perfect & Iron rounds, Best of 7, randomized 1993-2024, 2026 Coors Field"
+    },
+    "253": {
+      "old": "Daily Mixed Up My Lunch",
+      "new": "Daily Midday Perfecto",
+      "text": "Best of 7, random 1980-2004 RE, random HR Friendly stadiums"
+    },
+    "211": {
+      "old": "Daily Trying to Look Busy - D&G",
+      "new": "Daily All-Silver",
+      "text": "random current MLB stadiums"
+    },
+    "212": {
+      "old": "Daily Snack Time on the Ladder",
+      "new": "Daily All-Gold",
+      "text": "Best 7, LE on"
+    },
+    "214": {
+      "old": "Daily This Could've Been an Email - RCK",
+      "new": "Daily Perfectly Bronze",
+      "text": ""
+    },
+    "215": {
+      "old": "Daily Honey, I Shrunk the Roster",
+      "new": "Historical Pick 12",
+      "text": "101+ Round 1 and 20 cards"
+    },
+    "216": {
+      "old": "Dr. Dynastic's Doc Rock Derby",
+      "new": "High Heat Non-Live, Speed",
+      "text": "7-minute draft"
+    },
+    "254": {
+      "old": "Daily Evening Mixed Bag",
+      "new": "Daily Perfecto Primetime",
+      "text": ""
+    },
+    "259": {
+      "old": "Daily Good Orderly Evening",
+      "new": "Orderly",
+      "text": "101+ Round 1"
+    },
+    "219": {
+      "old": "Daily Historical Primetime",
+      "new": "Historical",
+      "text": "101+ Round 1"
+    },
+    "220": {
+      "old": "Daily Live Speed Run",
+      "new": "Daily All-Diamond",
+      "text": ""
+    },
+    "221": {
+      "old": "Daily They've Gone to Plaid",
+      "new": "Original PD",
+      "text": "101+ Round 1 and Speed 5-minute clock"
+    },
+    "255": {
+      "old": "Daily Nocturnal Mixed Bag",
+      "new": "Daily Perfectly Silver",
+      "text": ""
+    },
+    "222": {
+      "old": "Daily OOTP and Chill",
+      "new": "Daily Perfectly Gold",
+      "text": ""
+    },
+    "223": {
+      "old": "Daily Tuck in Time",
+      "new": "Daily Ladder",
+      "text": "101+ Round, Default RE, random Tournament Only stadiums"
+    },
+    "224": {
+      "old": "Daily Struggling to Sleep - DBL",
+      "new": "Original, Double PD",
+      "text": "101+ RD1"
+    },
+    "225": {
+      "old": "Daily Up Late with Rich - LAD",
+      "new": "Daily Up Late with Perfecto",
+      "text": "random Historical stadiums"
+    },
+    "226": {
+      "old": "Daily Live All Night",
+      "new": null,
+      "text": "random current MLB stadiums"
+    },
+    "227": {
+      "old": "Monday Getting it Started",
+      "new": "Original, Double PD",
+      "text": "101+ RD1"
+    },
+    "229": {
+      "old": "Monday Night History Lesson",
+      "new": "Historical Pick 12",
+      "text": "101+ RD1, random 1980-2004 RE"
+    },
+    "232": {
+      "old": "Tuesday Evening Adrenaline Rush",
+      "new": "Tuesday Perfectly Iron",
+      "text": "Mevening"
+    },
+    "233": {
+      "old": "Wednesday Wake Up To History",
+      "new": "Wednesday Bring the High Heat",
+      "text": "random California stadiums"
+    },
+    "234": {
+      "old": "Wednesday Double PD",
+      "new": "Wednesday Double Your Fun, Original, Double PD",
+      "text": "101+ RD1"
+    },
+    "235": {
+      "old": "Wednesday Diamond to Iron",
+      "new": "Wednesday Perfectly Bronze",
+      "text": "random Years of the Pitcher RE, random HR Supression stadiums"
+    },
+    "236": {
+      "old": "Thursday Overnight Under the Covers",
+      "new": "Orderly",
+      "text": "101+ Round 1, random 1961-1992 RE"
+    },
+    "237": {
+      "old": "Thursday Dude, Where's My Cards?",
+      "new": "Perfecto",
+      "text": "21 cards"
+    },
+    "238": {
+      "old": "Thursday Night Put it in the Books",
+      "new": "Historical Pick 12",
+      "text": "101+ RD1"
+    },
+    "239": {
+      "old": "Friday Draft About Nothing",
+      "new": "All-Bronze PD",
+      "text": ""
+    },
+    "240": {
+      "old": "Friday Watching the Clock - ATH",
+      "new": null,
+      "text": "random 1993-2024 RE, random High BA stadiums"
+    },
+    "242": {
+      "old": "Saturday Can't Sleep Clown Will Eat Me",
+      "new": "Perfectly Silver",
+      "text": "random Hitter Friendly RE, LE on"
+    },
+    "243": {
+      "old": "Saturday Shrinkage",
+      "new": "Perfectly Gold",
+      "text": "20 cards, LE on"
+    },
+    "244": {
+      "old": "TWIPT Saturday Showdown",
+      "new": "Double PD",
+      "text": "101+ Round 1"
+    },
+    "245": {
+      "old": "Sunday Morning Markus' Revenge",
+      "new": "Mixed Bag",
+      "text": "22 cards, random 1908-60 RE"
+    },
+    "246": {
+      "old": "Sunday Up and Down the Ladder",
+      "new": "Sunday Perfecto",
+      "text": "256 teams"
+    },
+    "247": {
+      "old": "Sunday PD Main Event",
+      "new": "Original PD",
+      "text": "101+ Round 1"
+    }
+  },
+  "newTournaments": [
+    {
+      "tier": "iron",
+      "name": "Dank Quick",
+      "text": "16 teams, Best of 5, DH on, Variant Cap 10, Heinsohn Park"
+    }
+  ],
+  "stillNeeded": [
+    "Gold refresh post",
+    "Diamond refresh post",
+    "Open refresh post",
+    "Live refresh post",
+    "the refresh date / first run number under new rules"
+  ]
+}
