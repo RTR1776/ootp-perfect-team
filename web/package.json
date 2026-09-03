@@ -17,6 +17,7 @@
     "import:dump": "tsx scripts/import-dump.ts",
     "fit:projection": "tsx scripts/fit-projection.ts",
     "import:myresults": "tsx scripts/import-myresults.ts",
+    "parse:restrictions": "tsx scripts/parse-restrictions.ts",
     "standings": "tsx scripts/standings-history.ts",
     "verify:env": "tsx scripts/verify-env.ts",
     "build:envdata": "node scripts/build-env-data.mjs",
