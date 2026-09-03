@@ -466,6 +466,12 @@ export const tournaments = pgTable("tournaments", {
   simRuns: integer("sim_runs"),
   series: text("series"),
   isDraft: boolean("is_draft").notNull().default(false),
+  /**
+   * Everything the value/year columns above cannot express: per-tier slot
+   * counts, roster value cap, variant cap, card-type limits, draft round
+   * schedule. Shape is `Restrictions` from lib/ingest/restrictions.ts.
+   */
+  restrictions: jsonb("restrictions").$type<Record<string, unknown>>(),
   /** True once the game retires the event (e.g. the 8/26 bronze/iron refresh). */
   retired: boolean("retired").notNull().default(false),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),

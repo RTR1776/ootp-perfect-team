@@ -104,6 +104,16 @@ export interface TournamentInfo {
   cardYearMax: number | null;
   series: string | null;
   isDraft: boolean;
+  /** Slots, roster cap, variant cap, card types - anything the value/year
+   *  windows cannot express. */
+  restrictions: {
+    slots?: Record<string, number>;
+    teamCap?: number;
+    variantCap?: number;
+    variantsAllowed?: boolean;
+    cardTypes?: string[];
+    teams?: number;
+  } | null;
   retired: boolean;
   park: { name: string; avg: number | null; hr: number | null; b2: number | null; b3: number | null } | null;
 }

@@ -2,7 +2,7 @@
  * /build — the tournament roster builder.
  *
  * Server side: resolve the tournament catalog (grouped for the picker —
- * dailies by tier, weeklies by day, quicks, drafts, specials, retired
+ * dailies by tier, weeklies by day, quicks, drafts, specials
  * last; EF events hidden), the chosen tournament's park + legality
  * window, L.J.'s latest collection joined to ratings, model-v0
  * projections per card, observed per-card performance for this series
@@ -50,7 +50,10 @@ const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 
 function groupOf(t: { name: string; isDraft: boolean; retired: boolean }): string | null {
   if (/^EF\b/.test(t.name)) return null; // default-rules H2H/4T events — hidden
-  if (t.retired) return "Retired";
+  // Retired events stay in the database - their history still feeds /meta and
+  // the environment search - but they leave the picker. They remain reachable
+  // by id, so a link to an old build keeps working.
+  if (t.retired) return null;
   if (t.isDraft) return "Perfect Drafts";
   if (/\bQuick\b/i.test(t.name)) return "Quicks";
   const day = t.name.match(DAY_RE)?.[1];
@@ -71,7 +74,6 @@ const GROUP_ORDER = [
   "Quicks",
   "Perfect Drafts",
   "Specials",
-  "Retired",
 ];
 
 export default async function BuildPage({
@@ -113,7 +115,7 @@ export default async function BuildPage({
     const entry = groupMap.get(g) ?? { label: g, items: [] };
     entry.items.push({
       id: c.id,
-      label: `${c.name}${c.envYear ? ` · ${c.envYear}` : ""}${c.retired ? " · R" : ""}`,
+      label: `${c.name}${c.envYear ? ` · ${c.envYear}` : ""}`,
       hasSeries: !!c.series,
       simRuns: c.simRuns ?? 0,
     });
@@ -146,6 +148,7 @@ export default async function BuildPage({
       ratingsMax: full.ratingsMax,
       cardYearMin: full.cardYearMin,
       cardYearMax: full.cardYearMax,
+      restrictions: (full.restrictions ?? null) as TournamentInfo["restrictions"],
       series: full.series,
       isDraft: full.isDraft,
       retired: full.retired,
@@ -154,11 +157,23 @@ export default async function BuildPage({
         : null,
     };
 
+    // A "Slots: S16, B5, I5" spec is a per-tier budget. A tier the spec omits
+    // is not capped at zero by accident - it is not in the event at all, so it
+    // must not be recommended. Tiers are read off card value.
+    const rx = (full.restrictions ?? null) as { slots?: Record<string, number> } | null;
+    const slotTiers = rx?.slots
+      ? new Set(Object.entries(rx.slots).filter(([, n]) => n > 0).map(([k]) => k))
+      : null;
+    const tierOf = (val: number | null): string | null =>
+      val == null ? null
+      : val >= 100 ? "P" : val >= 90 ? "D" : val >= 80 ? "G" : val >= 70 ? "S" : val >= 60 ? "B" : "I";
+
     const isLegal = (val: number | null, year: number | null): boolean => {
       if (full.ratingsMax != null && (val ?? 0) > full.ratingsMax) return false;
       if (full.ratingsMin != null && (val ?? 0) < full.ratingsMin) return false;
       if (full.cardYearMin != null && year != null && year < full.cardYearMin) return false;
       if (full.cardYearMax != null && year != null && year > full.cardYearMax) return false;
+      if (slotTiers) { const t = tierOf(val); if (t && !slotTiers.has(t)) return false; }
       return true;
     };
 
@@ -272,12 +287,29 @@ export default async function BuildPage({
           );
     const hasKeys = (features: string[]) =>
       sql`${cards.ratings} ?& ${sql.raw(`array[${features.map((f) => `'${f}'`).join(",")}]`)}`;
-    const legality = [
+    // Mirror of isLegal above, in SQL. Keep the two in step: this governs the
+  // upgrade recommendations, the other governs the owned pool.
+  const SLOT_BANDS: Record<string, [number, number]> = {
+    P: [100, 999], D: [90, 99], G: [80, 89], S: [70, 79], B: [60, 69], I: [0, 59],
+  };
+  const rxAll = (full.restrictions ?? null) as { slots?: Record<string, number> } | null;
+  const allowedTiers = rxAll?.slots
+    ? Object.entries(rxAll.slots).filter(([k, n]) => n > 0 && SLOT_BANDS[k]).map(([k]) => k)
+    : null;
+  const slotClause = allowedTiers?.length
+    ? sql.join(
+        allowedTiers.map((t) => sql`(coalesce(${cards.cardValue}, 0) between ${SLOT_BANDS[t][0]} and ${SLOT_BANDS[t][1]})`),
+        sql` or `,
+      )
+    : null;
+
+  const legality = [
       full.ratingsMax != null ? sql`coalesce(${cards.cardValue}, 0) <= ${full.ratingsMax}` : null,
       full.ratingsMin != null ? sql`coalesce(${cards.cardValue}, 0) >= ${full.ratingsMin}` : null,
       full.cardYearMin != null ? sql`(${cards.year} is null or ${cards.year} >= ${full.cardYearMin})` : null,
       full.cardYearMax != null ? sql`(${cards.year} is null or ${cards.year} <= ${full.cardYearMax})` : null,
-    ].filter((x): x is ReturnType<typeof sql> => x != null);
+      slotClause ? sql`(${slotClause})` : null,
+  ].filter((x): x is ReturnType<typeof sql> => x != null);
 
     const topUnowned = async (wantPitcher: boolean, limit: number) => {
       const m = model(wantPitcher ? coeffs.pit : coeffs.hit);

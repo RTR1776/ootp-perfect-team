@@ -114,7 +114,15 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   if (/\bDH\s*on\b/i.test(s)) r.dh = true;
   if (/\bDH\s*off\b/i.test(s)) r.dh = false;
   m = s.match(/([A-Za-z][\w' -]*?)\s+cards?\s+only/i);
-  if (m) r.cardTypes = m[1].split(/[-,]/).map((x) => x.trim()).filter(Boolean);
+  if (m) {
+    // "UH-SS-RS" is a list of abbreviations; "Historical Legend-All-Star-Future
+    // Legend" is a list of names that themselves contain hyphens. Only split on
+    // hyphens when every piece is a short code.
+    const raw = m[1].trim();
+    const byHyphen = raw.split("-").map((x) => x.trim()).filter(Boolean);
+    const allCodes = byHyphen.length > 1 && byHyphen.every((x) => /^[A-Za-z]{2,4}$/.test(x));
+    r.cardTypes = allCodes ? byHyphen : raw.split(/,|\band\b/).map((x) => x.trim()).filter(Boolean);
+  }
   if (/\bnon-live\b/i.test(s)) r.notes.push("non-LIVE");
   if (/\bhistorical\b/i.test(s) && !r.cardTypes) r.notes.push("historical only");
   if (/\bLE\s*on\b/i.test(s)) r.notes.push("legends on");
