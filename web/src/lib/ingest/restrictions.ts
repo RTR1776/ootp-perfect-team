@@ -135,20 +135,26 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
 export interface RoundPool {
   tier?: "Perfect" | "Diamond" | "Gold" | "Silver" | "Bronze" | "Iron";
   half?: "high" | "low";        // "high diamond" / "low diamond" rounds
+  position?: string;            // around-the-horn drafts lock a round to a position
   valueMin?: number;
   valueMax?: number;
   cardType?: string;
 }
 
 export interface DraftFormat {
-  rounds: RoundPool[] | null;   // null = unknown, needs the in-game rules panel
+  rounds: RoundPool[] | null;   // null = unknown, do not guess
+  totalRounds?: number;
   repeatEvery?: number;         // sequence repeats every N rounds
   structure?: string;           // how picks are presented, when it differs
   note?: string;
 }
 
 const T = (tier: RoundPool["tier"], half?: RoundPool["half"]): RoundPool => ({ tier, ...(half ? { half } : {}) });
+const rep = (r: RoundPool, n: number): RoundPool[] => Array.from({ length: n }, () => ({ ...r }));
 const all = (tier: RoundPool["tier"]): DraftFormat => ({ rounds: [T(tier)], repeatEvery: 1 });
+
+/** Perfect is the 100+ band, so "Perfecto" and "all cards 100 or higher" are one rule. */
+const PERFECT: RoundPool = { tier: "Perfect", valueMin: 100 };
 
 export const DRAFT_FORMATS: Record<string, DraftFormat> = {
   "All-Iron": all("Iron"),
@@ -156,25 +162,27 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
   "All-Silver": all("Silver"),
   "All-Gold": all("Gold"),
   "All-Diamond": all("Diamond"),
-  "Perfecto": all("Perfect"),
 
-  // "Only Perfect & Iron rounds" - the post is explicit that it is both tiers,
-  // but not how they interleave. Order UNVERIFIED.
-  "Perfectly Iron":   { rounds: [T("Perfect"), T("Iron")],   repeatEvery: 2, note: "interleave unverified" },
-  "Perfectly Bronze": { rounds: [T("Perfect"), T("Bronze")], repeatEvery: 2, note: "interleave unverified" },
-  "Perfectly Silver": { rounds: [T("Perfect"), T("Silver")], repeatEvery: 2, note: "interleave unverified" },
-  "Perfectly Gold":   { rounds: [T("Perfect"), T("Gold")],   repeatEvery: 2, note: "interleave unverified" },
+  // Every Perfecto draft is Perfect cards only, 100+.
+  "Perfecto": { rounds: [PERFECT], repeatEvery: 1 },
+  "Up Late with Perfecto": { rounds: [PERFECT], repeatEvery: 1 },
 
-  // Descending tiers in high/low pairs. Shape confirmed, LENGTH unverified -
-  // where it starts and stops depends on the event.
+  // Blocks, not an interleave: seven Perfect rounds then six of the tier.
+  "Perfectly Iron":   { rounds: [...rep(PERFECT, 7), ...rep(T("Iron"), 6)],   totalRounds: 13 },
+  "Perfectly Bronze": { rounds: [...rep(PERFECT, 7), ...rep(T("Bronze"), 6)], totalRounds: 13 },
+  "Perfectly Silver": { rounds: [...rep(PERFECT, 7), ...rep(T("Silver"), 6)], totalRounds: 13 },
+  "Perfectly Gold":   { rounds: [...rep(PERFECT, 7), ...rep(T("Gold"), 6)],   totalRounds: 13 },
+
+  // Descending tiers in high/low pairs. Shape confirmed; start and end tier
+  // vary by event, so the length here is indicative.
   "Orderly": {
     rounds: [T("Diamond", "high"), T("Diamond", "low"), T("Gold", "high"), T("Gold", "low"),
              T("Silver", "high"), T("Silver", "low"), T("Bronze", "high"), T("Bronze", "low")],
     note: "descending high/low pairs; start and end tier vary by event",
   },
 
-  // Up from Iron to the top, then back down. Peak (Diamond or Perfect) and
-  // round count vary by event - UNVERIFIED.
+  // Up from Iron to a peak, then back down. Peak is Diamond or Perfect
+  // depending on the event.
   "Ladder": {
     rounds: [T("Iron"), T("Bronze"), T("Silver"), T("Gold"), T("Diamond"),
              T("Gold"), T("Silver"), T("Bronze"), T("Iron")],
@@ -189,6 +197,26 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
   "Original PD": { rounds: null, structure: "one card per pick" },
   "Double PD":   { rounds: null, structure: "two cards per pick" },
   "Pick 12":     { rounds: null, structure: "choose 1 of 12 offered" },
+};
+
+/**
+ * Named Perfect Drafts whose pool is set by the event rather than a format
+ * word. Keyed by the slug the exports are filed under.
+ */
+export const DRAFT_EVENTS: Record<string, DraftFormat> = {
+  // 21 cards drawn from Silver, Bronze and Iron. Per-round order not yet known.
+  "5ldeadball": {
+    rounds: null, totalRounds: 21,
+    note: "Silver / Bronze / Iron pool, 21 cards; round order unknown",
+  },
+  // Around the horn: a round per position, tiers running Gold down to Iron.
+  // Known to open on a Bronze catcher round and to end with a thin Silver
+  // round and a Gold one. Middle rounds UNVERIFIED.
+  "6lpowerplay": {
+    rounds: [{ tier: "Bronze", position: "C" }],
+    note: "around the horn, Gold->Iron, one position per round; opens Bronze C, " +
+          "ends with a thin Silver round then Gold; middle rounds unverified",
+  },
 };
 
 /**
