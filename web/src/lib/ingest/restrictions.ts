@@ -123,46 +123,82 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
 }
 
 /**
- * Perfect Draft formats. The refresh post names a format ("Daily All-Gold",
- * "Perfectly Iron") rather than spelling out the pool, so the pool lives here.
- * `rounds` describes what each pick offers; null means the format changes the
- * draft's structure, not which cards are on offer.
+ * Perfect Draft formats.
+ *
+ * A format is not one card pool, it is a SEQUENCE of pools - one per round.
+ * "All-Gold" is the degenerate case (every round the same); "Orderly" walks
+ * down the tiers in pairs; "Ladder" climbs and comes back. Modifiers like
+ * "101+ Round 1" override a single round's floor on top of the sequence.
+ *
+ * `rounds: null` means the sequence is not yet known - do not guess it.
  */
+export interface RoundPool {
+  tier?: "Perfect" | "Diamond" | "Gold" | "Silver" | "Bronze" | "Iron";
+  half?: "high" | "low";        // "high diamond" / "low diamond" rounds
+  valueMin?: number;
+  valueMax?: number;
+  cardType?: string;
+}
+
 export interface DraftFormat {
-  pool: string | null;          // tier or card-type restriction on every round
-  structure: string | null;     // how picks are presented
+  rounds: RoundPool[] | null;   // null = unknown, needs the in-game rules panel
+  repeatEvery?: number;         // sequence repeats every N rounds
+  structure?: string;           // how picks are presented, when it differs
   note?: string;
 }
 
+const T = (tier: RoundPool["tier"], half?: RoundPool["half"]): RoundPool => ({ tier, ...(half ? { half } : {}) });
+const all = (tier: RoundPool["tier"]): DraftFormat => ({ rounds: [T(tier)], repeatEvery: 1 });
+
 export const DRAFT_FORMATS: Record<string, DraftFormat> = {
-  "All-Iron":        { pool: "Iron only",    structure: null },
-  "All-Bronze":      { pool: "Bronze only",  structure: null },
-  "All-Silver":      { pool: "Silver only",  structure: null },
-  "All-Gold":        { pool: "Gold only",    structure: null },
-  "All-Diamond":     { pool: "Diamond only", structure: null },
-  "Perfecto":        { pool: "Perfect only", structure: null },
-  "Perfectly Iron":  { pool: "Perfect + Iron rounds",   structure: null },
-  "Perfectly Bronze":{ pool: "Perfect + Bronze rounds", structure: null },
-  "Perfectly Silver":{ pool: "Perfect + Silver rounds", structure: null },
-  "Perfectly Gold":  { pool: "Perfect + Gold rounds",   structure: null },
-  "Historical":      { pool: "Historical cards only",   structure: null },
-  "High Heat":       { pool: "High Heat cards",         structure: null },
-  "Original PD":     { pool: null, structure: "one card per pick" },
-  "Double PD":       { pool: null, structure: "two cards per pick" },
-  "Pick 12":         { pool: null, structure: "choose 1 of 12 offered" },
-  "Mixed Bag":       { pool: null, structure: "mixed tiers per round" },
-  // UNVERIFIED - the refresh post names these but not what they do.
-  "Orderly":         { pool: null, structure: null, note: "unknown - ask" },
-  "Ladder":          { pool: null, structure: null, note: "unknown - ask" },
+  "All-Iron": all("Iron"),
+  "All-Bronze": all("Bronze"),
+  "All-Silver": all("Silver"),
+  "All-Gold": all("Gold"),
+  "All-Diamond": all("Diamond"),
+  "Perfecto": all("Perfect"),
+
+  // "Only Perfect & Iron rounds" - the post is explicit that it is both tiers,
+  // but not how they interleave. Order UNVERIFIED.
+  "Perfectly Iron":   { rounds: [T("Perfect"), T("Iron")],   repeatEvery: 2, note: "interleave unverified" },
+  "Perfectly Bronze": { rounds: [T("Perfect"), T("Bronze")], repeatEvery: 2, note: "interleave unverified" },
+  "Perfectly Silver": { rounds: [T("Perfect"), T("Silver")], repeatEvery: 2, note: "interleave unverified" },
+  "Perfectly Gold":   { rounds: [T("Perfect"), T("Gold")],   repeatEvery: 2, note: "interleave unverified" },
+
+  // Descending tiers in high/low pairs. Shape confirmed, LENGTH unverified -
+  // where it starts and stops depends on the event.
+  "Orderly": {
+    rounds: [T("Diamond", "high"), T("Diamond", "low"), T("Gold", "high"), T("Gold", "low"),
+             T("Silver", "high"), T("Silver", "low"), T("Bronze", "high"), T("Bronze", "low")],
+    note: "descending high/low pairs; start and end tier vary by event",
+  },
+
+  // Up from Iron to the top, then back down. Peak (Diamond or Perfect) and
+  // round count vary by event - UNVERIFIED.
+  "Ladder": {
+    rounds: [T("Iron"), T("Bronze"), T("Silver"), T("Gold"), T("Diamond"),
+             T("Gold"), T("Silver"), T("Bronze"), T("Iron")],
+    note: "up then back down; peak tier and length vary by event",
+  },
+
+  "Historical": { rounds: [{ cardType: "Historical" }], repeatEvery: 1 },
+  "High Heat":  { rounds: [{ cardType: "High Heat" }],  repeatEvery: 1 },
+  "Mixed Bag":  { rounds: null, note: "mixed tiers per round; sequence unknown" },
+
+  // Structure only - these change how picks are presented, not the pool.
+  "Original PD": { rounds: null, structure: "one card per pick" },
+  "Double PD":   { rounds: null, structure: "two cards per pick" },
+  "Pick 12":     { rounds: null, structure: "choose 1 of 12 offered" },
 };
 
-/** "101+ Round 1" and friends: which rounds offer a raised value floor. */
+/**
+ * "101+ Round 1", "100 Round 2", "101+ RD1" - a raised value floor on one
+ * round, layered over whatever the format's sequence says.
+ */
 export function parseRoundFloors(text: string): Record<number, number> {
   const out: Record<number, number> = {};
   for (const m of Array.from(text.matchAll(/(\d{2,3})\+?\s*(?:Round|RD)\s*(\d)/gi))) {
     out[Number(m[2])] = Number(m[1]);
   }
-  const m2 = text.match(/(\d{2,3})\s*Round\s*(\d)/i);
-  if (m2) out[Number(m2[2])] = Number(m2[1]);
   return out;
 }
