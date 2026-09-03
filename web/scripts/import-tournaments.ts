@@ -125,6 +125,20 @@ async function main() {
       )]
     : [];
 
+  // databotai leaves ratings_cap/card_year blank for restrictions it does not
+  // encode as a NNNN - NNNN range, so an era-limited event arrives with no
+  // limit at all and /build happily recommends modern cards for a 1919 deadball
+  // tournament. These are read off OOTP's own RESTRICTIONS column and applied
+  // after the CSV, using the same encoding databotai uses elsewhere ("<=1920
+  // Era" is stored as 1800-1920, matching Daily Silver & Friends Deadball Slots).
+  const RESTRICTION_OVERRIDES: Record<string, Partial<{
+    ratingsMin: number; ratingsMax: number; cardYearMin: number; cardYearMax: number;
+  }>> = {
+    "Wednesday Night of the Living Deadball": { cardYearMin: 1800, cardYearMax: 1920 }, // "<=1920 Era"
+    "Tuesday Up To 1969":                     { cardYearMin: 1800, cardYearMax: 1969 }, // "<=1969"
+    "Daily Bronze OOTP Era":                  { cardYearMin: 1999, cardYearMax: 2026 }, // "Cards <= BRONZE; >=1999"
+  };
+
   const range = (v: string | undefined) => {
     const m = (v ?? "").match(/(\d+)\s*-\s*(\d+)/);
     return m ? [Number(m[1]), Number(m[2])] : [null, null];
@@ -164,6 +178,7 @@ async function main() {
         ratingsMax: rMax,
         cardYearMin: yMin,
         cardYearMax: yMax,
+        ...RESTRICTION_OVERRIDES[name],
         simRuns: num(r["sim_runs"]),
         series: null as string | null,
         isDraft: /\bPD\b|Draft|Laptop|Doc Rock/i.test(name),
