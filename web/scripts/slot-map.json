@@ -1,6 +1,52 @@
 {
   "_comment": "PT tournament slot id (first 3 digits of an event id) -> the filer's series slug. Built by reading ids off the Your Tournaments screen; grows every capture. An event id is <slot><4-digit run>, so 2110168 = slot 211 run 168 = tryinglookbusy_168.csv. This is what removes hand-typed run numbers.",
   "_source": "read from OOTP's Your Tournaments list 2026-08-31; slugs from File OOTP Exports.command",
+  "_cutover": {
+    "refresh": "2026-09 (Silver + Perfect Draft); Bronze/Iron refreshed ~2026-08-26",
+    "rule": "A slot is REUSED when a tournament is renamed. Every file in Archive/Completed predates the Sep refresh, so old slugs stay valid for existing files. New runs on a renamed slot must use the new slug.",
+    "renames": {
+      "211": {
+        "old": "tryinglookbusy",
+        "oldName": "Daily Trying to Look Busy - D&G",
+        "new": "allsilver",
+        "newName": "Daily All-Silver",
+        "lastOldRun": 168,
+        "firstNewRun": 171
+      },
+      "212": {
+        "old": "snacktimeladder",
+        "oldName": "Daily Snack Time on the Ladder",
+        "new": "allgold",
+        "newName": "Daily All-Gold",
+        "lastOldRun": 167,
+        "firstNewRun": 171
+      },
+      "254": {
+        "old": null,
+        "oldName": "Daily Evening Mixed Bag",
+        "new": "perfectoprimetime",
+        "newName": "Daily Perfecto Primetime",
+        "lastOldRun": null,
+        "firstNewRun": 161
+      },
+      "255": {
+        "old": null,
+        "oldName": "Daily Nocturnal Mixed Bag",
+        "new": "perfectlysilver",
+        "newName": "Daily Perfectly Silver",
+        "lastOldRun": null,
+        "firstNewRun": 161
+      },
+      "189": {
+        "old": "bronzeptcs2",
+        "oldName": "Daily Bronze PTCS 2 Replay Slots",
+        "new": "bronzeptcs3",
+        "newName": "Daily Bronze PTCS 3 Replay Slots",
+        "lastOldRun": null,
+        "firstNewRun": 98
+      }
+    }
+  },
   "124": "latesilver",
   "127": "silverslotsdaily",
   "132": "goldslotsdaily",
@@ -11,13 +57,14 @@
   "166": "lgretro",
   "182": "bronzeootp",
   "183": "silverheart",
+  "189": "bronzeptcs3",
   "190": "silverandfriends",
   "204": "doubleespressomorning",
   "206": "bagelsschmearevcinnyc",
   "207": "5ldeadball",
   "210": "rockingchairlunch",
-  "211": "tryinglookbusy",
-  "212": "snacktimeladder",
+  "211": "allsilver",
+  "212": "allgold",
   "214": "thiscouldvebeenemail",
   "216": "docrockderby",
   "217": "justorderpizzadinner",
@@ -27,6 +74,8 @@
   "242": "saturdaycantsleepclownwill",
   "243": "saturdayshrinkage",
   "246": "sundaydownladder",
+  "254": "perfectoprimetime",
+  "255": "perfectlysilver",
   "257": "pitchersfirst",
   "258": "hittersfirst"
 }
