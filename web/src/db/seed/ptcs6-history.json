@@ -503,17 +503,33 @@
       "date": "2026-09-02",
       "points": {
         "Iron": 0,
-        "Bronze": 0,
+        "Bronze": 1,
         "Silver": 0,
         "Gold": 0,
         "Diamond": 0,
         "Open": 3,
         "Live": 0,
-        "Cap": 0,
-        "PD Daily": 0,
+        "Cap": 1,
+        "PD Daily": 4,
         "PD Weekly": 0
       },
-      "note": "Wednesday 1950 to Now 17-32 (128, Op+TW) +3 OPEN - counted per the game's own Op tag; note the dump model currently EXCLUDES this event, so it may not show up in the community Open standings. ZEROS: Open Slots 33-64 (64, Op+Cp); Early Gold 65-128 (128). Partial day - still playing."
+      "note": "Wednesday 1950 to Now 17-32 (128, Op+TW) +3 OPEN - counted per the game's own Op tag; note the dump model currently EXCLUDES this event, so it may not show up in the community Open standings. ZEROS: Open Slots 33-64 (64, Op+Cp); Early Gold 65-128 (128). LATE ADDS from the Sep 4 screenshot (+6): Bronze PTCS 3 Replay Slots 1890099 17-32 (64) +1 B/+1 C; All-Diamond 2200173 9-16 (64) +3 PDD; 6L Power Play 2180173 33-64 (128) +1 PDD. LATE ZERO: Wednesday Night of the Living Deadball 1500024 65-128 (128, Op+TW)."
+    },
+    {
+      "date": "2026-09-03",
+      "points": {
+        "Iron": 0,
+        "Bronze": 0,
+        "Silver": 15,
+        "Gold": 15,
+        "Diamond": 0,
+        "Open": 0,
+        "Live": 0,
+        "Cap": 20,
+        "PD Daily": 11,
+        "PD Weekly": 0
+      },
+      "note": "CWHIT'S CAP CHALLENGE 4 3rd/4th (128, Gld+Cp+TW) +15 GOLD/+15 CAP - best Cap result of the period and the biggest Gold hit since the Aug 28 Golden Heart win. Thursday Silver Spectacular 9-16 (256, Slv+TW) +10 SILVER - TW carries no standing, Silver only. Silver & Friends Slots 9-16 (64) +3 S/+3 C; Silver Only Cap 17-32 (64) +1 S/+1 C; Silver Slots 17-32 (64) +1 S/+1 C. PDD: Perfecto Primetime 9-16 (64) +3, All-Gold 9-16 (64) +3, Perfecto Morning 9-16 (64) +3, High Heat in the Morning 17-32 (64) +1, Struggling to Sleep - DBL 17-32 (64) +1. ZEROS: Bronze PTCS 3 Replay Slots 33-64 (64); Low Silver Only 33-64 (64); Low Diamond 33-64 (64); Bronze 1910-59 33-64 (64); 6L Power Play 65-128 (128); 5L Deadball 65-128 (128). ELIMINATED/unscored: Thursday Night Gold Rush (256, Gld+TW); Thursday Overnight Under the Covers (256, PD WEEKLY). Screenshot showed no Sep 4 group, so Sep 3 may still take late adds."
     }
   ]
 }
