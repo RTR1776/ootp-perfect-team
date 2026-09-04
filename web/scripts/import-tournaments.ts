@@ -35,6 +35,7 @@ function slug(s: string): string {
  * tier words is what once sent goldweekly to Daily Early Gold's row). */
 const SERIES_OVERRIDES: Record<string, string> = {
   "1950tonow": "Wednesday 1950 to Now",
+  "bagelsschmearevcinnyc": "Daily Bagels and Schmear with EVCinNYC",
   "bronze10to50": "Daily Bronze 1910-59",
   "bronzecapweekly": "Saturday Bronze Cap",
   "bronzeweekly": "Monday Up And At Them Bronze",
@@ -51,6 +52,7 @@ const SERIES_OVERRIDES: Record<string, string> = {
   "diamondweekly": "Wednesday Ice to See You",
   "goldfloorcapweekly": "Monday Gold Floor Cap",
   "goldweekly": "Thursday Night Gold Rush",
+  "wonkyslots": "Monday Wonky Historical Slots",
   "highironfloorgoldceilingweekly": "Sunday High Iron Floor and Gold Ceiling",
   "ironweekly": "Saturday Iron Warriors",
   "lgretro": "Daily Low Gold Retrospectus",

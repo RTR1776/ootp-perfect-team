@@ -12,6 +12,7 @@
     "db:studio": "drizzle-kit studio",
     "verify:ingest": "tsx scripts/verify-ingest.ts",
     "import:ptcs6": "tsx scripts/import-ptcs6.ts",
+    "import:ptcs6:championship": "tsx scripts/import-ptcs6-championship.ts",
     "import:tournaments": "tsx scripts/import-tournaments.ts",
     "import:observed": "tsx scripts/import-observed.ts",
     "import:dump": "tsx scripts/import-dump.ts",
@@ -23,7 +24,8 @@
     "standings": "tsx scripts/standings-history.ts",
     "verify:env": "tsx scripts/verify-env.ts",
     "build:envdata": "node scripts/build-env-data.mjs",
-    "inventory": "node scripts/tourney-inventory.mjs && python3 scripts/tourney-inventory-xlsx.py"
+    "inventory": "node scripts/tourney-inventory.mjs && python3 scripts/tourney-inventory-xlsx.py",
+    "champ:comps": "tsx scripts/champ-comparables.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

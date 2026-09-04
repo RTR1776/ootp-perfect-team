@@ -27,3 +27,7 @@ _to_delete/
 
 # Transient outbox: filed exports awaiting L.J.'s cwhit/DCFC upload, cleared by him
 Tourney Data/DCFC Upload Queue/
+
+# generated analysis output (rebuild with pnpm inventory / pnpm champ:comps)
+web/scripts/.inventory.json
+web/scripts/.champ-comparables.json

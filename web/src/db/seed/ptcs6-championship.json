@@ -1,0 +1,19 @@
+{
+  "series": "PTCS 6 Championship",
+  "playedOn": "2026-09-12",
+  "capturedOn": "2026-09-03",
+  "source": "PTCS 6 championship format announcement (pasted by L.J., 2026-09-03)",
+  "note": "All events Best of 9, cards 1920-1989, Variants on. Times are FIRST SIM, ET. Value bands for Live and Cap were announced as tier words ('High Iron Floor-Low Gold Ceiling'); the numeric MIN/<= clauses translate them onto the value scale in constants.ts. MIN 50 for 'High Iron' is inferred from the Iron band (40-59) and is the one number to confirm.",
+  "events": [
+    { "category": "Iron",      "name": "PTCS 6 Championship - Iron",      "firstSimEt": "11:30", "text": "Best of 9, cards 1920-1989, Variants on, 2012 RE, DH on, 2009 Citi Field" },
+    { "category": "Bronze",    "name": "PTCS 6 Championship - Bronze",    "firstSimEt": "11:00", "text": "Best of 9, cards 1920-1989, Variants on, 1968 RE, DH off, 1964 Shea Stadium" },
+    { "category": "Silver",    "name": "PTCS 6 Championship - Silver",    "firstSimEt": "11:00", "text": "Best of 9, cards 1920-1989, Variants on, 2006 RE, DH on, 2005 U.S. Cellular Field" },
+    { "category": "Gold",      "name": "PTCS 6 Championship - Gold",      "firstSimEt": "11:30", "text": "Best of 9, cards 1920-1989, Variants on, 1984 RE, DH off, 1985 Wrigley Field" },
+    { "category": "Diamond",   "name": "PTCS 6 Championship - Diamond",   "firstSimEt": "11:00", "text": "Best of 9, cards 1920-1989, Variants on, 1987 RE, DH on, 1987 Yankee Stadium" },
+    { "category": "Open",      "name": "PTCS 6 Championship - Open",      "firstSimEt": "11:30", "text": "Best of 9, cards 1920-1989, Variants on, Slots (8 Perfect, 7 Diamond, 6 Gold, 3 Silver, 2 Bronze, 0 Iron), 1976 RE, DH off, 1977 Wrigley Field" },
+    { "category": "Live",      "name": "PTCS 6 Championship - Live",      "firstSimEt": "11:00", "text": "Best of 9, cards 1920-1989, Variants on, MIN 50, Cards <= 84, 1640 cap, Default RE, DH on, 2026 Wrigley Field" },
+    { "category": "Cap",       "name": "PTCS 6 Championship - Cap",       "firstSimEt": "11:50", "text": "Best of 9, cards 1920-1989, Variants on, MIN 50, Cards <= 74, 1610 cap, 1935 RE, DH off, 1932 Wrigley Field" },
+    { "category": "PD Daily",  "name": "PTCS 6 Championship - PD Daily",  "firstSimEt": "11:00", "isDraft": true, "draftFormat": "Double PD Pick 12 with 101+ Round 1", "text": "Best of 9, Historical, Double PD Pick 12 with 101+ Round 1, 1987 RE, DH on, LE on, 1985 Wrigley Field" },
+    { "category": "PD Weekly", "name": "PTCS 6 Championship - PD Weekly", "firstSimEt": "11:30", "isDraft": true, "draftFormat": "Perfectly Silver PD", "text": "Best of 9, Perfectly Silver PD, 2006 RE, DH on, LE on, 2026 Wrigley Field" }
+  ]
+}

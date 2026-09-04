@@ -1,0 +1,428 @@
+<title>PTCS 6 Championship Comparables</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root{
+    --ground:#F5F8F8; --surface:#FFFFFF; --sunk:#EDF2F2;
+    --ink:#111E1F; --ink-2:#3A4C4E; --muted:#63767A; --line:#D9E2E3; --line-soft:#E8EEEF;
+    --mark:#0787A8; --problem:#C0452A; --watch:#A98A1F;
+    --mark-wash:#0787A814; --problem-wash:#C0452A14;
+    --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --col:72ch;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#0E1516; --surface:#151E20; --sunk:#101819;
+      --ink:#E8EFEE; --ink-2:#BDCBCB; --muted:#8DA0A2; --line:#28383A; --line-soft:#1E2C2E;
+      --mark:#2BA8CB; --problem:#DC6A4E; --watch:#C9A63C;
+      --mark-wash:#2BA8CB1F; --problem-wash:#DC6A4E1F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0E1516; --surface:#151E20; --sunk:#101819;
+    --ink:#E8EFEE; --ink-2:#BDCBCB; --muted:#8DA0A2; --line:#28383A; --line-soft:#1E2C2E;
+    --mark:#2BA8CB; --problem:#DC6A4E; --watch:#C9A63C;
+    --mark-wash:#2BA8CB1F; --problem-wash:#DC6A4E1F;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.62;
+       -webkit-font-smoothing:antialiased;margin:0;padding:0 20px 96px}
+  .wrap{max-width:960px;margin:0 auto}
+  .col{max-width:var(--col)}
+  p{margin:0 0 1.05em}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  a{color:var(--mark)}
+  :focus-visible{outline:2px solid var(--mark);outline-offset:3px;border-radius:3px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* masthead */
+  header.mast{padding:64px 0 30px;border-bottom:2px solid var(--ink)}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mark);margin:0 0 14px}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(34px,5.4vw,50px);line-height:1.02;letter-spacing:-.022em;
+     margin:0 0 16px;text-wrap:balance}
+  .standfirst{font-size:20px;line-height:1.5;color:var(--ink-2);max-width:60ch;margin:0}
+  .byline{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.04em;margin:22px 0 0}
+
+  /* sections */
+  section{padding-top:52px}
+  h2{font-family:var(--sans);font-weight:600;font-size:26px;letter-spacing:-.014em;margin:0 0 6px;text-wrap:balance}
+  h3{font-family:var(--sans);font-weight:600;font-size:17.5px;letter-spacing:-.006em;margin:30px 0 8px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+           margin:0 0 10px;display:flex;align-items:center;gap:12px}
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+  .lede{font-size:18.5px;color:var(--ink-2)}
+
+  /* rank rail — 31 ticks, one league */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:1px;background:var(--line-soft);
+         border:1px solid var(--line);margin:26px 0 10px}
+  .tile{background:var(--surface);padding:16px 18px 15px}
+  .tile .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .tile .val{font-family:var(--sans);font-weight:700;font-size:29px;letter-spacing:-.02em;line-height:1.15;margin:6px 0 2px;
+             font-variant-numeric:tabular-nums}
+  .tile .sub{font-family:var(--mono);font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .rail{display:flex;gap:2px;align-items:flex-end;height:15px;margin:11px 0 8px}
+  .rail i{flex:1;height:5px;background:var(--line);border-radius:1px}
+  .rail i.on{height:15px;border-radius:1.5px}
+  .is-bad .rail i.on{background:var(--problem)} .is-bad .val{color:var(--problem)}
+  .is-mid .rail i.on{background:var(--watch)}   .is-mid .val{color:var(--ink)}
+  .is-good .rail i.on{background:var(--mark)}   .is-good .val{color:var(--mark)}
+  .rankword{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.02em}
+  .is-bad .rankword{color:var(--problem)} .is-mid .rankword{color:var(--watch)} .is-good .rankword{color:var(--mark)}
+
+  /* tables */
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface);margin:22px 0 8px}
+  table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.13em;
+          text-transform:uppercase;color:var(--muted);padding:14px 16px 10px}
+  th{font-weight:600;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+     text-align:right;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;background:var(--surface)}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:8px 12px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:0}
+  td.name{font-family:var(--sans);font-weight:500;font-size:13.5px;letter-spacing:-.004em}
+  tr.flag{background:var(--problem-wash)}
+  tr.star{background:var(--mark-wash)}
+  .bad{color:var(--problem);font-weight:600}
+  .good{color:var(--mark);font-weight:600}
+  .note{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 26px;line-height:1.55}
+
+  /* actions — a real sequence */
+  ol.actions{list-style:none;counter-reset:a;padding:0;margin:24px 0 0}
+  ol.actions>li{counter-increment:a;position:relative;padding:0 0 22px 54px;border-left:1px solid var(--line);margin-left:14px}
+  ol.actions>li:last-child{border-left-color:transparent;padding-bottom:0}
+  ol.actions>li::before{content:counter(a,decimal-leading-zero);position:absolute;left:-15px;top:-2px;width:30px;height:30px;
+    display:grid;place-items:center;background:var(--mark);color:#fff;border-radius:50%;
+    font-family:var(--mono);font-size:11.5px;font-weight:600}
+  ol.actions h3{margin:2px 0 6px}
+  ol.actions p{margin:0 0 .5em;color:var(--ink-2);font-size:16px}
+
+  .callout{border-left:3px solid var(--mark);background:var(--sunk);padding:16px 20px;margin:26px 0}
+  .callout p:last-child{margin-bottom:0}
+  .callout.warn{border-left-color:var(--watch)}
+
+  footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-family:var(--mono);
+         font-size:11.5px;color:var(--muted);line-height:1.7}
+</style>
+<style>
+  .tiles{grid-template-columns:repeat(auto-fit,minmax(176px,1fr))}
+  .tblwrap table{font-size:12px}
+  .tblwrap th,.tblwrap td{padding:7px 8px}
+  .tblwrap td:nth-child(1){white-space:normal;max-width:23ch}
+  .tblwrap td:nth-child(3){white-space:normal;max-width:19ch}
+  .tblwrap td.name{font-size:12.5px;line-height:1.3}
+  tr.dim td{color:var(--muted)}
+  tr.dim td.name{color:var(--ink-2)}
+  sup{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+  .jump{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;margin:18px 0 0}
+  .jump a{margin-right:14px;text-decoration:none;border-bottom:1px solid var(--line)}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">PTCS 6 Championship &middot; Sep 12, 2026 &middot; five berths</p>
+  <h1>Where you have played this before &mdash; and where you haven&rsquo;t.</h1>
+  <p class="standfirst">Each championship berth runs a fixed engine and a fixed ballpark. This ranks all 104 catalogued
+    tournaments by how close their own run environment sits to each one, then asks the only question that matters for
+    preparation: do we hold card-level results from any of them?</p>
+  <p class="byline">104 tournaments solved &middot; 42 with exports on disk &middot; environments from the Markov RE model &middot; built Sep 4, 2026</p>
+  <p class="jump"><a href="#summary">Summary</a><a href="#bronze">Bronze</a><a href="#silver">Silver</a><a href="#gold">Gold</a><a href="#diamond">Diamond</a><a href="#cap">Cap</a><a href="#collect">What to collect</a></p>
+</header>
+
+<section id="summary">
+  <p class="eyebrow">The verdict</p>
+  <h2>Two berths are well covered, one is uncovered, two are thin</h2>
+  <div class="tiles">
+    <div class="tile is-good"><div class="lbl">Bronze</div><div class="val">0.64</div><div class="sub">Daily Bronze 1910-59<br>3 runs &middot; 82,582 PA</div></div><div class="tile is-mid"><div class="lbl">Silver</div><div class="val">0.99</div><div class="sub">Daily Open Slots<br>2 runs &middot; 56,626 PA</div></div><div class="tile is-good"><div class="lbl">Gold</div><div class="val">0.35</div><div class="sub">Daily Diamond Slots<br>28 runs &middot; 561,314 PA</div></div><div class="tile is-good"><div class="lbl">Diamond</div><div class="val">0.35</div><div class="sub">Daily Sporer&#x27;s Golden Childhood<br>4 runs &middot; 80,784 PA</div></div><div class="tile is-bad"><div class="lbl">Cap</div><div class="val">1.20</div><div class="sub">Daily Bagels and Schmear with EVCinNYC<br>1 run &middot; 21,012 PA</div></div>
+  </div>
+  <p class="note">Each tile shows the <strong>gap of the closest tournament we actually hold exports for</strong> &mdash; a
+    standard-deviation distance across R/G, K, HR/PA, 1B/PA and 2B/PA, the same measure the /environments search uses.
+    Under about 0.75 is a real comparable; past 1.5 you are extrapolating.</p>
+
+  <div class="col">
+    <p><strong>Gold and Diamond you can prepare from evidence.</strong> Gold&rsquo;s championship park &mdash; 1985 Wrigley &mdash;
+      is the home park of an event you have run 31 times, and Diamond has 915k plate appearances sitting half a gap away.
+      <strong>Bronze is thin but workable</strong> at 136k PA across two well-fitted events. <strong>Cap is barely covered</strong>,
+      and <strong>Silver is not covered at all</strong> &mdash; nothing in the catalog runs a modern engine in a home-run park.</p>
+    <p>The other thing the table says: the events carrying the Cap tag in daily play are <em>not</em> Cap-championship practice.
+      The closest of them sits 4.7 gaps from the Sep 12 environment. Cap is a value-band rule, not an environment.</p>
+  </div>
+
+  <div class="tblwrap">
+    <table>
+      <caption>The five target environments</caption>
+      <thead><tr><th>Berth</th><th>RE</th><th>Ballpark</th><th>DH</th><th>R/G</th><th>neutral</th><th>K%</th><th>HR/PA</th><th>1B/PA</th><th>2B/PA</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Bronze</td><td>1968</td><td>1964 Shea Stadium</td><td>off</td><td>4.03</td><td>3.94</td><td>15.4%</td><td>2.12%</td><td>16.3%</td><td>3.32%</td></tr><tr><td class="name">Silver</td><td>2006</td><td>2005 U.S. Cellular Field</td><td>on</td><td>5.09</td><td>4.86</td><td>16.8%</td><td>3.41%</td><td>15.8%</td><td>4.81%</td></tr><tr><td class="name">Gold</td><td>1984</td><td>1985 Wrigley Field</td><td>off</td><td>4.60</td><td>4.26</td><td>14.0%</td><td>2.37%</td><td>17.6%</td><td>3.76%</td></tr><tr><td class="name">Diamond</td><td>1987</td><td>1987 Yankee Stadium</td><td>on</td><td>4.34</td><td>4.35</td><td>14.9%</td><td>2.29%</td><td>16.7%</td><td>3.90%</td></tr><tr><td class="name">Cap</td><td>1935</td><td>1932 Wrigley Field</td><td>off</td><td>4.98</td><td>5.04</td><td>7.2%</td><td>1.39%</td><td>18.6%</td><td>4.54%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">&ldquo;Neutral&rdquo; is the era with no park applied &mdash; the difference is what the ballpark is worth.
+    All five berths are Best of 9, Variants on, cards 1920&ndash;1989.</p>
+</section>
+
+<section id="bronze">
+  <p class="eyebrow">Bronze berth</p>
+  <h2>1968 engine, 1964 Shea Stadium, DH off</h2>
+  <p class="note" style="margin-bottom:18px">Best of 9, cards 1920-1989, Variants on, 1968 RE, DH off, 1964 Shea Stadium</p>
+  <div class="col">
+    <p class="lede">Solves to <strong>4.03 R/G</strong> (neutral era 3.94) &middot;
+      K 15.4% &middot; HR/PA 2.12% &middot; 1B/PA 16.3% &middot;
+      2B/PA 3.32%.</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <caption>Bronze &mdash; closest run environments in the catalog</caption>
+      <thead><tr><th>Tournament</th><th>RE</th><th>Ballpark</th><th>Band</th><th>Card years</th>
+        <th>R/G</th><th>K%</th><th>HR/PA</th><th>Runs</th><th>PA</th><th>Gap</th></tr></thead>
+      <tbody>
+        <tr class="dim"><td class="name">PTCS 2 Iron Replay.</td><td>1969</td><td>1964 Shea Stadium</td><td>40&ndash;59</td><td class="">all years</td><td>4.16</td><td>15.2%</td><td>2.20%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.36</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Iron Lunch</td><td>1966</td><td>neutral</td><td>&mdash;</td><td class="">all years</td><td>3.99</td><td>15.4%</td><td>2.29%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.41</strong></td></tr>
+        <tr class="star"><td class="name">Daily Bronze 1910-59</td><td>1959</td><td>1959 Seals Stadium</td><td>40&ndash;69</td><td class="">1920&ndash;1959 only</td><td>4.11</td><td>13.3%</td><td>2.37%</td><td>3</td><td>82,582</td><td><strong>0.64</strong></td></tr>
+        <tr class="dim"><td class="name">PTMS 2 Tourney 3</td><td>1962</td><td>neutral</td><td>&mdash;</td><td class="">all years</td><td>4.25</td><td>14.5%</td><td>2.32%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.76</strong></td></tr>
+        <tr class="dim"><td class="name">Saturday Iron Warriors</td><td>1987</td><td>1952 Yankee Stadium</td><td>40&ndash;59</td><td class="">all years</td><td>3.98</td><td>14.9%</td><td>2.18%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.80</strong></td></tr>
+        <tr class=""><td class="name">Tuesday Up To 1969</td><td>1968</td><td>1968 Busch Stadium</td><td>&mdash;</td><td class="good">1920&ndash;1969 only</td><td>3.74</td><td>15.4%</td><td>1.91%</td><td>1</td><td>53,010</td><td><strong>0.86</strong></td></tr>
+        <tr class="dim"><td class="name">Friday Nightmare Cap</td><td>1955</td><td>1936 Hinchliffe Stadium</td><td>50&ndash;74</td><td class="">all years</td><td>4.45</td><td>11.5%</td><td>2.25%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.43</strong></td></tr>
+        <tr class=""><td class="name">Saturday Diamond Variety</td><td>1975</td><td>1981 Metropolitan Stadium</td><td>40&ndash;99</td><td class="">all years</td><td>4.44</td><td>13.0%</td><td>1.89%</td><td>2</td><td>113,458</td><td><strong>1.60</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Iron Strikes Back</td><td>1987</td><td>1990 Anaheim Stadium</td><td>40&ndash;59</td><td class="">all years</td><td>4.32</td><td>14.9%</td><td>2.50%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.66</strong></td></tr>
+        <tr class=""><td class="name">Daily Low Gold Retrospectus</td><td>1962</td><td>1961 LA Wrigley Field 1961</td><td>40&ndash;84</td><td class="">all years</td><td>4.62</td><td>14.5%</td><td>2.69%</td><td>13</td><td>260,287</td><td><strong>1.84</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+<p><strong>The best row on the board has no data behind it.</strong> <em>PTCS 2 Iron Replay</em> runs the
+    <strong>same ballpark and the same park-year</strong> &mdash; 1964 Shea &mdash; one era off the target (1969 vs 1968), gap 0.36.
+    It is live, 64 entrants, and you have never exported it.</p>
+  <p>What you can read today: <strong>Daily Bronze 1910-59</strong> (gap 0.64, 3 runs, 82.6k PA) and <strong>Tuesday Up To 1969</strong>,
+    which is the exact 1968 engine at 1968 Busch (gap 0.86, 1 run, 53k PA). Both restrict cards to windows that sit largely inside
+    1920&ndash;89, so their leaderboards need less filtering than most. Together that is ~136k PA of the right kind of baseball:
+    four runs a game, 15% strikeouts, barely two homers per hundred PA.</p>
+  </div>
+<p class="note">Shea 1964 is close to neutral on average (1.018 L / 0.997 R) but plays as a triples park (1.183) with a
+    right-handed home-run tilt (1.073 R vs 0.961 L). The 1968 engine does the suppressing, not the park.</p>
+</section>
+<section id="silver">
+  <p class="eyebrow">Silver berth</p>
+  <h2>2006 engine, 2005 U.S. Cellular Field, DH on</h2>
+  <p class="note" style="margin-bottom:18px">Best of 9, cards 1920-1989, Variants on, 2006 RE, DH on, 2005 U.S. Cellular Field</p>
+  <div class="col">
+    <p class="lede">Solves to <strong>5.09 R/G</strong> (neutral era 4.86) &middot;
+      K 16.8% &middot; HR/PA 3.41% &middot; 1B/PA 15.8% &middot;
+      2B/PA 4.81%.</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <caption>Silver &mdash; closest run environments in the catalog</caption>
+      <thead><tr><th>Tournament</th><th>RE</th><th>Ballpark</th><th>Band</th><th>Card years</th>
+        <th>R/G</th><th>K%</th><th>HR/PA</th><th>Runs</th><th>PA</th><th>Gap</th></tr></thead>
+      <tbody>
+        <tr class="star"><td class="name">Daily Open Slots</td><td>2000</td><td>2025 Standard Stadium</td><td>&mdash;</td><td class="">all years</td><td>4.88</td><td>16.8%</td><td>2.84%</td><td>2</td><td>56,626</td><td><strong>0.99</strong></td></tr>
+        <tr class="dim"><td class="name">Low Gold Quick</td><td>1999</td><td>neutral</td><td>&mdash;</td><td class="">all years</td><td>4.91</td><td>16.8%</td><td>2.83%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.99</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Iron &amp; Friends OOTP Era Slots</td><td>1999</td><td>neutral</td><td>&mdash;</td><td class="">all years</td><td>4.91</td><td>16.8%</td><td>2.83%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.99</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Silver Cap <sup>ret</sup></td><td>1998</td><td>Heinsohn Park</td><td>40&ndash;79</td><td class="">all years</td><td>4.97</td><td>16.7%</td><td>2.81%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.04</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Diamond Cap</td><td>1998</td><td>1993 Joe Robbie Stadium</td><td>40&ndash;99</td><td class="">all years</td><td>5.21</td><td>16.7%</td><td>2.87%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.18</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Gold Cap</td><td>2010</td><td>1955 Fenway Park</td><td>40&ndash;89</td><td class="">all years</td><td>5.02</td><td>22.6%</td><td>3.44%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.35</strong></td></tr>
+        <tr class=""><td class="name">Daily Bronze OOTP Era</td><td>2009</td><td>Heinsohn Park</td><td>40&ndash;69</td><td class="bad">1999&ndash;2026</td><td>4.61</td><td>18.0%</td><td>2.74%</td><td>3</td><td>166,881</td><td><strong>1.49</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Wide Open</td><td>2010</td><td>2023 Fenway Park</td><td>40&ndash;105</td><td class="">all years</td><td>4.74</td><td>22.6%</td><td>3.05%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.65</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Live Bronze</td><td>2010</td><td>2026 Kauffman Stadium</td><td>40&ndash;69</td><td class="">all years</td><td>4.59</td><td>22.6%</td><td>2.92%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.98</strong></td></tr>
+        <tr class=""><td class="name">Wednesday 1950 to Now</td><td>2010</td><td>1979 Three Rivers Stadium</td><td>&mdash;</td><td class="">1950&ndash;1989 only</td><td>4.70</td><td>22.6%</td><td>3.30%</td><td>2</td><td>108,682</td><td><strong>2.01</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+<p><strong>This is the berth with no precedent.</strong> 2006 at 2005 U.S. Cellular is the highest-scoring and by far the
+    most homer-friendly of your five &mdash; 5.09 R/G and 3.41% HR/PA, against a 1.21/1.16 home-run park. Nothing in 104 catalogued
+    tournaments gets inside a 0.99 gap, and the three rows that tie at 0.99 are all neutral-park events that back into the right shape
+    from a lower era.</p>
+  <p>The rows that look closest on shape fail the card test. <strong>Daily Bronze OOTP Era</strong> is 1999&ndash;2026 cards &mdash;
+    zero overlap with the 1920&ndash;89 championship pool. <strong>Wednesday 1950 to Now</strong> overlaps only from 1950.
+    <strong>Daily Open Slots</strong> (gap 0.99, 2 runs, 56.6k PA) is unrestricted and neutral-park, so it is readable but it is
+    telling you about a 4.88 R/G environment with 2.84% homers, not a 5.09 / 3.41% one.</p>
+  </div>
+<p class="note">Practical read: for Silver you are extrapolating, not comparing. Take a mid-era comparable for card <em>quality</em>
+    and apply the U.S. Cellular factors on top rather than trusting any observed HR rate on this list.</p>
+</section>
+<section id="gold">
+  <p class="eyebrow">Gold berth</p>
+  <h2>1984 engine, 1985 Wrigley Field, DH off</h2>
+  <p class="note" style="margin-bottom:18px">Best of 9, cards 1920-1989, Variants on, 1984 RE, DH off, 1985 Wrigley Field</p>
+  <div class="col">
+    <p class="lede">Solves to <strong>4.60 R/G</strong> (neutral era 4.26) &middot;
+      K 14.0% &middot; HR/PA 2.37% &middot; 1B/PA 17.6% &middot;
+      2B/PA 3.76%.</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <caption>Gold &mdash; closest run environments in the catalog</caption>
+      <thead><tr><th>Tournament</th><th>RE</th><th>Ballpark</th><th>Band</th><th>Card years</th>
+        <th>R/G</th><th>K%</th><th>HR/PA</th><th>Runs</th><th>PA</th><th>Gap</th></tr></thead>
+      <tbody>
+        <tr class="star"><td class="name">Daily Diamond Slots</td><td>1975</td><td>1977 Atlanta Fulton County Stadium</td><td>40&ndash;99</td><td class="">all years</td><td>4.60</td><td>13.0%</td><td>2.19%</td><td>28</td><td>561,314</td><td><strong>0.35</strong></td></tr>
+        <tr class=""><td class="name">Daily Diamonds are Forever</td><td>1987</td><td>1985 Wrigley Field</td><td>40&ndash;99</td><td class="">all years</td><td>4.71</td><td>14.9%</td><td>2.62%</td><td>31</td><td>620,001</td><td><strong>0.66</strong></td></tr>
+        <tr class=""><td class="name">Daily Low Gold Retrospectus</td><td>1962</td><td>1961 LA Wrigley Field 1961</td><td>40&ndash;84</td><td class="">all years</td><td>4.62</td><td>14.5%</td><td>2.69%</td><td>13</td><td>260,287</td><td><strong>0.74</strong></td></tr>
+        <tr class=""><td class="name">Daily Sporer&#x27;s Golden Childhood</td><td>1984</td><td>1958 Tiger Stadium</td><td>40&ndash;89</td><td class="bad">1980&ndash;1989 only</td><td>4.43</td><td>14.0%</td><td>2.28%</td><td>4</td><td>80,784</td><td><strong>0.75</strong></td></tr>
+        <tr class=""><td class="name">Saturday Diamond Variety</td><td>1975</td><td>1981 Metropolitan Stadium</td><td>40&ndash;99</td><td class="">all years</td><td>4.44</td><td>13.0%</td><td>1.89%</td><td>2</td><td>113,458</td><td><strong>0.83</strong></td></tr>
+        <tr class="dim"><td class="name">Friday Nightmare Cap</td><td>1955</td><td>1936 Hinchliffe Stadium</td><td>50&ndash;74</td><td class="">all years</td><td>4.45</td><td>11.5%</td><td>2.25%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.94</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Low Bronze Only</td><td>1955</td><td>1955 Ebbets Field</td><td>60&ndash;64</td><td class="">all years</td><td>4.58</td><td>11.5%</td><td>2.47%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.01</strong></td></tr>
+        <tr class=""><td class="name">Daily Diamond Heart</td><td>1958</td><td>1955 Fenway Park</td><td>40&ndash;99</td><td class="good">1930&ndash;1989 only</td><td>4.79</td><td>13.0%</td><td>2.70%</td><td>22</td><td>1,180,265</td><td><strong>1.19</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Iron Strikes Back</td><td>1987</td><td>1990 Anaheim Stadium</td><td>40&ndash;59</td><td class="">all years</td><td>4.32</td><td>14.9%</td><td>2.50%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.22</strong></td></tr>
+        <tr class=""><td class="name">Daily Late Silver</td><td>1992</td><td>1992 Camden Yards</td><td>40&ndash;79</td><td class="">all years</td><td>4.42</td><td>15.1%</td><td>2.33%</td><td>16</td><td>914,661</td><td><strong>1.24</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+<p><strong>Your best-covered berth by a distance.</strong> <em>Daily Diamonds are Forever</em> runs the
+    <strong>identical park-year &mdash; 1985 Wrigley Field</strong> &mdash; three years off on the engine, with
+    <strong>31 runs and 620k PA</strong> on disk. <em>Daily Diamond Slots</em> is even closer on offense shape (gap 0.35) with
+    28 runs and 561k PA. <em>Daily Low Gold Retrospectus</em> (13 runs) and <em>Saturday Diamond Variety</em> back them up.
+    Top five with data: <strong>1.64M PA</strong>.</p>
+  <p>The catch is card level, not environment. Diamonds are Forever and Diamond Slots are both 40&ndash;99 events, so their
+    leaderboards are stocked with cards above the Gold ceiling. Filter to &le;89 before you read anything off them &mdash;
+    the environment transfers, the roster does not.</p>
+  </div>
+<p class="note">1985 Wrigley: 1.039 L / 1.018 R on average, 1.187 L / 1.144 R on home runs, and it suppresses doubles (0.958).
+    DH is off, so the ninth spot is a real cost.</p>
+</section>
+<section id="diamond">
+  <p class="eyebrow">Diamond berth</p>
+  <h2>1987 engine, 1987 Yankee Stadium, DH on</h2>
+  <p class="note" style="margin-bottom:18px">Best of 9, cards 1920-1989, Variants on, 1987 RE, DH on, 1987 Yankee Stadium</p>
+  <div class="col">
+    <p class="lede">Solves to <strong>4.34 R/G</strong> (neutral era 4.35) &middot;
+      K 14.9% &middot; HR/PA 2.29% &middot; 1B/PA 16.7% &middot;
+      2B/PA 3.90%.</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <caption>Diamond &mdash; closest run environments in the catalog</caption>
+      <thead><tr><th>Tournament</th><th>RE</th><th>Ballpark</th><th>Band</th><th>Card years</th>
+        <th>R/G</th><th>K%</th><th>HR/PA</th><th>Runs</th><th>PA</th><th>Gap</th></tr></thead>
+      <tbody>
+        <tr class="star"><td class="name">Daily Sporer&#x27;s Golden Childhood</td><td>1984</td><td>1958 Tiger Stadium</td><td>40&ndash;89</td><td class="bad">1980&ndash;1989 only</td><td>4.43</td><td>14.0%</td><td>2.28%</td><td>4</td><td>80,784</td><td><strong>0.35</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Iron Strikes Back</td><td>1987</td><td>1990 Anaheim Stadium</td><td>40&ndash;59</td><td class="">all years</td><td>4.32</td><td>14.9%</td><td>2.50%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.48</strong></td></tr>
+        <tr class=""><td class="name">Daily Late Silver</td><td>1992</td><td>1992 Camden Yards</td><td>40&ndash;79</td><td class="">all years</td><td>4.42</td><td>15.1%</td><td>2.33%</td><td>16</td><td>914,661</td><td><strong>0.55</strong></td></tr>
+        <tr class=""><td class="name">Daily Golden Heart</td><td>1977</td><td>1977 Olympic Stadium</td><td>40&ndash;89</td><td class="good">1930&ndash;1989 only</td><td>4.29</td><td>13.4%</td><td>2.07%</td><td>15</td><td>413,551</td><td><strong>0.75</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Open 1930-89</td><td>1987</td><td>1986 Three Rivers Stadium</td><td>40&ndash;105</td><td class="good">1930&ndash;1989 only</td><td>4.42</td><td>14.9%</td><td>2.28%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.77</strong></td></tr>
+        <tr class=""><td class="name">Daily Silver Slamboree <sup>ret</sup></td><td>1987</td><td>1986 Three Rivers Stadium</td><td>40&ndash;79</td><td class="">all years</td><td>4.42</td><td>14.9%</td><td>2.28%</td><td>8</td><td>441,436</td><td><strong>0.77</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Low Bronze Only</td><td>1955</td><td>1955 Ebbets Field</td><td>60&ndash;64</td><td class="">all years</td><td>4.58</td><td>11.5%</td><td>2.47%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>0.92</strong></td></tr>
+        <tr class=""><td class="name">Daily Diamonds are Forever</td><td>1987</td><td>1985 Wrigley Field</td><td>40&ndash;99</td><td class="">all years</td><td>4.71</td><td>14.9%</td><td>2.62%</td><td>31</td><td>620,001</td><td><strong>0.99</strong></td></tr>
+        <tr class=""><td class="name">Daily Low Gold Retrospectus</td><td>1962</td><td>1961 LA Wrigley Field 1961</td><td>40&ndash;84</td><td class="">all years</td><td>4.62</td><td>14.5%</td><td>2.69%</td><td>13</td><td>260,287</td><td><strong>1.03</strong></td></tr>
+        <tr class="dim"><td class="name">PTMS 2 Tourney 3</td><td>1962</td><td>neutral</td><td>&mdash;</td><td class="">all years</td><td>4.25</td><td>14.5%</td><td>2.32%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.07</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+<p><strong>Deep coverage, with one card-pool trap.</strong> The single closest row on shape is
+    <em>Daily Sporer&rsquo;s Golden Childhood</em> at gap 0.35 &mdash; but its pool is 1980&ndash;2009, so only its 1980s cards
+    are even legal on Sep 12. Read it for shape, not for names.</p>
+  <p>The useful pair is <strong>Daily Late Silver</strong> (1992 @ Camden, gap 0.55, 16 runs, <strong>915k PA</strong>) and
+    <strong>Daily Golden Heart</strong> (1977 @ Olympic, gap 0.75, 15 runs, 414k PA) &mdash; and Golden Heart is restricted to
+    <strong>1930&ndash;1989</strong>, the tightest card-pool fit among the Diamond comparables. <em>Daily Diamonds are Forever</em>
+    is the exact 1987 engine with 620k PA at gap 0.99, and <em>Daily Silver Slamboree</em> is 1987 at 1986 Three Rivers (8 runs)
+    though it has since been renamed to Silver Snapshots.</p>
+  </div>
+<p class="note">1987 Yankee Stadium is the most platoon-skewed park of the five: 1.099 average for left-handed hitters against
+    0.953 for right-handers, and it kills triples (0.847). A left-leaning lineup is worth real runs here in a way it is not
+    in the other four berths.</p>
+</section>
+<section id="cap">
+  <p class="eyebrow">Cap berth</p>
+  <h2>1935 engine, 1932 Wrigley Field, DH off</h2>
+  <p class="note" style="margin-bottom:18px">Best of 9, cards 1920-1989, Variants on, MIN 50, Cards &lt;= 74, 1610 cap, 1935 RE, DH off, 1932 Wrigley Field</p>
+  <div class="col">
+    <p class="lede">Solves to <strong>4.98 R/G</strong> (neutral era 5.04) &middot;
+      K 7.2% &middot; HR/PA 1.39% &middot; 1B/PA 18.6% &middot;
+      2B/PA 4.54%.</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <caption>Cap &mdash; closest run environments in the catalog</caption>
+      <thead><tr><th>Tournament</th><th>RE</th><th>Ballpark</th><th>Band</th><th>Card years</th>
+        <th>R/G</th><th>K%</th><th>HR/PA</th><th>Runs</th><th>PA</th><th>Gap</th></tr></thead>
+      <tbody>
+        <tr class="star"><td class="name">Daily Bagels and Schmear with EVCinNYC</td><td>1935</td><td>1955 Ebbets Field</td><td>40&ndash;105</td><td class="">all years</td><td>5.13</td><td>7.2%</td><td>1.55%</td><td>1</td><td>21,012</td><td><strong>1.20</strong></td></tr>
+        <tr class="dim"><td class="name">Saturday Negro Leagues Slots</td><td>1948</td><td>1930 Hamtramck Stadium</td><td>&mdash;</td><td class="">all years</td><td>4.45</td><td>8.1%</td><td>0.93%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>1.89</strong></td></tr>
+        <tr class=""><td class="name">Tuesday Sporer&#x27;s Sandlot</td><td>1993</td><td>1928 Mack Park</td><td>60&ndash;89</td><td class="">all years</td><td>4.78</td><td>15.4%</td><td>2.14%</td><td>1</td><td>56,414</td><td><strong>2.02</strong></td></tr>
+        <tr class=""><td class="name">Daily Silver Heart <sup>ret</sup></td><td>1927</td><td>1927 Yankee Stadium</td><td>40&ndash;79</td><td class="bad">1920&ndash;1929 only</td><td>4.85</td><td>5.3%</td><td>1.37%</td><td>8</td><td>219,875</td><td><strong>2.02</strong></td></tr>
+        <tr class=""><td class="name">Daily Early Gold</td><td>1920</td><td>1946 Ruppert Stadium</td><td>40&ndash;89</td><td class="">all years</td><td>4.72</td><td>6.3%</td><td>0.67%</td><td>15</td><td>604,933</td><td><strong>2.24</strong></td></tr>
+        <tr class=""><td class="name">Daily Diamond Heart</td><td>1958</td><td>1955 Fenway Park</td><td>40&ndash;99</td><td class="good">1930&ndash;1989 only</td><td>4.79</td><td>13.0%</td><td>2.70%</td><td>22</td><td>1,180,265</td><td><strong>2.51</strong></td></tr>
+        <tr class=""><td class="name">Daily Silver Slots</td><td>1977</td><td>1978 Riverfront Stadium</td><td>40&ndash;79</td><td class="">all years</td><td>4.51</td><td>13.4%</td><td>2.40%</td><td>5</td><td>97,927</td><td><strong>2.58</strong></td></tr>
+        <tr class="dim"><td class="name">Daily Negro Leagues</td><td>1944</td><td>1941 Penmar Park</td><td>&mdash;</td><td class="">all years</td><td>4.46</td><td>7.7%</td><td>1.07%</td><td class="bad">0</td><td class="bad">&mdash;</td><td><strong>2.69</strong></td></tr>
+        <tr class=""><td class="name">Daily Sporer&#x27;s Golden Childhood</td><td>1984</td><td>1958 Tiger Stadium</td><td>40&ndash;89</td><td class="bad">1980&ndash;1989 only</td><td>4.43</td><td>14.0%</td><td>2.28%</td><td>4</td><td>80,784</td><td><strong>2.82</strong></td></tr>
+        <tr class=""><td class="name">Daily Golden Heart</td><td>1977</td><td>1977 Olympic Stadium</td><td>40&ndash;89</td><td class="good">1930&ndash;1989 only</td><td>4.29</td><td>13.4%</td><td>2.07%</td><td>15</td><td>413,551</td><td><strong>2.83</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+<p><strong>The hardest of the five, and the one your Cap dailies do not prepare you for.</strong> 1935 at 1932 Wrigley
+    solves to 4.98 R/G with a <strong>7.2% strikeout rate</strong> and 1.39% homers &mdash; the most contact-driven of the five by
+    a wide margin. It scores nearly a run a game more than Bronze on a third fewer home runs, and its 18.6% singles rate is the
+    highest on the board. Runs come off the bat, not over the wall. Every Cap-tagged daily you actually play sits
+    2.9 to 5.5 gaps away: Bronze Only Cap 5.21, Iron Cap 5.48, Gold Floor Cap 4.75, CWhit&rsquo;s Cap Challenge 4.72. None of them
+    are comparable.</p>
+  <p>Closest on the engine is <strong>Daily Bagels and Schmear with EVCinNYC</strong> &mdash; the <strong>exact 1935 RE</strong>,
+    gap 1.20 &mdash; but only 1 run, 21k PA, and it is a 40&ndash;105 open-band event so most of what shows up there is over the 74
+    ceiling. The best combined fit is <strong>Daily Silver Heart</strong> (1927 @ 1927 Yankee, 8 runs, 220k PA): a 40&ndash;79 band
+    against the championship&rsquo;s 50&ndash;74, and it lands at <strong>1.37% HR/PA against the target&rsquo;s 1.39%</strong> and
+    4.85 R/G against 4.98 &mdash; the gap of 2.02 is almost entirely strikeouts (5.3% vs 7.2%). <em>Daily Early Gold</em> has three
+    times the volume but half the home runs.</p>
+  </div>
+<p class="note">Silver Heart has since been renamed Daily Roaring Silvers (cards up to 1929, 1927 RE, DH off) &mdash; the files
+    on disk predate the rename and describe the old event, which is the one that matches.</p>
+</section>
+
+<section id="collect">
+  <p class="eyebrow">Eight days out</p>
+  <h2>What is still worth collecting</h2>
+  <div class="col">
+    <p>OOTP only exports roughly the last seven days, so anything entered between now and Sep 12 is still capturable.
+      Ranked by what it would actually buy you:</p>
+  </div>
+  <ol class="actions">
+    <li>
+      <h3>Daily Bagels and Schmear with EVCinNYC &mdash; the Cap engine, exactly</h3>
+      <p>1935 RE, live, 64 entrants, and the only event in the catalog running the championship&rsquo;s engine. One run on disk
+        (21k PA). Every additional run is the highest-value data you can generate this week, because Cap currently has no
+        real comparable at all.</p>
+    </li>
+    <li>
+      <h3>PTCS 2 Iron Replay &mdash; the Bronze ballpark, exactly</h3>
+      <p>1964 Shea, 1969 engine, gap 0.36, never exported. It is an Iron-band event so the cards run small, but the park and
+        the scoring level are the closest match to the Bronze berth in the entire catalog.</p>
+    </li>
+    <li>
+      <h3>Tuesday Up To 1969 &mdash; the Bronze engine, exactly</h3>
+      <p>1968 RE at 1968 Busch, one export on file. Weekly, so there is one more chance before the 12th.</p>
+    </li>
+    <li>
+      <h3>Nothing helps Silver</h3>
+      <p>No live event pairs a modern engine with a home-run park. Rather than chase a comparable, take card quality from a
+        neutral-park mid-era event and apply the U.S. Cellular 2005 factors (1.211 L / 1.157 R on home runs) on top.</p>
+    </li>
+    <li>
+      <h3>Gold and Diamond need nothing</h3>
+      <p>1.6M and 2.5M plate appearances respectively in the top five comparables. Spend the time filtering those to the
+        &le;89 and &le;99 value bands and the 1920&ndash;89 card window instead.</p>
+    </li>
+  </ol>
+</section>
+
+<footer>
+  Environments solved with the Markov run-environment model ported from PT Strategy Presets by Environment
+  (<code>src/lib/analytics/run-env.ts</code>); era rates from <code>eras.json</code>, park factors keyed by name <em>and</em>
+  year from <code>park-factors.json</code>, LHB share 0.35. Gap is a z-scored Euclidean distance over R/G, K, HR/PA, 1B/PA and
+  2B/PA, spread computed across all 104 catalogued tournaments &mdash; the same measure behind the &ldquo;Similar environments&rdquo;
+  card on /environments. Export counts are runs on disk in Archive/Completed as loaded into <code>series_meta</code>;
+  PA is the summed plate appearances in <code>observed_card_stats</code> for that series.<br>
+  Two series links were repaired while building this: <code>bagelsschmearevcinnyc</code> and <code>wonkyslots</code> were
+  carrying data no tournament row pointed at. Rows marked <sup>ret</sup> have been renamed by OOTP since the exports were taken.<br>
+  Source data: databotai tourney details 2026-08-24 + Tourney Data/refresh-2026-09.json (Sep 2 community refresh) +
+  PTCS 6 championship announcement captured Sep 3.
+</footer>
+
+</div>
