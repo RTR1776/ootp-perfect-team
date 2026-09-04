@@ -52,7 +52,6 @@ const SERIES_OVERRIDES: Record<string, string> = {
   "diamondweekly": "Wednesday Ice to See You",
   "goldfloorcapweekly": "Monday Gold Floor Cap",
   "goldweekly": "Thursday Night Gold Rush",
-  "wonkyslots": "Monday Wonky Historical Slots",
   "highironfloorgoldceilingweekly": "Sunday High Iron Floor and Gold Ceiling",
   "ironweekly": "Saturday Iron Warriors",
   "lgretro": "Daily Low Gold Retrospectus",
