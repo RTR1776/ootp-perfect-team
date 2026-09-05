@@ -48,23 +48,31 @@ WAIT_PAGE=6              # page/tab transitions
 WAIT_EXPORT=7            # Write to CSV → file on disk
 
 # --- WORKLIST: <row> <filename> <teams in the field> ------------------------
+# Built 2026-09-04 22:2x Central from a live read of Your Tournaments, list at
+# the TOP with no in-flight rows above row 1 (row 1 = Silver Only Cap 1250174,
+# Today). 17 of cwhit's 25 missing IDs; the other 8 are below row 31 and need a
+# second pass after scrolling. If the top of the list has changed, STOP and ask
+# Claude to re-read it — every row index shifts together.
 # teams is a sanity check: a 64-team draft cannot produce a 128-team file, so a
 # row that has shifted under us is caught before it is filed under a real name.
 WORKLIST=$(cat <<'LIST'
-12  bagelsschmearevcinnyc_169        64
-14  6lpowerplay_169                 128
-15  justorderpizzadinner_169         64
-16  thiscouldvebeenemail_168         64
-17  tryinglookbusy_168               64
-19  saturdaycantsleepclownwill_24   256
-20  strugglingsleep_168              64
-21  6lpowerplay_168                 128
-22  docrockderby_168                 64
-23  snacktimeladder_167              32
-27  justorderpizzadinner_167         64
-28  thiscouldvebeenemail_166         64
-29  pitchersfirst_93                 64
-31  doubleespressomorning_166        64
+2   lowsilveronly_3              64
+8   bronzeptcs3_100              64
+9   silverandfriends_100         64
+12  lowdiamonddaily_173          64
+13  bronze10to50_169             64
+15  silveronlycap_172            64
+16  silverslotsdaily_173         64
+17  bronzeptcs3_99               64
+19  latesilver_173              128
+20  silverandfriends_99          64
+22  openslotsdaily_172           64
+23  earlygold_172               128
+25  silverslotsdaily_172         64
+26  diamondandfriends_98         64
+27  bronzeootp_155              128
+28  bronzeptcs3_98               64
+29  earlygold_171               128
 LIST
 )
 
