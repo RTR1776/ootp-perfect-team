@@ -113,6 +113,9 @@ export interface TournamentInfo {
     variantsAllowed?: boolean;
     cardTypes?: string[];
     teams?: number;
+    /** Set when the value window was read off the event NAME rather than
+     *  stated in the rules text or the databotai crawl. */
+    valueWindowFrom?: string;
   } | null;
   retired: boolean;
   park: { name: string; avg: number | null; hr: number | null; b2: number | null; b3: number | null } | null;
@@ -901,7 +904,29 @@ export function RosterBuilder({
             {tournament.mode && <Badge variant="outline">{tournament.mode}</Badge>}
             {tournament.entrants && <Badge variant="outline">{tournament.entrants} teams</Badge>}
             <Badge variant="outline">{tournament.dh === false ? "no DH" : "DH"}</Badge>
-            {tournament.ratingsMax != null && <Badge variant="outline">cards {tournament.ratingsMin ?? 40}–{tournament.ratingsMax}</Badge>}
+            {tournament.ratingsMax != null && (
+              <Badge
+                variant="outline"
+                title={tournament.restrictions?.valueWindowFrom
+                  ? `Window read off the event name (${tournament.restrictions.valueWindowFrom}) — the rules blurb and the databotai crawl both left it blank. Confirm against OOTP's RESTRICTIONS line.`
+                  : "Stated in the event rules"}
+              >
+                cards {tournament.ratingsMin ?? 40}–{tournament.ratingsMax}
+                {tournament.restrictions?.valueWindowFrom ? " *" : ""}
+              </Badge>
+            )}
+            {/* A null ceiling is not "no restriction" — it is a restriction we
+                never captured, and isLegal then passes every card. Say so out
+                loud instead of quietly recommending Perfects for a Bronze. */}
+            {tournament.ratingsMax == null && tournament.ratingsMin == null
+              && !tournament.restrictions?.slots && !tournament.isDraft && (
+              <Badge
+                className="border-transparent bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                title="No card-value window on file for this event, so every card in your collection is being shown. Check OOTP's RESTRICTIONS line and run pnpm backfill:tierbands."
+              >
+                no card cap on file — pool unfiltered
+              </Badge>
+            )}
             {tournament.cardYearMin != null && <Badge variant="outline">years {tournament.cardYearMin}–{tournament.cardYearMax}</Badge>}
             {tournament.series
               ? <Badge>observed: {tournament.series}</Badge>

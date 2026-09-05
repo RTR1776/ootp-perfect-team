@@ -22,7 +22,7 @@ import { join } from "node:path";
 import { sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { parks, tournaments } from "../src/db/schema";
-import { parseRestrictions } from "../src/lib/ingest/restrictions";
+import { parseRestrictions, tierWindowFromName } from "../src/lib/ingest/restrictions";
 import { CATEGORIES } from "../src/lib/ingest/constants";
 
 const ID_BASE = 9_060_000;
@@ -65,6 +65,15 @@ async function main() {
   const rows = seed.events.map((e, i) => {
     const r = parseRestrictions(e.text);
     const parkName = resolvePark(r.park);
+    // The announcement never restates the tier for a category event - "PTCS 6
+    // Championship - Bronze" says it in the name - so parseRestrictions finds
+    // no value clause and the event would import with NO ceiling, which is
+    // what once had /build recommending Perfects for the Bronze championship.
+    // A stated clause (Live's "MIN 50, Cards <= 84") always wins.
+    const nameWin = tierWindowFromName(e.name, { isDraft: e.isDraft === true });
+    const ratingsMin = r.valueMin ?? nameWin?.min ?? null;
+    const ratingsMax = r.valueMax ?? nameWin?.max ?? null;
+    const derived = r.valueMin == null && r.valueMax == null && nameWin != null;
     return {
       id: ID_BASE + i + 1,
       name: e.name,
@@ -75,8 +84,8 @@ async function main() {
       fee: null,
       dh: r.dh,
       entrants: null,
-      ratingsMin: r.valueMin,
-      ratingsMax: r.valueMax,
+      ratingsMin,
+      ratingsMax,
       cardYearMin: r.yearMin,
       cardYearMax: r.yearMax,
       simRuns: null,
@@ -85,6 +94,7 @@ async function main() {
       restrictions: {
         ...r,
         category: e.category,
+        ...(derived ? { valueWindowFrom: `name: ${nameWin!.basis}` } : {}),
         firstSimEt: e.firstSimEt,
         playedOn: seed.playedOn,
         ...(e.draftFormat ? { draftFormat: e.draftFormat } : {}),
@@ -111,7 +121,7 @@ async function main() {
   for (const row of rows) {
     const r = row.restrictions as Record<string, unknown>;
     const band = row.ratingsMin != null || row.ratingsMax != null
-      ? ` val ${row.ratingsMin ?? ""}..${row.ratingsMax ?? ""}` : "";
+      ? ` val ${row.ratingsMin ?? ""}..${row.ratingsMax ?? ""}${r.valueWindowFrom ? "*" : ""}` : "";
     const slots = r.slots ? ` slots ${Object.entries(r.slots as Record<string, number>).map(([k, v]) => k + v).join(" ")}` : "";
     const cap = r.teamCap ? ` cap ${r.teamCap}` : "";
     console.log(

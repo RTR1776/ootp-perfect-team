@@ -20,6 +20,7 @@ import { db } from "../src/db/client";
 import { parks, tournaments } from "../src/db/schema";
 import { sql } from "drizzle-orm";
 import { parseCsv, num } from "../src/lib/ingest/csv";
+import { tierWindowFromName } from "../src/lib/ingest/restrictions";
 
 const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 
@@ -145,6 +146,7 @@ async function main() {
     return m ? [Number(m[1]), Number(m[2])] : [null, null];
   };
 
+  const derivedBands: string[] = [];
   const rows = detCsv.rows
     .filter((r) => num(r["id"]) != null)
     .map((r) => {
@@ -165,6 +167,13 @@ async function main() {
       }
       const [rMin, rMax] = range(r["ratings_cap"]);
       const [yMin, yMax] = range(r["card_year"]);
+      const isDraft = /\bPD\b|Draft|Laptop|Doc Rock/i.test(name);
+      // databotai only fills ratings_cap when the restriction is a plain
+      // NNN - NNN range, so a tier-named event ("Daily Early Bronze") can
+      // arrive with no ceiling at all and /build then calls every card legal.
+      // Fall back to the tier the NAME states; a crawled cap always wins.
+      const nameWin = rMin == null && rMax == null ? tierWindowFromName(name, { isDraft }) : null;
+      if (nameWin) derivedBands.push(`${name} -> ${nameWin.min ?? 40}-${nameWin.max ?? "none"} (${nameWin.basis})`);
       return {
         id: num(r["id"])!,
         name,
@@ -175,14 +184,14 @@ async function main() {
         fee: (r["fee"] ?? "").trim() || null,
         dh: (r["dh"] ?? "").trim() ? (r["dh"] ?? "").trim().toLowerCase() === "yes" : null,
         entrants: num(r["entrants"]),
-        ratingsMin: rMin,
-        ratingsMax: rMax,
+        ratingsMin: rMin ?? nameWin?.min ?? null,
+        ratingsMax: rMax ?? nameWin?.max ?? null,
         cardYearMin: yMin,
         cardYearMax: yMax,
         ...RESTRICTION_OVERRIDES[name],
         simRuns: num(r["sim_runs"]),
         series: null as string | null,
-        isDraft: /\bPD\b|Draft|Laptop|Doc Rock/i.test(name),
+        isDraft,
       };
     });
 
@@ -235,6 +244,10 @@ async function main() {
   console.log(`tournaments: ${rows.length} upserted from ${detailFile}`);
   console.log(`  park matched: ${withPark}/${rows.length} | series assigned: ${withSeries} of ${prefixes.length} prefixes`);
   if (unplaced.length) console.log("  UNPLACED series prefixes:", unplaced.join(", "));
+  if (derivedBands.length) {
+    console.log(`  value window taken from the NAME (databotai left ratings_cap blank) — ${derivedBands.length}:`);
+    for (const d of derivedBands) console.log(`    ${d}`);
+  }
   const unparked = rows.filter((r) => r.stadium && !r.parkName).map((r) => r.stadium);
   if (unparked.length) console.log("  stadiums with no park-factor match:", [...new Set(unparked)].join(" | "));
   process.exit(0);

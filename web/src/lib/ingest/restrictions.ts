@@ -131,6 +131,86 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
 }
 
 /**
+ * Derive a card-value window from a tournament's NAME.
+ *
+ * The rules blurbs never restate the tier for a tier-named event - "Daily
+ * Bronze OOTP Era" and "PTCS 6 Championship - Bronze" carry the restriction in
+ * the title, so parseRestrictions finds no value clause and the event lands in
+ * the database with no ceiling at all. /build then treats every card as legal
+ * and happily recommends Perfects for a Bronze event.
+ *
+ * The convention is databotai's own (`ratings_cap` on the tourney-details
+ * crawl), read off 65 catalogued events:
+ *
+ *   Bronze / Silver / Gold / Diamond      a CEILING, no floor  (Bronze -> 40-69)
+ *   Low <tier>                            ceiling at the tier's lower half
+ *                                         (Low Gold -> 40-84, Low Iron -> 40-49)
+ *   <tier> Only                           floor at the tier's own minimum
+ *                                         (Low Bronze Only -> 60-64)
+ *   <tier> Floor                          a FLOOR, no ceiling  (Gold Floor -> 80-105)
+ *   <tier> Ceiling                        a ceiling only
+ *   High <tier>                           the tier's upper half (High Iron -> 50+)
+ *   Open                                  no window at all - deliberately absent below
+ *
+ * Two catalogued events the name alone cannot reach: "Daily Dank Iron" is
+ * 40-49 (community slang for low iron) and "Monday Gold Floor Cap" tops out at
+ * 105. Both carry a stated ratings_cap, so the fallback never fires on them -
+ * which is the point of it being a fallback.
+ *
+ * This is a FALLBACK. It is only ever consulted when the rules text and the
+ * databotai catalog both leave the column null; a stated window always wins.
+ * Drafts are excluded - their pool is a per-round sequence (DRAFT_FORMATS),
+ * not one roster-wide band.
+ */
+export interface TierWindow {
+  min: number | null;
+  max: number | null;
+  /** The phrase in the name this came from, for the audit trail. */
+  basis: string;
+}
+
+const TIER_WORD_RE =
+  /\b(?:(low|high)\s+)?(iron|bronze|silver|gold|diamond|perfect)\b(?:\s+(only|floor|ceiling))?/gi;
+
+export function tierWindowFromName(name: string, opts?: { isDraft?: boolean }): TierWindow | null {
+  if (opts?.isDraft) return null;
+  if (/\bPD\b|\bdraft\b/i.test(name)) return null;
+  // "<tier> & Friends" is a deliberately mixed pool - the friends of Iron are
+  // the tiers ABOVE it - so the tier word is not a ceiling. Those events carry
+  // a slots spec instead; say nothing rather than lock the pool down wrongly.
+  if (/&\s*friends\b/i.test(name)) return null;
+
+  let min: number | null = null;
+  let max: number | null = null;
+  const basis: string[] = [];
+
+  for (const m of Array.from(name.matchAll(TIER_WORD_RE))) {
+    const half = (m[1] ?? "").toLowerCase();       // low | high | ""
+    const tier = m[2].toUpperCase();               // IRON | BRONZE | ...
+    const role = (m[3] ?? "").toLowerCase();       // only | floor | ceiling | ""
+    const lo = TIER_MIN[tier], hi = TIER_MAX[tier];
+    if (lo == null || hi == null) continue;
+
+    // Iron spans 40-59, every other tier ten points; "low"/"high" split
+    // whatever the band actually is rather than assuming a width.
+    const step = Math.floor((hi - lo + 1) / 2);
+    const bandLo = half === "high" ? lo + step : lo;
+    const bandHi = half === "low" ? lo + step - 1 : hi;
+
+    if (role === "floor") min = Math.max(min ?? 0, bandLo);
+    else if (role === "ceiling") max = Math.min(max ?? 999, bandHi);
+    else if (role === "only") { min = bandLo; max = bandHi; }
+    else { max = Math.min(max ?? 999, bandHi); if (half === "high") min = Math.max(min ?? 0, bandLo); }
+
+    basis.push(m[0].trim());
+  }
+
+  if (!basis.length) return null;
+  if (min != null && max != null && min > max) return null; // contradictory, say nothing
+  return { min, max, basis: basis.join(" + ") };
+}
+
+/**
  * Perfect Draft formats.
  *
  * A format is not one card pool, it is a SEQUENCE of pools - one per round.
