@@ -27,7 +27,7 @@ LOG="$HOME/Desktop/OOTP Perfect Team/Archive/grab-log.txt"
 # MODE=manual  you click EXAMINE and navigate back; the script does only the six
 #              blind export clicks. No return_to_list, so nothing can get lost.
 # MODE=auto    the old fully-automatic loop, including the start-screen round trip.
-MODE=manual
+MODE=auto
 
 exec > >(tee -a "$LOG") 2>&1
 echo; echo "=== $(date '+%Y-%m-%d %H:%M:%S')  mode=$MODE ==="
@@ -118,12 +118,34 @@ drain_dialogs() {
 }
 
 # a drafted roster is ~17-24 cards, so each field size lands in its own band
+# OOTP rewrites online_data/<user>/list_temp.csv whenever a list screen renders.
+# Its mtime moved during the 9/4 run, so it is very likely the signal that says
+# "the tournaments list is up". Polling it beats sleeping blind — but it is a
+# HYPOTHESIS, so this falls back to the old fixed waits and logs which happened.
+LIST_TEMP="$HOME/Application Support/Out of the Park Developments/OOTP Baseball 27/online_data/rtr1776/list_temp.csv"
+list_stamp() { stat -f '%m' "$LIST_TEMP" 2>/dev/null || echo 0; }
+wait_for_list() {   # $1 = the stamp taken before we started navigating
+  local before="$1" waited=0
+  while [ "$waited" -lt 25 ]; do
+    sleep 1; waited=$((waited+1))
+    if [ "$(list_stamp)" != "$before" ]; then
+      echo "    [oracle] list_temp.csv moved after ${waited}s"
+      sleep 2; return 0
+    fi
+  done
+  echo "    [oracle] list_temp.csv NEVER moved in 25s — falling back to fixed waits"
+  return 1
+}
+
 return_to_list() {
+  local stamp; stamp=$(list_stamp)
   focus
   click "$MAIN_CHEV";            sleep 2
   # the menu must actually be open before the item click, hence the long hovers
   click "$MENU_START_SCREEN";    sleep 12
   click "$SHOW_PERFECT_DRAFTS";  sleep 10
+  # from here the list is being built; wait for it rather than guessing
+  wait_for_list "$stamp" || sleep 4
   # the first click on the tab often lands while the screen is still building
   click "$TAB_YOUR_TOURNAMENTS"; sleep 3
   click "$TAB_YOUR_TOURNAMENTS"; sleep "$WAIT_PAGE"
@@ -142,7 +164,7 @@ band() {
 }
 
 # optional first argument: stop after N tournaments (a smoke test)
-LIMIT="${1:-0}"
+LIMIT="${1:-3}"   # 0 = the whole worklist; 3 = smoke test
 
 # --- export_here: run the six blind clicks against whatever tournament is open.
 # Returns 0 and leaves the file at $LAND on success.
