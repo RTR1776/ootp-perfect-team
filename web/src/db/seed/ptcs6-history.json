@@ -506,14 +506,14 @@
         "Bronze": 1,
         "Silver": 0,
         "Gold": 0,
-        "Diamond": 0,
+        "Diamond": 1,
         "Open": 3,
         "Live": 0,
         "Cap": 1,
         "PD Daily": 4,
         "PD Weekly": 0
       },
-      "note": "Wednesday 1950 to Now 17-32 (128, Op+TW) +3 OPEN - counted per the game's own Op tag; note the dump model currently EXCLUDES this event, so it may not show up in the community Open standings. ZEROS: Open Slots 33-64 (64, Op+Cp); Early Gold 65-128 (128). LATE ADDS from the Sep 4 screenshot (+6): Bronze PTCS 3 Replay Slots 1890099 17-32 (64) +1 B/+1 C; All-Diamond 2200173 9-16 (64) +3 PDD; 6L Power Play 2180173 33-64 (128) +1 PDD. LATE ZERO: Wednesday Night of the Living Deadball 1500024 65-128 (128, Op+TW)."
+      "note": "Wednesday 1950 to Now 17-32 (128, Op+TW) +3 OPEN - counted per the game's own Op tag; note the dump model currently EXCLUDES this event, so it may not show up in the community Open standings. ZEROS: Open Slots 33-64 (64, Op+Cp); Early Gold 65-128 (128). LATE ADDS from the Sep 4 screenshot (+6): Bronze PTCS 3 Replay Slots 1890099 17-32 (64) +1 B/+1 C; All-Diamond 2200173 9-16 (64) +3 PDD; 6L Power Play 2180173 33-64 (128) +1 PDD. LATE ZERO: Wednesday Night of the Living Deadball 1500024 65-128 (128, Op+TW). AMENDED from the Sep 4 results screen (+1): Wednesday Ice to See You 1490024 65-128 (256, Dia+TW) +1 D. ADDITIONAL ZEROS: Late Silver 1240173 65-128 (128); Silver & Friends Slots 1900099 33-64 (64). Day complete."
     },
     {
       "date": "2026-09-03",
@@ -537,15 +537,15 @@
         "Iron": 0,
         "Bronze": 25,
         "Silver": 10,
-        "Gold": 0,
+        "Gold": 3,
         "Diamond": 3,
-        "Open": 0,
+        "Open": 1,
         "Live": 0,
-        "Cap": 10,
+        "Cap": 14,
         "PD Daily": 3,
         "PD Weekly": 0
       },
-      "note": "BRONZE 1910-59 WINNER (64) +25 BRONZE - first win since the Aug 28 Golden Heart, and it carries Bronze past target (152/133). SILVER ONLY CAP 3rd/4th (64) +10 SILVER/+10 CAP. Low Diamond 9-16 (64) +3 D; All-Silver 9-16 (64) +3 PDD. ZEROS: 5L Deadball 65-128 (128); Low Silver Only 33-64 (64). Partial day - logged 6pm then amended 9pm Central. NOTE: Silver Only Cap came through as run 1250174 where the daily-increment model expects 1250173 for Sep 4 (slot 125 was renamed in the Sep refresh); the game's own Today label and Low Silver Only 1970003 (+1 on Sep 3's 1970002) both put it on Sep 4, so it is filed here."
+      "note": "BRONZE 1910-59 WINNER (64) +25 BRONZE - second win of the period, carries Bronze past target. SILVER ONLY CAP 3rd/4th (64) +10 S/+10 C. Gold Slots 9-16 (64, Gld+Cp) +3 G/+3 C; Low Diamond 9-16 (64) +3 D; Open Slots 17-32 (64, Op+Cp) +1 O/+1 C; All-Silver 9-16 (64) +3 PDD. ZEROS: 5L Deadball 65-128 (128); Low Silver Only 33-64 (64). Read straight off the Your Tournaments screen at 10pm Central, so the tournament side of the day is COMPLETE; PD events are filtered out of that view and may still add. In flight: Silver & Friends Slots 1900101 and Late Silver 1240175 (both eliminated), Diamond & Friends 1920101, Silver Slots 1270175, Diamond Heart 1850158, Saturday Diamond Variety 1590025."
     }
   ]
 }
