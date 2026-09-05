@@ -35,7 +35,9 @@ off, take the ✎ row and type the right one.
 
 from __future__ import annotations  # py3.9-safe
 
+import csv
 import glob
+import json
 import os
 import re
 import shutil
@@ -63,7 +65,10 @@ QUEUE = os.path.join(HOME, "Desktop/OOTP Perfect Team/Tourney Data/DCFC Upload Q
 MAX_AGE_DAYS = 7      # ignore stale stats CSVs (old archives live in online_data too)
 POLL_SECONDS = 1.5
 IDLE_QUIT_MINUTES = 10
-DAILY_EPOCH = date(2026, 3, 13)  # daily instance 0 — all dailies share the day counter
+REPO = os.path.join(HOME, "Desktop/OOTP Perfect Team")
+SLOT_MAP = os.path.join(REPO, "web/scripts/slot-map.json")
+DUMP_DIR = os.path.join(REPO, "Tourney Data")
+DAILY_EPOCH = date(2026, 3, 13)  # fallback only — see schedule() below
 # ---------------------------------------------------------------------------
 
 VARNAMES = [
@@ -190,6 +195,12 @@ VARNAMES = [
     ("mixedlunch", "Daily Mixed Up My Lunch", "pddaily"),
     ("morningmixedbag", "Daily Morning Mixed Bag", "pddaily"),
     ("nocturnalmixedbag", "Daily Nocturnal Mixed Bag", "pddaily"),
+    # Sept 2026 PD refresh — slots 211/212/254/255/236 renamed (slot-map.json)
+    ("allsilver", "Daily All-Silver", "pddaily"),
+    ("allgold", "Daily All-Gold", "pddaily"),
+    ("perfectoprimetime", "Daily Perfecto Primetime", "pddaily"),
+    ("perfectlysilver", "Daily Perfectly Silver", "pddaily"),
+    ("overnightcovers", "Thursday Overnight Under the Covers (new)", "pdweekly"),
     ("ootpchill", "Daily OOTP and Chill", "pddaily"),
     ("pitchersfirst", "Daily Pitchers First", "pddaily"),
     ("riseshine", "Daily Rise and Shine", "pddaily"),
@@ -430,7 +441,8 @@ def one_shot_rows(mtime: float) -> list:
     def row(v):
         _v, n, g = by_v[v]
         gid = guess_id(v, g, mtime)
-        return (f"{n}  ·  {gid or '?'}   [{TAGS[g]} {v}]", (v, g, gid))
+        mark = "" if v in schedule() else "~"   # ~ = calendar guess, check it
+        return (f"{n}  ·  {mark}{gid or '?'}   [{TAGS[g]} {v}]", (v, g, gid))
 
     rows = [(SEARCH_ROW, "search")]
     recent = [v for v in recent_order() if v in by_v][:RECENT_N]
@@ -467,10 +479,96 @@ def pick_one(info: str, mtime: float):
             continue
         return pay
 
+_SCHEDULE = {}   # slug -> (slot, last_run, last_start, period_days)
+_LOADED = [False]
+
+def load_schedule() -> dict:
+    """slug -> the LAST RUN PT actually ran, straight off the community dumps.
+
+    An event id is <3-digit slot><4-digit run>, so 1270170 is slot 127 run 170.
+    slot-map.json says which slug owns each slot (read off OOTP's own Your
+    Tournaments screen, and extended by matching dump titles), and the dump
+    gives that run's real start time. From there the id for a new export is
+    arithmetic, not a calendar guess: last_run + the number of runs that have
+    started since. Everything here is local — no databotai, no crawl.
+
+    Falls back silently to the old calendar guess if the files are missing."""
+    sched = {}
+    try:
+        with open(SLOT_MAP, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+        slot_slug = {int(k): v for k, v in raw.items() if not k.startswith("_")}
+    except (OSError, ValueError):
+        return sched
+    # A renamed slot points at the NEW slug, but the OLD one still owns every
+    # file filed before the rename — give it the same slot so back-filing an
+    # older export gets that series' real run number, not the day counter.
+    aliases = {}
+    for slot, r in (raw.get("_cutover", {}).get("renames", {}) or {}).items():
+        if r.get("old"):
+            try:
+                aliases[r["old"]] = int(slot)
+            except ValueError:
+                pass
+
+    newest = {}
+    for kind in ("tournaments", "drafts"):
+        files = sorted(glob.glob(os.path.join(DUMP_DIR, f"pt27_{kind}_*dump_*.csv")))
+        if files:
+            newest[kind] = files[-1]
+    runs = {}   # slot -> list of (run, start)
+    for path in newest.values():
+        try:
+            with open(path, "r", encoding="utf-8", errors="replace") as f:
+                f.readline()  # "SEP=," preamble
+                for row in csv.reader(f):
+                    if len(row) < 3 or not row[0].isdigit():
+                        continue
+                    n = int(row[0])
+                    try:
+                        runs.setdefault(n // 10000, []).append((n % 10000, int(row[2])))
+                    except ValueError:
+                        continue
+        except OSError:
+            continue
+
+    for slot, rs in runs.items():
+        slug = slot_slug.get(slot)
+        if not slug or len(rs) < 2:
+            continue
+        rs.sort()
+        # cadence = the usual gap between consecutive runs (1 day / 7 days)
+        gaps = sorted((b[1] - a[1]) / 86400.0 for a, b in zip(rs, rs[1:]) if b[0] == a[0] + 1)
+        period = round(gaps[len(gaps) // 2]) if gaps else 1
+        last_run, last_start = rs[-1]
+        sched[slug] = (slot, last_run, last_start, max(period, 1))
+    for old, slot in aliases.items():
+        for slug, hit in list(sched.items()):
+            if hit[0] == slot and old not in sched:
+                sched[old] = hit
+    return sched
+
+def schedule() -> dict:
+    if not _LOADED[0]:
+        _LOADED[0] = True
+        try:
+            _SCHEDULE.update(load_schedule())
+        except Exception:
+            pass
+    return _SCHEDULE
+
 LAST_DAILY_ID = [None]  # sticky: back-filling a week means many same-day dailies in a row
 
 def guess_id(varname: str, group: str, mtime: float) -> str:
-    """Best-guess tourney id from the file's timestamp."""
+    """The tourney id for an export that landed at `mtime`.
+
+    Exact when the dumps know this slug: last observed run plus however many
+    runs have started since. Only falls back to the calendar when they don't."""
+    hit = schedule().get(varname)
+    if hit:
+        _slot, last_run, last_start, period = hit
+        elapsed = int((mtime - last_start) // (period * 86400))
+        return str(max(last_run + elapsed, 0))
     if group == "daily":
         if LAST_DAILY_ID[0] is not None:
             return LAST_DAILY_ID[0]  # repeat whatever you last typed for a daily
