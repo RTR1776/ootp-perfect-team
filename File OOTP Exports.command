@@ -18,11 +18,19 @@ filename into online_data, so each download overwrites the last):
   3. Quit with Ctrl+C in the Terminal, or it stops by itself after 10
      quiet minutes and shows the summary.
 
-The id prompt now PRE-FILLS its best guess: dailies follow the launch
-calendar (Mar 13 = 0, so Aug 26's dailies are 166), weeklies follow each
-series' own counter (anchored to the community dumps). Check it against
-the number in parentheses in the game's tournament title, fix if needed,
-hit OK. Quicks have no calendar — type the quick number from the title.
+ONE dialog per export. Each row already carries the id it would be filed
+as — "Silver Slots Daily · 175 [D silverslotsdaily]" — so picking the row
+IS the whole answer; there is no second prompt. Rows lead with the display
+name (type "silver slots" and the list jumps there), the events you filed
+most recently sit at the top under RECENT, and the ✎ row at the very top
+opens the old browse-then-type-an-id path when the guess is wrong or the
+event is a quick.
+
+Where the ids come from: dailies follow the launch calendar (Mar 13 = 0,
+so Sep 5's dailies are 175), weeklies and Perfect Drafts follow each
+series' own counter anchored to the community dumps. Check the number
+against the one in parentheses in the game's tournament title — if it is
+off, take the ✎ row and type the right one.
 """
 
 from __future__ import annotations  # py3.9-safe
@@ -42,6 +50,10 @@ SCAN_DIRS = [
     os.path.join(HOME, "Downloads"),
     # OOTP's own export dialog writes here (the "Report Written to..." path)
     os.path.join(HOME, "Application Support/Out of the Park Developments/OOTP Baseball 27/online_data"),
+    # "Watch Tourney Stats.command" snapshots each export it catches to
+    # Inbox/Tourney Stats/grab_HHMMSS.csv. This filer never looked there, so
+    # anything grabbed by the watcher was invisible - it just piled up unfiled.
+    os.path.join(HOME, "Desktop/OOTP Perfect Team/Inbox/Tourney Stats"),
 ]
 SCAN_GLOBS = [
     os.path.join(HOME, "Application Support/Out of the Park Developments/OOTP Baseball 27/saved_games/*/import_export"),
@@ -96,6 +108,7 @@ VARNAMES = [
     ("liveirondaily", "Live Iron Daily", "daily"),
     ("liveopendaily", "Live Open Daily", "daily"),
     ("livesilverdaily", "Live Silver Daily", "daily"),
+    ("lowsilveronly", "Low Silver Only", "daily"),
     ("lowbronzedaily", "Low Bronze Daily", "daily"),
     ("lowbronzeonlydaily", "Low Bronze Only Daily", "daily"),
     ("lowdiamonddaily", "Low Diamond Daily", "daily"),
@@ -112,6 +125,12 @@ VARNAMES = [
     ("silverheart", "Silver Heart", "daily"),
     ("silverslamboree", "Silver Slamboree", "daily"),
     ("silverslotsdaily", "Silver Slots Daily", "daily"),
+    # Sept 2026 refresh renames. PT reuses the slot, so the new rules are a
+    # DIFFERENT tournament sharing a number - new slug, old one kept for history.
+    ("silveronlycapdaily", "Silver Only Cap", "daily"),
+    ("silversnapshots", "Silver Snapshots", "daily"),
+    ("roaringsilvers", "Roaring Silvers", "daily"),
+    ("silverfriendsslots", "Silver & Friends Slots", "daily"),
     ("timetravelersslots", "Dr. Dynastic's Time Traveler Slots", "daily"),
     ("wideopen", "Wide Open", "daily"),
     ("bronzequick", "Bronze Quick", "quick"),
@@ -378,6 +397,76 @@ def pick_tournament(prompt: str):
                 return (v, n, g)
         return None
 
+SEARCH_ROW = "✎   Browse the full list  /  type a different id…"
+RECENT_N = 12
+TAGS = {"daily": "D", "weekly": "W", "quick": "Q", "pddaily": "PD", "pdweekly": "PW"}
+
+def recent_order() -> list:
+    """Slugs ranked by how recently one was filed. You file in bursts - the
+    event you want next is nearly always one you touched in the last hour."""
+    newest = {}
+    try:
+        entries = os.listdir(DEST)
+    except OSError:
+        return []
+    for f in entries:
+        m = re.match(r"^([a-z0-9]+)_\d+\.csv$", f)
+        if not m:
+            continue
+        try:
+            t = os.path.getmtime(os.path.join(DEST, f))
+        except OSError:
+            continue
+        if t > newest.get(m.group(1), 0):
+            newest[m.group(1)] = t
+    return [v for v, _t in sorted(newest.items(), key=lambda kv: -kv[1])]
+
+def one_shot_rows(mtime: float) -> list:
+    """Rows for the single dialog. payload: None = header, "search", else
+    (varname, group, guessed_id). The id rides ON the row, so one click is
+    the whole answer - no second prompt for the common case."""
+    by_v = {v: (v, n, g) for v, n, g in VARNAMES}
+
+    def row(v):
+        _v, n, g = by_v[v]
+        gid = guess_id(v, g, mtime)
+        return (f"{n}  ·  {gid or '?'}   [{TAGS[g]} {v}]", (v, g, gid))
+
+    rows = [(SEARCH_ROW, "search")]
+    recent = [v for v in recent_order() if v in by_v][:RECENT_N]
+    if recent:
+        rows.append(("──────  RECENT  ──────", None))
+        rows.extend(row(v) for v in recent)
+    rows.append(("──────  EVERYTHING A–Z  ──────", None))
+    rows.extend(row(v) for v, _n, _g in sorted(VARNAMES, key=lambda x: x[1].lower()))
+    return rows
+
+def pick_one(info: str, mtime: float):
+    """One dialog for tournament AND id. Returns (varname, group, id) with id
+    possibly "" (ask), the string "search", or None to skip the file.
+
+    Rows lead with the DISPLAY NAME so macOS's type-to-jump actually lands -
+    the old picker led with the slug but sorted by display name, which is why
+    typing "silver slots" never found Silver Slots Daily in 152 rows."""
+    rows = one_shot_rows(mtime)
+    lookup = {label: payload for label, payload in rows}
+    listing = "{" + ", ".join(f'"{q(label)}"' for label, _p in rows) + "}"
+    default = next(label for label, pay in rows if isinstance(pay, tuple))
+    prompt = (info + "\n\nPick it - the number after · is the id it will be filed as. "
+              "Type the name to jump.")
+    while True:
+        res = osascript(
+            f'choose from list {listing} with title "File OOTP Exports" '
+            f'with prompt "{q(prompt)}" default items {{"{q(default)}"}}'
+        )
+        if not res or res == "false":
+            return None
+        pay = lookup.get(res.strip())
+        if pay is None:
+            notify("That's a section header - pick a tournament under it.")
+            continue
+        return pay
+
 LAST_DAILY_ID = [None]  # sticky: back-filling a week means many same-day dailies in a row
 
 def guess_id(varname: str, group: str, mtime: float) -> str:
@@ -479,17 +568,31 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
             f"from {short(os.path.dirname(p))}\n"
             f"exported {time.strftime('%a %b %d, %H:%M', time.localtime(mt))}")
     while True:
-        picked = pick_tournament(info + "\n\nWhich tournament is this? (type to jump, Cancel to skip)")
-        if picked is None:
+        choice = pick_one(info, mt)
+        if choice is None:
             print(f"skipped {os.path.basename(p)}")
             return "skip"
-        varname, _n, group = picked
-        action, tid = ask_id(varname, group, info, mt)
-        if action == "back":
-            continue
-        if action == "skip":
-            print(f"skipped {os.path.basename(p)}")
-            return "skip"
+        if choice == "search":
+            picked = pick_tournament(info + "\n\nWhich tournament is this? (type to jump, Cancel to go back)")
+            if picked is None:
+                continue
+            varname, _n, group = picked
+            tid = None
+        else:
+            varname, group, tid = choice
+            if tid:
+                # The id was on the row you clicked, so it is already confirmed.
+                if group == "daily":
+                    LAST_DAILY_ID[0] = tid
+            else:
+                tid = None  # quicks have no calendar - ask
+        if tid is None:
+            action, tid = ask_id(varname, group, info, mt)
+            if action == "back":
+                continue
+            if action == "skip":
+                print(f"skipped {os.path.basename(p)}")
+                return "skip"
         name = f"{varname}_{tid}.csv"
         dest = os.path.join(DEST, name)
         if os.path.exists(dest):
@@ -545,9 +648,13 @@ def main() -> None:
                         continue
                     if p in seen and seen[p] >= m:
                         continue
-                    seen[p] = m
+                    # Do NOT mark it seen until it is actually usable. OOTP is
+                    # usually still writing on the first poll, and recording the
+                    # mtime here made the next pass skip it as "already seen" -
+                    # the export was dropped and never prompted for.
                     if not fresh(m) or not settled(p) or not looks_like_export(p):
                         continue
+                    seen[p] = m
                     file_one(m, p, "New export", filed)
                     seen.pop(p, None)
                     last_activity = time.time()
