@@ -536,16 +536,16 @@
       "points": {
         "Iron": 0,
         "Bronze": 25,
-        "Silver": 0,
+        "Silver": 10,
         "Gold": 0,
         "Diamond": 3,
         "Open": 0,
         "Live": 0,
-        "Cap": 0,
+        "Cap": 10,
         "PD Daily": 3,
         "PD Weekly": 0
       },
-      "note": "BRONZE 1910-59 WINNER (64) +25 BRONZE - first win since the Aug 28 Golden Heart, and it carries Bronze past target (152/133). Low Diamond 9-16 (64) +3 D; All-Silver 9-16 (64) +3 PDD. ZERO: 5L Deadball 65-128 (128). Partial day - four events resolved as of 6pm Central, all run numbers exactly +1 on their Sep 3 counterparts."
+      "note": "BRONZE 1910-59 WINNER (64) +25 BRONZE - first win since the Aug 28 Golden Heart, and it carries Bronze past target (152/133). SILVER ONLY CAP 3rd/4th (64) +10 SILVER/+10 CAP. Low Diamond 9-16 (64) +3 D; All-Silver 9-16 (64) +3 PDD. ZEROS: 5L Deadball 65-128 (128); Low Silver Only 33-64 (64). Partial day - logged 6pm then amended 9pm Central. NOTE: Silver Only Cap came through as run 1250174 where the daily-increment model expects 1250173 for Sep 4 (slot 125 was renamed in the Sep refresh); the game's own Today label and Low Silver Only 1970003 (+1 on Sep 3's 1970002) both put it on Sep 4, so it is filed here."
     }
   ]
 }
