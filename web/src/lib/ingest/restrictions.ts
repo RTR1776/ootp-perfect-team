@@ -170,7 +170,7 @@ export interface TierWindow {
 }
 
 const TIER_WORD_RE =
-  /\b(?:(low|high)\s+)?(iron|bronze|silver|gold|diamond|perfect)\b(?:\s+(only|floor|ceiling))?/gi;
+  /\b(?:(low|high)\s+)?(iron|bronze|silver|gold|diamond|perfect)s?\b(?:\s+(only|floor|ceiling))?/gi;
 
 export function tierWindowFromName(name: string, opts?: { isDraft?: boolean }): TierWindow | null {
   if (opts?.isDraft) return null;
@@ -186,7 +186,7 @@ export function tierWindowFromName(name: string, opts?: { isDraft?: boolean }): 
 
   for (const m of Array.from(name.matchAll(TIER_WORD_RE))) {
     const half = (m[1] ?? "").toLowerCase();       // low | high | ""
-    const tier = m[2].toUpperCase();               // IRON | BRONZE | ...
+    const tier = m[2].toUpperCase();               // IRON | BRONZE | ... (plural stripped)
     const role = (m[3] ?? "").toLowerCase();       // only | floor | ceiling | ""
     const lo = TIER_MIN[tier], hi = TIER_MAX[tier];
     if (lo == null || hi == null) continue;

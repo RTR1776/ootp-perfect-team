@@ -20,6 +20,7 @@
     "import:myresults": "tsx scripts/import-myresults.ts",
     "parse:restrictions": "tsx scripts/parse-restrictions.ts",
     "apply:restrictions": "tsx scripts/apply-restrictions.ts",
+    "import:refresh": "tsx scripts/import-refresh.ts",
     "backfill:tierbands": "tsx scripts/backfill-tier-bands.ts",
     "retire": "tsx scripts/retire-tournaments.ts",
     "standings": "tsx scripts/standings-history.ts",
