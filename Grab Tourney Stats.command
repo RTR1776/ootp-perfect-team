@@ -22,6 +22,15 @@ set -uo pipefail
 CLICLICK=/opt/homebrew/bin/cliclick
 LAND="$HOME/Application Support/Out of the Park Developments/OOTP Baseball 27/online_data/statistics_player_statistics_-_sortable_stats_cwhit_view.csv"
 DEST="$HOME/Desktop/OOTP Perfect Team/Archive/Completed"
+LOG="$HOME/Desktop/OOTP Perfect Team/Archive/grab-log.txt"
+
+# MODE=manual  you click EXAMINE and navigate back; the script does only the six
+#              blind export clicks. No return_to_list, so nothing can get lost.
+# MODE=auto    the old fully-automatic loop, including the start-screen round trip.
+MODE=manual
+
+exec > >(tee -a "$LOG") 2>&1
+echo; echo "=== $(date '+%Y-%m-%d %H:%M:%S')  mode=$MODE ==="
 
 # --- verified screen positions (SAMSUNG at global origin 1920,0) -------------
 EXAMINE_X=3713              # the Examine column
@@ -134,6 +143,75 @@ band() {
 
 # optional first argument: stop after N tournaments (a smoke test)
 LIMIT="${1:-0}"
+
+# --- export_here: run the six blind clicks against whatever tournament is open.
+# Returns 0 and leaves the file at $LAND on success.
+export_here() {
+  focus
+  click "$TOURNAMENT_CHEV";   sleep 3
+  click "$MENU_STATISTICS";   sleep $((WAIT_PAGE + 2))
+  click "$TAB_SORTABLE";      sleep $((WAIT_PAGE + 6))
+  press "$REPORT_CHEV";       sleep 4
+  slowclick "$WRITE_CSV";     sleep $((WAIT_EXPORT + 2))
+}
+
+if [ "$MODE" = "manual" ]; then
+  echo "clearing any queued OOTP popups…"
+  drain_dialogs
+  ok=0; skipped=0; failed=0
+  while read -r row out teams; do
+    [ -z "${row:-}" ] && continue
+    case "$row" in \#*) continue;; esac
+    if [ -e "$DEST/$out.csv" ]; then
+      echo "· $out — already have it, skipping"; skipped=$((skipped+1)); continue
+    fi
+    echo
+    echo "──────────────────────────────────────────────────────────────"
+    echo "  NEXT: $out.csv        (was row $row, ${teams}-team field)"
+    echo "  In OOTP: get to Your Tournaments and click EXAMINE on it."
+    echo "  Then come back here and press Return.   (s = skip, q = quit)"
+    printf "  > "
+    read -r reply </dev/tty
+    case "$reply" in
+      q|Q) echo "  stopping here."; break;;
+      s|S) echo "  skipped."; skipped=$((skipped+1)); continue;;
+    esac
+
+    before=$(stat -f '%m %z' "$LAND" 2>/dev/null || echo "none")
+    export_here
+    after=$(stat -f '%m %z' "$LAND" 2>/dev/null || echo "none")
+    if [ "$after" = "$before" ] || [ "$after" = "none" ]; then
+      echo "  ✗ no file was written — a click missed, or a popup is up."
+      drain_dialogs
+      echo "    Nothing else was clicked. Re-open the tournament and press Return to retry,"
+      echo "    or s to skip."
+      printf "  > "; read -r reply2 </dev/tty
+      case "$reply2" in s|S) skipped=$((skipped+1)); continue;; esac
+      before=$(stat -f '%m %z' "$LAND" 2>/dev/null || echo "none")
+      export_here
+      after=$(stat -f '%m %z' "$LAND" 2>/dev/null || echo "none")
+      if [ "$after" = "$before" ] || [ "$after" = "none" ]; then
+        echo "  ✗ still nothing. Giving up on $out."; failed=$((failed+1)); continue
+      fi
+    fi
+
+    click "$DIALOG_OK"; sleep 2
+    lines=$(wc -l < "$LAND" | tr -d ' ')
+    read -r lo hi <<< "$(band "$teams")"
+    if [ "$lines" -lt "$lo" ] || [ "$lines" -gt "$hi" ]; then
+      echo "  ✗ $lines lines is wrong for a ${teams}-team field — that was a different"
+      echo "    tournament. NOT filed; $LAND left in place for Claude to look at."
+      failed=$((failed+1)); continue
+    fi
+    mv "$LAND" "$DEST/$out.csv"
+    echo "  ✓ filed $out.csv — $lines lines"
+    ok=$((ok+1))
+  done <<< "$WORKLIST"
+  echo
+  echo "filed $ok · skipped $skipped · failed $failed"
+  echo "Log: $LOG"
+  exit 0
+fi
 
 echo "clearing any queued OOTP popups…"
 drain_dialogs
