@@ -1,551 +1,567 @@
 {
-  "period": {
-    "name": "PTCS 6",
-    "startsOn": "2026-08-03",
-    "endsOn": "2026-09-06",
-    "targets": {
-      "Iron": 127,
-      "Bronze": 133,
-      "Silver": 119,
-      "Gold": 114,
-      "Diamond": 99,
-      "Open": 120,
-      "Live": 175,
-      "Cap": 161,
-      "PD Daily": 347,
-      "PD Weekly": 92
-    },
-    "targetsAreOfficial": false,
-    "targetsNote": "CWhit's Projected QP, read from his qualifying table on 2026-09-02. His other columns: last cutoff, historical adjusted, and current 128th place as of the Aug 31 dump. Replaces my own dump projection, which is well calibrated on Cap and PD Daily but runs low on the tier categories and badly low on Open and Live - see the category-mapping gap in dumps.ts."
+ "period": {
+  "name": "PTCS 6",
+  "startsOn": "2026-08-03",
+  "endsOn": "2026-09-06",
+  "targets": {
+   "Iron": 127,
+   "Bronze": 133,
+   "Silver": 119,
+   "Gold": 114,
+   "Diamond": 99,
+   "Open": 120,
+   "Live": 175,
+   "Cap": 161,
+   "PD Daily": 347,
+   "PD Weekly": 92
   },
-  "days": [
-    {
-      "date": "2026-08-03",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 4,
-        "Gold": 1,
-        "Diamond": 45,
-        "Open": 1,
-        "Live": 1,
-        "Cap": 31,
-        "PD Daily": 11,
-        "PD Weekly": 0
-      },
-      "note": "HUGE: D&Friends Slots WINNER +25 Dia/+25 Cap; Diamond Heart 2nd +20 Dia; Meeting 3/4 +10 PDD; Deadball 9-16 +3S/+3C"
-    },
-    {
-      "date": "2026-08-04",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 6,
-        "Gold": 3,
-        "Diamond": 10,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 6,
-        "PD Daily": 3,
-        "PD Weekly": 0
-      },
-      "note": "Deadball Slots 5-8 +6S/+6C; Diamond Heart 5-8 +10D; Early Gold 17-32 +3G; Struggling 9-16 +3P"
-    },
-    {
-      "date": "2026-08-05",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 4,
-        "Gold": 0,
-        "Diamond": 1,
-        "Open": 3,
-        "Live": 0,
-        "Cap": 2,
-        "PD Daily": 0,
-        "PD Weekly": 0
-      },
-      "note": "quiet - all 17-32s. Open OPENED +3 (Night of Living Deadball)"
-    },
-    {
-      "date": "2026-08-06",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 7,
-        "Gold": 7,
-        "Diamond": 1,
-        "Open": 0,
-        "Live": 11,
-        "Cap": 1,
-        "PD Daily": 12,
-        "PD Weekly": 0
-      },
-      "note": "BIG: Live Speed Run 3/4 +10L/+10P; Late Silver 9-16 +6S; Low Gold Retro 5-8 +6G; Sporer's Golden 17-32 +1G; Deadball Slots 17-32 +1S/+1C; Trying to Look Busy 17-32 +1P; Diamond Heart 33-64 +1D. Live All Night 17-32 +1L/+1P (earlier)"
-    },
-    {
-      "date": "2026-08-07",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 0,
-        "Gold": 16,
-        "Diamond": 6,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 6,
-        "PD Daily": 30,
-        "PD Weekly": 0
-      },
-      "note": "BEST DAY: Nocturnal Mixed Bag WINNER +25 PDD; Low Gold Retro 3/4 +10G; Golden Heart 5-8 +6G; D&Friends Slots 9-16 +3D/+3C; Diamond Slots 9-16 +3D/+3C; Historical Primetime 9-16 +3P; Pizza for Dinner + Look Busy 17-32 +1P each. SILVER BLANKED. Live All Night 33-64 = 0. Thursday Overnight (PD Weekly) ELIMINATED - placement unknown, unscored"
-    },
-    {
-      "date": "2026-08-08",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 4,
-        "Gold": 1,
-        "Diamond": 3,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 0,
-        "PD Daily": 7,
-        "PD Weekly": 0
-      },
-      "note": "Just Order Pizza 5-8 +6P; Late Silver 17-32 +3S; Diamond Heart 17-32 +3D; Slamboree 33-64 +1S; Golden Heart 17-32 +1G; Look Busy 17-32 +1P. PTCS 5 PLAYED (see PTCS-PTMS sheet)"
-    },
-    {
-      "date": "2026-08-09",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 13,
-        "Gold": 1,
-        "Diamond": 4,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 3,
-        "PD Daily": 10,
-        "PD Weekly": 1
-      },
-      "note": "SILVER BREAKS OUT +13: Late Silver 5-8 (128) +10S; Silver Heart 9-16 +3S. Good Orderly Evening 3/4 +10P; Diamond Slots 9-16 +3D/+3C. FIRST PD WEEKLY POINT: Up and Down the Ladder 33-64 +1. Early Gold 33-64 +1G; Diamond Heart 17-32 +1D"
-    },
-    {
-      "date": "2026-08-10",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 3,
-        "Gold": 4,
-        "Diamond": 0,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 1,
-        "PD Daily": 10,
-        "PD Weekly": 0
-      },
-      "note": "Late Silver 17-32 (128) +3S; Golden Heart 9-16 (64) +3G; Just Order Pizza D&G 3/4 (64) +10 PDD; Gold Slots 17-32 (64) +1G/+1C. ZEROS: Diamond Slots 33-64, Low Gold Retro 33-64, Low Diamond 33-64, Struggling to Sleep 33-64, Monday Gold Floor Cap 65-128 (128), Monday Wonky Historical Slots 65-128 (128). Monday Night History Lesson (PD Weekly, 256) ELIMINATED - placement unknown, unscored"
-    },
-    {
-      "date": "2026-08-11",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 6,
-        "Gold": 3,
-        "Diamond": 2,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 4,
-        "PD Daily": 7,
-        "PD Weekly": 1
-      },
-      "note": "Gold Slots 9-16 (64) +3G/+3C; Late Silver 9-16 (128) +6S; Morning Mixed Bag 3/4 (32) +6 PDD; Low Diamond 17-32 (64) +1D; Diamond Slots 17-32 (64) +1D/+1C; Trying to Look Busy 17-32 (64) +1 PDD; Tuesday Evening Adrenaline Rush 65-128 (256) +1 PD WEEKLY - 2nd PDW pt of the period. ZEROS: Early Gold 65-128 (128), Laptophound 6L Power Play 65-128 (128), Diamond Heart 33-64, OOTP and Chill 33-64, D&Friends Slots 33-64, Golden Heart 33-64, Just Order Pizza 33-64, Goldfather II 33-64"
-    },
-    {
-      "date": "2026-08-12",
-      "points": {
-        "Iron": 0,
-        "Bronze": 10,
-        "Silver": 0,
-        "Gold": 3,
-        "Diamond": 1,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 0,
-        "PD Daily": 10,
-        "PD Weekly": 0
-      },
-      "note": "BRONZE OPENS +10: Bronze The Sequel 5-8 (128). Laptophound 5L Deadball 5-8 (128) +10 PDD; Low Gold Retrospecticus 9-16 (64) +3G; Low Diamond 17-32 (64) +1D. ZEROS: Return of the Bronze 65-128 (128), Trying to Look Busy 33-64 (64)"
-    },
-    {
-      "date": "2026-08-13",
-      "points": {
-        "Iron": 0,
-        "Bronze": 4,
-        "Silver": 1,
-        "Gold": 3,
-        "Diamond": 1,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 2,
-        "PD Daily": 13,
-        "PD Weekly": 0
-      },
-      "note": "Trying to Look Busy D&G 3/4 (64) +10 PDD; Just Order Pizza D&G 9-16 (64) +3 PDD; Golden Heart 9-16 (64) +3G; Bronze The Sequel 17-32 (128) +3B; Return of the Bronze 33-64 (128) +1B; Silver Slots 17-32 (64) +1S/+1C; Diamond Slots 17-32 (64) +1D/+1C. ZEROS: D&Friends Slots 33-64 (64), Silver & Friends Deadball Slots 33-64 (64), CWhit Cap Challenge 4 65-128 (128). Thursday Silver Spectacular (256) + Thursday Overnight Under the Covers (PD Weekly, 256) ELIMINATED - placement unknown, unscored"
-    },
-    {
-      "date": "2026-08-14",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 15,
-        "Gold": 0,
-        "Diamond": 3,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 18,
-        "PD Daily": 5,
-        "PD Weekly": 1
-      },
-      "note": "SILVER & FRIENDS DEADBALL SLOTS 2nd PLACE (64) +15S/+15C - biggest single result of the period. Friday Draft About Nothing 65-128 (256) +1 PD WEEKLY (3rd PDW pt); Trying to Look Busy D&G 17-32 (64) +1 PDD. ZEROS: Open Slots 33-64 (64), Early Gold 65-128 (128), Low Diamond 33-64 (64), Gold Slots 33-64 (64) | LATE ADDS (2nd screenshot): Diamond Slots 9-16 (64) +3D/+3C; Laptophound 6L Power Play 17-32 (128) +3 PDD; Just Order Pizza D&G 17-32 (64) +1 PDD. Additional zeros: Late Silver 65-128 (128), Golden Heart 33-64 (64)"
-    },
-    {
-      "date": "2026-08-15",
-      "points": {
-        "Iron": 0,
-        "Bronze": 26,
-        "Silver": 1,
-        "Gold": 5,
-        "Diamond": 15,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 1,
-        "PD Daily": 0,
-        "PD Weekly": 1
-      },
-      "note": "LOW BRONZE WINNER (64) +25 BRONZE - first win of the period. Low Gold Retrospecticus 9-16 (64) +3G; Golden Heart 17-32 (64) +1G; Gold Slots 17-32 (64) +1G/+1C; Return of the Bronze 33-64 (128) +1B; TWIPT Saturday Showdown 65-128 (256) +1 PD WEEKLY (4th PDW pt). ZEROS: Bronze The Sequel 65-128 (128) | LATE ADDS: Saturday Diamond Variety 3rd/4th (128) +15 DIAMOND - Dia,TW tags, TW has no standing of its own so Diamond only; Late Silver 33-64 (128) +1S"
-    },
-    {
-      "date": "2026-08-16",
-      "points": {
-        "Iron": 0,
-        "Bronze": 1,
-        "Silver": 2,
-        "Gold": 0,
-        "Diamond": 0,
-        "Open": 3,
-        "Live": 0,
-        "Cap": 1,
-        "PD Daily": 26,
-        "PD Weekly": 4
-      },
-      "note": "OOTP AND CHILL WINNER (64) +25 PD DAILY - 2nd win of the period. BEST PD WEEKLY DAY: Sunday Up and Down the Ladder 17-32 (128) +3 PDW; Sunday PD Main Event 65-128 (256) +1 PDW. Sunday Open Main Event 33-64 (256) +3 OPEN (first Open pts since Aug 5). Laptophound 5L Deadball 33-64 (128) +1 PDD; Low Bronze 17-32 (64) +1B; Late Silver 33-64 (128) +1S; Silver & Friends Deadball Slots 17-32 (64) +1S/+1C. ZEROS: Golden Heart 33-64 (64), Just Order Pizza D&G 33-64 (64), Sunday Open Slots 65-128 (128), Low Gold Retrospecticus 33-64 (64), Sunday High Iron Floor and Gold Ceiling 65-128 (128), Bronze The Sequel 65-128 (128). END OF WEEK 2."
-    },
-    {
-      "date": "2026-08-17",
-      "points": {
-        "Iron": 0,
-        "Bronze": 19,
-        "Silver": 0,
-        "Gold": 0,
-        "Diamond": 1,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 1,
-        "PD Daily": 7,
-        "PD Weekly": 0
-      },
-      "note": "LOW BRONZE 2nd PLACE (64) +15 BRONZE. Return of the Bronze 17-32 (128) +3B; Bronze The Sequel 33-64 (128) +1B; Laptophound 5L Deadball 17-32 (128) +3 PDD; Struggling to Sleep DBL 9-16 (64) +3 PDD; OOTP and Chill 17-32 (64) +1 PDD; Diamond & Friends Slots 17-32 (64) +1D/+1C. ZEROS: Monday Gold Floor Cap 65-128 (128, Op+Cp), Monday Wonky Historical Slots 65-128 (128, Gld+Cp), Late Silver 65-128 (128), Just Order Pizza D&G 33-64 (64), Doc Rock Derby 33-64 (64), Trying to Look Busy D&G 33-64 (64), Early Gold 65-128 (128)"
-    },
-    {
-      "date": "2026-08-18",
-      "points": {
-        "Iron": 0,
-        "Bronze": 4,
-        "Silver": 15,
-        "Gold": 1,
-        "Diamond": 1,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 2,
-        "PD Daily": 28,
-        "PD Weekly": 0
-      },
-      "note": "THIS COULD VE BEEN AN EMAIL RCK WINNER (64) +25 PD DAILY - 3rd win of the period. Late Silver 3rd/4th (128) +15 SILVER - best Silver result of the period. Bronze The Sequel 17-32 (128) +3B; Nocturnal Mixed Bag 5-8 (32) +3 PDD; Low Bronze 17-32 (64) +1B; Diamond Slots 17-32 (64) +1D/+1C. ZEROS: Mixed Up My Lunch 17-32 (32 - pays 0 there), Just Order Pizza D&G 33-64 (64), Low Gold Retrospecticus 33-64 (64), Early Gold 65-128 (128), Laptophound 5L Deadball 65-128 (128), Bagels and Schmear 33-64 (64), Struggling to Sleep DBL 33-64 (64) | LATE ADD: Tuesday Sporer's Sandlot 33-64 (128, Gld+Cp+TW) +1G/+1C. (Nocturnal Mixed Bag re-appeared in a later screenshot - same event id 2550147, already counted, not double-logged.)"
-    },
-    {
-      "date": "2026-08-19",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 3,
-        "Gold": 0,
-        "Diamond": 0,
-        "Open": 1,
-        "Live": 0,
-        "Cap": 1,
-        "PD Daily": 1,
-        "PD Weekly": 0
-      },
-      "note": "QUIET DAY - 6 pts, mostly 33-64s. Late Silver 17-32 (128) +3S; Open Slots 17-32 (64) +1 OPEN/+1C; Laptophound 5L Deadball 33-64 (128) +1 PDD. ZEROS: Low Bronze 33-64 (64), Golden Heart 33-64 (64), Just Order Pizza D&G 33-64 (64), Pitchers First 33-64 (64), Early Gold 65-128 (128), Bronze The Sequel 65-128 (128). Wednesday Ice to See You (Dia,TW, 256) ELIMINATED - placement unknown, unscored"
-    },
-    {
-      "date": "2026-08-20",
-      "points": {
-        "Iron": 0,
-        "Bronze": 1,
-        "Silver": 1,
-        "Gold": 10,
-        "Diamond": 3,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 13,
-        "PD Daily": 0,
-        "PD Weekly": 0
-      },
-      "note": "CWHIT CAP CHALLENGE 4 QUARTERFINAL (128, Gld+Cp) +10 GOLD/+10 CAP - biggest Cap day since Aug 3. Diamond Slots 9-16 (64) +3D/+3C; Thursday Silver Spectacular 65-128 (256) +1S; Return of the Bronze 33-64 (128) +1B. ZEROS: Goldfather II 33-64 (64), Trying to Look Busy D&G 33-64 (64), Bronze The Sequel 65-128 (128). Thursday Overnight Under the Covers (PD Weekly, 256) ELIMINATED - 3rd time this period, unscored"
-    },
-    {
-      "date": "2026-08-21",
-      "points": {
-        "Iron": 0,
-        "Bronze": 45,
-        "Silver": 0,
-        "Gold": 4,
-        "Diamond": 0,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 3,
-        "PD Daily": 1,
-        "PD Weekly": 15
-      },
-      "note": "BRONZE DOUBLE: Bronze The Sequel WINNER (128) +30 BRONZE and Low Bronze 2nd (64) +15 BRONZE - biggest Bronze day of the period. Friday Draft About Nothing 5-8 (256) +15 PDW; Gold Slots 9-16 (64) +3G/+3C; Early Gold 33-64 (128) +1G; Laptophound 6L Power Play 33-64 (128) +1 PDD. ZEROS: Golden Heart 33-64 (64), Diamond Slots 33-64 (64), Low Diamond 33-64 (64), Late Silver 65-128 (128), Laptophound 5L Deadball 65-128 (128)."
-    },
-    {
-      "date": "2026-08-22",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 0,
-        "Gold": 4,
-        "Diamond": 0,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 3,
-        "PD Daily": 4,
-        "PD Weekly": 18
-      },
-      "note": "PD WEEKLY DAY: Saturday Can't Sleep Clown Will Eat Me 5-8 (256) +15 PDW, Saturday Shrinkage 33-64 (256) +3 PDW. Historical Primetime 9-16 (64) +3 PDD; Gold Slots 9-16 (64) +3G/+3C; Golden Heart 17-32 (64) +1G; Laptophound 6L Power Play 33-64 (128) +1 PDD. ZEROS: Diamonds are Forever 33-64 (64), Low Diamond 33-64 (64), Bronze 1910-59 33-64 (64), Just Order Pizza D&G 33-64 (64), Bagels and Schmear 33-64 (64), Late Silver 65-128 (128), Early Gold 65-128 (128)."
-    },
-    {
-      "date": "2026-08-23",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 1,
-        "Gold": 8,
-        "Diamond": 0,
-        "Open": 3,
-        "Live": 0,
-        "Cap": 7,
-        "PD Daily": 24,
-        "PD Weekly": 0
-      },
-      "note": "Gold Slots 5-8 (64) +6G/+6C; Trying to Look Busy D&G 3/4 (64) +10 PDD; Up Late with Rich LAD 3/4 (32) +6 PDD; Sunday High Iron Floor and Gold Ceiling 33-64 (128, Gld+Cp+TW) +1G/+1C; Early Gold 33-64 (128) +1G; Laptophound 5L Deadball 33-64 (128) +1 PDD. ZEROS: Low Diamond 33-64 (64). LATE ADDS (Aug 25 screenshot): 6L Power Play 9-16 (128) +6 PDD; OOTP and Chill 17-32 (64) +1 PDD; Late Silver 33-64 (128) +1S; Sunday Open Main Event 33-64 (256) +3 OPEN. Zeros: Bronze PTCS 3 Replay Slots, Golden Heart, Pizza D&G."
-    },
-    {
-      "date": "2026-08-24",
-      "points": {
-        "Iron": 0,
-        "Bronze": 1,
-        "Silver": 0,
-        "Gold": 4,
-        "Diamond": 10,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 4,
-        "PD Daily": 3,
-        "PD Weekly": 0
-      },
-      "note": "LOW DIAMOND 3rd/4th (64) +10 DIAMOND - Diamond crosses the 101-pt estimated target. Wonky Historical Slots 17-32 (128, Gld+Cp+TW) +3G/+3C; Just Order Pizza D&G 9-16 (64) +3 PDD; Gold Slots 17-32 (64) +1G/+1C; Up And At Them Bronze 65-128 (256) +1B. Monday Getting it Started (PD Weekly, 256) ELIMINATED - unscored. ZEROS: Tuck in Time + Snack Time 17-32 (32s pay 0), Silver Slots, Silver Heart, Hitters First, Open Slots 33-64 (64), Gold Floor Cap, 6L Power Play, Bronze OOTP Era, 5L Deadball 65-128 (128)."
-    },
-    {
-      "date": "2026-08-25",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 0,
-        "Gold": 0,
-        "Diamond": 6,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 3,
-        "PD Daily": 4,
-        "PD Weekly": 0
-      },
-      "note": "DIAMOND SLOTS 9-16 (64) +3D/+3C; Low Diamond 9-16 (64) +3D; PDD singles: 6L Power Play 33-64 (128), Just Order Pizza 17-32 (64), Trying to Look Busy 17-32 (64), 5L Deadball 33-64 (128). Tuesday Evening Adrenaline Rush (PD WEEKLY, 256) ELIMINATED - 0. ZEROS: Sporer's Sandlot + Up to 1969 65-128/33-64, Late Silver 65-128 (128), Early Gold 65-128 (128), Gold Slots 33-64 (64), This Could've Been an Email 33-64 (64)."
-    },
-    {
-      "date": "2026-08-26",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 1,
-        "Gold": 0,
-        "Diamond": 1,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 1,
-        "PD Daily": 12,
-        "PD Weekly": 0
-      },
-      "note": "5L DEADBALL 5th-8th (128) +10 PDD - best PD Daily finish of the period. PDD singles: 6L Power Play 33-64 (128), Good Orderly Evening 17-32 (64). Diamond & Friends Slots 17-32 (64) +1D/+1C; Late Silver 33-64 (128) +1S. Wednesday Ice to See You (256, Dia weekly) ELIMINATED. ZEROS: Bronze Only Cap, Bronze 1910-59, Gold Slots, Trying to Look Busy, Doc Rock Derby 33-64 (64s); Early Gold + Night of the Living Deadball 65-128 (128); Up Late with Rich 17-32 (32 pays 0). W-1950-to-Now excluded."
-    },
-    {
-      "date": "2026-08-27",
-      "points": {
-        "Iron": 0,
-        "Bronze": 1,
-        "Silver": 10,
-        "Gold": 1,
-        "Diamond": 0,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 11,
-        "PD Daily": 9,
-        "PD Weekly": 1
-      },
-      "note": "SILVER SLOTS 3rd/4th (64) +10 SILVER/+10 CAP - biggest Silver+Cap hit of the period. Just Order Pizza 5-8 (64) +6 PDD; CWhit Cap Challenge 4 33-64 (128) +1G/+1C; PDD singles: 6L Power Play (167), Pitchers First 17-32 (64), 5L Deadball (166); Bronze 1910-59 17-32 (64) +1B; Thursday Overnight Under the Covers 65-128 (256) +1 PDW - first PDW point since Aug 22. Weeklies ELIMINATED: Gold Rush, Silver Spectacular. ZEROS: Golden Childhood, Bronze Only Cap 167, Late Silver, Diamond Slots 167, Bronze OOTP Era, Could've Been an Email 166, Double Espresso."
-    },
-    {
-      "date": "2026-08-28",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 25,
-        "Gold": 25,
-        "Diamond": 6,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 15,
-        "PD Daily": 7,
-        "PD Weekly": 0
-      },
-      "note": "BEST DAY OF THE PERIOD (+78). GOLDEN HEART WINNER (64) +25 GOLD - first tournament WIN of PTCS 6. Silver Slots 2ND (64) +15 SILVER/+15 CAP; Silver Heart 3rd/4th (64) +10 SILVER; Diamond Heart 5-8 (64) +6 D; Doc Rock Derby 9-16 (64) +3 PDD; Snack Time 5-8 (32) +3 PDD; 5L Deadball 33-64 (128) +1 PDD. Draft About Nothing (PDW) eliminated. ZEROS: Open Slots, Early Gold, Gold Slots, 6L Power Play 168, Late Silver 168, Silver Slamboree. LATE ADDS from Aug 29 screenshot amended this day (+68 over the morning partial)."
-    },
-    {
-      "date": "2026-08-29",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 2,
-        "Gold": 15,
-        "Diamond": 0,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 1,
-        "PD Daily": 6,
-        "PD Weekly": 0
-      },
-      "note": "LOW GOLD RETROSPECTICUS 2ND (64) +15 GOLD - best Gold day since the Golden Heart win. PDD singles: Struggling to Sleep 9-16 (64) +3, Trying to Look Busy - D&G 17-32 (64) +1. Saturday Shrinkage (PD WEEKLY, 256) ELIMINATED - 0. ZEROS: Silver & Friends Deadball Slots 33-64 (64), Gold Slots 33-64 (64). LATE ADDS from the Aug 30 screenshot (+5): Silver Slots 17-32 (64) +1 S/+1 C; Silver Slamboree 33-64 (128) +1 S; Just Order Pizza 17-32 (64) +1 PDD; This Could've Been an Email 17-32 (64) +1 PDD. LATE ZEROS: Silver Heart 33-64 (64), 6L Power Play 65-128 (128), Saturday Diamond Variety 65-128 (128, Dia+TW), Late Silver 65-128 (128)."
-    },
-    {
-      "date": "2026-08-30",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 7,
-        "Gold": 6,
-        "Diamond": 0,
-        "Open": 1,
-        "Live": 0,
-        "Cap": 7,
-        "PD Daily": 5,
-        "PD Weekly": 0
-      },
-      "note": "Gold+Cap doubles: Sunday High Iron Floor and Gold Ceiling 17-32 (128, Gld+Cp+TW) +3 G/+3 C; Gold Slots 9-16 (64) +3 G/+3 C. PDD: Struggling to Sleep 9-16 (64) +3, 5L Deadball 33-64 (128) +1. ZEROS: Low Gold Retrospecticus 33-64 (64), Bagels and Schmear 33-64 (64). LATE ADDS from the Sep 1 full-list screenshots (+10): Silver Heart 5-8 (64) +6 S; Late Silver 33-64 (128) +1 S; Sunday Open Slots 33-64 (128, Op+Cp+TW) +1 O/+1 C; Rocking Chair Lunch 17-32 (64) +1 PDD. LATE ZEROS: Silver Slots 33-64 (64); 6L Power Play 65-128 (128); Bronze OOTP Era 65-128 (128); Sunday Up and Down the Ladder 65-128 (128, PD WEEKLY). Day now complete."
-    },
-    {
-      "date": "2026-08-31",
-      "points": {
-        "Iron": 0,
-        "Bronze": 4,
-        "Silver": 7,
-        "Gold": 3,
-        "Diamond": 1,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 5,
-        "PD Daily": 14,
-        "PD Weekly": 10
-      },
-      "note": "MONDAY NIGHT HISTORY LESSON 9-16 (256, PD WEEKLY) +10 PDW - third-best PD Weekly day of the period and the first PDW points since Aug 27. Just Order Pizza 5-8 (64) +6 PDD; Late Silver 9-16 (128) +6 S; Bronze 1910-59 9-16 (64) +3 B; Gold Slots 9-16 (64) +3 G/+3 C; Bagels and Schmear 9-16 (64) +3 PDD; 6L Power Play 17-32 (128) +3 PDD; Diamond & Friends Slots 17-32 (64) +1 D/+1 C; Silver & Friends Deadball Slots 17-32 (64) +1 S/+1 C; Bronze OOTP Era 33-64 (128) +1 B; 5L Deadball 33-64 (128) +1 PDD; Struggling to Sleep 17-32 (64) +1 PDD. ZEROS: Monday Gold Floor Cap 65-128 (128, Op+Cp+TW); Hitters First 33-64 (64); Monday Up And At Them Bronze (256, Brz+TW) ELIMINATED."
-    },
-    {
-      "date": "2026-09-01",
-      "points": {
-        "Iron": 0,
-        "Bronze": 10,
-        "Silver": 1,
-        "Gold": 3,
-        "Diamond": 1,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 12,
-        "PD Daily": 13,
-        "PD Weekly": 0
-      },
-      "note": "BRONZE PTCS 3 REPLAY SLOTS 3rd/4th (64) +10 B/+10 CAP - biggest Bronze hit of the period and the swing that puts Bronze within 4 of target. 6L Power Play 5-8 (128) +10 PDD - best PD Daily result since the Aug 26 Deadball 5-8. Perfecto Primetime 9-16 (64) +3 PDD; Early Gold 17-32 (128) +3 G; Silver Slots 17-32 (64) +1 S/+1 C; Diamond & Friends Slots 17-32 (64) +1 D/+1 C. ZEROS: Perfectly Silver 33-64 (64); All-Gold 33-64 (64); All-Silver 33-64 (64); Bronze OOTP Era 65-128 (128); 5L Deadball 65-128 (128); Tuesday Up to 1969 65-128 (128, Op+TW)."
-    },
-    {
-      "date": "2026-09-02",
-      "points": {
-        "Iron": 0,
-        "Bronze": 1,
-        "Silver": 0,
-        "Gold": 0,
-        "Diamond": 1,
-        "Open": 3,
-        "Live": 0,
-        "Cap": 1,
-        "PD Daily": 4,
-        "PD Weekly": 0
-      },
-      "note": "Wednesday 1950 to Now 17-32 (128, Op+TW) +3 OPEN - counted per the game's own Op tag; note the dump model currently EXCLUDES this event, so it may not show up in the community Open standings. ZEROS: Open Slots 33-64 (64, Op+Cp); Early Gold 65-128 (128). LATE ADDS from the Sep 4 screenshot (+6): Bronze PTCS 3 Replay Slots 1890099 17-32 (64) +1 B/+1 C; All-Diamond 2200173 9-16 (64) +3 PDD; 6L Power Play 2180173 33-64 (128) +1 PDD. LATE ZERO: Wednesday Night of the Living Deadball 1500024 65-128 (128, Op+TW). AMENDED from the Sep 4 results screen (+1): Wednesday Ice to See You 1490024 65-128 (256, Dia+TW) +1 D. ADDITIONAL ZEROS: Late Silver 1240173 65-128 (128); Silver & Friends Slots 1900099 33-64 (64). Day complete."
-    },
-    {
-      "date": "2026-09-03",
-      "points": {
-        "Iron": 0,
-        "Bronze": 0,
-        "Silver": 15,
-        "Gold": 15,
-        "Diamond": 0,
-        "Open": 0,
-        "Live": 0,
-        "Cap": 20,
-        "PD Daily": 11,
-        "PD Weekly": 0
-      },
-      "note": "CWHIT'S CAP CHALLENGE 4 3rd/4th (128, Gld+Cp+TW) +15 GOLD/+15 CAP - best Cap result of the period and the biggest Gold hit since the Aug 28 Golden Heart win. Thursday Silver Spectacular 9-16 (256, Slv+TW) +10 SILVER - TW carries no standing, Silver only. Silver & Friends Slots 9-16 (64) +3 S/+3 C; Silver Only Cap 17-32 (64) +1 S/+1 C; Silver Slots 17-32 (64) +1 S/+1 C. PDD: Perfecto Primetime 9-16 (64) +3, All-Gold 9-16 (64) +3, Perfecto Morning 9-16 (64) +3, High Heat in the Morning 17-32 (64) +1, Struggling to Sleep - DBL 17-32 (64) +1. ZEROS: Bronze PTCS 3 Replay Slots 33-64 (64); Low Silver Only 33-64 (64); Low Diamond 33-64 (64); Bronze 1910-59 33-64 (64); 6L Power Play 65-128 (128); 5L Deadball 65-128 (128). ELIMINATED/unscored: Thursday Night Gold Rush (256, Gld+TW); Thursday Overnight Under the Covers (256, PD WEEKLY). Screenshot showed no Sep 4 group, so Sep 3 may still take late adds."
-    },
-    {
-      "date": "2026-09-04",
-      "points": {
-        "Iron": 0,
-        "Bronze": 25,
-        "Silver": 10,
-        "Gold": 3,
-        "Diamond": 3,
-        "Open": 1,
-        "Live": 0,
-        "Cap": 14,
-        "PD Daily": 3,
-        "PD Weekly": 0
-      },
-      "note": "BRONZE 1910-59 WINNER (64) +25 BRONZE - second win of the period, carries Bronze past target. SILVER ONLY CAP 3rd/4th (64) +10 S/+10 C. Gold Slots 9-16 (64, Gld+Cp) +3 G/+3 C; Low Diamond 9-16 (64) +3 D; Open Slots 17-32 (64, Op+Cp) +1 O/+1 C; All-Silver 9-16 (64) +3 PDD. ZEROS: 5L Deadball 65-128 (128); Low Silver Only 33-64 (64). Read straight off the Your Tournaments screen at 10pm Central, so the tournament side of the day is COMPLETE; PD events are filtered out of that view and may still add. In flight: Silver & Friends Slots 1900101 and Late Silver 1240175 (both eliminated), Diamond & Friends 1920101, Silver Slots 1270175, Diamond Heart 1850158, Saturday Diamond Variety 1590025."
-    }
-  ]
+  "targetsAreOfficial": false,
+  "targetsNote": "CWhit's Projected QP, read from his qualifying table on 2026-09-02. His other columns: last cutoff, historical adjusted, and current 128th place as of the Aug 31 dump. Replaces my own dump projection, which is well calibrated on Cap and PD Daily but runs low on the tier categories and badly low on Open and Live - see the category-mapping gap in dumps.ts."
+ },
+ "days": [
+  {
+   "date": "2026-08-03",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 4,
+    "Gold": 1,
+    "Diamond": 45,
+    "Open": 1,
+    "Live": 1,
+    "Cap": 31,
+    "PD Daily": 11,
+    "PD Weekly": 0
+   },
+   "note": "HUGE: D&Friends Slots WINNER +25 Dia/+25 Cap; Diamond Heart 2nd +20 Dia; Meeting 3/4 +10 PDD; Deadball 9-16 +3S/+3C"
+  },
+  {
+   "date": "2026-08-04",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 6,
+    "Gold": 3,
+    "Diamond": 10,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 6,
+    "PD Daily": 3,
+    "PD Weekly": 0
+   },
+   "note": "Deadball Slots 5-8 +6S/+6C; Diamond Heart 5-8 +10D; Early Gold 17-32 +3G; Struggling 9-16 +3P"
+  },
+  {
+   "date": "2026-08-05",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 4,
+    "Gold": 0,
+    "Diamond": 1,
+    "Open": 3,
+    "Live": 0,
+    "Cap": 2,
+    "PD Daily": 0,
+    "PD Weekly": 0
+   },
+   "note": "quiet - all 17-32s. Open OPENED +3 (Night of Living Deadball)"
+  },
+  {
+   "date": "2026-08-06",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 7,
+    "Gold": 7,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 11,
+    "Cap": 1,
+    "PD Daily": 12,
+    "PD Weekly": 0
+   },
+   "note": "BIG: Live Speed Run 3/4 +10L/+10P; Late Silver 9-16 +6S; Low Gold Retro 5-8 +6G; Sporer's Golden 17-32 +1G; Deadball Slots 17-32 +1S/+1C; Trying to Look Busy 17-32 +1P; Diamond Heart 33-64 +1D. Live All Night 17-32 +1L/+1P (earlier)"
+  },
+  {
+   "date": "2026-08-07",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 0,
+    "Gold": 16,
+    "Diamond": 6,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 6,
+    "PD Daily": 30,
+    "PD Weekly": 0
+   },
+   "note": "BEST DAY: Nocturnal Mixed Bag WINNER +25 PDD; Low Gold Retro 3/4 +10G; Golden Heart 5-8 +6G; D&Friends Slots 9-16 +3D/+3C; Diamond Slots 9-16 +3D/+3C; Historical Primetime 9-16 +3P; Pizza for Dinner + Look Busy 17-32 +1P each. SILVER BLANKED. Live All Night 33-64 = 0. Thursday Overnight (PD Weekly) ELIMINATED - placement unknown, unscored"
+  },
+  {
+   "date": "2026-08-08",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 4,
+    "Gold": 1,
+    "Diamond": 3,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 0,
+    "PD Daily": 7,
+    "PD Weekly": 0
+   },
+   "note": "Just Order Pizza 5-8 +6P; Late Silver 17-32 +3S; Diamond Heart 17-32 +3D; Slamboree 33-64 +1S; Golden Heart 17-32 +1G; Look Busy 17-32 +1P. PTCS 5 PLAYED (see PTCS-PTMS sheet)"
+  },
+  {
+   "date": "2026-08-09",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 13,
+    "Gold": 1,
+    "Diamond": 4,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 3,
+    "PD Daily": 10,
+    "PD Weekly": 1
+   },
+   "note": "SILVER BREAKS OUT +13: Late Silver 5-8 (128) +10S; Silver Heart 9-16 +3S. Good Orderly Evening 3/4 +10P; Diamond Slots 9-16 +3D/+3C. FIRST PD WEEKLY POINT: Up and Down the Ladder 33-64 +1. Early Gold 33-64 +1G; Diamond Heart 17-32 +1D"
+  },
+  {
+   "date": "2026-08-10",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 3,
+    "Gold": 4,
+    "Diamond": 0,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 1,
+    "PD Daily": 10,
+    "PD Weekly": 0
+   },
+   "note": "Late Silver 17-32 (128) +3S; Golden Heart 9-16 (64) +3G; Just Order Pizza D&G 3/4 (64) +10 PDD; Gold Slots 17-32 (64) +1G/+1C. ZEROS: Diamond Slots 33-64, Low Gold Retro 33-64, Low Diamond 33-64, Struggling to Sleep 33-64, Monday Gold Floor Cap 65-128 (128), Monday Wonky Historical Slots 65-128 (128). Monday Night History Lesson (PD Weekly, 256) ELIMINATED - placement unknown, unscored"
+  },
+  {
+   "date": "2026-08-11",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 6,
+    "Gold": 3,
+    "Diamond": 2,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 4,
+    "PD Daily": 7,
+    "PD Weekly": 1
+   },
+   "note": "Gold Slots 9-16 (64) +3G/+3C; Late Silver 9-16 (128) +6S; Morning Mixed Bag 3/4 (32) +6 PDD; Low Diamond 17-32 (64) +1D; Diamond Slots 17-32 (64) +1D/+1C; Trying to Look Busy 17-32 (64) +1 PDD; Tuesday Evening Adrenaline Rush 65-128 (256) +1 PD WEEKLY - 2nd PDW pt of the period. ZEROS: Early Gold 65-128 (128), Laptophound 6L Power Play 65-128 (128), Diamond Heart 33-64, OOTP and Chill 33-64, D&Friends Slots 33-64, Golden Heart 33-64, Just Order Pizza 33-64, Goldfather II 33-64"
+  },
+  {
+   "date": "2026-08-12",
+   "points": {
+    "Iron": 0,
+    "Bronze": 10,
+    "Silver": 0,
+    "Gold": 3,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 0,
+    "PD Daily": 10,
+    "PD Weekly": 0
+   },
+   "note": "BRONZE OPENS +10: Bronze The Sequel 5-8 (128). Laptophound 5L Deadball 5-8 (128) +10 PDD; Low Gold Retrospecticus 9-16 (64) +3G; Low Diamond 17-32 (64) +1D. ZEROS: Return of the Bronze 65-128 (128), Trying to Look Busy 33-64 (64)"
+  },
+  {
+   "date": "2026-08-13",
+   "points": {
+    "Iron": 0,
+    "Bronze": 4,
+    "Silver": 1,
+    "Gold": 3,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 2,
+    "PD Daily": 13,
+    "PD Weekly": 0
+   },
+   "note": "Trying to Look Busy D&G 3/4 (64) +10 PDD; Just Order Pizza D&G 9-16 (64) +3 PDD; Golden Heart 9-16 (64) +3G; Bronze The Sequel 17-32 (128) +3B; Return of the Bronze 33-64 (128) +1B; Silver Slots 17-32 (64) +1S/+1C; Diamond Slots 17-32 (64) +1D/+1C. ZEROS: D&Friends Slots 33-64 (64), Silver & Friends Deadball Slots 33-64 (64), CWhit Cap Challenge 4 65-128 (128). Thursday Silver Spectacular (256) + Thursday Overnight Under the Covers (PD Weekly, 256) ELIMINATED - placement unknown, unscored"
+  },
+  {
+   "date": "2026-08-14",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 15,
+    "Gold": 0,
+    "Diamond": 3,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 18,
+    "PD Daily": 5,
+    "PD Weekly": 1
+   },
+   "note": "SILVER & FRIENDS DEADBALL SLOTS 2nd PLACE (64) +15S/+15C - biggest single result of the period. Friday Draft About Nothing 65-128 (256) +1 PD WEEKLY (3rd PDW pt); Trying to Look Busy D&G 17-32 (64) +1 PDD. ZEROS: Open Slots 33-64 (64), Early Gold 65-128 (128), Low Diamond 33-64 (64), Gold Slots 33-64 (64) | LATE ADDS (2nd screenshot): Diamond Slots 9-16 (64) +3D/+3C; Laptophound 6L Power Play 17-32 (128) +3 PDD; Just Order Pizza D&G 17-32 (64) +1 PDD. Additional zeros: Late Silver 65-128 (128), Golden Heart 33-64 (64)"
+  },
+  {
+   "date": "2026-08-15",
+   "points": {
+    "Iron": 0,
+    "Bronze": 26,
+    "Silver": 1,
+    "Gold": 5,
+    "Diamond": 15,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 1,
+    "PD Daily": 0,
+    "PD Weekly": 1
+   },
+   "note": "LOW BRONZE WINNER (64) +25 BRONZE - first win of the period. Low Gold Retrospecticus 9-16 (64) +3G; Golden Heart 17-32 (64) +1G; Gold Slots 17-32 (64) +1G/+1C; Return of the Bronze 33-64 (128) +1B; TWIPT Saturday Showdown 65-128 (256) +1 PD WEEKLY (4th PDW pt). ZEROS: Bronze The Sequel 65-128 (128) | LATE ADDS: Saturday Diamond Variety 3rd/4th (128) +15 DIAMOND - Dia,TW tags, TW has no standing of its own so Diamond only; Late Silver 33-64 (128) +1S"
+  },
+  {
+   "date": "2026-08-16",
+   "points": {
+    "Iron": 0,
+    "Bronze": 1,
+    "Silver": 2,
+    "Gold": 0,
+    "Diamond": 0,
+    "Open": 3,
+    "Live": 0,
+    "Cap": 1,
+    "PD Daily": 26,
+    "PD Weekly": 4
+   },
+   "note": "OOTP AND CHILL WINNER (64) +25 PD DAILY - 2nd win of the period. BEST PD WEEKLY DAY: Sunday Up and Down the Ladder 17-32 (128) +3 PDW; Sunday PD Main Event 65-128 (256) +1 PDW. Sunday Open Main Event 33-64 (256) +3 OPEN (first Open pts since Aug 5). Laptophound 5L Deadball 33-64 (128) +1 PDD; Low Bronze 17-32 (64) +1B; Late Silver 33-64 (128) +1S; Silver & Friends Deadball Slots 17-32 (64) +1S/+1C. ZEROS: Golden Heart 33-64 (64), Just Order Pizza D&G 33-64 (64), Sunday Open Slots 65-128 (128), Low Gold Retrospecticus 33-64 (64), Sunday High Iron Floor and Gold Ceiling 65-128 (128), Bronze The Sequel 65-128 (128). END OF WEEK 2."
+  },
+  {
+   "date": "2026-08-17",
+   "points": {
+    "Iron": 0,
+    "Bronze": 19,
+    "Silver": 0,
+    "Gold": 0,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 1,
+    "PD Daily": 7,
+    "PD Weekly": 0
+   },
+   "note": "LOW BRONZE 2nd PLACE (64) +15 BRONZE. Return of the Bronze 17-32 (128) +3B; Bronze The Sequel 33-64 (128) +1B; Laptophound 5L Deadball 17-32 (128) +3 PDD; Struggling to Sleep DBL 9-16 (64) +3 PDD; OOTP and Chill 17-32 (64) +1 PDD; Diamond & Friends Slots 17-32 (64) +1D/+1C. ZEROS: Monday Gold Floor Cap 65-128 (128, Op+Cp), Monday Wonky Historical Slots 65-128 (128, Gld+Cp), Late Silver 65-128 (128), Just Order Pizza D&G 33-64 (64), Doc Rock Derby 33-64 (64), Trying to Look Busy D&G 33-64 (64), Early Gold 65-128 (128)"
+  },
+  {
+   "date": "2026-08-18",
+   "points": {
+    "Iron": 0,
+    "Bronze": 4,
+    "Silver": 15,
+    "Gold": 1,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 2,
+    "PD Daily": 28,
+    "PD Weekly": 0
+   },
+   "note": "THIS COULD VE BEEN AN EMAIL RCK WINNER (64) +25 PD DAILY - 3rd win of the period. Late Silver 3rd/4th (128) +15 SILVER - best Silver result of the period. Bronze The Sequel 17-32 (128) +3B; Nocturnal Mixed Bag 5-8 (32) +3 PDD; Low Bronze 17-32 (64) +1B; Diamond Slots 17-32 (64) +1D/+1C. ZEROS: Mixed Up My Lunch 17-32 (32 - pays 0 there), Just Order Pizza D&G 33-64 (64), Low Gold Retrospecticus 33-64 (64), Early Gold 65-128 (128), Laptophound 5L Deadball 65-128 (128), Bagels and Schmear 33-64 (64), Struggling to Sleep DBL 33-64 (64) | LATE ADD: Tuesday Sporer's Sandlot 33-64 (128, Gld+Cp+TW) +1G/+1C. (Nocturnal Mixed Bag re-appeared in a later screenshot - same event id 2550147, already counted, not double-logged.)"
+  },
+  {
+   "date": "2026-08-19",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 3,
+    "Gold": 0,
+    "Diamond": 0,
+    "Open": 1,
+    "Live": 0,
+    "Cap": 1,
+    "PD Daily": 1,
+    "PD Weekly": 0
+   },
+   "note": "QUIET DAY - 6 pts, mostly 33-64s. Late Silver 17-32 (128) +3S; Open Slots 17-32 (64) +1 OPEN/+1C; Laptophound 5L Deadball 33-64 (128) +1 PDD. ZEROS: Low Bronze 33-64 (64), Golden Heart 33-64 (64), Just Order Pizza D&G 33-64 (64), Pitchers First 33-64 (64), Early Gold 65-128 (128), Bronze The Sequel 65-128 (128). Wednesday Ice to See You (Dia,TW, 256) ELIMINATED - placement unknown, unscored"
+  },
+  {
+   "date": "2026-08-20",
+   "points": {
+    "Iron": 0,
+    "Bronze": 1,
+    "Silver": 1,
+    "Gold": 10,
+    "Diamond": 3,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 13,
+    "PD Daily": 0,
+    "PD Weekly": 0
+   },
+   "note": "CWHIT CAP CHALLENGE 4 QUARTERFINAL (128, Gld+Cp) +10 GOLD/+10 CAP - biggest Cap day since Aug 3. Diamond Slots 9-16 (64) +3D/+3C; Thursday Silver Spectacular 65-128 (256) +1S; Return of the Bronze 33-64 (128) +1B. ZEROS: Goldfather II 33-64 (64), Trying to Look Busy D&G 33-64 (64), Bronze The Sequel 65-128 (128). Thursday Overnight Under the Covers (PD Weekly, 256) ELIMINATED - 3rd time this period, unscored"
+  },
+  {
+   "date": "2026-08-21",
+   "points": {
+    "Iron": 0,
+    "Bronze": 45,
+    "Silver": 0,
+    "Gold": 4,
+    "Diamond": 0,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 3,
+    "PD Daily": 1,
+    "PD Weekly": 15
+   },
+   "note": "BRONZE DOUBLE: Bronze The Sequel WINNER (128) +30 BRONZE and Low Bronze 2nd (64) +15 BRONZE - biggest Bronze day of the period. Friday Draft About Nothing 5-8 (256) +15 PDW; Gold Slots 9-16 (64) +3G/+3C; Early Gold 33-64 (128) +1G; Laptophound 6L Power Play 33-64 (128) +1 PDD. ZEROS: Golden Heart 33-64 (64), Diamond Slots 33-64 (64), Low Diamond 33-64 (64), Late Silver 65-128 (128), Laptophound 5L Deadball 65-128 (128)."
+  },
+  {
+   "date": "2026-08-22",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 0,
+    "Gold": 4,
+    "Diamond": 0,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 3,
+    "PD Daily": 4,
+    "PD Weekly": 18
+   },
+   "note": "PD WEEKLY DAY: Saturday Can't Sleep Clown Will Eat Me 5-8 (256) +15 PDW, Saturday Shrinkage 33-64 (256) +3 PDW. Historical Primetime 9-16 (64) +3 PDD; Gold Slots 9-16 (64) +3G/+3C; Golden Heart 17-32 (64) +1G; Laptophound 6L Power Play 33-64 (128) +1 PDD. ZEROS: Diamonds are Forever 33-64 (64), Low Diamond 33-64 (64), Bronze 1910-59 33-64 (64), Just Order Pizza D&G 33-64 (64), Bagels and Schmear 33-64 (64), Late Silver 65-128 (128), Early Gold 65-128 (128)."
+  },
+  {
+   "date": "2026-08-23",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 1,
+    "Gold": 8,
+    "Diamond": 0,
+    "Open": 3,
+    "Live": 0,
+    "Cap": 7,
+    "PD Daily": 24,
+    "PD Weekly": 0
+   },
+   "note": "Gold Slots 5-8 (64) +6G/+6C; Trying to Look Busy D&G 3/4 (64) +10 PDD; Up Late with Rich LAD 3/4 (32) +6 PDD; Sunday High Iron Floor and Gold Ceiling 33-64 (128, Gld+Cp+TW) +1G/+1C; Early Gold 33-64 (128) +1G; Laptophound 5L Deadball 33-64 (128) +1 PDD. ZEROS: Low Diamond 33-64 (64). LATE ADDS (Aug 25 screenshot): 6L Power Play 9-16 (128) +6 PDD; OOTP and Chill 17-32 (64) +1 PDD; Late Silver 33-64 (128) +1S; Sunday Open Main Event 33-64 (256) +3 OPEN. Zeros: Bronze PTCS 3 Replay Slots, Golden Heart, Pizza D&G."
+  },
+  {
+   "date": "2026-08-24",
+   "points": {
+    "Iron": 0,
+    "Bronze": 1,
+    "Silver": 0,
+    "Gold": 4,
+    "Diamond": 10,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 4,
+    "PD Daily": 3,
+    "PD Weekly": 0
+   },
+   "note": "LOW DIAMOND 3rd/4th (64) +10 DIAMOND - Diamond crosses the 101-pt estimated target. Wonky Historical Slots 17-32 (128, Gld+Cp+TW) +3G/+3C; Just Order Pizza D&G 9-16 (64) +3 PDD; Gold Slots 17-32 (64) +1G/+1C; Up And At Them Bronze 65-128 (256) +1B. Monday Getting it Started (PD Weekly, 256) ELIMINATED - unscored. ZEROS: Tuck in Time + Snack Time 17-32 (32s pay 0), Silver Slots, Silver Heart, Hitters First, Open Slots 33-64 (64), Gold Floor Cap, 6L Power Play, Bronze OOTP Era, 5L Deadball 65-128 (128)."
+  },
+  {
+   "date": "2026-08-25",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 0,
+    "Gold": 0,
+    "Diamond": 6,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 3,
+    "PD Daily": 4,
+    "PD Weekly": 0
+   },
+   "note": "DIAMOND SLOTS 9-16 (64) +3D/+3C; Low Diamond 9-16 (64) +3D; PDD singles: 6L Power Play 33-64 (128), Just Order Pizza 17-32 (64), Trying to Look Busy 17-32 (64), 5L Deadball 33-64 (128). Tuesday Evening Adrenaline Rush (PD WEEKLY, 256) ELIMINATED - 0. ZEROS: Sporer's Sandlot + Up to 1969 65-128/33-64, Late Silver 65-128 (128), Early Gold 65-128 (128), Gold Slots 33-64 (64), This Could've Been an Email 33-64 (64)."
+  },
+  {
+   "date": "2026-08-26",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 1,
+    "Gold": 0,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 1,
+    "PD Daily": 12,
+    "PD Weekly": 0
+   },
+   "note": "5L DEADBALL 5th-8th (128) +10 PDD - best PD Daily finish of the period. PDD singles: 6L Power Play 33-64 (128), Good Orderly Evening 17-32 (64). Diamond & Friends Slots 17-32 (64) +1D/+1C; Late Silver 33-64 (128) +1S. Wednesday Ice to See You (256, Dia weekly) ELIMINATED. ZEROS: Bronze Only Cap, Bronze 1910-59, Gold Slots, Trying to Look Busy, Doc Rock Derby 33-64 (64s); Early Gold + Night of the Living Deadball 65-128 (128); Up Late with Rich 17-32 (32 pays 0). W-1950-to-Now excluded."
+  },
+  {
+   "date": "2026-08-27",
+   "points": {
+    "Iron": 0,
+    "Bronze": 1,
+    "Silver": 10,
+    "Gold": 1,
+    "Diamond": 0,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 11,
+    "PD Daily": 9,
+    "PD Weekly": 1
+   },
+   "note": "SILVER SLOTS 3rd/4th (64) +10 SILVER/+10 CAP - biggest Silver+Cap hit of the period. Just Order Pizza 5-8 (64) +6 PDD; CWhit Cap Challenge 4 33-64 (128) +1G/+1C; PDD singles: 6L Power Play (167), Pitchers First 17-32 (64), 5L Deadball (166); Bronze 1910-59 17-32 (64) +1B; Thursday Overnight Under the Covers 65-128 (256) +1 PDW - first PDW point since Aug 22. Weeklies ELIMINATED: Gold Rush, Silver Spectacular. ZEROS: Golden Childhood, Bronze Only Cap 167, Late Silver, Diamond Slots 167, Bronze OOTP Era, Could've Been an Email 166, Double Espresso."
+  },
+  {
+   "date": "2026-08-28",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 25,
+    "Gold": 25,
+    "Diamond": 6,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 15,
+    "PD Daily": 7,
+    "PD Weekly": 0
+   },
+   "note": "BEST DAY OF THE PERIOD (+78). GOLDEN HEART WINNER (64) +25 GOLD - first tournament WIN of PTCS 6. Silver Slots 2ND (64) +15 SILVER/+15 CAP; Silver Heart 3rd/4th (64) +10 SILVER; Diamond Heart 5-8 (64) +6 D; Doc Rock Derby 9-16 (64) +3 PDD; Snack Time 5-8 (32) +3 PDD; 5L Deadball 33-64 (128) +1 PDD. Draft About Nothing (PDW) eliminated. ZEROS: Open Slots, Early Gold, Gold Slots, 6L Power Play 168, Late Silver 168, Silver Slamboree. LATE ADDS from Aug 29 screenshot amended this day (+68 over the morning partial)."
+  },
+  {
+   "date": "2026-08-29",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 2,
+    "Gold": 15,
+    "Diamond": 0,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 1,
+    "PD Daily": 6,
+    "PD Weekly": 0
+   },
+   "note": "LOW GOLD RETROSPECTICUS 2ND (64) +15 GOLD - best Gold day since the Golden Heart win. PDD singles: Struggling to Sleep 9-16 (64) +3, Trying to Look Busy - D&G 17-32 (64) +1. Saturday Shrinkage (PD WEEKLY, 256) ELIMINATED - 0. ZEROS: Silver & Friends Deadball Slots 33-64 (64), Gold Slots 33-64 (64). LATE ADDS from the Aug 30 screenshot (+5): Silver Slots 17-32 (64) +1 S/+1 C; Silver Slamboree 33-64 (128) +1 S; Just Order Pizza 17-32 (64) +1 PDD; This Could've Been an Email 17-32 (64) +1 PDD. LATE ZEROS: Silver Heart 33-64 (64), 6L Power Play 65-128 (128), Saturday Diamond Variety 65-128 (128, Dia+TW), Late Silver 65-128 (128)."
+  },
+  {
+   "date": "2026-08-30",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 7,
+    "Gold": 6,
+    "Diamond": 0,
+    "Open": 1,
+    "Live": 0,
+    "Cap": 7,
+    "PD Daily": 5,
+    "PD Weekly": 0
+   },
+   "note": "Gold+Cap doubles: Sunday High Iron Floor and Gold Ceiling 17-32 (128, Gld+Cp+TW) +3 G/+3 C; Gold Slots 9-16 (64) +3 G/+3 C. PDD: Struggling to Sleep 9-16 (64) +3, 5L Deadball 33-64 (128) +1. ZEROS: Low Gold Retrospecticus 33-64 (64), Bagels and Schmear 33-64 (64). LATE ADDS from the Sep 1 full-list screenshots (+10): Silver Heart 5-8 (64) +6 S; Late Silver 33-64 (128) +1 S; Sunday Open Slots 33-64 (128, Op+Cp+TW) +1 O/+1 C; Rocking Chair Lunch 17-32 (64) +1 PDD. LATE ZEROS: Silver Slots 33-64 (64); 6L Power Play 65-128 (128); Bronze OOTP Era 65-128 (128); Sunday Up and Down the Ladder 65-128 (128, PD WEEKLY). Day now complete."
+  },
+  {
+   "date": "2026-08-31",
+   "points": {
+    "Iron": 0,
+    "Bronze": 4,
+    "Silver": 7,
+    "Gold": 3,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 5,
+    "PD Daily": 14,
+    "PD Weekly": 10
+   },
+   "note": "MONDAY NIGHT HISTORY LESSON 9-16 (256, PD WEEKLY) +10 PDW - third-best PD Weekly day of the period and the first PDW points since Aug 27. Just Order Pizza 5-8 (64) +6 PDD; Late Silver 9-16 (128) +6 S; Bronze 1910-59 9-16 (64) +3 B; Gold Slots 9-16 (64) +3 G/+3 C; Bagels and Schmear 9-16 (64) +3 PDD; 6L Power Play 17-32 (128) +3 PDD; Diamond & Friends Slots 17-32 (64) +1 D/+1 C; Silver & Friends Deadball Slots 17-32 (64) +1 S/+1 C; Bronze OOTP Era 33-64 (128) +1 B; 5L Deadball 33-64 (128) +1 PDD; Struggling to Sleep 17-32 (64) +1 PDD. ZEROS: Monday Gold Floor Cap 65-128 (128, Op+Cp+TW); Hitters First 33-64 (64); Monday Up And At Them Bronze (256, Brz+TW) ELIMINATED."
+  },
+  {
+   "date": "2026-09-01",
+   "points": {
+    "Iron": 0,
+    "Bronze": 10,
+    "Silver": 1,
+    "Gold": 3,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 12,
+    "PD Daily": 13,
+    "PD Weekly": 0
+   },
+   "note": "BRONZE PTCS 3 REPLAY SLOTS 3rd/4th (64) +10 B/+10 CAP - biggest Bronze hit of the period and the swing that puts Bronze within 4 of target. 6L Power Play 5-8 (128) +10 PDD - best PD Daily result since the Aug 26 Deadball 5-8. Perfecto Primetime 9-16 (64) +3 PDD; Early Gold 17-32 (128) +3 G; Silver Slots 17-32 (64) +1 S/+1 C; Diamond & Friends Slots 17-32 (64) +1 D/+1 C. ZEROS: Perfectly Silver 33-64 (64); All-Gold 33-64 (64); All-Silver 33-64 (64); Bronze OOTP Era 65-128 (128); 5L Deadball 65-128 (128); Tuesday Up to 1969 65-128 (128, Op+TW)."
+  },
+  {
+   "date": "2026-09-02",
+   "points": {
+    "Iron": 0,
+    "Bronze": 1,
+    "Silver": 0,
+    "Gold": 0,
+    "Diamond": 1,
+    "Open": 3,
+    "Live": 0,
+    "Cap": 1,
+    "PD Daily": 4,
+    "PD Weekly": 0
+   },
+   "note": "Wednesday 1950 to Now 17-32 (128, Op+TW) +3 OPEN - counted per the game's own Op tag; note the dump model currently EXCLUDES this event, so it may not show up in the community Open standings. ZEROS: Open Slots 33-64 (64, Op+Cp); Early Gold 65-128 (128). LATE ADDS from the Sep 4 screenshot (+6): Bronze PTCS 3 Replay Slots 1890099 17-32 (64) +1 B/+1 C; All-Diamond 2200173 9-16 (64) +3 PDD; 6L Power Play 2180173 33-64 (128) +1 PDD. LATE ZERO: Wednesday Night of the Living Deadball 1500024 65-128 (128, Op+TW). AMENDED from the Sep 4 results screen (+1): Wednesday Ice to See You 1490024 65-128 (256, Dia+TW) +1 D. ADDITIONAL ZEROS: Late Silver 1240173 65-128 (128); Silver & Friends Slots 1900099 33-64 (64). Day complete."
+  },
+  {
+   "date": "2026-09-03",
+   "points": {
+    "Iron": 0,
+    "Bronze": 0,
+    "Silver": 15,
+    "Gold": 15,
+    "Diamond": 0,
+    "Open": 0,
+    "Live": 0,
+    "Cap": 20,
+    "PD Daily": 11,
+    "PD Weekly": 0
+   },
+   "note": "CWHIT'S CAP CHALLENGE 4 3rd/4th (128, Gld+Cp+TW) +15 GOLD/+15 CAP - best Cap result of the period and the biggest Gold hit since the Aug 28 Golden Heart win. Thursday Silver Spectacular 9-16 (256, Slv+TW) +10 SILVER - TW carries no standing, Silver only. Silver & Friends Slots 9-16 (64) +3 S/+3 C; Silver Only Cap 17-32 (64) +1 S/+1 C; Silver Slots 17-32 (64) +1 S/+1 C. PDD: Perfecto Primetime 9-16 (64) +3, All-Gold 9-16 (64) +3, Perfecto Morning 9-16 (64) +3, High Heat in the Morning 17-32 (64) +1, Struggling to Sleep - DBL 17-32 (64) +1. ZEROS: Bronze PTCS 3 Replay Slots 33-64 (64); Low Silver Only 33-64 (64); Low Diamond 33-64 (64); Bronze 1910-59 33-64 (64); 6L Power Play 65-128 (128); 5L Deadball 65-128 (128). ELIMINATED/unscored: Thursday Night Gold Rush (256, Gld+TW); Thursday Overnight Under the Covers (256, PD WEEKLY). Screenshot showed no Sep 4 group, so Sep 3 may still take late adds."
+  },
+  {
+   "date": "2026-09-04",
+   "points": {
+    "Iron": 0,
+    "Bronze": 25,
+    "Silver": 12,
+    "Gold": 3,
+    "Diamond": 6,
+    "Open": 1,
+    "Live": 0,
+    "Cap": 18,
+    "PD Daily": 13,
+    "PD Weekly": 0
+   },
+   "note": "AMENDED 9/5 from the full Your Tournaments screen — the original +59 was read before the late results landed and with Perfect Drafts filtered out of the view. Confirmed already-counted: Bronze 1910-59 WINNER 1640170 +25 B; Silver Only Cap 1250174 3rd/4th +10 S/+10 C; Gold Slots 9-16 +3 G/+3 C; Low Diamond 1340174 9-16 +3 D; Open Slots 1410174 17-32 +1 O/+1 C; All-Silver 2110174 9-16 +3 PDD; zeros 5L Deadball 2070174 and Low Silver Only 1970003. NEW this pass (+19): Silver Slots 1270175 17-32 (64) +1 S/+1 C; Late Silver 1240175 33-64 (128) +1 S; Diamond & Friends 1920101 9-16 (64) +3 D/+3 C; Perfectly Gold 2220175 9-16 (64) +3 PDD; All-Gold 2120174 9-16 (64) +3 PDD; Midday Perfecto 2530164 9-16 (64) +3 PDD; 6L Power Play 2180175 33-64 (128) +1 PDD. ZEROS: Perfectly Silver 2550164, All-Diamond 2200175, Silver & Friends 1900101, Bronze OOTP Era 1820158 (65-128 of 128); Friday Draft About Nothing 2390024 eliminated. Day total 59 -> 78, the best day of the period."
+  },
+  {
+   "date": "2026-09-05",
+   "points": {
+    "Iron": 0,
+    "Bronze": 1,
+    "Silver": 1,
+    "Gold": 0,
+    "Diamond": 1,
+    "Open": 0,
+    "Live": 1,
+    "Cap": 0,
+    "PD Daily": 10,
+    "PD Weekly": 0
+   },
+   "note": "Day 34 of 35, read straight off the Your Tournaments screen with Show: All Tournaments and Drafts. Around the Breakfast Table 2560101 5-8 (64) +6 PDD; Struggling to Sleep - DBL 2240175 9-16 (64) +3 PDD; Don't Forget to Pick up the Kids - Live 2130175 17-32 (64, PD Daily+Live) +1 PDD/+1 LIVE; Bronze 1910-59 1640171 17-32 (64) +1 B; Low Silver Only 1970004 17-32 (64) +1 S; Diamond Heart 1850158 17-32 (64) +1 D. ZEROS: Silver Only Cap 1250175 and Open Slots 1410175 33-64 (64); Midday Perfecto 2530165 33-64 (64); Negro Leagues Slots 1950014 65-128 (128, Op+Cp+TW). UNSCORED: Saturday Shrinkage 2430025 (256, PD WEEKLY) eliminated with no placement. STILL IN FLIGHT and able to add to this day: All-Gold 2120175, Perfectly Bronze 2140175, Just Order Pizza 2170176, Bronze PTCS 3 1890102, Bronze OOTP Era 1820159 (all eliminated, awaiting placement) and All-Diamond 2200176, 6L Power Play 2180176, Late Silver 1240176, Saturday Diamond Variety 1590025, Perfectly Silver 2550165 (still playing)."
+  }
+ ]
 }
