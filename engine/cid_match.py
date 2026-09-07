@@ -25,7 +25,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from ootp_export import load_collection, load_league_season, load_tourneys
+from ootp_export import current_league_season, load_collection, load_tourneys
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -121,7 +121,7 @@ def build_reference_pools() -> tuple[pd.DataFrame, pd.DataFrame]:
     old["_b"], old["_t"] = _norm_hand(old["B"]), _norm_hand(old["T"])
 
     frames = []
-    ls = load_league_season(ROOT / "Most recent League Season")
+    ls = current_league_season()
     frames.append(ls[ls["split"] == "all"])
     tv = load_tourneys(ROOT / "Tourney Stats examples")
     if (ROOT / "Tourney Stats").exists():

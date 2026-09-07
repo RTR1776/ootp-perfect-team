@@ -18,7 +18,8 @@
 
 import { desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
-import { cards, cardSnapshots, leagueSnapshots, leagueStints, uploads } from "@/db/schema";
+import { cards, cardSnapshots, leagueStints, uploads } from "@/db/schema";
+import { latestCompleteSnapshots } from "@/lib/league-snapshots";
 import { auditCard, positionPercentiles, type StintLike } from "@/lib/analytics/league";
 import { Card, CardContent } from "@/components/ui/card";
 import { Placeholder } from "@/components/placeholder";
@@ -93,15 +94,13 @@ async function loadMarket(): Promise<{
   const universe = await db.select().from(cards);
   const byId = new Map(universe.map((u) => [u.cardId, u]));
 
-  // Quality machinery from the latest HD league snapshots, when present.
-  const leagueSnapRows = await db
-    .select()
-    .from(leagueSnapshots)
-    .where(eq(leagueSnapshots.split, "all"))
-    .orderBy(desc(leagueSnapshots.capturedOn), desc(leagueSnapshots.id));
+  // Quality machinery from the latest non-PEL league snapshots, when present.
+  // Truncated exports are skipped by latestCompleteSnapshots (see that module),
+  // so a pitching-less export cannot hollow out the percentile pool here.
+  const { picks } = await latestCompleteSnapshots();
   const latestByLeague = new Map<string, number>();
-  for (const s of leagueSnapRows) {
-    if (s.league !== "PEL" && !latestByLeague.has(s.league)) latestByLeague.set(s.league, s.id);
+  for (const [league, snap] of picks) {
+    if (league !== "PEL") latestByLeague.set(league, snap.id);
   }
   let pcts: ReturnType<typeof positionPercentiles> | null = null;
   if (latestByLeague.size > 0) {

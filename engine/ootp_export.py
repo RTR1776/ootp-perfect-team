@@ -24,6 +24,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from league_files import (latest_league_files, league_file_candidates,
+                          league_of, split_of)
+
+ROOT = Path(__file__).resolve().parent.parent
+
 # ---------------------------------------------------------------------------
 # 184-column stats export
 # ---------------------------------------------------------------------------
@@ -87,25 +92,85 @@ def load_stats_export(path: str | Path) -> pd.DataFrame:
     return df.copy()  # defragment after many column ops
 
 
-_SPLIT_RE = re.compile(r"(vl|vr)(?=\.csv$|_|$)", re.IGNORECASE)
+def load_league_files(paths) -> pd.DataFrame:
+    """Given league export paths -> one long DataFrame with league + split.
 
-
-def split_of(path: Path) -> str:
-    m = _SPLIT_RE.search(path.stem.lower())
-    return {"vl": "vL", "vr": "vR"}.get(m.group(1).lower(), "all") if m else "all"
-
-
-def load_league_season(dir_path: str | Path) -> pd.DataFrame:
-    """All 15 league files -> one long DataFrame with league + split columns."""
-    dir_path = Path(dir_path)
+    Files whose name carries no league are skipped rather than crashing: the
+    old inline regex assumed `pel*` or `hd###` at the start of the stem and
+    raised AttributeError on both `2049_PeL_all.csv` and every `ld404*` file.
+    """
     frames = []
-    for f in sorted(dir_path.glob("*.csv")):
+    skipped = []
+    for f in paths:
+        f = Path(f)
+        league = league_of(f)
+        if league is None:
+            skipped.append(f.name)
+            continue
         df = load_stats_export(f)
-        stem = f.stem.lower()
-        league = "pel" if stem.startswith("pel") else re.match(r"(hd\d+)", stem).group(1)
         df["league"] = league
         df["split"] = split_of(f)
         frames.append(df)
+    if not frames:
+        raise ValueError(f"No league exports among {len(list(paths))} path(s)")
+    if skipped:
+        print(f"  (skipped {len(skipped)} file(s) with no league in the name: "
+              f"{', '.join(skipped[:4])}{'…' if len(skipped) > 4 else ''})")
+    return pd.concat(frames, ignore_index=True)
+
+
+def load_league_season(dir_path: str | Path) -> pd.DataFrame:
+    """Every league file in one folder -> long DataFrame."""
+    return load_league_files(sorted(Path(dir_path).glob("*.csv")))
+
+
+# A complete export is roughly half pitchers. OOTP can write the stats view
+# with the pitching block missing entirely (2026-08-30 HD451: 4 pitcher rows in
+# 473), and calibrating on that silently poisons the curves — so anything under
+# this share is treated as truncated and the previous week is used instead.
+MIN_PITCHER_SHARE = 0.15
+PITCHER_POS = ("SP", "RP", "CL")
+
+
+def _is_complete(df: pd.DataFrame) -> bool:
+    if df.empty:
+        return False
+    share = df["POS"].isin(PITCHER_POS).mean()
+    return bool(share >= MIN_PITCHER_SHARE)
+
+
+def current_league_season() -> pd.DataFrame:
+    """The newest COMPLETE export per (league, split), wherever it was filed.
+
+    Falls back a week at a time when an export is truncated, so one bad export
+    costs that league a week of freshness instead of its pitching.
+    """
+    chosen, notes = [], []
+    for key, candidates in sorted(league_file_candidates(ROOT).items()):
+        for i, f in enumerate(candidates):
+            df = load_stats_export(f)
+            if _is_complete(df):
+                if i:
+                    notes.append(f"{key[0]} {key[1]}: fell back to {f.parent.name} "
+                                 f"({i} newer export(s) truncated)")
+                chosen.append((key[0], key[1], df))
+                break
+        else:
+            notes.append(f"{key[0]} {key[1]}: NO complete export — league dropped")
+
+    if not chosen:
+        raise ValueError("No complete league exports found")
+
+    frames = []
+    for league, split, df in chosen:
+        df = df.copy()
+        df["league"] = league
+        df["split"] = split
+        frames.append(df)
+    print(f"league season: {len(frames)} files, "
+          f"{len({c[0] for c in chosen})} leagues")
+    for n in notes:
+        print(f"  ! {n}")
     return pd.concat(frames, ignore_index=True)
 
 

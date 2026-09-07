@@ -23,7 +23,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from ootp_export import (load_league_season, load_tourneys,
+from ootp_export import (current_league_season, load_tourneys,
                          observed_woba, observed_fip)
 
 HERE = Path(__file__).resolve().parent
@@ -62,7 +62,7 @@ def build_observed() -> pd.DataFrame:
     """Long frame: one row per (CID, split, source) with env-relative metrics."""
     out_rows = []
 
-    ls = load_league_season(ROOT / "Most recent League Season")
+    ls = current_league_season()
     for (league, split), grp in ls.groupby(["league", "split"]):
         env_woba, env_fip = _league_env(grp)
         cards = _agg_by_cid(grp)

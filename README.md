@@ -23,8 +23,18 @@ cd web && pnpm dev        # -> http://localhost:3000
    your collection view (ideally with `CID` and `Tier` columns visible) and
    replace `Roster Templates/KC Torrent Current Cards.csv`.
 2. **League season ended**: export each league's stats (all/vL/vR) into
-   `Most recent League Season/` using the existing file names
-   (`pel_*.csv`, `hd45x*.csv`).
+   `League Data/<YYYY-MM-DD>/` — one folder per week, named for the week the
+   season covers — then load them:
+
+   ```bash
+   cd web && pnpm import:league "../League Data/2026-09-06"   # --dry first to eyeball
+   ```
+
+   League and split are read from the filename (`ld404_vL.csv` → LD404 / vL;
+   OOTP's own `ld404vR_statistics_….csv` works too), and the date comes from
+   the folder name. Re-running replaces that week's snapshot rather than
+   stacking a duplicate. The `.venv` engine reads the same folders and applies
+   the same newest-complete-per-league rule, so both stay in step.
 3. **After every tourney**: either run the watcher while OOTP is open —
 
    ```bash
@@ -74,7 +84,7 @@ calibrates on vL/vR splits; overall lines are constructed 28/72 (hitters) and
 | `web/` | Next.js app (Explorer / Roster / Lineup / Draft / Tournaments / Card Lab) |
 | `web/public/data/` | generated JSON artifacts the app reads |
 | `data-src/` | source-of-truth inputs (tourney/draft rules xlsx) |
-| `Most recent League Season/` | league stats exports (calibration backbone) |
+| `League Data/<YYYY-MM-DD>/` | league stats exports, one folder per week (calibration backbone). Readers resolve the newest COMPLETE export per league+split across weeks, so a league not exported this week keeps its last good one and a truncated export is skipped. `Most recent League Season/` still overrides it if you recreate that folder. |
 | `Tourney Stats/`, `Tourney Stats examples/` | per-tourney exports archive |
 | `Roster Templates/` | collection export + binary `.tr` templates (never parsed) |
 | `data-store/` | generated intermediates (git-ignored) |

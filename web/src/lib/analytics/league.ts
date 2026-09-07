@@ -245,6 +245,32 @@ export function usagePercentile(
   };
 }
 
+/**
+ * The ladder a league sits on. PT's leagues are tiered — Perfect (PEL) over
+ * High Diamond (HD45x) over Low Diamond (LD40x) — and a percentile bar built
+ * across tiers measures nothing: the same card is a star one rung down and a
+ * bench piece one rung up. Anything that scores a roster has to say which rung
+ * it is scoring against.
+ */
+export type LeagueTier = "PEL" | "HD" | "LD" | "other";
+
+export function leagueTier(league: string): LeagueTier {
+  if (/^PEL$/i.test(league)) return "PEL";
+  if (/^HD\d+$/i.test(league)) return "HD";
+  if (/^LD\d+$/i.test(league)) return "LD";
+  return "other";
+}
+
+/** Hardest first. */
+export const TIER_ORDER: readonly LeagueTier[] = ["PEL", "HD", "LD", "other"] as const;
+
+export const TIER_LABEL: Record<LeagueTier, string> = {
+  PEL: "Perfect",
+  HD: "High Diamond",
+  LD: "Low Diamond",
+  other: "Other",
+};
+
 export interface PositionPercentiles {
   pos: string;
   metric: (name: string) => (v: number) => number;

@@ -10,19 +10,42 @@
  *
  * Coefficients land in src/lib/analytics/projection-coeffs.json, which the
  * app applies per card (overall and vL/vR by swapping in split ratings).
- * This is deliberately global — no park/era terms yet. It gets replaced by
- * the raw-regime calibrated model when the modeling phase starts; until
- * then it turns ratings into stat-scale numbers so unobserved cards are
- * comparable to observed ones.
+ * The model carries no park/era terms, so the SAMPLE has to supply the
+ * single run environment instead: only series at PT's default env year
+ * (2010) train it. Everything else still shows as observed columns across
+ * the app — it just stops teaching the regression.
+ *
+ * Why that filter earns its keep (measured 2026-09-06, same code both ways):
+ *
+ *              all non-draft series        2010-env series only
+ *   hitters    n=1472  r² .358            n=1013  r² .301
+ *              Contact -0.000087 (!)      Contact +0.000250
+ *              BABIP   +0.000370          BABIP   +0.000077
+ *   pitchers   n=1173  r² .319            n=847   r² .375
+ *              Stuff   -0.005546          Stuff   -0.006716
+ *              pHR     -0.006277          pHR     -0.009387
+ *
+ * Mixed-RE Contact comes out NEGATIVE — more contact, less wOBA — because
+ * high-BABIP eras load onto the BABIP rating and strip Contact's signal.
+ * One environment restores the sign. Pitchers gain r² outright on a third
+ * fewer rows. The hitter r² drop is the point, not a cost: the variance
+ * that goes away is era, not card. Same reasoning already excludes draft
+ * series below.
+ *
+ * NOT fixable with league data. League is one RE and league stats are
+ * normalised somewhat; tourneys vary in RE and are not normalised, so a
+ * league-fitted model would be trained in a regime it never predicts.
+ * League exports answer league questions (see /meta) — never this one.
  *
  * Run: pnpm fit:projection   (needs DATABASE_URL; rerun after import:observed)
  */
 
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { eq, inArray, notInArray, sql } from "drizzle-orm";
+import { inArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { cards, observedCardStats, tournaments } from "../src/db/schema";
+import { PT_DEFAULT_ENV_YEAR } from "../src/lib/analytics/tournament-env";
 
 const HIT_FEATURES = ["Contact", "Gap", "Power", "Eye", "Avoid Ks", "BABIP", "Speed"];
 // Only the three FIP components: Stuff→K, Control→BB, pHR→HR. Movement and
@@ -79,18 +102,33 @@ function weightedR2(rows: number[][], y: number[], w: number[], beta: number[]):
 }
 
 async function main() {
-  // Draft (PD) series stay OUT of the fit: draft pools mix run environments
-  // so widely that including them dilutes the ratings signal (r² .42 → .31
-  // the day the first two PD series landed). They still show as observed
-  // columns everywhere — this only affects the regression sample.
-  const draftSeries = (
-    await db
-      .select({ series: tournaments.series })
-      .from(tournaments)
-      .where(eq(tournaments.isDraft, true))
-  )
-    .map((r) => r.series)
-    .filter((s): s is string => s != null);
+  /**
+   * The fit sample is exactly the series that run at PT's default env year,
+   * drafts excluded. Drafts were already out — their pools mix environments
+   * so widely that including them cut r² .42 → .31 — and the same argument
+   * retires every other non-default era from the regression.
+   *
+   * A series with no catalog row is dropped too: unknown env year is not the
+   * same as default, and guessing is how a 1907 event ends up teaching the
+   * model what Contact is worth. The count is reported below, because that
+   * is sample lost to a stale catalog, recoverable with pnpm import:refresh.
+   */
+  const catalog = await db
+    .select({ series: tournaments.series, envYear: tournaments.envYear, isDraft: tournaments.isDraft })
+    .from(tournaments)
+    .where(sql`${tournaments.series} is not null`);
+  const defaultEnvSeries = [
+    ...new Set(
+      catalog
+        .filter((t) => !t.isDraft && t.envYear === PT_DEFAULT_ENV_YEAR)
+        .map((t) => t.series!),
+    ),
+  ];
+  const knownSeries = new Set(catalog.map((t) => t.series!));
+  if (defaultEnvSeries.length === 0) {
+    console.error(`No series at env year ${PT_DEFAULT_ENV_YEAR} — run pnpm import:tournaments first.`);
+    process.exit(1);
+  }
 
   const careers = await db
     .select({
@@ -101,8 +139,26 @@ async function main() {
       fip: sql<number | null>`sum(${observedCardStats.fip} * ${observedCardStats.ip}) / nullif(sum(case when ${observedCardStats.fip} is not null then ${observedCardStats.ip} end), 0)`,
     })
     .from(observedCardStats)
-    .where(draftSeries.length ? notInArray(observedCardStats.series, draftSeries) : sql`true`)
+    .where(inArray(observedCardStats.series, defaultEnvSeries))
     .groupBy(observedCardStats.cardId);
+
+  /* Say out loud what the filter cost, so a shrinking sample is visible
+     rather than silent. */
+  const observedSeries = (
+    await db.selectDistinct({ series: observedCardStats.series }).from(observedCardStats)
+  ).map((r) => r.series);
+  const inFit = new Set(defaultEnvSeries);
+  const unmapped = observedSeries.filter((x) => !knownSeries.has(x));
+  const nonDefault = observedSeries.filter((x) => knownSeries.has(x) && !inFit.has(x));
+  console.log(
+    `fit sample: ${observedSeries.filter((x) => inFit.has(x)).length} series at env ` +
+      `${PT_DEFAULT_ENV_YEAR} · excluded ${nonDefault.length} non-default/draft` +
+      (unmapped.length
+        ? `, ${unmapped.length} unmapped (${unmapped.slice(0, 4).join(", ")}${
+            unmapped.length > 4 ? "…" : ""
+          }) — seed them with pnpm import:refresh to win the sample back`
+        : ""),
+  );
 
   const ids = careers.map((c) => c.cardId);
   const ratingRows = await db

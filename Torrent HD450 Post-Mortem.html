@@ -1,0 +1,339 @@
+<title>Torrent HD450 Post-Mortem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root{
+    --ground:#F5F8F8; --surface:#FFFFFF; --sunk:#EDF2F2;
+    --ink:#111E1F; --ink-2:#3A4C4E; --muted:#63767A; --line:#D9E2E3; --line-soft:#E8EEEF;
+    --mark:#0787A8; --problem:#C0452A; --watch:#A98A1F;
+    --mark-wash:#0787A814; --problem-wash:#C0452A14;
+    --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --col:72ch;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ground:#0E1516; --surface:#151E20; --sunk:#101819;
+      --ink:#E8EFEE; --ink-2:#BDCBCB; --muted:#8DA0A2; --line:#28383A; --line-soft:#1E2C2E;
+      --mark:#2BA8CB; --problem:#DC6A4E; --watch:#C9A63C;
+      --mark-wash:#2BA8CB1F; --problem-wash:#DC6A4E1F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0E1516; --surface:#151E20; --sunk:#101819;
+    --ink:#E8EFEE; --ink-2:#BDCBCB; --muted:#8DA0A2; --line:#28383A; --line-soft:#1E2C2E;
+    --mark:#2BA8CB; --problem:#DC6A4E; --watch:#C9A63C;
+    --mark-wash:#2BA8CB1F; --problem-wash:#DC6A4E1F;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.62;
+       -webkit-font-smoothing:antialiased;margin:0;padding:0 20px 96px}
+  .wrap{max-width:960px;margin:0 auto}
+  .col{max-width:var(--col)}
+  p{margin:0 0 1.05em}
+  strong{font-weight:600;color:var(--ink)}
+  em{font-style:italic}
+  a{color:var(--mark)}
+  :focus-visible{outline:2px solid var(--mark);outline-offset:3px;border-radius:3px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* masthead */
+  header.mast{padding:64px 0 30px;border-bottom:2px solid var(--ink)}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mark);margin:0 0 14px}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(34px,5.4vw,50px);line-height:1.02;letter-spacing:-.022em;
+     margin:0 0 16px;text-wrap:balance}
+  .standfirst{font-size:20px;line-height:1.5;color:var(--ink-2);max-width:60ch;margin:0}
+  .byline{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.04em;margin:22px 0 0}
+
+  /* sections */
+  section{padding-top:52px}
+  h2{font-family:var(--sans);font-weight:600;font-size:26px;letter-spacing:-.014em;margin:0 0 6px;text-wrap:balance}
+  h3{font-family:var(--sans);font-weight:600;font-size:17.5px;letter-spacing:-.006em;margin:30px 0 8px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+           margin:0 0 10px;display:flex;align-items:center;gap:12px}
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+  .lede{font-size:18.5px;color:var(--ink-2)}
+
+  /* rank rail — 31 ticks, one league */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:1px;background:var(--line-soft);
+         border:1px solid var(--line);margin:26px 0 10px}
+  .tile{background:var(--surface);padding:16px 18px 15px}
+  .tile .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .tile .val{font-family:var(--sans);font-weight:700;font-size:29px;letter-spacing:-.02em;line-height:1.15;margin:6px 0 2px;
+             font-variant-numeric:tabular-nums}
+  .tile .sub{font-family:var(--mono);font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .rail{display:flex;gap:2px;align-items:flex-end;height:15px;margin:11px 0 8px}
+  .rail i{flex:1;height:5px;background:var(--line);border-radius:1px}
+  .rail i.on{height:15px;border-radius:1.5px}
+  .is-bad .rail i.on{background:var(--problem)} .is-bad .val{color:var(--problem)}
+  .is-mid .rail i.on{background:var(--watch)}   .is-mid .val{color:var(--ink)}
+  .is-good .rail i.on{background:var(--mark)}   .is-good .val{color:var(--mark)}
+  .rankword{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.02em}
+  .is-bad .rankword{color:var(--problem)} .is-mid .rankword{color:var(--watch)} .is-good .rankword{color:var(--mark)}
+
+  /* tables */
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface);margin:22px 0 8px}
+  table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+  caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.13em;
+          text-transform:uppercase;color:var(--muted);padding:14px 16px 10px}
+  th{font-weight:600;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+     text-align:right;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;background:var(--surface)}
+  th:first-child,td:first-child{text-align:left}
+  td{padding:8px 12px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:0}
+  td.name{font-family:var(--sans);font-weight:500;font-size:13.5px;letter-spacing:-.004em}
+  tr.flag{background:var(--problem-wash)}
+  tr.star{background:var(--mark-wash)}
+  .bad{color:var(--problem);font-weight:600}
+  .good{color:var(--mark);font-weight:600}
+  .note{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 26px;line-height:1.55}
+
+  /* actions — a real sequence */
+  ol.actions{list-style:none;counter-reset:a;padding:0;margin:24px 0 0}
+  ol.actions>li{counter-increment:a;position:relative;padding:0 0 22px 54px;border-left:1px solid var(--line);margin-left:14px}
+  ol.actions>li:last-child{border-left-color:transparent;padding-bottom:0}
+  ol.actions>li::before{content:counter(a,decimal-leading-zero);position:absolute;left:-15px;top:-2px;width:30px;height:30px;
+    display:grid;place-items:center;background:var(--mark);color:#fff;border-radius:50%;
+    font-family:var(--mono);font-size:11.5px;font-weight:600}
+  ol.actions h3{margin:2px 0 6px}
+  ol.actions p{margin:0 0 .5em;color:var(--ink-2);font-size:16px}
+
+  .callout{border-left:3px solid var(--mark);background:var(--sunk);padding:16px 20px;margin:26px 0}
+  .callout p:last-child{margin-bottom:0}
+  .callout.warn{border-left-color:var(--watch)}
+
+  footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);font-family:var(--mono);
+         font-size:11.5px;color:var(--muted);line-height:1.7}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">Kansas City Torrent · HD450 · season complete</p>
+  <h1>You didn&rsquo;t get out-pitched. You got out-slugged.</h1>
+  <p class="standfirst">Defense is fixed. The staff is roughly league-average. The relegation came from an offense that finished 29th in runs and 30th in home runs — and 30th of 31 in OPS against right-handed pitching, which is three-quarters of the season.</p>
+  <p class="byline">848 player-seasons across 31 orgs · roster of 34 · collection cross-checked league-wide</p>
+</header>
+
+<section>
+  <p class="eyebrow">The verdict</p>
+  <h2>Where the season actually went</h2>
+  <div class="tiles">
+    <div class="tile is-bad"><div class="lbl">Runs scored</div><div class="val">661</div>
+      <div class="rail" aria-hidden="true"></div><div class="sub"><span class="rankword">29th of 31</span> · league 718</div></div>
+    <div class="tile is-bad"><div class="lbl">Home runs</div><div class="val">98</div>
+      <div class="rail" aria-hidden="true"></div><div class="sub"><span class="rankword">30th of 31</span> · league 154</div></div>
+    <div class="tile is-bad"><div class="lbl">OPS vs RHP</div><div class="val">.674</div>
+      <div class="rail" aria-hidden="true"></div><div class="sub"><span class="rankword">30th of 31</span> · league .730</div></div>
+    <div class="tile is-mid"><div class="lbl">Team ERA</div><div class="val">4.34</div>
+      <div class="rail" aria-hidden="true"></div><div class="sub"><span class="rankword">16th of 31</span> · league 4.28</div></div>
+    <div class="tile is-good"><div class="lbl">Fielding pct</div><div class="val">.986</div>
+      <div class="rail" aria-hidden="true"></div><div class="sub"><span class="rankword">8th of 31</span> · league .985</div></div>
+    <div class="tile is-bad"><div class="lbl">Pitching WAR</div><div class="val">8.5</div>
+      <div class="rail" aria-hidden="true"></div><div class="sub"><span class="rankword">30th of 31</span> · league 13.5</div></div>
+  </div>
+  <p class="note">Rail shows Torrent&rsquo;s position among the 31 orgs, best on the left.</p>
+
+  <div class="col">
+    <p><strong>The July diagnosis is closed.</strong> In HD451 your defense was dead last of 30 in errors, fielding percentage, range and zone rating, and it was inflating everyone&rsquo;s ERA. This season you finished 8th in fielding percentage, 10th in errors, 10th in zone rating and 8th in double plays. That problem is solved — don&rsquo;t spend anything else on it.</p>
+    <p>What replaced it is a scoring problem, and it is not subtle. You hit <strong>98 home runs against a league average of 154</strong>. Only one org hit fewer. Meanwhile you allowed 154 — exactly average — so whatever park you&rsquo;re in is not the explanation; it would have suppressed both.</p>
+  </div>
+
+  <div class="callout">
+    <p><strong>The identity didn&rsquo;t land.</strong> The build is extreme K-avoidance, but the team struck out in 19.1% of plate appearances against a league average of 19.2% — dead average. You got the walks (8.9%, 4th) and none of the contact benefit, because half the lineup isn&rsquo;t actually low-strikeout: Gibson 25.1%, Springer 26.4%, Wood 25.4%, McGraw 25.5%, Hornsby 24.3%. You paid the power price of the K-avoid archetype without collecting the contact.</p>
+  </div>
+
+  <h3>The split that decided it</h3>
+  <div class="col">
+    <p>Against left-handers you were 24th with a .710 OPS — mediocre. Against right-handers, who throw most of the innings, you were <strong>30th of 31 at .674</strong>, with the 30th-ranked home-run rate <em>and</em> a below-average strikeout rate. There is no version of the K-avoid identity that survives being worse than average at both jobs on the side of the platoon that matters most.</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">Lineup</p>
+  <h2>Your two best bats played a third of the season</h2>
+  <div class="col">
+    <p>This is the single most correctable thing in the report. Pooling every org in HD450 that used each card — thousands of plate appearances, not your sample — gives an honest read on what each card is worth. Your best two got the fewest chances.</p>
+  </div>
+
+  <div class="tblwrap">
+    <table>
+      <caption>Torrent hitters, this season</caption>
+      <thead><tr><th>Player</th><th>Pos</th><th>PA</th><th>OPS</th><th>HR%</th><th>K%</th><th>wRAA</th><th>WAR</th><th>WAR/650</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Roch Cholowsky</td><td>SS</td><td>583</td><td>.761</td><td>2.6%</td><td>21.1%</td><td>+4.7</td><td>3.2</td><td class="good">3.57</td></tr>
+        <tr><td class="name">Mel Ott</td><td>RF</td><td>566</td><td>.798</td><td>2.3%</td><td>18.6%</td><td>+15.7</td><td>3.1</td><td class="good">3.56</td></tr>
+        <tr class="flag"><td class="name">Frank Robinson</td><td>RF</td><td>537</td><td>.646</td><td>1.9%</td><td>19.4%</td><td class="bad">&minus;16.2</td><td>0.3</td><td class="bad">0.36</td></tr>
+        <tr><td class="name">Arky Vaughan</td><td>SS</td><td>527</td><td>.728</td><td>0.9%</td><td>16.5%</td><td>+1.5</td><td>1.7</td><td>2.10</td></tr>
+        <tr><td class="name">Scott Rolen</td><td>3B</td><td>467</td><td>.697</td><td>1.1%</td><td>19.3%</td><td>&minus;5.4</td><td>1.8</td><td>2.51</td></tr>
+        <tr class="flag"><td class="name">Cody Bellinger</td><td>LF</td><td>442</td><td>.637</td><td>1.4%</td><td>17.4%</td><td class="bad">&minus;13.1</td><td>0.4</td><td class="bad">0.59</td></tr>
+        <tr><td class="name">Josh Gibson</td><td>C</td><td>435</td><td>.702</td><td>3.4%</td><td class="bad">25.1%</td><td>&minus;4.1</td><td>1.3</td><td>1.94</td></tr>
+        <tr class="flag"><td class="name">Roger Connor</td><td>1B</td><td>362</td><td>.639</td><td class="bad">0.0%</td><td>15.5%</td><td class="bad">&minus;10.2</td><td>&minus;0.1</td><td class="bad">&minus;0.18</td></tr>
+        <tr><td class="name">Phil Rizzuto</td><td>SS</td><td>332</td><td>.647</td><td>0.3%</td><td>12.0%</td><td>&minus;9.7</td><td>1.2</td><td>2.35</td></tr>
+        <tr class="flag"><td class="name">George Springer</td><td>CF</td><td>303</td><td>.649</td><td>1.0%</td><td class="bad">26.4%</td><td>&minus;7.4</td><td>0.7</td><td>1.50</td></tr>
+        <tr><td class="name">Jackie Robinson</td><td>LF</td><td>241</td><td>.699</td><td>0.0%</td><td>16.2%</td><td>&minus;4.2</td><td>0.9</td><td>2.43</td></tr>
+        <tr class="star"><td class="name">Carlos Beltran</td><td>CF</td><td>234</td><td>.763</td><td>3.0%</td><td>19.2%</td><td>+3.2</td><td>1.7</td><td class="good">4.72</td></tr>
+        <tr class="star"><td class="name">Ernie Banks</td><td>SS</td><td>226</td><td>.729</td><td>1.8%</td><td>14.2%</td><td>+1.1</td><td>0.7</td><td>2.01</td></tr>
+        <tr><td class="name">Brandon Wood</td><td>3B</td><td>205</td><td>.673</td><td>3.4%</td><td class="bad">25.4%</td><td>&minus;3.9</td><td>0.4</td><td>1.27</td></tr>
+        <tr><td class="name">Johnny Bassler</td><td>C</td><td>202</td><td>.629</td><td>0.0%</td><td class="good">8.9%</td><td>&minus;5.8</td><td>0.4</td><td>1.29</td></tr>
+        <tr><td class="name">Rogers Hornsby</td><td>2B</td><td>169</td><td>.739</td><td>2.4%</td><td>24.3%</td><td>+0.4</td><td>0.9</td><td>3.46</td></tr>
+        <tr class="flag"><td class="name">John McGraw</td><td>3B</td><td>153</td><td>.533</td><td class="bad">0.0%</td><td class="bad">25.5%</td><td class="bad">&minus;7.5</td><td>&minus;0.4</td><td class="bad">&minus;1.70</td></tr>
+        <tr><td class="name">Roy Campanella</td><td>C</td><td>117</td><td>.601</td><td>2.6%</td><td>21.4%</td><td>&minus;5.3</td><td>0.3</td><td>1.67</td></tr>
+        <tr class="flag"><td class="name">Ketel Marte</td><td>2B</td><td>64</td><td>.484</td><td>0.0%</td><td>23.4%</td><td>&minus;5.3</td><td>&minus;0.3</td><td class="bad">&minus;3.05</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">League baseline for a regular: .733 OPS · 2.5% HR · 19.2% K · 2.07 WAR/650.</p>
+
+  <h3>What each card is really worth</h3>
+  <div class="col">
+    <p>Pooled across every org in the league, the ranking of your own cards looks very different from your depth chart. Beltran and Banks are the two best hitters you own, by a distance, and between them they got 460 plate appearances. Frank Robinson and Bellinger — 1.61 and 0.10 per 650 league-wide — got 979.</p>
+  </div>
+
+  <div class="tblwrap">
+    <table>
+      <caption>Best owned option at each position — league-wide production, all orgs pooled</caption>
+      <thead><tr><th>Pos</th><th>Best owned</th><th>Orgs</th><th>PA</th><th>OPS</th><th>WAR/650</th><th>Who played there</th><th>His rate</th></tr></thead>
+      <tbody>
+        <tr class="star"><td>CF</td><td class="name">Carlos Beltran</td><td>14</td><td>7,678</td><td>.781</td><td class="good">4.18</td><td>Springer (303 PA)</td><td class="bad">1.50</td></tr>
+        <tr class="star"><td>SS</td><td class="name">Ernie Banks</td><td>9</td><td>4,274</td><td>.800</td><td class="good">4.09</td><td>Cholowsky / Vaughan</td><td>1.95 / 2.17</td></tr>
+        <tr class="star"><td>2B</td><td class="name">Roch Cholowsky</td><td>2</td><td>927</td><td>.796</td><td class="good">3.93</td><td>Hornsby / Marte</td><td>2.19 / &minus;3.05</td></tr>
+        <tr><td>3B</td><td class="name">Scott Rolen</td><td>11</td><td>6,080</td><td>.754</td><td class="good">3.81</td><td>Rolen ✓</td><td>2.51</td></tr>
+        <tr><td>C</td><td class="name">Johnny Bassler <span style="color:var(--muted)">vs RHP</span></td><td>6</td><td>1,540</td><td>.681</td><td class="good">2.91</td><td>Gibson (435 PA)</td><td>1.72</td></tr>
+        <tr><td>C</td><td class="name">Roy Campanella <span style="color:var(--muted)">vs LHP</span></td><td>19</td><td>6,160</td><td>.730</td><td>2.63</td><td>&mdash;</td><td>&mdash;</td></tr>
+        <tr><td>LF</td><td class="name">Jackie Robinson</td><td>1</td><td>241</td><td>.698</td><td>2.43</td><td>Bellinger (442 PA)</td><td class="bad">0.10</td></tr>
+        <tr class="flag"><td>1B</td><td class="name">Roger Connor</td><td>3</td><td>1,708</td><td>.728</td><td class="bad">1.56</td><td>Connor ✓</td><td class="bad">&minus;0.18</td></tr>
+        <tr class="flag"><td>RF</td><td class="name">Cody Bellinger</td><td>1</td><td>513</td><td>.688</td><td class="bad">1.77</td><td>Ott / F. Robinson</td><td>1.19 / 1.61</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">First base, left field and right field have no good answer in the collection. Those are the three slots worth spending on.</p>
+
+  <div class="callout warn">
+    <p><strong>Two platoon errors worth fixing tonight.</strong> Bellinger is a .721 / .618 hitter (vL / vR) league-wide and you gave him 259 plate appearances against right-handers, where he posted .532. Bassler is .497 / .720 — strictly a vs-RHP catcher, and he was used correctly; Gibson (.735 / .646) is the one who should be sitting against righties, not starting 110 games.</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">Pitching</p>
+  <h2>An average staff throwing a third of its innings from a replacement-level bullpen</h2>
+  <div class="col">
+    <p>Team ERA came in 16th — genuinely fine. Pitching WAR came in 30th. The gap is structure, not stuff: <strong>35.3% of your innings came from the bullpen</strong> (5th-highest, league average 31.9%), and that bullpen produced <strong>&minus;0.3 WAR</strong>, 28th of 30. You had three starters make 25+ starts; the league averages 4.2.</p>
+    <p>The misallocation is visible in the stamina column. Jack Coombs (106 stamina) and Dolf Luque (100) worked out of the pen; Josh Johnson (72) made 29 starts. And Cliff Lee — a 2.41 WAR/180 arm with a 3.82 SIERA across 1,890 innings league-wide — threw 32 innings.</p>
+  </div>
+
+  <div class="tblwrap">
+    <table>
+      <caption>Torrent pitchers — season, with each card&rsquo;s league-wide rate</caption>
+      <thead><tr><th>Pitcher</th><th>STM</th><th>GS</th><th>IP</th><th>ERA</th><th>SIERA</th><th>BB/9</th><th>WAR</th><th>Lg WAR/180</th></tr></thead>
+      <tbody>
+        <tr class="star"><td class="name">Kade Anderson</td><td>72</td><td>7</td><td>44.2</td><td class="good">2.82</td><td>2.76</td><td>1.41</td><td>1.8</td><td>&mdash;</td></tr>
+        <tr><td class="name">CC Sabathia</td><td>105</td><td>36</td><td>185.1</td><td>4.37</td><td>3.91</td><td>2.28</td><td class="good">3.4</td><td>2.44</td></tr>
+        <tr><td class="name">Vida Blue</td><td>97</td><td>36</td><td>196.0</td><td>4.09</td><td>3.95</td><td>3.40</td><td class="good">2.9</td><td>1.65</td></tr>
+        <tr class="star"><td class="name">Cliff Lee</td><td>84</td><td>6</td><td>32.0</td><td>5.34</td><td>4.09</td><td>4.50</td><td>&minus;0.1</td><td class="good">2.41</td></tr>
+        <tr><td class="name">Tom Henke</td><td>25</td><td>0</td><td>57.0</td><td>3.95</td><td>3.73</td><td>3.47</td><td>1.1</td><td>1.96</td></tr>
+        <tr><td class="name">Robb Nen</td><td>19</td><td>0</td><td>58.0</td><td>4.66</td><td>3.70</td><td>1.86</td><td>0.5</td><td>1.73</td></tr>
+        <tr><td class="name">Satchel Paige</td><td>96</td><td>24</td><td>126.2</td><td>4.12</td><td>4.33</td><td>2.63</td><td>0.5</td><td>1.42</td></tr>
+        <tr><td class="name">Josh Johnson</td><td class="bad">72</td><td>29</td><td>144.2</td><td>4.79</td><td>4.03</td><td>3.05</td><td>0.2</td><td>2.18</td></tr>
+        <tr><td class="name">Kevin Brown</td><td>94</td><td>21</td><td>113.0</td><td class="bad">5.26</td><td>4.58</td><td>2.63</td><td>0.4</td><td>0.99</td></tr>
+        <tr class="flag"><td class="name">Jack Coombs</td><td>106</td><td>3</td><td>78.0</td><td class="bad">6.58</td><td>4.73</td><td>4.15</td><td class="bad">&minus;0.3</td><td>1.38</td></tr>
+        <tr class="flag"><td class="name">Rich Gossage</td><td>48</td><td>0</td><td>84.2</td><td>3.72</td><td>4.52</td><td>3.72</td><td class="bad">&minus;0.6</td><td>1.26</td></tr>
+        <tr class="flag"><td class="name">Dolf Luque</td><td>100</td><td>0</td><td>95.0</td><td>3.51</td><td>4.39</td><td>3.69</td><td class="bad">&minus;0.7</td><td class="bad">0.46</td></tr>
+        <tr class="flag"><td class="name">Sam McDowell</td><td>94</td><td>0</td><td>74.1</td><td class="bad">5.09</td><td>4.70</td><td class="bad">4.96</td><td class="bad">&minus;1.2</td><td class="bad">&minus;1.00</td></tr>
+        <tr><td class="name">Jesse Orosco</td><td>61</td><td>0</td><td>75.2</td><td class="good">2.85</td><td>4.18</td><td>4.40</td><td>0.4</td><td class="bad">&minus;0.10</td></tr>
+        <tr><td class="name">Milt Pappas</td><td>79</td><td>0</td><td>58.1</td><td>3.55</td><td>4.55</td><td>3.86</td><td>0.2</td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">League: 4.27 ERA · 4.09 SIERA · 3.19 BB/9 · 1.75 WAR/180. Luque, McDowell and Orosco are bad <em>cards</em>, not bad luck — their league-wide rates are 0.46, &minus;1.00 and &minus;0.10.</p>
+</section>
+
+<section>
+  <p class="eyebrow">The plan</p>
+  <h2>What to change, in order</h2>
+  <ol class="actions">
+    <li>
+      <h3>Fix the lineup card before you spend a point</h3>
+      <p>Beltran in center every day. Banks at short, Cholowsky to second — league-wide he&rsquo;s a 3.93 WAR/650 second baseman and a 1.95 shortstop. Bassler catches against right-handers, Campanella against lefties, Gibson third. Bellinger only ever faces a left-hander. Springer, McGraw and Marte come off the roster entirely. This is free.</p>
+    </li>
+    <li>
+      <h3>Give Cliff Lee a rotation spot</h3>
+      <p>Sabathia, Blue, Lee, Anderson, Paige is a five-man rotation with real stamina, and it takes 100+ innings away from a bullpen that cost you a win. Johnson at 72 stamina belongs in relief or in the shop; Coombs, at 106 stamina and a 6.58 ERA, belongs in the shop.</p>
+    </li>
+    <li>
+      <h3>Cut the negative-WAR relievers</h3>
+      <p>McDowell (&minus;1.2), Luque (&minus;0.7) and Gossage (&minus;0.6) were 254 innings of below-replacement work, and the first two grade out badly league-wide too. Henke, Nen, Pappas and Orosco are a serviceable core; you need two arms, not five.</p>
+    </li>
+    <li>
+      <h3>Buy power that doesn&rsquo;t strike out</h3>
+      <p>One card fixes the identity contradiction: <strong>Hank Aaron</strong>, the Perfect 102. Across 7,837 plate appearances in this league he ran a .791 OPS with a 3.9% home-run rate and a <em>17.5%</em> strikeout rate — a full point of contact better than league average with 60% more power than anyone in your lineup. He plays right field or first base, which are two of your three holes.</p>
+    </li>
+    <li>
+      <h3>Fund it from the dead weight</h3>
+      <p>McGraw, Connor, Orosco, Coombs, Gossage, Bellinger, McDowell and Luque carry about <strong>681,000 points</strong> at last-10 prices. Aaron last traded at 378,000. The moves pay for themselves with change for a corner outfielder.</p>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <p class="eyebrow">Shopping</p>
+  <h2>Buy board</h2>
+  <div class="col">
+    <p>Every card below actually produced in HD450 across four or more orgs, so these are proven in your league rather than projected from ratings. Prices are the 27 August shop snapshot.</p>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <caption>Proven HD450 performers you don&rsquo;t own</caption>
+      <thead><tr><th>Card</th><th>Pos</th><th>VAL</th><th>Orgs</th><th>PA</th><th>OPS</th><th>HR%</th><th>K%</th><th>WAR/650</th><th>Last 10</th></tr></thead>
+      <tbody>
+        <tr class="star"><td class="name">Hank Aaron</td><td>RF / 1B</td><td>102</td><td>12</td><td>7,837</td><td class="good">.791</td><td class="good">3.9%</td><td class="good">17.5%</td><td class="good">2.39</td><td>378,065</td></tr>
+        <tr class="star"><td class="name">Ethan Salas</td><td>C</td><td>101</td><td>9</td><td>1,747</td><td>.697</td><td>1.8%</td><td>18.7%</td><td class="good">3.27</td><td>153,463</td></tr>
+        <tr class="star"><td class="name">Jim Edmonds</td><td>CF</td><td>100</td><td>11</td><td>3,781</td><td class="good">.776</td><td class="good">3.1%</td><td class="bad">22.5%</td><td class="good">3.16</td><td class="good">34,013</td></tr>
+        <tr><td class="name">Tommy Hinzo</td><td>2B</td><td>100</td><td>7</td><td>2,502</td><td>.698</td><td>0.8%</td><td class="good">16.9%</td><td>2.21</td><td>76,684</td></tr>
+        <tr><td class="name">Dave Winfield</td><td>RF</td><td>100</td><td>8</td><td>2,197</td><td>.715</td><td>2.7%</td><td>19.8%</td><td>2.01</td><td class="good">38,879</td></tr>
+        <tr><td class="name">Tris Speaker</td><td>CF</td><td>100</td><td>19</td><td>9,296</td><td>.719</td><td>2.4%</td><td class="good">17.7%</td><td>1.98</td><td class="good">24,248</td></tr>
+        <tr><td class="name">Lou Gehrig</td><td>1B</td><td>101</td><td>12</td><td>6,689</td><td class="good">.766</td><td class="good">3.0%</td><td>20.5%</td><td>1.50</td><td>110,270</td></tr>
+        <tr><td class="name">J.D. Martinez</td><td>RF</td><td>100</td><td>5</td><td>2,003</td><td class="good">.809</td><td class="good">4.2%</td><td class="bad">23.9%</td><td>1.53</td><td>213,191</td></tr>
+        <tr><td class="name">Norm Cash</td><td>1B</td><td>100</td><td>4</td><td>1,292</td><td>.747</td><td class="good">3.4%</td><td class="bad">24.1%</td><td>1.26</td><td>80,340</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Edmonds is the value play — 3.16 WAR/650 at 34,000 points, roughly a tenth of Aaron. His 22.5% strikeout rate is the tax.</p>
+</section>
+
+<section>
+  <p class="eyebrow">Before you act</p>
+  <h2>Three things I couldn&rsquo;t verify</h2>
+  <div class="col">
+    <p><strong>The ownership check is unreliable right now.</strong> I confirmed the buy board against the 27 August collection snapshot in the database (3,500 copies), and none of those cards appear in it — but that same snapshot is missing Beltran, Banks, Mays, Hornsby and Kade Anderson, all of which are plainly on your roster. Something is wrong with either the export or the card-id matching. Check each card in the shop before you buy it.</p>
+    <p><strong>Your park isn&rsquo;t in this export.</strong> The Jamsil read (HR ×0.83) would predict suppressed home runs on both sides; you allowed exactly league average, so either the park changed or the effect is smaller than assumed. Worth confirming, because it changes how much of the 98-homer figure is roster and how much is venue.</p>
+    <p><strong>Low Diamond will have a different card pool.</strong> Everything here is HD450 production. The relegation means next week&rsquo;s league is a weaker field, so the bar for &ldquo;good enough&rsquo; drops — but the shape of the problem, no power and nothing against right-handers, travels with the roster.</p>
+  </div>
+</section>
+
+<footer>
+  Sources: HD450 sortable player statistics (overall, vs LHP, vs RHP) and the Manage Cards roster export, 30 August 2026 ·
+  shop prices from the 27 August snapshot · league-wide rates pool every org that used a card, so they carry far more
+  plate appearances than one Torrent season.
+</footer>
+
+</div>
+
+<script>
+  // Rank rails: 31 ticks, best on the left, Torrent's slot raised and colored.
+  document.querySelectorAll('.tile').forEach(function (tile) {
+    var m = /(\d+)(?:st|nd|rd|th) of (\d+)/.exec(tile.querySelector('.rankword').textContent);
+    if (!m) return;
+    var rank = +m[1], total = +m[2], rail = tile.querySelector('.rail');
+    var frag = document.createDocumentFragment();
+    for (var i = 1; i <= total; i++) {
+      var tick = document.createElement('i');
+      if (i === rank) tick.className = 'on';
+      frag.appendChild(tick);
+    }
+    rail.appendChild(frag);
+  });
+</script>

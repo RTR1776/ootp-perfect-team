@@ -4,21 +4,28 @@
  *
  * Server component: reads the latest `all`-split snapshot per league, runs the
  * analytics layer, and — when a collection upload exists — audits the active
- * roster against the usage-weighted position bars of the High Diamond pool.
+ * roster against the usage-weighted position bars of ONE tier: High Diamond by
+ * default, `?bar=LD` / `?bar=PEL` to score against a different rung.
  */
 
 import { desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
-import { cards, collectionCards, leagueSnapshots, leagueStints, uploads } from "@/db/schema";
+import { cards, collectionCards, leagueStints, uploads } from "@/db/schema";
 import {
   auditCard,
   clanSummaries,
   leagueEnv,
+  leagueTier,
   positionPercentiles,
   teamProfiles,
+  TIER_LABEL,
+  TIER_ORDER,
+  type LeagueTier,
   type StintLike,
   type TeamProfile,
 } from "@/lib/analytics/league";
+import Link from "next/link";
+import { latestCompleteSnapshots } from "@/lib/league-snapshots";
 import { Card, CardContent } from "@/components/ui/card";
 import { Placeholder } from "@/components/placeholder";
 
@@ -57,14 +64,10 @@ function canonicalise(shopRatings: Record<string, number>): Record<string, numbe
 }
 
 async function loadLatestSnapshots() {
-  const snaps = await db
-    .select()
-    .from(leagueSnapshots)
-    .where(eq(leagueSnapshots.split, "all"))
-    .orderBy(desc(leagueSnapshots.capturedOn), desc(leagueSnapshots.id));
-  // newest snapshot per league
-  const latest = new Map<string, (typeof snaps)[number]>();
-  for (const s of snaps) if (!latest.has(s.league)) latest.set(s.league, s);
+  // Newest COMPLETE snapshot per league — a truncated export is skipped rather
+  // than allowed to strip a league's pitchers out of every pool below.
+  const { picks, skipped } = await latestCompleteSnapshots();
+  const latest = picks;
   if (latest.size === 0) return null;
   const ids = [...latest.values()].map((s) => s.id);
   const stintRows = await db.select().from(leagueStints).where(inArray(leagueStints.snapshotId, ids));
@@ -93,10 +96,16 @@ async function loadLatestSnapshots() {
     });
     byLeague.set(league, list);
   }
-  return { latest, byLeague };
+  return { latest, byLeague, skipped };
 }
 
-async function loadAudit(hdStints: StintLike[]) {
+/**
+ * Score the active collection against one or more tier pools. The FIRST pool is
+ * the bar (its score drives the sort and the verdict); a second pool is the rung
+ * being left behind, shown as a delta so a card that only looks good one tier
+ * down is obvious.
+ */
+async function loadAudit(pools: Array<{ tier: LeagueTier; stints: StintLike[] }>) {
   // Latest collection upload → active cards; ratings come from the card
   // universe (identical for base cards; approximate for the few active VARs).
   const [latestCollection] = await db
@@ -135,19 +144,22 @@ async function loadAudit(hdStints: StintLike[]) {
     "POW","EYE","Kav","BABr","GAP","STU","CON","PBAB","HRA",
     "CABI","CFRM","CARM","IFRNG","IFERR","IFARM","TDP","OFRNG","OFERR","OFARM",
   ];
-  const pcts = positionPercentiles(hdStints, keys);
+  const pcts = pools.map((p) => positionPercentiles(p.stints, keys));
 
   return rows
     .map((r) => {
-      const shopRatings = ratingsById.get(r.cardId!) ?? {};
-      const result = auditCard(r.pos ?? "", canonicalise(shopRatings), pcts);
+      const canon = canonicalise(ratingsById.get(r.cardId!) ?? {});
+      const scored = pcts.map((m) => auditCard(r.pos ?? "", canon, m));
+      const primary = scored[0];
+      const alt = scored[1];
       return {
         pos: r.pos ?? "",
         name: r.name,
         val: r.cardValue,
         isVariant: r.isVariant,
-        score: Number.isFinite(result.score) ? Math.round(result.score) : null,
-        defPct: result.defPct == null ? null : Math.round(result.defPct),
+        score: Number.isFinite(primary.score) ? Math.round(primary.score) : null,
+        altScore: alt && Number.isFinite(alt.score) ? Math.round(alt.score) : null,
+        defPct: primary.defPct == null ? null : Math.round(primary.defPct),
       };
     })
     .filter((r) => r.score != null)
@@ -179,7 +191,12 @@ function ClanBadge({ clan }: { clan: string | null }) {
   );
 }
 
-export default async function MetaPage() {
+export default async function MetaPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ bar?: string }>;
+}) {
+  const { bar } = await searchParams;
   const data = await loadLatestSnapshots();
 
   if (!data) {
@@ -192,7 +209,7 @@ export default async function MetaPage() {
     );
   }
 
-  const { latest, byLeague } = data;
+  const { latest, byLeague, skipped } = data;
   const leagues = [...byLeague.keys()].sort((a, b) =>
     a === "PEL" ? -1 : b === "PEL" ? 1 : a.localeCompare(b),
   );
@@ -201,10 +218,46 @@ export default async function MetaPage() {
   const topTeams = [...profiles].sort((a, b) => b.war - a.war).slice(0, 15);
   const clans = clanSummaries(profiles);
 
-  const hdStints = leagues
-    .filter((lg) => lg !== "PEL")
-    .flatMap((lg) => byLeague.get(lg)!);
-  const audit = hdStints.length > 0 ? await loadAudit(hdStints) : null;
+  /**
+   * The audit bar is ONE tier, never a blend. Pooling every non-PEL league —
+   * which is what this did before Low Diamond exports existed — quietly drops
+   * the line a roster has to clear the moment an LD season lands, and the
+   * roster you are promoting INTO HD is the one that gets flattered. Default
+   * to High Diamond; `?bar=` picks another rung.
+   */
+  const tiersPresent = TIER_ORDER.filter((t) => leagues.some((lg) => leagueTier(lg) === t));
+  const requested = (bar ?? "").toUpperCase() as LeagueTier;
+  const barTier: LeagueTier | null = tiersPresent.includes(requested)
+    ? requested
+    : tiersPresent.includes("HD")
+      ? "HD"
+      : (tiersPresent[0] ?? null);
+  const barLeagues = barTier ? leagues.filter((lg) => leagueTier(lg) === barTier) : [];
+  const barStints = barLeagues.flatMap((lg) => byLeague.get(lg)!);
+  /* Leagues refresh on different weeks, so a tier pool can straddle dates —
+     label the span rather than whichever one happened to come first. */
+  const barDates = [
+    ...new Set(barLeagues.map((lg) => latest.get(lg)?.capturedOn).filter(Boolean) as string[]),
+  ].sort();
+  const barDate =
+    barDates.length === 0
+      ? ""
+      : barDates.length === 1
+        ? barDates[0]
+        : `${barDates[0]}–${barDates[barDates.length - 1]}`;
+  /* The rung below the bar — the level a promoted roster is leaving. Its column
+     is what turns "good card" into "good card HERE". */
+  const refTier = [...tiersPresent].reverse().find((t) => t !== barTier) ?? null;
+  const refStints = refTier
+    ? leagues.filter((lg) => leagueTier(lg) === refTier).flatMap((lg) => byLeague.get(lg)!)
+    : [];
+  const audit =
+    barStints.length > 0 && barTier
+      ? await loadAudit([
+          { tier: barTier, stints: barStints },
+          ...(refTier && refStints.length ? [{ tier: refTier, stints: refStints }] : []),
+        ])
+      : null;
   const auditMean =
     audit && audit.length
       ? Math.round(audit.reduce((s, a) => s + (a.score ?? 0), 0) / audit.length)
@@ -221,6 +274,16 @@ export default async function MetaPage() {
             {[...latest.values()][0]?.capturedOn ?? ""} · usage-weighted, league-relative — the
             normalization frame
           </p>
+          {skipped.length > 0 && (
+            <p className="mt-1 text-xs text-amber-500">
+              Skipped {skipped.length} truncated export
+              {skipped.length === 1 ? "" : "s"} —{" "}
+              {skipped
+                .map((x) => `${x.league} ${x.capturedOn} (${x.pitchers} pitcher rows in ${x.rows})`)
+                .join(", ")}
+              . Those leagues are reading the previous complete week; re-export to refresh.
+            </p>
+          )}
         </div>
       </div>
 
@@ -229,7 +292,9 @@ export default async function MetaPage() {
         <CardContent className="pt-6">
           <h2 className="mb-1 text-sm font-semibold">League environments</h2>
           <p className="mb-4 text-xs text-muted-foreground">
-            The bar each league actually sets. 101+ share is the creep gauge; variants double at the top.
+            The bar each league actually sets. 101+ share is the creep gauge; variants double at the
+            top. Every league runs PT&rsquo;s default environment (year 2010), so the gaps between
+            these rows are talent, not park or era — no normalisation needed to read across them.
           </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -346,12 +411,33 @@ export default async function MetaPage() {
       {/* Roster audit */}
       <Card>
         <CardContent className="pt-6">
-          <h2 className="mb-1 text-sm font-semibold">
-            Active roster vs the High Diamond bar
-            {auditMean != null && (
-              <span className="ml-2 text-muted-foreground">· roster mean {auditMean}th pct</span>
+          <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-sm font-semibold">
+              Active roster vs the {barTier ? TIER_LABEL[barTier] : "league"} bar
+              {auditMean != null && (
+                <span className="ml-2 text-muted-foreground">· roster mean {auditMean}th pct</span>
+              )}
+            </h2>
+            {tiersPresent.length > 1 && (
+              <div className="flex items-center gap-1">
+                <span className="mr-1 text-xs text-muted-foreground">bar:</span>
+                {tiersPresent.map((t) => (
+                  <Link
+                    key={t}
+                    href={`/meta?bar=${t}`}
+                    scroll={false}
+                    className={`rounded-full border px-2 py-0.5 text-[11px] ${
+                      t === barTier
+                        ? "border-primary bg-primary/10 font-medium text-foreground"
+                        : "border-border text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {TIER_LABEL[t]}
+                  </Link>
+                ))}
+              </div>
             )}
-          </h2>
+          </div>
           {!audit ? (
             <p className="text-xs text-muted-foreground">
               Upload the collection export (with the ACT column) and the shop list, and every active
@@ -360,10 +446,11 @@ export default async function MetaPage() {
           ) : (
             <>
               <p className="mb-4 text-xs text-muted-foreground">
-                Composite percentile vs usage-weighted position peers across the HD leagues — hitters
-                EYE·30 / K-avoid·22 / POW·21 / GAP·10 / defense·17, pitchers HRA·33 / STU·31 / CON·28
-                / pBABIP·8. 50 = the median card in use at that spot. Worst first — the top of this
-                table is the shopping list.
+                Composite percentile vs usage-weighted position peers in{" "}
+                {barLeagues.join(", ")}
+                {barDate ? ` (${barDate})` : ""} — hitters EYE·30 / K-avoid·22 / POW·21 / GAP·10 /
+                defense·17, pitchers HRA·33 / STU·31 / CON·28 / pBABIP·8. 50 = the median card in use
+                at that spot. Worst first — the top of this table is the shopping list.
               </p>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -372,7 +459,8 @@ export default async function MetaPage() {
                       <th className="py-2 pr-4">Pos</th>
                       <th className="py-2 pr-4">Card</th>
                       <th className="py-2 pr-4 text-right">Val</th>
-                      <th className="py-2 pr-4">vs HD peers</th>
+                      <th className="py-2 pr-4">vs {barTier ?? "league"} peers</th>
+                      {refTier && <th className="py-2 pr-4 text-right">vs {refTier}</th>}
                       <th className="py-2 pr-4 text-right">Def</th>
                       <th className="py-2">Read</th>
                     </tr>
@@ -393,6 +481,25 @@ export default async function MetaPage() {
                         <td className="py-2 pr-4">
                           <ScoreBar value={a.score!} />
                         </td>
+                        {refTier && (
+                          <td className="py-2 pr-4 text-right tabular-nums text-muted-foreground">
+                            {a.altScore == null ? (
+                              "—"
+                            ) : (
+                              <>
+                                {a.altScore}
+                                <span
+                                  className={`ml-1 text-[11px] ${
+                                    a.score! - a.altScore <= -8 ? "text-amber-500" : ""
+                                  }`}
+                                >
+                                  {a.score! - a.altScore > 0 ? "+" : ""}
+                                  {a.score! - a.altScore}
+                                </span>
+                              </>
+                            )}
+                          </td>
+                        )}
                         <td className="py-2 pr-4 text-right tabular-nums">{a.defPct ?? "—"}</td>
                         <td className="py-2 text-xs text-muted-foreground">
                           {a.score! < 30

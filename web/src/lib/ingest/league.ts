@@ -56,8 +56,21 @@ export interface LeagueParseResult {
     freeAgentRows: number;
     uniqueCids: number;
     clanTeams: number;
+    /** Pitcher rows, and their share of the file. A real export runs ~45%. */
+    pitcherRows: number;
+    pitcherShare: number;
+    /**
+     * True when the pitching block is effectively missing. OOTP can write the
+     * stats view without it and the file still parses — 2026-08-30 HD451 came
+     * out 473 rows with 4 pitchers against 906/423 the week before — so this
+     * is the flag that stops a hollow export being taken as current.
+     */
+    truncated: boolean;
   };
 }
+
+/** A complete export runs ~45% pitchers; below this the block is missing. */
+export const MIN_PITCHER_SHARE = 0.15;
 
 /** OOTP thirds notation: 197.1 = 197⅓, 197.2 = 197⅔. */
 export function ipToDecimal(raw: number | null): number {
@@ -90,15 +103,26 @@ export function parseLeagueFilename(filename: string): {
   league: string | null;
   split: LeagueSplit;
 } {
-  const base = filename.toLowerCase();
+  const base = filename.toLowerCase().replace(/\.csv$/, "");
+  // PEL, plus the tiered ladders: hd45x (High Diamond), ld40x (Low Diamond).
+  const tier = base.match(/(?<![a-z0-9])(hd|ld)(\d{3})(?![0-9])/);
   const league = /pel/.test(base)
     ? "PEL"
-    : (base.match(/hd(\d{3})/)?.[1] && `HD${base.match(/hd(\d{3})/)![1]}`) || null;
-  const split: LeagueSplit = /versus_left|_vl\b|_vl\./.test(base)
-    ? "vL"
-    : /versus_right|_vr\b|_vr\./.test(base)
-      ? "vR"
-      : "all";
+    : tier
+      ? `${tier[1].toUpperCase()}${tier[2]}`
+      : null;
+  /**
+   * The split marker is not always its own `_vl` token: OOTP's own filenames
+   * hang it straight off the league ("ld404vR_statistics_…"), so match on a
+   * word boundary that a digit satisfies. Guarded on both sides so an ordinary
+   * word ("view", "vlad") can never read as a split.
+   */
+  const marker = base.match(/(?:^|[^a-z])(versus_left|versus_right|vl|vr)(?![a-z])/);
+  const split: LeagueSplit = !marker
+    ? "all"
+    : marker[1] === "versus_left" || marker[1] === "vl"
+      ? "vL"
+      : "vR";
   return { league, split };
 }
 
@@ -172,6 +196,7 @@ export function parseLeagueExport(text: string, filename = ""): LeagueParseResul
   const clans = new Set<string>();
   const cids = new Set<number>();
   let freeAgentRows = 0;
+  let pitcherRows = 0;
 
   for (const row of parsed.rows) {
     const name = (row["Name"] ?? "").trim();
@@ -202,6 +227,7 @@ export function parseLeagueExport(text: string, filename = ""): LeagueParseResul
     }
 
     const isPitcher = PITCHER_POS.has(pos);
+    if (isPitcher) pitcherRows++;
     const pa = stats.PA ?? 0;
     const ip = ipToDecimal(stats.IP_raw ?? null);
     stats.IP = Math.round(ip * 100) / 100;
@@ -237,6 +263,10 @@ export function parseLeagueExport(text: string, filename = ""): LeagueParseResul
       freeAgentRows,
       uniqueCids: cids.size,
       clanTeams: clans.size,
+      pitcherRows,
+      pitcherShare: stints.length > 0 ? pitcherRows / stints.length : 0,
+      truncated:
+        stints.length > 0 && pitcherRows / stints.length < MIN_PITCHER_SHARE,
     },
   };
 }

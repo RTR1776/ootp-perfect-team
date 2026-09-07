@@ -40,7 +40,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from ootp_export import load_league_season
+from ootp_export import current_league_season
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -68,7 +68,7 @@ PIT_SPEC = {
 
 def _prep_split_obs() -> tuple[pd.DataFrame, pd.DataFrame]:
     """(hitter obs, pitcher obs) aggregated per (CID, split) with ratings."""
-    ls = load_league_season(ROOT / "Most recent League Season")
+    ls = current_league_season()
     ls = ls[ls["split"].isin(["vL", "vR"])].copy()
     suf = ls["split"].map({"vL": " vL", "vR": " vR"})
 
