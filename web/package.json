@@ -32,7 +32,8 @@
     "champ:comps": "tsx scripts/champ-comparables.ts",
     "champ:rosters": "tsx scripts/champ-rosters.ts",
     "test:rosters": "tsx scripts/roster-roundtrip.ts",
-    "coverage": "node scripts/tourney-inventory.mjs && tsx scripts/coverage-report.ts"
+    "coverage": "node scripts/tourney-inventory.mjs && tsx scripts/coverage-report.ts",
+    "league:meta": "tsx scripts/league-meta-report.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
