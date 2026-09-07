@@ -151,6 +151,8 @@ export const collectionCards = pgTable(
     /** 0 for a clean base-card match; ~6-9 for a variant; higher = suspect. */
     matchDistance: real("match_distance"),
     matchQuality: text("match_quality"), // exact | variant | fuzzy | unmatched
+    /** Actual ratings on this owned copy; preserves exported variant boosts. */
+    ratings: jsonb("ratings").$type<Record<string, number>>(),
   },
   (t) => [
     index("collection_card_idx").on(t.cardId),

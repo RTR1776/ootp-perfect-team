@@ -15,6 +15,8 @@
     "import:ptcs6:championship": "tsx scripts/import-ptcs6-championship.ts",
     "import:tournaments": "tsx scripts/import-tournaments.ts",
     "import:observed": "tsx scripts/import-observed.ts",
+    "import:league": "tsx scripts/import-league.ts",
+    "import:cards": "node --env-file=.env.local --import tsx scripts/import-current-cards.ts",
     "import:dump": "tsx scripts/import-dump.ts",
     "fit:projection": "tsx scripts/fit-projection.ts",
     "import:myresults": "tsx scripts/import-myresults.ts",

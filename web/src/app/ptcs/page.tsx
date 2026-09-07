@@ -18,6 +18,7 @@ import LADDER from "@/data/ptcs-ladder.json";
 import { Card, CardContent } from "@/components/ui/card";
 import { Placeholder } from "@/components/placeholder";
 import { cn } from "@/lib/utils";
+import { periodCalendar } from "@/lib/ptcs-progress";
 
 export const dynamic = "force-dynamic";
 
@@ -38,10 +39,10 @@ interface CategoryLine {
   status: "qualified" | "on-pace" | "off-pace" | "not-started" | "tracking";
 }
 
-function statusChip(status: CategoryLine["status"]): { label: string; cls: string } {
+function statusChip(status: CategoryLine["status"], official: boolean): { label: string; cls: string } {
   switch (status) {
     case "qualified":
-      return { label: "QUALIFIED", cls: "border-emerald-500/50 text-emerald-400" };
+      return { label: official ? "at recorded cutoff" : "above estimated line", cls: "border-emerald-500/50 text-emerald-400" };
     case "on-pace":
       return { label: "on pace", cls: "border-emerald-500/30 text-emerald-300" };
     case "off-pace":
@@ -114,7 +115,7 @@ export default async function PtcsPage() {
   const wins = myRows.filter((r) => r.finish === 1).length;
   const recent = myRows.slice(0, 14);
 
-  const dates = [...new Set(rows.map((r) => r.occurredOn))].sort();
+  const { dates, totalDays, elapsed, remaining } = periodCalendar(period.startsOn,period.endsOn);
   const byDate = new Map<string, Map<string, { points: number; note: string | null }>>();
   for (const r of rows) {
     const m = byDate.get(r.occurredOn) ?? new Map();
@@ -122,11 +123,6 @@ export default async function PtcsPage() {
     byDate.set(r.occurredOn, m);
   }
 
-  const totalDays = Math.round(
-    (Date.parse(period.endsOn) - Date.parse(period.startsOn)) / 86400000,
-  ) + 1;
-  const elapsed = dates.length;
-  const remaining = Math.max(0, totalDays - elapsed);
   const targets = (period.targets ?? {}) as Record<string, number>;
 
   const lines: CategoryLine[] = CATEGORIES.map((cat) => {
@@ -204,7 +200,7 @@ export default async function PtcsPage() {
           ["Points banked", banked.toLocaleString(), "all ten categories"],
           ["Period progress", `Day ${elapsed}`, `${remaining} of ${totalDays} left`],
           ["Points per day", rate.toFixed(1), "PTCS 5 ran 43.9"],
-          ["Categories on pace", `${onPace} / ${lines.filter((l) => (l.target ?? 0) > 0).length}`, "incl. qualified"],
+          ["Categories on pace", `${onPace} / ${lines.filter((l) => (l.target ?? 0) > 0).length}`, "including targets reached"],
         ].map(([label, value, sub]) => (
           <Card key={label as string}>
             <CardContent className="pt-5 pb-4">
@@ -354,7 +350,7 @@ export default async function PtcsPage() {
               </thead>
               <tbody className="font-mono text-[13px]">
                 {lines.map((l) => {
-                  const chip = statusChip(l.status);
+                  const chip = statusChip(l.status,period.targetsAreOfficial);
                   const pctOfTarget = l.target ? Math.min(100, (l.total / l.target) * 100) : 0;
                   return (
                     <tr key={l.category} className="border-b border-border/50">

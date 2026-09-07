@@ -25,6 +25,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
+import { cardEligibility, rosterSize, slotCapacityIssues, tierCode, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
+import { formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
+import { projFip, projWoba } from "@/lib/analytics/projection";
 
 export interface ObservedLine {
   cardId: number;
@@ -54,6 +57,10 @@ export interface BuilderCard {
   year: number | null;
   active: boolean;
   variant: boolean;
+  baseOwned: boolean;
+  variantOwned: boolean;
+  cardType: number | null;
+  variantRatings: Record<string, number> | null;
   ratings: Record<string, number>;
   proj: Proj;
   obs: ObservedLine | null;
@@ -90,7 +97,7 @@ export interface SeriesMetaInfo {
   }[];
 }
 
-export interface TournamentInfo {
+export interface TournamentInfo extends RosterRules {
   id: number;
   name: string;
   envYear: number | null;
@@ -116,6 +123,7 @@ export interface TournamentInfo {
     /** Set when the value window was read off the event NAME rather than
      *  stated in the rules text or the databotai crawl. */
     valueWindowFrom?: string;
+    cards?: number;
   } | null;
   retired: boolean;
   park: { name: string; avg: number | null; hr: number | null; b2: number | null; b3: number | null } | null;
@@ -124,7 +132,7 @@ export interface TournamentInfo {
 interface SavedRoster {
   id: number;
   name: string;
-  slots: { cardId: number; slot: string; versusHand: string | null; lineupOrder: number | null }[];
+  slots: RosterSlot[];
 }
 
 const HIT_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
@@ -358,11 +366,12 @@ function CardPeek({ p, scale }: { p: Peek; scale: number }) {
 export function RosterBuilder({
   groups,
   tournament,
-  pool,
+  pool: basePool,
   upgrades,
   meta,
   savedRosters,
   ratingScale,
+  collectionDate,
 }: {
   groups: CatalogGroup[];
   tournament: TournamentInfo | null;
@@ -372,9 +381,26 @@ export function RosterBuilder({
   savedRosters: SavedRoster[];
   /** Full-bar rating value; see src/lib/rating-scale.ts. */
   ratingScale: number;
+  collectionDate: string | null;
 }) {
   const router = useRouter();
   const [slots, setSlots] = useState<Record<SlotKey, number | null>>({});
+  const [forms, setForms] = useState<Record<number, boolean>>({});
+  /* Each card is shown in ONE form: the variant copy when that is the only
+     one owned, or whichever the user toggled. Variant ratings are the ones the
+     collection export recorded for that copy (see card-forms.ts) — projections
+     come from the same model as the base card, on the form's own ratings. */
+  const pool = useMemo(() => basePool.map(c => {
+    const variant = forms[c.cardId] ?? !c.baseOwned;
+    if (!variant) return { ...c, variant: false };
+    const ratings = formRatings(c.ratings, c.variantRatings);
+    const verified = hasVariantSplitRatings(c.variantRatings, c.isPitcher);
+    const project = c.isPitcher ? projFip : projWoba;
+    const proj = verified
+      ? { all: project(ratings), vL: project(ratings, "vL"), vR: project(ratings, "vR") }
+      : { all: null, vL: null, vR: null };
+    return { ...c, variant: true, ratings, proj };
+  }), [basePool, forms]);
   const [selected, setSelected] = useState<SlotKey | null>(null);
   const [view, setView] = useState<View>("HIT");
   const [search, setSearch] = useState("");
@@ -395,9 +421,12 @@ export function RosterBuilder({
   const target = useMemo(() => {
     const bats = clamp(Math.round(meta?.avgBats ?? lineupPos.length + 4), lineupPos.length, 22);
     const sp = clamp(Math.round(meta?.avgSp ?? 5), 1, 9);
-    const rp = clamp(Math.round(meta?.avgRp ?? 5), 1, 12);
+    const total = tournament ? rosterSize(tournament) : 26;
+    const rp = clamp(total == null
+      ? Math.round(meta?.avgRp ?? 5)
+      : total - bats - sp, 1, 12);
     return { bats, sp, rp };
-  }, [meta, lineupPos.length]);
+  }, [meta, lineupPos.length, tournament]);
 
   /* Slot counts = the series baseline plus whatever the user nudged for THIS
      tournament, so switching events resizes the board on the very first
@@ -446,14 +475,25 @@ export function RosterBuilder({
     const hR = new Map<number, number>(), hL = new Map<number, number>();
     const pR = new Map<number, number>(), pL = new Map<number, number>();
     for (const c of pool) {
-      if (c.isPitcher) { pR.set(c.cardId, pitcherRaw(c, 0.3)); pL.set(c.cardId, pitcherRaw(c, 1)); }
-      else { hR.set(c.cardId, hitterRaw(c, 0.3)); hL.set(c.cardId, hitterRaw(c, 1)); }
+      if (c.isPitcher) { pR.set(c.cardId, pitcherRaw(c, 0.45)); pL.set(c.cardId, pitcherRaw(c, 1)); }
+      else { hR.set(c.cardId, hitterRaw(c, 0)); hL.set(c.cardId, hitterRaw(c, 1)); }
     }
     const merge = (a: Map<number, number>, b: Map<number, number>) => new Map([...percentileMap(a), ...percentileMap(b)]);
     return { fitR: merge(hR, pR), fitL: merge(hL, pL) };
   }, [pool]);
 
   const byId = useMemo(() => new Map(pool.map((c) => [c.cardId, c])), [pool]);
+
+  const serializeSlots = (source = slots): RosterSlot[] => slotOrder
+    .filter(k => source[k] != null)
+    .map(k => {
+      const [a, b] = k.split(":");
+      const cardId = source[k] as number;
+      return { cardId, slot: b ?? a, versusHand: b ? a : "both",
+        lineupOrder: b ? lineupPos.indexOf(b) + 1 : null,
+        useVariant: byId.get(cardId)?.variant ?? false };
+    });
+  const validation = tournament ? validateRoster(serializeSlots(), pool, tournament) : null;
 
   const posEligible = (c: BuilderCard, slot: SlotKey): boolean => {
     if (slot.startsWith("SP")) return c.isPitcher && (c.role === "SP" || c.role == null);
@@ -623,6 +663,24 @@ export function RosterBuilder({
   const autoFill = (silent = false) => {
     const next: Record<SlotKey, number | null> = {};
     const taken = new Set<number>();
+    const canAdd = (c: BuilderCard) => {
+      if (!tournament || cardEligibility(c, tournament).errors.length) return false;
+      if (c.variant ? !c.variantOwned : !c.baseOwned) return false;
+      const ids = new Set([...Object.values(next).filter((id): id is number => id != null), c.cardId]);
+      const members = [...ids].map(id => byId.get(id)!).filter(Boolean);
+      const rx = tournament.restrictions;
+      if (members.filter(c=>!c.isPitcher).length > target.bats) return false;
+      if (ids.size > (rosterSize(tournament) ?? Infinity)) return false;
+      if (rx?.teamCap != null && members.reduce((n,c) => n+(c.val ?? 0),0) > rx.teamCap) return false;
+      const variants = members.filter(c=>c.variant).length;
+      if (variants > (rx?.variantsAllowed === false ? 0 : rx?.variantCap ?? Infinity)) return false;
+      if (rx?.slots) {
+        const tiers: Record<string, number> = {};
+        for (const m of members) if (m.val != null) { const t = tierCode(m.val); tiers[t] = (tiers[t] ?? 0) + 1; }
+        if (slotCapacityIssues(tiers, rx.slots).length) return false;
+      }
+      return true;
+    };
     const fillLineup = (hand: "R" | "L") => {
       const fit = hand === "R" ? fitR : fitL;
       const order = [...lineupPos].sort((a, b) => {
@@ -632,7 +690,8 @@ export function RosterBuilder({
       for (const pos of order) {
         const cand = pool
           .filter((c) => !c.isPitcher && !taken.has(c.cardId) && (pos === "DH" || (c.ratings[`Pos Rating ${pos}`] ?? 0) > 0))
-          .sort((a, b) => (fit.get(b.cardId) ?? 0) - (fit.get(a.cardId) ?? 0))[0];
+          .sort((a, b) => (fit.get(b.cardId) ?? 0) - (fit.get(a.cardId) ?? 0))
+          .find(canAdd);
         if (cand) { next[`${hand}:${pos}`] = cand.cardId; taken.add(cand.cardId); }
       }
       // both lineups share cards — free them for the other hand's picks
@@ -643,14 +702,18 @@ export function RosterBuilder({
     const usedIds = new Set(Object.values(next).filter((v): v is number => v != null));
     const arms = pool.filter((c) => c.isPitcher)
       .sort((a, b) => (fitR.get(b.cardId) ?? 0) - (fitR.get(a.cardId) ?? 0));
-    const sps = arms.filter((c) => c.role === "SP" && !usedIds.has(c.cardId)).slice(0, spKeys.length);
-    sps.forEach((c, i) => { next[spKeys[i]] = c.cardId; usedIds.add(c.cardId); });
+    for (const key of spKeys) {
+      const c = arms.find(c => c.role === "SP" && !usedIds.has(c.cardId) && canAdd(c));
+      if (c) { next[key] = c.cardId; usedIds.add(c.cardId); }
+    }
     const pen = arms.filter((c) => !usedIds.has(c.cardId));
-    const cl = pen.find((c) => c.role === "CL") ?? pen.find((c) => c.role !== "SP") ?? pen[0];
+    const cl = pen.find((c) => c.role === "CL" && canAdd(c)) ?? pen.find((c) => c.role !== "SP" && canAdd(c)) ?? pen.find(canAdd);
     if (cl && rpKeys.includes("CL")) { next["CL"] = cl.cardId; usedIds.add(cl.cardId); }
     const restRp = rpKeys.filter((k) => k !== "CL");
-    arms.filter((c) => !usedIds.has(c.cardId)).slice(0, restRp.length)
-      .forEach((c, i) => { next[restRp[i]] = c.cardId; usedIds.add(c.cardId); });
+    for (const key of restRp) {
+      const c = arms.find(c => !usedIds.has(c.cardId) && canAdd(c));
+      if (c) { next[key] = c.cardId; usedIds.add(c.cardId); }
+    }
     // bench = the roster hitters who aren't starting vs RHP
     const startersR = new Set(lineupPos.map((p) => next[`R:${p}`]).filter((v): v is number => v != null));
     pool.filter((c) => !c.isPitcher && !startersR.has(c.cardId))
@@ -659,10 +722,10 @@ export function RosterBuilder({
         const inL = (c: BuilderCard) => (lineupPos.some((p) => next[`L:${p}`] === c.cardId) ? 1 : 0);
         return (inL(b) - inL(a)) || ((fitR.get(b.cardId) ?? 0) - (fitR.get(a.cardId) ?? 0));
       })
-      .slice(0, benchKeys.length)
-      .forEach((c, i) => { next[benchKeys[i]] = c.cardId; });
+      .filter(canAdd)
+      .reduce((i, c) => { if (i < benchKeys.length && canAdd(c)) { next[benchKeys[i]] = c.cardId; return i+1; } return i; }, 0);
     setSlots(next);
-    setMsg(silent ? "Recommended roster filled — click a slot, or drag players around, to tweak." : null);
+    setMsg(silent ? "Draft roster filled. Review the rule checks below, then adjust your players." : null);
   };
 
   // Switching tournaments empties the board and asks for a fresh
@@ -678,6 +741,7 @@ export function RosterBuilder({
     setPosFilter("ALL");
     setMsg(null);
     setSlots({});
+    setForms({});
     wantFill.current = tournament.id;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tournament?.id]);
@@ -697,32 +761,27 @@ export function RosterBuilder({
     const payload = {
       tournamentId: tournament.id,
       name,
-      slots: slotOrder
-        .filter((k) => slots[k] != null)
-        .map((k) => {
-          const [a, b] = k.split(":");
-          const isLineup = b != null;
-          return {
-            cardId: slots[k] as number,
-            slot: isLineup ? b : a,
-            versusHand: isLineup ? a : "both",
-            lineupOrder: isLineup ? lineupPos.indexOf(b) : null,
-          };
-        }),
+      slots: serializeSlots(),
+      requireReady: validation?.ready ?? false,
     };
     setSaving(true);
-    const res = await fetch("/api/rosters", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
-    setSaving(false);
-    if (res.ok) { setMsg(`Saved “${name}”.`); router.refresh(); }
-    else setMsg(`Save failed (${res.status}).`);
+    try {
+      const res = await fetch("/api/rosters", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+      const result = await res.json();
+      if (res.ok) { setMsg(`Saved “${name}”${result.validation?.ready ? " — ready." : " as a draft; rule checks remain."}`); router.refresh(); }
+      else setMsg(result.error ?? `Save failed (${res.status}).`);
+    } catch { setMsg("Could not save. Your roster is still here; try again."); }
+    finally { setSaving(false); }
   };
 
   const loadSaved = (r: SavedRoster) => {
     const next: Record<SlotKey, number | null> = {};
+    const savedForms: Record<number, boolean> = {};
     let maxBn = 0, maxSp = 0, maxRp = 0;
     for (const s of r.slots) {
       const key = s.versusHand === "R" || s.versusHand === "L" ? `${s.versusHand}:${s.slot}` : s.slot;
       next[key] = s.cardId;
+      savedForms[s.cardId] = s.useVariant;
       const bn = /^BN(\d+)$/.exec(key); if (bn) maxBn = Math.max(maxBn, +bn[1]);
       const sp = /^SP(\d+)$/.exec(key); if (sp) maxSp = Math.max(maxSp, +sp[1]);
       const rp = /^RP(\d+)$/.exec(key); if (rp) maxRp = Math.max(maxRp, +rp[1]);
@@ -731,6 +790,7 @@ export function RosterBuilder({
     if (maxSp > shape.sp) setCount("sp", maxSp);
     if (maxRp + 1 > shape.rp) setCount("rp", maxRp + 1);
     setSlots(next);
+    setForms(savedForms);
     setMsg(`Loaded “${r.name}”.`);
   };
 
@@ -748,9 +808,10 @@ export function RosterBuilder({
     const name = rosterName.trim() || tournament.name;
     const line = (id: number | null | undefined) => {
       const c = id != null ? byId.get(id) : null;
-      return c ? `${c.name} (${c.pos}${c.bats ? `, ${c.bats}` : ""}, VAL ${c.val ?? "?"})` : "—";
+      return c ? `${c.name} (${c.variant ? "VARIANT, " : ""}${c.pos}${c.bats ? `, ${c.bats}` : ""}, VAL ${c.val ?? "?"})` : "—";
     };
     const txt: string[] = [`${name} — ${new Date().toISOString().slice(0, 10)}`, ""];
+    txt.push(validation?.ready ? "READY — passed recorded rules" : "DRAFT — not ready for entry", ...(validation?.errors.map(e=>e.message) ?? []), ...(validation?.incomplete.map(e=>e.message) ?? []), "");
     for (const hand of ["R", "L"] as const) {
       txt.push(`vs ${hand}HP`);
       lineupPos.forEach((p, i) => txt.push(`  ${i + 1}. ${p.padEnd(2)}  ${line(slots[`${hand}:${p}`])}`));
@@ -763,7 +824,7 @@ export function RosterBuilder({
     txt.push("Bench");
     benchKeys.forEach((k) => txt.push(`  ${k.padEnd(3)} ${line(slots[k])}`));
 
-    const csv: string[] = ["Section,Slot,Order,Card ID,Name,Pos,Bats,VAL"];
+    const csv: string[] = ["Section,Slot,Order,Card ID,Name,Pos,Bats,VAL,Variant,Status"];
     const esc = (s: string) => (/[",]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s);
     for (const k of slotOrder) {
       const id = slots[k];
@@ -773,7 +834,7 @@ export function RosterBuilder({
       const [a, b] = k.split(":");
       const section = b ? `vs ${a}HP` : k.startsWith("BN") ? "Bench" : "Staff";
       const order = b ? lineupPos.indexOf(b) + 1 : "";
-      csv.push([section, b ?? a, order, c.cardId, esc(c.name), c.isPitcher ? c.role ?? "P" : c.pos, c.bats ?? "", c.val ?? ""].join(","));
+      csv.push([section, b ?? a, order, c.cardId, esc(c.name), c.isPitcher ? c.role ?? "P" : c.pos, c.bats ?? "", c.val ?? "", c.variant ? "Y" : "N", validation?.ready ? "Ready" : "Draft"].join(","));
     }
     const stamp = new Date().toISOString().slice(0, 10);
     const base = name.replace(/[^A-Za-z0-9 _-]/g, "").trim().replace(/\s+/g, "_");
@@ -867,7 +928,7 @@ export function RosterBuilder({
         <div>
           <h1 className="text-xl font-semibold tracking-tight">Build</h1>
           <p className="text-sm text-muted-foreground">
-            Pick a tournament — a recommended roster fills itself in, sized to what teams actually carry there.
+            Pick a tournament to build and check a roster from your owned cards.
             Drag cards onto slots, or between slots, to move them.
           </p>
         </div>
@@ -888,6 +949,8 @@ export function RosterBuilder({
           ))}
         </select>
       </div>
+
+      <p className="text-xs text-muted-foreground">Collection snapshot: {collectionDate ?? "not loaded"}. Base and variant copies are checked separately.</p>
 
       {!tournament ? (
         <p className="text-sm text-muted-foreground">
@@ -1050,7 +1113,7 @@ export function RosterBuilder({
                             >
                               {c.name}
                               {c.bats && <span className="ml-1 text-[10px] text-muted-foreground">{c.bats}</span>}
-                              {c.variant && <span className="ml-1 text-[10px] text-muted-foreground">VAR</span>}
+                              {c.variantOwned && <button type="button" className="ml-2 rounded border px-1 text-[10px]" aria-label={`Use ${c.variant ? "base" : "variant"} ${c.name}`} disabled={!c.baseOwned} onClick={e=>{e.stopPropagation();setForms(f=>({...f,[c.cardId]:!c.variant}));}}>{c.variant ? "VAR selected" : "Base · VAR owned"}</button>}
                               {inUse && <span className="ml-1 text-[10px] text-emerald-600 dark:text-emerald-400">●</span>}
                             </td>
                             <td className="px-1.5">{c.isPitcher ? c.role ?? "P" : c.pos}</td>
@@ -1112,8 +1175,8 @@ export function RosterBuilder({
 
               <p className="text-xs text-muted-foreground">
                 {view === "UPG"
-                  ? `Best tournament-legal cards you don't own, by model-v0 projection, priced from the latest shop snapshot. Hover a name for the card face.`
-                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. pWOBA/pFIP = model v0 (ratings → observed stats fit). Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Variant limits and LIVE-only rules aren't enforced yet.`}
+                  ? `Upgrade candidates from recorded eligibility rules. Full roster checks still apply. Prices are from your latest shop snapshot. Hover a name for the card face.`
+                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. pWOBA/pFIP = model v0 (ratings → observed stats fit). Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Value window, card years, card types and slot tiers are checked here; the cap, variant limit and roster size are checked on the board.`}
               </p>
             </div>
 
@@ -1139,7 +1202,7 @@ export function RosterBuilder({
                   <span className="font-mono">{summary.roster}</span> players.{" "}
                   {meta
                     ? `Typical here: ${target.bats}/${target.sp}/${target.rp}.`
-                    : "No dumps for this event yet — sizes are the default 13/5/5."}
+                    : `No exports for this event yet — using ${target.bats}/${target.sp}/${target.rp}.`}
                 </div>
                 <div className="grid grid-cols-2 gap-x-3 text-xs [font-variant-numeric:tabular-nums]">
                   <div>Proj wOBA <span className="float-right font-mono">{fmt3(summary.projWoba)}</span></div>
@@ -1197,10 +1260,16 @@ export function RosterBuilder({
               </div>
 
               <div className="rounded-lg border border-border p-3">
+                {validation && <div className="mb-3 rounded border p-3 text-xs" aria-live="polite">
+                  <p className="font-semibold">{validation.ready ? "Ready — passes recorded rules" : "Draft — checks to resolve"}</p>
+                  <p className="mt-1 text-muted-foreground">{validation.counts.players}/{validation.counts.target ?? "?"} players · value {validation.counts.value}{tournament?.restrictions?.teamCap != null ? `/${tournament.restrictions.teamCap}` : ""} · {validation.counts.variants} variants</p>
+                  {!validation.ready && <details className="mt-2"><summary className="cursor-pointer">{validation.errors.length + validation.incomplete.length} checks</summary><ul className="mt-2 list-disc space-y-1 pl-4">{[...validation.errors,...validation.incomplete].map((e,i)=><li key={`${e.code}-${i}`}>{e.message}</li>)}</ul></details>}
+                  {pool.some(c=>c.variant) && <p className="mt-2 text-muted-foreground">Variant ratings are the ones your collection export recorded for that copy; Contact is rebuilt from its BABIP and Avoid-K.</p>}
+                </div>}
                 <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Save · Export</div>
                 <div className="flex gap-2">
                   <Input placeholder="Roster name" value={rosterName} onChange={(e) => setRosterName(e.target.value)} className="h-8" />
-                  <Button size="sm" onClick={save} disabled={saving || summary.filled === 0}>{saving ? "Saving…" : "Save"}</Button>
+                  <Button size="sm" onClick={save} disabled={saving || summary.filled === 0}>{saving ? "Saving…" : validation?.ready ? "Save ready roster" : "Save draft"}</Button>
                 </div>
                 <Button size="sm" variant="outline" className="mt-2 w-full" onClick={exportLineup} disabled={summary.filled === 0}>
                   Export lineup (.txt + .csv)

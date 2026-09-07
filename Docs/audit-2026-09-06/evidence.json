@@ -1,0 +1,457 @@
+{
+  "auditedAt": "2026-09-06T23:54:10.445Z",
+  "queries": {
+    "uploads": "select kind,count(*)::int as uploads,max(uploaded_at) as latest_recorded_date from uploads group by kind order by kind",
+    "latestCollection": "select match_quality,is_variant,count(*)::int as rows,count(distinct card_id)::int as distinct_cards from collection_cards where upload_id=(select max(id) from uploads where kind='collection') group by match_quality,is_variant",
+    "latestOwnership": "select count(*) filter(where owned>0)::int as owned_card_ids,sum(owned)::int as owned_copies from card_snapshots where upload_id=(select max(id) from uploads where kind='shop_list')",
+    "rules": "select count(*)::int as catalog,count(*) filter(where not retired)::int as current,count(*) filter(where restrictions->>'teamCap' is not null)::int as with_team_cap,count(*) filter(where restrictions->>'variantCap' is not null)::int as with_variant_cap,count(*) filter(where restrictions->>'slots' is not null)::int as with_slots,count(*) filter(where restrictions->>'cardTypes' is not null)::int as with_card_types from tournaments",
+    "observations": "select count(*)::int as aggregates,count(distinct card_id)::int as card_ids,count(distinct series)::int as series,count(*) filter(where not is_pitcher and pa>=500)::int as hitters_at_500pa,count(*) filter(where is_pitcher and ip>=400)::int as pitchers_at_400ip from observed_card_stats",
+    "unmatchedObserved": "select count(*)::int as rows,count(distinct o.card_id)::int as card_ids from observed_card_stats o left join cards c on o.card_id=c.card_id where c.card_id is null",
+    "latestLeague": "select s.league,s.split,max(s.captured_on) as latest,count(*)::int as snapshots from league_snapshots s group by s.league,s.split order by s.league,s.split",
+    "snapshotCompleteness": "select s.league,s.split,s.captured_on,count(*)::int as rows,count(*) filter(where l.is_pitcher)::int as pitchers from league_snapshots s join league_stints l on l.snapshot_id=s.id where s.split='all' group by s.id order by s.captured_on desc,s.league",
+    "personalResults": "select source,count(*)::int as entries,min(start_at) as earliest,max(start_at) as latest,count(*) filter(where finish=1)::int as wins from my_results group by source",
+    "periods": "select id,name,starts_on,ends_on,targets_are_official from periods order by id",
+    "dailyCoverage": "select min(occurred_on) as earliest,max(occurred_on) as latest,count(distinct occurred_on)::int as days,count(*)::int as rows from daily_totals"
+  },
+  "rawFolders": {
+    "LJ Cards and Card Shop": {
+      "csvFiles": 5,
+      "bytes": 5818746
+    },
+    "League Data": {
+      "csvFiles": 44,
+      "bytes": 26998073
+    },
+    "Archive/Completed": {
+      "csvFiles": 338,
+      "bytes": 442643808
+    },
+    "Tourney Data": {
+      "csvFiles": 77,
+      "bytes": 148041084
+    },
+    "Inbox": {
+      "csvFiles": 1,
+      "bytes": 944515
+    }
+  },
+  "latestRawCards": {
+    "shop": {
+      "total": 4010,
+      "ownedCards": 3436,
+      "ownedCopies": 3500,
+      "byTier": {
+        "Silver": 675,
+        "Iron": 1288,
+        "Gold": 511,
+        "Diamond": 346,
+        "Bronze": 978,
+        "Perfect": 212
+      },
+      "ownedByTier": {
+        "Silver": 625,
+        "Iron": 1217,
+        "Gold": 407,
+        "Diamond": 217,
+        "Bronze": 923,
+        "Perfect": 47
+      },
+      "withVariantListing": 2185,
+      "tierBandsValid": true,
+      "headerFields": 122,
+      "dataFields": 123
+    },
+    "collection": {
+      "total": 3500,
+      "variants": 75,
+      "active": 26,
+      "hasActiveColumn": true
+    },
+    "matchRate": 1,
+    "qualities": {
+      "exact": 3425,
+      "variant": 75
+    }
+  },
+  "latestDumps": [
+    {
+      "file": "pt27_tournaments_competitve_dump_20260831.csv",
+      "source": "tournaments",
+      "events": 8403,
+      "uniqueIds": 8403,
+      "from": "2026-03-13",
+      "to": "2026-08-31",
+      "personalEntries": 705
+    },
+    {
+      "file": "pt27_drafts_competitve_dump_20260831.csv",
+      "source": "drafts",
+      "events": 5838,
+      "uniqueIds": 5838,
+      "from": "2026-03-13",
+      "to": "2026-08-31",
+      "personalEntries": 591
+    }
+  ],
+  "database": {
+    "cards": 4010,
+    "card_snapshots": 11691,
+    "collection_cards": 10445,
+    "tournaments": 128,
+    "contexts": 0,
+    "observed_card_stats": 30321,
+    "series_meta": 48,
+    "league_snapshots": 47,
+    "league_stints": 41375,
+    "rosters": 0,
+    "results": 0,
+    "daily_totals": 350,
+    "my_results": 1296,
+    "standings": 0,
+    "uploads": [
+      {
+        "kind": "collection",
+        "uploads": 3,
+        "latest_recorded_date": "2026-08-27T12:00:00.000Z"
+      },
+      {
+        "kind": "dump",
+        "uploads": 5,
+        "latest_recorded_date": "2026-08-31T12:00:00.000Z"
+      },
+      {
+        "kind": "league",
+        "uploads": 47,
+        "latest_recorded_date": "2026-09-06T12:00:00.000Z"
+      },
+      {
+        "kind": "shop_list",
+        "uploads": 3,
+        "latest_recorded_date": "2026-08-27T12:00:00.000Z"
+      }
+    ],
+    "latestCollection": [
+      {
+        "match_quality": "exact",
+        "is_variant": false,
+        "rows": 3425,
+        "distinct_cards": 3414
+      },
+      {
+        "match_quality": "variant",
+        "is_variant": true,
+        "rows": 75,
+        "distinct_cards": 75
+      }
+    ],
+    "latestOwnership": [
+      {
+        "owned_card_ids": 3436,
+        "owned_copies": 3500
+      }
+    ],
+    "rules": [
+      {
+        "catalog": 128,
+        "current": 124,
+        "with_team_cap": 7,
+        "with_variant_cap": 8,
+        "with_slots": 6,
+        "with_card_types": 4
+      }
+    ],
+    "observations": [
+      {
+        "aggregates": 30321,
+        "card_ids": 3742,
+        "series": 48,
+        "hitters_at_500pa": 3351,
+        "pitchers_at_400ip": 1244
+      }
+    ],
+    "unmatchedObserved": [
+      {
+        "rows": 152,
+        "card_ids": 34
+      }
+    ],
+    "latestLeague": [
+      {
+        "league": "HD450",
+        "split": "all",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 5
+      },
+      {
+        "league": "HD450",
+        "split": "vL",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 4
+      },
+      {
+        "league": "HD450",
+        "split": "vR",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 4
+      },
+      {
+        "league": "HD451",
+        "split": "all",
+        "latest": "2026-08-30T05:00:00.000Z",
+        "snapshots": 3
+      },
+      {
+        "league": "HD451",
+        "split": "vL",
+        "latest": "2026-08-30T05:00:00.000Z",
+        "snapshots": 2
+      },
+      {
+        "league": "HD451",
+        "split": "vR",
+        "latest": "2026-08-30T05:00:00.000Z",
+        "snapshots": 2
+      },
+      {
+        "league": "HD452",
+        "split": "all",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 3
+      },
+      {
+        "league": "HD452",
+        "split": "vL",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 2
+      },
+      {
+        "league": "HD452",
+        "split": "vR",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 2
+      },
+      {
+        "league": "HD453",
+        "split": "all",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 4
+      },
+      {
+        "league": "HD453",
+        "split": "vL",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 3
+      },
+      {
+        "league": "HD453",
+        "split": "vR",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 3
+      },
+      {
+        "league": "LD404",
+        "split": "all",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 1
+      },
+      {
+        "league": "LD404",
+        "split": "vL",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 1
+      },
+      {
+        "league": "LD404",
+        "split": "vR",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "snapshots": 1
+      },
+      {
+        "league": "PEL",
+        "split": "all",
+        "latest": "2026-08-30T05:00:00.000Z",
+        "snapshots": 3
+      },
+      {
+        "league": "PEL",
+        "split": "vL",
+        "latest": "2026-08-30T05:00:00.000Z",
+        "snapshots": 2
+      },
+      {
+        "league": "PEL",
+        "split": "vR",
+        "latest": "2026-08-30T05:00:00.000Z",
+        "snapshots": 2
+      }
+    ],
+    "snapshotCompleteness": [
+      {
+        "league": "HD450",
+        "split": "all",
+        "captured_on": "2026-09-06T05:00:00.000Z",
+        "rows": 855,
+        "pitchers": 420
+      },
+      {
+        "league": "HD452",
+        "split": "all",
+        "captured_on": "2026-09-06T05:00:00.000Z",
+        "rows": 847,
+        "pitchers": 404
+      },
+      {
+        "league": "HD453",
+        "split": "all",
+        "captured_on": "2026-09-06T05:00:00.000Z",
+        "rows": 836,
+        "pitchers": 409
+      },
+      {
+        "league": "LD404",
+        "split": "all",
+        "captured_on": "2026-09-06T05:00:00.000Z",
+        "rows": 851,
+        "pitchers": 421
+      },
+      {
+        "league": "HD451",
+        "split": "all",
+        "captured_on": "2026-08-30T05:00:00.000Z",
+        "rows": 473,
+        "pitchers": 4
+      },
+      {
+        "league": "HD453",
+        "split": "all",
+        "captured_on": "2026-08-30T05:00:00.000Z",
+        "rows": 849,
+        "pitchers": 396
+      },
+      {
+        "league": "PEL",
+        "split": "all",
+        "captured_on": "2026-08-30T05:00:00.000Z",
+        "rows": 1051,
+        "pitchers": 501
+      },
+      {
+        "league": "HD450",
+        "split": "all",
+        "captured_on": "2026-08-23T05:00:00.000Z",
+        "rows": 897,
+        "pitchers": 407
+      },
+      {
+        "league": "HD450",
+        "split": "all",
+        "captured_on": "2026-08-16T05:00:00.000Z",
+        "rows": 891,
+        "pitchers": 422
+      },
+      {
+        "league": "HD451",
+        "split": "all",
+        "captured_on": "2026-08-16T05:00:00.000Z",
+        "rows": 906,
+        "pitchers": 423
+      },
+      {
+        "league": "HD452",
+        "split": "all",
+        "captured_on": "2026-08-16T05:00:00.000Z",
+        "rows": 877,
+        "pitchers": 414
+      },
+      {
+        "league": "HD453",
+        "split": "all",
+        "captured_on": "2026-08-16T05:00:00.000Z",
+        "rows": 898,
+        "pitchers": 437
+      },
+      {
+        "league": "PEL",
+        "split": "all",
+        "captured_on": "2026-08-16T05:00:00.000Z",
+        "rows": 1110,
+        "pitchers": 527
+      },
+      {
+        "league": "HD450",
+        "split": "all",
+        "captured_on": "2026-07-06T05:00:00.000Z",
+        "rows": 965,
+        "pitchers": 466
+      },
+      {
+        "league": "HD451",
+        "split": "all",
+        "captured_on": "2026-07-06T05:00:00.000Z",
+        "rows": 882,
+        "pitchers": 415
+      },
+      {
+        "league": "HD452",
+        "split": "all",
+        "captured_on": "2026-07-06T05:00:00.000Z",
+        "rows": 874,
+        "pitchers": 406
+      },
+      {
+        "league": "HD453",
+        "split": "all",
+        "captured_on": "2026-07-06T05:00:00.000Z",
+        "rows": 913,
+        "pitchers": 433
+      },
+      {
+        "league": "PEL",
+        "split": "all",
+        "captured_on": "2026-07-06T05:00:00.000Z",
+        "rows": 1118,
+        "pitchers": 513
+      },
+      {
+        "league": "HD450",
+        "split": "all",
+        "captured_on": "2026-06-28T05:00:00.000Z",
+        "rows": 868,
+        "pitchers": 423
+      }
+    ],
+    "personalResults": [
+      {
+        "source": "drafts",
+        "entries": 591,
+        "earliest": "2026-04-30T04:23:16.000Z",
+        "latest": "2026-08-31T05:22:39.000Z",
+        "wins": 8
+      },
+      {
+        "source": "tournaments",
+        "entries": 705,
+        "earliest": "2026-05-03T00:31:25.000Z",
+        "latest": "2026-08-31T04:01:01.000Z",
+        "wins": 12
+      }
+    ],
+    "periods": [
+      {
+        "id": 1,
+        "name": "PTCS 6",
+        "starts_on": "2026-08-03T05:00:00.000Z",
+        "ends_on": "2026-09-06T05:00:00.000Z",
+        "targets_are_official": false
+      }
+    ],
+    "dailyCoverage": [
+      {
+        "earliest": "2026-08-03T05:00:00.000Z",
+        "latest": "2026-09-06T05:00:00.000Z",
+        "days": 35,
+        "rows": 350
+      }
+    ]
+  }
+}

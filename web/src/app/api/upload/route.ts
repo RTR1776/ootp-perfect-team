@@ -373,6 +373,7 @@ export async function POST(request: Request) {
       released: m.released,
       matchDistance: m.matchDistance,
       matchQuality: m.matchQuality,
+      ratings: m.ratings,
     }));
     for (let i = 0; i < rows.length; i += 500) {
       await db.insert(collectionCards).values(rows.slice(i, i + 500));

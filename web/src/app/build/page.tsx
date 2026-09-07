@@ -29,6 +29,7 @@ import {
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { projFip, projWoba } from "@/lib/analytics/projection";
 import { getRatingScale } from "@/lib/rating-scale";
+import { cardEligibility, tierCode, tierFitsSlots, TIER_ORDER, type RosterSlot } from "@/lib/roster-rules";
 import coeffs from "@/lib/analytics/projection-coeffs.json";
 import {
   RosterBuilder,
@@ -129,7 +130,8 @@ export default async function BuildPage({
   let pool: BuilderCard[] = [];
   let upgrades: UpgradeCard[] = [];
   let meta: SeriesMetaInfo | null = null;
-  let savedRosters: { id: number; name: string; slots: { cardId: number; slot: string; versusHand: string | null; lineupOrder: number | null }[] }[] = [];
+  let savedRosters: { id: number; name: string; slots: RosterSlot[] }[] = [];
+  let collectionDate: string | null = null;
 
   if (picked) {
     const [full] = await db.select().from(tournaments).where(eq(tournaments.id, picked.id));
@@ -157,23 +159,19 @@ export default async function BuildPage({
         : null,
     };
 
-    // A "Slots: S16, B5, I5" spec is a per-tier budget. A tier the spec omits
-    // is not capped at zero by accident - it is not in the event at all, so it
-    // must not be recommended. Tiers are read off card value.
+    // A "Slots: S16, B5, I5" spec is a set of per-tier MAXIMUMS and a lower
+    // card may sit in a higher slot (L.J., 2026-09-07) — so the only card-level
+    // consequence is a ceiling at the highest tier that has a slot. The
+    // per-tier budget itself is a whole-roster check (roster-rules.ts).
     const rx = (full.restrictions ?? null) as { slots?: Record<string, number> } | null;
-    const slotTiers = rx?.slots
-      ? new Set(Object.entries(rx.slots).filter(([, n]) => n > 0).map(([k]) => k))
-      : null;
-    const tierOf = (val: number | null): string | null =>
-      val == null ? null
-      : val >= 100 ? "P" : val >= 90 ? "D" : val >= 80 ? "G" : val >= 70 ? "S" : val >= 60 ? "B" : "I";
+    const slotRules = rx?.slots ?? null;
 
     const isLegal = (val: number | null, year: number | null): boolean => {
       if (full.ratingsMax != null && (val ?? 0) > full.ratingsMax) return false;
       if (full.ratingsMin != null && (val ?? 0) < full.ratingsMin) return false;
       if (full.cardYearMin != null && year != null && year < full.cardYearMin) return false;
       if (full.cardYearMax != null && year != null && year > full.cardYearMax) return false;
-      if (slotTiers) { const t = tierOf(val); if (t && !slotTiers.has(t)) return false; }
+      if (slotRules && val != null && !tierFitsSlots(tierCode(val), slotRules)) return false;
       return true;
     };
 
@@ -188,11 +186,12 @@ export default async function BuildPage({
     }
 
     const [latestCollection] = await db
-      .select({ id: uploads.id })
+      .select({ id: uploads.id, date: uploads.uploadedAt })
       .from(uploads)
       .where(eq(uploads.kind, "collection"))
       .orderBy(desc(uploads.id))
       .limit(1);
+    collectionDate = latestCollection?.date.toISOString().slice(0,10) ?? null;
 
     const owned = latestCollection
       ? await db
@@ -200,6 +199,7 @@ export default async function BuildPage({
             cardId: collectionCards.cardId,
             isActive: collectionCards.isActive,
             isVariant: collectionCards.isVariant,
+            ratings: collectionCards.ratings,
           })
           .from(collectionCards)
           .where(eq(collectionCards.uploadId, latestCollection.id))
@@ -220,6 +220,7 @@ export default async function BuildPage({
             throws: cards.throws,
             year: cards.year,
             ratings: cards.ratings,
+            cardType: cards.cardType,
           })
           .from(cards)
           .where(inArray(cards.cardId, ownedIds))
@@ -227,6 +228,8 @@ export default async function BuildPage({
 
     const activeSet = new Set(owned.filter((o) => o.isActive).map((o) => o.cardId));
     const variantSet = new Set(owned.filter((o) => o.isVariant).map((o) => o.cardId));
+    const baseSet = new Set(owned.filter(o=>!o.isVariant).map(o=>o.cardId));
+    const variants = new Map(owned.filter(o=>o.isVariant).map(o=>[o.cardId,o.ratings]));
 
     // Observed: this tournament's series only — career mixes parks and eras.
     const seriesRows: ObservedLine[] = full.series
@@ -265,13 +268,17 @@ export default async function BuildPage({
           year: c.year,
           active: activeSet.has(c.cardId),
           variant: variantSet.has(c.cardId),
+          baseOwned: baseSet.has(c.cardId),
+          variantOwned: variantSet.has(c.cardId),
+          variantRatings: variants.get(c.cardId) ?? null,
+          cardType: c.cardType,
           ratings: trimRatings(r),
           proj: isP
             ? { all: projFip(r), vL: projFip(r, "vL"), vR: projFip(r, "vR") }
             : { all: projWoba(r), vL: projWoba(r, "vL"), vR: projWoba(r, "vR") },
           obs: bySeries.get(c.cardId) ?? null,
         };
-      });
+      }).filter(c => cardEligibility(c, tournament!).errors.length === 0);
 
     /* ------- suggested upgrades: best legal cards you DON'T own -------
        Scored in SQL with the model-v0 linear expression so we never pull
@@ -288,19 +295,14 @@ export default async function BuildPage({
     const hasKeys = (features: string[]) =>
       sql`${cards.ratings} ?& ${sql.raw(`array[${features.map((f) => `'${f}'`).join(",")}]`)}`;
     // Mirror of isLegal above, in SQL. Keep the two in step: this governs the
-  // upgrade recommendations, the other governs the owned pool.
-  const SLOT_BANDS: Record<string, [number, number]> = {
-    P: [100, 999], D: [90, 99], G: [80, 89], S: [70, 79], B: [60, 69], I: [0, 59],
-  };
-  const rxAll = (full.restrictions ?? null) as { slots?: Record<string, number> } | null;
-  const allowedTiers = rxAll?.slots
-    ? Object.entries(rxAll.slots).filter(([k, n]) => n > 0 && SLOT_BANDS[k]).map(([k]) => k)
+  // upgrade recommendations, the other governs the owned pool. Slots reduce to
+  // a value ceiling at the highest tier with a slot (P = no ceiling).
+  const SLOT_CEILING: Record<string, number> = { P: 999, D: 99, G: 89, S: 79, B: 69, I: 59 };
+  const topSlotTier = slotRules
+    ? [...TIER_ORDER].reverse().find((t) => (slotRules[t] ?? 0) > 0) ?? null
     : null;
-  const slotClause = allowedTiers?.length
-    ? sql.join(
-        allowedTiers.map((t) => sql`(coalesce(${cards.cardValue}, 0) between ${SLOT_BANDS[t][0]} and ${SLOT_BANDS[t][1]})`),
-        sql` or `,
-      )
+  const slotClause = topSlotTier
+    ? sql`coalesce(${cards.cardValue}, 0) <= ${SLOT_CEILING[topSlotTier]}`
     : null;
 
   const legality = [
@@ -324,6 +326,7 @@ export default async function BuildPage({
           pitcherRole: cards.pitcherRole,
           year: cards.year,
           ratings: cards.ratings,
+          cardType: cards.cardType,
         })
         .from(cards)
         .where(
@@ -339,7 +342,9 @@ export default async function BuildPage({
     };
 
     const [topHit, topPit] = await Promise.all([topUnowned(false, 30), topUnowned(true, 20)]);
-    upgrades = [...topHit.map((c) => ({ c, isP: false })), ...topPit.map((c) => ({ c, isP: true }))].map(({ c, isP }) => {
+    upgrades = [...topHit.map((c) => ({ c, isP: false })), ...topPit.map((c) => ({ c, isP: true }))]
+      .filter(({c,isP}) => cardEligibility({cardId:c.cardId,name:c.name,val:c.cardValue,year:c.year,isPitcher:isP,role:c.pitcherRole,cardType:c.cardType,ratings:c.ratings,baseOwned:false,variantOwned:false},tournament!).errors.length===0)
+      .map(({ c, isP }) => {
       const r = (c.ratings ?? {}) as Record<string, number>;
       return {
         cardId: c.cardId,
@@ -394,7 +399,7 @@ export default async function BuildPage({
         name: r.name,
         slots: slotRows
           .filter((s) => s.rosterId === r.id)
-          .map((s) => ({ cardId: s.cardId, slot: s.slot, versusHand: s.versusHand, lineupOrder: s.lineupOrder })),
+          .map((s) => ({ cardId: s.cardId, slot: s.slot, versusHand: s.versusHand, lineupOrder: s.lineupOrder, useVariant: s.useVariant })),
       }));
     }
   }
@@ -408,6 +413,7 @@ export default async function BuildPage({
       upgrades={upgrades}
       meta={meta}
       savedRosters={savedRosters}
+      collectionDate={collectionDate}
     />
   );
 }
