@@ -567,17 +567,17 @@
       "date": "2026-09-06",
       "points": {
         "Iron": 0,
-        "Bronze": 0,
-        "Silver": 0,
+        "Bronze": 6,
+        "Silver": 1,
         "Gold": 10,
         "Diamond": 0,
-        "Open": 6,
+        "Open": 8,
         "Live": 0,
-        "Cap": 16,
-        "PD Daily": 10,
+        "Cap": 17,
+        "PD Daily": 19,
         "PD Weekly": 0
       },
-      "note": "Day 35 of 35 \u2014 the last qualifying day \u2014 read off the Your Tournaments screen. Sunday High Iron Floor and Gold Ceiling 1600025 5-8 (128, Gld+Cp+TW) +10 G/+10 C; Open Slots 1410176 5-8 (64, Op+Cp) +6 OPEN/+6 C; Perfecto Morning 2520165 5-8 (64) +6 PDD; Rise and Shine 2030176 9-16 (64) +3 PDD; All-Silver 2110176 17-32 (64, PD Daily tag only despite the name) +1 PDD. ZEROS: Gold Slots 1320176 33-64 (64, Gld+Cp); Struggling to Sleep - DBL 2240176 33-64 (64). Read across two captures of the Today rows; if anything else finished after the second one, this day is short by that amount."
+      "note": "Day 35 of 35 \u2014 the last qualifying day. FINAL, amended 9/7 from the Your Tournaments screen after every Sep 6 event had settled. Confirmed already-counted from the two Sep 6 captures: Sunday High Iron Floor and Gold Ceiling 1600025 5-8 (128, Gld+Cp+TW) +10 G/+10 C; Open Slots 1410176 5-8 (64, Op+Cp) +6 OPEN/+6 C; Perfecto Morning 2520165 5-8 (64) +6 PDD; Rise and Shine 2030176 9-16 (64) +3 PDD; All-Silver 2110176 17-32 (64, PD Daily tag only despite the name) +1 PDD; zeros Gold Slots 1320176 and Struggling to Sleep - DBL 2240176 33-64 (64). NEW this pass (+19), the events still in flight at the second capture: Bronze OOTP Era 1820160 9-16 (128) +6 B; Perfectly Gold 2220177 5-8 (64) +6 PDD; Dr. Dynastic's Doc Rock Derby - HH 2160177 9-16 (64) +3 PDD; Sunday Open Slots 1610025 33-64 (128, Op+Cp+TW) +1 OPEN/+1 C; Sunday Open Main Event 1620025 65-128 (256, Op+TW) +1 OPEN; Late Silver 1240177 33-64 (128) +1 S. Day total 42 -> 61. Perfectly Silver 2550165 17-32 also appeared on this screen but is a Sep 5 event and was already logged there. Period closes at 1,271: Bronze 160, Silver 171, Gold 159, Diamond 131, Cap 221 all over the line; PD Daily 340 (7 short of 347); Open 24, Live 13, PD Weekly 52, Iron 0. Day complete."
     }
   ]
 }
