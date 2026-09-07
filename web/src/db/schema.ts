@@ -549,3 +549,67 @@ export const observedCardStats = pgTable(
   },
   (t) => [primaryKey({ columns: [t.series, t.cardId] }), index("observed_series_idx").on(t.series)],
 );
+
+/* ------------------------------------------------------------------ */
+/* Import lineage                                                      */
+/* ------------------------------------------------------------------ */
+
+/** One source file that fed an import batch, hashed so a replay is provable. */
+export interface ImportFile {
+  name: string;
+  bytes: number;
+  sha256: string;
+}
+
+/**
+ * One row per publish attempt of a derived table. The reason this exists:
+ * the observed importer used to delete a series and then re-insert it, so a
+ * failed batch — the Neon HTTP driver rejecting a large payload, a dropped
+ * connection — left that series EMPTY until someone noticed and re-ran it.
+ * Now an import stages its rows against a batch id, publishes with one upsert
+ * statement (atomic in Postgres on its own), and only then removes what the
+ * new batch no longer contains. The live table is never empty or half-built,
+ * and this record says which files, which parser and which outcome produced
+ * what is there.
+ */
+export const importBatches = pgTable("import_batches", {
+  id: serial("id").primaryKey(),
+  /** What was imported: "observed" today; league / cards can join later. */
+  kind: text("kind").notNull(),
+  /** The partitions this batch replaces when it publishes (series slugs). */
+  scope: jsonb("scope").$type<string[]>().notNull(),
+  files: jsonb("files").$type<ImportFile[]>().notNull(),
+  parserVersion: text("parser_version").notNull(),
+  /** Rows staged (and, once published, live) for this batch. */
+  rows: integer("rows"),
+  /** staged → published | failed. Anything left "staged" for hours is a crash. */
+  status: text("status").notNull(),
+  error: text("error"),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  publishedAt: timestamp("published_at", { withTimezone: true }),
+});
+
+/**
+ * Staging area for observed_card_stats: identical columns plus the batch that
+ * wrote them. Rows live here only between staging and publish; a crash leaves
+ * them behind harmlessly (the next run sweeps any batch no longer "staged").
+ */
+export const observedCardStatsStage = pgTable(
+  "observed_card_stats_stage",
+  {
+    batchId: integer("batch_id")
+      .notNull()
+      .references(() => importBatches.id, { onDelete: "cascade" }),
+    series: text("series").notNull(),
+    cardId: integer("card_id").notNull(),
+    isPitcher: boolean("is_pitcher").notNull(),
+    instances: integer("instances").notNull(),
+    pa: integer("pa").notNull().default(0),
+    ip: real("ip").notNull().default(0),
+    war: real("war").notNull().default(0),
+    woba: real("woba"),
+    fip: real("fip"),
+    counters: jsonb("counters").$type<Record<string, number>>().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.batchId, t.series, t.cardId] })],
+);
