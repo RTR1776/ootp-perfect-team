@@ -35,7 +35,14 @@ export interface FillShape {
   bats: number;
 }
 
-export interface FitMaps { fitR: Map<number, number>; fitL: Map<number, number> }
+export interface FitMaps {
+  /** Overall fit per hand (best-position defense) — the table's FIT column, bench ordering, pitchers. */
+  fitR: Map<number, number>;
+  fitL: Map<number, number>;
+  /** Fit per hand AT a lineup position (defense scored at that position; DH offense-only), percentile among the cards that can play it. */
+  atR: Record<string, Map<number, number>>;
+  atL: Record<string, Map<number, number>>;
+}
 
 /* ------------------------------------------------------------ scoring */
 
@@ -51,14 +58,21 @@ export function bestDef(r: Record<string, number>): number {
   return best;
 }
 
-export function hitterRaw(c: { ratings: Record<string, number> }, wL: number): number {
+/**
+ * Hitter composite. With no `pos` the defense term is the card's best
+ * position (the overall Fit shown in the table). With a `pos` it is the rating
+ * AT that position — a shortstop asked to play 3B is scored on his 3B rating —
+ * and for "DH" it is offense only.
+ */
+export function hitterRaw(c: { ratings: Record<string, number> }, wL: number, pos?: string): number {
   const r = c.ratings;
+  const def = pos == null ? bestDef(r) : pos === "DH" ? 0 : (r[`Pos Rating ${pos}`] ?? 0);
   return (
     0.3 * blend(r, "Eye", "Eye vL", "Eye vR", wL) +
     0.22 * blend(r, "Avoid Ks", "Avoid K vL", "Avoid K vR", wL) +
     0.21 * blend(r, "Power", "Power vL", "Power vR", wL) +
     0.1 * blend(r, "Gap", "Gap vL", "Gap vR", wL) +
-    0.17 * bestDef(r)
+    0.17 * def
   );
 }
 
@@ -93,7 +107,17 @@ export function fitMaps(pool: readonly { cardId: number; isPitcher: boolean; rat
     else { hR.set(c.cardId, hitterRaw(c, 0)); hL.set(c.cardId, hitterRaw(c, 1)); }
   }
   const merge = (a: Map<number, number>, b: Map<number, number>) => new Map([...percentileMap(a), ...percentileMap(b)]);
-  return { fitR: merge(hR, pR), fitL: merge(hL, pL) };
+  const atR: Record<string, Map<number, number>> = {}, atL: Record<string, Map<number, number>> = {};
+  for (const pos of [...HIT_POS, "DH"]) {
+    const rawR = new Map<number, number>(), rawL = new Map<number, number>();
+    for (const c of pool) {
+      if (c.isPitcher) continue;
+      if (pos !== "DH" && (c.ratings[`Pos Rating ${pos}`] ?? 0) <= 0) continue;
+      rawR.set(c.cardId, hitterRaw(c, 0, pos)); rawL.set(c.cardId, hitterRaw(c, 1, pos));
+    }
+    atR[pos] = percentileMap(rawR); atL[pos] = percentileMap(rawL);
+  }
+  return { fitR: merge(hR, pR), fitL: merge(hL, pL), atR, atL };
 }
 
 /* --------------------------------------------------------------- fill */
@@ -131,11 +155,14 @@ function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: FillShap
 
   const taken = new Set<number>();
   const fillLineup = (hand: "R" | "L") => {
-    const fit = hand === "R" ? fits.fitR : fits.fitL;
+    const at = hand === "R" ? fits.atR : fits.atL;
+    const overall = hand === "R" ? fits.fitR : fits.fitL;
     // scarce positions first, DH last
     const supply = (p: string) => (p === "DH" ? 999 : pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${p}`] ?? 0) > 0).length);
     const order = [...shape.lineupPos].sort((a, b) => supply(a) - supply(b));
     for (const pos of order) {
+      // rank by fit AT this position (defense scored where he would play)
+      const fit = at[pos] ?? overall;
       const cand = pool
         .filter((c) => !c.isPitcher && !taken.has(c.cardId) && (pos === "DH" || (c.ratings[`Pos Rating ${pos}`] ?? 0) > 0))
         .sort(byScore(fit))

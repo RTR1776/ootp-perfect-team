@@ -8,7 +8,7 @@ Best of 9, cards 1920-1989, Variants on, 1968 RE, DH off, 1964 Shea Stadium
 
 Pool: 647 eligible owned cards (368 bats / 279 arms), value window —–69, years 1920–1989. Shape 12 bats / 5 SP / 9 RP (default).
 
-**READY — passes every recorded rule** · 26/26 players · value 1658 · 2 variants
+**READY — passes every recorded rule** · 26/26 players · value 1646 · 2 variants
 
 ### vs RHP
 
@@ -19,7 +19,7 @@ Pool: 647 eligible owned cards (368 bats / 279 arms), value window —–69, yea
 | 3 | 2B | Joe Morgan · 2B L · Bronze 65 · pWOBA .309 · fit 99 |
 | 4 | 3B | Jackie Robinson · 3B R · Bronze 68 · pWOBA .299 · fit 97 |
 | 5 | SS | Ron Hansen · SS R · Iron 58 · pWOBA .293 · fit 96 |
-| 6 | LF | Bob Allison (VAR) · CF R · Bronze 67 · pWOBA .317 · fit 98 |
+| 6 | LF | Ted Williams · LF L · Iron 54 · pWOBA .301 · fit 98 |
 | 7 | CF | Billy Southworth · RF L · Bronze 68 · pWOBA .325 · fit 98 |
 | 8 | RF | Jim King · RF L · Bronze 68 · pWOBA .297 · fit 97 |
 
@@ -28,13 +28,13 @@ Pool: 647 eligible owned cards (368 bats / 279 arms), value window —–69, yea
 | # | Pos | Card |
 |---|---|---|
 | 1 | C | Dave Valle · C R · Iron 55 · pWOBA .297 · fit 99 |
-| 2 | 1B | Jackie Robinson · 3B R · Bronze 68 · pWOBA .302 · fit 97 |
+| 2 | 1B | Don Baylor · 1B R · Bronze 64 · pWOBA .313 · fit 97 |
 | 3 | 2B | Joe Morgan · 2B L · Bronze 65 · pWOBA .289 · fit 98 |
-| 4 | 3B | Stan Hack · 3B L · Iron 46 · pWOBA .286 · fit 96 |
+| 4 | 3B | Jackie Robinson · 3B R · Bronze 68 · pWOBA .302 · fit 97 |
 | 5 | SS | Ron Hansen · SS R · Iron 58 · pWOBA .297 · fit 98 |
-| 6 | LF | Don Baylor · 1B R · Bronze 64 · pWOBA .313 · fit 97 |
+| 6 | LF | Billy Southworth · RF L · Bronze 68 · pWOBA .308 · fit 94 |
 | 7 | CF | Bob Allison (VAR) · CF R · Bronze 67 · pWOBA .303 · fit 99 |
-| 8 | RF | Dave Harris · LF R · Bronze 67 · pWOBA .319 · fit 98 |
+| 8 | RF | Ken Berry · LF R · Iron 55 · pWOBA .305 · fit 97 |
 
 ### Rotation and bullpen
 
@@ -59,10 +59,10 @@ Pool: 647 eligible owned cards (368 bats / 279 arms), value window —–69, yea
 
 | Slot | Card |
 |---|---|
-| BN1 | Dave Harris · LF R · Bronze 67 · pWOBA .299 · fit 68 |
-| BN2 | Don Baylor · 1B R · Bronze 64 · pWOBA .299 · fit 60 |
-| BN3 | Dave Valle · C R · Iron 55 · pWOBA .291 · fit 59 |
-| BN4 | Ted Williams · LF L · Iron 54 · pWOBA .296 · fit 98 |
+| BN1 | Bob Allison (VAR) · CF R · Bronze 67 · pWOBA .314 · fit 98 |
+| BN2 | Ken Berry · LF R · Iron 55 · pWOBA .300 · fit 75 |
+| BN3 | Don Baylor · 1B R · Bronze 64 · pWOBA .299 · fit 60 |
+| BN4 | Dave Valle · C R · Iron 55 · pWOBA .291 · fit 59 |
 
 ### Next-best owned alternative at each position (vs RHP, by fit)
 
@@ -73,7 +73,7 @@ Pool: 647 eligible owned cards (368 bats / 279 arms), value window —–69, yea
 | 2B | Joe Morgan (99) | Eggie Dallard · Bronze 67 | -5 |
 | 3B | Jackie Robinson (97) | Larry Gardner · Bronze 68 | -1 |
 | SS | Ron Hansen (96) | Cal Ripken Jr. · Iron 58 | -1 |
-| LF | Bob Allison (98) | Mickey Mantle · Bronze 68 | -2 |
+| LF | Ted Williams (98) | Mickey Mantle · Bronze 68 | -2 |
 | CF | Billy Southworth (98) | Mickey Mantle · Bronze 68 | -2 |
 | RF | Jim King (97) | Cy Williams · Bronze 69 | -2 |
 
@@ -87,7 +87,7 @@ Pool: 647 eligible owned cards (368 bats / 279 arms), value window —–69, yea
 
 Raw Δ is the Fit composite on the shop's ratings (not a percentile) — a rough ordering, not a run estimate. Ask = lowest sell order; 99,999 is OOTP's placeholder for no real ask. Prices from shop upload 64.
 
-Saved as roster #1 "PTCS 6 Championship - Bronze · auto 2026-09-07" (ready).
+Saved as roster #7 "PTCS 6 Championship - Bronze · auto 2026-09-07" (ready).
 
 ## PTCS 6 Championship - Silver
 
@@ -95,34 +95,34 @@ Best of 9, cards 1920-1989, Variants on, 2006 RE, DH on, 2005 U.S. Cellular Fiel
 
 Pool: 874 eligible owned cards (504 bats / 370 arms), value window —–79, years 1920–1989. Shape 13 bats / 5 SP / 8 RP (default).
 
-**READY — passes every recorded rule** · 26/26 players · value 1851 · 5 variants
+**READY — passes every recorded rule** · 26/26 players · value 1816 · 4 variants
 
 ### vs RHP
 
 | # | Pos | Card |
 |---|---|---|
 | 1 | C | Ed Bailey · C L · Bronze 69 · pWOBA .303 · fit 98 |
-| 2 | 1B | Lee Thomas (VAR) · 1B L · Silver 77 · pWOBA .328 · fit 98 |
+| 2 | 1B | Stan Hack · 3B L · Iron 46 · pWOBA .308 · fit 98 |
 | 3 | 2B | Joe Morgan · 2B L · Bronze 65 · pWOBA .309 · fit 99 |
 | 4 | 3B | Wade Boggs · 3B L · Silver 74 · pWOBA .318 · fit 99 |
 | 5 | SS | Luis Aparicio · SS R · Silver 71 · pWOBA .312 · fit 98 |
-| 6 | LF | Bob Allison (VAR) · CF R · Bronze 67 · pWOBA .317 · fit 97 |
+| 6 | LF | Billy Southworth · RF L · Bronze 68 · pWOBA .325 · fit 98 |
 | 7 | CF | Jackie Jensen · RF R · Silver 79 · pWOBA .309 · fit 99 |
-| 8 | RF | Billy Southworth · RF L · Bronze 68 · pWOBA .325 · fit 98 |
-| 9 | DH | Stan Hack · 3B L · Iron 46 · pWOBA .308 · fit 98 |
+| 8 | RF | Lee Thomas (VAR) · 1B L · Silver 77 · pWOBA .328 · fit 98 |
+| 9 | DH | Ted Williams · LF L · Iron 54 · pWOBA .301 · fit 97 |
 
 ### vs LHP
 
 | # | Pos | Card |
 |---|---|---|
 | 1 | C | Dave Valle · C R · Iron 55 · pWOBA .297 · fit 98 |
-| 2 | 1B | Joe Medwick · LF R · Silver 77 · pWOBA .305 · fit 98 |
+| 2 | 1B | Vic Power (VAR) · 1B R · Silver 76 · pWOBA .316 · fit 98 |
 | 3 | 2B | Ron Hunt · 2B R · Silver 70 · pWOBA .321 · fit 99 |
 | 4 | 3B | Stan Hack · 3B L · Iron 46 · pWOBA .286 · fit 94 |
 | 5 | SS | Luis Aparicio · SS R · Silver 71 · pWOBA .319 · fit 99 |
-| 6 | LF | Bob Allison (VAR) · CF R · Bronze 67 · pWOBA .303 · fit 98 |
+| 6 | LF | Billy Southworth · RF L · Bronze 68 · pWOBA .308 · fit 92 |
 | 7 | CF | Jackie Jensen · RF R · Silver 79 · pWOBA .322 · fit 99 |
-| 8 | RF | Vic Power (VAR) · 1B R · Silver 76 · pWOBA .316 · fit 98 |
+| 8 | RF | Ken Berry · LF R · Iron 55 · pWOBA .305 · fit 96 |
 | 9 | DH | Joe Morgan · 2B L · Bronze 65 · pWOBA .289 · fit 97 |
 
 ### Rotation and bullpen
@@ -148,8 +148,8 @@ Pool: 874 eligible owned cards (504 bats / 370 arms), value window —–79, yea
 | Slot | Card |
 |---|---|
 | BN1 | Vic Power (VAR) · 1B R · Silver 76 · pWOBA .319 · fit 95 |
-| BN2 | Joe Medwick · LF R · Silver 77 · pWOBA .314 · fit 83 |
-| BN3 | Ron Hunt · 2B R · Silver 70 · pWOBA .299 · fit 70 |
+| BN2 | Ron Hunt · 2B R · Silver 70 · pWOBA .299 · fit 70 |
+| BN3 | Ken Berry · LF R · Iron 55 · pWOBA .300 · fit 64 |
 | BN4 | Dave Valle · C R · Iron 55 · pWOBA .291 · fit 47 |
 
 ### Next-best owned alternative at each position (vs RHP, by fit)
@@ -157,27 +157,27 @@ Pool: 874 eligible owned cards (504 bats / 370 arms), value window —–79, yea
 | Pos | Starter | Alternative | Fit Δ |
 |---|---|---|---|
 | C | Ed Bailey (98) | Darrell Porter · Silver 74 | -1 |
-| 1B | Lee Thomas (98) | Dolph Camilli · Silver 76 | -1 |
+| 1B | Stan Hack (98) | Dolph Camilli · Silver 76 | -1 |
 | 2B | Joe Morgan (99) | Joe Cronin · Silver 77 | -3 |
 | 3B | Wade Boggs (99) | Jackie Robinson · Bronze 68 | -3 |
 | SS | Luis Aparicio (98) | Ozzie Smith · Silver 79 | -2 |
-| LF | Bob Allison (97) | Ted Williams · Iron 54 | 0 |
-| CF | Jackie Jensen (99) | Mickey Mantle · Bronze 68 | -4 |
-| RF | Billy Southworth (98) | Jim King · Bronze 68 | -3 |
-| DH | Stan Hack (98) | Dolph Camilli · Silver 76 | -1 |
+| LF | Billy Southworth (98) | Bob Allison · Bronze 67 | -1 |
+| CF | Jackie Jensen (99) | Bob Allison · Bronze 67 | -2 |
+| RF | Lee Thomas (98) | Jim King · Bronze 68 | -3 |
+| DH | Ted Williams (97) | Dolph Camilli · Silver 76 | 0 |
 
 ### Upgrade candidates you don't own (legal here, would outscore a current starter)
 
 | Card | Tier/Val | Replaces | Raw Δ | Val Δ | Ask PP | Last-10 PP |
 |---|---|---|---|---|---|---|
-| Nellie Fox | Silver 79 | Stan Hack (DH) | +28.3 | +33 | — | 41,376 |
-| Dick McAuliffe | Bronze 68 | Stan Hack (DH) | +10.0 | +22 | 99,999 | 86,916 |
+| Nellie Fox | Silver 79 | Ted Williams (DH) | +29.7 | +25 | — | 41,376 |
+| Dick McAuliffe | Bronze 68 | Ted Williams (DH) | +11.4 | +14 | 99,999 | 86,916 |
 | Brent Strom | Silver 73 | Toothpick Sam Jones (SP, weakest of 5) | +3.9 | -6 | — | 68,801 |
 | Fergie Jenkins | Silver 72 | Toothpick Sam Jones (SP, weakest of 5) | +3.1 | -7 | — | 65,740 |
 
 Raw Δ is the Fit composite on the shop's ratings (not a percentile) — a rough ordering, not a run estimate. Ask = lowest sell order; 99,999 is OOTP's placeholder for no real ask. Prices from shop upload 64.
 
-Saved as roster #2 "PTCS 6 Championship - Silver · auto 2026-09-07" (ready).
+Saved as roster #8 "PTCS 6 Championship - Silver · auto 2026-09-07" (ready).
 
 ## PTCS 6 Championship - Gold
 
@@ -185,20 +185,20 @@ Best of 9, cards 1920-1989, Variants on, 1984 RE, DH off, 1985 Wrigley Field
 
 Pool: 1045 eligible owned cards (605 bats / 440 arms), value window —–89, years 1920–1989. Shape 12 bats / 5 SP / 9 RP (default).
 
-**READY — passes every recorded rule** · 26/26 players · value 2163 · 4 variants
+**READY — passes every recorded rule** · 26/26 players · value 2140 · 5 variants
 
 ### vs RHP
 
 | # | Pos | Card |
 |---|---|---|
-| 1 | C | Jimmie Foxx · 1B R · Gold 84 · pWOBA .317 · fit 98 |
+| 1 | C | Ed Bailey · C L · Bronze 69 · pWOBA .303 · fit 97 |
 | 2 | 1B | Rudy York (VAR) · 1B R · Gold 88 · pWOBA .330 · fit 99 |
 | 3 | 2B | Hank Thompson · 3B L · Gold 87 · pWOBA .328 · fit 99 |
 | 4 | 3B | Sid Gordon · 3B R · Gold 89 · pWOBA .309 · fit 98 |
-| 5 | SS | Solly Hemus · SS L · Gold 83 · pWOBA .305 · fit 97 |
-| 6 | LF | Billy Southworth · RF L · Bronze 68 · pWOBA .325 · fit 97 |
-| 7 | CF | Mickey Mantle · CF S · Gold 88 · pWOBA .328 · fit 99 |
-| 8 | RF | Albie Pearson (VAR) · RF L · Gold 85 · pWOBA .315 · fit 99 |
+| 5 | SS | Luis Aparicio · SS R · Silver 71 · pWOBA .312 · fit 97 |
+| 6 | LF | Lee Thomas (VAR) · 1B L · Silver 77 · pWOBA .328 · fit 96 |
+| 7 | CF | Albie Pearson (VAR) · RF L · Gold 85 · pWOBA .315 · fit 99 |
+| 8 | RF | Mickey Mantle · CF S · Gold 88 · pWOBA .328 · fit 99 |
 
 ### vs LHP
 
@@ -207,8 +207,8 @@ Pool: 1045 eligible owned cards (605 bats / 440 arms), value window —–89, ye
 | 1 | C | Jimmie Foxx · 1B R · Gold 84 · pWOBA .332 · fit 99 |
 | 2 | 1B | Rudy York (VAR) · 1B R · Gold 88 · pWOBA .336 · fit 99 |
 | 3 | 2B | Ron Hunt · 2B R · Silver 70 · pWOBA .321 · fit 99 |
-| 4 | 3B | Eddie Joost · SS R · Gold 89 · pWOBA .314 · fit 98 |
-| 5 | SS | Dick Groat · SS R · Gold 89 · pWOBA .321 · fit 98 |
+| 4 | 3B | Dick Groat · SS R · Gold 89 · pWOBA .321 · fit 98 |
+| 5 | SS | Luis Aparicio · SS R · Silver 71 · pWOBA .319 · fit 98 |
 | 6 | LF | Mickey Mantle · CF S · Gold 88 · pWOBA .309 · fit 96 |
 | 7 | CF | Jackie Jensen · RF R · Silver 79 · pWOBA .322 · fit 99 |
 | 8 | RF | Sid Gordon · 3B R · Gold 89 · pWOBA .317 · fit 98 |
@@ -236,8 +236,8 @@ Pool: 1045 eligible owned cards (605 bats / 440 arms), value window —–89, ye
 
 | Slot | Card |
 |---|---|
-| BN1 | Jackie Jensen · RF R · Silver 79 · pWOBA .312 · fit 98 |
-| BN2 | Eddie Joost · SS R · Gold 89 · pWOBA .303 · fit 96 |
+| BN1 | Jimmie Foxx · 1B R · Gold 84 · pWOBA .321 · fit 98 |
+| BN2 | Jackie Jensen · RF R · Silver 79 · pWOBA .312 · fit 98 |
 | BN3 | Dick Groat · SS R · Gold 89 · pWOBA .314 · fit 92 |
 | BN4 | Ron Hunt · 2B R · Silver 70 · pWOBA .299 · fit 61 |
 
@@ -245,31 +245,31 @@ Pool: 1045 eligible owned cards (605 bats / 440 arms), value window —–89, ye
 
 | Pos | Starter | Alternative | Fit Δ |
 |---|---|---|---|
-| C | Jimmie Foxx (98) | Ed Bailey · Bronze 69 | -1 |
+| C | Ed Bailey (97) | Darrell Porter · Silver 74 | -2 |
 | 1B | Rudy York (99) | Stan Hack · Iron 46 | -2 |
 | 2B | Hank Thompson (99) | Joe Morgan · Bronze 65 | -1 |
 | 3B | Sid Gordon (98) | Wade Boggs · Silver 74 | 0 |
-| SS | Solly Hemus (97) | Luis Aparicio · Silver 71 | 0 |
-| LF | Billy Southworth (97) | Richie Scheinblum · Gold 87 | -1 |
-| CF | Mickey Mantle (99) | Roger Maris · Gold 82 | -1 |
-| RF | Albie Pearson (99) | Roger Maris · Gold 82 | -1 |
+| SS | Luis Aparicio (97) | Solly Hemus · Gold 83 | 0 |
+| LF | Lee Thomas (96) | Billy Southworth · Bronze 68 | 1 |
+| CF | Albie Pearson (99) | Roger Maris · Gold 82 | -1 |
+| RF | Mickey Mantle (99) | Roger Maris · Gold 82 | -1 |
 
 ### Upgrade candidates you don't own (legal here, would outscore a current starter)
 
 | Card | Tier/Val | Replaces | Raw Δ | Val Δ | Ask PP | Last-10 PP |
 |---|---|---|---|---|---|---|
-| Roy Cullenbine | Gold 88 | Billy Southworth (LF) | +27.4 | +20 | — | — |
-| Smoky Burgess | Gold 89 | Jimmie Foxx (C) | +16.7 | +5 | — | 56,080 |
+| Roy Cullenbine | Gold 88 | Lee Thomas (LF) | +28.9 | +11 | — | — |
+| Smoky Burgess | Gold 89 | Ed Bailey (C) | +18.8 | +20 | — | 56,080 |
 | Nellie Fox | Silver 79 | Hank Thompson (2B) | +14.1 | -8 | — | 41,376 |
-| Dick McAuliffe | Bronze 68 | Solly Hemus (SS) | +8.6 | -15 | 99,999 | 86,916 |
-| Roy White | Gold 89 | Billy Southworth (LF) | +4.2 | +21 | — | 1,810 |
+| Dick McAuliffe | Bronze 68 | Luis Aparicio (SS) | +7.8 | -3 | 99,999 | 86,916 |
+| Roy White | Gold 89 | Lee Thomas (LF) | +5.7 | +12 | — | 1,810 |
+| Jimmie Hall | Gold 88 | Lee Thomas (LF) | +4.0 | +11 | 9,500 | 13,792 |
 | John Donaldson | Gold 89 | Randy Jones (SP, weakest of 5) | +3.4 | +6 | — | 44,273 |
 | Don Mossi | Gold 83 | Randy Jones (SP, weakest of 5) | +3.2 | 0 | — | 32,500 |
-| Jimmie Hall | Gold 88 | Billy Southworth (LF) | +2.4 | +20 | 9,500 | 13,792 |
 
 Raw Δ is the Fit composite on the shop's ratings (not a percentile) — a rough ordering, not a run estimate. Ask = lowest sell order; 99,999 is OOTP's placeholder for no real ask. Prices from shop upload 64.
 
-Saved as roster #3 "PTCS 6 Championship - Gold · auto 2026-09-07" (ready).
+Saved as roster #9 "PTCS 6 Championship - Gold · auto 2026-09-07" (ready).
 
 ## PTCS 6 Championship - Diamond
 
@@ -277,21 +277,21 @@ Best of 9, cards 1920-1989, Variants on, 1987 RE, DH on, 1987 Yankee Stadium
 
 Pool: 1146 eligible owned cards (668 bats / 478 arms), value window —–99, years 1920–1989. Shape 13 bats / 5 SP / 8 RP (default).
 
-**READY — passes every recorded rule** · 26/26 players · value 2406 · 4 variants
+**READY — passes every recorded rule** · 26/26 players · value 2393 · 5 variants
 
 ### vs RHP
 
 | # | Pos | Card |
 |---|---|---|
-| 1 | C | Ed Bailey (VAR) · C L · Diamond 97 · pWOBA .351 · fit 99 |
+| 1 | C | Johnny Bassler · C L · Diamond 93 · pWOBA .329 · fit 99 |
 | 2 | 1B | Rudy York (VAR) · 1B R · Gold 88 · pWOBA .330 · fit 98 |
 | 3 | 2B | Eddie Yost · 3B R · Diamond 92 · pWOBA .323 · fit 99 |
 | 4 | 3B | Mike Schmidt · 3B R · Diamond 99 · pWOBA .320 · fit 98 |
 | 5 | SS | Phil Rizzuto · SS R · Diamond 99 · pWOBA .321 · fit 99 |
 | 6 | LF | Rocky Colavito · LF R · Diamond 96 · pWOBA .323 · fit 98 |
-| 7 | CF | Mickey Mantle · CF S · Gold 88 · pWOBA .328 · fit 98 |
-| 8 | RF | Darryl Strawberry · RF L · Diamond 97 · pWOBA .332 · fit 98 |
-| 9 | DH | Johnny Bassler · C L · Diamond 93 · pWOBA .329 · fit 99 |
+| 7 | CF | Albie Pearson (VAR) · RF L · Gold 85 · pWOBA .315 · fit 98 |
+| 8 | RF | Mickey Mantle · CF S · Gold 88 · pWOBA .328 · fit 98 |
+| 9 | DH | Ed Bailey (VAR) · C L · Diamond 97 · pWOBA .351 · fit 99 |
 
 ### vs LHP
 
@@ -300,12 +300,12 @@ Pool: 1146 eligible owned cards (668 bats / 478 arms), value window —–99, ye
 | 1 | C | Jimmie Foxx · 1B R · Gold 84 · pWOBA .332 · fit 98 |
 | 2 | 1B | Rudy York (VAR) · 1B R · Gold 88 · pWOBA .336 · fit 99 |
 | 3 | 2B | Eddie Yost · 3B R · Diamond 92 · pWOBA .322 · fit 99 |
-| 4 | 3B | Ron Hunt · 2B R · Silver 70 · pWOBA .321 · fit 98 |
-| 5 | SS | Mike Schmidt · 3B R · Diamond 99 · pWOBA .339 · fit 99 |
-| 6 | LF | Al Simmons · LF R · Diamond 99 · pWOBA .352 · fit 98 |
+| 4 | 3B | Mike Schmidt · 3B R · Diamond 99 · pWOBA .339 · fit 99 |
+| 5 | SS | Phil Rizzuto · SS R · Diamond 99 · pWOBA .324 · fit 98 |
+| 6 | LF | Lonnie Smith · LF R · Diamond 98 · pWOBA .327 · fit 98 |
 | 7 | CF | Willie Mays · CF R · Diamond 98 · pWOBA .347 · fit 99 |
 | 8 | RF | Rocky Colavito · LF R · Diamond 96 · pWOBA .316 · fit 98 |
-| 9 | DH | Phil Rizzuto · SS R · Diamond 99 · pWOBA .324 · fit 98 |
+| 9 | DH | Ron Hunt · 2B R · Silver 70 · pWOBA .321 · fit 98 |
 
 ### Rotation and bullpen
 
@@ -330,36 +330,37 @@ Pool: 1146 eligible owned cards (668 bats / 478 arms), value window —–99, ye
 | Slot | Card |
 |---|---|
 | BN1 | Willie Mays · CF R · Diamond 98 · pWOBA .336 · fit 97 |
-| BN2 | Jimmie Foxx · 1B R · Gold 84 · pWOBA .321 · fit 96 |
-| BN3 | Al Simmons · LF R · Diamond 99 · pWOBA .337 · fit 86 |
+| BN2 | Lonnie Smith · LF R · Diamond 98 · pWOBA .326 · fit 97 |
+| BN3 | Jimmie Foxx · 1B R · Gold 84 · pWOBA .321 · fit 96 |
 | BN4 | Ron Hunt · 2B R · Silver 70 · pWOBA .299 · fit 56 |
 
 ### Next-best owned alternative at each position (vs RHP, by fit)
 
 | Pos | Starter | Alternative | Fit Δ |
 |---|---|---|---|
-| C | Ed Bailey (99) | Ed Bailey · Bronze 69 | -3 |
+| C | Johnny Bassler (99) | Ed Bailey · Bronze 69 | -3 |
 | 1B | Rudy York (98) | Sid Gordon · Gold 89 | -1 |
 | 2B | Eddie Yost (99) | Hank Thompson · Gold 87 | -1 |
 | 3B | Mike Schmidt (98) | Hank Thompson · Gold 87 | 0 |
 | SS | Phil Rizzuto (99) | Solly Hemus · Gold 83 | -3 |
 | LF | Rocky Colavito (98) | Hank Thompson · Gold 87 | 0 |
-| CF | Mickey Mantle (98) | Hank Thompson · Gold 87 | 0 |
-| RF | Darryl Strawberry (98) | Hank Thompson · Gold 87 | 0 |
-| DH | Johnny Bassler (99) | Hank Thompson · Gold 87 | -1 |
+| CF | Albie Pearson (98) | Hank Thompson · Gold 87 | 0 |
+| RF | Mickey Mantle (98) | Darryl Strawberry · Diamond 97 | 0 |
+| DH | Ed Bailey (99) | Darryl Strawberry · Diamond 97 | -1 |
 
 ### Upgrade candidates you don't own (legal here, would outscore a current starter)
 
 | Card | Tier/Val | Replaces | Raw Δ | Val Δ | Ask PP | Last-10 PP |
 |---|---|---|---|---|---|---|
-| Roy Cullenbine | Gold 88 | Darryl Strawberry (RF) | +15.8 | -9 | — | — |
-| Andy Pafko | Diamond 98 | Darryl Strawberry (RF) | +10.6 | +1 | — | 177,220 |
+| Roy Cullenbine | Gold 88 | Rudy York (1B) | +15.5 | 0 | — | — |
+| Andy Pafko | Diamond 98 | Rocky Colavito (LF) | +8.5 | +2 | — | 177,220 |
 | Goose Goslin | Diamond 95 | Rocky Colavito (LF) | +6.4 | -1 | — | — |
 | Joe Cronin | Diamond 94 | Mike Schmidt (3B) | +2.3 | -5 | 117,000 | 118,137 |
+| Nellie Fox | Silver 79 | Ed Bailey (DH) | +0.5 | -18 | — | 41,376 |
 
 Raw Δ is the Fit composite on the shop's ratings (not a percentile) — a rough ordering, not a run estimate. Ask = lowest sell order; 99,999 is OOTP's placeholder for no real ask. Prices from shop upload 64.
 
-Saved as roster #4 "PTCS 6 Championship - Diamond · auto 2026-09-07" (ready).
+Saved as roster #10 "PTCS 6 Championship - Diamond · auto 2026-09-07" (ready).
 
 ## PTCS 6 Championship - Cap
 
@@ -391,9 +392,9 @@ Pool: 634 eligible owned cards (367 bats / 267 arms), value window 50–74, year
 | 3 | 2B | Joe Morgan · 2B L · Bronze 65 · pWOBA .289 · fit 97 |
 | 4 | 3B | Daryl Spencer · 2B R · Iron 57 · pWOBA .306 · fit 93 |
 | 5 | SS | Ron Hansen · SS R · Iron 58 · pWOBA .297 · fit 97 |
-| 6 | LF | Ted Williams · LF L · Iron 54 · pWOBA .279 · fit 66 |
+| 6 | LF | Billy Southworth · RF L · Bronze 68 · pWOBA .308 · fit 92 |
 | 7 | CF | Ken Berry · LF R · Iron 55 · pWOBA .305 · fit 96 |
-| 8 | RF | Billy Southworth · RF L · Bronze 68 · pWOBA .308 · fit 92 |
+| 8 | RF | Bill Nicholson · RF L · Iron 54 · pWOBA .292 · fit 68 |
 
 ### Rotation and bullpen
 
@@ -455,5 +456,5 @@ Pool: 634 eligible owned cards (367 bats / 267 arms), value window 50–74, year
 
 Raw Δ is the Fit composite on the shop's ratings (not a percentile) — a rough ordering, not a run estimate. Ask = lowest sell order; 99,999 is OOTP's placeholder for no real ask. Prices from shop upload 64.
 
-Saved as roster #5 "PTCS 6 Championship - Cap · auto 2026-09-07" (ready).
+Saved as roster #11 "PTCS 6 Championship - Cap · auto 2026-09-07" (ready).
 

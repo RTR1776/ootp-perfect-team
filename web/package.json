@@ -30,7 +30,8 @@
     "build:envdata": "node scripts/build-env-data.mjs",
     "inventory": "node scripts/tourney-inventory.mjs && python3 scripts/tourney-inventory-xlsx.py",
     "champ:comps": "tsx scripts/champ-comparables.ts",
-    "champ:rosters": "tsx scripts/champ-rosters.ts"
+    "champ:rosters": "tsx scripts/champ-rosters.ts",
+    "test:rosters": "tsx scripts/roster-roundtrip.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

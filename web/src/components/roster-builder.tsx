@@ -27,7 +27,7 @@ import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { fillRoster, fitMaps, HIT_POS } from "@/lib/roster-fill";
-import { formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
+import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
 import { projFip, projWoba } from "@/lib/analytics/projection";
 
 export interface ObservedLine {
@@ -338,12 +338,16 @@ export function RosterBuilder({
   const router = useRouter();
   const [slots, setSlots] = useState<Record<SlotKey, number | null>>({});
   const [forms, setForms] = useState<Record<number, boolean>>({});
-  /* Each card is shown in ONE form: the variant copy when that is the only
-     one owned, or whichever the user toggled. Variant ratings are the ones the
-     collection export recorded for that copy (see card-forms.ts) — projections
-     come from the same model as the base card, on the form's own ratings. */
+  /* Each card is shown in ONE form: whichever the user toggled, else the
+     variant copy when it is the only one owned or when the event allows
+     variants without a cap (same card value, better ratings — a free upgrade),
+     else base. Variant ratings are the ones the collection export recorded
+     for that copy (see card-forms.ts) — projections come from the same model
+     as the base card, on the form's own ratings. */
+  const preferVariant = defaultToVariant(tournament);
   const pool = useMemo(() => basePool.map(c => {
-    const variant = forms[c.cardId] ?? !c.baseOwned;
+    const verifiedVar = c.variantOwned && hasVariantSplitRatings(c.variantRatings, c.isPitcher);
+    const variant = forms[c.cardId] ?? (!c.baseOwned || (preferVariant && verifiedVar));
     if (!variant) return { ...c, variant: false };
     const ratings = formRatings(c.ratings, c.variantRatings);
     const verified = hasVariantSplitRatings(c.variantRatings, c.isPitcher);
@@ -352,7 +356,7 @@ export function RosterBuilder({
       ? { all: project(ratings), vL: project(ratings, "vL"), vR: project(ratings, "vR") }
       : { all: null, vL: null, vR: null };
     return { ...c, variant: true, ratings, proj };
-  }), [basePool, forms]);
+  }), [basePool, forms, preferVariant]);
   const [selected, setSelected] = useState<SlotKey | null>(null);
   const [view, setView] = useState<View>("HIT");
   const [search, setSearch] = useState("");
@@ -423,9 +427,8 @@ export function RosterBuilder({
   ], [lineupPos, staffKeys, benchKeys]);
 
   /* fit percentiles (pool is already tournament-legal) ---------------- */
-  const { fitR, fitL } = useMemo(() => {
-    return fitMaps(pool);
-  }, [pool]);
+  const fits = useMemo(() => fitMaps(pool), [pool]);
+  const { fitR } = fits;
 
   const byId = useMemo(() => new Map(pool.map((c) => [c.cardId, c])), [pool]);
 
@@ -607,7 +610,7 @@ export function RosterBuilder({
 
   const autoFill = (silent = false) => {
     if (!tournament) return;
-    const { slots: next, lambda } = fillRoster(pool, tournament, { lineupPos, spKeys, rpKeys, benchKeys, bats: target.bats }, { fitR, fitL });
+    const { slots: next, lambda } = fillRoster(pool, tournament, { lineupPos, spKeys, rpKeys, benchKeys, bats: target.bats }, fits);
     setSlots(next);
     setMsg(silent
       ? `Draft roster filled${lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""}. Review the rule checks below, then adjust your players.`

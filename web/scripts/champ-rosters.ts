@@ -28,7 +28,7 @@ if (!process.env.DATABASE_URL && existsSync(ENV_LOCAL)) {
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { cards, cardSnapshots, collectionCards, rosters, seriesMeta, tournaments, uploads } from "../src/db/schema";
-import { formRatings, hasVariantSplitRatings } from "../src/lib/card-forms";
+import { defaultToVariant, formRatings, hasVariantSplitRatings } from "../src/lib/card-forms";
 import { fillRoster, fitMaps, HIT_POS, hitterRaw, pitcherRaw, type FillCard, type FillShape } from "../src/lib/roster-fill";
 import { cardEligibility, validateRoster, type RosterRules, type RosterSlot } from "../src/lib/roster-rules";
 import { projFip, projWoba } from "../src/lib/analytics/projection";
@@ -66,7 +66,7 @@ async function main() {
     if (!t) { out.push(`## ${id}: not in catalog`, ""); continue; }
     const rules: RosterRules = { ...t, restrictions: t.restrictions as RosterRules["restrictions"] };
     const rx = rules.restrictions;
-    const variantsOk = rx?.variantsAllowed !== false;
+    const variantsOk = defaultToVariant(rules);
 
     // ---- pool: every owned card in the form it will be used in
     const pool: PoolCard[] = [];

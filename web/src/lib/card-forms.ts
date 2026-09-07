@@ -70,3 +70,15 @@ export function hasVariantSplitRatings(exported: Record<string, number> | null, 
   const keys = isPitcher ? ["STU", "CON", "HRA"] : ["GAP", "POW", "EYE", "K", "BA"];
   return keys.every(k => ["vL", "vR"].every(s => Number.isFinite(exported?.[`${k} ${s}`])));
 }
+
+/**
+ * Should an owned variant be the card's default form for this event? Yes when
+ * variants are allowed with no cap: the variant has the same card value as the
+ * base (L.J., 2026-09-07) and better ratings, so it is a free upgrade. With a
+ * variant cap the user picks which few get the VAR form, so the default stays
+ * base.
+ */
+export function defaultToVariant(rules: { restrictions?: { variantsAllowed?: boolean | null; variantCap?: number | null } | null } | null | undefined): boolean {
+  const rx = rules?.restrictions;
+  return rx?.variantsAllowed !== false && rx?.variantCap == null;
+}
