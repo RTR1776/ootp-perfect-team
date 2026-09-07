@@ -25,7 +25,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
-import { cardEligibility, rosterSize, slotCapacityIssues, tierCode, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
+import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
+import { fillRoster, fitMaps, HIT_POS } from "@/lib/roster-fill";
 import { formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
 import { projFip, projWoba } from "@/lib/analytics/projection";
 
@@ -135,8 +136,6 @@ interface SavedRoster {
   slots: RosterSlot[];
 }
 
-const HIT_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
-
 type SlotKey = string; // "R:C", "L:DH", "SP1", "RP3", "CL", "BN2"
 type View = "HIT" | "PIT" | "UPG";
 
@@ -149,58 +148,11 @@ const range = (n: number) => Array.from({ length: Math.max(0, n) }, (_, i) => i)
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 const slotLabel = (k: SlotKey) => k.replace("R:", "vs RHP ").replace("L:", "vs LHP ");
 
-/* ------------------------------------------------------------------ */
-/* rating helpers (Fit composite)                                      */
-/* ------------------------------------------------------------------ */
-
-function blend(r: Record<string, number>, base: string, vl: string, vr: string, wL = 0.3): number {
-  const l = r[vl], rr = r[vr];
-  if (l != null && rr != null) return wL * l + (1 - wL) * rr;
-  return r[base] ?? l ?? rr ?? 0;
-}
-
-function bestDef(r: Record<string, number>): number {
-  let best = 0;
-  for (const p of HIT_POS) best = Math.max(best, r[`Pos Rating ${p}`] ?? 0);
-  return best;
-}
-
+/* Fit composite + percentile scoring live in src/lib/roster-fill.ts. */
 function bestDefPos(r: Record<string, number>): { pos: string; val: number } {
   let pos = "—", val = 0;
   for (const p of HIT_POS) { const v = r[`Pos Rating ${p}`] ?? 0; if (v > val) { val = v; pos = p; } }
   return { pos, val };
-}
-
-function hitterRaw(c: BuilderCard, wL: number): number {
-  const r = c.ratings;
-  return (
-    0.3 * blend(r, "Eye", "Eye vL", "Eye vR", wL) +
-    0.22 * blend(r, "Avoid Ks", "Avoid K vL", "Avoid K vR", wL) +
-    0.21 * blend(r, "Power", "Power vL", "Power vR", wL) +
-    0.1 * blend(r, "Gap", "Gap vL", "Gap vR", wL) +
-    0.17 * bestDef(r)
-  );
-}
-
-function pitcherRaw(c: BuilderCard, wL: number): number {
-  const r = c.ratings;
-  return (
-    0.33 * blend(r, "pHR", "pHR vL", "pHR vR", wL) +
-    0.31 * blend(r, "Stuff", "Stuff vL", "Stuff vR", wL) +
-    0.28 * blend(r, "Control", "Control vL", "Control vR", wL) +
-    0.08 * blend(r, "pBABIP", "pBABIP vL", "pBABIP vR", wL)
-  );
-}
-
-function percentileMap(values: Map<number, number>): Map<number, number> {
-  const sorted = [...values.values()].sort((a, b) => a - b);
-  const out = new Map<number, number>();
-  for (const [id, v] of values) {
-    let lo = 0, hi = sorted.length;
-    while (lo < hi) { const m = (lo + hi) >> 1; if (sorted[m] <= v) lo = m + 1; else hi = m; }
-    out.set(id, Math.round((lo / sorted.length) * 99));
-  }
-  return out;
 }
 
 const fmt3 = (v: number | null | undefined) => (v == null ? "—" : v.toFixed(3).replace(/^0/, ""));
@@ -472,14 +424,7 @@ export function RosterBuilder({
 
   /* fit percentiles (pool is already tournament-legal) ---------------- */
   const { fitR, fitL } = useMemo(() => {
-    const hR = new Map<number, number>(), hL = new Map<number, number>();
-    const pR = new Map<number, number>(), pL = new Map<number, number>();
-    for (const c of pool) {
-      if (c.isPitcher) { pR.set(c.cardId, pitcherRaw(c, 0.45)); pL.set(c.cardId, pitcherRaw(c, 1)); }
-      else { hR.set(c.cardId, hitterRaw(c, 0)); hL.set(c.cardId, hitterRaw(c, 1)); }
-    }
-    const merge = (a: Map<number, number>, b: Map<number, number>) => new Map([...percentileMap(a), ...percentileMap(b)]);
-    return { fitR: merge(hR, pR), fitL: merge(hL, pL) };
+    return fitMaps(pool);
   }, [pool]);
 
   const byId = useMemo(() => new Map(pool.map((c) => [c.cardId, c])), [pool]);
@@ -661,71 +606,12 @@ export function RosterBuilder({
   };
 
   const autoFill = (silent = false) => {
-    const next: Record<SlotKey, number | null> = {};
-    const taken = new Set<number>();
-    const canAdd = (c: BuilderCard) => {
-      if (!tournament || cardEligibility(c, tournament).errors.length) return false;
-      if (c.variant ? !c.variantOwned : !c.baseOwned) return false;
-      const ids = new Set([...Object.values(next).filter((id): id is number => id != null), c.cardId]);
-      const members = [...ids].map(id => byId.get(id)!).filter(Boolean);
-      const rx = tournament.restrictions;
-      if (members.filter(c=>!c.isPitcher).length > target.bats) return false;
-      if (ids.size > (rosterSize(tournament) ?? Infinity)) return false;
-      if (rx?.teamCap != null && members.reduce((n,c) => n+(c.val ?? 0),0) > rx.teamCap) return false;
-      const variants = members.filter(c=>c.variant).length;
-      if (variants > (rx?.variantsAllowed === false ? 0 : rx?.variantCap ?? Infinity)) return false;
-      if (rx?.slots) {
-        const tiers: Record<string, number> = {};
-        for (const m of members) if (m.val != null) { const t = tierCode(m.val); tiers[t] = (tiers[t] ?? 0) + 1; }
-        if (slotCapacityIssues(tiers, rx.slots).length) return false;
-      }
-      return true;
-    };
-    const fillLineup = (hand: "R" | "L") => {
-      const fit = hand === "R" ? fitR : fitL;
-      const order = [...lineupPos].sort((a, b) => {
-        const n = (p: string) => (p === "DH" ? 999 : pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${p}`] ?? 0) > 0).length);
-        return n(a) - n(b);
-      });
-      for (const pos of order) {
-        const cand = pool
-          .filter((c) => !c.isPitcher && !taken.has(c.cardId) && (pos === "DH" || (c.ratings[`Pos Rating ${pos}`] ?? 0) > 0))
-          .sort((a, b) => (fit.get(b.cardId) ?? 0) - (fit.get(a.cardId) ?? 0))
-          .find(canAdd);
-        if (cand) { next[`${hand}:${pos}`] = cand.cardId; taken.add(cand.cardId); }
-      }
-      // both lineups share cards — free them for the other hand's picks
-      if (hand === "R") for (const pos of lineupPos) { const id = next[`R:${pos}`]; if (id != null) taken.delete(id); }
-    };
-    fillLineup("R");
-    fillLineup("L");
-    const usedIds = new Set(Object.values(next).filter((v): v is number => v != null));
-    const arms = pool.filter((c) => c.isPitcher)
-      .sort((a, b) => (fitR.get(b.cardId) ?? 0) - (fitR.get(a.cardId) ?? 0));
-    for (const key of spKeys) {
-      const c = arms.find(c => c.role === "SP" && !usedIds.has(c.cardId) && canAdd(c));
-      if (c) { next[key] = c.cardId; usedIds.add(c.cardId); }
-    }
-    const pen = arms.filter((c) => !usedIds.has(c.cardId));
-    const cl = pen.find((c) => c.role === "CL" && canAdd(c)) ?? pen.find((c) => c.role !== "SP" && canAdd(c)) ?? pen.find(canAdd);
-    if (cl && rpKeys.includes("CL")) { next["CL"] = cl.cardId; usedIds.add(cl.cardId); }
-    const restRp = rpKeys.filter((k) => k !== "CL");
-    for (const key of restRp) {
-      const c = arms.find(c => !usedIds.has(c.cardId) && canAdd(c));
-      if (c) { next[key] = c.cardId; usedIds.add(c.cardId); }
-    }
-    // bench = the roster hitters who aren't starting vs RHP
-    const startersR = new Set(lineupPos.map((p) => next[`R:${p}`]).filter((v): v is number => v != null));
-    pool.filter((c) => !c.isPitcher && !startersR.has(c.cardId))
-      .sort((a, b) => {
-        // prefer the platoon bats the vs-LHP lineup already wants
-        const inL = (c: BuilderCard) => (lineupPos.some((p) => next[`L:${p}`] === c.cardId) ? 1 : 0);
-        return (inL(b) - inL(a)) || ((fitR.get(b.cardId) ?? 0) - (fitR.get(a.cardId) ?? 0));
-      })
-      .filter(canAdd)
-      .reduce((i, c) => { if (i < benchKeys.length && canAdd(c)) { next[benchKeys[i]] = c.cardId; return i+1; } return i; }, 0);
+    if (!tournament) return;
+    const { slots: next, lambda } = fillRoster(pool, tournament, { lineupPos, spKeys, rpKeys, benchKeys, bats: target.bats }, { fitR, fitL });
     setSlots(next);
-    setMsg(silent ? "Draft roster filled. Review the rule checks below, then adjust your players." : null);
+    setMsg(silent
+      ? `Draft roster filled${lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""}. Review the rule checks below, then adjust your players.`
+      : null);
   };
 
   // Switching tournaments empties the board and asks for a fresh
