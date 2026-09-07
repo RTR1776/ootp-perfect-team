@@ -29,8 +29,8 @@ import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { cards, cardSnapshots, collectionCards, rosters, seriesMeta, tournaments, uploads } from "../src/db/schema";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "../src/lib/card-forms";
-import { fillRoster, fitMaps, HIT_POS, hitterRaw, pitcherRaw, type FillCard, type FillShape } from "../src/lib/roster-fill";
-import { cardEligibility, validateRoster, type RosterRules, type RosterSlot } from "../src/lib/roster-rules";
+import { fillRoster, fitMaps, HIT_POS, hitterRaw, pitcherRaw, rosterShape, type FillCard, type FillShape } from "../src/lib/roster-fill";
+import { cardEligibility, rosterSize, validateRoster, type RosterRules, type RosterSlot } from "../src/lib/roster-rules";
 import { projFip, projWoba } from "../src/lib/analytics/projection";
 
 const DEFAULT_IDS = [9060002, 9060003, 9060004, 9060005, 9060008]; // Bronze, Silver, Gold, Diamond, Cap
@@ -93,10 +93,7 @@ async function main() {
     // ---- shape, as /build sizes it
     const lineupPos = t.dh ? [...HIT_POS, "DH"] : [...HIT_POS];
     const [m] = t.series ? await db.select().from(seriesMeta).where(eq(seriesMeta.series, t.series)) : [];
-    const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
-    const bats = clamp(Math.round(m?.avgBats ?? lineupPos.length + 4), lineupPos.length, 22);
-    const sp = clamp(Math.round(m?.avgSp ?? 5), 1, 9);
-    const rp = clamp(26 - bats - sp, 1, 12);
+    const { bats, sp, rp, source, band } = rosterShape(t.envYear, lineupPos.length, rosterSize(rules) ?? 26, m ?? null);
     const shape: FillShape = {
       lineupPos, bats,
       spKeys: Array.from({ length: sp }, (_, i) => `SP${i + 1}`),
@@ -117,7 +114,7 @@ async function main() {
     const window = `${rules.ratingsMin ?? "—"}–${rules.ratingsMax ?? "—"}`;
     out.push(`## ${t.name}`, "",
       `${(rx as { announcedText?: string })?.announcedText ?? ""}`, "",
-      `Pool: ${pool.length} eligible owned cards (${pool.filter((c) => !c.isPitcher).length} bats / ${pool.filter((c) => c.isPitcher).length} arms), value window ${window}, years ${rules.cardYearMin ?? "—"}–${rules.cardYearMax ?? "—"}${rx?.teamCap ? `, cap ${rx.teamCap}` : ""}. Shape ${bats} bats / ${sp} SP / ${rp} RP${m ? ` (series typical)` : " (default)"}.`,
+      `Pool: ${pool.length} eligible owned cards (${pool.filter((c) => !c.isPitcher).length} bats / ${pool.filter((c) => c.isPitcher).length} arms), value window ${window}, years ${rules.cardYearMin ?? "—"}–${rules.cardYearMax ?? "—"}${rx?.teamCap ? `, cap ${rx.teamCap}` : ""}. Shape ${bats} bats / ${sp} SP / ${rp} RP (${source === "observed" ? "series typical" : `${band} era staff`}).`,
       "",
       `**${v.ready ? "READY — passes every recorded rule" : "NOT READY"}** · ${v.counts.players}/${v.counts.target} players · value ${v.counts.value}${rx?.teamCap ? `/${rx.teamCap}` : ""} · ${v.counts.variants} variants${lambda > 0 ? ` · cap penalty λ=${lambda.toFixed(3)}` : ""}`);
     if (!v.ready) out.push("", ...[...v.errors, ...v.incomplete].map((e) => `- ${e.message}`));

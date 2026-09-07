@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
-import { fillRoster, fitMaps, HIT_POS } from "@/lib/roster-fill";
+import { fillRoster, fitMaps, HIT_POS, rosterShape } from "@/lib/roster-fill";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
 import { projFip, projWoba } from "@/lib/analytics/projection";
 
@@ -373,16 +373,12 @@ export function RosterBuilder({
   const dh = tournament?.dh ?? true;
   const lineupPos: string[] = useMemo(() => (dh ? [...HIT_POS, "DH"] : [...HIT_POS]), [dh]);
 
-  /* roster shape — sized from what teams actually roster in this series */
-  const target = useMemo(() => {
-    const bats = clamp(Math.round(meta?.avgBats ?? lineupPos.length + 4), lineupPos.length, 22);
-    const sp = clamp(Math.round(meta?.avgSp ?? 5), 1, 9);
-    const total = tournament ? rosterSize(tournament) : 26;
-    const rp = clamp(total == null
-      ? Math.round(meta?.avgRp ?? 5)
-      : total - bats - sp, 1, 12);
-    return { bats, sp, rp };
-  }, [meta, lineupPos.length, tournament]);
+  /* roster shape — what teams actually roster in this series when we have
+     exports, else the era's typical staff (eraStaff), hitters taking the rest */
+  const target = useMemo(
+    () => rosterShape(tournament?.envYear, lineupPos.length, tournament ? rosterSize(tournament) : 26, meta),
+    [meta, lineupPos.length, tournament],
+  );
 
   /* Slot counts = the series baseline plus whatever the user nudged for THIS
      tournament, so switching events resizes the board on the very first
@@ -1089,9 +1085,9 @@ export function RosterBuilder({
                   <span className="font-mono">{summary.spUsed}</span> SP ·{" "}
                   <span className="font-mono">{summary.rpUsed}</span> RP ={" "}
                   <span className="font-mono">{summary.roster}</span> players.{" "}
-                  {meta
-                    ? `Typical here: ${target.bats}/${target.sp}/${target.rp}.`
-                    : `No exports for this event yet — using ${target.bats}/${target.sp}/${target.rp}.`}
+                  {target.source === "observed"
+                    ? `Typical here: ${target.bats} bats · ${target.sp} SP · ${target.rp} RP.`
+                    : `No exports for this event yet — ${target.band} staff: ${target.sp} SP · ${target.rp} RP · ${target.bats} bats.`}
                 </div>
                 <div className="grid grid-cols-2 gap-x-3 text-xs [font-variant-numeric:tabular-nums]">
                   <div>Proj wOBA <span className="float-right font-mono">{fmt3(summary.projWoba)}</span></div>

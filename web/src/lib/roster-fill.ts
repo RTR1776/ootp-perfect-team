@@ -44,6 +44,47 @@ export interface FitMaps {
   atL: Record<string, Map<number, number>>;
 }
 
+/* --------------------------------------------------------- roster shape */
+
+/**
+ * Typical staff size by run environment — L.J., 2026-09-07: "2010 to present
+ * 5 SP and probably 8 RP; 1980s to 2010 5 SP, 6-7 bullpen; 1960s to 1980s
+ * 4 more likely 5 SP and 5 or 6 RP; 1920s to 1950s 4 SP and 3 to 5 RP;
+ * deadball 3 maybe 4 SP and 3 RP maybe 4. We don't need 9 RP in any year."
+ * Where he gave a range the later half of the band takes the larger number.
+ * Hitters take the rest of the roster. A series with observed exports
+ * (series_meta) overrides this; the table is the fallback.
+ */
+export function eraStaff(envYear: number | null | undefined): { sp: number; rp: number; band: string } {
+  if (envYear == null) return { sp: 5, rp: 8, band: "no env year — modern default" };
+  if (envYear >= 2010) return { sp: 5, rp: 8, band: "2010–present" };
+  if (envYear >= 1980) return { sp: 5, rp: envYear >= 1995 ? 7 : 6, band: "1980s–2000s" };
+  if (envYear >= 1960) return { sp: 5, rp: envYear >= 1970 ? 6 : 5, band: "1960s–70s" };
+  if (envYear >= 1920) return { sp: 4, rp: envYear >= 1940 ? 5 : 4, band: "1920s–50s" };
+  return { sp: 4, rp: 3, band: "deadball" };
+}
+
+/** bats / SP / RP for a roster of `total`, from observed series meta when present, else the era table. */
+export function rosterShape(
+  envYear: number | null | undefined,
+  lineupSize: number,
+  total: number | null,
+  meta: { avgSp: number | null; avgRp: number | null; avgBats: number | null } | null | undefined,
+): { bats: number; sp: number; rp: number; source: "observed" | "era"; band: string } {
+  const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+  const size = total ?? 26;
+  const era = eraStaff(envYear);
+  if (meta?.avgSp != null && meta.avgBats != null) {
+    const bats = clamp(Math.round(meta.avgBats), lineupSize, 22);
+    const sp = clamp(Math.round(meta.avgSp), 1, 9);
+    const rp = clamp(size - bats - sp, 1, 12);
+    return { bats, sp, rp, source: "observed", band: era.band };
+  }
+  const sp = era.sp, rp = era.rp;
+  const bats = clamp(size - sp - rp, lineupSize, 22);
+  return { bats, sp, rp, source: "era", band: era.band };
+}
+
 /* ------------------------------------------------------------ scoring */
 
 export function blend(r: Record<string, number>, base: string, vl: string, vr: string, wL = 0.3): number {
