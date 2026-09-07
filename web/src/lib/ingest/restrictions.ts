@@ -171,6 +171,18 @@ export interface TierWindow {
 
 const TIER_WORD_RE =
   /\b(?:(low|high)\s+)?(iron|bronze|silver|gold|diamond|perfect)s?\b(?:\s+(only|floor|ceiling))?/gi;
+const TIER_RANGE_RE =
+  /\b(?:(low|high)\s+)?(iron|bronze|silver|gold|diamond|perfect)\s*(?:-|\u2013|\bto\b|\bthrough\b)\s*(?:(low|high)\s+)?(iron|bronze|silver|gold|diamond|perfect)\b/i;
+
+/** The value band a (half-)tier word names: Iron 40-59, High Iron 50-59, Low Gold 80-84. */
+function band(half: string | undefined, tier: string): { lo: number; hi: number } | null {
+  const T = tier.toUpperCase();
+  const lo = TIER_MIN[T], hi = TIER_MAX[T];
+  if (lo == null || hi == null) return null;
+  const step = Math.floor((hi - lo + 1) / 2);
+  const h = (half ?? "").toLowerCase();
+  return { lo: h === "high" ? lo + step : lo, hi: h === "low" ? lo + step - 1 : hi };
+}
 
 export function tierWindowFromName(name: string, opts?: { isDraft?: boolean }): TierWindow | null {
   if (opts?.isDraft) return null;
@@ -183,6 +195,16 @@ export function tierWindowFromName(name: string, opts?: { isDraft?: boolean }): 
   let min: number | null = null;
   let max: number | null = null;
   const basis: string[] = [];
+
+  // "High Silver-Low Gold Cap": two tiers joined by a dash or "to" are a RANGE -
+  // floor at the first band, ceiling at the second. Read one word at a time the
+  // loop below would take "Low Gold" as a second ceiling and land on 75-79.
+  const range = name.match(TIER_RANGE_RE);
+  if (range) {
+    const lo = band(range[1], range[2]);
+    const hi = band(range[3], range[4]);
+    if (lo && hi && lo.lo <= hi.hi) return { min: lo.lo, max: hi.hi, basis: range[0].trim() };
+  }
 
   for (const m of Array.from(name.matchAll(TIER_WORD_RE))) {
     const half = (m[1] ?? "").toLowerCase();       // low | high | ""

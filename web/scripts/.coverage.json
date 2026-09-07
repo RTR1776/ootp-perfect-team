@@ -4,7 +4,8 @@
  "cutoffs": {
   "Silver": "2026-09-01",
   "Bronze": "2026-08-26",
-  "Iron": "2026-08-26"
+  "Iron": "2026-08-26",
+  "Gold": "2026-09-07"
  },
  "rows": [
   {
@@ -54,7 +55,7 @@
      "series": "lgretro",
      "name": "Daily Low Gold Retrospectus",
      "files": 13,
-     "dist": 0.57,
+     "dist": 0.55,
      "env": "1962 · 1961 LA Wrigley Field 1961",
      "overlap": 0.75
     },
@@ -62,7 +63,7 @@
      "series": "diamondheart",
      "name": "Daily Diamond Heart",
      "files": 22,
-     "dist": 0.75,
+     "dist": 0.72,
      "env": "1958 · 1955 Fenway Park",
      "overlap": 1
     },
@@ -70,7 +71,7 @@
      "series": "goldenchildhood",
      "name": "Daily Sporer's Golden Childhood",
      "files": 4,
-     "dist": 0.85,
+     "dist": 0.82,
      "env": "1984 · 1958 Tiger Stadium",
      "overlap": 0.83
     },
@@ -78,7 +79,7 @@
      "series": "diamondslotsdaily",
      "name": "Daily Diamond Slots",
      "files": 28,
-     "dist": 0.94,
+     "dist": 0.91,
      "env": "1975 · 1977 Atlanta Fulton County Stadium",
      "overlap": 1
     }
@@ -131,7 +132,7 @@
      "series": "diamondvariety",
      "name": "Saturday Diamond Variety",
      "files": 2,
-     "dist": 0.57,
+     "dist": 0.56,
      "env": "1975 · 1981 Metropolitan Stadium",
      "overlap": 1
     },
@@ -139,7 +140,7 @@
      "series": "goldenchildhood",
      "name": "Daily Sporer's Golden Childhood",
      "files": 4,
-     "dist": 0.88,
+     "dist": 0.85,
      "env": "1984 · 1958 Tiger Stadium",
      "overlap": 0.83
     },
@@ -147,7 +148,7 @@
      "series": "lgretro",
      "name": "Daily Low Gold Retrospectus",
      "files": 13,
-     "dist": 0.93,
+     "dist": 0.9,
      "env": "1962 · 1961 LA Wrigley Field 1961",
      "overlap": 0.75
     },
@@ -155,7 +156,7 @@
      "series": "diamondsforever",
      "name": "Daily Diamonds are Forever",
      "files": 31,
-     "dist": 0.94,
+     "dist": 0.91,
      "env": "1987 · 1985 Wrigley Field",
      "overlap": 1
     }
@@ -208,7 +209,7 @@
      "series": "diamondsforever",
      "name": "Daily Diamonds are Forever",
      "files": 31,
-     "dist": 0.75,
+     "dist": 0.72,
      "env": "1987 · 1985 Wrigley Field",
      "overlap": 1
     },
@@ -216,7 +217,7 @@
      "series": "goldenchildhood",
      "name": "Daily Sporer's Golden Childhood",
      "files": 4,
-     "dist": 1.13,
+     "dist": 1.09,
      "env": "1984 · 1958 Tiger Stadium",
      "overlap": 0.83
     },
@@ -224,7 +225,7 @@
      "series": "latesilver",
      "name": "Daily Late Silver",
      "files": 16,
-     "dist": 1.18,
+     "dist": 1.14,
      "env": "1992 · 1992 Camden Yards",
      "overlap": 0.66
     },
@@ -232,7 +233,7 @@
      "series": "silverslamboree",
      "name": "Daily Silver Slamboree",
      "files": 8,
-     "dist": 1.21,
+     "dist": 1.17,
      "env": "1987 · 1986 Three Rivers Stadium",
      "overlap": 0.66
     }
@@ -306,12 +307,12 @@
      "overlap": 0.61
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.58
+     "overlap": 0.6
     }
    ]
   },
@@ -375,20 +376,20 @@
      "overlap": 1
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
+     "overlap": 0.66
     },
     {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
+     "overlap": 0.98
     }
    ]
   },
@@ -447,7 +448,7 @@
      "series": "openweekly",
      "name": "Sunday Open Main Event",
      "files": 2,
-     "dist": 0.46,
+     "dist": 0.44,
      "env": "2010 · 2026 Dodger Stadium",
      "overlap": 0.64
     },
@@ -455,7 +456,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.59,
+     "dist": 0.57,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 0.64
     },
@@ -463,7 +464,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.59,
+     "dist": 0.57,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 1
     }
@@ -529,20 +530,20 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     },
     {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
+     "series": "lowdiamonddaily",
+     "name": "Daily Low Diamond",
+     "files": 20,
      "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "env": "2010 · ?",
+     "overlap": 0.91
     }
    ]
   },
@@ -606,20 +607,20 @@
      "overlap": 1
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
+     "overlap": 0.66
     },
     {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
+     "overlap": 0.98
     }
    ]
   },
@@ -670,7 +671,7 @@
      "series": "1950tonow",
      "name": "Wednesday 1950 to Now",
      "files": 2,
-     "dist": 0.52,
+     "dist": 0.5,
      "env": "2010 · 1979 Three Rivers Stadium",
      "overlap": 0.64
     },
@@ -678,7 +679,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.79,
+     "dist": 0.76,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 0.64
     },
@@ -686,7 +687,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.79,
+     "dist": 0.76,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 1
     },
@@ -694,7 +695,7 @@
      "series": "diamondquick",
      "name": "Diamond Quick",
      "files": 7,
-     "dist": 0.79,
+     "dist": 0.76,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 1
     }
@@ -747,7 +748,7 @@
      "series": "diamondslotsdaily",
      "name": "Daily Diamond Slots",
      "files": 28,
-     "dist": 0.57,
+     "dist": 0.56,
      "env": "1975 · 1977 Atlanta Fulton County Stadium",
      "overlap": 1
     },
@@ -755,7 +756,7 @@
      "series": "goldenchildhood",
      "name": "Daily Sporer's Golden Childhood",
      "files": 4,
-     "dist": 1,
+     "dist": 0.97,
      "env": "1984 · 1958 Tiger Stadium",
      "overlap": 0.83
     }
@@ -808,7 +809,7 @@
      "series": "openslotsdaily",
      "name": "Daily Open Slots",
      "files": 2,
-     "dist": 0.99,
+     "dist": 0.95,
      "env": "2000 · 2025 Standard Stadium",
      "overlap": 0.64
     }
@@ -882,12 +883,12 @@
      "overlap": 0.66
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.55
+     "overlap": 0.66
     }
    ]
   },
@@ -959,12 +960,12 @@
      "overlap": 0.66
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.55
+     "overlap": 0.66
     }
    ]
   },
@@ -1036,441 +1037,12 @@
      "overlap": 0.61
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.58
-    }
-   ]
-  },
-  {
-   "tier": "Gold",
-   "isDraft": false,
-   "name": "Daily Gold Slots",
-   "ptid": "132",
-   "series": "goldslotsdaily",
-   "cadence": "daily",
-   "runsOnFile": 18,
-   "filesOnDisk": 18,
-   "latestRun": 169,
-   "latestDate": "2026-08-30",
-   "daysBehind": 8,
-   "missingCount": 7,
-   "numbering": "matches",
-   "retired": "",
-   "grabIds": "1320171, 1320172, 1320173, 1320174, 1320175, 1320176, 1320177",
-   "cap": "40-89",
-   "field": 64,
-   "entries": 30,
-   "pts": 37,
-   "inCatalog": "yes",
-   "id": 530,
-   "envYear": 2010,
-   "stadium": "2025 Standard Stadium",
-   "dh": true,
-   "mode": "Bo7",
-   "slots": null,
-   "teamCap": null,
-   "cards": 1220,
-   "pa": 492033,
-   "ip": 114631,
-   "stints": 27975,
-   "currentFiles": 18,
-   "currentRuns": "120,121,122,124,125,126,128,129,160,161,162,163,164,165,166,167,168,169",
-   "preRefreshFiles": 0,
-   "refreshed": false,
-   "change": null,
-   "rg": 4.46,
-   "kPct": 22.6,
-   "hrPct": 3.1,
-   "status": "good",
-   "why": "18 current runs, newest 8d ago",
-   "donors": [
-    {
-     "series": "diamondandfriends",
-     "name": "Daily Diamond & Friends Slots",
-     "files": 7,
-     "dist": 0,
-     "env": "2010 · 2023 Heinsohn Ballpark",
-     "overlap": 0.53
-    },
-    {
-     "series": "diamonddaily",
-     "name": "Daily Diamond",
-     "files": 18,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
-    },
-    {
-     "series": "diamondquick",
-     "name": "Diamond Quick",
-     "files": 7,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
-    },
-    {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 1
-    }
-   ]
-  },
-  {
-   "tier": "Gold",
-   "isDraft": false,
-   "name": "Daily Early Gold",
-   "ptid": "128",
-   "series": "earlygold",
-   "cadence": "daily",
-   "runsOnFile": 15,
-   "filesOnDisk": 15,
-   "latestRun": 167,
-   "latestDate": "2026-08-28",
-   "daysBehind": 10,
-   "missingCount": 7,
-   "numbering": "matches",
-   "retired": "",
-   "grabIds": "1280171, 1280172, 1280173, 1280174, 1280175, 1280176, 1280177",
-   "cap": "40-89",
-   "field": 64,
-   "entries": 27,
-   "pts": 35,
-   "inCatalog": "yes",
-   "id": 557,
-   "envYear": 1920,
-   "stadium": "1946 Ruppert Stadium",
-   "dh": false,
-   "mode": "Bo5",
-   "slots": null,
-   "teamCap": null,
-   "cards": 776,
-   "pa": 604933,
-   "ip": 137641,
-   "stints": 40832,
-   "currentFiles": 15,
-   "currentRuns": "125,126,128,129,131,132,136,146,150,161,162,164,165,166,167",
-   "preRefreshFiles": 0,
-   "refreshed": false,
-   "change": null,
-   "rg": 4.72,
-   "kPct": 6.3,
-   "hrPct": 0.7,
-   "status": "good",
-   "why": "15 current runs, newest 10d ago",
-   "donors": []
-  },
-  {
-   "tier": "Gold",
-   "isDraft": false,
-   "name": "Daily Golden Heart",
-   "ptid": "184",
-   "series": "goldenheart",
-   "cadence": "daily",
-   "runsOnFile": 15,
-   "filesOnDisk": 15,
-   "latestRun": 151,
-   "latestDate": "2026-08-28",
-   "daysBehind": 10,
-   "missingCount": 7,
-   "numbering": "matches",
-   "retired": "",
-   "grabIds": "1840155, 1840156, 1840157, 1840158, 1840159, 1840160, 1840161",
-   "cap": "40-89",
-   "field": 64,
-   "entries": 25,
-   "pts": 54,
-   "inCatalog": "yes",
-   "id": 635,
-   "envYear": 1977,
-   "stadium": "1977 Olympic Stadium",
-   "dh": true,
-   "mode": "Bo7",
-   "slots": null,
-   "teamCap": null,
-   "cards": 362,
-   "pa": 413551,
-   "ip": 96009,
-   "stints": 22794,
-   "currentFiles": 15,
-   "currentRuns": "107,108,109,111,112,113,116,130,133,134,135,144,145,146,151",
-   "preRefreshFiles": 0,
-   "refreshed": false,
-   "change": null,
-   "rg": 4.29,
-   "kPct": 13.4,
-   "hrPct": 2.1,
-   "status": "good",
-   "why": "15 current runs, newest 10d ago",
-   "donors": [
-    {
-     "series": "silverslamboree",
-     "name": "Daily Silver Slamboree",
-     "files": 8,
-     "dist": 0.49,
-     "env": "1987 · 1986 Three Rivers Stadium",
-     "overlap": 0.8
-    },
-    {
-     "series": "latesilver",
-     "name": "Daily Late Silver",
-     "files": 16,
-     "dist": 0.56,
-     "env": "1992 · 1992 Camden Yards",
-     "overlap": 0.8
-    },
-    {
-     "series": "goldenchildhood",
-     "name": "Daily Sporer's Golden Childhood",
-     "files": 4,
-     "dist": 0.74,
-     "env": "1984 · 1958 Tiger Stadium",
-     "overlap": 1
-    },
-    {
-     "series": "silverslotsdaily",
-     "name": "Daily Silver Slots",
-     "files": 6,
-     "dist": 1.04,
-     "env": "1977 · 1978 Riverfront Stadium",
-     "overlap": 0.8
-    }
-   ]
-  },
-  {
-   "tier": "Gold",
-   "isDraft": false,
-   "name": "Daily Low Gold Retrospecticus",
-   "ptid": "166",
-   "series": "lgretro",
-   "cadence": "daily",
-   "runsOnFile": 13,
-   "filesOnDisk": 13,
-   "latestRun": 165,
-   "latestDate": "2026-08-30",
-   "daysBehind": 8,
-   "missingCount": 7,
-   "numbering": "matches",
-   "retired": "",
-   "grabIds": "1660167, 1660168, 1660169, 1660170, 1660171, 1660172, 1660173",
-   "cap": "40-84",
-   "field": 64,
-   "entries": 22,
-   "pts": 62,
-   "inCatalog": "yes",
-   "id": 586,
-   "envYear": 1962,
-   "stadium": "1961 LA Wrigley Field 1961",
-   "dh": false,
-   "mode": "Bo5 Finals Bo7",
-   "slots": null,
-   "teamCap": null,
-   "cards": 483,
-   "pa": 260287,
-   "ip": 60451,
-   "stints": 19220,
-   "currentFiles": 13,
-   "currentRuns": "115,119,121,123,124,125,126,127,128,143,147,164,165",
-   "preRefreshFiles": 0,
-   "refreshed": false,
-   "change": null,
-   "rg": 4.62,
-   "kPct": 14.5,
-   "hrPct": 2.7,
-   "status": "good",
-   "why": "13 current runs, newest 8d ago",
-   "donors": [
-    {
-     "series": "diamondsforever",
-     "name": "Daily Diamonds are Forever",
-     "files": 31,
-     "dist": 0.57,
-     "env": "1987 · 1985 Wrigley Field",
-     "overlap": 0.75
-    },
-    {
-     "series": "diamondslotsdaily",
-     "name": "Daily Diamond Slots",
-     "files": 28,
-     "dist": 0.93,
-     "env": "1975 · 1977 Atlanta Fulton County Stadium",
-     "overlap": 0.75
-    },
-    {
-     "series": "goldenchildhood",
-     "name": "Daily Sporer's Golden Childhood",
-     "files": 4,
-     "dist": 1,
-     "env": "1984 · 1958 Tiger Stadium",
-     "overlap": 0.9
-    },
-    {
-     "series": "latesilver",
-     "name": "Daily Late Silver",
-     "files": 16,
-     "dist": 1.23,
-     "env": "1992 · 1992 Camden Yards",
-     "overlap": 0.89
-    }
-   ]
-  },
-  {
-   "tier": "Gold",
-   "isDraft": false,
-   "name": "Daily Goldfather II",
-   "ptid": "129",
-   "series": "goldfather",
-   "cadence": "daily",
-   "runsOnFile": 8,
-   "filesOnDisk": 8,
-   "latestRun": 130,
-   "latestDate": "2026-07-22",
-   "daysBehind": 47,
-   "missingCount": 7,
-   "numbering": "matches",
-   "retired": "",
-   "grabIds": "1290171, 1290172, 1290173, 1290174, 1290175, 1290176, 1290177",
-   "cap": "40-89",
-   "field": 64,
-   "entries": 10,
-   "pts": 25,
-   "inCatalog": "yes",
-   "id": 567,
-   "envYear": 2010,
-   "stadium": "2025 Standard Stadium",
-   "dh": true,
-   "mode": "Bo7",
-   "slots": null,
-   "teamCap": null,
-   "cards": 512,
-   "pa": 222366,
-   "ip": 52271,
-   "stints": 12648,
-   "currentFiles": 8,
-   "currentRuns": "123,124,125,126,127,128,129,130",
-   "preRefreshFiles": 0,
-   "refreshed": false,
-   "change": null,
-   "rg": 4.46,
-   "kPct": 22.6,
-   "hrPct": 3.1,
-   "status": "stale",
-   "why": "8 current runs but newest is 47d old",
-   "donors": [
-    {
-     "series": "diamondandfriends",
-     "name": "Daily Diamond & Friends Slots",
-     "files": 7,
-     "dist": 0,
-     "env": "2010 · 2023 Heinsohn Ballpark",
-     "overlap": 0.53
-    },
-    {
-     "series": "diamonddaily",
-     "name": "Daily Diamond",
-     "files": 18,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
-    },
-    {
-     "series": "diamondquick",
-     "name": "Diamond Quick",
-     "files": 7,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
-    },
-    {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 1
-    }
-   ]
-  },
-  {
-   "tier": "Gold",
-   "isDraft": false,
-   "name": "Daily Sporer's Golden Childhood",
-   "ptid": "191",
-   "series": "goldenchildhood",
-   "cadence": "daily",
-   "runsOnFile": 4,
-   "filesOnDisk": 4,
-   "latestRun": 93,
-   "latestDate": "2026-08-28",
-   "daysBehind": 10,
-   "missingCount": 7,
-   "numbering": "matches",
-   "retired": "",
-   "grabIds": "1910097, 1910098, 1910099, 1910100, 1910101, 1910102, 1910103",
-   "cap": "40-89",
-   "field": 64,
-   "entries": 12,
-   "pts": 12,
-   "inCatalog": "yes",
-   "id": 775,
-   "envYear": 1984,
-   "stadium": "1958 Tiger Stadium",
-   "dh": true,
-   "mode": "Bo5",
-   "slots": null,
-   "teamCap": null,
-   "cards": 217,
-   "pa": 80784,
-   "ip": 18444,
-   "stints": 5713,
-   "currentFiles": 4,
-   "currentRuns": "46,50,72,93",
-   "preRefreshFiles": 0,
-   "refreshed": false,
-   "change": null,
-   "rg": 4.43,
-   "kPct": 14,
-   "hrPct": 2.3,
-   "status": "thin",
-   "why": "4 current run(s), newest 10d ago",
-   "donors": [
-    {
-     "series": "latesilver",
-     "name": "Daily Late Silver",
-     "files": 16,
-     "dist": 0.56,
-     "env": "1992 · 1992 Camden Yards",
-     "overlap": 0.8
-    },
-    {
-     "series": "silverslamboree",
-     "name": "Daily Silver Slamboree",
-     "files": 8,
-     "dist": 0.71,
-     "env": "1987 · 1986 Three Rivers Stadium",
-     "overlap": 0.8
-    },
-    {
-     "series": "goldenheart",
-     "name": "Daily Golden Heart",
-     "files": 15,
-     "dist": 0.74,
-     "env": "1977 · 1977 Olympic Stadium",
-     "overlap": 1
-    },
-    {
-     "series": "diamondsforever",
-     "name": "Daily Diamonds are Forever",
-     "files": 31,
-     "dist": 0.85,
-     "env": "1987 · 1985 Wrigley Field",
-     "overlap": 0.83
+     "overlap": 0.6
     }
    ]
   },
@@ -1534,20 +1106,20 @@
      "overlap": 0.66
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.8
+     "overlap": 0.65
     },
     {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
+     "series": "silverweekly",
+     "name": "Thursday Silver Spectacular",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.8
+     "overlap": 0.59
     }
    ]
   },
@@ -1642,7 +1214,7 @@
      "series": "silverandfriends",
      "name": "Daily Silver & Friends Deadball Slots",
      "files": 3,
-     "dist": 1.12,
+     "dist": 1.08,
      "env": "1919 · 2026 Daikin Park",
      "overlap": 0.53
     }
@@ -1695,9 +1267,389 @@
   {
    "tier": "Gold",
    "isDraft": false,
+   "name": "Daily Gold Slots",
+   "ptid": "132",
+   "series": "goldslotsdaily",
+   "cadence": "daily",
+   "runsOnFile": 18,
+   "filesOnDisk": 18,
+   "latestRun": 169,
+   "latestDate": "2026-08-30",
+   "daysBehind": 8,
+   "missingCount": 7,
+   "numbering": "matches",
+   "retired": "",
+   "grabIds": "1320171, 1320172, 1320173, 1320174, 1320175, 1320176, 1320177",
+   "cap": "40-89",
+   "field": 64,
+   "entries": 30,
+   "pts": 37,
+   "inCatalog": "yes",
+   "id": 530,
+   "envYear": 1968,
+   "stadium": "1968 Connie Mack Stadium",
+   "dh": true,
+   "mode": "Bo7",
+   "slots": "B6 G12 I0 S8",
+   "teamCap": null,
+   "cards": 1220,
+   "pa": 492033,
+   "ip": 114631,
+   "stints": 27975,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 18,
+   "refreshed": true,
+   "change": "moved",
+   "rg": 3.98,
+   "kPct": 15.4,
+   "hrPct": 2.1,
+   "status": "pre-refresh-only",
+   "why": "18 file(s), all before this event was moved in the Gold refresh (2026-09-07)",
+   "donors": [
+    {
+     "series": "bronze10to50",
+     "name": "Daily Bronze 1910-59",
+     "files": 3,
+     "dist": 0.59,
+     "env": "1959 · 1959 Seals Stadium",
+     "overlap": 0.59
+    },
+    {
+     "series": "goldfather",
+     "name": "Daily Goldfather II",
+     "files": 8,
+     "dist": 0.85,
+     "env": "1974 · 1971 Yankee Stadium",
+     "overlap": 1
+    },
+    {
+     "series": "upto1969weekly",
+     "name": "Tuesday Up To 1969",
+     "files": 1,
+     "dist": 0.96,
+     "env": "1968 · 1968 Busch Stadium",
+     "overlap": 0.53
+    }
+   ]
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily Early Gold",
+   "ptid": "128",
+   "series": "earlygold",
+   "cadence": "daily",
+   "runsOnFile": 15,
+   "filesOnDisk": 15,
+   "latestRun": 167,
+   "latestDate": "2026-08-28",
+   "daysBehind": 10,
+   "missingCount": 7,
+   "numbering": "matches",
+   "retired": "",
+   "grabIds": "1280171, 1280172, 1280173, 1280174, 1280175, 1280176, 1280177",
+   "cap": "40-89",
+   "field": 64,
+   "entries": 27,
+   "pts": 35,
+   "inCatalog": "yes",
+   "id": 557,
+   "envYear": 1920,
+   "stadium": "1946 Ruppert Stadium",
+   "dh": false,
+   "mode": "Bo5",
+   "slots": null,
+   "teamCap": null,
+   "cards": 776,
+   "pa": 604933,
+   "ip": 137641,
+   "stints": 40832,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 15,
+   "refreshed": true,
+   "change": "renamed-old",
+   "rg": 4.72,
+   "kPct": 6.3,
+   "hrPct": 0.7,
+   "status": "pre-refresh-only",
+   "why": "15 file(s), all before this event was renamed in the Gold refresh (2026-09-07)",
+   "donors": []
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily Golden Heart",
+   "ptid": "184",
+   "series": "goldenheart",
+   "cadence": "daily",
+   "runsOnFile": 15,
+   "filesOnDisk": 15,
+   "latestRun": 151,
+   "latestDate": "2026-08-28",
+   "daysBehind": 10,
+   "missingCount": 7,
+   "numbering": "matches",
+   "retired": "",
+   "grabIds": "1840155, 1840156, 1840157, 1840158, 1840159, 1840160, 1840161",
+   "cap": "40-89",
+   "field": 64,
+   "entries": 25,
+   "pts": 54,
+   "inCatalog": "yes",
+   "id": 635,
+   "envYear": 1956,
+   "stadium": "1958 Crosley Field",
+   "dh": true,
+   "mode": "Bo7",
+   "slots": null,
+   "teamCap": null,
+   "cards": 362,
+   "pa": 413551,
+   "ip": 96009,
+   "stints": 22794,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 15,
+   "refreshed": true,
+   "change": "moved",
+   "rg": 5.17,
+   "kPct": 12.1,
+   "hrPct": 2.7,
+   "status": "pre-refresh-only",
+   "why": "15 file(s), all before this event was moved in the Gold refresh (2026-09-07)",
+   "donors": []
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily Low Gold Retrospecticus",
+   "ptid": "166",
+   "series": "lgretro",
+   "cadence": "daily",
+   "runsOnFile": 13,
+   "filesOnDisk": 13,
+   "latestRun": 165,
+   "latestDate": "2026-08-30",
+   "daysBehind": 8,
+   "missingCount": 7,
+   "numbering": "matches",
+   "retired": "",
+   "grabIds": "1660167, 1660168, 1660169, 1660170, 1660171, 1660172, 1660173",
+   "cap": "40-84",
+   "field": 64,
+   "entries": 22,
+   "pts": 62,
+   "inCatalog": "yes",
+   "id": 586,
+   "envYear": 1962,
+   "stadium": "1961 LA Wrigley Field 1961",
+   "dh": false,
+   "mode": "Bo5 Finals Bo7",
+   "slots": null,
+   "teamCap": null,
+   "cards": 483,
+   "pa": 260287,
+   "ip": 60451,
+   "stints": 19220,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 13,
+   "refreshed": true,
+   "change": "renamed-old",
+   "rg": 4.62,
+   "kPct": 14.5,
+   "hrPct": 2.7,
+   "status": "pre-refresh-only",
+   "why": "13 file(s), all before this event was renamed in the Gold refresh (2026-09-07)",
+   "donors": [
+    {
+     "series": "diamondsforever",
+     "name": "Daily Diamonds are Forever",
+     "files": 31,
+     "dist": 0.55,
+     "env": "1987 · 1985 Wrigley Field",
+     "overlap": 0.75
+    },
+    {
+     "series": "diamondslotsdaily",
+     "name": "Daily Diamond Slots",
+     "files": 28,
+     "dist": 0.9,
+     "env": "1975 · 1977 Atlanta Fulton County Stadium",
+     "overlap": 0.75
+    },
+    {
+     "series": "goldenchildhood",
+     "name": "Daily Sporer's Golden Childhood",
+     "files": 4,
+     "dist": 0.97,
+     "env": "1984 · 1958 Tiger Stadium",
+     "overlap": 0.9
+    },
+    {
+     "series": "diamondheart",
+     "name": "Daily Diamond Heart",
+     "files": 22,
+     "dist": 1.19,
+     "env": "1958 · 1955 Fenway Park",
+     "overlap": 0.75
+    }
+   ]
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily Sporer's Golden Childhood",
+   "ptid": "191",
+   "series": "goldenchildhood",
+   "cadence": "daily",
+   "runsOnFile": 4,
+   "filesOnDisk": 4,
+   "latestRun": 93,
+   "latestDate": "2026-08-28",
+   "daysBehind": 10,
+   "missingCount": 7,
+   "numbering": "matches",
+   "retired": "",
+   "grabIds": "1910097, 1910098, 1910099, 1910100, 1910101, 1910102, 1910103",
+   "cap": "40-89",
+   "field": 64,
+   "entries": 12,
+   "pts": 12,
+   "inCatalog": "yes",
+   "id": 775,
+   "envYear": 1984,
+   "stadium": "1958 Tiger Stadium",
+   "dh": true,
+   "mode": "Bo5",
+   "slots": null,
+   "teamCap": null,
+   "cards": 217,
+   "pa": 80784,
+   "ip": 18444,
+   "stints": 5713,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 4,
+   "refreshed": true,
+   "change": "renamed-old",
+   "rg": 4.43,
+   "kPct": 14,
+   "hrPct": 2.3,
+   "status": "pre-refresh-only",
+   "why": "4 file(s), all before this event was renamed in the Gold refresh (2026-09-07)",
+   "donors": [
+    {
+     "series": "latesilver",
+     "name": "Daily Late Silver",
+     "files": 16,
+     "dist": 0.54,
+     "env": "1992 · 1992 Camden Yards",
+     "overlap": 0.8
+    },
+    {
+     "series": "silverslamboree",
+     "name": "Daily Silver Slamboree",
+     "files": 8,
+     "dist": 0.68,
+     "env": "1987 · 1986 Three Rivers Stadium",
+     "overlap": 0.8
+    },
+    {
+     "series": "diamondsforever",
+     "name": "Daily Diamonds are Forever",
+     "files": 31,
+     "dist": 0.82,
+     "env": "1987 · 1985 Wrigley Field",
+     "overlap": 0.83
+    },
+    {
+     "series": "diamondslotsdaily",
+     "name": "Daily Diamond Slots",
+     "files": 28,
+     "dist": 0.85,
+     "env": "1975 · 1977 Atlanta Fulton County Stadium",
+     "overlap": 0.83
+    }
+   ]
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily Goldfather II",
+   "ptid": "129",
+   "series": "goldfather",
+   "cadence": "daily",
+   "runsOnFile": 8,
+   "filesOnDisk": 8,
+   "latestRun": 130,
+   "latestDate": "2026-07-22",
+   "daysBehind": 47,
+   "missingCount": 7,
+   "numbering": "matches",
+   "retired": "",
+   "grabIds": "1290171, 1290172, 1290173, 1290174, 1290175, 1290176, 1290177",
+   "cap": "40-89",
+   "field": 128,
+   "entries": 10,
+   "pts": 25,
+   "inCatalog": "yes",
+   "id": 567,
+   "envYear": 1974,
+   "stadium": "1971 Yankee Stadium",
+   "dh": false,
+   "mode": "Bo7",
+   "slots": null,
+   "teamCap": null,
+   "cards": 512,
+   "pa": 222366,
+   "ip": 52271,
+   "stints": 12648,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 8,
+   "refreshed": true,
+   "change": "moved",
+   "rg": 3.9,
+   "kPct": 13.1,
+   "hrPct": 1.6,
+   "status": "pre-refresh-only",
+   "why": "8 file(s), all before this event was moved in the Gold refresh (2026-09-07)",
+   "donors": [
+    {
+     "series": "goldslotsdaily",
+     "name": "Daily Gold Slots",
+     "files": 18,
+     "dist": 0.85,
+     "env": "1968 · 1968 Connie Mack Stadium",
+     "overlap": 1
+    },
+    {
+     "series": "upto1969weekly",
+     "name": "Tuesday Up To 1969",
+     "files": 1,
+     "dist": 1.1,
+     "env": "1968 · 1968 Busch Stadium",
+     "overlap": 0.53
+    },
+    {
+     "series": "bronze10to50",
+     "name": "Daily Bronze 1910-59",
+     "files": 3,
+     "dist": 1.14,
+     "env": "1959 · 1959 Seals Stadium",
+     "overlap": 0.59
+    }
+   ]
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
    "name": "Daily Gold Cap",
    "ptid": "",
-   "series": "",
+   "series": "goldcapdaily",
    "cadence": "?",
    "runsOnFile": 0,
    "filesOnDisk": 0,
@@ -1709,15 +1661,68 @@
    "retired": "",
    "grabIds": "",
    "cap": "40-89",
-   "field": 32,
+   "field": 64,
    "entries": 0,
    "pts": 0,
    "inCatalog": "yes",
    "id": 563,
-   "envYear": 2010,
-   "stadium": "1955 Fenway Park",
+   "envYear": 1999,
+   "stadium": "1999 Jacobs Field",
    "dh": true,
    "mode": "Bo7",
+   "slots": null,
+   "teamCap": 1780,
+   "cards": 0,
+   "pa": 0,
+   "ip": 0,
+   "stints": 0,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 0,
+   "refreshed": true,
+   "change": "moved",
+   "rg": 5.12,
+   "kPct": 16.8,
+   "hrPct": 2.9,
+   "status": "none",
+   "why": "no export on file",
+   "donors": [
+    {
+     "series": "openslotsdaily",
+     "name": "Daily Open Slots",
+     "files": 2,
+     "dist": 0.72,
+     "env": "2000 · 2025 Standard Stadium",
+     "overlap": 0.53
+    }
+   ]
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily Gold Standard",
+   "ptid": "",
+   "series": "goldstandard",
+   "cadence": "?",
+   "runsOnFile": 0,
+   "filesOnDisk": 0,
+   "latestRun": "",
+   "latestDate": "",
+   "daysBehind": "",
+   "missingCount": 0,
+   "numbering": "—",
+   "retired": "",
+   "grabIds": "",
+   "cap": "40-89",
+   "field": 64,
+   "entries": 0,
+   "pts": 0,
+   "inCatalog": "yes",
+   "id": 9100198,
+   "envYear": null,
+   "stadium": "Heinsohn Park",
+   "dh": null,
+   "mode": "BO7",
    "slots": null,
    "teamCap": null,
    "cards": 0,
@@ -1729,9 +1734,97 @@
    "preRefreshFiles": 0,
    "refreshed": false,
    "change": null,
-   "rg": 5.02,
-   "kPct": 22.6,
-   "hrPct": 3.4,
+   "rg": null,
+   "kPct": null,
+   "hrPct": null,
+   "status": "none",
+   "why": "no export on file",
+   "donors": []
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily Golden Age",
+   "ptid": "",
+   "series": "goldenage",
+   "cadence": "?",
+   "runsOnFile": 0,
+   "filesOnDisk": 0,
+   "latestRun": "",
+   "latestDate": "",
+   "daysBehind": "",
+   "missingCount": 0,
+   "numbering": "—",
+   "retired": "",
+   "grabIds": "",
+   "cap": "40-89",
+   "field": 64,
+   "entries": 0,
+   "pts": 0,
+   "inCatalog": "yes",
+   "id": 9100166,
+   "envYear": 1925,
+   "stadium": "1930 Hamtramck Stadium",
+   "dh": false,
+   "mode": null,
+   "slots": null,
+   "teamCap": null,
+   "cards": 0,
+   "pa": 0,
+   "ip": 0,
+   "stints": 0,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 0,
+   "refreshed": true,
+   "change": "renamed",
+   "rg": 5.16,
+   "kPct": 4.9,
+   "hrPct": 0.8,
+   "status": "none",
+   "why": "no export on file",
+   "donors": []
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily High Silver-Low Gold Cap",
+   "ptid": "",
+   "series": "highsilverlowgoldcap",
+   "cadence": "?",
+   "runsOnFile": 0,
+   "filesOnDisk": 0,
+   "latestRun": "",
+   "latestDate": "",
+   "daysBehind": "",
+   "missingCount": 0,
+   "numbering": "—",
+   "retired": "",
+   "grabIds": "",
+   "cap": "75-84",
+   "field": 64,
+   "entries": 0,
+   "pts": 0,
+   "inCatalog": "yes",
+   "id": 9100191,
+   "envYear": 2007,
+   "stadium": "2008 Shea Stadium",
+   "dh": true,
+   "mode": "BO7",
+   "slots": null,
+   "teamCap": 2068,
+   "cards": 0,
+   "pa": 0,
+   "ip": 0,
+   "stints": 0,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 0,
+   "refreshed": true,
+   "change": "renamed",
+   "rg": 4.48,
+   "kPct": 17.1,
+   "hrPct": 2.7,
    "status": "none",
    "why": "no export on file",
    "donors": []
@@ -1741,7 +1834,7 @@
    "isDraft": false,
    "name": "Daily Live Gold",
    "ptid": "",
-   "series": "",
+   "series": "livegolddaily",
    "cadence": "?",
    "runsOnFile": 0,
    "filesOnDisk": 0,
@@ -1758,8 +1851,8 @@
    "pts": 0,
    "inCatalog": "yes",
    "id": 528,
-   "envYear": 2019,
-   "stadium": "2026 Wrigley Field",
+   "envYear": null,
+   "stadium": "2026 Citizens Bank Park",
    "dh": true,
    "mode": "Bo7",
    "slots": null,
@@ -1771,47 +1864,58 @@
    "currentFiles": 0,
    "currentRuns": "",
    "preRefreshFiles": 0,
-   "refreshed": false,
-   "change": null,
-   "rg": 4.6,
-   "kPct": 22.6,
-   "hrPct": 3.3,
+   "refreshed": true,
+   "change": "moved",
+   "rg": null,
+   "kPct": null,
+   "hrPct": null,
    "status": "none",
    "why": "no export on file",
-   "donors": [
-    {
-     "series": "diamondweekly",
-     "name": "Wednesday Ice to See You",
-     "files": 3,
-     "dist": 0.28,
-     "env": "2010 · 2026 NBT Bank Stadium",
-     "overlap": 0.83
-    },
-    {
-     "series": "1950tonow",
-     "name": "Wednesday 1950 to Now",
-     "files": 2,
-     "dist": 0.49,
-     "env": "2010 · 1979 Three Rivers Stadium",
-     "overlap": 0.53
-    },
-    {
-     "series": "diamondandfriends",
-     "name": "Daily Diamond & Friends Slots",
-     "files": 7,
-     "dist": 0.54,
-     "env": "2010 · 2023 Heinsohn Ballpark",
-     "overlap": 0.53
-    },
-    {
-     "series": "diamonddaily",
-     "name": "Daily Diamond",
-     "files": 18,
-     "dist": 0.54,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.83
-    }
-   ]
+   "donors": []
+  },
+  {
+   "tier": "Gold",
+   "isDraft": false,
+   "name": "Daily Low Gold Only",
+   "ptid": "",
+   "series": "lowgoldonly",
+   "cadence": "?",
+   "runsOnFile": 0,
+   "filesOnDisk": 0,
+   "latestRun": "",
+   "latestDate": "",
+   "daysBehind": "",
+   "missingCount": 0,
+   "numbering": "—",
+   "retired": "",
+   "grabIds": "",
+   "cap": "80-84",
+   "field": 64,
+   "entries": 0,
+   "pts": 0,
+   "inCatalog": "yes",
+   "id": 9100128,
+   "envYear": null,
+   "stadium": "2026 Fenway Park",
+   "dh": true,
+   "mode": "BO5",
+   "slots": null,
+   "teamCap": null,
+   "cards": 0,
+   "pa": 0,
+   "ip": 0,
+   "stints": 0,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 0,
+   "refreshed": true,
+   "change": "renamed",
+   "rg": null,
+   "kPct": null,
+   "hrPct": null,
+   "status": "none",
+   "why": "no export on file",
+   "donors": []
   },
   {
    "tier": "Gold",
@@ -1881,12 +1985,12 @@
      "overlap": 0.83
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 1
+     "overlap": 0.8
     }
    ]
   },
@@ -1958,12 +2062,12 @@
      "overlap": 0.83
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 1
+     "overlap": 0.8
     }
    ]
   },
@@ -2035,12 +2139,12 @@
      "overlap": 0.83
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 1
+     "overlap": 0.8
     }
    ]
   },
@@ -2143,7 +2247,7 @@
      "series": "6lpowerplay",
      "name": "Laptophound's Daily 6L Power Play",
      "files": 8,
-     "dist": 1.06,
+     "dist": 1.03,
      "env": "1999 · 1984 Olympic Stadium",
      "overlap": 0.56
     }
@@ -2196,7 +2300,7 @@
      "series": "silverslamboree",
      "name": "Daily Silver Slamboree",
      "files": 8,
-     "dist": 0.23,
+     "dist": 0.22,
      "env": "1987 · 1986 Three Rivers Stadium",
      "overlap": 1
     },
@@ -2204,25 +2308,25 @@
      "series": "goldenchildhood",
      "name": "Daily Sporer's Golden Childhood",
      "files": 4,
-     "dist": 0.56,
+     "dist": 0.54,
      "env": "1984 · 1958 Tiger Stadium",
-     "overlap": 0.8
-    },
-    {
-     "series": "goldenheart",
-     "name": "Daily Golden Heart",
-     "files": 15,
-     "dist": 0.56,
-     "env": "1977 · 1977 Olympic Stadium",
      "overlap": 0.8
     },
     {
      "series": "silverslotsdaily",
      "name": "Daily Silver Slots",
      "files": 6,
-     "dist": 0.98,
+     "dist": 0.94,
      "env": "1977 · 1978 Riverfront Stadium",
      "overlap": 1
+    },
+    {
+     "series": "diamondsforever",
+     "name": "Daily Diamonds are Forever",
+     "files": 31,
+     "dist": 0.98,
+     "env": "1987 · 1985 Wrigley Field",
+     "overlap": 0.66
     }
    ]
   },
@@ -2273,7 +2377,7 @@
      "series": "silverslamboree",
      "name": "Daily Silver Slamboree",
      "files": 8,
-     "dist": 0.77,
+     "dist": 0.75,
      "env": "1987 · 1986 Three Rivers Stadium",
      "overlap": 1
     },
@@ -2281,23 +2385,23 @@
      "series": "latesilver",
      "name": "Daily Late Silver",
      "files": 16,
-     "dist": 0.98,
+     "dist": 0.94,
      "env": "1992 · 1992 Camden Yards",
      "overlap": 1
     },
     {
-     "series": "goldenheart",
-     "name": "Daily Golden Heart",
-     "files": 15,
-     "dist": 1.04,
-     "env": "1977 · 1977 Olympic Stadium",
-     "overlap": 0.8
+     "series": "diamondheart",
+     "name": "Daily Diamond Heart",
+     "files": 22,
+     "dist": 1.21,
+     "env": "1958 · 1955 Fenway Park",
+     "overlap": 0.66
     },
     {
      "series": "bronzeootp",
      "name": "Daily Bronze OOTP Era",
      "files": 3,
-     "dist": 1.25,
+     "dist": 1.22,
      "env": "2009 · Heinsohn Park",
      "overlap": 0.74
     }
@@ -2363,20 +2467,20 @@
      "overlap": 0.66
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.8
+     "overlap": 0.59
     },
     {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.8
+     "overlap": 0.65
     }
    ]
   },
@@ -2559,23 +2663,15 @@
      "series": "latesilver",
      "name": "Daily Late Silver",
      "files": 16,
-     "dist": 0.23,
+     "dist": 0.22,
      "env": "1992 · 1992 Camden Yards",
      "overlap": 1
-    },
-    {
-     "series": "goldenheart",
-     "name": "Daily Golden Heart",
-     "files": 15,
-     "dist": 0.49,
-     "env": "1977 · 1977 Olympic Stadium",
-     "overlap": 0.8
     },
     {
      "series": "goldenchildhood",
      "name": "Daily Sporer's Golden Childhood",
      "files": 4,
-     "dist": 0.71,
+     "dist": 0.68,
      "env": "1984 · 1958 Tiger Stadium",
      "overlap": 0.8
     },
@@ -2583,9 +2679,17 @@
      "series": "silverslotsdaily",
      "name": "Daily Silver Slots",
      "files": 6,
-     "dist": 0.77,
+     "dist": 0.75,
      "env": "1977 · 1978 Riverfront Stadium",
      "overlap": 1
+    },
+    {
+     "series": "diamondsforever",
+     "name": "Daily Diamonds are Forever",
+     "files": 31,
+     "dist": 1.14,
+     "env": "1987 · 1985 Wrigley Field",
+     "overlap": 0.66
     }
    ]
   },
@@ -2636,7 +2740,7 @@
      "series": "deadballweekly",
      "name": "Wednesday Night of the Living Deadball",
      "files": 1,
-     "dist": 0.3,
+     "dist": 0.29,
      "env": "1919 · 1871 Union Grounds (Brooklyn)",
      "overlap": 1
     },
@@ -2644,7 +2748,7 @@
      "series": "wonkyslots",
      "name": "Monday Wonky Historical Slots",
      "files": 1,
-     "dist": 1.12,
+     "dist": 1.08,
      "env": "1945 · 2025 Tropicana Field",
      "overlap": 0.53
     }
@@ -2705,7 +2809,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.59,
+     "dist": 0.57,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.66
     },
@@ -2713,17 +2817,17 @@
      "series": "diamondquick",
      "name": "Diamond Quick",
      "files": 7,
-     "dist": 0.59,
+     "dist": 0.57,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.66
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
-     "dist": 0.59,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
+     "dist": 0.57,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.8
+     "overlap": 0.59
     }
    ]
   },
@@ -2774,7 +2878,7 @@
      "series": "lgretro",
      "name": "Daily Low Gold Retrospectus",
      "files": 13,
-     "dist": 0.93,
+     "dist": 0.9,
      "env": "1962 · 1961 LA Wrigley Field 1961",
      "overlap": 0.55
     },
@@ -2782,7 +2886,7 @@
      "series": "bronze10to50",
      "name": "Daily Bronze 1910-59",
      "files": 3,
-     "dist": 1.01,
+     "dist": 0.97,
      "env": "1959 · 1959 Seals Stadium",
      "overlap": 0.56
     }
@@ -2835,7 +2939,7 @@
      "series": "livediamonddaily",
      "name": "Daily Live Diamond",
      "files": 12,
-     "dist": 1.04,
+     "dist": 1.01,
      "env": "2010 · 2026 Yankee Stadium",
      "overlap": 0.66
     },
@@ -2843,7 +2947,7 @@
      "series": "livesilverdaily",
      "name": "Daily Live Silver",
      "files": 1,
-     "dist": 1.04,
+     "dist": 1.01,
      "env": "2010 · 2026 Yankee Stadium",
      "overlap": 1
     },
@@ -2851,7 +2955,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 1.22,
+     "dist": 1.18,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.66
     },
@@ -2859,7 +2963,7 @@
      "series": "diamondquick",
      "name": "Diamond Quick",
      "files": 7,
-     "dist": 1.22,
+     "dist": 1.18,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.66
     }
@@ -2965,7 +3069,7 @@
      "series": "bronzeootp",
      "name": "Daily Bronze OOTP Era",
      "files": 3,
-     "dist": 1.01,
+     "dist": 0.97,
      "env": "2009 · Heinsohn Park",
      "overlap": 0.74
     },
@@ -2973,7 +3077,7 @@
      "series": "6lpowerplay",
      "name": "Laptophound's Daily 6L Power Play",
      "files": 8,
-     "dist": 1.23,
+     "dist": 1.18,
      "env": "1999 · 1984 Olympic Stadium",
      "overlap": 0.8
     }
@@ -3078,7 +3182,7 @@
      "series": "latesilver",
      "name": "Daily Late Silver",
      "files": 16,
-     "dist": 0.23,
+     "dist": 0.22,
      "env": "1992 · 1992 Camden Yards",
      "overlap": 0.57
     },
@@ -3086,7 +3190,7 @@
      "series": "silverslotsdaily",
      "name": "Daily Silver Slots",
      "files": 6,
-     "dist": 0.77,
+     "dist": 0.75,
      "env": "1977 · 1978 Riverfront Stadium",
      "overlap": 0.57
     }
@@ -3306,20 +3410,20 @@
      "overlap": 0.66
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.8
+     "overlap": 0.59
     },
     {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.8
+     "overlap": 0.65
     }
    ]
   },
@@ -3365,7 +3469,24 @@
    "hrPct": 2.4,
    "status": "thin",
    "why": "3 current run(s), newest 11d ago",
-   "donors": []
+   "donors": [
+    {
+     "series": "goldslotsdaily",
+     "name": "Daily Gold Slots",
+     "files": 18,
+     "dist": 0.59,
+     "env": "1968 · 1968 Connie Mack Stadium",
+     "overlap": 0.59
+    },
+    {
+     "series": "goldfather",
+     "name": "Daily Goldfather II",
+     "files": 8,
+     "dist": 1.14,
+     "env": "1974 · 1971 Yankee Stadium",
+     "overlap": 0.59
+    }
+   ]
   },
   {
    "tier": "Bronze",
@@ -3414,7 +3535,7 @@
      "series": "6lpowerplay",
      "name": "Laptophound's Daily 6L Power Play",
      "files": 8,
-     "dist": 0.64,
+     "dist": 0.62,
      "env": "1999 · 1984 Olympic Stadium",
      "overlap": 0.59
     },
@@ -3422,7 +3543,7 @@
      "series": "silverslotsdaily",
      "name": "Daily Silver Slots",
      "files": 6,
-     "dist": 1.25,
+     "dist": 1.22,
      "env": "1977 · 1978 Riverfront Stadium",
      "overlap": 0.74
     }
@@ -3692,22 +3813,6 @@
    "why": "no export on file",
    "donors": [
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.59
-    },
-    {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.59
-    },
-    {
      "series": "silverweekly",
      "name": "Thursday Silver Spectacular",
      "files": 1,
@@ -3719,7 +3824,7 @@
      "series": "livesilverdaily",
      "name": "Daily Live Silver",
      "files": 1,
-     "dist": 0.59,
+     "dist": 0.57,
      "env": "2010 · 2026 Yankee Stadium",
      "overlap": 0.74
     }
@@ -3742,12 +3847,12 @@
    "retired": "",
    "grabIds": "",
    "cap": "60-69",
-   "field": "",
+   "field": 64,
    "entries": 0,
    "pts": 0,
    "inCatalog": "yes",
    "id": 527,
-   "envYear": 2010,
+   "envYear": null,
    "stadium": "2005 Minute Maid Park",
    "dh": true,
    "mode": null,
@@ -3762,21 +3867,12 @@
    "preRefreshFiles": 0,
    "refreshed": true,
    "change": "renamed",
-   "rg": 4.46,
-   "kPct": 22.6,
-   "hrPct": 3.1,
+   "rg": null,
+   "kPct": null,
+   "hrPct": null,
    "status": "none",
    "why": "no export on file",
-   "donors": [
-    {
-     "series": "bronzeonlycapdaily",
-     "name": "Daily Bronze Only Cap",
-     "files": 2,
-     "dist": 0.6,
-     "env": "2019 · 2026 American Family Field",
-     "overlap": 1
-    }
-   ]
+   "donors": []
   },
   {
    "tier": "Bronze",
@@ -3795,7 +3891,7 @@
    "retired": "",
    "grabIds": "",
    "cap": "40-69",
-   "field": "",
+   "field": 128,
    "entries": 0,
    "pts": 0,
    "inCatalog": "yes",
@@ -3825,7 +3921,7 @@
      "series": "silverandfriends",
      "name": "Daily Silver & Friends Deadball Slots",
      "files": 3,
-     "dist": 1,
+     "dist": 0.97,
      "env": "1919 · 2026 Daikin Park",
      "overlap": 0.64
     },
@@ -3833,7 +3929,7 @@
      "series": "deadballweekly",
      "name": "Wednesday Night of the Living Deadball",
      "files": 1,
-     "dist": 1.18,
+     "dist": 1.14,
      "env": "1919 · 1871 Union Grounds (Brooklyn)",
      "overlap": 0.64
     }
@@ -3861,7 +3957,7 @@
    "pts": 0,
    "inCatalog": "yes",
    "id": 524,
-   "envYear": 2010,
+   "envYear": null,
    "stadium": "2003 Dodger Stadium",
    "dh": true,
    "mode": "Bo5",
@@ -3876,21 +3972,12 @@
    "preRefreshFiles": 0,
    "refreshed": false,
    "change": null,
-   "rg": 4.1,
-   "kPct": 22.6,
-   "hrPct": 3.2,
+   "rg": null,
+   "kPct": null,
+   "hrPct": null,
    "status": "none",
    "why": "no export on file",
-   "donors": [
-    {
-     "series": "livesilverdaily",
-     "name": "Daily Live Silver",
-     "files": 1,
-     "dist": 0.81,
-     "env": "2010 · 2026 Yankee Stadium",
-     "overlap": 0.74
-    }
-   ]
+   "donors": []
   },
   {
    "tier": "Bronze",
@@ -3936,26 +4023,10 @@
    "why": "no export on file",
    "donors": [
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
-     "dist": 0.89,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.59
-    },
-    {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
-     "dist": 0.89,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.59
-    },
-    {
      "series": "silverweekly",
      "name": "Thursday Silver Spectacular",
      "files": 1,
-     "dist": 0.89,
+     "dist": 0.86,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.74
     },
@@ -3963,7 +4034,7 @@
      "series": "bronzeootp",
      "name": "Daily Bronze OOTP Era",
      "files": 3,
-     "dist": 1.18,
+     "dist": 1.15,
      "env": "2009 · Heinsohn Park",
      "overlap": 1
     }
@@ -4084,7 +4155,7 @@
      "series": "c4q4",
      "name": "Thursday CWhit's Cap Challenge",
      "files": 1,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2023 · 1936 Hinchliffe Stadium",
      "overlap": 0.64
     }
@@ -4134,22 +4205,6 @@
    "why": "no export on file",
    "donors": [
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.59
-    },
-    {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.59
-    },
-    {
      "series": "silverweekly",
      "name": "Thursday Silver Spectacular",
      "files": 1,
@@ -4161,7 +4216,7 @@
      "series": "livesilverdaily",
      "name": "Daily Live Silver",
      "files": 1,
-     "dist": 0.59,
+     "dist": 0.57,
      "env": "2010 · 2026 Yankee Stadium",
      "overlap": 0.74
     }
@@ -4214,7 +4269,7 @@
      "series": "upto1969weekly",
      "name": "Tuesday Up To 1969",
      "files": 1,
-     "dist": 0.85,
+     "dist": 0.82,
      "env": "1968 · 1968 Busch Stadium",
      "overlap": 0.64
     }
@@ -4264,22 +4319,6 @@
    "why": "no export on file",
    "donors": [
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.59
-    },
-    {
-     "series": "goldslotsdaily",
-     "name": "Daily Gold Slots",
-     "files": 18,
-     "dist": 0,
-     "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.59
-    },
-    {
      "series": "silverweekly",
      "name": "Thursday Silver Spectacular",
      "files": 1,
@@ -4291,7 +4330,7 @@
      "series": "livesilverdaily",
      "name": "Daily Live Silver",
      "files": 1,
-     "dist": 0.59,
+     "dist": 0.57,
      "env": "2010 · 2026 Yankee Stadium",
      "overlap": 0.74
     }
@@ -4313,7 +4352,7 @@
    "numbering": "—",
    "retired": "",
    "grabIds": "",
-   "cap": "40-49",
+   "cap": "40-59",
    "field": 64,
    "entries": 0,
    "pts": 0,
@@ -4396,7 +4435,7 @@
      "series": "6lpowerplay",
      "name": "Laptophound's Daily 6L Power Play",
      "files": 8,
-     "dist": 1.06,
+     "dist": 1.03,
      "env": "1999 · 1984 Olympic Stadium",
      "overlap": 0.53
     }
@@ -4537,7 +4576,7 @@
      "series": "upto1969weekly",
      "name": "Tuesday Up To 1969",
      "files": 1,
-     "dist": 1.05,
+     "dist": 1.02,
      "env": "1968 · 1968 Busch Stadium",
      "overlap": 0.53
     }
@@ -4590,7 +4629,7 @@
      "series": "bronze10to50",
      "name": "Daily Bronze 1910-59",
      "files": 3,
-     "dist": 1.2,
+     "dist": 1.15,
      "env": "1959 · 1959 Seals Stadium",
      "overlap": 0.66
     }
@@ -4618,7 +4657,7 @@
    "pts": 0,
    "inCatalog": "yes",
    "id": 516,
-   "envYear": 2010,
+   "envYear": null,
    "stadium": "2026 Chase Field",
    "dh": true,
    "mode": "Bo7",
@@ -4633,21 +4672,12 @@
    "preRefreshFiles": 0,
    "refreshed": false,
    "change": null,
-   "rg": 4.48,
-   "kPct": 22.6,
-   "hrPct": 2.8,
+   "rg": null,
+   "kPct": null,
+   "hrPct": null,
    "status": "none",
    "why": "no export on file",
-   "donors": [
-    {
-     "series": "bronzeootp",
-     "name": "Daily Bronze OOTP Era",
-     "files": 3,
-     "dist": 1.24,
-     "env": "2009 · Heinsohn Park",
-     "overlap": 0.66
-    }
-   ]
+   "donors": []
   },
   {
    "tier": "Iron",
@@ -4696,7 +4726,7 @@
      "series": "openweekly",
      "name": "Sunday Open Main Event",
      "files": 2,
-     "dist": 0.66,
+     "dist": 0.63,
      "env": "2010 · 2026 Dodger Stadium",
      "overlap": 0.53
     },
@@ -4704,7 +4734,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.71,
+     "dist": 0.68,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 0.53
     },
@@ -4712,7 +4742,7 @@
      "series": "lowdiamonddaily",
      "name": "Daily Low Diamond",
      "files": 20,
-     "dist": 0.71,
+     "dist": 0.68,
      "env": "2010 · ?",
      "overlap": 0.58
     },
@@ -4720,11 +4750,55 @@
      "series": "openslotsweekly",
      "name": "Sunday Open Slots",
      "files": 2,
-     "dist": 0.71,
+     "dist": 0.68,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.53
     }
    ]
+  },
+  {
+   "tier": "Iron",
+   "isDraft": false,
+   "name": "Daily PTCS 4 Cap Replay",
+   "ptid": "",
+   "series": "ptcs4cap",
+   "cadence": "?",
+   "runsOnFile": 0,
+   "filesOnDisk": 0,
+   "latestRun": "",
+   "latestDate": "",
+   "daysBehind": "",
+   "missingCount": 0,
+   "numbering": "—",
+   "retired": "",
+   "grabIds": "",
+   "cap": "40-59",
+   "field": 32,
+   "entries": 0,
+   "pts": 0,
+   "inCatalog": "yes",
+   "id": 526,
+   "envYear": 2010,
+   "stadium": "1995 Coors Field",
+   "dh": true,
+   "mode": "Bo7",
+   "slots": null,
+   "teamCap": 1820,
+   "cards": 0,
+   "pa": 0,
+   "ip": 0,
+   "stints": 0,
+   "currentFiles": 0,
+   "currentRuns": "",
+   "preRefreshFiles": 0,
+   "refreshed": true,
+   "change": "renamed",
+   "rg": 5.76,
+   "kPct": 22.6,
+   "hrPct": 3.6,
+   "status": "none",
+   "why": "no export on file",
+   "donors": []
   },
   {
    "tier": "Iron",
@@ -4797,7 +4871,7 @@
      "series": "c4q4",
      "name": "Thursday CWhit's Cap Challenge",
      "files": 1,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2023 · 1936 Hinchliffe Stadium",
      "overlap": 0.53
     }
@@ -4874,7 +4948,7 @@
      "series": "c4q4",
      "name": "Thursday CWhit's Cap Challenge",
      "files": 1,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2023 · 1936 Hinchliffe Stadium",
      "overlap": 0.53
     }
@@ -5059,7 +5133,7 @@
      "series": "bronze10to50",
      "name": "Daily Bronze 1910-59",
      "files": 3,
-     "dist": 0.59,
+     "dist": 0.57,
      "env": "1959 · 1959 Seals Stadium",
      "overlap": 0.66
     }
@@ -5112,7 +5186,7 @@
      "series": "bronze10to50",
      "name": "Daily Bronze 1910-59",
      "files": 3,
-     "dist": 0.65,
+     "dist": 0.63,
      "env": "1959 · 1959 Seals Stadium",
      "overlap": 0.66
     }
@@ -5165,7 +5239,7 @@
      "series": "6lpowerplay",
      "name": "Laptophound's Daily 6L Power Play",
      "files": 8,
-     "dist": 0.98,
+     "dist": 0.94,
      "env": "1999 · 1984 Olympic Stadium",
      "overlap": 0.53
     }
@@ -5218,7 +5292,7 @@
      "series": "livediamonddaily",
      "name": "Daily Live Diamond",
      "files": 12,
-     "dist": 0.46,
+     "dist": 0.44,
      "env": "2010 · 2026 Yankee Stadium",
      "overlap": 0.64
     },
@@ -5226,7 +5300,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.63,
+     "dist": 0.62,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 1
     },
@@ -5234,7 +5308,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.63,
+     "dist": 0.62,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     },
@@ -5242,7 +5316,7 @@
      "series": "diamondquick",
      "name": "Diamond Quick",
      "files": 7,
-     "dist": 0.63,
+     "dist": 0.62,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     }
@@ -5316,12 +5390,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -5393,12 +5467,12 @@
      "overlap": 0.98
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.82
+     "overlap": 0.65
     }
    ]
   },
@@ -5493,7 +5567,7 @@
      "series": "silverandfriends",
      "name": "Daily Silver & Friends Deadball Slots",
      "files": 3,
-     "dist": 0.3,
+     "dist": 0.29,
      "env": "1919 · 2026 Daikin Park",
      "overlap": 1
     }
@@ -5546,7 +5620,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.49,
+     "dist": 0.48,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 0.65
     },
@@ -5554,7 +5628,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.49,
+     "dist": 0.48,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.98
     },
@@ -5562,17 +5636,17 @@
      "series": "diamondquick",
      "name": "Diamond Quick",
      "files": 7,
-     "dist": 0.49,
+     "dist": 0.48,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.98
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
-     "dist": 0.49,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
+     "dist": 0.48,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.82
+     "overlap": 0.65
     }
    ]
   },
@@ -5623,7 +5697,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.21,
+     "dist": 0.2,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 0.65
     },
@@ -5631,7 +5705,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.21,
+     "dist": 0.2,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.91
     },
@@ -5639,17 +5713,17 @@
      "series": "diamondquick",
      "name": "Diamond Quick",
      "files": 7,
-     "dist": 0.21,
+     "dist": 0.2,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.91
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
-     "dist": 0.21,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
+     "dist": 0.2,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.75
+     "overlap": 0.6
     }
    ]
   },
@@ -5708,71 +5782,27 @@
      "series": "latesilver",
      "name": "Daily Late Silver",
      "files": 16,
-     "dist": 0.23,
+     "dist": 0.22,
      "env": "1992 · 1992 Camden Yards",
      "overlap": 0.6
-    },
-    {
-     "series": "goldenheart",
-     "name": "Daily Golden Heart",
-     "files": 15,
-     "dist": 0.49,
-     "env": "1977 · 1977 Olympic Stadium",
-     "overlap": 0.75
     },
     {
      "series": "goldenchildhood",
      "name": "Daily Sporer's Golden Childhood",
      "files": 4,
-     "dist": 0.71,
+     "dist": 0.68,
      "env": "1984 · 1958 Tiger Stadium",
      "overlap": 0.75
+    },
+    {
+     "series": "silverslotsdaily",
+     "name": "Daily Silver Slots",
+     "files": 6,
+     "dist": 0.75,
+     "env": "1977 · 1978 Riverfront Stadium",
+     "overlap": 0.6
     }
    ]
-  },
-  {
-   "tier": "Open",
-   "isDraft": false,
-   "name": "Daily PTCS 4 Cap Replay",
-   "ptid": "",
-   "series": "ptcs4cap",
-   "cadence": "?",
-   "runsOnFile": 0,
-   "filesOnDisk": 0,
-   "latestRun": "",
-   "latestDate": "",
-   "daysBehind": "",
-   "missingCount": 0,
-   "numbering": "—",
-   "retired": "",
-   "grabIds": "",
-   "cap": "40-105",
-   "field": 32,
-   "entries": 0,
-   "pts": 0,
-   "inCatalog": "yes",
-   "id": 526,
-   "envYear": 2010,
-   "stadium": "1995 Coors Field",
-   "dh": true,
-   "mode": "Bo7",
-   "slots": null,
-   "teamCap": 1820,
-   "cards": 0,
-   "pa": 0,
-   "ip": 0,
-   "stints": 0,
-   "currentFiles": 0,
-   "currentRuns": "",
-   "preRefreshFiles": 0,
-   "refreshed": false,
-   "change": "renamed",
-   "rg": 5.76,
-   "kPct": 22.6,
-   "hrPct": 3.6,
-   "status": "none",
-   "why": "no export on file",
-   "donors": []
   },
   {
    "tier": "Open",
@@ -5821,7 +5851,7 @@
      "series": "c4q4",
      "name": "Thursday CWhit's Cap Challenge",
      "files": 1,
-     "dist": 0.69,
+     "dist": 0.67,
      "env": "2023 · 1936 Hinchliffe Stadium",
      "overlap": 0.65
     },
@@ -5829,7 +5859,7 @@
      "series": "1950tonow",
      "name": "Wednesday 1950 to Now",
      "files": 2,
-     "dist": 0.84,
+     "dist": 0.81,
      "env": "2010 · 1979 Three Rivers Stadium",
      "overlap": 0.65
     },
@@ -5837,7 +5867,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 1.18,
+     "dist": 1.14,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 0.65
     },
@@ -5845,7 +5875,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 1.18,
+     "dist": 1.14,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.91
     }
@@ -5919,12 +5949,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -5996,12 +6026,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -6073,12 +6103,12 @@
      "overlap": 0.98
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "highironfloorgoldceilingweekly",
+     "name": "Sunday High Iron Floor and Gold Ceiling",
+     "files": 3,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.82
+     "overlap": 0.65
     }
    ]
   },
@@ -6150,12 +6180,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -6227,12 +6257,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -6304,12 +6334,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -6360,7 +6390,7 @@
      "series": "1950tonow",
      "name": "Wednesday 1950 to Now",
      "files": 2,
-     "dist": 0.33,
+     "dist": 0.32,
      "env": "2010 · 1979 Three Rivers Stadium",
      "overlap": 1
     },
@@ -6368,7 +6398,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 1
     },
@@ -6376,7 +6406,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     },
@@ -6384,7 +6414,7 @@
      "series": "diamondquick",
      "name": "Diamond Quick",
      "files": 7,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     }
@@ -6481,7 +6511,7 @@
      "series": "c4q4",
      "name": "Thursday CWhit's Cap Challenge",
      "files": 1,
-     "dist": 0.65,
+     "dist": 0.63,
      "env": "2023 · 1936 Hinchliffe Stadium",
      "overlap": 1
     },
@@ -6489,7 +6519,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.68,
+     "dist": 0.65,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 1
     },
@@ -6497,7 +6527,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.68,
+     "dist": 0.65,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     },
@@ -6505,7 +6535,7 @@
      "series": "diamondquick",
      "name": "Diamond Quick",
      "files": 7,
-     "dist": 0.68,
+     "dist": 0.65,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     }
@@ -6579,12 +6609,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -6635,7 +6665,7 @@
      "series": "c4q4",
      "name": "Thursday CWhit's Cap Challenge",
      "files": 1,
-     "dist": 0.33,
+     "dist": 0.32,
      "env": "2023 · 1936 Hinchliffe Stadium",
      "overlap": 1
     },
@@ -6643,7 +6673,7 @@
      "series": "diamondweekly",
      "name": "Wednesday Ice to See You",
      "files": 3,
-     "dist": 0.52,
+     "dist": 0.5,
      "env": "2010 · 2026 NBT Bank Stadium",
      "overlap": 0.64
     },
@@ -6651,7 +6681,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.67,
+     "dist": 0.64,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 1
     },
@@ -6659,7 +6689,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.67,
+     "dist": 0.64,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     }
@@ -6707,7 +6737,24 @@
    "hrPct": 1.9,
    "status": "thin",
    "why": "1 current run(s), newest 13d ago",
-   "donors": []
+   "donors": [
+    {
+     "series": "goldslotsdaily",
+     "name": "Daily Gold Slots",
+     "files": 18,
+     "dist": 0.96,
+     "env": "1968 · 1968 Connie Mack Stadium",
+     "overlap": 0.53
+    },
+    {
+     "series": "goldfather",
+     "name": "Daily Goldfather II",
+     "files": 8,
+     "dist": 1.1,
+     "env": "1974 · 1971 Yankee Stadium",
+     "overlap": 0.53
+    }
+   ]
   },
   {
    "tier": "Other",
@@ -6808,7 +6855,7 @@
      "series": "1950tonow",
      "name": "Wednesday 1950 to Now",
      "files": 2,
-     "dist": 0.33,
+     "dist": 0.32,
      "env": "2010 · 1979 Three Rivers Stadium",
      "overlap": 1
     },
@@ -6816,7 +6863,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 1
     },
@@ -6824,7 +6871,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     }
@@ -6885,7 +6932,7 @@
      "series": "1950tonow",
      "name": "Wednesday 1950 to Now",
      "files": 2,
-     "dist": 0.33,
+     "dist": 0.32,
      "env": "2010 · 1979 Three Rivers Stadium",
      "overlap": 1
     },
@@ -6893,7 +6940,7 @@
      "series": "diamondandfriends",
      "name": "Daily Diamond & Friends Slots",
      "files": 7,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2010 · 2023 Heinsohn Ballpark",
      "overlap": 1
     },
@@ -6901,7 +6948,7 @@
      "series": "diamonddaily",
      "name": "Daily Diamond",
      "files": 18,
-     "dist": 0.58,
+     "dist": 0.56,
      "env": "2010 · 2025 Standard Stadium",
      "overlap": 0.64
     }
@@ -6954,7 +7001,7 @@
      "series": "deadballweekly",
      "name": "Wednesday Night of the Living Deadball",
      "files": 1,
-     "dist": 1.05,
+     "dist": 1.02,
      "env": "1919 · 1871 Union Grounds (Brooklyn)",
      "overlap": 1
     },
@@ -6962,7 +7009,7 @@
      "series": "silverandfriends",
      "name": "Daily Silver & Friends Deadball Slots",
      "files": 3,
-     "dist": 1.12,
+     "dist": 1.08,
      "env": "1919 · 2026 Daikin Park",
      "overlap": 1
     }
@@ -7015,7 +7062,7 @@
      "series": "silverandfriends",
      "name": "Daily Silver & Friends Deadball Slots",
      "files": 3,
-     "dist": 0.84,
+     "dist": 0.8,
      "env": "1919 · 2026 Daikin Park",
      "overlap": 1
     },
@@ -7023,7 +7070,7 @@
      "series": "deadballweekly",
      "name": "Wednesday Night of the Living Deadball",
      "files": 1,
-     "dist": 0.99,
+     "dist": 0.95,
      "env": "1919 · 1871 Union Grounds (Brooklyn)",
      "overlap": 1
     },
@@ -7031,7 +7078,7 @@
      "series": "wonkyslots",
      "name": "Monday Wonky Historical Slots",
      "files": 1,
-     "dist": 1.04,
+     "dist": 1.01,
      "env": "1945 · 2025 Tropicana Field",
      "overlap": 0.53
     }
@@ -7105,12 +7152,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -7182,12 +7229,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },
@@ -7279,10 +7326,18 @@
    "why": "no export on file",
    "donors": [
     {
+     "series": "goldslotsdaily",
+     "name": "Daily Gold Slots",
+     "files": 18,
+     "dist": 0.71,
+     "env": "1968 · 1968 Connie Mack Stadium",
+     "overlap": 0.53
+    },
+    {
      "series": "diamondvariety",
      "name": "Saturday Diamond Variety",
      "files": 2,
-     "dist": 1.1,
+     "dist": 1.07,
      "env": "1975 · 1981 Metropolitan Stadium",
      "overlap": 0.64
     },
@@ -7290,9 +7345,17 @@
      "series": "goldenchildhood",
      "name": "Daily Sporer's Golden Childhood",
      "files": 4,
-     "dist": 1.24,
+     "dist": 1.19,
      "env": "1984 · 1958 Tiger Stadium",
      "overlap": 0.53
+    },
+    {
+     "series": "diamondslotsdaily",
+     "name": "Daily Diamond Slots",
+     "files": 28,
+     "dist": 1.22,
+     "env": "1975 · 1977 Atlanta Fulton County Stadium",
+     "overlap": 0.64
     }
    ]
   },
@@ -7364,12 +7427,12 @@
      "overlap": 0.64
     },
     {
-     "series": "goldfather",
-     "name": "Daily Goldfather II",
-     "files": 8,
+     "series": "liveopendaily",
+     "name": "Daily Live Open",
+     "files": 1,
      "dist": 0.21,
      "env": "2010 · 2025 Standard Stadium",
-     "overlap": 0.53
+     "overlap": 0.65
     }
    ]
   },

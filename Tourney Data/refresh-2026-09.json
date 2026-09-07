@@ -1,7 +1,7 @@
 {
   "capturedOn": "2026-09-02",
-  "source": "PT community refresh posts (Silver, Iron, Bronze, Perfect Draft)",
-  "note": "Raw refresh text keyed by 3-digit OOTP slot. Slots are REUSED on rename, so a slug's files before and after this refresh describe different tournaments.",
+  "source": "PT community refresh posts (Silver, Iron, Bronze, Gold, Perfect Draft)",
+  "note": "Raw refresh text keyed by 3-digit OOTP slot. Slots are REUSED on rename, so a slug's files before and after this refresh describe different tournaments. envChanged: the run environment or park changed without a rename, so files before the cutoff are pre-refresh data for that event (the coverage report treats it like a park move).",
   "silver": {
     "123": {
       "old": "Daily Early Silver",
@@ -146,6 +146,67 @@
       "old": "Daily Bronze PTCS 2 Replay Slots",
       "new": "Daily Bronze PTCS 3 Replay Slots",
       "text": "SLOTS: 18 Bronze, 8 Iron; 1999 RE, DH on, Variant Cap 13, 2000 Coors Field"
+    }
+  },
+  "gold": {
+    "128": {
+      "old": "Daily Early Gold",
+      "new": "Daily Low Gold Only",
+      "text": "64 teams, Best of 5-Bo7F, Default RE, DH on, Variant Cap 8, 2026 Fenway Park"
+    },
+    "129": {
+      "old": "Daily Goldfather II",
+      "new": null,
+      "text": "moved to 128 teams, 1974 RE, DH off, Variants on, 1971 Yankee Stadium",
+      "envChanged": true,
+      "was": "2010 RE, Standard Stadium, 64 teams"
+    },
+    "130": {
+      "old": "Daily Gold Cap",
+      "new": null,
+      "text": "now open to Live cards, 64 teams, 1780 cap, 1999 RE, Variants on, 1999 Jacobs Field",
+      "envChanged": true,
+      "was": "2010 RE, 1955 Fenway Park, 32 teams"
+    },
+    "131": {
+      "old": "Daily Live Gold",
+      "new": null,
+      "text": "Default RE, 2026 Citizens Bank Park",
+      "envChanged": true,
+      "was": "2019 RE, 2026 Wrigley Field"
+    },
+    "132": {
+      "old": "Daily Gold Slots",
+      "new": null,
+      "text": "SLOTS: 12 Gold, 8 Silver, 6 Bronze, 0 Iron; 1968 RE, DH on, Variant Cap 13, 1968 Connie Mack Stadium",
+      "envChanged": true,
+      "was": "2010 RE, Standard Stadium, no slot spec on file"
+    },
+    "166": {
+      "old": "Daily Low Gold Retrospectus",
+      "new": "Daily Golden Age",
+      "text": "Cards up to 1929, 1925 RE, DH off, 1930 Hamtramck Stadium",
+      "note": "catalog spells it 'Retrospectus', the post 'Retrospecticus', the filer 'Restrospecticus' - the catalog name is used here so retire/match hit the row. post spells the park 'Hamtamck'; the value ceiling is not restated - Gold section of the post, assumed <= Gold (89), confirm on screen"
+    },
+    "184": {
+      "old": "Daily Golden Heart",
+      "new": null,
+      "text": "1956 RE, 1958 Crosley Field",
+      "note": "post writes it 'Daily Golden Heart (1930-89)'; the card-year window 1930-89 is unchanged",
+      "envChanged": true,
+      "was": "1977 RE, 1977 Olympic Stadium"
+    },
+    "191": {
+      "old": "Daily Sporer's Golden Childhood",
+      "new": "Daily High Silver-Low Gold Cap",
+      "text": "Best of 7, 2068 cap, 2007 RE, DH on, Variants on, 2008 Shea Stadium, moved to 2pm ET",
+      "note": "post writes it 'Daily Sporer's Golden Childhood (1980-2009)'"
+    },
+    "198": {
+      "old": "Daily Gold Standard",
+      "new": null,
+      "text": "64 teams, Best of 7, Default RE, Variants off, Heinsohn Park",
+      "note": "NEW tournament - first launch 2026-09-07 5:30pm ET; no history under this slot"
     }
   },
   "perfectDraft": {
@@ -358,10 +419,10 @@
     }
   ],
   "stillNeeded": [
-    "Gold refresh post",
     "Diamond refresh post",
     "Open refresh post",
     "Live refresh post",
     "the refresh date / first run number under new rules"
-  ]
+  ],
+  "goldSource": "PT Gold refresh post, read 2026-09-07 from L.J.'s screenshot; effective with the 2026-09-07 runs"
 }

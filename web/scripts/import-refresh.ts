@@ -10,6 +10,7 @@
  * Everything needed is already in the repo:
  *
  *   Tourney Data/refresh-2026-09.json   name + rules blurb, keyed by slot
+ *                                       (silver / iron / bronze / gold sections)
  *   web/scripts/slot-map.json           slot -> the filer's series slug
  *   Tourney Data/pt27_*_dump_*.csv      observed field size for the slot
  *
@@ -32,9 +33,11 @@ import { parseRestrictions, tierWindowFromName } from "../src/lib/ingest/restric
 const DRY = process.argv.includes("--dry");
 const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 const ID_BASE = 9_100_000;
-const TIERS = ["silver", "iron", "bronze"] as const;
+const TIERS = ["silver", "iron", "bronze", "gold"] as const;
+/** Ceiling implied by the SECTION of the post an event sits in, for names with no tier word. */
+const SECTION_MAX: Record<(typeof TIERS)[number], number> = { iron: 59, bronze: 69, silver: 79, gold: 89 };
 
-interface Entry { old: string; new: string | null; text: string }
+interface Entry { old: string; new: string | null; text: string; note?: string }
 
 /** Observed field size per slot, from the newest community dumps. */
 function fieldSizes(): Map<number, number> {
@@ -89,14 +92,24 @@ async function main() {
       // The name carries the tier when the blurb does not restate it.
       const win = tierWindowFromName(name);
       const ratingsMin = r.valueMin ?? win?.min ?? null;
-      const ratingsMax = r.valueMax ?? win?.max ?? null;
+      let ratingsMax = r.valueMax ?? win?.max ?? null;
       const derived = r.valueMin == null && r.valueMax == null && win != null;
+      // "Daily Golden Age", "Daily Goldfather II": no tier WORD in the name, but
+      // the post lists them under Gold. Take the section's ceiling and say so -
+      // an "Open" or "& Friends" event is deliberately unwindowed and is left alone.
+      let sectionCeiling = false;
+      if (ratingsMax == null && win == null && !/\bopen\b|&\s*friends/i.test(name)) {
+        ratingsMax = SECTION_MAX[tier];
+        sectionCeiling = true;
+      }
 
       const extra: Record<string, unknown> = { slot, slug, refreshText: e.text, refreshedName: name };
       for (const k of ["slots", "teamCap", "variantCap", "variantsAllowed", "teams", "bestOf",
                        "cardTypes", "reRandom"] as const) if (r[k] != null) extra[k] = r[k];
       if (r.notes.length) extra.notes = r.notes;
       if (derived) extra.valueWindowFrom = `name: ${win!.basis}`;
+      if (sectionCeiling) extra.valueWindowFrom = `refresh post section: ${tier} (name has no tier word - confirm on screen)`;
+      if (e.note) extra.refreshNote = e.note;
 
       // Exact name first; then a UNIQUE containment either way, because the
       // refresh post and the databotai catalog spell some events differently
@@ -107,7 +120,11 @@ async function main() {
       if (!hit) {
         const near = existing.filter((r) => {
           const n = r.name.toLowerCase().trim();
-          return n.includes(key) || key.includes(n);
+          if (!(n.includes(key) || key.includes(n))) return false;
+          // The shorter name must be most of the longer one. Without this the
+          // stray catalog row named just "low gold" swallows "Daily Low Gold
+          // Only" AND "Daily High Silver-Low Gold Cap" as if both were it.
+          return Math.min(n.length, key.length) / Math.max(n.length, key.length) >= 0.6;
         });
         if (near.length === 1) hit = near[0];
       }
@@ -118,8 +135,12 @@ async function main() {
         if (r.yearMin != null) set.cardYearMin = r.yearMin;
         if (r.yearMax != null) set.cardYearMax = r.yearMax;
         if (r.reYear != null) set.envYear = r.reYear;
+        // "Default RE" is a change too: the old fixed year must not survive it.
+        else if (r.notes.includes("default RE")) set.envYear = null;
         if (r.park != null) { set.stadium = r.park; set.parkName = resolvePark(r.park); }
         if (r.dh != null) set.dh = r.dh;
+        if (r.teams != null) set.entrants = r.teams;
+        if (r.bestOf != null) set.mode = `BO${r.bestOf}`;
         if (slug && !hit.series) set.series = slug;
         set.retired = false;   // it is the CURRENT name, so it is a live event
         updates.push({ id: hit.id, name, set });

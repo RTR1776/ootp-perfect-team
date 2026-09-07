@@ -8,10 +8,10 @@
  *
  * "Current rules" cut-offs (from Tourney Data/refresh-2026-09.json +
  * scripts/slot-map.json _cutover): Silver refreshed 2026-09 (first new daily
- * run 171), Bronze/Iron ~2026-08-26 (run 165). Gold, Diamond, Open, Live and
- * Cap have not been refreshed yet, so every file of theirs is current — until
- * their refresh lands, when they too become donor data for whatever the new
- * environment turns out to be.
+ * run 171), Bronze/Iron ~2026-08-26 (run 165), Gold 2026-09-07 (three slots
+ * renamed, one new). Diamond, Open, Live and Cap have not been refreshed yet,
+ * so every file of theirs is current — until their refresh lands, when they too
+ * become donor data for whatever the new environment turns out to be.
  *
  * Similarity = the /environments offense-shape distance (R/G, K, HR, 1B, 2B
  * per PA, z-scored across the catalog) between the two events' era+park
@@ -39,13 +39,15 @@ const DEST = resolve(ROOT, "Archive/Completed");
 const TODAY = new Date().toISOString().slice(0, 10);
 
 /** When each tier's refresh took effect. Tiers not listed have not been refreshed. */
-const CUTOFF_DATE: Record<string, string | null> = { Silver: "2026-09-01", Bronze: "2026-08-26", Iron: "2026-08-26" };
+const CUTOFF_DATE: Record<string, string | null> = { Silver: "2026-09-01", Bronze: "2026-08-26", Iron: "2026-08-26", Gold: "2026-09-07" };
 
 /**
  * Which events the refresh actually CHANGED, from the refresh record: a
- * rename (the slot now runs a different tournament) or "now at <park>" (a park
- * move). An entry that merely restates the rules (Late Silver: "1992 RE, DH
- * on, 1992 Camden Yards" - same as before) leaves its history valid.
+ * rename (the slot now runs a different tournament), "now at <park>" (a park
+ * move) or an entry flagged envChanged (new RE year or park under the same
+ * name - the Gold refresh did this to five events). An entry that merely
+ * restates the rules (Late Silver: "1992 RE, DH on, 1992 Camden Yards" - same
+ * as before) leaves its history valid.
  * Returns slug -> "renamed" | "moved"; files under a renamed slot's OLD slug
  * are all pre-refresh, files under a moved event count only from the cutoff.
  */
@@ -53,16 +55,16 @@ function refreshChanges(): Map<string, "renamed" | "renamed-old" | "moved"> {
   const out = new Map<string, "renamed" | "renamed-old" | "moved">();
   const rf = resolve(ROOT, "Tourney Data/refresh-2026-09.json"), sm = resolve(__dirname, "slot-map.json");
   if (!existsSync(rf) || !existsSync(sm)) return out;
-  const refresh = JSON.parse(readFileSync(rf, "utf8")) as Record<string, Record<string, { old?: string; new?: string | null; text?: string }>>;
+  const refresh = JSON.parse(readFileSync(rf, "utf8")) as Record<string, Record<string, { old?: string; new?: string | null; text?: string; envChanged?: boolean }>>;
   const slots = JSON.parse(readFileSync(sm, "utf8")) as Record<string, unknown> & { _cutover?: { renames?: Record<string, { old?: string; new?: string }> } };
   const renames = slots._cutover?.renames ?? {};
-  for (const tier of ["silver", "bronze", "iron"]) {
+  for (const tier of ["silver", "bronze", "iron", "gold"]) {
     for (const [slot, e] of Object.entries(refresh[tier] ?? {})) {
       const slug = typeof slots[slot] === "string" ? (slots[slot] as string) : null;
       if (e.new) {
         if (slug) out.set(slug, "renamed");                       // the NEW slug: every file under it post-dates the rename
         const old = renames[slot]?.old; if (old) out.set(old, "renamed-old"); // the OLD slug: every file is pre-refresh
-      } else if (/^now at /i.test(e.text ?? "") && slug) out.set(slug, "moved");
+      } else if ((e.envChanged || /^now at /i.test(e.text ?? "")) && slug) out.set(slug, "moved"); // new park or new RE: same name, different game
     }
   }
   return out;
@@ -176,7 +178,7 @@ async function main() {
 
   // ---- markdown
   const md: string[] = [`# Tourney data coverage — ${TODAY}`, "",
-    `Running, non-draft events only (${out.length}). "Current" = files under the rules in force now. The Silver (Sep 1) and Bronze/Iron (Aug 26) refreshes only invalidate the history of events they RENAMED or MOVED to a new park; an event whose rules were merely restated (Late Silver, Silver Slots) keeps its files. Gold/Diamond/Open/Live/Cap have not been refreshed, so all of their files count — until their refresh lands, when the same rule will apply to them. OOTP serves only the last ${inv.window} days of runs, so "grab" ids are what can still be exported today. Donors = other series on disk whose era+park land within 1.25 SD of this event's offense shape AND whose card window overlaps at least half of this one's.`, ""];
+    `Running, non-draft events only (${out.length}). "Current" = files under the rules in force now. The Silver (Sep 1), Bronze/Iron (Aug 26) and Gold (Sep 7) refreshes only invalidate the history of events they RENAMED or MOVED to a new park; an event whose rules were merely restated (Late Silver, Silver Slots) keeps its files, while one whose run environment changed under the same name (Gold Slots to 1968, Goldfather II to 1974) counts only files from the cutoff on. Diamond/Open/Live/Cap have not been refreshed, so all of their files count — until their refresh lands, when the same rule will apply to them. OOTP serves only the last ${inv.window} days of runs, so "grab" ids are what can still be exported today. Donors = other series on disk whose era+park land within 1.25 SD of this event's offense shape AND whose card window overlaps at least half of this one's.`, ""];
   const counts: Record<string, number> = {}; for (const r of out) counts[r.status] = (counts[r.status] ?? 0) + 1;
   md.push(`**Status:** ${Object.entries(counts).map(([k, n]) => `${k} ${n}`).join(" · ")}`, "");
   for (const tier of tierOrder) {

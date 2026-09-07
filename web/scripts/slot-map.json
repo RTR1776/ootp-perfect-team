@@ -2,7 +2,7 @@
  "_comment": "PT tournament slot id (first 3 digits of an event id) -> the filer's series slug. Built by reading ids off the Your Tournaments screen; grows every capture. An event id is <slot><4-digit run>, so 2110168 = slot 211 run 168 = tryinglookbusy_168.csv. This is what removes hand-typed run numbers.",
  "_source": "read from OOTP's Your Tournaments list 2026-08-31; slugs from File OOTP Exports.command",
  "_cutover": {
-  "refresh": "2026-09 (Silver + Perfect Draft); Bronze/Iron refreshed ~2026-08-26",
+  "refresh": "2026-09 (Silver + Perfect Draft); Bronze/Iron refreshed ~2026-08-26; Gold refreshed 2026-09-07 (slots 128/129/130/131/132/166/184/191 restated, 198 new)",
   "rule": "A slot is REUSED when a tournament is renamed. Every file in Archive/Completed predates the Sep refresh, so old slugs stay valid for existing files. New runs on a renamed slot must use the new slug.",
   "renames": {
    "211": {
@@ -169,6 +169,33 @@
     "lastOldRun": null,
     "firstNewRun": null,
     "note": "UNVERIFIED — the dumps title slot 186 'Daily Open 1930-89'; confirm it is the old Open Heart"
+   },
+   "128": {
+    "old": "earlygold",
+    "oldName": "Daily Early Gold",
+    "new": "lowgoldonly",
+    "newName": "Daily Low Gold Only",
+    "lastOldRun": null,
+    "firstNewRun": null,
+    "note": "from Tourney Data/refresh-2026-09.json (Gold, 2026-09-07); run numbers not yet observed"
+   },
+   "166": {
+    "old": "lgretro",
+    "oldName": "Daily Low Gold Retrospecticus",
+    "new": "goldenage",
+    "newName": "Daily Golden Age",
+    "lastOldRun": null,
+    "firstNewRun": null,
+    "note": "from Tourney Data/refresh-2026-09.json (Gold, 2026-09-07); run numbers not yet observed"
+   },
+   "191": {
+    "old": "goldenchildhood",
+    "oldName": "Daily Sporer's Golden Childhood",
+    "new": "highsilverlowgoldcap",
+    "newName": "Daily High Silver-Low Gold Cap",
+    "lastOldRun": null,
+    "firstNewRun": null,
+    "note": "from Tourney Data/refresh-2026-09.json (Gold, 2026-09-07); run numbers not yet observed"
    }
   }
  },
@@ -190,7 +217,7 @@
  "125": "silveronlycapdaily",
  "126": "livesilverdaily",
  "127": "silverslotsdaily",
- "128": "earlygold",
+ "128": "lowgoldonly",
  "129": "goldfather",
  "130": "goldcapdaily",
  "131": "livegolddaily",
@@ -228,7 +255,7 @@
  "163": "irondreamland",
  "164": "bronze10to50",
  "165": "silversnapshots",
- "166": "lgretro",
+ "166": "goldenage",
  "167": "diamondsforever",
  "180": "diamondslotsdaily",
  "181": "ptcs2iron",
@@ -241,12 +268,13 @@
  "188": "ironandfriends",
  "189": "bronzeptcs3",
  "190": "silverfriendsslots",
- "191": "goldenchildhood",
+ "191": "highsilverlowgoldcap",
  "192": "diamondandfriends",
  "193": "timetravelersslots",
  "194": "neldaily",
  "195": "nelslotsweekly",
  "197": "lowsilveronly",
+ "198": "goldstandard",
  "203": "riseshine",
  "204": "doubleespressomorning",
  "205": "livebreakfast",

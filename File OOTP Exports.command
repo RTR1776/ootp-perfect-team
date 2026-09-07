@@ -154,6 +154,11 @@ VARNAMES = [
     ("silversnapshots", "Silver Snapshots", "daily"),
     ("roaringsilvers", "Roaring Silvers", "daily"),
     ("silverfriendsslots", "Silver & Friends Slots", "daily"),
+    # Gold refresh 2026-09-07: three slots renamed (128/166/191), one new (198)
+    ("lowgoldonly", "Low Gold Only", "daily"),
+    ("goldenage", "Golden Age", "daily"),
+    ("highsilverlowgoldcap", "High Silver-Low Gold Cap", "daily"),
+    ("goldstandard", "Gold Standard", "daily"),
     ("timetravelersslots", "Dr. Dynastic's Time Traveler Slots", "daily"),
     ("wideopen", "Wide Open", "daily"),
     ("bronzequick", "Bronze Quick", "quick"),

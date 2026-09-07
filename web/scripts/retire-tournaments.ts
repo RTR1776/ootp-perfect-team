@@ -26,7 +26,7 @@ async function main() {
   const byName = new Map(rows.map((r) => [r.name.toLowerCase().trim(), r]));
 
   const retire: { id: number; name: string; replacedBy: string }[] = [];
-  for (const tier of ["silver", "iron", "bronze", "perfectDraft"] as const) {
+  for (const tier of ["silver", "iron", "bronze", "gold", "perfectDraft"] as const) {
     for (const [slot, e] of Object.entries<any>(R[tier])) {
       if (!e.new) continue;                       // rules changed, name did not
       // For Perfect Drafts the post's "is now X" is usually a FORMAT, not a
