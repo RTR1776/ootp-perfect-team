@@ -16,6 +16,8 @@
     "import:tournaments": "tsx scripts/import-tournaments.ts",
     "import:observed": "tsx scripts/import-observed.ts",
     "imports": "tsx scripts/import-batches.ts",
+    "period:new": "tsx scripts/new-period.ts",
+    "results:log": "tsx scripts/log-results.ts",
     "import:league": "tsx scripts/import-league.ts",
     "import:cards": "node --env-file=.env.local --import tsx scripts/import-current-cards.ts",
     "import:dump": "tsx scripts/import-dump.ts",

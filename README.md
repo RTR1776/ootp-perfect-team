@@ -47,8 +47,18 @@ cd web && pnpm dev        # -> http://localhost:3000
    `<type>_<id>.csv` and run `.venv/bin/python -m engine ingest`.
 4. **New tournaments announced**: add rows to
    `data-src/OOTP26 Historic Tourney_Draft List.xlsx`, then
-   `.venv/bin/python -m engine config`.
-5. Run `.venv/bin/python -m engine build` and reload the app.
+   `.venv/bin/python -m engine config`. A tier **refresh post** goes into
+   `Tourney Data/refresh-2026-09.json` (keyed by slot) and
+   `web/scripts/slot-map.json`, then `cd web && pnpm import:refresh --dry`,
+   `pnpm import:refresh`, `pnpm retire`, `pnpm coverage`.
+5. **PTCS results**: paste the Your Tournaments rows into **/ptcs → Log
+   results** (preview, then log), or from a terminal
+   `pnpm results:log --as-of 2026-09-07 rows.txt` (`--dry` to preview,
+   `--delete <eventId>` to undo one). Rows are keyed by the event id in
+   parentheses, so re-pasting an overlapping screen is a no-op. A new period:
+   `pnpm period:new "PTCS 8" <start> <end> --targets-from "PTCS 7"`. The
+   PTCS6 Tracker.xlsx / Dashboard.html are the frozen PTCS 6 record.
+6. Run `.venv/bin/python -m engine build` and reload the app.
 
 ## Engine CLI
 
@@ -88,6 +98,7 @@ calibrates on vL/vR splits; overall lines are constructed 28/72 (hitters) and
 | `Tourney Stats/`, `Tourney Stats examples/` | per-tourney exports archive |
 | `Roster Templates/` | collection export + binary `.tr` templates (never parsed) |
 | `data-store/` | generated intermediates (git-ignored) |
+| `pnpm imports` | (web/) what the background importer did: every publish attempt with files, hash, rows and outcome; a failed batch never touched the live table |
 | `reference/r-watcher/` | original R watcher (replaced by `engine watch`) |
 | `MLB Batting Year-by-Year Averages.xls` | RE source, 1871–2026 (**actually HTML** — `pd.read_html`) |
 | `ballparks.csv` | 236-park factor DB |

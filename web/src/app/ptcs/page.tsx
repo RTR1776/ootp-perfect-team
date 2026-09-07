@@ -5,20 +5,25 @@
  * category standings vs targets, pace with the three-scoring-day forecast
  * rule, the daily log, and the championship ladder (PTCS → PTMS → PTWC).
  *
- * Data: `periods` + `daily_totals` (imported from the tracker history and,
- * soon, written directly by result logging), plus the static ladder record in
+ * Data: `periods` + two sources of points that never both count for one day -
+ * `daily_totals` (the PTCS 6 tracker history, imported) and `results` (the
+ * per-event ledger written by result entry on this page, keyed by event id) -
+ * merged by lib/result-ledger. Plus the static ladder record in
  * `src/data/ptcs-ladder.json`.
  */
 
+import Link from "next/link";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { dailyTotals, myResults, periods, uploads } from "@/db/schema";
+import { dailyTotals, myResults, periods, results, uploads } from "@/db/schema";
 import type { DumpStandings } from "@/lib/analytics/dumps";
 import LADDER from "@/data/ptcs-ladder.json";
 import { Card, CardContent } from "@/components/ui/card";
 import { Placeholder } from "@/components/placeholder";
+import { ResultEntry } from "@/components/result-entry";
 import { cn } from "@/lib/utils";
-import { periodCalendar } from "@/lib/ptcs-progress";
+import { periodCalendar, todayInChicago } from "@/lib/ptcs-progress";
+import { mergeDays, type LedgerEvent } from "@/lib/result-ledger";
 
 export const dynamic = "force-dynamic";
 
@@ -54,14 +59,21 @@ function statusChip(status: CategoryLine["status"], official: boolean): { label:
   }
 }
 
-export default async function PtcsPage() {
-  const [period] = await db.select().from(periods).orderBy(desc(periods.id)).limit(1);
+export default async function PtcsPage({ searchParams }: { searchParams: Promise<{ period?: string }> }) {
+  const { period: periodParam } = await searchParams;
+  const allPeriods = await db.select().from(periods).orderBy(desc(periods.startsOn));
+  const today = todayInChicago();
+  // The period in play today; a ?period=<id> link shows a past one; else the latest.
+  const period =
+    allPeriods.find((p) => String(p.id) === periodParam) ??
+    allPeriods.find((p) => p.startsOn <= today && today <= p.endsOn) ??
+    allPeriods[0];
   if (!period) {
     return (
       <Placeholder
         icon="tournaments"
         title="PTCS"
-        description="Run pnpm import:ptcs6 (or log results once result-entry ships) and this becomes the qualifying command center — category standings, pace, and the championship ladder."
+        description="Create a period (pnpm period:new) and log results here, and this becomes the qualifying command center — category standings, pace, and the championship ladder."
       />
     );
   }
@@ -71,6 +83,16 @@ export default async function PtcsPage() {
     .from(dailyTotals)
     .where(eq(dailyTotals.periodId, period.id))
     .orderBy(asc(dailyTotals.occurredOn));
+  // The per-event ledger for this period - what result entry writes.
+  const ledger = await db
+    .select()
+    .from(results)
+    .where(eq(results.periodId, period.id))
+    .orderBy(desc(results.occurredOn), desc(results.id));
+  const events: LedgerEvent[] = ledger.map((r) => ({
+    eventId: r.eventId, name: r.name, occurredOn: r.occurredOn, categories: r.categories,
+    points: r.points, fieldSize: r.fieldSize, placement: r.placement, eliminated: r.eliminated,
+  }));
 
   // Latest community-dump standings, one per source (tournaments / drafts).
   const dumpUploads = await db
@@ -116,17 +138,16 @@ export default async function PtcsPage() {
   const recent = myRows.slice(0, 14);
 
   const { dates, totalDays, elapsed, remaining } = periodCalendar(period.startsOn,period.endsOn);
-  const byDate = new Map<string, Map<string, { points: number; note: string | null }>>();
-  for (const r of rows) {
-    const m = byDate.get(r.occurredOn) ?? new Map();
-    m.set(r.category, { points: r.points, note: r.note });
-    byDate.set(r.occurredOn, m);
-  }
+  // One source per day: logged events when there are any, else the imported total.
+  const days = mergeDays(dates, CATEGORIES, rows.map((r) => ({ occurredOn: r.occurredOn, category: r.category, points: r.points, note: r.note })), events);
+  const byDate = new Map(days.map((d) => [d.date, d]));
+  const conflicts = days.filter((d) => d.conflict);
+  const loggedDays = days.filter((d) => d.source === "results").length;
 
   const targets = (period.targets ?? {}) as Record<string, number>;
 
   const lines: CategoryLine[] = CATEGORIES.map((cat) => {
-    const series = dates.map((d) => byDate.get(d)?.get(cat)?.points ?? 0);
+    const series = dates.map((d) => byDate.get(d)?.points[cat] ?? 0);
     const total = series.reduce((s, v) => s + v, 0);
     const target = targets[cat] ?? null;
     const gap = target != null ? Math.max(0, target - total) : null;
@@ -189,9 +210,22 @@ export default async function PtcsPage() {
           <h1 className="text-xl font-semibold tracking-tight">{period.name}</h1>
           <p className="text-sm text-muted-foreground">
             {period.startsOn} → {period.endsOn} · feeds PTWC 2 ·{" "}
-            {period.targetsAreOfficial ? "official targets" : "targets estimated from PTCS 5 × 5/4 — upload weekly standings to replace"}
+            {period.targetsAreOfficial ? "official targets" : "targets are estimates — upload weekly standings to replace"}
           </p>
         </div>
+        {allPeriods.length > 1 && (
+          <nav className="flex gap-1 text-xs">
+            {allPeriods.map((p) => (
+              <Link
+                key={p.id}
+                href={p.id === period.id ? "/ptcs" : `/ptcs?period=${p.id}`}
+                className={cn("rounded-full border px-2.5 py-0.5", p.id === period.id ? "border-primary text-foreground" : "border-border text-muted-foreground hover:text-foreground")}
+              >
+                {p.name}
+              </Link>
+            ))}
+          </nav>
+        )}
       </div>
 
       {/* KPI strip */}
@@ -385,10 +419,36 @@ export default async function PtcsPage() {
         </CardContent>
       </Card>
 
+      {/* Result entry */}
+      <Card>
+        <CardContent className="pt-6">
+          <h2 className="mb-1 text-sm font-semibold">Log results</h2>
+          <p className="mb-3 text-xs text-muted-foreground">
+            Paste the Your Tournaments rows as read. Each is scored from the points table (every tagged
+            category gets the full amount, TW pays nothing) and keyed by the event id in parentheses, so an
+            overlapping screenshot cannot count twice. Preview first; nothing is written until you log.
+          </p>
+          <ResultEntry
+            asOfDefault={today}
+            periodName={period.name}
+            recent={events.slice(0, 80)}
+          />
+        </CardContent>
+      </Card>
+
       {/* Daily log */}
       <Card>
         <CardContent className="pt-6">
-          <h2 className="mb-4 text-sm font-semibold">Daily log</h2>
+          <h2 className="mb-1 text-sm font-semibold">Daily log</h2>
+          <p className="mb-4 text-xs text-muted-foreground">
+            {loggedDays} of {dates.length} day{dates.length === 1 ? "" : "s"} from logged events, {dates.length - loggedDays} from the imported tracker.
+            {conflicts.length > 0 && (
+              <span className="text-amber-600 dark:text-amber-400">
+                {" "}{conflicts.length} day{conflicts.length === 1 ? " has" : "s have"} both — logged events count, the imported total is shown in the hover note:{" "}
+                {conflicts.map((d) => d.date.slice(5)).join(", ")}.
+              </span>
+            )}
+          </p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -403,13 +463,18 @@ export default async function PtcsPage() {
               <tbody className="font-mono text-[13px]">
                 {dates.map((d) => {
                   const m = byDate.get(d)!;
-                  const note = [...m.values()].find((v) => v.note)?.note ?? "";
-                  const dayTotal = CATEGORIES.reduce((s, c) => s + (m.get(c)?.points ?? 0), 0);
+                  const note = m.note ?? "";
+                  const dayTotal = CATEGORIES.reduce((s, c) => s + (m.points[c] ?? 0), 0);
                   return (
-                    <tr key={d} className="border-b border-border/50" title={note}>
-                      <td className="whitespace-nowrap py-1.5 pr-3">{d.slice(5)}</td>
+                    <tr key={d} className={cn("border-b border-border/50", m.conflict && "bg-amber-500/5")} title={note}>
+                      <td className="whitespace-nowrap py-1.5 pr-3">
+                        {d.slice(5)}
+                        <span className="ml-1 text-[10px] text-muted-foreground" title={m.source === "results" ? `${m.events.length} logged event(s)` : m.source === "import" ? "imported tracker total" : "nothing logged"}>
+                          {m.conflict ? "!" : m.source === "results" ? "✎" : m.source === "import" ? "·" : ""}
+                        </span>
+                      </td>
                       {CATEGORIES.map((c) => {
-                        const v = m.get(c)?.points ?? 0;
+                        const v = m.points[c] ?? 0;
                         return (
                           <td
                             key={c}
@@ -430,8 +495,7 @@ export default async function PtcsPage() {
             </table>
           </div>
           <p className="mt-2 text-[11px] text-muted-foreground">
-            Hover a row for the day&apos;s full event log. Result entry lands here next — until then the
-            importer syncs from the tracker.
+            Hover a row for the day&apos;s event log. ✎ built from logged events · imported tracker total · ! both on file.
           </p>
         </CardContent>
       </Card>
