@@ -1,4 +1,10 @@
 /**
+ * SUPERSEDED 2026-09-07 - the fingerprint idea lives on in "File OOTP
+ * Exports.command" (likely_slugs), which ranks against every series on disk
+ * instead of the hand-written WORKLIST in "Grab Tourney Stats.command", and
+ * which imports each filed export into the database itself. Kept for the
+ * cliclick-driven Grab script only.
+ *
  * Identify a freshly-exported OOTP tourney stats CSV and file it.
  *   tsx scripts/claim-export.ts <snapshot.csv> [--yes]
  *

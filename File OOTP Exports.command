@@ -31,6 +31,17 @@ so Sep 5's dailies are 175), weeklies and Perfect Drafts follow each
 series' own counter anchored to the community dumps. Check the number
 against the one in parentheses in the game's tournament title — if it is
 off, take the ✎ row and type the right one.
+
+v6 (2026-09-07) — hands-off from download to database:
+  • LIKELY block: the export is fingerprinted (field size, VAL and card-year
+    window, tier mix) against every series already on disk, and the best
+    matches sit at the top with the best one pre-selected — for a series
+    you have filed before, Enter is the whole answer.
+  • Each filed export is imported into the app's database straight away
+    (import:observed --series, ~1 s per file, in the background); the
+    projection model is refit once when you quit. Nothing to run by hand.
+  • `--watch` skips the opening question and starts watching immediately
+    ("Watch Tourney Stats.command" is now just that).
 """
 
 from __future__ import annotations  # py3.9-safe
@@ -42,6 +53,8 @@ import os
 import re
 import shutil
 import subprocess
+import sys
+import threading
 import time
 from datetime import date, datetime
 
@@ -68,6 +81,11 @@ IDLE_QUIT_MINUTES = 10
 REPO = os.path.join(HOME, "Desktop/OOTP Perfect Team")
 SLOT_MAP = os.path.join(REPO, "web/scripts/slot-map.json")
 DUMP_DIR = os.path.join(REPO, "Tourney Data")
+WEB = os.path.join(REPO, "web")
+TSX = os.path.join(WEB, "node_modules/.bin/tsx")
+IMPORT_LOG = os.path.join(REPO, "Archive/import-log.txt")
+FP_CACHE = os.path.join(REPO, "Archive/.fingerprints.json")
+WATCH_ONLY = "--watch" in sys.argv
 DAILY_EPOCH = date(2026, 3, 13)  # fallback only — see schedule() below
 # ---------------------------------------------------------------------------
 
@@ -432,7 +450,222 @@ def recent_order() -> list:
             newest[m.group(1)] = t
     return [v for v, _t in sorted(newest.items(), key=lambda kv: -kv[1])]
 
-def one_shot_rows(mtime: float) -> list:
+# ---------------------------------------------------------------------------
+# Fingerprints — OOTP puts nothing in the export that names the tournament,
+# but a series is recognisable by its shape: the field size (row count), the
+# card-value and card-year window and the tier mix hardly move from run to
+# run. Every series already on disk is fingerprinted once (cached by file
+# mtime), and a fresh export is ranked against them.
+# ---------------------------------------------------------------------------
+
+def fingerprint(path: str):
+    try:
+        with open(path, "r", encoding="utf-8", errors="replace") as f:
+            head = f.readline().rstrip("\r\n").split(",")
+            iv, iy, it = head.index("VAL"), head.index("CYear"), head.index("Tier")
+            ipa = head.index("PA") if "PA" in head else -1
+            ihr = head.index("HR") if "HR" in head else -1
+            ik = head.index("SO") if "SO" in head else (head.index("K") if "K" in head else -1)
+            vals, years, tiers, n = [], [], set(), 0
+            pa = hr = so = 0.0
+            for row in csv.reader(f):
+                if len(row) <= max(iv, iy, it):
+                    continue
+                n += 1
+                try:
+                    v, y = int(row[iv]), int(row[iy])
+                    if v > 0: vals.append(v)
+                    if y > 0: years.append(y)
+                except ValueError:
+                    pass
+                if row[it]:
+                    tiers.add(row[it])
+                # run-environment signature: the same cards hit very different
+                # HR and K rates in 1919 and 2010, which is exactly what a
+                # refresh changes while the card window stays put
+                if ipa >= 0 and ihr >= 0 and ik >= 0:
+                    try:
+                        p = float(row[ipa])
+                        if p > 0:
+                            pa += p; hr += float(row[ihr]); so += float(row[ik])
+                    except ValueError:
+                        pass
+        if not vals:
+            return None
+        return {"rows": n, "vmin": min(vals), "vmax": max(vals),
+                "ymin": min(years) if years else 0, "ymax": max(years) if years else 0,
+                "tiers": "/".join(sorted(tiers)),
+                "hr": round(hr / pa, 4) if pa else None, "k": round(so / pa, 3) if pa else None}
+    except (OSError, ValueError):
+        return None
+
+def field_of(rows: int):
+    for teams, lo, hi in ((32, 500, 900), (64, 1000, 1700), (128, 2000, 3400), (256, 4000, 6800)):
+        if lo <= rows + 1 <= hi:
+            return teams
+    return None
+
+def disk_fingerprints() -> dict:
+    """slug -> fingerprint of its newest file, cached in Archive/.fingerprints.json."""
+    cache = {}
+    try:
+        with open(FP_CACHE, "r", encoding="utf-8") as f:
+            cache = json.load(f)
+    except (OSError, ValueError):
+        cache = {}
+    newest = {}
+    try:
+        for fn in os.listdir(DEST):
+            m = re.match(r"^([a-z0-9]+)_(\d+)\.csv$", fn)
+            if m and int(m.group(2)) >= newest.get(m.group(1), ("", -1))[1]:
+                newest[m.group(1)] = (fn, int(m.group(2)))
+    except OSError:
+        return {}
+    out, dirty = {}, False
+    for slug, (fn, _run) in newest.items():
+        path = os.path.join(DEST, fn)
+        try:
+            mt = os.path.getmtime(path)
+        except OSError:
+            continue
+        hit = cache.get(fn)
+        if not hit or hit.get("mtime") != mt:
+            fp = fingerprint(path)
+            if not fp:
+                continue
+            hit = dict(fp, mtime=mt)
+            cache[fn] = hit
+            dirty = True
+        out[slug] = hit
+    if dirty:
+        try:
+            os.makedirs(os.path.dirname(FP_CACHE), exist_ok=True)
+            with open(FP_CACHE, "w", encoding="utf-8") as f:
+                json.dump(cache, f)
+        except OSError:
+            pass
+    return out
+
+def likely_slugs(path: str, limit: int = 3) -> list:
+    """The series this export most resembles, best first. Empty when nothing
+    on disk looks like it (a series never filed before)."""
+    fp = fingerprint(path)
+    if not fp:
+        return []
+    field = field_of(fp["rows"])
+    scored = []
+    for slug, g in disk_fingerprints().items():
+        if field and field_of(g["rows"]) != field:
+            continue
+        score = 0
+        if g["tiers"] == fp["tiers"]:
+            score += 50
+        elif set(g["tiers"].split("/")) & set(fp["tiers"].split("/")):
+            score += 10
+        if abs(g["vmax"] - fp["vmax"]) <= 2: score += 25
+        if abs(g["vmin"] - fp["vmin"]) <= 4: score += 20
+        if abs(g["ymin"] - fp["ymin"]) <= 10: score += 15
+        if abs(g["ymax"] - fp["ymax"]) <= 3: score += 10
+        # era check: HR/PA within 0.6 pt and K/PA within 3 pts = same environment;
+        # a clear mismatch (deadball vs modern) outweighs an identical card window
+        if g.get("hr") is not None and fp.get("hr") is not None:
+            if abs(g["hr"] - fp["hr"]) <= 0.006 and abs(g["k"] - fp["k"]) <= 0.03:
+                score += 20
+            elif abs(g["hr"] - fp["hr"]) >= 0.012 or abs(g["k"] - fp["k"]) >= 0.06:
+                score -= 40
+        if score >= 60:
+            scored.append((score, slug))
+    scored.sort(key=lambda x: (-x[0], x[1]))
+    return [slug for _s, slug in scored[:limit]]
+
+# ---------------------------------------------------------------------------
+# The importer — each filed tournament export goes into observed_card_stats
+# right away (per-series rebuild, idempotent, ~1 s a file), serialised on one
+# worker thread so two files never race on the same series. Perfect Draft
+# exports are archived only (the app has no PD model yet).
+# ---------------------------------------------------------------------------
+
+_IMPORT_Q: list = []
+_IMPORT_LOCK = threading.Lock()
+_IMPORT_DONE = threading.Event()
+_IMPORT_RESULTS: list = []   # (slug, ok, summary)
+
+def _env_with_db() -> dict:
+    env = dict(os.environ)
+    try:
+        with open(os.path.join(WEB, ".env.local"), "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("DATABASE_URL="):
+                    env["DATABASE_URL"] = line.split("=", 1)[1].strip().strip('"').strip("'")
+    except OSError:
+        pass
+    return env
+
+def _log(msg: str) -> None:
+    try:
+        os.makedirs(os.path.dirname(IMPORT_LOG), exist_ok=True)
+        with open(IMPORT_LOG, "a", encoding="utf-8") as f:
+            f.write(time.strftime("%Y-%m-%d %H:%M:%S ") + msg + "\n")
+    except OSError:
+        pass
+
+def _run_tsx(args: list, timeout: int = 300):
+    if not os.path.exists(TSX):
+        return False, "tsx missing - run pnpm install in web/"
+    try:
+        out = subprocess.run([TSX] + args, cwd=WEB, env=_env_with_db(),
+                             capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return False, "timed out"
+    tail = "\n".join((out.stdout + out.stderr).strip().splitlines()[-6:])
+    return out.returncode == 0, tail
+
+def _import_worker() -> None:
+    while True:
+        with _IMPORT_LOCK:
+            batch = sorted(set(_IMPORT_Q)); _IMPORT_Q.clear()
+        if not batch:
+            if _IMPORT_DONE.is_set():
+                return
+            time.sleep(1.0)
+            continue
+        ok, tail = _run_tsx(["scripts/import-observed.ts", "--series", ",".join(batch)])
+        summary = next((l.strip() for l in tail.splitlines() if l.strip().startswith(tuple(f"{b}:" for b in batch))), tail.splitlines()[-1] if tail else "")
+        _IMPORT_RESULTS.append((", ".join(batch), ok, summary))
+        _log(f"import {' '.join(batch)}: {'ok' if ok else 'FAILED'} - {summary}")
+        notify((f"Imported {', '.join(batch)}: {summary}" if ok else f"IMPORT FAILED for {', '.join(batch)} - see Archive/import-log.txt")[:200])
+
+_WORKER = [None]
+
+def queue_import(slug: str) -> None:
+    with _IMPORT_LOCK:
+        _IMPORT_Q.append(slug)
+    if _WORKER[0] is None:
+        _WORKER[0] = threading.Thread(target=_import_worker, daemon=True)
+        _WORKER[0].start()
+
+def finish_imports() -> str:
+    """Wait for queued imports, refit the projection model, return a summary."""
+    _IMPORT_DONE.set()
+    if _WORKER[0] is not None:
+        print("waiting for imports to finish…")
+        _WORKER[0].join(timeout=900)
+    if not _IMPORT_RESULTS:
+        return ""
+    failed = [s for s, ok, _ in _IMPORT_RESULTS if not ok]
+    lines = [f"  {'✗' if not ok else '✓'} {s}: {summ}" for s, ok, summ in _IMPORT_RESULTS]
+    if not failed:
+        print("refitting the projection model…")
+        ok, tail = _run_tsx(["scripts/fit-projection.ts"], timeout=600)
+        _log(f"fit-projection: {'ok' if ok else 'FAILED'} - {tail.splitlines()[-1] if tail else ''}")
+        lines.append(("  ✓ projection refit - tell Claude to commit the coefficients" if ok
+                      else "  ✗ projection refit failed - see Archive/import-log.txt"))
+    else:
+        lines.append("  refit skipped because an import failed - fix that first (re-running the filer is safe)")
+    return "\n".join(lines)
+
+def one_shot_rows(mtime: float, likely: list = ()) -> list:
     """Rows for the single dialog. payload: None = header, "search", else
     (varname, group, guessed_id). The id rides ON the row, so one click is
     the whole answer - no second prompt for the common case."""
@@ -445,7 +678,11 @@ def one_shot_rows(mtime: float) -> list:
         return (f"{n}  ·  {mark}{gid or '?'}   [{TAGS[g]} {v}]", (v, g, gid))
 
     rows = [(SEARCH_ROW, "search")]
-    recent = [v for v in recent_order() if v in by_v][:RECENT_N]
+    likely = [v for v in likely if v in by_v]
+    if likely:
+        rows.append(("──────  LIKELY (looks like these on disk)  ──────", None))
+        rows.extend(row(v) for v in likely)
+    recent = [v for v in recent_order() if v in by_v and v not in likely][:RECENT_N]
     if recent:
         rows.append(("──────  RECENT  ──────", None))
         rows.extend(row(v) for v in recent)
@@ -453,14 +690,14 @@ def one_shot_rows(mtime: float) -> list:
     rows.extend(row(v) for v, _n, _g in sorted(VARNAMES, key=lambda x: x[1].lower()))
     return rows
 
-def pick_one(info: str, mtime: float):
+def pick_one(info: str, mtime: float, likely: list = ()):
     """One dialog for tournament AND id. Returns (varname, group, id) with id
     possibly "" (ask), the string "search", or None to skip the file.
 
     Rows lead with the DISPLAY NAME so macOS's type-to-jump actually lands -
     the old picker led with the slug but sorted by display name, which is why
     typing "silver slots" never found Silver Slots Daily in 152 rows."""
-    rows = one_shot_rows(mtime)
+    rows = one_shot_rows(mtime, likely)
     lookup = {label: payload for label, payload in rows}
     listing = "{" + ", ".join(f'"{q(label)}"' for label, _p in rows) + "}"
     default = next(label for label, pay in rows if isinstance(pay, tuple))
@@ -662,11 +899,13 @@ def short(path: str) -> str:
 
 def file_one(mt: float, p: str, label: str, filed: list) -> str:
     """Prompt for and file a single export. Returns ok|skip."""
+    likely = likely_slugs(p)
     info = (f"{label}:  {os.path.basename(p)}\n"
             f"from {short(os.path.dirname(p))}\n"
-            f"exported {time.strftime('%a %b %d, %H:%M', time.localtime(mt))}")
+            f"exported {time.strftime('%a %b %d, %H:%M', time.localtime(mt))}"
+            + (f"\nlooks like: {', '.join(likely)}" if likely else "\nlooks like nothing filed before - pick from the list"))
     while True:
-        choice = pick_one(info, mt)
+        choice = pick_one(info, mt, likely)
         if choice is None:
             print(f"skipped {os.path.basename(p)}")
             return "skip"
@@ -702,8 +941,10 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
             shutil.copy2(p, os.path.join(QUEUE, name))  # DCFC takes tournament stats only
         os.replace(p, dest)
         filed.append(name)
-        print(f"✓ filed {name}" + ("  (app only — not queued for DCFC)" if group.startswith("pd") else ""))
+        print(f"✓ filed {name}" + ("  (archived only — no PD model yet, not queued for DCFC)" if group.startswith("pd") else ""))
         notify(f"Filed {name}")
+        if not group.startswith("pd"):
+            queue_import(varname)
         return "ok"
 
 def main() -> None:
@@ -716,13 +957,15 @@ def main() -> None:
         file_one(mt, p, f"File {i} of {len(exports)}", filed)
 
     start_msg = (f"Filed {len(filed)} export(s)." if exports else "No unfiled exports right now.")
-    choice = alert(
+    choice = "Watch for Exports" if WATCH_ONLY else alert(
         start_msg + "\n\nWatch for more? Export from OOTP and I'll catch each file the moment it lands — "
         f"the popup is always the one you just exported. Stops after {IDLE_QUIT_MINUTES} quiet minutes or Ctrl+C.",
         ("Quit", "Watch for Exports"), "Watch for Exports")
     if choice == "Quit":
+        summary = finish_imports()
         if filed:
-            alert("Filed:\n" + "\n".join("  " + n for n in filed) + "\n\nCopies for cwhit are in Tourney Data/DCFC Upload Queue.")
+            alert("Filed:\n" + "\n".join("  " + n for n in filed) + "\n\nCopies for cwhit are in Tourney Data/DCFC Upload Queue."
+                  + (f"\n\nDatabase:\n{summary}" if summary else ""))
         return
 
     print(f"Watching… export from OOTP now. Ctrl+C here to finish (auto-quits after {IDLE_QUIT_MINUTES} idle minutes).")
@@ -759,8 +1002,10 @@ def main() -> None:
     except KeyboardInterrupt:
         pass
     lines = "\n".join("  " + n for n in filed) if filed else "  (none)"
-    print("Done. Filed:\n" + lines)
-    alert(f"Done — filed {len(filed)} export(s):\n{lines}\n\nCopies for cwhit are in Tourney Data/DCFC Upload Queue.")
+    summary = finish_imports()
+    print("Done. Filed:\n" + lines + ("\nDatabase:\n" + summary if summary else ""))
+    alert(f"Done — filed {len(filed)} export(s):\n{lines}\n\nCopies for cwhit are in Tourney Data/DCFC Upload Queue."
+          + (f"\n\nDatabase:\n{summary}" if summary else ""))
 
 if __name__ == "__main__":
     main()
