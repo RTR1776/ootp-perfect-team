@@ -128,6 +128,12 @@ export interface TournamentInfo extends RosterRules {
   } | null;
   retired: boolean;
   park: { name: string; avg: number | null; hr: number | null; b2: number | null; b3: number | null } | null;
+  environment?: {
+    eraLabel: string;
+    parkLabel: string;
+    parkFactors: { avgL: number; avgR: number; hrL: number; hrR: number } | null;
+    runsPerGame: number | null;
+  };
 }
 
 interface SavedRoster {
@@ -876,9 +882,22 @@ export function RosterBuilder({
               </Badge>
             )}
             {tournament.cardYearMin != null && <Badge variant="outline">years {tournament.cardYearMin}–{tournament.cardYearMax}</Badge>}
-            {tournament.series
+            {meta && meta.files > 0
               ? <Badge>observed: {tournament.series}</Badge>
               : <Badge variant="outline">no observed data yet</Badge>}
+          </div>
+
+          <div className="rounded-lg border border-border p-3 text-xs leading-relaxed">
+            <p className="font-semibold">Environment and recommendation limits</p>
+            <p className="mt-1 text-muted-foreground">
+              {tournament.environment?.eraLabel} · {tournament.environment?.parkLabel}.
+              {tournament.environment?.runsPerGame != null && ` Modeled environment: ${tournament.environment.runsPerGame.toFixed(2)} runs per team/game (35% left-handed batting); this is not a forecast for your roster.`}
+            </p>
+            {tournament.environment?.parkFactors && <p className="mt-1 text-muted-foreground">
+              Park factors, left/right: AVG ×{tournament.environment.parkFactors.avgL.toFixed(3)}/×{tournament.environment.parkFactors.avgR.toFixed(3)};
+              HR ×{tournament.environment.parkFactors.hrL.toFixed(3)}/×{tournament.environment.parkFactors.hrR.toFixed(3)}.
+            </p>}
+            <p className="mt-1">Fit and pWOBA/pFIP do not adjust for this RE or park. Auto-fill uses split ratings, position defense, and roster rules; the era sets the fallback staff size. Passing the checks below verifies recorded rules, not an optimized championship lineup.</p>
           </div>
 
           {meta && (

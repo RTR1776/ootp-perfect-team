@@ -13,7 +13,7 @@
  */
 
 import Link from "next/link";
-import { asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { dailyTotals, myResults, periods, results, uploads } from "@/db/schema";
 import type { DumpStandings } from "@/lib/analytics/dumps";
@@ -98,7 +98,11 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
   const dumpUploads = await db
     .select({ report: uploads.report, uploadedAt: uploads.uploadedAt, filename: uploads.filename })
     .from(uploads)
-    .where(eq(uploads.kind, "dump"))
+    .where(and(
+      eq(uploads.kind, "dump"),
+      sql`${uploads.report}->'standings'->'window'->>'start' = ${period.startsOn}`,
+      sql`${uploads.report}->'standings'->'window'->>'end' = ${period.endsOn}`,
+    ))
     .orderBy(desc(uploads.id))
     .limit(10);
   const latestBySource = new Map<string, { standings: DumpStandings; dateMax: string }>();

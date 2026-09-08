@@ -19,7 +19,6 @@ import {
   cardSnapshots,
   collectionCards,
   observedCardStats,
-  parks,
   rosters,
   rosterSlots,
   seriesMeta,
@@ -28,6 +27,7 @@ import {
 } from "@/db/schema";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { projFip, projWoba } from "@/lib/analytics/projection";
+import { eraFor, parkFor, solveFor } from "@/lib/analytics/tournament-env";
 import { getRatingScale } from "@/lib/rating-scale";
 import { cardEligibility, tierCode, tierFitsSlots, TIER_ORDER, type RosterSlot } from "@/lib/roster-rules";
 import coeffs from "@/lib/analytics/projection-coeffs.json";
@@ -135,13 +135,16 @@ export default async function BuildPage({
 
   if (picked) {
     const [full] = await db.select().from(tournaments).where(eq(tournaments.id, picked.id));
-    const park = full.parkName
-      ? (await db.select().from(parks).where(eq(parks.name, full.parkName)))[0] ?? null
-      : null;
+    const parkPick = parkFor(full.stadium);
+    const park = parkPick.row;
+    const notes = (full.restrictions as { notes?: string[] } | null)?.notes;
+    const envYear = full.envYear ?? (notes?.includes("default RE") ? 2010 : null);
+    const era = eraFor(envYear);
+    const environment = era ? solveFor(era.row, park) : null;
     tournament = {
       id: full.id,
       name: full.name,
-      envYear: full.envYear,
+      envYear,
       mode: full.mode,
       stadium: full.stadium,
       dh: full.dh,
@@ -155,8 +158,14 @@ export default async function BuildPage({
       isDraft: full.isDraft,
       retired: full.retired,
       park: park
-        ? { name: park.name, avg: avg2(park.avgL, park.avgR), hr: avg2(park.hrL, park.hrR), b2: park.b2, b3: park.b3 }
+        ? { name: parkPick.label, avg: avg2(park.avgL, park.avgR), hr: avg2(park.hrL, park.hrR), b2: park.d2, b3: park.d3 }
         : null,
+      environment: {
+        eraLabel: era?.label ?? "RE not recorded",
+        parkLabel: parkPick.label,
+        parkFactors: park,
+        runsPerGame: environment?.RG ?? null,
+      },
     };
 
     // A "Slots: S16, B5, I5" spec is a set of per-tier MAXIMUMS and a lower

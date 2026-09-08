@@ -1,7 +1,7 @@
 /**
  * Create or re-date a PTCS qualifying period.
  *
- *   pnpm period:new "PTCS 7" 2026-09-07 2026-10-11 [--targets-from "PTCS 6"] [--targets '{"Gold":114,...}']
+ *   pnpm period:new "PTCS 7" 2026-09-07 2026-10-04 [--targets-from "PTCS 6"] [--targets '{"Gold":114,...}']
  *
  * Matched on name, so re-running with corrected dates updates the row rather
  * than adding a second period. Targets copied from an earlier period are
