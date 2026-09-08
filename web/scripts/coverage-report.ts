@@ -36,7 +36,8 @@ import { OFFENSE_KEYS, distance, eraFor, parkFor, solveFor, spreads, vectorOf, t
 const ROOT = resolve(__dirname, "..", "..");
 const INV = resolve(__dirname, ".inventory.json");
 const DEST = resolve(ROOT, "Archive/Completed");
-const TODAY = new Date().toISOString().slice(0, 10);
+// Central calendar day, matching the inventory: a Sep 7 evening run once wrote "Coverage 2026-09-08.md".
+const TODAY = new Date().toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
 
 /** When each tier's refresh took effect. Tiers not listed have not been refreshed. */
 const CUTOFF_DATE: Record<string, string | null> = { Silver: "2026-09-01", Bronze: "2026-08-26", Iron: "2026-08-26", Gold: "2026-09-07" };

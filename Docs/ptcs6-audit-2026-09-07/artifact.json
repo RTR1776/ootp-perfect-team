@@ -1,0 +1,1616 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "PTCS 6: build audit and tournament matches",
+    "description": "Saved roster compliance, environment limitations and evidence-aware comparisons for the five tournament berths.",
+    "generatedAt": "2026-09-08T02:11:35.514Z",
+    "filters": [],
+    "cards": [],
+    "charts": [
+      {
+        "id": "hr_factors",
+        "title": "Home-run park factors by batting side",
+        "subtitle": "1.000 is neutral. Diamond and Cap favor left-handed home runs; Gold and Silver boost both sides.",
+        "type": "bar",
+        "dataset": "hr_factors",
+        "sourceId": "park_sql",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {
+            "field": "build",
+            "type": "nominal",
+            "label": "Championship"
+          },
+          "y": {
+            "field": "factor",
+            "type": "quantitative",
+            "label": "HR park factor"
+          },
+          "color": {
+            "field": "side",
+            "type": "nominal",
+            "label": "Batting side"
+          }
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "rules",
+        "title": "Saved roster checks",
+        "dataset": "rules",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Build",
+            "label": "Build",
+            "type": "text"
+          },
+          {
+            "field": "Roster",
+            "label": "Roster",
+            "type": "text"
+          },
+          {
+            "field": "Rules",
+            "label": "Rules",
+            "type": "text"
+          },
+          {
+            "field": "RE / DH",
+            "label": "RE / DH",
+            "type": "text"
+          },
+          {
+            "field": "Park",
+            "label": "Park",
+            "type": "text"
+          },
+          {
+            "field": "Players",
+            "label": "Players",
+            "type": "text"
+          },
+          {
+            "field": "Value",
+            "label": "Value",
+            "type": "text"
+          },
+          {
+            "field": "Variants",
+            "label": "Variants",
+            "type": "text"
+          },
+          {
+            "field": "Staff",
+            "label": "Staff",
+            "type": "text"
+          },
+          {
+            "field": "Check",
+            "label": "Check",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "parks",
+        "title": "Championship environment factors",
+        "dataset": "parks",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Build",
+            "label": "Build",
+            "type": "text"
+          },
+          {
+            "field": "AVG L/R",
+            "label": "AVG L/R",
+            "type": "text"
+          },
+          {
+            "field": "HR L/R",
+            "label": "HR L/R",
+            "type": "text"
+          },
+          {
+            "field": "Model R/G",
+            "label": "Model R/G",
+            "type": "text"
+          },
+          {
+            "field": "Era source",
+            "label": "Era source",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "bronze-data",
+        "title": "Available card-level sources",
+        "dataset": "bronze-data",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Source",
+            "label": "Source",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Runs",
+            "label": "Runs",
+            "type": "text"
+          },
+          {
+            "field": "RE / DH",
+            "label": "RE / DH",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "Eligible card IDs",
+            "label": "Eligible card IDs",
+            "type": "text"
+          },
+          {
+            "field": "Roster cards",
+            "label": "Roster cards",
+            "type": "text"
+          },
+          {
+            "field": "Bats \u2265500 PA",
+            "label": "Bats \u2265500 PA",
+            "type": "text"
+          },
+          {
+            "field": "Arms \u2265400 IP",
+            "label": "Arms \u2265400 IP",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "bronze-matches",
+        "title": "Closest past or present formats",
+        "dataset": "bronze-matches",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Event",
+            "label": "Event",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "RE",
+            "label": "RE",
+            "type": "text"
+          },
+          {
+            "field": "Park",
+            "label": "Park",
+            "type": "text"
+          },
+          {
+            "field": "DH",
+            "label": "DH",
+            "type": "text"
+          },
+          {
+            "field": "Exports for format",
+            "label": "Exports for format",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "silver-data",
+        "title": "Available card-level sources",
+        "dataset": "silver-data",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Source",
+            "label": "Source",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Runs",
+            "label": "Runs",
+            "type": "text"
+          },
+          {
+            "field": "RE / DH",
+            "label": "RE / DH",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "Eligible card IDs",
+            "label": "Eligible card IDs",
+            "type": "text"
+          },
+          {
+            "field": "Roster cards",
+            "label": "Roster cards",
+            "type": "text"
+          },
+          {
+            "field": "Bats \u2265500 PA",
+            "label": "Bats \u2265500 PA",
+            "type": "text"
+          },
+          {
+            "field": "Arms \u2265400 IP",
+            "label": "Arms \u2265400 IP",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "silver-matches",
+        "title": "Closest past or present formats",
+        "dataset": "silver-matches",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Event",
+            "label": "Event",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "RE",
+            "label": "RE",
+            "type": "text"
+          },
+          {
+            "field": "Park",
+            "label": "Park",
+            "type": "text"
+          },
+          {
+            "field": "DH",
+            "label": "DH",
+            "type": "text"
+          },
+          {
+            "field": "Exports for format",
+            "label": "Exports for format",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "gold-data",
+        "title": "Available card-level sources",
+        "dataset": "gold-data",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Source",
+            "label": "Source",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Runs",
+            "label": "Runs",
+            "type": "text"
+          },
+          {
+            "field": "RE / DH",
+            "label": "RE / DH",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "Eligible card IDs",
+            "label": "Eligible card IDs",
+            "type": "text"
+          },
+          {
+            "field": "Roster cards",
+            "label": "Roster cards",
+            "type": "text"
+          },
+          {
+            "field": "Bats \u2265500 PA",
+            "label": "Bats \u2265500 PA",
+            "type": "text"
+          },
+          {
+            "field": "Arms \u2265400 IP",
+            "label": "Arms \u2265400 IP",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "gold-matches",
+        "title": "Closest past or present formats",
+        "dataset": "gold-matches",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Event",
+            "label": "Event",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "RE",
+            "label": "RE",
+            "type": "text"
+          },
+          {
+            "field": "Park",
+            "label": "Park",
+            "type": "text"
+          },
+          {
+            "field": "DH",
+            "label": "DH",
+            "type": "text"
+          },
+          {
+            "field": "Exports for format",
+            "label": "Exports for format",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "diamond-data",
+        "title": "Available card-level sources",
+        "dataset": "diamond-data",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Source",
+            "label": "Source",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Runs",
+            "label": "Runs",
+            "type": "text"
+          },
+          {
+            "field": "RE / DH",
+            "label": "RE / DH",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "Eligible card IDs",
+            "label": "Eligible card IDs",
+            "type": "text"
+          },
+          {
+            "field": "Roster cards",
+            "label": "Roster cards",
+            "type": "text"
+          },
+          {
+            "field": "Bats \u2265500 PA",
+            "label": "Bats \u2265500 PA",
+            "type": "text"
+          },
+          {
+            "field": "Arms \u2265400 IP",
+            "label": "Arms \u2265400 IP",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "diamond-matches",
+        "title": "Closest past or present formats",
+        "dataset": "diamond-matches",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Event",
+            "label": "Event",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "RE",
+            "label": "RE",
+            "type": "text"
+          },
+          {
+            "field": "Park",
+            "label": "Park",
+            "type": "text"
+          },
+          {
+            "field": "DH",
+            "label": "DH",
+            "type": "text"
+          },
+          {
+            "field": "Exports for format",
+            "label": "Exports for format",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "cap-data",
+        "title": "Available card-level sources",
+        "dataset": "cap-data",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Source",
+            "label": "Source",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Runs",
+            "label": "Runs",
+            "type": "text"
+          },
+          {
+            "field": "RE / DH",
+            "label": "RE / DH",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "Eligible card IDs",
+            "label": "Eligible card IDs",
+            "type": "text"
+          },
+          {
+            "field": "Roster cards",
+            "label": "Roster cards",
+            "type": "text"
+          },
+          {
+            "field": "Bats \u2265500 PA",
+            "label": "Bats \u2265500 PA",
+            "type": "text"
+          },
+          {
+            "field": "Arms \u2265400 IP",
+            "label": "Arms \u2265400 IP",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "id": "cap-matches",
+        "title": "Closest past or present formats",
+        "dataset": "cap-matches",
+        "sourceId": "audit",
+        "columns": [
+          {
+            "field": "Event",
+            "label": "Event",
+            "type": "text"
+          },
+          {
+            "field": "Format",
+            "label": "Format",
+            "type": "text"
+          },
+          {
+            "field": "Gap",
+            "label": "Gap",
+            "type": "text"
+          },
+          {
+            "field": "RE",
+            "label": "RE",
+            "type": "text"
+          },
+          {
+            "field": "Park",
+            "label": "Park",
+            "type": "text"
+          },
+          {
+            "field": "DH",
+            "label": "DH",
+            "type": "text"
+          },
+          {
+            "field": "Exports for format",
+            "label": "Exports for format",
+            "type": "text"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "audit",
+        "label": "PTCS 6 saved roster and tournament evidence audit",
+        "path": "Docs/ptcs6-audit-2026-09-07/evidence.json",
+        "description": "Combined historical/current rankings: all-format-matches.json, derived by web/scripts/ptcs6-all-format-matches.ts from the September 4 .champ-comparables.json snapshot and current audit. Read-only database snapshot produced by web/scripts/audit-ptcs6.ts. Tables: tournaments, cards, collection_cards, uploads, rosters, roster_slots, observed_card_stats and parks. Archive lineage: web/scripts/.coverage.json and .inventory.json. Environment inputs: web/src/data/eras.json and park-factors.json.",
+        "query": {
+          "engine": "postgresql",
+          "sql": "select \"id\", \"name\", \"env_year\", \"mode\", \"stadium\", \"park_name\", \"fee\", \"dh\", \"entrants\", \"ratings_min\", \"ratings_max\", \"card_year_min\", \"card_year_max\", \"sim_runs\", \"series\", \"is_draft\", \"restrictions\", \"retired\", \"updated_at\" from \"tournaments\";\nselect \"card_id\", \"title\", \"name\", \"first_name\", \"last_name\", \"nick_name\", \"tier\", \"card_value\", \"position\", \"pitcher_role\", \"is_pitcher\", \"bats\", \"throws\", \"year\", \"era_code\", \"era_label\", \"team\", \"franchise\", \"series\", \"badge\", \"card_type\", \"card_sub_type\", \"bref_id\", \"released_on\", \"ratings\", \"first_seen_at\", \"last_seen_at\" from \"cards\";\nselect \"series\", \"card_id\", \"is_pitcher\", \"pa\", \"ip\", \"instances\" from \"observed_card_stats\";\nselect \"name\", \"team\", \"avg_l\", \"avg_r\", \"hr_l\", \"hr_r\", \"b2\", \"b3\" from \"parks\";",
+          "description": "Original unparameterized database extraction queries. Parameterized collection and saved-roster queries, including bound values, are preserved in evidence.json. Transformations and eligibility checks are in web/scripts/audit-ptcs6.ts.",
+          "tables_used": [
+            "tournaments",
+            "cards",
+            "observed_card_stats",
+            "parks"
+          ],
+          "executed_at": "2026-09-08T02:11:35.514Z"
+        }
+      },
+      {
+        "id": "park_sql",
+        "label": "Championship park-year join to raw park factors",
+        "path": "web/src/data/park-factors.json",
+        "query": {
+          "engine": "sqlite",
+          "sql": "SELECT c.build, 'Left-handed' AS side, p.hr_l AS factor FROM championship_parks c JOIN park_factor_inputs p ON c.park=p.park AND c.year=p.year UNION ALL SELECT c.build, 'Right-handed' AS side, p.hr_r AS factor FROM championship_parks c JOIN park_factor_inputs p ON c.park=p.park AND c.year=p.year",
+          "description": "Raw park-factor JSON loaded into park_factor_inputs; verified championship park/year selections loaded into championship_parks. Exact input loading and executed query are in build_report.py.",
+          "tables_used": [
+            "championship_parks",
+            "park_factor_inputs"
+          ],
+          "executed_at": "2026-09-08T02:11:35.514Z"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# PTCS 6: build audit and tournament matches"
+      },
+      {
+        "id": "summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n- **All five saved rosters pass the recorded rules.** Bronze, Silver, Gold, Diamond and Cap each have 26 unique owned cards, complete legal handed lineups and no recorded eligibility violations. Cap uses 1,609 of 1,610 value points. Its numeric 50 floor remains an interpretation of the announced High Iron floor.\n- **The builds are legal starting points, not RE-optimized recommendations.** Fit and pWOBA/pFIP use generic ratings models. The era affects staff size; the scoring functions do not take the championship RE or park. The build page also displayed the wrong Wrigley version for Gold and wrong Yankee version for Diamond; local source now resolves the park by name and year and shows both batting sides.\n- **Direct championship performance data is absent for all five.** Gold and Diamond have useful borrowed tournament samples. Bronze and Silver have partial evidence; Cap has the weakest environment-matched evidence. The new Gold formats have no current-format card exports on file.\n- **Past and present formats are ranked together, regardless of whether we have exports.** Old Sporer\u2019s Golden Childhood is the closest modeled Diamond match. Diamond Slots leads Gold, with old Low Gold Retrospectus and old Golden Childhood close behind. Cap has no tight match in the known catalog. Data availability is shown separately from environment similarity.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "rules-intro",
+        "type": "markdown",
+        "body": "## Five legal rosters, with one inferred boundary\n\nThe stored settings match the [official championship announcement](https://forums.ootpdevelopments.com/showthread.php?t=371946): September 12, best-of-nine, card years 1920\u20131989 and variants permitted. The table audits the saved rosters, not newly generated substitutes. Tier ceilings follow the project's established tier-and-below rule. The Cap band is interpreted as 50\u201374; the official post states High Iron through Low Silver in words.\n\n\u201cPass\u201d checks distinct roster size, ownership of the selected base/variant form, card value/year/type, position ratings, complete L/R lineups, DH, duplicate slots and players, variant count and team cap. It does not establish that batting order, pitcher usage, defense or the selected players maximize wins.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "rules-block",
+        "type": "table",
+        "tableId": "rules"
+      },
+      {
+        "id": "parks-intro",
+        "type": "markdown",
+        "body": "## Gold and Diamond needed the stadium year corrected\n\nGold was showing 1932 Wrigley factors instead of 1985; Diamond was showing a different Yankee Stadium version instead of 1987. Bronze, Silver and Cap already matched their announced park factors. The local build page now uses the same name-and-year lookup as the environment analysis, shows left/right factors and correctly says there is no observed championship data. These changes have not been deployed.\n\nThe park asymmetry matters: 1987 Yankee favors left-handed batting much more than right-handed batting. Gold's 1985 Wrigley boosts home runs from both sides; Silver's 2005 U.S. Cellular is also a strong home-run park. Cap's 1932 Wrigley boosts left-handed homers while suppressing right-handed homers. Generic Fit cannot express these differences.\n\nFactors use 1.000 as neutral. Model R/G means runs per team/game from the existing era-plus-park calculator at a 35% left-handed batting share, not projected roster scoring. Era inputs mix CardLab profiles and MLB-derived baselines; these are comparison estimates, not an official OOTP simulation of these lineups.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "park-chart",
+        "type": "chart",
+        "chartId": "hr_factors"
+      },
+      {
+        "id": "parks-block",
+        "type": "table",
+        "tableId": "parks"
+      },
+      {
+        "id": "definitions",
+        "type": "markdown",
+        "body": "## Read the data as borrowed evidence\n\n**Current runs** means archived exports classified as belonging to the event's present rules. **Roster cards** counts saved-roster card IDs with any stats in that series, out of 26. **Bats \u2265500 PA / arms \u2265400 IP** applies the sample floors separately to each card within that series. These counts are not success rates. The database aggregates by series and card ID, so base and variant performance cannot be certified separately; tournament exports here do not supply L/R statistical splits.\n\n**Environment gap** is the existing standardized distance across modeled R/G, strikeouts, home runs, singles and doubles per PA; smaller is closer. It is not a win probability. Park hand asymmetry, DH, card pool, team caps, slots and series length are separate checks. A matching run environment does not make an entire roster transferable. Unknown park factors and drafts are excluded. Retired formats and pre-refresh versions are included and labeled Past format. Rankings use the combined known-format population; data availability does not determine eligibility for the ranking. The September 4 snapshot preserves prior RE, park and DH settings for events subsequently changed under the same name.\n\nPerformance from the completed HD/PEL leagues is useful for league questions. It is not counted as championship tournament evidence. Competitive dumps describe team finishes and fields, not card-level performance.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "bronze-intro",
+        "type": "markdown",
+        "body": "## Bronze: evidence and closest tournaments\n\nBronze 1910\u201359 is the best immediately usable donor: three current runs and substantial overlap with this roster, although the RE is 1959 and DH is on. PTCS 2 Iron Replay is the closest current park/era analogue (1969 RE, the same 1964 Shea, no DH), but its Iron ceiling and card-type rules make it a laboratory rather than a Bronze roster substitute. New Gold Slots supplies the exact 1968 RE in 1968 Connie Mack, but has DH and a different tier-slot structure.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "bronze-data-block",
+        "type": "table",
+        "tableId": "bronze-data"
+      },
+      {
+        "id": "bronze-matches-block",
+        "type": "table",
+        "tableId": "bronze-matches"
+      },
+      {
+        "id": "bronze-transfer",
+        "type": "markdown",
+        "body": "Individual eligibility checks card value/year/type only. Whole-team slots, cap, variant limits and DH can still prevent transferring the roster. The park label explicitly identifies a nearest-year substitute when exact factors are unavailable.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "silver-intro",
+        "type": "markdown",
+        "body": "## Silver: evidence and closest tournaments\n\nThere is no close current Silver-tier match to the 2006/U.S. Cellular target. Daily Open Slots is the nearest modeled current environment with exports, but only two runs and a stronger mixed field. Silver Slots supplies much better card overlap at 1977 Riverfront with no DH. Retired Silver Slamboree adds deeper card samples, but from the 1987/Three Rivers environment. New Gold Cap is the best new-Gold environment analogue; its 1999 RE, 1999 Jacobs Field and 1,780 total cap differ materially.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "silver-data-block",
+        "type": "table",
+        "tableId": "silver-data"
+      },
+      {
+        "id": "silver-matches-block",
+        "type": "table",
+        "tableId": "silver-matches"
+      },
+      {
+        "id": "silver-transfer",
+        "type": "markdown",
+        "body": "Individual eligibility checks card value/year/type only. Whole-team slots, cap, variant limits and DH can still prevent transferring the roster. The park label explicitly identifies a nearest-year substitute when exact factors are unavailable.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "gold-intro",
+        "type": "markdown",
+        "body": "## Gold: evidence and closest tournaments\n\nDiamond Slots is the closest modeled active environment and has 28 runs. Diamonds Are Forever has the exact 1985 Wrigley park, a nearby 1987 RE and 31 runs; it uses DH and a higher ceiling. Both are more useful environment references than the new Golds. Retired Golden Childhood has the exact 1984 RE at a different park, while old Low Gold Retrospectus offers 13 historical runs. New Golden Heart is the closest refreshed Gold environment, but has no post-refresh exports.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "gold-data-block",
+        "type": "table",
+        "tableId": "gold-data"
+      },
+      {
+        "id": "gold-matches-block",
+        "type": "table",
+        "tableId": "gold-matches"
+      },
+      {
+        "id": "gold-transfer",
+        "type": "markdown",
+        "body": "Individual eligibility checks card value/year/type only. Whole-team slots, cap, variant limits and DH can still prevent transferring the roster. The park label explicitly identifies a nearest-year substitute when exact factors are unavailable.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "diamond-intro",
+        "type": "markdown",
+        "body": "## Diamond: evidence and closest tournaments\n\nOld Sporer\u2019s Golden Childhood (1984 RE, 1958 Tiger Stadium, DH on) is the closest modeled past-or-present environment. Old Golden Heart (1977 RE, 1977 Olympic Stadium, DH on) is another close historical comparison. Late Silver is close on the modeled blended environment, but covers only one of the saved Diamond roster cards. Diamonds Are Forever and Diamond Slots are stronger practical donors: same 1987 RE/nearby park for the former, broader card coverage for both. Daily Open 1930\u201389 and Silver Snapshots share 1987 RE, DH and 1986 Three Rivers, but have no current exports here. Silver Snapshots also restricts card types. No current Gold is a tight Diamond-environment match.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "diamond-data-block",
+        "type": "table",
+        "tableId": "diamond-data"
+      },
+      {
+        "id": "diamond-matches-block",
+        "type": "table",
+        "tableId": "diamond-matches"
+      },
+      {
+        "id": "diamond-transfer",
+        "type": "markdown",
+        "body": "Individual eligibility checks card value/year/type only. Whole-team slots, cap, variant limits and DH can still prevent transferring the roster. The park label explicitly identifies a nearest-year substitute when exact factors are unavailable.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "cap-intro",
+        "type": "markdown",
+        "body": "## Cap: evidence and closest tournaments\n\nCap is the least supported build. New Golden Age is the nearest current non-draft environment, but 1925 is not 1935, Hamtramck is not Wrigley, it has no 1,610 cap and cards stop at 1929. There are no exports yet. Historical Silver Heart and Early Gold supply older low-strikeout context, while current Silver Slots offers individual-card evidence from a much different era. None establishes the right Cap roster or pitching plan. Treat the legal 1,609 build as a starting point, not a certified optimum.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "cap-data-block",
+        "type": "table",
+        "tableId": "cap-data"
+      },
+      {
+        "id": "cap-matches-block",
+        "type": "table",
+        "tableId": "cap-matches"
+      },
+      {
+        "id": "cap-transfer",
+        "type": "markdown",
+        "body": "Individual eligibility checks card value/year/type only. Whole-team slots, cap, variant limits and DH can still prevent transferring the roster. The park label explicitly identifies a nearest-year substitute when exact factors are unavailable.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "actions",
+        "type": "markdown",
+        "body": "## Next steps for championship preparation\n\n1. **Use the saved rosters as legal baselines.** Keep the five builds intact while testing substitutions. Generic Fit is insufficient to select the final park-specific roster, batting order or usage plan.\n2. **Refresh the strongest existing donors:** Diamond Slots, Diamonds Are Forever, Diamond Heart, Bronze 1910\u201359 and Silver Slots. These have real roster overlap; some of the strongest archives stop in late August.\n3. **Use past formats where they match better.** Old Golden Childhood and Golden Heart matter for Diamond; old Low Gold Retrospectus and Golden Childhood matter for Gold. Keep each historical sample attached to its historical rules. The ranking answers similarity first; current availability and usable card samples are separate decisions.\n4. **Review handedness and pitcher usage against the championship park.** Diamond's Yankee asymmetry and Cap's left/right HR split deserve explicit treatment. Staff sizes are era heuristics, not validated best-of-nine fatigue or rest simulations.\n5. **Log today's results into PTCS 7 when supplied.** This audit changes no qualifying results and does not analyze the draft championship.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "questions",
+        "type": "markdown",
+        "body": "## What remains to verify\n\n- Confirm Cap's numeric floor from the in-game restrictions when convenient; the official announcement expresses the band in tier words.\n- New Gold evidence is the limiting input. Finish-order dumps cannot replace card-stat exports, and the date a format cycles into service must be established before pooling old/new runs.\n- There is no measured guarantee that the generic card ranking is optimal in these environments. A real RE-aware ranking needs a separately validated component-rate model or appropriately controlled tournament evidence.",
+        "sourceId": "audit"
+      },
+      {
+        "id": "limits",
+        "type": "markdown",
+        "body": "## Sources, assumptions and checks\n\nSources: the official September 3 [PTCS 6 announcement](https://forums.ootpdevelopments.com/showthread.php?t=371946); L.J.'s September 7 Gold refresh record in Tourney Data/refresh-2026-09.json; latest collection upload 65; live saved rosters 12\u201316; imported observed_card_stats; archived-file inventory; local era and park-factor tables. Full counts, rules and per-card joins are retained in evidence.json and roster-evidence.csv beside this report.\n\nCombined rankings also use web/scripts/.champ-comparables.json (September 4 pre-refresh snapshot), through web/scripts/ptcs6-all-format-matches.ts, with all-format-matches.json retaining every scored candidate. The archive classifier uses run-number/date mapping and may be approximate at format cutovers. The inventory's UTC generation date is September 8; this audit is labeled September 7 in Chicago and uses the September 7 supplied dumps. Similarity ranks depend on the candidate set and assumed batting-hand mix. They exclude DH effects from the run-environment solve; DH and roster restrictions are shown separately. Historical samples are reference material, never relabeled as the new formats.\n\nValidation: all five saved-roster checks pass; 21 existing roster/restriction tests pass; TypeScript and production build pass. Lint reports the same 13 pre-existing React issues as the baseline, with no additional issues from this change. App source changes are local and have not been deployed. The HTML report passed structural validation; the automated browser visual check timed out, so visual rendering is unverified.",
+        "sourceId": "audit"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-09-08T02:11:35.514Z",
+    "status": "ready",
+    "datasets": {
+      "rules": [
+        {
+          "Build": "Bronze",
+          "Roster": "12",
+          "Rules": "tier below\u201369; 1920\u20131989",
+          "RE / DH": "1968 / off",
+          "Park": "1964 Shea Stadium",
+          "Players": "26",
+          "Value": "1650",
+          "Variants": "1",
+          "Staff": "5 SP + 5 RP",
+          "Check": "Pass recorded rules"
+        },
+        {
+          "Build": "Silver",
+          "Roster": "13",
+          "Rules": "tier below\u201379; 1920\u20131989",
+          "RE / DH": "2006 / on",
+          "Park": "2005 U.S. Cellular Field",
+          "Players": "26",
+          "Value": "1798",
+          "Variants": "4",
+          "Staff": "5 SP + 7 RP",
+          "Check": "Pass recorded rules"
+        },
+        {
+          "Build": "Gold",
+          "Roster": "14",
+          "Rules": "tier below\u201389; 1920\u20131989",
+          "RE / DH": "1984 / off",
+          "Park": "1985 Wrigley Field",
+          "Players": "26",
+          "Value": "2134",
+          "Variants": "6",
+          "Staff": "5 SP + 6 RP",
+          "Check": "Pass recorded rules"
+        },
+        {
+          "Build": "Diamond",
+          "Roster": "15",
+          "Rules": "tier below\u201399; 1920\u20131989",
+          "RE / DH": "1987 / on",
+          "Park": "1987 Yankee Stadium",
+          "Players": "26",
+          "Value": "2403",
+          "Variants": "5",
+          "Staff": "5 SP + 6 RP",
+          "Check": "Pass recorded rules"
+        },
+        {
+          "Build": "Cap",
+          "Roster": "16",
+          "Rules": "50\u201374; 1920\u20131989",
+          "RE / DH": "1935 / off",
+          "Park": "1932 Wrigley Field",
+          "Players": "26",
+          "Value": "1609/1610",
+          "Variants": "3",
+          "Staff": "4 SP + 4 RP",
+          "Check": "Pass recorded rules"
+        }
+      ],
+      "parks": [
+        {
+          "Build": "Bronze",
+          "AVG L/R": "1.018 / 0.997",
+          "HR L/R": "0.961 / 1.073",
+          "Model R/G": "4.03",
+          "Era source": "1968 \u00b7 CardLab"
+        },
+        {
+          "Build": "Silver",
+          "AVG L/R": "0.997 / 0.989",
+          "HR L/R": "1.211 / 1.157",
+          "Model R/G": "5.09",
+          "Era source": "2006 \u00b7 MLB-derived"
+        },
+        {
+          "Build": "Gold",
+          "AVG L/R": "1.039 / 1.018",
+          "HR L/R": "1.187 / 1.144",
+          "Model R/G": "4.60",
+          "Era source": "1984 \u00b7 MLB-derived"
+        },
+        {
+          "Build": "Diamond",
+          "AVG L/R": "1.099 / 0.953",
+          "HR L/R": "1.088 / 0.969",
+          "Model R/G": "4.34",
+          "Era source": "1987 \u00b7 CardLab"
+        },
+        {
+          "Build": "Cap",
+          "AVG L/R": "1.004 / 0.994",
+          "HR L/R": "1.112 / 0.916",
+          "Model R/G": "4.98",
+          "Era source": "1935 \u00b7 MLB-derived"
+        }
+      ],
+      "bronze-data": [
+        {
+          "Source": "Daily Bronze 1910-59",
+          "Format": "Current",
+          "Runs": "3",
+          "RE / DH": "1959 / on",
+          "Gap": "0.60",
+          "Eligible card IDs": "185",
+          "Roster cards": "15/26",
+          "Bats \u2265500 PA": "6",
+          "Arms \u2265400 IP": "3"
+        },
+        {
+          "Source": "Daily Diamond Slots",
+          "Format": "Current",
+          "Runs": "28",
+          "RE / DH": "1975 / on",
+          "Gap": "1.70",
+          "Eligible card IDs": "179",
+          "Roster cards": "18/26",
+          "Bats \u2265500 PA": "3",
+          "Arms \u2265400 IP": "0"
+        },
+        {
+          "Source": "Daily Low Gold Retrospectus",
+          "Format": "Historical",
+          "Runs": "13",
+          "RE / DH": "1962 / off",
+          "Gap": "1.61",
+          "Eligible card IDs": "23",
+          "Roster cards": "7/26",
+          "Bats \u2265500 PA": "0",
+          "Arms \u2265400 IP": "0"
+        }
+      ],
+      "bronze-matches": [
+        {
+          "Event": "PTCS 2 Iron Replay.",
+          "Format": "Current catalog",
+          "Gap": "0.31",
+          "RE": "1969",
+          "Park": "Shea Stadium 1964",
+          "DH": "off",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Gold Slots",
+          "Format": "Current catalog",
+          "Gap": "0.38",
+          "RE": "1968",
+          "Park": "Connie Mack Stadium 1968",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Bronze 1910-59",
+          "Format": "Current catalog",
+          "Gap": "0.59",
+          "RE": "1959",
+          "Park": "Seals Stadium 1959",
+          "DH": "on",
+          "Exports for format": "3"
+        },
+        {
+          "Event": "Saturday Iron Warriors",
+          "Format": "Current catalog",
+          "Gap": "0.74",
+          "RE": "1987",
+          "Park": "Yankee Stadium 1952",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Tuesday Up To 1969",
+          "Format": "Current catalog",
+          "Gap": "0.77",
+          "RE": "1968",
+          "Park": "Busch Stadium 1968",
+          "DH": "off",
+          "Exports for format": "1"
+        },
+        {
+          "Event": "Daily Goldfather II",
+          "Format": "Current catalog",
+          "Gap": "0.92",
+          "RE": "1974",
+          "Park": "Yankee Stadium 1971",
+          "DH": "off",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Saturday Diamond Variety",
+          "Format": "Current catalog",
+          "Gap": "1.45",
+          "RE": "1975",
+          "Park": "Metropolitan Stadium 1981",
+          "DH": "off",
+          "Exports for format": "2"
+        },
+        {
+          "Event": "Daily Iron Strikes Back",
+          "Format": "Current catalog",
+          "Gap": "1.53",
+          "RE": "1987",
+          "Park": "Anaheim Stadium 1990",
+          "DH": "off",
+          "Exports for format": "0"
+        }
+      ],
+      "silver-data": [
+        {
+          "Source": "Daily Open Slots",
+          "Format": "Current",
+          "Runs": "2",
+          "RE / DH": "2000 / on",
+          "Gap": "0.90",
+          "Eligible card IDs": "162",
+          "Roster cards": "17/26",
+          "Bats \u2265500 PA": "0",
+          "Arms \u2265400 IP": "0"
+        },
+        {
+          "Source": "Daily Silver Slots",
+          "Format": "Current",
+          "Runs": "6",
+          "RE / DH": "1977 / off",
+          "Gap": "2.02",
+          "Eligible card IDs": "334",
+          "Roster cards": "23/26",
+          "Bats \u2265500 PA": "7",
+          "Arms \u2265400 IP": "3"
+        },
+        {
+          "Source": "Daily Silver Slamboree",
+          "Format": "Historical",
+          "Runs": "8",
+          "RE / DH": "1987 / on",
+          "Gap": "2.50",
+          "Eligible card IDs": "248",
+          "Roster cards": "20/26",
+          "Bats \u2265500 PA": "4",
+          "Arms \u2265400 IP": "7"
+        },
+        {
+          "Source": "Daily Late Silver",
+          "Format": "Current",
+          "Runs": "16",
+          "RE / DH": "1992 / on",
+          "Gap": "2.59",
+          "Eligible card IDs": "288",
+          "Roster cards": "20/26",
+          "Bats \u2265500 PA": "6",
+          "Arms \u2265400 IP": "7"
+        }
+      ],
+      "silver-matches": [
+        {
+          "Event": "Daily Open Slots",
+          "Format": "Current catalog",
+          "Gap": "0.90",
+          "RE": "2000",
+          "Park": "Standard Stadium (neutral)",
+          "DH": "on",
+          "Exports for format": "2"
+        },
+        {
+          "Event": "Daily Gold Cap",
+          "Format": "Current catalog",
+          "Gap": "0.96",
+          "RE": "1999",
+          "Park": "Jacobs Field 1999",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Diamond Cap",
+          "Format": "Current catalog",
+          "Gap": "1.08",
+          "RE": "1998",
+          "Park": "Joe Robbie Stadium 1993",
+          "DH": "off",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Gold Cap",
+          "Format": "Past format",
+          "Gap": "1.25",
+          "RE": "2010",
+          "Park": "Fenway Park 1955",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Low Gold Only",
+          "Format": "Current catalog",
+          "Gap": "1.50",
+          "RE": "2010",
+          "Park": "Fenway Park 2026",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Wide Open",
+          "Format": "Current catalog",
+          "Gap": "1.50",
+          "RE": "2010",
+          "Park": "Fenway Park 2026 (nearest on file to 2023)",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily High Silver-Low Gold Cap",
+          "Format": "Current catalog",
+          "Gap": "1.64",
+          "RE": "2007",
+          "Park": "Shea Stadium 2008",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Live Bronze",
+          "Format": "Current catalog",
+          "Gap": "1.79",
+          "RE": "2010",
+          "Park": "Kauffman Stadium 2026",
+          "DH": "on",
+          "Exports for format": "0"
+        }
+      ],
+      "gold-data": [
+        {
+          "Source": "Daily Diamond Slots",
+          "Format": "Current",
+          "Runs": "28",
+          "RE / DH": "1975 / on",
+          "Gap": "0.33",
+          "Eligible card IDs": "389",
+          "Roster cards": "20/26",
+          "Bats \u2265500 PA": "4",
+          "Arms \u2265400 IP": "2"
+        },
+        {
+          "Source": "Daily Diamonds are Forever",
+          "Format": "Current",
+          "Runs": "31",
+          "RE / DH": "1987 / on",
+          "Gap": "0.62",
+          "Eligible card IDs": "104",
+          "Roster cards": "9/26",
+          "Bats \u2265500 PA": "0",
+          "Arms \u2265400 IP": "0"
+        },
+        {
+          "Source": "Daily Diamond Heart",
+          "Format": "Current",
+          "Runs": "22",
+          "RE / DH": "1958 / off",
+          "Gap": "1.08",
+          "Eligible card IDs": "403",
+          "Roster cards": "19/26",
+          "Bats \u2265500 PA": "3",
+          "Arms \u2265400 IP": "4"
+        },
+        {
+          "Source": "Daily Sporer's Golden Childhood",
+          "Format": "Historical",
+          "Runs": "4",
+          "RE / DH": "1984 / on",
+          "Gap": "0.68",
+          "Eligible card IDs": "47",
+          "Roster cards": "5/26",
+          "Bats \u2265500 PA": "0",
+          "Arms \u2265400 IP": "0"
+        },
+        {
+          "Source": "Daily Low Gold Retrospectus",
+          "Format": "Historical",
+          "Runs": "13",
+          "RE / DH": "1962 / off",
+          "Gap": "0.70",
+          "Eligible card IDs": "236",
+          "Roster cards": "11/26",
+          "Bats \u2265500 PA": "3",
+          "Arms \u2265400 IP": "4"
+        }
+      ],
+      "gold-matches": [
+        {
+          "Event": "Daily Diamond Slots",
+          "Format": "Current catalog",
+          "Gap": "0.32",
+          "RE": "1975",
+          "Park": "Atlanta Fulton County Stadium 1977",
+          "DH": "on",
+          "Exports for format": "28"
+        },
+        {
+          "Event": "Daily Diamonds are Forever",
+          "Format": "Current catalog",
+          "Gap": "0.61",
+          "RE": "1987",
+          "Park": "Wrigley Field 1985",
+          "DH": "on",
+          "Exports for format": "31"
+        },
+        {
+          "Event": "Daily Low Gold Retrospectus",
+          "Format": "Past format",
+          "Gap": "0.68",
+          "RE": "1962",
+          "Park": "LA Wrigley Field 1961 1961",
+          "DH": "off",
+          "Exports for format": "13"
+        },
+        {
+          "Event": "Daily Sporer's Golden Childhood",
+          "Format": "Past format",
+          "Gap": "0.68",
+          "RE": "1984",
+          "Park": "Tiger Stadium 1958",
+          "DH": "on",
+          "Exports for format": "4"
+        },
+        {
+          "Event": "Saturday Diamond Variety",
+          "Format": "Current catalog",
+          "Gap": "0.75",
+          "RE": "1975",
+          "Park": "Metropolitan Stadium 1981",
+          "DH": "off",
+          "Exports for format": "2"
+        },
+        {
+          "Event": "Daily Low Bronze Only",
+          "Format": "Current catalog",
+          "Gap": "0.93",
+          "RE": "1955",
+          "Park": "Ebbets Field 1955",
+          "DH": "off",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Diamond Heart",
+          "Format": "Current catalog",
+          "Gap": "1.09",
+          "RE": "1958",
+          "Park": "Fenway Park 1955",
+          "DH": "off",
+          "Exports for format": "22"
+        },
+        {
+          "Event": "Daily Iron Strikes Back",
+          "Format": "Current catalog",
+          "Gap": "1.10",
+          "RE": "1987",
+          "Park": "Anaheim Stadium 1990",
+          "DH": "off",
+          "Exports for format": "0"
+        }
+      ],
+      "diamond-data": [
+        {
+          "Source": "Daily Diamonds are Forever",
+          "Format": "Current",
+          "Runs": "31",
+          "RE / DH": "1987 / on",
+          "Gap": "0.85",
+          "Eligible card IDs": "229",
+          "Roster cards": "16/26",
+          "Bats \u2265500 PA": "2",
+          "Arms \u2265400 IP": "4"
+        },
+        {
+          "Source": "Daily Diamond Slots",
+          "Format": "Current",
+          "Runs": "28",
+          "RE / DH": "1975 / on",
+          "Gap": "0.98",
+          "Eligible card IDs": "514",
+          "Roster cards": "22/26",
+          "Bats \u2265500 PA": "6",
+          "Arms \u2265400 IP": "5"
+        },
+        {
+          "Source": "Daily Diamond Heart",
+          "Format": "Current",
+          "Runs": "22",
+          "RE / DH": "1958 / off",
+          "Gap": "1.22",
+          "Eligible card IDs": "515",
+          "Roster cards": "22/26",
+          "Bats \u2265500 PA": "5",
+          "Arms \u2265400 IP": "4"
+        },
+        {
+          "Source": "Daily Late Silver",
+          "Format": "Current",
+          "Runs": "16",
+          "RE / DH": "1992 / on",
+          "Gap": "0.50",
+          "Eligible card IDs": "288",
+          "Roster cards": "1/26",
+          "Bats \u2265500 PA": "1",
+          "Arms \u2265400 IP": "0"
+        }
+      ],
+      "diamond-matches": [
+        {
+          "Event": "Daily Sporer's Golden Childhood",
+          "Format": "Past format",
+          "Gap": "0.32",
+          "RE": "1984",
+          "Park": "Tiger Stadium 1958",
+          "DH": "on",
+          "Exports for format": "4"
+        },
+        {
+          "Event": "Daily Iron Strikes Back",
+          "Format": "Current catalog",
+          "Gap": "0.44",
+          "RE": "1987",
+          "Park": "Anaheim Stadium 1990",
+          "DH": "off",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Late Silver",
+          "Format": "Current catalog",
+          "Gap": "0.51",
+          "RE": "1992",
+          "Park": "Oriole Park at Camden Yards 1992",
+          "DH": "on",
+          "Exports for format": "16"
+        },
+        {
+          "Event": "Daily Golden Heart",
+          "Format": "Past format",
+          "Gap": "0.69",
+          "RE": "1977",
+          "Park": "Olympic Stadium 1977",
+          "DH": "on",
+          "Exports for format": "15"
+        },
+        {
+          "Event": "Daily Silver Snapshots",
+          "Format": "Current catalog",
+          "Gap": "0.71",
+          "RE": "1987",
+          "Park": "Three Rivers Stadium 1986",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Open 1930-89",
+          "Format": "Current catalog",
+          "Gap": "0.71",
+          "RE": "1987",
+          "Park": "Three Rivers Stadium 1986",
+          "DH": "on",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Silver Slamboree",
+          "Format": "Past format",
+          "Gap": "0.71",
+          "RE": "1987",
+          "Park": "Three Rivers Stadium 1986",
+          "DH": "on",
+          "Exports for format": "8"
+        },
+        {
+          "Event": "Daily Low Bronze Only",
+          "Format": "Current catalog",
+          "Gap": "0.83",
+          "RE": "1955",
+          "Park": "Ebbets Field 1955",
+          "DH": "off",
+          "Exports for format": "0"
+        }
+      ],
+      "cap-data": [
+        {
+          "Source": "Daily Silver Slots",
+          "Format": "Current",
+          "Runs": "6",
+          "RE / DH": "1977 / off",
+          "Gap": "2.41",
+          "Eligible card IDs": "240",
+          "Roster cards": "19/26",
+          "Bats \u2265500 PA": "2",
+          "Arms \u2265400 IP": "2"
+        },
+        {
+          "Source": "Daily Silver Heart",
+          "Format": "Historical",
+          "Runs": "8",
+          "RE / DH": "1927 / off",
+          "Gap": "1.85",
+          "Eligible card IDs": "228",
+          "Roster cards": "12/26",
+          "Bats \u2265500 PA": "1",
+          "Arms \u2265400 IP": "1"
+        },
+        {
+          "Source": "Daily Early Gold",
+          "Format": "Historical",
+          "Runs": "15",
+          "RE / DH": "1920 / off",
+          "Gap": "2.07",
+          "Eligible card IDs": "55",
+          "Roster cards": "9/26",
+          "Bats \u2265500 PA": "0",
+          "Arms \u2265400 IP": "0"
+        },
+        {
+          "Source": "Tuesday Sporer's Sandlot",
+          "Format": "Current",
+          "Runs": "1",
+          "RE / DH": "1993 / on",
+          "Gap": "1.93",
+          "Eligible card IDs": "175",
+          "Roster cards": "11/26",
+          "Bats \u2265500 PA": "0",
+          "Arms \u2265400 IP": "1"
+        }
+      ],
+      "cap-matches": [
+        {
+          "Event": "Daily Golden Age",
+          "Format": "Current catalog",
+          "Gap": "1.27",
+          "RE": "1925",
+          "Park": "Hamtramck Stadium 1930",
+          "DH": "off",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Saturday Negro Leagues Slots",
+          "Format": "Current catalog",
+          "Gap": "1.71",
+          "RE": "1948",
+          "Park": "Hamtramck Stadium 1930",
+          "DH": "off",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Tuesday Sporer's Sandlot",
+          "Format": "Current catalog",
+          "Gap": "1.87",
+          "RE": "1993",
+          "Park": "Mack Park 1928",
+          "DH": "on",
+          "Exports for format": "1"
+        },
+        {
+          "Event": "Daily Roaring Silvers",
+          "Format": "Current catalog",
+          "Gap": "1.88",
+          "RE": "1927",
+          "Park": "Yankee Stadium 1927",
+          "DH": "off",
+          "Exports for format": "0"
+        },
+        {
+          "Event": "Daily Silver Heart",
+          "Format": "Past format",
+          "Gap": "1.88",
+          "RE": "1927",
+          "Park": "Yankee Stadium 1927",
+          "DH": "off",
+          "Exports for format": "8"
+        },
+        {
+          "Event": "Daily Early Gold",
+          "Format": "Past format",
+          "Gap": "2.06",
+          "RE": "1920",
+          "Park": "Ruppert Stadium 1946",
+          "DH": "off",
+          "Exports for format": "15"
+        },
+        {
+          "Event": "Daily Diamond Heart",
+          "Format": "Current catalog",
+          "Gap": "2.31",
+          "RE": "1958",
+          "Park": "Fenway Park 1955",
+          "DH": "off",
+          "Exports for format": "22"
+        },
+        {
+          "Event": "Daily Silver Slots",
+          "Format": "Current catalog",
+          "Gap": "2.35",
+          "RE": "1977",
+          "Park": "Riverfront Stadium 1978",
+          "DH": "off",
+          "Exports for format": "6"
+        }
+      ],
+      "hr_factors": [
+        {
+          "build": "Bronze",
+          "side": "Left-handed",
+          "factor": 0.961
+        },
+        {
+          "build": "Silver",
+          "side": "Left-handed",
+          "factor": 1.211
+        },
+        {
+          "build": "Gold",
+          "side": "Left-handed",
+          "factor": 1.187
+        },
+        {
+          "build": "Diamond",
+          "side": "Left-handed",
+          "factor": 1.088
+        },
+        {
+          "build": "Cap",
+          "side": "Left-handed",
+          "factor": 1.112
+        },
+        {
+          "build": "Bronze",
+          "side": "Right-handed",
+          "factor": 1.073
+        },
+        {
+          "build": "Silver",
+          "side": "Right-handed",
+          "factor": 1.157
+        },
+        {
+          "build": "Gold",
+          "side": "Right-handed",
+          "factor": 1.144
+        },
+        {
+          "build": "Diamond",
+          "side": "Right-handed",
+          "factor": 0.969
+        },
+        {
+          "build": "Cap",
+          "side": "Right-handed",
+          "factor": 0.916
+        }
+      ]
+    },
+    "accessIssues": []
+  },
+  "sources": [
+    {
+      "id": "audit",
+      "label": "PTCS 6 saved roster and tournament evidence audit",
+      "path": "Docs/ptcs6-audit-2026-09-07/evidence.json",
+      "description": "Combined historical/current rankings: all-format-matches.json, derived by web/scripts/ptcs6-all-format-matches.ts from the September 4 .champ-comparables.json snapshot and current audit. Read-only database snapshot produced by web/scripts/audit-ptcs6.ts. Tables: tournaments, cards, collection_cards, uploads, rosters, roster_slots, observed_card_stats and parks. Archive lineage: web/scripts/.coverage.json and .inventory.json. Environment inputs: web/src/data/eras.json and park-factors.json.",
+      "query": {
+        "engine": "postgresql",
+        "sql": "select \"id\", \"name\", \"env_year\", \"mode\", \"stadium\", \"park_name\", \"fee\", \"dh\", \"entrants\", \"ratings_min\", \"ratings_max\", \"card_year_min\", \"card_year_max\", \"sim_runs\", \"series\", \"is_draft\", \"restrictions\", \"retired\", \"updated_at\" from \"tournaments\";\nselect \"card_id\", \"title\", \"name\", \"first_name\", \"last_name\", \"nick_name\", \"tier\", \"card_value\", \"position\", \"pitcher_role\", \"is_pitcher\", \"bats\", \"throws\", \"year\", \"era_code\", \"era_label\", \"team\", \"franchise\", \"series\", \"badge\", \"card_type\", \"card_sub_type\", \"bref_id\", \"released_on\", \"ratings\", \"first_seen_at\", \"last_seen_at\" from \"cards\";\nselect \"series\", \"card_id\", \"is_pitcher\", \"pa\", \"ip\", \"instances\" from \"observed_card_stats\";\nselect \"name\", \"team\", \"avg_l\", \"avg_r\", \"hr_l\", \"hr_r\", \"b2\", \"b3\" from \"parks\";",
+        "description": "Original unparameterized database extraction queries. Parameterized collection and saved-roster queries, including bound values, are preserved in evidence.json. Transformations and eligibility checks are in web/scripts/audit-ptcs6.ts.",
+        "tables_used": [
+          "tournaments",
+          "cards",
+          "observed_card_stats",
+          "parks"
+        ],
+        "executed_at": "2026-09-08T02:11:35.514Z"
+      }
+    },
+    {
+      "id": "park_sql",
+      "label": "Championship park-year join to raw park factors",
+      "path": "web/src/data/park-factors.json",
+      "query": {
+        "engine": "sqlite",
+        "sql": "SELECT c.build, 'Left-handed' AS side, p.hr_l AS factor FROM championship_parks c JOIN park_factor_inputs p ON c.park=p.park AND c.year=p.year UNION ALL SELECT c.build, 'Right-handed' AS side, p.hr_r AS factor FROM championship_parks c JOIN park_factor_inputs p ON c.park=p.park AND c.year=p.year",
+        "description": "Raw park-factor JSON loaded into park_factor_inputs; verified championship park/year selections loaded into championship_parks. Exact input loading and executed query are in build_report.py.",
+        "tables_used": [
+          "championship_parks",
+          "park_factor_inputs"
+        ],
+        "executed_at": "2026-09-08T02:11:35.514Z"
+      }
+    }
+  ]
+}

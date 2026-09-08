@@ -1,0 +1,1 @@
+SELECT c.build, 'Left-handed' AS side, p.hr_l AS factor FROM championship_parks c JOIN park_factor_inputs p ON c.park=p.park AND c.year=p.year UNION ALL SELECT c.build, 'Right-handed' AS side, p.hr_r AS factor FROM championship_parks c JOIN park_factor_inputs p ON c.park=p.park AND c.year=p.year;

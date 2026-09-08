@@ -18,7 +18,8 @@ const env=Object.fromEntries(readFileSync(fileURLToPath(new URL('../.env.local',
 const { neon } = await import('@neondatabase/serverless');
 const _s=neon(env.DATABASE_URL); const q=async(t,p)=>{const r=await _s.query(t,p);return r.rows??r;};
 const DAY=86400000, WINDOW=7;
-const TODAY = process.argv[2] ?? new Date().toISOString().slice(0,10);
+// L.J.'s calendar day (Central), not the UTC one — an evening run must not file as tomorrow.
+const TODAY = process.argv[2] ?? new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
 
 const mine = await q(`select source, name, event_id, start_at::date d, points, finish, field_size from my_results`);
 const tr   = await q(`select id, name, series, ratings_min, ratings_max, entrants, is_draft from tournaments`);

@@ -1,0 +1,774 @@
+{
+  "category": "Bronze",
+  "env": {
+    "year": 1968,
+    "era": "1968 · CardLab",
+    "park": {
+      "name": "Shea Stadium",
+      "year": 1964,
+      "row": {
+        "team": "New York Mets",
+        "avgL": 1.018,
+        "avgR": 0.997,
+        "hrL": 0.961,
+        "hrR": 1.073,
+        "d2": 0.993,
+        "d3": 1.183
+      },
+      "label": "Shea Stadium 1964"
+    },
+    "v": {
+      "rg": 4.0314948238071935,
+      "k": 0.15434,
+      "hr": 0.021185684075999998,
+      "b1": 0.16280732984752147,
+      "b2": 0.033242635182,
+      "bunt": 0.06036793739805835,
+      "sb": 0.7803170983916231,
+      "preset": "Small Ball"
+    },
+    "knownPark": true
+  },
+  "rosters": [
+    {
+      "id": 12,
+      "ready": true,
+      "errors": [],
+      "incomplete": [],
+      "counts": {
+        "players": 26,
+        "target": 26,
+        "value": 1650,
+        "variants": 1,
+        "tiers": {
+          "B": 19,
+          "I": 7
+        }
+      }
+    }
+  ],
+  "direct": 0,
+  "oldPark": {
+    "name": "Shea Stadium",
+    "team": "New York Mets",
+    "avgL": 1.018,
+    "avgR": 0.997,
+    "hrL": 0.961,
+    "hrR": 1.073,
+    "b2": 0.993,
+    "b3": 1.183
+  },
+  "top": [
+    {
+      "name": "PTCS 2 Iron Replay.",
+      "gap": 0.30311405658162005,
+      "RE": 1969,
+      "park": "Shea Stadium 1964",
+      "dh": false,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Gold Slots",
+      "gap": 0.3719406745904889,
+      "RE": 1968,
+      "park": "Connie Mack Stadium 1968",
+      "dh": true,
+      "current": 0,
+      "old": 18
+    },
+    {
+      "name": "Daily Bronze 1910-59",
+      "gap": 0.6009594395093267,
+      "RE": 1959,
+      "park": "Seals Stadium 1959",
+      "dh": true,
+      "current": 3,
+      "old": 0
+    },
+    {
+      "name": "Saturday Iron Warriors",
+      "gap": 0.7364899310629821,
+      "RE": 1987,
+      "park": "Yankee Stadium 1952",
+      "dh": true,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Tuesday Up To 1969",
+      "gap": 0.7405226703980825,
+      "RE": 1968,
+      "park": "Busch Stadium 1968",
+      "dh": false,
+      "current": 1,
+      "old": 0
+    }
+  ],
+  "donors": [
+    {
+      "name": "Daily Bronze 1910-59",
+      "gap": 0.6009594395093267,
+      "current": 3,
+      "legalCards": 185,
+      "pa": 74618,
+      "ip": 18335.34,
+      "rostered": 15,
+      "hit500": 6,
+      "pit400": 3
+    },
+    {
+      "name": "Tuesday Up To 1969",
+      "gap": 0.7405226703980825,
+      "current": 1,
+      "legalCards": 5,
+      "pa": 65,
+      "ip": 0,
+      "rostered": 1,
+      "hit500": 0,
+      "pit400": 0
+    },
+    {
+      "name": "Saturday Diamond Variety",
+      "gap": 1.4381456402868924,
+      "current": 2,
+      "legalCards": 3,
+      "pa": 47,
+      "ip": 2,
+      "rostered": 1,
+      "hit500": 0,
+      "pit400": 0
+    },
+    {
+      "name": "Daily Diamond Slots",
+      "gap": 1.7012291931493568,
+      "current": 28,
+      "legalCards": 179,
+      "pa": 8166,
+      "ip": 4733.66,
+      "rostered": 18,
+      "hit500": 3,
+      "pit400": 0
+    }
+  ]
+}
+{
+  "category": "Silver",
+  "env": {
+    "year": 2006,
+    "era": "2006 · MLB-derived",
+    "park": {
+      "name": "U.S. Cellular Field",
+      "year": 2005,
+      "row": {
+        "team": "Chicago White Sox",
+        "avgL": 0.997,
+        "avgR": 0.989,
+        "hrL": 1.211,
+        "hrR": 1.157,
+        "d2": 0.979,
+        "d3": 0.894
+      },
+      "label": "U.S. Cellular Field 2005"
+    },
+    "v": {
+      "rg": 5.092785226235674,
+      "k": 0.16843192973391888,
+      "hr": 0.03412490032462581,
+      "b1": 0.15752832924108343,
+      "b2": 0.04811921828362273,
+      "bunt": -0.05915242509561347,
+      "sb": 0.8234132695513222,
+      "preset": "Sabermetric"
+    },
+    "knownPark": true
+  },
+  "rosters": [
+    {
+      "id": 13,
+      "ready": true,
+      "errors": [],
+      "incomplete": [],
+      "counts": {
+        "players": 26,
+        "target": 26,
+        "value": 1798,
+        "variants": 4,
+        "tiers": {
+          "B": 6,
+          "I": 5,
+          "S": 15
+        }
+      }
+    }
+  ],
+  "direct": 0,
+  "oldPark": {
+    "name": "U.S. Cellular Field",
+    "team": "Chicago White Sox",
+    "avgL": 0.997,
+    "avgR": 0.989,
+    "hrL": 1.211,
+    "hrR": 1.157,
+    "b2": 0.979,
+    "b3": 0.894
+  },
+  "top": [
+    {
+      "name": "Daily Open Slots",
+      "gap": 0.9031846373968715,
+      "RE": 2000,
+      "park": "Standard Stadium (neutral)",
+      "dh": true,
+      "current": 2,
+      "old": 0
+    },
+    {
+      "name": "Daily Gold Cap",
+      "gap": 0.9739481336226413,
+      "RE": 1999,
+      "park": "Jacobs Field 1999",
+      "dh": true,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Diamond Cap",
+      "gap": 1.1024311072417754,
+      "RE": 1998,
+      "park": "Joe Robbie Stadium 1993",
+      "dh": false,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Low Gold Only",
+      "gap": 1.5294371468614363,
+      "RE": 2010,
+      "park": "Fenway Park 2026",
+      "dh": true,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Wide Open",
+      "gap": 1.5294371468614363,
+      "RE": 2010,
+      "park": "Fenway Park 2026 (nearest on file to 2023)",
+      "dh": true,
+      "current": 0,
+      "old": 0
+    }
+  ],
+  "donors": [
+    {
+      "name": "Daily Open Slots",
+      "gap": 0.9031846373968715,
+      "current": 2,
+      "legalCards": 162,
+      "pa": 4445,
+      "ip": 1447.6599999999994,
+      "rostered": 17,
+      "hit500": 0,
+      "pit400": 0
+    },
+    {
+      "name": "Wednesday 1950 to Now",
+      "gap": 1.8470561092393682,
+      "current": 2,
+      "legalCards": 16,
+      "pa": 100,
+      "ip": 26.340000000000003,
+      "rostered": 1,
+      "hit500": 0,
+      "pit400": 0
+    },
+    {
+      "name": "Daily Silver Slots",
+      "gap": 2.024231774659039,
+      "current": 6,
+      "legalCards": 334,
+      "pa": 48150,
+      "ip": 11838.36,
+      "rostered": 23,
+      "hit500": 7,
+      "pit400": 3
+    },
+    {
+      "name": "Wednesday Ice to See You",
+      "gap": 2.116657077847134,
+      "current": 3,
+      "legalCards": 40,
+      "pa": 696,
+      "ip": 100.97999999999999,
+      "rostered": 9,
+      "hit500": 0,
+      "pit400": 0
+    }
+  ]
+}
+{
+  "category": "Gold",
+  "env": {
+    "year": 1984,
+    "era": "1984 · MLB-derived",
+    "park": {
+      "name": "Wrigley Field",
+      "year": 1985,
+      "row": {
+        "team": "Chicago Cubs",
+        "avgL": 1.039,
+        "avgR": 1.018,
+        "hrL": 1.187,
+        "hrR": 1.144,
+        "d2": 0.958,
+        "d3": 1.025
+      },
+      "label": "Wrigley Field 1985"
+    },
+    "v": {
+      "rg": 4.60244674275748,
+      "k": 0.14001048767697954,
+      "hr": 0.023672827828982484,
+      "b1": 0.1757580913914038,
+      "b2": 0.037608366243788466,
+      "bunt": 0.02693114345315828,
+      "sb": 0.793734480093724,
+      "preset": "Traditional"
+    },
+    "knownPark": true
+  },
+  "rosters": [
+    {
+      "id": 14,
+      "ready": true,
+      "errors": [],
+      "incomplete": [],
+      "counts": {
+        "players": 26,
+        "target": 26,
+        "value": 2134,
+        "variants": 6,
+        "tiers": {
+          "B": 2,
+          "G": 19,
+          "S": 5
+        }
+      }
+    }
+  ],
+  "direct": 0,
+  "oldPark": {
+    "name": "Wrigley Field",
+    "team": "Chicago Cubs",
+    "avgL": 1.004,
+    "avgR": 0.994,
+    "hrL": 1.112,
+    "hrR": 0.916,
+    "b2": 0.998,
+    "b3": 0.916
+  },
+  "top": [
+    {
+      "name": "Daily Diamond Slots",
+      "gap": 0.329360943907826,
+      "RE": 1975,
+      "park": "Atlanta Fulton County Stadium 1977",
+      "dh": true,
+      "current": 28,
+      "old": 0
+    },
+    {
+      "name": "Daily Diamonds are Forever",
+      "gap": 0.6164714742663493,
+      "RE": 1987,
+      "park": "Wrigley Field 1985",
+      "dh": true,
+      "current": 31,
+      "old": 0
+    },
+    {
+      "name": "Saturday Diamond Variety",
+      "gap": 0.7621970795920703,
+      "RE": 1975,
+      "park": "Metropolitan Stadium 1981",
+      "dh": false,
+      "current": 2,
+      "old": 0
+    },
+    {
+      "name": "Daily Low Bronze Only",
+      "gap": 0.963312500626289,
+      "RE": 1955,
+      "park": "Ebbets Field 1955",
+      "dh": false,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Diamond Heart",
+      "gap": 1.0832019694163655,
+      "RE": 1958,
+      "park": "Fenway Park 1955",
+      "dh": false,
+      "current": 22,
+      "old": 0
+    }
+  ],
+  "donors": [
+    {
+      "name": "Daily Diamond Slots",
+      "gap": 0.329360943907826,
+      "current": 28,
+      "legalCards": 389,
+      "pa": 58867,
+      "ip": 19880.020000000004,
+      "rostered": 20,
+      "hit500": 4,
+      "pit400": 2
+    },
+    {
+      "name": "Daily Diamonds are Forever",
+      "gap": 0.6164714742663493,
+      "current": 31,
+      "legalCards": 104,
+      "pa": 5848,
+      "ip": 2183.9799999999996,
+      "rostered": 9,
+      "hit500": 0,
+      "pit400": 0
+    },
+    {
+      "name": "Saturday Diamond Variety",
+      "gap": 0.7621970795920703,
+      "current": 2,
+      "legalCards": 100,
+      "pa": 3085,
+      "ip": 981.3299999999999,
+      "rostered": 4,
+      "hit500": 0,
+      "pit400": 0
+    },
+    {
+      "name": "Daily Diamond Heart",
+      "gap": 1.0832019694163655,
+      "current": 22,
+      "legalCards": 403,
+      "pa": 148495,
+      "ip": 36271.96000000002,
+      "rostered": 19,
+      "hit500": 3,
+      "pit400": 4
+    }
+  ]
+}
+{
+  "category": "Diamond",
+  "env": {
+    "year": 1987,
+    "era": "1987 · CardLab",
+    "park": {
+      "name": "Yankee Stadium",
+      "year": 1987,
+      "row": {
+        "team": "New York Yankees",
+        "avgL": 1.099,
+        "avgR": 0.953,
+        "hrL": 1.088,
+        "hrR": 0.969,
+        "d2": 0.965,
+        "d3": 0.847
+      },
+      "label": "Yankee Stadium 1987"
+    },
+    "v": {
+      "rg": 4.344415380875981,
+      "k": 0.14857,
+      "hr": 0.022886781097510005,
+      "b1": 0.1666778522338802,
+      "b2": 0.0390022645925,
+      "bunt": 0.035517463633003565,
+      "sb": 0.7905966904363466,
+      "preset": "Traditional"
+    },
+    "knownPark": true
+  },
+  "rosters": [
+    {
+      "id": 15,
+      "ready": true,
+      "errors": [],
+      "incomplete": [],
+      "counts": {
+        "players": 26,
+        "target": 26,
+        "value": 2403,
+        "variants": 5,
+        "tiers": {
+          "D": 18,
+          "G": 7,
+          "S": 1
+        }
+      }
+    }
+  ],
+  "direct": 0,
+  "oldPark": {
+    "name": "Yankee Stadium",
+    "team": "New York Yankees",
+    "avgL": 0.965,
+    "avgR": 0.985,
+    "hrL": 1.169,
+    "hrR": 1.12,
+    "b2": 0.901,
+    "b3": 1.176
+  },
+  "top": [
+    {
+      "name": "Daily Iron Strikes Back",
+      "gap": 0.4579528013681482,
+      "RE": 1987,
+      "park": "Anaheim Stadium 1990",
+      "dh": false,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Late Silver",
+      "gap": 0.5049644296935758,
+      "RE": 1992,
+      "park": "Oriole Park at Camden Yards 1992",
+      "dh": true,
+      "current": 16,
+      "old": 0
+    },
+    {
+      "name": "Daily Silver Snapshots",
+      "gap": 0.6994329618980125,
+      "RE": 1987,
+      "park": "Three Rivers Stadium 1986",
+      "dh": true,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Open 1930-89",
+      "gap": 0.6994329618980125,
+      "RE": 1987,
+      "park": "Three Rivers Stadium 1986",
+      "dh": true,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Low Bronze Only",
+      "gap": 0.8382264793956993,
+      "RE": 1955,
+      "park": "Ebbets Field 1955",
+      "dh": false,
+      "current": 0,
+      "old": 0
+    }
+  ],
+  "donors": [
+    {
+      "name": "Daily Late Silver",
+      "gap": 0.5049644296935758,
+      "current": 16,
+      "legalCards": 288,
+      "pa": 416044,
+      "ip": 85449.34999999999,
+      "rostered": 1,
+      "hit500": 1,
+      "pit400": 0
+    },
+    {
+      "name": "Daily Diamonds are Forever",
+      "gap": 0.8482903091302862,
+      "current": 31,
+      "legalCards": 229,
+      "pa": 209257,
+      "ip": 63750.31000000001,
+      "rostered": 16,
+      "hit500": 2,
+      "pit400": 4
+    },
+    {
+      "name": "Daily Diamond Slots",
+      "gap": 0.9784491925473836,
+      "current": 28,
+      "legalCards": 514,
+      "pa": 204643,
+      "ip": 62203.02999999999,
+      "rostered": 22,
+      "hit500": 6,
+      "pit400": 5
+    },
+    {
+      "name": "Saturday Diamond Variety",
+      "gap": 1.0331729608966007,
+      "current": 2,
+      "legalCards": 161,
+      "pa": 38525,
+      "ip": 12475.99,
+      "rostered": 8,
+      "hit500": 0,
+      "pit400": 3
+    }
+  ]
+}
+{
+  "category": "Cap",
+  "env": {
+    "year": 1935,
+    "era": "1935 · MLB-derived",
+    "park": {
+      "name": "Wrigley Field",
+      "year": 1932,
+      "row": {
+        "team": "Chicago Cubs",
+        "avgL": 1.004,
+        "avgR": 0.994,
+        "hrL": 1.112,
+        "hrR": 0.916,
+        "d2": 0.998,
+        "d3": 0.916
+      },
+      "label": "Wrigley Field 1932"
+    },
+    "v": {
+      "rg": 4.977575808945226,
+      "k": 0.07241555783009213,
+      "hr": 0.013892237037074703,
+      "b1": 0.18598535136123037,
+      "b2": 0.04537309277619969,
+      "bunt": 0.06366796002630903,
+      "sb": 0.7915598229937189,
+      "preset": "Moderate Small Ball"
+    },
+    "knownPark": true
+  },
+  "rosters": [
+    {
+      "id": 16,
+      "ready": true,
+      "errors": [],
+      "incomplete": [],
+      "counts": {
+        "players": 26,
+        "target": 26,
+        "value": 1609,
+        "variants": 3,
+        "tiers": {
+          "B": 12,
+          "I": 12,
+          "S": 2
+        }
+      }
+    }
+  ],
+  "direct": 0,
+  "oldPark": {
+    "name": "Wrigley Field",
+    "team": "Chicago Cubs",
+    "avgL": 1.004,
+    "avgR": 0.994,
+    "hrL": 1.112,
+    "hrR": 0.916,
+    "b2": 0.998,
+    "b3": 0.916
+  },
+  "top": [
+    {
+      "name": "Daily Golden Age",
+      "gap": 1.3157139487638214,
+      "RE": 1925,
+      "park": "Hamtramck Stadium 1930",
+      "dh": false,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Saturday Negro Leagues Slots",
+      "gap": 1.6686340721781414,
+      "RE": 1948,
+      "park": "Hamtramck Stadium 1930",
+      "dh": false,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Daily Roaring Silvers",
+      "gap": 1.8465178663988429,
+      "RE": 1927,
+      "park": "Yankee Stadium 1927",
+      "dh": false,
+      "current": 0,
+      "old": 0
+    },
+    {
+      "name": "Tuesday Sporer's Sandlot",
+      "gap": 1.9300873550569848,
+      "RE": 1993,
+      "park": "Mack Park 1928",
+      "dh": true,
+      "current": 1,
+      "old": 0
+    },
+    {
+      "name": "Daily Diamond Heart",
+      "gap": 2.37706358918009,
+      "RE": 1958,
+      "park": "Fenway Park 1955",
+      "dh": false,
+      "current": 22,
+      "old": 0
+    }
+  ],
+  "donors": [
+    {
+      "name": "Tuesday Sporer's Sandlot",
+      "gap": 1.9300873550569848,
+      "current": 1,
+      "legalCards": 175,
+      "pa": 8624,
+      "ip": 2425.0400000000004,
+      "rostered": 11,
+      "hit500": 0,
+      "pit400": 1
+    },
+    {
+      "name": "Daily Diamond Heart",
+      "gap": 2.37706358918009,
+      "current": 22,
+      "legalCards": 161,
+      "pa": 6364,
+      "ip": 1032.3000000000004,
+      "rostered": 4,
+      "hit500": 0,
+      "pit400": 0
+    },
+    {
+      "name": "Daily Silver Slots",
+      "gap": 2.412366203952482,
+      "current": 6,
+      "legalCards": 240,
+      "pa": 20967,
+      "ip": 7073.35,
+      "rostered": 19,
+      "hit500": 2,
+      "pit400": 2
+    },
+    {
+      "name": "Daily Diamond Slots",
+      "gap": 2.620267110721503,
+      "current": 28,
+      "legalCards": 195,
+      "pa": 13525,
+      "ip": 6019.99,
+      "rostered": 13,
+      "hit500": 1,
+      "pit400": 0
+    }
+  ]
+}
