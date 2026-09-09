@@ -10,7 +10,7 @@
  * Everything needed is already in the repo:
  *
  *   Tourney Data/refresh-2026-09.json   name + rules blurb, keyed by slot
- *                                       (silver / iron / bronze / gold sections)
+ *                                       (silver / iron / bronze / gold / diamond sections)
  *   web/scripts/slot-map.json           slot -> the filer's series slug
  *   Tourney Data/pt27_*_dump_*.csv      observed field size for the slot
  *
@@ -31,13 +31,14 @@ import { parks, tournaments } from "../src/db/schema";
 import { parseRestrictions, tierWindowFromName } from "../src/lib/ingest/restrictions";
 
 const DRY = process.argv.includes("--dry");
+const squash = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
 const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 const ID_BASE = 9_100_000;
-const TIERS = ["silver", "iron", "bronze", "gold"] as const;
+const TIERS = ["silver", "iron", "bronze", "gold", "diamond"] as const;
 /** Ceiling implied by the SECTION of the post an event sits in, for names with no tier word. */
-const SECTION_MAX: Record<(typeof TIERS)[number], number> = { iron: 59, bronze: 69, silver: 79, gold: 89 };
+const SECTION_MAX: Record<(typeof TIERS)[number], number> = { iron: 59, bronze: 69, silver: 79, gold: 89, diamond: 99 };
 
-interface Entry { old: string; new: string | null; text: string; note?: string }
+interface Entry { old: string; new: string | null; text: string; note?: string; removed?: boolean }
 
 /** Observed field size per slot, from the newest community dumps. */
 function fieldSizes(): Map<number, number> {
@@ -86,6 +87,9 @@ async function main() {
   for (const tier of TIERS) {
     for (const [slotStr, e] of Object.entries(refresh[tier] as Record<string, Entry>)) {
       const slot = Number(slotStr);
+      // "192 Daily Diamond & Friends Slots is removed": nothing to seed or
+      // update - pnpm retire flags the row.
+      if (e.removed) continue;
       const name = (e.new ?? e.old).trim();
       const slug = slotSlug.get(slot) ?? null;
       const r = parseRestrictions(e.text);
@@ -117,7 +121,14 @@ async function main() {
       // reads as a rename and seeds a duplicate row.
       const key = name.toLowerCase();
       let hit = byName.get(key);
-      if (!hit) {
+      // Punctuation-blind equality next: the catalog's "PTCS 2 Iron Replay."
+      // (trailing period) is the post's "PTCS 2 Iron Replay".
+      if (!hit) hit = existing.find((r) => squash(r.name) === squash(name));
+      // A RENAME is a different tournament on a reused slot: only a match on
+      // the new name itself (the catalog already caught up) may update a row.
+      // Containment would fold "Daily Low Diamond Only" into the old "Daily
+      // Low Diamond" - and retire would then flag the row it just refreshed.
+      if (!hit && !e.new) {
         const near = existing.filter((r) => {
           const n = r.name.toLowerCase().trim();
           if (!(n.includes(key) || key.includes(n))) return false;

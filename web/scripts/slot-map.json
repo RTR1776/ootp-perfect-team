@@ -2,7 +2,7 @@
  "_comment": "PT tournament slot id (first 3 digits of an event id) -> the filer's series slug. Built by reading ids off the Your Tournaments screen; grows every capture. An event id is <slot><4-digit run>, so 2110168 = slot 211 run 168 = tryinglookbusy_168.csv. This is what removes hand-typed run numbers.",
  "_source": "read from OOTP's Your Tournaments list 2026-08-31; slugs from File OOTP Exports.command",
  "_cutover": {
-  "refresh": "2026-09 (Silver + Perfect Draft); Bronze/Iron refreshed ~2026-08-26; Gold refreshed 2026-09-07 (slots 128/129/130/131/132/166/184/191 restated, 198 new)",
+  "refresh": "2026-09 (Silver + Perfect Draft); Bronze/Iron refreshed ~2026-08-26; Gold refreshed 2026-09-07 (slots 128/129/130/131/132/166/184/191 restated, 198 new); Diamond refreshed 2026-09-09 (slots 133/135/136/167/180 restated, 134/185 renamed, 192 removed, 199 new)",
   "rule": "A slot is REUSED when a tournament is renamed. Every file in Archive/Completed predates the Sep refresh, so old slugs stay valid for existing files. New runs on a renamed slot must use the new slug.",
   "renames": {
    "211": {
@@ -196,6 +196,24 @@
     "lastOldRun": null,
     "firstNewRun": null,
     "note": "from Tourney Data/refresh-2026-09.json (Gold, 2026-09-07); run numbers not yet observed"
+   },
+   "134": {
+    "old": "lowdiamonddaily",
+    "oldName": "Daily Low Diamond",
+    "new": "lowdiamondonly",
+    "newName": "Daily Low Diamond Only",
+    "lastOldRun": 177,
+    "firstNewRun": null,
+    "note": "from Tourney Data/refresh-2026-09.json (Diamond, 2026-09-09); 1340177 ran Sep 7 under the old name"
+   },
+   "185": {
+    "old": "diamondheart",
+    "oldName": "Daily Diamond Heart",
+    "new": "diamondupto1969",
+    "newName": "Daily Diamond Up to 1969",
+    "lastOldRun": null,
+    "firstNewRun": null,
+    "note": "from Tourney Data/refresh-2026-09.json (Diamond, 2026-09-09); run numbers not yet observed"
    }
   }
  },
@@ -223,7 +241,7 @@
  "131": "livegolddaily",
  "132": "goldslotsdaily",
  "133": "diamonddaily",
- "134": "lowdiamonddaily",
+ "134": "lowdiamondonly",
  "135": "diamondcapdaily",
  "136": "livediamonddaily",
  "137": "liveopendaily",
@@ -262,7 +280,7 @@
  "182": "bronzeootp",
  "183": "roaringsilvers",
  "184": "goldenheart",
- "185": "diamondheart",
+ "185": "diamondupto1969",
  "186": "openheart",
  "187": "c4q1",
  "188": "ironandfriends",
@@ -330,5 +348,6 @@
  "259": "goodorderlyevening",
  "260": "aroundhornatnight",
  "261": "aroundhornbeforebed",
- "262": "saturdayaroundhornafterdar"
+ "262": "saturdayaroundhornafterdar",
+ "199": "diamond1990onward"
 }

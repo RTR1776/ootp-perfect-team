@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { parseRestrictions, tierWindowFromName } from "./restrictions";
+import { parseCardTypeRule } from "../roster-rules";
 
 test("tier words in a name give the databotai-style window", () => {
   assert.deepEqual(tierWindowFromName("Daily Bronze OOTP Era"), { min: null, max: 69, basis: "Bronze" });
@@ -67,4 +68,55 @@ test("Gold refresh blurbs parse", () => {
   const moved = parseRestrictions("moved to 128 teams, 1974 RE, DH off, Variants on, 1971 Yankee Stadium");
   assert.equal(moved.teams, 128);
   assert.equal(moved.reYear, 1974);
+});
+
+test("Diamond refresh 2026-09-09: every blurb parses", () => {
+  const daily = parseRestrictions("1985 RE, Variants on, 1982 Kingdome");
+  assert.equal(daily.reYear, 1985);
+  assert.equal(daily.park, "1982 Kingdome", "Kingdome has no Park/Stadium suffix");
+
+  const forever = parseRestrictions("2019 RE, 2026 Dell Diamond");
+  assert.equal(forever.reYear, 2019);
+  assert.equal(forever.park, "2026 Dell Diamond");
+
+  const cap = parseRestrictions("1788 cap, 1968 RE, Variants on, 1976 Jarry Park");
+  assert.equal(cap.teamCap, 1788);
+  assert.equal(cap.reYear, 1968);
+  assert.equal(cap.park, "1976 Jarry Park");
+
+  const live = parseRestrictions("now at 2026 Rate Field");
+  assert.equal(live.park, "2026 Rate Field");
+  assert.equal(live.reYear, null);
+
+  const slots = parseRestrictions("Negro Leagues, All-Stars, Snapshots, Unsung Heroes and Hardware Heroes cards only; SLOTS: 12 Diamond, 8 Gold, 3 Silver, 3 Bronze, 0 Iron; Default RE, 1984 Jack Murphy Stadium");
+  assert.deepEqual(slots.cardTypes, ["Negro Leagues", "All-Stars", "Snapshots", "Unsung Heroes", "Hardware Heroes"]);
+  assert.deepEqual(slots.slots, { D: 12, G: 8, S: 3, B: 3, I: 0 });
+  assert.deepEqual(slots.notes, ["default RE"]);
+  assert.equal(slots.park, "1984 Jack Murphy Stadium");
+  assert.equal(slots.cards, null, "'cards only' is not a roster size");
+
+  const upTo = parseRestrictions("cards up to 1969, 2009 RE, DH off, Variants on, 1996 Coors Field");
+  assert.equal(upTo.yearMax, 1969);
+  assert.equal(upTo.reYear, 2009);
+  assert.equal(upTo.dh, false);
+
+  const onward = parseRestrictions("Cards >= 1990; 64 teams, Best of 7, 1957 RE, DH on, Variants on, 1954 Griffith Stadium");
+  assert.equal(onward.yearMin, 1990);
+  assert.equal(onward.yearMax, null);
+  assert.equal(onward.reYear, 1957);
+  assert.equal(onward.teams, 64);
+  assert.equal(onward.bestOf, 7);
+
+  // The old single-item form is unchanged by the comma-list pass.
+  assert.deepEqual(parseRestrictions("64 teams, Best of 5, Snapshots cards only").cardTypes, ["Snapshots"]);
+
+  assert.deepEqual(tierWindowFromName("Daily Low Diamond Only"), { min: 90, max: 94, basis: "Low Diamond Only" });
+  assert.equal(tierWindowFromName("Daily Diamond 1990 Onward")?.max, 99);
+});
+
+test("card-type rule reader knows the Diamond Slots names", () => {
+  assert.deepEqual(parseCardTypeRule("Negro Leagues"), [2]);
+  assert.deepEqual(parseCardTypeRule("All-Stars"), [5]);
+  assert.deepEqual(parseCardTypeRule("Unsung Heroes"), [8]);
+  assert.deepEqual(parseCardTypeRule("Hardware Heroes"), [9]);
 });

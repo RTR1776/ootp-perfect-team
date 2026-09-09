@@ -159,6 +159,10 @@ VARNAMES = [
     ("goldenage", "Golden Age", "daily"),
     ("highsilverlowgoldcap", "High Silver-Low Gold Cap", "daily"),
     ("goldstandard", "Gold Standard", "daily"),
+    # Diamond refresh 2026-09-09: two slots renamed (134/185), one new (199); 192 removed
+    ("lowdiamondonly", "Low Diamond Only", "daily"),
+    ("diamondupto1969", "Diamond Up to 1969", "daily"),
+    ("diamond1990onward", "Diamond 1990 Onward", "daily"),
     ("timetravelersslots", "Dr. Dynastic's Time Traveler Slots", "daily"),
     ("wideopen", "Wide Open", "daily"),
     ("bronzequick", "Bronze Quick", "quick"),

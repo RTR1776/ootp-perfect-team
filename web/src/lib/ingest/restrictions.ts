@@ -106,14 +106,22 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   else { m = s.match(/\b(\d{4})\s*RE\b/i); if (m) r.reYear = Number(m[1]); }
 
   // ---- park ------------------------------------------------------------
-  m = s.match(/\b((?:\d{4}\s+)?[A-Z][A-Za-z'.]*(?:\s+[A-Z][A-Za-z'.]*)*\s+(?:Park|Stadium|Field|Grounds|Yards))\b/);
+  // "1982 Kingdome" and "2026 Dell Diamond" (Diamond refresh, Sep 9) carry no
+  // Park/Stadium/Field suffix, so they are named outright.
+  m = s.match(/\b((?:\d{4}\s+)?[A-Z][A-Za-z'.]*(?:\s+[A-Z][A-Za-z'.]*)*\s+(?:Park|Stadium|Field|Grounds|Yards|Coliseum|Dome))\b/)
+    || s.match(/\b((?:\d{4}\s+)?(?:Kingdome|Astrodome|Metrodome|SkyDome|Dell Diamond))\b/);
   if (m) r.park = m[1].trim();
   else if (/random[^,;]*stadiums?/i.test(s)) r.notes.push("random park");
 
   // ---- DH and card types ----------------------------------------------
   if (/\bDH\s*on\b/i.test(s)) r.dh = true;
   if (/\bDH\s*off\b/i.test(s)) r.dh = false;
-  m = s.match(/([A-Za-z][\w' -]*?)\s+cards?\s+only/i);
+  // A comma list ("Negro Leagues, All-Stars, Snapshots, Unsung Heroes and
+  // Hardware Heroes cards only" - Diamond Slots, Sep 9) is read whole only when
+  // it opens the blurb or a clause, so "64 teams, Best of 5, Snapshots cards
+  // only" still yields just Snapshots.
+  m = s.match(/(?:^|;\s*|\bonly\s+)([A-Z][\w' -]*(?:,\s*[A-Z][\w' -]*)*(?:,?\s+and\s+[A-Z][\w' -]*)?)\s+cards?\s+only/)
+    || s.match(/([A-Za-z][\w' -]*?)\s+cards?\s+only/i);
   if (m) {
     // "UH-SS-RS" is a list of abbreviations; "Historical Legend-All-Star-Future
     // Legend" is a list of names that themselves contain hyphens. Only split on

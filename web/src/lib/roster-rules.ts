@@ -115,10 +115,10 @@ export function slotCapacityIssues(tiers: Record<string, number>, slots: Record<
 // 9 Hardware Heroes · 10 Veteran Presence. Sub-types (LE, HOF, BBR, UTIL,
 // PTMS, WBC, VB, HFL) are orthogonal and not a card-type rule.
 const TYPE_CODES: Record<string, number> = {
-  live: 1, "negro league star": 2, "negro league stars": 2, nel: 2, nls: 2,
+  live: 1, "negro league star": 2, "negro league stars": 2, "negro leagues": 2, "negro league": 2, nel: 2, nls: 2,
   "rookie sensation": 3, "rookie sensations": 3, rs: 3,
   "all-time legend": 4, "all time legend": 4, "historical legend": 4, "historical legends": 4, atl: 4,
-  "historical all-star": 5, "historical all star": 5, "all-star": 5, "all star": 5, has: 5,
+  "historical all-star": 5, "historical all star": 5, "historical all-stars": 5, "all-star": 5, "all star": 5, "all-stars": 5, "all stars": 5, has: 5,
   "future legend": 6, "future legends": 6, fl: 6,
   snapshot: 7, snapshots: 7, ss: 7,
   "unsung heroes": 8, "unsung hero": 8, uh: 8,

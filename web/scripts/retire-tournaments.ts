@@ -26,8 +26,15 @@ async function main() {
   const byName = new Map(rows.map((r) => [r.name.toLowerCase().trim(), r]));
 
   const retire: { id: number; name: string; replacedBy: string }[] = [];
-  for (const tier of ["silver", "iron", "bronze", "gold", "perfectDraft"] as const) {
+  for (const tier of ["silver", "iron", "bronze", "gold", "diamond", "perfectDraft"] as const) {
     for (const [slot, e] of Object.entries<any>(R[tier])) {
+      // "is removed" (Diamond & Friends Slots, Sep 9): the slot has no
+      // successor, so the row retires with nothing replacing it.
+      if (e.removed) {
+        const gone = byName.get(String(e.old).toLowerCase().trim());
+        if (gone && !gone.retired) retire.push({ id: gone.id, name: gone.name, replacedBy: "(removed)" });
+        continue;
+      }
       if (!e.new) continue;                       // rules changed, name did not
       // For Perfect Drafts the post's "is now X" is usually a FORMAT, not a
       // rename - Doc Rock Derby is still called Doc Rock Derby, it just plays

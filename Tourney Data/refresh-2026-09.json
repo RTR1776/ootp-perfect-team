@@ -1,6 +1,6 @@
 {
   "capturedOn": "2026-09-02",
-  "source": "PT community refresh posts (Silver, Iron, Bronze, Gold, Perfect Draft)",
+  "source": "PT community refresh posts (Silver, Iron, Bronze, Gold, Diamond, Perfect Draft)",
   "note": "Raw refresh text keyed by 3-digit OOTP slot. Slots are REUSED on rename, so a slug's files before and after this refresh describe different tournaments. envChanged: the run environment or park changed without a rename, so files before the cutoff are pre-refresh data for that event (the coverage report treats it like a park move).",
   "silver": {
     "123": {
@@ -209,6 +209,69 @@
       "note": "NEW tournament - first launch 2026-09-07 5:30pm ET; no history under this slot"
     }
   },
+  "diamond": {
+    "133": {
+      "old": "Daily Diamond",
+      "new": null,
+      "text": "1985 RE, Variants on, 1982 Kingdome",
+      "envChanged": true,
+      "was": "2010 RE, 2025 Standard Stadium, DH on"
+    },
+    "134": {
+      "old": "Daily Low Diamond",
+      "new": "Daily Low Diamond Only",
+      "text": "Default RE, DH on, Variants on, 2000 Coors Field",
+      "note": "post writes 'ia now' for 'is now'; the value window 90-94 comes from the new name (Low Diamond Only), as Low Gold Only / Low Silver Only did"
+    },
+    "135": {
+      "old": "Daily Diamond Cap",
+      "new": null,
+      "text": "1788 cap, 1968 RE, Variants on, 1976 Jarry Park",
+      "envChanged": true,
+      "was": "1998 RE, 1993 Joe Robbie Stadium, DH off, 32 teams"
+    },
+    "136": {
+      "old": "Daily Live Diamond",
+      "new": null,
+      "text": "now at 2026 Rate Field",
+      "envChanged": true,
+      "was": "2010 RE, 2026 Yankee Stadium"
+    },
+    "180": {
+      "old": "Daily Diamond Slots",
+      "new": null,
+      "text": "Negro Leagues, All-Stars, Snapshots, Unsung Heroes and Hardware Heroes cards only; SLOTS: 12 Diamond, 8 Gold, 3 Silver, 3 Bronze, 0 Iron; Default RE, 1984 Jack Murphy Stadium",
+      "envChanged": true,
+      "was": "1975 RE, 1977 Atlanta Fulton County Stadium, DH on, no card-type rule, no slot spec on file",
+      "note": "post says 'only Negro Leagues, All-Stars, Snapshots, Unsung Heroes and Hardware Heroes cards' - five card types (codes 2/5/7/8/9); DH not restated"
+    },
+    "167": {
+      "old": "Daily Diamonds are Forever",
+      "new": null,
+      "text": "2019 RE, 2026 Dell Diamond",
+      "envChanged": true,
+      "was": "1987 RE, 1985 Wrigley Field"
+    },
+    "185": {
+      "old": "Daily Diamond Heart",
+      "new": "Daily Diamond Up to 1969",
+      "text": "cards up to 1969, 2009 RE, DH off, Variants on, 1996 Coors Field",
+      "note": "was 1958 RE, 1955 Fenway Park, cards 1930-89; the old lower bound 1930 is not restated - importer keeps yearMin at the parser's floor"
+    },
+    "192": {
+      "old": "Daily Diamond & Friends Slots",
+      "new": null,
+      "text": "removed",
+      "removed": true,
+      "note": "slot retired outright - no replacement named"
+    },
+    "199": {
+      "old": "Daily Diamond 1990 Onward",
+      "new": null,
+      "text": "Cards >= 1990; 64 teams, Best of 7, 1957 RE, DH on, Variants on, 1954 Griffith Stadium",
+      "note": "NEW tournament; 'Cards >= 1990' is read from the name '1990 Onward' - the post's blurb does not restate it; no history under this slot"
+    }
+  },
   "perfectDraft": {
     "203": {
       "old": "Daily Rise and Shine",
@@ -228,7 +291,8 @@
     "206": {
       "old": "Daily Bagels and Schmear with EVCinNYC",
       "new": null,
-      "text": "new format - see EVCinNYC2 on Twitch"
+      "text": "new format - see EVCinNYC2 on Twitch",
+      "note": "Diamond refresh post EDIT (2026-09-09): 24 cards selected instead of 26"
     },
     "208": {
       "old": "Daily Scrum",
@@ -409,6 +473,12 @@
       "old": "Sunday PD Main Event",
       "new": "Original PD",
       "text": "101+ Round 1"
+    },
+    "210": {
+      "old": "Daily Rocking Chair Lunch",
+      "new": null,
+      "text": "32 teams (was 64)",
+      "note": "Diamond refresh post EDIT (2026-09-09): field cut from 64 to 32 - scoring reads the field size off each result row, so nothing to change in the ledger"
     }
   },
   "newTournaments": [
@@ -419,10 +489,10 @@
     }
   ],
   "stillNeeded": [
-    "Diamond refresh post",
     "Open refresh post",
     "Live refresh post",
     "the refresh date / first run number under new rules"
   ],
-  "goldSource": "PT Gold refresh post, read 2026-09-07 from L.J.'s screenshot; effective with the 2026-09-07 runs"
+  "goldSource": "PT Gold refresh post, read 2026-09-07 from L.J.'s screenshot; effective with the 2026-09-07 runs",
+  "diamondSource": "PT Diamond refresh post, read 2026-09-09 from L.J.'s screenshot; taken as effective with the 2026-09-09 runs (Diamond & Friends Slots 1920105 still ran Sep 8)"
 }
