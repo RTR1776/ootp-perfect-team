@@ -46,6 +46,7 @@ export function EraChart(p: Props) {
     [years, p.metric, p.park, p.parkYear, p.lhbShare],
   );
 
+  /** Baseline 0 is the PT default engine — a row, not a year on the chart. */
   const baseline = React.useMemo(() => {
     const one = series([p.baselineYear], p.metric, p.park, p.parkYear, p.lhbShare)[0];
     return one?.value ?? null;

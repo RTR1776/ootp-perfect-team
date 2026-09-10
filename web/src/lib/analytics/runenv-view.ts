@@ -17,6 +17,7 @@ import { envFor, marginalRatings, type Env, type RatingValue } from "@/lib/analy
 import { eraTable, parkTable, type EraRow, type ParkRow } from "@/lib/analytics/tournament-env";
 
 export { eraTable, parkTable };
+export { PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 export type { EraRow, ParkRow };
 
 /** Years with an era row, newest first, PT-default row ("0") excluded. */
@@ -180,7 +181,7 @@ export function series(
   const factors = pr ? blendPark(pr, lhbShare) : null;
   const needsSolve = key === "rg" || key === "ra9";
   return years.map((year) => {
-    const row = eraTable[String(year)];
+    const row = year === 0 ? eraTable["0"] : eraTable[String(year)];
     if (!row) return { year, value: null, band: bandFor(year) };
     let value: number | null;
     if (needsSolve) value = solveEnv(row.rates, row.rg, factors).RG;

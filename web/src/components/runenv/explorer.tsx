@@ -21,10 +21,11 @@ import { BerthGrid, type BerthRow } from "@/components/runenv/berth-grid";
 import { Shortlist, type Filters } from "@/components/runenv/shortlist";
 import type { PoolCard } from "@/lib/analytics/pool-shape";
 import {
-  ERA_YEARS, PARK_NAMES, parkYears, solve, type EnvSpec,
+  ERA_YEARS, PARK_NAMES, PT_DEFAULT_ENV_YEAR, parkYears, solve, type EnvSpec,
 } from "@/lib/analytics/runenv-view";
 
-const DEFAULT_BASELINE = 2010;
+/** The PT default engine, not real 2010 — every PT league plays this one. */
+const DEFAULT_BASELINE = 0;
 
 export interface ExplorerProps {
   berths: BerthRow[];
@@ -38,7 +39,7 @@ export interface ExplorerProps {
 export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAsOf }: ExplorerProps) {
   const first = berths[0];
   const [spec, setSpec] = React.useState<EnvSpec>({
-    year: first?.year ?? DEFAULT_BASELINE,
+    year: first?.year ?? null,
     park: first?.park ?? null,
     parkYear: first?.parkYear ?? null,
     lhbShare: 0.35,
@@ -54,7 +55,7 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
 
   const solved = React.useMemo(() => solve(spec), [spec]);
   const baseSpec = React.useMemo<EnvSpec>(
-    () => ({ year: baselineYear, park: null, parkYear: null, lhbShare: spec.lhbShare }),
+    () => ({ year: baselineYear === 0 ? null : baselineYear, park: null, parkYear: null, lhbShare: spec.lhbShare }),
     [baselineYear, spec.lhbShare],
   );
   const baseSolved = React.useMemo(() => solve(baseSpec), [baseSpec]);
@@ -114,8 +115,10 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
                 value={spec.year ?? ""}
                 onChange={(e) => update({ year: e.target.value === "" ? null : Number(e.target.value) })}
               >
-                <option value="">PT default engine</option>
-                {[...ERA_YEARS].reverse().map((y) => <option key={y} value={y}>{y}</option>)}
+                <option value="">PT default engine (what every PT league runs)</option>
+                {[...ERA_YEARS].reverse().map((y) => (
+                  <option key={y} value={y}>{y === PT_DEFAULT_ENV_YEAR ? `${y} — real ${y}, NOT the PT default` : y}</option>
+                ))}
               </select>
             </Field>
 
@@ -162,7 +165,10 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
                 value={baselineYear}
                 onChange={(e) => setBaselineYear(Number(e.target.value))}
               >
-                {[...ERA_YEARS].reverse().map((y) => <option key={y} value={y}>{y} neutral</option>)}
+                <option value={0}>PT default engine, neutral</option>
+                {[...ERA_YEARS].reverse().map((y) => (
+                  <option key={y} value={y}>{y === PT_DEFAULT_ENV_YEAR ? `${y} neutral — real ${y}` : `${y} neutral`}</option>
+                ))}
               </select>
             </Field>
 
@@ -187,9 +193,9 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
 
       {/* ------------------------------ the read -------------------------- */}
       <div className="grid gap-4 lg:grid-cols-3">
-        <EnvironmentPanel s={solved} base={baseSolved} baseLabel={String(baselineYear)} />
+        <EnvironmentPanel s={solved} base={baseSolved} baseLabel={baselineYear === 0 ? "PT default" : String(baselineYear)} />
         <ParkPanel s={solved} spec={spec} />
-        <LeversPanel s={solved} base={baseSolved} baseLabel={String(baselineYear)} />
+        <LeversPanel s={solved} base={baseSolved} baseLabel={baselineYear === 0 ? "PT default" : String(baselineYear)} />
         <NextSteps s={solved} />
       </div>
 
