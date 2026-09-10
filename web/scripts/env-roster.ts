@@ -25,6 +25,8 @@ import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { marginalRatings, rangeFlags } from "@/lib/analytics/card-value";
 import { optimizeRoster } from "@/lib/roster-optimize";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
+import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
+import { readFileSync } from "node:fs";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -44,8 +46,32 @@ const VARIANT_CAP = num("variant-cap");
 const YEAR_MIN = num("card-year-min");
 const YEAR_MAX = num("card-year-max");
 const COMPARE = flag("compare");
+/** Path to an "eligible cards" export — replaces the DB collection snapshot. */
+const POOL_CSV = val("pool") ?? null;
+/**
+ * Cards the roster must carry, by name. A missing one costs the objective
+ * enough to dominate everything else, so hill-climbing pulls it in and then
+ * repairs around it — which is also how you find out what it costs, since the
+ * score difference against the free run IS the price of the conviction.
+ */
+const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 const OPTIMIZE = flag("optimize");
 const MIN_DEF = num("min-def", 0.6)!;
+/**
+ * Playing-time weights for the objective. Defaults are the generic ones; both
+ * are event-dependent and L.J. was right to push on them.
+ *
+ * --lhp-share: the share of plate appearances taken against left-handed
+ *   pitching. 0.30 is the ordinary figure, but in a park that pays left-handed
+ *   bats a run a game every roster in the field stacks lefties, and the
+ *   counter to that is left-handed pitching — so the share faced climbs.
+ * --rp-weight: a reliever's innings as a fraction of a starter's. In a 1970s
+ *   run environment starters go deep and the pen throws less, so paying a
+ *   starter's price for the sixth arm is how a capped roster wastes points.
+ */
+const LHP_SHARE = num("lhp-share", 0.30)!;
+const RP_WEIGHT = num("rp-weight", 0.5)!;
+const BENCH_WEIGHT = num("bench-weight", 0.1)!;
 
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
@@ -94,6 +120,32 @@ async function main() {
 
   type P = FillCard & { pos: string; tier: string; bats: string | null };
   const pool: P[] = [];
+
+  if (POOL_CSV) {
+    // The game already applied the event's filters to this export, so the file
+    // IS the legal pool — no value window or ownership check to re-derive.
+    const rows = readEligible(readFileSync(POOL_CSV, "utf8"));
+    const { matched, unmatched } = matchEligible(rows, universe.map((c) => ({
+      cardId: c.cardId, name: c.name, cardValue: c.cardValue, year: c.year,
+      position: c.position, pitcherRole: c.pitcherRole, isPitcher: c.isPitcher,
+      bats: c.bats, cardType: c.cardType, ratings: (c.ratings ?? {}) as Record<string, number>,
+    })));
+    // A base and its variant share a card id; keep the better (variant) form.
+    const best = new Map<number, typeof matched[number]>();
+    for (const m of matched) {
+      const prev = best.get(m.cardId);
+      if (!prev || (m.variant && !prev.variant)) best.set(m.cardId, m);
+    }
+    for (const m of best.values()) {
+      pool.push({
+        cardId: m.cardId, name: m.name, val: m.val, year: m.year, isPitcher: m.isPitcher,
+        role: m.role, cardType: m.cardType, ratings: m.ratings,
+        baseOwned: true, variantOwned: m.variant, variant: m.variant,
+        pos: byId.get(m.cardId)?.position ?? "", tier: byId.get(m.cardId)?.tier ?? "", bats: m.bats,
+      });
+    }
+    console.log(`pool from export: ${rows.length} rows -> ${pool.length} distinct cards${unmatched.length ? `; UNMATCHED (${unmatched.length}): ${unmatched.map((u) => `${u.name} ${u.value}`).join(", ")}` : "; all matched"}`);
+  } else
   for (const cid of ownedIds) {
     const c = byId.get(cid);
     if (!c) continue;
@@ -138,16 +190,25 @@ async function main() {
    * 70% vs RHP / 30% vs LHP, starters full, relievers half (fewer innings).
    * Bench bats are counted at a tenth — they are insurance, not production.
    */
+  const mustIds = new Set(
+    MUST.map((n) => pool.find((c) => c.name.toLowerCase() === n.toLowerCase())?.cardId).filter((x): x is number => x != null),
+  );
+  if (MUST.length) console.log(`must carry: ${MUST.join(", ")} -> ${mustIds.size} matched`);
+
   const objective = (r: Record<string, number>): number => {
     let total = 0;
+    if (mustIds.size) {
+      const on = new Set(Object.values(r));
+      for (const id of mustIds) if (!on.has(id)) total -= 1000;
+    }
     for (const p of lineupPos) {
       const a = r[`R:${p}`], b = r[`L:${p}`];
-      if (a != null) total += 0.7 * (fits.runsR.get(a) ?? 0);
-      if (b != null) total += 0.3 * (fits.runsL.get(b) ?? 0);
+      if (a != null) total += (1 - LHP_SHARE) * (fits.runsR.get(a) ?? 0);
+      if (b != null) total += LHP_SHARE * (fits.runsL.get(b) ?? 0);
     }
     for (const k of shape.spKeys) { const c = r[k]; if (c != null) total += fits.runsR.get(c) ?? 0; }
-    for (const k of shape.rpKeys) { const c = r[k]; if (c != null) total += 0.5 * (fits.runsR.get(c) ?? 0); }
-    for (const k of shape.benchKeys) { const c = r[k]; if (c != null) total += 0.1 * (fits.runsR.get(c) ?? 0); }
+    for (const k of shape.rpKeys) { const c = r[k]; if (c != null) total += RP_WEIGHT * (fits.runsR.get(c) ?? 0); }
+    for (const k of shape.benchKeys) { const c = r[k]; if (c != null) total += BENCH_WEIGHT * (fits.runsR.get(c) ?? 0); }
     return total;
   };
 
@@ -226,7 +287,11 @@ async function main() {
   console.log(v.ready ? "LEGAL — every rule check passes" : `NOT READY: ${[...v.errors, ...v.incomplete].map((e) => e.message).join(" | ")}`);
   const spend = rostered.filter((c) => (prices.get(c.cardId) ?? 0) > 0).length;
   if (spend) console.log(`(${spend} of ${rostered.length} have a live ask in the last shop snapshot)`);
-  console.log(`objective: ${objective(slots).toFixed(1)} weighted runs (bats 70/30 R/L, SP full, RP half, bench a tenth)`);
+  console.log(`objective: ${objective(slots).toFixed(1)} weighted runs (bats ${Math.round((1-LHP_SHARE)*100)}/${Math.round(LHP_SHARE*100)} R/L, SP 1.0, RP ${RP_WEIGHT}, bench ${BENCH_WEIGHT})`);
+  const group = (keys: string[]) => keys.map((k) => poolById.get(slots[k])).filter(Boolean).reduce((n, c) => n + (c!.val ?? 0), 0);
+  const lineupIds = new Set(lineupPos.flatMap((p) => [slots[`R:${p}`], slots[`L:${p}`]]).filter((x) => x != null));
+  const lineupVal = [...lineupIds].map((id) => poolById.get(id)?.val ?? 0).reduce((a, b) => a + b, 0);
+  console.log(`points: lineup(both boards, ${lineupIds.size} bats) ${lineupVal} · rotation ${group([...shape.spKeys])} · bullpen ${group([...shape.rpKeys])} · bench-only ${totalVal - lineupVal - group([...shape.spKeys]) - group([...shape.rpKeys])}`);
 
   /* --------------------------- extrapolation warnings ---------------------- */
   const flagged = rostered
