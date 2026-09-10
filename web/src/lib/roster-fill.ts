@@ -166,7 +166,7 @@ export function fitMaps(pool: readonly { cardId: number; isPitcher: boolean; rat
 /** Slot key → card id. "R:C", "L:DH", "SP1", "RP3", "CL", "BN2". */
 export type FillResult = Record<string, number>;
 
-function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: FillShape, fits: FitMaps, lambda: number): FillResult {
+export function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: FillShape, fits: FitMaps, lambda: number): FillResult {
   const next: Record<string, number> = {};
   const byId = new Map(pool.map((c) => [c.cardId, c]));
   const rx = rules.restrictions;

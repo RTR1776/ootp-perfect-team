@@ -32,7 +32,11 @@ import {
   applyPark, runsPerPa, type EraRates, type LinearWeights, type ParkFactors,
 } from "@/lib/analytics/run-env";
 
-interface Curve { alpha: number; beta: number; r2: number; n: number; env_rate: number; rating: string }
+interface Curve {
+  alpha: number; beta: number; r2: number; n: number; env_rate: number; rating: string;
+  /** The rating window the curve was fitted over; outside it the power law extrapolates. */
+  rating_range?: [number, number];
+}
 
 const curves = CURVES as unknown as {
   hit: Record<string, Curve> & { xbh_3b_share: number; hbp_rate_env: number };
@@ -82,6 +86,34 @@ export const PIT_CURVE_INFO: CurveInfo[] = (["k", "bb", "hr", "babip"] as const)
 }));
 
 export const curveMeta = { frame: curves.frame, fittedAt: curves.generatedAt };
+
+export interface RangeFlag { rating: string; value: number; fitted: [number, number] }
+
+/**
+ * Ratings outside the window the curve was fitted on.
+ *
+ * The rate curves are power laws fitted over a finite rating range (EYE, for
+ * instance, on 37–204). The PT scale climbs all season, so a modern card can
+ * sit well past the top of that window — Eddie Yost's 277 Eye is 36% beyond it.
+ * The curve still returns a number there and the number is still the model's
+ * best guess, but it is an extrapolation, not a fit, and a card whose whole
+ * value rests on one such rating deserves to be read with that in mind.
+ */
+export function rangeFlags(
+  r: Record<string, number>, kind: "hit" | "pit", split: Split = "all",
+): RangeFlag[] {
+  const table = kind === "hit" ? curves.hit : curves.pit;
+  const names = kind === "hit" ? HIT_RATING : PIT_RATING;
+  const out: RangeFlag[] = [];
+  for (const [key, rating] of Object.entries(names)) {
+    const c = table[key] as Curve | undefined;
+    const v = ratingOf(r, rating, split);
+    if (!c || v == null || !Array.isArray(c.rating_range)) continue;
+    const [lo, hi] = c.rating_range as [number, number];
+    if (v < lo || v > hi) out.push({ rating, value: v, fitted: [lo, hi] });
+  }
+  return out;
+}
 
 /**
  * A hitter's rate profile in an era. Gap moves extra-base hits as one bucket;
