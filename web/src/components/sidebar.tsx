@@ -9,6 +9,7 @@ import {
   CandlestickChart,
   Medal,
   Wind,
+  Gauge,
   Trophy,
   type LucideIcon,
 } from "lucide-react";
@@ -26,6 +27,7 @@ const NAV: NavItem[] = [
   { href: "/league", label: "League", icon: Trophy },
   { href: "/meta", label: "League Meta", icon: Globe },
   { href: "/market", label: "Market", icon: CandlestickChart },
+  { href: "/runenv", label: "Run Environment", icon: Gauge },
   { href: "/environments", label: "Environments", icon: Wind },
   { href: "/upload", label: "Upload", icon: Upload },
 ];

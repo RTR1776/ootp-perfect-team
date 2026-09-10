@@ -36,7 +36,9 @@
     "champ:rosters": "tsx scripts/champ-rosters.ts",
     "test:rosters": "tsx scripts/roster-roundtrip.ts",
     "coverage": "node scripts/tourney-inventory.mjs && tsx scripts/coverage-report.ts",
-    "league:meta": "tsx scripts/league-meta-report.ts"
+    "league:meta": "tsx scripts/league-meta-report.ts",
+    "verify:runenv": "tsx scripts/verify-runenv.ts",
+    "verify:runenv:pool": "node --env-file=.env.local --import tsx scripts/verify-runenv-pool.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

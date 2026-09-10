@@ -32,7 +32,7 @@ const EVS = ["K", "BB", "HR", "B1", "B2", "B3", "OUT"] as const;
 type Ev = (typeof EVS)[number];
 
 /** Per-PA event probabilities from the era's mixed-unit rate profile. */
-function probs(e: EraRates): Record<Ev, number> {
+export function probs(e: EraRates): Record<Ev, number> {
   const bip = 1 - e.K - e.BB - e.HBP;
   const HR = e.HR * bip, B2 = e.B2 * bip, B3 = e.B3 * bip;
   const hits = e.BABIP * (bip - HR);
@@ -157,4 +157,134 @@ export function blendPark(
 ): ParkFactors {
   const R = 1 - lhbShare;
   return { avg: f.avgL * lhbShare + f.avgR * R, hr: f.hrL * lhbShare + f.hrR * R, d2: f.d2, d3: f.d3 };
+}
+
+/* ------------------------------------------------------------------ */
+/* Derived rate line — the slash stats an environment produces.         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Closed-form, no Markov solve: every one of these falls straight out of the
+ * rate profile, which is why the era chart can redraw 140 years on a keystroke.
+ * Only R/G and the bunt/steal break-evens need the chain.
+ *
+ * `SF` is ignored (the export has none), so AB is PA minus walks and HBP. That
+ * biases AVG/SLG up by well under a point and never changes a comparison,
+ * since it biases every era identically.
+ */
+export interface RateLine {
+  avg: number; obp: number; slg: number; ops: number; babip: number;
+  bbPct: number; kPct: number; hrPa: number;
+  whip: number; k9: number; bb9: number; hr9: number;
+  /** Runs allowed per 9 — the run environment itself, not a modelled ERA. */
+  ra9: number;
+  paPer9: number;
+}
+
+export function rateLine(e: EraRates, RG: number): RateLine {
+  const p = probs(e);
+  const bip = 1 - e.K - e.BB - e.HBP;
+  const hr = e.HR * bip;
+  const H = p.B1 + p.B2 + p.B3 + hr;
+  const AB = 1 - e.BB - e.HBP;
+  const onBase = H + e.BB + e.HBP;
+  const outsPerPa = 1 - onBase;
+  const paPer9 = outsPerPa > 0 ? 27 / outsPerPa : 0;
+  return {
+    avg: H / AB,
+    obp: onBase,
+    slg: (p.B1 + 2 * p.B2 + 3 * p.B3 + 4 * hr) / AB,
+    ops: onBase + (p.B1 + 2 * p.B2 + 3 * p.B3 + 4 * hr) / AB,
+    babip: (H - hr) / Math.max(AB - e.K - hr, 1e-9),
+    bbPct: e.BB,
+    kPct: e.K,
+    hrPa: hr,
+    whip: ((H + e.BB) * paPer9) / 9,
+    k9: e.K * paPer9,
+    bb9: e.BB * paPer9,
+    hr9: hr * paPer9,
+    ra9: RG,
+    paPer9,
+  };
+}
+
+/* ------------------------------------------------------------------ */
+/* Linear weights — what one event is worth in THIS environment.        */
+/* ------------------------------------------------------------------ */
+
+export type EventKey = Ev;
+export const EVENT_KEYS = EVS;
+
+export interface LinearWeights {
+  /** Expected runs added by one occurrence, averaged over the states it happens in. */
+  abs: Record<Ev, number>;
+  /** The same minus a generic out — what a card actually buys you. */
+  aboveOut: Record<Ev, number>;
+  /** Plate appearances per inning, which is what turns a rate into a count. */
+  paPerInning: number;
+}
+
+/**
+ * Run values are frequency-weighted over the base/out states a plate
+ * appearance actually arrives in, so they respond to the environment: in a
+ * high-OBP era more men are on, and a single is worth more.
+ *
+ * The state frequencies come from propagating the same chain forward from
+ * (bases empty, 0 out) until the inning's mass is spent — the identical
+ * transition table `buildRE` solves backwards, so the weights and the run
+ * expectancies can never drift apart.
+ */
+export function linearWeights(e: EraRates): LinearWeights {
+  const p = probs(e), g = gshare(e.HR), dp = 0.115, RE = buildRE(p, g, dp);
+
+  const f = Array.from({ length: 8 }, () => [0, 0, 0]);
+  let v = Array.from({ length: 8 }, () => [0, 0, 0]);
+  v[bidx([0, 0, 0])][0] = 1;
+  let total = 0;
+  for (let it = 0; it < 400; it++) {
+    const n = Array.from({ length: 8 }, () => [0, 0, 0]);
+    let step = 0;
+    for (const b of BASES) for (let o = 0; o < 3; o++) {
+      const w = v[bidx(b)][o];
+      if (w < 1e-15) continue;
+      f[bidx(b)][o] += w; step += w;
+      for (const ev of EVS) {
+        const pr = p[ev]; if (!pr) continue;
+        for (const [ns, oa, , tw] of trans(b, ev, g, dp, o)) {
+          const no = o + oa;
+          if (no >= 3) continue;
+          n[bidx(ns)][no] += w * pr * tw;
+        }
+      }
+    }
+    total += step;
+    v = n;
+    if (step < 1e-12) break;
+  }
+
+  const abs = {} as Record<Ev, number>;
+  for (const ev of EVS) {
+    let num = 0;
+    for (const b of BASES) for (let o = 0; o < 3; o++) {
+      const w = f[bidx(b)][o];
+      if (w < 1e-15) continue;
+      const cur = RE[bidx(b)][o];
+      for (const [ns, oa, r, tw] of trans(b, ev, g, dp, o)) {
+        const no = o + oa;
+        num += w * tw * (r + (no >= 3 ? 0 : RE[bidx(ns)][no]) - cur);
+      }
+    }
+    abs[ev] = num / total;
+  }
+  const aboveOut = {} as Record<Ev, number>;
+  for (const ev of EVS) aboveOut[ev] = abs[ev] - abs.OUT;
+  return { abs, aboveOut, paPerInning: total };
+}
+
+/** Runs per plate appearance a rate profile produces against these weights. */
+export function runsPerPa(e: EraRates, w: LinearWeights): number {
+  const p = probs(e);
+  let r = 0;
+  for (const ev of EVS) r += p[ev] * w.abs[ev];
+  return r;
 }
