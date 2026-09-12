@@ -39,7 +39,8 @@
     "league:meta": "tsx scripts/league-meta-report.ts",
     "verify:runenv": "tsx scripts/verify-runenv.ts",
     "verify:runenv:pool": "node --env-file=.env.local --import tsx scripts/verify-runenv-pool.ts",
-    "env:roster": "node --env-file=.env.local --import tsx scripts/env-roster.ts"
+    "env:roster": "node --env-file=.env.local --import tsx scripts/env-roster.ts",
+    "cap:finish": "node --env-file=.env.local --import tsx scripts/cap-finish.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
