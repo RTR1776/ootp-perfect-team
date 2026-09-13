@@ -8,8 +8,8 @@ import { envFor, marginalRatings, __setCurves } from "@/lib/analytics/card-value
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { linearWeights, blendPark, NEUTRAL_PARK } from "@/lib/analytics/run-env";
 
-const A = JSON.parse(readFileSync("src/data/curves.json", "utf8"));
-const B = JSON.parse(readFileSync("src/data/curves.v2.json", "utf8"));
+const A = JSON.parse(readFileSync("src/data/curves.v1-projections.json", "utf8"));
+const B = JSON.parse(readFileSync("src/data/curves.json", "utf8"));
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
 const ENVS: [string, string, string | null, number | null][] = [

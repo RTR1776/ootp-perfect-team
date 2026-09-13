@@ -216,6 +216,38 @@ export function cardRuns(cardRates: EraRates, env: Env): number {
   return (runsPerPa(withPark, env.weights) - env.leagueRunsPerPa) * 700;
 }
 
+/**
+ * What the ratings cannot say: how the arm is USED.
+ *
+ * A starter and a reliever with identical Stuff, Control, pHR and pBABIP get
+ * identical rate profiles, and the run model then treats them identically. They
+ * do not perform identically. Measured over 10.7M observed batters faced, with
+ * the model's own prediction rescaled out first so this is role and not
+ * calibration (pnpm role:effect):
+ *
+ *     SP   +0.82 runs per 700 BF worse than the model expects
+ *     RP   -3.79
+ *     CL   -4.94
+ *
+ * A 5.8-run gap between a closer and a starter of the same ratings. It is a step
+ * at Stamina <= 25 rather than a gradient, which is what a times-through-the-
+ * order effect looks like: the reliever faces a lineup once and never turns it
+ * over. Stamina was the only rating in the residual screen with real independent
+ * signal — 6.5% explained by the four the model already reads, against
+ * Movement's 97.9%.
+ *
+ * Applied as runs per 700 BF, so a reliever's shorter workload still scales it
+ * down wherever innings are weighted.
+ */
+export const ROLE_RUNS: Record<string, number> = { SP: 0.82, RP: -3.79, CL: -4.94 };
+
+export function roleRuns(role: string | null | undefined, stamina?: number | null): number {
+  if (role && role in ROLE_RUNS) return ROLE_RUNS[role];
+  // no role on the card: stamina is the same signal, and the break is sharp
+  if (typeof stamina === "number" && stamina > 0) return stamina <= 25 ? ROLE_RUNS.RP : ROLE_RUNS.SP;
+  return 0;
+}
+
 export interface RatingValue { rating: string; runs: number; r2: number; beta: number }
 
 /**

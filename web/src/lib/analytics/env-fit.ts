@@ -23,7 +23,7 @@
 import {
   applyPark, blendPark, linearWeights, type EraRates, type ParkFactors,
 } from "@/lib/analytics/run-env";
-import { cardRuns, envFor, hitterRates, pitcherRates, type Env } from "@/lib/analytics/card-value";
+import { cardRuns, envFor, hitterRates, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
 
@@ -32,6 +32,8 @@ export interface EnvFitInput {
   isPitcher: boolean;
   bats: string | null;
   ratings: Record<string, number>;
+  /** SP / RP / CL. Relief arms beat their ratings — see roleRuns(). */
+  role?: string | null;
 }
 
 export interface EnvFitOptions {
@@ -84,8 +86,15 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
       const vR = pitcherRates(c.ratings, envPitch.rates, "vR");
       if (!vL || !vR) return null;
       const rL = -cardRuns(vL, envPitch), rR = -cardRuns(vR, envPitch);
+      /**
+       * How the arm is used, which no rating states. A reliever faces a lineup
+       * once and never turns it over, and beats his ratings by ~4-5 runs per 700
+       * batters faced where a starter misses by ~1 (roleRuns). cardRuns is runs
+       * ALLOWED, these are runs SAVED, so the adjustment subtracts.
+       */
+      const role = -roleRuns(c.role, c.ratings["Stamina"]);
       // A starter faces both hands; the vs-LHP board is the pure-left read.
-      return board === "L" ? rL : 0.45 * rL + 0.55 * rR;
+      return role + (board === "L" ? rL : 0.45 * rL + 0.55 * rR);
     }
     const env = batsLeftOn(c.bats, board) ? envLeft : envRight;
     const rates = hitterRates(c.ratings, env.rates, board === "R" ? "vR" : "vL");
