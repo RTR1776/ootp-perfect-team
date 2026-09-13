@@ -50,6 +50,7 @@
     "residual:multi": "node --env-file=.env.local --import tsx scripts/residual-multi.ts",
     "role:effect": "node --env-file=.env.local --import tsx scripts/role-effect.ts",
     "role:validate": "node --env-file=.env.local --import tsx scripts/role-validate.ts",
+    "league:check": "node --env-file=.env.local --import tsx scripts/league-check.ts",
     "model:validate": "node --env-file=.env.local --import tsx scripts/model-validate.ts"
   },
   "dependencies": {
