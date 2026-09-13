@@ -35,6 +35,13 @@ const CAP = 1610, SIZE = 26, MIN = 50, MAX = 74;
 const LHP_SHARE = num("lhp-share", 0.30), RP_WEIGHT = num("rp-weight", 0.5), BENCH_WEIGHT = num("bench-weight", 0.1);
 const MIN_DEF = num("min-def", 0.6);
 const MIN_C = num("min-c", 0);
+/** Staff shape. L.J., 2026-09-12: this berth wants 5 to 6 relievers, not 4. */
+const N_SP = num("sp", 4);
+const N_RP = num("rp", 4);
+/** Let the model buy arms out of the collection instead of only using the ones on the board. */
+const OPEN_ARMS = flag("open-arms");
+/** Floor on the value of an arm the model may BUY — keeps replacement-level filler out of the pen. */
+const MIN_ARM = num("min-arm-val", 0);
 
 /* ---- what L.J. already has on the board (card ids from collection 65) ---- */
 const ARMS: Record<string, number> = {
@@ -104,7 +111,8 @@ async function main() {
     if (card.variant && !card.variantOwned) continue;
     if (cardEligibility(card, rules).errors.length) continue;
     if (cutIds.has(cid)) continue;                    // cards L.J. is dropping
-    if (card.isPitcher && !keepArms.includes(cid)) continue;  // staff is his, not the model's
+    if (!OPEN_ARMS && card.isPitcher && !keepArms.includes(cid)) continue;
+    if (card.isPitcher && !keepArms.includes(cid) && (card.val ?? 0) < MIN_ARM) continue;
     pool.push(card);
   }
   const nBats = pool.filter((c) => !c.isPitcher).length;
@@ -114,18 +122,17 @@ async function main() {
   for (const id of locked) if (!pool.some((c) => c.cardId === id)) console.log(`  !! locked card ${id} is NOT in the eligible pool`);
 
   /* ------------------------------- the shape ------------------------------ */
-  const nArms = keepArms.length;
-  const sp = Math.min(4, pool.filter((c) => c.isPitcher && (c.role === "SP" || c.role == null)).length);
+  const sp = N_SP, nArms = N_SP + N_RP;
   const shape: FillShape = {
     lineupPos: [...HIT_POS], bats: SIZE - nArms,
     spKeys: Array.from({ length: sp }, (_, i) => `SP${i + 1}`),
-    rpKeys: ["CL", ...Array.from({ length: nArms - sp - 1 }, (_, i) => `RP${i + 1}`)],
+    rpKeys: ["CL", ...Array.from({ length: N_RP - 1 }, (_, i) => `RP${i + 1}`)],
     benchKeys: Array.from({ length: SIZE - nArms - HIT_POS.length }, (_, i) => `BN${i + 1}`),
   };
-  console.log(`shape: ${shape.bats} bats / ${sp} SP / ${nArms - sp} RP`);
+  console.log(`shape: ${shape.bats} bats / ${sp} SP / ${N_RP} RP${OPEN_ARMS ? " · arm pool OPEN" : " · arms locked to yours"}`);
 
   /* --- --field: score against what the eligible field actually produces ---- */
-  let scoringRates = era.rates;
+  let scoringRates: typeof era.rates = era.rates;
   if (flag("field")) {
     const HK = ["Avoid Ks", "Eye", "Power", "Gap", "BABIP"], PK = ["Stuff", "Control", "pHR", "pBABIP"];
     const mean = (x: number[]) => x.reduce((a, b) => a + b, 0) / x.length;
@@ -193,8 +200,8 @@ async function main() {
   }
   const rank = (key: string, c: FillCard) => key.startsWith("L:") ? (fits.runsL.get(c.cardId) ?? -1e6) : (fits.runsR.get(c.cardId) ?? -1e6);
   const starts = new Map<string, Record<string, number>>();
-  for (let i = 0; i <= 256; i++) {
-    const r = fillOnce(pool, rules, shape, fitsLock, (i / 256) * 8);
+  for (let i = 0; i <= num("starts", 256); i++) {
+    const r = fillOnce(pool, rules, shape, fitsLock, (i / num("starts", 256)) * 8);
     if (isComplete(r, shape)) starts.set([...new Set(Object.values(r))].sort((a, b) => a - b).join(","), r);
   }
   let best = { slots: g.slots, score: objective(g.slots) };
@@ -259,6 +266,25 @@ async function main() {
     const [a, b] = k.split(":");
     return { cardId, slot: b ?? a, versusHand: b ? a : "both", lineupOrder: b ? shape.lineupPos.indexOf(b) + 1 : null, useVariant: poolById.get(cardId)?.variant ?? false };
   });
+  if (flag("arm-why")) {
+    console.log(`\n--- what the model thinks each arm actually does, per 700 PA (field env) ---`);
+    console.log(`   name                        val   K%   BB%  HR%  BABIP   runs`);
+    for (const c of pool.filter((x) => x.isPitcher).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0)).slice(0, num("arm-top", 24))) {
+      const pr2 = pitcherRates(c.ratings, scoringRates, "all");
+      if (!pr2) continue;
+      console.log(`   ${(c.name + (c.variant ? " (V)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(pr2.K * 100).toFixed(1).padStart(4)}  ${(pr2.BB * 100).toFixed(1).padStart(4)} ${(pr2.HR * 100).toFixed(2).padStart(5)}  ${pr2.BABIP.toFixed(3)}  ${f1(fits.runsR.get(c.cardId) ?? 0).padStart(6)}${locked.has(c.cardId) ? "  <-- yours" : ""}`);
+    }
+  }
+  if (flag("arm-menu")) {
+    const arms = pool.filter((c) => c.isPitcher)
+      .map((c) => ({ c, s: fits.runsR.get(c.cardId) ?? 0 }))
+      .sort((a, b) => b.s - a.s).slice(0, num("arm-top", 30));
+    console.log(`\n--- best owned arms in this environment (runs/700 PA, +14.3 = vs the average legal arm) ---`);
+    for (const { c, s: sc } of arms) {
+      const r = c.ratings;
+      console.log(`   ${(c.name + (c.variant ? " (V)" : "")).padEnd(26)} ${String(c.val).padStart(3)} ${(c.role ?? "").padEnd(3)} ${String(c.year ?? "").padEnd(5)} ${f1(sc).padStart(7)} (${f1(sc + 14.3).padStart(6)})  STM ${String(Math.round(r["Stamina"] ?? 0)).padStart(3)} STU ${String(Math.round(r["Stuff"] ?? 0)).padStart(3)} CON ${String(Math.round(r["Control"] ?? 0)).padStart(3)} pHR ${String(Math.round(r["pHR"] ?? 0)).padStart(3)} pBAB ${String(Math.round(r["pBABIP"] ?? 0)).padStart(3)}  vL ${f1(fits.runsL.get(c.cardId) ?? 0).padStart(6)}${locked.has(c.cardId) ? "  <-- yours" : ""}`);
+    }
+  }
   if (flag("menu")) {
     console.log(`\n--- best owned bats by position (0.7·vsRHP + 0.3·vsLHP), value \u2264 the slack you have ---`);
     for (const pos of HIT_POS) {

@@ -22,7 +22,7 @@ import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@
 import { cardEligibility } from "@/lib/roster-rules";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
-import { marginalRatings, rangeFlags } from "@/lib/analytics/card-value";
+import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
 import { optimizeRoster } from "@/lib/roster-optimize";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
 import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
@@ -55,7 +55,18 @@ const POOL_CSV = val("pool") ?? null;
  * score difference against the free run IS the price of the conviction.
  */
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+/** Cards to exclude outright — for testing whether a headline card earns its points. */
+const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
 const OPTIMIZE = flag("optimize");
+/**
+ * --field: score against the environment the FIELD will actually produce, not
+ * the era's baseline. Tournaments do not normalize, so what plays is the era
+ * rates pushed through the average eligible bat and the average eligible arm.
+ * In a value-capped event those two do not cancel — cap the value at 100 and
+ * you exclude the best bats while keeping excellent arms, so the field
+ * suppresses the era and contact gains on power.
+ */
+const FIELD = flag("field");
 const MIN_DEF = num("min-def", 0.6)!;
 /**
  * Playing-time weights for the objective. Defaults are the generic ones; both
@@ -94,6 +105,7 @@ async function main() {
   console.log(`\n=== ${NAME} ===`);
   console.log(`${YEAR ?? "PT default"} RE${pr ? ` @ ${PARK_YEAR} ${PARK}` : " (neutral park)"} · DH ${DH ? "on" : "off"} · value ${MIN ?? "—"}–${MAX ?? "—"} · cap ${CAP ?? "none"} · ${SIZE} players`);
   console.log(`R/G ${solved.RG.toFixed(2)}  AVG ${line.avg.toFixed(3)}  OBP ${line.obp.toFixed(3)}  SLG ${line.slg.toFixed(3)}  K% ${(line.kPct * 100).toFixed(1)}  HR/PA ${(line.hrPa * 100).toFixed(2)}%  preset ${solved.preset}`);
+  console.log(`sac bunt (1st & 2nd, 0 out) ${solved.bunt_12_0 >= 0 ? "+" : ""}${solved.bunt_12_0.toFixed(3)} runs · steal break-even ${(solved.sbbe0 * 100).toFixed(1)}% (0 out) / ${(solved.sbbe1 * 100).toFixed(1)}% (1 out)`);
   if (pr) {
     const rgL = solveEnv(era.rates, era.rg, blendPark(pr, 1)).RG;
     const rgR = solveEnv(era.rates, era.rg, blendPark(pr, 0)).RG;
@@ -163,6 +175,11 @@ async function main() {
     if (cardEligibility(card, rules).errors.length) continue;
     pool.push(card);
   }
+  if (BAN.length) {
+    const before = pool.length;
+    for (let i = pool.length - 1; i >= 0; i--) if (BAN.includes(pool[i].name.toLowerCase())) pool.splice(i, 1);
+    console.log(`banned ${before - pool.length}: ${BAN.join(", ")}`);
+  }
   const bats = pool.filter((c) => !c.isPitcher);
   console.log(`\npool: ${pool.length} eligible owned cards — ${bats.length} bats (${bats.filter((c) => c.bats === "L").length}L / ${bats.filter((c) => c.bats === "S").length}S / ${bats.filter((c) => c.bats === "R").length}R), ${pool.length - bats.length} arms`);
 
@@ -177,7 +194,34 @@ async function main() {
   };
   console.log(`shape: ${shp.bats} bats / ${shp.sp} SP / ${shp.rp} RP (${shp.band}) · out-of-position guard ${Math.round(MIN_DEF * 100)}% of best`);
 
-  const fits = envFitMaps(pool, { era: era.rates, park: pr });
+  let scoringRates = era.rates;
+  if (FIELD) {
+    const HK = ["Avoid Ks", "Eye", "Power", "Gap", "BABIP"], PK = ["Stuff", "Control", "pHR", "pBABIP"];
+    const mean = (x: number[]) => x.reduce((a, b) => a + b, 0) / x.length;
+    const avgOf = (set: typeof pool, keys: string[]) => Object.fromEntries(keys.map((k) =>
+      [k, mean(set.map((c) => c.ratings[k]).filter((v) => typeof v === "number" && v > 0))]));
+    const aB = avgOf(pool.filter((c) => !c.isPitcher), HK);
+    const aP = avgOf(pool.filter((c) => c.isPitcher), PK);
+    const bR = hitterRates(aB, era.rates, "all"), pRt = pitcherRates(aP, era.rates, "all");
+    if (bR && pRt) {
+      const q = (a: number, b: number) => (b === 0 ? 1 : a / b);
+      scoringRates = {
+        K: era.rates.K * q(bR.K, era.rates.K) * q(pRt.K, era.rates.K),
+        BB: era.rates.BB * q(bR.BB, era.rates.BB) * q(pRt.BB, era.rates.BB),
+        HBP: era.rates.HBP,
+        HR: era.rates.HR * q(bR.HR, era.rates.HR) * q(pRt.HR, era.rates.HR),
+        B2: era.rates.B2 * q(bR.B2, era.rates.B2),
+        B3: era.rates.B3 * q(bR.B3, era.rates.B3),
+        BABIP: era.rates.BABIP * q(bR.BABIP, era.rates.BABIP) * q(pRt.BABIP, era.rates.BABIP),
+      };
+      const fl = rateLine(bp35 ? applyPark(scoringRates, bp35) : scoringRates, 0);
+      const fenv = solveEnv(scoringRates, era.rg, bp35);
+      console.log(`FIELD (unnormalized): K% ${(fl.kPct*100).toFixed(1)}  BB% ${(fl.bbPct*100).toFixed(1)}  HR/PA ${(fl.hrPa*100).toFixed(2)}%  OPS ${fl.ops.toFixed(3)}  bunt ${fenv.bunt_12_0>=0?"+":""}${fenv.bunt_12_0.toFixed(3)}  steal BE ${(fenv.sbbe0*100).toFixed(1)}%  preset ${fenv.preset}`);
+      console.log(`  avg eligible bat: ${HK.map(k=>`${k} ${aB[k].toFixed(0)}`).join(" ")}`);
+      console.log(`  avg eligible arm: ${PK.map(k=>`${k} ${aP[k].toFixed(0)}`).join(" ")}`);
+    }
+  }
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr });
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                          RHB: ${marginalRatings(fits.envRight, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                         arms: ${marginalRatings(fits.envPitch, "pit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
@@ -284,6 +328,13 @@ async function main() {
   const lhbStarters = lineupPos.filter((p) => { const c = poolById.get(slots[`R:${p}`]); return c && batsLeftOn(c.bats, "R"); }).length;
   console.log(`\n${rostered.length} players · value ${totalVal}${CAP ? ` / ${CAP} (${CAP - totalVal} spare)` : ""} · λ ${lambda.toFixed(3)} · ${rostered.filter((c) => c.variant).length} variants`);
   console.log(`vs RHP lineup gets the friendly park side in ${lhbStarters} of ${lineupPos.length} spots`);
+  const bats2 = rostered.filter((c) => !c.isPitcher);
+  console.log(`\n--- order inputs (rostered bats) ---`);
+  for (const c of bats2.sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {
+    const r = c.ratings;
+    const g = (k: string) => Math.round(r[k] ?? 0);
+    console.log(`  ${c.name.padEnd(22)} ${(c.bats ?? "-")} EYE ${String(g("Eye")).padStart(3)} (${g("Eye vL")}/${g("Eye vR")})  POW ${String(g("Power")).padStart(3)} (${g("Power vL")}/${g("Power vR")})  K ${String(g("Avoid Ks")).padStart(3)}  BABIP ${String(g("BABIP")).padStart(3)}  GAP ${String(g("Gap")).padStart(3)}  SPE ${String(g("Speed")).padStart(3)}`);
+  }
   console.log(v.ready ? "LEGAL — every rule check passes" : `NOT READY: ${[...v.errors, ...v.incomplete].map((e) => e.message).join(" | ")}`);
   const spend = rostered.filter((c) => (prices.get(c.cardId) ?? 0) > 0).length;
   if (spend) console.log(`(${spend} of ${rostered.length} have a live ask in the last shop snapshot)`);

@@ -33,6 +33,8 @@ const argv = process.argv.slice(2);
 const num = (k: string, d: number) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? Number(argv[i + 1]) : d; };
 const MIN_DEN = num("min-den", 400);
 const WRITE = argv.includes("--write");
+/** Default output. Point at src/data/curves.json only when you mean to ship it. */
+const OUT = (() => { const i = argv.indexOf("--out"); return i >= 0 ? argv[i + 1] : "src/data/curves.next.json"; })();
 const old = JSON.parse(JSON.stringify(CURVES)) as any;
 
 const HIT: Record<string, (c: any) => [number, number]> = {
@@ -158,8 +160,8 @@ async function main() {
   out.generatedAt = new Date().toISOString();
   out.pit.babip = { ...out.pit.babip, note: "NOT refitted — OOTP's export carries no hits-allowed counter, so pBABIP cannot be checked against observed play. Still the July projection fit." };
   console.log(`\npit.babip left alone: no hits-allowed counter in the export, so it cannot be audited or refitted.`);
-  if (WRITE) { writeFileSync("src/data/curves.v2.json", JSON.stringify(out, null, 2)); console.log(`\nwrote src/data/curves.v2.json`); }
-  else console.log(`\n(dry run — pass --write to emit src/data/curves.v2.json)`);
+  if (WRITE) { writeFileSync(OUT, JSON.stringify(out, null, 2)); console.log(`\nwrote ${OUT}`); }
+  else console.log(`\n(dry run — pass --write to emit ${OUT})`);
   process.exit(0);
 }
 main();

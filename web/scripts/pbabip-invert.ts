@@ -34,6 +34,8 @@ const argv = process.argv.slice(2);
 const num = (k: string, d: number) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? Number(argv[i + 1]) : d; };
 const MIN_BF = num("min-bf", 1500);
 const WRITE = argv.includes("--write");
+/** Default output. Point at src/data/curves.json only when you mean to ship it. */
+const OUT = (() => { const i = argv.indexOf("--out"); return i >= 0 ? argv[i + 1] : "src/data/curves.next.json"; })();
 const V2 = JSON.parse(JSON.stringify(CURVES_V2)) as any;
 __setCurves(V2);
 
@@ -124,8 +126,8 @@ async function main() {
   if (WRITE) {
     V2.pit.babip = { ...old, alpha: c2[0], beta: c2[1], gamma: c2[2], r2: Number(r2of(c2).toFixed(3)), n: solved,
       note: "Recovered by inversion, not measured: OOTP's export has no hits-allowed counter, so this term is whatever Stuff/Control/pHR do not explain about observed ER per batter faced. It therefore also carries team defence and sequencing. Judge it only by whether the pitcher model ranks cards better with it." };
-    writeFileSync("src/data/curves.v2.json", JSON.stringify(V2, null, 2));
-    console.log(`\nwrote src/data/curves.v2.json`);
+    writeFileSync(OUT, JSON.stringify(V2, null, 2));
+    console.log(`\nwrote ${OUT}`);
   } else console.log(`\n(dry run — pass --write)`);
   process.exit(0);
 }
