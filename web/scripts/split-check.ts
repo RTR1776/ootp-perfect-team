@@ -40,39 +40,54 @@ function corr(x: number[], y: number[], w: number[]) {
 async function main() {
   const era = eraTable["0"] ?? eraTable["2010"];
   const env = envFor(era.rates, NEUTRAL_PARK, linearWeights(era.rates));
+  /**
+   * Aggregated in SQL, not in node. Pulling every split stint with its stats
+   * blob was ~30k rows of JSON over the Neon HTTP driver and it fell over once
+   * PEL and HD451 joined the set. The per-cell mean and the per-card sums are
+   * both group-bys, so the database does them and the script receives one row
+   * per card per split.
+   */
   const rows = asRows<any>(await db.execute(sql`
-    select ls.league, ls.split, ls.captured_on, st.cid, st.name, st.is_pitcher, st.pos,
-           st.pa, st.stats, c.ratings
-    from league_stints st
-    join league_snapshots ls on ls.id = st.snapshot_id
-    join cards c on c.card_id = st.cid
-    where ls.split in ('vL','vR') and st.cid is not null`));
+    with stint as (
+      select ls.league, ls.captured_on, ls.split, st.cid, st.name, st.is_pitcher, st.pos,
+             case when st.is_pitcher then (st.stats->>'BF')::numeric else st.pa::numeric end as w,
+             case when st.is_pitcher then (st.stats->>'ER')::numeric
+                  else (st.stats->>'wRAA')::numeric end as num
+      from league_stints st
+      join league_snapshots ls on ls.id = st.snapshot_id
+      where ls.split in ('vL','vR') and st.cid is not null
+    ),
+    ok as (select * from stint where w > 0 and num is not null),
+    cell as (
+      select league, captured_on, split, is_pitcher, sum(num)/sum(w) as mean
+      from ok group by 1,2,3,4
+    ),
+    card as (
+      select o.cid, o.is_pitcher, o.split,
+             max(o.name) as name, max(o.pos) as pos,
+             sum(o.w) as w,
+             sum((o.num/o.w - c.mean) * o.w) as above
+      from ok o join cell c
+        on c.league = o.league and c.captured_on = o.captured_on
+       and c.split = o.split and c.is_pitcher = o.is_pitcher
+      group by 1,2,3
+    )
+    select k.cid, k.is_pitcher, k.name, k.pos, c.ratings,
+           max(case when k.split='vL' then k.w end) as wl,
+           max(case when k.split='vL' then k.above end) as al,
+           max(case when k.split='vR' then k.w end) as wr,
+           max(case when k.split='vR' then k.above end) as ar
+    from card k join cards c on c.card_id = k.cid
+    group by 1,2,3,4,5`));
 
-  type Key = string;
-  const obs = new Map<Key, any>();
-  /** league-week-split means, so every environment normalises to itself */
-  const cell = new Map<string, { n: number; d: number }>();
-  const prepped: any[] = [];
+  const obs = new Map<string, any>();
   for (const r of rows) {
-    const isPit = r.is_pitcher;
-    const w = isPit ? Number(r.stats.BF) : Number(r.pa);
-    // accumulate every row; the MIN threshold applies to the POOLED total below,
-    // or a card with 80 PA in each of six weeks contributes nothing at all
-    if (!(w > 0)) continue;
-    const raw = isPit ? Number(r.stats.ER) / w : Number(r.stats.wRAA ?? 0) / w;
-    if (!Number.isFinite(raw)) continue;
-    const ck = `${r.league}|${r.captured_on}|${r.split}|${isPit}`;
-    const c = cell.get(ck) ?? { n: 0, d: 0 }; c.n += raw * w; c.d += w; cell.set(ck, c);
-    prepped.push({ ...r, w, raw, ck, isPit });
-  }
-  for (const p of prepped) {
-    const m = cell.get(p.ck)!; const mean = m.n / m.d;
-    const key = `${p.cid}|${p.isPit}`;
-    const e = obs.get(key) ?? { cid: p.cid, name: p.name, isPit: p.isPit, pos: p.pos, ratings: p.ratings,
-      vL: { w: 0, n: 0 }, vR: { w: 0, n: 0 } };
-    const side = p.split === "vL" ? e.vL : e.vR;
-    side.w += p.w; side.n += (p.raw - mean) * p.w;    // runs above that cell's mean, per PA/BF
-    obs.set(key, e);
+    const wl = Number(r.wl), wr = Number(r.wr);
+    if (!(wl > 0) || !(wr > 0)) continue;
+    obs.set(`${r.cid}|${r.is_pitcher}`, {
+      cid: r.cid, name: r.name, isPit: r.is_pitcher, pos: r.pos, ratings: r.ratings,
+      vL: { w: wl, n: Number(r.al) }, vR: { w: wr, n: Number(r.ar) },
+    });
   }
 
   for (const kind of ["hit", "pit"] as const) {
