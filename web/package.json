@@ -40,7 +40,13 @@
     "verify:runenv": "tsx scripts/verify-runenv.ts",
     "verify:runenv:pool": "node --env-file=.env.local --import tsx scripts/verify-runenv-pool.ts",
     "env:roster": "node --env-file=.env.local --import tsx scripts/env-roster.ts",
-    "cap:finish": "node --env-file=.env.local --import tsx scripts/cap-finish.ts"
+    "cap:finish": "node --env-file=.env.local --import tsx scripts/cap-finish.ts",
+    "curve:audit": "node --env-file=.env.local --import tsx scripts/curve-audit.ts",
+    "curve:refit": "node --env-file=.env.local --import tsx scripts/curve-refit.ts",
+    "curve:compare": "node --env-file=.env.local --import tsx scripts/curve-compare.ts",
+    "pbabip:invert": "node --env-file=.env.local --import tsx scripts/pbabip-invert.ts",
+    "lever:diff": "node --env-file=.env.local --import tsx scripts/lever-diff.ts",
+    "model:validate": "node --env-file=.env.local --import tsx scripts/model-validate.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

@@ -10,18 +10,43 @@
  * it with THAT environment's own linear weights. Every number is a model
  * output, so it is available for an environment nobody has ever played.
  *
- * The curves (engine/config/curves.json, fitted 2026-07-06 on the modern PT
- * league, splits pooled) are log-log:
+ * The curves (src/data/curves.json) are log-log with a curvature term:
  *
- *     rate = env_rate * exp(alpha) * (rating / 50) ^ beta
+ *     rate = env_rate * exp(alpha + beta*x + gamma*x^2),  x = log(rating / 50)
  *
  * `env_rate` is the league rate the curve was fitted against, so the multiplier
- * `exp(alpha) * (rating/50)^beta` is ~1.0 at a league-average rating (~110 on
- * the climbing scale). Transferring a card to 1935 means applying that
- * multiplier to 1935's rate, not to 2026's — the shape moves, the level does
- * not. R² is on each curve and is not uniform: K (.88) and EYE (.87) are real
- * signal, BABIP (.26) is close to noise, which is the whole reason you can buy
- * strikeout avoidance and cannot buy batting average.
+ * is ~1.0 at a league-average rating (~110 on the climbing scale). Transferring
+ * a card to 1935 means applying that multiplier to 1935's rate, not to 2026's —
+ * the shape moves, the level does not.
+ *
+ * REFITTED 2026-09-13 on observed tournament play (pnpm curve:refit): 51 series,
+ * ~21M plate appearances, each card's rate normalised to its OWN series so that
+ * 51 run environments pool into one fit. The previous curves (kept as
+ * curves.v1-projections.json) were fitted in July on one league's projected
+ * rates and were pure power laws, which cannot saturate. gamma = 0 reproduces
+ * that form exactly, so a rating that really is log-linear is unharmed.
+ *
+ * What changed, and why it matters when you spend points:
+ *   - POWER was the worst fit of the eight (power-law R² .70 on observed play).
+ *     The old curve was dragged shallow by low-Power cards, who still run into
+ *     some home runs; freeing the curvature lifted R² to .87 and raised what
+ *     +10 Power buys by 30-40% in every environment.
+ *   - BABIP's old R² of .26 was read as "close to noise". It was not: that R²
+ *     was per-card-season, where a few hundred balls in play is mostly variance.
+ *     Pooled to ~8M balls in play the same curve fits at R² .71, and the refit
+ *     raises it further. You CAN buy batting average — just less of it than you
+ *     can buy power.
+ *   - EYE was slightly too steep and is now worth ~0.3 runs less per +10.
+ *   - On arms everything flattened: pHR was the most over-valued rating in the
+ *     old set (-0.8 runs per +10 in a modern environment), Control and Stuff
+ *     came down, pBABIP went up. In a deadball environment pBABIP now outranks
+ *     Control, which it did not before.
+ *
+ * The pitcher half is a LATERAL move on the metric that matters — ranking cards
+ * against what they actually did. Paired bootstrap over 809 arms: Spearman
+ * 0.458 -> 0.447, 95% CI on the difference [-0.025, +0.002]. It is kept because
+ * it rests on observed play rather than projections, not because it ranks
+ * better. The hitter half is a real gain: 0.428 -> 0.492, CI [+0.047, +0.081].
  *
  * Units follow the era table: K/BB/HBP per PA, HR/2B/3B per ball-in-play,
  * BABIP per (BIP - HR). Mixing them up inflates an environment by ~30%.
@@ -34,16 +59,33 @@ import {
 
 interface Curve {
   alpha: number; beta: number; r2: number; n: number; env_rate: number; rating: string;
+  /**
+   * Curvature in log-rating. The original curves were pure power laws, which
+   * are unbounded: Power 170 got a 1.92x home-run multiplier when observed play
+   * says 1.63x. gamma bends the log-log line so a rating can saturate.
+   * Absent or 0 reproduces the old power law exactly.
+   */
+  gamma?: number;
   /** The rating window the curve was fitted over; outside it the power law extrapolates. */
   rating_range?: [number, number];
 }
 
-const curves = CURVES as unknown as {
+type CurveTable = {
   hit: Record<string, Curve> & { xbh_3b_share: number; hbp_rate_env: number };
   pit: Record<string, Curve> & { hbp_rate_env: number };
   frame: string;
   generatedAt: string;
 };
+
+let curves = CURVES as unknown as CurveTable;
+
+/**
+ * Swap the curve table at runtime. For offline scripts only — curve:refit needs
+ * to score the same cards under a candidate fit and the shipped one to say
+ * whether the refit is an improvement. Nothing in the app calls this.
+ */
+export function __setCurves(next: unknown) { curves = next as CurveTable; }
+export function __getCurves(): unknown { return curves; }
 
 /** Curve rating names are the engine's; the card table speaks the shop's. */
 export const HIT_RATING: Record<string, string> = {
@@ -74,7 +116,10 @@ export const ratingOf = (r: Record<string, number>, key: string, split: Split): 
 };
 
 /** The curve multiplier: 1.0 means "this card produces the league rate". */
-const mult = (c: Curve, rating: number) => Math.exp(c.alpha) * Math.pow(rating / 50, c.beta);
+const mult = (c: Curve, rating: number) => {
+  const x = Math.log(rating / 50);
+  return Math.exp(c.alpha + c.beta * x + (c.gamma ?? 0) * x * x);
+};
 
 export interface CurveInfo { key: string; rating: string; beta: number; r2: number }
 
