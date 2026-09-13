@@ -51,6 +51,7 @@
     "role:effect": "node --env-file=.env.local --import tsx scripts/role-effect.ts",
     "role:validate": "node --env-file=.env.local --import tsx scripts/role-validate.ts",
     "league:check": "node --env-file=.env.local --import tsx scripts/league-check.ts",
+    "split:check": "node --env-file=.env.local --import tsx scripts/split-check.ts",
     "model:validate": "node --env-file=.env.local --import tsx scripts/model-validate.ts"
   },
   "dependencies": {

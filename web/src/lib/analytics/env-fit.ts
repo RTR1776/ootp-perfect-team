@@ -94,7 +94,26 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
        */
       const role = -roleRuns(c.role, c.ratings["Stamina"]);
       // A starter faces both hands; the vs-LHP board is the pure-left read.
-      return role + (board === "L" ? rL : 0.45 * rL + 0.55 * rR);
+      const blend = 0.45 * rL + 0.55 * rR;
+      /**
+       * A PITCHER'S SPLIT IS MOSTLY NOISE, and acting on a small one is worse
+       * than not acting. Checked against 3.3M league plate appearances with the
+       * vL and vR lines kept separate (pnpm split:check): where the model puts a
+       * pitcher's vL-vR gap under 10 runs per 700, it names the better side 46%
+       * and 41% of the time — below chance. Only past 10 runs does it get there
+       * (75%, then 100% on the 15-25 band).
+       *
+       * Hitters are a different story and are left alone: 75% overall, rising
+       * cleanly to 100% above 25 runs, and their split is 87% as reliable as
+       * their level — within noise of no shrinkage at all.
+       *
+       * So the pitcher's split is pulled toward the both-hands read by the ratio
+       * of the two correlations, 0.382 / 0.577. That keeps a genuinely large
+       * platoon arm large while flattening the small calls the data says carry
+       * nothing.
+       */
+      const SPLIT_TRUST = 0.66;
+      return role + blend + SPLIT_TRUST * ((board === "L" ? rL : blend) - blend);
     }
     const env = batsLeftOn(c.bats, board) ? envLeft : envRight;
     const rates = hitterRates(c.ratings, env.rates, board === "R" ? "vR" : "vL");
