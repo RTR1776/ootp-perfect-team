@@ -23,6 +23,8 @@ RV = {"1B": 0.47, "2B": 0.77, "3B": 1.04, "HR": 1.40}   # linear weights vs an o
 SWITCH_L = 0.70                                         # share of PA a switch hitter bats left (vs RHP)
 
 ap = argparse.ArgumentParser(); ap.add_argument("folder"); ap.add_argument("league"); ap.add_argument("--team", default="Kansas City Torrent"); ap.add_argument("--top", type=int, default=12); ap.add_argument("--parks", default=None)
+ap.add_argument("--years", default=None, help="only parks whose Year falls in LO-HI, e.g. 1980-1995 — theme weeks often restrict you to period-correct parks")
+ap.add_argument("--scale", default=None, help="theme week: rescale each component's edge to the new run environment, e.g. \"1B=1.03,2B=1.12,3B=1.46,HR=0.63\" for 1989 against the 2010 default. A park factor can only act on events that actually happen, so an HR park is worth a third less where a third fewer balls leave the yard.")
 ap.add_argument("--stress", default=None, help="comma-separated leagues in the same folder (e.g. hd450,hd452,hd453): rescale ALLOWED to their offence level, keep OWN as is - what the edge looks like against stronger hitting")
 a = ap.parse_args()
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,6 +84,10 @@ if a.stress:
     print("stress: allowed x " + " ".join(f"{c}{h} {ratio[(c,h)]:.2f}" for (c, h) in sorted(KEYS)) + f"  ({a.stress}, {nteams} teams)")
     alw = defaultdict(float, {k: (alw[k] * ratio[k] if k in ratio else alw[k]) for k in alw})
 edge = {k: own.get(k, 0) - alw.get(k, 0) for k in KEYS}
+if a.scale:
+    sc = dict((kv.split("=")[0], float(kv.split("=")[1])) for kv in a.scale.split(","))
+    print("run-environment rescale: " + "  ".join(f"{k} x{v:.2f}" for k, v in sc.items()))
+    edge = {k: v * sc.get(k[0], 1.0) for k, v in edge.items()}
 print(f"{a.team} — {a.league} — {os.path.basename(a.folder)}")
 print(f"{'component':10s} {'own':>7s} {'allowed':>8s} {'edge':>7s}   {'lg own':>7s} {'lg alw':>7s}")
 for c in ("1B", "2B", "3B", "HR"):
@@ -113,8 +119,10 @@ def score(p):
     s = sum(parts.values())
     return s, parts
 scored = []
+yr_lo, yr_hi = (int(x) for x in a.years.split("-")) if a.years else (0, 9999)
 for p in parks:
     if not p.get("Ballpark"): continue
+    if not (yr_lo <= int(n(p["Year"]) or 0) <= yr_hi): continue
     s, parts = score(p); scored.append((s, p, parts))
 scored.sort(key=lambda t: -t[0])
 print(f"\nTop {a.top} parks by expected run edge over the 81 home games (+ = helps you more than opponents; ~10 runs = 1 win):")
