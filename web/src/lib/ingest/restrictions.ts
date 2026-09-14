@@ -70,6 +70,17 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   if (m) { r.yearMax = Number(m[1]); r.yearMin ??= 1800; }
   m = s.match(/>=\s*(\d{4})(?!\s*(?:RE|Cap))\b/i);
   if (m) r.yearMin = Number(m[1]);
+  /**
+   * "Only cards from 1980 and up (excluding 2026) may be used." The exclusion
+   * is a real bound, not a footnote — build a 2026 card into that roster and it
+   * is illegal — so it becomes yearMax, one below the excluded year.
+   */
+  m = s.match(/cards?\s+from\s+(\d{4})\s+and\s+up/i);
+  if (m) {
+    r.yearMin = Number(m[1]);
+    const ex = s.match(/excluding\s+(\d{4})/i);
+    r.yearMax = ex ? Number(ex[1]) - 1 : null;
+  }
   m = s.match(/(?<!random\s)(?<!randomized\s)\b(\d{4})\s*-\s*(\d{4})\b(?!\s*RE)/);
   if (m && r.yearMax == null) { r.yearMin = Number(m[1]); r.yearMax = Number(m[2]); }
 
@@ -82,8 +93,18 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   if (/variants?\s+off\b/i.test(s)) r.variantsAllowed = false;
 
   // ---- slots -----------------------------------------------------------
-  // "SLOTS: 1 Perfect, 1 Diamond, 21 Silver" or "Slots: P1, D18, G0, S0, B0"
-  const slotBlock = s.match(/slots?\s*[:\-]?\s*\(?([^)\n]*?)(?:\)|$|;)/i);
+  // "SLOTS: 1 Perfect, 1 Diamond, 21 Silver" or "Slots: P1, D18, G0, S0, B0",
+  // and OOTP's own long form: "You are allowed: 0 Perfect, 0 Diamond, 13 Gold,
+  // 0 Silver, and 0 Bronze cards on your roster."
+  //
+  // The word "slots" also shows up in prose — "(Unfilled slots may use extra
+  // lower tier cards)" — and anchoring on it there captured a fragment with no
+  // numbers in it, which silently dropped every slot in the blurb. So a slot
+  // block only counts when it actually contains counts.
+  const hasCounts = (x: string) =>
+    /\b[PDGSBI]\s*\d+\b/.test(x) || /\b\d+\s+(Perfect|Diamond|Gold|Silver|Bronze|Iron)s?\b/i.test(x);
+  const blockMatch = s.match(/(?:slots?|you\s+are\s+allowed)\s*[:\-]?\s*\(?([^)\n]*?)(?:\)|$|;)/i);
+  const slotBlock = blockMatch && hasCounts(blockMatch[1]) ? blockMatch : null;
   const slots: Record<string, number> = {};
   const source = slotBlock ? slotBlock[1] : s;
   for (const mm of Array.from(source.matchAll(/\b([PDGSBI])\s*(\d+)\b/g))) slots[mm[1].toUpperCase()] = Number(mm[2]);
@@ -94,8 +115,22 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
 
   // ---- shape -----------------------------------------------------------
   m = s.match(/\b(\d+)\s*teams?\b/i);          if (m) r.teams = Number(m[1]);
-  m = s.match(/best\s*(?:of)?\s*(\d+)/i);       if (m) r.bestOf = Number(m[1]);
-  m = s.match(/\b(\d+)\s*cards?\b/i);           if (m) r.cards = Number(m[1]);
+  m = s.match(/best[\s-]*(?:of)?[\s-]*(\d+)/i);  if (m) r.bestOf = Number(m[1]);
+  else { // "The series are best-of-seven."
+    const WORD: Record<string, number> = { three: 3, five: 5, seven: 7, nine: 9, eleven: 11 };
+    m = s.match(/best[\s-]*of[\s-]*(three|five|seven|nine|eleven)/i);
+    if (m) r.bestOf = WORD[m[1].toLowerCase()];
+  }
+  /**
+   * Roster size, NOT the tail of a tier list. "13 Gold, 0 Silver, and 0 Bronze
+   * cards on your roster" ends in "0 Bronze cards", which read as a roster of
+   * zero cards. A count only means roster size when no tier word precedes it.
+   */
+  m = s.match(/\b(\d+)\s*cards?\b/i);
+  if (m && !/\b(Perfect|Diamond|Gold|Silver|Bronze|Iron)s?\s*$/i.test(s.slice(0, m.index ?? 0).trim())) {
+    const before = s.slice(Math.max(0, (m.index ?? 0) - 40), m.index ?? 0);
+    if (!/(Perfect|Diamond|Gold|Silver|Bronze|Iron)/i.test(before)) r.cards = Number(m[1]);
+  }
   m = s.match(/\b(\d{1,2})\s*-?\s*minute\b/i);   if (m) r.clockMinutes = Number(m[1]);
 
   // ---- run environment -------------------------------------------------
@@ -103,7 +138,13 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   if (m) r.reRandom = [Number(m[1]), Number(m[2])];
   else if (/default\s+RE/i.test(s)) r.notes.push("default RE");
   else if (/random[^,;]*RE/i.test(s)) r.notes.push("random RE");
-  else { m = s.match(/\b(\d{4})\s*RE\b/i); if (m) r.reYear = Number(m[1]); }
+  else {
+    m = s.match(/\b(\d{4})\s*RE\b/i)
+      // OOTP's own wording: "settings that resemble the year 1945"
+      || s.match(/resembles?\s+the\s+year\s+(\d{4})/i)
+      || s.match(/\bplayed\s+(?:with|in)\s+(?:the\s+)?(\d{4})\s+(?:run\s+)?environment/i);
+    if (m) r.reYear = Number(m[1]);
+  }
 
   // ---- park ------------------------------------------------------------
   // "1982 Kingdome" and "2026 Dell Diamond" (Diamond refresh, Sep 9) carry no
@@ -116,6 +157,9 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   // ---- DH and card types ----------------------------------------------
   if (/\bDH\s*on\b/i.test(s)) r.dh = true;
   if (/\bDH\s*off\b/i.test(s)) r.dh = false;
+  // "The Designated Hitter rule is being used." / "is not being used."
+  if (/designated\s+hitter[^.]*?\bis\s+not\s+being\s+used/i.test(s)) r.dh = false;
+  else if (/designated\s+hitter[^.]*?\bis\s+being\s+used/i.test(s)) r.dh = true;
   // A comma list ("Negro Leagues, All-Stars, Snapshots, Unsung Heroes and
   // Hardware Heroes cards only" - Diamond Slots, Sep 9) is read whole only when
   // it opens the blurb or a clause, so "64 teams, Best of 5, Snapshots cards

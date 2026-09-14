@@ -120,3 +120,32 @@ test("card-type rule reader knows the Diamond Slots names", () => {
   assert.deepEqual(parseCardTypeRule("Unsung Heroes"), [8]);
   assert.deepEqual(parseCardTypeRule("Hardware Heroes"), [9]);
 });
+
+/**
+ * OOTP's OWN tournament description, not the community shorthand. Everything
+ * before this read the terse "SLOTS: P1 D18 · 2010 RE · DH on" format; pasted
+ * straight from the game, the long form gave up teams and park and dropped the
+ * rest on the floor — including the tier slots, because "(Unfilled slots may
+ * use extra lower tier cards)" anchored the slot block on prose with no counts
+ * in it.
+ */
+test("OOTP long-form blurb: Monday Wonky Historical Slots", () => {
+  const r = parseRestrictions(
+    "This is a weekly Tournament with 128 teams.  RESTRICTIONS: Only cards from 1980 and up " +
+    "(excluding 2026) may be used.There are restrictions per card tier. You are allowed: 0 Perfect, " +
+    "0 Diamond, 13 Gold, 0 Silver, and 0 Bronze cards on your roster. (Unfilled slots may use extra " +
+    "lower tier cards)  The tournament is played with strategy & stats settings that resemble the " +
+    "year 1945. The Designated Hitter rule is being used. Games will be played at 2026 Tropicana " +
+    "Field (AVG .999/1.065, HR .997/1.082, 2B .965, 3B .879). The series are best-of-seven. " +
+    "START TIME: Mon. 14th Sep. 11:59 AM. Simulations will occur every 10 minutes.",
+  );
+  assert.equal(r.yearMin, 1980);
+  assert.equal(r.yearMax, 2025, "excluding 2026 is a real upper bound, not a footnote");
+  assert.deepEqual(r.slots, { P: 0, D: 0, G: 13, S: 0, B: 0 });
+  assert.equal(r.teams, 128);
+  assert.equal(r.bestOf, 7, "best-of-seven is spelled out");
+  assert.equal(r.reYear, 1945);
+  assert.equal(r.dh, true);
+  assert.equal(r.park, "2026 Tropicana Field");
+  assert.equal(r.cards, null, "\"0 Bronze cards\" is a tier count, not a roster size");
+});
