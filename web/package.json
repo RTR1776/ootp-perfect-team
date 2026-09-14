@@ -41,6 +41,7 @@
     "verify:runenv:pool": "node --env-file=.env.local --import tsx scripts/verify-runenv-pool.ts",
     "env:roster": "node --env-file=.env.local --import tsx scripts/env-roster.ts",
     "cap:finish": "node --env-file=.env.local --import tsx scripts/cap-finish.ts",
+    "berth:lines": "node --env-file=.env.local --import tsx scripts/berth-lines.ts",
     "curve:audit": "node --env-file=.env.local --import tsx scripts/curve-audit.ts",
     "curve:refit": "node --env-file=.env.local --import tsx scripts/curve-refit.ts",
     "curve:compare": "node --env-file=.env.local --import tsx scripts/curve-compare.ts",
