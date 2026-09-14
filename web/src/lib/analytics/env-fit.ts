@@ -45,6 +45,16 @@ export interface EnvFitOptions {
   defWeight?: number;
   /** Share of opposing bats that hit left, used for the park a pitcher works in. */
   leagueLhbShare?: number;
+  /**
+   * Absolute floor on a position rating before a card may be assigned there.
+   *
+   * The composite prices defence as a percentile at 17% of the score, which
+   * lets a big enough bat drag a genuinely unplayable glove onto the field —
+   * a 28 in right, a 36 behind the plate. L.J.'s rule is simpler and better:
+   * nothing below 50 plays anywhere except first base, where the position
+   * asks least. DH is exempt because there is no glove involved.
+   */
+  minPosRating?: number;
 }
 
 export interface EnvFits extends FitMaps {
@@ -151,6 +161,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
         if (v == null) continue;
         const posRating = c.ratings[`Pos Rating ${pos}`] ?? 0;
         if (pos !== "DH" && posRating <= 0) continue;
+        if (pos !== "DH" && pos !== "1B" && posRating < (o.minPosRating ?? 0)) continue;
         off.set(c.cardId, v);
         def.set(c.cardId, pos === "DH" ? 0 : posRating);
       }

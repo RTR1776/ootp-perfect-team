@@ -69,6 +69,12 @@ const OPTIMIZE = flag("optimize");
 const FIELD = flag("field");
 const MIN_DEF = num("min-def", 0.6)!;
 /**
+ * --min-pos: hard floor on a position rating, first base and DH exempt.
+ * Defaults to 50, which is L.J.'s standing rule — he will not field a glove
+ * below it, and the optimiser will happily do so for a big enough bat.
+ */
+const MIN_POS = num("min-pos", 50)!;
+/**
  * --slots "G13,I13" — a slots event's per-tier maximums, as tier codes
  * P/D/G/S/B/I. A lower-tier card may fill a higher-tier slot, which is what
  * tierFitsSlots and slotCapacityIssues already implement, so this only has to
@@ -253,7 +259,7 @@ async function main() {
       console.log(`  avg eligible arm: ${PK.map(k=>`${k} ${aP[k].toFixed(0)}`).join(" ")}`);
     }
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr , minPosRating: MIN_POS });
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                          RHB: ${marginalRatings(fits.envRight, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                         arms: ${marginalRatings(fits.envPitch, "pit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
