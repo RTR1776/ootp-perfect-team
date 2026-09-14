@@ -85,6 +85,10 @@ WEB = os.path.join(REPO, "web")
 TSX = os.path.join(WEB, "node_modules/.bin/tsx")
 IMPORT_LOG = os.path.join(REPO, "Archive/import-log.txt")
 FP_CACHE = os.path.join(REPO, "Archive/.fingerprints.json")
+# Exports you dismissed, as path -> mtime. Without this the leftover file
+# OOTP keeps in online_data greets you on every launch, and a Cancel in the
+# watch loop came straight back on the next 1.5s poll.
+SKIP_CACHE = os.path.join(REPO, "Archive/.skipped.json")
 WATCH_ONLY = "--watch" in sys.argv
 DAILY_EPOCH = date(2026, 3, 13)  # fallback only — see schedule() below
 # ---------------------------------------------------------------------------
@@ -863,6 +867,31 @@ def ask_id(varname: str, group: str, fileinfo: str, mtime: float):
             return ("ok", str(int(text)))  # int() strips leading zeros
         notify("Tourney id must be a number — try again.")
 
+def load_skips() -> dict:
+    try:
+        with open(SKIP_CACHE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def remember_skip(path: str, mtime: float) -> None:
+    """A dismissed export stays dismissed until it is exported again.
+
+    Keyed on mtime, so the moment OOTP rewrites that path the file is offered
+    again - which is the whole point, since OOTP always writes the same
+    filename and overwrites it on every export."""
+    d = load_skips()
+    d[path] = mtime
+    try:
+        os.makedirs(os.path.dirname(SKIP_CACHE), exist_ok=True)
+        with open(SKIP_CACHE, "w", encoding="utf-8") as f:
+            json.dump(d, f)
+    except OSError:
+        pass
+
+def was_skipped(path: str, mtime: float) -> bool:
+    return abs(load_skips().get(path, -1) - mtime) < 1.0
+
 def scan_paths() -> list:
     dirs = list(SCAN_DIRS)
     for g in SCAN_GLOBS:
@@ -894,7 +923,7 @@ def find_exports() -> list:
             if looks_like_export(p):
                 try:
                     m = os.path.getmtime(p)
-                    if fresh(m):
+                    if fresh(m) and not was_skipped(p, m):
                         found.append((m, p))
                 except OSError:
                     pass
@@ -917,6 +946,7 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
         choice = pick_one(info, mt, likely)
         if choice is None:
             print(f"skipped {os.path.basename(p)}")
+            remember_skip(p, mt)
             return "skip"
         if choice == "search":
             picked = pick_tournament(info + "\n\nWhich tournament is this? (type to jump, Cancel to go back)")
@@ -938,6 +968,7 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
                 continue
             if action == "skip":
                 print(f"skipped {os.path.basename(p)}")
+                remember_skip(p, mt)
                 return "skip"
         name = f"{varname}_{tid}.csv"
         dest = os.path.join(DEST, name)
@@ -945,6 +976,7 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
             r = alert(f"{name} already exists in Archive/Completed.", ("Skip", "Replace"), "Skip")
             if r != "Replace":
                 print(f"collision, kept old: {name}")
+                remember_skip(p, mt)
                 return "skip"
         if not group.startswith("pd"):
             shutil.copy2(p, os.path.join(QUEUE, name))  # DCFC takes tournament stats only
@@ -961,21 +993,27 @@ def main() -> None:
     os.makedirs(QUEUE, exist_ok=True)
     filed: list = []
 
+    # WATCH FIRST. The picker should appear because you just hit download, not
+    # because the script started. OOTP leaves its last export sitting in
+    # online_data forever, so opening with a prompt for it meant a dialog was
+    # always up before you had exported anything - which is exactly backwards.
+    # Anything already on disk is offered as a single yes/no, defaulting to no.
     exports = find_exports()
-    for i, (mt, p) in enumerate(exports, 1):
-        file_one(mt, p, f"File {i} of {len(exports)}", filed)
-
-    start_msg = (f"Filed {len(filed)} export(s)." if exports else "No unfiled exports right now.")
-    choice = "Watch for Exports" if WATCH_ONLY else alert(
-        start_msg + "\n\nWatch for more? Export from OOTP and I'll catch each file the moment it lands — "
-        f"the popup is always the one you just exported. Stops after {IDLE_QUIT_MINUTES} quiet minutes or Ctrl+C.",
-        ("Quit", "Watch for Exports"), "Watch for Exports")
-    if choice == "Quit":
-        summary = finish_imports()
-        if filed:
-            alert("Filed:\n" + "\n".join("  " + n for n in filed) + "\n\nCopies for cwhit are in Tourney Data/DCFC Upload Queue."
-                  + (f"\n\nDatabase:\n{summary}" if summary else ""))
-        return
+    if exports and not WATCH_ONLY:
+        older = alert(
+            f"{len(exports)} export(s) are already sitting unfiled:\n"
+            + "\n".join("  " + os.path.basename(p) + "   " + time.strftime("%a %H:%M", time.localtime(mt))
+                        for mt, p in exports[:6])
+            + ("\n  …" if len(exports) > 6 else "")
+            + "\n\nFile those now, or skip straight to watching for your next export?",
+            ("File Them Now", "Just Watch"), "Just Watch")
+        if older == "File Them Now":
+            for i, (mt, p) in enumerate(exports, 1):
+                file_one(mt, p, f"File {i} of {len(exports)}", filed)
+        else:
+            for mt, p in exports:
+                remember_skip(p, mt)
+            print(f"left {len(exports)} older export(s) unfiled — they will not be offered again until re-exported")
 
     print(f"Watching… export from OOTP now. Ctrl+C here to finish (auto-quits after {IDLE_QUIT_MINUTES} idle minutes).")
     notify("Watching — export from OOTP now.")
@@ -1005,8 +1043,12 @@ def main() -> None:
                     if not fresh(m) or not settled(p) or not looks_like_export(p):
                         continue
                     seen[p] = m
-                    file_one(m, p, "New export", filed)
-                    seen.pop(p, None)
+                    result = file_one(m, p, "New export", filed)
+                    # Only forget the path when the file actually moved. Popping
+                    # it unconditionally is what made a dismissed picker reopen
+                    # on the very next poll and look like it never went away.
+                    if result == "ok":
+                        seen.pop(p, None)
                     last_activity = time.time()
     except KeyboardInterrupt:
         pass
