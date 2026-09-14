@@ -1,0 +1,23 @@
+{
+  "_note": "Theme-week roster edit. De Vries is hand-entered from the card screen because he is not yet in the cards table — re-run pnpm import:cards with a fresh shop export and this override can be deleted. Handedness is ASSUMED switch (S): the card summary does not show it and Leodalis De Vries is a switch hitter in real life. If he is right-handed, say so — it changes which side of a platoon park he gets, not whether he plays.",
+  "drop": ["Mickey Moniak", "Roger Connor"],
+  "add": [
+    {
+      "cardId": 999001, "name": "Leodalis De Vries", "val": 102, "bats": "S", "pos": "SS", "isPitcher": false,
+      "ratings": {
+        "Avoid Ks": 127, "Avoid K vL": 119, "Avoid K vR": 130,
+        "BABIP": 152, "BABIP vL": 144, "BABIP vR": 155,
+        "Gap": 152, "Gap vL": 141, "Gap vR": 155,
+        "Power": 118, "Power vL": 115, "Power vR": 120,
+        "Eye": 145, "Eye vL": 144, "Eye vR": 145,
+        "Speed": 91, "Steal Rate": 105, "Stealing": 115, "Baserunning": 97,
+        "Sac bunt": 64, "Bunt for hit": 49,
+        "Pos Rating 2B": 130, "Pos Rating 3B": 116, "Pos Rating SS": 115,
+        "Pos Rating C": 0, "Pos Rating 1B": 0, "Pos Rating LF": 0, "Pos Rating CF": 0, "Pos Rating RF": 0,
+        "Infield Range": 113, "Infield Error": 81, "Infield Arm": 102, "DP": 101,
+        "OF Range": 77, "OF Error": 67, "OF Arm": 66
+      }
+    }
+  ],
+  "addFromCards": ["Heinie Manush"]
+}

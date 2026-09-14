@@ -16,6 +16,7 @@ import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
 import { marginalRatings, roleRuns } from "@/lib/analytics/card-value";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
 import { HIT_POS } from "@/lib/roster-fill";
+import { readFileSync } from "node:fs";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -50,10 +51,27 @@ async function main() {
     join cards c on c.card_id = st.cid
     where ls.league = ${LEAGUE} and ls.split = 'all' and ls.captured_on = ${ON}
       and st.org = ${TEAM}`));
-  const pool = rows.map((r) => ({
+  let pool = rows.map((r) => ({
     cardId: r.cid, isPitcher: r.is_pitcher, bats: r.bats, ratings: r.ratings ?? {},
     role: r.pos, name: r.name, val: r.card_value,
   }));
+  /** Mid-week roster changes the weekly export has not caught up with. */
+  const EDIT = val("roster-edit");
+  if (EDIT) {
+    const e = JSON.parse(readFileSync(EDIT, "utf8"));
+    const before = pool.length;
+    pool = pool.filter((c) => !(e.drop ?? []).includes(c.name));
+    for (const a of e.add ?? []) pool.push({ ...a, role: a.pos });
+    for (const nm of e.addFromCards ?? []) {
+      const [c] = asRows<any>(await db.execute(sql`
+        select card_id, name, card_value, position, bats, ratings, is_pitcher, pitcher_role
+        from cards where name = ${nm} order by card_value desc limit 1`));
+      if (!c) { console.log(`!! ${nm} not in the cards table`); continue; }
+      pool.push({ cardId: c.card_id, isPitcher: c.is_pitcher, bats: c.bats, ratings: c.ratings ?? {},
+        role: c.is_pitcher ? c.pitcher_role : c.position, name: c.name, val: c.card_value });
+    }
+    console.log(`roster edit: ${before} -> ${pool.length}  (out: ${(e.drop ?? []).join(", ")} · in: ${[...(e.add ?? []).map((a: any) => a.name), ...(e.addFromCards ?? [])].join(", ")})`);
+  }
   const fits = envFitMaps(pool as any, { era: era.rates, park: half });
   console.log(`\n+10 rating buys — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                  RHB: ${marginalRatings(fits.envRight, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
