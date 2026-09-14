@@ -689,10 +689,12 @@ def one_shot_rows(mtime: float, likely: list = ()) -> list:
         gid = guess_id(v, g, mtime)
         # A date means the dumps have this exact run on record. A ~ means the
         # number was counted forward past where the dumps end — check it.
-        pick = dump_run_for(v) if v in _SCHEDULE else None
+        pick = dump_run_for(v, mtime) if v in _SCHEDULE else None
         if pick and str(pick[0]) == gid:
             when = time.strftime("%a %b %-d", time.localtime(pick[1]))
-            return (f"{n}  ·  {gid}  ({when})   [{TAGS[g]} {v}]", (v, g, gid))
+            # ✓ = the only event of yours in this series still unfiled.
+            sure = "✓" if pick[2] else ""
+            return (f"{n}  ·  {gid}  ({when}){sure}   [{TAGS[g]} {v}]", (v, g, gid))
         mark = "" if v in _SCHEDULE else "~"
         return (f"{n}  ·  ~{gid or '?'}   [{TAGS[g]} {v}]", (v, g, gid))
 
@@ -736,7 +738,9 @@ def pick_one(info: str, mtime: float, likely: list = ()):
         return pay
 
 _SCHEDULE = {}   # slug -> (slot, last_run, last_start, period_days)
-RUNS_BY_SLUG = {}  # slug -> [(run, start_unix), ...] every run the dumps have seen
+RUNS_BY_SLUG = {}     # slug -> [(run, start_unix), ...] every run the dumps have seen
+ENTERED_BY_SLUG = {}  # slug -> {run, ...} the ones YOU were actually in
+PT_USER = "rtr1776"
 _LOADED = [False]
 
 def load_schedule() -> dict:
@@ -773,7 +777,8 @@ def load_schedule() -> dict:
         files = sorted(glob.glob(os.path.join(DUMP_DIR, f"pt27_{kind}_*dump_*.csv")))
         if files:
             newest[kind] = files[-1]
-    runs = {}   # slot -> list of (run, start)
+    runs = {}    # slot -> list of (run, start)
+    mine = {}    # slot -> {run, ...} where PT_USER is in the finish order
     for path in newest.values():
         try:
             with open(path, "r", encoding="utf-8", errors="replace") as f:
@@ -783,9 +788,15 @@ def load_schedule() -> dict:
                         continue
                     n = int(row[0])
                     try:
-                        runs.setdefault(n // 10000, []).append((n % 10000, int(row[2])))
+                        slot, run = n // 10000, n % 10000
+                        runs.setdefault(slot, []).append((run, int(row[2])))
                     except ValueError:
                         continue
+                    # The dump lists the WHOLE field, so it also says which
+                    # events you were in. That is the difference between "the
+                    # next run of this series" and "the next run you played".
+                    if any(c.strip().lower() == PT_USER for c in row[3:]):
+                        mine.setdefault(slot, set()).add(run)
         except OSError:
             continue
 
@@ -795,6 +806,7 @@ def load_schedule() -> dict:
             continue
         rs.sort()
         RUNS_BY_SLUG[slug] = list(rs)
+        ENTERED_BY_SLUG[slug] = mine.get(slot, set())
         # cadence = the usual gap between consecutive runs (1 day / 7 days)
         gaps = sorted((b[1] - a[1]) / 86400.0 for a, b in zip(rs, rs[1:]) if b[0] == a[0] + 1)
         period = round(gaps[len(gaps) // 2]) if gaps else 1
@@ -804,6 +816,8 @@ def load_schedule() -> dict:
         for slug, hit in list(sched.items()):
             if hit[0] == slot and old not in sched:
                 sched[old] = hit
+                RUNS_BY_SLUG.setdefault(old, RUNS_BY_SLUG.get(slug, []))
+                ENTERED_BY_SLUG.setdefault(old, ENTERED_BY_SLUG.get(slug, set()))
     return sched
 
 def schedule() -> dict:
@@ -826,32 +840,48 @@ def already_filed(slug: str) -> set:
             out.add(int(m.group(1)))
     return out
 
-def dump_run_for(slug: str):
-    """The run this export is most likely to BE, read off the dumps.
+def my_runs(slug: str) -> list:
+    """(run, start, filed?) for the runs of this series YOU ACTUALLY ENTERED,
+    newest first.
 
-    The old guess extrapolated from the last known run to the moment the file
-    landed, which silently assumes you export an event the day it finishes.
-    Back-file a week's backlog and every id is wrong by a week — Late Silver
-    177 came out as 184, exactly seven days of drift.
-
-    The dumps list every run that actually happened, so the honest answer is
-    the newest run on record that is not already in Archive/Completed. Returns
-    (run, start_unix) or None when the dumps have nothing left to offer, in
-    which case the caller falls back to extrapolating past the dump's end."""
+    This is the whole point. You do not play every run of a series — 38 of 178
+    Late Silvers, 8 of 161 Bronze OOTPs — so "the next run of this series" is
+    not an answer, and neither is counting days on a calendar. The dump lists
+    the entire field of every event, which means it also says exactly which
+    ones you were in. Those are the only runs an export of yours can be."""
     runs = RUNS_BY_SLUG.get(slug) or []
-    if not runs:
-        return None
+    entered = ENTERED_BY_SLUG.get(slug) or set()
     filed = already_filed(slug)
-    for run, start in sorted(runs, reverse=True):
-        if run not in filed:
-            return (run, start)
-    return None
+    return [(r, st, r in filed) for r, st in sorted(runs, reverse=True) if r in entered]
 
-def recent_runs(slug: str, n: int = 6) -> list:
-    """(run, start, filed?) for the last n runs — the hint shown when typing an id."""
-    runs = sorted(RUNS_BY_SLUG.get(slug) or [], reverse=True)[:n]
-    filed = already_filed(slug)
-    return [(r, st, r in filed) for r, st in runs]
+RECENT_WINDOW_DAYS = 10
+
+def dump_run_for(slug: str, mtime: float = None):
+    """The run this export most likely IS. Returns (run, start_unix, certain?).
+
+    Two facts narrow it: the dump says which events you entered, and you are
+    exporting one you just played. So the candidates are your unfiled entered
+    runs, and the answer is the newest one that finished near this file's date.
+
+    The date window matters because you have a long tail of events you played
+    and never exported — 21 unfiled Late Silvers, 41 Diamond & Friends. Without
+    it the default would reach back into that tail. `certain` is True only when
+    the window leaves exactly one candidate."""
+    mine = my_runs(slug)
+    if not mine:
+        return None
+    unfiled = [(r, st) for r, st, done in mine if not done]
+    if not unfiled:
+        return None
+    if mtime is not None:
+        near = [(r, st) for r, st in unfiled if abs(mtime - st) <= RECENT_WINDOW_DAYS * 86400]
+        if near:
+            return (near[0][0], near[0][1], len(near) == 1)
+    return (unfiled[0][0], unfiled[0][1], False)
+
+def recent_runs(slug: str, n: int = 8) -> list:
+    """Kept for the type-an-id dialog: the runs you entered, newest first."""
+    return my_runs(slug)[:n]
 
 def guess_id(varname: str, group: str, mtime: float) -> str:
     """The tourney id for an export that landed at `mtime`.
@@ -864,7 +894,7 @@ def guess_id(varname: str, group: str, mtime: float) -> str:
         _slot, last_run, last_start, period = hit
         # A real run the dumps recorded and nothing has claimed yet beats any
         # arithmetic on today's date.
-        pick = dump_run_for(varname)
+        pick = dump_run_for(varname, mtime)
         if pick:
             return str(pick[0])
         # Nothing left unfiled on record, so this is newer than the dumps go.
@@ -903,13 +933,15 @@ def ask_id(varname: str, group: str, fileinfo: str, mtime: float):
     # it is in the dump, so show the dump instead of asserting a guess.
     rr = recent_runs(varname)
     if rr:
-        hint = ("\n\nRuns on record for this series (from the community dumps):\n"
+        hint = ("\n\nEvents of this series YOU ENTERED (from the community dumps):\n"
                 + "\n".join(f"   {r}  {time.strftime('%a %b %-d', time.localtime(st))}"
                              + ("   already filed" if done else "")
                              for r, st, done in rr)
-                + "\n\nCheck against the number in ( ) in the game title.")
+                + "\n\nIt has to be one of these. Check the date against the game title.")
     elif guess:
-        hint = "\n\nNo dump coverage for this series — the number below is counted from the calendar, so check it against the number in ( ) in the game title."
+        hint = ("\n\nThe dumps have no event of this series with you in it — either it is newer than"
+                " the last dump you loaded, or the series is new. The number below is counted forward"
+                " from the dump's end, so check it against the number in ( ) in the game title.")
     else:
         hint = "\n\nQuicks have no calendar — type the quick number from the game title."
     while True:
