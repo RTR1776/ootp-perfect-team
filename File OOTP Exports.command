@@ -687,8 +687,14 @@ def one_shot_rows(mtime: float, likely: list = ()) -> list:
     def row(v):
         _v, n, g = by_v[v]
         gid = guess_id(v, g, mtime)
-        mark = "" if v in schedule() else "~"   # ~ = calendar guess, check it
-        return (f"{n}  ·  {mark}{gid or '?'}   [{TAGS[g]} {v}]", (v, g, gid))
+        # A date means the dumps have this exact run on record. A ~ means the
+        # number was counted forward past where the dumps end — check it.
+        pick = dump_run_for(v) if v in _SCHEDULE else None
+        if pick and str(pick[0]) == gid:
+            when = time.strftime("%a %b %-d", time.localtime(pick[1]))
+            return (f"{n}  ·  {gid}  ({when})   [{TAGS[g]} {v}]", (v, g, gid))
+        mark = "" if v in _SCHEDULE else "~"
+        return (f"{n}  ·  ~{gid or '?'}   [{TAGS[g]} {v}]", (v, g, gid))
 
     rows = [(SEARCH_ROW, "search")]
     likely = [v for v in likely if v in by_v]
@@ -730,6 +736,7 @@ def pick_one(info: str, mtime: float, likely: list = ()):
         return pay
 
 _SCHEDULE = {}   # slug -> (slot, last_run, last_start, period_days)
+RUNS_BY_SLUG = {}  # slug -> [(run, start_unix), ...] every run the dumps have seen
 _LOADED = [False]
 
 def load_schedule() -> dict:
@@ -787,6 +794,7 @@ def load_schedule() -> dict:
         if not slug or len(rs) < 2:
             continue
         rs.sort()
+        RUNS_BY_SLUG[slug] = list(rs)
         # cadence = the usual gap between consecutive runs (1 day / 7 days)
         gaps = sorted((b[1] - a[1]) / 86400.0 for a, b in zip(rs, rs[1:]) if b[0] == a[0] + 1)
         period = round(gaps[len(gaps) // 2]) if gaps else 1
@@ -809,14 +817,58 @@ def schedule() -> dict:
 
 LAST_DAILY_ID = [None]  # sticky: back-filling a week means many same-day dailies in a row
 
+def already_filed(slug: str) -> set:
+    """Run numbers of this series already sitting in Archive/Completed."""
+    out = set()
+    for f in glob.glob(os.path.join(DEST, f"{slug}_*.csv")):
+        m = re.match(rf"{re.escape(slug)}_(\d+)\.csv$", os.path.basename(f))
+        if m:
+            out.add(int(m.group(1)))
+    return out
+
+def dump_run_for(slug: str):
+    """The run this export is most likely to BE, read off the dumps.
+
+    The old guess extrapolated from the last known run to the moment the file
+    landed, which silently assumes you export an event the day it finishes.
+    Back-file a week's backlog and every id is wrong by a week — Late Silver
+    177 came out as 184, exactly seven days of drift.
+
+    The dumps list every run that actually happened, so the honest answer is
+    the newest run on record that is not already in Archive/Completed. Returns
+    (run, start_unix) or None when the dumps have nothing left to offer, in
+    which case the caller falls back to extrapolating past the dump's end."""
+    runs = RUNS_BY_SLUG.get(slug) or []
+    if not runs:
+        return None
+    filed = already_filed(slug)
+    for run, start in sorted(runs, reverse=True):
+        if run not in filed:
+            return (run, start)
+    return None
+
+def recent_runs(slug: str, n: int = 6) -> list:
+    """(run, start, filed?) for the last n runs — the hint shown when typing an id."""
+    runs = sorted(RUNS_BY_SLUG.get(slug) or [], reverse=True)[:n]
+    filed = already_filed(slug)
+    return [(r, st, r in filed) for r, st in runs]
+
 def guess_id(varname: str, group: str, mtime: float) -> str:
     """The tourney id for an export that landed at `mtime`.
 
     Exact when the dumps know this slug: last observed run plus however many
     runs have started since. Only falls back to the calendar when they don't."""
-    hit = schedule().get(varname)
+    schedule()   # populates RUNS_BY_SLUG
+    hit = _SCHEDULE.get(varname)
     if hit:
         _slot, last_run, last_start, period = hit
+        # A real run the dumps recorded and nothing has claimed yet beats any
+        # arithmetic on today's date.
+        pick = dump_run_for(varname)
+        if pick:
+            return str(pick[0])
+        # Nothing left unfiled on record, so this is newer than the dumps go.
+        # Count forward from the last run the dumps DO have.
         elapsed = int((mtime - last_start) // (period * 86400))
         return str(max(last_run + elapsed, 0))
     if group == "daily":
@@ -846,7 +898,20 @@ def guess_id(varname: str, group: str, mtime: float) -> str:
 def ask_id(varname: str, group: str, fileinfo: str, mtime: float):
     """Returns (action, id). action in ok|back|skip."""
     guess = guess_id(varname, group, mtime)
-    hint = f"\n\nPre-filled with my best guess from the calendar — check it against the number in ( ) in the game title." if guess else "\n\nQuicks have no calendar — type the quick number from the game title."
+    # Show the runs the dumps actually recorded, with dates and whether each is
+    # already filed. This is the real answer to "how would it know the number":
+    # it is in the dump, so show the dump instead of asserting a guess.
+    rr = recent_runs(varname)
+    if rr:
+        hint = ("\n\nRuns on record for this series (from the community dumps):\n"
+                + "\n".join(f"   {r}  {time.strftime('%a %b %-d', time.localtime(st))}"
+                             + ("   already filed" if done else "")
+                             for r, st, done in rr)
+                + "\n\nCheck against the number in ( ) in the game title.")
+    elif guess:
+        hint = "\n\nNo dump coverage for this series — the number below is counted from the calendar, so check it against the number in ( ) in the game title."
+    else:
+        hint = "\n\nQuicks have no calendar — type the quick number from the game title."
     while True:
         res = osascript(
             f'display dialog "{q(fileinfo)}\n\nTournament: {q(varname)}\nTourney id (quick number or last 3 digits, no leading zeros):{hint}" '
@@ -899,12 +964,21 @@ def scan_paths() -> list:
     return [d for d in dirs if os.path.isdir(d)]
 
 def looks_like_export(path: str) -> bool:
+    """A SORTABLE STATS export, not a roster export.
+
+    Both begin "POS," — OOTP's roster view is POS,#,Name,Inf,Age,NAT,… and has
+    no stats and no ORG column at all. One slipped through as openweekly_25.csv:
+    26 rows, zero teams, and it went to the DCFC queue looking like a
+    tournament. The stats view is the one with ORG and the counting columns."""
     try:
         with open(path, "r", encoding="utf-8", errors="replace") as f:
             head = f.readline()
-        return head.startswith("POS,") or head.startswith("POS;")
     except OSError:
         return False
+    if not (head.startswith("POS,") or head.startswith("POS;")):
+        return False
+    cols = {c.strip() for c in re.split(r"[,;]", head)}
+    return "ORG" in cols and "PA" in cols and "BF" in cols
 
 def settled(path: str) -> bool:
     try:
