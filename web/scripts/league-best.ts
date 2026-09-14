@@ -20,6 +20,7 @@ import { marginalRatings, roleRuns } from "@/lib/analytics/card-value";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
 import { HIT_POS } from "@/lib/roster-fill";
 import { readFileSync } from "node:fs";
+import { mergeCopyRatings } from "@/lib/ingest/collection";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -58,26 +59,25 @@ async function main() {
 
   /* ---- pool: every card owned, joined for handedness and role ---- */
   const raw = asRows<any>(await db.execute(sql`
-    select cc.card_id, coalesce(c.name, cc.name) name, coalesce(c.card_value, cc.card_value) val,
+    select cc.id row_id, cc.card_id, coalesce(c.name, cc.name) name, coalesce(c.card_value, cc.card_value) val,
            c.tier, c.year, c.bats, c.throws, c.is_pitcher, c.pitcher_role, c.position,
-           coalesce(c.ratings, cc.ratings) ratings, cc.pos cpos
+           c.ratings ratings, cc.ratings copy_ratings, cc.is_variant, cc.match_distance, cc.pos cpos
     from collection_cards cc
     left join cards c on c.card_id = cc.card_id
-    where cc.upload_id = ${UPLOAD}
-    group by 1,2,3,4,5,6,7,8,9,10,11,12`));
+    where cc.upload_id = ${UPLOAD}`));
   /**
    * The collection upload is a snapshot and the roster has moved since, so any
    * card currently rostered is folded in whether or not it was in that upload.
    * Without this the "dropping" list prints bare card ids.
    */
   const extra = asRows<any>(await db.execute(sql`
-    select st.cid card_id, coalesce(c.name, st.name) name, c.card_value val, c.tier, c.year,
-           c.bats, c.throws, c.is_pitcher, c.pitcher_role, c.position, c.ratings, st.pos cpos
+    select distinct st.cid card_id, coalesce(c.name, st.name) name, c.card_value val, c.tier, c.year,
+           c.bats, c.throws, c.is_pitcher, c.pitcher_role, c.position, c.ratings,
+           null::jsonb copy_ratings, false is_variant, st.pos cpos
     from league_stints st
     join league_snapshots ls on ls.id = st.snapshot_id
     left join cards c on c.card_id = st.cid
-    where ls.league = ${LEAGUE} and ls.split = 'all' and ls.captured_on = ${ON} and st.org = ${TEAM}
-    group by 1,2,3,4,5,6,7,8,9,10,11,12`));
+    where ls.league = ${LEAGUE} and ls.split = 'all' and ls.captured_on = ${ON} and st.org = ${TEAM}`));
   const seen = new Set(raw.map((r) => Number(r.card_id)));
   for (const e of extra) if (!seen.has(Number(e.card_id))) raw.push(e);
   /** Mid-week roster moves the weekly export has not caught up with. */
@@ -90,9 +90,16 @@ async function main() {
       if (hit) rosterNow.delete(Number(hit.card_id));
     }
     for (const a of e.add ?? []) {
+      /**
+       * A hand-entered card usually also appears in the collection export as an
+       * unmatched row with no position ratings. The hand-entered copy is the
+       * better one — it has the full card screen behind it — so the export's
+       * row is dropped rather than scored alongside it as a second player.
+       */
+      for (let i = raw.length - 1; i >= 0; i--) if (raw[i].name === a.name) raw.splice(i, 1);
       if (!seen.has(Number(a.cardId))) raw.push({ card_id: a.cardId, name: a.name, val: a.val, tier: a.val >= 100 ? "Perfect" : "Diamond",
         year: a.year ?? null, bats: a.bats, is_pitcher: a.isPitcher, pitcher_role: a.isPitcher ? a.pos : null,
-        position: a.isPitcher ? null : a.pos, ratings: a.ratings, cpos: a.pos });
+        position: a.isPitcher ? null : a.pos, ratings: a.ratings, copy_ratings: null, is_variant: false, cpos: a.pos });
       rosterNow.add(Number(a.cardId));
     }
     for (const nm of e.addFromCards ?? []) {
@@ -100,25 +107,60 @@ async function main() {
         select card_id, name, card_value val, tier, year, bats, is_pitcher, pitcher_role, position, ratings
         from cards where name = ${nm} order by card_value desc limit 1`));
       if (!c) { console.log(`!! ${nm} not in the cards table`); continue; }
-      if (!seen.has(Number(c.card_id))) raw.push({ ...c, cpos: c.is_pitcher ? c.pitcher_role : c.position });
+      if (!seen.has(Number(c.card_id))) raw.push({ ...c, copy_ratings: null, is_variant: false, cpos: c.is_pitcher ? c.pitcher_role : c.position });
       rosterNow.add(Number(c.card_id));
     }
     console.log(`roster edit applied: out ${(e.drop ?? []).join(", ") || "—"} · in ${[...(e.add ?? []).map((a: any) => a.name), ...(e.addFromCards ?? [])].join(", ") || "—"}`);
   }
   const missing = raw.filter((r) => r.is_pitcher == null).length;
   const pool = raw
-    .filter((r) => r.ratings && Object.keys(r.ratings).length > 3 && Number(r.val) >= MINVAL)
+    .filter((r) => (r.ratings || r.copy_ratings) && Number(r.val) >= MINVAL)
     .map((r) => {
       const isP = r.is_pitcher ?? /^(SP|RP|CL|P)$/.test(String(r.cpos ?? ""));
+      /**
+       * KEY ON THE OWNED COPY, NOT THE CARD.
+       *
+       * Several rows can share one card_id: a variant matches to its base card,
+       * and so does any copy the shop list is too old to contain. Keying the fit
+       * maps on card_id silently collapses them, and the survivor is whichever
+       * row was scored last — which is how an 84-value Josh Gibson, force-matched
+       * to the 101 at a distance of 39.5, overwrote the real one and dropped him
+       * 27 runs. collection_cards.id is one row per owned copy, so it cannot
+       * collide.
+       */
       return {
-        cardId: r.card_id, name: r.name, val: Number(r.val), tier: r.tier, year: r.year,
+        cardId: r.row_id ?? r.card_id, realId: r.card_id, name: r.name, val: Number(r.val), tier: r.tier, year: r.year,
         bats: r.bats ?? "R", isPitcher: isP,
         role: isP ? (r.pitcher_role ?? r.cpos ?? null) : (r.position ?? r.cpos ?? null),
-        ratings: r.ratings as Record<string, number>,
+        /**
+         * A variant is matched to its BASE card, so cards.ratings is the base
+         * line. Scoring a variant off it throws away exactly the thing that
+         * makes it a variant — the Cy Young variant is 9 points of Stuff better
+         * than the card it matched to. The collection export carries each owned
+         * copy's own numbers, so they are overlaid here.
+         */
+        /**
+         * A FAR MATCH IS NOT A MATCH. The matcher always returns its nearest
+         * shop card, so a copy the shop list predates comes back attached to a
+         * different card entirely. Past a small distance the base ratings are
+         * someone else's, so only the copy's own numbers are used — which means
+         * no position ratings, so the card can only DH. That is the honest
+         * consequence of an unresolvable row, and it shows up as a low score
+         * rather than as a phantom star.
+         */
+        ratings: (Number(r.match_distance ?? 0) > 10
+          ? mergeCopyRatings(null, r.copy_ratings)
+          : mergeCopyRatings(r.ratings, r.copy_ratings)) as Record<string, number>,
+        isVariant: !!r.is_variant,
+        far: Number(r.match_distance ?? 0) > 10,
       };
     });
-  console.log(`\npool: ${pool.length} owned cards scored (upload ${UPLOAD})` +
-    (missing ? `; ${missing} rows had no cards-table match and fell back to the collection's own ratings` : ""));
+  const varN = pool.filter((c) => (c as any).isVariant).length;
+  const farN = pool.filter((c) => (c as any).far).length;
+  console.log(`\npool: ${pool.length} owned cards scored (upload ${UPLOAD}), ${varN} of them variants scored on their own boosted ratings` +
+    (varN ? "" : "") +
+    (missing ? `; ${missing} rows had no cards-table match` : "") +
+    (farN ? `; ${farN} matched too far off (distance > 10) to trust the base card and use only their own ratings — export a fresh pt_card_list to resolve them` : ""));
 
   /* ---- score: theme environment (with park) and the league default (neutral) ---- */
   const fit = envFitMaps(pool as any, { era: era.rates, park: half });
@@ -169,7 +211,7 @@ async function main() {
 
   /* ---- who is on the roster now ---- */
   const cur = rosterNow;
-  const mark = (c: any) => (cur.has(c.cardId) ? "*" : " ");
+  const mark = (c: any) => (cur.has(c.realId ?? c.cardId) ? "*" : " ");
 
   const posOf = (c: any, p: string) => c.ratings[`Pos Rating ${p}`] ?? 0;
   const bestPos = (c: any) => Math.max(...HIT_POS.map((p) => posOf(c, p)));
@@ -178,7 +220,7 @@ async function main() {
 
   const row = (c: any, extra = "") =>
     `  ${mark(c)}${String(c.val).padStart(3)} ${String(c.tier ?? "?").slice(0, 7).padEnd(7)} ${String(c.year ?? "").padStart(4)} ` +
-    `${String(c.name).slice(0, 24).padEnd(25)} ${f1(v(c)).padStart(7)}  ${f1(d(c)).padStart(6)} ${String(rk(c) > 0 ? `+${rk(c)}` : rk(c)).padStart(5)}  ${extra}`;
+    `${(String(c.name).slice(0, 22) + (c.isVariant ? " \u2726" : "")).padEnd(25)} ${f1(v(c)).padStart(7)}  ${f1(d(c)).padStart(6)} ${String(rk(c) > 0 ? `+${rk(c)}` : rk(c)).padStart(5)}  ${extra}`;
 
   console.log(`\n--- top ${SHOW} BATS in the collection (* = on the roster now) ---`);
   console.log(`   val tier    year name                        ${YEAR}     Δadj Δrank  best position`);
@@ -308,7 +350,7 @@ async function main() {
   console.log(`\n--- best available AT EACH POSITION, whole collection ---`);
   for (const p of slots) {
     const top = bats.filter((c) => canPlay(c, p)).slice(0, 3);
-    console.log(`  ${p.padEnd(3)} ${top.map((c) => `${cur.has(c.cardId) ? "*" : ""}${c.name} ${f1(v(c))}${p === "DH" ? "" : `/${Math.round(posOf(c, p))}`}`).join("   ·   ")}`);
+    console.log(`  ${p.padEnd(3)} ${top.map((c) => `${cur.has(c.realId ?? c.cardId) ? "*" : ""}${c.name} ${f1(v(c))}${p === "DH" ? "" : `/${Math.round(posOf(c, p))}`}`).join("   ·   ")}`);
   }
 
   console.log(`\n=== BEST 26 FROM THE WHOLE COLLECTION · ${YEAR}${pr ? ` · ${PARK_YEAR} ${PARK}` : ""} ===`);
@@ -329,10 +371,12 @@ async function main() {
   rp.forEach((c) => console.log(row(c, `STM ${String(Math.round(stm(c))).padStart(3)}  as RP ${f1(reScore(c, "RP"))}`)));
 
   const picked = new Set([...Object.values(lineup).map((c: any) => c.cardId), ...bench.map((c) => c.cardId), ...staff.map((c) => c.cardId)]);
-  const inN = [...picked].filter((id) => cur.has(id)).length;
+  const realOf = (id: number) => pool.find((c) => c.cardId === id)?.realId ?? id;
+  const pickedReal = new Set([...picked].map(realOf));
+  const inN = [...pickedReal].filter((id) => cur.has(id)).length;
   console.log(`\n  ${inN} of the best 26 are already on the roster; ${26 - inN} would be changes.`);
-  console.log(`  rostered but not in the best 26: ${[...cur].filter((id) => !picked.has(id)).map((id) => pool.find((c) => c.cardId === id)?.name ?? id).join(", ") || "—"}`);
-  console.log(`  adding:   ${[...picked].filter((id) => !cur.has(id)).map((id) => pool.find((c) => c.cardId === id)?.name ?? id).join(", ") || "—"}`);
+  console.log(`  rostered but not in the best 26: ${[...cur].filter((id) => !pickedReal.has(id)).map((id) => pool.find((c) => (c.realId ?? c.cardId) === id)?.name ?? id).join(", ") || "—"}`);
+  console.log(`  adding:   ${[...picked].filter((id) => !cur.has(realOf(id))).map((id) => pool.find((c) => c.cardId === id)?.name ?? id).join(", ") || "—"}`);
   process.exit(0);
 }
 main();

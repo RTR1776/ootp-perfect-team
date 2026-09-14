@@ -226,3 +226,74 @@ export function matchCollectionToShop(
 export function looksLikeCollection(headerLine: string): boolean {
   return /(^|,)POS(,|$)/.test(headerLine) && /CVAL/.test(headerLine) && /VAR/.test(headerLine);
 }
+
+/**
+ * Per-copy ratings — what a VARIANT actually is.
+ *
+ * `cards.ratings` is the base card from the shop list. A variant is matched to
+ * that base card, so joining collection → cards and reading the base ratings
+ * scores every variant on numbers it does not have: the Cy Young variant carries
+ * Stuff vR 126 against the base card's 117, and across L.J.'s high-value variants
+ * the gap runs to 7.5 rating points. The collection export is the only source for
+ * the boosted line, which is why collection_cards.ratings exists.
+ *
+ * The two exports agree EXACTLY on every field below — mean difference 0.00 with
+ * zero variance over 471 base cards — so the overlay is a rename, not a
+ * conversion. Fields the collection does not carry (Pos Rating *, the overall
+ * composites, pitch types) are left as the base card's, which is correct: a
+ * variant plays the same positions.
+ *
+ * Note BA maps to BABIP, not Contact. The two are different ratings and
+ * matching on Contact is what the fingerprint deliberately avoids.
+ */
+const PER_COPY: Array<[collection: string, model: string]> = [
+  ["BA vL", "BABIP vL"], ["BA vR", "BABIP vR"],
+  ["GAP vL", "Gap vL"], ["GAP vR", "Gap vR"],
+  ["POW vL", "Power vL"], ["POW vR", "Power vR"],
+  ["EYE vL", "Eye vL"], ["EYE vR", "Eye vR"],
+  ["K vL", "Avoid K vL"], ["K vR", "Avoid K vR"],
+  ["STU vL", "Stuff vL"], ["STU vR", "Stuff vR"],
+  ["CON vL", "Control vL"], ["CON vR", "Control vR"],
+  ["PBABIP vL", "pBABIP vL"], ["PBABIP vR", "pBABIP vR"],
+  ["HRA vL", "pHR vL"], ["HRA vR", "pHR vR"],
+  ["STM", "Stamina"], ["SPE", "Speed"], ["STE", "Stealing"],
+  ["SR", "Steal Rate"], ["RUN", "Baserunning"],
+  ["IF RNG", "Infield Range"], ["IF ERR", "Infield Error"], ["IF ARM", "Infield Arm"],
+  ["TDP", "DP"], ["OF RNG", "OF Range"], ["OF ERR", "OF Error"], ["OF ARM", "OF Arm"],
+  ["C ARM", "Catcher Arm"],
+];
+
+/**
+ * The overall composites the model also reads. The collection export has no
+ * both-hands column, so they are rebuilt from the split the same way the rest of
+ * the codebase blends one: 70% vs RHP.
+ */
+const COMPOSITES: Array<[model: string, vl: string, vr: string]> = [
+  ["BABIP", "BABIP vL", "BABIP vR"], ["Gap", "Gap vL", "Gap vR"],
+  ["Power", "Power vL", "Power vR"], ["Eye", "Eye vL", "Eye vR"],
+  ["Avoid Ks", "Avoid K vL", "Avoid K vR"], ["Stuff", "Stuff vL", "Stuff vR"],
+  ["Control", "Control vL", "Control vR"], ["pBABIP", "pBABIP vL", "pBABIP vR"],
+  ["pHR", "pHR vL", "pHR vR"],
+];
+
+export function mergeCopyRatings(
+  base: Record<string, number> | null | undefined,
+  copy: Record<string, number> | null | undefined,
+): Record<string, number> {
+  const out: Record<string, number> = { ...(base ?? {}) };
+  if (!copy) return out;
+  let touched = false;
+  for (const [c, m] of PER_COPY) {
+    const v = copy[c];
+    if (typeof v === "number") { if (out[m] !== v) touched = true; out[m] = v; }
+  }
+  // Only rebuild the composites if the split actually moved, so a base card's
+  // own overall ratings are never replaced by a reconstruction of themselves.
+  if (touched) {
+    for (const [m, l, r] of COMPOSITES) {
+      const a = out[l], b = out[r];
+      if (typeof a === "number" && typeof b === "number") out[m] = 0.3 * a + 0.7 * b;
+    }
+  }
+  return out;
+}
