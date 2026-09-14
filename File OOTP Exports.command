@@ -1061,21 +1061,22 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
             varname, _n, group = picked
             tid = None
         else:
-            varname, group, tid = choice
-            if tid:
-                # The id was on the row you clicked, so it is already confirmed.
-                if group == "daily":
-                    LAST_DAILY_ID[0] = tid
-            else:
-                tid = None  # quicks have no calendar - ask
-        if tid is None:
-            action, tid = ask_id(varname, group, info, mt)
-            if action == "back":
-                continue
-            if action == "skip":
-                print(f"skipped {os.path.basename(p)}")
-                remember_skip(p, mt)
-                return "skip"
+            varname, group, _guess = choice
+        # ALWAYS CONFIRM THE NUMBER.
+        #
+        # Clicking a row used to accept the id printed on it, with no way back:
+        # the only route to typing one was the search row, so a wrong guess was
+        # unfixable without renaming the file afterwards. The guess is worth
+        # pre-filling and nothing more - it IS a guess. ask_id opens with it in
+        # the box and the runs you actually entered listed underneath, so Enter
+        # takes it and two keystrokes replace it.
+        action, tid = ask_id(varname, group, info, mt)
+        if action == "back":
+            continue
+        if action == "skip":
+            print(f"skipped {os.path.basename(p)}")
+            remember_skip(p, mt)
+            return "skip"
         name = f"{varname}_{tid}.csv"
         dest = os.path.join(DEST, name)
         if os.path.exists(dest):
