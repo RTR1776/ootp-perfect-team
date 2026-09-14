@@ -69,6 +69,27 @@ const OPTIMIZE = flag("optimize");
 const FIELD = flag("field");
 const MIN_DEF = num("min-def", 0.6)!;
 /**
+ * --slots "G13,I13" — a slots event's per-tier maximums, as tier codes
+ * P/D/G/S/B/I. A lower-tier card may fill a higher-tier slot, which is what
+ * tierFitsSlots and slotCapacityIssues already implement, so this only has to
+ * hand the shape over.
+ *
+ * Read off the field, not guessed: in Monday Wonky Historical Slots every team
+ * that filled its roster carried exactly 13 cards at VAL 60+ and the rest Iron
+ * (37 of 41), so the event is 13 high slots and 13 Iron slots.
+ */
+const SLOTS: Record<string, number> | null = (() => {
+  const v = val("slots");
+  if (!v) return null;
+  const out: Record<string, number> = {};
+  for (const part of v.split(/[,\s]+/).filter(Boolean)) {
+    const m = /^([PDGSBI])(\d+)$/i.exec(part.trim());
+    if (!m) throw new Error(`--slots: could not read "${part}" (want e.g. G13,I13)`);
+    out[m[1].toUpperCase()] = Number(m[2]);
+  }
+  return out;
+})();
+/**
  * Playing-time weights for the objective. Defaults are the generic ones; both
  * are event-dependent and L.J. was right to push on them.
  *
@@ -95,7 +116,7 @@ async function main() {
   const rules: RosterRules = {
     name: NAME, dh: DH, ratingsMin: MIN, ratingsMax: MAX,
     cardYearMin: YEAR_MIN, cardYearMax: YEAR_MAX, isDraft: false,
-    restrictions: { teamCap: CAP, cards: SIZE, variantCap: VARIANT_CAP, variantsAllowed: VARIANT_CAP !== 0 },
+    restrictions: { teamCap: CAP, cards: SIZE, variantCap: VARIANT_CAP, variantsAllowed: VARIANT_CAP !== 0, slots: SLOTS },
   };
 
   /* -------------------------------- the environment ------------------------ */
@@ -185,7 +206,18 @@ async function main() {
 
   /* --------------------------------- the shape ----------------------------- */
   const lineupPos = DH ? [...HIT_POS, "DH"] : [...HIT_POS];
-  const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, null);
+  /**
+   * --bats/--sp/--rp: the staff shape the FIELD actually runs, counted off an
+   * archived export of the event rather than inferred from the era table. The
+   * era table is a good prior and wrong at the edges: Monday Wonky is a 1945
+   * environment, which says 4 starters, but the field runs 5 SP and 4 relief
+   * because half the roster is Iron and an Iron arm throws real innings while
+   * an Iron bench bat never comes off the bench.
+   */
+  const shapeMeta = (num("bats") != null || num("sp") != null || num("rp") != null)
+    ? { avgBats: num("bats"), avgSp: num("sp"), avgRp: num("rp") }
+    : null;
+  const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any);
   const shape: FillShape = {
     lineupPos, bats: shp.bats,
     spKeys: Array.from({ length: shp.sp }, (_, i) => `SP${i + 1}`),
