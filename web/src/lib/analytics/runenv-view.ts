@@ -38,6 +38,22 @@ export const parkRow = (name: string | null, year: number | null): ParkRow | nul
   return all.length ? ys[String(all[all.length - 1])] : null;
 };
 
+/**
+ * Parks whose names are one word apart from this one.
+ *
+ * The list has Truist Park (Atlanta, dead neutral) and Truist Field (the
+ * Charlotte Knights' Triple-A yard, HR 1.50/1.46) as separate 2026 entries,
+ * and a recommendation naming one while the reader looks up the other is worth
+ * about ten runs. Any caller that prints a park name should print these too.
+ */
+export const parkTwins = (name: string | null): string[] => {
+  if (!name) return [];
+  const key = (s: string) => s.toLowerCase().replace(/\b(park|field|stadium|ballpark|grounds)\b/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+  const k = key(name);
+  if (!k) return [];
+  return Object.keys(parkTable).filter((n) => n !== name && key(n) === k);
+};
+
 /* ------------------------------------------------------------------ */
 /* Era bands — the colour spine of the chart.                          */
 /* ------------------------------------------------------------------ */

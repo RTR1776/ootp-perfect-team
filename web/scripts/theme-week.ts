@@ -11,7 +11,7 @@
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
+import { eraTable, parkRow, parkTwins } from "@/lib/analytics/runenv-view";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
 import { marginalRatings, roleRuns } from "@/lib/analytics/card-value";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
@@ -32,6 +32,8 @@ async function main() {
   const era = eraTable[YEAR]!;
   const pr = PARK ? parkRow(PARK, PARK_YEAR) : null;
   if (PARK && !pr) console.log(`!! no factors on file for ${PARK_YEAR} ${PARK}`);
+  const twins = parkTwins(PARK);
+  if (twins.length) console.log(`!! NAME COLLISION: "${PARK}" is not ${twins.join(" / ")}. Check which one your park picker is showing.`);
   /** home park, half the games → half weight on the way in */
   const half = pr ? { avgL: 1 + (pr.avgL! - 1) / 2, avgR: 1 + (pr.avgR! - 1) / 2,
     hrL: 1 + (pr.hrL! - 1) / 2, hrR: 1 + (pr.hrR! - 1) / 2,
