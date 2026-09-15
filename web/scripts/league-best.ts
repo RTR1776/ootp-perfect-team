@@ -252,14 +252,28 @@ async function main() {
    */
   const stm = (c: any) => c.ratings["Stamina"] ?? 0;
   /**
-   * The relief bonus TAPERS WITH STAMINA. roleRuns returns the flat measured
-   * RP effect for anything labelled RP, which is right for the arms it was
-   * measured on — they are almost all short relievers — but wrong the moment a
-   * card is reassigned, because the effect is a times-through-the-order one.
-   * A 69-stamina swingman moved to the pen does not face a lineup once; he
-   * gets a shrinking share of the bonus, gone by 70.
+   * THE TAPER WAS WRONG, AND SO IS MOST OF THE BONUS. This used to shrink the
+   * relief bonus with stamina — (70 - stm) / 45, gone by 70 — on the theory
+   * that the effect is times-through-the-order and a high-stamina arm does not
+   * face a lineup once. 327 archived tournament exports say otherwise.
+   *
+   * The same card, in the same format, starting and relieving (1,442 paired
+   * card-formats, 184k innings): moving to the pen is worth -0.19 RA9. By
+   * stamina band: 56-65 -0.12, 66-70 -0.22, 71-75 -0.17, 76-80 -0.27, 81-90
+   * -0.15, 91+ -0.19. There is no gradient above ~55, so it is not a
+   * times-through-the-order effect and the taper has no basis. Flat it is.
+   *
+   * What the bonus IS, mostly, is inherited-runner accounting: relievers in
+   * those exports inherit 195,240 runners and 30.6% of them score charged to
+   * the pitcher who left them. Charge them back and the reliever RA9 goes from
+   * 4.48 to 5.85. FIP, which cannot be gamed that way, says the same card gets
+   * +0.04 WORSE in the pen, not better. So only a quarter of the fitted
+   * constant survives as something a roster decision should act on.
+   *
+   *   --role-trust 1  restores the old full-strength bonus.
    */
-  const relShare = (st: number) => Math.max(0, Math.min(1, (70 - st) / 45));
+  const ROLE_TRUST = num("role-trust", 0.25)!;
+  const relShare = (_st: number) => ROLE_TRUST;
   const asRuns = (c: any, as: "SP" | "RP") =>
     as === "SP" ? -roleRuns("SP", stm(c)) : relShare(stm(c)) * -roleRuns(c.role === "CL" ? "CL" : "RP", stm(c));
   const reScore = (c: any, as: "SP" | "RP") =>
@@ -268,13 +282,16 @@ async function main() {
   const sp = arms.filter(canStart).sort((a, b) => reScore(b, "SP") - reScore(a, "SP")).slice(0, NSP);
   const spIds = new Set(sp.map((c) => c.cardId));
   /**
-   * And a reliever has to be a reliever. The role bonus is a times-through-the-
-   * order effect — it is earned by facing a lineup once — so handing it to an
-   * 84-stamina starter who missed the rotation would invent value that the
-   * usage never produces. Arms above the stamina gate are rotation depth, not
-   * bullpen.
+   * A STARTER MAY RELIEVE. The old gate here capped bullpen eligibility at
+   * stamina 70 on the same times-through-the-order reasoning. The field does
+   * not play that way: across the archived exports 42% of teams use at least
+   * one SP-labelled card in relief (mean 0.93 per team), those arms have a
+   * median stamina of 74, and they throw 1.52 innings an appearance against a
+   * reliever's 1.22. Teams that go deep carry MORE of them — with roster size
+   * held at 26+, the SP share of the staff runs 48.3% for teams out in round 1
+   * to 51.7% for teams reaching round 4, with RP count falling the other way.
    */
-  const RPMAX = num("rp-max-stamina", 70)!;
+  const RPMAX = num("rp-max-stamina", 999)!;
   const rp = arms.filter((c) => !spIds.has(c.cardId) && stm(c) < RPMAX)
     .sort((a, b) => reScore(b, "RP") - reScore(a, "RP")).slice(0, NRP);
   const staff = [...sp, ...rp];

@@ -55,6 +55,33 @@ export interface EnvFitOptions {
    * asks least. DH is exempt because there is no glove involved.
    */
   minPosRating?: number;
+  /**
+   * How much of the measured relief role bonus to believe, 0-1 (default 1).
+   *
+   * ROLE_RUNS was fitted on runs allowed, and runs allowed flatters a reliever:
+   * across 327 archived tournament exports, relievers inherit 195k runners and
+   * 30% of them score charged to the pitcher who left them. Correcting for that
+   * alone erases the whole gap. Checked the other way — the SAME card, in the
+   * same format, starting and relieving (1,442 paired card-formats) — moving to
+   * the pen is worth -0.19 RA9 but +0.04 FIP. The RA9 gain is the accounting;
+   * the FIP says the card does not get better.
+   *
+   * There is also no stamina gradient above ~55, which the relShare taper in
+   * league-best assumes: STM 56-65 gains 0.12 RA9, STM 91+ gains 0.19. So the
+   * effect, whatever is left of it, is not times-through-the-order.
+   *
+   * Left at 1 the optimiser sees a ~4.6-run wall between an RP card and an SP
+   * card for the same bullpen slot, which is why a starter never wins one.
+   */
+  roleTrust?: number;
+  /**
+   * NOTE for cap formats: env-roster's --rp-weight (a reliever's innings as a
+   * fraction of a starter's) defaults to 0.5. The exports say 0.31 in Gold
+   * Floor Cap and 0.24 across all 12,019 team-events with 10+ games played:
+   * 89.2 batters faced per starter against 27.7 per relief arm. At 0.5 the
+   * optimiser buys roughly twice the bullpen the innings justify, which in a
+   * capped format is points taken off the lineup.
+   */
 }
 
 export interface EnvFits extends FitMaps {
@@ -102,7 +129,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
        * batters faced where a starter misses by ~1 (roleRuns). cardRuns is runs
        * ALLOWED, these are runs SAVED, so the adjustment subtracts.
        */
-      const role = -roleRuns(c.role, c.ratings["Stamina"]);
+      const role = -roleRuns(c.role, c.ratings["Stamina"]) * (o.roleTrust ?? 1);
       // A starter faces both hands; the vs-LHP board is the pure-left read.
       const blend = 0.45 * rL + 0.55 * rR;
       /**

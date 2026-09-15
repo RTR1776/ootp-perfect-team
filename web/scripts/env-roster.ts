@@ -75,6 +75,12 @@ const MIN_DEF = num("min-def", 0.6)!;
  */
 const MIN_POS = num("min-pos", 50)!;
 /**
+ * --role-trust: how much of the relief role bonus to believe. 1 is the fitted
+ * constant; the archived exports say most of it is inherited-runner accounting
+ * (see env-fit's roleTrust). Drop it and SP cards can win bullpen slots.
+ */
+const ROLE_TRUST = num("role-trust", 1)!;
+/**
  * --slots "G13,I13" — a slots event's per-tier maximums, as tier codes
  * P/D/G/S/B/I. A lower-tier card may fill a higher-tier slot, which is what
  * tierFitsSlots and slotCapacityIssues already implement, so this only has to
@@ -259,7 +265,7 @@ async function main() {
       console.log(`  avg eligible arm: ${PK.map(k=>`${k} ${aP[k].toFixed(0)}`).join(" ")}`);
     }
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr , minPosRating: MIN_POS });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr , minPosRating: MIN_POS, roleTrust: ROLE_TRUST });
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                          RHB: ${marginalRatings(fits.envRight, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                         arms: ${marginalRatings(fits.envPitch, "pit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
@@ -347,7 +353,12 @@ async function main() {
         def = ` DEF ${String(Math.round(here)).padStart(3)}/${String(Math.round(best)).padStart(3)}${here < best * 0.6 ? " <-- out of position" : ""}`;
       }
     }
-    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}  ${side}${def}`;
+    // An arm shows its label and stamina: a bullpen slot filled by an SP card
+    // is the whole point of --role-trust, and it has to be visible at a glance.
+    const arm = c.isPitcher
+      ? ` ${String(c.role ?? "").padEnd(2)} STM ${String(Math.round(c.ratings["Stamina"] ?? 0)).padStart(3)}`
+      : "";
+    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}  ${side}${def}${arm}`;
   };
 
   console.log(`\n--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)`);
