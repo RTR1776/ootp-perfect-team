@@ -33,3 +33,5 @@ web/scripts/.inventory.json
 web/scripts/.coverage.json
 web/scripts/.champ-comparables.json
 web/src/data/curves.next.json
+web/.next-check/
+web/.next-dev/

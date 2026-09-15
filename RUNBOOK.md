@@ -36,6 +36,8 @@ Defaults that are measured, not guessed (each has the evidence in its comment):
 
 Do not compare `objective:` across different `--sp/--rp` shapes — an SP slot weighs 1.0 and an RP slot 0.31, so the total moves by arithmetic alone.
 
+**Perfect Draft:** the **Played** tab (`/played`) — every card with tournament play, ranked by observed runs on the model's scale (blended at K=2500), with the round's value window, position, hand, year and owned filters. Pool is the game's, not the collection. Cached per import, so it opens instantly on draft night.
+
 Other tools:
 
 - `pnpm league:best --year 1989 --park "Huntington Park" --park-year 2026 --dh` — whole collection scored for a theme week

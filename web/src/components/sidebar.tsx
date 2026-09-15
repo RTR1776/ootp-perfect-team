@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Hammer,
+  ListOrdered,
   Upload,
   Globe,
   CandlestickChart,
@@ -23,6 +24,7 @@ interface NavItem {
 
 const NAV: NavItem[] = [
   { href: "/build", label: "Build", icon: Hammer },
+  { href: "/played", label: "Played", icon: ListOrdered },
   { href: "/ptcs", label: "PTCS", icon: Medal },
   { href: "/league", label: "League", icon: Trophy },
   { href: "/meta", label: "League Meta", icon: Globe },
