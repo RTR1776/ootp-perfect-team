@@ -149,3 +149,19 @@ test("OOTP long-form blurb: Monday Wonky Historical Slots", () => {
   assert.equal(r.park, "2026 Tropicana Field");
   assert.equal(r.cards, null, "\"0 Bronze cards\" is a tier count, not a roster size");
 });
+
+test("a two-digit year range end takes the century of the start", () => {
+  const r = parseRestrictions("cards from 1989-99, 1999 RE, DH on, 1998 Wrigley Field");
+  assert.equal(r.yearMin, 1989);
+  assert.equal(r.yearMax, 1999);
+  assert.equal(r.reYear, 1999);
+  assert.equal(r.dh, true);
+});
+
+test("the All-Star Hardware slot split parses with Default RE", () => {
+  const r = parseRestrictions("Slots: 8 Perfect, 6 Diamond, 3 Gold, 3 Silver, 3 Bronze, 3 Iron, Default RE, DH on, 2008 McAfee Coliseum (Oakland)");
+  assert.deepEqual(r.slots, { P: 8, D: 6, G: 3, S: 3, B: 3, I: 3 });
+  assert.equal(r.reYear, null);
+  assert.ok(r.notes.includes("default RE"));
+});
+

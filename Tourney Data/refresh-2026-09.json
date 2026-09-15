@@ -1,498 +1,549 @@
 {
-  "capturedOn": "2026-09-02",
-  "source": "PT community refresh posts (Silver, Iron, Bronze, Gold, Diamond, Perfect Draft)",
-  "note": "Raw refresh text keyed by 3-digit OOTP slot. Slots are REUSED on rename, so a slug's files before and after this refresh describe different tournaments. envChanged: the run environment or park changed without a rename, so files before the cutoff are pre-refresh data for that event (the coverage report treats it like a park move).",
-  "silver": {
-    "123": {
-      "old": "Daily Early Silver",
-      "new": null,
-      "text": "now at 2017 Marlins Park"
-    },
-    "124": {
-      "old": "Daily Late Silver",
-      "new": null,
-      "text": "1992 RE, DH on, 1992 Camden Yards"
-    },
-    "125": {
-      "old": "Daily Silver Cap",
-      "new": "Daily Silver Only Cap",
-      "text": "64 teams, 1888 Cap, 1998 RE, DH on, Variant Cap 11, Heinsohn Park"
-    },
-    "126": {
-      "old": "Daily Live Silver",
-      "new": null,
-      "text": "now at 2026 Yankee Stadium"
-    },
-    "127": {
-      "old": "Daily Silver Slots",
-      "new": null,
-      "text": "16 Silver, 5 Bronze, 5 Iron, 1977 RE, DH off, 1978 Riverfront Stadium"
-    },
-    "165": {
-      "old": "Daily Silver Slamboree",
-      "new": "Daily Silver Snapshots",
-      "text": "128 teams, Snapshots cards only, 1987 RE, DH on, Variants on, 1986 Three Rivers Stadium"
-    },
-    "183": {
-      "old": "Daily Silver Heart",
-      "new": "Daily Roaring Silvers",
-      "text": "Cards up to 1929, 1927 RE, DH off, Variants on, 1927 Yankee Stadium"
-    },
-    "190": {
-      "old": "Daily Silver & Friends Deadball Slots",
-      "new": "Daily Silver & Friends Slots",
-      "text": "SLOTS: 1 Perfect, 1 Diamond, 1 Gold, 21 Silver, 1 Bronze, 1 Iron; Default RE, DH on, Variant Cap 13, 2026 Daikin Park"
-    },
-    "197": {
-      "old": "Daily Low Silver Only",
-      "new": null,
-      "text": "64 teams, Best of 7, Default RE, DH on, Variants on, Heinsohn Park"
-    }
+ "capturedOn": "2026-09-02",
+ "source": "PT community refresh posts (Silver, Iron, Bronze, Gold, Diamond, Perfect Draft, Open 2026-09-15)",
+ "note": "Raw refresh text keyed by 3-digit OOTP slot. Slots are REUSED on rename, so a slug's files before and after this refresh describe different tournaments. envChanged: the run environment or park changed without a rename, so files before the cutoff are pre-refresh data for that event (the coverage report treats it like a park move).",
+ "silver": {
+  "123": {
+   "old": "Daily Early Silver",
+   "new": null,
+   "text": "now at 2017 Marlins Park"
   },
-  "iron": {
-    "111": {
-      "old": "Daily Iron Lunch",
-      "new": null,
-      "text": "1966 RE"
-    },
-    "112": {
-      "old": "Daily Late Iron",
-      "new": null,
-      "text": "Default RE, DH on, 2026 Chase Field"
-    },
-    "113": {
-      "old": "Daily Iron Strikes Back",
-      "new": null,
-      "text": "DH off, 1990 Anaheim Stadium"
-    },
-    "114": {
-      "old": "Daily Dank",
-      "new": null,
-      "text": "1945 RE, DH off, 1945 Comiskey Park"
-    },
-    "115": {
-      "old": "Daily Iron Cap",
-      "new": null,
-      "text": "1300 cap, Variant Cap 14, 2026 Isotopes Park"
-    },
-    "116": {
-      "old": "Daily Live Iron",
-      "new": null,
-      "text": "2026 Petco Park"
-    },
-    "163": {
-      "old": "Daily Iron Dreamland",
-      "new": null,
-      "text": "1907 RE, 1886 Swampoodle Grounds"
-    },
-    "181": {
-      "old": "Daily Iron Heart",
-      "new": "PTCS 2 Iron Replay",
-      "text": "Nel-SS-UH-HH, 1969 RE, DH off, Variants on, 1964 Shea Stadium"
-    },
-    "188": {
-      "old": "Daily Iron & Friends OOTP Era Slots",
-      "new": null,
-      "text": "SLOTS: 1 Perfect, 1 Diamond, 1 Gold, 1 Silver, 1 Bronze, 21 Irons"
-    },
-    "139": {
-      "old": "Daily Open High Cap",
-      "new": "Daily PTCS 4 Cap Replay",
-      "text": "Historical Legend-All-Star-Future Legend cards only, 1820 cap, 11:50am"
-    }
+  "124": {
+   "old": "Daily Late Silver",
+   "new": null,
+   "text": "1992 RE, DH on, 1992 Camden Yards"
   },
-  "bronze": {
-    "117": {
-      "old": "Daily Early Bronze",
-      "new": null,
-      "text": "128 teams, 1942 RE, DH off, Variants off, 1945 Wrigley Field"
-    },
-    "118": {
-      "old": "Daily Return of the Bronze",
-      "new": "Daily Bronze Only Curiosities",
-      "text": "64 teams, UH-SS-RS cards only, Default RE, DH on, Variants on, 2005 Minute Maid Park"
-    },
-    "119": {
-      "old": "Daily Late Bronze",
-      "new": null,
-      "text": "Default RE, 2003 Dodger Stadium"
-    },
-    "120": {
-      "old": "Daily Bronze Cap",
-      "new": "Daily Bronze Only Cap",
-      "text": "1689 cap, 2019 RE, DH on, Variant Cap 13, 2026 American Family Field"
-    },
-    "121": {
-      "old": "Daily Live Bronze",
-      "new": null,
-      "text": "now at 2026 Kauffman Stadium"
-    },
-    "122": {
-      "old": "Daily Low Bronze",
-      "new": "Daily Low Bronze Only",
-      "text": "1955 RE, DH off, Variant Cap 12, 1955 Ebbets Field"
-    },
-    "164": {
-      "old": "Daily Bronze The Sequel",
-      "new": "Daily Bronze 1910-59",
-      "text": "64 teams, 1959 RE, DH on, Variants on, 1959 Seals Stadium"
-    },
-    "182": {
-      "old": "Daily Bronze Heart",
-      "new": "Daily Bronze OOTP Era",
-      "text": "128 teams, 2009 RE, DH on, Variants on, Heinsohn Park"
-    },
-    "189": {
-      "old": "Daily Bronze PTCS 2 Replay Slots",
-      "new": "Daily Bronze PTCS 3 Replay Slots",
-      "text": "SLOTS: 18 Bronze, 8 Iron; 1999 RE, DH on, Variant Cap 13, 2000 Coors Field"
-    }
+  "125": {
+   "old": "Daily Silver Cap",
+   "new": "Daily Silver Only Cap",
+   "text": "64 teams, 1888 Cap, 1998 RE, DH on, Variant Cap 11, Heinsohn Park"
   },
-  "gold": {
-    "128": {
-      "old": "Daily Early Gold",
-      "new": "Daily Low Gold Only",
-      "text": "64 teams, Best of 5-Bo7F, Default RE, DH on, Variant Cap 8, 2026 Fenway Park"
-    },
-    "129": {
-      "old": "Daily Goldfather II",
-      "new": null,
-      "text": "moved to 128 teams, 1974 RE, DH off, Variants on, 1971 Yankee Stadium",
-      "envChanged": true,
-      "was": "2010 RE, Standard Stadium, 64 teams"
-    },
-    "130": {
-      "old": "Daily Gold Cap",
-      "new": null,
-      "text": "now open to Live cards, 64 teams, 1780 cap, 1999 RE, Variants on, 1999 Jacobs Field",
-      "envChanged": true,
-      "was": "2010 RE, 1955 Fenway Park, 32 teams"
-    },
-    "131": {
-      "old": "Daily Live Gold",
-      "new": null,
-      "text": "Default RE, 2026 Citizens Bank Park",
-      "envChanged": true,
-      "was": "2019 RE, 2026 Wrigley Field"
-    },
-    "132": {
-      "old": "Daily Gold Slots",
-      "new": null,
-      "text": "SLOTS: 12 Gold, 8 Silver, 6 Bronze, 0 Iron; 1968 RE, DH on, Variant Cap 13, 1968 Connie Mack Stadium",
-      "envChanged": true,
-      "was": "2010 RE, Standard Stadium, no slot spec on file"
-    },
-    "166": {
-      "old": "Daily Low Gold Retrospectus",
-      "new": "Daily Golden Age",
-      "text": "Cards up to 1929, 1925 RE, DH off, 1930 Hamtramck Stadium",
-      "note": "catalog spells it 'Retrospectus', the post 'Retrospecticus', the filer 'Restrospecticus' - the catalog name is used here so retire/match hit the row. post spells the park 'Hamtamck'; the value ceiling is not restated - Gold section of the post, assumed <= Gold (89), confirm on screen"
-    },
-    "184": {
-      "old": "Daily Golden Heart",
-      "new": null,
-      "text": "1956 RE, 1958 Crosley Field",
-      "note": "post writes it 'Daily Golden Heart (1930-89)'; the card-year window 1930-89 is unchanged",
-      "envChanged": true,
-      "was": "1977 RE, 1977 Olympic Stadium"
-    },
-    "191": {
-      "old": "Daily Sporer's Golden Childhood",
-      "new": "Daily High Silver-Low Gold Cap",
-      "text": "Best of 7, 2068 cap, 2007 RE, DH on, Variants on, 2008 Shea Stadium, moved to 2pm ET",
-      "note": "post writes it 'Daily Sporer's Golden Childhood (1980-2009)'"
-    },
-    "198": {
-      "old": "Daily Gold Standard",
-      "new": null,
-      "text": "64 teams, Best of 7, Default RE, Variants off, Heinsohn Park",
-      "note": "NEW tournament - first launch 2026-09-07 5:30pm ET; no history under this slot"
-    }
+  "126": {
+   "old": "Daily Live Silver",
+   "new": null,
+   "text": "now at 2026 Yankee Stadium"
   },
-  "diamond": {
-    "133": {
-      "old": "Daily Diamond",
-      "new": null,
-      "text": "1985 RE, Variants on, 1982 Kingdome",
-      "envChanged": true,
-      "was": "2010 RE, 2025 Standard Stadium, DH on"
-    },
-    "134": {
-      "old": "Daily Low Diamond",
-      "new": "Daily Low Diamond Only",
-      "text": "Default RE, DH on, Variants on, 2000 Coors Field",
-      "note": "post writes 'ia now' for 'is now'; the value window 90-94 comes from the new name (Low Diamond Only), as Low Gold Only / Low Silver Only did"
-    },
-    "135": {
-      "old": "Daily Diamond Cap",
-      "new": null,
-      "text": "1788 cap, 1968 RE, Variants on, 1976 Jarry Park",
-      "envChanged": true,
-      "was": "1998 RE, 1993 Joe Robbie Stadium, DH off, 32 teams"
-    },
-    "136": {
-      "old": "Daily Live Diamond",
-      "new": null,
-      "text": "now at 2026 Rate Field",
-      "envChanged": true,
-      "was": "2010 RE, 2026 Yankee Stadium"
-    },
-    "180": {
-      "old": "Daily Diamond Slots",
-      "new": null,
-      "text": "Negro Leagues, All-Stars, Snapshots, Unsung Heroes and Hardware Heroes cards only; SLOTS: 12 Diamond, 8 Gold, 3 Silver, 3 Bronze, 0 Iron; Default RE, 1984 Jack Murphy Stadium",
-      "envChanged": true,
-      "was": "1975 RE, 1977 Atlanta Fulton County Stadium, DH on, no card-type rule, no slot spec on file",
-      "note": "post says 'only Negro Leagues, All-Stars, Snapshots, Unsung Heroes and Hardware Heroes cards' - five card types (codes 2/5/7/8/9); DH not restated"
-    },
-    "167": {
-      "old": "Daily Diamonds are Forever",
-      "new": null,
-      "text": "2019 RE, 2026 Dell Diamond",
-      "envChanged": true,
-      "was": "1987 RE, 1985 Wrigley Field"
-    },
-    "185": {
-      "old": "Daily Diamond Heart",
-      "new": "Daily Diamond Up to 1969",
-      "text": "cards up to 1969, 2009 RE, DH off, Variants on, 1996 Coors Field",
-      "note": "was 1958 RE, 1955 Fenway Park, cards 1930-89; the old lower bound 1930 is not restated - importer keeps yearMin at the parser's floor"
-    },
-    "192": {
-      "old": "Daily Diamond & Friends Slots",
-      "new": null,
-      "text": "removed",
-      "removed": true,
-      "note": "slot retired outright - no replacement named"
-    },
-    "199": {
-      "old": "Daily Diamond 1990 Onward",
-      "new": null,
-      "text": "Cards >= 1990; 64 teams, Best of 7, 1957 RE, DH on, Variants on, 1954 Griffith Stadium",
-      "note": "NEW tournament; 'Cards >= 1990' is read from the name '1990 Onward' - the post's blurb does not restate it; no history under this slot"
-    }
+  "127": {
+   "old": "Daily Silver Slots",
+   "new": null,
+   "text": "16 Silver, 5 Bronze, 5 Iron, 1977 RE, DH off, 1978 Riverfront Stadium"
   },
-  "perfectDraft": {
-    "203": {
-      "old": "Daily Rise and Shine",
-      "new": "Pick 12 Original PD",
-      "text": "101+ Round 1 and 100 Round 2"
-    },
-    "204": {
-      "old": "Daily Double Espresso Morning",
-      "new": "Pick 12 Double PD",
-      "text": "101+ Round 1"
-    },
-    "252": {
-      "old": "Daily Morning Mixed Bag",
-      "new": "Daily Perfecto Morning",
-      "text": ""
-    },
-    "206": {
-      "old": "Daily Bagels and Schmear with EVCinNYC",
-      "new": null,
-      "text": "new format - see EVCinNYC2 on Twitch",
-      "note": "Diamond refresh post EDIT (2026-09-09): 24 cards selected instead of 26"
-    },
-    "208": {
-      "old": "Daily Scrum",
-      "new": "Daily High Heat in the Morning",
-      "text": "HH- 6 Rounds Perfect, 7 Rounds Diamond, Default RE, DH on, LE on, Heinsohn Park"
-    },
-    "209": {
-      "old": "Daily Meeting About Meetings - ORD",
-      "new": "Daily Perfectly Iron",
-      "text": "Only Perfect & Iron rounds, Best of 7, randomized 1993-2024, 2026 Coors Field"
-    },
-    "253": {
-      "old": "Daily Mixed Up My Lunch",
-      "new": "Daily Midday Perfecto",
-      "text": "Best of 7, random 1980-2004 RE, random HR Friendly stadiums"
-    },
-    "211": {
-      "old": "Daily Trying to Look Busy - D&G",
-      "new": "Daily All-Silver",
-      "text": "random current MLB stadiums"
-    },
-    "212": {
-      "old": "Daily Snack Time on the Ladder",
-      "new": "Daily All-Gold",
-      "text": "Best 7, LE on"
-    },
-    "214": {
-      "old": "Daily This Could've Been an Email - RCK",
-      "new": "Daily Perfectly Bronze",
-      "text": ""
-    },
-    "215": {
-      "old": "Daily Honey, I Shrunk the Roster",
-      "new": "Historical Pick 12",
-      "text": "101+ Round 1 and 20 cards"
-    },
-    "216": {
-      "old": "Dr. Dynastic's Doc Rock Derby",
-      "new": "High Heat Non-Live, Speed",
-      "text": "7-minute draft"
-    },
-    "254": {
-      "old": "Daily Evening Mixed Bag",
-      "new": "Daily Perfecto Primetime",
-      "text": ""
-    },
-    "259": {
-      "old": "Daily Good Orderly Evening",
-      "new": "Orderly",
-      "text": "101+ Round 1"
-    },
-    "219": {
-      "old": "Daily Historical Primetime",
-      "new": "Historical",
-      "text": "101+ Round 1"
-    },
-    "220": {
-      "old": "Daily Live Speed Run",
-      "new": "Daily All-Diamond",
-      "text": ""
-    },
-    "221": {
-      "old": "Daily They've Gone to Plaid",
-      "new": "Original PD",
-      "text": "101+ Round 1 and Speed 5-minute clock"
-    },
-    "255": {
-      "old": "Daily Nocturnal Mixed Bag",
-      "new": "Daily Perfectly Silver",
-      "text": ""
-    },
-    "222": {
-      "old": "Daily OOTP and Chill",
-      "new": "Daily Perfectly Gold",
-      "text": ""
-    },
-    "223": {
-      "old": "Daily Tuck in Time",
-      "new": "Daily Ladder",
-      "text": "101+ Round, Default RE, random Tournament Only stadiums"
-    },
-    "224": {
-      "old": "Daily Struggling to Sleep - DBL",
-      "new": "Original, Double PD",
-      "text": "101+ RD1"
-    },
-    "225": {
-      "old": "Daily Up Late with Rich - LAD",
-      "new": "Daily Up Late with Perfecto",
-      "text": "random Historical stadiums"
-    },
-    "226": {
-      "old": "Daily Live All Night",
-      "new": null,
-      "text": "random current MLB stadiums"
-    },
-    "227": {
-      "old": "Monday Getting it Started",
-      "new": "Original, Double PD",
-      "text": "101+ RD1"
-    },
-    "229": {
-      "old": "Monday Night History Lesson",
-      "new": "Historical Pick 12",
-      "text": "101+ RD1, random 1980-2004 RE"
-    },
-    "232": {
-      "old": "Tuesday Evening Adrenaline Rush",
-      "new": "Tuesday Perfectly Iron",
-      "text": "Mevening"
-    },
-    "233": {
-      "old": "Wednesday Wake Up To History",
-      "new": "Wednesday Bring the High Heat",
-      "text": "random California stadiums"
-    },
-    "234": {
-      "old": "Wednesday Double PD",
-      "new": "Wednesday Double Your Fun, Original, Double PD",
-      "text": "101+ RD1"
-    },
-    "235": {
-      "old": "Wednesday Diamond to Iron",
-      "new": "Wednesday Perfectly Bronze",
-      "text": "random Years of the Pitcher RE, random HR Supression stadiums"
-    },
-    "236": {
-      "old": "Thursday Overnight Under the Covers",
-      "new": "Orderly",
-      "text": "101+ Round 1, random 1961-1992 RE"
-    },
-    "237": {
-      "old": "Thursday Dude, Where's My Cards?",
-      "new": "Perfecto",
-      "text": "21 cards"
-    },
-    "238": {
-      "old": "Thursday Night Put it in the Books",
-      "new": "Historical Pick 12",
-      "text": "101+ RD1"
-    },
-    "239": {
-      "old": "Friday Draft About Nothing",
-      "new": "All-Bronze PD",
-      "text": ""
-    },
-    "240": {
-      "old": "Friday Watching the Clock - ATH",
-      "new": null,
-      "text": "random 1993-2024 RE, random High BA stadiums"
-    },
-    "242": {
-      "old": "Saturday Can't Sleep Clown Will Eat Me",
-      "new": "Perfectly Silver",
-      "text": "random Hitter Friendly RE, LE on"
-    },
-    "243": {
-      "old": "Saturday Shrinkage",
-      "new": "Perfectly Gold",
-      "text": "20 cards, LE on"
-    },
-    "244": {
-      "old": "TWIPT Saturday Showdown",
-      "new": "Double PD",
-      "text": "101+ Round 1"
-    },
-    "245": {
-      "old": "Sunday Morning Markus' Revenge",
-      "new": "Mixed Bag",
-      "text": "22 cards, random 1908-60 RE"
-    },
-    "246": {
-      "old": "Sunday Up and Down the Ladder",
-      "new": "Sunday Perfecto",
-      "text": "256 teams"
-    },
-    "247": {
-      "old": "Sunday PD Main Event",
-      "new": "Original PD",
-      "text": "101+ Round 1"
-    },
-    "210": {
-      "old": "Daily Rocking Chair Lunch",
-      "new": null,
-      "text": "32 teams (was 64)",
-      "note": "Diamond refresh post EDIT (2026-09-09): field cut from 64 to 32 - scoring reads the field size off each result row, so nothing to change in the ledger"
-    }
+  "165": {
+   "old": "Daily Silver Slamboree",
+   "new": "Daily Silver Snapshots",
+   "text": "128 teams, Snapshots cards only, 1987 RE, DH on, Variants on, 1986 Three Rivers Stadium"
   },
-  "newTournaments": [
-    {
-      "tier": "iron",
-      "name": "Dank Quick",
-      "text": "16 teams, Best of 5, DH on, Variant Cap 10, Heinsohn Park"
-    }
-  ],
-  "stillNeeded": [
-    "Open refresh post",
-    "Live refresh post",
-    "the refresh date / first run number under new rules"
-  ],
-  "goldSource": "PT Gold refresh post, read 2026-09-07 from L.J.'s screenshot; effective with the 2026-09-07 runs",
-  "diamondSource": "PT Diamond refresh post, read 2026-09-09 from L.J.'s screenshot; taken as effective with the 2026-09-09 runs (Diamond & Friends Slots 1920105 still ran Sep 8)"
+  "183": {
+   "old": "Daily Silver Heart",
+   "new": "Daily Roaring Silvers",
+   "text": "Cards up to 1929, 1927 RE, DH off, Variants on, 1927 Yankee Stadium"
+  },
+  "190": {
+   "old": "Daily Silver & Friends Deadball Slots",
+   "new": "Daily Silver & Friends Slots",
+   "text": "SLOTS: 1 Perfect, 1 Diamond, 1 Gold, 21 Silver, 1 Bronze, 1 Iron; Default RE, DH on, Variant Cap 13, 2026 Daikin Park"
+  },
+  "197": {
+   "old": "Daily Low Silver Only",
+   "new": null,
+   "text": "64 teams, Best of 7, Default RE, DH on, Variants on, Heinsohn Park"
+  }
+ },
+ "iron": {
+  "111": {
+   "old": "Daily Iron Lunch",
+   "new": null,
+   "text": "1966 RE"
+  },
+  "112": {
+   "old": "Daily Late Iron",
+   "new": null,
+   "text": "Default RE, DH on, 2026 Chase Field"
+  },
+  "113": {
+   "old": "Daily Iron Strikes Back",
+   "new": null,
+   "text": "DH off, 1990 Anaheim Stadium"
+  },
+  "114": {
+   "old": "Daily Dank",
+   "new": null,
+   "text": "1945 RE, DH off, 1945 Comiskey Park"
+  },
+  "115": {
+   "old": "Daily Iron Cap",
+   "new": null,
+   "text": "1300 cap, Variant Cap 14, 2026 Isotopes Park"
+  },
+  "116": {
+   "old": "Daily Live Iron",
+   "new": null,
+   "text": "2026 Petco Park"
+  },
+  "163": {
+   "old": "Daily Iron Dreamland",
+   "new": null,
+   "text": "1907 RE, 1886 Swampoodle Grounds"
+  },
+  "181": {
+   "old": "Daily Iron Heart",
+   "new": "PTCS 2 Iron Replay",
+   "text": "Nel-SS-UH-HH, 1969 RE, DH off, Variants on, 1964 Shea Stadium"
+  },
+  "188": {
+   "old": "Daily Iron & Friends OOTP Era Slots",
+   "new": null,
+   "text": "SLOTS: 1 Perfect, 1 Diamond, 1 Gold, 1 Silver, 1 Bronze, 21 Irons"
+  },
+  "139": {
+   "old": "Daily Open High Cap",
+   "new": "Daily PTCS 4 Cap Replay",
+   "text": "Historical Legend-All-Star-Future Legend cards only, 1820 cap, 11:50am",
+   "superseded": "open section, 2026-09-15: slot renamed again to All-Star Hardware Slots"
+  }
+ },
+ "bronze": {
+  "117": {
+   "old": "Daily Early Bronze",
+   "new": null,
+   "text": "128 teams, 1942 RE, DH off, Variants off, 1945 Wrigley Field"
+  },
+  "118": {
+   "old": "Daily Return of the Bronze",
+   "new": "Daily Bronze Only Curiosities",
+   "text": "64 teams, UH-SS-RS cards only, Default RE, DH on, Variants on, 2005 Minute Maid Park"
+  },
+  "119": {
+   "old": "Daily Late Bronze",
+   "new": null,
+   "text": "Default RE, 2003 Dodger Stadium"
+  },
+  "120": {
+   "old": "Daily Bronze Cap",
+   "new": "Daily Bronze Only Cap",
+   "text": "1689 cap, 2019 RE, DH on, Variant Cap 13, 2026 American Family Field"
+  },
+  "121": {
+   "old": "Daily Live Bronze",
+   "new": null,
+   "text": "now at 2026 Kauffman Stadium"
+  },
+  "122": {
+   "old": "Daily Low Bronze",
+   "new": "Daily Low Bronze Only",
+   "text": "1955 RE, DH off, Variant Cap 12, 1955 Ebbets Field"
+  },
+  "164": {
+   "old": "Daily Bronze The Sequel",
+   "new": "Daily Bronze 1910-59",
+   "text": "64 teams, 1959 RE, DH on, Variants on, 1959 Seals Stadium"
+  },
+  "182": {
+   "old": "Daily Bronze Heart",
+   "new": "Daily Bronze OOTP Era",
+   "text": "128 teams, 2009 RE, DH on, Variants on, Heinsohn Park"
+  },
+  "189": {
+   "old": "Daily Bronze PTCS 2 Replay Slots",
+   "new": "Daily Bronze PTCS 3 Replay Slots",
+   "text": "SLOTS: 18 Bronze, 8 Iron; 1999 RE, DH on, Variant Cap 13, 2000 Coors Field"
+  }
+ },
+ "gold": {
+  "128": {
+   "old": "Daily Early Gold",
+   "new": "Daily Low Gold Only",
+   "text": "64 teams, Best of 5-Bo7F, Default RE, DH on, Variant Cap 8, 2026 Fenway Park"
+  },
+  "129": {
+   "old": "Daily Goldfather II",
+   "new": null,
+   "text": "moved to 128 teams, 1974 RE, DH off, Variants on, 1971 Yankee Stadium",
+   "envChanged": true,
+   "was": "2010 RE, Standard Stadium, 64 teams"
+  },
+  "130": {
+   "old": "Daily Gold Cap",
+   "new": null,
+   "text": "now open to Live cards, 64 teams, 1780 cap, 1999 RE, Variants on, 1999 Jacobs Field",
+   "envChanged": true,
+   "was": "2010 RE, 1955 Fenway Park, 32 teams"
+  },
+  "131": {
+   "old": "Daily Live Gold",
+   "new": null,
+   "text": "Default RE, 2026 Citizens Bank Park",
+   "envChanged": true,
+   "was": "2019 RE, 2026 Wrigley Field"
+  },
+  "132": {
+   "old": "Daily Gold Slots",
+   "new": null,
+   "text": "SLOTS: 12 Gold, 8 Silver, 6 Bronze, 0 Iron; 1968 RE, DH on, Variant Cap 13, 1968 Connie Mack Stadium",
+   "envChanged": true,
+   "was": "2010 RE, Standard Stadium, no slot spec on file"
+  },
+  "166": {
+   "old": "Daily Low Gold Retrospectus",
+   "new": "Daily Golden Age",
+   "text": "Cards up to 1929, 1925 RE, DH off, 1930 Hamtramck Stadium",
+   "note": "catalog spells it 'Retrospectus', the post 'Retrospecticus', the filer 'Restrospecticus' - the catalog name is used here so retire/match hit the row. post spells the park 'Hamtamck'; the value ceiling is not restated - Gold section of the post, assumed <= Gold (89), confirm on screen"
+  },
+  "184": {
+   "old": "Daily Golden Heart",
+   "new": null,
+   "text": "1956 RE, 1958 Crosley Field",
+   "note": "post writes it 'Daily Golden Heart (1930-89)'; the card-year window 1930-89 is unchanged",
+   "envChanged": true,
+   "was": "1977 RE, 1977 Olympic Stadium"
+  },
+  "191": {
+   "old": "Daily Sporer's Golden Childhood",
+   "new": "Daily High Silver-Low Gold Cap",
+   "text": "Best of 7, 2068 cap, 2007 RE, DH on, Variants on, 2008 Shea Stadium, moved to 2pm ET",
+   "note": "post writes it 'Daily Sporer's Golden Childhood (1980-2009)'"
+  },
+  "198": {
+   "old": "Daily Gold Standard",
+   "new": null,
+   "text": "64 teams, Best of 7, Default RE, Variants off, Heinsohn Park",
+   "note": "NEW tournament - first launch 2026-09-07 5:30pm ET; no history under this slot"
+  }
+ },
+ "diamond": {
+  "133": {
+   "old": "Daily Diamond",
+   "new": null,
+   "text": "1985 RE, Variants on, 1982 Kingdome",
+   "envChanged": true,
+   "was": "2010 RE, 2025 Standard Stadium, DH on"
+  },
+  "134": {
+   "old": "Daily Low Diamond",
+   "new": "Daily Low Diamond Only",
+   "text": "Default RE, DH on, Variants on, 2000 Coors Field",
+   "note": "post writes 'ia now' for 'is now'; the value window 90-94 comes from the new name (Low Diamond Only), as Low Gold Only / Low Silver Only did"
+  },
+  "135": {
+   "old": "Daily Diamond Cap",
+   "new": null,
+   "text": "1788 cap, 1968 RE, Variants on, 1976 Jarry Park",
+   "envChanged": true,
+   "was": "1998 RE, 1993 Joe Robbie Stadium, DH off, 32 teams"
+  },
+  "136": {
+   "old": "Daily Live Diamond",
+   "new": null,
+   "text": "now at 2026 Rate Field",
+   "envChanged": true,
+   "was": "2010 RE, 2026 Yankee Stadium"
+  },
+  "180": {
+   "old": "Daily Diamond Slots",
+   "new": null,
+   "text": "Negro Leagues, All-Stars, Snapshots, Unsung Heroes and Hardware Heroes cards only; SLOTS: 12 Diamond, 8 Gold, 3 Silver, 3 Bronze, 0 Iron; Default RE, 1984 Jack Murphy Stadium",
+   "envChanged": true,
+   "was": "1975 RE, 1977 Atlanta Fulton County Stadium, DH on, no card-type rule, no slot spec on file",
+   "note": "post says 'only Negro Leagues, All-Stars, Snapshots, Unsung Heroes and Hardware Heroes cards' - five card types (codes 2/5/7/8/9); DH not restated"
+  },
+  "167": {
+   "old": "Daily Diamonds are Forever",
+   "new": null,
+   "text": "2019 RE, 2026 Dell Diamond",
+   "envChanged": true,
+   "was": "1987 RE, 1985 Wrigley Field"
+  },
+  "185": {
+   "old": "Daily Diamond Heart",
+   "new": "Daily Diamond Up to 1969",
+   "text": "cards up to 1969, 2009 RE, DH off, Variants on, 1996 Coors Field",
+   "note": "was 1958 RE, 1955 Fenway Park, cards 1930-89; the old lower bound 1930 is not restated - importer keeps yearMin at the parser's floor"
+  },
+  "192": {
+   "old": "Daily Diamond & Friends Slots",
+   "new": null,
+   "text": "removed",
+   "removed": true,
+   "note": "slot retired outright - no replacement named"
+  },
+  "199": {
+   "old": "Daily Diamond 1990 Onward",
+   "new": null,
+   "text": "Cards >= 1990; 64 teams, Best of 7, 1957 RE, DH on, Variants on, 1954 Griffith Stadium",
+   "note": "NEW tournament; 'Cards >= 1990' is read from the name '1990 Onward' - the post's blurb does not restate it; no history under this slot"
+  }
+ },
+ "perfectDraft": {
+  "203": {
+   "old": "Daily Rise and Shine",
+   "new": "Pick 12 Original PD",
+   "text": "101+ Round 1 and 100 Round 2"
+  },
+  "204": {
+   "old": "Daily Double Espresso Morning",
+   "new": "Pick 12 Double PD",
+   "text": "101+ Round 1"
+  },
+  "252": {
+   "old": "Daily Morning Mixed Bag",
+   "new": "Daily Perfecto Morning",
+   "text": ""
+  },
+  "206": {
+   "old": "Daily Bagels and Schmear with EVCinNYC",
+   "new": null,
+   "text": "new format - see EVCinNYC2 on Twitch",
+   "note": "Diamond refresh post EDIT (2026-09-09): 24 cards selected instead of 26"
+  },
+  "208": {
+   "old": "Daily Scrum",
+   "new": "Daily High Heat in the Morning",
+   "text": "HH- 6 Rounds Perfect, 7 Rounds Diamond, Default RE, DH on, LE on, Heinsohn Park"
+  },
+  "209": {
+   "old": "Daily Meeting About Meetings - ORD",
+   "new": "Daily Perfectly Iron",
+   "text": "Only Perfect & Iron rounds, Best of 7, randomized 1993-2024, 2026 Coors Field"
+  },
+  "253": {
+   "old": "Daily Mixed Up My Lunch",
+   "new": "Daily Midday Perfecto",
+   "text": "Best of 7, random 1980-2004 RE, random HR Friendly stadiums"
+  },
+  "211": {
+   "old": "Daily Trying to Look Busy - D&G",
+   "new": "Daily All-Silver",
+   "text": "random current MLB stadiums"
+  },
+  "212": {
+   "old": "Daily Snack Time on the Ladder",
+   "new": "Daily All-Gold",
+   "text": "Best 7, LE on"
+  },
+  "214": {
+   "old": "Daily This Could've Been an Email - RCK",
+   "new": "Daily Perfectly Bronze",
+   "text": ""
+  },
+  "215": {
+   "old": "Daily Honey, I Shrunk the Roster",
+   "new": "Historical Pick 12",
+   "text": "101+ Round 1 and 20 cards"
+  },
+  "216": {
+   "old": "Dr. Dynastic's Doc Rock Derby",
+   "new": "High Heat Non-Live, Speed",
+   "text": "7-minute draft"
+  },
+  "254": {
+   "old": "Daily Evening Mixed Bag",
+   "new": "Daily Perfecto Primetime",
+   "text": ""
+  },
+  "259": {
+   "old": "Daily Good Orderly Evening",
+   "new": "Orderly",
+   "text": "101+ Round 1"
+  },
+  "219": {
+   "old": "Daily Historical Primetime",
+   "new": "Historical",
+   "text": "101+ Round 1"
+  },
+  "220": {
+   "old": "Daily Live Speed Run",
+   "new": "Daily All-Diamond",
+   "text": ""
+  },
+  "221": {
+   "old": "Daily They've Gone to Plaid",
+   "new": "Original PD",
+   "text": "101+ Round 1 and Speed 5-minute clock"
+  },
+  "255": {
+   "old": "Daily Nocturnal Mixed Bag",
+   "new": "Daily Perfectly Silver",
+   "text": ""
+  },
+  "222": {
+   "old": "Daily OOTP and Chill",
+   "new": "Daily Perfectly Gold",
+   "text": ""
+  },
+  "223": {
+   "old": "Daily Tuck in Time",
+   "new": "Daily Ladder",
+   "text": "101+ Round, Default RE, random Tournament Only stadiums"
+  },
+  "224": {
+   "old": "Daily Struggling to Sleep - DBL",
+   "new": "Original, Double PD",
+   "text": "101+ RD1"
+  },
+  "225": {
+   "old": "Daily Up Late with Rich - LAD",
+   "new": "Daily Up Late with Perfecto",
+   "text": "random Historical stadiums"
+  },
+  "226": {
+   "old": "Daily Live All Night",
+   "new": null,
+   "text": "random current MLB stadiums"
+  },
+  "227": {
+   "old": "Monday Getting it Started",
+   "new": "Original, Double PD",
+   "text": "101+ RD1"
+  },
+  "229": {
+   "old": "Monday Night History Lesson",
+   "new": "Historical Pick 12",
+   "text": "101+ RD1, random 1980-2004 RE"
+  },
+  "232": {
+   "old": "Tuesday Evening Adrenaline Rush",
+   "new": "Tuesday Perfectly Iron",
+   "text": "Mevening"
+  },
+  "233": {
+   "old": "Wednesday Wake Up To History",
+   "new": "Wednesday Bring the High Heat",
+   "text": "random California stadiums"
+  },
+  "234": {
+   "old": "Wednesday Double PD",
+   "new": "Wednesday Double Your Fun, Original, Double PD",
+   "text": "101+ RD1"
+  },
+  "235": {
+   "old": "Wednesday Diamond to Iron",
+   "new": "Wednesday Perfectly Bronze",
+   "text": "random Years of the Pitcher RE, random HR Supression stadiums"
+  },
+  "236": {
+   "old": "Thursday Overnight Under the Covers",
+   "new": "Orderly",
+   "text": "101+ Round 1, random 1961-1992 RE"
+  },
+  "237": {
+   "old": "Thursday Dude, Where's My Cards?",
+   "new": "Perfecto",
+   "text": "21 cards"
+  },
+  "238": {
+   "old": "Thursday Night Put it in the Books",
+   "new": "Historical Pick 12",
+   "text": "101+ RD1"
+  },
+  "239": {
+   "old": "Friday Draft About Nothing",
+   "new": "All-Bronze PD",
+   "text": ""
+  },
+  "240": {
+   "old": "Friday Watching the Clock - ATH",
+   "new": null,
+   "text": "random 1993-2024 RE, random High BA stadiums"
+  },
+  "242": {
+   "old": "Saturday Can't Sleep Clown Will Eat Me",
+   "new": "Perfectly Silver",
+   "text": "random Hitter Friendly RE, LE on"
+  },
+  "243": {
+   "old": "Saturday Shrinkage",
+   "new": "Perfectly Gold",
+   "text": "20 cards, LE on"
+  },
+  "244": {
+   "old": "TWIPT Saturday Showdown",
+   "new": "Double PD",
+   "text": "101+ Round 1"
+  },
+  "245": {
+   "old": "Sunday Morning Markus' Revenge",
+   "new": "Mixed Bag",
+   "text": "22 cards, random 1908-60 RE"
+  },
+  "246": {
+   "old": "Sunday Up and Down the Ladder",
+   "new": "Sunday Perfecto",
+   "text": "256 teams"
+  },
+  "247": {
+   "old": "Sunday PD Main Event",
+   "new": "Original PD",
+   "text": "101+ Round 1"
+  },
+  "210": {
+   "old": "Daily Rocking Chair Lunch",
+   "new": null,
+   "text": "32 teams (was 64)",
+   "note": "Diamond refresh post EDIT (2026-09-09): field cut from 64 to 32 - scoring reads the field size off each result row, so nothing to change in the ledger"
+  }
+ },
+ "newTournaments": [
+  {
+   "tier": "iron",
+   "name": "Dank Quick",
+   "text": "16 teams, Best of 5, DH on, Variant Cap 10, Heinsohn Park"
+  }
+ ],
+ "stillNeeded": [
+  "Open refresh post",
+  "Live refresh post",
+  "the refresh date / first run number under new rules"
+ ],
+ "goldSource": "PT Gold refresh post, read 2026-09-07 from L.J.'s screenshot; effective with the 2026-09-07 runs",
+ "diamondSource": "PT Diamond refresh post, read 2026-09-09 from L.J.'s screenshot; taken as effective with the 2026-09-09 runs (Diamond & Friends Slots 1920105 still ran Sep 8)",
+ "open": {
+  "137": {
+   "old": "Daily Live Open",
+   "new": null,
+   "text": "2019 RE, 2026 American Family Field",
+   "envChanged": true,
+   "was": "2010 RE, 2025 Standard Stadium"
+  },
+  "138": {
+   "old": "Daily Open Low Cap",
+   "new": "Daily Early Years Cap",
+   "text": "cards up to 1939, Best of 7, 1500 cap, 1888 RE, DH off, Variants on, 1890 Exposition Park III (Pittsburgh Burghers)"
+  },
+  "139": {
+   "old": "Daily PTCS 4 Replay Cap",
+   "new": "All-Star Hardware Slots",
+   "text": "Slots: 8 Perfect, 6 Diamond, 3 Gold, 3 Silver, 3 Bronze, 3 Iron, Default RE, DH on, 2008 McAfee Coliseum (Oakland)"
+  },
+  "140": {
+   "old": "Daily Wide Open",
+   "new": null,
+   "text": "now at 2026 Sutter Health Park",
+   "envChanged": true,
+   "was": "2023 Fenway Park"
+  },
+  "141": {
+   "old": "Daily Open Slots",
+   "new": null,
+   "text": "1987 RE, 1990 Metrodome",
+   "envChanged": true,
+   "was": "2000 RE, 2025 Standard Stadium"
+  },
+  "186": {
+   "old": "Daily Open Heart",
+   "new": "Daily Live Plus",
+   "text": "Default RE, 2026 PNC Park"
+  },
+  "193": {
+   "old": "Dr. Dynastic's Daily Time Travelers Slots",
+   "new": null,
+   "text": "1968 RE, 1968 Busch Stadium",
+   "envChanged": true,
+   "was": "unknown"
+  },
+  "194": {
+   "old": "Daily Negro Leagues",
+   "new": "Daily Late 1900s",
+   "text": "cards from 1989-99, 1999 RE, DH on, 1998 Wrigley Field"
+  }
+ }
 }

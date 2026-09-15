@@ -2,7 +2,7 @@
  "_comment": "PT tournament slot id (first 3 digits of an event id) -> the filer's series slug. Built by reading ids off the Your Tournaments screen; grows every capture. An event id is <slot><4-digit run>, so 2110168 = slot 211 run 168 = tryinglookbusy_168.csv. This is what removes hand-typed run numbers.",
  "_source": "read from OOTP's Your Tournaments list 2026-08-31; slugs from File OOTP Exports.command",
  "_cutover": {
-  "refresh": "2026-09 (Silver + Perfect Draft); Bronze/Iron refreshed ~2026-08-26; Gold refreshed 2026-09-07 (slots 128/129/130/131/132/166/184/191 restated, 198 new); Diamond refreshed 2026-09-09 (slots 133/135/136/167/180 restated, 134/185 renamed, 192 removed, 199 new)",
+  "refresh": "2026-09 (Silver + Perfect Draft); Bronze/Iron refreshed ~2026-08-26; Gold refreshed 2026-09-07 (slots 128/129/130/131/132/166/184/191 restated, 198 new); Diamond refreshed 2026-09-09 (slots 133/135/136/167/180 restated, 134/185 renamed, 192 removed, 199 new); Open refreshed 2026-09-15 (137/140/141/193 restated, 138/139/186/194 renamed)",
   "rule": "A slot is REUSED when a tournament is renamed. Every file in Archive/Completed predates the Sep refresh, so old slugs stay valid for existing files. New runs on a renamed slot must use the new slug.",
   "renames": {
    "211": {
@@ -109,13 +109,13 @@
     "note": "from Tourney Data/refresh-2026-09.json"
    },
    "139": {
-    "old": "openhighcap",
-    "oldName": "Daily Open High Cap",
-    "new": "ptcs4cap",
-    "newName": "Daily PTCS 4 Cap Replay",
+    "old": "ptcs4cap",
+    "oldName": "Daily PTCS 4 Replay Cap",
+    "new": "allstarhardwareslots",
+    "newName": "All-Star Hardware Slots",
     "lastOldRun": null,
     "firstNewRun": null,
-    "note": "from Tourney Data/refresh-2026-09.json"
+    "note": "from Tourney Data/refresh-2026-09.json (Open, 2026-09-15); run numbers not yet observed"
    },
    "164": {
     "old": "bronzesequel",
@@ -162,13 +162,13 @@
     "firstNewRun": null
    },
    "186": {
-    "old": null,
+    "old": "openheart",
     "oldName": "Daily Open Heart",
-    "new": "openheart",
-    "newName": "Daily Open 1930-89",
+    "new": "liveplus",
+    "newName": "Daily Live Plus",
     "lastOldRun": null,
     "firstNewRun": null,
-    "note": "UNVERIFIED — the dumps title slot 186 'Daily Open 1930-89'; confirm it is the old Open Heart"
+    "note": "from Tourney Data/refresh-2026-09.json (Open, 2026-09-15); run numbers not yet observed"
    },
    "128": {
     "old": "earlygold",
@@ -214,6 +214,24 @@
     "lastOldRun": null,
     "firstNewRun": null,
     "note": "from Tourney Data/refresh-2026-09.json (Diamond, 2026-09-09); run numbers not yet observed"
+   },
+   "138": {
+    "old": "openlowcap",
+    "oldName": "Daily Open Low Cap",
+    "new": "earlyyearscap",
+    "newName": "Daily Early Years Cap",
+    "lastOldRun": null,
+    "firstNewRun": null,
+    "note": "from Tourney Data/refresh-2026-09.json (Open, 2026-09-15); run numbers not yet observed"
+   },
+   "194": {
+    "old": "neldaily",
+    "oldName": "Daily Negro Leagues",
+    "new": "late1900s",
+    "newName": "Daily Late 1900s",
+    "lastOldRun": null,
+    "firstNewRun": null,
+    "note": "from Tourney Data/refresh-2026-09.json (Open, 2026-09-15); run numbers not yet observed"
    }
   }
  },
@@ -245,8 +263,8 @@
  "135": "diamondcapdaily",
  "136": "livediamonddaily",
  "137": "liveopendaily",
- "138": "openlowcap",
- "139": "ptcs4cap",
+ "138": "earlyyearscap",
+ "139": "allstarhardwareslots",
  "140": "wideopen",
  "141": "openslotsdaily",
  "142": "bronzeweekly",
@@ -281,7 +299,7 @@
  "183": "roaringsilvers",
  "184": "goldenheart",
  "185": "diamondupto1969",
- "186": "openheart",
+ "186": "liveplus",
  "187": "c4q1",
  "188": "ironandfriends",
  "189": "bronzeptcs3",
@@ -289,7 +307,7 @@
  "191": "highsilverlowgoldcap",
  "192": "diamondandfriends",
  "193": "timetravelersslots",
- "194": "neldaily",
+ "194": "late1900s",
  "195": "nelslotsweekly",
  "197": "lowsilveronly",
  "198": "goldstandard",

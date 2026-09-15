@@ -109,7 +109,7 @@ async function main() {
   for (const r of Object.values(slotMap?._cutover?.renames ?? {}) as any[]) { if (r.old) restated.add(r.old); if (r.new) restated.add(r.new); }
   try {
     const refresh = JSON.parse(readFileSync(join(ROOT, "Tourney Data/refresh-2026-09.json"), "utf8"));
-    for (const tier of ["silver", "iron", "bronze", "gold", "diamond"]) for (const [slot, e] of Object.entries(refresh[tier] ?? {}) as any[]) {
+    for (const tier of ["silver", "iron", "bronze", "gold", "diamond", "open"]) for (const [slot, e] of Object.entries(refresh[tier] ?? {}) as any[]) {
       if (e.new || e.envChanged) { const slug = slotMap[slot]; if (typeof slug === "string") restated.add(slug); }
     }
   } catch { /* no refresh file */ }

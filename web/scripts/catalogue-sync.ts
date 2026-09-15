@@ -61,7 +61,7 @@ async function main() {
   const meaningful = (r: ReturnType<typeof parseRestrictions>) =>
     Object.entries(r).some(([k, v]) => k !== "notes" && v != null && !(Array.isArray(v) && !v.length));
   const refreshText = (slot: number): string | null => {
-    for (const tier of ["silver", "iron", "bronze", "gold", "diamond", "perfectDraft"]) { const e = refresh[tier]?.[String(slot)]; if (e?.text) return e.text; }
+    for (const tier of ["silver", "iron", "bronze", "gold", "diamond", "open", "perfectDraft"]) { const e = refresh[tier]?.[String(slot)]; if (e?.text) return e.text; }
     return null;
   };
 
@@ -92,6 +92,14 @@ async function main() {
       continue;
     }
     if (row.slot == null) { if (!DRY) await db.execute(sql`update tournaments set slot = ${slot} where id = ${row.id}`); slotted++; }
+    // The refresh post runs ahead of the dumps: a slot the post renamed keeps
+    // showing its old title until the renamed event has actually run. Do not
+    // rename the row back to the old title in the meantime.
+    const renamedTo = ((): string | null => {
+      for (const tier of ["silver", "iron", "bronze", "gold", "diamond", "open", "perfectDraft"]) { const e = refresh[tier]?.[String(slot)]; if (e?.new && e?.old?.trim().toLowerCase() === s.title.toLowerCase()) return e.new; }
+      return null;
+    })();
+    if (renamedTo && row.name.trim().toLowerCase() === renamedTo.toLowerCase()) continue;
     if (row.name.trim().toLowerCase() !== s.title.toLowerCase()) {
       console.log(`~ ${slot} rename "${row.name}" -> "${s.title}"`);
       if (!DRY) await db.execute(sql`update tournaments set name = ${s.title}, updated_at = now() where id = ${row.id}`);

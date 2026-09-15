@@ -34,9 +34,10 @@ const DRY = process.argv.includes("--dry");
 const squash = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
 const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 const ID_BASE = 9_100_000;
-const TIERS = ["silver", "iron", "bronze", "gold", "diamond"] as const;
+const TIERS = ["silver", "iron", "bronze", "gold", "diamond", "open"] as const;
 /** Ceiling implied by the SECTION of the post an event sits in, for names with no tier word. */
-const SECTION_MAX: Record<(typeof TIERS)[number], number> = { iron: 59, bronze: 69, silver: 79, gold: 89, diamond: 99 };
+/** Open events have no ceiling by design - the section sets none. */
+const SECTION_MAX: Record<(typeof TIERS)[number], number | null> = { iron: 59, bronze: 69, silver: 79, gold: 89, diamond: 99, open: null };
 
 interface Entry { old: string; new: string | null; text: string; note?: string; removed?: boolean }
 
@@ -78,11 +79,21 @@ async function main() {
     return hits.length === 1 ? hits[0] : null;
   };
 
-  const existing = await db.select({ id: tournaments.id, name: tournaments.name, series: tournaments.series }).from(tournaments);
+  const existing = await db.select({ id: tournaments.id, name: tournaments.name, series: tournaments.series, slot: tournaments.slot }).from(tournaments);
   const byName = new Map(existing.map((r) => [r.name.toLowerCase().trim(), r]));
+  /**
+   * tournaments.slot (catalogue-sync fills it from the dumps) is the join
+   * that survives spelling: the dump titles "Daily PTCS 2 Iron Replay", the
+   * post writes "PTCS 2 Iron Replay", and without the slot the two scripts
+   * rename the same row back and forth. A restated slot updates its row;
+   * a RENAMED slot updates its row only once the row already carries the new
+   * name, otherwise it is a new tournament and is seeded.
+   */
+  const bySlot = new Map(existing.filter((r) => r.slot != null).map((r) => [r.slot!, r]));
 
   const inserts: (typeof tournaments.$inferInsert)[] = [];
   const updates: { id: number; name: string; set: Record<string, unknown> }[] = [];
+  const retireIds: { id: number; name: string; replacedBy: string }[] = [];
 
   for (const tier of TIERS) {
     for (const [slotStr, e] of Object.entries(refresh[tier] as Record<string, Entry>)) {
@@ -90,6 +101,8 @@ async function main() {
       // "192 Daily Diamond & Friends Slots is removed": nothing to seed or
       // update - pnpm retire flags the row.
       if (e.removed) continue;
+      // A slot restated again by a later section: the older entry is history.
+      if ((e as { superseded?: string }).superseded) continue;
       const name = (e.new ?? e.old).trim();
       const slug = slotSlug.get(slot) ?? null;
       const r = parseRestrictions(e.text);
@@ -102,7 +115,7 @@ async function main() {
       // the post lists them under Gold. Take the section's ceiling and say so -
       // an "Open" or "& Friends" event is deliberately unwindowed and is left alone.
       let sectionCeiling = false;
-      if (ratingsMax == null && win == null && !/\bopen\b|&\s*friends/i.test(name)) {
+      if (ratingsMax == null && win == null && SECTION_MAX[tier] != null && !/\bopen\b|&\s*friends/i.test(name)) {
         ratingsMax = SECTION_MAX[tier];
         sectionCeiling = true;
       }
@@ -120,7 +133,11 @@ async function main() {
       // ("Daily Dank" vs "Daily Dank Iron"). Without this a naming difference
       // reads as a rename and seeds a duplicate row.
       const key = name.toLowerCase();
-      let hit = byName.get(key);
+      const slotRow = bySlot.get(slot);
+      // "Daily PTCS 2 Iron Replay" (dump) is "PTCS 2 Iron Replay" (post): the
+      // new name is carried when one squashed spelling contains the other.
+      const carries = (a: string, b: string) => { const x = squash(a), y = squash(b); return (x.includes(y) || y.includes(x)) && Math.min(x.length, y.length) / Math.max(x.length, y.length) >= 0.6; };
+      let hit = slotRow && (!e.new || carries(slotRow.name, name)) ? slotRow : byName.get(key);
       // Punctuation-blind equality next: the catalog's "PTCS 2 Iron Replay."
       // (trailing period) is the post's "PTCS 2 Iron Replay".
       if (!hit) hit = existing.find((r) => squash(r.name) === squash(name));
@@ -140,7 +157,10 @@ async function main() {
         if (near.length === 1) hit = near[0];
       }
       if (hit) {
-        const set: Record<string, unknown> = { restrictions: extra };
+        if (e.new) for (const other of existing) {
+          if (other.slot === slot && other.id !== hit.id && !carries(other.name, name)) retireIds.push({ id: other.id, name: other.name, replacedBy: name });
+        }
+        const set: Record<string, unknown> = { restrictions: extra, slot };
         if (ratingsMin != null) set.ratingsMin = ratingsMin;
         if (ratingsMax != null) set.ratingsMax = ratingsMax;
         if (r.yearMin != null) set.cardYearMin = r.yearMin;
@@ -157,8 +177,14 @@ async function main() {
         updates.push({ id: hit.id, name, set });
         continue;
       }
+      // A rename on a slot that still carries a live row under the OLD name:
+      // that row is the retired tournament, not a second live one.
+      if (e.new) for (const other of existing) {
+        if (other.slot === slot && !carries(other.name, name)) retireIds.push({ id: other.id, name: other.name, replacedBy: name });
+      }
       inserts.push({
         id: ID_BASE + slot,
+        slot,
         name,
         envYear: r.reYear,
         mode: r.bestOf ? `BO${r.bestOf}` : null,
@@ -175,7 +201,11 @@ async function main() {
     }
   }
 
-  console.log(`${updates.length} existing rows refreshed, ${inserts.length} seeded${DRY ? " (dry run)" : ""}\n`);
+  console.log(`${updates.length} existing rows refreshed, ${inserts.length} seeded, ${retireIds.length} replaced rows retired${DRY ? " (dry run)" : ""}\n`);
+  for (const r of retireIds) {
+    console.log(`  retire ${String(r.id).padStart(8)}  ${r.name.slice(0, 36).padEnd(38)} -> replaced by ${r.replacedBy}`);
+    if (!DRY) await db.execute(sql`update tournaments set retired = true, restrictions = coalesce(restrictions, '{}'::jsonb) || ${JSON.stringify({ replacedBy: r.replacedBy })}::jsonb, updated_at = now() where id = ${r.id}`);
+  }
   const show = (id: number, name: string, min: unknown, max: unknown, extra: Record<string, unknown>) =>
     console.log(`  ${String(id).padStart(8)}  ${name.slice(0, 36).padEnd(38)} ` +
       `val ${String(min ?? 40)}-${String(max ?? "none")}`.padEnd(16) +
@@ -193,7 +223,7 @@ async function main() {
           entrants: sql`excluded.entrants`,
           ratingsMin: sql`excluded.ratings_min`, ratingsMax: sql`excluded.ratings_max`,
           cardYearMin: sql`excluded.card_year_min`, cardYearMax: sql`excluded.card_year_max`,
-          series: sql`excluded.series`, restrictions: sql`excluded.restrictions`,
+          series: sql`excluded.series`, restrictions: sql`excluded.restrictions`, slot: sql`excluded.slot`,
           retired: sql`false`, updatedAt: sql`now()`,
         },
       });

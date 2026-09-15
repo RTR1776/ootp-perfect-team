@@ -83,6 +83,9 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   }
   m = s.match(/(?<!random\s)(?<!randomized\s)\b(\d{4})\s*-\s*(\d{4})\b(?!\s*RE)/);
   if (m && r.yearMax == null) { r.yearMin = Number(m[1]); r.yearMax = Number(m[2]); }
+  // "cards from 1989-99": a two-digit end takes the century of the start.
+  m = s.match(/cards?\s+from\s+(\d{4})\s*-\s*(\d{2})\b/i);
+  if (m && r.yearMax == null) { r.yearMin = Number(m[1]); r.yearMax = Math.floor(Number(m[1]) / 100) * 100 + Number(m[2]); }
 
   // ---- caps and variants ----------------------------------------------
   m = s.match(/\b(\d{3,5})\s*cap\b/i);
