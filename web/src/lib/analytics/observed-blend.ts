@@ -70,7 +70,10 @@ export const OBS_K_DEFAULT = 2500;
 /** Runs per unit of wOBA in a modern environment; roster-fill uses the same. */
 const WOBA_SCALE = 1.25;
 
-const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
+type Row = Record<string, unknown>;
+const asRows = (r: unknown): Row[] => (Array.isArray(r) ? (r as Row[]) : ((r as { rows?: Row[] }).rows ?? []));
+const num = (v: unknown): number => (v == null ? 0 : Number(v));
+const str = (v: unknown): string => String(v ?? "");
 
 const stintLike = (counters: Record<string, number>, ip: number, pa: number) => ({
   stats: counters, ip, pa, use: pa + ip * 4.3, isPitcher: false, isFreeAgent: false, org: "",
@@ -90,18 +93,18 @@ export async function loadObservedRuns(
   const out = new Map<number, ObservedRuns>();
   if (!cardIds.length) return out;
   const ids = sql.join(cardIds.map((id) => sql`${id}`), sql`, `);
-  const lines = asRows<any>(await db.execute(sql`
+  const lines = asRows(await db.execute(sql`
     select card_id, series, is_pitcher, pa, ip, woba, fip, counters
     from observed_card_stats where card_id in (${ids})`));
   if (!lines.length) return out;
-  const seriesIn = sql.join([...new Set(lines.map((l) => l.series as string))].map((s) => sql`${s}`), sql`, `);
+  const seriesIn = sql.join([...new Set(lines.map((l) => str(l.series)))].map((s) => sql`${s}`), sql`, `);
   // Series baselines from the same table, so they carry the same exclusions:
   // one row per (series, side, counter) summed over every card that played it.
-  const sums = asRows<any>(await db.execute(sql`
+  const sums = asRows(await db.execute(sql`
     select series, is_pitcher, e.key k, sum((e.value)::float) v
     from observed_card_stats, jsonb_each_text(counters) e
     where series in (${seriesIn}) group by 1, 2, 3`));
-  const vol = asRows<any>(await db.execute(sql`
+  const vol = asRows(await db.execute(sql`
     select series, is_pitcher, sum(pa)::float pa, sum(ip)::float ip
     from observed_card_stats where series in (${seriesIn}) group by 1, 2`));
   const collapse = new Map<string, { h: Record<string, number>; p: Record<string, number>; ip: number; pa: number }>();
@@ -110,8 +113,8 @@ export async function loadObservedRuns(
     collapse.set(series, c);
     return c;
   };
-  for (const r of sums) (r.is_pitcher ? at(r.series).p : at(r.series).h)[r.k] = Number(r.v);
-  for (const r of vol) { const c = at(r.series); if (r.is_pitcher) c.ip += Number(r.ip); else c.pa += Number(r.pa); }
+  for (const r of sums) (r.is_pitcher ? at(str(r.series)).p : at(str(r.series)).h)[str(r.k)] = num(r.v);
+  for (const r of vol) { const c = at(str(r.series)); if (r.is_pitcher) c.ip += num(r.ip); else c.pa += num(r.pa); }
   const base = new Map<string, { woba: number; fip: number }>();
   for (const [series, c] of collapse) {
     base.set(series, {
@@ -121,19 +124,19 @@ export async function loadObservedRuns(
   }
   // The level of each field on the model's scale: PA-weighted (BF for arms)
   // mean of the model's runs over every card that played the series.
-  const played = asRows<any>(await db.execute(sql`
+  const played = asRows(await db.execute(sql`
     select series, card_id, is_pitcher, pa, (counters->>'BF')::float bf
     from observed_card_stats where series in (${seriesIn})`));
   const level = new Map<string, { h: { num: number; den: number }; p: { num: number; den: number } }>();
   for (const r of played) {
-    const m = modelRuns(r.card_id);
+    const m = modelRuns(num(r.card_id));
     if (m == null || !Number.isFinite(m)) continue;
-    const w = r.is_pitcher ? Number(r.bf ?? 0) : Number(r.pa ?? 0);
+    const w = r.is_pitcher ? num(r.bf) : num(r.pa);
     if (!(w > 0)) continue;
-    const l = level.get(r.series) ?? { h: { num: 0, den: 0 }, p: { num: 0, den: 0 } };
+    const l = level.get(str(r.series)) ?? { h: { num: 0, den: 0 }, p: { num: 0, den: 0 } };
     const side = r.is_pitcher ? l.p : l.h;
     side.num += m * w; side.den += w;
-    level.set(r.series, l);
+    level.set(str(r.series), l);
   }
   const levelOf = (series: string, isPitcher: boolean): number | null => {
     const l = level.get(series); const side = isPitcher ? l?.p : l?.h;
@@ -142,26 +145,27 @@ export async function loadObservedRuns(
   // Pool each card: sum of (level + deviation) * weight, over sum of weight.
   const acc = new Map<number, { num: number; den: number; series: Set<string> }>();
   for (const l of lines) {
-    const b = base.get(l.series);
+    const series = str(l.series), cardId = num(l.card_id), isP = !!l.is_pitcher;
+    const b = base.get(series);
     if (!b) continue;
-    const a = acc.get(l.card_id) ?? { num: 0, den: 0, series: new Set() };
-    const M = levelOf(l.series, !!l.is_pitcher);
+    const a = acc.get(cardId) ?? { num: 0, den: 0, series: new Set<string>() };
+    const M = levelOf(series, isP);
     if (M == null) continue;
-    if (l.is_pitcher) {
-      const bf = Number(l.counters?.BF ?? 0);
+    if (isP) {
+      const bf = num((l.counters as Record<string, unknown> | null)?.BF);
       if (!(bf > 0) || l.fip == null || !(b.fip > 0)) continue;
       // FIP is runs per 9 IP; over the card's own IP; saved = negative allowed.
-      const runsSaved = -((Number(l.fip) - b.fip) / 9) * Number(l.ip);
+      const runsSaved = -((num(l.fip) - b.fip) / 9) * num(l.ip);
       a.num += runsSaved + (M / 700) * bf;   // deviation + the field's level, both in runs over the line
       a.den += bf;
     } else {
-      const pa = Number(l.pa ?? 0);
+      const pa = num(l.pa);
       if (!(pa > 0) || l.woba == null || !(b.woba > 0)) continue;
-      a.num += ((Number(l.woba) - b.woba) / WOBA_SCALE) * pa + (M / 700) * pa;
+      a.num += ((num(l.woba) - b.woba) / WOBA_SCALE) * pa + (M / 700) * pa;
       a.den += pa;
     }
-    a.series.add(l.series);
-    acc.set(l.card_id, a);
+    a.series.add(series);
+    acc.set(cardId, a);
   }
   for (const [id, a] of acc) {
     if (a.den <= 0) continue;

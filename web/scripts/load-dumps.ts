@@ -89,6 +89,16 @@ async function main() {
     }
   }
 
+  /* ---- 3b: the catalogue agrees with the dump ----
+     Every slot in the newest dumps gets a row, renames land, slot ids fill.
+     This is what keeps Perfect Draft events - half of what he enters - from
+     going missing again. */
+  if (!DRY) {
+    console.log(`\n  syncing the tournament catalogue to the newest dumps`);
+    try { console.log(run(["scripts/catalogue-sync.ts"]).split("\n").slice(-1).map((l) => `    ${l}`).join("\n")); }
+    catch (e: any) { console.log(`    !! ${String(e?.stderr ?? e?.message ?? e).split("\n")[0]}`); }
+  }
+
   /* ---- 4: refresh my_results from the newest of each kind ---- */
   if (!DRY) {
     console.log(`\n  refreshing my_results from the newest tournaments + drafts dump`);

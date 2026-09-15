@@ -27,6 +27,9 @@ import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { fillRoster, fitMaps, HIT_POS, rosterShape } from "@/lib/roster-fill";
+import { envFitMaps } from "@/lib/analytics/env-fit";
+import type { EraRates } from "@/lib/analytics/run-env";
+import type { ParkRow } from "@/lib/analytics/tournament-env";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
 import { projFip, projWoba } from "@/lib/analytics/projection";
 
@@ -65,6 +68,17 @@ export interface BuilderCard {
   ratings: Record<string, number>;
   proj: Proj;
   obs: ObservedLine | null;
+}
+
+/**
+ * What the page resolved about the event, so the client can score the pool
+ * the way env-roster does. `observed` is [cardId, runs on the model's scale,
+ * PA-or-BF] per card with tournament play on record.
+ */
+export interface BuilderEnv {
+  rates: EraRates;
+  park: ParkRow | null;
+  observed: Array<[number, number, number]>;
 }
 
 export interface UpgradeCard {
@@ -325,6 +339,7 @@ export function RosterBuilder({
   groups,
   tournament,
   pool: basePool,
+  env,
   upgrades,
   meta,
   savedRosters,
@@ -334,6 +349,7 @@ export function RosterBuilder({
   groups: CatalogGroup[];
   tournament: TournamentInfo | null;
   pool: BuilderCard[];
+  env: BuilderEnv | null;
   upgrades: UpgradeCard[];
   meta: SeriesMetaInfo | null;
   savedRosters: SavedRoster[];
@@ -428,8 +444,17 @@ export function RosterBuilder({
     ...benchKeys,
   ], [lineupPos, staffKeys, benchKeys]);
 
-  /* fit percentiles (pool is already tournament-legal) ---------------- */
-  const fits = useMemo(() => fitMaps(pool), [pool]);
+  /* fit percentiles (pool is already tournament-legal) ----------------
+     With an environment from the page this is env-fit's scorer - run
+     environment, park, relief role at a quarter, the 50 position floor,
+     observed play blended by precision - and the table's FIT column is its
+     percentile. Without one (no era row at all) the rating composite. */
+  const fits = useMemo(() => env
+    ? envFitMaps(pool, {
+        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: 50,
+        observed: new Map(env.observed.map(([id, runs, n]) => [id, { runs, n }])),
+      })
+    : fitMaps(pool), [pool, env]);
   const { fitR } = fits;
 
   const byId = useMemo(() => new Map(pool.map((c) => [c.cardId, c])), [pool]);

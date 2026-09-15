@@ -27,7 +27,10 @@ import {
 } from "@/db/schema";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { projFip, projWoba } from "@/lib/analytics/projection";
-import { eraFor, parkFor, solveFor } from "@/lib/analytics/tournament-env";
+import { eraFor, eraTable, parkFor, solveFor } from "@/lib/analytics/tournament-env";
+import { envFitMaps } from "@/lib/analytics/env-fit";
+import { loadObservedRuns } from "@/lib/analytics/observed-blend";
+import type { BuilderEnv } from "@/components/roster-builder";
 import { getRatingScale } from "@/lib/rating-scale";
 import { cardEligibility, tierCode, tierFitsSlots, TIER_ORDER, type RosterSlot } from "@/lib/roster-rules";
 import coeffs from "@/lib/analytics/projection-coeffs.json";
@@ -130,6 +133,7 @@ export default async function BuildPage({
   let pool: BuilderCard[] = [];
   let upgrades: UpgradeCard[] = [];
   let meta: SeriesMetaInfo | null = null;
+  let env: BuilderEnv | null = null;
   let savedRosters: { id: number; name: string; slots: RosterSlot[] }[] = [];
   let collectionDate: string | null = null;
 
@@ -289,6 +293,25 @@ export default async function BuildPage({
         };
       }).filter(c => cardEligibility(c, tournament!).errors.length === 0);
 
+    /* ------- the environment the builder scores in -------
+       The same scorer as env-roster: runs per 700 PA in this event's run
+       environment and park (PT default when none is recorded), the relief
+       role bonus at the trusted quarter, L.J.'s position floor, and observed
+       play blended in by precision. The observed level of each series is
+       set from the model's runs over EVERY card that played it, so the whole
+       catalogue is scored once here; the client re-scores only the pool when
+       a variant form is toggled. */
+    {
+      const eraRow = era?.row ?? eraTable["0"];
+      if (eraRow) {
+        const universe = await db.select({ cardId: cards.cardId, isPitcher: cards.isPitcher, bats: cards.bats, role: cards.pitcherRole, ratings: cards.ratings }).from(cards);
+        const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.role, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park });
+        const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
+        const observed = await loadObservedRuns(pool.map((c) => c.cardId), both);
+        env = { rates: eraRow.rates, park, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n]) };
+      }
+    }
+
     /* ------- suggested upgrades: best legal cards you DON'T own -------
        Scored in SQL with the model-v0 linear expression so we never pull
        thousands of ratings blobs; only the winners' ratings come back for
@@ -419,6 +442,7 @@ export default async function BuildPage({
       ratingScale={ratingScale}
       tournament={tournament}
       pool={pool}
+      env={env}
       upgrades={upgrades}
       meta={meta}
       savedRosters={savedRosters}

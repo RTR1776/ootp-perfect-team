@@ -467,6 +467,13 @@ export const tournaments = pgTable("tournaments", {
   cardYearMax: integer("card_year_max"),
   simRuns: integer("sim_runs"),
   series: text("series"),
+  /**
+   * The PT slot: the first three digits of every event id in the community
+   * dump (1440025 = slot 144 run 25). A tournament keeps its slot across
+   * renames and refreshes, which the name does not survive and the game's
+   * own id (this row's `id`) is not always known. Filled by catalogue:sync.
+   */
+  slot: integer("slot"),
   isDraft: boolean("is_draft").notNull().default(false),
   /**
    * Everything the value/year columns above cannot express: per-tier slot

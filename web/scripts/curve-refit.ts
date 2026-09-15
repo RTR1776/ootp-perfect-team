@@ -156,7 +156,8 @@ async function main() {
     const f = await fit("pit", k);
     Object.assign(out.pit[k], { alpha: f.alpha, beta: f.beta, gamma: f.gamma, r2: f.r2, n: f.n, rating_range: f.range });
   }
-  out.frame = `observed tournament play, ${new Set(rows.map((r: any) => r.series)).size} series, per-series normalised, Jim-beater teams excluded (observed/3)`;
+  const seriesCount = Number(asRows<any>(await db.execute(sql`select count(distinct series)::int n from observed_card_stats`))[0]?.n ?? 0);
+  out.frame = `observed tournament play, ${seriesCount} series, per-series normalised, Jim-beater teams excluded (observed/3)`;
   out.generatedAt = new Date().toISOString();
   out.pit.babip = { ...out.pit.babip, note: "NOT refitted — OOTP's export carries no hits-allowed counter, so pBABIP cannot be checked against observed play. Still the July projection fit." };
   console.log(`\npit.babip left alone: no hits-allowed counter in the export, so it cannot be audited or refitted.`);
