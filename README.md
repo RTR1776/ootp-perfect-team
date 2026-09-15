@@ -4,8 +4,12 @@ Personal analytics webapp for OOTP 27 Perfect Team: lineup optimization by
 tournament context, new-card modeling, tourney meta tracking, and a live
 draft assistant. Everything runs locally; no server, no accounts.
 
-**Working docs:** [PLAN.md](PLAN.md) is the design; [PROGRESS.md](PROGRESS.md)
-is the implementation state (read it first in any new work session).
+**Start with [RUNBOOK.md](RUNBOOK.md)** — the weekly flow as it actually runs
+(the three `.command` files, the scripts they call, the defaults and the
+validation scripts). The "weekly refresh runbook" section below predates it
+and describes the Python `engine` path, which has not been on the weekly path
+since 2026-09-07. `Docs/PLAN.md` is the original design; `Docs/PROGRESS.md`
+and `Docs/HANDOFF - read me first.md` are history.
 
 ## Quick start
 
