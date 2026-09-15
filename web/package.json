@@ -56,7 +56,9 @@
     "role:validate": "node --env-file=.env.local --import tsx scripts/role-validate.ts",
     "league:check": "node --env-file=.env.local --import tsx scripts/league-check.ts",
     "split:check": "node --env-file=.env.local --import tsx scripts/split-check.ts",
-    "model:validate": "node --env-file=.env.local --import tsx scripts/model-validate.ts"
+    "model:validate": "node --env-file=.env.local --import tsx scripts/model-validate.ts",
+    "observed:validate": "node --env-file=.env.local --import tsx scripts/observed-validate.ts",
+    "arm:roles": "node --env-file=.env.local --import tsx scripts/arm-roles.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

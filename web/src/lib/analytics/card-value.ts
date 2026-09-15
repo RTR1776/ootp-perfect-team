@@ -221,25 +221,31 @@ export function cardRuns(cardRates: EraRates, env: Env): number {
  *
  * A starter and a reliever with identical Stuff, Control, pHR and pBABIP get
  * identical rate profiles, and the run model then treats them identically. They
- * do not perform identically. Measured over 10.7M observed batters faced, with
- * the model's own prediction rescaled out first so this is role and not
- * calibration (pnpm role:effect):
+ * do not perform identically. Measured over 12.0M observed batters faced with
+ * the Jim-beater teams excluded, the model's own prediction rescaled out first
+ * so this is role and not calibration (pnpm role:effect, 2026-09-15):
  *
- *     SP   +0.82 runs per 700 BF worse than the model expects
- *     RP   -3.79
- *     CL   -4.94
+ *     SP   +0.93 runs per 700 BF worse than the model expects
+ *     RP   -4.50
+ *     CL   -4.83
  *
- * A 5.8-run gap between a closer and a starter of the same ratings. It is a step
- * at Stamina <= 25 rather than a gradient, which is what a times-through-the-
- * order effect looks like: the reliever faces a lineup once and never turns it
- * over. Stamina was the only rating in the residual screen with real independent
- * signal — 6.5% explained by the four the model already reads, against
- * Movement's 97.9%.
+ * (The 2026-09-13 fit on the contaminated table read +0.82 / -3.79 / -4.94.)
+ *
+ * WHAT IT MEASURES, AND WHAT IT DOES NOT. It is a step at Stamina <= 25, not a
+ * gradient, and the same card starting and relieving in the same format shows
+ * the RA9 gain but NOT a FIP gain (+0.04 worse, 1,442 paired card-formats).
+ * The gap is largely inherited-runner accounting - a reliever's earned runs
+ * exclude the 30% of inherited runners he lets score - not the arm pitching
+ * better. It is real as a description of how ER/BF is booked, and mostly not
+ * real as a reason to expect fewer runs from a card moved to the pen. So the
+ * roster code applies it at a fraction (env-fit roleTrust, league-best
+ * --role-trust, default 0.25), and this constant stays at full strength for
+ * the residual and validation scripts that want the booked number.
  *
  * Applied as runs per 700 BF, so a reliever's shorter workload still scales it
  * down wherever innings are weighted.
  */
-export const ROLE_RUNS: Record<string, number> = { SP: 0.82, RP: -3.79, CL: -4.94 };
+export const ROLE_RUNS: Record<string, number> = { SP: 0.93, RP: -4.50, CL: -4.83 };
 
 export function roleRuns(role: string | null | undefined, stamina?: number | null): number {
   if (role && role in ROLE_RUNS) return ROLE_RUNS[role];

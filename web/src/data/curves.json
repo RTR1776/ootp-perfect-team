@@ -1,114 +1,114 @@
 {
-  "generatedAt": "2026-09-13T01:54:09.574Z",
+  "generatedAt": "2026-09-15T02:19:19.945Z",
   "frame": "observed tournament play, 51 series, per-series normalised",
   "hit": {
     "k": {
-      "alpha": 0.3969253281260212,
-      "beta": -0.4748643055475663,
-      "r2": 0.906,
-      "n": 1259,
+      "alpha": 0.39216729633924086,
+      "beta": -0.45402516483570227,
+      "r2": 0.889,
+      "n": 1300,
       "env_rate": 0.19406,
       "rating_range": [
         27,
         268
       ],
       "rating": "K",
-      "gamma": -0.25962781763878956
+      "gamma": -0.2557619781172525
     },
     "bb": {
-      "alpha": -0.6128477696472879,
-      "beta": 1.1424937061326566,
-      "r2": 0.909,
-      "n": 1259,
+      "alpha": -0.6332910526815204,
+      "beta": 1.1873833412656127,
+      "r2": 0.899,
+      "n": 1300,
       "env_rate": 0.08084,
       "rating_range": [
         24,
         283
       ],
       "rating": "EYE",
-      "gamma": -0.21945290344086663
+      "gamma": -0.26449547802606393
     },
     "hr": {
-      "alpha": -0.7834430231262828,
-      "beta": 1.0981113161943252,
-      "r2": 0.869,
-      "n": 1181,
+      "alpha": -0.801164967129175,
+      "beta": 1.0947976365511214,
+      "r2": 0.856,
+      "n": 1227,
       "env_rate": 0.03613,
       "rating_range": [
         1,
         228
       ],
       "rating": "POW",
-      "gamma": 0.20678602543080207
+      "gamma": 0.1912520348885353
     },
     "xbh": {
-      "alpha": -0.4904821908978723,
-      "beta": 0.8187066627039107,
+      "alpha": -0.515603898539981,
+      "beta": 0.8715065063248929,
       "r2": 0.718,
-      "n": 1188,
+      "n": 1232,
       "env_rate": 0.07285,
       "rating_range": [
         7,
-        177
+        193
       ],
       "rating": "GAP",
-      "gamma": -0.060182367105158424
+      "gamma": -0.0942382366644328
     },
     "babip": {
-      "alpha": -0.14560132693302483,
-      "beta": 0.22825782953293283,
-      "r2": 0.712,
-      "n": 1186,
+      "alpha": -0.15484104696580353,
+      "beta": 0.2399989196583735,
+      "r2": 0.767,
+      "n": 1226,
       "env_rate": 0.30164,
       "rating_range": [
         17,
         164
       ],
       "rating": "BA",
-      "gamma": -0.014270211440102236
+      "gamma": -0.01638889525433912
     },
     "xbh_3b_share": 0.0943,
     "hbp_rate_env": 0.00835
   },
   "pit": {
     "k": {
-      "alpha": -0.38929645781012584,
-      "beta": 0.8251760198192934,
-      "r2": 0.846,
-      "n": 1031,
+      "alpha": -0.4067061314464654,
+      "beta": 0.8930810832543602,
+      "r2": 0.841,
+      "n": 1079,
       "env_rate": 0.19416,
       "rating_range": [
         19,
-        191
+        196
       ],
       "rating": "STU",
-      "gamma": -0.2438790581006737
+      "gamma": -0.3184893372916615
     },
     "bb": {
-      "alpha": 0.4171201302267981,
-      "beta": -0.8172317928727962,
-      "r2": 0.844,
-      "n": 1031,
+      "alpha": 0.4099101131378005,
+      "beta": -0.812439424379819,
+      "r2": 0.811,
+      "n": 1079,
       "env_rate": 0.08077,
       "rating_range": [
-        24,
+        22,
         201
       ],
       "rating": "CON",
-      "gamma": 0.018328939936474747
+      "gamma": 0.04181958099044331
     },
     "hr": {
-      "alpha": 0.6505792517984861,
-      "beta": -1.1774981636343214,
-      "r2": 0.75,
-      "n": 962,
+      "alpha": 0.6170641723971122,
+      "beta": -1.1233021349625272,
+      "r2": 0.706,
+      "n": 1007,
       "env_rate": 0.0361,
       "rating_range": [
-        46,
-        167
+        44,
+        179
       ],
       "rating": "HRA",
-      "gamma": 0.2389313293263403
+      "gamma": 0.2539518328650008
     },
     "babip": {
       "alpha": 0.0537284776386264,
@@ -121,7 +121,7 @@
         175
       ],
       "rating": "PBABIP",
-      "note": "Recovered by inversion, not measured: OOTP's export has no hits-allowed counter, so this term is whatever Stuff/Control/pHR do not explain about observed ER per batter faced. It therefore also carries team defence and sequencing. Judge it only by whether the pitcher model ranks cards better with it.",
+      "note": "NOT refitted — OOTP's export carries no hits-allowed counter, so pBABIP cannot be checked against observed play. Still the July projection fit.",
       "gamma": -0.04477222311377882
     },
     "hbp_rate_env": 0.00837

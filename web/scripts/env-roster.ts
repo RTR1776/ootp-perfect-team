@@ -21,6 +21,7 @@ import {
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { cardEligibility } from "@/lib/roster-rules";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
+import { loadObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
 import { optimizeRoster } from "@/lib/roster-optimize";
@@ -81,6 +82,12 @@ const MIN_POS = num("min-pos", 50)!;
  */
 const ROLE_TRUST = num("role-trust", 1)!;
 /**
+ * --obs-k: how many PA (or BF) of observed play it takes to count as much as
+ * the model. 2500 is where held-out prediction peaks (observed-blend.ts,
+ * pnpm observed:validate). 0 turns observed play off.
+ */
+const OBS_K = num("obs-k", 2500)!;
+/**
  * --slots "G13,I13" — a slots event's per-tier maximums, as tier codes
  * P/D/G/S/B/I. A lower-tier card may fill a higher-tier slot, which is what
  * tierFitsSlots and slotCapacityIssues already implement, so this only has to
@@ -109,12 +116,16 @@ const SLOTS: Record<string, number> | null = (() => {
  *   pitching. 0.30 is the ordinary figure, but in a park that pays left-handed
  *   bats a run a game every roster in the field stacks lefties, and the
  *   counter to that is left-handed pitching — so the share faced climbs.
- * --rp-weight: a reliever's innings as a fraction of a starter's. In a 1970s
- *   run environment starters go deep and the pen throws less, so paying a
- *   starter's price for the sixth arm is how a capped roster wastes points.
+ * --rp-weight: a reliever's innings as a fraction of a starter's. MEASURED,
+ *   not assumed: across 12,019 archived team-events with 10+ games, a starter
+ *   faces 106.6 batters to a relief arm's 25.1 (0.24); in Gold Floor Cap
+ *   specifically 89.2 to 27.7 (0.31). The old default of 0.5 bought roughly
+ *   twice the bullpen the innings justify, which in a capped format is points
+ *   taken off the lineup. 0.31 is the modern-era figure; pass 0.24 for a
+ *   deadball or 1960s environment where starters go deeper still.
  */
 const LHP_SHARE = num("lhp-share", 0.30)!;
-const RP_WEIGHT = num("rp-weight", 0.5)!;
+const RP_WEIGHT = num("rp-weight", 0.31)!;
 const BENCH_WEIGHT = num("bench-weight", 0.1)!;
 
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
@@ -265,7 +276,25 @@ async function main() {
       console.log(`  avg eligible arm: ${PK.map(k=>`${k} ${aP[k].toFixed(0)}`).join(" ")}`);
     }
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr , minPosRating: MIN_POS, roleTrust: ROLE_TRUST });
+  /**
+   * Observed play. The level of each series is built from the model's own
+   * runs over EVERY card that played it, so the universe is scored once at
+   * the target environment (no observed, no floor - it is only the zero
+   * point) before the pool is scored with the blend.
+   */
+  let observed: Map<number, { runs: number; n: number }> | undefined;
+  if (OBS_K > 0) {
+    const all = universe.map((c) => ({
+      cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole,
+      ratings: (c.ratings ?? {}) as Record<string, number>,
+    }));
+    const base = envFitMaps(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST });
+    const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
+    observed = await loadObservedRuns(pool.map((c) => c.cardId), both);
+    const n = [...observed.values()];
+    console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}`);
+  }
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr , minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K });
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                          RHB: ${marginalRatings(fits.envRight, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                         arms: ${marginalRatings(fits.envPitch, "pit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);

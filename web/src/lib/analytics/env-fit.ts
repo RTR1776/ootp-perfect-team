@@ -53,6 +53,13 @@ export interface EnvFitOptions {
    * a 28 in right, a 36 behind the plate. L.J.'s rule is simpler and better:
    * nothing below 50 plays anywhere except first base, where the position
    * asks least. DH is exempt because there is no glove involved.
+   *
+   * CATCHERS ARE NOT A SPECIAL CASE, checked 2026-09-15. The worry was that
+   * `Pos Rating C` ignores framing and arm. It does not: across the 380
+   * catchers in the catalogue, Pos Rating C = -30 + 0.50*CatcherAbil +
+   * 0.50*CatcherFrame + 0.42*Catcher Arm with R² 0.981 and an rmse of 2.8
+   * points. The rating IS the composite. What let a 36 behind the plate was
+   * the weight on defence, and this floor is the fix for that.
    */
   minPosRating?: number;
   /**
@@ -74,6 +81,14 @@ export interface EnvFitOptions {
    * card for the same bullpen slot, which is why a starter never wins one.
    */
   roleTrust?: number;
+  /**
+   * Observed play, already on the model's scale (observed-blend.ts), keyed by
+   * card id, and the sample size K at which it earns equal weight with the
+   * model. Applied to the both-hands figure and carried to each board as a
+   * shift, since the tournament export has no platoon split.
+   */
+  observed?: Map<number, { runs: number; n: number }>;
+  observedK?: number;
   /**
    * NOTE for cap formats: env-roster's --rp-weight (a reliever's innings as a
    * fraction of a starter's) defaults to 0.5. The exports say 0.31 in Gold
@@ -158,8 +173,16 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
   };
 
   const runsR = new Map<number, number>(), runsL = new Map<number, number>();
+  const K = o.observedK ?? 2500;
   for (const c of pool) {
-    const r = runsOf(c, "R"), l = runsOf(c, "L");
+    let r = runsOf(c, "R"), l = runsOf(c, "L");
+    const ob = o.observed?.get(c.cardId);
+    if (ob && ob.n > 0 && r != null && l != null) {
+      // Blend on the both-hands read, then move both boards by the same amount.
+      const both = 0.7 * r + 0.3 * l;
+      const shift = (ob.n * ob.runs + K * both) / (ob.n + K) - both;
+      r += shift; l += shift;
+    }
     if (r != null) runsR.set(c.cardId, r);
     if (l != null) runsL.set(c.cardId, l);
   }
