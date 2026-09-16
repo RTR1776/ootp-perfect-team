@@ -99,6 +99,16 @@ async function main() {
     catch (e: any) { console.log(`    !! ${String(e?.stderr ?? e?.message ?? e).split("\n")[0]}`); }
   }
 
+  /* ---- 3c: every position the game rates, back onto the cards ----
+     The shop dump lists only a card's rated positions; the exports show all
+     eight (variants too). Loading the dump resets cards.ratings, so the fill
+     has to follow it. */
+  if (!DRY) {
+    console.log(`\n  harvesting position ratings from the exports`);
+    try { console.log(run(["scripts/positions-harvest.ts"]).split("\n").slice(-3).map((l) => `    ${l}`).join("\n")); }
+    catch (e: any) { console.log(`    !! ${String(e?.stderr ?? e?.message ?? e).split("\n")[0]}`); }
+  }
+
   /* ---- 4: refresh my_results from the newest of each kind ---- */
   if (!DRY) {
     console.log(`\n  refreshing my_results from the newest tournaments + drafts dump`);

@@ -23,6 +23,7 @@
 import {
   applyPark, blendPark, linearWeights, type EraRates, type ParkFactors,
 } from "@/lib/analytics/run-env";
+import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
@@ -61,7 +62,7 @@ export interface EnvFitOptions {
    * points. The rating IS the composite. What let a 36 behind the plate was
    * the weight on defence, and this floor is the fix for that.
    */
-  minPosRating?: number;
+  minPosRating?: PosFloor;
   /**
    * How much of the measured relief role bonus to believe, 0-1 (default 1).
    *
@@ -211,7 +212,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
         if (v == null) continue;
         const posRating = c.ratings[`Pos Rating ${pos}`] ?? 0;
         if (pos !== "DH" && posRating <= 0) continue;
-        if (pos !== "DH" && pos !== "1B" && posRating < (o.minPosRating ?? 0)) continue;
+        if (posRating < posFloorAt(o.minPosRating, pos)) continue;
         off.set(c.cardId, v);
         def.set(c.cardId, pos === "DH" ? 0 : posRating);
       }

@@ -620,3 +620,22 @@ export const observedCardStatsStage = pgTable(
   },
   (t) => [primaryKey({ columns: [t.batchId, t.series, t.cardId] })],
 );
+
+/**
+ * The game's own rating at every position, per card FORM (base or variant),
+ * harvested from the stat exports (scripts/positions-harvest.ts). The shop
+ * dumps list only a card's rated positions and the collection export carries
+ * only DEF, but every export row shows all eight — variant copies included.
+ */
+export const cardPositions = pgTable(
+  "card_positions",
+  {
+    cardId: integer("card_id").notNull(),
+    variant: boolean("variant").notNull().default(false),
+    positions: jsonb("positions").$type<Record<string, number>>().notNull(),
+    /** Export file the numbers came from (the newest seen). */
+    source: text("source"),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.cardId, t.variant] })],
+);

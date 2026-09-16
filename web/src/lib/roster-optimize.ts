@@ -17,6 +17,7 @@
  */
 
 import { cardEligibility, rosterSize, slotCapacityIssues, tierCode, type RosterRules } from "./roster-rules";
+import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { isComplete, type FillCard, type FillResult, type FillShape } from "./roster-fill";
 
 /** Which of the three groups a slot belongs to — a card may hold one of each. */
@@ -41,6 +42,8 @@ export interface OptimizeOptions {
    */
   /** Reject a lineup card rated below this share of his own best position. */
   minDefShare?: number;
+  /** Hard floor on the rating at the slot's position (see pos-floor.ts). */
+  posFloor?: PosFloor;
   pairMoves?: {
     /** Upgrade candidates considered per slot, best-ranked first. */
     aTop: number;
@@ -105,12 +108,13 @@ function legal(
  * anyone rated below this share of his own best position.
  */
 function candidatesFor(
-  key: string, pool: readonly FillCard[], rules: RosterRules, minDefShare = 0,
+  key: string, pool: readonly FillCard[], rules: RosterRules, minDefShare = 0, posFloor?: PosFloor,
 ): FillCard[] {
   const pos = key.includes(":") ? key.split(":")[1] : key;
   const playable = (c: FillCard, p: string) => {
     const here = c.ratings[`Pos Rating ${p}`] ?? 0;
     if (here <= 0) return false;
+    if (here < posFloorAt(posFloor, p)) return false;
     if (minDefShare <= 0) return true;
     let best = 0;
     for (const q of ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"]) best = Math.max(best, c.ratings[`Pos Rating ${q}`] ?? 0);
@@ -134,7 +138,7 @@ export function optimizeRoster(
     ...shape.lineupPos.map((p) => `R:${p}`), ...shape.lineupPos.map((p) => `L:${p}`),
     ...shape.spKeys, ...shape.rpKeys, ...shape.benchKeys,
   ];
-  const cands = new Map(keys.map((k) => [k, candidatesFor(k, pool, rules, o.minDefShare ?? 0)]));
+  const cands = new Map(keys.map((k) => [k, candidatesFor(k, pool, rules, o.minDefShare ?? 0, o.posFloor)]));
 
   const byId = new Map(pool.map((c) => [c.cardId, c]));
   let slots = { ...start };
@@ -150,19 +154,52 @@ export function optimizeRoster(
     ? new Map(keys.map((k) => [k, [...(cands.get(k) ?? [])].sort((a, b) => (a.val ?? 0) - (b.val ?? 0)).slice(0, pm.bCheapest)]))
     : null;
 
+  /**
+   * Put `c` in `key`. A card often holds more than one slot — a platoon
+   * catcher starts vs LHP and sits on the bench, a switch-hitter starts on
+   * both boards — and swapping him out of one slot alone leaves him in the
+   * others, so the roster grows to 27 and the move is rejected as illegal.
+   * That is how Zunino (+42.6 vs LHP) stayed off a roster carrying Campanella
+   * (+21.8) at L:C and BN4 (2026-09-16). So the displaced card's other slots
+   * are refilled too: with the incoming card where he is eligible, else with
+   * the best already-rostered card eligible there.
+   */
+  const place = (from: FillResult, key: string, c: FillCard): FillResult => {
+    const cur = from[key];
+    const t: FillResult = { ...from, [key]: c.cardId };
+    if (cur == null) return t;
+    const rostered = new Set(Object.values(t));
+    for (const k2 of keys) {
+      if (k2 === key || t[k2] !== cur) continue;
+      const elig = cands.get(k2) ?? [];
+      let pick: number | null = elig.some((x) => x.cardId === c.cardId) ? c.cardId : null;
+      if (pick == null) {
+        let bestR = -Infinity;
+        for (const x of elig) {
+          if (x.cardId === cur || !rostered.has(x.cardId)) continue;
+          const r = pm ? pm.rank(k2, x) : 0;
+          if (r > bestR) { bestR = r; pick = x.cardId; }
+        }
+      }
+      if (pick != null) t[k2] = pick;
+    }
+    return t;
+  };
+
   for (let pass = 0; pass < (o.maxPasses ?? 40); pass++) {
     let bestKey: string | null = null, bestId = 0, bestScore = score;
+    let bestSlots: FillResult | null = null;
     let bestPair: { a: string; ai: number; b: string; bi: number } | null = null;
 
     for (const key of keys) {
       const current = slots[key];
       for (const c of cands.get(key) ?? []) {
         if (c.cardId === current) continue;
-        const trial = { ...slots, [key]: c.cardId };
+        const trial = place(slots, key, c);
         if (!isComplete(trial, shape)) continue;
         if (!legal(trial, byId, rules, shape)) continue;
         const s = o.objective(trial);
-        if (s > bestScore + 1e-9) { bestScore = s; bestKey = key; bestId = c.cardId; }
+        if (s > bestScore + 1e-9) { bestScore = s; bestKey = key; bestId = c.cardId; bestSlots = trial; }
       }
     }
 
@@ -171,13 +208,13 @@ export function optimizeRoster(
       for (const a of keys) {
         for (const ca of upgrades.get(a) ?? []) {
           if (ca.cardId === slots[a]) continue;
-          const t1 = { ...slots, [a]: ca.cardId };
+          const t1 = place(slots, a, ca);
           if (!isComplete(t1, shape)) continue;
           for (const b of keys) {
             if (b === a) continue;
             for (const cb of downgrades.get(b) ?? []) {
               if (cb.cardId === slots[b]) continue;
-              const t2 = { ...t1, [b]: cb.cardId };
+              const t2 = place(t1, b, cb);
               if (!isComplete(t2, shape)) continue;
               if (!legal(t2, byId, rules, shape)) continue;
               const s = o.objective(t2);
@@ -188,8 +225,8 @@ export function optimizeRoster(
       }
     }
 
-    if (bestKey) { slots = { ...slots, [bestKey]: bestId }; }
-    else if (bestPair) { slots = { ...slots, [bestPair.a]: bestPair.ai, [bestPair.b]: bestPair.bi }; }
+    if (bestKey && bestSlots) { slots = bestSlots; void bestId; }
+    else if (bestPair) { slots = place(place(slots, bestPair.a, byId.get(bestPair.ai)!), bestPair.b, byId.get(bestPair.bi)!); }
     else break;
     score = bestScore;
     moves++;

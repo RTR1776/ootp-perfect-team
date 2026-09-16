@@ -61,7 +61,9 @@
     "arm:roles": "node --env-file=.env.local --import tsx scripts/arm-roles.ts",
     "rules:infer": "node --env-file=.env.local --import tsx scripts/rules-infer.ts",
     "catalogue:sync": "node --env-file=.env.local --import tsx scripts/catalogue-sync.ts",
-    "positions:apply": "node --env-file=.env.local --import tsx scripts/positions-apply.ts"
+    "positions:apply": "node --env-file=.env.local --import tsx scripts/positions-apply.ts",
+    "fielding:fit": "node --import tsx scripts/fielding-fit.ts",
+    "positions:harvest": "node --env-file=.env.local --import tsx scripts/positions-harvest.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

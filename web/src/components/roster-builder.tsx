@@ -27,6 +27,7 @@ import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { fillRoster, fitMaps, HIT_POS, rosterShape } from "@/lib/roster-fill";
+import { LJ_FLOOR } from "@/lib/pos-floor";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import type { EraRates } from "@/lib/analytics/run-env";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
@@ -451,7 +452,7 @@ export function RosterBuilder({
      percentile. Without one (no era row at all) the rating composite. */
   const fits = useMemo(() => env
     ? envFitMaps(pool, {
-        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: 50,
+        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR,
         observed: new Map(env.observed.map(([id, runs, n]) => [id, { runs, n }])),
       })
     : fitMaps(pool), [pool, env]);

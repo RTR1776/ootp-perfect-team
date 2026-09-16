@@ -20,6 +20,8 @@ import {
 } from "@/lib/roster-fill";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { cardEligibility } from "@/lib/roster-rules";
+import { LJ_FLOOR, describePosFloor, parsePosFloor, posFloorAt, type PosFloor } from "@/lib/pos-floor";
+import { fieldingRuns } from "@/lib/analytics/fielding";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
 import { loadObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
@@ -70,11 +72,11 @@ const OPTIMIZE = flag("optimize");
 const FIELD = flag("field");
 const MIN_DEF = num("min-def", 0.6)!;
 /**
- * --min-pos: hard floor on a position rating, first base and DH exempt.
- * Defaults to 50, which is L.J.'s standing rule — he will not field a glove
- * below it, and the optimiser will happily do so for a big enough bat.
+ * --min-pos: hard floor on a position rating. Defaults to L.J.'s rule (pos-
+ * floor.ts): 70 everywhere, 50 in left, none at first or DH. A bare number is
+ * that floor everywhere but first; "70,1B:0,LF:50" sets it per position.
  */
-const MIN_POS = num("min-pos", 50)!;
+const MIN_POS: PosFloor = parsePosFloor(val("min-pos")) ?? LJ_FLOOR;
 /**
  * --role-trust: how much of the relief role bonus to believe. 1 is the fitted
  * constant; the archived exports say most of it is inherited-runner accounting
@@ -247,7 +249,7 @@ async function main() {
     rpKeys: ["CL", ...Array.from({ length: shp.rp - 1 }, (_, i) => `RP${i + 1}`)],
     benchKeys: Array.from({ length: shp.bats - lineupPos.length }, (_, i) => `BN${i + 1}`),
   };
-  console.log(`shape: ${shp.bats} bats / ${shp.sp} SP / ${shp.rp} RP (${shp.band}) · out-of-position guard ${Math.round(MIN_DEF * 100)}% of best`);
+  console.log(`shape: ${shp.bats} bats / ${shp.sp} SP / ${shp.rp} RP (${shp.band}) · out-of-position guard ${Math.round(MIN_DEF * 100)}% of best · glove floor ${describePosFloor(MIN_POS)} · defence priced in runs (fielding.json)`);
 
   let scoringRates = era.rates;
   if (FIELD) {
@@ -312,6 +314,19 @@ async function main() {
   );
   if (MUST.length) console.log(`must carry: ${MUST.join(", ")} -> ${mustIds.size} matched`);
 
+  /**
+   * Defence in runs, per 700 PA, from the card's rating at the slot's position
+   * (fielding.ts: measured on the archive, ≈0.155 runs per point at 2B, 0.138
+   * at SS, 0.133 at 3B, 0.125 at 1B, 0.086 RF, 0.079 LF, 0.057 CF, 0.032 C).
+   * Until 2026-09-16 the optimiser priced gloves at zero and gated them only
+   * by the floor, so a +9 bat beat a +38 glove at second every time.
+   */
+  const poolById0 = new Map(pool.map((c) => [c.cardId, c]));
+  const defAt = (cid: number, p: string): number => {
+    if (p === "DH") return 0;
+    const c = poolById0.get(cid); if (!c || c.isPitcher) return 0;
+    return fieldingRuns(p, c.ratings[`Pos Rating ${p}`] ?? 0);
+  };
   const objective = (r: Record<string, number>): number => {
     let total = 0;
     if (mustIds.size) {
@@ -320,8 +335,8 @@ async function main() {
     }
     for (const p of lineupPos) {
       const a = r[`R:${p}`], b = r[`L:${p}`];
-      if (a != null) total += (1 - LHP_SHARE) * (fits.runsR.get(a) ?? 0);
-      if (b != null) total += LHP_SHARE * (fits.runsL.get(b) ?? 0);
+      if (a != null) total += (1 - LHP_SHARE) * ((fits.runsR.get(a) ?? 0) + defAt(a, p));
+      if (b != null) total += LHP_SHARE * ((fits.runsL.get(b) ?? 0) + defAt(b, p));
     }
     for (const k of shape.spKeys) { const c = r[k]; if (c != null) total += fits.runsR.get(c) ?? 0; }
     for (const k of shape.rpKeys) { const c = r[k]; if (c != null) total += RP_WEIGHT * (fits.runsR.get(c) ?? 0); }
@@ -344,13 +359,16 @@ async function main() {
       starts.set([...new Set(Object.values(r))].sort((a, b) => a - b).join(","), { slots: r, lambda: lam });
     }
     /** Rank a card for a slot by the runs it would contribute there. */
-    const rank = (key: string, c: FillCard) =>
-      key.startsWith("L:") ? (fits.runsL.get(c.cardId) ?? -1e6) : (fits.runsR.get(c.cardId) ?? -1e6);
+    const rank = (key: string, c: FillCard) => {
+      const pos = key.includes(":") ? key.split(":")[1] : "";
+      const d = /^(C|1B|2B|3B|SS|LF|CF|RF)$/.test(pos) ? defAt(c.cardId, pos) : 0;
+      return (key.startsWith("L:") ? (fits.runsL.get(c.cardId) ?? -1e6) : (fits.runsR.get(c.cardId) ?? -1e6)) + d;
+    };
 
     let best = { slots, score: greedyScore, from: lambda, moves: 0 };
     for (const [, st] of starts) {
       const r = optimizeRoster(st.slots, pool, rules, shape, {
-        objective, minDefShare: MIN_DEF, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 25,
+        objective, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
       });
       if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }
@@ -382,7 +400,8 @@ async function main() {
       if (pos && pos !== "DH" && !pos.startsWith("BN")) {
         const here = c.ratings[`Pos Rating ${pos}`] ?? 0;
         const best = Math.max(...HIT_POS.map((p) => c.ratings[`Pos Rating ${p}`] ?? 0));
-        def = ` DEF ${String(Math.round(here)).padStart(3)}/${String(Math.round(best)).padStart(3)}${here < best * 0.6 ? " <-- out of position" : ""}`;
+        const dr = fieldingRuns(pos, here);
+        def = ` DEF ${String(Math.round(here)).padStart(3)}/${String(Math.round(best)).padStart(3)} ${(dr >= 0 ? "+" : "") + dr.toFixed(1)}${here < best * 0.6 ? " <-- out of position" : ""}${here < posFloorAt(MIN_POS, pos) ? " <-- under floor" : ""}`;
       }
     }
     // An arm shows its label and stamina: a bullpen slot filled by an SP card
