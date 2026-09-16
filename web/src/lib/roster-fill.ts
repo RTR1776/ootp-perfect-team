@@ -74,8 +74,9 @@ export function rosterShape(
   const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
   const size = total ?? 26;
   const era = eraStaff(envYear);
-  if (meta?.avgSp != null && meta.avgBats != null) {
-    const bats = clamp(Math.round(meta.avgBats), lineupSize, 22);
+  if (meta?.avgSp != null && (meta.avgBats != null || meta.avgRp != null)) {
+    // --sp 4 --rp 4 alone is a complete shape: the bats are what is left.
+    const bats = clamp(Math.round(meta.avgBats ?? size - meta.avgSp - (meta.avgRp ?? 0)), lineupSize, 22);
     const sp = clamp(Math.round(meta.avgSp), 1, 9);
     const rp = clamp(size - bats - sp, 1, 12);
     return { bats, sp, rp, source: "observed", band: era.band };
