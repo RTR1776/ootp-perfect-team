@@ -16,6 +16,7 @@ import { sql } from "drizzle-orm";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
 import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, standings, uploads } from "@/db/schema";
+import { stampPositionOverrides } from "@/lib/position-overrides";
 import { parseShopList, looksLikeShopList } from "@/lib/ingest/pt-card-list";
 import {
   looksLikeCollection,
@@ -375,6 +376,7 @@ export async function POST(request: Request) {
       matchQuality: m.matchQuality,
       ratings: m.ratings,
     }));
+    stampPositionOverrides(rows);
     for (let i = 0; i < rows.length; i += 500) {
       await db.insert(collectionCards).values(rows.slice(i, i + 500));
     }

@@ -42,7 +42,7 @@ const main = async () => {
     if (c.cardValue == null || c.cardValue < MIN || c.cardValue > MAX) continue;
     const base = (c.ratings ?? {}) as Record<string, number>;
     const vr = variants.get(cid) ?? null;
-    const ratings = vr ? formRatings(base, vr) : base;
+    const ratings = vr ? formRatings(base, vr, c.position) : base;
     if (!vr && !baseSet.has(cid)) continue;
     pool.push({ cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher,
       role: c.pitcherRole, cardType: c.cardType, ratings, bats: c.bats, variant: vr != null });

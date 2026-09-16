@@ -109,7 +109,7 @@ export function matchEligible(rows: EligibleRow[], universe: BaseCard[]): MatchR
       cardId: base.cardId, name: base.name, val: row.value, year: base.year,
       isPitcher: base.isPitcher, role: base.pitcherRole ?? (["SP", "RP", "CL"].includes(row.pos) ? row.pos : null),
       cardType: base.cardType, bats: row.bats ?? base.bats, variant: row.variant,
-      ratings: formRatings(base.ratings, row.exported),
+      ratings: formRatings(base.ratings, row.exported, row.pos),
     });
   }
   return { matched, unmatched };

@@ -371,7 +371,7 @@ export function RosterBuilder({
     const verifiedVar = c.variantOwned && hasVariantSplitRatings(c.variantRatings, c.isPitcher);
     const variant = forms[c.cardId] ?? (!c.baseOwned || (preferVariant && verifiedVar));
     if (!variant) return { ...c, variant: false };
-    const ratings = formRatings(c.ratings, c.variantRatings);
+    const ratings = formRatings(c.ratings, c.variantRatings, c.pos);
     const verified = hasVariantSplitRatings(c.variantRatings, c.isPitcher);
     const project = c.isPitcher ? projFip : projWoba;
     const proj = verified

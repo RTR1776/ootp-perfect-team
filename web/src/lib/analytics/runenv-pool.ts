@@ -30,6 +30,7 @@ export async function ownedPool(): Promise<Pool> {
       cardId: collectionCards.cardId,
       isActive: collectionCards.isActive,
       isVariant: collectionCards.isVariant,
+      pos: collectionCards.pos,
       ratings: collectionCards.ratings,
     })
     .from(collectionCards).where(eq(collectionCards.uploadId, latest.id));
@@ -49,7 +50,7 @@ export async function ownedPool(): Promise<Pool> {
     if (o.cardId == null) continue;
     const b = byId.get(o.cardId);
     if (!b) continue;
-    const merged = formRatings(b.ratings, o.ratings ?? null);
+    const merged = formRatings(b.ratings, o.ratings ?? null, o.pos ?? b.position);
     const keys = b.isPitcher ? PIT_KEYS : HIT_KEYS;
     const r: number[] = [];
     let complete = true;

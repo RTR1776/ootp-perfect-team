@@ -279,9 +279,24 @@ const COMPOSITES: Array<[model: string, vl: string, vr: string]> = [
 export function mergeCopyRatings(
   base: Record<string, number> | null | undefined,
   copy: Record<string, number> | null | undefined,
+  pos?: string | null,
 ): Record<string, number> {
   const out: Record<string, number> = { ...(base ?? {}) };
   if (!copy) return out;
+  // Positions: the export has only DEF (the rating at the listed POS); a
+  // variant's other listed positions scale by the same factor. See the
+  // position note in card-forms.ts for the evidence.
+  const at = pos ? out[`Pos Rating ${pos}`] : undefined;
+  if (pos && pos !== "DH" && pos !== "P" && Number.isFinite(copy.DEF) && copy.DEF > 0 && at != null && at > 0 && copy.DEF !== at) {
+    const k = copy.DEF / at;
+    for (const key of Object.keys(out)) {
+      if (key.startsWith("Pos Rating ") && key !== "Pos Rating P" && out[key] > 0) out[key] = Math.round(out[key] * k);
+    }
+    out[`Pos Rating ${pos}`] = copy.DEF;
+  }
+  for (const [k, v] of Object.entries(copy)) {
+    if (k.startsWith("POS ") && Number.isFinite(v)) out[`Pos Rating ${k.slice(4)}`] = v;
+  }
   let touched = false;
   for (const [c, m] of PER_COPY) {
     const v = copy[c];

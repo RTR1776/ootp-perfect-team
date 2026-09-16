@@ -114,3 +114,17 @@ test("PTCS elapsed days follow the calendar and Central date, not logged results
   assert.equal(periodCalendar("2026-08-03","2026-09-06",new Date("2026-07-01T12:00:00Z")).elapsed,0);
   assert.equal(periodCalendar("2026-08-03","2026-09-06",new Date("2026-09-08T12:00:00Z")).remaining,0);
 });
+
+test("formRatings scales a variant's listed positions by its DEF boost (Nimmala 2026-09-16)", () => {
+  const base = { "Pos Rating 3B": 119, "Pos Rating SS": 108, "Pos Rating 2B": 0, "Pos Rating P": 0, "Infield Range": 98 };
+  const r = formRatings(base, { DEF: 128, "IF RNG": 98 }, "3B");
+  assert.equal(r["Pos Rating 3B"], 128);
+  assert.equal(r["Pos Rating SS"], 116); // in-game 116
+  assert.equal(r["Pos Rating 2B"], 0);   // unlisted stays unlisted
+  assert.equal(r["Pos Rating P"], 0);
+  // no DEF, or no position: untouched
+  assert.deepEqual(formRatings(base, { "IF RNG": 98 }, "3B")["Pos Rating SS"], 108);
+  assert.deepEqual(formRatings(base, { DEF: 128 })["Pos Rating SS"], 108);
+  // base copy (DEF equals the base rating): untouched
+  assert.deepEqual(formRatings(base, { DEF: 119 }, "3B")["Pos Rating SS"], 108);
+});

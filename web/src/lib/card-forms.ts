@@ -16,6 +16,21 @@
  *
  * Variants are NOT a uniform boost (deltas 0–16, mean ≈ +5 on the hitting
  * splits, ≈ +3 on pitching): always use the exported ratings, never a constant.
+ *
+ * POSITION RATINGS. The export carries no per-position columns, only DEF — the
+ * rating at the listed POS (equal to the shop's `Pos Rating <POS>` on all 1,926
+ * owned base copies, 2026-09-16). The IF/OF component columns on a variant row
+ * are the BASE card's (identical on all 83 owned hitter variants) even though
+ * every one of those variants has a higher DEF, so the components cannot
+ * rebuild the variant's defence. What can: variants scale every position by
+ * the same factor as the listed one. Variant Nimmala (3B 119→128, ×1.076) is
+ * SS 116 in-game; 108 × 1.076 = 116.2. So a variant's other positions are the
+ * base ratings scaled by DEF / base-at-POS. Positions the base card does not
+ * list stay unrated: the game rates every card at every position (Nimmala's
+ * variant shows 1B 105 / 2B 126 / LF 84 / CF 60 / RF 75, none listed on the
+ * card) but the dumps only carry the listed ones, and a linear fit from the
+ * components underpredicts the unlisted ones by 11–22 points, so nothing is
+ * invented for them.
  */
 const RATING_KEYS: Record<string, string> = {
   "GAP vL": "Gap vL", "GAP vR": "Gap vR", "POW vL": "Power vL", "POW vR": "Power vR",
@@ -37,9 +52,27 @@ const OVERALL_OF_SPLIT: Record<string, string> = {
   Stuff: "Stuff", Control: "Control", pHR: "pHR", pBABIP: "pBABIP",
 };
 
-export function formRatings(base: Record<string, number>, exported: Record<string, number> | null): Record<string, number> {
+export function formRatings(base: Record<string, number>, exported: Record<string, number> | null, pos?: string | null): Record<string, number> {
   const result = { ...base };
   if (!exported) return result;
+  // Positions: scale the base card's listed positions by the variant's boost at
+  // its own listed position (see the header note). `pos` is the card's listed
+  // position — the same one the export's DEF refers to.
+  const def = exported.DEF;
+  const at = pos ? base[`Pos Rating ${pos}`] : undefined;
+  if (pos && pos !== "DH" && pos !== "P" && Number.isFinite(def) && def! > 0 && at != null && at > 0 && def !== at) {
+    const k = def! / at;
+    for (const key of Object.keys(base)) {
+      if (!key.startsWith("Pos Rating ") || key === "Pos Rating P") continue;
+      const v = base[key];
+      if (v > 0) result[key] = Math.round(v * k);
+    }
+    result[`Pos Rating ${pos}`] = def!;
+  }
+  // In-game numbers entered by hand (position-overrides.ts) beat the estimate.
+  for (const [k, v] of Object.entries(exported)) {
+    if (k.startsWith("POS ") && Number.isFinite(v)) result[`Pos Rating ${k.slice(4)}`] = v;
+  }
   for (const [from, to] of Object.entries(RATING_KEYS)) {
     const n = exported[from];
     if (n != null && Number.isFinite(n)) result[to] = n;

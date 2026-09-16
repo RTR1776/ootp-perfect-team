@@ -101,7 +101,7 @@ async function main() {
     const c = byId.get(cid); if (!c) continue;
     const base = (c.ratings ?? {}) as Record<string, number>;
     const vr = variants.get(cid) ?? null;
-    const ratings = vr != null ? formRatings(base, vr) : base;
+    const ratings = vr != null ? formRatings(base, vr, c.position) : base;
     const card: P = {
       cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher,
       role: c.pitcherRole, cardType: c.cardType, ratings,

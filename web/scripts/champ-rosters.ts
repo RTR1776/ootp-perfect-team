@@ -76,7 +76,7 @@ async function main() {
       const base = (c.ratings ?? {}) as Record<string, number>;
       const vr = variants.get(cid) ?? null;
       const useVariant = variantsOk && vr != null && hasVariantSplitRatings(vr, c.isPitcher);
-      const ratings = useVariant ? formRatings(base, vr) : base;
+      const ratings = useVariant ? formRatings(base, vr, c.position) : base;
       const card: PoolCard = {
         cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher, role: c.pitcherRole,
         cardType: c.cardType, ratings, baseOwned: baseSet.has(cid), variantOwned: vr != null,

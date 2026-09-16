@@ -208,7 +208,7 @@ async function main() {
     const base = (c.ratings ?? {}) as Record<string, number>;
     const vr = variants.get(cid) ?? null;
     const useVariant = VARIANT_CAP !== 0 && vr != null;
-    const ratings = useVariant ? formRatings(base, vr) : base;
+    const ratings = useVariant ? formRatings(base, vr, c.position) : base;
     const card: P = {
       cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher,
       role: c.pitcherRole, cardType: c.cardType, ratings,
@@ -334,8 +334,11 @@ async function main() {
   if (OPTIMIZE) {
     /** Distinct complete rosters across the λ range, as hill-climb starts. */
     const starts = new Map<string, { slots: Record<string, number>; lambda: number }>();
-    for (let i = 0; i <= 64; i++) {
-      const lam = (i / 64) * 8;
+    // --starts N: how finely to sample λ (default 64 steps over 0..8). Fewer
+    // starts is the lever when a run has to fit a time budget.
+    const N_STARTS = num("starts", 64)!;
+    for (let i = 0; i <= N_STARTS; i++) {
+      const lam = (i / N_STARTS) * 8;
       const r = fillOnce(pool, rules, shape, fits, lam);
       if (!isComplete(r, shape)) continue;
       starts.set([...new Set(Object.values(r))].sort((a, b) => a - b).join(","), { slots: r, lambda: lam });

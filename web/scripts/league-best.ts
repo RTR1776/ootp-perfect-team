@@ -150,7 +150,7 @@ async function main() {
          */
         ratings: (Number(r.match_distance ?? 0) > 10
           ? mergeCopyRatings(null, r.copy_ratings)
-          : mergeCopyRatings(r.ratings, r.copy_ratings)) as Record<string, number>,
+          : mergeCopyRatings(r.ratings, r.copy_ratings, r.position ?? r.cpos)) as Record<string, number>,
         isVariant: !!r.is_variant,
         far: Number(r.match_distance ?? 0) > 10,
       };
