@@ -28,7 +28,8 @@ L.J. pushes (Claude's shell has no credentials). Vercel deploys from the push.
 
 Defaults that are measured, not guessed (each has the evidence in its comment):
 
-- `--min-pos 50` — nothing below a 50 position rating plays except 1B/DH (L.J.'s rule)
+- `--min-pos "70,1B:0,LF:50"` (the default) — L.J.'s glove floor as of 2026-09-16: 70 everywhere, 50 in LF, none at 1B/DH. A bare number is that floor everywhere but 1B/DH. The hill-climb enforces it too.
+- defence is priced in runs (`src/data/fielding.json`, `pnpm fielding:fit` to refit): 0.155 runs per rating point per 700 PA at 2B, .138 SS, .133 3B, .125 1B, .086 RF, .079 LF, .057 CF, .032 C — measured as ZR per point on the archive × the 0.89 runs per ZR that OOTP's own WAR pays. The lineup print shows each glove's runs after DEF.
 - `--rp-weight 0.31` — a relief arm faces 0.31 of a starter's batters (0.24 in deadball eras)
 - `--role-trust 0.25` in `league-best` (1 in `env-roster`; pass 0.25) — most of the reliever bonus is inherited-runner accounting
 - `--obs-k 2500` — observed play blended with the model; a card with the pool's median 5,600 PA is ~70% observed. `--obs-k 0` is model-only.
@@ -53,12 +54,13 @@ Other tools:
 - `pnpm env:validate` — is the era term worth anything? (+0.008 near 2010; only pre-1930)
 - `pnpm curve:refit` (dry) — curves vs the shipped ones; `--write` emits `curves.next.json`, copy to `curves.json` to ship
 - `pnpm role:effect` — the reliever residual
-- `cd web && node --import tsx --test src/lib/**/*.test.ts src/lib/*.test.ts` — 38 tests
+- `cd web && node --import tsx --test src/lib/**/*.test.ts src/lib/*.test.ts` — 41 tests
 
 ## Data facts that bite
 
 - **Jim teams.** A no-roster opponent is filled with placeholders and loses 50-0. The placeholders are not in the stats export; the team that beat them is, with the runs. 11.4% of all runs in the archive were this. `src/lib/ingest/jim.ts` drops those teams at import; the dropped list is on `import_batches.files[].dropped`. Anything fitted on `observed_card_stats` before 2026-09-15 saw the contamination.
-- **Variants.** Same `card_id` as the base, different ratings. `collection_cards.ratings` is the owned copy; key a pool on `collection_cards.id`.
+- **Variants.** Same `card_id` as the base, different ratings. `collection_cards.ratings` is the owned copy; key a pool on `collection_cards.id`. The collection export has no position columns, only DEF (rating at the listed POS); a variant's other positions scale by the same boost (`card-forms.ts`).
+- **Positions.** The shop dump lists only a card's rated positions; the game rates every card at every position and the stat exports show all eight per card form. `pnpm positions:harvest` (load:dumps step 3c) fills the unlisted ones on base cards and stamps owned variant copies; `card_positions` is the harvested table. A defense page read off the game by hand goes in `src/data/position-overrides.json` (`pnpm positions:apply`).
 - **Tourney ids** come from the dumps, never from a calendar; L.J. does not enter every run of a series.
 - **Two Truists.** Truist Park (Atlanta, neutral) vs Truist Field (Charlotte AAA, HR 1.50). `parkTwins()` warns.
 - **Dump usernames vs export team names** are not joined anywhere. His own is `rtr1776` = Kansas City Torrent.
