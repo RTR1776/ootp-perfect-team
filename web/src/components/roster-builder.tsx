@@ -5,8 +5,8 @@
  * /build server page resolves: pick a slot, click or drag a card, fill a
  * roster.
  *
- * Projections are model v0 (observed wOBA/FIP regressed on ratings —
- * scripts/fit-projection.ts); Fit stays as the 0–99 percentile composite
+ * Projections are the calibrated curve model read in THIS event's era and
+ * park (lib/analytics/projections.ts); Fit stays as the 0–99 percentile composite
  * within this tournament's legal pool. Observed numbers are THIS
  * tournament series only — career lines mix parks, eras and rule sets, so
  * they are deliberately absent here.
@@ -26,13 +26,15 @@ import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
-import { fillRoster, fitMaps, HIT_POS, rosterShape } from "@/lib/roster-fill";
+import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import type { EraRates } from "@/lib/analytics/run-env";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
-import { projFip, projWoba } from "@/lib/analytics/projection";
+import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/lib/analytics/projections";
+import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
+import { optimizeRoster } from "@/lib/roster-optimize";
 
 export interface ObservedLine {
   cardId: number;
@@ -44,11 +46,7 @@ export interface ObservedLine {
   instances: number;
 }
 
-export interface Proj {
-  all: number | null;
-  vL: number | null;
-  vR: number | null;
-}
+export type { Proj };
 
 export interface BuilderCard {
   cardId: number;
@@ -79,6 +77,9 @@ export interface BuilderCard {
 export interface BuilderEnv {
   rates: EraRates;
   park: ParkRow | null;
+  /** How the field is handed, off its exports (series_meta) or the defaults. */
+  lhpShare: number;
+  lhbShare: number;
   observed: Array<[number, number, number]>;
 }
 
@@ -90,8 +91,11 @@ export interface UpgradeCard {
   pos: string;
   isPitcher: boolean;
   year: number | null;
+  bats: string | null;
   ratings: Record<string, number>;
   proj: Proj;
+  /** Calibrated model runs per 700 in this event (no observed play — the card is not owned). */
+  runs: number;
   last10: number | null;
   ask: number | null;
 }
@@ -107,6 +111,8 @@ export interface SeriesMetaInfo {
   avgSp: number | null;
   avgRp: number | null;
   avgBats: number | null;
+  lhpBfShare: number | null;
+  lhbPaShare: number | null;
   topCards: {
     cardId: number; name: string; pos: string; isPitcher: boolean;
     teams: number; pct: number; pa: number; ip: number;
@@ -179,6 +185,7 @@ function bestDefPos(r: Record<string, number>): { pos: string; val: number } {
 const fmt3 = (v: number | null | undefined) => (v == null ? "—" : v.toFixed(3).replace(/^0/, ""));
 const fmt2 = (v: number | null | undefined) => (v == null ? "—" : v.toFixed(2));
 const fmtPts = (v: number | null | undefined) => (v == null || v === 0 ? "—" : v.toLocaleString());
+const fr = (v: number | null | undefined) => (v == null ? "—" : `${v >= 0 ? "+" : ""}${v.toFixed(1)}`);
 
 /* ------------------------------------------------------------------ */
 /* card metric bars — the in-game card face, split vL / vR             */
@@ -346,6 +353,7 @@ export function RosterBuilder({
   savedRosters,
   ratingScale,
   collectionDate,
+  collectionAgeDays,
 }: {
   groups: CatalogGroup[];
   tournament: TournamentInfo | null;
@@ -357,8 +365,11 @@ export function RosterBuilder({
   /** Full-bar rating value; see src/lib/rating-scale.ts. */
   ratingScale: number;
   collectionDate: string | null;
+  /** Days since that snapshot, computed on the server so render stays pure. */
+  collectionAgeDays: number | null;
 }) {
   const router = useRouter();
+  const collectionStale = collectionAgeDays != null && collectionAgeDays >= 3;
   const [slots, setSlots] = useState<Record<SlotKey, number | null>>({});
   const [forms, setForms] = useState<Record<number, boolean>>({});
   /* Each card is shown in ONE form: whichever the user toggled, else the
@@ -368,18 +379,19 @@ export function RosterBuilder({
      for that copy (see card-forms.ts) — projections come from the same model
      as the base card, on the form's own ratings. */
   const preferVariant = defaultToVariant(tournament);
+  const lhpShare = env?.lhpShare ?? LHP_SHARE_DEFAULT;
+  const envs = useMemo(() => (env ? projectionEnvs(env.rates, env.park, env.lhbShare) : null), [env]);
   const pool = useMemo(() => basePool.map(c => {
     const verifiedVar = c.variantOwned && hasVariantSplitRatings(c.variantRatings, c.isPitcher);
     const variant = forms[c.cardId] ?? (!c.baseOwned || (preferVariant && verifiedVar));
     if (!variant) return { ...c, variant: false };
     const ratings = formRatings(c.ratings, c.variantRatings, c.pos);
     const verified = hasVariantSplitRatings(c.variantRatings, c.isPitcher);
-    const project = c.isPitcher ? projFip : projWoba;
-    const proj = verified
-      ? { all: project(ratings), vL: project(ratings, "vL"), vR: project(ratings, "vR") }
-      : { all: null, vL: null, vR: null };
+    const proj = verified && envs
+      ? projOf(projectCard({ isPitcher: c.isPitcher, bats: c.bats, ratings }, envs, lhpShare))
+      : EMPTY_PROJ;
     return { ...c, variant: true, ratings, proj };
-  }), [basePool, forms, preferVariant]);
+  }), [basePool, forms, preferVariant, envs, lhpShare]);
   const [selected, setSelected] = useState<SlotKey | null>(null);
   const [view, setView] = useState<View>("HIT");
   const [search, setSearch] = useState("");
@@ -452,11 +464,19 @@ export function RosterBuilder({
      percentile. Without one (no era row at all) the rating composite. */
   const fits = useMemo(() => env
     ? envFitMaps(pool, {
-        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR,
+        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare,
         observed: new Map(env.observed.map(([id, runs, n]) => [id, { runs, n }])),
       })
     : fitMaps(pool), [pool, env]);
   const { fitR } = fits;
+  /** The scorer's number for a card: calibrated runs per 700 in this event,
+   *  observed play blended in, read at the field's pitcher handedness. */
+  const envFits = env ? (fits as ReturnType<typeof envFitMaps>) : null;
+  const runsOf = (id: number): number | null => {
+    if (!envFits) return null;
+    const r = envFits.runsR.get(id), l = envFits.runsL.get(id);
+    return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l;
+  };
 
   const byId = useMemo(() => new Map(pool.map((c) => [c.cardId, c])), [pool]);
 
@@ -519,6 +539,7 @@ export function RosterBuilder({
         case "pvl": return c.proj.vL ?? miss;
         case "pvr": return c.proj.vR ?? miss;
         case "fit": return fitR.get(c.cardId) ?? -1;
+        case "runs": return runsOf(c.cardId) ?? -1e6;
         case "obs": return (wantPitcher ? c.obs?.fip : c.obs?.woba) ?? miss;
         case "pa": return (wantPitcher ? c.obs?.ip : c.obs?.pa) ?? 0;
         case "val": return c.val ?? 0;
@@ -526,7 +547,8 @@ export function RosterBuilder({
       }
     };
     return list.sort((a, b) => dir * (key(b) - key(a)));
-  }, [pool, search, posFilter, sortBy, view, fitR]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pool, search, posFilter, sortBy, view, fitR, envFits, lhpShare]);
 
   const upgradeRows = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -536,8 +558,8 @@ export function RosterBuilder({
   /* hover popovers --------------------------------------------------- */
   const projLine = (isP: boolean, p: Proj) =>
     isP
-      ? `pFIP ${fmt2(p.all)}  ·  L ${fmt2(p.vL)} / R ${fmt2(p.vR)}`
-      : `pWOBA ${fmt3(p.all)}  ·  L ${fmt3(p.vL)} / R ${fmt3(p.vR)}`;
+      ? `proj FIP ${fmt2(p.all)}  ·  vL ${fmt2(p.vL)} / vR ${fmt2(p.vR)}  ·  ${fr(p.runsAll)} runs/700 here`
+      : `proj wOBA ${fmt3(p.all)}  ·  vL ${fmt3(p.vL)} / vR ${fmt3(p.vR)}  ·  ${fr(p.runsAll)} runs/700 here`;
 
   const peekPool = (e: React.MouseEvent<HTMLElement>, c: BuilderCard) => {
     const o = c.obs;
@@ -643,6 +665,61 @@ export function RosterBuilder({
     setMsg(silent
       ? `Draft roster filled${lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""}. Review the rule checks below, then adjust your players.`
       : null);
+  };
+
+  /* The objective env-roster scores with: calibrated runs per board with
+     defence in runs at the slot, boards weighted by the field's pitcher
+     handedness, starters in full, relief arms at 0.31, bench at a tenth.
+     Null without an environment (no era row at all). */
+  const fillShape: FillShape = useMemo(
+    () => ({ lineupPos, spKeys, rpKeys, benchKeys, bats: target.bats }),
+    [lineupPos, spKeys, rpKeys, benchKeys, target.bats],
+  );
+  const objective = useMemo(() => envFits
+    ? rosterObjective(pool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare })
+    : null, [envFits, pool, fillShape, lhpShare]);
+  const boardRuns = (source: Record<SlotKey, number | null>): number | null => {
+    if (!objective) return null;
+    const complete: Record<string, number> = {};
+    for (const [k, v] of Object.entries(source)) if (v != null) complete[k] = v;
+    return objective.objective(complete);
+  };
+
+  const [optimizing, setOptimizing] = useState(false);
+  /**
+   * Hill-climb from the board as it stands (env-roster's search, pruned to
+   * each slot's top candidates so it finishes in seconds in the browser):
+   * single swaps, then a paid-for upgrade when the cap binds, under every
+   * rule and L.J.'s glove floor. Runs after a paint so the button can show
+   * it is working.
+   */
+  const optimize = () => {
+    if (!tournament || !objective) return;
+    setOptimizing(true);
+    setMsg("Searching for a better board…");
+    setTimeout(() => {
+      try {
+        const start: Record<string, number> = {};
+        for (const [k, v] of Object.entries(slots)) if (v != null) start[k] = v;
+        const missing = slotOrder.filter((k) => start[k] == null);
+        // The search needs a complete board to score; fill the holes greedily first.
+        if (missing.length) {
+          const filled = fillRoster(pool, tournament, fillShape, fits).slots;
+          for (const k of missing) if (filled[k] != null) start[k] = filled[k];
+        }
+        const before = objective.objective(start);
+        const r = optimizeRoster(start, pool as FillCard[], tournament, fillShape, {
+          objective: objective.objective, minDefShare: 0.6, posFloor: LJ_FLOOR,
+          pairMoves: { aTop: 8, bCheapest: 10, rank: objective.rank }, candidateLimit: 30, maxPasses: 40,
+        });
+        setSlots(r.slots);
+        setMsg(r.moves
+          ? `Optimised: ${r.moves} move${r.moves === 1 ? "" : "s"}, ${fr(before)} → ${fr(r.score)} runs (calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs).`
+          : `No single or paired swap improves this board (${fr(before)} runs).`);
+      } finally {
+        setOptimizing(false);
+      }
+    }, 30);
   };
 
   // Switching tournaments empties the board and asks for a fresh
@@ -802,12 +879,13 @@ export function RosterBuilder({
     return {
       filled: slotOrder.filter((k) => slots[k] != null).length,
       total: slotOrder.length,
+      runs: boardRuns(slots),
       projWoba, projFip, woba, fip, defAvg,
       hitterCount: hitterIds.size, spUsed, rpUsed,
       roster: hitterIds.size + spUsed + rpUsed,
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [slots, byId, slotOrder, spKeys, rpKeys, lineupPos]);
+  }, [slots, byId, slotOrder, spKeys, rpKeys, lineupPos, objective]);
 
   /* render ----------------------------------------------------------- */
   const pickTournament = (id: string) => router.push(id ? `/build?t=${id}` : "/build");
@@ -867,7 +945,9 @@ export function RosterBuilder({
         </select>
       </div>
 
-      <p className="text-xs text-muted-foreground">Collection snapshot: {collectionDate ?? "not loaded"}. Base and variant copies are checked separately.</p>
+      <p className={cn("text-xs", collectionStale ? "text-amber-600 dark:text-amber-400" : "text-muted-foreground")}>
+        Collection snapshot: {collectionDate ?? "not loaded"}{collectionStale ? ` — ${collectionAgeDays} days old; cards bought since are not in this pool. Refresh: pnpm import:cards SHOP COLLECTION DATE --commit, or drop both exports on /upload.` : ". Base and variant copies are checked separately."}
+      </p>
 
       {!tournament ? (
         <p className="text-sm text-muted-foreground">
@@ -923,7 +1003,9 @@ export function RosterBuilder({
               Park factors, left/right: AVG ×{tournament.environment.parkFactors.avgL.toFixed(3)}/×{tournament.environment.parkFactors.avgR.toFixed(3)};
               HR ×{tournament.environment.parkFactors.hrL.toFixed(3)}/×{tournament.environment.parkFactors.hrR.toFixed(3)}.
             </p>}
-            <p className="mt-1">Fit and pWOBA/pFIP do not adjust for this RE or park. Auto-fill uses split ratings, position defense, and roster rules; the era sets the fallback staff size. Passing the checks below verifies recorded rules, not an optimized championship lineup.</p>
+            <p className="mt-1">
+              Runs, Fit and the projected lines are read in this era and park. {env ? `Lineups are weighted ${Math.round((1 - env.lhpShare) * 100)}/${Math.round(env.lhpShare * 100)} vs RHP/LHP and arms face ${Math.round(env.lhbShare * 100)}% left-handed bats${meta?.lhpBfShare != null ? " — measured off this event's exports" : " — the defaults; no exports for this event yet"}.` : ""} Re-recommend is the greedy fill; Optimise hill-climbs it on runs with gloves priced in runs under the glove floor (70, LF 50, none at 1B). Passing the checks below verifies recorded rules.
+            </p>
           </div>
 
           {meta && (
@@ -1016,8 +1098,9 @@ export function RosterBuilder({
                         <Th label="Card" right={false} />
                         <Th label={view === "PIT" ? "Role" : "Pos"} right={false} />
                         <Th id="val" label="VAL" />
-                        <Th id="fit" label="Fit" title="0–99 rating composite within this legal pool" />
-                        <Th id="proj" label={view === "PIT" ? "pFIP" : "pWOBA"} title="Model v0 projection from ratings" />
+                        <Th id="fit" label="Fit" title="0–99 percentile of Runs within this legal pool (bats: with best-position defence)" />
+                        <Th id="runs" label="Runs" title="Calibrated runs per 700 PA in this event's era and park, observed play blended in by precision — the number the optimiser uses" />
+                        <Th id="proj" label={view === "PIT" ? "pFIP" : "pWOBA"} title="Projected in this event's era and park (curve model, calibrated)" />
                         <Th id="pvl" label="vL" title="Projection vs LHP/LHB" />
                         <Th id="pvr" label="vR" title="Projection vs RHP/RHB" />
                         <Th id="obs" label="Obs" title="Observed in this tournament only" />
@@ -1049,7 +1132,8 @@ export function RosterBuilder({
                             <td className="px-1.5">{c.isPitcher ? c.role ?? "P" : c.pos}</td>
                             <td className="px-1.5 text-right">{c.val ?? "—"}</td>
                             <td className="px-1.5 text-right">{fitR.get(c.cardId) ?? "—"}</td>
-                            <td className="px-1.5 text-right font-semibold">{c.isPitcher ? fmt2(c.proj.all) : fmt3(c.proj.all)}</td>
+                            <td className="px-1.5 text-right font-semibold" title={env?.observed.some(([id]) => id === c.cardId) ? "model blended with this card's tournament play" : "model only — no tournament play on record"}>{fr(runsOf(c.cardId))}</td>
+                            <td className="px-1.5 text-right">{c.isPitcher ? fmt2(c.proj.all) : fmt3(c.proj.all)}</td>
                             <td className="px-1.5 text-right text-muted-foreground">{c.isPitcher ? fmt2(c.proj.vL) : fmt3(c.proj.vL)}</td>
                             <td className="px-1.5 text-right text-muted-foreground">{c.isPitcher ? fmt2(c.proj.vR) : fmt3(c.proj.vR)}</td>
                             <td className="px-1.5 text-right" title={obsTitle(c.obs, c.isPitcher)}>
@@ -1071,6 +1155,7 @@ export function RosterBuilder({
                         <th className="px-1.5">Pos</th>
                         <th className="px-1.5 text-right">VAL</th>
                         <th className="px-1.5">Tier</th>
+                        <th className="px-1.5 text-right" title="Calibrated model runs per 700 in this event's era and park">Runs</th>
                         <th className="px-1.5 text-right" title="Model v0 projection">Proj</th>
                         <th className="px-1.5 text-right">vL</th>
                         <th className="px-1.5 text-right">vR</th>
@@ -1091,7 +1176,8 @@ export function RosterBuilder({
                           <td className="px-1.5">{u.pos}</td>
                           <td className="px-1.5 text-right">{u.val ?? "—"}</td>
                           <td className="px-1.5">{u.tier ?? "—"}</td>
-                          <td className="px-1.5 text-right font-semibold">{u.isPitcher ? fmt2(u.proj.all) : fmt3(u.proj.all)}</td>
+                          <td className="px-1.5 text-right font-semibold">{fr(u.runs)}</td>
+                          <td className="px-1.5 text-right">{u.isPitcher ? fmt2(u.proj.all) : fmt3(u.proj.all)}</td>
                           <td className="px-1.5 text-right text-muted-foreground">{u.isPitcher ? fmt2(u.proj.vL) : fmt3(u.proj.vL)}</td>
                           <td className="px-1.5 text-right text-muted-foreground">{u.isPitcher ? fmt2(u.proj.vR) : fmt3(u.proj.vR)}</td>
                           <td className="px-1.5 text-right">{fmtPts(u.last10)}</td>
@@ -1105,8 +1191,8 @@ export function RosterBuilder({
 
               <p className="text-xs text-muted-foreground">
                 {view === "UPG"
-                  ? `Upgrade candidates from recorded eligibility rules. Full roster checks still apply. Prices are from your latest shop snapshot. Hover a name for the card face.`
-                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. pWOBA/pFIP = model v0 (ratings → observed stats fit). Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Value window, card years, card types and slot tiers are checked here; the cap, variant limit and roster size are checked on the board.`}
+                  ? `The best legal cards you do not own, by calibrated model runs in this event (no observed play — you have not run them). Full roster checks still apply. Prices are from your latest shop snapshot. Hover a name for the card face.`
+                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. Runs = calibrated model runs per 700 in this era and park with observed play blended in (K = 5,000); pWOBA/pFIP = the projected line here. Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Value window, card years, card types and slot tiers are checked here; the cap, variant limit and roster size are checked on the board.`}
               </p>
             </div>
 
@@ -1116,8 +1202,11 @@ export function RosterBuilder({
                 <div className="mb-2 flex items-center justify-between">
                   <span className="text-sm font-semibold">Roster · {summary.filled}/{summary.total}</span>
                   <div className="flex gap-1.5">
-                    <Button size="sm" variant="outline" onClick={() => autoFill()}>Re-recommend</Button>
-                    <Button size="sm" variant="outline" onClick={() => { setSlots({}); setMsg(null); }}>Clear</Button>
+                    <Button size="sm" variant="outline" onClick={() => autoFill()} disabled={optimizing}>Re-recommend</Button>
+                    <Button size="sm" onClick={optimize} disabled={optimizing || !objective} title={objective ? "Hill-climb from this board on calibrated runs, gloves priced in runs, under every rule and the glove floor" : "No run environment on file for this event"}>
+                      {optimizing ? "Optimising…" : "Optimise"}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => { setSlots({}); setMsg(null); }} disabled={optimizing}>Clear</Button>
                   </div>
                 </div>
                 <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] [font-variant-numeric:tabular-nums]">
@@ -1135,6 +1224,9 @@ export function RosterBuilder({
                     : `No exports for this event yet — ${target.band} staff: ${target.sp} SP · ${target.rp} RP · ${target.bats} bats.`}
                 </div>
                 <div className="grid grid-cols-2 gap-x-3 text-xs [font-variant-numeric:tabular-nums]">
+                  <div className="col-span-2" title="The objective: calibrated runs per 700 PA over both lineups (weighted by the field's pitcher handedness), rotation in full, bullpen at 0.31, bench at a tenth, gloves in runs at the slot">
+                    Board runs <span className="float-right font-mono font-semibold">{fr(summary.runs)}</span>
+                  </div>
                   <div>Proj wOBA <span className="float-right font-mono">{fmt3(summary.projWoba)}</span></div>
                   <div>Proj FIP <span className="float-right font-mono">{fmt2(summary.projFip)}</span></div>
                   <div>Obs wOBA <span className="float-right font-mono">{fmt3(summary.woba)}</span></div>

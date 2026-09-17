@@ -1,4 +1,4 @@
-# RUNBOOK — how this project actually runs (2026-09-15)
+# RUNBOOK — how this project actually runs (2026-09-17)
 
 Read this before the README's "weekly refresh" section, which describes an
 older flow (the Python `engine`, `Tourney Stats/`, `Roster Templates/`) that
@@ -12,10 +12,10 @@ L.J. pushes (Claude's shell has no credentials). Vercel deploys from the push.
 
 | When | Do | What it runs | What it leaves |
 |---|---|---|---|
-| Every time a tournament ends | **File OOTP Exports.command** (or leave **Watch Tourney Stats.command** running while exporting) | files the export under its real event id, imports it (`import:observed --series X`, Jim-beater teams dropped), refits the projection when you quit | `Archive/Completed/<series>_<run>.csv`, `observed_card_stats`, `projection-coeffs.json` |
+| Every time a tournament ends | **File OOTP Exports.command** (or leave **Watch Tourney Stats.command** running while exporting) | files the export under its real event id, imports it (`import:observed --series X`, Jim-beater teams dropped, field handedness measured), recalibrates the model when you quit (`pnpm model:calibrate`) | `Archive/Completed/<series>_<run>.csv`, `observed_card_stats`, `series_meta`, `web/src/data/model-calibration.json` (commit it) |
 | Monday, after the community dump posts | **Load Tourney Dumps.command** | files `pt27_*dump*.csv` into `Tourney Data/`, imports new runs, refreshes `my_results`, prints PTCS standing + berth lines | `Tourney Data/pt27_*_dump_YYYYMMDD.csv`, `results`, `daily_totals` |
 | Sunday, when the league season ends | `cd web && pnpm import:league "../League Data/YYYY-MM-DD"` | one folder per week, all/vL/vR per league | `league_snapshots`, `league_stints` |
-| Cards bought/sold, new releases | export collection + card list from OOTP, then `pnpm import:cards SHOP COLLECTION YYYY-MM-DD --commit` | one transaction, sha-deduped; variants keep their own ratings | `uploads`, `cards`, `collection_cards` |
+| Cards bought/sold, new releases | export collection + card list from OOTP, then `pnpm import:cards SHOP COLLECTION YYYY-MM-DD --commit` — or drop both files on **/upload** from any machine | one transaction, sha-deduped either way; variants keep their own ratings; every web attempt is recorded in `import_batches` (`pnpm imports`) and /upload shows how old every source is | `uploads`, `cards`, `collection_cards` |
 | PTCS results screen | paste rows into **/ptcs → Log results**, or `pnpm results:log --as-of DATE rows.txt` | keyed by the event id in parentheses, re-paste is a no-op | `results` |
 | A tier refresh post | `Tourney Data/refresh-YYYY-MM.json` + `web/scripts/slot-map.json`, then `pnpm import:refresh --dry`, `pnpm import:refresh`, `pnpm retire`, `pnpm coverage` | | `tournaments` |
 | Rules for a tournament you play | paste the blurb into the catalogue row's `restrictions` text; `pnpm parse:restrictions` reads OOTP's wording | 62 of 135 rows still have none, including most you enter | `tournaments.restrictions` |
@@ -23,21 +23,27 @@ L.J. pushes (Claude's shell has no credentials). Vercel deploys from the push.
 ## Building a roster
 
     cd web
-    pnpm env:roster --name "Monday Gold Floor Cap" --year 2010 --min 80 --max 102 \
-      --cap 2242 --size 26 --dh --bats 14 --sp 5 --rp 7 --optimize --role-trust 0.25
+    pnpm env:roster --name "Monday Gold Floor Cap" --series goldfloorcapweekly --year 2010 --min 80 --max 102 \
+      --cap 2242 --size 26 --dh --optimize --role-trust 0.25 --starts 12
+
+`--series slug` reads the field off its exports: staff shape, the share of innings thrown left-handed (the vs-LHP lineup's weight) and the share of PA by left-handed bats (an arm's park blend). Without it the era table and 0.30 / 0.35 stand in. `--starts 12` finishes in ~4½ minutes on the whole collection; 64 is the exhaustive run.
+
+**/build does the same thing in the browser** (2026-09-17): the Runs column is the calibrated model with observed play blended in, Re-recommend is the greedy fill, and **Optimise** hill-climbs the board on runs with gloves priced in runs under the glove floor — each slot's top 30 candidates, so it takes seconds rather than minutes. The upgrade tab ranks unowned legal cards by the same runs.
 
 Defaults that are measured, not guessed (each has the evidence in its comment):
+
+- **calibration** (`src/data/model-calibration.json`, `pnpm model:calibrate`): within a field, +10 modelled runs came back as +5.1 for bats and +4.8 for arms, so the model's runs are scaled by 0.51 / 0.48 before observed play is blended in and before gloves are added. Rankings on one scale do not move; the bat-for-glove and bat-for-arm exchange rates do. Re-run after new exports; the filer does it on quit.
 
 - `--min-pos "70,1B:0,LF:50"` (the default) — L.J.'s glove floor as of 2026-09-16: 70 everywhere, 50 in LF, none at 1B/DH. A bare number is that floor everywhere but 1B/DH. The hill-climb enforces it too.
 - defence is priced in runs (`src/data/fielding.json`, `pnpm fielding:fit` to refit): 0.155 runs per rating point per 700 PA at 2B, .138 SS, .133 3B, .125 1B, .086 RF, .079 LF, .057 CF, .032 C — measured as ZR per point on the archive × the 0.89 runs per ZR that OOTP's own WAR pays. The lineup print shows each glove's runs after DEF.
 - `--rp-weight 0.31` — a relief arm faces 0.31 of a starter's batters (0.24 in deadball eras)
 - `--role-trust 0.25` in `league-best` (1 in `env-roster`; pass 0.25) — most of the reliever bonus is inherited-runner accounting
-- `--obs-k 2500` — observed play blended with the model; a card with the pool's median 5,600 PA is ~70% observed. `--obs-k 0` is model-only.
+- `--obs-k 5000` — observed play blended with the calibrated model; a card with the pool's median 5,600 PA is ~53% observed. Was 2500 on the uncalibrated scale; 5000 is where held-out prediction peaks now (0.641 / 0.613). `--obs-k 0` is model-only.
 - `--slots G13,I13` — slots events; `--must "Name,Name"` forces cards in; `--ban` keeps them out
 
 Do not compare `objective:` across different `--sp/--rp` shapes — an SP slot weighs 1.0 and an RP slot 0.31, so the total moves by arithmetic alone.
 
-**Perfect Draft:** the **Played** tab (`/played`) — every card with tournament play, ranked by observed runs on the model's scale (blended at K=2500), with the round's value window, position, hand, year and owned filters. Pool is the game's, not the collection. Cached per import, so it opens instantly on draft night.
+**Perfect Draft:** the **Played** tab (`/played`) — every card with tournament play, ranked by observed runs on the model's scale (calibrated, blended at K=5000), with the round's value window, position, hand, year and owned filters. Pool is the game's, not the collection. Cached per import, so it opens instantly on draft night.
 
 Other tools:
 
@@ -50,12 +56,13 @@ Other tools:
 
 ## Validation — run these after any model change
 
-- `pnpm model:validate` — rank correlation of model runs vs observed play (hitters ~0.54, arms ~0.40 at 2026-09-15)
-- `pnpm observed:validate` — is observed play predictive out of sample? (halves agree 0.52 / 0.46; blended with the model at K=2500, 0.63 / 0.59)
+- `pnpm model:validate` — rank correlation of model runs vs observed play (hitters ~0.54, arms ~0.40 at 2026-09-15; unchanged by calibration, which is a rescale)
+- `pnpm model:calibrate` — is a modelled run a real run? Within-field slope, deciles in runs, residual by release month and tier. Writes the calibration the scorer applies. (2026-09-17: 0.51 / 0.48; residual flat by release month, so no "launch card" rule is needed; Perfects −1.3 / −1.9)
+- `pnpm observed:validate` — is observed play predictive out of sample? (halves agree 0.52 / 0.46; blended with the calibrated model at K=5000, 0.641 / 0.613)
 - `pnpm env:validate` — is the era term worth anything? (+0.008 near 2010; only pre-1930)
 - `pnpm curve:refit` (dry) — curves vs the shipped ones; `--write` emits `curves.next.json`, copy to `curves.json` to ship
 - `pnpm role:effect` — the reliever residual
-- `cd web && node --import tsx --test src/lib/**/*.test.ts src/lib/*.test.ts` — 41 tests
+- `cd web && node --import tsx --test src/lib/**/*.test.ts src/lib/*.test.ts` — 46 tests
 
 ## Data facts that bite
 
@@ -65,7 +72,9 @@ Other tools:
 - **Tourney ids** come from the dumps, never from a calendar; L.J. does not enter every run of a series.
 - **Two Truists.** Truist Park (Atlanta, neutral) vs Truist Field (Charlotte AAA, HR 1.50). `parkTwins()` warns.
 - **Dump usernames vs export team names** are not joined anywhere. His own is `rtr1776` = Kansas City Torrent.
-- **Roster size** is the strongest single predictor of a deep run in the archive: 26 cards reach round 3 in 42% of events, 24 cards 9%, ≤20 cards 4%.
+- **Roster size is NOT measurable from a stat export.** The export lists only cards that appeared in a game, so a team that plays more rounds shows more rows; "26 cards reach round 3 in 42% of events, 24 cards 9%" (an earlier note here) is rows-in-export vs depth, the same artifact as "value spent predicts depth". L.J. enters 26 every time. Fill the roster; do not read a roster-size edge into the archive.
+- **Field handedness varies a lot.** `series_meta.lhp_bf_share` runs from 0.10 (the deadball events) to 0.58 (Sporer's Sandlot); the vs-LHP board's weight and an arm's park blend come from it, not from 0.30 / 0.35.
+- **Field sizes change.** Thursday Night Gold Rush went 128 → 256 on 8/20 and the catalogue said 128 for a month. `pnpm catalogue:sync` now overwrites `entrants` with the newest run's scheduled size.
 
 ## Where things live
 

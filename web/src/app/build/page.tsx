@@ -25,15 +25,15 @@ import {
   tournaments,
   uploads,
 } from "@/db/schema";
-import { and, desc, eq, inArray, sql } from "drizzle-orm";
-import { projFip, projWoba } from "@/lib/analytics/projection";
+import { and, desc, eq, inArray } from "drizzle-orm";
+import { EMPTY_PROJ, projectCard, projectionEnvs, projOf } from "@/lib/analytics/projections";
+import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { eraFor, eraTable, parkFor, solveFor } from "@/lib/analytics/tournament-env";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { loadObservedRuns } from "@/lib/analytics/observed-blend";
 import type { BuilderEnv } from "@/components/roster-builder";
 import { getRatingScale } from "@/lib/rating-scale";
-import { cardEligibility, tierCode, tierFitsSlots, TIER_ORDER, type RosterSlot } from "@/lib/roster-rules";
-import coeffs from "@/lib/analytics/projection-coeffs.json";
+import { cardEligibility, tierCode, tierFitsSlots, type RosterSlot } from "@/lib/roster-rules";
 import {
   RosterBuilder,
   type BuilderCard,
@@ -136,6 +136,7 @@ export default async function BuildPage({
   let env: BuilderEnv | null = null;
   let savedRosters: { id: number; name: string; slots: RosterSlot[] }[] = [];
   let collectionDate: string | null = null;
+  let collectionAgeDays: number | null = null;
 
   if (picked) {
     const [full] = await db.select().from(tournaments).where(eq(tournaments.id, picked.id));
@@ -194,6 +195,7 @@ export default async function BuildPage({
         meta = {
           files: m.files, avgTeams: m.avgTeams, avgSp: m.avgSp, avgRp: m.avgRp,
           avgBats: m.avgBats, topCards: m.topCards,
+          lhpBfShare: m.lhpBfShare ?? null, lhbPaShare: m.lhbPaShare ?? null,
         };
       }
     }
@@ -205,6 +207,7 @@ export default async function BuildPage({
       .orderBy(desc(uploads.id))
       .limit(1);
     collectionDate = latestCollection?.date.toISOString().slice(0,10) ?? null;
+    collectionAgeDays = latestCollection ? Math.floor((Date.now() - latestCollection.date.getTime()) / 86_400_000) : null;
 
     const owned = latestCollection
       ? await db
@@ -264,6 +267,19 @@ export default async function BuildPage({
 
     const bySeries = new Map(seriesRows.map((r) => [r.cardId, r]));
 
+    /* ------- the environment every number on the page is read in -------
+       The event's era and park (PT default when no era is recorded), and how
+       the FIELD is handed off its exports: the share of batters faced thrown
+       left-handed weights the two lineups, the share of PA by left-handed
+       bats sets the park an arm works in (series_meta; 0.30 / 0.35 when the
+       series has no exports yet). */
+    const eraRow = era?.row ?? eraTable["0"];
+    const lhpShare = meta?.lhpBfShare ?? LHP_SHARE_DEFAULT;
+    const lhbShare = meta?.lhbPaShare ?? 0.35;
+    const envs = eraRow ? projectionEnvs(eraRow.rates, park, lhbShare) : null;
+    const projFor = (isP: boolean, bats: string | null, r: Record<string, number>) =>
+      envs ? projOf(projectCard({ isPitcher: isP, bats, ratings: r }, envs, lhpShare)) : EMPTY_PROJ;
+
     pool = cardRows
       .filter((c) => isLegal(c.cardValue, c.year))
       .map((c) => {
@@ -286,114 +302,52 @@ export default async function BuildPage({
           variantRatings: variants.get(c.cardId) ?? null,
           cardType: c.cardType,
           ratings: trimRatings(r),
-          proj: isP
-            ? { all: projFip(r), vL: projFip(r, "vL"), vR: projFip(r, "vR") }
-            : { all: projWoba(r), vL: projWoba(r, "vL"), vR: projWoba(r, "vR") },
+          proj: projFor(isP, c.bats, r),
           obs: bySeries.get(c.cardId) ?? null,
         };
       }).filter(c => cardEligibility(c, tournament!).errors.length === 0);
 
-    /* ------- the environment the builder scores in -------
+    /* ------- the scorer's level, and the upgrade board -------
        The same scorer as env-roster: runs per 700 PA in this event's run
-       environment and park (PT default when none is recorded), the relief
-       role bonus at the trusted quarter, L.J.'s position floor, and observed
-       play blended in by precision. The observed level of each series is
-       set from the model's runs over EVERY card that played it, so the whole
-       catalogue is scored once here; the client re-scores only the pool when
-       a variant form is toggled. */
-    {
-      const eraRow = era?.row ?? eraTable["0"];
-      if (eraRow) {
-        const universe = await db.select({ cardId: cards.cardId, isPitcher: cards.isPitcher, bats: cards.bats, role: cards.pitcherRole, ratings: cards.ratings }).from(cards);
-        const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.role, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park });
-        const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
-        const observed = await loadObservedRuns(pool.map((c) => c.cardId), both);
-        env = { rates: eraRow.rates, park, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n]) };
-      }
+       environment and park, calibrated to what play returns, the relief
+       role bonus at the trusted quarter, and observed play blended in by
+       precision. The observed level of each series is set from the model's
+       runs over EVERY card that played it, so the whole catalogue is scored
+       once here; the client re-scores only the pool (with L.J.'s position
+       floor) when a variant form is toggled. The same universe scoring is
+       the upgrade board: the best legal cards not owned, by the runs they
+       would add here. */
+    if (eraRow) {
+      const universe = await db.select({
+        cardId: cards.cardId, name: cards.name, tier: cards.tier, cardValue: cards.cardValue, position: cards.position,
+        pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
+      }).from(cards);
+      const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare });
+      const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
+      const observed = await loadObservedRuns(pool.map((c) => c.cardId), both);
+      env = { rates: eraRow.rates, park, lhpShare, lhbShare, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n]) };
+
+      const ownedSet = new Set(ownedIds);
+      const scored = universe
+        .filter((c) => !ownedSet.has(c.cardId) && isLegal(c.cardValue, c.year))
+        .map((c) => ({ c, runs: c.isPitcher ? base.runsR.get(c.cardId) : both(c.cardId) }))
+        .filter((x): x is { c: (typeof universe)[number]; runs: number } => x.runs != null)
+        .filter(({ c }) => cardEligibility({ cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher ?? false, role: c.pitcherRole, cardType: c.cardType, ratings: (c.ratings ?? {}) as Record<string, number>, baseOwned: false, variantOwned: false }, tournament!).errors.length === 0);
+      const top = (wantPitcher: boolean, limit: number) => scored
+        .filter((x) => (x.c.isPitcher ?? false) === wantPitcher)
+        .sort((a, b) => b.runs - a.runs)
+        .slice(0, limit);
+      upgrades = [...top(false, 30), ...top(true, 20)].map(({ c, runs }) => {
+        const r = (c.ratings ?? {}) as Record<string, number>;
+        const isP = c.isPitcher ?? false;
+        return {
+          cardId: c.cardId, name: c.name, tier: c.tier, val: c.cardValue,
+          pos: isP ? c.pitcherRole ?? "P" : c.position ?? "?", isPitcher: isP, year: c.year, bats: c.bats,
+          ratings: trimRatings(r), proj: projFor(isP, c.bats, r), runs,
+          last10: null as number | null, ask: null as number | null,
+        };
+      });
     }
-
-    /* ------- suggested upgrades: best legal cards you DON'T own -------
-       Scored in SQL with the model-v0 linear expression so we never pull
-       thousands of ratings blobs; only the winners' ratings come back for
-       the vL/vR split projections. */
-    const model = (m: { intercept: number; features: string[]; coef: number[]; n: number }) =>
-      m.n === 0
-        ? null
-        : sql.raw(
-            `(${m.intercept}${m.features
-              .map((f, i) => ` + (${m.coef[i]}) * ((ratings->>'${f}')::float)`)
-              .join("")})`,
-          );
-    const hasKeys = (features: string[]) =>
-      sql`${cards.ratings} ?& ${sql.raw(`array[${features.map((f) => `'${f}'`).join(",")}]`)}`;
-    // Mirror of isLegal above, in SQL. Keep the two in step: this governs the
-  // upgrade recommendations, the other governs the owned pool. Slots reduce to
-  // a value ceiling at the highest tier with a slot (P = no ceiling).
-  const SLOT_CEILING: Record<string, number> = { P: 999, D: 99, G: 89, S: 79, B: 69, I: 59 };
-  const topSlotTier = slotRules
-    ? [...TIER_ORDER].reverse().find((t) => (slotRules[t] ?? 0) > 0) ?? null
-    : null;
-  const slotClause = topSlotTier
-    ? sql`coalesce(${cards.cardValue}, 0) <= ${SLOT_CEILING[topSlotTier]}`
-    : null;
-
-  const legality = [
-      full.ratingsMax != null ? sql`coalesce(${cards.cardValue}, 0) <= ${full.ratingsMax}` : null,
-      full.ratingsMin != null ? sql`coalesce(${cards.cardValue}, 0) >= ${full.ratingsMin}` : null,
-      full.cardYearMin != null ? sql`(${cards.year} is null or ${cards.year} >= ${full.cardYearMin})` : null,
-      full.cardYearMax != null ? sql`(${cards.year} is null or ${cards.year} <= ${full.cardYearMax})` : null,
-      slotClause ? sql`(${slotClause})` : null,
-  ].filter((x): x is ReturnType<typeof sql> => x != null);
-
-    const topUnowned = async (wantPitcher: boolean, limit: number) => {
-      const m = model(wantPitcher ? coeffs.pit : coeffs.hit);
-      if (!m) return [];
-      return db
-        .select({
-          cardId: cards.cardId,
-          name: cards.name,
-          tier: cards.tier,
-          cardValue: cards.cardValue,
-          position: cards.position,
-          pitcherRole: cards.pitcherRole,
-          year: cards.year,
-          ratings: cards.ratings,
-          cardType: cards.cardType,
-        })
-        .from(cards)
-        .where(
-          and(
-            eq(cards.isPitcher, wantPitcher),
-            hasKeys(wantPitcher ? coeffs.pit.features : coeffs.hit.features),
-            ownedIds.length ? sql`${cards.cardId} not in (${sql.join(ownedIds.map((i) => sql`${i}`), sql`, `)})` : sql`true`,
-            ...legality,
-          ),
-        )
-        .orderBy(wantPitcher ? sql`${m} asc` : sql`${m} desc`)
-        .limit(limit);
-    };
-
-    const [topHit, topPit] = await Promise.all([topUnowned(false, 30), topUnowned(true, 20)]);
-    upgrades = [...topHit.map((c) => ({ c, isP: false })), ...topPit.map((c) => ({ c, isP: true }))]
-      .filter(({c,isP}) => cardEligibility({cardId:c.cardId,name:c.name,val:c.cardValue,year:c.year,isPitcher:isP,role:c.pitcherRole,cardType:c.cardType,ratings:c.ratings,baseOwned:false,variantOwned:false},tournament!).errors.length===0)
-      .map(({ c, isP }) => {
-      const r = (c.ratings ?? {}) as Record<string, number>;
-      return {
-        cardId: c.cardId,
-        name: c.name,
-        tier: c.tier,
-        val: c.cardValue,
-        pos: isP ? c.pitcherRole ?? "P" : c.position ?? "?",
-        isPitcher: isP,
-        year: c.year,
-        ratings: trimRatings(r),
-        proj: isP
-          ? { all: projFip(r), vL: projFip(r, "vL"), vR: projFip(r, "vR") }
-          : { all: projWoba(r), vL: projWoba(r, "vL"), vR: projWoba(r, "vR") },
-        last10: null as number | null,
-        ask: null as number | null,
-      };
-    });
 
     if (upgrades.length) {
       const [latestShop] = await db
@@ -447,6 +401,7 @@ export default async function BuildPage({
       meta={meta}
       savedRosters={savedRosters}
       collectionDate={collectionDate}
+      collectionAgeDays={collectionAgeDays}
     />
   );
 }

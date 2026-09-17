@@ -1,500 +1,159 @@
-"use client";
-
 /**
- * Upload surface.
+ * /upload — the drop zone, and above it what the app currently knows.
  *
- * Every file is parsed twice: once with `?dryRun=1` to produce a report that is
- * shown before anything is written, and again for real once the report has been
- * eyeballed. The dry run is not ceremony — the shop list has a column-offset
- * trap that produces plausible-looking but completely wrong prices, and the
- * cheapest place to catch it is a human glancing at the tier bands.
- *
- * Commit order is forced: shop list, then collection, then standings. The
- * collection export carries no Card ID and is matched against the card universe
- * by rating fingerprint, so it is meaningless until the shop list has landed.
+ * On 2026-09-17 a collection and a shop list were uploaded through this page
+ * and nothing landed; the newest rows were two days old and nobody could
+ * tell from the app. So the page now leads with the freshness of every
+ * source the model reads, each with the exact way to refresh it, and the
+ * last few upload attempts with their outcome (recorded in import_batches
+ * by the route, success or failure, so a silent failure cannot recur).
  */
-
-import { useCallback, useRef, useState } from "react";
-import { Upload, FileCheck2, AlertTriangle, Check, X, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { desc, eq, sql } from "drizzle-orm";
+import { db } from "@/db/client";
+import { importBatches, leagueSnapshots, tournaments, uploads } from "@/db/schema";
+import { CALIBRATION } from "@/lib/analytics/calibration";
+import { UploadQueue } from "@/components/upload-queue";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-type Kind = "shop_list" | "collection" | "standings" | "league";
-type Status = "analyzing" | "ready" | "committing" | "done" | "error";
+export const dynamic = "force-dynamic";
 
-interface QueueItem {
-  id: string;
-  file: File;
-  status: Status;
-  kind?: Kind;
-  stats?: Record<string, unknown>;
-  error?: string;
-  detail?: string;
-  uploadId?: number;
-  /** Standings only — the date the export was taken. See the note on the field. */
-  capturedOn?: string;
+type Row = Record<string, unknown>;
+const asRows = (r: unknown): Row[] => (Array.isArray(r) ? (r as Row[]) : ((r as { rows?: Row[] }).rows ?? []));
+
+interface Source {
+  label: string;
+  /** What is on file, or null when nothing is. */
+  asOf: string | null;
+  detail: string;
+  /** Days since asOf; null when unknown. */
+  age: number | null;
+  /** Older than this many days is worth a nudge. */
+  staleAfter: number;
+  refresh: string;
 }
 
-/**
- * Local calendar date, not UTC. `toISOString()` would roll over to tomorrow for
- * anyone uploading in the evening west of Greenwich — which is when a PT export
- * actually gets pulled.
- */
-function today(): string {
-  const now = new Date();
-  return [
-    now.getFullYear(),
-    String(now.getMonth() + 1).padStart(2, "0"),
-    String(now.getDate()).padStart(2, "0"),
-  ].join("-");
-}
+const day = (d: Date | string | null | undefined): string | null => (d ? new Date(d).toISOString().slice(0, 10) : null);
+const ageOf = (d: string | null): number | null => (d ? Math.floor((Date.now() - new Date(`${d}T12:00:00Z`).getTime()) / 86_400_000) : null);
 
-/** Commit order. The collection is matched against the card universe. */
-const KIND_ORDER: Record<Kind, number> = { shop_list: 0, collection: 1, standings: 2, league: 3 };
+async function loadFreshness(): Promise<{ sources: Source[]; attempts: Row[] }> {
+  const latest = async (kind: string) =>
+    (await db.select().from(uploads).where(eq(uploads.kind, kind)).orderBy(desc(uploads.id)).limit(1))[0] ?? null;
+  const [shop, collection, dump] = await Promise.all([latest("shop_list"), latest("collection"), latest("dump")]);
+  const [observed] = await db.select().from(importBatches)
+    .where(sql`${importBatches.kind} = 'observed' and ${importBatches.status} = 'published'`)
+    .orderBy(desc(importBatches.id)).limit(1);
+  const obsTotals = asRows(await db.execute(sql`select count(distinct series)::int series, count(*)::int rows, sum(pa)::bigint pa from observed_card_stats`))[0];
+  const [league] = await db.select({ on: sql<string | null>`max(${leagueSnapshots.capturedOn})` }).from(leagueSnapshots);
+  const [catalogue] = await db.select({ at: sql<string | null>`max(${tournaments.updatedAt})`, n: sql<number>`count(*)::int` }).from(tournaments);
+  const attempts = asRows(await db.execute(sql`
+    select id, kind, status, rows, started_at, files->0->>'name' as file, left(error, 160) as error
+    from import_batches where kind like 'upload:%' order by id desc limit 6`));
 
-const KIND_LABEL: Record<Kind, string> = {
-  shop_list: "Card shop list",
-  collection: "Collection export",
-  standings: "Category standings",
-  league: "League season export",
-};
+  const shopOn = day(shop?.uploadedAt), collOn = day(collection?.uploadedAt), dumpOn = day(dump?.uploadedAt);
+  const obsOn = day(observed?.publishedAt), leagueOn = league?.on ? String(league.on).slice(0, 10) : null;
+  const catOn = catalogue?.at ? day(String(catalogue.at)) : null;
+  const unmatched = Number((collection?.report as Record<string, unknown> | null)?.unmatched ?? 0);
 
-function num(value: unknown): string {
-  return typeof value === "number" ? value.toLocaleString() : String(value ?? "—");
-}
-
-/* ------------------------------------------------------------------ */
-/* Per-kind report rendering                                           */
-/* ------------------------------------------------------------------ */
-
-function Stat({ label, value, tone }: { label: string; value: string; tone?: "good" | "bad" }) {
-  return (
-    <div>
-      <div className="label-eyebrow text-[10px] uppercase tracking-widest text-muted-foreground">
-        {label}
-      </div>
-      <div
-        className={cn(
-          "font-mono text-sm",
-          tone === "good" && "text-emerald-500",
-          tone === "bad" && "text-red-500",
-        )}
-      >
-        {value}
-      </div>
-    </div>
-  );
-}
-
-function Report({
-  kind,
-  stats,
-  capturedOn,
-  onCapturedOn,
-}: {
-  kind: Kind;
-  stats: Record<string, unknown>;
-  capturedOn?: string;
-  onCapturedOn?: (value: string) => void;
-}) {
-  if (kind === "league") {
-    return (
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <Stat label="League" value={String(stats.league ?? "?")} />
-          <Stat label="Split" value={String(stats.split ?? "all")} />
-          <Stat label="Teams" value={num(stats.teams)} />
-          <Stat label="Rows" value={num(stats.rows)} />
-        </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <Stat label="Unique cards" value={num(stats.uniqueCids)} />
-          <Stat label="Clan teams" value={num(stats.clanTeams)} />
-          <Stat label="Free-agent rows" value={num(stats.freeAgentRows)} />
-          <Stat label="Snapshot week" value={String(stats.capturedOn ?? "today")} />
-        </div>
-        {onCapturedOn && (
-          <label className="flex items-center gap-2 text-xs text-muted-foreground">
-            Captured on
-            <input
-              type="date"
-              value={capturedOn ?? ""}
-              onChange={(e) => onCapturedOn(e.target.value)}
-              className="rounded-md border border-border bg-background px-2 py-1 text-xs"
-            />
-            <span>— set this when backfilling an older week&apos;s export.</span>
-          </label>
-        )}
-      </div>
-    );
-  }
-
-  if (kind === "shop_list") {
-    const valid = stats.tierBandsValid === true;
-    const byTier = (stats.byTier ?? {}) as Record<string, number>;
-    const ownedByTier = (stats.ownedByTier ?? {}) as Record<string, number>;
-    const tiers = ["Iron", "Bronze", "Silver", "Gold", "Diamond", "Perfect"];
-
-    return (
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <Stat label="Cards" value={num(stats.total)} />
-          <Stat label="Owned" value={num(stats.ownedCards)} />
-          <Stat label="Copies" value={num(stats.ownedCopies)} />
-          <Stat label="Variant listings" value={num(stats.withVariantListing)} />
-        </div>
-
-        <div
-          className={cn(
-            "flex items-start gap-2 rounded-md border px-3 py-2 text-xs",
-            valid
-              ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-500"
-              : "border-red-500/30 bg-red-500/5 text-red-500",
-          )}
-        >
-          {valid ? (
-            <Check className="mt-px size-3.5 shrink-0" />
-          ) : (
-            <AlertTriangle className="mt-px size-3.5 shrink-0" />
-          )}
-          <span>
-            {valid ? (
-              <>
-                Column alignment OK — tier codes partition Card Value cleanly (
-                {num(stats.headerFields)}-field header, {num(stats.dataFields)}-field rows).
-              </>
-            ) : (
-              <>
-                Columns are shifted. Tier codes do not partition Card Value, so every price and
-                ownership count in this file is wrong. This will be refused.
-              </>
-            )}
-          </span>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead className="text-muted-foreground">
-              <tr className="border-b border-border">
-                <th className="py-1.5 text-left font-medium">Tier</th>
-                {tiers.map((t) => (
-                  <th key={t} className="py-1.5 text-right font-medium">
-                    {t}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="font-mono">
-              <tr className="border-b border-border/50">
-                <td className="py-1.5 text-left font-sans text-muted-foreground">Cards</td>
-                {tiers.map((t) => (
-                  <td key={t} className="py-1.5 text-right">
-                    {num(byTier[t] ?? 0)}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <td className="py-1.5 text-left font-sans text-muted-foreground">Owned</td>
-                {tiers.map((t) => (
-                  <td key={t} className="py-1.5 text-right">
-                    {num(ownedByTier[t] ?? 0)}
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    );
-  }
-
-  if (kind === "collection") {
-    const rate = typeof stats.matchRate === "number" ? stats.matchRate : null;
-    const unmatched = typeof stats.unmatched === "number" ? stats.unmatched : 0;
-    return (
-      <div className="space-y-3">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <Stat label="Cards" value={num(stats.total)} />
-          <Stat label="Variants owned" value={num(stats.variants)} />
-          <Stat
-            label="Match rate"
-            value={rate == null ? "—" : `${(rate * 100).toFixed(1)}%`}
-            tone={rate === 1 ? "good" : rate != null && rate < 0.98 ? "bad" : undefined}
-          />
-          <Stat label="Unmatched" value={num(unmatched)} tone={unmatched > 0 ? "bad" : "good"} />
-        </div>
-        {stats.hasActiveColumn === false && (
-          <p className="text-xs text-amber-500">
-            This export has no ACT column, so the active roster cannot be read from it. Re-export
-            with active status included if you want the roster flag populated.
-          </p>
-        )}
-      </div>
-    );
-  }
-
-  const cutoffs = (stats.cutoffs ?? {}) as Record<string, number | null>;
-  return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <Stat label="Category" value={String(stats.category ?? "—")} />
-        <Stat label="Period" value={num(stats.period)} />
-        <Stat label="Weeks" value={String(stats.weeks ?? "—")} />
-        <Stat label="Rows" value={num(stats.rows)} />
-      </div>
-      <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs">
-        {[32, 64, 128, 256].map((rank) => (
-          <span key={rank} className="text-muted-foreground">
-            rank {rank}:{" "}
-            <span className="font-mono text-foreground">{num(cutoffs[String(rank)])}</span>
-          </span>
-        ))}
-      </div>
-
-      {onCapturedOn && (
-        <div className="rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2">
-          <label className="flex flex-wrap items-center gap-2 text-xs text-amber-500">
-            <AlertTriangle className="size-3.5 shrink-0" />
-            <span>Export taken on</span>
-            <input
-              type="date"
-              value={capturedOn ?? ""}
-              onChange={(e) => onCapturedOn(e.target.value)}
-              className="rounded border border-border bg-background px-2 py-1 font-mono text-xs text-foreground"
-            />
-          </label>
-          <p className="mt-1.5 pl-5 text-[11px] leading-relaxed text-muted-foreground">
-            These lines are a snapshot as of that date, not the period&rsquo;s final result — the
-            filename names the period, not when the file was pulled. Set it correctly or the cutoff
-            projection will be measured over the wrong number of elapsed days.
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
-export default function UploadPage() {
-  const [items, setItems] = useState<QueueItem[]>([]);
-  const [dragging, setDragging] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const patch = useCallback((id: string, next: Partial<QueueItem>) => {
-    setItems((prev) => prev.map((it) => (it.id === id ? { ...it, ...next } : it)));
-  }, []);
-
-  const send = useCallback(async (file: File, dryRun: boolean, capturedOn?: string) => {
-    const body = new FormData();
-    body.append("file", file);
-    if (capturedOn) body.append("capturedOn", capturedOn);
-    const response = await fetch(`/api/upload${dryRun ? "?dryRun=1" : ""}`, {
-      method: "POST",
-      body,
-    });
-    const json = (await response.json().catch(() => ({}))) as Record<string, unknown>;
-    return { ok: response.ok, json };
-  }, []);
-
-  const addFiles = useCallback(
-    async (files: File[]) => {
-      const queued: QueueItem[] = files.map((file) => ({
-        id: `${file.name}-${file.size}-${file.lastModified}-${Math.random().toString(36).slice(2)}`,
-        file,
-        status: "analyzing" as Status,
-      }));
-      setItems((prev) => [...prev, ...queued]);
-
-      // Sequential: the shop list is 1.5MB and parsing several at once on a
-      // serverless function is a good way to hit the memory ceiling.
-      for (const item of queued) {
-        const { ok, json } = await send(item.file, true);
-        if (!ok) {
-          patch(item.id, {
-            status: "error",
-            error: String(json.error ?? "Upload failed."),
-            detail: String(json.detail ?? json.hint ?? ""),
-            stats: json.stats as Record<string, unknown> | undefined,
-            kind: json.kind as Kind | undefined,
-          });
-        } else {
-          const kind = json.kind as Kind;
-          patch(item.id, {
-            status: "ready",
-            kind,
-            stats: json.stats as Record<string, unknown>,
-            capturedOn: kind === "standings" || kind === "league" ? today() : undefined,
-          });
-        }
-      }
+  const sources: Source[] = [
+    {
+      label: "Card shop list", asOf: shopOn, age: ageOf(shopOn), staleAfter: 7,
+      detail: shop ? `${shop.filename} · ${shop.rowCount?.toLocaleString()} cards` : "none on file",
+      refresh: "Export the card list in OOTP, then drop it here or run pnpm import:cards SHOP COLLECTION DATE --commit",
     },
-    [patch, send],
-  );
-
-  const commitAll = useCallback(async () => {
-    const ready = items
-      .filter((it) => it.status === "ready" && it.kind)
-      .sort((a, b) => KIND_ORDER[a.kind!] - KIND_ORDER[b.kind!]);
-
-    for (const item of ready) {
-      patch(item.id, { status: "committing" });
-      const { ok, json } = await send(item.file, false, item.capturedOn);
-      patch(
-        item.id,
-        ok
-          ? {
-              status: "done",
-              uploadId: json.uploadId as number,
-              stats: json.stats as Record<string, unknown>,
-            }
-          : {
-              status: "error",
-              error: String(json.error ?? "Write failed."),
-              detail: String(json.detail ?? json.hint ?? ""),
-            },
-      );
-    }
-  }, [items, patch, send]);
-
-  const onDrop = useCallback(
-    (event: React.DragEvent) => {
-      event.preventDefault();
-      setDragging(false);
-      const files = Array.from(event.dataTransfer.files).filter((f) => /\.csv$/i.test(f.name));
-      if (files.length) void addFiles(files);
+    {
+      label: "Collection", asOf: collOn, age: ageOf(collOn), staleAfter: 3,
+      detail: collection ? `${collection.filename} · ${collection.rowCount?.toLocaleString()} cards${unmatched ? ` · ${unmatched} unmatched (shop list older than the collection)` : ""}` : "none on file",
+      refresh: "Export your collection in OOTP after buying or selling, then drop it here with a fresh shop list",
     },
-    [addFiles],
-  );
+    {
+      label: "Tournament play", asOf: obsOn, age: ageOf(obsOn), staleAfter: 4,
+      detail: observed ? `${Number(obsTotals?.series ?? 0)} series · ${Number(obsTotals?.rows ?? 0).toLocaleString()} card lines · ${Number(obsTotals?.pa ?? 0).toLocaleString()} PA (batch #${observed.id})` : "none imported",
+      refresh: "File OOTP Exports.command on the Mac after every tournament (imports and recalibrates on quit)",
+    },
+    {
+      label: "Community dump", asOf: dumpOn, age: ageOf(dumpOn), staleAfter: 8,
+      detail: dump ? `${dump.filename} · ${dump.rowCount?.toLocaleString()} events` : "none on file",
+      refresh: "Load Tourney Dumps.command on Monday after the dump posts",
+    },
+    {
+      label: "League week", asOf: leagueOn, age: ageOf(leagueOn), staleAfter: 8,
+      detail: leagueOn ? "newest complete snapshot per league" : "none on file",
+      refresh: "cd web && pnpm import:league \"../League Data/YYYY-MM-DD\" on Sunday",
+    },
+    {
+      label: "Tournament catalogue", asOf: catOn, age: ageOf(catOn), staleAfter: 8,
+      detail: `${Number(catalogue?.n ?? 0)} events`,
+      refresh: "pnpm catalogue:sync after the dump loads (field sizes, renames, new slots)",
+    },
+    {
+      label: "Model calibration", asOf: CALIBRATION.fittedAt, age: ageOf(CALIBRATION.fittedAt), staleAfter: 8,
+      detail: `bats ×${CALIBRATION.hit.slope} · arms ×${CALIBRATION.pit.slope}${CALIBRATION.hit.applied ? " (applied)" : " (recorded, not applied)"}`,
+      refresh: "pnpm model:calibrate after new exports land, then commit web/src/data/model-calibration.json",
+    },
+  ];
+  return { sources, attempts };
+}
 
-  const readyCount = items.filter((it) => it.status === "ready").length;
-  const busy = items.some((it) => it.status === "analyzing" || it.status === "committing");
-
+export default async function UploadPage() {
+  const { sources, attempts } = await loadFreshness();
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div>
         <h1 className="text-xl font-semibold tracking-tight">Upload</h1>
         <p className="text-sm text-muted-foreground">
-          Drop the card shop list, a collection export, or category standings. The file type is
-          detected from its header — nothing to choose. Every file is parsed and reported before
-          anything is written.
+          Drop the card shop list, a collection export, a league export or category standings. The
+          file type is detected from its header — nothing to choose. Every file is parsed and
+          reported before anything is written, and a file already on record is recognised and skipped.
         </p>
       </div>
 
-      <div
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragging(true);
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={onDrop}
-        onClick={() => inputRef.current?.click()}
-        className={cn(
-          "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-12 text-center transition-colors",
-          dragging
-            ? "border-primary bg-primary/5"
-            : "border-border hover:border-muted-foreground/50 hover:bg-accent/30",
-        )}
-      >
-        <Upload className="size-6 text-muted-foreground" />
-        <div className="text-sm font-medium">Drop CSV exports here</div>
-        <div className="text-xs text-muted-foreground">
-          pt_card_list.csv · mycardset.csv · pt_standings_*.csv
-        </div>
-        <input
-          ref={inputRef}
-          type="file"
-          accept=".csv,text/csv"
-          multiple
-          className="hidden"
-          onChange={(e) => {
-            const files = Array.from(e.target.files ?? []);
-            if (files.length) void addFiles(files);
-            e.target.value = "";
-          }}
-        />
-      </div>
+      <Card>
+        <CardContent className="pt-4">
+          <div className="mb-2 text-sm font-semibold">What the app knows right now</div>
+          <table className="w-full text-xs">
+            <thead className="text-muted-foreground">
+              <tr className="border-b border-border text-left">
+                <th className="py-1.5 font-medium">Source</th>
+                <th className="py-1.5 font-medium">As of</th>
+                <th className="py-1.5 font-medium">On file</th>
+                <th className="py-1.5 font-medium">How to refresh</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sources.map((s) => {
+                const stale = s.asOf == null || (s.age != null && s.age >= s.staleAfter);
+                return (
+                  <tr key={s.label} className="border-b border-border/50 align-top">
+                    <td className="py-1.5 pr-3 font-medium">{s.label}</td>
+                    <td className={cn("py-1.5 pr-3 font-mono whitespace-nowrap", stale ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400")}>
+                      {s.asOf ?? "—"}{s.age != null ? ` (${s.age}d)` : ""}
+                    </td>
+                    <td className="py-1.5 pr-3 text-muted-foreground">{s.detail}</td>
+                    <td className="py-1.5 text-muted-foreground">{s.refresh}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {attempts.length > 0 && (
+            <div className="mt-4">
+              <div className="mb-1 text-xs font-semibold">Last uploads through this page</div>
+              <div className="space-y-0.5 font-mono text-[11px]">
+                {attempts.map((a) => (
+                  <div key={String(a.id)} className={cn(String(a.status) === "failed" ? "text-red-500" : "text-muted-foreground")}>
+                    #{String(a.id)} {String(a.kind).replace("upload:", "")} · {String(a.file ?? "?")} · {String(a.status)}
+                    {a.rows != null ? ` · ${Number(a.rows).toLocaleString()} rows` : ""} · {day(String(a.started_at))}
+                    {a.error ? ` — ${String(a.error)}` : ""}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
-      {items.length > 0 && (
-        <div className="space-y-3">
-          {items.map((item) => (
-            <Card key={item.id}>
-              <CardHeader className="flex-row items-start justify-between gap-4 space-y-0">
-                <div className="min-w-0">
-                  <CardTitle className="flex items-center gap-2 truncate">
-                    {item.status === "analyzing" || item.status === "committing" ? (
-                      <Loader2 className="size-4 shrink-0 animate-spin text-muted-foreground" />
-                    ) : item.status === "error" ? (
-                      <X className="size-4 shrink-0 text-red-500" />
-                    ) : item.status === "done" ? (
-                      <Check className="size-4 shrink-0 text-emerald-500" />
-                    ) : (
-                      <FileCheck2 className="size-4 shrink-0 text-muted-foreground" />
-                    )}
-                    <span className="truncate">{item.file.name}</span>
-                  </CardTitle>
-                  <CardDescription>
-                    {item.kind ? KIND_LABEL[item.kind] : "Detecting…"}
-                    {" · "}
-                    {(item.file.size / 1024).toFixed(0)} KB
-                    {item.status === "analyzing" && " · parsing"}
-                    {item.status === "ready" && " · previewed, not yet written"}
-                    {item.status === "committing" && " · writing"}
-                    {item.status === "done" && ` · written (upload #${item.uploadId})`}
-                  </CardDescription>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Remove"
-                  onClick={() => setItems((prev) => prev.filter((it) => it.id !== item.id))}
-                >
-                  <X />
-                </Button>
-              </CardHeader>
-
-              {(item.stats || item.error) && (
-                <CardContent className="space-y-3">
-                  {item.error && (
-                    <div className="rounded-md border border-red-500/30 bg-red-500/5 px-3 py-2 text-xs text-red-500">
-                      <div className="font-medium">{item.error}</div>
-                      {item.detail && <div className="mt-1 opacity-80">{item.detail}</div>}
-                    </div>
-                  )}
-                  {item.stats && item.kind && (
-                    <Report
-                      kind={item.kind}
-                      stats={item.stats}
-                      capturedOn={item.capturedOn}
-                      onCapturedOn={
-                        item.kind === "standings" && item.status === "ready"
-                          ? (value) => patch(item.id, { capturedOn: value })
-                          : undefined
-                      }
-                    />
-                  )}
-                </CardContent>
-              )}
-            </Card>
-          ))}
-
-          <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-card/40 px-4 py-3">
-            <p className="text-xs text-muted-foreground">
-              {readyCount > 0 ? (
-                <>
-                  {readyCount} file{readyCount === 1 ? "" : "s"} previewed. Commit order is forced:
-                  shop list, then collection, then standings.
-                </>
-              ) : (
-                "Nothing staged."
-              )}
-            </p>
-            <Button onClick={() => void commitAll()} disabled={busy || readyCount === 0}>
-              {busy ? "Working…" : `Commit ${readyCount || ""}`.trim()}
-            </Button>
-          </div>
-        </div>
-      )}
+      <UploadQueue />
     </div>
   );
 }

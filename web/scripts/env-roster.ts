@@ -22,8 +22,10 @@ import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@
 import { cardEligibility } from "@/lib/roster-rules";
 import { LJ_FLOOR, describePosFloor, parsePosFloor, posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { fieldingRuns } from "@/lib/analytics/fielding";
+import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT } from "@/lib/roster-objective";
+import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
-import { loadObservedRuns } from "@/lib/analytics/observed-blend";
+import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
 import { optimizeRoster } from "@/lib/roster-optimize";
@@ -62,6 +64,12 @@ const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean)
 const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
 const OPTIMIZE = flag("optimize");
 /**
+ * --candidate-limit N: prune each slot to its N best candidates by runs
+ * before hill-climbing (what /build does with 30, so the search finishes in
+ * seconds in the browser). Unset = the full pool, as before.
+ */
+const CANDIDATE_LIMIT = num("candidate-limit");
+/**
  * --field: score against the environment the FIELD will actually produce, not
  * the era's baseline. Tournaments do not normalize, so what plays is the era
  * rates pushed through the average eligible bat and the average eligible arm.
@@ -85,10 +93,10 @@ const MIN_POS: PosFloor = parsePosFloor(val("min-pos")) ?? LJ_FLOOR;
 const ROLE_TRUST = num("role-trust", 1)!;
 /**
  * --obs-k: how many PA (or BF) of observed play it takes to count as much as
- * the model. 2500 is where held-out prediction peaks (observed-blend.ts,
- * pnpm observed:validate). 0 turns observed play off.
+ * the model. 5000 is where held-out prediction peaks on the calibrated scale
+ * (observed-blend.ts, pnpm observed:validate). 0 turns observed play off.
  */
-const OBS_K = num("obs-k", 2500)!;
+const OBS_K = num("obs-k", OBS_K_DEFAULT)!;
 /**
  * --slots "G13,I13" — a slots event's per-tier maximums, as tier codes
  * P/D/G/S/B/I. A lower-tier card may fill a higher-tier slot, which is what
@@ -126,9 +134,16 @@ const SLOTS: Record<string, number> | null = (() => {
  *   taken off the lineup. 0.31 is the modern-era figure; pass 0.24 for a
  *   deadball or 1960s environment where starters go deeper still.
  */
-const LHP_SHARE = num("lhp-share", 0.30)!;
-const RP_WEIGHT = num("rp-weight", 0.31)!;
-const BENCH_WEIGHT = num("bench-weight", 0.1)!;
+const LHP_SHARE_FLAG = num("lhp-share");
+const RP_WEIGHT = num("rp-weight", RP_WEIGHT_DEFAULT)!;
+const BENCH_WEIGHT = num("bench-weight", BENCH_WEIGHT_DEFAULT)!;
+/**
+ * --series slug: read the field off its exports (series_meta) — the staff
+ * shape teams actually run, the share of innings thrown left-handed (the
+ * vs-LHP lineup's weight) and the share of PA taken by left-handed bats (an
+ * arm's park blend). --lhp-share, --bats/--sp/--rp still override.
+ */
+const SERIES = val("series") ?? null;
 
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
@@ -239,9 +254,14 @@ async function main() {
    * because half the roster is Iron and an Iron arm throws real innings while
    * an Iron bench bat never comes off the bench.
    */
+  const [meta] = SERIES ? await db.select().from(seriesMeta).where(eq(seriesMeta.series, SERIES)) : [];
+  if (SERIES && !meta) console.log(`!! no exports on record for series ${SERIES} — shape and handedness fall back to the era table`);
   const shapeMeta = (num("bats") != null || num("sp") != null || num("rp") != null)
     ? { avgBats: num("bats"), avgSp: num("sp"), avgRp: num("rp") }
-    : null;
+    : meta ? { avgBats: meta.avgBats, avgSp: meta.avgSp, avgRp: meta.avgRp } : null;
+  const LHP_SHARE = LHP_SHARE_FLAG ?? meta?.lhpBfShare ?? LHP_SHARE_DEFAULT;
+  const LHB_SHARE = meta?.lhbPaShare ?? 0.35;
+  if (meta) console.log(`field (${SERIES}, ${meta.files} exports): ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats · ${meta.avgBats} bats / ${meta.avgSp} SP / ${meta.avgRp} RP per team`);
   const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any);
   const shape: FillShape = {
     lineupPos, bats: shp.bats,
@@ -290,13 +310,13 @@ async function main() {
       cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole,
       ratings: (c.ratings ?? {}) as Record<string, number>,
     }));
-    const base = envFitMaps(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST });
+    const base = envFitMaps(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
     observed = await loadObservedRuns(pool.map((c) => c.cardId), both);
     const n = [...observed.values()];
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}`);
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr , minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE });
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                          RHB: ${marginalRatings(fits.envRight, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                         arms: ${marginalRatings(fits.envPitch, "pit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
@@ -321,28 +341,10 @@ async function main() {
    * Until 2026-09-16 the optimiser priced gloves at zero and gated them only
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
-  const poolById0 = new Map(pool.map((c) => [c.cardId, c]));
-  const defAt = (cid: number, p: string): number => {
-    if (p === "DH") return 0;
-    const c = poolById0.get(cid); if (!c || c.isPitcher) return 0;
-    return fieldingRuns(p, c.ratings[`Pos Rating ${p}`] ?? 0);
-  };
-  const objective = (r: Record<string, number>): number => {
-    let total = 0;
-    if (mustIds.size) {
-      const on = new Set(Object.values(r));
-      for (const id of mustIds) if (!on.has(id)) total -= 1000;
-    }
-    for (const p of lineupPos) {
-      const a = r[`R:${p}`], b = r[`L:${p}`];
-      if (a != null) total += (1 - LHP_SHARE) * ((fits.runsR.get(a) ?? 0) + defAt(a, p));
-      if (b != null) total += LHP_SHARE * ((fits.runsL.get(b) ?? 0) + defAt(b, p));
-    }
-    for (const k of shape.spKeys) { const c = r[k]; if (c != null) total += fits.runsR.get(c) ?? 0; }
-    for (const k of shape.rpKeys) { const c = r[k]; if (c != null) total += RP_WEIGHT * (fits.runsR.get(c) ?? 0); }
-    for (const k of shape.benchKeys) { const c = r[k]; if (c != null) total += BENCH_WEIGHT * (fits.runsR.get(c) ?? 0); }
-    return total;
-  };
+  const { objective, rank, defAt } = rosterObjective(pool, {
+    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, mustIds,
+  });
+  void defAt;
 
   let { slots, lambda } = fillRoster(pool, rules, shape, fits);
   const greedyScore = objective(slots);
@@ -358,17 +360,12 @@ async function main() {
       if (!isComplete(r, shape)) continue;
       starts.set([...new Set(Object.values(r))].sort((a, b) => a - b).join(","), { slots: r, lambda: lam });
     }
-    /** Rank a card for a slot by the runs it would contribute there. */
-    const rank = (key: string, c: FillCard) => {
-      const pos = key.includes(":") ? key.split(":")[1] : "";
-      const d = /^(C|1B|2B|3B|SS|LF|CF|RF)$/.test(pos) ? defAt(c.cardId, pos) : 0;
-      return (key.startsWith("L:") ? (fits.runsL.get(c.cardId) ?? -1e6) : (fits.runsR.get(c.cardId) ?? -1e6)) + d;
-    };
 
     let best = { slots, score: greedyScore, from: lambda, moves: 0 };
     for (const [, st] of starts) {
       const r = optimizeRoster(st.slots, pool, rules, shape, {
         objective, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
+        candidateLimit: CANDIDATE_LIMIT ?? undefined,
       });
       if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }

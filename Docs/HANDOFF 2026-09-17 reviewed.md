@@ -1,0 +1,112 @@
+# The 2026-09-17 chat handoff, checked against the code and the database
+
+**Reviewed:** 2026-09-17, in the repo, with read access to Neon project `billowing-glitter-35624732` and the Vercel project.
+**Source:** `OOTP-handoff-2026-09-17.md`, written by a chat session that had the Neon connector but not the code.
+
+The chat session did not know what the app already does. About half of its recommendations were already built (some of them a week earlier), one of its "findings" is the same artifact it retracts elsewhere in the same document, and the projection model it wanted "put in the app" already was — in a stronger form than the one it proposed. What was genuinely missing is now built; each item below says which.
+
+Legend: **VERIFIED** the claim holds · **WRONG** the claim does not hold · **ALREADY BUILT** the app did this before the handoff · **BUILT NOW** done in this session.
+
+---
+
+## 1. The three "things to fix"
+
+### 1.1 "The upload route is silently failing" — partly VERIFIED, cause not what was implied; hardened NOW
+
+What the database says: the newest `uploads` rows are #117 (shop list) and #118 (collection), both stamped 2026-09-15, both written by the CLI importer (`pnpm import:cards`; they carry the CLI's sha256). Nothing of any kind landed on 9/17. Vercel recorded **no runtime errors in the last 7 days** on the project, so the route did not throw.
+
+Will Clark (100) and Mark Langston (91) are not "missing from the app's copy of the collection" — they are **not in the card table at all**, because they were released after the 9/15 shop list. No collection upload could have matched them without a newer shop list; the fix is a fresh pair of exports, not a route repair.
+
+Why a 9/17 upload could vanish without a trace: the page runs a dry run, then needs a second click to commit; a 401 after a session expiry, a 422 on a shifted shop file, or a Neon HTTP payload rejection mid-write all left no record. Built now:
+
+- every real write through `/api/upload` is recorded in `import_batches` (`upload:<kind>`, sha256, rows, published or failed with the error), and a mid-write failure comes back as a JSON 500 the page displays;
+- a file already on record (same sha256, same kind) is recognised and not written twice, the same rule the CLI applies, so the two paths cannot double-load;
+- the capture date defaults to the date in the filename (`collection 2026-09-15.csv`), not the upload day;
+- insert chunks shrunk to what the Neon HTTP driver reliably takes (100 rows with a ratings blob);
+- a per-tournament stats export dropped on the page gets told where it goes (the Mac filer) instead of "could not tell which league";
+- `/upload` now leads with a freshness table — shop, collection, tournament play, dump, league, catalogue, calibration — each with its age and the exact refresh step, plus the last six web upload attempts and their outcome; `/build` turns amber when the collection is three or more days old.
+
+The handoff's "interim workaround" (loading a collection straight into `uploads` + `collection_cards` through the connector) was not needed and was not done.
+
+### 1.2 "/build has no defensive floors" — WRONG for the app; the search it implied is BUILT NOW
+
+The Dietz-at-catcher roster came from the chat's own model, not from the app. The app has had a hard position floor since 2026-09-15 (`pos-floor.ts`: 70 everywhere, 50 in LF, none at 1B/DH — L.J.'s own rule of 9/16) and defence priced in runs since 9/16 (`fielding.ts`: ZR per rating point measured on the archive × 0.887 runs per ZR). `/build`'s scorer applies the floor; `env-roster` also prices gloves in runs and hill-climbs.
+
+The handoff's proposed component floors (C ABI ≥ 55, IF RNG ≥ 90 at SS/2B…) are worse than what exists: the game's own `Pos Rating C` is −30 + 0.50·CatcherAbil + 0.50·CatcherFrame + 0.42·Catcher Arm (R² .981 over 380 catchers), so the position rating already is the composite the handoff wanted to rebuild by hand.
+
+What was true: `/build`'s auto-fill stopped at the greedy fill and did not run env-roster's run-priced search. Built now: a shared objective (`roster-objective.ts` — runs per board with the glove in runs at the slot, boards weighted by the field's pitcher handedness, rotation in full, pen at 0.31, bench at 0.1) used by both `env-roster` and the page, and an **Optimise** button on `/build` that hill-climbs the board under every rule and the glove floor. The full search over a 3,300-card collection takes 5½ minutes in node; the page prunes each slot to its top 30 candidates and finishes in seconds. Gold Rush, run both ways, lands on the same 26.
+
+### 1.3 "The projection model gets rebuilt from a CSV every session — put it in the app" — the diagnosis is VERIFIED, the prescription was ALREADY BUILT, the missing piece is BUILT NOW
+
+The chat sessions were refitting a 12-parameter regression on ~138 cards from whatever export was at hand, and that is exactly why cards reshuffled every time L.J. pushed back. But the app has not used a joint regression for scoring since 2026-09-13. Its model is the component model the handoff's §2.1 proposes: one curve per rating (K% ← Avoid K's, BB% ← Eye, HR ← Power, XBH ← Gap, BABIP ← BABIP; K/BB/HR for arms), each fitted on observed tournament play across 51 series normalised to their own field (`curves.json`, R² .72–.90 per component, the same order the handoff reports), combined through the environment's linear weights (`card-value.ts`, `run-env.ts`), read per board with the batter's side of the park, and blended with the card's own tournament play by precision (`observed-blend.ts`). `pnpm model:validate` ranks it at Spearman .54 bats / .40 arms against 12M PA — reproduced today.
+
+What the app did still carry was "model v0": a linear regression of career wOBA on seven ratings (r² .28) that `/build` displayed as pWOBA/pFIP and used to rank the upgrade tab in SQL. That is the handoff's "12-parameter regression", still on screen. **Retired now**: `projection.ts`, `projection-coeffs.json` and `fit-projection.ts` are deleted; `projections.ts` reads the curve model back as a wOBA / AVG / OBP / SLG / K% / BB% / HR line (bats) or FIP / K9 / BB9 / HR9 (arms) in the event's own era and park, on the same wOBA weights and FIP constant the observed columns use, so projected and observed sit on one scale. The upgrade tab ranks by the scorer's runs. The Mac filer's quit step now recalibrates instead of refitting v0.
+
+## 2. The methodology the chat "wants ported"
+
+### 2.1 Component model — ALREADY BUILT (see 1.3). The one real difference: the handoff's BABIP fit (R .42) was per-card-season; pooled to ~8M balls in play the same curve fits at R² .77 (`curves.json`, refit note of 9/13). "You can buy batting average, just less of it than power" stands.
+
+### 2.2 Calibration — VERIFIED in principle, wrong number, BUILT NOW on the app's model
+
+The handoff's shrink of 0.32–0.38 is for the rating scale under its own linear model, which the curves already absorb. The question that matters for the app is whether a *modelled run* is a *real run*, and it was unmeasured. `pnpm model:calibrate` now answers it within a field (so the field level, which observed-blend builds from the model, cancels out):
+
+| side | card-series lines | PA / BF | slope | r | rmse |
+|---|---|---|---|---|---|
+| bats | 5,046 | 10.9M | **0.511** | .58 | 9.3 runs/700 |
+| arms | 4,342 | 11.5M | **0.483** | .54 | 5.8 runs/700 |
+
+A card the curves put +10 runs above its field produced +5. Deciles climb monotonically on both sides. The scorer now applies the slope before observed play is blended and before gloves (measured in runs directly) are added — rankings on one scale do not move, the exchange rate between a bat, a glove and an arm does. Checked out of sample: the split-half blend (`pnpm observed:validate`) improves at every K above 2,000, and its peak moves from K = 2,500 (0.628 / 0.592) to K = 5,000 (**0.641 / 0.613**); K is now 5,000 everywhere. Calibration is stored in `web/src/data/model-calibration.json` and refreshed by the filer on quit.
+
+The handoff's out-of-sample R of 0.47 / 0.29 (bats) and 0.21–0.28 (arms) describes its own model. The app's, on the same kind of test, is 0.64 / 0.61 blended.
+
+### 2.3 Park-neutral pooling across series — ALREADY BUILT. `observed-blend.ts` centres each card on its series and pools by PA (FIP and BF for arms); the SQL in the handoff is a restatement of it, minus the field-level term the app adds so a Gold field and a Perfect field can share a scale.
+
+### 2.4 Preserve platoon shape when blending — ALREADY BUILT, verbatim. `env-fit.ts`: "Blend on the both-hands read, then move both boards by the same amount." The Torres bug the handoff describes cannot happen in the app.
+
+### 2.5 Dual-lineup objective with weights from the field's handedness — half ALREADY BUILT, half BUILT NOW
+
+`env-roster` already optimised `w_R × (best nine vs RHP) + w_L × (best nine vs LHP)` with independent assignment per board. The weight was a flag defaulting to 0.30. Measured now off every export, per series (`series_meta.lhp_bf_share`, `lhb_pa_share`, computed at import and backfilled): 0.10 at the deadball events, 0.26 at Late Silver, 0.37 at Gold Rush, 0.44 at the Diamond weeklies, 0.58 at Sporer's Sandlot. `/build` and `env-roster --series` read it; the arm's park blend uses the field's left-handed-bat share the same way. (The handoff's Gold figure, 61.6% right-handed by innings, matches: 0.37 left.)
+
+## 3. Corrections to existing notes
+
+### 3.1 Retract "value spent predicts depth" — VERIFIED, and it also retires a RUNBOOK line
+
+The mechanism is right: the export lists only cards that appeared, so deeper runs show more rows. The RUNBOOK's "roster size is the strongest single predictor of a deep run (26 cards reach round 3 in 42%…)" is the **same artifact** — rows in the export, not roster size — and is corrected there. Nothing in the scorer used either figure.
+
+### 3.2 Zero-appearance cards dropped — VERIFIED (`jim.ts` notes 712,205 rows without one missing card id; the export is what played). Nothing infers roster size from it any more.
+
+### 3.3 Variants — ALREADY BUILT. The app scores a variant on the ratings the collection export recorded for that copy (`card-forms.ts`, verified exact on 1,937 base copies), never a constant boost, and prices its separate market. The "10.4 runs against variants in one week" is noise on 16 pairs, as the handoff itself concludes.
+
+### 3.4 Card creep / filter by release date — WRONG as a rule; the model already carries it
+
+Tested in `model:calibrate`: residual (observed − calibrated model) by release month is flat — March −2.1, April +1.0, May +0.6, June +1.8, July +1.6, August −0.5, September +1.7 runs/700 for bats; arms 0.0 / +1.1 / −0.1 / −1.3 / +0.3 / −0.9 / −4.2 (13 cards). A launch-window base card underperforms because its ratings are lower, and the ratings are what the model reads; a date rule would double-count. What does show up by tier: Perfects run −1.3 (bats) / −1.9 (arms) after calibration, the curves extrapolating past their fitted range at the top — the `!! past the fitted range` warning already flags those cards.
+
+## 4. Database notes — VERIFIED, with two corrections
+
+Totals match exactly: 36,189 rows, 54 series, 3,860 cards, 12,370,433 PA, 2,886,690 IP. `observed_card_stats.war` is a sum (the importer adds it) — do not rate it. Column names as stated.
+
+- **Tournament 540 field size**: the catalogue said 128; `my_results` shows 256 since 2026-08-20. **Fixed** to 256, and `pnpm catalogue:sync` now overwrites `entrants` with the newest run's scheduled size instead of only filling nulls.
+- **The shop CSV "column-offset bug"**: it is real and the parser has handled it since the start — `extraFields: "drop"` with a tier-band tripwire that refuses a shifted file. Upload #117 parsed 4,198 cards cleanly. "Parse by rating fingerprint" is the collection matcher's job (no Card ID in that export), not the shop list's.
+- The Neon 401s were the chat connector, not the app.
+
+## 5. State of play
+
+- **Thursday Night Gold Rush (540)**: environment as stated. Built with the calibrated model, field handedness 37% LHP, gloves in runs (`env-roster --series goldweekly`, 13 λ starts, +28.7 runs over greedy, 4½ min). It differs from the handoff's 26 on most of the roster — the handoff's came from the chat's model and cwhit's board. Culpepper: the app plays him at 3B only against left-handed pitching (+7 bat, +3 glove there) and benches him against right-handers, which is the middle of the three opinions the handoff lists and is what a defence-aware valuation settles on. Scheinblum: DH only, as the handoff said.
+- **Cwhit Cap Challenge 5 corrections** (Yost, 100-point arms, the left-handed pitching lever): consistent with what the calibrated model says now; nothing to change.
+
+## 6. What was done, in order (this session)
+
+1. Verified every claim above against the database and code; no production table was modified except two additive columns on `series_meta` (backfilled), one `tournaments.entrants` value, and rows the app writes itself.
+2. `pnpm model:calibrate` + `model-calibration.json`; calibration applied in the scorer and the projected lines; K → 5,000, re-validated out of sample.
+3. `projections.ts` replaces model v0 on `/build` (pool table, upgrade tab, card faces, saved-roster summary); v0 files deleted; filer recalibrates instead of refitting.
+4. Field handedness per series at import; used by `/build`, `env-roster --series`.
+5. Shared `roster-objective.ts`; **Optimise** on `/build`; `candidateLimit` on the optimiser.
+6. Upload route lineage, sha dedupe, filename dates, guidance; `/upload` freshness panel; `/build` stale warning.
+7. Catalogue field sizes; RUNBOOK and README brought current; 46 tests.
+
+## 7. What is still open
+
+- **Friday Nightmare Cap (569)** has no rules on file beyond 1955, 1936 Hinchliffe Stadium (no park factors → neutral), no DH, cards 50–74. The team-value cap is not recorded anywhere in the repo or the dumps. Paste the event's RESTRICTIONS blurb into the catalogue row and run `pnpm parse:restrictions`, then `pnpm env:roster --year 1955 --min 50 --max 74 --cap <cap> --optimize --starts 12`. The no-cap build is in §8 as a starting point.
+- **More data, more easily.** OOTP only exports the tournaments you are in, so the archive grows with your entries; the community route is cwhit's DCFC sheet (`cwhit stat requests 2026-09-04.md` lists what you can still supply him). Two things would move the model most: exports from the events you enter every week (the filer makes that one dialog), and any archived exports other DCFC members will share for series you do not play — the filer takes any `<series>_<run>.csv`.
+- **Observed rows are per series, not per run.** The table cannot see time inside a series, so a card's observed line mixes April fields with September fields. Storing per-run aggregates would allow recency weighting; it is a schema change (≈700k rows) and was not started.
+- Perfects underperform the calibrated model by 1–2 runs; the curves' top range is where the next refit should look (`pnpm curve:refit --min-den 400`).

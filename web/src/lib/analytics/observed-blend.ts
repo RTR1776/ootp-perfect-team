@@ -46,6 +46,14 @@
  * a card with the pool's median 5,600 PA on record is ~70% observed; a card
  * with 250 PA is ~10%; a card with none is the model, untouched.
  *
+ * RE-MEASURED 2026-09-17 with the model CALIBRATED (env-fit `calibrate`: the
+ * curves' within-field spread scaled to what play returns, 0.51 for bats and
+ * 0.48 for arms). On the calibrated scale the held-out peak moves out to
+ * K = 5,000 and rises — hitters 0.641 (was 0.628 at 3,000), arms 0.613 (was
+ * 0.592 at 2,000) — because a model with half the spread needs twice the
+ * nominal weight to carry the same information. So K = 5000: the median
+ * card with 5,600 PA on record is ~53% observed, 250 PA is ~5%.
+ *
  * Which retires the rule "when model and observed disagree, believe the
  * innings" in its strong form. Believe them in proportion.
  *
@@ -66,7 +74,8 @@ export interface ObservedRuns {
   series: number;
 }
 
-export const OBS_K_DEFAULT = 2500;
+export { OBS_K_DEFAULT } from "./calibration";
+import { OBS_K_DEFAULT } from "./calibration";
 /** Runs per unit of wOBA in a modern environment; roster-fill uses the same. */
 const WOBA_SCALE = 1.25;
 

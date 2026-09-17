@@ -21,7 +21,7 @@
     "import:league": "tsx scripts/import-league.ts",
     "import:cards": "node --env-file=.env.local --import tsx scripts/import-current-cards.ts",
     "import:dump": "tsx scripts/import-dump.ts",
-    "fit:projection": "tsx scripts/fit-projection.ts",
+    "model:calibrate": "node --env-file=.env.local --import tsx scripts/model-calibrate.ts",
     "import:myresults": "tsx scripts/import-myresults.ts",
     "parse:restrictions": "tsx scripts/parse-restrictions.ts",
     "apply:restrictions": "tsx scripts/apply-restrictions.ts",

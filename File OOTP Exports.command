@@ -39,7 +39,8 @@ v6 (2026-09-07) — hands-off from download to database:
     you have filed before, Enter is the whole answer.
   • Each filed export is imported into the app's database straight away
     (import:observed --series, ~1 s per file, in the background); the
-    projection model is refit once when you quit. Nothing to run by hand.
+    model is recalibrated against the new play once when you quit
+    (pnpm model:calibrate). Nothing to run by hand.
   • `--watch` skips the opening question and starts watching immediately
     ("Watch Tourney Stats.command" is now just that).
 """
@@ -669,11 +670,11 @@ def finish_imports() -> str:
     failed = [s for s, ok, _ in _IMPORT_RESULTS if not ok]
     lines = [f"  {'✗' if not ok else '✓'} {s}: {summ}" for s, ok, summ in _IMPORT_RESULTS]
     if not failed:
-        print("refitting the projection model…")
-        ok, tail = _run_tsx(["scripts/fit-projection.ts"], timeout=600)
-        _log(f"fit-projection: {'ok' if ok else 'FAILED'} - {tail.splitlines()[-1] if tail else ''}")
-        lines.append(("  ✓ projection refit - tell Claude to commit the coefficients" if ok
-                      else "  ✗ projection refit failed - see Archive/import-log.txt"))
+        print("recalibrating the model against the new play…")
+        ok, tail = _run_tsx(["scripts/model-calibrate.ts"], timeout=600)
+        _log(f"model-calibrate: {'ok' if ok else 'FAILED'} - {tail.splitlines()[-1] if tail else ''}")
+        lines.append(("  ✓ model recalibrated (web/src/data/model-calibration.json) - tell Claude to commit it" if ok
+                      else "  ✗ model calibration failed - see Archive/import-log.txt"))
     else:
         lines.append("  refit skipped because an import failed - fix that first (re-running the filer is safe)")
     return "\n".join(lines)

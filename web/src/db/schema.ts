@@ -529,6 +529,16 @@ export const seriesMeta = pgTable("series_meta", {
   avgSp: real("avg_sp"),
   avgRp: real("avg_rp"),
   avgBats: real("avg_bats"),
+  /**
+   * How the FIELD is handed, measured off the exports: the share of batters
+   * faced thrown by left-handers (what the vs-LHP lineup's weight should be)
+   * and the share of plate appearances taken by left-handed bats (switch
+   * hitters at 0.7 — what an arm's park blend should be). Ranges 0.10
+   * (deadball events, few lefties) to 0.58 (Sporer's Sandlot) — the fixed
+   * 0.30 / 0.35 defaults were wrong for a third of the catalogue.
+   */
+  lhpBfShare: real("lhp_bf_share"),
+  lhbPaShare: real("lhb_pa_share"),
   topCards: jsonb("top_cards").$type<SeriesTopCard[]>().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

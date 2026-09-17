@@ -27,6 +27,9 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
+import { CALIBRATION, calibrationSlope, OBS_K_DEFAULT } from "@/lib/analytics/calibration";
+
+export { CALIBRATION };
 
 export interface EnvFitInput {
   cardId: number;
@@ -90,6 +93,26 @@ export interface EnvFitOptions {
    */
   observed?: Map<number, { runs: number; n: number }>;
   observedK?: number;
+  /**
+   * Put the model's runs on the observed scale (default true).
+   *
+   * MEASURED 2026-09-17 (pnpm model:calibrate, src/data/model-calibration.json):
+   * within a field, a card the model puts 10 runs above the field's model mean
+   * produced 5.1 runs above the field for bats and 4.8 for arms, over 10.9M PA
+   * and 11.5M BF of tournament play (5,046 / 4,342 card-series lines). The
+   * ratings buy real runs — r .58 / .54 within-field, and the deciles climb
+   * monotonically — but the curves overstate the SPREAD between cards by
+   * half. Rankings on one scale are untouched by a rescale; what it corrects
+   * is the exchange rate against the things measured in runs directly:
+   * defence (fielding.ts, ZR × runs per ZR), observed play (a card's own
+   * deviation from its field, blended in by precision), and the value points
+   * a cap format trades between bat and arm. Left uncalibrated, a +9 bat
+   * outbids a +7 glove that the game will actually pay more for.
+   *
+   * Off for the calibration script itself (it must not measure its own
+   * previous output) and for anything that wants the raw curve number.
+   */
+  calibrate?: boolean;
   /**
    * NOTE for cap formats: env-roster's --rp-weight (a reliever's innings as a
    * fraction of a starter's) defaults to 0.5. The exports say 0.31 in Gold
@@ -174,9 +197,13 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
   };
 
   const runsR = new Map<number, number>(), runsL = new Map<number, number>();
-  const K = o.observedK ?? 2500;
+  const K = o.observedK ?? OBS_K_DEFAULT;
+  const slopeHit = o.calibrate === false ? 1 : calibrationSlope("hit");
+  const slopePit = o.calibrate === false ? 1 : calibrationSlope("pit");
   for (const c of pool) {
     let r = runsOf(c, "R"), l = runsOf(c, "L");
+    const slope = c.isPitcher ? slopePit : slopeHit;
+    if (slope !== 1) { if (r != null) r *= slope; if (l != null) l *= slope; }
     const ob = o.observed?.get(c.cardId);
     if (ob && ob.n > 0 && r != null && l != null) {
       // Blend on the both-hands read, then move both boards by the same amount.

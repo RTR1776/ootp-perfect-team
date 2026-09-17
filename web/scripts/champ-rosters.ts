@@ -31,7 +31,8 @@ import { cards, cardSnapshots, collectionCards, rosters, seriesMeta, tournaments
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "../src/lib/card-forms";
 import { fillRoster, fitMaps, HIT_POS, hitterRaw, pitcherRaw, rosterShape, type FillCard, type FillShape } from "../src/lib/roster-fill";
 import { cardEligibility, rosterSize, validateRoster, type RosterRules, type RosterSlot } from "../src/lib/roster-rules";
-import { projFip, projWoba } from "../src/lib/analytics/projection";
+import { projectCard, projectionEnvs } from "../src/lib/analytics/projections";
+import { eraTable } from "../src/lib/analytics/tournament-env";
 
 const DEFAULT_IDS = [9060002, 9060003, 9060004, 9060005, 9060008]; // Bronze, Silver, Gold, Diamond, Cap
 const args = process.argv.slice(2);
@@ -68,6 +69,10 @@ async function main() {
     const rx = rules.restrictions;
     const variantsOk = defaultToVariant(rules);
 
+    // Projected wOBA / FIP in this event's own era and park (calibrated curve model).
+    const eraRow = (t.envYear != null && eraTable[String(t.envYear)]) || eraTable["0"];
+    const envs = projectionEnvs(eraRow.rates, null);
+    const proj = (isP: boolean, bats: string | null, r: Record<string, number>) => projectCard({ isPitcher: isP, bats, ratings: r }, envs);
     // ---- pool: every owned card in the form it will be used in
     const pool: PoolCard[] = [];
     for (const cid of ownedIds) {
@@ -81,9 +86,9 @@ async function main() {
         cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher, role: c.pitcherRole,
         cardType: c.cardType, ratings, baseOwned: baseSet.has(cid), variantOwned: vr != null,
         variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", tier: c.tier ?? "", bats: c.bats,
-        projAll: c.isPitcher ? projFip(ratings) : projWoba(ratings),
-        projL: c.isPitcher ? projFip(ratings, "vL") : projWoba(ratings, "vL"),
-        projR: c.isPitcher ? projFip(ratings, "vR") : projWoba(ratings, "vR"),
+        projAll: proj(c.isPitcher, c.bats, ratings)?.all ?? null,
+        projL: proj(c.isPitcher, c.bats, ratings)?.vL ?? null,
+        projR: proj(c.isPitcher, c.bats, ratings)?.vR ?? null,
       };
       if (card.variant && !card.variantOwned) continue;
       if (cardEligibility(card, rules).errors.length) continue;
