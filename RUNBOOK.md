@@ -52,6 +52,7 @@ Other tools:
 - `pnpm arm:roles` — every arm with the role term in and out
 - `pnpm berth:lines`, `pnpm cutoff:project` — where the PTCS lines sit and where they land
 - `pnpm cap:finish` — complete a part-built capped roster
+- `pnpm roster:diff --roster my.txt --series goldweekly --year 1989 --park "Candlestick Park" --park-year 1979 --dh --min 40 --max 89` — score the roster you have LOADED (one slot per line: `R:3B Hank Thompson`, `SP1 Jim Kaat`, `CL …`, `BN2 …`) and list the swaps in the order the search takes them, biggest first, so a mid-week change is three moves and not a rebuild. A card not yet in the card table (released after the last shop list) gets a stand-in and a warning.
 - `pnpm record [--user x] [--size 128] [--weekly|--daily] [--series "..."]` — series W–L by round, series and month, exact from the dump's finishing order (verified against the published cwhitman/spatrick4 tables)
 
 ## Validation — run these after any model change
