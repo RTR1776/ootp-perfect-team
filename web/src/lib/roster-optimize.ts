@@ -185,21 +185,44 @@ export function optimizeRoster(
   const place = (from: FillResult, key: string, c: FillCard): FillResult => {
     const cur = from[key];
     const t: FillResult = { ...from, [key]: c.cardId };
-    if (cur == null) return t;
-    const rostered = new Set(Object.values(t));
-    for (const k2 of keys) {
-      if (k2 === key || t[k2] !== cur) continue;
-      const elig = cands.get(k2) ?? [];
-      let pick: number | null = elig.some((x) => x.cardId === c.cardId) ? c.cardId : null;
-      if (pick == null) {
-        let bestR = -Infinity;
-        for (const x of elig) {
-          if (x.cardId === cur || !rostered.has(x.cardId)) continue;
-          const r = pm ? pm.rank(k2, x) : 0;
-          if (r > bestR) { bestR = r; pick = x.cardId; }
-        }
+    const g = groupOf(key);
+    const onBoard = (board: SlotGroup, except: string) => new Set(keys.filter((k) => groupOf(k) === board && k !== except).map((k) => t[k]));
+    const bestRostered = (k2: string, exclude: Set<number>): number | null => {
+      let pick: number | null = null, bestR = -Infinity;
+      const rostered = new Set(Object.values(t));
+      for (const x of cands.get(k2) ?? []) {
+        if (!rostered.has(x.cardId) || exclude.has(x.cardId)) continue;
+        const r = pm ? pm.rank(k2, x) : 0;
+        if (r > bestR) { bestR = r; pick = x.cardId; }
       }
-      if (pick != null) t[k2] = pick;
+      return pick;
+    };
+    // (1) c already starts elsewhere on this board: a swap. His old slot goes
+    // to the card he displaced when that card can play it, else to the best
+    // rostered card not already on this board (Mack CF->LF for Bell vs LHP
+    // needs Snider into CF — one move, not two).
+    const k1 = keys.find((k) => k !== key && groupOf(k) === g && from[k] === c.cardId);
+    if (k1 != null) {
+      const elig = cands.get(k1) ?? [];
+      const taken = onBoard(g, k1);
+      let pick: number | null = cur != null && !taken.has(cur) && elig.some((x) => x.cardId === cur) ? cur : null;
+      if (pick == null) pick = bestRostered(k1, taken);
+      if (pick != null) t[k1] = pick;
+      return t;
+    }
+    // (2) c is new to the roster: the displaced card leaves entirely, so his
+    // other slots are refilled — with c where c can play them (a platoon
+    // catcher's bench seat), else with the best rostered card free on that board.
+    if (cur != null && !new Set(Object.values(from)).has(c.cardId)) {
+      for (const k2 of keys) {
+        if (k2 === key || t[k2] !== cur) continue;
+        const g2 = groupOf(k2);
+        const elig = cands.get(k2) ?? [];
+        const taken = onBoard(g2, k2);
+        let pick: number | null = g2 !== g && !taken.has(c.cardId) && elig.some((x) => x.cardId === c.cardId) ? c.cardId : null;
+        if (pick == null) pick = bestRostered(k2, new Set([...taken, cur]));
+        if (pick != null) t[k2] = pick;
+      }
     }
     return t;
   };
