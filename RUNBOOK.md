@@ -28,7 +28,7 @@ L.J. pushes (Claude's shell has no credentials). Vercel deploys from the push.
 
 `--series slug` reads the field off its exports: staff shape, the share of innings thrown left-handed (the vs-LHP lineup's weight) and the share of PA by left-handed bats (an arm's park blend). Without it the era table and 0.30 / 0.35 stand in. `--starts 12` finishes in ~4½ minutes on the whole collection; 64 is the exhaustive run.
 
-**/build does the same thing in the browser** (2026-09-17): the Runs column is the calibrated model with observed play blended in, Re-recommend is the greedy fill, and **Optimise** hill-climbs the board on runs with gloves priced in runs under the glove floor — each slot's top 30 candidates, so it takes seconds rather than minutes. The upgrade tab ranks unowned legal cards by the same runs.
+**/build does the same thing in the browser** (2026-09-17): the Runs column is the calibrated model with observed play blended in, Re-recommend is the greedy fill, and **Optimise** hill-climbs the board on runs with gloves priced in runs under the glove floor — each slot's top 120 candidates from the greedy fill, so it takes seconds rather than minutes (Gold Rush: 175 of the CLI's 179 runs, from 151 greedy). The upgrade tab ranks unowned legal cards by the same runs.
 
 Defaults that are measured, not guessed (each has the evidence in its comment):
 

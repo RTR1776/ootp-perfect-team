@@ -47,10 +47,10 @@ export interface OptimizeOptions {
   /**
    * Keep only the N best candidates per slot (by `pairMoves.rank`, so it
    * requires pairMoves), plus whoever is already rostered. The full search
-   * over a 3,300-card collection takes five minutes in node (16 λ starts,
-   * Gold Rush, 2026-09-17); the moves it finds are all among each slot's top
-   * few dozen by runs, so a pruned list gives the same roster in seconds and
-   * lets /build run the search in the browser.
+   * over a 3,300-card collection takes 4½ minutes in node (12 λ starts, Gold
+   * Rush, 2026-09-17: 179.4 runs); pruned to 120 per slot from one greedy
+   * start it reaches 175.1 in 17 s, which is what lets /build run it in the
+   * browser. Not the same roster — most of the gain, not all of it.
    */
   candidateLimit?: number;
   pairMoves?: {

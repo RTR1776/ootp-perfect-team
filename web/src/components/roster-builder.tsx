@@ -692,6 +692,12 @@ export function RosterBuilder({
    * single swaps, then a paid-for upgrade when the cap binds, under every
    * rule and L.J.'s glove floor. Runs after a paint so the button can show
    * it is working.
+   *
+   * Prune width, measured on Gold Rush (3,321-card pool, 2026-09-17): greedy
+   * 150.7 runs; top 30 per slot 170.1 in 16 s; top 60 173.8 in 14 s; top 120
+   * 175.1 in 17 s; the full pool with 12 λ starts 179.4 in 4½ min. The width
+   * barely moves the time (the pair search is bounded by aTop/bCheapest), so
+   * 120 it is; the CLI stays the reference for a weekly event.
    */
   const optimize = () => {
     if (!tournament || !objective) return;
@@ -710,7 +716,7 @@ export function RosterBuilder({
         const before = objective.objective(start);
         const r = optimizeRoster(start, pool as FillCard[], tournament, fillShape, {
           objective: objective.objective, minDefShare: 0.6, posFloor: LJ_FLOOR,
-          pairMoves: { aTop: 8, bCheapest: 10, rank: objective.rank }, candidateLimit: 30, maxPasses: 40,
+          pairMoves: { aTop: 8, bCheapest: 10, rank: objective.rank }, candidateLimit: 120, maxPasses: 40,
         });
         setSlots(r.slots);
         setMsg(r.moves

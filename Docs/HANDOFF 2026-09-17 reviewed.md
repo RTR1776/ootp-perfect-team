@@ -34,7 +34,7 @@ The Dietz-at-catcher roster came from the chat's own model, not from the app. Th
 
 The handoff's proposed component floors (C ABI ≥ 55, IF RNG ≥ 90 at SS/2B…) are worse than what exists: the game's own `Pos Rating C` is −30 + 0.50·CatcherAbil + 0.50·CatcherFrame + 0.42·Catcher Arm (R² .981 over 380 catchers), so the position rating already is the composite the handoff wanted to rebuild by hand.
 
-What was true: `/build`'s auto-fill stopped at the greedy fill and did not run env-roster's run-priced search. Built now: a shared objective (`roster-objective.ts` — runs per board with the glove in runs at the slot, boards weighted by the field's pitcher handedness, rotation in full, pen at 0.31, bench at 0.1) used by both `env-roster` and the page, and an **Optimise** button on `/build` that hill-climbs the board under every rule and the glove floor. The full search over a 3,300-card collection takes 5½ minutes in node; the page prunes each slot to its top 30 candidates and finishes in seconds. Gold Rush, run both ways, lands on the same 26.
+What was true: `/build`'s auto-fill stopped at the greedy fill and did not run env-roster's run-priced search. Built now: a shared objective (`roster-objective.ts` — runs per board with the glove in runs at the slot, boards weighted by the field's pitcher handedness, rotation in full, pen at 0.31, bench at 0.1) used by both `env-roster` and the page, and an **Optimise** button on `/build` that hill-climbs the board under every rule and the glove floor. The full search over a 3,300-card collection takes 4½ minutes in node (12 λ starts); the page prunes each slot to its best candidates by runs and runs from the greedy fill. Measured on Gold Rush: greedy 150.7 runs → pruned page search 175.1 in 17 s (top 120 per slot; 170.1 at 30, 173.8 at 60) → full CLI search 179.4. The page gets most of the gain in seconds; the CLI with `--starts 12` is still the reference build for a weekly event.
 
 ### 1.3 "The projection model gets rebuilt from a CSV every session — put it in the app" — the diagnosis is VERIFIED, the prescription was ALREADY BUILT, the missing piece is BUILT NOW
 
@@ -110,3 +110,34 @@ Totals match exactly: 36,189 rows, 54 series, 3,860 cards, 12,370,433 PA, 2,886,
 - **More data, more easily.** OOTP only exports the tournaments you are in, so the archive grows with your entries; the community route is cwhit's DCFC sheet (`cwhit stat requests 2026-09-04.md` lists what you can still supply him). Two things would move the model most: exports from the events you enter every week (the filer makes that one dialog), and any archived exports other DCFC members will share for series you do not play — the filer takes any `<series>_<run>.csv`.
 - **Observed rows are per series, not per run.** The table cannot see time inside a series, so a card's observed line mixes April fields with September fields. Storing per-run aggregates would allow recency weighting; it is a schema change (≈700k rows) and was not started.
 - Perfects underperform the calibrated model by 1–2 runs; the curves' top range is where the next refit should look (`pnpm curve:refit --min-den 400`).
+
+## 8. The three builds L.J. asked for (calibrated model, 2026-09-17, collection of 9/15)
+
+All three: `pnpm env:roster … --optimize --role-trust 0.25 --starts 12`, glove floor 70 (LF 50, 1B none), gloves in runs, K = 5,000. Runs are per 700 PA on that board after calibration.
+
+### Thursday Night Gold Rush (540) — `--series goldweekly`, 1989 RE, 1979 Candlestick, DH, 40–89, no cap
+Field: 37% of innings left-handed, 41% of PA by left-handed bats. Objective 179.4 (greedy 150.7). Value 2,102.
+
+- **vs RHP:** Tait C · Carpenter 1B · Semien 2B · Blalock 3B · Cozart SS · Shoeless Joe Jackson LF · Lee Thomas (VAR) CF · Granderson RF · Scheinblum DH
+- **vs LHP:** Zunino C · Frank Howard 1B · Brandon Lowe (VAR) 2B · Culpepper 3B · Cozart SS · Jackson LF · McGee CF · Granderson RF · Carpenter DH
+- **SP:** Kaat · Peavy · Ostermueller · Dizzy Dean · Happ · **Pen:** Beggs (CL) · Reynolds · Lucas · Montgomery · Diaz · Bradford · Righetti · **Bench:** Culpepper · Zunino · Howard · Lowe · McGee
+
+Against the handoff's 26: Culpepper plays third only against left-handers (+7 bat, +3 glove) and sits against right-handers; Scheinblum is DH-only; the platoon catcher pair (Tait / Zunino) replaces Mackey; the pen is deeper and the rotation shallower than the handoff had.
+
+### Daily Late Silver (523) — `--series latesilver`, 1992 RE, 1992 Camden Yards, DH, 40–79
+Field: only 26% of innings left-handed (lineups weighted 74/26), 51% of PA by left-handed bats. Objective 128.0 (greedy 98.4). Value 1,903. 19 exports and 1.03M PA on record for this series, so most of the roster is observed play as much as model.
+
+- **vs RHP:** Porter C · Carpenter 1B · Blalock 2B · Boggs 3B · Genao SS · McGee LF · Lee Thomas (VAR) CF · Southworth RF · Gus Bell DH
+- **vs LHP:** Zunino C · Cecil Fielder 1B · Woodie Held 2B · Arquette 3B · Genao SS · McGee LF · Shane Mack CF · Ruben Sierra RF · Carpenter DH
+- **SP:** James McDonald (VAR) · Ostermueller · Jakie May (VAR) · deGrom · Montgomery · **Pen:** Diaz (CL) · Bankhead · Bradford · Morehead · Rudy May · Paige · **Bench:** Arquette · Sierra · Held · Fielder · Mack · Zunino
+
+The field's most-used cards here (series_meta) are McGee 61%, Alfonzo 50%, Jackie Robinson 41%, Kruk 38%, Boggs 37%. McGee and Boggs are on this roster; the others are either not owned or not what the model prefers at the price — worth a look on the upgrade tab, which now ranks by the same runs.
+
+### Friday Nightmare Cap (569) — 1955 RE, 1936 Hinchliffe Stadium (no factors on file → neutral), no DH, 50–74, **cap unknown**
+No exports, so this is the model alone, at the default 70/30 lineup weights. Objective 91.1 (greedy 74.2). Value 1,813 — which will not fit whatever the cap is, so read this as the uncapped ceiling and rerun with `--cap` once the rules blurb is in the catalogue (`pnpm parse:restrictions`). The era table gives 4 SP / 5 RP / 17 bats.
+
+- **vs RHP:** Porter C · Carpenter 1B · Blalock 2B · Boggs 3B · Dave Brain (VAR) SS · Gus Bell LF · Southworth CF · Cliff Floyd RF
+- **vs LHP:** Hartnett C · Pearce 1B · Jefferson Rojas 2B · Carpenter 3B · Brain SS · Dave Harris LF · Swisher (VAR) CF · Miguel Cabrera RF
+- **SP:** James McDonald (VAR) · Ostermueller · Jakie May (VAR) · Bankhead · **Pen:** Clontz (CL) · Bradford · Diaz · Rudy May · Paige · **Bench:** Pearce · Snider · Covington · Rojas · Cabrera · Swisher · Harris · Hartnett · Judge
+
+Shortstop and second base are the thin spots in the 50–74 window (Brain +0.0, Rojas +0.3 on their boards): if the cap allows it, that is where an upgrade buys the most, and the upgrade tab on /build for event 569 will say who.
