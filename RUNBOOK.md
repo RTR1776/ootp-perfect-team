@@ -46,6 +46,7 @@ Other tools:
 - `pnpm arm:roles` — every arm with the role term in and out
 - `pnpm berth:lines`, `pnpm cutoff:project` — where the PTCS lines sit and where they land
 - `pnpm cap:finish` — complete a part-built capped roster
+- `pnpm record [--user x] [--size 128] [--weekly|--daily] [--series "..."]` — series W–L by round, series and month, exact from the dump's finishing order (verified against the published cwhitman/spatrick4 tables)
 
 ## Validation — run these after any model change
 

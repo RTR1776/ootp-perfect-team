@@ -63,7 +63,8 @@
     "catalogue:sync": "node --env-file=.env.local --import tsx scripts/catalogue-sync.ts",
     "positions:apply": "node --env-file=.env.local --import tsx scripts/positions-apply.ts",
     "fielding:fit": "node --import tsx scripts/fielding-fit.ts",
-    "positions:harvest": "node --env-file=.env.local --import tsx scripts/positions-harvest.ts"
+    "positions:harvest": "node --env-file=.env.local --import tsx scripts/positions-harvest.ts",
+    "record": "node --import tsx scripts/record.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
