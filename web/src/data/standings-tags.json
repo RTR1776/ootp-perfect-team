@@ -1,0 +1,575 @@
+{
+ "generatedAt": "2026-09-18",
+ "source": "results.standings_tag (Your Tournaments screen)",
+ "names": {
+  "Daily All-Diamond": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 2,
+   "last": "2026-09-12",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily All-Silver": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-11",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Around the Breakfast Table": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-10",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Bronze 1910-59": {
+   "cats": [
+    "Bronze"
+   ],
+   "n": 1,
+   "last": "2026-09-08",
+   "raw": [
+    "Bronze"
+   ]
+  },
+  "Daily Bronze OOTP Era": {
+   "cats": [
+    "Bronze"
+   ],
+   "n": 2,
+   "last": "2026-09-11",
+   "raw": [
+    "Bronze"
+   ]
+  },
+  "Daily Bronze PTCS 3 Replay Slots": {
+   "cats": [
+    "Bronze",
+    "Cap"
+   ],
+   "n": 2,
+   "last": "2026-09-10",
+   "raw": [
+    "Bronze,Cap"
+   ]
+  },
+  "Daily Diamond": {
+   "cats": [
+    "Diamond"
+   ],
+   "n": 1,
+   "last": "2026-09-11",
+   "raw": [
+    "Diamond"
+   ]
+  },
+  "Daily Diamond & Friends Slots": {
+   "cats": [
+    "Diamond",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-08",
+   "raw": [
+    "Diamond,Cap"
+   ]
+  },
+  "Daily Diamond Heart": {
+   "cats": [
+    "Diamond"
+   ],
+   "n": 2,
+   "last": "2026-09-10",
+   "raw": [
+    "Diamond"
+   ]
+  },
+  "Daily Diamond Jumble Slots": {
+   "cats": [
+    "Diamond",
+    "Cap"
+   ],
+   "n": 3,
+   "last": "2026-09-16",
+   "raw": [
+    "Dia,Cp",
+    "Diamond,Cap"
+   ]
+  },
+  "Daily Diamonds are Forever": {
+   "cats": [
+    "Diamond"
+   ],
+   "n": 1,
+   "last": "2026-09-10",
+   "raw": [
+    "Diamond"
+   ]
+  },
+  "Daily Gold Cap": {
+   "cats": [
+    "Gold",
+    "Cap"
+   ],
+   "n": 2,
+   "last": "2026-09-12",
+   "raw": [
+    "Gold,Cap"
+   ]
+  },
+  "Daily Gold Slots": {
+   "cats": [
+    "Gold",
+    "Cap"
+   ],
+   "n": 8,
+   "last": "2026-09-16",
+   "raw": [
+    "Gold,Cap"
+   ]
+  },
+  "Daily Goldfather II": {
+   "cats": [
+    "Gold"
+   ],
+   "n": 6,
+   "last": "2026-09-15",
+   "raw": [
+    "Gold"
+   ]
+  },
+  "Daily High Heat in the Morning": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 3,
+   "last": "2026-09-13",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily High Silver-Low Gold Cap": {
+   "cats": [
+    "Gold",
+    "Cap"
+   ],
+   "n": 3,
+   "last": "2026-09-16",
+   "raw": [
+    "Gold,Cap"
+   ]
+  },
+  "Daily Hitters First": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-11",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Late Silver": {
+   "cats": [
+    "Silver"
+   ],
+   "n": 6,
+   "last": "2026-09-14",
+   "raw": [
+    "Silver"
+   ]
+  },
+  "Daily Low Bronze Only": {
+   "cats": [
+    "Bronze"
+   ],
+   "n": 1,
+   "last": "2026-09-11",
+   "raw": [
+    "Bronze"
+   ]
+  },
+  "Daily Low Diamond": {
+   "cats": [
+    "Diamond"
+   ],
+   "n": 2,
+   "last": "2026-09-09",
+   "raw": [
+    "Diamond"
+   ]
+  },
+  "Daily Low Diamond Only": {
+   "cats": [
+    "Diamond"
+   ],
+   "n": 1,
+   "last": "2026-09-15",
+   "raw": [
+    "Diamond"
+   ]
+  },
+  "Daily Low Silver Only": {
+   "cats": [
+    "Silver"
+   ],
+   "n": 4,
+   "last": "2026-09-13",
+   "raw": [
+    "Silver"
+   ]
+  },
+  "Daily Midday Perfecto": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 3,
+   "last": "2026-09-12",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Perfectly Silver": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 3,
+   "last": "2026-09-12",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Perfecto Morning": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-14",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Perfecto Primetime": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-12",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Silver & Friends Slots": {
+   "cats": [
+    "Silver",
+    "Cap"
+   ],
+   "n": 7,
+   "last": "2026-09-17",
+   "raw": [
+    "Silver,Cap"
+   ]
+  },
+  "Daily Silver Only Cap": {
+   "cats": [
+    "Silver",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-12",
+   "raw": [
+    "Silver,Cap"
+   ]
+  },
+  "Daily Silver Slots": {
+   "cats": [
+    "Silver",
+    "Cap"
+   ],
+   "n": 4,
+   "last": "2026-09-15",
+   "raw": [
+    "Silver,Cap"
+   ]
+  },
+  "Friday Draft About Nothing": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 1,
+   "last": "2026-09-11",
+   "raw": [
+    "PD Weekly"
+   ]
+  },
+  "Laptophound's Daily 6L Power Play": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 2,
+   "last": "2026-09-10",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Monday Getting it Started": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 1,
+   "last": "2026-09-07",
+   "raw": [
+    "PD Weekly"
+   ]
+  },
+  "Monday Gold Floor Cap": {
+   "cats": [
+    "Open",
+    "Cap"
+   ],
+   "n": 2,
+   "last": "2026-09-14",
+   "raw": [
+    "Op,Cp,TW"
+   ]
+  },
+  "Monday Night History Lesson": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 1,
+   "last": "2026-09-14",
+   "raw": [
+    "PDW"
+   ]
+  },
+  "Monday Up And At Them Bronze": {
+   "cats": [
+    "Bronze"
+   ],
+   "n": 2,
+   "last": "2026-09-14",
+   "raw": [
+    "Brz,TW"
+   ]
+  },
+  "Monday Wonky Historical Slots": {
+   "cats": [
+    "Gold",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-07",
+   "raw": [
+    "Gld,Cp,TW"
+   ]
+  },
+  "Saturday Can't Sleep Clown Will Eat Me": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 1,
+   "last": "2026-09-12",
+   "raw": [
+    "PD Weekly"
+   ]
+  },
+  "Saturday Diamond Variety": {
+   "cats": [
+    "Diamond"
+   ],
+   "n": 1,
+   "last": "2026-09-12",
+   "raw": [
+    "Dia,TW"
+   ]
+  },
+  "Saturday Negro Leagues Slots": {
+   "cats": [
+    "Open",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-12",
+   "raw": [
+    "Op,Cp,TW"
+   ]
+  },
+  "Saturday Shrinkage": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 1,
+   "last": "2026-09-12",
+   "raw": [
+    "PD Weekly"
+   ]
+  },
+  "Sunday High Iron Floor and Gold Ceiling": {
+   "cats": [
+    "Gold",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-13",
+   "raw": [
+    "Gld,Cp,TW"
+   ]
+  },
+  "Thursday CWhit's Cap Challenge 5": {
+   "cats": [
+    "Open",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-10",
+   "raw": [
+    "Op,Cp,TW"
+   ]
+  },
+  "Thursday Night Gold Rush": {
+   "cats": [
+    "Gold"
+   ],
+   "n": 1,
+   "last": "2026-09-10",
+   "raw": [
+    "Gld,TW"
+   ]
+  },
+  "Thursday Night Put it in the Books": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 1,
+   "last": "2026-09-10",
+   "raw": [
+    "PD Weekly"
+   ]
+  },
+  "Thursday Overnight Under the Covers - ORD": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 1,
+   "last": "2026-09-17",
+   "raw": [
+    "PDW"
+   ]
+  },
+  "Thursday Overnight Under the Covers": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 1,
+   "last": "2026-09-17",
+   "raw": [
+    "PDW"
+   ]
+  },
+  "Thursday Silver Spectacular": {
+   "cats": [
+    "Silver"
+   ],
+   "n": 2,
+   "last": "2026-09-17",
+   "raw": [
+    "Slv,TW"
+   ]
+  },
+  "Tuesday Perfectly Iron Mevening": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 2,
+   "last": "2026-09-15",
+   "raw": [
+    "PDW",
+    "PD Weekly"
+   ]
+  },
+  "Tuesday Sporer's Sandlot": {
+   "cats": [
+    "Gold",
+    "Cap"
+   ],
+   "n": 2,
+   "last": "2026-09-15",
+   "raw": [
+    "Gld,Cp,TW"
+   ]
+  },
+  "Tuesday Up to 1969": {
+   "cats": [
+    "Open"
+   ],
+   "n": 2,
+   "last": "2026-09-15",
+   "raw": [
+    "Op,TW"
+   ]
+  },
+  "Wednesday 1950 to Now": {
+   "cats": [
+    "Open"
+   ],
+   "n": 2,
+   "last": "2026-09-16",
+   "raw": [
+    "Op,TW"
+   ]
+  },
+  "Wednesday Double Your Fun": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 2,
+   "last": "2026-09-16",
+   "raw": [
+    "PDW",
+    "PD Weekly"
+   ]
+  },
+  "Wednesday Ice to See You": {
+   "cats": [
+    "Diamond"
+   ],
+   "n": 2,
+   "last": "2026-09-16",
+   "raw": [
+    "Dia,TW"
+   ]
+  },
+  "Wednesday Night of the Living Deadball": {
+   "cats": [
+    "Open"
+   ],
+   "n": 2,
+   "last": "2026-09-16",
+   "raw": [
+    "Op,TW"
+   ]
+  },
+  "Wednesday Perfectly Bronze": {
+   "cats": [
+    "PD Weekly"
+   ],
+   "n": 2,
+   "last": "2026-09-16",
+   "raw": [
+    "PDW",
+    "PD Weekly"
+   ]
+  }
+ }
+}

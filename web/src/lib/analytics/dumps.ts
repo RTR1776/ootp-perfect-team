@@ -16,6 +16,7 @@
  * PD Daily, day-named events are PD Weekly. Three oddballs are excluded.
  */
 
+import STANDINGS_TAGS from "@/data/standings-tags.json";
 import { splitLine } from "@/lib/ingest/csv";
 
 export interface DumpEvent {
@@ -121,20 +122,43 @@ const OBSERVED: Record<string, string[]> = {
   "Friday Nightmare Cap": ["Silver", "Cap"],
 };
 
-const EXCLUDED = new Set(["Daily Negro Leagues"]);
-
 const DAY_RE = /^(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day/;
+const TIERS = [["Iron", "Iron"], ["Bronze", "Bronze"], ["Silver", "Silver"], ["Gold", "Gold"], ["Diamond", "Diamond"], ["Open", "Open"]] as const;
+
+/**
+ * The game's own STANDINGS column, learned from every result logged off the
+ * Your Tournaments screen (`pnpm standings:map`). It outranks the hand map
+ * and the name rules below: the screen is the authority on what an event
+ * scores in, and the old name guess was measurably wrong (Gold Floor Cap is
+ * Open + Cap, High Silver-Low Gold Cap is Gold + Cap, the two Open weeklies
+ * carry no tier word). Names the ledger has never seen fall through to the
+ * rules, which were FITTED, not guessed: with them the 9/14 dump reproduces
+ * the game's actual PTCS 6 cutoffs (cwhit's board) to the point in Gold,
+ * Diamond, Iron, Open and PD Daily and within one in Silver and Bronze, and
+ * cwhit's 128th-place totals for PTCS 7 through 9/13 in nine of ten
+ * categories. Without them the tier lines ran 10–15% low and Open at half.
+ *
+ *   - a Live event scores in its tier AND in Live ("Daily Live Gold" =
+ *     Gold + Live); a Live event with no tier word is Open + Live
+ *   - a cap or slots event with no tier word is Open + Cap
+ *   - Daily Negro Leagues is Open
+ *   - a Live-named draft scores in Live as well as PD Daily / PD Weekly
+ */
+const LEDGER = (STANDINGS_TAGS as { names: Record<string, { cats: string[] }> }).names;
 
 export function categoriesOf(name: string, source: "tournaments" | "drafts"): string[] {
-  if (source === "drafts") return DAY_RE.test(name) ? ["PD Weekly"] : ["PD Daily"];
-  if (OBSERVED[name]) return [...OBSERVED[name]];
-  if (EXCLUDED.has(name)) return [];
-  if (name.includes("Live")) return ["Live"];
-  const cats: string[] = [];
-  for (const [w, c] of [["Iron", "Iron"], ["Bronze", "Bronze"], ["Silver", "Silver"], ["Gold", "Gold"], ["Diamond", "Diamond"], ["Open", "Open"]] as const) {
-    if (name.includes(w)) { cats.push(c); break; }
+  if (source === "drafts") {
+    const cats = [DAY_RE.test(name) ? "PD Weekly" : "PD Daily"];
+    if (/\bLive\b/.test(name)) cats.push("Live");
+    return cats;
   }
-  if ((name.includes("Slots") || /\bCap\b/.test(name)) && !cats.includes("Cap")) cats.push("Cap");
+  if (LEDGER[name]) return [...LEDGER[name].cats];
+  if (OBSERVED[name]) return [...OBSERVED[name]];
+  if (name === "Daily Negro Leagues") return ["Open"];
+  const tier = TIERS.find(([w]) => name.includes(w))?.[1] ?? null;
+  if (/\bLive\b/.test(name)) return [tier ?? "Open", "Live"];
+  const cats: string[] = tier ? [tier] : [];
+  if (name.includes("Slots") || /\bCap\b/.test(name)) { if (!tier) cats.push("Open"); cats.push("Cap"); }
   return cats;
 }
 
@@ -169,10 +193,14 @@ export function pointsFor(position: number, fieldSize: number): number {
 const DAY_SECONDS = 86400;
 
 export function computeStandings(
-  dump: ParsedDump,
+  dumpOrDumps: ParsedDump | ParsedDump[],
   window: { start: string; end: string },
   user = "rtr1776",
 ): DumpStandings {
+  // Live spans both files (Live tournaments AND Live drafts), so a line for
+  // it needs the two dumps summed per user; pass both to get that.
+  const dumps = Array.isArray(dumpOrDumps) ? dumpOrDumps : [dumpOrDumps];
+  const dump = { source: dumps.length === 1 ? dumps[0].source : ("tournaments" as const), events: dumps.flatMap((d) => d.events.map((e) => ({ ...e, source: d.source }))) };
   const lo = Date.parse(`${window.start}T05:00:00Z`) / 1000; // ~midnight Central
   const hi = Date.parse(`${window.end}T05:00:00Z`) / 1000 + DAY_SECONDS;
   const totals = new Map<string, Map<string, number>>();
@@ -191,7 +219,7 @@ export function computeStandings(
      * category-map disagreement on one event, not a window question).
      */
     if (e.start < lo || e.start >= hi) continue;
-    const cats = categoriesOf(e.name, dump.source);
+    const cats = categoriesOf(e.name, (e as { source?: "tournaments" | "drafts" }).source ?? dump.source);
     if (cats.length === 0) { excluded++; continue; }
     counted++;
     const field = e.finishers.length;

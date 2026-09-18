@@ -2,18 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Hammer,
-  ListOrdered,
-  Upload,
-  Globe,
-  CandlestickChart,
-  Medal,
-  Wind,
-  Gauge,
-  Trophy,
-  type LucideIcon,
-} from "lucide-react";
+import { Hammer, ListOrdered, Upload, Globe, CandlestickChart, Medal, Wind, Gauge, Trophy, type LucideIcon, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -25,6 +14,7 @@ interface NavItem {
 const NAV: NavItem[] = [
   { href: "/build", label: "Build", icon: Hammer },
   { href: "/played", label: "Played", icon: ListOrdered },
+  { href: "/cards", label: "Cards", icon: Search },
   { href: "/ptcs", label: "PTCS", icon: Medal },
   { href: "/league", label: "League", icon: Trophy },
   { href: "/meta", label: "League Meta", icon: Globe },
