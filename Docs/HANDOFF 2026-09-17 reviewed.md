@@ -133,11 +133,11 @@ Field: only 26% of innings left-handed (lineups weighted 74/26), 51% of PA by le
 
 The field's most-used cards here (series_meta) are McGee 61%, Alfonzo 50%, Jackie Robinson 41%, Kruk 38%, Boggs 37%. McGee and Boggs are on this roster; the others are either not owned or not what the model prefers at the price — worth a look on the upgrade tab, which now ranks by the same runs.
 
-### Friday Nightmare Cap (569) — 1955 RE, 1936 Hinchliffe Stadium (no factors on file → neutral), no DH, 50–74, **cap unknown**
-No exports, so this is the model alone, at the default 70/30 lineup weights. Objective 91.1 (greedy 74.2). Value 1,813 — which will not fit whatever the cap is, so read this as the uncapped ceiling and rerun with `--cap` once the rules blurb is in the catalogue (`pnpm parse:restrictions`). The era table gives 4 SP / 5 RP / 17 bats.
+### Friday Nightmare Cap (569) — 1955 RE, 1936 Hinchliffe Stadium (no factors on file → neutral), no DH, 50–74, **no variants** (`--variant-cap 0`), **cap unknown**
+No exports, so this is the model alone at the default 70/30 lineup weights. Objective 84.5 (greedy 61.9). Value 1,826 — the uncapped ceiling; rerun with `--cap` once the rules line is in the catalogue (`pnpm parse:restrictions`). The era table gives 4 SP / 5 RP / 17 bats. The game's STANDINGS tag for this event is not on record; by analogy with CWhit's Cap Challenge (Op,Cp) it is most likely Open + Cap, and Open is the thinnest category L.J. is currently clearing.
 
-- **vs RHP:** Porter C · Carpenter 1B · Blalock 2B · Boggs 3B · Dave Brain (VAR) SS · Gus Bell LF · Southworth CF · Cliff Floyd RF
-- **vs LHP:** Hartnett C · Pearce 1B · Jefferson Rojas 2B · Carpenter 3B · Brain SS · Dave Harris LF · Swisher (VAR) CF · Miguel Cabrera RF
-- **SP:** James McDonald (VAR) · Ostermueller · Jakie May (VAR) · Bankhead · **Pen:** Clontz (CL) · Bradford · Diaz · Rudy May · Paige · **Bench:** Pearce · Snider · Covington · Rojas · Cabrera · Swisher · Harris · Hartnett · Judge
+- **vs RHP:** Porter C · Carpenter 1B · Blalock 2B · Boggs 3B · Arquette SS · Gus Bell LF · Southworth CF · Cliff Floyd RF
+- **vs LHP:** Hartnett C · Pearce 1B · Jefferson Rojas 2B · Carpenter 3B · Arquette SS · Dave Harris LF · Buxton CF · Miguel Cabrera RF
+- **SP:** Bob Miller · Curt Simmons · Ostermueller · Bankhead · **Pen:** Clontz (CL) · Bradford · Diaz · Paige · Rudy May · **Bench:** Covington · Rojas · Buxton · Cabrera · Pearce · Hartnett · Harris · Judge · Snider
 
-Shortstop and second base are the thin spots in the 50–74 window (Brain +0.0, Rojas +0.3 on their boards): if the cap allows it, that is where an upgrade buys the most, and the upgrade tab on /build for event 569 will say who.
+Without variants the 50–74 window is thin at shortstop (Arquette −0.8 / +1.5), second and catcher against left-handers (Rojas +0.3, Hartnett +1.0) and at the front of the rotation (Miller +1.8, Simmons +3.1): if the cap leaves any room, those are the slots where a bought card pays most, and the upgrade tab on /build for event 569 ranks them.
