@@ -91,8 +91,21 @@ Totals match exactly: 36,189 rows, 54 series, 3,860 cards, 12,370,433 PA, 2,886,
 
 ## 5. State of play
 
-- **Thursday Night Gold Rush (540)**: environment as stated. Built with the calibrated model, field handedness 37% LHP, gloves in runs (`env-roster --series goldweekly`, 13 λ starts, +28.7 runs over greedy, 4½ min). It differs from the handoff's 26 on most of the roster — the handoff's came from the chat's model and cwhit's board. Culpepper: the app plays him at 3B only against left-handed pitching (+7 bat, +3 glove there) and benches him against right-handers, which is the middle of the three opinions the handoff lists and is what a defence-aware valuation settles on. Scheinblum: DH only, as the handoff said.
-- **Cwhit Cap Challenge 5 corrections** (Yost, 100-point arms, the left-handed pitching lever): consistent with what the calibrated model says now; nothing to change.
+PTCS 7, day 11 of 28 (2026-09-17), points on the board against cwhit's projected cutoffs, events counted on their start night:
+
+| category | banked | line | gap | days to close at pace |
+|---|---|---|---|---|
+| Diamond | 83 | 77 | clear | — |
+| PD Weekly | 56 | 73 | 17 short | 4 |
+| Cap | 99 | 129 | 30 short | 4 |
+| Gold | 63 | 91 | 28 short | 5 |
+| PD Daily | 128 | 269 | 141 short | 13 |
+| Silver | 44 | 94 | 50 short | 13 |
+| Open | 16 | 95 | 79 short | 55 (17 left) |
+| Bronze | 9 | 107 | 98 short | 120 (17 left) |
+| Iron, Live | 0 | 102, 136 | — | not entered |
+
+Only Diamond is banked. Cap, Gold and PD Weekly are a good week away; Silver and PD Daily need the volume to continue to the end; Open and Bronze do not close at the current pace. An earlier version of this table (and of `pnpm ptcs:standing`) showed six categories "CLEAR": that was the projection, and it also carried last week's weeklies into this period (see §7).
 
 ## 6. What was done, in order (this session)
 
@@ -107,6 +120,7 @@ Totals match exactly: 36,189 rows, 54 series, 3,860 cards, 12,370,433 PA, 2,886,
 ## 7. What is still open
 
 - **Friday Nightmare Cap (569)** — rules now on file (catalogue row 569: cap 1,559, 50–74, no variants, no DH, 1955, 1936 Hinchliffe Stadium AVG 1.14 / HR .88 L .81 R, 128 teams, Bo7, STANDINGS Silver + Cap); park factors in `park-factors.json` and `reference/ballparks.csv`. `pnpm parse:restrictions` did not read the cap out of this blurb ("may not exceed 1559" and "No variants allowed" are not patterns it knows) — the row was filled by hand; teach the parser those two phrasings before the next new event. The capped build is in §8.
+- **The period window rule was wrong, and the berth lines are low.** cwhit's Cycle 7 board (2026-09-17, built on the 9/14 dump; `reference/cwhit/2026-09-17 cycle7 targets.csv`) gave a check the PTCS 6 berths never did. Recomputing the dump under the old rule (a weekly counts seven days after its start) missed his current-QP column by 88 points over ten categories; counting every event on its start night matches him on nine of ten, and the tenth is one event (Daily High Silver-Low Gold Cap: the game's STANDINGS column says Gold + Cap, his map says Gold only). The rule is fixed in `computeStandings` and `ptcs-standing`, and `pnpm dumps:restandings` rewrote the stored standings on every dump upload. Separately, his "last cutoff" column is the game's actual PTCS 6 line, and ours from the dump sit 10–15% under it in every tier and at half in Open and Live — the category map is missing events other people play. Names in the 9/14 dump whose STANDINGS tag is a guess: Daily Negro Leagues (excluded today), Daily PTCS 4 Replay Cap, Dr. Dynastic's Daily Time Travelers Slots, Daily Open Low Cap, Daily Wide Open, Daily Open Heart, Daily Live Iron/Bronze/Silver/Gold/Diamond/Open, Tuesday Live, Friday Night Live Slots. One screenshot of the tournament lobby with its STANDINGS column settles all of them; until then cwhit's projected cutoffs are the line (`periods.targets` for PTCS 7 and the standing script both carry them).
 - **Pitchers bat when DH is off.** cwhit's hitter board for 569 lists Luther Farrell and Ray Caldwell — pitcher cards — as hitters, because in a no-DH event the pitcher's own bat is a lineup slot. The app scores an arm on its arm only. Small for one event; worth a term in the objective for the no-DH series.
 - **More data, more easily.** OOTP only exports the tournaments you are in, so the archive grows with your entries; the community route is cwhit's DCFC sheet (`cwhit stat requests 2026-09-04.md` lists what you can still supply him). Two things would move the model most: exports from the events you enter every week (the filer makes that one dialog), and any archived exports other DCFC members will share for series you do not play — the filer takes any `<series>_<run>.csv`.
 - **Observed rows are per series, not per run.** The table cannot see time inside a series, so a card's observed line mixes April fields with September fields. Storing per-run aggregates would allow recency weighting; it is a schema change (≈700k rows) and was not started.

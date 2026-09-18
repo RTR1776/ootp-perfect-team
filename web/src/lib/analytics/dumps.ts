@@ -117,6 +117,8 @@ const OBSERVED: Record<string, string[]> = {
   "Thursday CWhit's Cap Challenge 5": ["Open", "Cap"],
   "Tuesday Up to 1969": ["Open"], "Wednesday 1950 to Now": ["Open"],
   "Sunday Open Slots": ["Open", "Cap"],
+  /** The event's own rules blurb, 2026-09-17: "STANDINGS: Silver, Cap". */
+  "Friday Nightmare Cap": ["Silver", "Cap"],
 };
 
 const EXCLUDED = new Set(["Daily Negro Leagues"]);
@@ -177,10 +179,18 @@ export function computeStandings(
   let counted = 0, excluded = 0;
 
   for (const e of dump.events) {
-    const weekly = DAY_RE.test(e.name);
-    const finish = e.start + (weekly ? 7 * DAY_SECONDS : DAY_SECONDS);
-    if (finish < lo || finish > hi) continue;
-    if (!weekly && e.start < lo) continue;
+    /*
+     * An event scores in the period its START falls in. The dump's start time
+     * is the night the event actually runs (a "Monday" weekly starting 9/7
+     * had its finish on the Your Tournaments screen by the evening of 9/7;
+     * the next run of the same name started 9/14). An earlier version added
+     * seven days to a weekly's start, which pulled the last week of one
+     * period into the next: checked against cwhit's Cycle 7 board built on
+     * the 9/14 dump, that rule was off by 88 points across L.J.'s ten
+     * categories and this one matches him on nine of ten (the tenth is a
+     * category-map disagreement on one event, not a window question).
+     */
+    if (e.start < lo || e.start >= hi) continue;
     const cats = categoriesOf(e.name, dump.source);
     if (cats.length === 0) { excluded++; continue; }
     counted++;
