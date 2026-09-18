@@ -77,16 +77,26 @@ async function main() {
     ANCHOR[k] = Math.round(Math.max(LINE_28[k] * (daysTot / 28), LINE_35[k] * scale));
   }
 
-  console.log(`  category     events    pts   pts/event   pace/day   proj at ${end}`);
+  // Two different facts, kept apart on purpose: what is BANKED against the
+  // line today, and where a flat extrapolation of the pace lands. A category
+  // is only safe once the first column says so.
+  console.log(`  category     events    pts   line   banked?          pace/day   days to close   proj at ${end}`);
   for (const r of rows) {
     const pts = Number(r.pts), ev = Number(r.events);
     const pace = pts / daysIn, proj = Math.round(pace * daysTot);
     const anchor = ANCHOR[r.cat];
-    const tag = anchor == null ? "" : `   line ~${anchor} — ${proj >= anchor * 1.15 ? "CLEAR" : proj >= anchor ? "on pace" : `${anchor - proj} SHORT`}`;
-    console.log(`  ${String(r.cat).padEnd(11)} ${String(ev).padStart(5)} ${String(pts).padStart(6)}   ${(pts / ev).toFixed(1).padStart(7)}   ${pace.toFixed(1).padStart(7)}   ${String(proj).padStart(9)}${tag}`);
+    const daysLeft = daysTot - daysIn;
+    let banked = "", close = "", projTag = "";
+    if (anchor != null) {
+      const gap = anchor - pts;
+      banked = gap <= 0 ? "CLEAR" : `${gap} short`;
+      close = gap <= 0 ? "—" : pace <= 0 ? "never at this pace" : (() => { const d = Math.ceil(gap / pace); return d <= daysLeft ? `${d} of ${daysLeft} left` : `${d} (only ${daysLeft} left)`; })();
+      projTag = proj >= anchor * 1.15 ? "projects clear" : proj >= anchor ? "projects on the line" : `projects ${anchor - proj} short`;
+    }
+    console.log(`  ${String(r.cat).padEnd(11)} ${String(ev).padStart(5)} ${String(pts).padStart(6)}  ${String(anchor ?? "").padStart(5)}   ${banked.padEnd(15)}  ${pace.toFixed(1).padStart(7)}   ${close.padEnd(19)}${String(proj).padStart(5)}  ${projTag}`);
   }
   console.log(`\n  Lines are dump-derived (berth:lines), scaled to this period's ${daysTot} days.`);
-  console.log(`\n  Projection is a flat extrapolation of the pace so far and assumes the same entry rate.`);
+  console.log(`\n  "banked?" is points on the board today against the line; "days to close" is at the pace so far.\n  The projection is a flat extrapolation of that pace and assumes the same entry rate — it is not a result.`);
   process.exit(0);
 }
 main();
