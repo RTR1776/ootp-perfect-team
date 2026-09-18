@@ -71,7 +71,7 @@ async function main() {
   const byName = new Map(rows.map((r) => [r.name.trim().toLowerCase(), r]));
   const bySlot = new Map(rows.filter((r) => r.slot != null).map((r) => [r.slot, r]));
 
-  let inserted = 0, renamed = 0, slotted = 0, ruled = 0;
+  let inserted = 0, renamed = 0, slotted = 0, ruled = 0, resized = 0;
   for (const [slot, s] of [...slots].sort((a, b) => a[0] - b[0])) {
     const mapped = typeof slotMap[String(slot)] === "string" ? slotMap[String(slot)] as string : null;
     const ren = renames[String(slot)];
@@ -86,12 +86,25 @@ async function main() {
       console.log(`+ ${slot} ${s.draft ? "D" : "T"} ${s.title}  [${series}] field ${s.field}, ${s.runs} runs${text ? `  rules: ${text.slice(0, 60)}` : ""}`);
       if (!DRY) await db.execute(sql`
         insert into tournaments (id, name, series, slot, is_draft, entrants, restrictions, retired)
-        values (${9100000 + slot}, ${s.title}, ${series}, ${slot}, ${s.draft}, ${s.field}, ${restrictions ? JSON.stringify(restrictions) : null}::jsonb, false)
-        on conflict (id) do update set name = excluded.name, slot = excluded.slot, entrants = coalesce(tournaments.entrants, excluded.entrants)`);
+        values (${9100000 + slot}, ${s.title}, ${series}, ${slot}, ${s.draft}, ${[32, 64, 128, 256].find((n) => n >= s.field) ?? 256}, ${restrictions ? JSON.stringify(restrictions) : null}::jsonb, false)
+        on conflict (id) do update set name = excluded.name, slot = excluded.slot, entrants = excluded.entrants`);
       inserted++;
       continue;
     }
     if (row.slot == null) { if (!DRY) await db.execute(sql`update tournaments set slot = ${slot} where id = ${row.id}`); slotted++; }
+    /**
+     * Field size drives the points table, and it changes: Thursday Night Gold
+     * Rush went from 128 to 256 on 2026-08-20 and the catalogue still said 128
+     * a month later, because this only ever filled a null. The newest run's
+     * scheduled size (the dump's finisher count rounded up to 32/64/128/256)
+     * is the truth and overwrites.
+     */
+    const scheduled = [32, 64, 128, 256].find((n) => n >= s.field) ?? 256;
+    if (row.entrants !== scheduled) {
+      console.log(`# ${slot} field ${row.entrants ?? "?"} -> ${scheduled} (${s.field} finishers in the newest run)`);
+      if (!DRY) await db.execute(sql`update tournaments set entrants = ${scheduled}, updated_at = now() where id = ${row.id}`);
+      resized++;
+    }
     // The refresh post runs ahead of the dumps: a slot the post renamed keeps
     // showing its old title until the renamed event has actually run. Do not
     // rename the row back to the old title in the meantime.
@@ -116,7 +129,7 @@ async function main() {
       }
     }
   }
-  console.log(`\n${DRY ? "dry run - " : ""}${slots.size} slots in the dumps: ${inserted} rows added, ${renamed} renamed, ${slotted} slot ids filled, ${ruled} rule sets parsed from the refresh post`);
+  console.log(`\n${DRY ? "dry run - " : ""}${slots.size} slots in the dumps: ${inserted} rows added, ${renamed} renamed, ${slotted} slot ids filled, ${resized} field sizes updated, ${ruled} rule sets parsed from the refresh post`);
   process.exit(0);
 }
 main().catch((e) => { console.error(e); process.exit(1); });

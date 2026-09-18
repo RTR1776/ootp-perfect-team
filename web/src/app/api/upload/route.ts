@@ -8,14 +8,22 @@
  * Send `?dryRun=1` to parse and report without writing. Use it the first time
  * you upload a new export shape: you get the row counts and warnings back and
  * can eyeball them before anything touches the database.
+ *
+ * Every real write is recorded in import_batches (kind "upload:<kind>", the
+ * file's sha256, rows, and the outcome or the error), because on 2026-09-17
+ * two files were uploaded here and nothing landed, and there was no record
+ * of the attempt. A file whose sha256 is already on an uploads row of the
+ * same kind is recognised and not written twice — the same rule the CLI
+ * importer (import:cards) applies, so the two paths cannot double-load.
  */
 
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { sql } from "drizzle-orm";
+import { createHash } from "node:crypto";
+import { eq, sql } from "drizzle-orm";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
 import { db } from "@/db/client";
-import { cards, cardSnapshots, collectionCards, standings, uploads } from "@/db/schema";
+import { cards, cardSnapshots, collectionCards, importBatches, standings, uploads } from "@/db/schema";
 import { stampPositionOverrides } from "@/lib/position-overrides";
 import { parseShopList, looksLikeShopList } from "@/lib/ingest/pt-card-list";
 import {
@@ -34,6 +42,19 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 type Kind = "shop_list" | "collection" | "standings" | "league" | "dump";
+
+/**
+ * A tournament stats export is the same 200-column family as a league export.
+ * The route cannot take it: the series and run come from the filename the
+ * Mac filer assigns, and observed_card_stats is rebuilt per series from
+ * Archive/Completed, which this machine does not have. Say so instead of
+ * "could not tell which league".
+ */
+function tournamentExportHint(filename: string): string {
+  return `${filename} looks like a per-tournament stats export (or a league export whose filename no longer names its league). ` +
+    `Tournament exports are filed and imported by File OOTP Exports.command on the Mac (Archive/Completed → import:observed). ` +
+    `A league export must keep its league and split in the filename: pel_all.csv, hd451_vL.csv, ld404vR_….csv.`;
+}
 
 function detectKind(headerLine: string): Kind | null {
   // Community finish-order dump: SEP= preamble or num,title,starttime header.
@@ -96,9 +117,43 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  const capturedOn = capturedOnRaw ?? new Date().toISOString().slice(0, 10);
+  /**
+   * The exports are named for the day they were pulled ("collection
+   * 2026-09-15.csv", "pt_card_list 2026-09-15.csv"), and that date is a
+   * better default than today: the file is often uploaded a day or two
+   * after it was exported.
+   */
+  const fromName = /(\d{4}-\d{2}-\d{2})/.exec(file.name)?.[1] ?? null;
+  const capturedOn = capturedOnRaw ?? fromName ?? new Date().toISOString().slice(0, 10);
   // Noon UTC so the date survives a round-trip through any timezone.
-  const capturedAt = capturedOnRaw ? new Date(`${capturedOnRaw}T12:00:00Z`) : new Date();
+  const capturedAt = capturedOnRaw || fromName ? new Date(`${capturedOn}T12:00:00Z`) : new Date();
+  const sha256 = createHash("sha256").update(text).digest("hex");
+
+  if (!dryRun) {
+    const [seen] = await db.select({ id: uploads.id, at: uploads.uploadedAt, report: uploads.report }).from(uploads)
+      .where(sql`${uploads.kind} = ${kind} and ${uploads.report}->>'sha256' = ${sha256}`).limit(1);
+    if (seen) {
+      return NextResponse.json({ kind, uploadId: seen.id, alreadyImported: true, stats: { ...(seen.report ?? {}), capturedOn: seen.at.toISOString().slice(0, 10) } });
+    }
+  }
+
+  /** Record the attempt, run the write, record the outcome — and turn a thrown
+   *  error into a JSON 500 the page can show instead of a blank failure. */
+  const lineage = async (rows: number, write: () => Promise<NextResponse>): Promise<NextResponse> => {
+    const [batch] = await db.insert(importBatches).values({
+      kind: `upload:${kind}`, scope: [kind], files: [{ name: file.name, bytes: text.length, sha256 }],
+      parserVersion: "upload/2 (lineage + sha dedupe, 2026-09-17)", rows, status: "staged",
+    }).returning({ id: importBatches.id });
+    try {
+      const res = await write();
+      await db.update(importBatches).set({ status: "published", publishedAt: new Date() }).where(eq(importBatches.id, batch.id));
+      return res;
+    } catch (e) {
+      const message = String((e as { cause?: { message?: string } })?.cause?.message ?? (e as Error)?.message ?? e).slice(0, 2000);
+      await db.update(importBatches).set({ status: "failed", error: message }).where(eq(importBatches.id, batch.id)).catch(() => undefined);
+      return NextResponse.json({ error: "Write failed part-way; nothing from this file is trusted.", detail: message, batchId: batch.id }, { status: 500 });
+    }
+  };
 
   /* ---------------------------------------------------------------- */
 
@@ -125,7 +180,7 @@ export async function POST(request: Request) {
     if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
     const [upload] = await db
       .insert(uploads)
-      .values({ kind, filename: file.name, rowCount: parsed.events.length, report, uploadedAt: capturedAt })
+      .values({ kind, filename: file.name, rowCount: parsed.events.length, report: { ...report, sha256 }, uploadedAt: capturedAt })
       .returning();
     return NextResponse.json({ kind, uploadId: upload.id, stats: { source: parsed.source, events: parsed.events.length, dateMax: parsed.dateMax } });
   }
@@ -135,12 +190,10 @@ export async function POST(request: Request) {
   if (kind === "league") {
     const parsed = parseLeagueExport(text, file.name);
 
-    if (!parsed.league) {
+    const league = parsed.league;
+    if (!league) {
       return NextResponse.json(
-        {
-          error: "Could not tell which league this export is from.",
-          hint: "Keep the original filename — the league (pel / hd450…) and split (vL / vR) are read from it.",
-        },
+        { error: "Not a league export the app can place.", hint: tournamentExportHint(file.name) },
         { status: 422 },
       );
     }
@@ -158,13 +211,14 @@ export async function POST(request: Request) {
 
     if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
 
+    return lineage(parsed.stints.length, async () => {
     const [upload] = await db
       .insert(uploads)
       .values({
         kind,
         filename: file.name,
         rowCount: parsed.stints.length,
-        report,
+        report: { ...report, sha256 },
         uploadedAt: capturedAt,
       })
       .returning();
@@ -173,7 +227,7 @@ export async function POST(request: Request) {
       .insert(leagueSnapshots)
       .values({
         uploadId: upload.id,
-        league: parsed.league,
+        league,
         split: parsed.split,
         capturedOn,
         teams: parsed.stats.teams,
@@ -202,11 +256,12 @@ export async function POST(request: Request) {
       stats: s.stats,
     }));
     // Wide JSONB rows — smaller chunks than the card tables.
-    for (let i = 0; i < rows.length; i += 200) {
-      await db.insert(leagueStints).values(rows.slice(i, i + 200));
+    for (let i = 0; i < rows.length; i += 100) {
+      await db.insert(leagueStints).values(rows.slice(i, i + 100));
     }
 
     return NextResponse.json({ kind, uploadId: upload.id, snapshotId: snapshot.id, stats: report });
+    });
   }
 
   /* ---------------------------------------------------------------- */
@@ -238,13 +293,14 @@ export async function POST(request: Request) {
 
     if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
 
+    return lineage(parsed.cards.length, async () => {
     const [upload] = await db
       .insert(uploads)
       .values({
         kind,
         filename: file.name,
         rowCount: parsed.cards.length,
-        report,
+        report: { ...report, sha256 },
         uploadedAt: capturedAt,
       })
       .returning();
@@ -277,11 +333,12 @@ export async function POST(request: Request) {
       ratings: c.ratings,
     }));
 
-    // Chunked so we stay well under Postgres' parameter ceiling.
-    for (let i = 0; i < cardRows.length; i += 500) {
+    // Chunked: each row carries a ~90-key ratings blob, and the Neon HTTP
+    // driver rejects payloads past a few hundred KB (the CLI uses 50).
+    for (let i = 0; i < cardRows.length; i += 100) {
       await db
         .insert(cards)
-        .values(cardRows.slice(i, i + 500))
+        .values(cardRows.slice(i, i + 100))
         .onConflictDoUpdate({
           target: cards.cardId,
           set: {
@@ -307,11 +364,12 @@ export async function POST(request: Request) {
       limit: c.limit,
       packs: c.packs,
     }));
-    for (let i = 0; i < snapshotRows.length; i += 500) {
-      await db.insert(cardSnapshots).values(snapshotRows.slice(i, i + 500));
+    for (let i = 0; i < snapshotRows.length; i += 250) {
+      await db.insert(cardSnapshots).values(snapshotRows.slice(i, i + 250));
     }
 
     return NextResponse.json({ kind, uploadId: upload.id, stats: report });
+    });
   }
 
   /* ---------------------------------------------------------------- */
@@ -352,13 +410,14 @@ export async function POST(request: Request) {
 
     if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
 
+    return lineage(matched.length, async () => {
     const [upload] = await db
       .insert(uploads)
       .values({
         kind,
         filename: file.name,
         rowCount: matched.length,
-        report,
+        report: { ...report, sha256 },
         uploadedAt: capturedAt,
       })
       .returning();
@@ -377,11 +436,12 @@ export async function POST(request: Request) {
       ratings: m.ratings,
     }));
     stampPositionOverrides(rows);
-    for (let i = 0; i < rows.length; i += 500) {
-      await db.insert(collectionCards).values(rows.slice(i, i + 500));
+    for (let i = 0; i < rows.length; i += 100) {
+      await db.insert(collectionCards).values(rows.slice(i, i + 100));
     }
 
     return NextResponse.json({ kind, uploadId: upload.id, stats: report });
+    });
   }
 
   /* ---------------------------------------------------------------- */
@@ -412,13 +472,14 @@ export async function POST(request: Request) {
 
   if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
 
+  return lineage(parsed.rows.length, async () => {
   const [upload] = await db
     .insert(uploads)
     .values({
       kind,
       filename: file.name,
       rowCount: parsed.rows.length,
-      report,
+      report: { ...report, sha256 },
       uploadedAt: capturedAt,
     })
     .returning();
@@ -440,4 +501,5 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ kind, uploadId: upload.id, stats: report });
+  });
 }

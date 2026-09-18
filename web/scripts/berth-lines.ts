@@ -41,9 +41,8 @@ const T = newest("pt27_tournaments_competitve_dump_");
 const D = newest("pt27_drafts_competitve_dump_");
 
 for (const p of PERIODS) {
-  const st = computeStandings(T, { start: p.start, end: p.end }, USER);
-  const sd = computeStandings(D, { start: p.start, end: p.end }, USER);
-  const all = { ...st.categories, ...sd.categories };
+  // Both files together: Live is scored in tournaments AND drafts.
+  const all = computeStandings([T, D], { start: p.start, end: p.end }, USER).categories;
   const covered = Math.min(1, Math.max(0,
     (Math.min(Date.parse(`${T.dateMax}T00:00Z`), Date.parse(`${p.end}T00:00Z`)) - Date.parse(`${p.start}T00:00Z`)) /
     (Date.parse(`${p.end}T00:00Z`) - Date.parse(`${p.start}T00:00Z`))));

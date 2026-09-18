@@ -44,6 +44,15 @@ export interface OptimizeOptions {
   minDefShare?: number;
   /** Hard floor on the rating at the slot's position (see pos-floor.ts). */
   posFloor?: PosFloor;
+  /**
+   * Keep only the N best candidates per slot (by `pairMoves.rank`, so it
+   * requires pairMoves), plus whoever is already rostered. The full search
+   * over a 3,300-card collection takes 4½ minutes in node (12 λ starts, Gold
+   * Rush, 2026-09-17: 179.4 runs); pruned to 120 per slot from one greedy
+   * start it reaches 175.1 in 17 s, which is what lets /build run it in the
+   * browser. Not the same roster — most of the gain, not all of it.
+   */
+  candidateLimit?: number;
   pairMoves?: {
     /** Upgrade candidates considered per slot, best-ranked first. */
     aTop: number;
@@ -138,9 +147,18 @@ export function optimizeRoster(
     ...shape.lineupPos.map((p) => `R:${p}`), ...shape.lineupPos.map((p) => `L:${p}`),
     ...shape.spKeys, ...shape.rpKeys, ...shape.benchKeys,
   ];
-  const cands = new Map(keys.map((k) => [k, candidatesFor(k, pool, rules, o.minDefShare ?? 0, o.posFloor)]));
-
   const byId = new Map(pool.map((c) => [c.cardId, c]));
+  const rostered = new Set(Object.values(start));
+  const cands = new Map(keys.map((k) => {
+    let list = candidatesFor(k, pool, rules, o.minDefShare ?? 0, o.posFloor);
+    if (o.candidateLimit && o.pairMoves && list.length > o.candidateLimit) {
+      const rank = o.pairMoves.rank;
+      const top = [...list].sort((a, b) => rank(k, b) - rank(k, a)).slice(0, o.candidateLimit);
+      const keep = new Set(top.map((c) => c.cardId));
+      list = list.filter((c) => keep.has(c.cardId) || rostered.has(c.cardId));
+    }
+    return [k, list];
+  }));
   let slots = { ...start };
   let score = o.objective(slots);
   const startScore = score;

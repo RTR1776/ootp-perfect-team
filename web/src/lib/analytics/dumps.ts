@@ -16,6 +16,7 @@
  * PD Daily, day-named events are PD Weekly. Three oddballs are excluded.
  */
 
+import STANDINGS_TAGS from "@/data/standings-tags.json";
 import { splitLine } from "@/lib/ingest/csv";
 
 export interface DumpEvent {
@@ -103,22 +104,61 @@ const OBSERVED: Record<string, string[]> = {
   "Daily Goldfather II": ["Gold"], "Daily Low Gold Retrospecticus": ["Gold"], "Daily Low Gold Retrospectus": ["Gold"],
   "Monday Gold Floor Cap": ["Open", "Cap"], "Daily Open Slots": ["Open", "Cap"], "Sunday Open Main Event": ["Open"],
   "Daily Dank": ["Iron"], "Friday Danksville": ["Iron"], "Wednesday Night of the Living Deadball": ["Open"],
+  /**
+   * Read off the game's own STANDINGS column on 2026-09-17 (Your Tournaments
+   * screen, PTCS 7). The name-based fallback below gets these wrong: "High
+   * Silver-Low Gold Cap" matches Silver first but the game scores it Gold;
+   * the two Open weeklies carry no tier word and were being dropped; the
+   * Cap-only names are Open + Cap. The berth lines for Open and Gold are
+   * computed from every user's results, so a wrong map here moves the line
+   * for everyone, not just the one row.
+   */
+  "Daily High Silver-Low Gold Cap": ["Gold", "Cap"],
+  "Saturday Negro Leagues Slots": ["Open", "Cap"],
+  "Thursday CWhit's Cap Challenge 5": ["Open", "Cap"],
+  "Tuesday Up to 1969": ["Open"], "Wednesday 1950 to Now": ["Open"],
+  "Sunday Open Slots": ["Open", "Cap"],
+  /** The event's own rules blurb, 2026-09-17: "STANDINGS: Silver, Cap". */
+  "Friday Nightmare Cap": ["Silver", "Cap"],
 };
 
-const EXCLUDED = new Set(["Daily Negro Leagues", "Tuesday Up to 1969", "Wednesday 1950 to Now"]);
-
 const DAY_RE = /^(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day/;
+const TIERS = [["Iron", "Iron"], ["Bronze", "Bronze"], ["Silver", "Silver"], ["Gold", "Gold"], ["Diamond", "Diamond"], ["Open", "Open"]] as const;
+
+/**
+ * The game's own STANDINGS column, learned from every result logged off the
+ * Your Tournaments screen (`pnpm standings:map`). It outranks the hand map
+ * and the name rules below: the screen is the authority on what an event
+ * scores in, and the old name guess was measurably wrong (Gold Floor Cap is
+ * Open + Cap, High Silver-Low Gold Cap is Gold + Cap, the two Open weeklies
+ * carry no tier word). Names the ledger has never seen fall through to the
+ * rules, which were FITTED, not guessed: with them the 9/14 dump reproduces
+ * the game's actual PTCS 6 cutoffs (cwhit's board) to the point in Gold,
+ * Diamond, Iron, Open and PD Daily and within one in Silver and Bronze, and
+ * cwhit's 128th-place totals for PTCS 7 through 9/13 in nine of ten
+ * categories. Without them the tier lines ran 10–15% low and Open at half.
+ *
+ *   - a Live event scores in its tier AND in Live ("Daily Live Gold" =
+ *     Gold + Live); a Live event with no tier word is Open + Live
+ *   - a cap or slots event with no tier word is Open + Cap
+ *   - Daily Negro Leagues is Open
+ *   - a Live-named draft scores in Live as well as PD Daily / PD Weekly
+ */
+const LEDGER = (STANDINGS_TAGS as { names: Record<string, { cats: string[] }> }).names;
 
 export function categoriesOf(name: string, source: "tournaments" | "drafts"): string[] {
-  if (source === "drafts") return DAY_RE.test(name) ? ["PD Weekly"] : ["PD Daily"];
-  if (OBSERVED[name]) return [...OBSERVED[name]];
-  if (EXCLUDED.has(name)) return [];
-  if (name.includes("Live")) return ["Live"];
-  const cats: string[] = [];
-  for (const [w, c] of [["Iron", "Iron"], ["Bronze", "Bronze"], ["Silver", "Silver"], ["Gold", "Gold"], ["Diamond", "Diamond"], ["Open", "Open"]] as const) {
-    if (name.includes(w)) { cats.push(c); break; }
+  if (source === "drafts") {
+    const cats = [DAY_RE.test(name) ? "PD Weekly" : "PD Daily"];
+    if (/\bLive\b/.test(name)) cats.push("Live");
+    return cats;
   }
-  if ((name.includes("Slots") || /\bCap\b/.test(name)) && !cats.includes("Cap")) cats.push("Cap");
+  if (LEDGER[name]) return [...LEDGER[name].cats];
+  if (OBSERVED[name]) return [...OBSERVED[name]];
+  if (name === "Daily Negro Leagues") return ["Open"];
+  const tier = TIERS.find(([w]) => name.includes(w))?.[1] ?? null;
+  if (/\bLive\b/.test(name)) return [tier ?? "Open", "Live"];
+  const cats: string[] = tier ? [tier] : [];
+  if (name.includes("Slots") || /\bCap\b/.test(name)) { if (!tier) cats.push("Open"); cats.push("Cap"); }
   return cats;
 }
 
@@ -153,21 +193,33 @@ export function pointsFor(position: number, fieldSize: number): number {
 const DAY_SECONDS = 86400;
 
 export function computeStandings(
-  dump: ParsedDump,
+  dumpOrDumps: ParsedDump | ParsedDump[],
   window: { start: string; end: string },
   user = "rtr1776",
 ): DumpStandings {
+  // Live spans both files (Live tournaments AND Live drafts), so a line for
+  // it needs the two dumps summed per user; pass both to get that.
+  const dumps = Array.isArray(dumpOrDumps) ? dumpOrDumps : [dumpOrDumps];
+  const dump = { source: dumps.length === 1 ? dumps[0].source : ("tournaments" as const), events: dumps.flatMap((d) => d.events.map((e) => ({ ...e, source: d.source }))) };
   const lo = Date.parse(`${window.start}T05:00:00Z`) / 1000; // ~midnight Central
   const hi = Date.parse(`${window.end}T05:00:00Z`) / 1000 + DAY_SECONDS;
   const totals = new Map<string, Map<string, number>>();
   let counted = 0, excluded = 0;
 
   for (const e of dump.events) {
-    const weekly = DAY_RE.test(e.name);
-    const finish = e.start + (weekly ? 7 * DAY_SECONDS : DAY_SECONDS);
-    if (finish < lo || finish > hi) continue;
-    if (!weekly && e.start < lo) continue;
-    const cats = categoriesOf(e.name, dump.source);
+    /*
+     * An event scores in the period its START falls in. The dump's start time
+     * is the night the event actually runs (a "Monday" weekly starting 9/7
+     * had its finish on the Your Tournaments screen by the evening of 9/7;
+     * the next run of the same name started 9/14). An earlier version added
+     * seven days to a weekly's start, which pulled the last week of one
+     * period into the next: checked against cwhit's Cycle 7 board built on
+     * the 9/14 dump, that rule was off by 88 points across L.J.'s ten
+     * categories and this one matches him on nine of ten (the tenth is a
+     * category-map disagreement on one event, not a window question).
+     */
+    if (e.start < lo || e.start >= hi) continue;
+    const cats = categoriesOf(e.name, (e as { source?: "tournaments" | "drafts" }).source ?? dump.source);
     if (cats.length === 0) { excluded++; continue; }
     counted++;
     const field = e.finishers.length;

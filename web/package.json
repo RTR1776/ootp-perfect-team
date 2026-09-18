@@ -21,7 +21,7 @@
     "import:league": "tsx scripts/import-league.ts",
     "import:cards": "node --env-file=.env.local --import tsx scripts/import-current-cards.ts",
     "import:dump": "tsx scripts/import-dump.ts",
-    "fit:projection": "tsx scripts/fit-projection.ts",
+    "model:calibrate": "node --env-file=.env.local --import tsx scripts/model-calibrate.ts",
     "import:myresults": "tsx scripts/import-myresults.ts",
     "parse:restrictions": "tsx scripts/parse-restrictions.ts",
     "apply:restrictions": "tsx scripts/apply-restrictions.ts",
@@ -64,7 +64,12 @@
     "positions:apply": "node --env-file=.env.local --import tsx scripts/positions-apply.ts",
     "fielding:fit": "node --import tsx scripts/fielding-fit.ts",
     "positions:harvest": "node --env-file=.env.local --import tsx scripts/positions-harvest.ts",
-    "record": "node --import tsx scripts/record.ts"
+    "record": "node --import tsx scripts/record.ts",
+    "roster:diff": "node --env-file=.env.local --import tsx scripts/roster-diff.ts",
+    "cwhit:compare": "node --env-file=.env.local --import tsx scripts/cwhit-compare.ts",
+    "dumps:restandings": "node --env-file=.env.local --import tsx scripts/dumps-restandings.ts",
+    "standings:map": "node --env-file=.env.local --import tsx scripts/standings-map.ts",
+    "import:collection": "node --env-file=.env.local --import tsx scripts/import-collection.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

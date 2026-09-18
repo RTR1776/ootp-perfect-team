@@ -1,0 +1,11 @@
+Category,CurrentQP,Rank,ProjectedCutoff,Need,Status,LastCutoff,HistAdj,Current128,ProgressPct,Weeks,Confidence,Source
+PD Weekly,44,28,73,29,Currently top 128,96,71,21,26.5,4,Medium,Hist + pace + volume
+Gold,56,48,91,35,Currently top 128,120,91,26,28.5,4,Medium,Hist + pace + volume
+Diamond,42,43,77,35,Currently top 128,90,78,17,23.4,4,Medium,Hist + pace + volume
+Cap,80,41,129,49,Currently top 128,165,130,33,26.2,4,Medium,Hist + pace + volume
+Silver,43,71,94,51,Currently top 128,124,95,26,28.5,4,Medium,Hist + pace + volume
+Open,9,280,95,86,Need QP,126,97,24,27.4,4,Medium,Hist + pace + volume
+Bronze,9,294,107,98,Need QP,135,106,29,26.8,4,Medium,Hist + pace + volume
+Iron,0,,102,102,Need QP,129,101,27,25.5,4,Medium,Hist + pace + volume
+Live,0,,136,136,Need QP,179,134,35,24.5,4,Medium,Hist + pace + volume
+PD Daily,128,35,269,141,Currently top 128,326,255,77,24.6,4,Medium,Hist + pace + volume

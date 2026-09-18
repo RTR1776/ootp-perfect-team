@@ -77,18 +77,23 @@ cd web && pnpm dev        # -> http://localhost:3000
 | `watch --label L` | watch OOTP export folder; archive + ingest automatically |
 | `build` | all of the above in order |
 
-## How the numbers work (one paragraph)
+## How the numbers work (one paragraph, 2026-09-17)
 
-Card ratings → component rates via **empirically fitted curves** (`curves.py`,
-fit on a full league season where ratings and outcomes live in the same rows)
-→ projected splits in the modern-PT-league frame (`projections2.py`) →
-**calibrated** against observed results and **blended** by sample size
-(`calibrate.py`; 220 PA / 60 IP half-weights), stored per card as `evidence`
-→ the app applies **context** (era expressed as park-like multipliers × the
-physical park) and optimizes lineups / scores draft picks in runs per game.
-Observed "overall" stats are usage-biased (managers platoon), so everything
-calibrates on vL/vR splits; overall lines are constructed 28/72 (hitters) and
-45/55 (pitchers).
+Card ratings → component rates via **curves fitted on observed tournament
+play** (`web/src/data/curves.json`, 51 series normalised to their own field,
+`pnpm curve:refit`) → an era's rate profile and a park (`card-value.ts`,
+`run-env.ts`) → runs per 700 PA on that environment's linear weights, read
+per board (vL / vR ratings, the batter's side of the park) → **calibrated**
+to what play returns (`pnpm model:calibrate`: within a field the curves
+overstate the spread by half, so runs are scaled 0.51 / 0.48) → **blended**
+with the card's own tournament play by precision (K = 5,000 PA;
+`observed-blend.ts`) → the roster objective adds defence in runs at the slot
+(`fielding.ts`), weights the two lineups by the field's measured pitcher
+handedness (`series_meta`), and hill-climbs under every rule and the glove
+floor (`roster-objective.ts`, `roster-optimize.ts`). `projections.ts` reads
+the same model back as a wOBA / FIP line in the event's environment for
+display. The Python `engine/` paragraph this replaces described the July
+pipeline, which is no longer on the path.
 
 ## Repo map
 
@@ -103,6 +108,7 @@ calibrates on vL/vR splits; overall lines are constructed 28/72 (hitters) and
 | `Roster Templates/` | collection export + binary `.tr` templates (never parsed) |
 | `data-store/` | generated intermediates (git-ignored) |
 | `pnpm imports` | (web/) what the background importer did: every publish attempt with files, hash, rows and outcome; a failed batch never touched the live table |
+| `reference/cwhit/` | cwhit's boards transcribed from screenshots, one set per date, read by `pnpm cwhit:compare` |
 | `reference/r-watcher/` | original R watcher (replaced by `engine watch`) |
 | `MLB Batting Year-by-Year Averages.xls` | RE source, 1871–2026 (**actually HTML** — `pd.read_html`) |
 | `ballparks.csv` | 236-park factor DB |
