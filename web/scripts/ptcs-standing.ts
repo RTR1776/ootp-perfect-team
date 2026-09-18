@@ -11,6 +11,7 @@
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
+import { todayInChicago } from "@/lib/ptcs-progress";
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
 const PERIOD = Number((() => { const i = argv.indexOf("--period"); return i >= 0 ? argv[i + 1] : "2"; })());
@@ -18,7 +19,7 @@ const PERIOD = Number((() => { const i = argv.indexOf("--period"); return i >= 0
 async function main() {
   const [p] = asRows<any>(await db.execute(sql`select * from periods where id = ${PERIOD}`));
   const start = String(p.starts_on ?? p.start_date).slice(0, 10), end = String(p.ends_on ?? p.end_date).slice(0, 10);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayInChicago();
   const daysIn = Math.round((Date.parse(today) - Date.parse(start)) / 864e5) + 1;
   const daysTot = Math.round((Date.parse(end) - Date.parse(start)) / 864e5) + 1;
   console.log(`\n${p.name}  ${start} → ${end}   day ${daysIn} of ${daysTot}  (${daysTot - daysIn} left)\n`);
@@ -29,10 +30,21 @@ async function main() {
       from results, lateral jsonb_array_elements_text(categories) cat
       where period_id = ${PERIOD}
     ),
+    /*
+     * The same window rule as computeStandings (dumps.ts), which is the one
+     * validated against the six PTCS 6 berths: an event belongs to the period
+     * it FINISHES in — a weekly finishes seven days after it starts, a daily
+     * the next day — and a daily must also start inside the period. A Sunday
+     * weekly from the last day of PTCS 6 therefore scores in PTCS 7, which is
+     * where the game puts it; filtering on start date alone dropped them.
+     */
     dump as (
-      select event_id id, start_at::date d, points pts, categories cat
+      select event_id id, start_at::date d, points pts, unnest(string_to_array(categories, ',')) cat
       from my_results
-      where start_at::date between ${start} and ${end}
+      where categories <> ''
+        and (case when name ~ '^(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day'
+                  then (start_at + interval '7 days')::date between ${start} and ${end}
+                  else start_at::date between ${start} and ${end} end)
         and event_id not in (select id from logged)
     ),
     all_ev as (select * from logged union all select * from dump)

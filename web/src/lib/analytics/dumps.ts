@@ -103,9 +103,23 @@ const OBSERVED: Record<string, string[]> = {
   "Daily Goldfather II": ["Gold"], "Daily Low Gold Retrospecticus": ["Gold"], "Daily Low Gold Retrospectus": ["Gold"],
   "Monday Gold Floor Cap": ["Open", "Cap"], "Daily Open Slots": ["Open", "Cap"], "Sunday Open Main Event": ["Open"],
   "Daily Dank": ["Iron"], "Friday Danksville": ["Iron"], "Wednesday Night of the Living Deadball": ["Open"],
+  /**
+   * Read off the game's own STANDINGS column on 2026-09-17 (Your Tournaments
+   * screen, PTCS 7). The name-based fallback below gets these wrong: "High
+   * Silver-Low Gold Cap" matches Silver first but the game scores it Gold;
+   * the two Open weeklies carry no tier word and were being dropped; the
+   * Cap-only names are Open + Cap. The berth lines for Open and Gold are
+   * computed from every user's results, so a wrong map here moves the line
+   * for everyone, not just the one row.
+   */
+  "Daily High Silver-Low Gold Cap": ["Gold", "Cap"],
+  "Saturday Negro Leagues Slots": ["Open", "Cap"],
+  "Thursday CWhit's Cap Challenge 5": ["Open", "Cap"],
+  "Tuesday Up to 1969": ["Open"], "Wednesday 1950 to Now": ["Open"],
+  "Sunday Open Slots": ["Open", "Cap"],
 };
 
-const EXCLUDED = new Set(["Daily Negro Leagues", "Tuesday Up to 1969", "Wednesday 1950 to Now"]);
+const EXCLUDED = new Set(["Daily Negro Leagues"]);
 
 const DAY_RE = /^(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day/;
 
