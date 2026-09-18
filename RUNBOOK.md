@@ -53,6 +53,7 @@ Other tools:
 - `pnpm berth:lines`, `pnpm cutoff:project` — where the PTCS lines sit and where they land
 - `pnpm cap:finish` — complete a part-built capped roster
 - `pnpm roster:diff --roster my.txt --series goldweekly --year 1989 --park "Candlestick Park" --park-year 1979 --dh --min 40 --max 89` — score the roster you have LOADED (one slot per line: `R:3B Hank Thompson`, `SP1 Jim Kaat`, `CL …`, `BN2 …`) and list the swaps in the order the search takes them, biggest first, so a mid-week change is three moves and not a rebuild. A card not yet in the card table (released after the last shop list) gets a stand-in and a warning.
+- `pnpm cwhit:compare --date 2026-09-17 --year 1955 --park "Hinchliffe Stadium" --park-year 1936 --min 50 --max 74` — the app's runs beside cwhit's boards for the same cards, with rank correlations. Transcribe his screens into `reference/cwhit/<date> {hitters,pitchers} {observed,projected}.csv` (column names in the existing files) when you cannot get his CSV; a two-week observed board is a sample for bats (300 PA) and noise for arms (100 IP).
 - `pnpm record [--user x] [--size 128] [--weekly|--daily] [--series "..."]` — series W–L by round, series and month, exact from the dump's finishing order (verified against the published cwhitman/spatrick4 tables)
 
 ## Validation — run these after any model change

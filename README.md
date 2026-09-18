@@ -108,6 +108,7 @@ pipeline, which is no longer on the path.
 | `Roster Templates/` | collection export + binary `.tr` templates (never parsed) |
 | `data-store/` | generated intermediates (git-ignored) |
 | `pnpm imports` | (web/) what the background importer did: every publish attempt with files, hash, rows and outcome; a failed batch never touched the live table |
+| `reference/cwhit/` | cwhit's boards transcribed from screenshots, one set per date, read by `pnpm cwhit:compare` |
 | `reference/r-watcher/` | original R watcher (replaced by `engine watch`) |
 | `MLB Batting Year-by-Year Averages.xls` | RE source, 1871–2026 (**actually HTML** — `pd.read_html`) |
 | `ballparks.csv` | 236-park factor DB |
