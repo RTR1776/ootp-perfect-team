@@ -1,0 +1,36 @@
+# Saturday Bronze Cap — Claude's pick, 2026-09-19 (env:roster, era-corrected, cap 1331)
+R:C Tim McCarver
+R:1B Stan Hack
+R:2B Jefferson Rojas
+R:3B Hank Blalock
+R:SS Kid Elberfeld (VAR)
+R:LF Steve Pearce
+R:CF Dwayne Hosey
+R:RF Aaron Hicks
+R:DH Wes Covington
+L:C Tim McCarver
+L:1B Bob Horner
+L:2B Jefferson Rojas
+L:3B Kid Elberfeld (VAR)
+L:SS Hal Lanier
+L:LF Steve Pearce
+L:CF Dwayne Hosey
+L:RF Aaron Hicks
+L:DH Pete Incaviglia
+SP1 Tin Can Kincannon
+SP2 Bob Gibson
+SP3 James McDonald (VAR)
+SP4 Mark Langston
+SP5 Bunny Hearn
+SP6 Fritz Ostermueller
+CL Todd Jones
+RP1 R.T. Walker
+RP2 Reed Garrett
+RP3 Steve Farr
+RP4 Zach Agnos
+RP5 Ron Robinson
+BN1 Bob Horner
+BN2 Pete Incaviglia
+BN3 Jerome Walton
+BN4 Hal Lanier
+BN5 Tsung-Che Cheng (VAR)
