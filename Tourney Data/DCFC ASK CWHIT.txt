@@ -1,0 +1,32 @@
+Files I have that cwhit's sheet has no row for. Not uploaded — his importer
+would reject them, and guessing at the right id risks writing the wrong
+tournament into his data.
+
+TWO CAUSES, and they need different answers from him.
+
+1. His sheet does not carry the run at all. The tournament is there, the id
+   is not, so he may simply not know these ran yet:
+
+     c4q1_19          Thursday CWhit's Cap Challenge 5 (his c4q1 stops at 3)
+     c4q4_16          the same series under his other slug
+     bronzesequel_156 Bronze Sequel
+     diamondandfriends_109
+     wonkyslots_23, wonkyslots_26      Monday Wonky Historical Slots
+                                       (his wonkyslots stops at 9)
+
+2. The series was renamed and his run numbering RESTARTED, so my id and his
+   id are not the same number. These are the ones to be careful with:
+
+     diamondslotsdaily_182,183,184,185,187,188
+       I have these as "Daily Diamond Jumble Slots", slot 180, runs 182-188.
+       His sheet has BOTH "diamondslotsdaily" (Diamond Slots Daily, ids up to
+       180) AND "diamondjumbleslots" (Diamond Jumble Slots Daily, ids 0-8).
+       If the Jumble Slots relaunch restarted at 0, my 182 is his 1 or 2 --
+       but that is a guess and a wrong guess writes six files into the wrong
+       tournament. Ask him which slug and which offset.
+
+     silverfriendsslots_105,106,109,111,112,114,115
+       Mine is "Daily Silver & Friends Slots". His "silverandfriends" carries
+       that same name but not these ids. Same question.
+
+     late1900s_115 is already handled -- it went out as neldaily_115.

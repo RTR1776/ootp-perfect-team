@@ -1,0 +1,66 @@
+DCFC upload queue manifest — 2026-09-19 05:42
+
+157 files, 382,894 card rows, 254 MB
+59 of them were filed in the last 24h; the rest have been queued longer and may already be on the site.
+
+Checked before upload: every file parses, all 200 columns and one header
+layout throughout, no row missing a CID, no duplicate content under two
+names, every copy byte-identical to the Archive original. Three exports
+that held only 1-2 teams instead of a full field were pulled to
+'DCFC Rejected' rather than sent: bronzeootp_165, goldfather_181,
+latesilver_182.
+
+series                            runs                       files     rows  teams/run
+----------------------------------------------------------------------------------------
+1950tonow                         23,25,26                       3    9,390        124
+bronze10to50                      157,161,162,174,180,184        6    8,870         62
+bronzeonlycapdaily                166,167                        2    3,123         62
+bronzeootp                        147,150,160,161                4   10,317        101
+bronzeptcs3                       89                             1    1,597         64
+bronzesequel                      156                            1    3,094        126
+bronzeweekly                      23,25,26                       3   19,013        249
+c4q1                              19                             1    2,941        123
+c4q4                              16                             1    3,137        125
+deadballweekly                    23,25,26                       3    8,184        123
+diamondandfriends                 105,109                        2    2,668         50
+diamonddaily                      184                            1    1,539         64
+diamondheart                      150,162,163                    3    4,516         63
+diamondsforever                   158                            1    1,485         64
+diamondslotsdaily                 161,165,167,182,183,184...     9   12,872         63
+diamondvariety                    24,26                          2    6,094        122
+diamondweekly                     23,25,26                       3   19,015        252
+earlygold                         161,162,164,165,166,167        6   16,252        124
+goldcapdaily                      178,182                        2    3,017         62
+goldenchildhood                   93                             1    1,405         61
+goldenheart                       144,145,146,151                4    6,111         63
+goldfather                        178,179,182,185,187            5   15,472        126
+goldfloorcapweekly                25,26                          2    6,020        122
+goldslotsdaily                    160,161,162,163,164,165...    16   24,379         63
+goldweekly                        23,26                          2   11,962        246
+highironfloorgoldceilingweekly    23,24,26                       3    9,050        121
+highsilverlowgoldcap              109,111,112,113,114            5    7,967         63
+late1900s                         115                            1    1,591         63
+latesilver                        161,162,163,165,166,167...    12   35,678        124
+lgretro                           164,165                        2    2,967         64
+liveplus                          171                            1    1,621         64
+lowbronzeonlydaily                182                            1    1,393         62
+lowdiamonddaily                   160,179                        2    3,167         63
+lowdiamondonly                    185                            1    1,565         64
+lowgoldonly                       188                            1    1,522         64
+lowironweekly                     26                             1    6,304        248
+lowsilveronly                     7,11,12                        3    4,828         64
+nelslotsweekly                    15                             1    2,726        125
+nightmarecap                      26                             1    2,803        117
+openslotsdaily                    163,167                        2    3,096         63
+openslotsweekly                   26                             1    2,903        121
+openweekly                        23,26                          2   12,532        250
+sandlot                           23,25,26                       3    9,145        123
+silverandfriends                  95                             1    1,359         63
+silverfriendsslots                105,106,109,111,112,114...     7   10,779         62
+silverheart                       147,151                        2    3,173         64
+silveronlycapdaily                182                            1    1,483         64
+silverslamboree                   164,165                        2    6,457        127
+silverslotsdaily                  164,167,169,175,178,182...     9   13,363         63
+silverweekly                      23,25,26                       3   18,809        250
+upto1969weekly                    23,25,26                       3    8,797        124
+wonkyslots                        23,26                          2    5,343        120
