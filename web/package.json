@@ -17,6 +17,7 @@
     "import:observed": "tsx scripts/import-observed.ts",
     "imports": "tsx scripts/import-batches.ts",
     "period:new": "tsx scripts/new-period.ts",
+    "era:slopes": "node --env-file=.env.local --import tsx scripts/era-slopes.ts",
     "picker:sync": "node --env-file=.env.local --import tsx scripts/picker-sync.ts",
     "results:log": "tsx scripts/log-results.ts",
     "import:league": "tsx scripts/import-league.ts",
