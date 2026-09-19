@@ -80,6 +80,8 @@ export interface BuilderEnv {
   /** How the field is handed, off its exports (series_meta) or the defaults. */
   lhpShare: number;
   lhbShare: number;
+  /** Run-environment year, for the era correction (calibration.ts ERA_SLOPES). */
+  eraYear?: number | null;
   observed: Array<[number, number, number]>;
 }
 
@@ -464,7 +466,7 @@ export function RosterBuilder({
      percentile. Without one (no era row at all) the rating composite. */
   const fits = useMemo(() => env
     ? envFitMaps(pool, {
-        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare,
+        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear,
         observed: new Map(env.observed.map(([id, runs, n]) => [id, { runs, n }])),
       })
     : fitMaps(pool), [pool, env]);

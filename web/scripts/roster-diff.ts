@@ -40,6 +40,8 @@ const num = (k: string, d: number | null = null) => { const v = val(k); return v
 const ROSTER = val("roster");
 if (!ROSTER) { console.error("--roster FILE is required"); process.exit(1); }
 const YEAR = num("year"), PARK = val("park") ?? null, PARK_YEAR = num("park-year"), DH = flag("dh");
+/** The era correction (calibration.ts ERA_SLOPES) is on unless --no-era-correct; PT default reads as 2010. */
+const ERA_YEAR: number | null = argv.includes("--no-era-correct") ? null : (YEAR ?? 2010);
 const MIN = num("min"), MAX = num("max"), CAP = num("cap"), SIZE = num("size", 26)!;
 const SERIES = val("series") ?? null;
 const VARIANT_CAP = num("variant-cap");
@@ -49,6 +51,8 @@ const MIN_DEF = num("min-def", 0.6)!;
 const MIN_POS: PosFloor = parsePosFloor(val("min-pos")) ?? LJ_FLOOR;
 const CANDIDATE_LIMIT = num("candidate-limit", 120)!;
 const MAX_MOVES = num("max-moves", 30)!;
+/** --card-types 2,6,7: OOTP card_type codes an event limits the pool to (see env-roster). */
+const CARD_TYPES = new Set((val("card-types") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0));
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
 async function main() {
@@ -73,6 +77,7 @@ async function main() {
   const pool: P[] = [];
   for (const cid of new Set(owned.map((o) => o.cardId!))) {
     const c = byId.get(cid); if (!c) continue;
+    if (CARD_TYPES.size && !CARD_TYPES.has(Number(c.cardType))) continue;
     const base = (c.ratings ?? {}) as Record<string, number>;
     const vr = variants.get(cid) ?? null;
     const useVariant = VARIANT_CAP !== 0 && vr != null;
@@ -133,10 +138,10 @@ async function main() {
 
   /* ---- score ---- */
   const all = universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
-  const base = envFitMaps(all, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB });
+  const base = envFitMaps(all, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB, eraYear: ERA_YEAR });
   const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - LHP) * r + LHP * l; };
   const observed = OBS_K > 0 ? await loadObservedRuns(pool.map((c) => c.cardId), both) : undefined;
-  const fits = envFitMaps(pool, { era: era.rates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB });
+  const fits = envFitMaps(pool, { era: era.rates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB, eraYear: ERA_YEAR });
   const { objective, rank, defAt } = rosterObjective(pool, { shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP, rpWeight: RP_WEIGHT_DEFAULT, benchWeight: BENCH_WEIGHT_DEFAULT });
   const poolById = new Map(pool.map((c) => [c.cardId, c]));
   const nameOf = (id: number | undefined) => { const c = id != null ? poolById.get(id) : undefined; return c ? `${c.name}${c.variant ? " (VAR)" : ""}` : "—"; };
