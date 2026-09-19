@@ -545,5 +545,132 @@
    "new": "Daily Late 1900s",
    "text": "cards from 1989-99, 1999 RE, DH on, 1998 Wrigley Field"
   }
- }
+ },
+ "weekly": {
+  "142": {
+   "old": "Monday Up And At Them Bronze",
+   "new": null,
+   "text": "1979 RE, 1977 Olympic Stadium"
+  },
+  "143": {
+   "old": "Monday Wonky Historical Slots",
+   "new": null,
+   "text": "13 Diamond, 7 Silver, 6 Bronze, cards up to 1949, 2009 RE, DH off, 2026 Coors Field",
+   "deferred": "takes effect AFTER the week of 2026-09-19 \u2014 the post lists these four separately as 'will have format changes after this coming week'. Not applied yet."
+  },
+  "144": {
+   "old": "Monday Gold Floor Cap",
+   "new": "Monday Now We're into the Dregs Cap",
+   "text": "High Iron Floor-Low Bronze Ceiling, 1468 cap, 1994 RE, DH on, Variants on, 1996 Dodger Stadium",
+   "deferred": "takes effect AFTER the week of 2026-09-19 \u2014 the post lists these four separately as 'will have format changes after this coming week'. Not applied yet."
+  },
+  "145": {
+   "old": "Tuesday Up To 1969",
+   "new": "Tuesday Dead Silver Walking",
+   "text": "Deadball cards only, 1919 RE, DH off, Variants on, 1911 Washington Park (Brooklyn)",
+   "deferred": "takes effect AFTER the week of 2026-09-19 \u2014 the post lists these four separately as 'will have format changes after this coming week'. Not applied yet.",
+   "note": "'Deadball cards only' parses as a card TYPE named 'Deadball', which is not one \u2014 parseCardTypeRule returns null so it lands as an unverified rule rather than a wrong filter. It is really an era bound (~<=1920). Fix when this cycles in."
+  },
+  "146": {
+   "old": "Tuesday Live",
+   "new": null,
+   "text": "2023 RE, 2026 Tropicana Field"
+  },
+  "147": {
+   "old": "Tuesday Sporer's Sandlot",
+   "new": null,
+   "text": "1980-2026 Gold and below cards, 1992 RE, DH on, Variant Cap 12, 1992 Skydome",
+   "deferred": "takes effect AFTER the week of 2026-09-19 \u2014 the post lists these four separately as 'will have format changes after this coming week'. Not applied yet.",
+   "note": "'Gold and below cards' ceiling is not parsed; the 1980-2026 year window is. Set ratingsMax 89 when this cycles in."
+  },
+  "148": {
+   "old": "Wednesday 1950 to Now",
+   "new": null,
+   "text": "Snapshots and Unsung Heroes cards from 1950-2026, 2026 Globe Life Field"
+  },
+  "149": {
+   "old": "Wednesday Ice to See You",
+   "new": null,
+   "text": "Diamond Only, Default RE, DH on, Variants on, 1977 Wrigley Field",
+   "valueMin": 90,
+   "valueMax": 99,
+   "note": "'Diamond Only' is a FLOOR as well as a ceiling \u2014 PT writes '<=DIAMOND; MIN DIAMOND' for this shape, the same as 'Low Silver Only' meaning MIN SILVER. parseRestrictions does not read 'X Only', so without this the event parses as unbounded and /build would happily put Gold cards on the roster. Set 90-99 by hand. CONFIRM ON SCREEN."
+  },
+  "150": {
+   "old": "Wednesday Night of the Living Deadball",
+   "new": null,
+   "text": "1920 RE, 1919 Fenway Park"
+  },
+  "151": {
+   "old": "Thursday Silver Spectacular",
+   "new": "Thursday Silver Only Spectacular",
+   "text": "1989 RE, 1979 Candlestick Park",
+   "sameEvent": "A weekly is identified by its slot \u2014 this is the same Thursday Silver weekly with a tweaked name and a new RE/park, not a replacement. Update in place so the 315k PA of observed play keyed to silverweekly keeps its row."
+  },
+  "153": {
+   "old": "Thursday Night Gold Rush",
+   "new": null,
+   "text": "2019 RE, 2026 Great American Ball Park"
+  },
+  "154": {
+   "old": "Friday Nightmare Cap",
+   "new": null,
+   "text": "High Bronze Floor-Silver Ceiling, No LE, 1805 cap, 1971 RE, DH off, Variant Cap 6, 1970 Milwaukee County Stadium"
+  },
+  "155": {
+   "old": "Friday Danksville",
+   "new": null,
+   "text": "1987 RE, 1977 Kingdome"
+  },
+  "156": {
+   "old": "Friday Night Live Slots",
+   "new": null,
+   "text": "8 Perfect, 5 Diamond, 4 Gold, 3 Silver, 3 Bronze, 3 Iron, 2026 Wrigley Field"
+  },
+  "157": {
+   "old": "Saturday Iron Warriors",
+   "new": null,
+   "text": "1991 RE, 1991 Cleveland Stadium"
+  },
+  "158": {
+   "old": "Saturday Bronze Cap",
+   "new": null,
+   "text": "1386 cap, 2016 RE"
+  },
+  "159": {
+   "old": "Saturday Diamond Variety",
+   "new": null,
+   "text": "cards from 1910-59, 1952 RE, 1958 Tiger Stadium"
+  },
+  "160": {
+   "old": "Sunday High Iron Floor and Gold Ceiling",
+   "new": "Sunday Silver and Gold Cap",
+   "text": "2026 cap, Default RE, Variant Cap 13, 1977 Atlanta Fulton County Stadium",
+   "sameEvent": "Same Sunday weekly slot, renamed and reformatted. 200k PA of observed play is keyed to highironfloorgoldceilingweekly.",
+   "valueMax": 89,
+   "note": "Name reads 'Silver and Gold', and tierWindowFromName takes the FIRST tier word and would cap it at Silver 79 \u2014 wrong for an event that admits Gold. Ceiling set to 89 by hand; the floor is left to the parser (old row was 50). CONFIRM BOTH ON SCREEN."
+  },
+  "161": {
+   "old": "Sunday Open Slots",
+   "new": null,
+   "text": "1969 RE, DH off, 1964 Shea Stadium"
+  },
+  "162": {
+   "old": "Sunday Open Main Event",
+   "new": null,
+   "text": "2026 Truist Park (Atlanta)"
+  },
+  "187": {
+   "old": "Thursday CWhit's Cap Challenge 5",
+   "new": null,
+   "text": "NO CHANGES",
+   "unchanged": true
+  },
+  "195": {
+   "old": "Saturday Negro Leagues Slots",
+   "new": null,
+   "text": "4 Perfect, 4 Diamond, 4 Gold, 4 Silver, 5 Bronze, 5 Iron, Default RE, DH off, 2026 Coors Field"
+  }
+ },
+ "weeklySource": "Tournament and Perfect Draft Refresh News #10, Nicolino Di Benedetto (PT Director of Product Management), posted 2026-09-19 06:39 PM \u2014 'we just deployed the new weekly tournament formats'"
 }

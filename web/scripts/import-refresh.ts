@@ -34,12 +34,19 @@ const DRY = process.argv.includes("--dry");
 const squash = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
 const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 const ID_BASE = 9_100_000;
-const TIERS = ["silver", "iron", "bronze", "gold", "diamond", "open"] as const;
+/**
+ * "weekly" is the weekly-tournament post, which spans every tier — Monday
+ * Bronze through Sunday Open in one list — so it gets NO section ceiling and
+ * relies on the tier word in the name (tierWindowFromName) or an explicit
+ * bound in the blurb. Weeklies had never been run through this script before
+ * 2026-09-19, which is why their catalogue rows were months stale.
+ */
+const TIERS = ["silver", "iron", "bronze", "gold", "diamond", "open", "weekly"] as const;
 /** Ceiling implied by the SECTION of the post an event sits in, for names with no tier word. */
 /** Open events have no ceiling by design - the section sets none. */
-const SECTION_MAX: Record<(typeof TIERS)[number], number | null> = { iron: 59, bronze: 69, silver: 79, gold: 89, diamond: 99, open: null };
+const SECTION_MAX: Record<(typeof TIERS)[number], number | null> = { iron: 59, bronze: 69, silver: 79, gold: 89, diamond: 99, open: null, weekly: null };
 
-interface Entry { old: string; new: string | null; text: string; note?: string; removed?: boolean }
+interface Entry { old: string; new: string | null; text: string; note?: string; removed?: boolean; deferred?: string; unchanged?: boolean; sameEvent?: string; valueMin?: number; valueMax?: number }
 
 /** Observed field size per slot, from the newest community dumps. */
 function fieldSizes(): Map<number, number> {
@@ -76,7 +83,16 @@ async function main() {
     const bare = stadium.replace(/^\d{4}\s+/, "").trim();
     if (parkNames.includes(bare)) return bare;
     const hits = parkNames.filter((p) => p.includes(bare) || bare.includes(p));
-    return hits.length === 1 ? hits[0] : null;
+    if (hits.length === 1) return hits[0];
+    /**
+     * Whitespace-blind last resort: the post writes "Great American Ball Park",
+     * the parks table has "Great American Ballpark", and substring matching
+     * misses on the space — leaving park_name null and the event with no park
+     * factors at all, silently. Only accepted when exactly one park matches.
+     */
+    const sq = (x: string) => x.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const squashed = parkNames.filter((p) => sq(p) === sq(bare));
+    return squashed.length === 1 ? squashed[0] : null;
   };
 
   const existing = await db.select({ id: tournaments.id, name: tournaments.name, series: tournaments.series, slot: tournaments.slot }).from(tournaments);
@@ -94,6 +110,7 @@ async function main() {
   const inserts: (typeof tournaments.$inferInsert)[] = [];
   const updates: { id: number; name: string; set: Record<string, unknown> }[] = [];
   const retireIds: { id: number; name: string; replacedBy: string }[] = [];
+  const deferred: string[] = [];
 
   for (const tier of TIERS) {
     for (const [slotStr, e] of Object.entries(refresh[tier] as Record<string, Entry>)) {
@@ -101,6 +118,14 @@ async function main() {
       // "192 Daily Diamond & Friends Slots is removed": nothing to seed or
       // update - pnpm retire flags the row.
       if (e.removed) continue;
+      // "NO CHANGES" in the post: the row is already right, and running it
+      // through the parser would rebuild restrictions from the word "NO
+      // CHANGES" and wipe what is there.
+      if (e.unchanged) continue;
+      // A change the post says takes effect LATER. Applying it now would make
+      // the catalogue describe a format that is not the one being played this
+      // week, so the text is recorded and skipped until the date passes.
+      if (e.deferred) { deferred.push(`${slot} ${(e.new ?? e.old)}`); continue; }
       // A slot restated again by a later section: the older entry is history.
       if ((e as { superseded?: string }).superseded) continue;
       const name = (e.new ?? e.old).trim();
@@ -108,8 +133,11 @@ async function main() {
       const r = parseRestrictions(e.text);
       // The name carries the tier when the blurb does not restate it.
       const win = tierWindowFromName(name);
-      const ratingsMin = r.valueMin ?? win?.min ?? null;
-      let ratingsMax = r.valueMax ?? win?.max ?? null;
+      // A hand override on the entry wins over both the blurb and the name —
+      // for a name the tier parser reads wrongly ("Silver and Gold" caps at
+      // Silver). Always paired with a `note` saying why.
+      const ratingsMin = e.valueMin ?? r.valueMin ?? win?.min ?? null;
+      let ratingsMax = e.valueMax ?? r.valueMax ?? win?.max ?? null;
       const derived = r.valueMin == null && r.valueMax == null && win != null;
       // "Daily Golden Age", "Daily Goldfather II": no tier WORD in the name, but
       // the post lists them under Gold. Take the section's ceiling and say so -
@@ -137,7 +165,15 @@ async function main() {
       // "Daily PTCS 2 Iron Replay" (dump) is "PTCS 2 Iron Replay" (post): the
       // new name is carried when one squashed spelling contains the other.
       const carries = (a: string, b: string) => { const x = squash(a), y = squash(b); return (x.includes(y) || y.includes(x)) && Math.min(x.length, y.length) / Math.max(x.length, y.length) >= 0.6; };
-      let hit = slotRow && (!e.new || carries(slotRow.name, name)) ? slotRow : byName.get(key);
+      /**
+       * `sameEvent`: a rename that is NOT a replacement. A weekly is identified
+       * by its slot — "Thursday Silver Spectacular" becoming "Thursday Silver
+       * Only Spectacular" is the same Thursday Silver weekly with a new blurb.
+       * Without this the row is retired and a new one seeded carrying the SAME
+       * series slug, so two rows answer to `silverweekly` and the observed play
+       * keyed to it (315k PA) no longer resolves to one tournament.
+       */
+      let hit = slotRow && (!e.new || e.sameEvent || carries(slotRow.name, name)) ? slotRow : byName.get(key);
       // Punctuation-blind equality next: the catalog's "PTCS 2 Iron Replay."
       // (trailing period) is the post's "PTCS 2 Iron Replay".
       if (!hit) hit = existing.find((r) => squash(r.name) === squash(name));
@@ -157,10 +193,18 @@ async function main() {
         if (near.length === 1) hit = near[0];
       }
       if (hit) {
-        if (e.new) for (const other of existing) {
+        if (e.new && !e.sameEvent) for (const other of existing) {
           if (other.slot === slot && other.id !== hit.id && !carries(other.name, name)) retireIds.push({ id: other.id, name: other.name, replacedBy: name });
         }
         const set: Record<string, unknown> = { restrictions: extra, slot };
+        /**
+         * Only a `sameEvent` rename rewrites the NAME. Every other update
+         * leaves it alone on purpose: the post and the databotai catalog spell
+         * some events differently ("PTCS 2 Iron Replay" vs "Daily PTCS 2 Iron
+         * Replay"), and writing the post's spelling here would have this script
+         * and catalogue:sync rename the same row back and forth forever.
+         */
+        if (e.sameEvent && hit.name !== name) set.name = name;
         if (ratingsMin != null) set.ratingsMin = ratingsMin;
         if (ratingsMax != null) set.ratingsMax = ratingsMax;
         if (r.yearMin != null) set.cardYearMin = r.yearMin;
@@ -202,6 +246,11 @@ async function main() {
   }
 
   console.log(`${updates.length} existing rows refreshed, ${inserts.length} seeded, ${retireIds.length} replaced rows retired${DRY ? " (dry run)" : ""}\n`);
+  if (deferred.length) {
+    console.log(`HELD BACK — the post says these change only after this week (${deferred.length}):`);
+    for (const d of deferred) console.log(`    ${d}`);
+    console.log("  Their new text is in the refresh json under `deferred`; clear the flag when the date passes.\n");
+  }
   for (const r of retireIds) {
     console.log(`  retire ${String(r.id).padStart(8)}  ${r.name.slice(0, 36).padEnd(38)} -> replaced by ${r.replacedBy}`);
     if (!DRY) await db.execute(sql`update tournaments set retired = true, restrictions = coalesce(restrictions, '{}'::jsonb) || ${JSON.stringify({ replacedBy: r.replacedBy })}::jsonb, updated_at = now() where id = ${r.id}`);
