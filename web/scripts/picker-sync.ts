@@ -145,8 +145,63 @@ async function main() {
     ...lines.slice(end + 1),
   ].join("\n");
 
+  // ---- anchors -----------------------------------------------------------
+  // The filer takes a run number from the dumps when it has one and otherwise
+  // counts forward from an anchor. Anchors written by hand go stale, and a
+  // stale anchor means a long extrapolation and a mis-numbered file, so
+  // rewrite them from the newest run each series has in the dumps.
+  const anchors = asRows<any>(await db.execute(sql`
+    select distinct on (t.series) t.series, t.is_draft,
+           m.event_id::bigint id, extract(epoch from m.start_at)::bigint start_unix,
+           m.start_at::date d
+    from my_results m
+    join tournaments t on t.slot = (m.event_id::bigint / 10000)::int
+    where t.series is not null
+    order by t.series, m.event_id::bigint desc`));
+  const weekdayOf = new Map(rows.map((r) => [r.slug, r.group]));
+  const fromDump = new Map(anchors.map((a) => [a.series as string, a]));
+  /**
+   * MERGE, never replace. A series he has not entered has no row in the dumps,
+   * and dropping its anchor would leave the filer with no guess at all for it
+   * — worse than an old one, since the arithmetic is exact as long as the
+   * series kept its cadence. So: keep what is there, overwrite only where the
+   * dumps know something newer.
+   */
+  const block = (name: string, want: (g: string) => boolean, existing: Map<string, string>) => {
+    const keys = new Set<string>([...existing.keys()]);
+    for (const k of fromDump.keys()) if (want(weekdayOf.get(k) ?? "")) keys.add(k);
+    const lines: string[] = [];
+    let fresh = 0;
+    for (const k of [...keys].sort()) {
+      const d = fromDump.get(k);
+      if (d && want(weekdayOf.get(k) ?? "")) { lines.push(`    "${k}": (${d.id}, ${d.start_unix}),`); fresh++; }
+      else if (existing.has(k)) lines.push(existing.get(k)!);
+    }
+    return { lines: [`${name} = {`, ...lines, "}"], fresh, total: lines.length };
+  };
+  let text = out;
+  for (const [name, want] of [
+    ["WEEKLY_ANCHORS", (g: string) => g === "weekly"],
+    ["DRAFT_ANCHORS", (g: string) => g === "pddaily" || g === "pdweekly"],
+  ] as [string, (g: string) => boolean][]) {
+    const ls = text.split("\n");
+    const a = ls.findIndex((l) => l.startsWith(`${name} = {`));
+    if (a < 0) { console.log(`  (no ${name} block — left alone)`); continue; }
+    const b = ls.findIndex((l, i) => i > a && l === "}");
+    const existing = new Map<string, string>();
+    for (const l of ls.slice(a + 1, b)) {
+      const m = l.match(/"([^"]+)":/);
+      if (m) existing.set(m[1], l);
+    }
+    const built = block(name, want, existing);
+    console.log(`  ${name}: ${existing.size} -> ${built.total} anchors (${built.fresh} refreshed from the dumps)`);
+    text = [...ls.slice(0, a), ...built.lines, ...ls.slice(b + 1)].join("\n");
+  }
+  const newest = anchors.map((a) => String(a.d)).sort().pop();
+  console.log(`  anchors now reach ${newest} (was 2026-08-24)`);
+
   if (DRY) { console.log("\n(dry run — nothing written)"); process.exit(0); }
-  writeFileSync(CMD, out);
+  writeFileSync(CMD, text);
   console.log(`\nwrote ${CMD}`);
   process.exit(0);
 }
