@@ -1,0 +1,101 @@
+
+=== latesilver · 1992 RE @ 1992 Oriole Park at Camden Yards · DH · lineups 74/26 R/L (field) ===
+your roster as loaded: -7.3 runs · legal
+
+weakest slots as they stand (runs on that board, glove included):
+  R:SS   Ketel Marte                  -20.2
+  L:SS   Ketel Marte                  -18.7
+  L:2B   Jose Vidro (VAR)             -11.0
+  R:C    Mike Zunino                  -10.8
+  RP2    Michael King                 -8.4
+  SP5    Brandon Beachy               -6.3
+
+swaps in the order the search takes them (steepest first) — do the top few and stop:
+
+ 1. +24.0 runs  (-7.3 → 16.7)   Ketel Marte  →  Angel Genao
+      R:SS   Ketel Marte → Angel Genao
+      L:SS   Ketel Marte → Angel Genao
+
+ 2. +16.5 runs  (16.7 → 33.2)   Cecil Fielder  →  Matt Carpenter
+      R:1B   Cecil Fielder → Matt Carpenter
+      L:1B   Cecil Fielder → Matt Carpenter
+
+ 3. +13.8 runs  (33.2 → 47.0)   Brandon Beachy  →  Fritz Ostermueller
+      SP5    Brandon Beachy → Fritz Ostermueller
+
+ 4. +11.7 runs  (47.0 → 58.6)   Chuck Essegian (VAR)  →  Gus Bell
+      R:LF   Chuck Essegian (VAR) → Gus Bell
+
+ 5. +10.8 runs  (58.6 → 69.4)   Andruw Jones  →  Willie McGee
+      R:CF   Andruw Jones → Willie McGee
+      L:CF   Andruw Jones → Willie McGee
+
+ 6. +9.5 runs  (69.4 → 79.0)   Jose Ramirez (VAR)  →  Hank Blalock
+      R:3B   Jose Ramirez (VAR) → Hank Blalock
+
+ 7. +5.8 runs  (79.0 → 84.8)   Roberto Clemente  →  Willie Keeler
+      R:RF   Roberto Clemente → Willie Keeler
+      L:RF   Roberto Clemente → Willie Keeler
+
+ 8. +5.5 runs  (84.8 → 90.3)   Dean Stone  →  Jakie May (VAR)
+      SP4    Dean Stone → Jakie May (VAR)
+
+ 9. +4.9 runs  (90.3 → 95.2)   Michael King  →  Edwin Diaz
+      RP2    Michael King → Edwin Diaz
+
+10. +4.8 runs  (95.2 → 100.0)   Jose Vidro (VAR)  →  Wes Covington
+      BN2    Jose Vidro (VAR) → Wes Covington
+      L:2B   Jose Vidro (VAR) → Jeff Kent
+
+11. +4.7 runs  (100.0 → 104.7)   Tillie Walker  →  Dave Harris
+      BN4    Tillie Walker → Dave Harris
+      L:LF   Tillie Walker → Dave Harris
+
+12. +3.3 runs  (104.7 → 108.1)   Larry Sherry  →  Rudy May
+      RP5    Larry Sherry → Rudy May
+
+13. +2.4 runs  (108.1 → 110.5)   Ed Morgan (VAR)  →  Cecil Fielder
+      BN6    Ed Morgan (VAR) → Cecil Fielder
+      L:DH   Ed Morgan (VAR) → Cecil Fielder
+
+14. +2.3 runs  (110.5 → 112.8)   Fernando Tatis (VAR)  →  Woodie Held
+      BN3    Fernando Tatis (VAR) → Woodie Held
+      L:3B   Fernando Tatis (VAR) → Woodie Held
+
+15. +1.6 runs  (112.8 → 114.5)   re-arrange
+      R:LF   Gus Bell → Lee Thomas (VAR)
+      R:DH   Lee Thomas (VAR) → Gus Bell
+
+16. +1.0 runs  (114.5 → 115.5)   Jim Brewer  →  Seth Morehead
+      RP4    Jim Brewer → Seth Morehead
+
+17. +0.9 runs  (115.5 → 116.4)   Mark Littell (VAR)  →  Satchel Paige
+      CL     Mark Littell (VAR) → Satchel Paige
+
+18. +0.9 runs  (116.4 → 117.3)   Nathan Flewelling (VAR)  →  Joe Judge
+      BN1    Nathan Flewelling (VAR) → Joe Judge
+
+19. +0.6 runs  (117.3 → 117.9)   Mike Zunino  →  Tim McCarver
+      R:C    Mike Zunino → Tim McCarver
+      L:C    Mike Zunino → Tim McCarver
+
+20. +0.5 runs  (117.9 → 118.4)   Owen Caissie (VAR)  →  Wade Boggs
+      BN5    Owen Caissie (VAR) → Wade Boggs
+
+21. +0.5 runs  (118.4 → 118.9)   Dennis Cook (VAR)  →  Dan Bankhead
+      RP3    Dennis Cook (VAR) → Dan Bankhead
+
+22. +0.3 runs  (118.9 → 119.2)   re-arrange
+      L:3B   Woodie Held → Angel Genao
+      L:SS   Angel Genao → Woodie Held
+
+23. +0.3 runs  (119.2 → 119.6)   Woodie Held  →  Garry Templeton
+      BN3    Woodie Held → Garry Templeton
+      L:SS   Woodie Held → Garry Templeton
+
+24. +0.1 runs  (119.6 → 119.7)   re-arrange
+      R:LF   Lee Thomas (VAR) → Willie McGee
+      R:CF   Willie McGee → Lee Thomas (VAR)
+
+after 24 moves: 119.7 runs (+127.0); value 1886
+EXIT 0

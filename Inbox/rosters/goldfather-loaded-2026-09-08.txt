@@ -1,0 +1,35 @@
+# Goldfather II roster as run in goldfather_179 (Sep 8 export)
+R:C Javy Lopez
+R:1B J.T. Snow
+R:2B Carlos Baerga
+R:3B Howard Johnson
+R:SS Hanley Ramirez
+R:LF Bob Fothergill
+R:CF Mickey Mantle
+R:RF Roberto Clemente
+SP1 Old Hoss Radbourn
+SP2 Dave Stieb
+SP3 Kevin Millwood
+SP4 Ricky Romero
+SP5 Seth Hernandez
+CL Luis Arroyo
+RP1 Joe Beggs
+RP2 Tony Watson
+RP3 Aaron Sanchez
+RP4 Carlos Lagrange
+RP5 Brandon Beachy
+BN1 Charles Johnson
+BN2 Cecil Fielder
+BN3 Bill Mueller
+BN4 Miguel Sano
+BN5 Marco Scutaro
+BN6 Roy Thomas
+BN7 Bip Roberts
+L:C Charles Johnson
+L:1B J.T. Snow
+L:2B Carlos Baerga
+L:3B Howard Johnson
+L:SS Hanley Ramirez
+L:LF Bip Roberts
+L:CF Mickey Mantle
+L:RF Roberto Clemente

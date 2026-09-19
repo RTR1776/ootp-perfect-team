@@ -1,0 +1,63 @@
+(no 2026-09-18 hitters observed.csv)
+(no 2026-09-18 pitchers observed.csv)
+(no 2026-09-18 pitchers projected.csv)
+!! not in the card table at that value: Joe Jackson 88 · Jack Clark 86 · Randy Ready 77 · Von Hayes 86 · Jose Oquendo 73
+
+=== cwhit 2026-09-18 vs app · 1974 RE @ 1971 Yankee Stadium · value 40–89 · K = 5000 ===
+app runs: per 700 PA/BF above a league-average card on the blended board (66/34 R/L). "model" is ratings only, "blend" is what the roster tools use.
+
+--- hitters ---
+name                   val own  model  blend   ours(n)        cwhit(n)    wOBA   pwOBA  cap
+Curtis Granderson       87  y  +10.4  +22.5   .339 23963pa       —      —     .324      —
+Matt Carpenter          74  y   +8.0  +15.6   .342 10080pa       —      —     .319      —
+Chick Hafey             89  y   +6.2  +14.2   .321 90563pa       —      —     .327      —
+Richie Scheinblum       87  y   +3.7  +14.0   .330 10741pa       —      —     .321      —
+Josue De Paula          87  y   +8.1  +12.3   .321  9342pa       —      —     .319      —
+Zack Cozart             83  y   +3.1  +12.0   .323 33411pa       —      —     .314      —
+Angel Genao             78  y   +1.4  +10.8   .328 41412pa       —      —     .311      —
+Willie Keeler           77  y   -2.4  +10.7   .327 39594pa       —      —     .308      —
+Brandon Lowe            82  y   +2.4  +10.5   .332  5236pa       —      —     .314      —
+Mickey Mantle           88  y   +4.8  +10.1   .321 12795pa       —      —     .307      —
+Danny Tartabull         87  y   +4.0   +9.9   .315 31474pa       —      —     .320      —
+Zyhir Hope              86  y   +5.1   +9.4   .316  6991pa       —      —     .311      —
+Howard Johnson          84  y   +2.4   +8.6   .317 31597pa       —      —     .308      —
+Dick Groat              89  y   +3.1   +8.4   .313 34098pa       —      —     .308      —
+Gregg Jefferies         84  y   +1.3   +8.3   .316 26237pa       —      —     .313      —
+Kaelen Culpepper        89  y   +3.9   +8.3   .311 29947pa       —      —     .317      —
+Hank Thompson           87  y   +4.4   +8.0   .315  6422pa       —      —     .308      —
+Rich Aurilia            87  y   +2.3   +7.2   .308 14855pa       —      —     .315      —
+J.T. Snow               83  y   +2.3   +6.7   .314 12811pa       —      —     .314      —
+Rudy York               88  y   +4.4   +5.8   .309  6654pa       —      —     .320      —
+Marcus Semien           84  y   +4.0   +5.8   .334  1286pa       —      —     .313      —
+Frank Schwindel         77  y   +2.3   +5.8   .318 15098pa       —      —     .313      —
+Jeff Kent               85  y   +3.5   +5.7   .309  6552pa       —      —     .313      —
+Kendrys Morales         88  y   +4.8   +5.6   .329   968pa       —      —     .317      —
+Miguel Tejada           77  y   -0.2   +5.6   .320 12944pa       —      —     .308      —
+Hanley Ramirez          82  y   +6.6   +5.6   .309  1613pa       —      —     .332      —
+Roy Thomas              82  y   +2.8   +5.4   .323  1266pa       —      —     .313      —
+Tino Martinez           87  y   +2.9   +5.4   .311 49117pa       —      —     .310      —
+Bip Roberts             86  y   +4.3   +5.3   .339   798pa       —      —     .315      —
+Rogers Hornsby          83  y   +3.7   +5.1   .313 21304pa       —      —     .309      —
+Dickie Thon             88  y   +1.7   +4.1   .313  2753pa       —      —     .308      —
+Bob Fothergill          86  y   +0.3   +3.4   .310  9079pa       —      —     .319      —
+Carlos Baerga           86  y   -2.5   +3.4   .310  8386pa       —      —     .316      —
+George Brett            87  y   +3.3   +3.3         —              —      —     .324      —
+Josh Gibson             84  y   +3.3   +3.3         —              —      —     .308      —
+Ralphy Velazquez        80  y   +2.4   +2.5   .342    33pa       —      —     .308      —
+Miguel Cabrera          72  y   +2.0   +2.0         —              —      —     .308      —
+Marco Scutaro           69  y   -0.0   +1.8   .326 34266pa       —      —     .314      —
+Nick Esasky             81  y   +0.7   +1.8   .333   559pa       —      —     .310      —
+Bill Mueller            80  y   +0.1   -1.0   .295  4008pa       —      —     .311      —
+Ernie Banks             83  y   -2.4   -1.1   .302 24343pa       —      —     .310      —
+Ben Zobrist             84  y   +0.2   -1.7   .298  7552pa       —      —     .309      —
+Jose Vidro              77  y   -2.5   -1.9   .303  5173pa       —      —     .309      —
+Brian Dozier            88  y   -2.3   -2.1   .291  9331pa       —      —     .310      —
+Jose Ramirez            77  y   -1.8   -2.2   .305  3041pa       —      —     .312      —
+Joe Jackson             88  ?      —      —         —              —      —     .330      —
+Jack Clark              86  ?      —      —         —              —      —     .321      —
+Randy Ready             77  ?      —      —         —              —      —     .318      —
+Von Hayes               86  ?      —      —         —              —      —     .313      —
+Jose Oquendo            73  ?      —      —         —              —      —     .307      —
+rank agreement (Spearman): app blend vs cwhit observed NaN (n 0) · app blend vs cwhit projection 0.32 (n 45) · app model vs cwhit projection 0.40 (n 45) · cwhit's own observed vs projection NaN (n 0)
+
+EXIT 0
