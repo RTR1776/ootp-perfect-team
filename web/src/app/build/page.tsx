@@ -31,6 +31,8 @@ import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { eraFor, eraTable, parkFor, solveFor } from "@/lib/analytics/tournament-env";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { loadObservedRuns } from "@/lib/analytics/observed-blend";
+import { eraBand } from "@/lib/analytics/calibration";
+import { dataConfidence, type Confidence } from "@/lib/data-confidence";
 import type { BuilderEnv } from "@/components/roster-builder";
 import { getRatingScale } from "@/lib/rating-scale";
 import { cardEligibility, tierCode, tierFitsSlots, type RosterSlot } from "@/lib/roster-rules";
@@ -133,6 +135,7 @@ export default async function BuildPage({
   let pool: BuilderCard[] = [];
   let upgrades: UpgradeCard[] = [];
   let meta: SeriesMetaInfo | null = null;
+  let confidence: Confidence | null = null;
   let env: BuilderEnv | null = null;
   let savedRosters: { id: number; name: string; slots: RosterSlot[] }[] = [];
   let collectionDate: string | null = null;
@@ -322,10 +325,20 @@ export default async function BuildPage({
         cardId: cards.cardId, name: cards.name, tier: cards.tier, cardValue: cards.cardValue, position: cards.position,
         pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
       }).from(cards);
-      const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare });
+      const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
       const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
       const observed = await loadObservedRuns(pool.map((c) => c.cardId), both);
-      env = { rates: eraRow.rates, park, lhpShare, lhbShare, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n]) };
+      env = { rates: eraRow.rates, park, lhpShare, lhbShare, eraYear: envYear ?? 2010, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n]) };
+      {
+        const ns = pool.map((c) => observed.get(c.cardId)?.n ?? 0).filter((n) => n > 0).sort((a, b) => a - b);
+        const band = eraBand(envYear ?? 2010);
+        confidence = dataConfidence({
+          seriesFiles: meta?.files ?? 0, seriesTeams: meta?.avgTeams ?? null,
+          poolSize: pool.length, poolWithPlay: ns.length, poolMedianN: ns.length ? ns[Math.floor(ns.length / 2)] : 0,
+          eraBand: band ? { band: band.band, series: band.series } : null,
+          envYearKnown: envYear != null, parkOnFile: park != null,
+        });
+      }
 
       const ownedSet = new Set(ownedIds);
       const scored = universe
@@ -399,6 +412,7 @@ export default async function BuildPage({
       env={env}
       upgrades={upgrades}
       meta={meta}
+      confidence={confidence}
       savedRosters={savedRosters}
       collectionDate={collectionDate}
       collectionAgeDays={collectionAgeDays}

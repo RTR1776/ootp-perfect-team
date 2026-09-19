@@ -1,0 +1,35 @@
+# Saturday Diamond Variety — Claude's pick, 2026-09-19 (era-corrected pricing, R board re-seated by hand)
+R:C Tom Young
+R:1B Shoeless Joe Jackson
+R:2B Hank Thompson
+R:3B Honus Wagner
+R:SS Ethan Holliday
+R:LF Al Simmons
+R:CF Chick Stahl
+R:RF Zyhir Hope
+L:C Josh Gibson
+L:1B Josh Vitters
+L:2B Aidan Miller
+L:3B Arjun Nimmala (VAR)
+L:SS Honus Wagner
+L:LF Al Simmons
+L:CF Chick Stahl
+L:RF Shoeless Joe Jackson
+SP1 J.A. Happ
+SP2 Larry Jackson
+SP3 Payton Tolle
+SP4 Sam Jones
+SP5 Jordan Montgomery
+SP6 Connelly Early
+CL Joe Sambito
+RP1 Jake McGee (VAR)
+RP2 Noah Schultz
+RP3 Pete Donohue
+RP4 Andrew Miller
+RP5 Gary Lucas
+BN1 Josh Vitters
+BN2 JJ Wetherholt (VAR)
+BN3 Arjun Nimmala (VAR)
+BN4 Gus Bell
+BN5 Aidan Miller
+BN6 Josh Gibson

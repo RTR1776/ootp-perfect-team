@@ -1,0 +1,35 @@
+# Saturday Diamond Variety — the model's build from the 09-19 session (env:roster, 187.1)
+R:C Tom Young
+R:1B Shoeless Joe Jackson
+R:2B Aidan Miller
+R:3B Hank Thompson
+R:SS Honus Wagner
+R:LF Al Simmons
+R:CF Jon Nunnally
+R:RF Chick Stahl
+L:C Josh Gibson
+L:1B Josh Vitters
+L:2B Aidan Miller
+L:3B Arjun Nimmala (VAR)
+L:SS Honus Wagner
+L:LF Al Simmons
+L:CF Chick Stahl
+L:RF Shoeless Joe Jackson
+SP1 J.A. Happ
+SP2 Sam Jones
+SP3 Connelly Early
+SP4 Jordan Montgomery
+SP5 Payton Tolle
+SP6 Larry Jackson
+CL Joe Sambito
+RP1 Noah Schultz
+RP2 Andrew Miller
+RP3 Shane Reynolds
+RP4 Gary Lucas
+RP5 Jake McGee (VAR)
+BN1 Josh Vitters
+BN2 Larry Doby
+BN3 Arjun Nimmala (VAR)
+BN4 Gus Bell
+BN5 Ethan Holliday
+BN6 Josh Gibson

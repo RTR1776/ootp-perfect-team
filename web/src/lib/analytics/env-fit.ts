@@ -24,10 +24,10 @@ import {
   applyPark, blendPark, linearWeights, type EraRates, type ParkFactors,
 } from "@/lib/analytics/run-env";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
-import { cardRuns, envFor, hitterRates, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
+import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { CALIBRATION, calibrationSlope, OBS_K_DEFAULT } from "@/lib/analytics/calibration";
+import { CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -49,6 +49,14 @@ export interface EnvFitOptions {
   defWeight?: number;
   /** Share of opposing bats that hit left, used for the park a pitcher works in. */
   leagueLhbShare?: number;
+  /**
+   * The event's run-environment year. When given, a bat's calibrated model
+   * runs are moved by what play in that era band returned per rating point
+   * above the model's own line (calibration.ts ERA_SLOPES: BABIP two to
+   * three times the model everywhere, Power and Avoid Ks more before 1994).
+   * Off when null/undefined or when `calibrate` is false. Arms are untouched.
+   */
+  eraYear?: number | null;
   /**
    * Absolute floor on a position rating before a card may be assigned there.
    *
@@ -200,10 +208,26 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
   const K = o.observedK ?? OBS_K_DEFAULT;
   const slopeHit = o.calibrate === false ? 1 : calibrationSlope("hit");
   const slopePit = o.calibrate === false ? 1 : calibrationSlope("pit");
+  // Era correction for bats: per rating point, per board, from the model's own calibrated line here.
+  const lineOf = (env: Env) => Object.fromEntries(marginalRatings(env, "hit").map((v) => [v.rating, v.runs * slopeHit]));
+  const ppR = o.calibrate !== false && o.eraYear != null ? eraCorrectionPerPoint(o.eraYear, lineOf(envRight)) : null;
+  const ppL = o.calibrate !== false && o.eraYear != null ? eraCorrectionPerPoint(o.eraYear, lineOf(envLeft)) : null;
+  const eraFix = (c: EnvFitInput, board: "R" | "L"): number => {
+    const pp = board === "R" ? ppR : ppL;
+    if (!pp || c.isPitcher) return 0;
+    let d = 0;
+    for (const r of Object.keys(pp)) {
+      const v = c.ratings[`${ERA_SPLIT_KEY[r]} v${board}`] ?? c.ratings[r];
+      if (v != null) d += pp[r] * (v - ERA_AVERAGE_RATING);
+    }
+    return d;
+  };
   for (const c of pool) {
     let r = runsOf(c, "R"), l = runsOf(c, "L");
     const slope = c.isPitcher ? slopePit : slopeHit;
     if (slope !== 1) { if (r != null) r *= slope; if (l != null) l *= slope; }
+    if (r != null) r += eraFix(c, "R");
+    if (l != null) l += eraFix(c, "L");
     const ob = o.observed?.get(c.cardId);
     if (ob && ob.n > 0 && r != null && l != null) {
       // Blend on the both-hands read, then move both boards by the same amount.

@@ -29,6 +29,7 @@ import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@
 import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
 import { envFitMaps } from "@/lib/analytics/env-fit";
+import type { Confidence } from "@/lib/data-confidence";
 import type { EraRates } from "@/lib/analytics/run-env";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
@@ -80,6 +81,8 @@ export interface BuilderEnv {
   /** How the field is handed, off its exports (series_meta) or the defaults. */
   lhpShare: number;
   lhbShare: number;
+  /** Run-environment year, for the era correction (calibration.ts ERA_SLOPES). */
+  eraYear?: number | null;
   observed: Array<[number, number, number]>;
 }
 
@@ -350,6 +353,7 @@ export function RosterBuilder({
   env,
   upgrades,
   meta,
+  confidence = null,
   savedRosters,
   ratingScale,
   collectionDate,
@@ -361,6 +365,8 @@ export function RosterBuilder({
   env: BuilderEnv | null;
   upgrades: UpgradeCard[];
   meta: SeriesMetaInfo | null;
+  /** How much data stands behind this build (lib/data-confidence). */
+  confidence?: Confidence | null;
   savedRosters: SavedRoster[];
   /** Full-bar rating value; see src/lib/rating-scale.ts. */
   ratingScale: number;
@@ -464,7 +470,7 @@ export function RosterBuilder({
      percentile. Without one (no era row at all) the rating composite. */
   const fits = useMemo(() => env
     ? envFitMaps(pool, {
-        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare,
+        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear,
         observed: new Map(env.observed.map(([id, runs, n]) => [id, { runs, n }])),
       })
     : fitMaps(pool), [pool, env]);
@@ -998,6 +1004,26 @@ export function RosterBuilder({
               ? <Badge>observed: {tournament.series}</Badge>
               : <Badge variant="outline">no observed data yet</Badge>}
           </div>
+
+          {confidence && (() => {
+            const tone = confidence.level === "good"
+              ? { box: "border-emerald-500/70 bg-emerald-500/5", dot: "bg-emerald-500", chip: "border-emerald-500/40 text-emerald-600 dark:text-emerald-400" }
+              : confidence.level === "fair"
+                ? { box: "border-amber-400 bg-amber-400/10", dot: "bg-amber-400", chip: "border-amber-400/60 text-amber-600 dark:text-amber-400" }
+                : { box: "border-red-500/80 bg-red-500/10", dot: "bg-red-500", chip: "border-red-500/50 text-red-600 dark:text-red-400" };
+            const chipTone = (l: Confidence["level"]) => (l === "good" ? "border-emerald-500/40 text-emerald-600 dark:text-emerald-400" : l === "fair" ? "border-amber-400/60 text-amber-600 dark:text-amber-400" : "border-red-500/50 text-red-600 dark:text-red-400");
+            return (
+              <div className={`rounded-lg border-2 p-3 text-xs leading-relaxed ${tone.box}`} title="How much data stands behind the Runs column and Optimise for this event">
+                <p className="flex items-center gap-2 font-semibold"><span className={`inline-block h-2.5 w-2.5 rounded-full ${tone.dot}`} />{confidence.headline}</p>
+                <ul className="mt-1.5 flex flex-wrap gap-1.5">
+                  {confidence.points.map((pt) => (
+                    <li key={pt.label} className={`rounded border px-1.5 py-0.5 ${chipTone(pt.level)}`} title={pt.text}><span className="font-medium">{pt.label}:</span> {pt.text}</li>
+                  ))}
+                </ul>
+                {confidence.improve.length > 0 && <p className="mt-1.5 text-muted-foreground">To improve it: {confidence.improve.join(" ")}</p>}
+              </div>
+            );
+          })()}
 
           <div className="rounded-lg border border-border p-3 text-xs leading-relaxed">
             <p className="font-semibold">Environment and recommendation limits</p>
