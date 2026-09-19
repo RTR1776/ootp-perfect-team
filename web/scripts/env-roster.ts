@@ -62,6 +62,20 @@ const POOL_CSV = val("pool") ?? null;
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 /** Cards to exclude outright — for testing whether a headline card earns its points. */
 const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
+/**
+ * --card-types 2,6,7: restrict the pool to OOTP's own card_type codes, for an
+ * event that limits which KINDS of card may be used rather than their value.
+ *
+ * Saturday Diamond Variety is the case this exists for: "Only Negro League
+ * Star+Future Legend+Snapshot may be used". Do not try to read the kind out of
+ * the title — a Snapshot card is titled after its SET, so the field is full of
+ * cards reading "Baseball Reference", "World Baseball Classic" and "Super
+ * Utility" that are all card_type 7. Verified against the 121-team run 26
+ * export: all 247 cards that played were type 2, 6 or 7 and nothing else.
+ *
+ *   2 Negro League Star · 6 Future Legend · 7 Snapshot
+ */
+const CARD_TYPES = new Set((val("card-types") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0));
 const OPTIMIZE = flag("optimize");
 /**
  * --candidate-limit N: prune each slot to its N best candidates by runs
@@ -233,6 +247,7 @@ async function main() {
       variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", tier: c.tier ?? "", bats: c.bats,
     };
     if (card.variant && !card.variantOwned) continue;
+    if (CARD_TYPES.size && !CARD_TYPES.has(Number(c.cardType))) continue;
     if (cardEligibility(card, rules).errors.length) continue;
     pool.push(card);
   }
@@ -241,6 +256,7 @@ async function main() {
     for (let i = pool.length - 1; i >= 0; i--) if (BAN.includes(pool[i].name.toLowerCase())) pool.splice(i, 1);
     console.log(`banned ${before - pool.length}: ${BAN.join(", ")}`);
   }
+  if (CARD_TYPES.size) console.log(`card types: restricted to ${[...CARD_TYPES].sort().join(", ")} (2 Negro League Star, 6 Future Legend, 7 Snapshot)`);
   const bats = pool.filter((c) => !c.isPitcher);
   console.log(`\npool: ${pool.length} eligible owned cards — ${bats.length} bats (${bats.filter((c) => c.bats === "L").length}L / ${bats.filter((c) => c.bats === "S").length}S / ${bats.filter((c) => c.bats === "R").length}R), ${pool.length - bats.length} arms`);
 
