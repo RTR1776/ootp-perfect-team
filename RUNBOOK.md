@@ -109,4 +109,4 @@ Other tools:
 Claude's shell is a sandbox: it can commit but not push, and cannot delete
 files, so a stale `.git/index.lock` or `HEAD.lock` gets moved to
 `_to_delete/gitlocks/` rather than removed. Double-click **Push to
-GitHub.command** to push.
+- `pnpm era:slopes` — what each rating is worth per era, measured from play: within-series (fixed-effects) slopes with series-clustered errors, beside the model's own calibrated line per band. The read as of 2026-09-19: BABIP under-priced 2–3× in every era, Gap 1.5×, everything before 1960 scaled down too hard; Power, Eye and Avoid Ks right in modern play. Next step is a per-component calibration, not a per-era curve refit.
