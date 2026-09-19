@@ -77,6 +77,16 @@ Other tools:
 - **Jim teams.** A no-roster opponent is filled with placeholders and loses 50-0. The placeholders are not in the stats export; the team that beat them is, with the runs. 11.4% of all runs in the archive were this. `src/lib/ingest/jim.ts` drops those teams at import; the dropped list is on `import_batches.files[].dropped`. Anything fitted on `observed_card_stats` before 2026-09-15 saw the contamination.
 - **Variants.** Same `card_id` as the base, different ratings. `collection_cards.ratings` is the owned copy; key a pool on `collection_cards.id`. The collection export has no position columns, only DEF (rating at the listed POS); a variant's other positions scale by the same boost (`card-forms.ts`).
 - **Positions.** The shop dump lists only a card's rated positions; the game rates every card at every position and the stat exports show all eight per card form. `pnpm positions:harvest` (load:dumps step 3c) fills the unlisted ones on base cards and stamps owned variant copies; `card_positions` is the harvested table. A defense page read off the game by hand goes in `src/data/position-overrides.json` (`pnpm positions:apply`).
+- **A file you swapped in by hand is not re-imported.** `import:observed` hashes
+  content, so it WILL pick up a changed file — but only when something runs it.
+  Replacing `Archive/Completed/<series>_<run>.csv` outside the filer leaves the
+  old rows live (2026-09-19: a 2-team sliver of diamondvariety_26 sat in the DB
+  for an hour after the full 121-team export replaced it on disk). Run
+  `pnpm import:observed --series <slug>` after any hand swap.
+- **Check team counts on a filing push.** A stat export taken from the wrong
+  screen carries only your own matchup: ~50 rows and 2 teams against ~3,000 and
+  120+. They import clean and quietly dilute the series. Quarantined ones live
+  in `Archive/Truncated/`.
 - **Tourney ids** come from the dumps, never from a calendar; L.J. does not enter every run of a series.
 - **Two Truists.** Truist Park (Atlanta, neutral) vs Truist Field (Charlotte AAA, HR 1.50). `parkTwins()` warns.
 - **Dump usernames vs export team names** are not joined anywhere. His own is `rtr1776` = Kansas City Torrent.

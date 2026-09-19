@@ -377,10 +377,20 @@ def notify(msg: str) -> None:
         capture_output=True,
     )
 
-def alert(msg: str, buttons=("OK",), default=None) -> str:
+def alert(msg: str, buttons=("OK",), default=None, timeout: int | None = None) -> str:
+    """
+    A modal. `timeout` seconds makes it dismiss itself.
+
+    The end-of-run report used to be a plain modal with no timeout, so when a
+    filing session ended unattended the summary sat on screen indefinitely and
+    the NEXT run's picker opened behind it — the tool looked hung when it was
+    only waiting behind its own last report. Anything the user is not standing
+    in front of gets a timeout; the pickers, which exist to be answered, do not.
+    """
     bl = "{" + ", ".join(f'"{b}"' for b in buttons) + "}"
+    giving_up = f" giving up after {int(timeout)}" if timeout else ""
     res = osascript(
-        f'display dialog "{q(msg)}" buttons {bl} default button "{default or buttons[-1]}" with title "File OOTP Exports"'
+        f'display dialog "{q(msg)}" buttons {bl} default button "{default or buttons[-1]}" with title "File OOTP Exports"{giving_up}'
     )
     m = re.search(r"button returned:([^,]+)", res)
     return m.group(1).strip() if m else buttons[0]
@@ -1128,8 +1138,12 @@ def main() -> None:
     lines = "\n".join("  " + n for n in filed) if filed else "  (none)"
     summary = finish_imports()
     print("Done. Filed:\n" + lines + ("\nDatabase:\n" + summary if summary else ""))
+    # Self-dismissing: the report is a courtesy, not a question, and a modal
+    # left up blocks the next run's picker. The console print above and
+    # Archive/import-log.txt keep the full record either way.
+    notify(f"Done — filed {len(filed)} export(s)")
     alert(f"Done — filed {len(filed)} export(s):\n{lines}\n\nCopies for cwhit are in Tourney Data/DCFC Upload Queue."
-          + (f"\n\nDatabase:\n{summary}" if summary else ""))
+          + (f"\n\nDatabase:\n{summary}" if summary else ""), timeout=90)
 
 if __name__ == "__main__":
     main()
