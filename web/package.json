@@ -71,7 +71,8 @@
     "cwhit:compare": "node --env-file=.env.local --import tsx scripts/cwhit-compare.ts",
     "dumps:restandings": "node --env-file=.env.local --import tsx scripts/dumps-restandings.ts",
     "standings:map": "node --env-file=.env.local --import tsx scripts/standings-map.ts",
-    "import:collection": "node --env-file=.env.local --import tsx scripts/import-collection.ts"
+    "import:collection": "node --env-file=.env.local --import tsx scripts/import-collection.ts",
+    "roster:corrected": "node --env-file=.env.local --import tsx scripts/roster-corrected.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
