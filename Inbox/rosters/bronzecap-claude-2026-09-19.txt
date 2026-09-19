@@ -1,36 +1,36 @@
-# Saturday Bronze Cap — Claude's pick, 2026-09-19 (env:roster, era-corrected, cap 1331)
-R:C Tim McCarver
-R:1B Stan Hack
-R:2B Jefferson Rojas
-R:3B Hank Blalock
-R:SS Kid Elberfeld (VAR)
-R:LF Steve Pearce
-R:CF Dwayne Hosey
-R:RF Aaron Hicks
-R:DH Wes Covington
-L:C Tim McCarver
-L:1B Bob Horner
-L:2B Jefferson Rojas
-L:3B Kid Elberfeld (VAR)
-L:SS Hal Lanier
-L:LF Steve Pearce
-L:CF Dwayne Hosey
-L:RF Aaron Hicks
-L:DH Pete Incaviglia
-SP1 Tin Can Kincannon
-SP2 Bob Gibson
-SP3 James McDonald (VAR)
-SP4 Mark Langston
-SP5 Bunny Hearn
-SP6 Fritz Ostermueller
-CL Todd Jones
-RP1 R.T. Walker
-RP2 Reed Garrett
-RP3 Steve Farr
-RP4 Zach Agnos
-RP5 Ron Robinson
-BN1 Bob Horner
-BN2 Pete Incaviglia
-BN3 Jerome Walton
-BN4 Hal Lanier
-BN5 Tsung-Che Cheng (VAR)
+# Saturday Bronze Cap — Claude's pick, 2026-09-19 (env:roster, era-corrected, cap 1331); values pinned
+R:C Tim McCarver 68
+R:1B Stan Hack 46
+R:2B Jefferson Rojas 66
+R:3B Hank Blalock 68
+R:SS Kid Elberfeld 47 (VAR)
+R:LF Steve Pearce 69
+R:CF Dwayne Hosey 49
+R:RF Aaron Hicks 63
+R:DH Wes Covington 67
+L:C Tim McCarver 68
+L:1B Bob Horner 44
+L:2B Jefferson Rojas 66
+L:3B Kid Elberfeld 47 (VAR)
+L:SS Hal Lanier 43
+L:LF Steve Pearce 69
+L:CF Dwayne Hosey 49
+L:RF Aaron Hicks 63
+L:DH Pete Incaviglia 46
+SP1 Tin Can Kincannon 45
+SP2 Bob Gibson 44
+SP3 James McDonald 55 (VAR)
+SP4 Mark Langston 48
+SP5 Bunny Hearn 45
+SP6 Fritz Ostermueller 64
+CL Todd Jones 43
+RP1 R.T. Walker 40
+RP2 Reed Garrett 49
+RP3 Steve Farr 43
+RP4 Zach Agnos 49
+RP5 Ron Robinson 43
+BN1 Bob Horner 44
+BN2 Pete Incaviglia 46
+BN3 Jerome Walton 43
+BN4 Hal Lanier 43
+BN5 Tsung-Che Cheng 44 (VAR)
