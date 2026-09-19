@@ -31,14 +31,14 @@ export const OBS_K_DEFAULT = 5000;
  * same. The correction below is the gap per rating point, applied to bats
  * before the observed blend. Arms have no panel yet and are left alone.
  */
-export const ERA_SLOPES: { band: string; from: number; to: number; runs: Record<string, number> }[] = [
-  { band: "Deadball", from: 0, to: 1920, runs: { Power: 0.89, Eye: 1.09, "Avoid Ks": 1.02, BABIP: 3.66, Gap: 0.96 } },
-  { band: "Live Ball", from: 1921, to: 1945, runs: { Power: 2.88, Eye: 0.92, "Avoid Ks": 1.02, BABIP: 2.51, Gap: 0.34 } },
-  { band: "Integration", from: 1946, to: 1960, runs: { Power: 2.84, Eye: 0.96, "Avoid Ks": 1.18, BABIP: 3.24, Gap: 0.83 } },
-  { band: "Expansion", from: 1961, to: 1976, runs: { Power: 2.13, Eye: 0.61, "Avoid Ks": 1.37, BABIP: 2.05, Gap: 0.32 } },
-  { band: "Free Agency", from: 1977, to: 1993, runs: { Power: 2.38, Eye: 0.72, "Avoid Ks": 1.21, BABIP: 2.77, Gap: 0.81 } },
-  { band: "Steroid", from: 1994, to: 2009, runs: { Power: 2.18, Eye: 0.67, "Avoid Ks": 0.48, BABIP: 1.24, Gap: 0.60 } },
-  { band: "Modern", from: 2010, to: 9999, runs: { Power: 2.53, Eye: 0.58, "Avoid Ks": 1.44, BABIP: 2.02, Gap: 0.63 } },
+export const ERA_SLOPES: { band: string; from: number; to: number; series: number; runs: Record<string, number> }[] = [
+  { band: "Deadball", series: 4, from: 0, to: 1920, runs: { Power: 0.89, Eye: 1.09, "Avoid Ks": 1.02, BABIP: 3.66, Gap: 0.96 } },
+  { band: "Live Ball", series: 3, from: 1921, to: 1945, runs: { Power: 2.88, Eye: 0.92, "Avoid Ks": 1.02, BABIP: 2.51, Gap: 0.34 } },
+  { band: "Integration", series: 6, from: 1946, to: 1960, runs: { Power: 2.84, Eye: 0.96, "Avoid Ks": 1.18, BABIP: 3.24, Gap: 0.83 } },
+  { band: "Expansion", series: 5, from: 1961, to: 1976, runs: { Power: 2.13, Eye: 0.61, "Avoid Ks": 1.37, BABIP: 2.05, Gap: 0.32 } },
+  { band: "Free Agency", series: 8, from: 1977, to: 1993, runs: { Power: 2.38, Eye: 0.72, "Avoid Ks": 1.21, BABIP: 2.77, Gap: 0.81 } },
+  { band: "Steroid", series: 8, from: 1994, to: 2009, runs: { Power: 2.18, Eye: 0.67, "Avoid Ks": 0.48, BABIP: 1.24, Gap: 0.60 } },
+  { band: "Modern", series: 23, from: 2010, to: 9999, runs: { Power: 2.53, Eye: 0.58, "Avoid Ks": 1.44, BABIP: 2.02, Gap: 0.63 } },
 ];
 
 export const eraBand = (year: number | null | undefined) =>
