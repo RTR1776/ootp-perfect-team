@@ -1,13 +1,23 @@
 {
- "generatedAt": "2026-09-18",
+ "generatedAt": "2026-09-21",
  "source": "results.standings_tag (Your Tournaments screen)",
  "names": {
   "Daily All-Diamond": {
    "cats": [
     "PD Daily"
    ],
-   "n": 2,
-   "last": "2026-09-12",
+   "n": 4,
+   "last": "2026-09-18",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily All-Gold": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-17",
    "raw": [
     "PD Daily"
    ]
@@ -22,12 +32,33 @@
     "PD Daily"
    ]
   },
+  "Daily All-Star Hawrdware Slots": {
+   "cats": [
+    "Open",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-20",
+   "raw": [
+    "Open,Cap"
+   ]
+  },
   "Daily Around the Breakfast Table": {
    "cats": [
     "PD Daily"
    ],
+   "n": 2,
+   "last": "2026-09-19",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Around the Horn at Night": {
+   "cats": [
+    "PD Daily"
+   ],
    "n": 1,
-   "last": "2026-09-10",
+   "last": "2026-09-19",
    "raw": [
     "PD Daily"
    ]
@@ -36,8 +67,8 @@
    "cats": [
     "Bronze"
    ],
-   "n": 1,
-   "last": "2026-09-08",
+   "n": 2,
+   "last": "2026-09-18",
    "raw": [
     "Bronze"
    ]
@@ -99,11 +130,11 @@
     "Diamond",
     "Cap"
    ],
-   "n": 3,
-   "last": "2026-09-16",
+   "n": 5,
+   "last": "2026-09-19",
    "raw": [
-    "Dia,Cp",
-    "Diamond,Cap"
+    "Diamond,Cap",
+    "Dia,Cp"
    ]
   },
   "Daily Diamonds are Forever": {
@@ -114,6 +145,16 @@
    "last": "2026-09-10",
    "raw": [
     "Diamond"
+   ]
+  },
+  "Daily Early Bronze": {
+   "cats": [
+    "Bronze"
+   ],
+   "n": 1,
+   "last": "2026-09-19",
+   "raw": [
+    "Bronze"
    ]
   },
   "Daily Gold Cap": {
@@ -142,8 +183,8 @@
    "cats": [
     "Gold"
    ],
-   "n": 6,
-   "last": "2026-09-15",
+   "n": 8,
+   "last": "2026-09-18",
    "raw": [
     "Gold"
    ]
@@ -163,8 +204,8 @@
     "Gold",
     "Cap"
    ],
-   "n": 3,
-   "last": "2026-09-16",
+   "n": 5,
+   "last": "2026-09-19",
    "raw": [
     "Gold,Cap"
    ]
@@ -179,14 +220,45 @@
     "PD Daily"
    ]
   },
+  "Daily Late 1900s": {
+   "cats": [
+    "Open"
+   ],
+   "n": 1,
+   "last": "2026-09-18",
+   "raw": [
+    "Open"
+   ]
+  },
   "Daily Late Silver": {
    "cats": [
     "Silver"
    ],
-   "n": 6,
-   "last": "2026-09-14",
+   "n": 9,
+   "last": "2026-09-19",
    "raw": [
     "Silver"
+   ]
+  },
+  "Daily Live Breakfast": {
+   "cats": [
+    "Live",
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-20",
+   "raw": [
+    "PD Daily,Live"
+   ]
+  },
+  "Daily Live Plus": {
+   "cats": [
+    "Open"
+   ],
+   "n": 3,
+   "last": "2026-09-20",
+   "raw": [
+    "Open"
    ]
   },
   "Daily Low Bronze Only": {
@@ -219,6 +291,16 @@
     "Diamond"
    ]
   },
+  "Daily Low Gold Only": {
+   "cats": [
+    "Gold"
+   ],
+   "n": 1,
+   "last": "2026-09-18",
+   "raw": [
+    "Gold"
+   ]
+  },
   "Daily Low Silver Only": {
    "cats": [
     "Silver"
@@ -233,8 +315,18 @@
    "cats": [
     "PD Daily"
    ],
-   "n": 3,
-   "last": "2026-09-12",
+   "n": 4,
+   "last": "2026-09-18",
+   "raw": [
+    "PD Daily"
+   ]
+  },
+  "Daily Perfectly Bronze": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-18",
    "raw": [
     "PD Daily"
    ]
@@ -243,8 +335,8 @@
    "cats": [
     "PD Daily"
    ],
-   "n": 3,
-   "last": "2026-09-12",
+   "n": 4,
+   "last": "2026-09-19",
    "raw": [
     "PD Daily"
    ]
@@ -269,13 +361,23 @@
     "PD Daily"
    ]
   },
+  "Daily Rise and Shine": {
+   "cats": [
+    "PD Daily"
+   ],
+   "n": 1,
+   "last": "2026-09-20",
+   "raw": [
+    "PD Daily"
+   ]
+  },
   "Daily Silver & Friends Slots": {
    "cats": [
     "Silver",
     "Cap"
    ],
-   "n": 7,
-   "last": "2026-09-17",
+   "n": 8,
+   "last": "2026-09-18",
    "raw": [
     "Silver,Cap"
    ]
@@ -302,14 +404,35 @@
     "Silver,Cap"
    ]
   },
+  "Friday Danksville": {
+   "cats": [
+    "Iron"
+   ],
+   "n": 1,
+   "last": "2026-09-18",
+   "raw": [
+    "Iron"
+   ]
+  },
   "Friday Draft About Nothing": {
    "cats": [
     "PD Weekly"
    ],
-   "n": 1,
-   "last": "2026-09-11",
+   "n": 2,
+   "last": "2026-09-18",
    "raw": [
     "PD Weekly"
+   ]
+  },
+  "Friday Nightmare Cap": {
+   "cats": [
+    "Silver",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-18",
+   "raw": [
+    "Slv,Cp,TW"
    ]
   },
   "Laptophound's Daily 6L Power Play": {
@@ -374,12 +497,23 @@
     "Gld,Cp,TW"
    ]
   },
+  "Saturday Bronze Cap": {
+   "cats": [
+    "Bronze",
+    "Cap"
+   ],
+   "n": 1,
+   "last": "2026-09-19",
+   "raw": [
+    "Brz,Cp,TW"
+   ]
+  },
   "Saturday Can't Sleep Clown Will Eat Me": {
    "cats": [
     "PD Weekly"
    ],
-   "n": 1,
-   "last": "2026-09-12",
+   "n": 2,
+   "last": "2026-09-19",
    "raw": [
     "PD Weekly"
    ]
@@ -388,8 +522,8 @@
    "cats": [
     "Diamond"
    ],
-   "n": 1,
-   "last": "2026-09-12",
+   "n": 2,
+   "last": "2026-09-19",
    "raw": [
     "Dia,TW"
    ]
@@ -399,8 +533,8 @@
     "Open",
     "Cap"
    ],
-   "n": 1,
-   "last": "2026-09-12",
+   "n": 2,
+   "last": "2026-09-19",
    "raw": [
     "Op,Cp,TW"
    ]
@@ -409,8 +543,8 @@
    "cats": [
     "PD Weekly"
    ],
-   "n": 1,
-   "last": "2026-09-12",
+   "n": 2,
+   "last": "2026-09-19",
    "raw": [
     "PD Weekly"
    ]
@@ -420,8 +554,8 @@
     "Gold",
     "Cap"
    ],
-   "n": 1,
-   "last": "2026-09-13",
+   "n": 2,
+   "last": "2026-09-20",
    "raw": [
     "Gld,Cp,TW"
    ]
@@ -431,8 +565,8 @@
     "Open",
     "Cap"
    ],
-   "n": 1,
-   "last": "2026-09-10",
+   "n": 2,
+   "last": "2026-09-17",
    "raw": [
     "Op,Cp,TW"
    ]
@@ -441,8 +575,8 @@
    "cats": [
     "Gold"
    ],
-   "n": 1,
-   "last": "2026-09-10",
+   "n": 2,
+   "last": "2026-09-17",
    "raw": [
     "Gld,TW"
    ]
@@ -451,8 +585,8 @@
    "cats": [
     "PD Weekly"
    ],
-   "n": 1,
-   "last": "2026-09-10",
+   "n": 2,
+   "last": "2026-09-17",
    "raw": [
     "PD Weekly"
    ]
