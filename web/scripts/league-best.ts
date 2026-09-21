@@ -9,8 +9,11 @@
  * a neutral park — which is the number that says "this card is good HERE",
  * separate from "this card is good".
  *
- *   node --env-file=.env.local --import tsx scripts/league-best.ts \
- *     --year 1989 --base-year 2010 --park "Truist Field" --park-year 2026 --dh
+ *   pnpm league:best --year 1989 --base-year 2010 --park "Truist Field" --park-year 2026
+ *
+ * --league / --team / --on / --upload all DEFAULT TO THE NEWEST DATA rather
+ * than to the week they were written against, and what they resolved to is
+ * printed. There is no --dh: the DH slot is unconditional.
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -21,6 +24,7 @@ import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-en
 import { HIT_POS } from "@/lib/roster-fill";
 import { readFileSync } from "node:fs";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
+import { MY_ORG, isMyOrg } from "@/lib/my-team";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -29,16 +33,48 @@ const num = (k: string, d: number | null = null) => { const v = val(k); return v
 
 const YEAR = val("year", "1989")!, BASE = val("base-year", "2010")!;
 const PARK = val("park") ?? null, PARK_YEAR = num("park-year");
-const UPLOAD = num("upload", 65)!;
 const MINVAL = num("min-value", 0)!;
 const NSP = num("sp", 5)!, NRP = num("rp", 7)!, NBAT = num("bats", 14)!;
-const LEAGUE = val("league", "HD453")!, TEAM = val("team", "Kansas City Torrent")!, ON = val("on", "2026-09-13")!;
+/*
+ * These four used to be hardcoded to the week the script was written
+ * (upload 65, HD453, 2026-09-13) and went stale in place: a run would score
+ * a months-old collection against a team that had since moved leagues and
+ * report it without complaint. They are resolved from the newest data below,
+ * and a flag still wins. See resolveScope().
+ */
+const UPLOAD_ARG = num("upload"), LEAGUE_ARG = val("league") ?? null;
+const TEAM_ARG = val("team") ?? null, ON_ARG = val("on") ?? null;
+let UPLOAD = 0, LEAGUE = "", TEAM = "", ON = "";
+
+/**
+ * Newest league week, newest collection, and the league that team is in THAT
+ * week. The team is found by `isMyOrg`, not by an exact name, because the
+ * export carries the clan tag and it changes (see lib/my-team).
+ */
+async function resolveScope() {
+  ON = ON_ARG ?? String(asRows<{ d: string | null }>(await db.execute(sql`
+    select max(captured_on)::text d from league_snapshots`))[0]?.d ?? "");
+  UPLOAD = UPLOAD_ARG ?? Number(asRows<{ id: number | null }>(await db.execute(sql`
+    select max(id) id from uploads where kind = 'collection'`))[0]?.id ?? 0);
+  const orgs = asRows<{ league: string; org: string; n: number }>(await db.execute(sql`
+    select ls.league, st.org, count(*)::int n
+    from league_stints st join league_snapshots ls on ls.id = st.snapshot_id
+    where ls.captured_on = ${ON} and ls.split = 'all'
+    group by 1, 2`)).filter((r) => isMyOrg(r.org)).sort((a, b) => b.n - a.n);
+  LEAGUE = LEAGUE_ARG ?? orgs[0]?.league ?? "";
+  TEAM = TEAM_ARG ?? orgs[0]?.org ?? MY_ORG;
+  console.log(`scope: ${LEAGUE || "?"} · ${TEAM} · week ${ON} · collection upload ${UPLOAD}` +
+    `${ON_ARG || LEAGUE_ARG || TEAM_ARG || UPLOAD_ARG != null ? "  (partly from flags)" : "  (all resolved from newest data)"}`);
+  if (!orgs.length) console.log(`  !! no roster for ${MY_ORG} in the ${ON} exports — the comparison against "the roster now" will be empty`);
+  else if (orgs.length > 1) console.log(`  !! ${MY_ORG} appears in ${orgs.length} leagues that week (${orgs.map((o) => o.league).join(", ")}); using ${LEAGUE}`);
+}
 const SHOW = num("show", 30)!;
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 /** vs-RHP is ~70% of plate appearances; roster-fill uses the same 0.3 weight. */
 const WL = 0.3;
 
 async function main() {
+  await resolveScope();
   const era = eraTable[YEAR]!, eraBase = eraTable[BASE]!;
   const pr = PARK ? parkRow(PARK, PARK_YEAR) : null;
   if (PARK && !pr) console.log(`!! no factors on file for ${PARK_YEAR} ${PARK}`);

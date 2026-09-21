@@ -12,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TierDot } from "@/components/tier-badge";
 import { cn } from "@/lib/utils";
 import type { Tier } from "@/lib/tiers";
-import { MY_ORG, MY_ORG_SHORT } from "@/lib/my-team";
+import { MY_ORG, MY_ORG_SHORT, anyMine } from "@/lib/my-team";
 import {
   HIT_POS, f1, f2, f3, pct1, hitterQual, pitcherQual,
   type HitterLine, type PitcherLine, type MetaSummary,
@@ -63,7 +63,7 @@ function weekLabel(d: string): string {
   return `Week of ${mon.getUTCMonth() + 1}/${mon.getUTCDate()} (season ending ${m}/${day})`;
 }
 
-const isMine = (orgs: string[]) => orgs.includes(MY_ORG);
+const isMine = (orgs: string[]) => anyMine(orgs);
 
 export function LeagueBoard({ hitters, pitchers, mineHitters, minePitchers, meta, filters, weeks, leagues, scopeInfo }: Props) {
   const router = useRouter();
