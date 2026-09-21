@@ -62,6 +62,12 @@ Other tools:
 - **Lines.** `pnpm ptcs:standing` uses cwhit's projected cutoffs when a transcription of his "Cycle N qualification targets" board exists in `reference/cwhit/<date> cycleN targets.csv` (newest wins) and shows the dump-derived line beside it; `periods.targets` on the /ptcs page carries the same numbers. His last-cutoff column is the game's actual; ours from the dump undercounts wherever the category map misses events.
 - `pnpm record [--user x] [--size 128] [--weekly|--daily] [--series "..."]` — series W–L by round, series and month, exact from the dump's finishing order (verified against the published cwhitman/spatrick4 tables)
 
+- **Data banner on /build.** Every event's build page opens with a coloured banner — green "Good data", amber "Fair data", red "Slim data" — from `lib/data-confidence.ts`: exports of this event on record (0 / 1–2 / 3+; a sliver under 8 teams counts as none), the share of the legal pool with play and its median PA/BF, how many series the era band's rating prices rest on (Deadball 4, Live Ball 3 are thin; Modern 23), and whether the park is on file. The pool decides the level; no exports of the event and a thin era band each take it down a step; a missing park or environment year caps it at fair. Each chip's tooltip says what it measured and the last line says what would raise it.
+- **Era correction is ON by default** in `/build` (Optimise and the Runs column), `env:roster`, `roster:diff` and `cwhit:compare` since 2026-09-19: a bat's calibrated model runs are moved by what play in the event's era band returned per rating point above the model's line (`calibration.ts` ERA_SLOPES, from `pnpm era:slopes`). Arms are untouched. `--no-era-correct` on the scripts turns it off; the PT default environment reads as 2010. Rosters built before this differ from rosters built after, mostly at BABIP-heavy bats.
+- `pnpm roster:save --file Inbox/rosters/x.txt --tournament 541 --name "…" [--replace]` — save a roster file as a named roster on /build for that catalogue tournament (same tables and validation as the page's own save). The name's legal copy for the event wins when a name is several cards (an 84 and a 100+).
+- `pnpm roster:corrected --series X --year Y --park … --min … --max … [--card-types 2,6,7] [--roster start.txt] [--alternatives 6] [--max-passes 0] [--no-correct]` — env-roster's pricing with the era-slopes correction applied to bats before the observed blend (the per-rating gap between what play returned in that era band and what the calibrated model pays). Prints the evidence first (model, corrected, blend, and the card's own line in this series), then the six best legal cards per slot when asked, then the roster. `--max-passes 0` scores a hand-built roster as loaded. Used for Diamond Variety 2026-09-19.
+- `pnpm era:slopes` — what each rating is worth per era, measured from play: within-series (fixed-effects) slopes with series-clustered errors, beside the model's own calibrated line per band. The read as of 2026-09-19: BABIP under-priced 2–3× in every era, Gap 1.5×, everything before 1960 scaled down too hard; Power, Eye and Avoid Ks right in modern play. Next step is a per-component calibration, not a per-era curve refit.
+
 ## Validation — run these after any model change
 
 - `pnpm model:validate` — rank correlation of model runs vs observed play (hitters ~0.54, arms ~0.40 at 2026-09-15; unchanged by calibration, which is a rescale)
@@ -106,11 +112,22 @@ Other tools:
 
 ## Git from Claude's side
 
-Claude's shell is a sandbox: it can commit but not push, and cannot delete
-files, so a stale `.git/index.lock` or `HEAD.lock` gets moved to
-`_to_delete/gitlocks/` rather than removed. Double-click **Push to
-- **Data banner on /build.** Every event's build page opens with a coloured banner — green "Good data", amber "Fair data", red "Slim data" — from `lib/data-confidence.ts`: exports of this event on record (0 / 1–2 / 3+; a sliver under 8 teams counts as none), the share of the legal pool with play and its median PA/BF, how many series the era band's rating prices rest on (Deadball 4, Live Ball 3 are thin; Modern 23), and whether the park is on file. The pool decides the level; no exports of the event and a thin era band each take it down a step; a missing park or environment year caps it at fair. Each chip's tooltip says what it measured and the last line says what would raise it.
-- **Era correction is ON by default** in `/build` (Optimise and the Runs column), `env:roster`, `roster:diff` and `cwhit:compare` since 2026-09-19: a bat's calibrated model runs are moved by what play in the event's era band returned per rating point above the model's line (`calibration.ts` ERA_SLOPES, from `pnpm era:slopes`). Arms are untouched. `--no-era-correct` on the scripts turns it off; the PT default environment reads as 2010. Rosters built before this differ from rosters built after, mostly at BABIP-heavy bats.
-- `pnpm roster:save --file Inbox/rosters/x.txt --tournament 541 --name "…" [--replace]` — save a roster file as a named roster on /build for that catalogue tournament (same tables and validation as the page's own save). The name's legal copy for the event wins when a name is several cards (an 84 and a 100+).
-- `pnpm roster:corrected --series X --year Y --park … --min … --max … [--card-types 2,6,7] [--roster start.txt] [--alternatives 6] [--max-passes 0] [--no-correct]` — env-roster's pricing with the era-slopes correction applied to bats before the observed blend (the per-rating gap between what play returned in that era band and what the calibrated model pays). Prints the evidence first (model, corrected, blend, and the card's own line in this series), then the six best legal cards per slot when asked, then the roster. `--max-passes 0` scores a hand-built roster as loaded. Used for Diamond Variety 2026-09-19.
-- `pnpm era:slopes` — what each rating is worth per era, measured from play: within-series (fixed-effects) slopes with series-clustered errors, beside the model's own calibrated line per band. The read as of 2026-09-19: BABIP under-priced 2–3× in every era, Gap 1.5×, everything before 1960 scaled down too hard; Power, Eye and Avoid Ks right in modern play. Next step is a per-component calibration, not a per-era curve refit.
+Claude can commit, push, and open pull requests with `gh`. It can also delete
+files. Both of those were once false — the sandbox blocked them and this
+section said so — and both were verified working on 2026-09-21 (branch
+`claude/great-leakey-a869bb`, PR #4).
+
+What that changes:
+
+- **You no longer have to push on Claude's behalf.** **Push to GitHub.command**
+  still works and is the fastest route when you are already driving; it is
+  just not the only one. A push is a real write to the remote, so Claude asks
+  before pushing unless you have said to go ahead.
+- **A stale `.git/index.lock` or `HEAD.lock` can simply be deleted.** Moving
+  them to `_to_delete/gitlocks/` was the workaround for not being able to
+  remove files. That quarantine has no reason to exist now and `_to_delete/`
+  is safe to empty.
+- **Claude usually works in a git worktree** under `.claude/worktrees/`, so
+  anything it files into a tracked folder — `Tourney Data/`, `Docs/` — lands
+  on the branch and reaches your main checkout when that branch merges, not
+  before. The database is shared, so DB writes land immediately either way.

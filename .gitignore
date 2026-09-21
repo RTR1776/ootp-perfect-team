@@ -22,7 +22,7 @@ data-store/
 # raw historical data pile - loaded into the DB, too big for git
 Archive/
 
-# Quarantine folder: files staged for L.J. to delete (assistant cannot rm on this machine)
+# Quarantine folder, no longer needed: Claude can delete files directly (verified 2026-09-21). Safe to empty.
 _to_delete/
 
 # Transient outbox: filed exports awaiting L.J.'s cwhit/DCFC upload, cleared by him
