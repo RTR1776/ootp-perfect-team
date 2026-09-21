@@ -24,7 +24,7 @@ import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-en
 import { HIT_POS } from "@/lib/roster-fill";
 import { readFileSync } from "node:fs";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
-import { MY_ORG, isMyOrg } from "@/lib/my-team";
+import { resolveLeagueScope } from "@/lib/league-scope";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -39,34 +39,19 @@ const NSP = num("sp", 5)!, NRP = num("rp", 7)!, NBAT = num("bats", 14)!;
  * These four used to be hardcoded to the week the script was written
  * (upload 65, HD453, 2026-09-13) and went stale in place: a run would score
  * a months-old collection against a team that had since moved leagues and
- * report it without complaint. They are resolved from the newest data below,
- * and a flag still wins. See resolveScope().
+ * report it without complaint. lib/league-scope resolves them from the newest
+ * data — park-sweep had the same four pinned to its own week, so the
+ * resolution lives there rather than in either script. A flag still wins.
  */
 const UPLOAD_ARG = num("upload"), LEAGUE_ARG = val("league") ?? null;
 const TEAM_ARG = val("team") ?? null, ON_ARG = val("on") ?? null;
 let UPLOAD = 0, LEAGUE = "", TEAM = "", ON = "";
 
-/**
- * Newest league week, newest collection, and the league that team is in THAT
- * week. The team is found by `isMyOrg`, not by an exact name, because the
- * export carries the clan tag and it changes (see lib/my-team).
- */
 async function resolveScope() {
-  ON = ON_ARG ?? String(asRows<{ d: string | null }>(await db.execute(sql`
-    select max(captured_on)::text d from league_snapshots`))[0]?.d ?? "");
-  UPLOAD = UPLOAD_ARG ?? Number(asRows<{ id: number | null }>(await db.execute(sql`
-    select max(id) id from uploads where kind = 'collection'`))[0]?.id ?? 0);
-  const orgs = asRows<{ league: string; org: string; n: number }>(await db.execute(sql`
-    select ls.league, st.org, count(*)::int n
-    from league_stints st join league_snapshots ls on ls.id = st.snapshot_id
-    where ls.captured_on = ${ON} and ls.split = 'all'
-    group by 1, 2`)).filter((r) => isMyOrg(r.org)).sort((a, b) => b.n - a.n);
-  LEAGUE = LEAGUE_ARG ?? orgs[0]?.league ?? "";
-  TEAM = TEAM_ARG ?? orgs[0]?.org ?? MY_ORG;
-  console.log(`scope: ${LEAGUE || "?"} · ${TEAM} · week ${ON} · collection upload ${UPLOAD}` +
-    `${ON_ARG || LEAGUE_ARG || TEAM_ARG || UPLOAD_ARG != null ? "  (partly from flags)" : "  (all resolved from newest data)"}`);
-  if (!orgs.length) console.log(`  !! no roster for ${MY_ORG} in the ${ON} exports — the comparison against "the roster now" will be empty`);
-  else if (orgs.length > 1) console.log(`  !! ${MY_ORG} appears in ${orgs.length} leagues that week (${orgs.map((o) => o.league).join(", ")}); using ${LEAGUE}`);
+  const sc = await resolveLeagueScope({ league: LEAGUE_ARG, team: TEAM_ARG, on: ON_ARG, upload: UPLOAD_ARG });
+  ({ league: LEAGUE, team: TEAM, on: ON, upload: UPLOAD } = sc);
+  console.log(sc.summary);
+  for (const n of sc.notes) console.log(`  !! ${n}`);
 }
 const SHOW = num("show", 30)!;
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;

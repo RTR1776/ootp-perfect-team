@@ -24,24 +24,31 @@
  * of the export — not cards.ratings, which is the base card. series-fit and
  * anything else on envFitMaps scores the Cy Young variant as the base card.
  *
- *   pnpm tsx scripts/park-sweep.ts --league HD451 --on 2026-09-20 \
- *     --team "Kansas City Torrent - JW" --year 2010 \
- *     --field HD450,HD451,HD452,HD453,PEL --top 20
+ *   pnpm tsx scripts/park-sweep.ts [--year 2010] [--top 20]
+ *
+ * --league / --team / --on / --field DEFAULT TO THE NEWEST DATA via
+ * lib/league-scope and the resolved scope is printed. They used to be pinned
+ * to HD451 / 2026-09-20 / "Kansas City Torrent - JW", which is right for one
+ * week only: the team climbs a weekly ladder and the export appends the clan
+ * tag to the org, so both the league and the name move.
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { eraTable, parkTable } from "@/lib/analytics/runenv-view";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
+import { resolveLeagueScope } from "@/lib/league-scope";
+import { isMyOrg } from "@/lib/my-team";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const num = (k: string, d: number) => { const v = val(k); return v == null ? d : Number(v); };
-const LEAGUE = val("league", "HD451")!, ON = val("on", "2026-09-20")!;
-const TEAM = val("team", "Kansas City Torrent - JW")!;
+const LEAGUE_ARG = val("league") ?? null, ON_ARG = val("on") ?? null;
+const TEAM_ARG = val("team") ?? null;
 const YEAR = val("year", "2010")!;
-const FIELD = (val("field", "HD450,HD451,HD452,HD453,PEL")!).split(",");
+const FIELD_ARG = val("field")?.split(",") ?? null;
+let LEAGUE = "", ON = "", TEAM = "", FIELD: string[] = [];
 const TOP = num("top", 20), MINPA = num("min-pa", 50);
 const ONLY = val("parks") ?? null;          // comma-separated "Name@Year" shortlist
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
@@ -77,12 +84,17 @@ function main() {
   if (!era) { console.log(`no era row for ${YEAR}`); process.exit(1); }
 
   (async () => {
-    const up = Number(asRows<any>(await db.execute(sql`select max(id) as id from uploads where kind='collection'`))[0].id);
+    const sc = await resolveLeagueScope({ league: LEAGUE_ARG, team: TEAM_ARG, on: ON_ARG, field: FIELD_ARG });
+    ({ league: LEAGUE, team: TEAM, on: ON, field: FIELD } = sc);
+    console.log(sc.summary);
+    for (const n of sc.notes) console.log(`  !! ${n}`);
+    const up = sc.upload;
     const all = await load(FIELD, up);
-    for (const r of all) if (r.org === TEAM && r.copy) r.ratings = mergeCopyRatings(r.ratings, r.copy, r.pos);
-    const mine = all.filter((r) => r.org === TEAM && r.ratings);
+    /* isMyOrg, not === TEAM: the org carries a clan tag that changes. */
+    for (const r of all) if (isMyOrg(r.org) && r.copy) r.ratings = mergeCopyRatings(r.ratings, r.copy, r.pos);
+    const mine = all.filter((r) => isMyOrg(r.org) && r.ratings);
     if (!mine.length) { console.log(`${TEAM} not found on ${ON}`); process.exit(1); }
-    const field = all.filter((r) => r.org !== TEAM && r.ratings && weightOf(r) >= MINPA);
+    const field = all.filter((r) => !isMyOrg(r.org) && r.ratings && weightOf(r) >= MINPA);
     const nTeams = new Set(field.map((r) => r.org)).size;
 
     const pool = (rs: Row[]) => rs.map((r) => ({
