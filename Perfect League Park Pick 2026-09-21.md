@@ -44,65 +44,66 @@ do not specially help or hurt your rotation. The rotation is *neutral* on the
 park question; it neither argues for the pick below nor against it. The lineup
 asymmetry is what decides it.
 
-## Stadium choices
+## Stadium choices — from YOUR available list
+
+Ranked against the parks you actually have (your three screenshots, all levels —
+you said required level is irrelevant). This supersedes the earlier ranking,
+which was run against the whole historical table and picked two parks you cannot
+choose (Bacharach '27, Yankee '71).
 
 | park | AvgL | AvgR | HR L | HR R | 2B | 3B | bats | arms | you | field | **edge** |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **1971 Yankee Stadium** | 0.983 | 0.975 | 1.220 | 0.725 | 0.985 | 1.180 | +2.1 | −3.1 | −1.0 | −12.5 | **+11.5** |
-| **1927 Bacharach Park** | 0.970 | 0.970 | 1.150 | 0.660 | 0.980 | 0.940 | +0.5 | −4.9 | −4.4 | −15.7 | **+11.3** |
-| 1919 Sportsmans Park | 1.039 | 1.001 | 1.361 | 0.906 | 1.029 | 1.071 | +5.9 | +2.1 | +8.1 | −2.9 | +10.9 |
-| 1928 Mack Park | 1.050 | 1.050 | 1.220 | 0.780 | 1.030 | 0.980 | +3.9 | +1.5 | +5.4 | −4.9 | +10.3 |
-| **2026 PNC Field** (modern) | 1.020 | 0.930 | 1.150 | 0.810 | 0.955 | 0.816 | +1.6 | −3.6 | −1.9 | −11.3 | **+9.4** |
-| 2026 Southwest University | 1.100 | 1.100 | 1.500 | 1.100 | 1.120 | 1.209 | +10.4 | +10.7 | +21.1 | +12.2 | +8.9 |
-| 2026 Louisville Slugger | 1.060 | 0.950 | 1.150 | 0.890 | 1.027 | 1.024 | +3.0 | −0.9 | +2.1 | −5.8 | +7.9 |
+| **1987 Yankee Stadium** | 1.099 | 0.953 | 1.088 | 0.969 | 0.965 | 0.847 | +2.9 | +0.3 | +3.2 | −2.2 | **+5.4** |
+| **1952 Yankee Stadium** | 0.943 | 0.961 | 1.126 | 0.876 | 0.893 | 1.008 | +0.0 | −3.3 | −3.3 | −8.6 | **+5.3** |
+| 1986 Three Rivers Stadium | 1.002 | 1.007 | 1.115 | 0.950 | 1.033 | 1.067 | +1.7 | +0.5 | +2.3 | −1.4 | +3.6 |
+| 1911 Washington Park | 1.005 | 0.953 | 0.919 | 0.831 | 1.029 | 0.979 | −1.6 | −4.1 | −5.7 | −8.9 | +3.1 |
+| 2026 Polar Park | 1.090 | 1.020 | 1.050 | 0.980 | 1.240 | 0.700 | +3.0 | +3.0 | +6.0 | +3.0 | +3.0 |
+| 1945 Comiskey Park | 1.125 | 0.931 | 0.957 | 0.987 | 0.978 | 0.997 | +1.6 | −0.6 | +1.0 | −1.9 | +2.9 |
+| 1980 Astrodome | 1.024 | 0.910 | 0.888 | 0.855 | 0.979 | 1.197 | −1.8 | −5.2 | −7.0 | −9.9 | +2.9 |
+| 1940 Forbes Field | 1.045 | 1.026 | 0.942 | 0.847 | 0.971 | 1.229 | −0.3 | −0.5 | −0.8 | −3.6 | +2.8 |
+| 2026 Oriole Park at Camden Yards | 1.030 | 1.034 | 1.060 | 0.945 | 0.963 | 1.013 | +1.3 | +1.4 | +2.7 | +0.1 | +2.7 |
+| 1936 Hinchliffe Stadium | 1.140 | 1.140 | 0.880 | 0.810 | 1.070 | 1.000 | +1.2 | +4.9 | +6.2 | +3.8 | +2.4 |
+| 1949 Polo Grounds | 0.800 | 0.816 | 1.192 | 1.069 | 0.902 | 0.967 | −1.5 | −7.4 | −9.0 | −10.7 | +1.8 |
+| 1905 League Park | 1.200 | 1.089 | 0.883 | 0.929 | 0.913 | 0.884 | +2.2 | +5.4 | +7.6 | +5.9 | +1.7 |
+| 1985 Wrigley Field | 1.039 | 1.018 | 1.187 | 1.144 | 0.958 | 1.025 | +3.9 | +4.4 | +8.2 | +7.1 | +1.1 |
+| 1927 Sportsmans Park | 0.996 | 0.977 | 1.201 | 1.162 | 1.030 | 1.022 | +3.3 | +2.6 | +5.9 | +5.1 | +0.8 |
+| 1992 Oriole Park at Camden Yards | 1.012 | 0.975 | 1.055 | 1.073 | 0.974 | 0.981 | +1.1 | +0.6 | +1.7 | +1.6 | +0.1 |
 
 Runs over 81 home games against the same field in the same park; ~10 runs = 1 win.
 `bats`/`arms` split your half into lineup and staff, both against neutral.
 
-**Avoid:** 1945 Fenway (−14.3), 1911 Bennett Park (−10.3), 1946 Fenway (−8.3),
-1926 Navin Field (−8.0). All high-HR-to-RHB — the field's shape, not yours.
+**The two Yankee Stadiums are the pick, and they are opposite routes to the same
+number:**
 
-### Why it is the asymmetric park and not a bunker
+- **1987** is a left-handed *average* park (AvgL 1.099 vs AvgR 0.953). It **adds**
+  runs — your bats +2.9, staff untouched. Best raw edge, +5.4.
+- **1952** is a left-handed *power* park that **suppresses** overall (HRL 1.126 /
+  HRR 0.876, AvgL 0.943). Your production drops 3.3 but the field's drops 8.6.
 
-You asked whether a strong staff lets you go extreme pitcher's park. Tested:
+**For a pitching-first club, 1952 is the better fit** even though it trails by
+0.1 runs: it is the run-suppressing option, and in a low-run park a given run
+differential converts to more wins (Pythagorean sensitivity rises as the run
+level falls) — an effect the sweep does not price. If you buy a big bat instead,
+1987 pulls ahead (+7.3 vs +6.7 with Ortiz).
 
-| park | HR L / R | bats | arms | you | field | **edge** |
-|---|---|---|---|---|---|---|
-| 1940 Rickwood Field | 0.600 / 0.500 | −8.4 | −12.6 | −21.0 | −24.0 | **+3.0** |
-| 1930 Hamtramck | 0.620 / 0.600 | −5.9 | −5.9 | −11.8 | −13.2 | **+1.4** |
-| 1926 Braves Field | 0.631 / 0.642 | −6.8 | −8.3 | −15.2 | −15.8 | **+0.6** |
+Note **League Park 1905 scores only +1.7** despite the biggest LHB average factor
+on your list (1.200) — because AvgR 1.089 is nearly as high, so it feeds the
+field's right-handed bats too. Asymmetry is what pays, not raw LHB friendliness.
+(That row was not in `reference/ballparks.csv`; added from your screenshot.)
 
-Blanket suppression taxes your own offense as hard as theirs, **and it shrinks
-your staff's own edge** — at Rickwood the arms lose 12.6 runs of value, because
-there is less offense left to prevent. Net +3.
-
-What you want is **targeted** suppression. The field is 57.2% RHB; you are 53.8%
-effective LHB (switch hitters bat left vs RHP):
-
-| share of PA | LHB | switch | RHB |
-|---|---|---|---|
-| Torrent | 33.8% | 20.0% | 46.1% |
-| PEL field | 28.3% | 14.5% | 57.2% |
-
-Bacharach '27 **is** a pitcher's park — AvgL and AvgR both 0.970 — it just
-declines to tax the one thing you are good at. Yankee '71 is the same trade with
-a triples kicker (3B 1.180). Either is worth ~8 runs more than the bunker.
-
-One caveat the model does not price: in a heavily suppressed park a given run
-differential converts to *more* wins (Pythagorean sensitivity rises as the run
-level falls). That nudges the bunkers up somewhat — not by the 8 runs they trail.
+Skip **1949 Polo Grounds** despite its LHB look: AvgL 0.800 guts your own contact.
 
 ### ⚠ Name traps
 
-- **PNC Field** (Scranton/WB, +9.4) is not **PNC Park** (Pittsburgh, ~+1).
+- **PNC Field** is not **PNC Park** (yours is PNC Park, 2026, +1.2).
 - **Truist Field** (Charlotte, HR 1.50/1.46) is not **Truist Park** (Atlanta).
-- The park table carries **"Hichliffe Stadium"** and **"Hinchliffe Stadium"** as
-  separate 1936 rows with identical factors. Same park, one misspelt. `parkTwins()`
-  does not catch it because the normaliser only strips the suffix word.
+- The table carries **"Hichliffe Stadium"** and **"Hinchliffe Stadium"** as
+  separate 1936 rows with identical factors. Same park, one misspelt; yours is
+  the New York Black Yankees row.
 
-## The vR bat, at a PEL-legal floor
+## The vR bat — and your park list changes the answer
 
-`pnpm vl:dh --board vR --park "Bacharach Park" --park-year 1927 --min-value 100`
+`pnpm vl:dh --board vR --park "Yankee Stadium" --park-year 1987 --min-value 100`
 
 | vsRHP | vsLHP | split | val | B | year | name | pos | price |
 |---|---|---|---|---|---|---|---|---|
@@ -110,40 +111,34 @@ level falls). That nudges the bunkers up somewhat — not by the 8 runs they tra
 | +40.4 | +19.1 | +21.3 | 101 | R | 1995 | Albert Belle | LF | ~175,500 |
 | +38.7 | +14.8 | +23.9 | 101 | L | 2016 | **David Ortiz** | DH | ~179,000 |
 | +36.2 | −2.8 | +39.1 | 101 | L | 2013 | Chris Davis | 1B | ~102,334 |
-| +34.9 | +39.4 | −4.5 | 102 | R | 1959 | Hank Aaron | RF | ~353,594 |
 | +30.8 | +17.1 | +13.7 | 100 | L | 1929 | Lefty O'Doul | LF | ~63,318 |
 
-Your own bar, same park: Ed Bailey +37.6 (but −26.5 vL), Hidalgo +34.3,
-Banks +33.9, Ott +33.4.
+**Judged together with the park:**
 
-**The park and the bat interact, so judge them together:**
-
-| add | neutral vs field | best park edge | **total** | price |
+| add | neutral vs field | best available park | **total** | price |
 |---|---|---|---|---|
-| — | −1.5 | +11.5 | +10.0 | — |
-| **Jose Canseco (R)** | **+39.3** | +6.3 (Sportsmans) | **+45.6** | ~350k |
-| **David Ortiz (L)** | +28.7 | **+14.7** (Yankee '71) | **+43.4** | ~179k |
-| Albert Belle (R) | +17.1 | +9.3 | +26.4 | ~176k |
+| — | −1.5 | +5.4 (Yankee '87) | +3.9 | — |
+| **Jose Canseco (R)** | **+39.3** | +3.3 | **+42.6** | ~350k |
+| David Ortiz (L) | +28.7 | +7.3 | +36.0 | ~179k |
 
-Canseco is the best card on the board — a genuine no-split monster (+41.1 both
-ways), RF 88 / LF 83, Speed 93, so he fields. But he is right-handed, so he
-**halves your park edge**, and he costs double.
+**This reverses the earlier recommendation.** Against the full historical table
+the best park was worth +11.5, so a left-handed bat that compounded with it beat
+a better right-handed card. Your actual list tops out at +5.4 — the park term is
+half as large, so it no longer overturns Canseco's 10.6-run advantage on the
+neutral line. **Canseco is the pick if you can spend it**: +6.6 runs over Ortiz,
+no platoon split at all (+41.1 both boards), and he fields (RF 88, LF 83,
+Speed 93) rather than occupying the DH slot.
 
-**Ortiz gets you within 2 runs of Canseco for half the money**, and he is the one
-that compounds with the park rather than fighting it. PEL does run a DH (12 cards,
-4,911 PA), so he is legal. Downside: DH-only (1B 59, OF 8, Speed 5) — he occupies
-the DH slot and gives you no defensive flexibility. His vL is +14.8, so he is an
-everyday bat, not a platoon piece (that is Chris Davis at −2.8).
-
-Budget play: **Lefty O'Doul at ~63,000** — left-handed, +30.8/+17.1, no platoon hole.
-
-Belle is the one to skip: right-handed like Canseco but 23 runs worse on the
-neutral line.
+**Ortiz is the value play** — 85% of the benefit for half the money, and he is
+the one that compounds with the park. **Lefty O'Doul at ~63,000** is the budget
+version. Skip Belle: right-handed like Canseco but 23 runs worse on the neutral line.
 
 ## Before the season starts
 
-1. **1971 Yankee Stadium** or **1927 Bacharach Park** — same decision, 0.2 runs
-   apart. **2026 PNC Field** if you want a modern yard (+9.4). Check the name.
-2. **David Ortiz** (~179k) unless you want to spend ~350k on Canseco and re-pick
-   the park as Sportsmans '19. Do not buy Belle.
-3. Skip the bunker parks — tested, worth +3 at best.
+1. **Yankee Stadium 1952** if you want to lean into the staff (run-suppressing,
+   +5.3), **Yankee Stadium 1987** if you buy a bat (+5.4, +7.3 with Ortiz).
+   They are 0.1 runs apart — this is a preference, not a mistake either way.
+2. **Jose Canseco** (~350k) is the biggest single upgrade available, +42.6 total.
+   **David Ortiz** (~179k) gets 85% of it. **Lefty O'Doul** (~63k) on a budget.
+   Do not buy Belle.
+3. Skip the bunker parks and skip Polo Grounds '49 — tested, they do not pay.
