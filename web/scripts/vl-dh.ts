@@ -67,7 +67,7 @@ const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
       bats: c.bats ?? "R", isPitcher: false, ownedFlag: false, role: c.position, ratings: c.ratings ?? {},
       title: c.title, buy: c.buy_order_high, sell: c.sell_order_low, last10: c.last10 });
   }
-  const fits = envFitMaps(pool as any, { era: era.rates, park: half });
+  const fits = envFitMaps(pool as any, { era: era.rates, park: half, eraYear: Number(YEAR) });
   for (const c of pool) { c.vL = fits.runsL.get(c.cardId) ?? null; c.vR = fits.runsR.get(c.cardId) ?? null; }
   const price = (c: any) => { const n = [c.sell, c.last10, c.buy].map(Number).filter((x) => Number.isFinite(x) && x > 0); return n.length ? n[0] : null; };
 

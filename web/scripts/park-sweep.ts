@@ -139,10 +139,16 @@ function main() {
     }));
     console.log(`collection upload ${up} used for the owned-copy overlay`);
 
-    /** PA/BF-weighted runs for a set of cards in one park, per team. */
+    /**
+     * PA/BF-weighted runs for a set of cards in one park, per team, split into
+     * the bats' half and the arms' half. They answer different questions: a
+     * park's HR factors pay the lineup and charge the rotation, so a park can
+     * be a net gain while actively costing the staff runs. Printing only the
+     * total hides that.
+     */
     const scoreOf = (rows: Row[], p: any, perTeams: number) => {
-      const fits = envFitMaps(pool(rows) as any, { era: era.rates, park: p });
-      let s = 0;
+      const fits = envFitMaps(pool(rows) as any, { era: era.rates, park: p, eraYear: Number(YEAR) });
+      let bats = 0, arms = 0;
       for (const r of rows) {
         const w = weightOf(r); if (!w) continue;
         // A bat plays the board its hand faces: L and S on the vs-RHP board.
@@ -150,36 +156,42 @@ function main() {
         const v = r.is_pitcher
           ? 0.45 * (fits.runsL.get(r.cid) ?? 0) + 0.55 * (fits.runsR.get(r.cid) ?? 0)
           : (board === "R" ? fits.runsR.get(r.cid) : fits.runsL.get(r.cid)) ?? 0;
-        s += (v * w) / 700;
+        if (r.is_pitcher) arms += (v * w) / 700; else bats += (v * w) / 700;
       }
-      return s / perTeams;
+      return { total: (bats + arms) / perTeams, bats: bats / perTeams, arms: arms / perTeams };
     };
 
-    const base = { me: scoreOf(mine, null, 1), fld: scoreOf(field, null, nTeams) };
+    const baseMe = scoreOf(mine, null, 1), baseFld = scoreOf(field, null, nTeams);
+    const base = { me: baseMe.total, fld: baseFld.total };
     console.log(`\n=== ${TEAM} · ${LEAGUE} ${ON} · run environment ${YEAR} ===`);
     console.log(`field: ${nTeams} teams from ${FIELD.join("/")}  ·  ${mine.length} own cards (${mine.filter((r)=>r.is_variant).length} variants, read from the export not the base card)`);
     console.log(`neutral: you ${f1(base.me)} runs vs a ${f1(base.fld)} field average  ->  ${f1(base.me - base.fld)} before any park`);
+    console.log(`  of which bats ${f1(baseMe.bats)} vs ${f1(baseFld.bats)} (${f1(baseMe.bats - baseFld.bats)})  ·  arms ${f1(baseMe.arms)} vs ${f1(baseFld.arms)} (${f1(baseMe.arms - baseFld.arms)})`);
+    console.log(`  a run-suppressing park pays the side you are STRONGER on; which side that is, is the line above.`);
     if (ADD.length || DROP.length) {
       const pa = mine.reduce((t, r) => t + (r.is_pitcher ? 0 : Number(r.pa ?? 0)), 0);
       console.log(`roster as modified: ${mine.length} cards, ${pa} bat PA — a park's pay scales with PA, so compare runs only against a run made the same way`);
     }
 
     const want = ONLY ? new Set(ONLY.split(",").map((s) => s.trim())) : null;
-    const out: { label: string; p: any; edge: number; dMe: number; dF: number }[] = [];
+    const out: { label: string; p: any; edge: number; dMe: number; dF: number; dBats: number; dArms: number }[] = [];
     for (const [nm, years] of Object.entries(parkTable)) {
       for (const [yr, p] of Object.entries(years as any)) {
         const label = `${nm}@${yr}`;
         if (want && !want.has(label) && !want.has(nm)) continue;
-        const dMe = scoreOf(mine, p, 1) - base.me;
-        const dF = scoreOf(field, p, nTeams) - base.fld;
-        out.push({ label: `${yr} ${nm}`, p, edge: 0.5 * (dMe - dF), dMe: 0.5 * dMe, dF: 0.5 * dF });
+        const me = scoreOf(mine, p, 1);
+        const dMe = me.total - base.me;
+        const dF = scoreOf(field, p, nTeams).total - base.fld;
+        out.push({ label: `${yr} ${nm}`, p, edge: 0.5 * (dMe - dF), dMe: 0.5 * dMe, dF: 0.5 * dF,
+                   dBats: 0.5 * (me.bats - baseMe.bats), dArms: 0.5 * (me.arms - baseMe.arms) });
       }
     }
     out.sort((a, b) => b.edge - a.edge);
-    const hdr = `${"park".padEnd(38)} ${"AvgL".padStart(5)} ${"AvgR".padStart(5)} ${"HRL".padStart(5)} ${"HRR".padStart(5)} ${"2B".padStart(5)} ${"3B".padStart(5)} ${"you".padStart(7)} ${"field".padStart(7)} ${"edge".padStart(7)}`;
+    const hdr = `${"park".padEnd(30)} ${"AvgL".padStart(5)} ${"AvgR".padStart(5)} ${"HRL".padStart(5)} ${"HRR".padStart(5)} ${"2B".padStart(5)} ${"3B".padStart(5)} ${"bats".padStart(6)} ${"arms".padStart(6)} ${"you".padStart(7)} ${"field".padStart(7)} ${"edge".padStart(7)}`;
     console.log(`\nTop ${TOP} — runs over 81 home games vs the field in the same park (~10 runs = 1 win)`);
+    console.log(`bats/arms split "you" into the lineup's half and the staff's half, both vs neutral.`);
     console.log(hdr);
-    const line = (o: any) => console.log(`${o.label.slice(0,38).padEnd(38)} ${o.p.avgL.toFixed(3).padStart(5)} ${o.p.avgR.toFixed(3).padStart(5)} ${o.p.hrL.toFixed(3).padStart(5)} ${o.p.hrR.toFixed(3).padStart(5)} ${o.p.d2.toFixed(3).padStart(5)} ${o.p.d3.toFixed(3).padStart(5)} ${f1(o.dMe).padStart(7)} ${f1(o.dF).padStart(7)} ${f1(o.edge).padStart(7)}`);
+    const line = (o: any) => console.log(`${o.label.slice(0,30).padEnd(30)} ${o.p.avgL.toFixed(3).padStart(5)} ${o.p.avgR.toFixed(3).padStart(5)} ${o.p.hrL.toFixed(3).padStart(5)} ${o.p.hrR.toFixed(3).padStart(5)} ${o.p.d2.toFixed(3).padStart(5)} ${o.p.d3.toFixed(3).padStart(5)} ${f1(o.dBats).padStart(6)} ${f1(o.dArms).padStart(6)} ${f1(o.dMe).padStart(7)} ${f1(o.dF).padStart(7)} ${f1(o.edge).padStart(7)}`);
     out.slice(0, TOP).forEach(line);
     console.log(`\nBottom 5`); out.slice(-5).forEach(line);
     process.exit(0);
