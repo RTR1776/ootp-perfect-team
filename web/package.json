@@ -73,7 +73,9 @@
     "standings:map": "node --env-file=.env.local --import tsx scripts/standings-map.ts",
     "import:collection": "node --env-file=.env.local --import tsx scripts/import-collection.ts",
     "roster:corrected": "node --env-file=.env.local --import tsx scripts/roster-corrected.ts",
-    "roster:save": "node --env-file=.env.local --import tsx scripts/roster-save.ts"
+    "roster:save": "node --env-file=.env.local --import tsx scripts/roster-save.ts",
+    "park:sweep": "node --env-file=.env.local --import tsx scripts/park-sweep.ts",
+    "vl:dh": "node --env-file=.env.local --import tsx scripts/vl-dh.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
