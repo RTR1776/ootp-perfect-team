@@ -24,7 +24,7 @@
  * of the export — not cards.ratings, which is the base card. series-fit and
  * anything else on envFitMaps scores the Cy Young variant as the base card.
  *
- *   pnpm tsx scripts/park-sweep.ts [--year 2010] [--top 20]
+ *   pnpm tsx scripts/park-sweep.ts [--year 1989] [--top 20]
  *
  * --league / --team / --on / --field DEFAULT TO THE NEWEST DATA via
  * lib/league-scope and the resolved scope is printed. They used to be pinned
@@ -38,6 +38,7 @@ import { eraTable, parkTable } from "@/lib/analytics/runenv-view";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
 import { resolveLeagueScope } from "@/lib/league-scope";
+import { fitEraYear } from "@/lib/analytics/league-era";
 import { isMyOrg } from "@/lib/my-team";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
@@ -46,7 +47,8 @@ const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); retur
 const num = (k: string, d: number) => { const v = val(k); return v == null ? d : Number(v); };
 const LEAGUE_ARG = val("league") ?? null, ON_ARG = val("on") ?? null;
 const TEAM_ARG = val("team") ?? null;
-const YEAR = val("year", "2010")!;
+const YEAR_ARG = val("year") ?? null;
+let YEAR = "";
 const FIELD_ARG = val("field")?.split(",") ?? null;
 let LEAGUE = "", ON = "", TEAM = "", FIELD: string[] = [];
 const TOP = num("top", 20), MINPA = num("min-pa", 50);
@@ -80,14 +82,25 @@ const load = async (leagues: string[], upload: number) => asRows<Row>(await db.e
 const weightOf = (r: Row) => (r.is_pitcher ? Number(r.ip ?? 0) * 4.3 : Number(r.pa ?? 0));
 
 function main() {
-  const era = eraTable[YEAR];
-  if (!era) { console.log(`no era row for ${YEAR}`); process.exit(1); }
-
   (async () => {
     const sc = await resolveLeagueScope({ league: LEAGUE_ARG, team: TEAM_ARG, on: ON_ARG, field: FIELD_ARG });
     ({ league: LEAGUE, team: TEAM, on: ON, field: FIELD } = sc);
     console.log(sc.summary);
     for (const n of sc.notes) console.log(`  !! ${n}`);
+    /*
+     * The era is FITTED from the week's own play, not pinned. --year 2010 was
+     * right for an ordinary week and wrong for a theme week (2026-09-20 ran
+     * 1989, 2026-08-23 ran 1959), and a park scored in the wrong era is just a
+     * different answer with nothing to flag it.
+     */
+    const eraFit = await fitEraYear(ON);
+    YEAR = YEAR_ARG ?? eraFit?.year ?? "2010";
+    if (YEAR_ARG) console.log(`era ${YEAR} from --year${eraFit ? ` (the ${ON} line fits ${eraFit.year})` : ""}`);
+    else if (eraFit) console.log(eraFit.summary);
+    else console.log(`era ${YEAR} — fallback, ${ON} has no hitter stat keys to fit from`);
+    // checked here, not at the top: YEAR is not known until the week is.
+    const era = eraTable[YEAR];
+    if (!era) { console.log(`no era row for ${YEAR}`); process.exit(1); }
     const up = sc.upload;
     const all = await load(FIELD, up);
     /* isMyOrg, not === TEAM: the org carries a clan tag that changes. */

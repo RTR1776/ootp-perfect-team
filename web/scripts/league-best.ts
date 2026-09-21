@@ -9,8 +9,9 @@
  * a neutral park — which is the number that says "this card is good HERE",
  * separate from "this card is good".
  *
- *   pnpm league:best --year 1989 --base-year 2010 --park "Truist Field" --park-year 2026
+ *   pnpm league:best [--year 1989] --park "Truist Field" --park-year 2026
  *
+ * --year is FITTED from the week's own play (lib/analytics/league-era), and
  * --league / --team / --on / --upload all DEFAULT TO THE NEWEST DATA rather
  * than to the week they were written against, and what they resolved to is
  * printed. There is no --dh: the DH slot is unconditional.
@@ -25,13 +26,15 @@ import { HIT_POS } from "@/lib/roster-fill";
 import { readFileSync } from "node:fs";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
 import { resolveLeagueScope } from "@/lib/league-scope";
+import { fitEraYear } from "@/lib/analytics/league-era";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const num = (k: string, d: number | null = null) => { const v = val(k); return v == null ? d : Number(v); };
 
-const YEAR = val("year", "1989")!, BASE = val("base-year", "2010")!;
+const YEAR_ARG = val("year") ?? null, BASE = val("base-year", "2010")!;
+let YEAR = "";
 const PARK = val("park") ?? null, PARK_YEAR = num("park-year");
 const MINVAL = num("min-value", 0)!;
 const NSP = num("sp", 5)!, NRP = num("rp", 7)!, NBAT = num("bats", 14)!;
@@ -52,6 +55,18 @@ async function resolveScope() {
   ({ league: LEAGUE, team: TEAM, on: ON, upload: UPLOAD } = sc);
   console.log(sc.summary);
   for (const n of sc.notes) console.log(`  !! ${n}`);
+  /*
+   * YEAR was pinned to 1989, which is a theme year and not the league's usual
+   * one — right for the week of 2026-09-20 by coincidence and wrong for the
+   * 2010-2013 weeks either side of it. It is fitted from the week's play now.
+   * BASE stays a FIXED modern reference: the Δenv column only means "good
+   * HERE rather than good generally" if the yardstick does not move too.
+   */
+  const eraFit = await fitEraYear(ON);
+  YEAR = YEAR_ARG ?? eraFit?.year ?? BASE;
+  if (YEAR_ARG) console.log(`era ${YEAR} from --year${eraFit ? ` (the ${ON} line fits ${eraFit.year})` : ""}`);
+  else if (eraFit) console.log(eraFit.summary);
+  else console.log(`era ${YEAR} — fallback to the reference year, ${ON} has no hitter stat keys to fit from`);
 }
 const SHOW = num("show", 30)!;
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
@@ -76,7 +91,7 @@ async function main() {
   const lineB = rateLine(eraBase.rates, solveEnv(eraBase.rates, eraBase.rg, null).RG);
   console.log(`\n=== whole-collection board · ${YEAR} RE ${pr ? `· ${PARK_YEAR} ${PARK} (home only, half weight)` : "· neutral park"} ===`);
   console.log(`${YEAR}: R/G ${solved.RG.toFixed(2)}  K% ${(line.kPct * 100).toFixed(1)}  HR/PA ${(line.hrPa * 100).toFixed(2)}%  AVG ${line.avg.toFixed(3)} OBP ${line.obp.toFixed(3)} SLG ${line.slg.toFixed(3)}`);
-  console.log(`${BASE}: K% ${(lineB.kPct * 100).toFixed(1)}  HR/PA ${(lineB.hrPa * 100).toFixed(2)}%  AVG ${lineB.avg.toFixed(3)} OBP ${lineB.obp.toFixed(3)} SLG ${lineB.slg.toFixed(3)}   (the league's usual environment)`);
+  console.log(`${BASE}: K% ${(lineB.kPct * 100).toFixed(1)}  HR/PA ${(lineB.hrPa * 100).toFixed(2)}%  AVG ${lineB.avg.toFixed(3)} OBP ${lineB.obp.toFixed(3)} SLG ${lineB.slg.toFixed(3)}   (the fixed reference environment)`);
 
   /* ---- pool: every card owned, joined for handedness and role ---- */
   const raw = asRows<any>(await db.execute(sql`
