@@ -35,6 +35,10 @@ const num = (k: string, d: number | null = null) => { const v = val(k); return v
 
 const YEAR_ARG = val("year") ?? null, BASE = val("base-year", "2010")!;
 let YEAR = "";
+/** Same switch as env-roster/roster-diff: the correction is on unless --no-era-correct. */
+const NO_CORRECT = argv.includes("--no-era-correct");
+const BASE_ERA_YEAR: number | null = NO_CORRECT ? null : Number(BASE);
+let ERA_YEAR: number | null = null;
 const PARK = val("park") ?? null, PARK_YEAR = num("park-year");
 const MINVAL = num("min-value", 0)!;
 const NSP = num("sp", 5)!, NRP = num("rp", 7)!, NBAT = num("bats", 14)!;
@@ -67,6 +71,8 @@ async function resolveScope() {
   if (YEAR_ARG) console.log(`era ${YEAR} from --year${eraFit ? ` (the ${ON} line fits ${eraFit.year})` : ""}`);
   else if (eraFit) console.log(eraFit.summary);
   else console.log(`era ${YEAR} — fallback to the reference year, ${ON} has no hitter stat keys to fit from`);
+  ERA_YEAR = NO_CORRECT ? null : Number(YEAR);
+  if (NO_CORRECT) console.log("  era correction OFF (--no-era-correct)");
 }
 const SHOW = num("show", 30)!;
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
@@ -199,12 +205,22 @@ async function main() {
     (farN ? `; ${farN} matched too far off (distance > 10) to trust the base card and use only their own ratings — export a fresh pt_card_list to resolve them` : ""));
 
   /* ---- score: theme environment (with park) and the league default (neutral) ---- */
-  const fit = envFitMaps(pool as any, { era: era.rates, park: half });
-  const base = envFitMaps(pool as any, { era: eraBase.rates, park: null });
+  /*
+   * eraYear IS REQUIRED FOR THE ERA CORRECTION. envFitMaps only applies
+   * eraCorrectionPerPoint when eraYear is non-null, so omitting it silently
+   * scored this board on the uncorrected model while /build, env-roster,
+   * roster-diff and cwhit-compare all had the correction on since 2026-09-19.
+   * That is not a rounding difference in an old era: BABIP is under-priced
+   * ~2.5x and Gap ~1.5x uncorrected, which flatters exactly the big-Power,
+   * weak-BABIP card. Each call passes the year of the rates it is using, so
+   * the delta-env column stays a comparison of two corrected boards.
+   */
+  const fit = envFitMaps(pool as any, { era: era.rates, park: half, eraYear: ERA_YEAR });
+  const base = envFitMaps(pool as any, { era: eraBase.rates, park: null, eraYear: BASE_ERA_YEAR });
   const mix = (f: any, id: number) => (1 - WL) * (f.runsR.get(id) ?? -1e6) + WL * (f.runsL.get(id) ?? -1e6);
   const V = new Map<number, number>(), D = new Map<number, number>(), R = new Map<number, number>();
   /** Δenv is park-free on both sides, so it is the environment alone. */
-  const neutral = envFitMaps(pool as any, { era: era.rates, park: null });
+  const neutral = envFitMaps(pool as any, { era: era.rates, park: null, eraYear: ERA_YEAR });
 
   /**
    * RAW Δ IS A TRAP. 1989 scores ~0.8 runs a game fewer than 2010, so there is
