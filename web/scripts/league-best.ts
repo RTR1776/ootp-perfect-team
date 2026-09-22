@@ -9,8 +9,12 @@
  * a neutral park — which is the number that says "this card is good HERE",
  * separate from "this card is good".
  *
- *   node --env-file=.env.local --import tsx scripts/league-best.ts \
- *     --year 1989 --base-year 2010 --park "Truist Field" --park-year 2026 --dh
+ *   pnpm league:best [--year 1989] --park "Truist Field" --park-year 2026
+ *
+ * --year is FITTED from the week's own play (lib/analytics/league-era), and
+ * --league / --team / --on / --upload all DEFAULT TO THE NEWEST DATA rather
+ * than to the week they were written against, and what they resolved to is
+ * printed. There is no --dh: the DH slot is unconditional.
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -21,24 +25,62 @@ import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-en
 import { HIT_POS } from "@/lib/roster-fill";
 import { readFileSync } from "node:fs";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
+import { resolveLeagueScope } from "@/lib/league-scope";
+import { fitEraYear } from "@/lib/analytics/league-era";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const num = (k: string, d: number | null = null) => { const v = val(k); return v == null ? d : Number(v); };
 
-const YEAR = val("year", "1989")!, BASE = val("base-year", "2010")!;
+const YEAR_ARG = val("year") ?? null, BASE = val("base-year", "2010")!;
+let YEAR = "";
+/** Same switch as env-roster/roster-diff: the correction is on unless --no-era-correct. */
+const NO_CORRECT = argv.includes("--no-era-correct");
+const BASE_ERA_YEAR: number | null = NO_CORRECT ? null : Number(BASE);
+let ERA_YEAR: number | null = null;
 const PARK = val("park") ?? null, PARK_YEAR = num("park-year");
-const UPLOAD = num("upload", 65)!;
 const MINVAL = num("min-value", 0)!;
 const NSP = num("sp", 5)!, NRP = num("rp", 7)!, NBAT = num("bats", 14)!;
-const LEAGUE = val("league", "HD453")!, TEAM = val("team", "Kansas City Torrent")!, ON = val("on", "2026-09-13")!;
+/*
+ * These four used to be hardcoded to the week the script was written
+ * (upload 65, HD453, 2026-09-13) and went stale in place: a run would score
+ * a months-old collection against a team that had since moved leagues and
+ * report it without complaint. lib/league-scope resolves them from the newest
+ * data — park-sweep had the same four pinned to its own week, so the
+ * resolution lives there rather than in either script. A flag still wins.
+ */
+const UPLOAD_ARG = num("upload"), LEAGUE_ARG = val("league") ?? null;
+const TEAM_ARG = val("team") ?? null, ON_ARG = val("on") ?? null;
+let UPLOAD = 0, LEAGUE = "", TEAM = "", ON = "";
+
+async function resolveScope() {
+  const sc = await resolveLeagueScope({ league: LEAGUE_ARG, team: TEAM_ARG, on: ON_ARG, upload: UPLOAD_ARG });
+  ({ league: LEAGUE, team: TEAM, on: ON, upload: UPLOAD } = sc);
+  console.log(sc.summary);
+  for (const n of sc.notes) console.log(`  !! ${n}`);
+  /*
+   * YEAR was pinned to 1989, which is a theme year and not the league's usual
+   * one — right for the week of 2026-09-20 by coincidence and wrong for the
+   * 2010-2013 weeks either side of it. It is fitted from the week's play now.
+   * BASE stays a FIXED modern reference: the Δenv column only means "good
+   * HERE rather than good generally" if the yardstick does not move too.
+   */
+  const eraFit = await fitEraYear(ON);
+  YEAR = YEAR_ARG ?? eraFit?.year ?? BASE;
+  if (YEAR_ARG) console.log(`era ${YEAR} from --year${eraFit ? ` (the ${ON} line fits ${eraFit.year})` : ""}`);
+  else if (eraFit) console.log(eraFit.summary);
+  else console.log(`era ${YEAR} — fallback to the reference year, ${ON} has no hitter stat keys to fit from`);
+  ERA_YEAR = NO_CORRECT ? null : Number(YEAR);
+  if (NO_CORRECT) console.log("  era correction OFF (--no-era-correct)");
+}
 const SHOW = num("show", 30)!;
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 /** vs-RHP is ~70% of plate appearances; roster-fill uses the same 0.3 weight. */
 const WL = 0.3;
 
 async function main() {
+  await resolveScope();
   const era = eraTable[YEAR]!, eraBase = eraTable[BASE]!;
   const pr = PARK ? parkRow(PARK, PARK_YEAR) : null;
   if (PARK && !pr) console.log(`!! no factors on file for ${PARK_YEAR} ${PARK}`);
@@ -55,7 +97,7 @@ async function main() {
   const lineB = rateLine(eraBase.rates, solveEnv(eraBase.rates, eraBase.rg, null).RG);
   console.log(`\n=== whole-collection board · ${YEAR} RE ${pr ? `· ${PARK_YEAR} ${PARK} (home only, half weight)` : "· neutral park"} ===`);
   console.log(`${YEAR}: R/G ${solved.RG.toFixed(2)}  K% ${(line.kPct * 100).toFixed(1)}  HR/PA ${(line.hrPa * 100).toFixed(2)}%  AVG ${line.avg.toFixed(3)} OBP ${line.obp.toFixed(3)} SLG ${line.slg.toFixed(3)}`);
-  console.log(`${BASE}: K% ${(lineB.kPct * 100).toFixed(1)}  HR/PA ${(lineB.hrPa * 100).toFixed(2)}%  AVG ${lineB.avg.toFixed(3)} OBP ${lineB.obp.toFixed(3)} SLG ${lineB.slg.toFixed(3)}   (the league's usual environment)`);
+  console.log(`${BASE}: K% ${(lineB.kPct * 100).toFixed(1)}  HR/PA ${(lineB.hrPa * 100).toFixed(2)}%  AVG ${lineB.avg.toFixed(3)} OBP ${lineB.obp.toFixed(3)} SLG ${lineB.slg.toFixed(3)}   (the fixed reference environment)`);
 
   /* ---- pool: every card owned, joined for handedness and role ---- */
   const raw = asRows<any>(await db.execute(sql`
@@ -163,12 +205,22 @@ async function main() {
     (farN ? `; ${farN} matched too far off (distance > 10) to trust the base card and use only their own ratings — export a fresh pt_card_list to resolve them` : ""));
 
   /* ---- score: theme environment (with park) and the league default (neutral) ---- */
-  const fit = envFitMaps(pool as any, { era: era.rates, park: half });
-  const base = envFitMaps(pool as any, { era: eraBase.rates, park: null });
+  /*
+   * eraYear IS REQUIRED FOR THE ERA CORRECTION. envFitMaps only applies
+   * eraCorrectionPerPoint when eraYear is non-null, so omitting it silently
+   * scored this board on the uncorrected model while /build, env-roster,
+   * roster-diff and cwhit-compare all had the correction on since 2026-09-19.
+   * That is not a rounding difference in an old era: BABIP is under-priced
+   * ~2.5x and Gap ~1.5x uncorrected, which flatters exactly the big-Power,
+   * weak-BABIP card. Each call passes the year of the rates it is using, so
+   * the delta-env column stays a comparison of two corrected boards.
+   */
+  const fit = envFitMaps(pool as any, { era: era.rates, park: half, eraYear: ERA_YEAR });
+  const base = envFitMaps(pool as any, { era: eraBase.rates, park: null, eraYear: BASE_ERA_YEAR });
   const mix = (f: any, id: number) => (1 - WL) * (f.runsR.get(id) ?? -1e6) + WL * (f.runsL.get(id) ?? -1e6);
   const V = new Map<number, number>(), D = new Map<number, number>(), R = new Map<number, number>();
   /** Δenv is park-free on both sides, so it is the environment alone. */
-  const neutral = envFitMaps(pool as any, { era: era.rates, park: null });
+  const neutral = envFitMaps(pool as any, { era: era.rates, park: null, eraYear: ERA_YEAR });
 
   /**
    * RAW Δ IS A TRAP. 1989 scores ~0.8 runs a game fewer than 2010, so there is

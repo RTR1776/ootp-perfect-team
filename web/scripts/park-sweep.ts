@@ -24,10 +24,20 @@
  * of the export — not cards.ratings, which is the base card. series-fit and
  * anything else on envFitMaps scores the Cy Young variant as the base card.
  *
+ *   pnpm tsx scripts/park-sweep.ts [--year 1989] [--top 20]
+ *
  * --league is the export the ROSTER is read from; --field is who you play.
  * They are usually the same league, but on a promotion week they are not: the
  * roster is still in last week's export while the field is the tier you are
  * moving up into.
+ *
+ * --league / --team / --on / --field DEFAULT TO THE NEWEST DATA via
+ * lib/league-scope and the resolved scope is printed. They used to be pinned
+ * to HD451 / 2026-09-20 / "Kansas City Torrent - JW", which is right for one
+ * week only: the team climbs a weekly ladder and the export appends the clan
+ * tag to the org, so both the league and the name move. NOTE that --field
+ * defaults to every league captured that week, which on a promotion week
+ * includes the tier you just left — pass it explicitly (--field PEL) there.
  *
  * --add/--drop answer the park question for a roster you have not built yet.
  * A park pays a LHB park factor to a left-handed bat, so which bat you are
@@ -36,25 +46,26 @@
  * match on a case-insensitive substring; --add takes an optional @PA
  * ("Fred McGriff@600", default 600) because a card with no PA carries no
  * weight in a PA-weighted sum.
- *
- *   pnpm tsx scripts/park-sweep.ts --league HD451 --on 2026-09-20 \
- *     --team "Kansas City Torrent - JW" --year 2010 \
- *     --field HD450,HD451,HD452,HD453,PEL --top 20
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { eraTable, parkTable } from "@/lib/analytics/runenv-view";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
+import { resolveLeagueScope } from "@/lib/league-scope";
+import { fitEraYear } from "@/lib/analytics/league-era";
+import { isMyOrg } from "@/lib/my-team";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const num = (k: string, d: number) => { const v = val(k); return v == null ? d : Number(v); };
-const LEAGUE = val("league", "HD451")!, ON = val("on", "2026-09-20")!;
-const TEAM = val("team", "Kansas City Torrent - JW")!;
-const YEAR = val("year", "2010")!;
-const FIELD = (val("field", "HD450,HD451,HD452,HD453,PEL")!).split(",");
+const LEAGUE_ARG = val("league") ?? null, ON_ARG = val("on") ?? null;
+const TEAM_ARG = val("team") ?? null;
+const YEAR_ARG = val("year") ?? null;
+let YEAR = "";
+const FIELD_ARG = val("field")?.split(",") ?? null;
+let LEAGUE = "", ON = "", TEAM = "", FIELD: string[] = [];
 const TOP = num("top", 20), MINPA = num("min-pa", 50);
 const ONLY = val("parks") ?? null;            // comma-separated "Name@Year" shortlist
 const ADD = (val("add") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
@@ -103,14 +114,34 @@ const findCard = async (name: string, upload: number) => asRows<any>(await db.ex
 const weightOf = (r: Row) => (r.is_pitcher ? Number(r.ip ?? 0) * 4.3 : Number(r.pa ?? 0));
 
 function main() {
-  const era = eraTable[YEAR];
-  if (!era) { console.log(`no era row for ${YEAR}`); process.exit(1); }
-
   (async () => {
-    const up = Number(asRows<any>(await db.execute(sql`select max(id) as id from uploads where kind='collection'`))[0].id);
+    const sc = await resolveLeagueScope({ league: LEAGUE_ARG, team: TEAM_ARG, on: ON_ARG, field: FIELD_ARG });
+    ({ league: LEAGUE, team: TEAM, on: ON, field: FIELD } = sc);
+    console.log(sc.summary);
+    for (const n of sc.notes) console.log(`  !! ${n}`);
+    /*
+     * The era is FITTED from the week's own play, not pinned. --year 2010 was
+     * right for an ordinary week and wrong for a theme week (2026-09-20 ran
+     * 1989, 2026-08-23 ran 1959), and a park scored in the wrong era is just a
+     * different answer with nothing to flag it.
+     */
+    const eraFit = await fitEraYear(ON);
+    YEAR = YEAR_ARG ?? eraFit?.year ?? "2010";
+    if (YEAR_ARG) console.log(`era ${YEAR} from --year${eraFit ? ` (the ${ON} line fits ${eraFit.year})` : ""}`);
+    else if (eraFit) console.log(eraFit.summary);
+    else console.log(`era ${YEAR} — fallback, ${ON} has no hitter stat keys to fit from`);
+    // checked here, not at the top: YEAR is not known until the week is.
+    const era = eraTable[YEAR];
+    if (!era) { console.log(`no era row for ${YEAR}`); process.exit(1); }
+    const up = sc.upload;
+    /*
+     * Roster league and playing field are loaded together and split apart by
+     * league below, because on a promotion week they are different leagues.
+     */
     const all = await load([...new Set([LEAGUE, ...FIELD])], up);
-    for (const r of all) if (r.org === TEAM && r.copy) r.ratings = mergeCopyRatings(r.ratings, r.copy, r.pos);
-    let mine = all.filter((r) => r.league === LEAGUE && r.org === TEAM && r.ratings);
+    /* isMyOrg, not === TEAM: the org carries a clan tag that changes. */
+    for (const r of all) if (isMyOrg(r.org) && r.copy) r.ratings = mergeCopyRatings(r.ratings, r.copy, r.pos);
+    let mine = all.filter((r) => r.league === LEAGUE && isMyOrg(r.org) && r.ratings);
     if (!mine.length) { console.log(`${TEAM} not found in ${LEAGUE} on ${ON}`); process.exit(1); }
 
     for (const name of DROP) {
@@ -131,7 +162,7 @@ function main() {
         is_variant: false, val: c.card_value, copy: null } as Row);
       console.log(`add   ${c.name} ${c.year} (${c.position}, bats ${c.bats}, value ${c.card_value}) at ${pa} PA${c.copy ? " — owned copy" : ""}`);
     }
-    const field = all.filter((r) => FIELD.includes(r.league) && r.org !== TEAM && r.ratings && weightOf(r) >= MINPA);
+    const field = all.filter((r) => FIELD.includes(r.league) && !isMyOrg(r.org) && r.ratings && weightOf(r) >= MINPA);
     const nTeams = new Set(field.map((r) => r.org)).size;
 
     const pool = (rs: Row[]) => rs.map((r) => ({
