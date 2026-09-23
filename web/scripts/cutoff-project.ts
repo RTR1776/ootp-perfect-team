@@ -1,61 +1,73 @@
 /**
- * What the PTCS berth line will END at, projected from where it is now.
+ * What the PTCS berth line will END at, projected from where it is now —
+ * the newest dump's 128th-place total grown by how the same line grew from
+ * day N in PTCS 5 and PTCS 6. The method lives in lib/ptcs-projection.ts.
  *
- * A line grows through a period as everyone plays, so "the line is 38" a week
- * in means nothing on its own. PTCS 5 is the structural twin of PTCS 7 — both
- * 28 days — so its own growth from day 8 to the finish is the multiplier, read
- * off the same dumps rather than assumed. PTCS 6 (35 days) is shown as a
- * sanity check, scaled for length.
+ *   pnpm cutoff:project [--day N] [--write]
  *
- *   pnpm cutoff:project
+ * --write makes this the line everywhere: it stores the projection (with
+ * cwhit's board beside it) in src/data/ptcs-lines.json for /ptcs, and sets the
+ * period's targets in the database. load:dumps runs it after every dump.
  */
-import { readFileSync, readdirSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { parseDump, computeStandings, type ParsedDump } from "../src/lib/analytics/dumps";
+import { projectCutoffs, readCwhitTargets, type StoredLines } from "@/lib/ptcs-projection";
+import { todayInChicago } from "@/lib/ptcs-progress";
 
-const DIR = join(process.cwd(), "..", "Tourney Data");
-const USER = "rtr1776";
-const CATS = ["Bronze","Silver","Gold","Diamond","Cap","Open","PD Daily","PD Weekly","Iron","Live"];
-const newest = (p: string): ParsedDump => {
-  const f = readdirSync(DIR).filter(x => x.startsWith(p) && x.endsWith(".csv")).sort().pop()!;
-  return parseDump(readFileSync(join(DIR, f), "utf8"))!;
-};
-const T = newest("pt27_tournaments_competitve_dump_"), D = newest("pt27_drafts_competitve_dump_");
-const day = (start: string, n: number) => new Date(Date.parse(`${start}T00:00:00Z`) + (n - 1) * 864e5).toISOString().slice(0, 10);
-const lines = (start: string, end: string) => {
-  const a = computeStandings(T, { start, end }, USER).categories;
-  const b = computeStandings(D, { start, end }, USER).categories;
-  return { ...a, ...b } as Record<string, any>;
-};
+const PERIOD = { name: "PTCS 7", start: "2026-09-07", end: "2026-10-04" };
+const argv = process.argv.slice(2);
+const raw = (() => { const i = argv.indexOf("--day"); return i >= 0 ? argv[i + 1] : undefined; })();
+if (argv.includes("--day") && !/^\d+$/.test(raw ?? "")) { console.error(`--day takes a whole number of days, got ${raw === undefined ? "nothing" : JSON.stringify(raw)}`); process.exit(1); }
+const WRITE = argv.includes("--write");
+if (WRITE && raw !== undefined) { console.error("--write stores the line the dumps support; drop --day"); process.exit(1); }
 
-const P5 = { start: "2026-07-06", end: "2026-08-02" };
-const P6 = { start: "2026-08-03", end: "2026-09-06" };
-const P7 = { start: "2026-09-07", end: "2026-10-04" };
+async function main() {
+  const p = projectCutoffs({ period: PERIOD, dir: join(process.cwd(), "..", "Tourney Data"), day: raw !== undefined ? Number(raw) : undefined });
+  const cwhit = readCwhitTargets(join(process.cwd(), "..", "reference", "cwhit"));
+  const N = p.day;
 
-const p5d8 = lines(P5.start, day(P5.start, 8)), p5end = lines(P5.start, P5.end);
-const p6d8 = lines(P6.start, day(P6.start, 8)), p6end = lines(P6.start, P6.end);
-const p7d8 = lines(P7.start, day(P7.start, 8));
+  console.log(`\n${PERIOD.name} · day ${N} of ${p.periodDays} · where the line is now and where it lands\n`);
+  const forced = raw !== undefined && N !== p.dumpDay;
+  if (forced) console.log(`  day ${N} ← --day${Number(raw) === N ? "" : ` (clamped from ${raw})`}, overriding the day ${p.dumpDay} the dumps reach`);
+  console.log(`  ${forced ? "dumps  " : `day ${N} ←`} ${p.binding.file} (${p.binding.kind}, reaches ${p.binding.reach})`);
+  for (const s of p.sources) if (s.file !== p.binding.file) console.log(`  also    ${s.file} (${s.kind}, reaches ${s.reach})`);
+  const today = todayInChicago();
+  const calendarDay = Math.min(p.periodDays, Math.max(1, Math.round((Date.parse(today) - Date.parse(PERIOD.start)) / 864e5) + 1));
+  if (p.dumpDay < 1) console.log(`  ⚠ the newest dump ends BEFORE ${PERIOD.name} opened — there is no day-N read here at all`);
+  else if (calendarDay > p.dumpDay) console.log(`  ⚠ today is ${today}, day ${calendarDay} — the dump stops at day ${p.dumpDay}, ${calendarDay - p.dumpDay} day(s) back, and so does every line below`);
+  if (p.sources[0].reach !== p.sources[1].reach) console.log(`  ⚠ the two dumps end on different days; the earlier one sets N`);
+  console.log();
+  console.log(`  category     you  rank   line now |  P5 d${N} → P5 end  ×    |  P6 scaled ×  |  PROJECTED   cwhit  verdict`);
+  for (const l of p.lines) {
+    const verdict = l.rank == null ? "not entered"
+      : l.rank <= 128 ? `IN now, ${l.you >= l.projected ? "already past the projected line" : `needs ${l.projected - l.you} more`}`
+      : `out — ${l.projected - l.you} short of the projection`;
+    const cw = cwhit?.lines[l.category];
+    console.log(`  ${l.category.padEnd(11)} ${String(l.you).padStart(4)} ${String(l.rank ?? "—").padStart(5)} ${String(l.now).padStart(9)} | ` +
+      `${String(l.p5.atN).padStart(5)} →${String(l.p5.end).padStart(5)} ${l.p5.mult.toFixed(2).padStart(6)} | ` +
+      `${l.p6.mult.toFixed(2).padStart(12)} | ${String(l.projected).padStart(9)}  ${String(cw ?? "—").padStart(6)}  ${verdict}`);
+  }
+  console.log(`\n  "line now" is the 128th-place total through day ${N} of ${p.periodDays} (${p.binding.reach}), so it is small by`);
+  console.log(`  construction. The multiplier is how much that same line grew from day ${N} over the rest of PTCS 5`);
+  console.log(`  (the same 28-day shape) averaged with PTCS 6 rescaled to ${p.periodDays} days.`);
+  console.log(cwhit ? `  cwhit is his projected cutoff (${cwhit.file}), shown for comparison.\n` : `  No cwhit board transcribed under reference/cwhit/.\n`);
 
-console.log(`\nPTCS 7 · day 8 of 28 · where the line is now and where it lands\n`);
-console.log(`  category     you  rank   line now |  P5 d8 → P5 end  ×    |  P6 scaled ×  |  PROJECTED  verdict`);
-for (const c of CATS) {
-  const now = p7d8[c]; if (!now) continue;
-  const a = p5d8[c]?.lines.l128 ?? 0, b = p5end[c]?.lines.l128 ?? 0;
-  const a6 = p6d8[c]?.lines.l128 ?? 0, b6 = p6end[c]?.lines.l128 ?? 0;
-  const m5 = a > 0 ? b / a : 0;
-  // PTCS 6 ran 35 days; rescale its growth to a 28-day period
-  const m6 = a6 > 0 ? 1 + (b6 / a6 - 1) * (28 - 8) / (35 - 8) : 0;
-  const mult = m5 > 0 && m6 > 0 ? (m5 + m6) / 2 : (m5 || m6);
-  const proj = Math.round((now.lines.l128 || 0) * mult);
-  const you = now.pts, rank = now.rank;
-  const verdict = rank == null ? "not entered"
-    : rank <= 128 ? `IN now, ${you >= proj ? "already past the projected line" : `needs ${proj - you} more`}`
-    : `out — ${proj - you} short of the projection`;
-  console.log(`  ${c.padEnd(11)} ${String(you).padStart(4)} ${String(rank ?? "—").padStart(5)} ${String(now.lines.l128).padStart(9)} | ` +
-    `${String(a).padStart(5)} →${String(b).padStart(5)} ${m5.toFixed(2).padStart(6)} | ` +
-    `${m6.toFixed(2).padStart(12)} | ${String(proj).padStart(9)}  ${verdict}`);
+  if (!WRITE) return;
+  const projected = Object.fromEntries(p.lines.map((l) => [l.category, l.projected]));
+  const stored: StoredLines = {
+    period: PERIOD.name, day: N, periodDays: p.periodDays, dumpReach: p.binding.reach, dumpFile: p.binding.file,
+    writtenOn: today, projected, cwhit,
+  };
+  const out = join(process.cwd(), "src", "data", "ptcs-lines.json");
+  writeFileSync(out, JSON.stringify(stored, null, 2) + "\n");
+  console.log(`  wrote src/data/ptcs-lines.json (commit it so /ptcs shows cwhit beside the line)`);
+  // The database only when asked to write, so a plain read runs without .env.local.
+  const { db } = await import("@/db/client");
+  const { periods } = await import("@/db/schema");
+  const { eq } = await import("drizzle-orm");
+  const upd = await db.update(periods).set({ targets: projected, targetsAreOfficial: false })
+    .where(eq(periods.startsOn, PERIOD.start)).returning({ id: periods.id });
+  console.log(upd.length ? `  set ${PERIOD.name} targets to the projection (period ${upd[0].id})\n` : `  ⚠ no period starts ${PERIOD.start} — targets not written\n`);
 }
-console.log(`\n  "line now" is the 128th-place total as of the 14 Sep dump — one week in, so it is small by`);
-console.log(`  construction. The multiplier is how much that same line grew over the rest of PTCS 5 (28`);
-console.log(`  days, the same shape as this period) averaged with PTCS 6 rescaled to 28 days.\n`);
-process.exit(0);
+
+main().then(() => process.exit(0), (e) => { console.error(e); process.exit(1); });

@@ -9,11 +9,11 @@
  *
  *   pnpm ptcs:standing [--period 2]
  */
-import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { todayInChicago } from "@/lib/ptcs-progress";
+import { projectCutoffs, readCwhitTargets } from "@/lib/ptcs-projection";
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
 const PERIOD = Number((() => { const i = argv.indexOf("--period"); return i >= 0 ? argv[i + 1] : "2"; })());
@@ -50,69 +50,28 @@ async function main() {
     from all_ev group by 1 order by 3 desc`));
 
   /**
-   * Dump-derived lines come from `pnpm berth:lines`, which reproduces the
-   * category standing from the community finish-order dump and reads off the
-   * 128th-place total (championship fields are 128 per category). They are
-   * exact where the category map is complete (PD Daily matched the game's
-   * PTCS 6 cutoff to the point, 326) and LOW where it is not: the game's
-   * actual PTCS 6 cutoffs (cwhit's board) ran 10–15% above these in every
-   * tier, twice these in Open and Live. Fallback only — see CWHIT below.
-   *
-   * PERIOD LENGTH MATTERS. PTCS 4 and 6 ran 35 days, PTCS 5 and 7 run 28, and
-   * the line scales with the days available to farm points. So the line to
-   * beat in a 28-day period is PTCS 5's, not PTCS 6's.
+   * THE LINE is the dump projection (lib/ptcs-projection.ts, `pnpm
+   * cutoff:project`): the newest dump's 128th-place total, grown by how that
+   * same line grew from the same day in PTCS 5 and PTCS 6. cwhit's projected
+   * cutoff, where a transcription of his board exists, is printed beside it —
+   * his last-cutoff column is the game's own number, so a wide gap between the
+   * two is worth a look. Dump lines ran 10–15% under the game's in PTCS 6
+   * while the category map had blind spots (refit 2026-09-21).
    */
-  const LINE_28: Record<string, number> = {   // PTCS 5, dump-derived (berth:lines), 28-day period
-    Bronze: 95, Silver: 86, Gold: 77, Diamond: 72, Cap: 137,
-    Open: 46, Iron: 94, Live: 103, "PD Daily": 265, "PD Weekly": 69,
-  };
-  const LINE_35: Record<string, number> = {   // PTCS 6, dump-derived under the start-date rule, 35-day period
-    Bronze: 123, Silver: 107, Gold: 105, Diamond: 82, Cap: 159,
-    Open: 60, Iron: 114, Live: 126, "PD Daily": 326, "PD Weekly": 92,
-  };
-  // scale the 35-day board to this period's length and take the softer read of
-  // the two, so a period that runs hotter than PTCS 5 does not read as safe
-  const scale = daysTot / 35;
-  const ANCHOR: Record<string, number> = {};
-  for (const k of Object.keys(LINE_35)) {
-    ANCHOR[k] = Math.round(Math.max(LINE_28[k] * (daysTot / 28), LINE_35[k] * scale));
-  }
-
-  /**
-   * cwhit publishes projected cutoffs for the current cycle (his "Cycle N
-   * qualification targets" board: last cycle's ACTUAL cutoff, scaled to this
-   * period's length, blended with the 128th player's pace and the event
-   * volume). His last-cutoff column is the game's own number where ours is
-   * reproduced from the dump under an incomplete category map, so where a
-   * transcription exists it is the line and the dump-derived number is shown
-   * beside it. Transcribe his board to reference/cwhit/<date> cycle<N>
-   * targets.csv; the newest file wins.
-   */
-  const CWHIT = (() => {
-    try {
-      const dir = join(process.cwd(), "..", "reference", "cwhit");
-      const f = readdirSync(dir).filter((x) => /cycle\d+ targets\.csv$/.test(x)).sort().pop();
-      if (!f) return null;
-      const [head, ...rows] = readFileSync(join(dir, f), "utf8").split(/\r?\n/).filter((l) => l.trim());
-      const cols = head.split(",");
-      const out: Record<string, { proj: number; last: number; l128: number }> = {};
-      for (const r of rows) {
-        const c = Object.fromEntries(cols.map((k, n) => [k, r.split(",")[n] ?? ""]));
-        out[c.Category] = { proj: Number(c.ProjectedCutoff), last: Number(c.LastCutoff), l128: Number(c.Current128) };
-      }
-      return { file: f, lines: out };
-    } catch { return null; }
-  })();
+  const P = projectCutoffs({ period: { start, end }, dir: join(process.cwd(), "..", "Tourney Data") });
+  const PROJ: Record<string, number> = Object.fromEntries(P.lines.map((l) => [l.category, l.projected]));
+  const CWHIT = readCwhitTargets(join(process.cwd(), "..", "reference", "cwhit"));
+  console.log(`  line = dump projection from day ${P.day} (${P.binding.file}, reaches ${P.binding.reach})${CWHIT ? `; cwhit = ${CWHIT.file}` : ""}\n`);
   const lineFor = (cat: string): { line: number | null; src: string } =>
-    CWHIT?.lines[cat] ? { line: CWHIT.lines[cat].proj, src: "cwhit" } : { line: ANCHOR[cat] ?? null, src: "dump" };
+    PROJ[cat] != null ? { line: PROJ[cat], src: "dump" } : CWHIT?.lines[cat] != null ? { line: CWHIT.lines[cat], src: "cwhit" } : { line: null, src: "" };
 
   // Two different facts, kept apart on purpose: what is BANKED against the
   // line today, and where a flat extrapolation of the pace lands. A category
   // is only safe once the first column says so.
-  console.log(`  category     events    pts   line   banked?          pace/day   days to close   proj at ${end}` + (CWHIT ? "   dump line" : ""));
+  console.log(`  category     events    pts   line   banked?          pace/day   days to close   proj at ${end}` + (CWHIT ? "        cwhit" : ""));
   type Row = { cat: string; events: string | number; pts: string | number };
   const byCat = new Map<string, Row>((rows as Row[]).map((r) => [String(r.cat), r]));
-  const cats = new Set<string>([...byCat.keys(), ...Object.keys(CWHIT?.lines ?? ANCHOR)]);
+  const cats = new Set<string>([...byCat.keys(), ...Object.keys(PROJ)]);
   const ordered = [...cats].sort((a, b) => Number(byCat.get(b)?.pts ?? 0) - Number(byCat.get(a)?.pts ?? 0));
   for (const cat of ordered) {
     const r = byCat.get(cat);
@@ -127,11 +86,10 @@ async function main() {
       close = gap <= 0 ? "—" : pace <= 0 ? "never at this pace" : (() => { const d = Math.ceil(gap / pace); return d <= daysLeft ? `${d} of ${daysLeft} left` : `${d} (only ${daysLeft} left)`; })();
       projTag = proj >= anchor * 1.15 ? "projects clear" : proj >= anchor ? "projects on the line" : `projects ${anchor - proj} short`;
     }
-    const dumpLine = CWHIT && ANCHOR[cat] != null ? `   ${String(ANCHOR[cat]).padStart(5)}` : "";
+    const dumpLine = CWHIT ? `   ${String(CWHIT.lines[cat] ?? "—").padStart(5)}` : "";
     console.log(`  ${cat.padEnd(11)} ${String(ev).padStart(5)} ${String(pts).padStart(6)}  ${String(anchor ?? "").padStart(5)}   ${banked.padEnd(15)}  ${(ev ? pace : 0).toFixed(1).padStart(7)}   ${close.padEnd(19)}${String(proj).padStart(5)}  ${projTag.padEnd(22)}${dumpLine}`);
   }
-  if (CWHIT) console.log(`\n  Lines are cwhit's projected cutoffs (${CWHIT.file}); "dump line" is ours from berth:lines, scaled to ${daysTot} days — it undercounts wherever the category map misses events.`);
-  else console.log(`\n  Lines are dump-derived (berth:lines), scaled to this period's ${daysTot} days.`);
+  console.log(`\n  "line" is where the 128th-place total is projected to END: day ${P.day}'s line from the dump, grown as PTCS 5 and 6 grew from day ${P.day}.` + (CWHIT ? `\n  "cwhit" is his projected cutoff (${CWHIT.file}), for comparison.` : ""));
   console.log(`\n  "banked?" is points on the board today against the line; "days to close" is at the pace so far.\n  The projection is a flat extrapolation of that pace and assumes the same entry rate — it is not a result.`);
   process.exit(0);
 }

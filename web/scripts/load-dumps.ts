@@ -15,7 +15,8 @@
  *   3. imports each dump not already in the uploads table (matched on filename,
  *      so re-running is safe and cheap)
  *   4. refreshes my_results from the newest tournaments + drafts dump
- *   5. prints the standing and the berth lines
+ *   5. projects the berth lines from the new dump and stores them as the
+ *      period's targets (cutoff:project --write), then prints the standing
  *
  *   pnpm dumps:load [--period "PTCS 7"] [--dry]
  */
@@ -118,7 +119,7 @@ async function main() {
 
   /* ---- 5: say where he stands ---- */
   if (!DRY) {
-    for (const [label, args] of [["STANDING", ["scripts/ptcs-standing.ts"]], ["BERTH LINES", ["scripts/berth-lines.ts"]]] as const) {
+    for (const [label, args] of [["PROJECTED LINES", ["scripts/cutoff-project.ts", "--write"]], ["STANDING", ["scripts/ptcs-standing.ts"]], ["BERTH LINES", ["scripts/berth-lines.ts"]]] as const) {
       console.log(`\n  ── ${label} ──`);
       try { console.log(run([...args])); } catch (e: any) { console.log(`  !! ${String(e?.stderr ?? e?.message ?? e).split("\n")[0]}`); }
     }

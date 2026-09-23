@@ -18,6 +18,8 @@ import { db } from "@/db/client";
 import { dailyTotals, myResults, periods, results, uploads } from "@/db/schema";
 import type { DumpStandings } from "@/lib/analytics/dumps";
 import LADDER from "@/data/ptcs-ladder.json";
+import STORED_LINES from "@/data/ptcs-lines.json";
+import type { StoredLines } from "@/lib/ptcs-projection";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/empty-state";
 import { ResultEntry } from "@/components/result-entry";
@@ -152,6 +154,11 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
   const loggedDays = days.filter((d) => d.source === "results").length;
 
   const targets = (period.targets ?? {}) as Record<string, number>;
+  // The line is the dump projection (`pnpm cutoff:project --write` sets the
+  // targets above and this file together); cwhit's board rides beside it.
+  const stored = STORED_LINES as StoredLines;
+  const projection = stored.period === period.name ? stored : null;
+  const cwhitLine = (cat: string) => projection?.cwhit?.lines[cat] ?? null;
 
   const lines: CategoryLine[] = CATEGORIES.map((cat) => {
     const series = dates.map((d) => byDate.get(d)?.points[cat] ?? 0);
@@ -217,7 +224,11 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
         title={period.name}
         description={<>
           {period.startsOn} → {period.endsOn} · feeds PTWC 2 ·{" "}
-          {period.targetsAreOfficial ? "official targets" : "targets are estimates — upload weekly standings to replace"}
+          {period.targetsAreOfficial
+            ? "official targets"
+            : projection
+              ? `target = projected final line, from the day-${projection.day} dump (through ${projection.dumpReach}) grown as PTCS 5 and 6 grew${projection.cwhit ? "; cwhit's projection beside it" : ""}`
+              : "targets are estimates — run cutoff:project --write after a dump"}
         </>}
         actions={allPeriods.length > 1 && (
           <nav className="flex gap-1 text-xs">
@@ -376,6 +387,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                   <th className="py-2 pr-4">Progress</th>
                   <th className="py-2 pr-4 text-right">Total</th>
                   <th className="py-2 pr-4 text-right">Target</th>
+                  {projection?.cwhit && <th className="py-2 pr-4 text-right" title={projection.cwhit.file}>cwhit</th>}
                   <th className="py-2 pr-4 text-right">Gap</th>
                   <th className="py-2 pr-4 text-right">Need/day</th>
                   <th className="py-2 pr-4 text-right">Projected</th>
@@ -402,6 +414,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                       </td>
                       <td className="py-2 pr-4 text-right">{l.total}</td>
                       <td className="py-2 pr-4 text-right text-muted-foreground">{l.target ?? "—"}</td>
+                      {projection?.cwhit && <td className="py-2 pr-4 text-right text-muted-foreground/70">{cwhitLine(l.category) ?? "—"}</td>}
                       <td className="py-2 pr-4 text-right">{l.gap ?? "—"}</td>
                       <td className="py-2 pr-4 text-right text-muted-foreground">{l.needPerDay ?? "—"}</td>
                       <td className="py-2 pr-4 text-right text-muted-foreground">{l.projected ?? "—"}</td>
