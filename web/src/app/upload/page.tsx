@@ -15,6 +15,7 @@ import { CALIBRATION } from "@/lib/analytics/calibration";
 import { UploadQueue } from "@/components/upload-queue";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -99,14 +100,12 @@ export default async function UploadPage() {
   const { sources, attempts } = await loadFreshness();
   return (
     <div className="mx-auto max-w-4xl space-y-6">
-      <div>
-        <h1 className="text-xl font-semibold tracking-tight">Upload</h1>
-        <p className="text-sm text-muted-foreground">
-          Drop the card shop list, a collection export, a league export or category standings. The
-          file type is detected from its header — nothing to choose. Every file is parsed and
-          reported before anything is written, and a file already on record is recognised and skipped.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Data"
+        title="Upload"
+        description="Drop the card shop list, a collection export, a league export or category standings — the file type is detected from its header."
+        about="Every file is parsed and reported before anything is written, and a file already on record is recognised and skipped."
+      />
 
       <Card>
         <CardContent className="pt-4">
@@ -126,7 +125,7 @@ export default async function UploadPage() {
                 return (
                   <tr key={s.label} className="border-b border-border/50 align-top">
                     <td className="py-1.5 pr-3 font-medium">{s.label}</td>
-                    <td className={cn("py-1.5 pr-3 font-mono whitespace-nowrap", stale ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400")}>
+                    <td className={cn("py-1.5 pr-3 font-mono whitespace-nowrap", stale ? "text-warning" : "text-positive")}>
                       {s.asOf ?? "—"}{s.age != null ? ` (${s.age}d)` : ""}
                     </td>
                     <td className="py-1.5 pr-3 text-muted-foreground">{s.detail}</td>
@@ -141,7 +140,7 @@ export default async function UploadPage() {
               <div className="mb-1 text-xs font-semibold">Last uploads through this page</div>
               <div className="space-y-0.5 font-mono text-[11px]">
                 {attempts.map((a) => (
-                  <div key={String(a.id)} className={cn(String(a.status) === "failed" ? "text-red-500" : "text-muted-foreground")}>
+                  <div key={String(a.id)} className={cn(String(a.status) === "failed" ? "text-negative" : "text-muted-foreground")}>
                     #{String(a.id)} {String(a.kind).replace("upload:", "")} · {String(a.file ?? "?")} · {String(a.status)}
                     {a.rows != null ? ` · ${Number(a.rows).toLocaleString()} rows` : ""} · {day(String(a.started_at))}
                     {a.error ? ` — ${String(a.error)}` : ""}

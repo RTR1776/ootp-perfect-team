@@ -23,7 +23,7 @@ import { leagueTier } from "@/lib/analytics/league";
 import { hitterLines, metaSummary, pitcherLines, withRegression, type BoardStint } from "@/lib/analytics/league-board";
 import { MY_ORG } from "@/lib/my-team";
 import { LeagueBoard } from "@/components/league-board";
-import { Placeholder } from "@/components/placeholder";
+import { EmptyState } from "@/components/empty-state";
 
 export const dynamic = "force-dynamic";
 
@@ -53,7 +53,7 @@ export default async function LeaguePage({ searchParams }: { searchParams: Promi
     .groupBy(leagueSnapshots.id)) as SnapRow[];
 
   if (!snaps.length) {
-    return <Placeholder icon="tournaments" title="League" description="Import a league week (pnpm import:league <folder>) and this becomes the league workbench." />;
+    return <EmptyState icon="league" title="League" description="The league workbench — one line per card, pooled across every roster it sits on, split by hand." action={{ href: "/upload", label: "Upload a league export" }} hint={<>Or from a terminal: <code className="font-mono">pnpm import:league &quot;../League Data/DATE&quot;</code></>} />;
   }
 
   const complete = (s: SnapRow) => s.total > 0 && s.pitchers / s.total >= MIN_PITCHER_SHARE;

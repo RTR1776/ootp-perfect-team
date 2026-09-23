@@ -22,6 +22,18 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  /* Status — one meaning each, readable in both themes. Use these instead of
+     raw emerald/red/amber so a light-mode reader can see them. */
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+
+  /* Brand — from the app icon: navy leather, red stitching. */
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-stitch: var(--brand-stitch);
+
+  --color-tier-perfect: var(--tier-perfect);
   --color-tier-diamond: var(--tier-diamond);
   --color-tier-gold: var(--tier-gold);
   --color-tier-silver: var(--tier-silver);
@@ -30,74 +42,115 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display-face);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 }
 
+/* Light: chalk-line paper with navy ink. */
 :root {
   --radius: 0.625rem;
 
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.2 0.01 250);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.01 250);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.01 250);
-  --primary: oklch(0.62 0.16 150);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.96 0.005 250);
-  --secondary-foreground: oklch(0.25 0.01 250);
-  --muted: oklch(0.96 0.005 250);
-  --muted-foreground: oklch(0.5 0.01 250);
-  --accent: oklch(0.95 0.005 250);
-  --accent-foreground: oklch(0.25 0.01 250);
-  --border: oklch(0.9 0.005 250);
-  --input: oklch(0.9 0.005 250);
-  --ring: oklch(0.62 0.16 150);
+  --background: oklch(0.975 0.006 85);
+  --foreground: oklch(0.24 0.045 258);
+  --card: oklch(0.995 0.003 85);
+  --card-foreground: oklch(0.24 0.045 258);
+  --popover: oklch(0.995 0.003 85);
+  --popover-foreground: oklch(0.24 0.045 258);
+  --primary: oklch(0.52 0.14 150);
+  --primary-foreground: oklch(0.99 0.004 85);
+  --secondary: oklch(0.945 0.01 85);
+  --secondary-foreground: oklch(0.28 0.045 258);
+  --muted: oklch(0.95 0.008 85);
+  --muted-foreground: oklch(0.48 0.028 258);
+  --accent: oklch(0.935 0.012 250);
+  --accent-foreground: oklch(0.26 0.045 258);
+  --border: oklch(0.885 0.012 85);
+  --input: oklch(0.87 0.014 85);
+  --ring: oklch(0.52 0.14 150);
 
-  --tier-diamond: #22d3ee;
-  --tier-gold: #fbbf24;
-  --tier-silver: #cbd5e1;
-  --tier-bronze: #c2792e;
-  --tier-iron: #64748b;
+  --positive: oklch(0.5 0.13 155);
+  --negative: oklch(0.53 0.2 25);
+  --warning: oklch(0.56 0.13 65);
+  --info: oklch(0.52 0.15 245);
+
+  --brand-navy: oklch(0.3 0.06 258);
+  --brand-stitch: oklch(0.53 0.17 28);
+
+  /* Text-strength tier colours on paper: the dark-theme hues are too light
+     to read on white (gold and silver were ~1.5:1). */
+  --tier-perfect: #a21caf;
+  --tier-diamond: #0e7490;
+  --tier-gold: #a16207;
+  --tier-silver: #64748b;
+  --tier-bronze: #9a4f14;
+  --tier-iron: #475569;
 }
 
+/* Dark: the ballpark at night — navy, not grey. */
 .dark {
-  --background: oklch(0.17 0.01 250);
-  --foreground: oklch(0.97 0.005 250);
-  --card: oklch(0.21 0.01 250);
-  --card-foreground: oklch(0.97 0.005 250);
-  --popover: oklch(0.21 0.01 250);
-  --popover-foreground: oklch(0.97 0.005 250);
+  --background: oklch(0.165 0.022 258);
+  --foreground: oklch(0.965 0.008 85);
+  --card: oklch(0.2 0.026 258);
+  --card-foreground: oklch(0.965 0.008 85);
+  --popover: oklch(0.215 0.028 258);
+  --popover-foreground: oklch(0.965 0.008 85);
   --primary: oklch(0.78 0.17 150);
   --primary-foreground: oklch(0.18 0.03 150);
-  --secondary: oklch(0.26 0.01 250);
-  --secondary-foreground: oklch(0.97 0.005 250);
-  --muted: oklch(0.24 0.01 250);
-  --muted-foreground: oklch(0.65 0.01 250);
-  --accent: oklch(0.27 0.01 250);
-  --accent-foreground: oklch(0.97 0.005 250);
-  --border: oklch(0.27 0.01 250);
-  --input: oklch(0.3 0.01 250);
+  --secondary: oklch(0.25 0.028 258);
+  --secondary-foreground: oklch(0.965 0.008 85);
+  --muted: oklch(0.235 0.026 258);
+  --muted-foreground: oklch(0.7 0.02 255);
+  --accent: oklch(0.265 0.03 258);
+  --accent-foreground: oklch(0.965 0.008 85);
+  --border: oklch(0.29 0.03 258);
+  --input: oklch(0.32 0.03 258);
   --ring: oklch(0.78 0.17 150);
 
+  --positive: oklch(0.78 0.15 155);
+  --negative: oklch(0.7 0.18 22);
+  --warning: oklch(0.82 0.14 80);
+  --info: oklch(0.76 0.12 235);
+
+  --brand-navy: oklch(0.3 0.06 258);
+  --brand-stitch: oklch(0.62 0.18 28);
+
+  --tier-perfect: #e879f9;
   --tier-diamond: #22d3ee;
   --tier-gold: #fbbf24;
   --tier-silver: #cbd5e1;
-  --tier-bronze: #c2792e;
-  --tier-iron: #64748b;
+  --tier-bronze: #d08a45;
+  --tier-iron: #8492a6;
 }
 
 @layer base {
   * {
     border-color: var(--border);
   }
+  html {
+    scrollbar-color: var(--border) transparent;
+  }
   body {
     background-color: var(--background);
     color: var(--foreground);
     font-feature-settings: "cv11", "ss01";
+  }
+  /* One visible focus ring for every control, including the hand-rolled
+     pills and table rows that never had one. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
   /* Small uppercase letter-spaced section / column labels */
   .label-eyebrow {
@@ -124,4 +177,43 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--muted-foreground);
+}
+
+@layer components {
+  /* Page titles and scoreboard numbers: condensed, uppercase, tight. */
+  .page-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.875rem;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+  }
+  /* A row of baseball stitches, drawn in CSS so it scales with any width. */
+  .stitch-rule {
+    height: 5px;
+    background-image:
+      repeating-linear-gradient(115deg, var(--brand-stitch) 0 1.5px, transparent 1.5px 8px);
+    opacity: 0.55;
+  }
+  /* Skeleton shimmer for loading states. */
+  .skeleton {
+    border-radius: var(--radius-md);
+    background: linear-gradient(90deg, var(--muted) 0%, var(--accent) 50%, var(--muted) 100%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
 }

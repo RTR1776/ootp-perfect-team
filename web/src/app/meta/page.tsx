@@ -27,7 +27,8 @@ import {
 import Link from "next/link";
 import { latestCompleteSnapshots } from "@/lib/league-snapshots";
 import { Card, CardContent } from "@/components/ui/card";
-import { Placeholder } from "@/components/placeholder";
+import { EmptyState } from "@/components/empty-state";
+import { PageHeader } from "@/components/page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -171,7 +172,7 @@ function pct(v: number, digits = 1): string {
 }
 
 function ScoreBar({ value }: { value: number }) {
-  const tone = value < 30 ? "bg-red-500" : value < 45 ? "bg-amber-500" : "bg-primary";
+  const tone = value < 30 ? "bg-negative" : value < 45 ? "bg-warning" : "bg-primary";
   return (
     <span className="inline-flex items-center gap-2">
       <span className="relative inline-block h-2 w-24 overflow-hidden rounded-full bg-muted">
@@ -201,10 +202,11 @@ export default async function MetaPage({
 
   if (!data) {
     return (
-      <Placeholder
-        icon="tournaments"
+      <EmptyState
+        icon="meta"
         title="League Meta"
-        description="Upload a league season export (pel_all.csv, hd450_all.csv, …) on the Upload page and this becomes the live map of who plays what at the top — league environments, team strategies, clans, and your roster audited against the level."
+        description="The live map of who plays what at the top — league environments, team strategies, clans, and your roster audited against the level. It fills from a league season export (pel_all.csv, hd450_all.csv, …)."
+        action={{ href: "/upload", label: "Upload a league export" }}
       />
     );
   }
@@ -265,27 +267,26 @@ export default async function MetaPage({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-end justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">League Meta</h1>
-          <p className="text-sm text-muted-foreground">
-            {leagues.length} league{leagues.length === 1 ? "" : "s"} ·{" "}
-            {profiles.length} teams · latest snapshots{" "}
-            {[...latest.values()][0]?.capturedOn ?? ""} · usage-weighted, league-relative — the
-            normalization frame
-          </p>
-          {skipped.length > 0 && (
-            <p className="mt-1 text-xs text-amber-500">
-              Skipped {skipped.length} truncated export
-              {skipped.length === 1 ? "" : "s"} —{" "}
-              {skipped
-                .map((x) => `${x.league} ${x.capturedOn} (${x.pitchers} pitcher rows in ${x.rows})`)
-                .join(", ")}
-              . Those leagues are reading the previous complete week; re-export to refresh.
-            </p>
-          )}
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="League"
+        title="League Meta"
+        description={<>
+          {leagues.length} league{leagues.length === 1 ? "" : "s"} ·{" "}
+          {profiles.length} teams · latest snapshots{" "}
+          {[...latest.values()][0]?.capturedOn ?? ""} · usage-weighted, league-relative — the
+          normalization frame
+        </>}
+      />
+      {skipped.length > 0 && (
+        <p className="-mt-2 text-xs text-warning">
+          Skipped {skipped.length} truncated export
+          {skipped.length === 1 ? "" : "s"} —{" "}
+          {skipped
+            .map((x) => `${x.league} ${x.capturedOn} (${x.pitchers} pitcher rows in ${x.rows})`)
+            .join(", ")}
+          . Those leagues are reading the previous complete week; re-export to refresh.
+        </p>
+      )}
 
       {/* League environments */}
       <Card>
@@ -490,7 +491,7 @@ export default async function MetaPage({
                                 {a.altScore}
                                 <span
                                   className={`ml-1 text-[11px] ${
-                                    a.score! - a.altScore <= -8 ? "text-amber-500" : ""
+                                    a.score! - a.altScore <= -8 ? "text-warning" : ""
                                   }`}
                                 >
                                   {a.score! - a.altScore > 0 ? "+" : ""}

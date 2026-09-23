@@ -295,7 +295,7 @@ function Table({ years, park, parkYear, lhbShare, selected, onSelect, baselineYe
                   <td key={m.key} className="px-2 py-1.5 text-right font-mono">
                     {v == null ? "—" : m.fmt(v)}
                     {dev != null && Math.abs(dev) > 0.005 && (
-                      <span className={cn("ml-1 text-[10px]", dev > 0 ? "text-emerald-500" : "text-rose-500")}>
+                      <span className={cn("ml-1 text-[10px]", dev > 0 ? "text-positive" : "text-negative")}>
                         {dev > 0 ? "+" : ""}{(dev * 100).toFixed(0)}%
                       </span>
                     )}

@@ -18,7 +18,8 @@
  * staff slot.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -241,7 +242,7 @@ const RATING_BANDS: { min: number; bar: string; text: string }[] = [
   { min: 110, bar: "bg-blue-500", text: "text-blue-500" },
   { min: 90, bar: "bg-teal-500", text: "text-teal-500" },
   { min: 80, bar: "bg-green-500", text: "text-green-500" },
-  { min: 65, bar: "bg-amber-400", text: "text-amber-400" },
+  { min: 65, bar: "bg-amber-400", text: "text-amber-600 dark:text-amber-400" },
   { min: 50, bar: "bg-orange-500", text: "text-orange-500" },
   { min: -Infinity, bar: "bg-red-500", text: "text-red-500" },
 ];
@@ -900,7 +901,9 @@ export function RosterBuilder({
   }, [slots, byId, slotOrder, spKeys, rpKeys, lineupPos, objective]);
 
   /* render ----------------------------------------------------------- */
-  const pickTournament = (id: string) => router.push(id ? `/build?t=${id}` : "/build");
+  // A transition, so the old board stays up (dimmed) while the next event loads.
+  const [switching, startSwitch] = useTransition();
+  const pickTournament = (id: string) => startSwitch(() => router.push(id ? `/build?t=${id}` : "/build"));
 
   const obsTitle = (o: ObservedLine | null, isP: boolean) =>
     o == null
@@ -922,25 +925,32 @@ export function RosterBuilder({
   const Counter = ({ label, k, used, tgt }: { label: string; k: "bench" | "sp" | "rp"; used: number; tgt: number }) => (
     <div className="flex items-center gap-1">
       <span className="text-muted-foreground">{label}</span>
-      <button onClick={() => bump(k, -1)} className="rounded border border-border px-1 leading-none hover:bg-muted" aria-label={`fewer ${label}`}>−</button>
+      <button onClick={() => bump(k, -1)} className="inline-flex size-6 items-center justify-center rounded border border-border leading-none hover:bg-muted" aria-label={`fewer ${label}`}>−</button>
       <span className="font-mono">{used}</span>
-      <button onClick={() => bump(k, 1)} className="rounded border border-border px-1 leading-none hover:bg-muted" aria-label={`more ${label}`}>+</button>
+      <button onClick={() => bump(k, 1)} className="inline-flex size-6 items-center justify-center rounded border border-border leading-none hover:bg-muted" aria-label={`more ${label}`}>+</button>
       <span className="text-muted-foreground/70">/{tgt}</span>
     </div>
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className={cn("flex flex-col gap-4", switching && "[&>*:not(:first-child)]:pointer-events-none [&>*:not(:first-child)]:opacity-50 [&>*]:transition-opacity")}
+      aria-busy={switching}
+    >
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight">Build</h1>
-          <p className="text-sm text-muted-foreground">
+          <div className="label-eyebrow mb-1">Play</div>
+          <h1 className="page-title">Build</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">
             Pick a tournament to build and check a roster from your owned cards.
             Drag cards onto slots, or between slots, to move them.
           </p>
         </div>
+        <div className="flex w-full items-center gap-2 sm:w-auto">
+        {switching && <Loader2 className="size-4 shrink-0 animate-spin text-muted-foreground" aria-label="Loading tournament" />}
         <select
-          className="h-9 max-w-full rounded-md border border-border bg-background px-3 text-sm"
+          aria-label="Tournament"
+          className="h-10 w-full min-w-0 rounded-md border border-input bg-card px-3 text-sm font-medium shadow-sm sm:w-[26rem]"
           value={tournament ? String(tournament.id) : ""}
           onChange={(e) => pickTournament(e.target.value)}
         >
@@ -955,9 +965,10 @@ export function RosterBuilder({
             </optgroup>
           ))}
         </select>
+        </div>
       </div>
 
-      <p className={cn("text-xs", collectionStale ? "text-amber-600 dark:text-amber-400" : "text-muted-foreground")}>
+      <p className={cn("text-xs", collectionStale ? "text-warning" : "text-muted-foreground")}>
         Collection snapshot: {collectionDate ?? "not loaded"}{collectionStale ? ` — ${collectionAgeDays} days old; cards bought since are not in this pool. Refresh: pnpm import:cards SHOP COLLECTION DATE --commit, or drop both exports on /upload.` : ". Base and variant copies are checked separately."}
       </p>
 
@@ -993,7 +1004,7 @@ export function RosterBuilder({
             {tournament.ratingsMax == null && tournament.ratingsMin == null
               && !tournament.restrictions?.slots && !tournament.isDraft && (
               <Badge
-                className="border-transparent bg-amber-500/15 text-amber-600 dark:text-amber-400"
+                className="border-transparent bg-warning/15 text-warning"
                 title="No card-value window on file for this event, so every card in your collection is being shown. Check OOTP's RESTRICTIONS line and run pnpm backfill:tierbands."
               >
                 no card cap on file — pool unfiltered
@@ -1007,11 +1018,11 @@ export function RosterBuilder({
 
           {confidence && (() => {
             const tone = confidence.level === "good"
-              ? { box: "border-emerald-500/70 bg-emerald-500/5", dot: "bg-emerald-500", chip: "border-emerald-500/40 text-emerald-600 dark:text-emerald-400" }
+              ? { box: "border-positive/70 bg-positive/5", dot: "bg-positive", chip: "border-positive/40 text-positive" }
               : confidence.level === "fair"
-                ? { box: "border-amber-400 bg-amber-400/10", dot: "bg-amber-400", chip: "border-amber-400/60 text-amber-600 dark:text-amber-400" }
-                : { box: "border-red-500/80 bg-red-500/10", dot: "bg-red-500", chip: "border-red-500/50 text-red-600 dark:text-red-400" };
-            const chipTone = (l: Confidence["level"]) => (l === "good" ? "border-emerald-500/40 text-emerald-600 dark:text-emerald-400" : l === "fair" ? "border-amber-400/60 text-amber-600 dark:text-amber-400" : "border-red-500/50 text-red-600 dark:text-red-400");
+                ? { box: "border-warning bg-warning/10", dot: "bg-warning", chip: "border-warning/60 text-warning" }
+                : { box: "border-negative/80 bg-negative/10", dot: "bg-negative", chip: "border-negative/50 text-negative" };
+            const chipTone = (l: Confidence["level"]) => (l === "good" ? "border-positive/40 text-positive" : l === "fair" ? "border-warning/60 text-warning" : "border-negative/50 text-negative");
             return (
               <div className={`rounded-lg border-2 p-3 text-xs leading-relaxed ${tone.box}`} title="How much data stands behind the Runs column and Optimise for this event">
                 <p className="flex items-center gap-2 font-semibold"><span className={`inline-block h-2.5 w-2.5 rounded-full ${tone.dot}`} />{confidence.headline}</p>
@@ -1159,7 +1170,7 @@ export function RosterBuilder({
                               {c.name}
                               {c.bats && <span className="ml-1 text-[10px] text-muted-foreground">{c.bats}</span>}
                               {c.variantOwned && <button type="button" className="ml-2 rounded border px-1 text-[10px]" aria-label={`Use ${c.variant ? "base" : "variant"} ${c.name}`} disabled={!c.baseOwned} onClick={e=>{e.stopPropagation();setForms(f=>({...f,[c.cardId]:!c.variant}));}}>{c.variant ? "VAR selected" : "Base · VAR owned"}</button>}
-                              {inUse && <span className="ml-1 text-[10px] text-emerald-600 dark:text-emerald-400">●</span>}
+                              {inUse && <span className="ml-1 text-[10px] text-positive">●</span>}
                             </td>
                             <td className="px-1.5">{c.isPitcher ? c.role ?? "P" : c.pos}</td>
                             <td className="px-1.5 text-right">{c.val ?? "—"}</td>
@@ -1383,7 +1394,7 @@ function SlotRow({
         "flex items-center justify-between rounded px-2 py-0.5 text-sm",
         card ? "cursor-grab active:cursor-grabbing" : "cursor-pointer",
         selected === k ? "bg-foreground/10 ring-1 ring-foreground/30" : "hover:bg-muted/40",
-        dragOverSlot === k && "ring-2 ring-sky-500/70 bg-sky-500/10",
+        dragOverSlot === k && "ring-2 ring-info/70 bg-info/10",
       )}
     >
       <span className="w-8 shrink-0 font-mono text-[11px] text-muted-foreground">{label}</span>

@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TierDot } from "@/components/tier-badge";
 import { cn } from "@/lib/utils";
 import type { Tier } from "@/lib/tiers";
+import { PageHeader } from "@/components/page-header";
 
 export interface PlayedLine {
   cardId: number; name: string; val: number | null; tier: string | null; pos: string; role: string | null;
@@ -112,14 +113,15 @@ export function PlayedBoard({ lines, k, collectionDate }: { lines: PlayedLine[];
 
   return (
     <div className="flex flex-col gap-5">
-      <div>
-        <div className="label-eyebrow">What has actually produced</div>
-        <h1 className="text-2xl font-semibold tracking-tight">Played</h1>
-        <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
-          Every card with tournament play on record — {lines.length.toLocaleString()} cards, Jim-beater teams excluded — ranked by <span className="font-medium text-foreground">Runs</span>: what the card did against its fields, put on the model&rsquo;s scale, blended with the model by how much play it has (K = {k} PA/BF; a card with {(k * 2).toLocaleString()} on record is two-thirds observed). Built for a draft: set the round&rsquo;s value window, a position, a hand, and read down. wOBA / FIP are pooled across every era the card played, so they are context, not the ranking.
+      <PageHeader
+        eyebrow="What has actually produced"
+        title="Played"
+        description={<>
+          {lines.length.toLocaleString()} cards with tournament play on record, ranked by <span className="font-medium text-foreground">Runs</span>. Built for a draft: set the round&rsquo;s value window, a position, a hand, and read down.
           {collectionDate ? <> Owned marks are from the {collectionDate} collection.</> : null}
-        </p>
-      </div>
+        </>}
+        about={<>Runs is what the card did against its fields, put on the model&rsquo;s scale and blended with the model by how much play it has (K = {k} PA/BF; a card with {(k * 2).toLocaleString()} on record is two-thirds observed). Jim-beater teams are excluded. wOBA / FIP are pooled across every era the card played, so they are context, not the ranking.</>}
+      />
 
       <Card><CardContent className="py-3">
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">

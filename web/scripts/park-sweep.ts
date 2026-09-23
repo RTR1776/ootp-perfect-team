@@ -43,7 +43,7 @@ const TEAM = val("team", "Kansas City Torrent - JW")!;
 const YEAR = val("year", "2010")!;
 const FIELD = (val("field", "HD450,HD451,HD452,HD453,PEL")!).split(",");
 const TOP = num("top", 20), MINPA = num("min-pa", 50);
-const ONLY = val("parks", null);            // comma-separated "Name@Year" shortlist
+const ONLY = val("parks");                  // comma-separated "Name@Year" shortlist
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
 type Row = { cid: number; name: string; pos: string; org: string; is_pitcher: boolean;

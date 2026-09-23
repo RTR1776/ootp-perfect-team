@@ -1,12 +1,15 @@
 import { TIER_COLORS, type Tier } from "@/lib/tiers";
 import { cn } from "@/lib/utils";
 
+/** `color` at `pct`% strength — works with the CSS-variable tier colours. */
+const mix = (color: string, pct: number) => `color-mix(in oklch, ${color} ${pct}%, transparent)`;
+
 export function TierDot({ tier, className }: { tier: Tier; className?: string }) {
   return (
     <span
       aria-hidden
       className={cn("inline-block size-2.5 rounded-full", className)}
-      style={{ backgroundColor: TIER_COLORS[tier], boxShadow: `0 0 6px ${TIER_COLORS[tier]}66` }}
+      style={{ backgroundColor: TIER_COLORS[tier], boxShadow: `0 0 6px ${mix(TIER_COLORS[tier], 40)}` }}
     />
   );
 }
@@ -21,8 +24,8 @@ export function TierBadge({ tier, className }: { tier: Tier; className?: string 
       )}
       style={{
         color,
-        borderColor: `${color}55`,
-        backgroundColor: `${color}14`,
+        borderColor: mix(color, 35),
+        backgroundColor: mix(color, 8),
       }}
     >
       <span

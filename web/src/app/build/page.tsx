@@ -45,6 +45,7 @@ import {
   type TournamentInfo,
   type UpgradeCard,
 } from "@/components/roster-builder";
+import { PageHeader } from "@/components/page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -105,12 +106,11 @@ export default async function BuildPage({
 
   if (catalog.length === 0) {
     return (
-      <div className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold tracking-tight">Build</h1>
-        <p className="text-sm text-muted-foreground">
-          No tournaments loaded yet — run <code>pnpm import:tournaments</code> after the next data drop.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Play"
+        title="Build"
+        description={<>No tournaments loaded yet — run <code className="font-mono">pnpm import:tournaments</code> after the next data drop.</>}
+      />
     );
   }
 

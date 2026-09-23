@@ -31,7 +31,7 @@ export function EnvironmentPanel({ s, base, baseLabel }: { s: Solved; base: Solv
               <span className="text-3xl font-semibold tabular-nums">{s.env.RG.toFixed(2)}</span>
               <span className="text-sm text-muted-foreground">runs per game</span>
               {base?.env && (
-                <span className={cn("text-xs", s.env.RG >= base.env.RG ? "text-emerald-500" : "text-rose-500")}>
+                <span className={cn("text-xs", s.env.RG >= base.env.RG ? "text-positive" : "text-negative")}>
                   {signed(pctDelta(s.env.RG, base.env.RG), 0)}% vs {baseLabel}
                 </span>
               )}
@@ -54,7 +54,7 @@ export function EnvironmentPanel({ s, base, baseLabel }: { s: Solved; base: Solv
                 <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{m.label}</div>
                 <div className="font-mono text-sm tabular-nums">{v == null ? "—" : m.fmt(v)}</div>
                 {d != null && Math.abs(d) >= 0.5 && (
-                  <div className={cn("text-[10px]", (d > 0) === m.offenseUp ? "text-emerald-500" : "text-rose-500")}>
+                  <div className={cn("text-[10px]", (d > 0) === m.offenseUp ? "text-positive" : "text-negative")}>
                     {signed(d, 0)}%
                   </div>
                 )}
@@ -132,7 +132,7 @@ function LeverBars({ title, rows, baseRows, baseLabel }: {
             <span className="w-11 shrink-0 text-right text-[10px] text-muted-foreground" title={`R² ${r.r2.toFixed(2)} — how much of the rate this rating explains`}>
               R² {r.r2.toFixed(2)}
             </span>
-            <span className={cn("w-14 shrink-0 text-right text-[10px]", d == null ? "text-transparent" : Math.abs(d) < 1 ? "text-muted-foreground" : d > 0 ? "text-emerald-500" : "text-rose-500")}
+            <span className={cn("w-14 shrink-0 text-right text-[10px]", d == null ? "text-transparent" : Math.abs(d) < 1 ? "text-muted-foreground" : d > 0 ? "text-positive" : "text-negative")}
               title={d == null ? "" : `vs ${baseLabel}`}>
               {d == null ? "—" : `${signed(d, 0)}%`}
             </span>
@@ -220,7 +220,7 @@ export function ParkPanel({ s, spec }: { s: Solved; spec: EnvSpec }) {
             {dHR != null && <span>HR/PA {signed(dHR, 1)}%</span>}
           </div>
           {trap && (
-            <p className="mt-2 text-amber-500">
+            <p className="mt-2 text-warning">
               Reads as a small-ball park and is the opposite: hits are up {((avgBlend - 1) * 100).toFixed(0)}% while
               homers are down {((1 - hrBlend) * 100).toFixed(0)}%. The hit factor outweighs the homer factor about
               3 to 1, so outs get MORE expensive here, not less. Don&apos;t bunt.

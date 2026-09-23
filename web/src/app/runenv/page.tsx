@@ -15,6 +15,7 @@ import { RunEnvExplorer } from "@/components/runenv/explorer";
 import type { BerthRow } from "@/components/runenv/berth-grid";
 import { ownedPool } from "@/lib/analytics/runenv-pool";
 import { parkFor } from "@/lib/analytics/tournament-env";
+import { PageHeader } from "@/components/page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -92,14 +93,12 @@ export default async function RunEnvPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div>
-        <h1 className="text-xl font-semibold tracking-tight">Run environment</h1>
-        <p className="text-sm text-muted-foreground">
-          Pick an era and a ballpark and read what the roster should look like — which ratings pay, which side of the
-          plate the park favours, and which strategy preset to set. Solved from the model, so it works for an event
-          with no observed data behind it.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Environment"
+        title="Run Environment"
+        description="Pick an era and a ballpark and read what the roster should look like — which ratings pay, which side of the plate the park favours, and which strategy preset to set."
+        about="Solved from the model, so it works for an event with no observed data behind it."
+      />
       <RunEnvExplorer
         berths={berths}
         events={events}

@@ -143,7 +143,7 @@ export function Shortlist({ pool, asOf, s, filters }: {
                   <td className="px-2 py-1.5 text-muted-foreground">{r.c.role ?? r.c.pos}{r.c.bats ? ` · ${r.c.bats}` : ""}</td>
                   <td className="px-2 py-1.5 text-right text-muted-foreground">{r.c.year ?? "—"}</td>
                   <td className="px-2 py-1.5 text-right font-mono tabular-nums">{r.c.value}</td>
-                  <td className={cn("px-2 py-1.5 text-right font-mono tabular-nums", r.runs >= 0 ? "text-emerald-500" : "text-rose-500")}>
+                  <td className={cn("px-2 py-1.5 text-right font-mono tabular-nums", r.runs >= 0 ? "text-positive" : "text-negative")}>
                     {r.runs >= 0 ? "+" : ""}{r.runs.toFixed(1)}
                   </td>
                   <td className="px-2 py-1.5 text-muted-foreground">{r.lever ?? "—"}</td>

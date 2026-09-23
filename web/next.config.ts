@@ -5,6 +5,8 @@ const config: NextConfig = {
   // Claude's sandbox cannot delete inside .next, so a build from there goes
   // to a fresh directory: NEXT_DIST_DIR=.next-check npx next build
   distDir: process.env.NEXT_DIST_DIR ?? ".next",
+  // Dev-only badge; bottom-left sat on top of the sidebar footer.
+  devIndicators: { position: "bottom-right" },
   // Pin the workspace root to this app dir; multiple lockfiles exist above it.
   turbopack: {
     root: path.resolve(__dirname),
