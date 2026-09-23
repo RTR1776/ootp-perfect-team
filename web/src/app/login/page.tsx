@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -21,7 +22,9 @@ function LoginForm() {
     });
     setBusy(false);
     if (response.ok) {
-      router.replace(params.get("next") ?? "/");
+      // Only same-site paths: "//evil.example" or a full URL would leave the app.
+      const next = params.get("next");
+      router.replace(next && next.startsWith("/") && !next.startsWith("//") ? next : "/");
       router.refresh();
     } else {
       setError("Wrong password.");
@@ -29,24 +32,30 @@ function LoginForm() {
   }
 
   return (
-    <form onSubmit={submit} className="w-full max-w-xs space-y-4">
-      <div>
-        <h1 className="text-lg font-semibold">Kansas City Torrent</h1>
-        <p className="text-sm text-muted-foreground">Perfect Team command centre</p>
+    <form onSubmit={submit} className="w-full max-w-sm space-y-4 rounded-2xl border border-border bg-card p-8 shadow-xl">
+      <div className="flex flex-col items-center gap-3 text-center">
+        <Image src="/app-icon.png" alt="" width={64} height={64} priority className="size-16 rounded-2xl shadow-md" />
+        <div>
+          <h1 className="page-title text-3xl">Kansas City Torrent</h1>
+          <p className="text-sm text-muted-foreground">Perfect Team command centre</p>
+        </div>
       </div>
+      <div aria-hidden className="stitch-rule" />
       <input
         type="password"
+        aria-label="Password"
+        autoComplete="current-password"
         autoFocus
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
-        className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
+        className="w-full rounded-md border border-input bg-background px-3 py-2.5 text-sm"
       />
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && <p className="text-sm text-negative">{error}</p>}
       <button
         type="submit"
         disabled={busy || !password}
-        className="w-full rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50"
+        className="w-full rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
       >
         {busy ? "Checking…" : "Enter"}
       </button>
@@ -65,7 +74,7 @@ export default function LoginPage() {
      * form has to sit inside a Suspense boundary or the static export of this
      * route fails the build.
      */
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background bg-[radial-gradient(ellipse_at_top,var(--accent),transparent_60%)] p-6">
       <Suspense fallback={null}>
         <LoginForm />
       </Suspense>

@@ -135,7 +135,7 @@ export function ResultEntry({ asOfDefault, periodName, recent }: { asOfDefault: 
           <div className="flex flex-wrap gap-4 border-t border-border px-2 py-1.5 text-xs text-muted-foreground">
             <span><span className="font-semibold text-foreground">{preview.summary.new}</span> new</span>
             <span><span className="font-semibold text-foreground">{preview.summary.duplicates}</span> already logged</span>
-            <span><span className={cn("font-semibold", preview.summary.problems ? "text-amber-500" : "text-foreground")}>{preview.summary.problems}</span> unreadable</span>
+            <span><span className={cn("font-semibold", preview.summary.problems ? "text-warning" : "text-foreground")}>{preview.summary.problems}</span> unreadable</span>
             {Object.keys(preview.summary.byCategory).length > 0 && (
               <span className="ml-auto">
                 would add {Object.entries(preview.summary.byCategory).map(([c, v]) => `+${v} ${c}`).join(" · ")}
@@ -162,7 +162,7 @@ export function ResultEntry({ asOfDefault, periodName, recent }: { asOfDefault: 
                     type="button"
                     onClick={() => remove(e.eventId!)}
                     disabled={busy != null}
-                    className="shrink-0 rounded px-1.5 text-muted-foreground hover:bg-accent hover:text-red-500 disabled:opacity-50"
+                    className="shrink-0 rounded px-1.5 text-muted-foreground hover:bg-accent hover:text-negative disabled:opacity-50"
                     title="Remove this logged result"
                     aria-label={`Remove ${e.name}`}
                   >
@@ -181,10 +181,10 @@ export function ResultEntry({ asOfDefault, periodName, recent }: { asOfDefault: 
 function PreviewRow({ r }: { r: EntryRow }) {
   const chip =
     r.status === "new"
-      ? { label: "new", cls: "border-emerald-500/50 text-emerald-500" }
+      ? { label: "new", cls: "border-positive/50 text-positive" }
       : r.status === "duplicate"
         ? { label: "already logged", cls: "border-border text-muted-foreground" }
-        : { label: "unreadable", cls: "border-amber-500/50 text-amber-500" };
+        : { label: "unreadable", cls: "border-warning/50 text-warning" };
   return (
     <>
       <tr className={cn("border-b border-border/50", r.status !== "new" && "text-muted-foreground")}>
@@ -195,7 +195,7 @@ function PreviewRow({ r }: { r: EntryRow }) {
         <td className="px-2 py-1.5 font-sans">{r.categories.join(", ") || "—"}</td>
         <td className="px-2 py-1.5 text-right">{r.fieldSize ?? "—"}</td>
         <td className="px-2 py-1.5">{r.eliminated ? "eliminated" : r.placement ?? "—"}</td>
-        <td className={cn("px-2 py-1.5 text-right", r.points >= 10 && r.status === "new" && "font-semibold text-emerald-500")}>
+        <td className={cn("px-2 py-1.5 text-right", r.points >= 10 && r.status === "new" && "font-semibold text-positive")}>
           {r.points}{r.categories.length > 1 ? ` ×${r.categories.length}` : ""}
         </td>
         <td className="px-2 py-1.5 font-sans">
@@ -204,7 +204,7 @@ function PreviewRow({ r }: { r: EntryRow }) {
       </tr>
       {r.problems.length > 0 && (
         <tr className="border-b border-border/50">
-          <td colSpan={7} className="px-2 pb-1.5 font-sans text-[11px] text-amber-600 dark:text-amber-400">
+          <td colSpan={7} className="px-2 pb-1.5 font-sans text-[11px] text-warning">
             {r.problems.join(" ")}
           </td>
         </tr>

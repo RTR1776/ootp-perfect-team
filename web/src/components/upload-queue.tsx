@@ -77,8 +77,8 @@ function Stat({ label, value, tone }: { label: string; value: string; tone?: "go
       <div
         className={cn(
           "font-mono text-sm",
-          tone === "good" && "text-emerald-500",
-          tone === "bad" && "text-red-500",
+          tone === "good" && "text-positive",
+          tone === "bad" && "text-negative",
         )}
       >
         {value}
@@ -148,8 +148,8 @@ function Report({
           className={cn(
             "flex items-start gap-2 rounded-md border px-3 py-2 text-xs",
             valid
-              ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-500"
-              : "border-red-500/30 bg-red-500/5 text-red-500",
+              ? "border-positive/30 bg-positive/5 text-positive"
+              : "border-negative/30 bg-negative/5 text-negative",
           )}
         >
           {valid ? (
@@ -224,7 +224,7 @@ function Report({
           <Stat label="Unmatched" value={num(unmatched)} tone={unmatched > 0 ? "bad" : "good"} />
         </div>
         {stats.hasActiveColumn === false && (
-          <p className="text-xs text-amber-500">
+          <p className="text-xs text-warning">
             This export has no ACT column, so the active roster cannot be read from it. Re-export
             with active status included if you want the roster flag populated.
           </p>
@@ -252,8 +252,8 @@ function Report({
       </div>
 
       {onCapturedOn && (
-        <div className="rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2">
-          <label className="flex flex-wrap items-center gap-2 text-xs text-amber-500">
+        <div className="rounded-md border border-warning/30 bg-warning/5 px-3 py-2">
+          <label className="flex flex-wrap items-center gap-2 text-xs text-warning">
             <AlertTriangle className="size-3.5 shrink-0" />
             <span>Export taken on</span>
             <input
@@ -417,9 +417,9 @@ export function UploadQueue() {
                     {item.status === "analyzing" || item.status === "committing" ? (
                       <Loader2 className="size-4 shrink-0 animate-spin text-muted-foreground" />
                     ) : item.status === "error" ? (
-                      <X className="size-4 shrink-0 text-red-500" />
+                      <X className="size-4 shrink-0 text-negative" />
                     ) : item.status === "done" ? (
-                      <Check className="size-4 shrink-0 text-emerald-500" />
+                      <Check className="size-4 shrink-0 text-positive" />
                     ) : (
                       <FileCheck2 className="size-4 shrink-0 text-muted-foreground" />
                     )}
@@ -448,7 +448,7 @@ export function UploadQueue() {
               {(item.stats || item.error) && (
                 <CardContent className="space-y-3">
                   {item.error && (
-                    <div className="rounded-md border border-red-500/30 bg-red-500/5 px-3 py-2 text-xs text-red-500">
+                    <div className="rounded-md border border-negative/30 bg-negative/5 px-3 py-2 text-xs text-negative">
                       <div className="font-medium">{item.error}</div>
                       {item.detail && <div className="mt-1 opacity-80">{item.detail}</div>}
                     </div>

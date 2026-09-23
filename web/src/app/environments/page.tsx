@@ -13,6 +13,7 @@ import { tournaments } from "@/db/schema";
 import { EnvSimilarity, type TournamentEnv } from "@/components/env-similarity";
 import { EnvironmentsCatalog } from "@/components/environments-catalog";
 import { eraFor, parkFor, solveFor, vectorOf } from "@/lib/analytics/tournament-env";
+import { PageHeader } from "@/components/page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -51,13 +52,11 @@ export default async function EnvironmentsPage() {
   const rows = await tournamentEnvs();
   return (
     <div className="flex flex-col gap-4">
-      <div>
-        <h1 className="text-xl font-semibold tracking-tight">Environments</h1>
-        <p className="text-sm text-muted-foreground">
-          What each tournament actually plays like — the era it runs and the ballpark it runs in, solved through the
-          run-expectancy model.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Environment"
+        title="Environments"
+        description="What each tournament actually plays like — the era it runs and the ballpark it runs in, solved through the run-expectancy model."
+      />
       <EnvSimilarity tournaments={rows} />
       <EnvironmentsCatalog />
     </div>

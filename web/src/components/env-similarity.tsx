@@ -50,9 +50,9 @@ const Sel = (props: React.SelectHTMLAttributes<HTMLSelectElement>) => (
 );
 
 const PRESET_TONE: Record<string, string> = {
-  Sabermetric: "text-sky-400", "Moderate Sabermetric": "text-sky-300",
-  Balanced: "text-muted-foreground", Traditional: "text-amber-300",
-  "Moderate Small Ball": "text-amber-400", "Small Ball": "text-orange-400",
+  Sabermetric: "text-sky-700 dark:text-sky-400", "Moderate Sabermetric": "text-sky-600 dark:text-sky-300",
+  Balanced: "text-muted-foreground", Traditional: "text-amber-600 dark:text-amber-300",
+  "Moderate Small Ball": "text-amber-700 dark:text-amber-400", "Small Ball": "text-orange-700 dark:text-orange-400",
 };
 
 export function EnvSimilarity({ tournaments }: { tournaments: TournamentEnv[] }) {
@@ -217,7 +217,7 @@ export function EnvSimilarity({ tournaments }: { tournaments: TournamentEnv[] })
                   <td className="py-1.5 pr-3 font-mono text-xs text-muted-foreground">{i + 1}</td>
                   <td className="py-1.5 pr-3">
                     <Link href={`/build?t=${t.id}`} className="hover:underline">{t.name}</Link>
-                    {t.series && <span className="ml-1.5 text-[10px] text-emerald-500 dark:text-emerald-400">●</span>}
+                    {t.series && <span className="ml-1.5 text-[10px] text-positive">●</span>}
                   </td>
                   <td className="py-1.5 pr-3 text-xs text-muted-foreground">
                     {t.envYear ?? "—"} · {t.stadium ?? "neutral"}

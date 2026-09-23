@@ -27,7 +27,7 @@ import { envFitMaps } from "@/lib/analytics/env-fit";
 import { loadObservedRuns, blendRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 import { wobaOf, fipOf } from "@/lib/analytics/league";
 import { PlayedBoard, type PlayedLine } from "@/components/played-board";
-import { Placeholder } from "@/components/placeholder";
+import { EmptyState } from "@/components/empty-state";
 
 export const dynamic = "force-dynamic";
 
@@ -125,6 +125,6 @@ export default async function PlayedPage() {
   const key = [`played`, String(batch?.id ?? 0), String(upload?.id ?? 0)];
   const cached = unstable_cache(() => buildLines(upload?.id ?? null), key, { revalidate: 3600, tags: ["played"] });
   const { lines, collectionDate } = await cached();
-  if (!lines.length) return <Placeholder icon="tournaments" title="Played" description="Import tournament exports (File OOTP Exports.command) and this becomes the board of what has actually produced." />;
+  if (!lines.length) return <EmptyState icon="played" title="Played" description="The board of what has actually produced in tournaments — every card with play on record, ranked by runs." hint={<>It fills from tournament exports: double-click <span className="font-medium text-foreground">File OOTP Exports.command</span> after an event.</>} />;
   return <PlayedBoard lines={lines} k={OBS_K_DEFAULT} collectionDate={collectionDate} />;
 }

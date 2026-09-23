@@ -186,7 +186,7 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
             <span className="text-foreground">{solved.eraLabel}</span>
             {" · "}
             <span className="text-foreground">{solved.parkLabel}</span>
-            {solved.parkRow == null && spec.park && <span className="text-amber-500"> — no factors on file, running neutral</span>}
+            {solved.parkRow == null && spec.park && <span className="text-warning"> — no factors on file, running neutral</span>}
           </div>
         </CardContent>
       </Card>

@@ -17,6 +17,7 @@ import {
   HIT_POS, f1, f2, f3, pct1, hitterQual, pitcherQual,
   type HitterLine, type PitcherLine, type MetaSummary,
 } from "@/lib/analytics/league-board";
+import { PageHeader } from "@/components/page-header";
 
 type Kind = "hit" | "sp" | "rp";
 interface Filters { week: string; scope: string; split: string }
@@ -108,15 +109,12 @@ export function LeagueBoard({ hitters, pitchers, mineHitters, minePitchers, meta
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <div className="label-eyebrow">League workbench</div>
-          <h1 className="text-2xl font-semibold tracking-tight">League</h1>
-          <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
-            League exports only — one line per card pooled across every roster it sits on ({scopeInfo.snapshots.length} snapshot{scopeInfo.snapshots.length === 1 ? "" : "s"}, {scopeLabel}, split {filters.split}). {MY_ORG} rows carry a <span className="rounded bg-primary/15 px-1 text-[10px] font-semibold text-primary">{MY_ORG_SHORT}</span> mark; &ldquo;{MY_ORG_SHORT} only&rdquo; shows your own copies&rsquo; lines instead of the pooled ones.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="League workbench"
+        title="League"
+        description={<>One line per card pooled across every roster it sits on — {scopeInfo.snapshots.length} snapshot{scopeInfo.snapshots.length === 1 ? "" : "s"}, {scopeLabel}, split {filters.split}.</>}
+        about={<>League exports only. {MY_ORG} rows carry a <span className="rounded bg-primary/15 px-1 text-[11px] font-semibold text-primary">{MY_ORG_SHORT}</span> mark; &ldquo;{MY_ORG_SHORT} only&rdquo; shows your own copies&rsquo; lines instead of the pooled ones.</>}
+      />
 
       {/* server-side filters */}
       <Card><CardContent className="flex flex-wrap items-center gap-x-6 gap-y-3 py-3 text-sm">
@@ -261,7 +259,7 @@ function Name({ line }: { line: { name: string; val: number | null; tier: string
 }
 
 function Pct({ v }: { v: number }) {
-  const tone = v >= 80 ? "text-emerald-500" : v >= 50 ? "text-foreground" : v >= 25 ? "text-amber-500" : "text-red-500";
+  const tone = v >= 80 ? "text-positive" : v >= 50 ? "text-foreground" : v >= 25 ? "text-warning" : "text-negative";
   return <span className={cn("font-mono", tone)}>{v}<span className="text-[10px] text-muted-foreground">th</span></span>;
 }
 

@@ -19,11 +19,13 @@ import { dailyTotals, myResults, periods, results, uploads } from "@/db/schema";
 import type { DumpStandings } from "@/lib/analytics/dumps";
 import LADDER from "@/data/ptcs-ladder.json";
 import { Card, CardContent } from "@/components/ui/card";
-import { Placeholder } from "@/components/placeholder";
+import { EmptyState } from "@/components/empty-state";
 import { ResultEntry } from "@/components/result-entry";
 import { cn } from "@/lib/utils";
 import { periodCalendar, todayInChicago } from "@/lib/ptcs-progress";
 import { mergeDays, type LedgerEvent } from "@/lib/result-ledger";
+import { PageHeader } from "@/components/page-header";
+import { StatTile } from "@/components/stat-tile";
 
 export const dynamic = "force-dynamic";
 
@@ -47,11 +49,11 @@ interface CategoryLine {
 function statusChip(status: CategoryLine["status"], official: boolean): { label: string; cls: string } {
   switch (status) {
     case "qualified":
-      return { label: official ? "at recorded cutoff" : "above estimated line", cls: "border-emerald-500/50 text-emerald-400" };
+      return { label: official ? "at recorded cutoff" : "above estimated line", cls: "border-positive/50 text-positive" };
     case "on-pace":
-      return { label: "on pace", cls: "border-emerald-500/30 text-emerald-300" };
+      return { label: "on pace", cls: "border-positive/30 text-positive" };
     case "off-pace":
-      return { label: "off pace", cls: "border-amber-500/40 text-amber-400" };
+      return { label: "off pace", cls: "border-warning/40 text-warning" };
     case "not-started":
       return { label: "not started", cls: "border-border text-muted-foreground" };
     default:
@@ -70,10 +72,11 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
     allPeriods[0];
   if (!period) {
     return (
-      <Placeholder
-        icon="tournaments"
+      <EmptyState
+        icon="ptcs"
         title="PTCS"
-        description="Create a period (pnpm period:new) and log results here, and this becomes the qualifying command center — category standings, pace, and the championship ladder."
+        description="The qualifying command center — category standings, pace, and the championship ladder. It starts once a qualifying period exists."
+        hint={<>From a terminal: <code className="font-mono">pnpm period:new &quot;PTCS 8&quot; START END</code></>}
       />
     );
   }
@@ -209,15 +212,14 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-end justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">{period.name}</h1>
-          <p className="text-sm text-muted-foreground">
-            {period.startsOn} → {period.endsOn} · feeds PTWC 2 ·{" "}
-            {period.targetsAreOfficial ? "official targets" : "targets are estimates — upload weekly standings to replace"}
-          </p>
-        </div>
-        {allPeriods.length > 1 && (
+      <PageHeader
+        eyebrow="PTCS qualifying"
+        title={period.name}
+        description={<>
+          {period.startsOn} → {period.endsOn} · feeds PTWC 2 ·{" "}
+          {period.targetsAreOfficial ? "official targets" : "targets are estimates — upload weekly standings to replace"}
+        </>}
+        actions={allPeriods.length > 1 && (
           <nav className="flex gap-1 text-xs">
             {allPeriods.map((p) => (
               <Link
@@ -230,7 +232,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
             ))}
           </nav>
         )}
-      </div>
+      />
 
       {/* KPI strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -240,13 +242,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
           ["Points per day", rate.toFixed(1), "PTCS 5 ran 43.9"],
           ["Categories on pace", `${onPace} / ${lines.filter((l) => (l.target ?? 0) > 0).length}`, "including targets reached"],
         ].map(([label, value, sub]) => (
-          <Card key={label as string}>
-            <CardContent className="pt-5 pb-4">
-              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-              <div className="mt-1 font-mono text-xl font-semibold tabular-nums">{value}</div>
-              <div className="mt-0.5 text-[11px] text-muted-foreground">{sub}</div>
-            </CardContent>
-          </Card>
+          <StatTile key={label} label={label} value={value} sub={sub} />
         ))}
       </div>
 
@@ -278,12 +274,12 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                     return (
                       <tr key={r.cat} className="border-b border-border/50">
                         <td className="py-1.5 pr-2 font-sans">{r.cat}</td>
-                        <td className={cn("px-2 text-right", inside ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground")}>
+                        <td className={cn("px-2 text-right", inside ? "text-positive" : "text-muted-foreground")}>
                           {r.rank ?? "—"}
                         </td>
                         <td className="px-2 text-right">{r.pts}</td>
                         <td className="px-2 text-right">{r.line}</td>
-                        <td className={cn("px-2 text-right", cushion >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400")}>
+                        <td className={cn("px-2 text-right", cushion >= 0 ? "text-positive" : "text-negative")}>
                           {cushion >= 0 ? `+${cushion}` : cushion}
                         </td>
                         <td className="px-2 text-right text-muted-foreground">{r.scored.toLocaleString()}</td>
@@ -325,7 +321,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                         <td className="max-w-[220px] truncate py-1.5 pr-2 font-sans">{s.name}</td>
                         <td className="px-2 text-right">{s.entries}</td>
                         <td className="px-2 text-right font-semibold">{s.points}</td>
-                        <td className={cn("px-2 text-right", s.best === 1 ? "text-emerald-600 dark:text-emerald-400" : "")}>{s.best}</td>
+                        <td className={cn("px-2 text-right", s.best === 1 ? "text-positive" : "")}>{s.best}</td>
                         <td className="px-2 text-right text-muted-foreground">{s.top16}</td>
                       </tr>
                     ))}
@@ -350,7 +346,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                         <td className="px-2 text-right text-muted-foreground">
                           {r.startAt.toISOString().slice(5, 10)}
                         </td>
-                        <td className={cn("px-2 text-right", r.finish <= 8 ? "text-emerald-600 dark:text-emerald-400" : "")}>
+                        <td className={cn("px-2 text-right", r.finish <= 8 ? "text-positive" : "")}>
                           {r.finish}/{r.fieldSize}
                         </td>
                         <td className="px-2 text-right">{r.points || "—"}</td>
@@ -398,7 +394,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                           <span
                             className={cn(
                               "absolute inset-y-0 left-0 rounded-full",
-                              l.status === "qualified" ? "bg-emerald-500" : "bg-primary",
+                              l.status === "qualified" ? "bg-positive" : "bg-primary",
                             )}
                             style={{ width: `${pctOfTarget}%` }}
                           />
@@ -447,7 +443,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
           <p className="mb-4 text-xs text-muted-foreground">
             {loggedDays} of {dates.length} day{dates.length === 1 ? "" : "s"} from logged events, {dates.length - loggedDays} from the imported tracker.
             {conflicts.length > 0 && (
-              <span className="text-amber-600 dark:text-amber-400">
+              <span className="text-warning">
                 {" "}{conflicts.length} day{conflicts.length === 1 ? " has" : "s have"} both — logged events count, the imported total is shown in the hover note:{" "}
                 {conflicts.map((d) => d.date.slice(5)).join(", ")}.
               </span>
@@ -470,7 +466,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                   const note = m.note ?? "";
                   const dayTotal = CATEGORIES.reduce((s, c) => s + (m.points[c] ?? 0), 0);
                   return (
-                    <tr key={d} className={cn("border-b border-border/50", m.conflict && "bg-amber-500/5")} title={note}>
+                    <tr key={d} className={cn("border-b border-border/50", m.conflict && "bg-warning/5")} title={note}>
                       <td className="whitespace-nowrap py-1.5 pr-3">
                         {d.slice(5)}
                         <span className="ml-1 text-[10px] text-muted-foreground" title={m.source === "results" ? `${m.events.length} logged event(s)` : m.source === "import" ? "imported tracker total" : "nothing logged"}>
@@ -484,7 +480,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                             key={c}
                             className={cn(
                               "py-1.5 pr-3 text-right",
-                              v === 0 ? "text-muted-foreground/40" : v >= 10 ? "font-semibold text-emerald-400" : "",
+                              v === 0 ? "text-muted-foreground/40" : v >= 10 ? "font-semibold text-positive" : "",
                             )}
                           >
                             {v}

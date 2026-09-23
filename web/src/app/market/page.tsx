@@ -22,7 +22,9 @@ import { cards, cardSnapshots, leagueStints, uploads } from "@/db/schema";
 import { latestCompleteSnapshots } from "@/lib/league-snapshots";
 import { auditCard, positionPercentiles, type StintLike } from "@/lib/analytics/league";
 import { Card, CardContent } from "@/components/ui/card";
-import { Placeholder } from "@/components/placeholder";
+import { EmptyState } from "@/components/empty-state";
+import { PageHeader } from "@/components/page-header";
+import { StatTile } from "@/components/stat-tile";
 
 export const dynamic = "force-dynamic";
 
@@ -175,7 +177,7 @@ function Delta({ value }: { value: number | null }) {
   return (
     <span
       className={
-        flat ? "text-muted-foreground" : up ? "font-medium text-emerald-500" : "font-medium text-red-500"
+        flat ? "text-muted-foreground" : up ? "font-medium text-positive" : "font-medium text-negative"
       }
     >
       {up ? "▲" : flat ? "" : "▼"} {Math.abs(value).toLocaleString()}
@@ -212,10 +214,11 @@ export default async function MarketPage() {
   const data = await loadMarket();
   if (!data) {
     return (
-      <Placeholder
-        icon="tournaments"
+      <EmptyState
+        icon="market"
         title="Market"
-        description="Upload pt_card_list.csv on the Upload page — every upload snapshots all ~3,700 cards' prices and ownership, and this becomes the PP terminal: quality-per-price boards, spreads, variant premiums, and week-over-week movers."
+        description="The PP terminal: quality-per-price boards, spreads, variant premiums and week-over-week movers. Every card-list upload snapshots all ~3,700 cards' prices and ownership."
+        action={{ href: "/upload", label: "Upload pt_card_list.csv" }}
       />
     );
   }
@@ -256,16 +259,15 @@ export default async function MarketPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-end justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">Market</h1>
-          <p className="text-sm text-muted-foreground">
-            Snapshot {snapshotDate ?? "—"} · {listed.length.toLocaleString()} cards with live prices
-            {prevDate ? ` · trend vs ${prevDate}` : " · upload next week's shop list to unlock movers"}
-            {!hdPool && " · upload league exports to unlock quality scores"}
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Scout"
+        title="Market"
+        description={<>
+          Snapshot {snapshotDate ?? "—"} · {listed.length.toLocaleString()} cards with live prices
+          {prevDate ? ` · trend vs ${prevDate}` : " · upload next week's shop list to unlock movers"}
+          {!hdPool && " · upload league exports to unlock quality scores"}
+        </>}
+      />
 
       {/* KPI strip */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -275,12 +277,7 @@ export default async function MarketPage() {
           ["Median bid-ask spread", medianSpread != null ? `${medianSpread}%` : "—"],
           ["Owned cards", `${ownedRows.length.toLocaleString()}`],
         ].map(([label, value]) => (
-          <Card key={label}>
-            <CardContent className="pt-5 pb-4">
-              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-              <div className="mt-1 font-mono text-xl font-semibold tabular-nums">{value}</div>
-            </CardContent>
-          </Card>
+          <StatTile key={label} label={label} value={value} />
         ))}
       </div>
 
@@ -301,7 +298,7 @@ export default async function MarketPage() {
                 <td className="py-1.5 pr-4 text-right">{r.score}</td>
                 <td className="py-1.5 pr-4 text-right">{pp(r.sell)}</td>
                 <td className="py-1.5 pr-4 text-right">{pp(r.last10)}</td>
-                <td className="py-1.5 text-right font-medium text-emerald-500">{r.valuePer1k}</td>
+                <td className="py-1.5 text-right font-medium text-positive">{r.valuePer1k}</td>
               </tr>
             ))}
           </Table>
@@ -322,8 +319,8 @@ export default async function MarketPage() {
               <tr key={r.cardId} className="border-b border-border/50">
                 <td className="py-1.5 pr-4">{r.pos}</td>
                 <td className="max-w-[320px] truncate py-1.5 pr-4 font-sans">{r.title}</td>
-                <td className="py-1.5 pr-4 text-right text-amber-500">{r.score}</td>
-                <td className="py-1.5 pr-4 text-right font-medium text-emerald-500">{pp(r.buy)}</td>
+                <td className="py-1.5 pr-4 text-right text-warning">{r.score}</td>
+                <td className="py-1.5 pr-4 text-right font-medium text-positive">{pp(r.buy)}</td>
                 <td className="py-1.5 pr-4 text-right">{pp(r.last10)}</td>
                 <td className="py-1.5 text-right">{r.owned}</td>
               </tr>

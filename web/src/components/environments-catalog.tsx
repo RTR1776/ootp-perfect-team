@@ -52,12 +52,12 @@ interface Environment {
 }
 
 const PRESET_TONE: Record<string, string> = {
-  Sabermetric: "border-sky-500/40 text-sky-400",
-  "Moderate Sabermetric": "border-sky-500/30 text-sky-300",
+  Sabermetric: "border-sky-500/40 text-sky-700 dark:text-sky-400",
+  "Moderate Sabermetric": "border-sky-500/30 text-sky-600 dark:text-sky-300",
   Balanced: "border-border text-muted-foreground",
-  Traditional: "border-amber-500/30 text-amber-300",
-  "Moderate Small Ball": "border-amber-500/40 text-amber-400",
-  "Small Ball": "border-orange-500/50 text-orange-400",
+  Traditional: "border-amber-500/30 text-amber-600 dark:text-amber-300",
+  "Moderate Small Ball": "border-amber-500/40 text-amber-700 dark:text-amber-400",
+  "Small Ball": "border-orange-500/50 text-orange-700 dark:text-orange-400",
 };
 
 function PresetChip({ preset }: { preset: string }) {
@@ -170,7 +170,7 @@ export function EnvironmentsCatalog() {
                 BABIP {env.babip.toFixed(3)} · bunt BE(1st+2nd,0) {env.bunt12_0 >= 0 ? "+" : ""}
                 {env.bunt12_0.toFixed(3)} · SB BE {Math.round(env.sbbe0 * 100)}%
               </span>
-              {env.note && <span className="text-xs text-amber-400">{env.note}</span>}
+              {env.note && <span className="text-xs text-warning">{env.note}</span>}
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -193,7 +193,7 @@ export function EnvironmentsCatalog() {
                       <td className="py-1.5 pr-4">
                         {e.name}
                         {e.multi && (
-                          <span className="ml-2 rounded-full border border-emerald-500/40 px-1.5 py-0.5 text-[10px] text-emerald-400">
+                          <span className="ml-2 rounded-full border border-positive/40 px-1.5 py-0.5 text-[10px] text-positive">
                             multi-tag
                           </span>
                         )}

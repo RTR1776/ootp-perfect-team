@@ -5,21 +5,24 @@ import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const subscribe = () => () => {};
+
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  // false on the server, true once hydrated — without a setState-in-effect.
+  const mounted = React.useSyncExternalStore(subscribe, () => true, () => false);
 
-  const isDark = resolvedTheme === "dark";
+  const isDark = !mounted || resolvedTheme === "dark";
 
   return (
     <Button
       variant="ghost"
       size="icon"
-      aria-label="Toggle theme"
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
+      title={isDark ? "Switch to light theme" : "Switch to dark theme"}
       onClick={() => setTheme(isDark ? "light" : "dark")}
     >
-      {mounted && !isDark ? <Sun /> : <Moon />}
+      {isDark ? <Moon /> : <Sun />}
     </Button>
   );
 }
