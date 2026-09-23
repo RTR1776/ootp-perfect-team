@@ -17,7 +17,7 @@ if (!process.env.DATABASE_URL && existsSync(ENV)) for (const l of readFileSync(E
 import { neon } from "@neondatabase/serverless";
 import { MIN_PITCHER_SHARE } from "../src/lib/league-snapshots";
 import { HIT_POS, f1, f2, f3, hitterLines, metaSummary, pct1, pitcherLines, withRegression, type HitterLine, type MyHitter, type PitcherLine, type MetaSummary, type BoardStint } from "../src/lib/analytics/league-board";
-import { MY_ORG } from "../src/lib/my-team";
+import { MY_ORG, isMyOrg, anyMine } from "../src/lib/my-team";
 
 const sql = neon(process.env.DATABASE_URL!);
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
@@ -29,21 +29,21 @@ async function load(week: string, split: string) {
   const lg = new Map(ok.map((s) => [s.id, s.league]));
   const stints = rows.map((r) => ({ ...r, league: lg.get(r.snapshotId)!, split, capturedOn: week }));
   const { hit, pit, meanWoba, meanFip } = withRegression(hitterLines(stints), pitcherLines(stints));
-  const mine = stints.filter((s) => s.org === MY_ORG);
+  const mine = stints.filter((s) => isMyOrg(s.org));
   const mineHit = hitterLines(mine).map((h) => ({ ...h, wobaReg: (h.woba * h.pa + meanWoba * 600) / (h.pa + 600) }));
   const minePit = pitcherLines(mine).map((p) => ({ ...p, fipReg: (p.fip * p.ip + meanFip * 150) / (p.ip + 150) }));
   return { leagues: ok.map((s) => s.league).sort(), teams: ok.reduce((a, s) => a + s.teams, 0), meta: metaSummary(hit, pit, mineHit, minePit, split, 1), hit, pit, mineHit, minePit, meanWoba, meanFip, myLeague: [...new Set(mine.map((s) => s.league))] };
 }
 
-const kc = (o: string[]) => (o.includes(MY_ORG) ? ' <span class="kc">KC</span>' : "");
+const kc = (o: string[]) => (anyMine(o) ? ' <span class="kc">KC</span>' : "");
 const nm = (l: { name: string; val: number | null; cardYear: number | null; isVariant: boolean; orgs: string[] }) => `${esc(l.name)} <small>${l.val ?? ""}${l.cardYear ? ` ${l.cardYear}` : ""}${l.isVariant ? " VAR" : ""}</small>${kc(l.orgs)}`;
-const hitRow = (h: HitterLine, extra = "") => `<tr${h.orgs.includes(MY_ORG) ? ' class="mine"' : ""}><td class="pos">${h.pos}</td><td>${nm(h)}</td><td>${f3(h.woba)}</td><td class="dim">${f3(h.wobaReg)}</td><td>${f3(h.obp)}</td><td>${f3(h.slg)}</td><td>${f1(h.hr600)}</td><td>${pct1(h.kPct)}</td><td>${pct1(h.bbPct)}</td><td>${f1(h.war600)}</td><td class="dim">${h.pa.toLocaleString()}</td><td class="dim">${h.teams}</td>${extra}</tr>`;
-const hitRowC = (h: HitterLine) => `<tr${h.orgs.includes(MY_ORG) ? ' class="mine"' : ""}><td class="pos">${h.pos}</td><td>${nm(h)}</td><td>${f3(h.woba)}</td><td class="dim">${f3(h.wobaReg)}</td><td>${f3(h.obp)}</td><td>${f3(h.slg)}</td><td>${f1(h.hr600)}</td><td>${pct1(h.kPct)}</td><td class="dim">${h.pa.toLocaleString()}</td><td class="dim">${h.teams}</td></tr>`;
+const hitRow = (h: HitterLine, extra = "") => `<tr${anyMine(h.orgs) ? ' class="mine"' : ""}><td class="pos">${h.pos}</td><td>${nm(h)}</td><td>${f3(h.woba)}</td><td class="dim">${f3(h.wobaReg)}</td><td>${f3(h.obp)}</td><td>${f3(h.slg)}</td><td>${f1(h.hr600)}</td><td>${pct1(h.kPct)}</td><td>${pct1(h.bbPct)}</td><td>${f1(h.war600)}</td><td class="dim">${h.pa.toLocaleString()}</td><td class="dim">${h.teams}</td>${extra}</tr>`;
+const hitRowC = (h: HitterLine) => `<tr${anyMine(h.orgs) ? ' class="mine"' : ""}><td class="pos">${h.pos}</td><td>${nm(h)}</td><td>${f3(h.woba)}</td><td class="dim">${f3(h.wobaReg)}</td><td>${f3(h.obp)}</td><td>${f3(h.slg)}</td><td>${f1(h.hr600)}</td><td>${pct1(h.kPct)}</td><td class="dim">${h.pa.toLocaleString()}</td><td class="dim">${h.teams}</td></tr>`;
 const HIT_HEAD_C = `<tr><th>Pos</th><th>Card</th><th>wOBA</th><th class="dim" title="regressed over 600 PA">wOBA*</th><th>OBP</th><th>SLG</th><th>HR/600</th><th>K%</th><th class="dim">PA</th><th class="dim">Tm</th></tr>`;
-const pitRowC = (p: PitcherLine) => `<tr${p.orgs.includes(MY_ORG) ? ' class="mine"' : ""}><td class="pos">${p.pos}</td><td>${nm(p)}</td><td>${f2(p.fip)}</td><td class="dim">${f2(p.fipReg)}</td><td>${f2(p.era)}</td><td>${pct1(p.kPct)}</td><td>${pct1(p.bbPct)}</td><td>${f2(p.hr9)}</td><td class="dim">${p.ip.toFixed(0)}</td><td class="dim">${p.teams}</td></tr>`;
+const pitRowC = (p: PitcherLine) => `<tr${anyMine(p.orgs) ? ' class="mine"' : ""}><td class="pos">${p.pos}</td><td>${nm(p)}</td><td>${f2(p.fip)}</td><td class="dim">${f2(p.fipReg)}</td><td>${f2(p.era)}</td><td>${pct1(p.kPct)}</td><td>${pct1(p.bbPct)}</td><td>${f2(p.hr9)}</td><td class="dim">${p.ip.toFixed(0)}</td><td class="dim">${p.teams}</td></tr>`;
 const PIT_HEAD_C = `<tr><th>Pos</th><th>Card</th><th>FIP</th><th class="dim" title="regressed over 150 IP">FIP*</th><th>ERA</th><th>K%</th><th>BB%</th><th>HR/9</th><th class="dim">IP</th><th class="dim">Tm</th></tr>`;
 const HIT_HEAD = `<tr><th>Pos</th><th>Card</th><th>wOBA</th><th class="dim" title="regressed over 600 PA">wOBA*</th><th>OBP</th><th>SLG</th><th>HR/600</th><th>K%</th><th>BB%</th><th>WAR/600</th><th class="dim">PA</th><th class="dim">Tm</th>`;
-const pitRow = (p: PitcherLine) => `<tr${p.orgs.includes(MY_ORG) ? ' class="mine"' : ""}><td class="pos">${p.pos}</td><td>${nm(p)}</td><td>${f2(p.fip)}</td><td class="dim">${f2(p.fipReg)}</td><td>${f2(p.era)}</td><td>${pct1(p.kPct)}</td><td>${pct1(p.bbPct)}</td><td>${f2(p.hr9)}</td><td>${f1(p.war200)}</td><td class="dim">${p.ip.toFixed(0)}</td><td class="dim">${p.teams}</td></tr>`;
+const pitRow = (p: PitcherLine) => `<tr${anyMine(p.orgs) ? ' class="mine"' : ""}><td class="pos">${p.pos}</td><td>${nm(p)}</td><td>${f2(p.fip)}</td><td class="dim">${f2(p.fipReg)}</td><td>${f2(p.era)}</td><td>${pct1(p.kPct)}</td><td>${pct1(p.bbPct)}</td><td>${f2(p.hr9)}</td><td>${f1(p.war200)}</td><td class="dim">${p.ip.toFixed(0)}</td><td class="dim">${p.teams}</td></tr>`;
 const PIT_HEAD = `<tr><th>Pos</th><th>Card</th><th>FIP</th><th class="dim" title="regressed over 150 IP">FIP*</th><th>ERA</th><th>K%</th><th>BB%</th><th>HR/9</th><th>WAR/200</th><th class="dim">IP</th><th class="dim">Tm</th></tr>`;
 const pctTone = (v: number) => (v >= 80 ? "good" : v >= 50 ? "" : v >= 25 ? "warn" : "bad");
 const ord = (n: number) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? "th" : n % 10 === 1 ? "st" : n % 10 === 2 ? "nd" : n % 10 === 3 ? "rd" : "th"}`;

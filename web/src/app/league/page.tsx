@@ -21,7 +21,7 @@ import { leagueSnapshots, leagueStints } from "@/db/schema";
 import { MIN_PITCHER_SHARE } from "@/lib/league-snapshots";
 import { leagueTier } from "@/lib/analytics/league";
 import { hitterLines, metaSummary, pitcherLines, withRegression, type BoardStint } from "@/lib/analytics/league-board";
-import { MY_ORG } from "@/lib/my-team";
+import { isMyOrg } from "@/lib/my-team";
 import { LeagueBoard } from "@/components/league-board";
 import { EmptyState } from "@/components/empty-state";
 
@@ -86,7 +86,7 @@ export default async function LeaguePage({ searchParams }: { searchParams: Promi
 
   const nWeeks = Math.max(1, ...[...new Set(chosen.map((s) => s.league))].map((lg) => new Set(chosen.filter((s) => s.league === lg).map((s) => s.capturedOn)).size));
   const { hit, pit, meanWoba, meanFip } = withRegression(hitterLines(stints), pitcherLines(stints));
-  const mineStints = stints.filter((s) => s.org === MY_ORG);
+  const mineStints = stints.filter((s) => isMyOrg(s.org));
   // the Torrent copies get the same shrinkage toward the same pool means
   const mineHit = hitterLines(mineStints).map((h) => ({ ...h, wobaReg: (h.woba * h.pa + meanWoba * 600) / (h.pa + 600) }));
   const minePit = pitcherLines(mineStints).map((p) => ({ ...p, fipReg: (p.fip * p.ip + meanFip * 150) / (p.ip + 150) }));
