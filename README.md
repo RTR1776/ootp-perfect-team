@@ -9,7 +9,8 @@ draft assistant. Everything runs locally; no server, no accounts.
 validation scripts). The "weekly refresh runbook" section below predates it
 and describes the Python `engine` path, which has not been on the weekly path
 since 2026-09-07. `Docs/PLAN.md` is the original design; `Docs/PROGRESS.md`
-and `Docs/HANDOFF - read me first.md` are history.
+and `Docs/HANDOFF - read me first.md` are history. Dated roster write-ups live
+in `Docs/Rosters/`; finished trackers and one-off reports in `Docs/Archive/`.
 
 ## Quick start
 
@@ -61,7 +62,8 @@ cd web && pnpm dev        # -> http://localhost:3000
    `--delete <eventId>` to undo one). Rows are keyed by the event id in
    parentheses, so re-pasting an overlapping screen is a no-op. A new period:
    `pnpm period:new "PTCS 8" <start> <end> --targets-from "PTCS 7"`. The
-   PTCS6 Tracker.xlsx / Dashboard.html are the frozen PTCS 6 record.
+   PTCS6 Tracker.xlsx / Dashboard.html (in `Docs/Archive/PTCS6/`) are the
+   frozen PTCS 6 record.
 6. Run `.venv/bin/python -m engine build` and reload the app.
 
 ## Engine CLI
