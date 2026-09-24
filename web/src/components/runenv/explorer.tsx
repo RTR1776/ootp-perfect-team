@@ -19,6 +19,7 @@ import { EraChart, type ChartView } from "@/components/runenv/era-chart";
 import { EnvironmentPanel, LeversPanel, ParkPanel } from "@/components/runenv/read-panels";
 import { BerthGrid, type BerthRow } from "@/components/runenv/berth-grid";
 import { Shortlist, type Filters } from "@/components/runenv/shortlist";
+import { CardChecklist } from "@/components/runenv/card-checklist";
 import type { PoolCard } from "@/lib/analytics/pool-shape";
 import {
   ERA_YEARS, PARK_NAMES, PT_DEFAULT_ENV_YEAR, parkYears, solve, type EnvSpec,
@@ -193,10 +194,10 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
 
       {/* ------------------------------ the read -------------------------- */}
       <div className="grid gap-4 lg:grid-cols-3">
+        <CardChecklist s={solved} spec={spec} />
         <EnvironmentPanel s={solved} base={baseSolved} baseLabel={baselineYear === 0 ? "PT default" : String(baselineYear)} />
         <ParkPanel s={solved} spec={spec} />
         <LeversPanel s={solved} base={baseSolved} baseLabel={baselineYear === 0 ? "PT default" : String(baselineYear)} />
-        <NextSteps s={solved} />
       </div>
 
       {/* --------------------------- the shortlist ------------------------ */}
@@ -279,32 +280,5 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <span className="label-eyebrow">{label}</span>
       {children}
     </label>
-  );
-}
-
-/** The bridge from "this is the environment" to "here is the roster note". */
-function NextSteps({ s }: { s: ReturnType<typeof solve> }) {
-  if (!s.line || !s.env) return null;
-  const k = s.line.kPct, hr = s.line.hrPa;
-  const lines: string[] = [];
-  lines.push(k < 0.10
-    ? `Only ${(k * 100).toFixed(1)}% of plate appearances end in a strikeout, so buying strikeout avoidance buys almost nothing — there is nothing left to avoid. Spend on Eye and contact quality instead.`
-    : k > 0.18
-      ? `${(k * 100).toFixed(1)}% strikeouts: the highest-leverage thing a bat can do here is put the ball in play. Avoid Ks and Eye both pay.`
-      : `${(k * 100).toFixed(1)}% strikeouts — middling. Neither extreme applies; rank cards on total value, not on one rating.`);
-  lines.push(hr < 0.018
-    ? `Homers are scarce (${(hr * 100).toFixed(2)}% of PA). Power still leads the lever list but its edge over Eye narrows sharply, and slugging-only bats lose most of their advantage.`
-    : hr > 0.030
-      ? `Homers are cheap here (${(hr * 100).toFixed(2)}% of PA) — power is the biggest single lever and worth paying up for.`
-      : `Homer rate is ordinary (${(hr * 100).toFixed(2)}% of PA).`);
-  if (s.env.preset) lines.push(`Set the in-game strategy preset to ${s.env.preset}.`);
-
-  return (
-    <Card>
-      <CardContent className="flex flex-col gap-2 p-5">
-        <div className="label-eyebrow">Roster note</div>
-        {lines.map((l) => <p key={l} className="text-xs leading-relaxed text-muted-foreground">{l}</p>)}
-      </CardContent>
-    </Card>
   );
 }
