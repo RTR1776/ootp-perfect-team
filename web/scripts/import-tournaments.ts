@@ -42,7 +42,9 @@ const SERIES_OVERRIDES: Record<string, string> = {
   "bronzeweekly": "Monday Up And At Them Bronze",
   "5ldeadball": "Laptophound's Daily 5L Deadball",
   "6lpowerplay": "Laptophound's Daily 6L Power Play",
-  "c4q1": "Thursday Cwhit's Cap Challenge 1",
+  // cwhit reuses the c4q1 prefix for every Cap Challenge in the slot (runs
+  // 0-3 were CC1 ... runs 18-19 are CC5), so it points at the CURRENT one.
+  "c4q1": "Thursday CWhit's Cap Challenge 5",
   "c4q2": "Thursday Cwhit's Cap Challenge 2",
   "c4q3": "Thursday Cwhit's Cap Challenge 3",
   "c4q4": "Thursday CWhit's Cap Challenge",  // catalog row carries no trailing number
@@ -135,10 +137,17 @@ async function main() {
   // Era" is stored as 1800-1920, matching Daily Silver & Friends Deadball Slots).
   const RESTRICTION_OVERRIDES: Record<string, Partial<{
     ratingsMin: number; ratingsMax: number; cardYearMin: number; cardYearMax: number;
+    envYear: number; stadium: string; parkName: string; dh: boolean;
   }>> = {
     "Wednesday Night of the Living Deadball": { cardYearMin: 1800, cardYearMax: 1920 }, // "<=1920 Era"
     "Tuesday Up To 1969":                     { cardYearMin: 1800, cardYearMax: 1969 }, // "<=1969"
     "Daily Bronze OOTP Era":                  { cardYearMin: 1999, cardYearMax: 2026 }, // "Cards <= BRONZE; >=1999"
+    // databotai carries the name only - no window, RE, park or DH - so /build
+    // offered every card. Rules from cwhit's post; the c4q1_19 field is all 90-100.
+    "Thursday CWhit's Cap Challenge 5": {
+      ratingsMin: 90, ratingsMax: 100, envYear: 1979,
+      stadium: "2026 Louisville Slugger Field", parkName: "Louisville Slugger Field", dh: true,
+    },
   };
 
   const range = (v: string | undefined) => {
