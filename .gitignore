@@ -38,3 +38,6 @@ web/.next-dev/
 Archive/.era-slopes.csv
 Tourney Data/DCFC READY TO UPLOAD/
 Tourney Data/DCFC Rejected/
+
+# throwaway analysis scripts
+web/scripts/.scratch/
