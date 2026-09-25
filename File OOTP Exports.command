@@ -16,7 +16,7 @@ filename into online_data, so each download overwrites the last):
      "the one you just exported." Filing it also clears the way for the
      next download.
   3. Quit with Ctrl+C in the Terminal, or it stops by itself after 10
-     quiet minutes and shows the summary.
+     quiet minutes and opens the summary in TextEdit (Archive/last-filing-report.txt).
 
 ONE dialog per export. Each row already carries the id it would be filed
 as — "Silver Slots Daily · 175 [D silverslotsdaily]" — so picking the row
@@ -1138,12 +1138,22 @@ def main() -> None:
     lines = "\n".join("  " + n for n in filed) if filed else "  (none)"
     summary = finish_imports()
     print("Done. Filed:\n" + lines + ("\nDatabase:\n" + summary if summary else ""))
-    # Self-dismissing: the report is a courtesy, not a question, and a modal
-    # left up blocks the next run's picker. The console print above and
-    # Archive/import-log.txt keep the full record either way.
+    # No modal. A big batch made the report dialog taller than the screen, so
+    # its OK button was off the bottom edge and the dialog could not be closed.
+    # The report goes to a text file opened in TextEdit instead — an ordinary
+    # window that closes like any other and never blocks the next run.
     notify(f"Done — filed {len(filed)} export(s)")
-    alert(f"Done — filed {len(filed)} export(s):\n{lines}\n\nCopies for cwhit are in Tourney Data/DCFC Upload Queue."
-          + (f"\n\nDatabase:\n{summary}" if summary else ""), timeout=90)
+    report = (time.strftime("%a %b %-d %H:%M") + f" — filed {len(filed)} export(s):\n{lines}\n\n"
+              "Copies for cwhit are in Tourney Data/DCFC Upload Queue."
+              + (f"\n\nDatabase:\n{summary}" if summary else "") + "\n")
+    path = os.path.join(REPO, "Archive/last-filing-report.txt")
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(report)
+        subprocess.run(["open", "-e", path], capture_output=True)
+    except OSError:
+        pass
 
 if __name__ == "__main__":
     main()
