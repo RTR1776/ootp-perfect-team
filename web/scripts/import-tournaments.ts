@@ -144,6 +144,9 @@ async function main() {
     "Daily Bronze OOTP Era":                  { cardYearMin: 1999, cardYearMax: 2026 }, // "Cards <= BRONZE; >=1999"
     // databotai carries the name only - no window, RE, park or DH - so /build
     // offered every card. Rules from cwhit's post; the c4q1_19 field is all 90-100.
+    // databotai writes "1970 Milwaukee County Stadium", which parkFor resolves to
+    // the 1959 Braves park; the event plays the 1970 Brewers one (County Stadium).
+    "Friday Nightmare Cap": { stadium: "1970 County Stadium", parkName: "County Stadium", dh: false },
     "Thursday CWhit's Cap Challenge 5": {
       ratingsMin: 90, ratingsMax: 100, envYear: 1979,
       stadium: "2026 Louisville Slugger Field", parkName: "Louisville Slugger Field", dh: true,
