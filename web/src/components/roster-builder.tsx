@@ -37,6 +37,8 @@ import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/car
 import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/lib/analytics/projections";
 import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { optimizeRoster } from "@/lib/roster-optimize";
+import { fieldingRuns } from "@/lib/analytics/fielding";
+import { FieldView } from "@/components/build/field-view";
 
 export interface ObservedLine {
   cardId: number;
@@ -168,7 +170,8 @@ interface SavedRoster {
 }
 
 type SlotKey = string; // "R:C", "L:DH", "SP1", "RP3", "CL", "BN2"
-type View = "HIT" | "PIT" | "UPG";
+type View = "HIT" | "PIT" | "UPG" | "FIELD";
+const FIELD_SPOTS = new Set(["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"]);
 
 /** Slot groups a card may occupy at most once each. */
 type Group = "R" | "L" | "P";
@@ -546,7 +549,12 @@ export function RosterBuilder({
         case "pvl": return c.proj.vL ?? miss;
         case "pvr": return c.proj.vR ?? miss;
         case "fit": return fitR.get(c.cardId) ?? -1;
-        case "runs": return runsOf(c.cardId) ?? -1e6;
+        case "runs": {
+          const r = runsOf(c.cardId);
+          if (r == null) return -1e6;
+          // Filtered to a fielding spot: rank on bat + glove there, the way the optimiser prices it.
+          return !wantPitcher && FIELD_SPOTS.has(posFilter) ? r + fieldingRuns(posFilter, c.ratings[`Pos Rating ${posFilter}`] ?? 0) : r;
+        }
         case "obs": return (wantPitcher ? c.obs?.fip : c.obs?.woba) ?? miss;
         case "pa": return (wantPitcher ? c.obs?.ip : c.obs?.pa) ?? 0;
         case "val": return c.val ?? 0;
@@ -1106,7 +1114,7 @@ export function RosterBuilder({
               onDrop={(e) => { e.preventDefault(); dropOnPool(e.dataTransfer.getData("text/plain")); }}
             >
               <div className="flex flex-wrap items-center gap-1.5">
-                {(["HIT", "PIT", "UPG"] as View[]).map((v) => (
+                {(["FIELD", "HIT", "PIT", "UPG"] as View[]).map((v) => (
                   <button
                     key={v}
                     onClick={() => { setView(v); setPosFilter("ALL"); setSortBy("proj"); }}
@@ -1115,11 +1123,11 @@ export function RosterBuilder({
                       view === v ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
-                    {v === "HIT" ? "Hitters" : v === "PIT" ? "Pitchers" : "Upgrades"}
+                    {v === "FIELD" ? "Field" : v === "HIT" ? "Hitters" : v === "PIT" ? "Pitchers" : "Upgrades"}
                   </button>
                 ))}
                 <Input placeholder="Search…" value={search} onChange={(e) => setSearch(e.target.value)} className="h-7 w-36 text-xs" />
-                {view !== "UPG" && (view === "HIT" ? ["ALL", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] : ["ALL", "SP", "RP"]).map((p) => (
+                {view !== "UPG" && view !== "FIELD" && (view === "HIT" ? ["ALL", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] : ["ALL", "SP", "RP"]).map((p) => (
                   <button
                     key={p}
                     onClick={() => setPosFilter(p)}
@@ -1133,7 +1141,25 @@ export function RosterBuilder({
                 ))}
               </div>
 
-              {view !== "UPG" ? (
+              {view === "FIELD" ? (
+                <FieldView
+                  lineupPos={lineupPos}
+                  slots={slots}
+                  byId={byId}
+                  pool={pool}
+                  upgrades={upgrades}
+                  runsR={envFits?.runsR ?? null}
+                  runsL={envFits?.runsL ?? null}
+                  lhpShare={lhpShare}
+                  onPick={(slot, pos) => {
+                    setSelected(slot);
+                    setView("HIT");
+                    setPosFilter(pos === "DH" ? "ALL" : pos);
+                    setSortBy("runs");
+                    setMsg(`Picking for ${slotLabel(slot)} — sorted by bat + glove at ${pos}. Click a card to place it.`);
+                  }}
+                />
+              ) : view !== "UPG" ? (
                 <div className="overflow-x-auto rounded-lg border border-border">
                   <table className="w-full text-sm">
                     <thead>
