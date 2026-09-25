@@ -92,10 +92,27 @@ export async function POST(request: Request) {
   const kind = detectKind(headerLine);
 
   if (!kind) {
+    /* A Manage Cards export in OOTP's DEFAULT view has POS and Name but not the
+       CVAL / VAR columns the collection needs (value, and which copies are
+       variants) - say exactly that instead of a bare "unrecognised". */
+    const cells = headerLine.split(/[,\t]/).map((c) => c.replace(/^\/+/, "").trim());
+    if (cells.includes("POS") && cells.includes("Name")) {
+      const missing = ["CVAL", "VAR"].filter((c) => !cells.includes(c));
+      if (missing.length) {
+        return NextResponse.json(
+          {
+            error: "Collection export without the value/variant columns.",
+            hint: `This looks like a Manage Cards export, but it is missing ${missing.join(" and ")}. It was exported with a view that leaves them out (OOTP's default view does). Switch Manage Cards to the view that shows Card Value and Variant, export again, and upload that file.`,
+            headerSeen: headerLine.slice(0, 200),
+          },
+          { status: 422 },
+        );
+      }
+    }
     return NextResponse.json(
       {
         error: "Unrecognised export.",
-        hint: "Expected the PT card shop list, a collection export, or a standings CSV.",
+        hint: `Expected the PT card shop list, a collection export, or a standings CSV. First columns seen: ${headerLine.slice(0, 120)}`,
         headerSeen: headerLine.slice(0, 200),
       },
       { status: 422 },
