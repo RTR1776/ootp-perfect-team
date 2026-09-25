@@ -35,6 +35,9 @@ import { eraBand } from "@/lib/analytics/calibration";
 import { dataConfidence, type Confidence } from "@/lib/data-confidence";
 import type { BuilderEnv } from "@/components/roster-builder";
 import { getRatingScale } from "@/lib/rating-scale";
+import { fieldingRuns } from "@/lib/analytics/fielding";
+
+const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
 import { cardEligibility, tierCode, tierFitsSlots, type RosterSlot } from "@/lib/roster-rules";
 import {
   RosterBuilder,
@@ -324,6 +327,7 @@ export default async function BuildPage({
       const universe = await db.select({
         cardId: cards.cardId, name: cards.name, tier: cards.tier, cardValue: cards.cardValue, position: cards.position,
         pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
+        title: cards.title, firstSeenAt: cards.firstSeenAt,
       }).from(cards);
       const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
       const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
@@ -350,13 +354,30 @@ export default async function BuildPage({
         .filter((x) => (x.c.isPitcher ?? false) === wantPitcher)
         .sort((a, b) => b.runs - a.runs)
         .slice(0, limit);
-      upgrades = [...top(false, 30), ...top(true, 20)].map(({ c, runs }) => {
+      /* The shop board ranks these by what they add to the roster on the page,
+         so the list has to reach past the best overall bats: the best few at
+         every fielding position (bat + glove there) come along too. */
+      const byPos = FIELD_POS.flatMap((pos) => scored
+        .filter((x) => !(x.c.isPitcher ?? false))
+        .map((x) => ({ x, v: x.runs + fieldingRuns(pos, ((x.c.ratings ?? {}) as Record<string, number>)[`Pos Rating ${pos}`] ?? 0), ok: (((x.c.ratings ?? {}) as Record<string, number>)[`Pos Rating ${pos}`] ?? 0) >= 40 }))
+        .filter((y) => y.ok)
+        .sort((a, b) => b.v - a.v)
+        .slice(0, 8)
+        .map((y) => y.x));
+      // "New" = first seen within a week of the latest card drop on file, so the
+      // badge tracks shop uploads rather than the clock.
+      const newSince = universe.reduce((m, c) => Math.max(m, c.firstSeenAt.getTime()), 0) - 7 * 86_400_000;
+      const picked = new Map<number, (typeof scored)[number]>();
+      for (const x of [...top(false, 60), ...top(true, 40), ...byPos]) picked.set(x.c.cardId, x);
+      upgrades = [...picked.values()].map(({ c, runs }) => {
         const r = (c.ratings ?? {}) as Record<string, number>;
         const isP = c.isPitcher ?? false;
         return {
           cardId: c.cardId, name: c.name, tier: c.tier, val: c.cardValue,
           pos: isP ? c.pitcherRole ?? "P" : c.position ?? "?", isPitcher: isP, year: c.year, bats: c.bats,
           ratings: trimRatings(r), proj: projFor(isP, c.bats, r), runs,
+          runsR: base.runsR.get(c.cardId) ?? null, runsL: base.runsL.get(c.cardId) ?? null,
+          isNew: c.firstSeenAt.getTime() >= newSince, clubhouse: /clubhouse/i.test(c.title),
           last10: null as number | null, ask: null as number | null,
         };
       });

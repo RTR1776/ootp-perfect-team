@@ -39,6 +39,7 @@ import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { optimizeRoster } from "@/lib/roster-optimize";
 import { fieldingRuns } from "@/lib/analytics/fielding";
 import { FieldView } from "@/components/build/field-view";
+import { ShopBoard } from "@/components/build/shop-board";
 
 export interface ObservedLine {
   cardId: number;
@@ -102,6 +103,12 @@ export interface UpgradeCard {
   proj: Proj;
   /** Calibrated model runs per 700 in this event (no observed play — the card is not owned). */
   runs: number;
+  /** The same, split by the hand of the opposing pitcher (hitters) — the shop board prices each board. */
+  runsR: number | null;
+  runsL: number | null;
+  /** First seen in a shop upload within the last week. */
+  isNew: boolean;
+  clubhouse: boolean;
   last10: number | null;
   ask: number | null;
 }
@@ -1123,7 +1130,7 @@ export function RosterBuilder({
                       view === v ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground",
                     )}
                   >
-                    {v === "FIELD" ? "Field" : v === "HIT" ? "Hitters" : v === "PIT" ? "Pitchers" : "Upgrades"}
+                    {v === "FIELD" ? "Field" : v === "HIT" ? "Hitters" : v === "PIT" ? "Pitchers" : "Shop"}
                   </button>
                 ))}
                 <Input placeholder="Search…" value={search} onChange={(e) => setSearch(e.target.value)} className="h-7 w-36 text-xs" />
@@ -1216,51 +1223,25 @@ export function RosterBuilder({
                   </table>
                 </div>
               ) : (
-                <div className="overflow-x-auto rounded-lg border border-border">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-border text-left text-[11px] uppercase tracking-wide text-muted-foreground">
-                        <th className="px-1.5 py-1.5">Card</th>
-                        <th className="px-1.5">Pos</th>
-                        <th className="px-1.5 text-right">VAL</th>
-                        <th className="px-1.5">Tier</th>
-                        <th className="px-1.5 text-right" title="Calibrated model runs per 700 in this event's era and park">Runs</th>
-                        <th className="px-1.5 text-right" title="Model v0 projection">Proj</th>
-                        <th className="px-1.5 text-right">vL</th>
-                        <th className="px-1.5 text-right">vR</th>
-                        <th className="px-1.5 text-right" title="Fair market (last 10 sales)">L10</th>
-                        <th className="px-1.5 text-right" title="Lowest ask — buy-it-now">Ask</th>
-                      </tr>
-                    </thead>
-                    <tbody className="font-mono text-[12.5px] leading-tight [font-variant-numeric:tabular-nums]">
-                      {upgradeRows.map((u) => (
-                        <tr key={u.cardId} className="border-b border-border/50">
-                          <td
-                            className="max-w-[220px] truncate px-1.5 py-1 font-sans"
-                            onMouseEnter={(e) => peekUpgrade(e, u)}
-                            onMouseLeave={() => setPeek(null)}
-                          >
-                            {u.name}
-                          </td>
-                          <td className="px-1.5">{u.pos}</td>
-                          <td className="px-1.5 text-right">{u.val ?? "—"}</td>
-                          <td className="px-1.5">{u.tier ?? "—"}</td>
-                          <td className="px-1.5 text-right font-semibold">{fr(u.runs)}</td>
-                          <td className="px-1.5 text-right">{u.isPitcher ? fmt2(u.proj.all) : fmt3(u.proj.all)}</td>
-                          <td className="px-1.5 text-right text-muted-foreground">{u.isPitcher ? fmt2(u.proj.vL) : fmt3(u.proj.vL)}</td>
-                          <td className="px-1.5 text-right text-muted-foreground">{u.isPitcher ? fmt2(u.proj.vR) : fmt3(u.proj.vR)}</td>
-                          <td className="px-1.5 text-right">{fmtPts(u.last10)}</td>
-                          <td className="px-1.5 text-right text-muted-foreground">{fmtPts(u.ask)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <ShopBoard
+                  upgrades={upgradeRows}
+                  slots={slots}
+                  lineupPos={lineupPos}
+                  spKeys={spKeys}
+                  rpKeys={rpKeys}
+                  byId={byId}
+                  runsR={envFits?.runsR ?? null}
+                  runsL={envFits?.runsL ?? null}
+                  lhpShare={lhpShare}
+                  teamCap={(tournament?.restrictions as { teamCap?: number | null } | null)?.teamCap ?? null}
+                  onPeek={peekUpgrade}
+                  onLeave={() => setPeek(null)}
+                />
               )}
 
               <p className="text-xs text-muted-foreground">
                 {view === "UPG"
-                  ? `The best legal cards you do not own, by calibrated model runs in this event (no observed play — you have not run them). Full roster checks still apply. Prices are from your latest shop snapshot. Hover a name for the card face.`
+                  ? `Legal cards you don't own, ranked on the runs each would add to the board on the page (one-card swap, glove at the spot, lineups weighted by the field's pitcher hand, relief at 0.31). Prices are from your latest shop upload — upload a new shop list and new drops appear here, badged NEW for a week. Two buys at the same spot don't add. Hover a name for the card face.`
                   : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. Runs = calibrated model runs per 700 in this era and park with observed play blended in (K = 5,000); pWOBA/pFIP = the projected line here. Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Value window, card years, card types and slot tiers are checked here; the cap, variant limit and roster size are checked on the board.`}
               </p>
             </div>
