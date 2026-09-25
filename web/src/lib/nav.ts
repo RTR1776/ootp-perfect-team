@@ -1,5 +1,5 @@
 import {
-  CandlestickChart, Gauge, Globe, Hammer, ListOrdered, Medal, Search, Trophy, Upload, Wind,
+  CandlestickChart, Gauge, Globe, Hammer, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
   type LucideIcon,
 } from "lucide-react";
 
@@ -22,6 +22,7 @@ export const NAV: NavGroup[] = [
     label: "Play",
     items: [
       { href: "/build", label: "Build", icon: Hammer, hint: "Roster for an event, scored in its era and park" },
+      { href: "/draft", label: "Draft Board", icon: LayoutGrid, hint: "Best available by position, gloves priced in" },
       { href: "/ptcs", label: "PTCS", icon: Medal, hint: "Qualifying points, pace and berth lines" },
     ],
   },
