@@ -145,6 +145,8 @@ export interface TournamentInfo extends RosterRules {
   cardYearMin: number | null;
   cardYearMax: number | null;
   series: string | null;
+  /** Set when this series' exports predate the event's current format (restrictions.formatSince) and were left out. */
+  staleSeriesSince?: string | null;
   isDraft: boolean;
   /** Slots, roster cap, variant cap, card types - anything the value/year
    *  windows cannot express. */
@@ -155,6 +157,8 @@ export interface TournamentInfo extends RosterRules {
     variantsAllowed?: boolean;
     cardTypes?: string[];
     teams?: number;
+    /** YYYY-MM-DD the current era/park/rules took effect; this series' older exports are ignored. */
+    formatSince?: string;
     /** Set when the value window was read off the event NAME rather than
      *  stated in the rules text or the databotai crawl. */
     valueWindowFrom?: string;
@@ -1026,9 +1030,11 @@ export function RosterBuilder({
               </Badge>
             )}
             {tournament.cardYearMin != null && <Badge variant="outline">years {tournament.cardYearMin}–{tournament.cardYearMax}</Badge>}
-            {meta && meta.files > 0
-              ? <Badge>observed: {tournament.series}</Badge>
-              : <Badge variant="outline">no observed data yet</Badge>}
+            {tournament.staleSeriesSince
+              ? <Badge variant="outline" title="This event kept its name but changed era, park or rules; exports from before the change describe a different event and are left out of this page.">new format since {tournament.staleSeriesSince} — older runs ignored</Badge>
+              : meta && meta.files > 0
+                ? <Badge>observed: {tournament.series}</Badge>
+                : <Badge variant="outline">no observed data yet</Badge>}
           </div>
 
           {confidence && (() => {

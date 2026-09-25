@@ -195,9 +195,20 @@ export default async function BuildPage({
       return true;
     };
 
+    /* A weekly keeps its name and slot when its era, park or rules rotate, so
+       its exports can describe a different event. restrictions.formatSince
+       marks the change: this series' own exports recorded before it (its card
+       lines, field handedness, roster shape) no longer describe the event and
+       are left out. The cards' play elsewhere still counts - it is scored
+       against each series' own baseline. */
+    const formatSince = (full.restrictions as { formatSince?: string } | null)?.formatSince ?? null;
+    let seriesLive = !!full.series;
     if (full.series) {
       const [m] = await db.select().from(seriesMeta).where(eq(seriesMeta.series, full.series));
-      if (m) {
+      if (m && formatSince && m.updatedAt.toISOString().slice(0, 10) < formatSince) {
+        seriesLive = false;
+        tournament.staleSeriesSince = formatSince;
+      } else if (m) {
         meta = {
           files: m.files, avgTeams: m.avgTeams, avgSp: m.avgSp, avgRp: m.avgRp,
           avgBats: m.avgBats, topCards: m.topCards,
@@ -254,7 +265,7 @@ export default async function BuildPage({
     const variants = new Map(owned.filter(o=>o.isVariant).map(o=>[o.cardId,o.ratings]));
 
     // Observed: this tournament's series only — career mixes parks and eras.
-    const seriesRows: ObservedLine[] = full.series
+    const seriesRows: ObservedLine[] = full.series && seriesLive
       ? (
           await db
             .select({
