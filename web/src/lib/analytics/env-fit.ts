@@ -98,8 +98,19 @@ export interface EnvFitOptions {
    * card id, and the sample size K at which it earns equal weight with the
    * model. Applied to the both-hands figure and carried to each board as a
    * shift, since the tournament export has no platoon split.
+   *
+   * `model` is the BASE card's model runs on the same scale, the reference
+   * the observed level was measured against. With it, what is blended in is
+   * the card's deviation from its own ratings, n/(n+K) × (runs − model),
+   * not its level. For a base card that is the same number as before. For a
+   * variant copy it is the fix: the variant's boosted ratings keep their
+   * value, plus the base card's over- or under-performance. Before this, a
+   * variant of a much-played card was pulled back to the base card's
+   * observed level. Kaelen Culpepper's FLF card has ~50k PA on record, so
+   * the level blend dropped ~90% of a Level 5 variant's +8/+9 boost
+   * (found 2026-09-26). Without `model` the level blend applies, as before.
    */
-  observed?: Map<number, { runs: number; n: number }>;
+  observed?: Map<number, { runs: number; n: number; model?: number | null }>;
   observedK?: number;
   /**
    * Put the model's runs on the observed scale (default true).
@@ -231,8 +242,11 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
     const ob = o.observed?.get(c.cardId);
     if (ob && ob.n > 0 && r != null && l != null) {
       // Blend on the both-hands read, then move both boards by the same amount.
+      // Against the base card's model when given (a variant keeps its boost),
+      // else against this form's own: (n·obs + K·both)/(n+K) − both.
       const both = 0.7 * r + 0.3 * l;
-      const shift = (ob.n * ob.runs + K * both) / (ob.n + K) - both;
+      const ref = ob.model != null && Number.isFinite(ob.model) ? ob.model : both;
+      const shift = (ob.n / (ob.n + K)) * (ob.runs - ref);
       r += shift; l += shift;
     }
     if (r != null) runsR.set(c.cardId, r);

@@ -30,7 +30,7 @@ import { EMPTY_PROJ, projectCard, projectionEnvs, projOf } from "@/lib/analytics
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { eraFor, eraTable, parkFor, solveFor } from "@/lib/analytics/tournament-env";
 import { envFitMaps } from "@/lib/analytics/env-fit";
-import { loadObservedRuns } from "@/lib/analytics/observed-blend";
+import { bothHands, loadObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraBand } from "@/lib/analytics/calibration";
 import { dataConfidence, type Confidence } from "@/lib/data-confidence";
 import type { BuilderEnv } from "@/components/roster-builder";
@@ -342,8 +342,10 @@ export default async function BuildPage({
       }).from(cards);
       const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
       const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
-      const observed = await loadObservedRuns(pool.map((c) => c.cardId), both);
-      env = { rates: eraRow.rates, park, lhpShare, lhbShare, eraYear: envYear ?? 2010, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n]) };
+      // The reference (the base card's model, env-fit's 0.7 R / 0.3 L read) lets an
+      // owned variant keep its boost; a base card blends exactly as before.
+      const observed = await loadObservedRuns(pool.map((c) => c.cardId), both, bothHands(base));
+      env = { rates: eraRow.rates, park, lhpShare, lhbShare, eraYear: envYear ?? 2010, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n, o.model]) };
       {
         const ns = pool.map((c) => observed.get(c.cardId)?.n ?? 0).filter((n) => n > 0).sort((a, b) => a - b);
         const band = eraBand(envYear ?? 2010);
