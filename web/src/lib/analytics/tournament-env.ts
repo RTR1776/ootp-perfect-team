@@ -47,6 +47,21 @@ export function eraFor(year: number | null): { row: EraRow; label: string } | nu
 
 export interface ParkPick { name: string | null; year: number | null; row: ParkRow | null; label: string }
 
+/**
+ * Catalogue spellings that name a park the factor table files under another
+ * name. Each one is the same ballpark: McAfee Coliseum was the Oakland park's
+ * name in 2004-08 (the table has it as McAfee Stadium 2008). Minute Maid Park
+ * became Daikin Park in 2025, so a 2005 event takes the Houston park's
+ * nearest-year factors. Heinsohn Park is the PT park the table lists as
+ * Heinsohn Ballpark (neutral factors).
+ */
+const PARK_ALIAS: Record<string, string> = {
+  "Comisky Park": "Comiskey Park", // databotai's spelling
+  "McAfee Coliseum": "McAfee Stadium",
+  "Minute Maid Park": "Daikin Park",
+  "Heinsohn Park": "Heinsohn Ballpark",
+};
+
 /** Neutral until proven otherwise — a missing park must never fake a factor. */
 export function parkFor(stadium: string | null): ParkPick {
   if (!stadium) return { name: null, year: null, row: null, label: "no stadium listed → neutral" };
@@ -56,9 +71,14 @@ export function parkFor(stadium: string | null): ParkPick {
   if (/^standard stadium$/i.test(name)) return { name, year: wantYear, row: null, label: "Standard Stadium (neutral)" };
 
   let key: string | null = parkTable[name] ? name : null;
+  if (!key && PARK_ALIAS[name] && parkTable[PARK_ALIAS[name]]) key = PARK_ALIAS[name];
   if (!key) {
-    const alias: Record<string, string> = { "Comisky Park": "Comiskey Park" }; // databotai's spelling
-    if (alias[name] && parkTable[alias[name]]) key = alias[name];
+    // Spacing and punctuation are not a different park: "Great American Ball Park" is the
+    // table's "Great American Ballpark". Until 2026-09-26 that miss ran Thursday Night Gold
+    // Rush in a neutral park instead of a HR ×1.14–1.17 one.
+    const flat = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const hits = parkNames.filter((p) => flat(p) === flat(name));
+    if (hits.length === 1) key = hits[0];
   }
   if (!key) {
     const hits = parkNames.filter((p) => p.includes(name) || name.includes(p));
