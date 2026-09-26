@@ -93,7 +93,7 @@ export interface OptimizeResult {
  * was the entire runtime.
  */
 function legal(
-  slots: FillResult, byId: Map<number, FillCard>, rules: RosterRules, shape: FillShape,
+  slots: FillResult, byId: Map<number, FillCard>, rules: RosterRules, shape: FillShape, minPlayers = 0,
 ): boolean {
   const rx = rules.restrictions;
   const size = rosterSize(rules) ?? Infinity;
@@ -106,7 +106,7 @@ function legal(
     seen[g].add(id);
   }
   const ids = new Set(Object.values(slots));
-  if (ids.size > size) return false;
+  if (ids.size > size || ids.size < minPlayers) return false;
 
   const members = [...ids].map((id) => byId.get(id)).filter((c): c is FillCard => c != null);
   if (members.length !== ids.size) return false;
@@ -183,11 +183,17 @@ export function optimizeRoster(
     return [k, list];
   }));
   let slots = { ...start };
+  // Never shrink the roster. A platoon bat who only starts vs LHP holds no
+  // vs-RHP or bench slot, so re-solving (or swapping on) the vs-LHP board can
+  // drop him off the roster entirely — the objective gives an unused roster
+  // spot no value, but the game wants all 26 (Negro Leagues Slots
+  // 2026-09-26: 25 players, "this event needs 26").
+  const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start)).size);
   const startScore = o.objective(slots);
   // A starting board that breaks a rule (an unowned copy on a saved roster)
   // scores -Infinity, so the first legal board the search finds replaces it
   // even when it is worth fewer runs.
-  const startLegal = legal(slots, byId, rules, shape);
+  const startLegal = legal(slots, byId, rules, shape, minPlayers);
   let score = startLegal ? startScore : -Infinity;
   let moves = 0;
 
@@ -292,7 +298,7 @@ export function optimizeRoster(
   /** The reassigned board when it is complete, legal and strictly better. */
   const settle = (from: FillResult, fromScore: number): { slots: FillResult; score: number } | null => {
     const t = reassign(from);
-    if (t === from || !isComplete(t, shape) || !legal(t, byId, rules, shape)) return null;
+    if (t === from || !isComplete(t, shape) || !legal(t, byId, rules, shape, minPlayers)) return null;
     const s = o.objective(t);
     return s > fromScore + 1e-9 ? { slots: t, score: s } : null;
   };
@@ -312,7 +318,7 @@ export function optimizeRoster(
         if (c.cardId === current) continue;
         const trial = place(slots, key, c);
         if (!isComplete(trial, shape)) continue;
-        if (!legal(trial, byId, rules, shape)) continue;
+        if (!legal(trial, byId, rules, shape, minPlayers)) continue;
         const s = o.objective(trial);
         if (s > bestScore + 1e-9) { bestScore = s; bestKey = key; bestId = c.cardId; bestSlots = trial; }
         // A new bat on the roster: also score him with every position re-solved
@@ -338,7 +344,7 @@ export function optimizeRoster(
               if (cb.cardId === slots[b]) continue;
               const t2 = place(t1, b, cb);
               if (!isComplete(t2, shape)) continue;
-              if (!legal(t2, byId, rules, shape)) continue;
+              if (!legal(t2, byId, rules, shape, minPlayers)) continue;
               const s = o.objective(t2);
               if (s > bestScore + 1e-9) { bestScore = s; bestPair = { a, ai: ca.cardId, b, bi: cb.cardId }; }
             }
