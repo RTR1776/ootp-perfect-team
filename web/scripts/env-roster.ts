@@ -359,7 +359,7 @@ async function main() {
    * Until 2026-09-16 the optimiser priced gloves at zero and gated them only
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
-  const { objective, rank, defAt } = rosterObjective(pool, {
+  const { objective, rank, defAt, slotValue } = rosterObjective(pool, {
     shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, mustIds,
   });
   void defAt;
@@ -382,7 +382,7 @@ async function main() {
     let best = { slots, score: greedyScore, from: lambda, moves: 0 };
     for (const [, st] of starts) {
       const r = optimizeRoster(st.slots, pool, rules, shape, {
-        objective, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
+        objective, slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
         candidateLimit: CANDIDATE_LIMIT ?? undefined,
       });
       if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };

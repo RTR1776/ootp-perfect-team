@@ -102,7 +102,9 @@ export function rankShop(p: ShopInput): ShopRow[] {
       else if (gRp > 0 && rp) { gain = gRp; where = `bullpen over ${label(rp.c)}`; replaced = rp.c; }
     }
     if (gain <= 0.05) continue;
-    const price = u.ask && u.ask > 0 ? u.ask : u.last10;
+    // A 0 last-10 with no ask means the card has never traded — a reward card
+    // like PTWC 4th Place Dihigo — so it has no price, not a free one.
+    const price = u.ask && u.ask > 0 ? u.ask : u.last10 && u.last10 > 0 ? u.last10 : null;
     const overCap = p.teamCap != null && !u.variant ? Math.max(0, capUsed - (replaced?.val ?? 0) + (u.val ?? 0) - p.teamCap) : 0;
     out.push({ u, gain, where, price: price ?? null, perK: price ? gain / (price / 10000) : null, overCap });
   }

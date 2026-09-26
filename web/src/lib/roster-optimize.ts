@@ -19,6 +19,7 @@
 import { cardEligibility, rosterSize, slotCapacityIssues, tierCode, type RosterRules } from "./roster-rules";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { isComplete, type FillCard, type FillResult, type FillShape } from "./roster-fill";
+import { maxAssignment } from "./assign";
 
 /** Which of the three groups a slot belongs to — a card may hold one of each. */
 export type SlotGroup = "R" | "L" | "P";
@@ -53,6 +54,17 @@ export interface OptimizeOptions {
    * browser. Not the same roster — most of the gain, not all of it.
    */
   candidateLimit?: number;
+  /**
+   * The objective's exact per-slot value (RosterObjective.slotValue). With it,
+   * the search also re-solves both boards' positions as an assignment
+   * (assign.ts): at the start, after every accepted move, and after every
+   * single move that brings a new hitter onto the roster. Swap moves change
+   * one or two slots, so a board needing a three-way reshuffle — the best bat
+   * on the bench because moving him in means moving two others — was a local
+   * optimum they could not leave (Negro Leagues Slots, 2026-09-26: Josh
+   * Gibson benched vs RHP at +39.5; the same cards reassigned score higher).
+   */
+  slotValue?: (key: string, cardId: number) => number;
   pairMoves?: {
     /** Upgrade candidates considered per slot, best-ranked first. */
     aTop: number;
@@ -68,6 +80,9 @@ export interface OptimizeResult {
   /** Moves accepted, and how much each start improved — for reporting. */
   moves: number;
   startScore: number;
+  /** Whether the start and the result pass every rule the search enforces. */
+  startLegal: boolean;
+  legal: boolean;
 }
 
 /**
@@ -95,6 +110,11 @@ function legal(
 
   const members = [...ids].map((id) => byId.get(id)).filter((c): c is FillCard => c != null);
   if (members.length !== ids.size) return false;
+  // The copy on the board must be one L.J. owns. candidatesFor already keeps
+  // unowned forms out of every move; this stops one that was on the STARTING
+  // board (a saved roster naming the base copy of a variant-only card) from
+  // riding through the whole search untouched.
+  if (members.some((m) => (m.variant ? !m.variantOwned : !m.baseOwned))) return false;
   if (members.filter((m) => !m.isPitcher).length > shape.bats) return false;
   if (rx?.teamCap != null && members.reduce((n, m) => n + (m.val ?? 0), 0) > rx.teamCap) return false;
   if (members.filter((m) => m.variant).length > variantLimit) return false;
@@ -149,8 +169,11 @@ export function optimizeRoster(
   ];
   const byId = new Map(pool.map((c) => [c.cardId, c]));
   const rostered = new Set(Object.values(start));
+  const full = new Map(keys.map((k) => [k, candidatesFor(k, pool, rules, o.minDefShare ?? 0, o.posFloor)]));
+  /** Who may play each slot at all — before pruning, so reassignment is exact. */
+  const eligible = new Map([...full].map(([k, list]) => [k, new Set(list.map((c) => c.cardId))]));
   const cands = new Map(keys.map((k) => {
-    let list = candidatesFor(k, pool, rules, o.minDefShare ?? 0, o.posFloor);
+    let list = full.get(k)!;
     if (o.candidateLimit && o.pairMoves && list.length > o.candidateLimit) {
       const rank = o.pairMoves.rank;
       const top = [...list].sort((a, b) => rank(k, b) - rank(k, a)).slice(0, o.candidateLimit);
@@ -160,8 +183,12 @@ export function optimizeRoster(
     return [k, list];
   }));
   let slots = { ...start };
-  let score = o.objective(slots);
-  const startScore = score;
+  const startScore = o.objective(slots);
+  // A starting board that breaks a rule (an unowned copy on a saved roster)
+  // scores -Infinity, so the first legal board the search finds replaces it
+  // even when it is worth fewer runs.
+  const startLegal = legal(slots, byId, rules, shape);
+  let score = startLegal ? startScore : -Infinity;
   let moves = 0;
 
   const pm = o.pairMoves;
@@ -227,7 +254,54 @@ export function optimizeRoster(
     return t;
   };
 
+  /*
+   * Re-solve both boards' positions over the hitters already on the roster.
+   * vs RHP, the lineup slots and the bench share one group (a bat either
+   * starts or sits), so they are solved together; vs LHP is its own board.
+   * The hitter part of the objective is exactly the sum of slotValue over
+   * those slots, so the assignment is the best this set of hitters can do.
+   * Returns `from` itself when there is nothing to solve or no complete
+   * assignment exists.
+   */
+  const rRows = [...shape.lineupPos.map((p) => `R:${p}`), ...shape.benchKeys];
+  const lRows = shape.lineupPos.map((p) => `L:${p}`);
+  const hitKeys = new Set([...rRows, ...lRows]);
+  // slotValue is pure per (slot, card) and the search asks for the same pairs
+  // thousands of times, so remember them; -Infinity marks "may not play here".
+  const svCache = new Map([...hitKeys].map((k) => [k, new Map<number, number>()]));
+  const weight = (k: string, id: number): number => {
+    const m = svCache.get(k)!;
+    let w = m.get(id);
+    if (w === undefined) { w = eligible.get(k)?.has(id) ? o.slotValue!(k, id) : -Infinity; m.set(id, w); }
+    return w;
+  };
+  const reassign = (from: FillResult): FillResult => {
+    if (!o.slotValue) return from;
+    const hitters = [...new Set([...hitKeys].map((k) => from[k]).filter((id): id is number => id != null && byId.get(id)?.isPitcher === false))];
+    const t: FillResult = { ...from };
+    for (const rows of [rRows, lRows]) {
+      if (rows.length === 0) continue;
+      if (rows.length > hitters.length) return from;
+      const w = rows.map((k) => hitters.map((id) => weight(k, id)));
+      const a = maxAssignment(w);
+      if (!a) return from;
+      rows.forEach((k, i) => { t[k] = hitters[a[i]]; });
+    }
+    return t;
+  };
+  /** The reassigned board when it is complete, legal and strictly better. */
+  const settle = (from: FillResult, fromScore: number): { slots: FillResult; score: number } | null => {
+    const t = reassign(from);
+    if (t === from || !isComplete(t, shape) || !legal(t, byId, rules, shape)) return null;
+    const s = o.objective(t);
+    return s > fromScore + 1e-9 ? { slots: t, score: s } : null;
+  };
+
+  const settled0 = settle(slots, score);
+  if (settled0) { slots = settled0.slots; score = settled0.score; moves++; }
+
   for (let pass = 0; pass < (o.maxPasses ?? 40); pass++) {
+    const onRoster = new Set(Object.values(slots));
     let bestKey: string | null = null, bestId = 0, bestScore = score;
     let bestSlots: FillResult | null = null;
     let bestPair: { a: string; ai: number; b: string; bi: number } | null = null;
@@ -241,6 +315,13 @@ export function optimizeRoster(
         if (!legal(trial, byId, rules, shape)) continue;
         const s = o.objective(trial);
         if (s > bestScore + 1e-9) { bestScore = s; bestKey = key; bestId = c.cardId; bestSlots = trial; }
+        // A new bat on the roster: also score him with every position re-solved
+        // around him. (Moves among rostered bats need no re-solve — the board
+        // is already settled after every accepted move.)
+        if (o.slotValue && hitKeys.has(key) && !onRoster.has(c.cardId)) {
+          const r = settle(trial, bestScore);
+          if (r) { bestScore = r.score; bestKey = key; bestId = c.cardId; bestSlots = r.slots; }
+        }
       }
     }
 
@@ -271,6 +352,9 @@ export function optimizeRoster(
     else break;
     score = bestScore;
     moves++;
+    const settled = settle(slots, score);
+    if (settled) { slots = settled.slots; score = settled.score; }
   }
-  return { slots, score, moves, startScore };
+  // No legal board reachable from an illegal start: hand the start back as it was scored.
+  return { slots, score: Number.isFinite(score) ? score : startScore, moves, startScore, startLegal, legal: Number.isFinite(score) };
 }
