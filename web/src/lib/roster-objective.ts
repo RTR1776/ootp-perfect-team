@@ -44,6 +44,13 @@ export interface RosterObjective {
   rank: (key: string, c: FillCard) => number;
   /** Defence in runs for a card at a position (0 for DH and pitchers). */
   defAt: (cardId: number, pos: string) => number;
+  /**
+   * What `objective` adds for this card in this slot, exactly — the lineup
+   * slots with their board weight, the pen and bench at theirs. The objective
+   * is the sum of these over the board (plus the must-carry penalty), which is
+   * what lets the optimiser solve a board's positions as an assignment.
+   */
+  slotValue: (key: string, cardId: number) => number;
 }
 
 export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions): RosterObjective {
@@ -60,6 +67,17 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     return fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`] ?? 0);
   };
 
+  const spSet = new Set(shape.spKeys), rpSet = new Set(shape.rpKeys), bnSet = new Set(shape.benchKeys);
+  const otherKeys = [...shape.spKeys, ...shape.rpKeys, ...shape.benchKeys];
+  const slotValue = (key: string, id: number): number => {
+    if (key.startsWith("R:")) return (1 - lhp) * ((runsR.get(id) ?? 0) + defAt(id, key.slice(2)));
+    if (key.startsWith("L:")) return lhp * ((runsL.get(id) ?? 0) + defAt(id, key.slice(2)));
+    if (spSet.has(key)) return runsR.get(id) ?? 0;
+    if (rpSet.has(key)) return rpW * (runsR.get(id) ?? 0);
+    if (bnSet.has(key)) return bnW * (runsR.get(id) ?? 0);
+    return 0;
+  };
+
   const objective = (r: FillResult): number => {
     let total = 0;
     if (o.mustIds?.size) {
@@ -68,12 +86,10 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     }
     for (const p of shape.lineupPos) {
       const a = r[`R:${p}`], b = r[`L:${p}`];
-      if (a != null) total += (1 - lhp) * ((runsR.get(a) ?? 0) + defAt(a, p));
-      if (b != null) total += lhp * ((runsL.get(b) ?? 0) + defAt(b, p));
+      if (a != null) total += slotValue(`R:${p}`, a);
+      if (b != null) total += slotValue(`L:${p}`, b);
     }
-    for (const k of shape.spKeys) { const c = r[k]; if (c != null) total += runsR.get(c) ?? 0; }
-    for (const k of shape.rpKeys) { const c = r[k]; if (c != null) total += rpW * (runsR.get(c) ?? 0); }
-    for (const k of shape.benchKeys) { const c = r[k]; if (c != null) total += bnW * (runsR.get(c) ?? 0); }
+    for (const k of otherKeys) { const c = r[k]; if (c != null) total += slotValue(k, c); }
     return total;
   };
 
@@ -83,5 +99,5 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     return (key.startsWith("L:") ? (runsL.get(c.cardId) ?? -1e6) : (runsR.get(c.cardId) ?? -1e6)) + d;
   };
 
-  return { objective, rank, defAt };
+  return { objective, rank, defAt, slotValue };
 }

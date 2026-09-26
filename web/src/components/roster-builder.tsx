@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
-import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillShape } from "@/lib/roster-fill";
+import { fillOnce, fillRoster, fitMaps, HIT_POS, isComplete, rosterShape, type FillCard, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import type { Confidence } from "@/lib/data-confidence";
@@ -401,13 +401,18 @@ export function RosterBuilder({
      variants without a cap (same card value, better ratings — a free upgrade),
      else base. Variant ratings are the ones the collection export recorded
      for that copy (see card-forms.ts) — projections come from the same model
-     as the base card, on the form's own ratings. */
+     as the base card, on the form's own ratings. A form is only used when
+     that copy is owned: a saved roster or toggle naming the other copy falls
+     back to the one in the collection (roster #23 stored the base Lennie
+     Pearson, owned only as a variant, and failed its checks with no way to
+     flip it — the toggle is disabled when the base is not owned). */
   const preferVariant = defaultToVariant(tournament);
   const lhpShare = env?.lhpShare ?? LHP_SHARE_DEFAULT;
   const envs = useMemo(() => (env ? projectionEnvs(env.rates, env.park, env.lhbShare) : null), [env]);
   const pool = useMemo(() => basePool.map(c => {
     const verifiedVar = c.variantOwned && hasVariantSplitRatings(c.variantRatings, c.isPitcher);
-    const variant = forms[c.cardId] ?? (!c.baseOwned || (preferVariant && verifiedVar));
+    const want = forms[c.cardId] ?? (!c.baseOwned || (preferVariant && verifiedVar));
+    const variant = want ? c.variantOwned || !c.baseOwned : !c.baseOwned && c.variantOwned;
     if (!variant) return { ...c, variant: false };
     const ratings = formRatings(c.ratings, c.variantRatings, c.pos);
     const verified = hasVariantSplitRatings(c.variantRatings, c.isPitcher);
@@ -716,11 +721,21 @@ export function RosterBuilder({
 
   const [optimizing, setOptimizing] = useState(false);
   /**
-   * Hill-climb from the board as it stands (env-roster's search, pruned to
-   * each slot's top candidates so it finishes in seconds in the browser):
-   * single swaps, then a paid-for upgrade when the cap binds, under every
-   * rule and L.J.'s glove floor. Runs after a paint so the button can show
-   * it is working.
+   * Hill-climb from several starting boards and keep the best (env-roster's
+   * multi-start search, pruned to each slot's top candidates so each climb
+   * finishes in seconds in the browser): single swaps, then a paid-for upgrade
+   * when the cap binds, with both boards' positions re-solved exactly after
+   * every move (assign.ts), under every rule and L.J.'s glove floor.
+   *
+   * Starts: the board as it stands, the greedy fill, then greedy fills under
+   * a rising value penalty λ (the CLI's λ sweep, thinned). One climb stops at
+   * the first board no one- or two-card move improves, and which board that
+   * is depends on where it began — Negro Leagues Slots, 2026-09-26: from the
+   * greedy fill +39.5, from a hand-built board +47.9. Starts run one at a
+   * time with a paint between, and no new one begins after START_BUDGET_MS.
+   * Gold Rush (2026-09-26, local dev build): one climb +196.7 in 4 s; six
+   * starts with positions solved exactly +204.5 in 52 s. Each climb costs
+   * about 1.3× the old one, so the budget, not the start list, sets the wait.
    *
    * Prune width, measured on Gold Rush (3,321-card pool, 2026-09-17): greedy
    * 150.7 runs; top 30 per slot 170.1 in 16 s; top 60 173.8 in 14 s; top 120
@@ -728,33 +743,71 @@ export function RosterBuilder({
    * barely moves the time (the pair search is bounded by aTop/bCheapest), so
    * 120 it is; the CLI stays the reference for a weekly event.
    */
-  const optimize = () => {
+  const MAX_STARTS = 6;
+  const START_BUDGET_MS = 30_000;
+  const optimize = async () => {
     if (!tournament || !objective) return;
     setOptimizing(true);
     setMsg("Searching for a better board…");
-    setTimeout(() => {
-      try {
-        const start: Record<string, number> = {};
-        for (const [k, v] of Object.entries(slots)) if (v != null) start[k] = v;
-        const missing = slotOrder.filter((k) => start[k] == null);
-        // The search needs a complete board to score; fill the holes greedily first.
-        if (missing.length) {
-          const filled = fillRoster(pool, tournament, fillShape, fits).slots;
-          for (const k of missing) if (filled[k] != null) start[k] = filled[k];
-        }
-        const before = objective.objective(start);
-        const r = optimizeRoster(start, pool as FillCard[], tournament, fillShape, {
-          objective: objective.objective, minDefShare: 0.6, posFloor: LJ_FLOOR,
+    const paint = () => new Promise((r) => setTimeout(r, 30));
+    await paint();
+    try {
+      const current: Record<string, number> = {};
+      for (const [k, v] of Object.entries(slots)) if (v != null) current[k] = v;
+      const missing = slotOrder.filter((k) => current[k] == null);
+      const greedy = fillRoster(pool, tournament, fillShape, fits).slots;
+      // The search needs a complete board to score; fill the holes greedily first.
+      for (const k of missing) if (greedy[k] != null) current[k] = greedy[k];
+      const before = objective.objective(current);
+
+      // Distinct rosters only: positions are re-solved inside the search, so
+      // two starts with the same cards are the same start.
+      const starts: { label: string; slots: Record<string, number> }[] = [];
+      const seen = new Set<string>();
+      const add = (label: string, b: Record<string, number>) => {
+        if (starts.length >= MAX_STARTS || !isComplete(b, fillShape)) return;
+        const key = [...new Set(Object.values(b))].sort((x, y) => x - y).join(",");
+        if (seen.has(key)) return;
+        seen.add(key);
+        starts.push({ label, slots: b });
+      };
+      add("your board", current);
+      add("the greedy fill", greedy);
+      // Most promising first, so a budget cut drops the long shots: λ 2 won on
+      // both events measured 2026-09-26 (Negro Leagues Slots, Gold Rush).
+      for (const lam of [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(pool, tournament, fillShape, fits, lam));
+
+      const t0 = performance.now();
+      let best: { slots: Record<string, number>; score: number; moves: number; from: string } | null = null;
+      let ran = 0;
+      let boardLegal = true;
+      for (const st of starts) {
+        if (ran > 0 && performance.now() - t0 > START_BUDGET_MS) break;
+        setMsg(`Searching for a better board… start ${ran + 1} of ${starts.length} (${st.label})${best ? `, best so far ${fr(best.score)} runs` : ""}.`);
+        await paint();
+        const r = optimizeRoster(st.slots, pool as FillCard[], tournament, fillShape, {
+          objective: objective.objective, slotValue: objective.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
           pairMoves: { aTop: 8, bCheapest: 10, rank: objective.rank }, candidateLimit: 120, maxPasses: 40,
         });
-        setSlots(r.slots);
-        setMsg(r.moves
-          ? `Optimised: ${r.moves} move${r.moves === 1 ? "" : "s"}, ${fr(before)} → ${fr(r.score)} runs (calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs).`
-          : `No single or paired swap improves this board (${fr(before)} runs).`);
-      } finally {
-        setOptimizing(false);
+        ran++;
+        if (st.slots === current) boardLegal = r.startLegal;
+        // Only boards that pass every rule compete.
+        if (r.legal && (!best || r.score > best.score + 1e-9)) best = { slots: r.slots, score: r.score, moves: r.moves, from: st.label };
       }
-    }, 30);
+      if (!best) {
+        setMsg(`No start reached a board that passes every rule (${ran} tried) — check the rule list below.`);
+        return;
+      }
+      // A board that breaks a rule is replaced even by a lower-scoring legal one.
+      if (boardLegal && best.score <= before + 1e-9) {
+        setMsg(`No better board found from ${ran} start${ran === 1 ? "" : "s"} (${fr(before)} runs).`);
+        return;
+      }
+      setSlots(best.slots);
+      setMsg(`Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} start${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).`);
+    } finally {
+      setOptimizing(false);
+    }
   };
 
   // Switching tournaments empties the board and asks for a fresh
@@ -820,7 +873,10 @@ export function RosterBuilder({
     if (maxRp + 1 > shape.rp) setCount("rp", maxRp + 1);
     setSlots(next);
     setForms(savedForms);
-    setMsg(`Loaded “${r.name}”.`);
+    const switched = [...new Set(r.slots.map((s) => s.cardId))]
+      .map((id) => basePool.find((c) => c.cardId === id))
+      .filter((c): c is NonNullable<typeof c> => c != null && (savedForms[c.cardId] ? !c.variantOwned && c.baseOwned : !c.baseOwned && c.variantOwned));
+    setMsg(`Loaded “${r.name}”.${switched.length ? ` Using the copy you own for ${switched.map((c) => c.name).join(", ")} (the saved copy is not in your collection) — save again to keep it.` : ""}`);
   };
 
   /* export ----------------------------------------------------------- */
