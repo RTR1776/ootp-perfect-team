@@ -86,7 +86,10 @@ Reproduce:
 
 1. **Refit when a week lands:** `pnpm league:panel` then `python3 scripts/league-fit.py` (writes `src/data/league-model.json`; `--dry` to look first). It reads every week in `League Data/` and every league week in the database. When one week was uploaded twice, the newest copy wins.
 2. **League imports now keep the split ratings** (`ingest/league.ts`), so a week uploaded through /upload or `pnpm import:league` gives the fit exact variant ratings.
-3. **The current PEL week, part-played (~100 games), is worth loading now.** Export all / vL / vR and drop them on /upload (or file them under `League Data/<date>/`). They add PEL-specific play in the league L.J. is in.
+3. **The current PEL week, part-played (~100 games), is worth loading now.** It adds PEL-specific play in the league L.J. is in.
+   - Export all / vL / vR, then either drop them on /upload or save them under `League Data/<Sunday>/`, where Push to GitHub.command commits them.
+   - On /upload, set "Snapshot week" to the Sunday the season ends and **press Commit**. Dropping the files only previews them.
+   - Use the same Sunday for the part-played week and the finished one. The panel keeps the newest upload per week, league and split.
 
 ## Not done yet
 
