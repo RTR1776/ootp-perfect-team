@@ -28,7 +28,7 @@ import { cardEligibility, rosterSize, validateRoster, type RosterRules, type Ros
 import { LJ_FLOOR, parsePosFloor, type PosFloor } from "@/lib/pos-floor";
 import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT } from "@/lib/roster-objective";
 import { envFitMaps } from "@/lib/analytics/env-fit";
-import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
+import { bothHands, loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { optimizeRoster } from "@/lib/roster-optimize";
 
@@ -140,7 +140,7 @@ async function main() {
   const all = universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
   const base = envFitMaps(all, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB, eraYear: ERA_YEAR });
   const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - LHP) * r + LHP * l; };
-  const observed = OBS_K > 0 ? await loadObservedRuns(pool.map((c) => c.cardId), both) : undefined;
+  const observed = OBS_K > 0 ? await loadObservedRuns(pool.map((c) => c.cardId), both, bothHands(base)) : undefined;
   const fits = envFitMaps(pool, { era: era.rates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB, eraYear: ERA_YEAR });
   const { objective, rank, defAt } = rosterObjective(pool, { shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP, rpWeight: RP_WEIGHT_DEFAULT, benchWeight: BENCH_WEIGHT_DEFAULT });
   const poolById = new Map(pool.map((c) => [c.cardId, c]));

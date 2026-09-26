@@ -22,7 +22,7 @@ import { desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, collectionCards, uploads } from "@/db/schema";
 import { envFitMaps } from "@/lib/analytics/env-fit";
-import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
+import { bothHands, loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 
 const argv = process.argv.slice(2);
@@ -105,7 +105,7 @@ async function main() {
   const input = matched.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
   const base = envFitMaps(input, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB, eraYear: ERA_YEAR });
   const both = (m: { runsR: Map<number, number>; runsL: Map<number, number> }, id: number) => { const r = m.runsR.get(id), l = m.runsL.get(id); return r == null || l == null ? null : (1 - LHP) * r + LHP * l; };
-  const observed = OBS_K > 0 ? await loadObservedRuns(matched.map((c) => c.cardId), (id) => both(base, id)) : undefined;
+  const observed = OBS_K > 0 ? await loadObservedRuns(matched.map((c) => c.cardId), (id) => both(base, id), bothHands(base)) : undefined;
   const blend = envFitMaps(input, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB, eraYear: ERA_YEAR });
 
   // This collection's own observed line, PA-weighted across series.

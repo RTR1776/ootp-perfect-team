@@ -72,6 +72,14 @@ export interface ObservedRuns {
   /** Plate appearances or batters faced behind it. */
   n: number;
   series: number;
+  /**
+   * The base card's model runs on env-fit's both-hands read (0.7 R / 0.3 L),
+   * when the caller passed `reference`. runs − model is how far play ran from
+   * the ratings, and env-fit blends that deviation, so an owned variant keeps
+   * its rating boost while a base card blends exactly as before. Null without
+   * a reference: env-fit then blends the level, the pre-2026-09-26 behaviour.
+   */
+  model: number | null;
 }
 
 export { OBS_K_DEFAULT } from "./calibration";
@@ -98,6 +106,8 @@ const stintLike = (counters: Record<string, number>, ip: number, pa: number) => 
 export async function loadObservedRuns(
   cardIds: readonly number[],
   modelRuns: (cardId: number) => number | null | undefined,
+  /** The base card's model on env-fit's basis, 0.7 R + 0.3 L (see `ObservedRuns.model`). */
+  reference?: (cardId: number) => number | null | undefined,
 ): Promise<Map<number, ObservedRuns>> {
   const out = new Map<number, ObservedRuns>();
   if (!cardIds.length) return out;
@@ -178,9 +188,18 @@ export async function loadObservedRuns(
   }
   for (const [id, a] of acc) {
     if (a.den <= 0) continue;
-    out.set(id, { runs: (a.num / a.den) * 700, n: a.den, series: a.series.size });
+    const m = reference?.(id);
+    out.set(id, { runs: (a.num / a.den) * 700, n: a.den, series: a.series.size, model: m != null && Number.isFinite(m) ? m : null });
   }
   return out;
+}
+
+/** env-fit's both-hands read of a scored universe: the `reference` for loadObservedRuns. */
+export function bothHands(fits: { runsR: Map<number, number>; runsL: Map<number, number> }) {
+  return (id: number): number | null => {
+    const r = fits.runsR.get(id), l = fits.runsL.get(id);
+    return r == null || l == null ? null : 0.7 * r + 0.3 * l;
+  };
 }
 
 /** Precision-weighted blend of a model figure with an observed one. */

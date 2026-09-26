@@ -28,3 +28,31 @@ test("the era correction pays BABIP what play returned, and leaves an average ca
   const off = envFitMaps(pool, { era: era.rates, park: null, eraYear: 1975, calibrate: false });
   assert.equal(off.runsR.get(1), envFitMaps(pool, { era: era.rates, park: null, calibrate: false }).runsR.get(1), "calibrate:false switches the correction off too");
 });
+
+test("observed play moves a variant by the base card's deviation, not back to the base card's level", () => {
+  const era = eraTable["2010"] ?? eraTable["0"];
+  const base = bat(10, { Power: 120, Eye: 115 });
+  const variant = { ...bat(10, { Power: 129, Eye: 124 }) }; // same card id, the owned variant's ratings
+  const plainBase = envFitMaps([base], { era: era.rates, park: null });
+  const plainVar = envFitMaps([variant], { era: era.rates, park: null });
+  const both = (f: typeof plainBase) => 0.7 * f.runsR.get(10)! + 0.3 * f.runsL.get(10)!;
+  const model = both(plainBase);
+  const boost = both(plainVar) - model;
+  assert.ok(boost > 1, `a +9 Power / +9 Eye variant is worth runs (${boost.toFixed(2)})`);
+
+  // 50,000 PA of play, 4 runs better than the base card's ratings say.
+  const obs = { runs: model + 4, n: 50_000 };
+  const w = obs.n / (obs.n + 5000);
+
+  // Base card: with or without the reference, the same shift as the old level blend.
+  const old = (obs.n * obs.runs + 5000 * model) / (obs.n + 5000);
+  const b1 = envFitMaps([base], { era: era.rates, park: null, observed: new Map([[10, obs]]) });
+  const b2 = envFitMaps([base], { era: era.rates, park: null, observed: new Map([[10, { ...obs, model }]]) });
+  assert.ok(Math.abs(both(b1) - old) < 1e-9 && Math.abs(both(b2) - old) < 1e-9, "base card unchanged");
+
+  // Variant: its own model plus the base card's +4, weighted. The level blend kept only (1 - w) of the boost.
+  const v = envFitMaps([variant], { era: era.rates, park: null, observed: new Map([[10, { ...obs, model }]]) });
+  assert.ok(Math.abs(both(v) - (model + boost + w * 4)) < 1e-9, "variant keeps its boost");
+  const vOld = envFitMaps([variant], { era: era.rates, park: null, observed: new Map([[10, obs]]) });
+  assert.ok(Math.abs(both(vOld) - (model + (1 - w) * boost + w * 4)) < 1e-9, "without the reference, the level blend (the old behaviour)");
+});
