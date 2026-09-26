@@ -392,6 +392,40 @@ export default async function BuildPage({
           last10: null as number | null, ask: null as number | null,
         };
       });
+
+      /* Variant offers: the variant of a card you own and play here. Its
+         ratings are not in the shop list, so they are estimated at the typical
+         bump (card-forms: hitting splits ≈ +5, pitching ≈ +3; positions left
+         at the base — conservative) and scored on the same scorer. Skipped
+         where the event bars variants. */
+      const variantsOk = (tournament!.restrictions as { variantsAllowed?: boolean | null } | null)?.variantsAllowed !== false;
+      if (variantsOk) {
+        const fullById = new Map(cardRows.map((c) => [c.cardId, (c.ratings ?? {}) as Record<string, number>]));
+        const baseRun = (c: (typeof pool)[number]) => (c.isPitcher ? base.runsR.get(c.cardId) : both(c.cardId)) ?? -99;
+        const cands = [
+          ...pool.filter((c) => c.baseOwned && !c.variantOwned && !c.isPitcher).sort((a, b) => baseRun(b) - baseRun(a)).slice(0, 30),
+          ...pool.filter((c) => c.baseOwned && !c.variantOwned && c.isPitcher).sort((a, b) => baseRun(b) - baseRun(a)).slice(0, 20),
+        ];
+        const bump = (r: Record<string, number>, isP: boolean) => {
+          const o = { ...r };
+          const keys = isP ? ["Stuff", "Control", "pHR", "pBABIP"] : ["BABIP", "Gap", "Power", "Eye", "Avoid K", "Contact"];
+          const d = isP ? 3 : 5;
+          for (const k of keys) for (const side of [" vL", " vR", ""]) if (o[k + side] != null) o[k + side] += d;
+          if (!isP && o["Avoid Ks"] != null) o["Avoid Ks"] += d;
+          return o;
+        };
+        const vr = cands.map((c) => ({ c, r: bump(fullById.get(c.cardId) ?? {}, c.isPitcher) }));
+        const vfit = envFitMaps(vr.map(({ c, r }) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.role, ratings: r })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
+        for (const { c, r } of vr) {
+          const rr = vfit.runsR.get(c.cardId) ?? null, rl = vfit.runsL.get(c.cardId) ?? null;
+          if (rr == null) continue;
+          upgrades.push({
+            cardId: c.cardId, name: c.name, tier: c.tier, val: c.val, pos: c.isPitcher ? c.role ?? "P" : c.pos, isPitcher: c.isPitcher, year: c.year, bats: c.bats,
+            ratings: trimRatings(r), proj: projFor(c.isPitcher, c.bats, r), runs: c.isPitcher ? rr : (1 - lhpShare) * rr + lhpShare * (rl ?? rr),
+            runsR: rr, runsL: rl, isNew: false, clubhouse: false, last10: null, ask: null, variant: true,
+          });
+        }
+      }
     }
 
     if (upgrades.length) {
@@ -403,15 +437,17 @@ export default async function BuildPage({
         .limit(1);
       if (latestShop) {
         const prices = await db
-          .select({ cardId: cardSnapshots.cardId, last10: cardSnapshots.last10, ask: cardSnapshots.sellOrderLow })
+          .select({ cardId: cardSnapshots.cardId, last10: cardSnapshots.last10, ask: cardSnapshots.sellOrderLow, last10Variant: cardSnapshots.last10Variant })
           .from(cardSnapshots)
           .where(and(eq(cardSnapshots.uploadId, latestShop.id), inArray(cardSnapshots.cardId, upgrades.map((u) => u.cardId))));
         const priceBy = new Map(prices.map((p) => [p.cardId, p]));
         for (const u of upgrades) {
           const p = priceBy.get(u.cardId);
-          u.last10 = p?.last10 ?? null;
-          u.ask = p?.ask ?? null;
+          u.last10 = (u.variant ? p?.last10Variant : p?.last10) ?? null;
+          u.ask = u.variant ? null : p?.ask ?? null;
         }
+        // A variant with no price on file cannot be bought here - drop it.
+        upgrades = upgrades.filter((u) => !u.variant || (u.last10 != null && u.last10 > 0));
       }
     }
 
