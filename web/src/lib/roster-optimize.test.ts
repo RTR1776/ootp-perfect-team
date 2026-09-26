@@ -121,3 +121,17 @@ test("a locked card outside the pruned candidate lists still reaches the board",
   const kept = optimizeRoster(start, pool, two, one, { ...opts, keep: locks });
   assert.ok(Object.values(kept.slots).includes(6), JSON.stringify(kept.slots));
 });
+
+test("minCatchers puts a second catcher on the roster even when a better bat sits there", () => {
+  const sh: FillShape = { lineupPos: ["C", "DH"], spKeys: [], rpKeys: [], benchKeys: ["BN1"], bats: 3 };
+  const three: RosterRules = { ...rules, restrictions: { cards: 3 } };
+  const pool = [hitter(1, { C: 90 }), hitter(2, {}), hitter(3, {}), hitter(4, { C: 80 })];
+  const runs = new Map([[1, 10], [2, 30], [3, 20], [4, 1]]);
+  const obj = rosterObjective(pool, { shape: sh, runsR: runs, runsL: runs });
+  const start = { "R:C": 1, "R:DH": 2, BN1: 3, "L:C": 1, "L:DH": 2 };
+  const free = optimizeRoster(start, pool, three, sh, { objective: obj.objective });
+  assert.equal(free.slots.BN1, 3, "left alone, the better bat keeps the bench seat");
+  const two = optimizeRoster(start, pool, three, sh, { objective: obj.objective, minCatchers: 2 });
+  assert.equal(two.legal, true);
+  assert.ok(Object.values(two.slots).includes(4), JSON.stringify(two.slots));
+});

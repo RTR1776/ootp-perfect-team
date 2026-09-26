@@ -401,6 +401,13 @@ export function RosterBuilder({
      catchers", "Incaviglia belongs", "not Bunny Hearn"). */
   const [locks, setLocks] = useState<Set<number>>(() => new Set());
   const [bans, setBans] = useState<Set<number>>(() => new Set());
+  /* Remembered per tournament in this browser, so a reload keeps them. */
+  const lockKey = (tid: number) => `build:locks:${tid}`;
+  const readLocks = (tid: number): { locks: number[]; bans: number[] } => {
+    try { return JSON.parse(localStorage.getItem(lockKey(tid)) ?? "") ?? { locks: [], bans: [] }; } catch { return { locks: [], bans: [] }; }
+  };
+  /* L.J. always carries two catchers; Optimise honours it unless unticked. */
+  const [twoCatchers, setTwoCatchers] = useState(true);
   const toggleIn = (set: Set<number>, id: number) => { const n = new Set(set); if (n.has(id)) n.delete(id); else n.add(id); return n; };
   const toggleLock = (id: number) => { setLocks((s) => toggleIn(s, id)); setBans((s) => { const n = new Set(s); n.delete(id); return n; }); };
   const toggleBan = (id: number) => { setBans((s) => toggleIn(s, id)); setLocks((s) => { const n = new Set(s); n.delete(id); return n; }); };
@@ -734,6 +741,12 @@ export function RosterBuilder({
     return objective.objective(complete);
   };
 
+  useEffect(() => {
+    if (!tournament || lastTid.current !== tournament.id) return;
+    try { localStorage.setItem(lockKey(tournament.id), JSON.stringify({ locks: [...locks], bans: [...bans] })); } catch { /* storage unavailable */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locks, bans]);
+
   const [optimizing, setOptimizing] = useState(false);
   /**
    * Hill-climb from several starting boards and keep the best (env-roster's
@@ -817,6 +830,7 @@ export function RosterBuilder({
         const r = optimizeRoster(st.slots, searchPool, tournament, fillShape, {
           objective: searchObj.objective, slotValue: searchObj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
           pairMoves: { aTop: 8, bCheapest: 10, rank: searchObj.rank }, candidateLimit: 120, maxPasses: 40, keep: locks,
+          minCatchers: twoCatchers ? 2 : 0,
         });
         ran++;
         // Only boards that pass every rule compete; the search score carries
@@ -860,8 +874,9 @@ export function RosterBuilder({
     setMsg(null);
     setSlots({});
     setForms({});
-    setLocks(new Set());
-    setBans(new Set());
+    const saved = readLocks(tournament.id);
+    setLocks(new Set(saved.locks ?? []));
+    setBans(new Set(saved.bans ?? []));
     wantFill.current = tournament.id;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tournament?.id]);
@@ -1390,6 +1405,18 @@ export function RosterBuilder({
                   <Counter label="Bench" k="bench" used={shape.bench} tgt={baseline.bench} />
                   <Counter label="SP" k="sp" used={shape.sp} tgt={target.sp} />
                   <Counter label="RP" k="rp" used={shape.rp} tgt={target.rp} />
+                  <button
+                    type="button"
+                    className="rounded border border-border px-1.5 py-0.5 hover:bg-muted"
+                    title="5 starters, 7 relievers, the rest bats — L.J.'s shape for best-of-seven weeklies"
+                    onClick={() => {
+                      const size = (tournament ? rosterSize(tournament) : null) ?? 26;
+                      setCount("sp", 5); setCount("rp", 7); setCount("bench", Math.max(0, size - lineupPos.length - 12));
+                    }}
+                  >5 SP · 7 RP</button>
+                  <label className="flex items-center gap-1" title="Optimise keeps at least two catchers on the roster">
+                    <input type="checkbox" checked={twoCatchers} onChange={(e) => setTwoCatchers(e.target.checked)} /> 2 C
+                  </label>
                 </div>
                 <div className="mb-2 text-[10.5px] text-muted-foreground">
                   Carrying <span className="font-mono">{summary.hitterCount}</span> hitters ·{" "}
