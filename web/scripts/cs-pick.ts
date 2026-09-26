@@ -17,7 +17,7 @@ import { db } from "@/db/client";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
-import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
+import { bothHands, loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -52,7 +52,7 @@ const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
     const isP = r.is_pitcher ?? /^(SP|RP|CL|P)$/.test(String(r.cpos ?? ""));
     pool.push({ cardId: `o${r.row_id}`, realId: Number(r.card_id), name: r.name, val: Number(r.val), tier: r.tier, year: r.year,
       bats: r.bats ?? "R", isPitcher: isP, ownedFlag: true, role: isP ? (r.pitcher_role ?? r.cpos) : (r.position ?? r.cpos),
-      ratings: mergeCopyRatings(r.ratings ?? {}, r.copy_ratings ?? null, r.cpos) });
+      ratings: mergeCopyRatings(r.ratings ?? {}, r.copy_ratings ?? null, r.cpos), baseRatings: r.ratings ?? undefined });
   }
   for (const c of shop) {
     if (ownedIds.has(Number(c.card_id))) continue;
@@ -75,17 +75,22 @@ const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
    * to give each series its zero point, then blend. Pool ids here are synthetic
    * ("o<row>" / "s<card>") because an owned copy and a shop listing share a
    * card_id, so the observed map is re-keyed onto them.
+   *
+   * The zero point is scored on the BASE card's ratings, and passed as the
+   * reference, so an owned variant keeps its rating boost: the blend moves a
+   * copy by how far the card's play ran from the base card's model, not to the
+   * base card's level (observed-blend.ts, 2026-09-26).
    */
-  let observed: Map<any, { runs: number; n: number }> | undefined;
+  let observed: Map<any, { runs: number; n: number; model: number | null }> | undefined;
   if (OBS_K > 0) {
     const byReal = new Map<number, any>();
     for (const c of pool) if (c.realId && !byReal.has(c.realId)) byReal.set(c.realId, c);
     const base = envFitMaps([...byReal.values()].map((c) => ({
-      cardId: c.realId, isPitcher: c.isPitcher, bats: c.bats, ratings: c.ratings, role: c.role,
+      cardId: c.realId, isPitcher: c.isPitcher, bats: c.bats, ratings: c.baseRatings ?? c.ratings, role: c.role,
     })) as any, { era: era.rates, park: half, roleTrust: ROLE_TRUST, eraYear: Number(YEAR) });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id);
       return r == null || l == null ? null : (1 - WL) * r + WL * l; };
-    const byCard = await loadObservedRuns([...byReal.keys()], both);
+    const byCard = await loadObservedRuns([...byReal.keys()], both, bothHands(base));
     observed = new Map();
     let hit = 0;
     for (const c of pool) { const o = c.realId != null ? byCard.get(c.realId) : undefined;

@@ -4,20 +4,20 @@
  * answer is runs per PP / per CS rather than runs in the abstract.
  *
  *   node --env-file=.env.local --import tsx scripts/shop-fit.ts \
- *     --year 2010 --upload 135 --budget 75000 --show 30
+ *     --year 2010 --budget 75000 --show 30 [--upload <collection upload id>]
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
-import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
+import { bothHands, loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const num = (k: string, d: number | null = null) => { const v = val(k); return v == null ? d : Number(v); };
-const YEAR = val("year", "2010")!, UPLOAD = num("upload", 135)!;
+const YEAR = val("year", "2010")!, UPLOAD_ARG = num("upload");
 const PARK = val("park") ?? null, PARK_YEAR = num("park-year");
 const BUDGET = num("budget", 75000)!, SHOW = num("show", 30)!, MINVAL = num("min-value", 95)!;
 const WL = 0.3;
@@ -31,6 +31,8 @@ async function main() {
     hrL: 1 + (pr.hrL! - 1) / 2, hrR: 1 + (pr.hrR! - 1) / 2,
     d2: 1 + (pr.d2! - 1) / 2, d3: 1 + (pr.d3! - 1) / 2 } as any : null;
 
+  // The newest collection unless --upload names another (it used to default to #135, the 09-20 one).
+  const UPLOAD = UPLOAD_ARG ?? Number(asRows<{ id: number | string }>(await db.execute(sql`select max(id) as id from uploads where kind = 'collection'`))[0].id);
   const owned = asRows<any>(await db.execute(sql`
     select cc.id row_id, cc.card_id, coalesce(c.name, cc.name) name, coalesce(c.card_value, cc.card_value) val,
            c.tier, c.year, c.bats, c.is_pitcher, c.pitcher_role, c.position,
@@ -55,7 +57,7 @@ async function main() {
     pool.push({ cardId: `o${r.row_id}`, realId: Number(r.card_id), name: r.name, val: Number(r.val),
       tier: r.tier, year: r.year, bats: r.bats ?? "R", isPitcher: isP, ownedFlag: true,
       role: isP ? (r.pitcher_role ?? r.cpos) : (r.position ?? r.cpos),
-      ratings: mergeCopyRatings(r.ratings ?? {}, r.copy_ratings ?? null) });
+      ratings: mergeCopyRatings(r.ratings ?? {}, r.copy_ratings ?? null), baseRatings: r.ratings ?? undefined });
   }
   for (const c of shop) {
     if (ownedIds.has(Number(c.card_id))) continue;
@@ -79,17 +81,22 @@ async function main() {
    * to give each series its zero point, then blend. Pool ids here are synthetic
    * ("o<row>" / "s<card>") because an owned copy and a shop listing share a
    * card_id, so the observed map is re-keyed onto them.
+   *
+   * The zero point is scored on the BASE card's ratings, and passed as the
+   * reference, so an owned variant keeps its rating boost: the blend moves a
+   * copy by how far the card's play ran from the base card's model, not to the
+   * base card's level (observed-blend.ts, 2026-09-26).
    */
-  let observed: Map<any, { runs: number; n: number }> | undefined;
+  let observed: Map<any, { runs: number; n: number; model: number | null }> | undefined;
   if (OBS_K > 0) {
     const byReal = new Map<number, any>();
     for (const c of pool) if (c.realId && !byReal.has(c.realId)) byReal.set(c.realId, c);
     const base = envFitMaps([...byReal.values()].map((c) => ({
-      cardId: c.realId, isPitcher: c.isPitcher, bats: c.bats, ratings: c.ratings, role: c.role,
+      cardId: c.realId, isPitcher: c.isPitcher, bats: c.bats, ratings: c.baseRatings ?? c.ratings, role: c.role,
     })) as any, { era: era.rates, park: half, eraYear: Number(YEAR) });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id);
       return r == null || l == null ? null : (1 - WL) * r + WL * l; };
-    const byCard = await loadObservedRuns([...byReal.keys()], both);
+    const byCard = await loadObservedRuns([...byReal.keys()], both, bothHands(base));
     observed = new Map();
     let hit = 0;
     for (const c of pool) { const o = c.realId != null ? byCard.get(c.realId) : undefined;
