@@ -43,6 +43,9 @@ v6 (2026-09-07) — hands-off from download to database:
     (pnpm model:calibrate). Nothing to run by hand.
   • `--watch` skips the opening question and starts watching immediately
     ("Watch Tourney Stats.command" is now just that).
+  • On quit it also uploads art for new cards from OOTP's card cache
+    (scripts/upload-card-art.mjs), once "Upload Card Art.command" has saved
+    the Blob token. Without the token it skips this step and says nothing.
 """
 
 from __future__ import annotations  # py3.9-safe
@@ -654,6 +657,39 @@ def finish_imports() -> str:
         lines.append("  refit skipped because an import failed - fix that first (re-running the filer is safe)")
     return "\n".join(lines)
 
+def _env_has(key: str) -> bool:
+    if os.environ.get(key):
+        return True
+    for name in (".env.blob", ".env.local"):
+        try:
+            with open(os.path.join(WEB, name), "r", encoding="utf-8") as f:
+                if any(l.strip().startswith(key + "=") or l.strip().startswith(key + " =") for l in f):
+                    return True
+        except OSError:
+            pass
+    return False
+
+def sync_card_art() -> str:
+    """Upload art for cards the app has none for (scripts/upload-card-art.mjs).
+    Runs only when a Blob token is on file (Upload Card Art.command saves one),
+    so a Mac without it files exactly as before. A failure here never fails the
+    filing run; it is one line in the report."""
+    if not _env_has("BLOB_READ_WRITE_TOKEN"):
+        return ""
+    node = shutil.which("node") or next((p for p in ("/opt/homebrew/bin/node", "/usr/local/bin/node") if os.path.exists(p)), None)
+    if not node:
+        return "  ✗ card art skipped: node not found - run Upload Card Art.command"
+    print("uploading art for new cards…")
+    try:
+        out = subprocess.run([node, "scripts/upload-card-art.mjs", "--quiet"], cwd=WEB, env=_env_with_db(),
+                             capture_output=True, text=True, timeout=600)
+    except subprocess.TimeoutExpired:
+        return "  ✗ card art timed out - run Upload Card Art.command"
+    got = [l.strip() for l in (out.stdout + out.stderr).splitlines() if l.strip()]
+    _log(f"card-art: {'ok' if out.returncode == 0 else 'FAILED'} - {got[0] if got else out.returncode}")
+    head = got[0] if got else f"card art: exit {out.returncode}"
+    return "\n".join([f"  {'✓' if out.returncode == 0 else '✗'} {head}"] + [f"    {l}" for l in got[1:3]])
+
 def one_shot_rows(mtime: float, likely: list = ()) -> list:
     """Rows for the single dialog. payload: None = header, "search", else
     (varname, group, guessed_id). The id rides ON the row, so one click is
@@ -1137,7 +1173,8 @@ def main() -> None:
         pass
     lines = "\n".join("  " + n for n in filed) if filed else "  (none)"
     summary = finish_imports()
-    print("Done. Filed:\n" + lines + ("\nDatabase:\n" + summary if summary else ""))
+    art = sync_card_art()
+    print("Done. Filed:\n" + lines + ("\nDatabase:\n" + summary if summary else "") + ("\nCard art:\n" + art if art else ""))
     # No modal. A big batch made the report dialog taller than the screen, so
     # its OK button was off the bottom edge and the dialog could not be closed.
     # The report goes to a text file opened in TextEdit instead — an ordinary
@@ -1145,7 +1182,8 @@ def main() -> None:
     notify(f"Done — filed {len(filed)} export(s)")
     report = (time.strftime("%a %b %-d %H:%M") + f" — filed {len(filed)} export(s):\n{lines}\n\n"
               "Copies for cwhit are in Tourney Data/DCFC Upload Queue."
-              + (f"\n\nDatabase:\n{summary}" if summary else "") + "\n")
+              + (f"\n\nDatabase:\n{summary}" if summary else "")
+              + (f"\n\nCard art:\n{art}" if art else "") + "\n")
     path = os.path.join(REPO, "Archive/last-filing-report.txt")
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)

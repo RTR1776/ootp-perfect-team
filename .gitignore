@@ -32,6 +32,8 @@ Tourney Data/DCFC Upload Queue/
 web/scripts/.inventory.json
 web/scripts/.coverage.json
 web/scripts/.champ-comparables.json
+web/scripts/.card-art-uploaded.json
+web/scripts/.card-art-uploaded.json.tmp
 web/src/data/curves.next.json
 web/.next-check/
 web/.next-dev/
