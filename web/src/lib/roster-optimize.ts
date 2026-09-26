@@ -65,6 +65,14 @@ export interface OptimizeOptions {
    * Gibson benched vs RHP at +39.5; the same cards reassigned score higher).
    */
   slotValue?: (key: string, cardId: number) => number;
+  /**
+   * Cards that survive `candidateLimit` pruning in every slot they can play —
+   * the ones the user locked onto the roster. A locked bat outside each slot's
+   * top N by rank was invisible to the pruned search (Pete Incaviglia,
+   * Saturday Bronze Cap 2026-09-26: the full pool found him, the pruned one
+   * could not), so the must-carry penalty had nothing it could act on.
+   */
+  keep?: ReadonlySet<number>;
   pairMoves?: {
     /** Upgrade candidates considered per slot, best-ranked first. */
     aTop: number;
@@ -178,7 +186,7 @@ export function optimizeRoster(
       const rank = o.pairMoves.rank;
       const top = [...list].sort((a, b) => rank(k, b) - rank(k, a)).slice(0, o.candidateLimit);
       const keep = new Set(top.map((c) => c.cardId));
-      list = list.filter((c) => keep.has(c.cardId) || rostered.has(c.cardId));
+      list = list.filter((c) => keep.has(c.cardId) || rostered.has(c.cardId) || (o.keep?.has(c.cardId) ?? false));
     }
     return [k, list];
   }));

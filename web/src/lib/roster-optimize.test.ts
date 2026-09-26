@@ -103,3 +103,21 @@ test("the roster never shrinks: a vs-LHP-only platoon bat keeps his spot", () =>
   assert.equal(new Set(Object.values(r.slots)).size, 3, JSON.stringify(r.slots));
   assert.equal(r.legal, true);
 });
+
+test("a locked card outside the pruned candidate lists still reaches the board", () => {
+  // Five better bats outrank him everywhere, so with candidateLimit 2 the
+  // pruned search never saw the locked card (Incaviglia, 2026-09-26) — `keep`
+  // holds him in, and the must-carry penalty then pulls him onto the board.
+  const one: FillShape = { lineupPos: ["DH"], spKeys: [], rpKeys: [], benchKeys: [], bats: 2 };
+  const two: RosterRules = { ...rules, restrictions: { cards: 2 } };
+  const pool = [1, 2, 3, 4, 5, 6].map((id) => hitter(id, {}));
+  const runs = new Map(pool.map((c) => [c.cardId, c.cardId === 6 ? 1 : c.cardId * 10]));
+  const locks = new Set([6]);
+  const obj = rosterObjective(pool, { shape: one, runsR: runs, runsL: runs, mustIds: locks });
+  const start = { "R:DH": 5, "L:DH": 5 };
+  const opts = { objective: obj.objective, pairMoves: { aTop: 2, bCheapest: 2, rank: obj.rank }, candidateLimit: 2 };
+  const pruned = optimizeRoster(start, pool, two, one, opts);
+  assert.ok(!Object.values(pruned.slots).includes(6), "without keep the pruned search cannot see him");
+  const kept = optimizeRoster(start, pool, two, one, { ...opts, keep: locks });
+  assert.ok(Object.values(kept.slots).includes(6), JSON.stringify(kept.slots));
+});

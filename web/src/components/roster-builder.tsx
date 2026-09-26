@@ -396,6 +396,14 @@ export function RosterBuilder({
   const collectionStale = collectionAgeDays != null && collectionAgeDays >= 3;
   const [slots, setSlots] = useState<Record<SlotKey, number | null>>({});
   const [forms, setForms] = useState<Record<number, boolean>>({});
+  /* Lock / ban, per tournament: Optimise must carry every locked card and may
+     not use a banned one (L.J.'s calls the model cannot make — "always two
+     catchers", "Incaviglia belongs", "not Bunny Hearn"). */
+  const [locks, setLocks] = useState<Set<number>>(() => new Set());
+  const [bans, setBans] = useState<Set<number>>(() => new Set());
+  const toggleIn = (set: Set<number>, id: number) => { const n = new Set(set); if (n.has(id)) n.delete(id); else n.add(id); return n; };
+  const toggleLock = (id: number) => { setLocks((s) => toggleIn(s, id)); setBans((s) => { const n = new Set(s); n.delete(id); return n; }); };
+  const toggleBan = (id: number) => { setBans((s) => toggleIn(s, id)); setLocks((s) => { const n = new Set(s); n.delete(id); return n; }); };
   /* Each card is shown in ONE form: whichever the user toggled, else the
      variant copy when it is the only one owned or when the event allows
      variants without a cap (same card value, better ratings — a free upgrade),
@@ -769,7 +777,11 @@ export function RosterBuilder({
       const current: Record<string, number> = {};
       for (const [k, v] of Object.entries(slots)) if (v != null) current[k] = v;
       const missing = slotOrder.filter((k) => current[k] == null);
-      const greedy = fillRoster(pool, tournament, fillShape, fits).slots;
+      const searchPool = (pool as FillCard[]).filter((c) => !bans.has(c.cardId));
+      const searchObj = locks.size
+        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, mustIds: locks })
+        : objective;
+      const greedy = fillRoster(searchPool, tournament, fillShape, fits).slots;
       // The search needs a complete board to score; fill the holes greedily first.
       for (const k of missing) if (greedy[k] != null) current[k] = greedy[k];
       // Compare against the board as the page scores and checks it, not the
@@ -793,7 +805,7 @@ export function RosterBuilder({
       add("the greedy fill", greedy);
       // Most promising first, so a budget cut drops the long shots: λ 2 won on
       // both events measured 2026-09-26 (Negro Leagues Slots, Gold Rush).
-      for (const lam of [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(pool, tournament, fillShape, fits, lam));
+      for (const lam of [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(searchPool, tournament, fillShape, fits, lam));
 
       const t0 = performance.now();
       let best: { slots: Record<string, number>; score: number; moves: number; from: string } | null = null;
@@ -802,12 +814,13 @@ export function RosterBuilder({
         if (ran > 0 && performance.now() - t0 > START_BUDGET_MS) break;
         setMsg(`Searching for a better board… start ${ran + 1} of ${starts.length} (${st.label})${best ? `, best so far ${fr(best.score)} runs` : ""}.`);
         await paint();
-        const r = optimizeRoster(st.slots, pool as FillCard[], tournament, fillShape, {
-          objective: objective.objective, slotValue: objective.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
-          pairMoves: { aTop: 8, bCheapest: 10, rank: objective.rank }, candidateLimit: 120, maxPasses: 40,
+        const r = optimizeRoster(st.slots, searchPool, tournament, fillShape, {
+          objective: searchObj.objective, slotValue: searchObj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
+          pairMoves: { aTop: 8, bCheapest: 10, rank: searchObj.rank }, candidateLimit: 120, maxPasses: 40, keep: locks,
         });
         ran++;
-        // Only boards that pass every rule compete.
+        // Only boards that pass every rule compete; the search score carries
+        // the must-carry penalty, the reported score does not.
         if (r.legal && (!best || r.score > best.score + 1e-9)) best = { slots: r.slots, score: r.score, moves: r.moves, from: st.label };
       }
       if (!best) {
@@ -819,8 +832,15 @@ export function RosterBuilder({
         setMsg(`No better board found from ${ran} start${ran === 1 ? "" : "s"} (${fr(before)} runs).`);
         return;
       }
+      const onBoard = new Set(Object.values(best.slots));
+      const missed = [...locks].filter((id) => !onBoard.has(id)).map((id) => byId.get(id)?.name ?? `#${id}`);
+      best = { ...best, score: objective.objective(best.slots) };
       setSlots(best.slots);
-      setMsg(`Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} start${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).`);
+      if (missed.length) {
+        setMsg(`Optimised, but could not fit locked ${missed.join(", ")} under the rules — check the cap, the slot counts and his positions.`);
+        return;
+      }
+      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} start${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).`);
     } finally {
       setOptimizing(false);
     }
@@ -840,6 +860,8 @@ export function RosterBuilder({
     setMsg(null);
     setSlots({});
     setForms({});
+    setLocks(new Set());
+    setBans(new Set());
     wantFill.current = tournament.id;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tournament?.id]);
@@ -1242,6 +1264,14 @@ export function RosterBuilder({
                   </button>
                 ))}
               </div>
+              {(locks.size > 0 || bans.size > 0) && (
+                <div className="flex flex-wrap items-center gap-1 text-[11px]">
+                  {[...locks].map((id) => <button key={`l${id}`} type="button" onClick={() => toggleLock(id)} className="rounded bg-positive/20 px-1.5 py-0.5" title="Locked — click to unlock">🔒 {byId.get(id)?.name ?? `#${id}`} ×</button>)}
+                  {[...bans].map((id) => <button key={`b${id}`} type="button" onClick={() => toggleBan(id)} className="rounded bg-negative/20 px-1.5 py-0.5" title="Banned — click to allow">⛔ {byId.get(id)?.name ?? `#${id}`} ×</button>)}
+                  <button type="button" onClick={() => { setLocks(new Set()); setBans(new Set()); }} className="text-muted-foreground underline">clear</button>
+                  <span className="text-muted-foreground">Optimise carries every 🔒 and never uses a ⛔.</span>
+                </div>
+              )}
 
               {view === "FIELD" ? (
                 <FieldView
@@ -1299,6 +1329,8 @@ export function RosterBuilder({
                               {c.bats && <span className="ml-1 text-[10px] text-muted-foreground">{c.bats}</span>}
                               {c.variantOwned && <button type="button" className="ml-2 rounded border px-1 text-[10px]" aria-label={`Use ${c.variant ? "base" : "variant"} ${c.name}`} disabled={!c.baseOwned} onClick={e=>{e.stopPropagation();setForms(f=>({...f,[c.cardId]:!c.variant}));}}>{c.variant ? "VAR selected" : "Base · VAR owned"}</button>}
                               {inUse && <span className="ml-1 text-[10px] text-positive">●</span>}
+                              <button type="button" title={locks.has(c.cardId) ? "Locked: Optimise must carry him (click to unlock)" : "Lock: Optimise must carry him"} aria-label={`${locks.has(c.cardId) ? "Unlock" : "Lock"} ${c.name}`} onClick={(e) => { e.stopPropagation(); toggleLock(c.cardId); }} className={cn("ml-1 rounded px-0.5 text-[11px]", locks.has(c.cardId) ? "bg-positive/20" : "opacity-30 hover:opacity-100")}>🔒</button>
+                              <button type="button" title={bans.has(c.cardId) ? "Banned: Optimise will not use him (click to allow)" : "Ban: Optimise will not use him"} aria-label={`${bans.has(c.cardId) ? "Unban" : "Ban"} ${c.name}`} onClick={(e) => { e.stopPropagation(); toggleBan(c.cardId); }} className={cn("rounded px-0.5 text-[11px]", bans.has(c.cardId) ? "bg-negative/20" : "opacity-30 hover:opacity-100")}>⛔</button>
                             </td>
                             <td className="px-1.5">{c.isPitcher ? c.role ?? "P" : c.pos}</td>
                             <td className="px-1.5 text-right">{c.val ?? "—"}</td>
