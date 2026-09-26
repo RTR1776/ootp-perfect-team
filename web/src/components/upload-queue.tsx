@@ -18,6 +18,7 @@ import { useCallback, useRef, useState } from "react";
 import { Upload, FileCheck2, AlertTriangle, Check, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { leagueWeekOf } from "@/lib/league-week";
 import { cn } from "@/lib/utils";
 
 type Kind = "shop_list" | "collection" | "standings" | "league";
@@ -32,7 +33,7 @@ interface QueueItem {
   error?: string;
   detail?: string;
   uploadId?: number;
-  /** Standings only — the date the export was taken. See the note on the field. */
+  /** Standings: the date the export was taken. League: the Sunday its season ends. */
   capturedOn?: string;
 }
 
@@ -111,18 +112,21 @@ function Report({
           <Stat label="Unique cards" value={num(stats.uniqueCids)} />
           <Stat label="Clan teams" value={num(stats.clanTeams)} />
           <Stat label="Free-agent rows" value={num(stats.freeAgentRows)} />
-          <Stat label="Snapshot week" value={String(stats.capturedOn ?? "today")} />
+          <Stat label="Snapshot week" value={String(capturedOn ?? stats.capturedOn ?? "today")} />
         </div>
         {onCapturedOn && (
-          <label className="flex items-center gap-2 text-xs text-muted-foreground">
-            Captured on
+          <label className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+            Season ends
             <input
               type="date"
               value={capturedOn ?? ""}
               onChange={(e) => onCapturedOn(e.target.value)}
               className="rounded-md border border-border bg-background px-2 py-1 text-xs"
             />
-            <span>— set this when backfilling an older week&apos;s export.</span>
+            <span>
+              — the Sunday this league week ends. A part-played export and the finished one share
+              it, and the newer replaces the older. Change it only for an older week&apos;s export.
+            </span>
           </label>
         )}
       </div>
@@ -320,11 +324,13 @@ export function UploadQueue() {
           });
         } else {
           const kind = json.kind as Kind;
+          // A date in the filename wins, as it does on the server.
+          const named = /(\d{4}-\d{2}-\d{2})/.exec(item.file.name)?.[1];
           patch(item.id, {
             status: "ready",
             kind,
             stats: json.stats as Record<string, unknown>,
-            capturedOn: kind === "standings" || kind === "league" ? today() : undefined,
+            capturedOn: kind === "standings" ? today() : kind === "league" ? named ?? leagueWeekOf(new Date()) : undefined,
           });
         }
       }
@@ -391,7 +397,7 @@ export function UploadQueue() {
         <Upload className="size-6 text-muted-foreground" />
         <div className="text-sm font-medium">Drop CSV exports here</div>
         <div className="text-xs text-muted-foreground">
-          pt_card_list.csv · mycardset.csv · pt_standings_*.csv
+          pt_card_list.csv · mycardset.csv · pt_standings_*.csv · pel_all.csv / pel_vL.csv / pel_vR.csv
         </div>
         <input
           ref={inputRef}
@@ -459,7 +465,7 @@ export function UploadQueue() {
                       stats={item.stats}
                       capturedOn={item.capturedOn}
                       onCapturedOn={
-                        item.kind === "standings" && item.status === "ready"
+                        (item.kind === "standings" || item.kind === "league") && item.status === "ready"
                           ? (value) => patch(item.id, { capturedOn: value })
                           : undefined
                       }

@@ -88,7 +88,7 @@ Reproduce:
 2. **League imports now keep the split ratings** (`ingest/league.ts`), so a week uploaded through /upload or `pnpm import:league` gives the fit exact variant ratings.
 3. **The current PEL week, part-played (~100 games), is worth loading now.** It adds PEL-specific play in the league L.J. is in.
    - Export all / vL / vR, then either drop them on /upload or save them under `League Data/<Sunday>/`, where Push to GitHub.command commits them.
-   - On /upload, set "Snapshot week" to the Sunday the season ends and **press Commit**. Dropping the files only previews them.
+   - On /upload, check that "Season ends" reads the Sunday the league week ends (it defaults to it), then **press Commit**. Dropping the files only previews them.
    - Use the same Sunday for the part-played week and the finished one. The panel keeps the newest upload per week, league and split.
 
 ## Not done yet
