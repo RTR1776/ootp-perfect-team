@@ -73,6 +73,8 @@ Other tools:
 
 ## Validation — run these after any model change
 
+- `pnpm model:panel` then `python3 scripts/model-audit.py ../Archive/.model-panel.csv` — the 2026-09-26 audit in one go: model vs play within each field, in each event's own environment, by tier, held out by card and by event, the observed blend held out, and arms against FIP and runs allowed with role held equal. Numbers of record and what did not help: `Docs/Model Review 2026-09-26.md`.
+- `pnpm tourney:test snapshot --tournament <id>` before a run, `pnpm tourney:test grade --file <snapshot.json> [--cwhit ../reference/cwhit/<date>]` after its export is filed — a pre-registered test of the app (and cwhit's projections) on that run alone. Protocol in `reference/tourney-tests/README.md`.
 - `pnpm model:validate` — rank correlation of model runs vs observed play (hitters ~0.54, arms ~0.40 at 2026-09-15; unchanged by calibration, which is a rescale)
 - `pnpm model:calibrate` — is a modelled run a real run? Within-field slope, deciles in runs, residual by release month and tier. Writes the calibration the scorer applies. (2026-09-17: 0.51 / 0.48; residual flat by release month, so no "launch card" rule is needed; Perfects −1.3 / −1.9)
 - `pnpm observed:validate` — is observed play predictive out of sample? (halves agree 0.52 / 0.46; blended with the calibrated model at K=5000, 0.641 / 0.613)

@@ -76,7 +76,9 @@
     "roster:corrected": "node --env-file=.env.local --import tsx scripts/roster-corrected.ts",
     "roster:save": "node --env-file=.env.local --import tsx scripts/roster-save.ts",
     "park:sweep": "node --env-file=.env.local --import tsx scripts/park-sweep.ts",
-    "vl:dh": "node --env-file=.env.local --import tsx scripts/vl-dh.ts"
+    "vl:dh": "node --env-file=.env.local --import tsx scripts/vl-dh.ts",
+    "tourney:test": "node --env-file=.env.local --import tsx scripts/tourney-test.ts",
+    "model:panel": "node --env-file=.env.local --import tsx scripts/model-panel.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
