@@ -758,7 +758,11 @@ export function RosterBuilder({
       const greedy = fillRoster(pool, tournament, fillShape, fits).slots;
       // The search needs a complete board to score; fill the holes greedily first.
       for (const k of missing) if (greedy[k] != null) current[k] = greedy[k];
-      const before = objective.objective(current);
+      // Compare against the board as the page scores and checks it, not the
+      // hole-filled start: a greedy bat dropped into an empty bench slot can
+      // push a full 26 to 27 and read as a rule break the board never had.
+      const before = boardRuns(slots) ?? objective.objective(current);
+      const boardLegal = !validation?.errors.length;
 
       // Distinct rosters only: positions are re-solved inside the search, so
       // two starts with the same cards are the same start.
@@ -780,7 +784,6 @@ export function RosterBuilder({
       const t0 = performance.now();
       let best: { slots: Record<string, number>; score: number; moves: number; from: string } | null = null;
       let ran = 0;
-      let boardLegal = true;
       for (const st of starts) {
         if (ran > 0 && performance.now() - t0 > START_BUDGET_MS) break;
         setMsg(`Searching for a better board… start ${ran + 1} of ${starts.length} (${st.label})${best ? `, best so far ${fr(best.score)} runs` : ""}.`);
@@ -790,7 +793,6 @@ export function RosterBuilder({
           pairMoves: { aTop: 8, bCheapest: 10, rank: objective.rank }, candidateLimit: 120, maxPasses: 40,
         });
         ran++;
-        if (st.slots === current) boardLegal = r.startLegal;
         // Only boards that pass every rule compete.
         if (r.legal && (!best || r.score > best.score + 1e-9)) best = { slots: r.slots, score: r.score, moves: r.moves, from: st.label };
       }
