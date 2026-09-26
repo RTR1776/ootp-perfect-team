@@ -478,6 +478,13 @@ export function RosterBuilder({
   const rpKeys = useMemo(() => ["CL", ...range(Math.max(0, shape.rp - 1)).map((i) => `RP${i + 1}`)], [shape.rp]);
   const staffKeys = useMemo(() => [...spKeys, ...rpKeys], [spKeys, rpKeys]);
   const benchKeys = useMemo(() => range(shape.bench).map((i) => `BN${i + 1}`), [shape.bench]);
+  /* Hitters the roster may carry = roster size less the staff slots, AS THE
+     BOARD STANDS. It was the series baseline (target.bats), so a board with a
+     staff slot taken off for a bat (or a saved 14-bat roster loaded) read as
+     over the hitter limit to the optimiser and nothing it tried was legal
+     (Saturday Bronze Cap, 2026-09-26). Not lineup + bench: a platoon bat who
+     only starts vs LHP holds neither an R nor a bench slot. */
+  const batsCap = Math.max(lineupPos.length, (tournament ? rosterSize(tournament) ?? 26 : 26) - shape.sp - shape.rp);
 
   const slotOrder: SlotKey[] = useMemo(() => [
     ...lineupPos.map((p) => `R:${p}`),
@@ -694,7 +701,7 @@ export function RosterBuilder({
 
   const autoFill = (silent = false) => {
     if (!tournament) return;
-    const { slots: next, lambda } = fillRoster(pool, tournament, { lineupPos, spKeys, rpKeys, benchKeys, bats: target.bats }, fits);
+    const { slots: next, lambda } = fillRoster(pool, tournament, { lineupPos, spKeys, rpKeys, benchKeys, bats: batsCap }, fits);
     setSlots(next);
     setMsg(silent
       ? `Draft roster filled${lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""}. Review the rule checks below, then adjust your players.`
@@ -706,8 +713,8 @@ export function RosterBuilder({
      handedness, starters in full, relief arms at 0.31, bench at a tenth.
      Null without an environment (no era row at all). */
   const fillShape: FillShape = useMemo(
-    () => ({ lineupPos, spKeys, rpKeys, benchKeys, bats: target.bats }),
-    [lineupPos, spKeys, rpKeys, benchKeys, target.bats],
+    () => ({ lineupPos, spKeys, rpKeys, benchKeys, bats: batsCap }),
+    [lineupPos, spKeys, rpKeys, benchKeys, batsCap],
   );
   const objective = useMemo(() => envFits
     ? rosterObjective(pool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare })
@@ -747,6 +754,13 @@ export function RosterBuilder({
   const START_BUDGET_MS = 30_000;
   const optimize = async () => {
     if (!tournament || !objective) return;
+    const size = rosterSize(tournament) ?? 26;
+    const slotsForPlayers = lineupPos.length + benchKeys.length + spKeys.length + rpKeys.length;
+    // vs RHP the lineup and bench hold distinct bats, so these alone must fit.
+    if (slotsForPlayers > size) {
+      setMsg(`The board has ${slotsForPlayers} player slots (${lineupPos.length + benchKeys.length} bats, ${spKeys.length} SP, ${rpKeys.length} RP) for a ${size}-man roster — take a bench or staff slot off first.`);
+      return;
+    }
     setOptimizing(true);
     setMsg("Searching for a better board…");
     const paint = () => new Promise((r) => setTimeout(r, 30));
@@ -870,9 +884,14 @@ export function RosterBuilder({
       const sp = /^SP(\d+)$/.exec(key); if (sp) maxSp = Math.max(maxSp, +sp[1]);
       const rp = /^RP(\d+)$/.exec(key); if (rp) maxRp = Math.max(maxRp, +rp[1]);
     }
-    if (maxBn > shape.bench) setCount("bench", maxBn);
-    if (maxSp > shape.sp) setCount("sp", maxSp);
-    if (maxRp + 1 > shape.rp) setCount("rp", maxRp + 1);
+    // The board takes the saved roster's own shape — shrinking as well as
+    // growing — so a saved 14 bats / 6 SP / 6 RP does not sit on a board with
+    // a 7th, empty relief slot that makes 27 when anything fills it.
+    if (r.slots.length) {
+      setCount("bench", maxBn);
+      setCount("sp", maxSp);
+      setCount("rp", maxRp + 1);
+    }
     setSlots(next);
     setForms(savedForms);
     const switched = [...new Set(r.slots.map((s) => s.cardId))]

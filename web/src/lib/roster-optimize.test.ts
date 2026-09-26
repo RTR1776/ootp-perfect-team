@@ -88,3 +88,18 @@ test("a card whose rostered copy is not owned is moved off the board", () => {
   assert.equal(r.legal, true);
   assert.equal(r.slots["R:SS"], 4);
 });
+
+test("the roster never shrinks: a vs-LHP-only platoon bat keeps his spot", () => {
+  // Three bats on a three-man roster: 1 starts vs RHP, 2 sits, 3 starts only
+  // vs LHP. Bat 1 is better vs LHP too, so re-solving the vs-LHP board alone
+  // would start him there and leave bat 3 with no slot — a 2-man roster.
+  const one: FillShape = { lineupPos: ["1B"], spKeys: [], rpKeys: [], benchKeys: ["BN1"], bats: 3 };
+  const three: RosterRules = { ...rules, restrictions: { cards: 3 } };
+  const pool = [hitter(1, { "1B": 90 }), hitter(2, { "1B": 90 }), hitter(3, { "1B": 90 })];
+  const runsR = new Map([[1, 20], [2, 5], [3, 5]]), runsL = new Map([[1, 20], [2, 5], [3, 8]]);
+  const obj = rosterObjective(pool, { shape: one, runsR, runsL });
+  const start = { "R:1B": 1, BN1: 2, "L:1B": 3 };
+  const r = optimizeRoster(start, pool, three, one, { objective: obj.objective, slotValue: obj.slotValue });
+  assert.equal(new Set(Object.values(r.slots)).size, 3, JSON.stringify(r.slots));
+  assert.equal(r.legal, true);
+});
