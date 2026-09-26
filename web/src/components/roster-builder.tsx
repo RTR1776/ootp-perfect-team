@@ -39,6 +39,7 @@ import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { optimizeRoster } from "@/lib/roster-optimize";
 import { fieldingRuns } from "@/lib/analytics/fielding";
 import { FieldView } from "@/components/build/field-view";
+import { BuyBox } from "@/components/build/buy-box";
 import { ShopBoard } from "@/components/build/shop-board";
 
 export interface ObservedLine {
@@ -111,6 +112,8 @@ export interface UpgradeCard {
   clubhouse: boolean;
   last10: number | null;
   ask: number | null;
+  /** The variant of a card you already own (ratings estimated; priced at the variant's last-10). */
+  variant?: boolean;
 }
 
 export interface CatalogGroup {
@@ -1038,24 +1041,33 @@ export function RosterBuilder({
           </div>
 
           {confidence && (() => {
-            const tone = confidence.level === "good"
-              ? { box: "border-positive/70 bg-positive/5", dot: "bg-positive", chip: "border-positive/40 text-positive" }
-              : confidence.level === "fair"
-                ? { box: "border-warning bg-warning/10", dot: "bg-warning", chip: "border-warning/60 text-warning" }
-                : { box: "border-negative/80 bg-negative/10", dot: "bg-negative", chip: "border-negative/50 text-negative" };
-            const chipTone = (l: Confidence["level"]) => (l === "good" ? "border-positive/40 text-positive" : l === "fair" ? "border-warning/60 text-warning" : "border-negative/50 text-negative");
+            const tone = confidence.level === "good" ? "border-positive/60 bg-positive/5" : confidence.level === "fair" ? "border-warning/70 bg-warning/10" : "border-negative/70 bg-negative/10";
+            const dot = confidence.level === "good" ? "bg-positive" : confidence.level === "fair" ? "bg-warning" : "bg-negative";
             return (
-              <div className={`rounded-lg border-2 p-3 text-xs leading-relaxed ${tone.box}`} title="How much data stands behind the Runs column and Optimise for this event">
-                <p className="flex items-center gap-2 font-semibold"><span className={`inline-block h-2.5 w-2.5 rounded-full ${tone.dot}`} />{confidence.headline}</p>
-                <ul className="mt-1.5 flex flex-wrap gap-1.5">
-                  {confidence.points.map((pt) => (
-                    <li key={pt.label} className={`rounded border px-1.5 py-0.5 ${chipTone(pt.level)}`} title={pt.text}><span className="font-medium">{pt.label}:</span> {pt.text}</li>
-                  ))}
-                </ul>
-                {confidence.improve.length > 0 && <p className="mt-1.5 text-muted-foreground">To improve it: {confidence.improve.join(" ")}</p>}
+              <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border px-3 py-1.5 text-xs ${tone}`} title="How much data stands behind the Runs column and Optimise for this event">
+                <span className="flex items-center gap-1.5 font-semibold"><span className={`inline-block h-2 w-2 rounded-full ${dot}`} />{confidence.headline}</span>
+                {confidence.points.map((pt) => (
+                  <span key={pt.label} className="text-muted-foreground" title={pt.text}><span className="font-medium text-foreground">{pt.label}:</span> {pt.short}</span>
+                ))}
               </div>
             );
           })()}
+
+          {objective && (
+            <BuyBox
+              upgrades={upgrades}
+              slots={slots}
+              lineupPos={lineupPos}
+              spKeys={spKeys}
+              rpKeys={rpKeys}
+              byId={byId}
+              runsR={envFits?.runsR ?? null}
+              runsL={envFits?.runsL ?? null}
+              lhpShare={lhpShare}
+              teamCap={(tournament?.restrictions as { teamCap?: number | null } | null)?.teamCap ?? null}
+              onOpenShop={() => setView("UPG")}
+            />
+          )}
 
           <div className="rounded-lg border border-border p-3 text-xs leading-relaxed">
             <p className="font-semibold">Environment and recommendation limits</p>
@@ -1256,7 +1268,7 @@ export function RosterBuilder({
             <div className="flex flex-col gap-3">
               <div className="rounded-lg border border-border p-3">
                 <div className="mb-2 flex items-center justify-between">
-                  <span className="text-sm font-semibold">Roster · {summary.filled}/{summary.total}</span>
+                  <span className="text-sm font-semibold" title={`${summary.filled} of ${summary.total} board slots filled (each lineup counts its own spots)`}>Roster · {summary.roster}/{(tournament ? rosterSize(tournament) : null) ?? 26}</span>
                   <div className="flex gap-1.5">
                     <Button size="sm" variant="outline" onClick={() => autoFill()} disabled={optimizing}>Re-recommend</Button>
                     <Button size="sm" onClick={optimize} disabled={optimizing || !objective} title={objective ? "Hill-climb from this board on calibrated runs, gloves priced in runs, under every rule and the glove floor" : "No run environment on file for this event"}>

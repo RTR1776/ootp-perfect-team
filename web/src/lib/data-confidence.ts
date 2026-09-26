@@ -29,57 +29,51 @@ export interface ConfidenceInput {
   parkOnFile: boolean;
 }
 
-export interface ConfidencePoint { label: string; level: ConfidenceLevel; text: string }
-export interface Confidence { level: ConfidenceLevel; headline: string; points: ConfidencePoint[]; improve: string[] }
+export interface ConfidencePoint { label: string; level: ConfidenceLevel; short: string; text: string }
+export interface Confidence { level: ConfidenceLevel; headline: string; points: ConfidencePoint[] }
 
 const worse = (a: ConfidenceLevel, b: ConfidenceLevel): ConfidenceLevel => (a === "slim" || b === "slim" ? "slim" : a === "fair" || b === "fair" ? "fair" : "good");
 const down = (l: ConfidenceLevel): ConfidenceLevel => (l === "good" ? "fair" : "slim");
 const pct = (n: number, d: number) => (d > 0 ? Math.round((100 * n) / d) : 0);
 
+/**
+ * Kept to one line on the page: this event's own exports and the play behind
+ * the pool. The era band and the environment year still shade the level but
+ * are not listed; the park is listed only when its factors are missing (they
+ * should always be on file, so that line is a to-do, not a caveat).
+ */
 export function dataConfidence(i: ConfidenceInput): Confidence {
   const points: ConfidencePoint[] = [];
-  const improve: string[] = [];
 
   // 1. This event's own exports.
   const files = i.seriesTeams != null && i.seriesTeams < 8 ? 0 : i.seriesFiles;
   const exportsLevel: ConfidenceLevel = files >= 3 ? "good" : files >= 1 ? "fair" : "slim";
   points.push({
     label: "this event", level: exportsLevel,
+    short: files === 0 ? "no data" : `${files} tourney${files === 1 ? "" : "s"}`,
     text: files === 0
-      ? "no exports of this event on record — field handedness and roster shape are defaults, and no card has a line here"
-      : `${files} export${files === 1 ? "" : "s"} of this event${i.seriesTeams ? ` (${Math.round(i.seriesTeams)} teams each)` : ""} — field handedness measured; cards that played here carry their line here`,
+      ? "No exports of this event on record: field handedness and roster shape are defaults, and no card has a line here."
+      : `${files} export${files === 1 ? "" : "s"} of this event${i.seriesTeams ? ` (${Math.round(i.seriesTeams)} teams each)` : ""}: field handedness measured; cards that played here carry their line here.`,
   });
-  if (files < 3) improve.push(files === 0 ? "Export this event when it ends (File OOTP Exports); the first export sets the field's handedness and roster shape." : "More exports of this event sharpen the field read; one per run.");
 
   // 2. Play behind the pool.
   const share = i.poolSize ? i.poolWithPlay / i.poolSize : 0;
   const coverageLevel: ConfidenceLevel = share >= 0.85 && i.poolMedianN >= 500 ? "good" : share >= 0.6 || i.poolMedianN >= 150 ? "fair" : "slim";
   points.push({
-    label: "the pool", level: coverageLevel,
-    text: `${pct(i.poolWithPlay, i.poolSize)}% of the ${i.poolSize.toLocaleString()} legal cards have tournament play on record (median ${Math.round(i.poolMedianN).toLocaleString()} PA/BF) — ${coverageLevel === "good" ? "the blend is mostly play" : coverageLevel === "fair" ? "ratings still carry much of the ranking" : "ratings carry the ranking"}`,
+    label: "pool", level: coverageLevel,
+    short: `${pct(i.poolWithPlay, i.poolSize)}% of ${i.poolSize.toLocaleString()} cards have play`,
+    text: `Median ${Math.round(i.poolMedianN).toLocaleString()} PA/BF among cards with play: ${coverageLevel === "good" ? "the blend is mostly play" : coverageLevel === "fair" ? "ratings still carry much of the ranking" : "ratings carry the ranking"}.`,
   });
-  if (coverageLevel !== "good") improve.push("Exports from any series with these cards raise the pool's coverage; the value window decides which series help.");
 
-  // 3. The era band the correction rests on.
-  const eraLevel: ConfidenceLevel = !i.eraBand ? "slim" : i.eraBand.series >= 6 ? "good" : i.eraBand.series >= 3 ? "fair" : "slim";
-  points.push({
-    label: "the era", level: eraLevel,
-    text: !i.eraBand
-      ? "no era band for this environment — the correction is off"
-      : `${i.eraBand.band} band rests on ${i.eraBand.series} series — ${eraLevel === "good" ? "the rating prices are well measured" : eraLevel === "fair" ? "the rating prices carry real uncertainty" : "the rating prices are a direction, not a measurement"}${i.envYearKnown ? "" : " (environment year not on file: PT default assumed)"}`,
-  });
-  if (eraLevel !== "good") improve.push("Exports from events in this era band sharpen the rating prices (pnpm era:slopes).");
-  if (!i.envYearKnown) improve.push("Record the event's run-environment year in the catalogue.");
+  // 3. The park, only when missing.
+  if (!i.parkOnFile) points.push({ label: "park", level: "fair", short: "factors not on file (neutral assumed)", text: "Add the stadium's factors to park-factors.json (the game's ballpark screen prints them)." });
 
-  // 4. The park.
-  points.push({ label: "the park", level: i.parkOnFile ? "good" : "fair", text: i.parkOnFile ? "park factors on file" : "no park factors on file — a neutral park is assumed" });
-  if (!i.parkOnFile) improve.push("Add the stadium's factors to park-factors.json (the game's ballpark screen prints them).");
-
-  // Overall: the pool decides, then this event's exports and the era band can each take it down a step; the park caps at fair.
+  // Overall: the pool decides; no exports of this event or a thin era band take it down a step; a missing park or year caps at fair.
+  const eraSlim = !i.eraBand || i.eraBand.series < 3;
   let level = coverageLevel;
   if (exportsLevel === "slim") level = down(level);
-  if (eraLevel === "slim") level = down(level);
+  if (eraSlim) level = down(level);
   if (!i.parkOnFile || !i.envYearKnown) level = worse(level, "fair");
-  const headline = level === "good" ? "Good data behind this build" : level === "fair" ? "Fair data — read the ranking with some care" : "Slim data — the ranking is mostly ratings and defaults";
-  return { level, headline, points, improve };
+  const headline = level === "good" ? "Good data" : level === "fair" ? "Fair data" : "Slim data";
+  return { level, headline, points };
 }

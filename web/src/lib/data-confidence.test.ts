@@ -14,6 +14,8 @@ test("a well-exported event with a played-out pool reads good; no exports and a 
   // a two-team sliver does not count as an export
   assert.equal(dataConfidence({ ...base, seriesFiles: 1, seriesTeams: 2 }).points[0].level, "slim");
   const c = dataConfidence({ ...base, seriesFiles: 0 });
-  assert.ok(c.improve.some((s) => /Export this event/.test(s)));
-  assert.equal(c.points.length, 4);
+  assert.equal(c.points[0].short, "no data");
+  // the era is not listed; the park only when its factors are missing
+  assert.equal(c.points.length, 2);
+  assert.equal(dataConfidence({ ...base, parkOnFile: false }).points.length, 3);
 });
