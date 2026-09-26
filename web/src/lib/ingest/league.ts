@@ -149,6 +149,17 @@ const RATING_COLS: Array<[key: string, col: string]> = [
   ["OFRNG", "OF RNG"],
   ["OFERR", "OF ERR"],
   ["OFARM", "OF ARM"],
+  /*
+   * The split ratings the copy played with (variants included) and its variant
+   * level. Kept since 2026-09-26 for the league model (scripts/league-panel.ts,
+   * league-fit.py): leagues normalise, so each board is fitted on its own split,
+   * and before this the database held only the overall ratings.
+   */
+  ["Kav vL", "K vL"], ["BABr vL", "BA vL"], ["GAP vL", "GAP vL"], ["POW vL", "POW vL"], ["EYE vL", "EYE vL"],
+  ["Kav vR", "K vR"], ["BABr vR", "BA vR"], ["GAP vR", "GAP vR"], ["POW vR", "POW vR"], ["EYE vR", "EYE vR"],
+  ["STU vL", "STU vL"], ["CON vL", "CON vL"], ["PBAB vL", "PBABIP vL"], ["HRA vL", "HRA vL"],
+  ["STU vR", "STU vR"], ["CON vR", "CON vR"], ["PBAB vR", "PBABIP vR"], ["HRA vR", "HRA vR"],
+  ["VLvl", "VLvl"],
 ];
 
 const STAT_COLS: Array<[key: string, col: string]> = [

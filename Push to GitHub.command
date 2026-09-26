@@ -7,9 +7,14 @@
 # macOS Keychain is available, and does the one step Claude cannot.
 #
 # Vercel deploys from the push, so there is nothing else to do afterwards.
+#
+# It also PULLS. With nothing of yours to push, it brings this folder up to
+# date with GitHub. That is how the changes Claude merges from a cloud session
+# (new .command files, scripts, docs) reach this Mac, so double-click it after
+# Claude says something was merged.
 
 cd "$(dirname "$0")" || exit 1
-printf '\n\033[1mOOTP Command Center — push to GitHub\033[0m\n\n'
+printf '\n\033[1mOOTP Command Center — sync with GitHub\033[0m\n\n'
 
 if ! git rev-parse --git-dir >/dev/null 2>&1; then
   echo "Not a git repository: $(pwd)"; read -r -p "Press return to close."; exit 1
@@ -20,7 +25,24 @@ AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo "?")
 BEHIND=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
 
 if [ "$AHEAD" = "0" ]; then
-  echo "Nothing to push — origin/main is already up to date."
+  if [ "$BEHIND" = "0" ] || [ "$BEHIND" = "?" ]; then
+    echo "Nothing to push, nothing to pull: this folder matches GitHub."
+    read -r -p "Press return to close."; exit 0
+  fi
+  echo "Nothing of yours to push. GitHub has $BEHIND new commit(s); pulling them:"
+  echo
+  git --no-pager log --oneline HEAD..origin/main | sed 's/^/   /'
+  echo
+  if git pull --ff-only origin main; then
+    printf '\n\033[32mUp to date.\033[0m\n'
+  else
+    echo
+    echo "The pull stopped, most likely because a file you changed here also changed on GitHub."
+    echo "Your changed files:"
+    git status --short | sed 's/^/   /'
+    echo "Tell Claude what the list says; nothing was lost."
+  fi
+  echo
   read -r -p "Press return to close."; exit 0
 fi
 

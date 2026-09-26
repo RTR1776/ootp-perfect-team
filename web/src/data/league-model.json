@@ -1,0 +1,185 @@
+{
+  "fittedAt": "2026-09-26",
+  "source": "league split exports, weeks 2026-06-28, 2026-08-16, 2026-08-23, 2026-08-30, 2026-09-06, 2026-09-13, 2026-09-20 (theme weeks: 2026-08-23 = 1959, 2026-09-20 = 1989); card-board lines with 1500+ PA",
+  "lines": 253,
+  "pa": 4644613,
+  "coef": {
+    "intercept": 0.0506,
+    "app": 0.4593,
+    "K": 14.6587,
+    "BA": 5.5227,
+    "GAP": 2.1359,
+    "POW": 5.7761,
+    "EYE": 10.578
+  },
+  "coefNote": "Rating terms are per unit of ln(rating) minus the league's PA-weighted mean ln(rating) on that board, each multiplied by the week's environment price (the app's +10 value of that rating there over the PT default; 1 in an ordinary week).",
+  "shrink": 0.6765,
+  "validation": {
+    "byCard": 0.917,
+    "byWeek": 0.849,
+    "shrinkOnlyByCard": 0.853,
+    "shrinkOnlyByWeek": 0.783,
+    "eachWeek": {
+      "2026-06-28": {
+        "r": 0.854,
+        "shrinkOnly": 0.766,
+        "lines": 58,
+        "themed": false,
+        "envYear": 2010
+      },
+      "2026-08-16": {
+        "r": 0.88,
+        "shrinkOnly": 0.814,
+        "lines": 170,
+        "themed": false,
+        "envYear": 2010
+      },
+      "2026-08-23": {
+        "r": 0.716,
+        "shrinkOnly": 0.717,
+        "lines": 77,
+        "themed": true,
+        "envYear": 1959
+      },
+      "2026-08-30": {
+        "r": 0.846,
+        "shrinkOnly": 0.763,
+        "lines": 145,
+        "themed": false,
+        "envYear": 2010
+      },
+      "2026-09-06": {
+        "r": 0.877,
+        "shrinkOnly": 0.811,
+        "lines": 193,
+        "themed": false,
+        "envYear": 2010
+      },
+      "2026-09-13": {
+        "r": 0.85,
+        "shrinkOnly": 0.791,
+        "lines": 172,
+        "themed": false,
+        "envYear": 2010
+      },
+      "2026-09-20": {
+        "r": 0.819,
+        "shrinkOnly": 0.775,
+        "lines": 190,
+        "themed": true,
+        "envYear": 1989
+      }
+    }
+  },
+  "reference": {
+    "HD|vL": {
+      "week": "2026-09-13",
+      "pa": 245081,
+      "leagues": [
+        "HD450",
+        "HD451",
+        "HD453"
+      ],
+      "app": 23.4718,
+      "lK": 0.9125,
+      "lBA": 0.9645,
+      "lGAP": 0.7506,
+      "lPOW": 0.9009,
+      "lEYE": 0.9399
+    },
+    "HD|vR": {
+      "week": "2026-09-13",
+      "pa": 306899,
+      "leagues": [
+        "HD450",
+        "HD451",
+        "HD453"
+      ],
+      "app": 22.1801,
+      "lK": 0.9236,
+      "lBA": 0.9127,
+      "lGAP": 0.7685,
+      "lPOW": 0.927,
+      "lEYE": 0.8757
+    },
+    "LD|vL": {
+      "week": "2026-09-06",
+      "pa": 78964,
+      "leagues": [
+        "LD404"
+      ],
+      "app": 17.6228,
+      "lK": 0.8825,
+      "lBA": 0.9226,
+      "lGAP": 0.7096,
+      "lPOW": 0.7909,
+      "lEYE": 0.869
+    },
+    "LD|vR": {
+      "week": "2026-09-06",
+      "pa": 107461,
+      "leagues": [
+        "LD404"
+      ],
+      "app": 17.8081,
+      "lK": 0.9129,
+      "lBA": 0.9017,
+      "lGAP": 0.755,
+      "lPOW": 0.8273,
+      "lEYE": 0.8322
+    },
+    "PEL|vL": {
+      "week": "2026-09-13",
+      "pa": 104092,
+      "leagues": [
+        "PEL"
+      ],
+      "app": 26.7459,
+      "lK": 0.923,
+      "lBA": 0.9919,
+      "lGAP": 0.7871,
+      "lPOW": 0.9574,
+      "lEYE": 0.9883
+    },
+    "PEL|vR": {
+      "week": "2026-09-13",
+      "pa": 118525,
+      "leagues": [
+        "PEL"
+      ],
+      "app": 24.2868,
+      "lK": 0.9194,
+      "lBA": 0.9131,
+      "lGAP": 0.7948,
+      "lPOW": 0.9763,
+      "lEYE": 0.9121
+    }
+  },
+  "lhpShare": {
+    "HD": 0.444,
+    "LD": 0.424,
+    "PEL": 0.468
+  },
+  "ratingRange": {
+    "K": [
+      32.0,
+      288.0
+    ],
+    "BA": [
+      25.0,
+      198.0
+    ],
+    "GAP": [
+      17.0,
+      205.0
+    ],
+    "POW": [
+      1.0,
+      233.0
+    ],
+    "EYE": [
+      32.0,
+      295.0
+    ]
+  }
+}
