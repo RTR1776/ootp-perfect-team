@@ -37,6 +37,7 @@ import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/car
 import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/lib/analytics/projections";
 import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { optimizeRoster } from "@/lib/roster-optimize";
+import type { DeepMessage, DeepRequest } from "@/lib/optimize.worker";
 import { fieldingRuns } from "@/lib/analytics/fielding";
 import { FieldView } from "@/components/build/field-view";
 import { BuyBox } from "@/components/build/buy-box";
@@ -401,6 +402,13 @@ export function RosterBuilder({
      catchers", "Incaviglia belongs", "not Bunny Hearn"). */
   const [locks, setLocks] = useState<Set<number>>(() => new Set());
   const [bans, setBans] = useState<Set<number>>(() => new Set());
+  /* Remembered per tournament in this browser, so a reload keeps them. */
+  const lockKey = (tid: number) => `build:locks:${tid}`;
+  const readLocks = (tid: number): { locks: number[]; bans: number[] } => {
+    try { return JSON.parse(localStorage.getItem(lockKey(tid)) ?? "") ?? { locks: [], bans: [] }; } catch { return { locks: [], bans: [] }; }
+  };
+  /* L.J. always carries two catchers; Optimise honours it unless unticked. */
+  const [twoCatchers, setTwoCatchers] = useState(true);
   const toggleIn = (set: Set<number>, id: number) => { const n = new Set(set); if (n.has(id)) n.delete(id); else n.add(id); return n; };
   const toggleLock = (id: number) => { setLocks((s) => toggleIn(s, id)); setBans((s) => { const n = new Set(s); n.delete(id); return n; }); };
   const toggleBan = (id: number) => { setBans((s) => toggleIn(s, id)); setLocks((s) => { const n = new Set(s); n.delete(id); return n; }); };
@@ -734,6 +742,12 @@ export function RosterBuilder({
     return objective.objective(complete);
   };
 
+  useEffect(() => {
+    if (!tournament || lastTid.current !== tournament.id) return;
+    try { localStorage.setItem(lockKey(tournament.id), JSON.stringify({ locks: [...locks], bans: [...bans] })); } catch { /* storage unavailable */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locks, bans]);
+
   const [optimizing, setOptimizing] = useState(false);
   /**
    * Hill-climb from several starting boards and keep the best (env-roster's
@@ -760,7 +774,34 @@ export function RosterBuilder({
    */
   const MAX_STARTS = 6;
   const START_BUDGET_MS = 30_000;
-  const optimize = async () => {
+  /* Deep search runs in a worker (optimize.worker.ts); Stop resolves it early
+     with the best board so far. */
+  const stopDeep = useRef<(() => void) | null>(null);
+  const [deepRunning, setDeepRunning] = useState(false);
+  type Best = { slots: Record<string, number>; score: number; moves: number; from: string };
+  const runDeep = (starts: { label: string; slots: Record<string, number> }[], searchPool: FillCard[]) =>
+    new Promise<{ best: Best | null; ran: number }>((resolve) => {
+      const w = new Worker(new URL("../lib/optimize.worker.ts", import.meta.url), { type: "module" });
+      let last: { best: Best | null; ran: number } = { best: null, ran: 0 };
+      const finish = () => { w.terminate(); stopDeep.current = null; setDeepRunning(false); resolve(last); };
+      stopDeep.current = finish;
+      setDeepRunning(true);
+      w.onmessage = (e: MessageEvent<DeepMessage>) => {
+        const m = e.data;
+        last = { best: m.best, ran: m.done };
+        if (m.type === "done") { finish(); return; }
+        setMsg(`Deep search: ${m.done} of ${m.total} climbs done${m.best ? `, best so far ${fr(objective!.objective(m.best.slots))} runs` : ""} — Stop keeps the best so far.`);
+      };
+      w.onerror = (err) => { setMsg(`Deep search failed: ${err.message}`); finish(); };
+      const req: DeepRequest = {
+        starts, pool: searchPool, rules: tournament as RosterRules, shape: fillShape,
+        runsR: [...envFits!.runsR], runsL: [...envFits!.runsL], lhpShare,
+        locks: [...locks], minCatchers: twoCatchers ? 2 : 0,
+      };
+      w.postMessage(req);
+    });
+
+  const optimize = async (deep = false) => {
     if (!tournament || !objective) return;
     const size = rosterSize(tournament) ?? 26;
     const slotsForPlayers = lineupPos.length + benchKeys.length + spKeys.length + rpKeys.length;
@@ -770,7 +811,7 @@ export function RosterBuilder({
       return;
     }
     setOptimizing(true);
-    setMsg("Searching for a better board…");
+    setMsg(deep ? "Deep search: up to 12 starts × 2 search settings — a few minutes; Stop keeps the best so far." : "Searching for a better board…");
     const paint = () => new Promise((r) => setTimeout(r, 30));
     await paint();
     try {
@@ -795,7 +836,7 @@ export function RosterBuilder({
       const starts: { label: string; slots: Record<string, number> }[] = [];
       const seen = new Set<string>();
       const add = (label: string, b: Record<string, number>) => {
-        if (starts.length >= MAX_STARTS || !isComplete(b, fillShape)) return;
+        if (starts.length >= (deep ? 12 : MAX_STARTS) || !isComplete(b, fillShape)) return;
         const key = [...new Set(Object.values(b))].sort((x, y) => x - y).join(",");
         if (seen.has(key)) return;
         seen.add(key);
@@ -805,24 +846,27 @@ export function RosterBuilder({
       add("the greedy fill", greedy);
       // Most promising first, so a budget cut drops the long shots: λ 2 won on
       // both events measured 2026-09-26 (Negro Leagues Slots, Gold Rush).
-      for (const lam of [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(searchPool, tournament, fillShape, fits, lam));
+      for (const lam of deep ? [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5] : [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(searchPool, tournament, fillShape, fits, lam));
 
       const t0 = performance.now();
-      let best: { slots: Record<string, number>; score: number; moves: number; from: string } | null = null;
+      let best: Best | null = null;
       let ran = 0;
-      for (const st of starts) {
+      if (deep) ({ best, ran } = await runDeep(starts, searchPool));
+      else for (const st of starts) {
         if (ran > 0 && performance.now() - t0 > START_BUDGET_MS) break;
         setMsg(`Searching for a better board… start ${ran + 1} of ${starts.length} (${st.label})${best ? `, best so far ${fr(best.score)} runs` : ""}.`);
         await paint();
         const r = optimizeRoster(st.slots, searchPool, tournament, fillShape, {
           objective: searchObj.objective, slotValue: searchObj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
           pairMoves: { aTop: 8, bCheapest: 10, rank: searchObj.rank }, candidateLimit: 120, maxPasses: 40, keep: locks,
+          minCatchers: twoCatchers ? 2 : 0,
         });
         ran++;
         // Only boards that pass every rule compete; the search score carries
         // the must-carry penalty, the reported score does not.
         if (r.legal && (!best || r.score > best.score + 1e-9)) best = { slots: r.slots, score: r.score, moves: r.moves, from: st.label };
       }
+      if (!best && deep && ran === 0) { setMsg("Deep search stopped before its first start finished — nothing changed."); return; }
       if (!best) {
         setMsg(`No start reached a board that passes every rule (${ran} tried) — check the rule list below.`);
         return;
@@ -840,7 +884,7 @@ export function RosterBuilder({
         setMsg(`Optimised, but could not fit locked ${missed.join(", ")} under the rules — check the cap, the slot counts and his positions.`);
         return;
       }
-      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} start${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).`);
+      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} ${deep ? "climb" : "start"}${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).`);
     } finally {
       setOptimizing(false);
     }
@@ -860,8 +904,9 @@ export function RosterBuilder({
     setMsg(null);
     setSlots({});
     setForms({});
-    setLocks(new Set());
-    setBans(new Set());
+    const saved = readLocks(tournament.id);
+    setLocks(new Set(saved.locks ?? []));
+    setBans(new Set(saved.bans ?? []));
     wantFill.current = tournament.id;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tournament?.id]);
@@ -1380,9 +1425,12 @@ export function RosterBuilder({
                   <span className="text-sm font-semibold" title={`${summary.filled} of ${summary.total} board slots filled (each lineup counts its own spots)`}>Roster · {summary.roster}/{(tournament ? rosterSize(tournament) : null) ?? 26}</span>
                   <div className="flex gap-1.5">
                     <Button size="sm" variant="outline" onClick={() => autoFill()} disabled={optimizing}>Re-recommend</Button>
-                    <Button size="sm" onClick={optimize} disabled={optimizing || !objective} title={objective ? "Hill-climb from this board on calibrated runs, gloves priced in runs, under every rule and the glove floor" : "No run environment on file for this event"}>
+                    <Button size="sm" onClick={() => optimize()} disabled={optimizing || !objective} title={objective ? "Hill-climb from this board on calibrated runs, gloves priced in runs, under every rule and the glove floor" : "No run environment on file for this event"}>
                       {optimizing ? "Optimising…" : "Optimise"}
                     </Button>
+                    {deepRunning
+                      ? <Button size="sm" variant="outline" onClick={() => stopDeep.current?.()}>Stop</Button>
+                      : <Button size="sm" variant="outline" onClick={() => optimize(true)} disabled={optimizing || !objective} title="More starts, each climbed with the quick settings and a wider search, in the background. A few minutes; never worse than Optimise; Stop keeps the best board so far.">Deep search</Button>}
                     <Button size="sm" variant="outline" onClick={() => { setSlots({}); setMsg(null); }} disabled={optimizing}>Clear</Button>
                   </div>
                 </div>
@@ -1390,6 +1438,18 @@ export function RosterBuilder({
                   <Counter label="Bench" k="bench" used={shape.bench} tgt={baseline.bench} />
                   <Counter label="SP" k="sp" used={shape.sp} tgt={target.sp} />
                   <Counter label="RP" k="rp" used={shape.rp} tgt={target.rp} />
+                  <button
+                    type="button"
+                    className="rounded border border-border px-1.5 py-0.5 hover:bg-muted"
+                    title="5 starters, 7 relievers, the rest bats — L.J.'s shape for best-of-seven weeklies"
+                    onClick={() => {
+                      const size = (tournament ? rosterSize(tournament) : null) ?? 26;
+                      setCount("sp", 5); setCount("rp", 7); setCount("bench", Math.max(0, size - lineupPos.length - 12));
+                    }}
+                  >5 SP · 7 RP</button>
+                  <label className="flex items-center gap-1" title="Optimise keeps at least two catchers on the roster">
+                    <input type="checkbox" checked={twoCatchers} onChange={(e) => setTwoCatchers(e.target.checked)} /> 2 C
+                  </label>
                 </div>
                 <div className="mb-2 text-[10.5px] text-muted-foreground">
                   Carrying <span className="font-mono">{summary.hitterCount}</span> hitters ·{" "}
