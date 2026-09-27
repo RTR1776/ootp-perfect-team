@@ -152,7 +152,7 @@ export default async function BuildPage({
     .select({ id: uploads.id, date: uploads.uploadedAt })
     .from(uploads)
     .where(eq(uploads.kind, "collection"))
-    .orderBy(desc(uploads.id))
+    .orderBy(desc(uploads.uploadedAt), desc(uploads.id))
     .limit(1);
   const collectionDate = chicagoDay(latestCollection?.date);
   const collectionAgeDays = daysAgo(latestCollection?.date);
@@ -445,7 +445,7 @@ export default async function BuildPage({
         .select({ id: uploads.id })
         .from(uploads)
         .where(eq(uploads.kind, "shop_list"))
-        .orderBy(desc(uploads.id))
+        .orderBy(desc(uploads.uploadedAt), desc(uploads.id))
         .limit(1);
       if (latestShop) {
         const prices = await db

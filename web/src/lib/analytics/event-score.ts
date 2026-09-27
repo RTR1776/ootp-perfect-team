@@ -102,7 +102,7 @@ export async function computeEventScores(ev: EventRef | null): Promise<{ rows: P
  * batch, so a new upload or import is picked up at once.
  */
 export async function scoreCatalogForEvent(ev: EventRef | null): Promise<EventScores> {
-  const [shop] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "shop_list")).orderBy(desc(uploads.id)).limit(1);
+  const [shop] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "shop_list")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const [batch] = await db.select({ id: importBatches.id }).from(importBatches).where(eq(importBatches.status, "published")).orderBy(desc(importBatches.id)).limit(1);
   // The event's environment is in the key too: a catalogue edit (a new park or era) must not wait out the hour.
   const key = ["event-score", String(ev?.id ?? 0), `${ev?.envYear ?? ""}|${ev?.stadium ?? ""}|${ev?.series ?? ""}|${tournamentEraYear(ev ?? { envYear: null })}`, String(shop?.id ?? 0), String(batch?.id ?? 0)];

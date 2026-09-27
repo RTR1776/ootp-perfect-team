@@ -54,7 +54,8 @@ export function Toaster() {
   return (
     <div
       aria-live="polite"
-      className="pointer-events-none fixed inset-x-4 bottom-4 z-50 flex flex-col items-end gap-2 sm:inset-x-auto sm:right-4 sm:max-w-sm"
+      // --toast-lift: a page's pinned bar (the upload Save bar) that toasts must not cover.
+      className="pointer-events-none fixed inset-x-4 bottom-[calc(1rem+var(--toast-lift,0px))] z-50 flex flex-col items-end gap-2 sm:inset-x-auto sm:right-4 sm:max-w-sm"
     >
       {list.map((t) => (
         <div

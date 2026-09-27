@@ -5,22 +5,30 @@
  * header line, so there is nothing to choose in the UI — drop any PT export and
  * it lands in the right place.
  *
- * Send `?dryRun=1` to parse and report without writing. Use it the first time
- * you upload a new export shape: you get the row counts and warnings back and
- * can eyeball them before anything touches the database.
+ * Send `?dryRun=1` to parse and report without writing: the page previews
+ * every file this way before anything touches the database. A preview also
+ * says what is on file (UI plan U1), so the page can hold back a file that
+ * would roll data back:
+ * - `onFile`: the newest upload of the same kind (id, filename, date), picked
+ *   the way every reader picks it (uploaded_at, then id);
+ * - league files: `replaces`, the snapshot of the same league, split and week,
+ *   and `weeks`, that league and split's weeks on file, so the page can say
+ *   what a different week would replace without sending the file again;
+ * - `alreadyImported` when this exact file (sha256) is on file already.
  *
  * Every real write is recorded in import_batches (kind "upload:<kind>", the
  * file's sha256, rows, and the outcome or the error), because on 2026-09-17
  * two files were uploaded here and nothing landed, and there was no record
- * of the attempt. A file whose sha256 is already on an uploads row of the
- * same kind is recognised and not written twice — the same rule the CLI
+ * of the attempt. A write that fails part-way is removed again, so a failed
+ * file is never half-read. A file whose sha256 is already on an uploads row of
+ * the same kind is recognised and not written twice — the same rule the CLI
  * importer (import:cards) applies, so the two paths cannot double-load.
  */
 
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createHash } from "node:crypto";
-import { eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
 import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, importBatches, standings, uploads } from "@/db/schema";
@@ -36,12 +44,29 @@ import { looksLikeLeagueExport, parseLeagueExport } from "@/lib/ingest/league";
 import { looksLikeDump, parseDump, computeStandings } from "@/lib/analytics/dumps";
 import { periods } from "@/db/schema";
 import { leagueSnapshots, leagueStints } from "@/db/schema";
+import { chicagoDay } from "@/lib/format";
+import { leagueWeekOf } from "@/lib/league-week";
+import { latestDayFor, nameDateOf, shopListUpdatesCards, stampFor, type UploadKind as Kind } from "@/lib/upload-rules";
 
 export const runtime = "nodejs";
 /** The shop list is ~1.5MB and 3,700 rows; the default 10s is not enough. */
 export const maxDuration = 60;
 
-type Kind = "shop_list" | "collection" | "standings" | "league" | "dump";
+/**
+ * The newest upload of a kind, the way every reader picks it. `match` narrows
+ * it by a report field: a dump is tournaments or drafts, standings a category.
+ */
+async function newestOnFile(kind: Kind, match?: { field: string; value: string }) {
+  const [row] = await db
+    .select({ id: uploads.id, filename: uploads.filename, at: uploads.uploadedAt, rows: uploads.rowCount })
+    .from(uploads)
+    .where(match ? and(eq(uploads.kind, kind), sql`${uploads.report}->>${match.field} = ${match.value}`) : eq(uploads.kind, kind))
+    .orderBy(desc(uploads.uploadedAt), desc(uploads.id))
+    .limit(1);
+  return row ?? null;
+}
+type OnFile = Awaited<ReturnType<typeof newestOnFile>>;
+const onFileJson = (row: OnFile) => (row ? { id: row.id, filename: row.filename, date: chicagoDay(row.at), rows: row.rows } : null);
 
 /**
  * A tournament stats export is the same 200-column family as a league export.
@@ -112,7 +137,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error: "Unrecognised export.",
-        hint: `Expected the PT card shop list, a collection export, or a standings CSV. First columns seen: ${headerLine.slice(0, 120)}`,
+        hint: `Expected the shop list (pt_card_list.csv), a Manage Cards export, a league export, a community dump or category standings. First columns seen: ${headerLine.slice(0, 120)}`,
         headerSeen: headerLine.slice(0, 200),
       },
       { status: 422 },
@@ -136,39 +161,70 @@ export async function POST(request: Request) {
   }
   /**
    * The exports are named for the day they were pulled ("collection
-   * 2026-09-15.csv", "pt_card_list 2026-09-15.csv"), and that date is a
-   * better default than today: the file is often uploaded a day or two
-   * after it was exported.
+   * 2026-09-15.csv", "pt_card_list 2026-09-15.csv", the dumps'
+   * "…_dump_20260921.csv"), and that date is a better default than today:
+   * the file is often uploaded a day or two after it was exported. The page
+   * always sends the date it shows ("Saved as"); these defaults serve other
+   * callers and the preview, and read a name the way the page does. A league
+   * file with no date belongs to the week that ends on Sunday.
    */
-  const fromName = /(\d{4}-\d{2}-\d{2})/.exec(file.name)?.[1] ?? null;
-  const capturedOn = capturedOnRaw ?? fromName ?? new Date().toISOString().slice(0, 10);
+  const today = chicagoDay(new Date())!;
+  const latest = latestDayFor(kind, today);
+  if (capturedOnRaw && capturedOnRaw > latest) {
+    return NextResponse.json(
+      { kind, error: `Saved as ${capturedOnRaw} is after ${latest}. A later day would make this file the newest until then, so every real file before it would read as older. Pick the day it was exported.` },
+      { status: 400 },
+    );
+  }
+  const fromName = nameDateOf(file.name, today, latest);
+  const dated = capturedOnRaw != null || fromName != null;
+  const capturedOn = capturedOnRaw ?? fromName ?? (kind === "league" ? leagueWeekOf(new Date()) : today);
   // Noon UTC so the date survives a round-trip through any timezone.
-  const capturedAt = capturedOnRaw || fromName ? new Date(`${capturedOn}T12:00:00Z`) : new Date();
+  const capturedAt = dated ? new Date(`${capturedOn}T12:00:00Z`) : new Date();
   const sha256 = createHash("sha256").update(text).digest("hex");
 
-  if (!dryRun) {
-    const [seen] = await db.select({ id: uploads.id, at: uploads.uploadedAt, report: uploads.report }).from(uploads)
-      .where(sql`${uploads.kind} = ${kind} and ${uploads.report}->>'sha256' = ${sha256}`).limit(1);
-    if (seen) {
-      return NextResponse.json({ kind, uploadId: seen.id, alreadyImported: true, stats: { ...(seen.report ?? {}), capturedOn: seen.at.toISOString().slice(0, 10) } });
-    }
+  /* The same file twice is recognised whether previewing or saving: a preview
+     says "Already saved" and the page leaves it out of Save. */
+  const [seen] = await db
+    .select({ id: uploads.id, at: uploads.uploadedAt, filename: uploads.filename, report: uploads.report })
+    .from(uploads)
+    .where(sql`${uploads.kind} = ${kind} and ${uploads.report}->>'sha256' = ${sha256}`)
+    .orderBy(desc(uploads.uploadedAt), desc(uploads.id))
+    .limit(1);
+  if (seen) {
+    const report = (seen.report ?? {}) as Record<string, unknown>;
+    return NextResponse.json({
+      kind,
+      dryRun,
+      uploadId: seen.id,
+      alreadyImported: { id: seen.id, filename: seen.filename, date: chicagoDay(seen.at) },
+      stats: { ...report, capturedOn: typeof report.capturedOn === "string" ? report.capturedOn : chicagoDay(seen.at) },
+    });
   }
 
   /** Record the attempt, run the write, record the outcome — and turn a thrown
-   *  error into a JSON 500 the page can show instead of a blank failure. */
-  const lineage = async (rows: number, write: () => Promise<NextResponse>): Promise<NextResponse> => {
+   *  error into a JSON 500 the page can show instead of a blank failure. The
+   *  write reports its upload row through `track`; if it then fails, the row
+   *  goes again (and its snapshots with it, by cascade), so a half-written
+   *  file never reads as the newest. Card values a shop list already moved
+   *  before failing stay moved: only the newest list moves them, so they
+   *  moved forward, and saving it again finishes the job. */
+  const lineage = async (rows: number, write: (track: (uploadId: number) => void) => Promise<NextResponse>): Promise<NextResponse> => {
     const [batch] = await db.insert(importBatches).values({
       kind: `upload:${kind}`, scope: [kind], files: [{ name: file.name, bytes: text.length, sha256 }],
-      parserVersion: "upload/2 (lineage + sha dedupe, 2026-09-17)", rows, status: "staged",
+      parserVersion: "upload/3 (preview on-file checks, older shop lists keep card values, 2026-09-27)", rows, status: "staged",
     }).returning({ id: importBatches.id });
+    // Set from inside write(); `as` keeps TypeScript from narrowing it to null here.
+    let written = null as number | null;
     try {
-      const res = await write();
+      const res = await write((uploadId) => { written = uploadId; });
       await db.update(importBatches).set({ status: "published", publishedAt: new Date() }).where(eq(importBatches.id, batch.id));
       return res;
     } catch (e) {
       const message = String((e as { cause?: { message?: string } })?.cause?.message ?? (e as Error)?.message ?? e).slice(0, 2000);
+      if (written != null) await db.delete(uploads).where(eq(uploads.id, written)).catch(() => undefined);
       await db.update(importBatches).set({ status: "failed", error: message }).where(eq(importBatches.id, batch.id)).catch(() => undefined);
-      return NextResponse.json({ error: "Write failed part-way; nothing from this file is trusted.", detail: message, batchId: batch.id }, { status: 500 });
+      return NextResponse.json({ kind, error: "Save failed part-way and was removed. Try again.", detail: message, batchId: batch.id }, { status: 500 });
     }
   };
 
@@ -177,12 +233,12 @@ export async function POST(request: Request) {
   if (kind === "dump") {
     const parsed = parseDump(text);
     if (!parsed) {
-      return NextResponse.json({ error: "Could not parse the dump." }, { status: 422 });
+      return NextResponse.json({ kind, error: "Could not parse the dump." }, { status: 422 });
     }
     const [period] = await db.select().from(periods).orderBy(sql`${periods.id} desc`).limit(1);
     if (!period) {
       return NextResponse.json(
-        { error: "No PTCS period in the database — run pnpm import:ptcs6 first." },
+        { kind, error: "No PTCS period in the database — run pnpm import:ptcs6 first." },
         { status: 409 },
       );
     }
@@ -193,13 +249,23 @@ export async function POST(request: Request) {
       dateMax: parsed.dateMax,
       period: period.name,
       standings,
+      capturedOn,
     } as unknown as Record<string, unknown>;
-    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
-    const [upload] = await db
-      .insert(uploads)
-      .values({ kind, filename: file.name, rowCount: parsed.events.length, report: { ...report, sha256 }, uploadedAt: capturedAt })
-      .returning();
-    return NextResponse.json({ kind, uploadId: upload.id, stats: { source: parsed.source, events: parsed.events.length, dateMax: parsed.dateMax } });
+    // Tournaments and drafts are separate dumps; each is compared with its own.
+    const onFile = await newestOnFile(kind, { field: "source", value: parsed.source });
+    if (dryRun) {
+      const brief = { source: parsed.source, dateMin: parsed.dateMin, dateMax: parsed.dateMax, period: period.name, events: parsed.events.length, capturedOn };
+      return NextResponse.json({ kind, dryRun: true, stats: brief, onFile: onFileJson(onFile) });
+    }
+    const at = dated ? stampFor(capturedOn, onFile) : capturedAt;
+    return lineage(parsed.events.length, async (track) => {
+      const [upload] = await db
+        .insert(uploads)
+        .values({ kind, filename: file.name, rowCount: parsed.events.length, report: { ...report, sha256 }, uploadedAt: at })
+        .returning();
+      track(upload.id);
+      return NextResponse.json({ kind, uploadId: upload.id, stats: { source: parsed.source, events: parsed.events.length, dateMax: parsed.dateMax, capturedOn } });
+    });
   }
 
   /* ---------------------------------------------------------------- */
@@ -215,7 +281,7 @@ export async function POST(request: Request) {
       );
     }
     if (parsed.stints.length === 0) {
-      return NextResponse.json({ error: "No rows parsed from the league export." }, { status: 422 });
+      return NextResponse.json({ kind, error: "No rows parsed from the league export." }, { status: 422 });
     }
 
     const report = {
@@ -226,9 +292,29 @@ export async function POST(request: Request) {
       capturedOnWasSupplied: capturedOnRaw != null,
     };
 
-    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
+    if (dryRun) {
+      /* This league and split's weeks on file, newest first. Readers keep the
+         newest snapshot of a week, so this does too: a week saved again is
+         the one it replaces. */
+      const snaps = await db
+        .select({ snapshotId: leagueSnapshots.id, uploadId: leagueSnapshots.uploadId, capturedOn: leagueSnapshots.capturedOn, rows: leagueSnapshots.rows, filename: uploads.filename })
+        .from(leagueSnapshots)
+        .innerJoin(uploads, eq(uploads.id, leagueSnapshots.uploadId))
+        .where(and(eq(leagueSnapshots.league, league), eq(leagueSnapshots.split, parsed.split)))
+        .orderBy(desc(leagueSnapshots.capturedOn), desc(leagueSnapshots.id));
+      const weeks = snaps.filter((s, i) => snaps.findIndex((t) => t.capturedOn === s.capturedOn) === i);
+      const newest = weeks[0];
+      return NextResponse.json({
+        kind,
+        dryRun: true,
+        stats: report,
+        onFile: newest ? { id: newest.uploadId, filename: newest.filename, date: newest.capturedOn, rows: newest.rows } : null,
+        replaces: weeks.find((w) => w.capturedOn === capturedOn) ?? null,
+        weeks,
+      });
+    }
 
-    return lineage(parsed.stints.length, async () => {
+    return lineage(parsed.stints.length, async (track) => {
     const [upload] = await db
       .insert(uploads)
       .values({
@@ -239,6 +325,7 @@ export async function POST(request: Request) {
         uploadedAt: capturedAt,
       })
       .returning();
+    track(upload.id);
 
     const [snapshot] = await db
       .insert(leagueSnapshots)
@@ -293,6 +380,7 @@ export async function POST(request: Request) {
     if (!parsed.stats.tierBandsValid) {
       return NextResponse.json(
         {
+          kind,
           error: "Column alignment check failed — refusing to import.",
           detail:
             "Tier codes did not partition Card Value into the expected bands, which means the columns are shifted. Check whether the export's field count changed.",
@@ -302,15 +390,23 @@ export async function POST(request: Request) {
       );
     }
 
+    const onFile = await newestOnFile(kind);
+    const at = dated ? stampFor(capturedOn, onFile) : capturedAt;
+    /* Card values (value, tier, ratings) only move forward. A list older than
+       the newest on file still adds its prices to card_snapshots, so Market's
+       history can be backfilled, but it no longer overwrites newer values:
+       an 09-18 list dropped after the 09-25 one used to roll every card back. */
+    const updatesCards = shopListUpdatesCards(at, onFile?.at ?? null);
     const report = {
       ...(parsed.stats as unknown as Record<string, unknown>),
       capturedOn,
       capturedOnWasSupplied: capturedOnRaw != null,
+      cardsUpdated: updatesCards,
     };
 
-    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
+    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report, onFile: onFileJson(onFile) });
 
-    return lineage(parsed.cards.length, async () => {
+    return lineage(parsed.cards.length, async (track) => {
     const [upload] = await db
       .insert(uploads)
       .values({
@@ -318,9 +414,10 @@ export async function POST(request: Request) {
         filename: file.name,
         rowCount: parsed.cards.length,
         report: { ...report, sha256 },
-        uploadedAt: capturedAt,
+        uploadedAt: at,
       })
       .returning();
+    track(upload.id);
 
     const cardRows = parsed.cards.map((c) => ({
       cardId: c.cardId,
@@ -353,10 +450,9 @@ export async function POST(request: Request) {
     // Chunked: each row carries a ~90-key ratings blob, and the Neon HTTP
     // driver rejects payloads past a few hundred KB (the CLI uses 50).
     for (let i = 0; i < cardRows.length; i += 100) {
-      await db
-        .insert(cards)
-        .values(cardRows.slice(i, i + 100))
-        .onConflictDoUpdate({
+      const insert = db.insert(cards).values(cardRows.slice(i, i + 100));
+      await (updatesCards
+        ? insert.onConflictDoUpdate({
           target: cards.cardId,
           set: {
             title: sql`excluded.title`,
@@ -365,12 +461,14 @@ export async function POST(request: Request) {
             ratings: sql`excluded.ratings`,
             lastSeenAt: sql`now()`,
           },
-        });
+        })
+        // An older list only adds cards the table lacks (its snapshots need them).
+        : insert.onConflictDoNothing({ target: cards.cardId }));
     }
 
     const snapshotRows = parsed.cards.map((c) => ({
       uploadId: upload.id,
-      capturedAt,
+      capturedAt: at,
       cardId: c.cardId,
       owned: c.owned,
       buyOrderHigh: c.market.buyOrderHigh,
@@ -385,7 +483,7 @@ export async function POST(request: Request) {
       await db.insert(cardSnapshots).values(snapshotRows.slice(i, i + 250));
     }
 
-    return NextResponse.json({ kind, uploadId: upload.id, stats: report });
+    return NextResponse.json({ kind, uploadId: upload.id, stats: report, cardsUpdated: updatesCards });
     });
   }
 
@@ -407,7 +505,7 @@ export async function POST(request: Request) {
 
     if (universe.length === 0) {
       return NextResponse.json(
-        { error: "Upload pt_card_list.csv first — the collection is matched against it." },
+        { kind, error: "Upload pt_card_list.csv first — the collection is matched against it." },
         { status: 409 },
       );
     }
@@ -425,9 +523,11 @@ export async function POST(request: Request) {
       capturedOnWasSupplied: capturedOnRaw != null,
     };
 
-    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
+    const onFile = await newestOnFile(kind);
+    if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report, onFile: onFileJson(onFile) });
+    const at = dated ? stampFor(capturedOn, onFile) : capturedAt;
 
-    return lineage(matched.length, async () => {
+    return lineage(matched.length, async (track) => {
     const [upload] = await db
       .insert(uploads)
       .values({
@@ -435,9 +535,10 @@ export async function POST(request: Request) {
         filename: file.name,
         rowCount: matched.length,
         report: { ...report, sha256 },
-        uploadedAt: capturedAt,
+        uploadedAt: at,
       })
       .returning();
+    track(upload.id);
 
     const rows = matched.map((m) => ({
       uploadId: upload.id,
@@ -467,6 +568,7 @@ export async function POST(request: Request) {
   if (!parsed.category) {
     return NextResponse.json(
       {
+        kind,
         error: "Could not tell which category this standings file is for.",
         hint: "Keep the original filename — the category and period are read from it.",
       },
@@ -487,9 +589,12 @@ export async function POST(request: Request) {
     capturedOnWasSupplied: capturedOnRaw != null,
   };
 
-  if (dryRun) return NextResponse.json({ kind, dryRun: true, stats: report });
+  if (dryRun) {
+    const onFile = await newestOnFile(kind, { field: "category", value: parsed.category });
+    return NextResponse.json({ kind, dryRun: true, stats: report, onFile: onFileJson(onFile) });
+  }
 
-  return lineage(parsed.rows.length, async () => {
+  return lineage(parsed.rows.length, async (track) => {
   const [upload] = await db
     .insert(uploads)
     .values({
@@ -500,6 +605,7 @@ export async function POST(request: Request) {
       uploadedAt: capturedAt,
     })
     .returning();
+  track(upload.id);
 
   const rows = parsed.rows.map((r) => ({
     uploadId: upload.id,

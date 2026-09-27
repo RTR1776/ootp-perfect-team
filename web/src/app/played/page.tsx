@@ -121,7 +121,7 @@ async function buildLines(uploadId: number | null): Promise<{ lines: PlayedLine[
 export default async function PlayedPage() {
   const [batch] = await db.select({ id: importBatches.id }).from(importBatches)
     .where(eq(importBatches.status, "published")).orderBy(desc(importBatches.id)).limit(1);
-  const [upload] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [upload] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const key = [`played`, String(batch?.id ?? 0), String(upload?.id ?? 0)];
   const cached = unstable_cache(() => buildLines(upload?.id ?? null), key, { revalidate: 3600, tags: ["played"] });
   const { lines, collectionDate } = await cached();

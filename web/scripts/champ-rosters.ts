@@ -44,9 +44,9 @@ const TODAY = new Date().toISOString().slice(0, 10);
 type PoolCard = FillCard & { pos: string; tier: string; bats: string | null; projAll: number | null; projL: number | null; projR: number | null };
 
 async function main() {
-  const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   if (!latest) throw new Error("No collection upload.");
-  const [shop] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "shop_list")).orderBy(desc(uploads.id)).limit(1);
+  const [shop] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "shop_list")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })
     .from(collectionCards).where(eq(collectionCards.uploadId, latest.id));
   const baseSet = new Set(owned.filter((o) => !o.isVariant).map((o) => o.cardId!));

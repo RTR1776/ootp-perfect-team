@@ -20,7 +20,7 @@ async function main() {
   const all = await read(db.select().from(tournaments));
   const universe = await read(db.select().from(cards));
   const byCard = new Map(universe.map(c=>[c.cardId,c]));
-  const [latest] = await read(db.select().from(uploads).where(eq(uploads.kind,'collection')).orderBy(desc(uploads.id)).limit(1));
+  const [latest] = await read(db.select().from(uploads).where(eq(uploads.kind,'collection')).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1));
   const owned = await read(db.select().from(collectionCards).where(eq(collectionCards.uploadId,latest.id)));
   const obs = await read(db.select({series:observedCardStats.series,cardId:observedCardStats.cardId,isPitcher:observedCardStats.isPitcher,pa:observedCardStats.pa,ip:observedCardStats.ip,instances:observedCardStats.instances}).from(observedCardStats));
   const parkRows = await read(db.select().from(parks));

@@ -27,8 +27,8 @@ export const normName = (s: string) => s.toLowerCase().normalize("NFD").replace(
  * The shop and the newest collection, read once per five minutes per server
  * and shared by every request in between: re-reading the whole cards table
  * was most of each /league-card score (1.2–1.65 s a POST). The copy is keyed
- * on the newest collection and shop-list uploads (one small query a call), so
- * an upload — on any server — is picked up at once, not five minutes later.
+ * on the collection and shop-list uploads (one small query a call), so an
+ * upload or a removal — on any server — is picked up at once, not five minutes later.
  * `fresh` reads it again regardless. A failed read is not kept, so the next
  * call tries again. Callers must not mutate it.
  */
@@ -36,9 +36,10 @@ const UNIVERSE_TTL_MS = 5 * 60_000;
 let universe: { at: number; stamp: string; promise: Promise<HitterUniverse> } | null = null;
 
 export async function loadHitterUniverse(opts: { fresh?: boolean } = {}): Promise<HitterUniverse> {
-  const newest = await db.select({ kind: uploads.kind, id: sql<number>`max(${uploads.id})`.mapWith(Number) }).from(uploads)
+  // The newest is by uploaded_at (a file can be saved as an earlier day), so the count catches a removal too.
+  const newest = await db.select({ kind: uploads.kind, id: sql<number>`max(${uploads.id})`.mapWith(Number), n: sql<number>`count(*)`.mapWith(Number) }).from(uploads)
     .where(inArray(uploads.kind, ["collection", "shop_list"])).groupBy(uploads.kind);
-  const stamp = newest.map((r) => `${r.kind}:${r.id}`).sort().join("|");
+  const stamp = newest.map((r) => `${r.kind}:${r.id}:${r.n}`).sort().join("|");
   const now = Date.now();
   if (opts.fresh || !universe || universe.stamp !== stamp || now - universe.at > UNIVERSE_TTL_MS) {
     const promise = readHitterUniverse();
@@ -49,7 +50,7 @@ export async function loadHitterUniverse(opts: { fresh?: boolean } = {}): Promis
 }
 
 async function readHitterUniverse(): Promise<HitterUniverse> {
-  const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = latest ? await db.select().from(collectionCards).where(eq(collectionCards.uploadId, latest.id)) : [];
   const shop = (await db.select({ cardId: cards.cardId, name: cards.name, title: cards.title, value: cards.cardValue, pos: cards.position, isPitcher: cards.isPitcher, bats: cards.bats, ratings: cards.ratings, year: cards.year }).from(cards)) as ShopHitter[];
   return { collectionOn: latest?.at.toISOString().slice(0, 10) ?? null, owned, shop, shopById: new Map(shop.map((c) => [c.cardId, c])) };

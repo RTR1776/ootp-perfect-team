@@ -87,7 +87,7 @@ async function main() {
 
   /* ------------------------------- the pool ------------------------------- */
   const [latest] = await db.select({ id: uploads.id }).from(uploads)
-    .where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+    .where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })
     .from(collectionCards).where(eq(collectionCards.uploadId, latest!.id));
   const baseSet = new Set(owned.filter((o) => !o.isVariant).map((o) => o.cardId!));

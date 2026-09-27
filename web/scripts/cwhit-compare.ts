@@ -73,7 +73,7 @@ async function main() {
   if (PARK && !pr) console.log(`!! no park factors on file for ${PARK_YEAR} ${PARK} — running neutral`);
 
   const universe = await db.select().from(cards);
-  const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = new Set(latest ? (await db.select({ cardId: collectionCards.cardId }).from(collectionCards).where(eq(collectionCards.uploadId, latest.id))).map((o) => o.cardId!) : []);
 
   const byKey = new Map<string, typeof universe>();

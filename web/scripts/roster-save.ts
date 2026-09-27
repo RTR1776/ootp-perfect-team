@@ -27,7 +27,7 @@ if (!FILE || !TID || !NAME) { console.error("usage: pnpm roster:save --file FILE
 async function main() {
   const [t] = await db.select().from(tournaments).where(eq(tournaments.id, TID));
   if (!t) throw new Error(`no tournament ${TID}`);
-  const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = latest ? await db.select().from(collectionCards).where(eq(collectionCards.uploadId, latest.id)) : [];
   const base = new Set(owned.filter((c) => !c.isVariant).map((c) => c.cardId)), variants = new Set(owned.filter((c) => c.isVariant).map((c) => c.cardId));
   const universe = await db.select().from(cards);

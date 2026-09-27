@@ -113,7 +113,7 @@ async function loadAudit(pools: Array<{ tier: LeagueTier; stints: StintLike[] }>
     .select()
     .from(uploads)
     .where(eq(uploads.kind, "collection"))
-    .orderBy(desc(uploads.id))
+    .orderBy(desc(uploads.uploadedAt), desc(uploads.id))
     .limit(1);
   if (!latestCollection) return null;
   const actives = await db
