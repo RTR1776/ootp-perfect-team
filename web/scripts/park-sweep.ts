@@ -65,6 +65,12 @@ const TEAM_ARG = val("team") ?? null;
 const YEAR_ARG = val("year") ?? null;
 let YEAR = "";
 const FIELD_ARG = val("field")?.split(",") ?? null;
+/**
+ * --field-on: the week the FIELD is read from, when it differs from the roster's.
+ * After a promotion or a relegation the new tier's newest export is often an
+ * older week than the roster's (roster PEL 2026-09-27, field HD 2026-09-20).
+ */
+const FIELD_ON_ARG = val("field-on") ?? null;
 let LEAGUE = "", ON = "", TEAM = "", FIELD: string[] = [];
 const TOP = num("top", 20), MINPA = num("min-pa", 50);
 const ONLY = val("parks");                  // comma-separated "Name@Year" shortlist
@@ -83,7 +89,7 @@ type Row = { league: string; cid: number; name: string; pos: string; org: string
  * cards.ratings, with the owned copy overlaid from the latest collection upload
  * for his own club - that is what keeps a variant from scoring as its base card.
  */
-const load = async (leagues: string[], upload: number) => asRows<Row>(await db.execute(sql`
+const load = async (leagues: string[], upload: number, on: string) => asRows<Row>(await db.execute(sql`
   select ls.league as league, st.cid, st.name, st.pos, st.org, st.is_pitcher, st.pa, st.ip,
          c.ratings as ratings, st.is_variant, st.val, c.bats, c.throws,
          (select cc.ratings from collection_cards cc
@@ -92,7 +98,7 @@ const load = async (leagues: string[], upload: number) => asRows<Row>(await db.e
   from league_stints st
   join league_snapshots ls on ls.id = st.snapshot_id
   join cards c on c.card_id = st.cid
-  where ls.split = 'all' and ls.captured_on = ${ON}
+  where ls.split = 'all' and ls.captured_on = ${on}
     and ls.league = any(${sql.raw(`array[${leagues.map((l) => `'${l}'`).join(",")}]`)})
     and st.org <> '-'`));
 
@@ -138,7 +144,11 @@ function main() {
      * Roster league and playing field are loaded together and split apart by
      * league below, because on a promotion week they are different leagues.
      */
-    const all = await load([...new Set([LEAGUE, ...FIELD])], up);
+    const FIELD_ON = FIELD_ON_ARG ?? ON;
+    const all = FIELD_ON === ON
+      ? await load([...new Set([LEAGUE, ...FIELD])], up, ON)
+      : [...(await load([LEAGUE], up, ON)).filter((r) => isMyOrg(r.org)), ...(await load(FIELD, up, FIELD_ON)).filter((r) => !isMyOrg(r.org))];
+    if (FIELD_ON !== ON) console.log(`field read from ${FIELD_ON}, roster from ${ON}`);
     /* isMyOrg, not === TEAM: the org carries a clan tag that changes. */
     for (const r of all) if (isMyOrg(r.org) && r.copy) r.ratings = mergeCopyRatings(r.ratings, r.copy, r.pos);
     let mine = all.filter((r) => r.league === LEAGUE && isMyOrg(r.org) && r.ratings);
