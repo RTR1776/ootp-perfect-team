@@ -1,5 +1,5 @@
 import {
-  CandlestickChart, Gauge, Globe, Hammer, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
+  CandlestickChart, FlaskConical, Gauge, Globe, Hammer, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
   type LucideIcon,
 } from "lucide-react";
 
@@ -39,6 +39,7 @@ export const NAV: NavGroup[] = [
     items: [
       { href: "/league", label: "League", icon: Trophy, hint: "Card lines from the league exports" },
       { href: "/meta", label: "League Meta", icon: Globe, hint: "How the league's teams are built" },
+      { href: "/league-card", label: "Card Model", icon: FlaskConical, hint: "What a card would add to your league lineups" },
     ],
   },
   {
