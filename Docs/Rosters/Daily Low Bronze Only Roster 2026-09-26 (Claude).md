@@ -2,7 +2,7 @@
 
 1955 RE, 1955 Ebbets Field, no DH, cards 60–64, variant cap 12, 64 teams, Bo5 (finals Bo7). Catalogue row 519 matches. 5 SP / 7 RP as in L.J.'s Bo7 builds; the field runs about 4.6 SP / 3.7 RP.
 
-Load file: `Inbox/rosters/lowbronzeonly-claude-2026-09-26.txt` (`pnpm roster:save --file … --tournament 519 --name …`).
+Load file: `Inbox/rosters/lowbronzeonly-claude-2026-09-26.txt`. Each card is pinned by id. `Save 09-26 Rosters.command` on the Mac saves it to /build as "Claude pick 2026-09-26".
 
     node --import tsx scripts/env-roster.ts --year 1955 --park "Ebbets Field" --park-year 1955 --min 60 --max 64 \
       --variant-cap 12 --size 26 --series lowbronzeonlydaily --optimize --starts 8 --sp 5 --rp 7 --bats 14 \

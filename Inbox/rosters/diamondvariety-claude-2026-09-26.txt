@@ -1,35 +1,35 @@
 # Saturday Diamond Variety — Claude pick 2026-09-26 (1952 RE, 1958 Tiger Stadium, cards 1910-59)
-R:C Ed Bailey (VAR)
-R:1B Willie McCovey
-R:2B Larry Doby
-R:3B Hank Thompson
-R:SS Luke Appling
-R:LF Shoeless Joe Jackson
-R:CF Willie Mays
-R:RF Mickey Mantle
-L:C Roy Campanella
-L:1B Joe Adcock
-L:2B Larry Doby
-L:3B Eddie Yost
-L:SS Luke Appling
-L:LF Al Simmons
-L:CF Willie Mays
-L:RF Wilson Redus
-SP1 Larry Jackson
-SP2 Carl Hubbell
-SP3 Dutch Leonard
-SP4 Sam Jones
-SP5 Dizzy Dean
-CL Seth Morehead
-RP1 Pete Donohue
-RP2 Jakie May (VAR)
-RP3 Fritz Ostermueller
-RP4 Milt Pappas
-RP5 Luther Farrell
-RP6 Rube Marquard
-BN1 Wes Covington
-BN2 Al Simmons
-BN3 Eddie Yost
-BN4 Wilson Redus
-BN5 Joe Adcock
-BN6 Roy Campanella
+R:C Ed Bailey (VAR) #86637
+R:1B Willie McCovey #86609
+R:2B Larry Doby #84878
+R:3B Hank Thompson #86668
+R:SS Luke Appling #82759
+R:LF Shoeless Joe Jackson #86372
+R:CF Willie Mays #86634
+R:RF Mickey Mantle #86635
+L:C Roy Campanella #85654
+L:1B Joe Adcock #84203
+L:2B Larry Doby #84878
+L:3B Eddie Yost #86618
+L:SS Luke Appling #82759
+L:LF Al Simmons #85942
+L:CF Willie Mays #86634
+L:RF Wilson Redus #84570
+SP1 Larry Jackson #86646
+SP2 Carl Hubbell #86893
+SP3 Dutch Leonard #85704
+SP4 Sam Jones #86070
+SP5 Dizzy Dean #86473
+CL Seth Morehead #84285
+RP1 Pete Donohue #84079
+RP2 Jakie May (VAR) #85286
+RP3 Fritz Ostermueller #86357
+RP4 Milt Pappas #86654
+RP5 Luther Farrell #86900
+RP6 Rube Marquard #86891
+BN1 Wes Covington #86651
+BN2 Al Simmons #85942
+BN3 Eddie Yost #86618
+BN4 Wilson Redus #84570
+BN5 Joe Adcock #84203
+BN6 Roy Campanella #85654

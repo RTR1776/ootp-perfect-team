@@ -9,6 +9,8 @@
  * The file is one slot per line: "R:3B Hank Thompson", "L:C Josh Gibson",
  * "SP1 …", "CL …", "RP3 …", "BN2 …"; pin a variant with "Name (VAR)". Names
  * match the card table case-insensitively; the higher value wins a tie.
+ * "Name #12345" pins the exact card, for a name the collection holds more
+ * than once. --dry validates and prints without saving.
  */
 import { readFileSync } from "node:fs";
 import { desc, eq, sql } from "drizzle-orm";
@@ -37,9 +39,10 @@ async function main() {
   for (const l of readFileSync(FILE!, "utf8").split(/\r?\n/).map((x) => x.trim()).filter((x) => x && !x.startsWith("#"))) {
     const m = /^(\S+)\s+(.+)$/.exec(l); if (!m) continue;
     const key = m[1].toUpperCase(); let who = m[2].trim();
+    const pinned = /#(\d+)/.exec(who); who = who.replace(/\s*#\d+\s*/, " ").trim();
     const wantVar = /\(VAR\)$/i.test(who); who = who.replace(/\s*\(VAR\)$/i, "");
     const wantPitcher = /^(SP|RP|CL)/.test(key);
-    const hits = universe.filter((c) => norm(c.name) === norm(who) && c.isPitcher === wantPitcher && (wantVar ? variants.has(c.cardId) : base.has(c.cardId) || variants.has(c.cardId)))
+    const hits = universe.filter((c) => (pinned ? c.cardId === Number(pinned[1]) : norm(c.name) === norm(who) && c.isPitcher === wantPitcher) && (wantVar ? variants.has(c.cardId) : base.has(c.cardId) || variants.has(c.cardId)))
       .sort((a, b) => (b.cardValue ?? 0) - (a.cardValue ?? 0));
     // A name can be several cards (a 84 and a 100+); take the legal one for THIS event first.
     const legal = hits.filter((c) => cardEligibility(asCard(c), rules).errors.length === 0);
@@ -50,6 +53,7 @@ async function main() {
   }
   const v = validateRoster(slots, universe.map(asCard), rules);
   console.log(`${t.name}: ${slots.length} slots · ${v.ready ? "ready" : "DRAFT: " + [...v.errors, ...v.incomplete].map((e) => e.message).join(" | ")}`);
+  if (argv.includes("--dry")) { console.log("dry run: nothing saved"); process.exit(0); }
   const notes = JSON.stringify({ version: 1, status: v.ready ? "ready" : "draft", collectionUploadId: latest?.id, checkedAt: new Date().toISOString(), validation: v, via: "roster:save", file: FILE });
   const json = JSON.stringify(slots.map((s) => ({ card_id: s.cardId, slot: s.slot, versus_hand: s.versusHand, lineup_order: s.lineupOrder, use_variant: s.useVariant })));
   if (argv.includes("--replace")) await db.execute(sql`delete from rosters where tournament_id = ${TID} and name = ${NAME}`);
