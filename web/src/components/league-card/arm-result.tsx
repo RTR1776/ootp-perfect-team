@@ -78,7 +78,8 @@ export function ArmResult({ c, result, pending, stale, act }: {
         </div>
         <Segmented<RoleChoice>
           aria-label={`Where ${c.name} pitches`}
-          value={chosen ?? "best"}
+          // His stored choice, even a Starter he can't be right now (the note says so): Best stays clickable.
+          value={c.role ?? "best"}
           onChange={(v) => act(edit.armRole(c.name, v === "best" ? null : v))}
           options={ROLES.map(([r, label]) => ({
             value: r ?? "best", label, disabled: r === "SP" && !canStart,

@@ -145,25 +145,36 @@ export function fieldRatings(r: Record<string, number>): Record<string, number> 
 
 type Solve = (ids: number[], b: Board, locks?: Locks) => Lineup | null;
 
+/** Every way to pick `k` of `xs`, in order. */
+function combos<T>(xs: readonly T[], k: number): T[][] {
+  if (k === 0) return [[]];
+  return xs.flatMap((x, i) => combos(xs.slice(i + 1), k - 1).map((rest) => [x, ...rest]));
+}
+
 /**
  * The best nine on one board around his locks (UI plan C5). When the locks
  * can't make a legal nine (a player locked where he has no rating, or locks
- * that leave a position nobody else can play), each lock is taken off in
- * turn, in slot order, and the first nine that works is kept; failing that,
- * the nine with none of the board's locks. `dropped` lists the locks the
- * lineup leaves out. A null lineup means the list can't field a legal nine
- * even without them.
+ * that leave a position nobody else can play), as few locks as possible come
+ * off: one, then two, then three, and among equal drops the best nine;
+ * past three, the nine with none of the board's locks. So one impossible lock
+ * next to a clashing pair doesn't take the legal locks with it. `dropped`
+ * lists the locks the lineup leaves out, in slot order. A null lineup means
+ * the list can't field a legal nine even without them.
  */
 export function solveAround(solve: Solve, ids: number[], b: Board, locks: Locks = {}): { lineup: Lineup | null; dropped: string[] } {
   const first = solve(ids, b, locks);
   const order = [...FIELD, "DH"];
   const slots = Object.keys(locks).filter((s) => locks[s] != null).sort((x, y) => order.indexOf(x) - order.indexOf(y));
   if (first || !slots.length) return { lineup: first, dropped: [] };
-  for (const s of slots) {
-    const lineup = solve(ids, b, Object.fromEntries(Object.entries(locks).filter(([k]) => k !== s)));
-    if (lineup) return { lineup, dropped: [s] };
+  for (let k = 1; k <= Math.min(3, slots.length - 1); k++) {
+    let best: { lineup: Lineup; dropped: string[] } | null = null;
+    for (const drop of combos(slots, k)) {
+      const lineup = solve(ids, b, Object.fromEntries(Object.entries(locks).filter(([s]) => !drop.includes(s))));
+      if (lineup && (!best || lineup.total > best.lineup.total)) best = { lineup, dropped: drop };
+    }
+    if (best) return best;
   }
-  const free = slots.length > 1 ? solve(ids, b, {}) : null;
+  const free = solve(ids, b, {});
   return free ? { lineup: free, dropped: slots } : { lineup: null, dropped: [] };
 }
 

@@ -44,7 +44,7 @@ test("the lock menus' ratings: every field slot rated above 0, rounded", async (
   assert.deepEqual(fieldRatings({}), {});
 });
 
-test("locks that can't make a legal nine: each is taken off in turn, then all of them", async () => {
+test("locks that can't make a legal nine: as few come off as a legal nine allows", async () => {
   const { leagueLineups, solveAround, keptLocks } = await import("./league-lineup");
   const m = leagueLineups(TEAM, { family: "PEL", year: 2010 });
   const ids = TEAM.map((h) => h.id);
@@ -71,6 +71,11 @@ test("locks that can't make a legal nine: each is taken off in turn, then all of
   const both = solveAround(m.solve, ids, "vR", { DH: 0, SS: 8 });
   assert.deepEqual(both.dropped, ["SS", "DH"]);
   assert.ok(both.lineup);
+
+  // An impossible lock next to one that can't stand alone: those two go, the legal one holds.
+  const three = solveAround(m.solve, ids, "vR", { SS: 8, DH: 0, LF: 5 });
+  assert.deepEqual(three.dropped, ["SS", "DH"]);
+  assert.equal(slotOf(three.lineup, 5), "LF", "the legal lock is kept");
 
   // Eight players can't field nine, locks or not: nothing to drop.
   const short = solveAround(m.solve, ids.slice(0, 8), "vR", { SS: 4 });
