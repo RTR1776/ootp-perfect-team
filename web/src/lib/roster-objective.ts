@@ -33,6 +33,12 @@ export interface ObjectiveOptions {
   lhpShare?: number;
   rpWeight?: number;
   benchWeight?: number;
+  /**
+   * A starter's batters faced as a multiple of a lineup slot's PA (default 1).
+   * It depends on the format: in Daily All-Star Hardware Slots (Bo7, ~11
+   * games a team) a starter faced 55 batters to a lineup slot's 45 PA (1.22).
+   */
+  spWeight?: number;
   /** Cards the roster must carry; a missing one costs 1000 runs. */
   mustIds?: ReadonlySet<number>;
 }
@@ -58,6 +64,7 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
   const lhp = o.lhpShare ?? LHP_SHARE_DEFAULT;
   const rpW = o.rpWeight ?? RP_WEIGHT_DEFAULT;
   const bnW = o.benchWeight ?? BENCH_WEIGHT_DEFAULT;
+  const spW = o.spWeight ?? 1;
   const { shape, runsR, runsL } = o;
 
   const defAt = (cardId: number, pos: string): number => {
@@ -72,7 +79,7 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
   const slotValue = (key: string, id: number): number => {
     if (key.startsWith("R:")) return (1 - lhp) * ((runsR.get(id) ?? 0) + defAt(id, key.slice(2)));
     if (key.startsWith("L:")) return lhp * ((runsL.get(id) ?? 0) + defAt(id, key.slice(2)));
-    if (spSet.has(key)) return runsR.get(id) ?? 0;
+    if (spSet.has(key)) return spW * (runsR.get(id) ?? 0);
     if (rpSet.has(key)) return rpW * (runsR.get(id) ?? 0);
     if (bnSet.has(key)) return bnW * (runsR.get(id) ?? 0);
     return 0;

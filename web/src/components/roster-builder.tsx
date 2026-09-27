@@ -18,6 +18,8 @@
  * staff slot.
  */
 
+import type { SeriesBuild } from "@/lib/field-construction";
+import { FieldConstruction } from "@/components/field-construction";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -124,6 +126,8 @@ export interface CatalogGroup {
 }
 
 export interface SeriesMetaInfo {
+  /** How the field spends its tiers, off the same exports (field-construction.ts). */
+  construction?: SeriesBuild | null;
   files: number;
   avgTeams: number | null;
   avgSp: number | null;
@@ -733,9 +737,14 @@ export function RosterBuilder({
     () => ({ lineupPos, spKeys, rpKeys, benchKeys, bats: batsCap }),
     [lineupPos, spKeys, rpKeys, benchKeys, batsCap],
   );
+  /* What a starter and a reliever face here, as multiples of a lineup slot's
+     PA, measured off this series' exports; the objective's defaults (1.0 and
+     0.31) when there are none. */
+  const spWeight = meta?.construction?.spWeight ?? undefined;
+  const rpWeight = meta?.construction?.rpWeight ?? undefined;
   const objective = useMemo(() => envFits
-    ? rosterObjective(pool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare })
-    : null, [envFits, pool, fillShape, lhpShare]);
+    ? rosterObjective(pool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight })
+    : null, [envFits, pool, fillShape, lhpShare, spWeight, rpWeight]);
   const boardRuns = (source: Record<SlotKey, number | null>): number | null => {
     if (!objective) return null;
     const complete: Record<string, number> = {};
@@ -796,7 +805,7 @@ export function RosterBuilder({
       w.onerror = (err) => { setMsg(`Deep search failed: ${err.message}`); finish(); };
       const req: DeepRequest = {
         starts, pool: searchPool, rules: tournament as RosterRules, shape: fillShape,
-        runsR: [...envFits!.runsR], runsL: [...envFits!.runsL], lhpShare,
+        runsR: [...envFits!.runsR], runsL: [...envFits!.runsL], lhpShare, spWeight, rpWeight,
         locks: [...locks], minCatchers: twoCatchers ? 2 : 0,
       };
       w.postMessage(req);
@@ -821,7 +830,7 @@ export function RosterBuilder({
       const missing = slotOrder.filter((k) => current[k] == null);
       const searchPool = (pool as FillCard[]).filter((c) => !bans.has(c.cardId));
       const searchObj = locks.size
-        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, mustIds: locks })
+        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, spWeight, rpWeight, mustIds: locks })
         : objective;
       const greedy = fillRoster(searchPool, tournament, fillShape, fits).slots;
       // The search needs a complete board to score; fill the holes greedily first.
@@ -1238,6 +1247,9 @@ export function RosterBuilder({
                   per team: {meta.avgSp ?? "?"} SP · {meta.avgRp ?? "?"} RP · {meta.avgBats ?? "?"} hitters
                 </span>
               </div>
+              {meta.construction && meta.construction.groups.length > 0 && (
+                <FieldConstruction data={meta.construction} slots={(tournament?.restrictions?.slots as Record<string, number> | null | undefined) ?? null} />
+              )}
               <div className="grid gap-x-6 gap-y-1 text-xs sm:grid-cols-2">
                 {(["bats", "arms"] as const).map((kind) => (
                   <div key={kind}>

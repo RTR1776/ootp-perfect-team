@@ -32,6 +32,8 @@ import { optimizeRoster } from "@/lib/roster-optimize";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
 import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
 import { readFileSync } from "node:fs";
+import fieldConstruction from "../src/data/field-construction.json";
+import type { SeriesBuild } from "@/lib/field-construction";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -62,6 +64,8 @@ const POOL_CSV = val("pool") ?? null;
  * score difference against the free run IS the price of the conviction.
  */
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+/** --show "Name,Name": print the model's runs for these owned cards in this event, whether or not they make the roster. */
+const SHOW = (val("show") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
 /** Cards to exclude outright — for testing whether a headline card earns its points. */
 const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
 /**
@@ -153,7 +157,16 @@ const SLOTS: Record<string, number> | null = (() => {
  *   deadball or 1960s environment where starters go deeper still.
  */
 const LHP_SHARE_FLAG = num("lhp-share");
-const RP_WEIGHT = num("rp-weight", RP_WEIGHT_DEFAULT)!;
+/**
+ * --rp-weight / --sp-weight: a reliever's / starter's batters faced as a
+ * multiple of a lineup slot's PA (roster-objective). With --series they
+ * default to what that series measured (src/data/field-construction.json,
+ * written by import:observed), else 0.31 / 1.0.
+ */
+const RP_WEIGHT_FLAG = num("rp-weight");
+const SP_WEIGHT_FLAG = num("sp-weight");
+let RP_WEIGHT = RP_WEIGHT_FLAG ?? RP_WEIGHT_DEFAULT;
+let SP_WEIGHT = SP_WEIGHT_FLAG ?? 1;
 const BENCH_WEIGHT = num("bench-weight", BENCH_WEIGHT_DEFAULT)!;
 /**
  * --series slug: read the field off its exports (series_meta) — the staff
@@ -275,6 +288,10 @@ async function main() {
    * an Iron bench bat never comes off the bench.
    */
   const [meta] = SERIES ? await db.select().from(seriesMeta).where(eq(seriesMeta.series, SERIES)) : [];
+  const built = SERIES ? (fieldConstruction as { series: Record<string, SeriesBuild> }).series[SERIES] : undefined;
+  if (built?.spWeight != null && SP_WEIGHT_FLAG == null) SP_WEIGHT = built.spWeight;
+  if (built?.rpWeight != null && RP_WEIGHT_FLAG == null) RP_WEIGHT = built.rpWeight;
+  if (built) console.log(`staff weights from ${SERIES}'s exports: SP ${SP_WEIGHT}, RP ${RP_WEIGHT} (a lineup slot = 1)`);
   if (SERIES && !meta) console.log(`!! no exports on record for series ${SERIES} — shape and handedness fall back to the era table`);
   const shapeMeta = (num("bats") != null || num("sp") != null || num("rp") != null)
     ? { avgBats: num("bats"), avgSp: num("sp"), avgRp: num("rp") }
@@ -338,6 +355,13 @@ async function main() {
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}`);
   }
   const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
+  if (SHOW.length) {
+    console.log("--- shown ---   (runs/700 PA or BF in this event; pitchers: one number)");
+    for (const c of pool.filter((x) => SHOW.some((n) => x.name.toLowerCase().includes(n))).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {
+      const r = fits.runsR.get(c.cardId), l = fits.runsL.get(c.cardId);
+      console.log(`  ${c.name.padEnd(22)} ${String(c.val).padStart(3)} ${c.isPitcher ? "P" : "B"} ${c.bats ?? "-"}  ${c.isPitcher ? (r ?? 0).toFixed(1) : `vR ${(r ?? 0).toFixed(1)}  vL ${(l ?? 0).toFixed(1)}`}`);
+    }
+  }
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                          RHB: ${marginalRatings(fits.envRight, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                         arms: ${marginalRatings(fits.envPitch, "pit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
@@ -363,7 +387,7 @@ async function main() {
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
   const { objective, rank, defAt, slotValue } = rosterObjective(pool, {
-    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, mustIds,
+    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, mustIds,
   });
   void defAt;
 
@@ -456,7 +480,7 @@ async function main() {
   console.log(v.ready ? "LEGAL — every rule check passes" : `NOT READY: ${[...v.errors, ...v.incomplete].map((e) => e.message).join(" | ")}`);
   const spend = rostered.filter((c) => (prices.get(c.cardId) ?? 0) > 0).length;
   if (spend) console.log(`(${spend} of ${rostered.length} have a live ask in the last shop snapshot)`);
-  console.log(`objective: ${objective(slots).toFixed(1)} weighted runs (bats ${Math.round((1-LHP_SHARE)*100)}/${Math.round(LHP_SHARE*100)} R/L, SP 1.0, RP ${RP_WEIGHT}, bench ${BENCH_WEIGHT})`);
+  console.log(`objective: ${objective(slots).toFixed(1)} weighted runs (bats ${Math.round((1-LHP_SHARE)*100)}/${Math.round(LHP_SHARE*100)} R/L, SP ${SP_WEIGHT}, RP ${RP_WEIGHT}, bench ${BENCH_WEIGHT})`);
   const group = (keys: string[]) => keys.map((k) => poolById.get(slots[k])).filter(Boolean).reduce((n, c) => n + (c!.val ?? 0), 0);
   const lineupIds = new Set(lineupPos.flatMap((p) => [slots[`R:${p}`], slots[`L:${p}`]]).filter((x) => x != null));
   const lineupVal = [...lineupIds].map((id) => poolById.get(id)?.val ?? 0).reduce((a, b) => a + b, 0);

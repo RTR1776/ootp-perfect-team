@@ -33,6 +33,9 @@ export interface DeepRequest {
   runsR: [number, number][];
   runsL: [number, number][];
   lhpShare: number;
+  /** The series' measured starter / reliever weights (field-construction.ts); defaults when absent. */
+  spWeight?: number;
+  rpWeight?: number;
   locks: number[];
   minCatchers: number;
 }
@@ -49,6 +52,7 @@ self.onmessage = (e: MessageEvent<DeepRequest>) => {
   const locks = new Set(d.locks);
   const obj = rosterObjective(d.pool, {
     shape: d.shape, runsR: new Map(d.runsR), runsL: new Map(d.runsL), lhpShare: d.lhpShare,
+    spWeight: d.spWeight, rpWeight: d.rpWeight,
     mustIds: locks.size ? locks : undefined,
   });
   const total = d.starts.length * SETTINGS.length;

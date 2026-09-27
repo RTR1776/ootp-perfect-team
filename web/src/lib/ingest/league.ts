@@ -80,7 +80,7 @@ export function ipToDecimal(raw: number | null): number {
   return whole + (frac === 1 ? 1 / 3 : frac === 2 ? 2 / 3 : 0);
 }
 
-const CLAN_TAGS = ["CG", "HOTL", "GH", "TBD", "BFF", "DGAF", "SOM", "F2P", "DCFC"];
+const CLAN_TAGS = ["CG", "HOTL", "JW", "GH", "TBD", "BFF", "DGAF", "SOM", "F2P", "DCFC"];
 
 /**
  * Clan tag from the team-name suffix. `Castroville Mashers - CG DCFC` → CG;
