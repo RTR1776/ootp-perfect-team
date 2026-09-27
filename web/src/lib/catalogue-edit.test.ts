@@ -71,3 +71,17 @@ test("a value window set by hand is confirmed: the name-inferred marker goes", (
   assert.equal((set.restrictions?.previousFormat as { restrictions: Record<string, unknown> }).restrictions.valueWindowFrom, dank.restrictions!.valueWindowFrom, "kept in the previous format");
   assert.equal(editCatalogueRules(dank, { dh: true, at: "2026-09-27" }).restrictions?.valueWindowFrom, dank.restrictions!.valueWindowFrom, "other edits leave it");
 });
+
+import { parseSlots } from "./catalogue-edit";
+
+test("a slot line reads as the game means it: the spots it leaves go to the next tier down", () => {
+  assert.deepEqual(parseSlots("P6, D4, G4, S4, B4"), { P: 6, D: 4, G: 4, S: 4, B: 4, I: 4 }, "Daily Open Slots");
+  assert.deepEqual(parseSlots("Slots: P8, D6, G4, S3, B3"), { P: 8, D: 6, G: 4, S: 3, B: 3, I: 2 }, "Sunday Open Slots");
+  assert.deepEqual(parseSlots("P8, D8, G4, S4, B2"), { P: 8, D: 8, G: 4, S: 4, B: 2, I: 0 }, "Time Travelers: a full 26");
+  assert.deepEqual(parseSlots("SLOTS: 12 Gold, 8 Silver, 6 Bronze, 0 Iron"), { P: 0, D: 0, G: 12, S: 8, B: 6, I: 0 }, "the summary's words; no Perfect or Diamond");
+  assert.deepEqual(parseSlots("P6, D4"), { P: 6, D: 4, G: 16, S: 0, B: 0, I: 0 });
+  assert.throws(() => parseSlots("P20, D8"), /more than a 26-card roster/);
+  assert.throws(() => parseSlots("no slots here"), /no tier/);
+  const next = editCatalogueRules(lastWeek, { slots: parseSlots("P6, D4, G4, S4, B4"), at: "2026-09-27" });
+  assert.deepEqual(next.restrictions?.slots, { P: 6, D: 4, G: 4, S: 4, B: 4, I: 4 });
+});

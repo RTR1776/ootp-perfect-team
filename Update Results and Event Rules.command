@@ -18,6 +18,11 @@
 #      (L.J.: "no Live cards in those 7").
 #    - Daily Iron & Friends OOTP Era: cards 1999-2026 ("OOTP Era is 1999+").
 #    - Daily Late 1900s: cards 1980-1999 (was 1989-1999 on file).
+#    - Two set rules the game's captured rules text states: Daily PTCS 2 Iron
+#      Replay (Nel-SS-UH-HH) and Wednesday 1950 to Now (Snapshots and UH).
+#    - Slot rules from L.J.'s screenshots: Daily Open Slots P6 D4 G4 S4 B4,
+#      Sunday Open Slots P8 D6 G4 S3 B3, Time Travelers Slots P8 D8 G4 S4 B2
+#      (and its DH); the spots a line leaves on a 26-card roster are Iron.
 # 3. Hide old events from the picker (L.J.: "hide all old tourneys and PTCS
 #    events"): the finished PTCS 6 Championship, PTMS 2, "low gold",
 #    "My Custom Tournament", and old rows the game has since renamed. They
@@ -84,10 +89,15 @@ RULES=(
   # The game's own rules text, as captured (rules:audit, 2026-09-27):
   "632|--card-types|Negro League Star+Snapshot+Unsung Heroes+Hardware Heroes|rules text: Nel-SS-UH-HH"  # Daily PTCS 2 Iron Replay
   "550|--card-types|Snapshot+Unsung Heroes|rules text: Snapshots and Unsung Heroes cards from 1950-2026"  # Wednesday 1950 to Now
+  # Slot rules from L.J.'s screenshots (09-27); the spots a line leaves go to Iron.
+  "560|--slots|P6,D4,G4,S4,B4|L.J. 2026-09-27 screenshot"       # Daily Open Slots: 4 Iron
+  "546|--slots|P8,D6,G4,S3,B3|L.J. 2026-09-27 screenshot"       # Sunday Open Slots: 2 Iron
+  "9100193|--slots|P8,D8,G4,S4,B2|L.J. 2026-09-27 screenshot"   # Time Travelers Slots (Live only)
+  "9100193|--dh||L.J. 2026-09-27 screenshot"                    # …and it uses the DH
 )
 # id|flag|value[|note]: the note defaults to L.J.'s.
 rule() { local id flag value note; IFS='|' read -r id flag value note <<< "$1"; run scripts/catalogue-set.ts --tournament "$id" "$flag" "$value" --note "${note:-$NOTE}" "${@:2}"; }
-printf '\n\033[1m2. Card rules: Live Plus 2026 cards; 12 Live events Live only; 7 events no Live; OOTP Era 1999+; Late 1900s 1980-99; 2 set rules from the game'"'"'s rules text\033[0m\n\n'
+printf '\n\033[1m2. Card rules: Live Plus 2026 cards; 12 Live events Live only; 7 events no Live; OOTP Era 1999+; Late 1900s 1980-99; 632 and 550 from the rules text; slots for Daily and Sunday Open Slots and Time Travelers\033[0m\n\n'
 for e in "${RULES[@]}"; do rule "$e" | grep -v "Dry run" || { echo "Could not read event ${e%%|*}."; close 1; }; done
 echo
 if ask "Save these rules?"; then

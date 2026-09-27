@@ -11,6 +11,7 @@
  * Flags: --year N · --stadium "YYYY Name" · --dh | --no-dh · --value A-B ·
  * --card-years A-B | none · --drop key[,key] · --text "…" · --note "…" ·
  * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it) ·
+ * --slots "P6, D4, G4, S4, B4" (the game's slot line; the spots it leaves go to the next tier down) ·
  * --retire | --unretire (a retired event leaves /build's picker; its history stays)
  *
  * An edit that changes nothing writes nothing, so a batch can be rerun safely.
@@ -18,7 +19,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { tournaments } from "@/db/schema";
-import { editCatalogueRules, type CatalogueEdit, type CatalogueRules } from "@/lib/catalogue-edit";
+import { editCatalogueRules, parseSlots, type CatalogueEdit, type CatalogueRules } from "@/lib/catalogue-edit";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -30,7 +31,7 @@ const range = (k: string): [number, number] | undefined => {
 };
 
 /** Every flag this script reads; anything else is a typo and stops the run. */
-const KNOWN = new Set(["tournament", "year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "drop", "text", "note", "retire", "unretire", "commit"]);
+const KNOWN = new Set(["tournament", "year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "drop", "text", "note", "retire", "unretire", "commit"]);
 
 async function main() {
   const unknown = argv.filter((a) => a.startsWith("--") && !KNOWN.has(a.slice(2)));
@@ -48,12 +49,13 @@ async function main() {
   if (val("value")) edit.value = range("value");
   if (val("card-years")) edit.cardYears = val("card-years") === "none" ? null : range("card-years");
   if (val("card-types")) edit.cardTypes = [val("card-types")!];
+  if (val("slots")) edit.slots = parseSlots(val("slots")!, (t.restrictions as { cards?: number } | null)?.cards ?? 26);
   if (val("drop")) edit.drop = val("drop")!.split(",").map((s) => s.trim()).filter(Boolean);
   if (val("text")) edit.text = val("text");
   if (val("note")) edit.note = val("note");
   const retired = flag("retire") ? true : flag("unretire") ? false : t.retired;
   // Rule flags other than the note: without one, only the retired flag can change.
-  const ruleEdit = ["year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "drop", "text"].some(flag);
+  const ruleEdit = ["year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "drop", "text"].some(flag);
 
   const before: CatalogueRules = {
     envYear: t.envYear, stadium: t.stadium, parkName: t.parkName, dh: t.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax,
