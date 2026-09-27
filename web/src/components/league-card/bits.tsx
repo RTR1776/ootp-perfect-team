@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { signed, tone } from "@/lib/format";
 import { nameOf } from "@/lib/league-card-state";
-import { cn } from "@/lib/utils";
 
 /** Colour for runs (or edge per 9, at 2 digits) against the league's average; a value that prints as 0 takes none. */
 export const toneClass = (x: number | null | undefined, digits = 1) => {
@@ -20,14 +19,6 @@ export const innings = (ip: number) => Math.round(ip).toLocaleString("en-US");
 export const staffWarning = (w: string, arms: string[]) => /^(SP\d|CL|RP\d+): /.test(w) || arms.some((e) => w.startsWith(`${nameOf(e)}:`));
 /** A warning about the modelled card ("Kenley Jansen 100: can't start …"): its result card says it instead. */
 export const cardWarning = (w: string, label: string | null | undefined) => !!label && w.startsWith(`${label.replace(/ \(model\)$/, "")}:`);
-
-export const Eyebrow = ({ children }: { children: React.ReactNode }) => (
-  <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{children}</span>
-);
-
-export const NativeSelect = ({ className, ...props }: React.SelectHTMLAttributes<HTMLSelectElement>) => (
-  <select {...props} className={cn("h-9 rounded-md border border-border bg-background px-2 text-sm", className)} />
-);
 
 /**
  * Why what's shown isn't for the latest edit: a half-typed year or park

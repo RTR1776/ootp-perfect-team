@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { initHistory, pushHistory, undoHistory, undoLabel, type History } from "./use-undoable";
 import {
-  armLockMovesFrom, edit, exportChange, exportLabel, freshState, lockMovesFrom, modelReducer, restoreState, scoreRequest, teamEdits,
+  armLockMovesFrom, BAT_STATS, edit, exportChange, exportLabel, freshState, lockMovesFrom, modelReducer, needsNumber, restoreState, scoreRequest, teamEdits,
   type CardBase, type LeagueExport, type ModelAction, type ModelState,
 } from "./league-card-state";
 
@@ -191,7 +191,7 @@ test("the request waits for a four-digit year and a listed park, and sends the c
   const parks = new Set(["1945 Fenway Park"]);
   const s = freshState(PEL);
   assert.deepEqual(scoreRequest(s, parks).body, { roster: PEL.roster, locks: { vR: {}, vL: {} }, park: null, family: "PEL", year: 2010, defScale: 1, arms: ARMS, armLocks: {} });
-  assert.match(scoreRequest(modelReducer(s, edit.year("20")), parks).skip!, /four-digit/);
+  assert.match(scoreRequest(modelReducer(s, edit.year("20")), parks).skip!, /pick a year/);
   assert.equal(scoreRequest(modelReducer(s, edit.park("1945 Fen")), parks).key, null);
   assert.equal(scoreRequest(modelReducer(s, edit.park("1945 Fenway Park ")), parks).body?.park, "1945 Fenway Park");
   assert.deepEqual(scoreRequest(freshState({ ...PEL, roster: [] }), parks), { key: null, skip: null }, "no hitters: nothing to score, staff or not");
@@ -205,6 +205,43 @@ test("the request waits for a four-digit year and a listed park, and sends the c
   const out = scoreRequest(modelReducer(card, edit.include("Dave Winfield", false)), parks);
   assert.equal(out.body!.cardId, undefined);
   assert.equal(out.key, scoreRequest(s, parks).key, "left out, it scores the team alone");
+});
+
+test("the run environment is picked from a list: one step each, and a saved year off the list starts at the PT default (C7)", () => {
+  let h = play(initHistory(freshState(PEL)), edit.year("1987"), edit.year("1998"));
+  assert.equal(h.past.length, 2, "a pick is not typing: each is its own step");
+  assert.equal(undoLabel(h), "Set run environment to 1998");
+  assert.equal(edit.year("2010").label, "Set run environment to the PT default");
+  h = undoHistory(h);
+  assert.equal(h.present.settings.year, "1987");
+
+  const years = new Set(["2010", "1998", "1987"]);
+  const saved = (year: string) => JSON.parse(JSON.stringify({ ...freshState(PEL), settings: { ...freshState(PEL).settings, year } }));
+  assert.equal(restoreState(saved("1998"), null, PEL, years).settings.year, "1998");
+  assert.equal(restoreState(saved("20"), null, PEL, years).settings.year, "2010", "half-typed in the old box");
+  assert.equal(restoreState(saved("1850"), null, PEL, years).settings.year, "2010", "no run environment on file");
+  assert.equal(restoreState(null, { pool: PEL.roster, year: "1850" }, PEL, years).settings.year, "2010", "v2 too");
+});
+
+test("a blank or 0 rating needs a number and is left out, so the card keeps its shop value; a blank position can't play (C7)", () => {
+  assert.deepEqual(BAT_STATS.map(([, name]) => name), ["Avoid K", "BABIP", "Gap", "Power", "Eye"], "the card face's order");
+  const s = apply(freshState(PEL), edit.pickCard(WINFIELD), edit.face("POW vR", ""), edit.face("EYE vL", "0"), edit.face("POS LF", ""), edit.face("GAP vR", "105"));
+  const c = s.candidate!;
+  assert.equal(needsNumber(c, "POW vR"), true);
+  assert.equal(needsNumber(c, "EYE vL"), true, "0 is no rating");
+  assert.equal(needsNumber(c, "GAP vR"), false);
+  assert.equal(needsNumber(c, "POS LF"), false, "a blank position is a choice");
+  assert.equal(needsNumber(c, "POS C"), false);
+  const r = scoreRequest(s, new Set()).body!.ratings!;
+  assert.equal(r["POW vR"], undefined);
+  assert.equal(r["EYE vL"], undefined);
+  assert.equal(r["GAP vR"], 105);
+  assert.equal(r["POS LF"], 0);
+  assert.equal(r["POS RF"], 80);
+  assert.equal(r["POS C"], 0);
+  // Cleared and typed back: the same request as the untouched card.
+  const back = apply(s, edit.face("POW vR", "150"), edit.face("EYE vL", "130"), edit.face("POS LF", "70"), edit.face("GAP vR", "100"));
+  assert.equal(scoreRequest(back, new Set()).key, scoreRequest(apply(freshState(PEL), edit.pickCard(WINFIELD)), new Set()).key);
 });
 
 test("labels for the caption and the banner", () => {

@@ -43,7 +43,7 @@ const WIDTHS = [
  * page, little prose before the first table, at most 4 columns on a phone).
  * A page leaves this list in the PR that rebuilds it and never rejoins it.
  */
-export const PENDING = ["/build", "/draft", "/ptcs", "/cards", "/played", "/market", "/league", "/meta", "/league-card", "/runenv", "/environments", "/upload"];
+export const PENDING = ["/build", "/draft", "/ptcs", "/cards", "/played", "/market", "/league", "/meta", "/runenv", "/environments", "/upload"];
 
 const executablePath = process.env.CHROMIUM ?? (existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined);
 const browser = await chromium.launch(executablePath ? { executablePath } : { channel: "chrome" });

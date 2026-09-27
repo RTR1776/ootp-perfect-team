@@ -8,6 +8,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Board, Family } from "@/lib/league-card-state";
+import type { PoolRow } from "@/lib/league-card-view";
 
 export interface LineupSlot { slot: string; id: number; label: string; runs: number; /** Null for the modelled card. */ entry: string | null }
 export interface Lineup { lineup: LineupSlot[]; total: number }
@@ -40,8 +41,11 @@ export interface ScoreResult {
   family: Family; year: number; lhp: number; rpw: number; defScale: number; park: string | null;
   /** With a park: the same locks' best nine in a neutral park. */
   neutral: Record<Board, number | null> | null;
-  pool: Array<{ entry: string; label: string; vR: number | null; vL: number | null }>;
+  /** Each hitter's bat per board and his glove rating at each field slot he can play (the lock menus). */
+  pool: PoolRow[];
   now: Record<Board, Lineup | null>;
+  /** Locks the server left out because they can't make a legal nine; the board is the best nine without them. */
+  badLocks: Array<{ board: Board; slot: string; entry: string | null }>;
   candidate: { cardId: number; label: string; title: string; vR: number | null; vL: number | null } | null;
   with: Record<Board, Lineup | null> | null;
   add: { dR: number; dL: number; season: number; wins: number; dhOnly: number } | null;

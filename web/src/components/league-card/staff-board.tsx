@@ -2,22 +2,25 @@
  * The Pitching staff tab (UI plan §5 D): his pitchers as a rotation (SP1–SP5)
  * and a bullpen (CL, RP1…), each slot's edge per 9 over the league's arm, the
  * league innings it rests on, and its runs a season. Each slot's select locks
- * an arm there; the rest fill themselves. With a modelled pitcher included,
+ * an arm there and a 24px × beside it unlocks it, as on the lineup boards;
+ * the rest fill themselves. With a modelled pitcher included,
  * the tables show the staff he would join: his row, and any arm he moves
  * between the rotation and the pen ("was SP5"). Every slot of a role pitches
  * the same innings, so an arm moving down the pen is no change. Like the
  * lineups, the staff rescores after every edit and dims while it comes.
  */
-import { Loader2, Lock } from "lucide-react";
+import { Lock, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import { Select } from "@/components/ui/select";
 import { signed } from "@/lib/format";
 import {
   armLockCount, armLockMovesFrom, edit, modelReducer, nameOf, ROTATION_SLOTS, STARTER_STAMINA,
   type LeagueExport, type ModelAction, type ModelState,
 } from "@/lib/league-card-state";
 import { cn } from "@/lib/utils";
-import { cardWarning, innings, NativeSelect, per9, ScoreStatus, staffWarning, toneClass } from "./bits";
+import { cardWarning, innings, per9, ScoreStatus, staffWarning, toneClass } from "./bits";
+import { BoardTotal } from "./board";
 import type { ArmRow, ScoreResult, Staff, StaffSlot } from "./use-rescore";
 
 type Role = "SP" | "RP";
@@ -69,16 +72,8 @@ function StaffTable({ title, role, family, slots, at, before, locks, options, ro
     <div className="min-w-0">
       <div className="mb-1 flex items-baseline justify-between gap-2 text-xs">
         <span className="font-semibold">{title}</span>
-        <span className="flex items-baseline gap-2">
-          {pending && (
-            <span className="inline-flex items-center gap-1 self-center text-muted-foreground">
-              <Loader2 className="size-3 animate-spin" />Updating…
-            </span>
-          )}
-          <span className={cn("font-mono text-muted-foreground", stale && "opacity-60")}>
-            {before ? <>{signed(before.total)} → <span className={toneClass((total ?? 0) - before.total)}>{signed(total)}</span></> : signed(total)}
-          </span>
-        </span>
+        {/* As on the lineup boards: "Total +12.4", and with a modelled arm "→ +14.0". */}
+        <BoardTotal now={before ? before.total : total} next={before ? total : null} pending={pending} stale={stale} />
       </div>
       <table className={cn("w-full table-fixed text-xs transition-opacity", stale && "opacity-60")} aria-busy={pending}>
         <thead>
@@ -86,7 +81,7 @@ function StaffTable({ title, role, family, slots, at, before, locks, options, ro
             <th className="w-9 py-1 font-medium">Slot</th>
             <th className="py-1 font-medium">{role === "SP" ? "Starter" : "Reliever"}</th>
             <th className="w-12 py-1 text-right font-medium" title="FIP-type runs per 9 innings better than the league's arm">Edge/9</th>
-            <th className="hidden w-24 py-1 pl-2 text-right font-medium sm:table-cell" title="League innings in this role; est. is an estimate from ratings">Sample</th>
+            <th className="hidden w-24 py-1 pl-2 text-right font-medium @md:table-cell" title="League innings in this role; est. is an estimate from ratings">Sample</th>
             <th className="w-12 py-1 text-right font-medium" title="Runs a season: edge × the slot's innings ÷ 9">Season</th>
           </tr>
         </thead>
@@ -106,24 +101,32 @@ function StaffTable({ title, role, family, slots, at, before, locks, options, ro
                 <td className="py-1 pr-2">
                   <div className="flex min-w-0 items-center gap-1">
                     {held && <Lock className="size-3 shrink-0 text-muted-foreground" aria-label="Locked" />}
-                    <NativeSelect
+                    <Select
                       value={locks[slot] ?? ""}
                       onChange={(e) => onLock(slot, e.target.value || null)}
                       onKeyDown={onSelectKeys}
-                      className={cn("h-7 w-full min-w-0 text-xs", isModel && "font-medium text-primary")}
-                      aria-label={`Lock ${slot}`}
+                      className={cn("h-7 min-w-0 flex-1 px-1.5 text-xs", isModel && "font-medium text-primary")}
+                      aria-label={`${slot}: who pitches there`}
                     >
                       <option value="">{locks[slot] ? "Auto" : `Auto · ${x?.label ?? "—"}`}</option>
                       {options.map(([e, label]) => <option key={e} value={e}>{label}</option>)}
-                    </NativeSelect>
+                    </Select>
+                    {locks[slot] != null && (
+                      <button
+                        type="button" onClick={() => onLock(slot, null)} title={`Unlock ${slot}`} aria-label={`Unlock ${slot}`}
+                        className="inline-flex size-6 shrink-0 items-center justify-center rounded text-muted-foreground hover:bg-accent hover:text-foreground"
+                      >
+                        <X className="size-3.5" />
+                      </button>
+                    )}
                   </div>
-                  {moved && <div className="mt-0.5 truncate text-[11px] text-muted-foreground">was {was}</div>}
+                  {moved && <div className="mt-0.5 truncate text-[11px] text-muted-foreground">{`was ${was}`}</div>}
                 </td>
                 <td className={cn("py-1 text-right font-mono", toneClass(x?.edge9, 2))}>
                   {per9(x?.edge9)}
-                  {isEstimate(arm, role) && <div className="font-sans text-[10px] text-muted-foreground sm:hidden">est.</div>}
+                  {isEstimate(arm, role) && <div className="font-sans text-[10px] text-muted-foreground @md:hidden">est.</div>}
                 </td>
-                <td className="hidden py-1 pl-2 text-right sm:table-cell"><Sample arm={arm} role={role} family={family} /></td>
+                <td className="hidden py-1 pl-2 text-right @md:table-cell"><Sample arm={arm} role={role} family={family} /></td>
                 <td className={cn("py-1 text-right font-mono", toneClass(x?.runs))}>{signed(x?.runs)}</td>
               </tr>
             );
@@ -204,7 +207,7 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
   );
 
   return (
-    <div className="space-y-4">
+    <div className="@container space-y-4">
       <p className="text-sm text-muted-foreground">
         Five starters and a bullpen from your pitchers. Lock a slot to force an arm there; the rest fill themselves. Runs are
         per season above the league&apos;s average arm.
@@ -213,16 +216,16 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
         <div className={cn("text-sm", stale && "opacity-60")}>
           {now && (
             <>
-              <span className="font-semibold">Staff</span> <span className={cn("font-mono", toneClass(now.total))}>{signed(now.total)}</span> runs a season
-              {withArm && <> → <span className={cn("font-mono", toneClass(withArm.staff.total - now.total))}>{signed(withArm.staff.total)}</span> with {withArm.name}</>}
-              {sits.length > 0 && <span className="text-muted-foreground"> · Sits: {sits.join(", ")}</span>}
+              <span className="font-semibold">{"Staff "}</span><span className={cn("font-mono", toneClass(now.total))}>{signed(now.total)}</span>{" runs a season"}
+              {withArm && <>{" → "}<span className={cn("font-mono", toneClass(withArm.staff.total - now.total))}>{signed(withArm.staff.total)}</span>{` with ${withArm.name}`}</>}
+              {sits.length > 0 && <span className="text-muted-foreground">{` · Sits: ${sits.join(", ")}`}</span>}
             </>
           )}
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {locks > 0 && (locks >= 3
-            ? <ConfirmButton variant="ghost" prompt={`Clear all ${locks} staff locks?`} onConfirm={clearLocks}>Clear {locks} locks</ConfirmButton>
-            : <Button size="sm" variant="ghost" onClick={clearLocks}>Clear {locks} lock{locks === 1 ? "" : "s"}</Button>)}
+            ? <ConfirmButton variant="ghost" prompt={`Clear all ${locks} staff locks?`} onConfirm={clearLocks}>{`Clear ${locks} locks`}</ConfirmButton>
+            : <Button size="sm" variant="ghost" onClick={clearLocks}>{`Clear ${locks} lock${locks === 1 ? "" : "s"}`}</Button>)}
           {league.source && (
             <ConfirmButton
               variant="ghost" disabled={atExport}
@@ -235,9 +238,9 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
         </div>
       </div>
       <ScoreStatus skip={skip} error={error} retry={retry} shown={now ? "The staff below is" : null} />
-      {!state.arms.length && <p className="text-sm text-muted-foreground">No pitchers on your team. Add them above; a pitcher from the list joins the staff.</p>}
+      {!state.arms.length && <p className="text-sm text-muted-foreground">No pitchers on your team. Add them under Your team; a pitcher from the list joins the staff.</p>}
       {state.arms.length > 0 && (
-        <div className="grid gap-6 xl:grid-cols-2">
+        <div className="grid gap-6 @min-[60rem]:grid-cols-2">
           {table("Rotation", "SP", rotation)}
           {table("Bullpen", "RP", bullpen)}
         </div>
@@ -248,7 +251,7 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
             <li key={slot} className="flex flex-wrap items-center gap-x-2">
               <Lock className="size-3 shrink-0 text-muted-foreground" aria-hidden />
               <span>{`${nameOf(entry)} is locked at ${slot}, which a staff this size doesn't have${nowAt.get(entry) ? `; he pitches at ${nowAt.get(entry)}.` : "."}`}</span>
-              <Button size="sm" variant="ghost" className="h-7 px-2" onClick={() => lock(slot, null)}>Unlock {slot}</Button>
+              <Button size="sm" variant="ghost" className="h-7 px-2" onClick={() => lock(slot, null)}>{`Unlock ${slot}`}</Button>
             </li>
           ))}
         </ul>

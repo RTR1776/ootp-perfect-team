@@ -12,10 +12,15 @@
  * - park: the home park as "1945 Fenway Park"; null or missing is neutral.
  * - cardId + ratings (optional): a card to model, in the card face's words
  *   (EYE vL, POW vR, BA vL, K vR, GAP vL, POS CF). Keys left out keep the shop
- *   card's values; a position set to 0 is one the card cannot play.
+ *   card's values, and so does a rating of 0; a position set to 0 is one the
+ *   card cannot play.
  *
  * Every lineup slot carries `entry`, the roster entry playing it (null for the
  * modelled card), so the page can tell a lock that held from one that didn't.
+ * Each `pool` hitter carries `positions`, his glove rating at each field slot
+ * he can play, for the lock menus. Locks that can't make a legal nine are left
+ * out one at a time (lib/analytics/league-lineup solveAround) and listed in
+ * `badLocks` ({ board, slot, entry }); the board is the best nine without them.
  *
  * The pitching staff (UI plan §5, lib/league-staff): each arm scored per role
  * as edge per 9 over the league's arm, from league play with a ratings
@@ -37,7 +42,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards } from "@/db/schema";
 import { leagueFamily, type Board, type LeagueFamily } from "@/lib/analytics/league-model";
-import { leagueLineups, type Lineup, type Locks } from "@/lib/analytics/league-lineup";
+import { fieldRatings, keptLocks, leagueLineups, solveAround, type Lineup, type Locks } from "@/lib/analytics/league-lineup";
 import { eraFor, parkFor } from "@/lib/analytics/tournament-env";
 import { candidateHitter, FACE_KEYS, faceRatings, loadHitterUniverse, myLeagueBats, resolveRoster, type ShopHitter } from "@/lib/league-hitters";
 import { addArm, armKey, myLeagueArms, STARTER_STAMINA, staffSolve, type ArmRole } from "@/lib/league-arms";
@@ -51,12 +56,17 @@ const FACE = new Set(FACE_KEYS.map(([face]) => face));
 const ARM_FACE = new Set(ARM_FACE_KEYS.map(([face]) => face));
 const ARM_SLOT = /^(SP[1-9]|CL|RP[1-9]\d?)$/;
 
-/** Typed card-face numbers: known keys only, 0–300, whole numbers. */
+/**
+ * Typed card-face numbers: known keys only, up to 300, whole numbers. A rating
+ * of 0 is no rating, so it is skipped and the card keeps its shop value (a
+ * blank field used to arrive as 0 and zero a whole board); only a position
+ * takes 0, one the card cannot play.
+ */
 function typedFace(raw: unknown, keys: Set<string>): Record<string, number> {
   const out: Record<string, number> = {};
   for (const [k, v] of Object.entries((raw ?? {}) as Record<string, unknown>)) {
     const n = Number(v);
-    if (!keys.has(k) || v === "" || v == null || !Number.isFinite(n) || n < 0 || n > 300) continue;
+    if (!keys.has(k) || v === "" || v == null || !Number.isFinite(n) || n < 0 || n > 300 || (n === 0 && !k.startsWith("POS "))) continue;
     out[k] = Math.round(n);
   }
   return out;
@@ -150,17 +160,22 @@ export async function POST(request: NextRequest) {
 
   const m = leagueLineups(cand ? [...hitters, cand] : hitters, { family, year, defScale, dh, park: park?.row ?? null });
   const rosterIds = hitters.map((h) => h.id);
-  const now = { vR: m.solve(rosterIds, "vR", locks.vR), vL: m.solve(rosterIds, "vL", locks.vL) };
-  for (const b of BOARDS) if (!now[b]) warnings.push(`${b === "vR" ? "vs RHP" : "vs LHP"}: no legal lineup with those locks (a locked player has no rating at his slot, or too few can play a position).`);
+  const entryOf = new Map(hitters.map((h) => [h.id, h.entry ?? null]));
+  // Locks that can't make a legal nine are left out, one at a time, and named
+  // (badLocks), so the board still shows the best nine instead of a row of dashes.
+  const tried = { vR: solveAround(m.solve, rosterIds, "vR", locks.vR), vL: solveAround(m.solve, rosterIds, "vL", locks.vL) };
+  const now = { vR: tried.vR.lineup, vL: tried.vL.lineup };
+  const used: Record<Board, Locks> = { vR: keptLocks(locks.vR, tried.vR.dropped), vL: keptLocks(locks.vL, tried.vL.dropped) };
+  const badLocks = BOARDS.flatMap((b) => tried[b].dropped.map((slot) => ({ board: b, slot, entry: entryOf.get(locks[b][slot]!) ?? null })));
+  for (const b of BOARDS) if (!now[b]) warnings.push(`${b === "vR" ? "vs RHP" : "vs LHP"}: no legal nine from this list, even without the locks (too few can play a position at your glove floor).`);
   // what the park did: the best nine with the same locks in a neutral park
   let neutral: Record<Board, number | null> | null = null;
   if (park?.row) {
     const n = leagueLineups(hitters, { family, year, defScale, dh, park: null });
-    neutral = { vR: n.solve(rosterIds, "vR", locks.vR)?.total ?? null, vL: n.solve(rosterIds, "vL", locks.vL)?.total ?? null };
+    neutral = { vR: n.solve(rosterIds, "vR", used.vR)?.total ?? null, vL: n.solve(rosterIds, "vL", used.vL)?.total ?? null };
   }
   const runsOf = (id: number) => ({ vR: m.runs.get(id)?.vR ?? null, vL: m.runs.get(id)?.vL ?? null });
-  const a = cand ? m.add(rosterIds, cand.id, now, locks) : null;
-  const entryOf = new Map(hitters.map((h) => [h.id, h.entry ?? null]));
+  const a = cand ? m.add(rosterIds, cand.id, now, used) : null;
   const named = (l: Lineup | null) => l && { ...l, lineup: l.lineup.map((x) => ({ ...x, entry: entryOf.get(x.id) ?? null })) };
 
   // ---- the pitching staff
@@ -210,8 +225,10 @@ export async function POST(request: NextRequest) {
     family, year, dh, defScale, lhp: m.lhp, rpw: m.rpw, rg: m.rg,
     park: park?.row ? park.label : null, neutral,
     roster: { source: typed.length ? "your list" : mine ? `${mine.league}, week of ${mine.on}` : "—", entries },
-    pool: hitters.map((h) => ({ entry: h.entry, label: h.label, ...runsOf(h.id) })),
+    // positions: each hitter's glove rating where he can play (the lock menus offer only those; everyone can DH)
+    pool: hitters.map((h) => ({ entry: h.entry, label: h.label, ...runsOf(h.id), positions: fieldRatings(h.ratings) })),
     now: { vR: named(now.vR), vL: named(now.vL) },
+    badLocks,
     candidate: cand ? { cardId: cand.cardId, label: cand.label, title: cand.note, ...runsOf(cand.id) } : null,
     with: a ? { vR: named(a.vR), vL: named(a.vL) } : null,
     add: a ? { dR: a.dR, dL: a.dL, season: a.season, wins: a.wins, dhOnly: a.dhOnly } : null,

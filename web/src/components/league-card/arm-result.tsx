@@ -6,6 +6,7 @@
  * scores best, or where L.J. puts him: the rotation or the pen.
  */
 import { Loader2 } from "lucide-react";
+import { Segmented } from "@/components/ui/segmented";
 import { signed } from "@/lib/format";
 import { cardEdited, edit, nameOf, STARTER_STAMINA, type ArmSlotRole, type Candidate, type ModelAction } from "@/lib/league-card-state";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,7 @@ import { innings, per9, toneClass } from "./bits";
 import type { ScoreResult, StaffSlot } from "./use-rescore";
 
 type Role = ArmSlotRole;
+type RoleChoice = Role | "best";
 const ROLES: Array<[role: Role | null, label: string]> = [[null, "Best"], ["SP", "Starter"], ["RP", "Reliever"]];
 
 export function ArmResult({ c, result, pending, stale, act }: {
@@ -74,28 +76,16 @@ export function ArmResult({ c, result, pending, stale, act }: {
             ? <><span className={toneClass(add.season)}>{signed(add.season)} runs a season</span><span className="ml-2 font-normal text-muted-foreground">({signed(add.wins)} W)</span></>
             : <span className="font-normal text-muted-foreground">no staff to join</span>}
         </div>
-        <div className="flex items-center gap-1 text-[11px]" role="radiogroup" aria-label={`Where ${c.name} pitches`}>
-          {ROLES.map(([r, label]) => {
-            const off = r === "SP" && !canStart;
-            return (
-              <button
-                key={label}
-                type="button"
-                role="radio"
-                aria-checked={chosen === r}
-                disabled={off}
-                title={off ? `Stamina ${arm.stamina ?? "—"}: relief only` : r ? `What he adds as a ${r === "SP" ? "starter" : "reliever"}` : "Wherever he scores best"}
-                onClick={() => act(edit.armRole(c.name, r))}
-                className={cn(
-                  "rounded px-1.5 py-0.5 disabled:cursor-not-allowed disabled:opacity-40",
-                  chosen === r ? "bg-primary/15 text-primary ring-1 ring-primary/30" : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
+        <Segmented<RoleChoice>
+          aria-label={`Where ${c.name} pitches`}
+          // His stored choice, even a Starter he can't be right now (the note says so): Best stays clickable.
+          value={c.role ?? "best"}
+          onChange={(v) => act(edit.armRole(c.name, v === "best" ? null : v))}
+          options={ROLES.map(([r, label]) => ({
+            value: r ?? "best", label, disabled: r === "SP" && !canStart,
+            title: r === "SP" && !canStart ? `Stamina ${arm.stamina ?? "—"}: relief only` : r ? `What he adds as a ${r === "SP" ? "starter" : "reliever"}` : "Wherever he scores best",
+          }))}
+        />
       </div>
       <div className="mt-1 space-y-0.5 text-xs text-muted-foreground">
         <p>{from}</p>

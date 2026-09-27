@@ -25,8 +25,8 @@ export const POSITIONS = SLOTS.slice(0, 8);
 export const BOARD_NAME: Record<Board, string> = { vR: "vs RHP", vL: "vs LHP" };
 /** A pitcher's sides are the batter's hand. */
 export const BATTER_NAME: Record<Board, string> = { vR: "vs RHB", vL: "vs LHB" };
-/** The batting ratings in card-face words; a form key is "EYE vR", "POW vL", … */
-export const BAT_STATS: Array<[key: string, name: string]> = [["EYE", "Eye"], ["POW", "Power"], ["GAP", "Gap"], ["BA", "BABIP"], ["K", "Avoid K"]];
+/** The batting ratings in card-face words and the card face's order; a form key is "EYE vR", "POW vL", … */
+export const BAT_STATS: Array<[key: string, name: string]> = [["K", "Avoid K"], ["BA", "BABIP"], ["GAP", "Gap"], ["POW", "Power"], ["EYE", "Eye"]];
 /** The pitching ratings in card-face words; a form key is "STU vR", "HRA vL", …, and Stamina is "STM". */
 export const ARM_STATS: Array<[key: string, name: string]> = [["STU", "Stuff"], ["CON", "Control"], ["HRA", "pHR"], ["PBABIP", "pBABIP"]];
 export const STAMINA = "STM";
@@ -36,6 +36,7 @@ export const ARM_SLOT = /^(SP[1-9]|CL|RP[1-9]\d?)$/;
 /** Stamina an arm needs to start (lib/league-arms STARTER_STAMINA; that module reads the database). */
 export const STARTER_STAMINA = 25;
 export const GLOVES: Array<[value: string, name: string]> = [["1", "Full"], ["0.5", "Half"], ["0", "Bat only"]];
+/** The run environment PT plays by default, listed as 2010 (lib/analytics/tournament-env). */
 export const DEFAULT_YEAR = "2010";
 export const STORE = "league-card:v3";
 export const STORE_V2 = "league-card:v2";
@@ -129,6 +130,12 @@ export const fieldChanged = (c: Candidate, key: string) => (c.face[key] ?? "") !
 export const cardEdited = (c: Candidate) => Object.keys({ ...c.base, ...c.face }).some((k) => fieldChanged(c, k));
 /** The keys of a step that are still at the card's base value, so a step would move them. */
 export const untouched = (c: Candidate, keys: string[]) => keys.filter((k) => !fieldChanged(c, k) && (c.base[k] ?? 0) > 0);
+/**
+ * A rating left blank (or 0) that the form flags "needs a number": it is left
+ * out of the request, so the card keeps its shop value there. A blank
+ * position is no such gap: the card can't play there.
+ */
+export const needsNumber = (c: Candidate, key: string) => !key.startsWith("POS ") && !(Number(c.face[key] || 0) > 0);
 
 const pctText = (pct: number) => `+${Number(pct.toFixed(2))}%`;
 const fieldName = (key: string) => {
@@ -161,7 +168,9 @@ export const edit = {
   updateTeam: (ex: LeagueExport): ModelAction => ({ type: "updateTeam", ex, label: "Update team" }),
   keepList: (ex: LeagueExport): ModelAction => ({ type: "keepList", ex, label: "Keep my list" }),
   family: (family: Family, exportFamily: Family): ModelAction => ({ type: "family", family, exportFamily, label: `Set league to ${family}` }),
-  year: (value: string): ModelAction => ({ type: "setting", key: "year", value, label: "Edit run environment", coalesceKey: "year" }),
+  year: (value: string): ModelAction => ({
+    type: "setting", key: "year", value, label: `Set run environment to ${value === DEFAULT_YEAR ? "the PT default" : value}`,
+  }),
   park: (value: string): ModelAction => ({ type: "setting", key: "park", value, label: "Edit home park", coalesceKey: "park" }),
   glove: (value: string): ModelAction => ({
     type: "setting", key: "glove", value, label: `Set gloves to ${(GLOVES.find(([v]) => v === value)?.[1] ?? value).toLowerCase()}`,
@@ -402,10 +411,16 @@ function candidateOf(x: unknown): Candidate | null {
   };
 }
 
-function settingsOf(x: Obj, family: Family): Settings {
+/** A saved year that is still one to pick (four digits, and on the list when there is one); else the PT default. */
+function yearOf(x: unknown, years?: ReadonlySet<string>): string {
+  const y = textOr(x, /^\d{4}$/, DEFAULT_YEAR);
+  return !years || years.has(y) ? y : DEFAULT_YEAR;
+}
+
+function settingsOf(x: Obj, family: Family, years?: ReadonlySet<string>): Settings {
   return {
     family,
-    year: textOr(x.year, /^\d{0,4}$/, DEFAULT_YEAR),
+    year: yearOf(x.year, years),
     park: typeof x.park === "string" ? x.park.slice(0, 80) : "",
     glove: GLOVES.some(([v]) => v === x.glove) ? (x.glove as string) : "1",
   };
@@ -414,9 +429,11 @@ function settingsOf(x: Obj, family: Family): Settings {
 /**
  * The state to start from: the saved v3 state, else the v2 list migrated,
  * else the newest export. Anything malformed falls back field by field; it
- * never throws. The league follows the export unless he pinned one.
+ * never throws. The league follows the export unless he pinned one. `years`,
+ * the run environments on the page's list: a saved year off it (a half-typed
+ * "20" from the old free-text box) starts at the PT default.
  */
-export function restoreState(saved: unknown, v2: unknown, ex: LeagueExport): ModelState {
+export function restoreState(saved: unknown, v2: unknown, ex: LeagueExport, years?: ReadonlySet<string>): ModelState {
   if (isObj(saved)) {
     const bats = strings(saved.bats) ?? [...ex.roster];
     const settings = isObj(saved.settings) ? saved.settings : {};
@@ -428,7 +445,7 @@ export function restoreState(saved: unknown, v2: unknown, ex: LeagueExport): Mod
     const arms = exportArms ? strings(saved.arms) ?? [...ex.arms] : [...ex.arms];
     return {
       bats, arms, locks: locksOf(saved.locks, bats), armLocks: exportArms ? armLocksOf(saved.armLocks, arms) : {},
-      settings: settingsOf(settings, pinned ?? ex.family), candidate: candidateOf(saved.candidate),
+      settings: settingsOf(settings, pinned ?? ex.family, years), candidate: candidateOf(saved.candidate),
       source: typeof saved.source === "string" ? saved.source : null,
       exportRoster: strings(saved.exportRoster) ?? [], exportArms: exportArms ?? [...ex.arms], familyPinned: pinned != null,
     };
@@ -445,7 +462,7 @@ export function restoreState(saved: unknown, v2: unknown, ex: LeagueExport): Mod
     const isThis = bats.length === ex.roster.length && ex.roster.every((e) => bats.includes(e));
     const family = (isThis ? familyOf(v2.family) : null) ?? ex.family;
     return {
-      ...freshState(ex), bats, locks: locksOf(v2.locks, bats), settings: settingsOf(v2, family), familyPinned: family !== ex.family,
+      ...freshState(ex), bats, locks: locksOf(v2.locks, bats), settings: settingsOf(v2, family, years), familyPinned: family !== ex.family,
       ...(isThis ? {} : { source: V2_SOURCE, exportRoster: [...bats] }),
     };
   }
@@ -466,14 +483,15 @@ export type ScoreRequest = { key: string; body: ScoreBody; skip?: undefined } | 
 
 /**
  * What /api/league-card is asked for this state. Half-typed input asks for
- * nothing: a year that isn't four digits yet, or a park that isn't one on the
- * list. The staff is always sent, so an empty one stays empty. A blank rating
- * is left out (the card keeps its shop value); a hitter's blank position is
- * sent as 0, a position the card cannot play.
+ * nothing: a year that isn't four digits, or a park that isn't one on the
+ * list. The staff is always sent, so an empty one stays empty. A blank (or 0)
+ * rating is left out, so the card keeps its shop value there (the form flags
+ * it: needsNumber); a hitter's blank position is sent as 0, a position the
+ * card cannot play.
  */
 export function scoreRequest(s: ModelState, parks: ReadonlySet<string>): ScoreRequest {
   if (!s.bats.length) return { key: null, skip: null };
-  if (!/^\d{4}$/.test(s.settings.year)) return { key: null, skip: "Run environment: type a four-digit year." };
+  if (!/^\d{4}$/.test(s.settings.year)) return { key: null, skip: "Run environment: pick a year from the list." };
   const park = s.settings.park.trim();
   if (park && !parks.has(park)) return { key: null, skip: "Home park: pick one from the list, or leave it blank for neutral." };
   const body: ScoreBody = {
@@ -484,8 +502,8 @@ export function scoreRequest(s: ModelState, parks: ReadonlySet<string>): ScoreRe
   if (c?.include) {
     const ratings: Record<string, number> = {};
     for (const [k, v] of Object.entries(c.face)) {
-      if (v !== "") ratings[k] = Number(v);
-      else if (c.kind === "bat" && k.startsWith("POS ")) ratings[k] = 0;
+      if (k.startsWith("POS ")) { if (c.kind === "bat") ratings[k] = v === "" ? 0 : Number(v); }
+      else if (!needsNumber(c, k)) ratings[k] = Number(v);
     }
     body.cardId = c.id;
     body.ratings = ratings;

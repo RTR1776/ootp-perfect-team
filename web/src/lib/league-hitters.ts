@@ -8,6 +8,7 @@ import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, collectionCards, leagueSnapshots, leagueStints, uploads } from "@/db/schema";
 import { formRatings } from "@/lib/card-forms";
+import { normName } from "@/lib/card-search";
 import { isMyOrg } from "@/lib/my-team";
 import type { LineupHitter } from "@/lib/analytics/league-lineup";
 
@@ -21,7 +22,8 @@ export interface HitterUniverse {
   shopById: Map<number, ShopHitter>;
 }
 
-export const normName = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
+/** The one name comparison, shared with the page's card search (lib/card-search). */
+export { normName };
 
 /**
  * The shop and the newest collection, read once per five minutes per server

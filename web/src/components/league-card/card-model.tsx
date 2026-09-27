@@ -6,6 +6,10 @@
  * to try, and a card typed off its face to see what it adds. Scoring is
  * server side (/api/league-card), on the same model as `pnpm league:compare`.
  *
+ * The page, top down (UI plan C6): the summary strip (the team's runs, the
+ * settings, Undo/Redo), the Lineups / Pitching staff tabs, and the team; the
+ * card form sits below them, or beside them on a wide screen.
+ *
  * Every edit is one labelled step in one history (lib/league-card-state), so
  * Undo/Redo and Cmd/Ctrl+Z take back any of it, and edits that drop work say
  * so in a toast with Undo. The lineups and the staff rescore after each edit
@@ -16,6 +20,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { dismissToast, toast } from "@/components/ui/toast";
+import type { ComboCard } from "@/components/card-combobox";
 import {
   edit, modelReducer, restoreState, scoreRequest, STORE, STORE_V2, type CardBase, type CardKind, type LeagueExport, type ModelAction,
 } from "@/lib/league-card-state";
@@ -24,15 +29,18 @@ import { selectUndoKeys } from "./bits";
 import { CardPanel } from "./card-panel";
 import { LineupsPanel } from "./lineups-panel";
 import { StaffPanel } from "./staff-board";
-import { TeamPanel } from "./team-panel";
-import { UndoBar } from "./undo-bar";
+import { SummaryStrip } from "./summary-strip";
+import { ExportBanner, TeamPanel } from "./team-panel";
 import { useRescore } from "./use-rescore";
 
-export interface CardOption { id: number; name: string; label: string; kind: CardKind }
+/** A card to add or model, owned ones marked (C9). */
+export interface CardOption extends ComboCard { kind: CardKind }
 interface Props {
   /** Cards to add or model: hitters "Dave Winfield 97 · 1979 RF", pitchers "Kenley Jansen 100 · 2017 CL · RP". */
   cards: CardOption[];
   parks: string[];
+  /** The run environments to pick from, the PT default ("2010") first. */
+  years: string[];
   /** The newest league export: his bats and arms that week, and its league. */
   league: LeagueExport;
 }
@@ -53,10 +61,10 @@ const readSaved = (key: string): unknown => {
   try { return JSON.parse(localStorage.getItem(key) ?? "null"); } catch { return null; }
 };
 
-function Model({ cards, parks, league }: Props) {
+function Model({ cards, parks, years, league }: Props) {
   const {
     state, dispatch, seal, undo: undoStep, redo: redoStep, canUndo, canRedo, undoLabel, redoLabel,
-  } = useUndoable(modelReducer, () => restoreState(readSaved(STORE), readSaved(STORE_V2), league));
+  } = useUndoable(modelReducer, () => restoreState(readSaved(STORE), readSaved(STORE_V2), league, new Set(years)));
 
   // Remembered in this browser; a blocked store just means nothing is kept.
   useEffect(() => {
@@ -153,41 +161,51 @@ function Model({ cards, parks, league }: Props) {
   const cardResult = c?.include && !loading && scoredId === c.id ? res : null;
   const withArm = c?.kind === "arm" && cardResult?.candidateArm && cardResult.armAdd
     ? { name: c.name, arm: cardResult.candidateArm, staff: cardResult.armAdd.staff } : null;
+  // The card's worth to the team for the summary strip: into the lineups, or onto the staff.
+  const cardAdd = c && cardResult ? (c.kind === "arm" ? cardResult.armAdd : cardResult.add) : null;
   const status = { pending: score.pending, stale: score.stale, skip: req.skip ?? null, error: score.error, retry: score.retry };
 
   return (
     <div className="space-y-4">
-      <TeamPanel state={state} league={league} cards={cards} result={res} act={act} told={told} />
-      <Tabs value={tab} onValueChange={openTab}>
-        <Card>
-          <CardHeader className="pb-4">
-            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
-              <TabsList aria-label="Lineups or pitching staff">
+      <ExportBanner state={state} league={league} act={act} told={told} />
+      <SummaryStrip
+        state={state} exportFamily={league.family} result={res} pending={score.pending} stale={score.stale} years={years} parks={parkSet}
+        card={c && cardAdd ? { name: c.name, season: cardAdd.season, wins: cardAdd.wins } : null}
+        undo={{ canUndo, canRedo, undoLabel, redoLabel, undo, redo }} act={act} seal={seal} onSelectKeys={onSelectKeys}
+      />
+      {/* Below xl one column: the boards, the card form, the team. From xl the form is a column on the right;
+          the second row takes any extra height, so a tall form never opens a gap between the boards and the team. */}
+      <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-4 xl:grid-cols-[minmax(0,1fr)_380px] xl:grid-rows-[auto_1fr]">
+        <Tabs value={tab} onValueChange={openTab} className="min-w-0 xl:col-start-1 xl:row-start-1">
+          <Card>
+            <CardHeader className="pb-4">
+              <TabsList aria-label="Lineups or pitching staff" className="self-start">
                 {TABS.map(([v, name]) => <TabsTrigger key={v} value={v}>{name}</TabsTrigger>)}
               </TabsList>
-              <UndoBar canUndo={canUndo} canRedo={canRedo} undoLabel={undoLabel} redoLabel={redoLabel} undo={undo} redo={redo} />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <TabsContent value="lineups" className="mt-0">
-              <LineupsPanel
-                state={state} exportFamily={league.family} result={res} withCard={cardResult?.with ?? null} {...status}
-                act={act} told={told} seal={seal} onSelectKeys={onSelectKeys}
-              />
-            </TabsContent>
-            <TabsContent value="staff" className="mt-0">
-              <StaffPanel state={state} league={league} result={res} withArm={withArm} {...status} act={act} told={told} onSelectKeys={onSelectKeys} />
-            </TabsContent>
-          </CardContent>
-        </Card>
-      </Tabs>
-      <CardPanel
-        candidate={c} cards={cards} result={cardResult} pending={score.pending} stale={score.stale} loading={loading} cardError={cardError}
-        onPick={(o) => void pickCard(o)} onClear={clearCard} act={act} seal={seal}
-      />
-      <datalist id="league-card-options">
-        {cards.map((o) => <option key={o.id} value={o.label} />)}
-      </datalist>
+            </CardHeader>
+            <CardContent>
+              <TabsContent value="lineups" className="mt-0">
+                <LineupsPanel
+                  state={state} hasExport={league.source != null} result={res} withCard={cardResult?.with ?? null} {...status}
+                  act={act} told={told} onSelectKeys={onSelectKeys}
+                />
+              </TabsContent>
+              <TabsContent value="staff" className="mt-0">
+                <StaffPanel state={state} league={league} result={res} withArm={withArm} {...status} act={act} told={told} onSelectKeys={onSelectKeys} />
+              </TabsContent>
+            </CardContent>
+          </Card>
+        </Tabs>
+        <div className="min-w-0 xl:col-start-2 xl:row-span-2 xl:row-start-1">
+          <CardPanel
+            candidate={c} cards={cards} result={cardResult} pending={score.pending} stale={score.stale} loading={loading} cardError={cardError}
+            onPick={(o) => void pickCard(o)} onClear={clearCard} act={act} seal={seal}
+          />
+        </div>
+        <div className="min-w-0 xl:col-start-1 xl:row-start-2">
+          <TeamPanel state={state} league={league} cards={cards} result={res} act={act} told={told} />
+        </div>
+      </div>
       <datalist id="league-card-parks">
         {parks.map((p) => <option key={p} value={p} />)}
       </datalist>
