@@ -79,6 +79,8 @@ const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).fil
  */
 const CARD_TYPES = new Set((val("card-types") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0));
 const OPTIMIZE = flag("optimize");
+/** Catchers the optimiser must carry. L.J. always carries two, and /build defaults to it; --min-catchers 0 turns it off. */
+const MIN_CATCHERS = num("min-catchers", 2)!;
 /**
  * --candidate-limit N: prune each slot to its N best candidates by runs
  * before hill-climbing (what /build does with 30, so the search finishes in
@@ -384,7 +386,7 @@ async function main() {
     for (const [, st] of starts) {
       const r = optimizeRoster(st.slots, pool, rules, shape, {
         objective, slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
-        candidateLimit: CANDIDATE_LIMIT ?? undefined,
+        candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS,
       });
       if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }
