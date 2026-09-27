@@ -897,6 +897,12 @@ export function RosterBuilder({
     if (notice.current != null) dismissToast(notice.current);
     notice.current = null;
   }, []);
+  /** The "Removed from your board" note: edits leave it open; a switch or leaving closes it. */
+  const removedNote = useRef<number | null>(null);
+  const dropRemovedNote = useCallback(() => {
+    if (removedNote.current != null) dismissToast(removedNote.current);
+    removedNote.current = null;
+  }, []);
   /** Every change to the board goes through here, as one labelled step. */
   const act = (action: BoardAction) => {
     if (!own) return;
@@ -949,8 +955,8 @@ export function RosterBuilder({
   }, [locks, bans, sets]);
 
   /** The latest render's board, locks, bans and actions, for code that runs after an await or from a toast. */
-  const latest = useRef({ board, locks, bans, autoFill, bulk });
-  useEffect(() => { latest.current = { board, locks, bans, autoFill, bulk }; });
+  const latest = useRef({ board, locks, bans, autoFill, bulk, boardRuns, slotOrder });
+  useEffect(() => { latest.current = { board, locks, bans, autoFill, bulk, boardRuns, slotOrder }; });
 
   /* Optimise and Search longer (lib/roster-search.ts) run in a Web Worker
      (optimize.worker.ts), so the page stays usable while they climb and Stop
@@ -959,7 +965,13 @@ export function RosterBuilder({
      belongs to the event it started on: switching events cancels it and
      drops its result. */
   const [optimizing, setOptimizing] = useState<"quick" | "deep" | null>(null);
-  const searchRun = useRef<{ stop: () => void; cancel: () => void } | null>(null);
+  const searchRun = useRef<{ stop: () => void; cancel: () => void; startedAt: number } | null>(null);
+  /** Stop, unless it is a double-click's second click on the button that just started the search. */
+  const stopSearch = (e: React.MouseEvent) => {
+    const run = searchRun.current;
+    if (!run || e.detail > 1 || performance.now() - run.startedAt < 500) return;
+    run.stop();
+  };
   const startSearch = (req: SearchRequest, runTid: number) => new Promise<SearchOutcome>((resolve) => {
     const failed = (why: string) => toast({ tone: "error", message: `The search ${why}. Your board is unchanged.` });
     let w: Worker;
@@ -981,7 +993,7 @@ export function RosterBuilder({
       setSearchProgress(null);
       resolve(how === "cancelled" ? { best: null, ran: 0, total: last.total, cut: false, how } : { ...last, how });
     };
-    searchRun.current = { stop: () => end("stopped"), cancel: () => end("cancelled") };
+    searchRun.current = { stop: () => end("stopped"), cancel: () => end("cancelled"), startedAt: performance.now() };
     w.onmessage = (e: MessageEvent<SearchMessage>) => {
       // One already on its way when the event switched.
       if (lastTid.current !== runTid) { end("cancelled"); return; }
@@ -1062,14 +1074,12 @@ export function RosterBuilder({
     const climbs = plural(ran, mode === "quick" ? "start" : "climb");
     const outsideNote = outside.length ? `Locked ${outside.join(", ")} ${outside.length === 1 ? "is" : "are"} outside the chosen sets, so left off.` : "";
     if (!best) {
-      toast(ran === 0
+      toast(out.how === "stopped" && ran === 0
         ? { message: "Stopped before the first start finished. Nothing changed." }
-        : { tone: "error", message: `No start reached a board that passes every rule (${ran} tried). Open the issues in the roster header.` });
-      return;
-    }
-    // A board that breaks a rule is replaced even by a lower-scoring legal one.
-    if (!breaks && best.score <= beforeSearch + 1e-9) {
-      toast({ message: `No better board found (${climbs}${cut ? ", stopped at the time limit" : ""}). Yours stays at ${signed(before)} runs.${outsideNote ? ` ${outsideNote}` : ""}` });
+        : ran === 0
+          // The search found no complete board to start from: some slot has nobody left to fill it.
+          ? { tone: "error", message: "No complete board to start from: a slot has no eligible card left. Check the bans, the Sets chips and the empty slots." }
+          : { tone: "error", message: `No start reached a board that passes every rule (${ran} tried). Open the issues in the roster header.` });
       return;
     }
     const onBest = new Set(Object.values(best.slots));
@@ -1081,20 +1091,40 @@ export function RosterBuilder({
     ].filter(Boolean).join(" ");
     const detail = `Best of ${climbs}${cut ? " (the time limit stopped it)" : ""}, from ${best.from}, ${plural(best.moves, "move")}. Calibrated runs, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} vs RHP/LHP, gloves priced in runs, positions solved exactly${locks.size || bans.size ? `; ${locks.size} locked, ${bans.size} banned` : ""}.`;
     const label = mode === "quick" ? "Optimise" : "Search longer";
-    // He changed the board, the locks or the bans while it ran: his changes stay, and the result is offered.
+    const found = objective.objective(best.slots);
+    // He changed the board, the locks or the bans while it ran: his changes stay. The result is
+    // offered if it beats the board he has now and still fits its slots (a bench or staff count
+    // changed means it was built for another board).
     const now = latest.current;
     if (now.board !== started.board || now.locks !== started.locks || now.bans !== started.bans) {
+      const nowRuns = now.boardRuns(now.board.slots) ?? 0;
+      const sameShape = Object.keys(best.slots).every((k) => now.slotOrder.includes(k as SlotKey)) && now.slotOrder.length === slotOrder.length;
+      if (!sameShape) {
+        toast({ message: `The slot counts changed while the search ran, so its result (${signed(found)} runs) no longer fits your board. Run it again.`, detail });
+        return;
+      }
+      if (found <= nowRuns + 1e-9) {
+        toast({ message: `The board changed while the search ran. Nothing it found beats yours now (${signed(nowRuns)} runs).`, detail });
+        return;
+      }
       toast({
-        message: `The board changed while the search ran, so its result was not applied (${signed(objective.objective(best.slots))} runs).`,
+        message: `The board changed while the search ran, so its result was not applied: ${signed(found)} runs against your ${signed(nowRuns)}.`,
         detail,
+        // A long search may end while he looks elsewhere: the offer stays until he closes it.
+        duration: 0,
         action: {
           label: "Use it",
           onClick: () => {
-            if (lastTid.current !== runTid) return;
+            if (lastTid.current !== runTid || latest.current.slotOrder.length !== slotOrder.length) return;
             latest.current.bulk({ type: "set", next: { slots: best.slots }, label }, { say: ({ runs, inOut }) => `Search result${runs ? `: ${runs}` : ""}. ${inOut}`, detail });
           },
         },
       });
+      return;
+    }
+    // A board that breaks a rule is replaced even by a lower-scoring legal one.
+    if (!breaks && best.score <= beforeSearch + 1e-9) {
+      toast({ message: `No better board found (${climbs}${cut ? ", stopped at the time limit" : ""}). Yours stays at ${signed(before)} runs.${outsideNote ? ` ${outsideNote}` : ""}` });
       return;
     }
     bulk({ type: "set", next: { slots: best.slots }, label }, {
@@ -1112,7 +1142,17 @@ export function RosterBuilder({
   /** The kept board as last written or restored, so an unchanged board is not written again. */
   const lastKept = useRef<string | null>(null);
   useEffect(() => {
-    if (!tournament) return;
+    if (!tournament) {
+      // Back to the picker (the logo, the Build link, Back): a running search stops too. Its
+      // Stop lives in the roster header, which the picker page doesn't show.
+      if (searchRun.current) {
+        searchRun.current.cancel();
+        toast({ message: `Search stopped: you left ${lastName.current ?? "the event"}. Nothing was changed.` });
+      }
+      dropRemovedNote();
+      lastTid.current = null;
+      return;
+    }
     if (lastTid.current === tournament.id) return;
     const left = lastName.current;
     lastTid.current = tournament.id;
@@ -1121,10 +1161,11 @@ export function RosterBuilder({
     setSearch("");
     setPosFilter("ALL");
     dropNotice();
+    dropRemovedNote();
     pendingNotice.current = null;
     if (searchRun.current) {
       searchRun.current.cancel();
-      toast({ message: `Search stopped: you switched events. Your ${left ?? "last"} board is kept as it was.` });
+      toast({ message: `Search stopped: you switched events. Nothing was changed on ${left ?? "the last event"}.` });
     }
     const saved = readLocks(tournament.id);
     setLocks(new Set(saved.locks ?? []));
@@ -1159,12 +1200,14 @@ export function RosterBuilder({
       lastKept.current = JSON.stringify(boardContent(next, slotKeys(lineupPos, r.counts), r.counts));
       inited.current = id;
       const note = droppedNote(r.dropped);
-      notice.current = toast({
+      const restored = toast({
         message: `Restored your board from ${stamp(kept.savedAt)}.${note ? ` ${note}` : ""}`,
         action: { label: "Start from recommendation", onClick: () => { if (lastTid.current === id) latest.current.autoFill(); } },
-        // A card taken off stays said until he closes it.
+        // A card taken off stays said until he closes it: it isn't the Undo notice, which the next edit closes.
         duration: note ? 0 : undefined,
       });
+      if (note) removedNote.current = restored;
+      else notice.current = restored;
       return;
     }
     const fill = computeFill({ locks: savedLocks.locks ?? [], bans: savedLocks.bans ?? [], sets: setList });
@@ -1201,9 +1244,9 @@ export function RosterBuilder({
     return () => {
       mounted.current = false;
       running.current?.cancel();
-      setTimeout(() => { if (!mounted.current) dropNotice(); }, 0);
+      setTimeout(() => { if (!mounted.current) { dropNotice(); dropRemovedNote(); } }, 0);
     };
-  }, [dropNotice]);
+  }, [dropNotice, dropRemovedNote]);
 
   const save = async () => {
     if (!tournament) return;
@@ -1745,10 +1788,10 @@ export function RosterBuilder({
                     </span>
                     <Button size="sm" variant="outline" onClick={autoFill} disabled={optimizing != null} title="Refill the board with the greedy recommendation: locked cards kept, banned ones skipped">Reset to recommended</Button>
                     {optimizing === "quick"
-                      ? <Button size="sm" onClick={() => searchRun.current?.stop()} title="Stop, and keep the best board found so far">Stop</Button>
+                      ? <Button size="sm" onClick={stopSearch} title="Stop, and keep the best board found so far">Stop</Button>
                       : <Button size="sm" onClick={() => void optimize("quick")} disabled={optimizing != null || !objective} title={objective ? "Hill-climb from this board and a few other starts on calibrated runs, gloves priced in runs, under every rule and the glove floor. Half a minute at most; Stop keeps the best so far." : "No run environment on file for this event"}>Optimise</Button>}
                     {optimizing === "deep"
-                      ? <Button size="sm" variant="outline" onClick={() => searchRun.current?.stop()} title="Stop, and keep the best board found so far">Stop</Button>
+                      ? <Button size="sm" variant="outline" onClick={stopSearch} title="Stop, and keep the best board found so far">Stop</Button>
                       : <Button size="sm" variant="outline" onClick={() => void optimize("deep")} disabled={optimizing != null || !objective} title="More starts, each climbed with Optimise's settings and a wider search. A few minutes; never worse than Optimise; Stop keeps the best board so far.">Search longer</Button>}
                     <Button
                       size="sm" variant="outline" disabled={optimizing != null}
