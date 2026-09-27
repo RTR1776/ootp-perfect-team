@@ -18,12 +18,9 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, observedCardStats, tournaments } from "@/db/schema";
-import { CARD_TYPE_SHORT, parseCardTypeRule } from "@/lib/roster-rules";
-import { evidenceLine, evidenceRule, setsNarrow, yearsNarrow } from "@/lib/set-evidence";
+import { CARD_TYPE_SHORT, SUSPECT_SET_NAME, parseCardTypeRule } from "@/lib/roster-rules";
+import { NO_LIVE_RULE, evidenceLine, evidenceRule, liveAbsent, setsNarrow, yearSpan, yearsNarrow } from "@/lib/set-evidence";
 import { loadSetEvidenceMany } from "@/lib/set-evidence-server";
-
-/** Names that usually mean a set rule (the same test the rules strip uses). */
-const SUSPECT_NAME = /all-?star|hardware|snapshot|negro|unsung|rookie|legend|future|veteran|\blive\b/i;
 
 async function main() {
   // EF events play the game's default rules (build/page.tsx hides them too).
@@ -56,13 +53,15 @@ async function main() {
       continue;
     }
     if (!e) {
-      if (SUSPECT_NAME.test(t.name)) confirm.push(label); else silent++;
-    } else if (setsNarrow(e)) {
-      propose.push(`${label}: ${evidenceLine(e)}\n    pnpm catalogue:set --tournament ${t.id} --card-types "${evidenceRule(e)}" --note "card sets read off the field's exports"`);
-    } else if (yearsNarrow(e)) {
-      propose.push(`${label}: every card played is a ${e.yearMin} card, ${evidenceLine(e)}\n    pnpm catalogue:set --tournament ${t.id} --card-years ${e.yearMin}-${e.yearMax} --note "card years read off the field's exports"`);
+      if (SUSPECT_SET_NAME.test(t.name)) confirm.push(label); else silent++;
     } else {
-      wide.push(`${label}: ${evidenceLine(e)}`);
+      // Sets and years are separate rules; a field can show both.
+      const lines: string[] = [];
+      if (setsNarrow(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-types "${evidenceRule(e)}" --note "card sets read off the field's exports"`);
+      else if (liveAbsent(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-types "${NO_LIVE_RULE}" --note "no Live card in ${e.n} played"`);
+      if (yearsNarrow(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-years ${e.yearMin}-${e.yearMax} --note "card years read off the field's exports"`);
+      if (lines.length) propose.push(`${label}: ${evidenceLine(e)}, cards ${yearSpan(e)}\n${lines.join("\n")}`);
+      else wide.push(`${label}: ${evidenceLine(e)}`);
     }
   }
 

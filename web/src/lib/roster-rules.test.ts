@@ -128,3 +128,53 @@ test("formRatings scales a variant's listed positions by its DEF boost (Nimmala 
   // base copy (DEF equals the base rating): untouched
   assert.deepEqual(formRatings(base, { DEF: 119 }, "3B")["Pos Rating SS"], 108);
 });
+
+/* describeRules and the set rule's message (UI plan G2, 2026-09-27) */
+import { describeRules } from "./roster-rules";
+import { summariseSetEvidence } from "./set-evidence";
+
+const hardware: RosterRules = {
+  name: "Daily All-Star Hardware Slots", dh: true, ratingsMin: null, ratingsMax: null, cardYearMin: null, cardYearMax: null, isDraft: false,
+  restrictions: { slots: { P: 8, D: 6, G: 3, S: 3, B: 3, I: 3 }, cardTypes: ["Historical All-Star+Hardware Heroes"] },
+};
+const played = (spec: [number, number, number][]) => summariseSetEvidence(spec.flatMap(([cardType, year, n]) => Array.from({ length: n }, () => ({ cardType, year }))));
+
+test("9100139's rules read as sets and slots", () => {
+  const items = describeRules(hardware);
+  const by = Object.fromEntries(items.map((i) => [i.key, i]));
+  assert.equal(by.sets.text, "Historical All-Star, Hardware Heroes");
+  assert.equal(by.sets.state, "set");
+  assert.equal(by.slots.text, "P8 · D6 · G3 · S3 · B3 · I3");
+  assert.equal(by.value, undefined, "slots stand in for a value window");
+  assert.deepEqual(items.map((i) => i.key), ["slots", "sets", "size", "dh"], "fixed order, only what applies");
+});
+
+test("a card from another set is refused by name", () => {
+  const manush: RosterCard = { cardId: 1, name: "Heinie Manush", val: 96, year: 1928, isPitcher: false, role: null, cardType: 7, ratings: {}, baseOwned: true, variantOwned: false };
+  const e = cardEligibility(manush, hardware).errors.find((x) => x.code === "card-type");
+  assert.equal(e?.message, "Heinie Manush: card set Snapshot not allowed (allowed: Historical All-Star, Hardware Heroes).");
+});
+
+test("the tier count on the board marks only the first tier that overflows", () => {
+  // Legal: a Diamond fills the spare Perfect slot (P 7/8, D 7/6 is fine cumulatively).
+  const legal = describeRules(hardware, { used: { P: 7, D: 7, G: 3, S: 3, B: 3, I: 3 } }).find((i) => i.key === "slots")!;
+  assert.equal(legal.text, "P 7/8 · D 7/6 · G 3/3 · S 3/3 · B 3/3 · I 3/3");
+  assert.equal(legal.over, null);
+  const over = describeRules(hardware, { used: { P: 9, D: 5, G: 3, S: 3, B: 3, I: 3 } }).find((i) => i.key === "slots")!;
+  assert.equal(over.over, "P");
+});
+
+test("a missing set rule is flagged from the field's play or the name; an unreadable one is loud", () => {
+  const noRule: RosterRules = { ...hardware, name: "Some Slots Event", restrictions: { slots: hardware.restrictions!.slots } };
+  const sets = (r: RosterRules, e = null as ReturnType<typeof played>) => describeRules(r, { evidence: e }).find((i) => i.key === "sets")!;
+  assert.equal(sets(noRule).state, "none");
+  const narrow = sets(noRule, played([[5, 1957, 209], [9, 1990, 111]]));
+  assert.equal(narrow.state, "suspect");
+  assert.match(narrow.text, /HAS 209 · HH 111/);
+  assert.equal(sets({ ...noRule, name: "Daily Live Plus" }).state, "suspect", "the name alone");
+  const bad = sets({ ...hardware, restrictions: { cardTypes: ["Unicorns"] } });
+  assert.equal(bad.state, "unreadable");
+  assert.match(bad.detail!, /NOT filtered/);
+  const years = describeRules({ ...noRule, name: "Daily Live Plus" }, { evidence: played([[1, 2026, 141], [6, 2026, 60], [7, 2026, 3], [5, 2026, 2]]) }).find((i) => i.key === "years");
+  assert.equal(years?.state, "suspect");
+});

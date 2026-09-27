@@ -48,3 +48,18 @@ test("a card-set rule the catalogue was missing is added, and the old rules kept
   assert.equal((next.restrictions!.previousFormat as { restrictions: Record<string, unknown> }).restrictions.cardTypes, undefined);
 });
 
+
+import { keepHandRules } from "./catalogue-edit";
+
+test("a refresh import keeps hand-set rules unless the post states them", () => {
+  const onFile = { slot: 139, refreshText: "old", cardTypes: ["Historical All-Star+Hardware Heroes"], textFrom: "L.J. 2026-09-27", slots: { P: 8 } };
+  const fresh = { slot: 139, refreshText: "Slots: 8 Perfect…", slots: { P: 8, D: 6 } };
+  const kept = keepHandRules(onFile, fresh);
+  assert.deepEqual(kept.cardTypes, ["Historical All-Star+Hardware Heroes"]);
+  assert.equal(kept.textFrom, "L.J. 2026-09-27");
+  assert.deepEqual(kept.slots, { P: 8, D: 6 }, "what the post states wins");
+  assert.equal(kept.refreshText, "Slots: 8 Perfect…");
+  const posted = keepHandRules(onFile, { ...fresh, cardTypes: ["Live"] });
+  assert.deepEqual(posted.cardTypes, ["Live"], "a set rule in the post replaces the kept one");
+  assert.deepEqual(keepHandRules(null, fresh), fresh);
+});

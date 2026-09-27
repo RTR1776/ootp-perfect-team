@@ -29,6 +29,7 @@ import { sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { parks, tournaments } from "../src/db/schema";
 import { parseRestrictions, tierWindowFromName } from "../src/lib/ingest/restrictions";
+import { keepHandRules } from "../src/lib/catalogue-edit";
 
 const DRY = process.argv.includes("--dry");
 const squash = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
@@ -95,7 +96,7 @@ async function main() {
     return squashed.length === 1 ? squashed[0] : null;
   };
 
-  const existing = await db.select({ id: tournaments.id, name: tournaments.name, series: tournaments.series, slot: tournaments.slot }).from(tournaments);
+  const existing = await db.select({ id: tournaments.id, name: tournaments.name, series: tournaments.series, slot: tournaments.slot, restrictions: tournaments.restrictions }).from(tournaments);
   const byName = new Map(existing.map((r) => [r.name.toLowerCase().trim(), r]));
   /**
    * tournaments.slot (catalogue-sync fills it from the dumps) is the join
@@ -196,7 +197,8 @@ async function main() {
         if (e.new && !e.sameEvent) for (const other of existing) {
           if (other.slot === slot && other.id !== hit.id && !carries(other.name, name)) retireIds.push({ id: other.id, name: other.name, replacedBy: name });
         }
-        const set: Record<string, unknown> = { restrictions: extra, slot };
+        // Card-set rules and notes set by hand survive a post that does not state them.
+        const set: Record<string, unknown> = { restrictions: keepHandRules(hit.restrictions, extra), slot };
         /**
          * Only a `sameEvent` rename rewrites the NAME. Every other update
          * leaves it alone on purpose: the post and the databotai catalog spell

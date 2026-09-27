@@ -17,13 +17,14 @@ import { eq, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { tournaments } from "../src/db/schema";
 import { parseRestrictions } from "../src/lib/ingest/restrictions";
+import { keepHandRules } from "../src/lib/catalogue-edit";
 
 const DRY = process.argv.includes("--dry");
 const ROOT = join(process.cwd(), "..");
 const R = JSON.parse(readFileSync(join(ROOT, "Tourney Data/refresh-2026-09.json"), "utf8"));
 
 async function main() {
-  const rows = await db.select({ id: tournaments.id, name: tournaments.name }).from(tournaments);
+  const rows = await db.select({ id: tournaments.id, name: tournaments.name, restrictions: tournaments.restrictions }).from(tournaments);
   const byName = new Map(rows.map((r) => [r.name.toLowerCase().trim(), r.id]));
 
   // OOTP's name and the refresh post's name do not always match exactly.
@@ -53,7 +54,9 @@ async function main() {
       }
       if (p.notes.length) extra.notes = p.notes;
 
-      const set: Record<string, unknown> = { restrictions: Object.keys(extra).length ? extra : null };
+      // Card-set rules and notes set by hand survive a blurb that does not state them.
+      const kept = keepHandRules(rows.find((r) => r.id === id)?.restrictions, extra);
+      const set: Record<string, unknown> = { restrictions: Object.keys(kept).length ? kept : null };
       if (p.valueMin != null) set.ratingsMin = p.valueMin;
       if (p.valueMax != null) set.ratingsMax = p.valueMax;
       if (p.yearMin != null) set.cardYearMin = p.yearMin;

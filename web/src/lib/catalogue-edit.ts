@@ -63,3 +63,18 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
     restrictions: next,
   };
 }
+
+/**
+ * Restriction keys set by hand (catalogue:set, L.J.'s confirmations) or by
+ * the format tracker, which no refresh post carries. An import that rebuilds
+ * `restrictions` from a post keeps these unless the post states the same key
+ * itself; without this, the next `import:refresh` erased every card-set rule
+ * confirmed on 2026-09-27.
+ */
+export const HAND_KEPT_KEYS = ["cardTypes", "text", "textFrom", "previousFormat", "formatSince"] as const;
+
+export function keepHandRules(old: Record<string, unknown> | null | undefined, fresh: Record<string, unknown>): Record<string, unknown> {
+  const out = { ...fresh };
+  for (const k of HAND_KEPT_KEYS) if (out[k] == null && old?.[k] != null) out[k] = old[k];
+  return out;
+}

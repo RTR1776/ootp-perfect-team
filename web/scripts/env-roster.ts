@@ -35,6 +35,7 @@ import { readFileSync } from "node:fs";
 import fieldConstruction from "../src/data/field-construction.json";
 import type { SeriesBuild } from "@/lib/field-construction";
 import { setRuleGuard } from "@/lib/set-evidence";
+import { cardTypeNames } from "@/lib/card-sets";
 import { loadSetEvidence } from "@/lib/set-evidence-server";
 
 const argv = process.argv.slice(2);
@@ -289,7 +290,7 @@ async function main() {
     for (let i = pool.length - 1; i >= 0; i--) if (BAN.includes(pool[i].name.toLowerCase())) pool.splice(i, 1);
     console.log(`banned ${before - pool.length}: ${BAN.join(", ")}`);
   }
-  if (CARD_TYPES.size) console.log(`card types: restricted to ${[...CARD_TYPES].sort().join(", ")} (2 Negro League Star, 6 Future Legend, 7 Snapshot)`);
+  if (CARD_TYPES.size) console.log(`card sets: ${cardTypeNames([...CARD_TYPES])} only`);
   const bats = pool.filter((c) => !c.isPitcher);
   console.log(`\npool: ${pool.length} eligible owned cards — ${bats.length} bats (${bats.filter((c) => c.bats === "L").length}L / ${bats.filter((c) => c.bats === "S").length}S / ${bats.filter((c) => c.bats === "R").length}R), ${pool.length - bats.length} arms`);
 

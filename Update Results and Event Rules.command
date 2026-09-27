@@ -2,7 +2,8 @@
 # Update Results and Event Rules — double-click once, after Push to GitHub.command
 # has pulled it down. Claude's cloud session cannot write to the app's
 # database, so this runs from the Mac. Each step shows what it will write and
-# asks first; anything already done is skipped, so running it twice is harmless.
+# asks first; only a typed "y" writes. Anything already done is skipped, so
+# running it twice is harmless.
 #
 # 1. The 22 PTCS 7 results from L.J.'s 09-25 / 09-26 screenshot
 #    (Inbox/results/ptcs7 results 2026-09-25 and 26.txt), the same way the
@@ -26,7 +27,17 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 close() { echo; read -r -p "Press return to close."; exit "${1:-0}"; }
 [ -f .env.local ] || { echo "web/.env.local is missing; it holds the database address."; close 1; }
 run() { node --env-file=.env.local --import tsx "$@"; }
-ask() { read -r -p "$1 [Y/n] " ok; case "$ok" in n|N|no|NO) return 1 ;; esac; return 0; }
+# Only "y" or "yes" writes. Keys pressed while the previews were printing are
+# thrown away first, so a stray Return can't answer the question in advance.
+ask() {
+  while read -r -t 1 -n 1 _ 2>/dev/null; do :; done
+  read -r -p "$1 [y/N] " ok || return 1
+  case "$ok" in y|Y|yes|YES|Yes) return 0 ;; esac
+  return 1
+}
+# Commit each item; count the ones that changed ("no change" lines don't).
+saved=0
+commit() { local out; out=$("$@" --commit 2>&1) || { echo "$out"; return 1; }; case "$out" in *"no change"*) ;; *) saved=$((saved + 1)) ;; esac; }
 
 # ---------------------------------------------------------------- 1. results
 FILE="../Inbox/results/ptcs7 results 2026-09-25 and 26.txt"
@@ -62,8 +73,9 @@ printf '\n\033[1m2. Card rules: Daily Live Plus 2026 cards; 12 Live events Live 
 for e in "${RULES[@]}"; do rule "$e" | grep -v "Dry run" || { echo "Could not read event ${e%%|*}."; close 1; }; done
 echo
 if ask "Save these rules?"; then
-  for e in "${RULES[@]}"; do rule "$e" --commit >/dev/null || { echo "Could not save event ${e%%|*}."; close 1; }; done
-  echo "Saved ${#RULES[@]} event rules."
+  saved=0
+  for e in "${RULES[@]}"; do commit rule "$e" || { echo "Could not save event ${e%%|*}."; close 1; }; done
+  echo "Saved $saved event rule(s); the rest were already set."
 else
   echo "Rules not saved."
 fi
@@ -85,8 +97,9 @@ printf '\n\033[1m3. Hide old events from the picker\033[0m\n\n'
 for id in "${OLD[@]}"; do run scripts/catalogue-set.ts --tournament "$id" --retire | grep -v -e "Dry run" -e "^$" || { echo "Could not read event $id."; close 1; }; done
 echo
 if ask "Hide these ${#OLD[@]} events?"; then
-  for id in "${OLD[@]}"; do run scripts/catalogue-set.ts --tournament "$id" --retire --commit >/dev/null || { echo "Could not hide event $id."; close 1; }; done
-  echo "Hid ${#OLD[@]} events."
+  saved=0
+  for id in "${OLD[@]}"; do commit run scripts/catalogue-set.ts --tournament "$id" --retire || { echo "Could not hide event $id."; close 1; }; done
+  echo "Hid $saved event(s); the rest were already hidden."
 else
   echo "Nothing hidden."
 fi

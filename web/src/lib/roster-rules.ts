@@ -16,6 +16,11 @@
  *    slot rule sums to 26, so the test is cumulative from the top: for every
  *    tier T, cards of tier ≥ T must not exceed slots of tier ≥ T.
  */
+import { CARD_TYPE_NAME, cardTypeNames } from "@/lib/card-sets";
+import { evidenceLine, evidenceRule, liveAbsent, setsNarrow, yearSpan, yearsNarrow, type SetEvidence } from "@/lib/set-evidence";
+
+export { CARD_TYPES, CARD_TYPE_NAME, CARD_TYPE_SHORT, cardTypeNames, cardTypeRuleLabel } from "@/lib/card-sets";
+
 export const FIELD_POSITIONS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
 
 /** Low → high. Slot keys and `tierCode` both use these single letters. */
@@ -93,18 +98,22 @@ export function tierFitsSlots(tier: TierCode, slots: Record<string, number>): bo
  * tier at which the roster overflows, from the top down.
  */
 export function slotCapacityIssues(tiers: Record<string, number>, slots: Record<string, number>): RuleIssue[] {
+  const over = slotOverflow(tiers, slots);
+  return over ? [{
+    code: "tier-slots",
+    message: `${over.cards} cards at ${TIER_NAME[over.tier]} or better; this event allows ${over.room} (${over.cards - over.room} too many).`,
+  }] : [];
+}
+
+/** The first tier, from the top, where the roster overflows its slots; null when it fits. */
+export function slotOverflow(tiers: Record<string, number>, slots: Record<string, number>): { tier: TierCode; cards: number; room: number } | null {
   let cards = 0, room = 0;
   for (const t of [...TIER_ORDER].reverse()) {
     cards += tiers[t] ?? 0;
     room += slots[t] ?? 0;
-    if (cards > room) {
-      return [{
-        code: "tier-slots",
-        message: `${cards} cards at ${TIER_NAME[t]} or better; this event allows ${room} (${cards - room} too many).`,
-      }];
-    }
+    if (cards > room) return { tier: t, cards, room };
   }
-  return [];
+  return null;
 }
 
 /* ------------------------------------------------------------- card types */
@@ -120,27 +129,13 @@ const TYPE_CODES: Record<string, number> = {
   "all-time legend": 4, "all time legend": 4, "historical legend": 4, "historical legends": 4, atl: 4,
   "historical all-star": 5, "historical all star": 5, "historical all-stars": 5, "all-star": 5, "all star": 5, "all-stars": 5, "all stars": 5, has: 5,
   "future legend": 6, "future legends": 6, fl: 6,
-  snapshot: 7, snapshots: 7, ss: 7,
+  snapshot: 7, snapshots: 7, snap: 7, ss: 7,
   "unsung heroes": 8, "unsung hero": 8, uh: 8,
   "hardware heroes": 9, "hardware hero": 9, hh: 9,
   "veteran presence": 10, vp: 10,
 };
 const TYPE_KEYS = Object.keys(TYPE_CODES).sort((a, b) => b.length - a.length);
 
-/** The game's name for each card set (cards.card_type). */
-export const CARD_TYPE_NAME: Record<number, string> = {
-  1: "Live", 2: "Negro League Star", 3: "Rookie Sensation", 4: "All-Time Legend", 5: "Historical All-Star",
-  6: "Future Legend", 7: "Snapshot", 8: "Unsung Heroes", 9: "Hardware Heroes", 10: "Veteran Presence",
-};
-/** Short tags for chips. Snapshot is "Snap", not "SS", which reads as shortstop. */
-export const CARD_TYPE_SHORT: Record<number, string> = {
-  1: "Live", 2: "NLS", 3: "RS", 4: "ATL", 5: "HAS", 6: "FL", 7: "Snap", 8: "UH", 9: "HH", 10: "VP",
-};
-
-/** A set rule in the form the catalogue stores and parseCardTypeRule reads: [5, 9] → "Historical All-Star+Hardware Heroes". */
-export function cardTypeRuleLabel(codes: readonly number[]): string {
-  return [...new Set(codes)].sort((a, b) => a - b).map((c) => CARD_TYPE_NAME[c] ?? String(c)).join("+");
-}
 const SEP = /[\s\-\/,&+]/;
 
 /**
@@ -197,7 +192,9 @@ export function cardEligibility(card: RosterCard, rules: RosterRules): { errors:
     const parsed = types.map(parseCardTypeRule);
     if (parsed.some((p) => p == null)) unknown("unknown-card-type-rule", `unverified card-type rule: ${types.join(" / ")}.`);
     else if (card.cardType == null) unknown("missing-card-type", "card type is missing.");
-    else if (!parsed.flat().includes(card.cardType)) fail("card-type", "card type is not allowed.");
+    else if (!parsed.flat().includes(card.cardType)) {
+      fail("card-type", `card set ${CARD_TYPE_NAME[card.cardType] ?? card.cardType} not allowed (allowed: ${cardTypeNames(parsed.flat() as number[])}).`);
+    }
   }
   return { errors, incomplete };
 }
@@ -274,4 +271,98 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
   if (![...unique.keys()].some(id => byId.get(id)?.isPitcher)) issue("no-pitchers", "Add a pitching staff.");
   return { ready: errors.length === 0 && incomplete.length === 0, errors, incomplete,
     counts: { players: unique.size, target, value, variants, tiers } };
+}
+
+/* ------------------------------------------------------ describing rules */
+
+/** Event names that usually mean a card-set rule (for flagging a missing one). */
+export const SUSPECT_SET_NAME = /all-?star|hardware|snapshot|negro|unsung|rookie|legend|future|veteran|\blive\b/i;
+
+export type RuleState = "set" | "none" | "unreadable" | "suspect";
+export interface RuleItem {
+  key: "value" | "slots" | "sets" | "years" | "variants" | "cap" | "size" | "dh";
+  label: string;
+  text: string;
+  /**
+   * set: on file. none: no such rule (or not on file — `text` says which).
+   * unreadable: on file but not understood, so NOT enforced.
+   * suspect: not on file, but the name or the field's play says there is one.
+   */
+  state: RuleState;
+  /** Longer explanation for a title or tooltip. */
+  detail?: string;
+  /** Slots only: tier counts on the board, and the first tier that overflows. */
+  used?: Record<string, number>;
+  over?: TierCode | null;
+}
+
+const range2 = (lo: number | null, hi: number | null) => (lo != null && hi != null ? (lo === hi ? `${lo}` : `${lo}–${hi}`) : lo != null ? `${lo}+` : `up to ${hi}`);
+
+/**
+ * An event's rules as one line of items in a fixed order, for the rules strip
+ * on every page that recommends cards (UI plan principle 3). A rule that is
+ * missing, or on file but unreadable, is an item too: silence is how the
+ * 09-27 Hardware roster went wrong.
+ *
+ * `used`: the board's cards per tier, for "P 8/8 · D 6/6". Slots are cumulative
+ * (a lower card may fill a higher slot), so only the first tier that overflows
+ * is marked, never a tier over its own count alone.
+ * `evidence`: what the field plays (set-evidence.ts), for a missing set rule.
+ */
+export function describeRules(rules: RosterRules, opts: { used?: Record<string, number>; evidence?: SetEvidence | null } = {}): RuleItem[] {
+  const out: RuleItem[] = [];
+  const rx = rules.restrictions;
+
+  if (rules.ratingsMin != null || rules.ratingsMax != null) {
+    const read = rx?.valueWindowFrom ? ` (read off the name: ${rx.valueWindowFrom})` : "";
+    out.push({ key: "value", label: "Value", text: range2(rules.ratingsMin, rules.ratingsMax), state: "set", detail: `Card value ${range2(rules.ratingsMin, rules.ratingsMax)}${read}.` });
+  } else if (!rx?.slots) {
+    out.push(valueWindowKnown(rules)
+      ? { key: "value", label: "Value", text: "any", state: "none", detail: "No value window: an Open or & Friends event." }
+      : { key: "value", label: "Value", text: rules.isDraft ? "draft" : "not on file", state: rules.isDraft ? "none" : "suspect", detail: "No card-value window on file, so every card is shown. Check the event's RESTRICTIONS line in game." });
+  }
+
+  if (rx?.slots) {
+    const tiers = [...TIER_ORDER].reverse().filter((t) => (rx.slots![t] ?? 0) > 0);
+    const used = opts.used;
+    const text = tiers.map((t) => (used ? `${t} ${used[t] ?? 0}/${rx.slots![t]}` : `${t}${rx.slots![t]}`)).join(" · ");
+    out.push({
+      key: "slots", label: "Slots", text, state: "set", used, over: used ? slotOverflow(used, rx.slots)?.tier ?? null : null,
+      detail: `Per-tier maximums: ${tiers.map((t) => `${rx.slots![t]} ${TIER_NAME[t]}`).join(", ")}. A lower-tier card may fill a higher slot.`,
+    });
+  }
+
+  const types = rx?.cardTypes?.filter((t) => t.trim()) ?? [];
+  const e = opts.evidence ?? null;
+  const field = e ? ` The field has played ${evidenceLine(e)}.` : "";
+  if (types.length) {
+    const parsed = types.map(parseCardTypeRule);
+    if (parsed.some((p) => p == null)) {
+      out.push({ key: "sets", label: "Sets", text: types.join(" / "), state: "unreadable", detail: `Card-set rule on file but not understood: "${types.join(" / ")}". The pool is NOT filtered by set.${field}` });
+    } else {
+      out.push({ key: "sets", label: "Sets", text: cardTypeNames(parsed.flat() as number[]), state: "set", detail: `Only these card sets may enter.${field}` });
+    }
+  } else if (e && setsNarrow(e)) {
+    out.push({ key: "sets", label: "Sets", text: `not on file — field plays only ${evidenceLine(e)}`, state: "suspect", detail: `No card-set rule on file, but the field has played only ${evidenceRule(e).replace(/\+/g, ", ")}. The pool may include cards the game refuses.` });
+  } else if (e && liveAbsent(e) && (rules.cardYearMax == null || rules.cardYearMax >= 2026)) {
+    out.push({ key: "sets", label: "Sets", text: `not on file — field has played no Live card`, state: "suspect", detail: `No card-set rule on file, but the field has played ${e.n} cards and not one Live card: usually a historical-cards-only rule.${field}` });
+  } else if (SUSPECT_SET_NAME.test(rules.name ?? "")) {
+    out.push({ key: "sets", label: "Sets", text: "not on file", state: "suspect", detail: `The name suggests a card-set rule, but none is on file. The pool may include cards the game refuses.${field}` });
+  } else {
+    out.push({ key: "sets", label: "Sets", text: "any", state: "none", detail: `No card-set rule on file.${field}` });
+  }
+
+  if (rules.cardYearMin != null || rules.cardYearMax != null) {
+    out.push({ key: "years", label: "Years", text: range2(rules.cardYearMin, rules.cardYearMax), state: "set", detail: `Card years ${range2(rules.cardYearMin, rules.cardYearMax)}.` });
+  } else if (e && !types.length && yearsNarrow(e)) {
+    out.push({ key: "years", label: "Years", text: `not on file — field plays only ${yearSpan(e)} cards`, state: "suspect", detail: `No card-year rule on file, but every card the field has played is from ${yearSpan(e)}.` });
+  }
+
+  if (rx?.variantsAllowed === false) out.push({ key: "variants", label: "Variants", text: "none", state: "set" });
+  else if (rx?.variantCap != null) out.push({ key: "variants", label: "Variants", text: `≤ ${rx.variantCap}`, state: "set" });
+  if (rx?.teamCap != null) out.push({ key: "cap", label: "Cap", text: rx.teamCap.toLocaleString("en-US"), state: "set", detail: "Total card value of the roster." });
+  const size = rosterSize(rules);
+  out.push({ key: "size", label: "Roster", text: size == null ? "not on file" : String(size), state: size == null ? "suspect" : "set" });
+  out.push({ key: "dh", label: "DH", text: rules.dh == null ? "not on file" : rules.dh ? "yes" : "no", state: rules.dh == null ? "suspect" : "set" });
+  return out;
 }
