@@ -9,7 +9,8 @@
  *     --card-years 1910-1959 --drop cardTypes,pendingRefresh --text "…" --note "…" [--commit]
  *
  * Flags: --year N · --stadium "YYYY Name" · --dh | --no-dh · --value A-B ·
- * --card-years A-B | none · --drop key[,key] · --text "…" · --note "…"
+ * --card-years A-B | none · --drop key[,key] · --text "…" · --note "…" ·
+ * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it)
  */
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -38,6 +39,7 @@ async function main() {
   if (flag("no-dh")) edit.dh = false;
   if (val("value")) edit.value = range("value");
   if (val("card-years")) edit.cardYears = val("card-years") === "none" ? null : range("card-years");
+  if (val("card-types")) edit.cardTypes = [val("card-types")!];
   if (val("drop")) edit.drop = val("drop")!.split(",").map((s) => s.trim()).filter(Boolean);
   if (val("text")) edit.text = val("text");
   if (val("note")) edit.note = val("note");
