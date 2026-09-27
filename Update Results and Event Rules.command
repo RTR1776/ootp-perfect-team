@@ -14,6 +14,10 @@
 #      plays 2026 Historical All-Star and Snapshot cards there, so the rule is
 #      the card year, not the set.
 #    - Twelve events with "Live" in the name: Live cards only.
+#    - Seven events whose fields never played a Live card: every set but Live
+#      (L.J.: "no Live cards in those 7").
+#    - Daily Iron & Friends OOTP Era: cards 1999-2026 ("OOTP Era is 1999+").
+#    - Daily Late 1900s: cards 1980-1999 (was 1989-1999 on file).
 # 3. Hide old events from the picker (L.J.: "hide all old tourneys and PTCS
 #    events"): the finished PTCS 6 Championship, PTMS 2, "low gold",
 #    "My Custom Tournament", and old rows the game has since renamed. They
@@ -53,6 +57,7 @@ fi
 
 # ------------------------------------------------------------- 2. card rules
 NOTE="L.J. 2026-09-27"
+NO_LIVE="Negro League Star+Rookie Sensation+All-Time Legend+Historical All-Star+Future Legend+Snapshot+Unsung Heroes+Hardware Heroes+Veteran Presence"
 RULES=(
   "9100186|--card-years|2026-2026"
   "518|--card-types|Live"      # Daily Live Iron
@@ -67,9 +72,18 @@ RULES=(
   "9100205|--card-types|Live"  # Daily Live Breakfast
   "9100241|--card-types|Live"  # Friday Night Live PD
   "9100231|--card-types|Live"  # Tuesday Live Lampooning
+  "536|--card-types|$NO_LIVE"      # Monday Up And At Them Bronze
+  "523|--card-types|$NO_LIVE"      # Daily Late Silver
+  "540|--card-types|$NO_LIVE"      # Thursday Night Gold Rush
+  "588|--card-types|$NO_LIVE"      # Daily Bagels and Schmear with EVCinNYC
+  "9100229|--card-types|$NO_LIVE"  # Monday Night History Lesson
+  "554|--card-types|$NO_LIVE"      # Laptophound's Daily 5L Deadball
+  "555|--card-types|$NO_LIVE"      # Laptophound's Daily 6L Power Play
+  "772|--card-years|1999-2026"     # Daily Iron & Friends OOTP Era
+  "9100194|--card-years|1980-1999" # Daily Late 1900s
 )
 rule() { local e="$1"; local id="${e%%|*}"; local rest="${e#*|}"; run scripts/catalogue-set.ts --tournament "$id" "${rest%%|*}" "${rest#*|}" --note "$NOTE" "${@:2}"; }
-printf '\n\033[1m2. Card rules: Daily Live Plus 2026 cards; 12 Live events Live cards only\033[0m\n\n'
+printf '\n\033[1m2. Card rules: Live Plus 2026 cards; 12 Live events Live only; 7 events no Live; OOTP Era 1999+; Late 1900s 1980-99\033[0m\n\n'
 for e in "${RULES[@]}"; do rule "$e" | grep -v "Dry run" || { echo "Could not read event ${e%%|*}."; close 1; }; done
 echo
 if ask "Save these rules?"; then
