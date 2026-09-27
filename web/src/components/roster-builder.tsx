@@ -1290,7 +1290,7 @@ export function RosterBuilder({
             </div>
           )}
 
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
             {/* pool table */}
             <div
               className="flex min-w-0 flex-col gap-2"
@@ -1438,7 +1438,7 @@ export function RosterBuilder({
               <div className="rounded-lg border border-border p-3">
                 <div className="mb-2 flex items-center justify-between">
                   <span className="text-sm font-semibold" title={`${summary.filled} of ${summary.total} board slots filled (each lineup counts its own spots)`}>Roster · {summary.roster}/{(tournament ? rosterSize(tournament) : null) ?? 26}</span>
-                  <div className="flex gap-1.5">
+                  <div className="flex flex-wrap gap-1.5">
                     <Button size="sm" variant="outline" onClick={() => autoFill()} disabled={optimizing}>Re-recommend</Button>
                     <Button size="sm" onClick={() => optimize()} disabled={optimizing || !objective} title={objective ? "Hill-climb from this board on calibrated runs, gloves priced in runs, under every rule and the glove floor" : "No run environment on file for this event"}>
                       {optimizing ? "Optimising…" : "Optimise"}

@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Sidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
+import { Toaster } from "@/components/ui/toast";
 
 export const metadata: Metadata = {
   title: { template: "%s · PT Optimizer", default: "PT Optimizer" },
@@ -61,6 +62,7 @@ export default function RootLayout({
               <main className="px-4 py-5 sm:px-6 sm:py-6">{children}</main>
             </div>
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

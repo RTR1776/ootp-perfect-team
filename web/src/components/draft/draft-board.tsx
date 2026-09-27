@@ -122,7 +122,7 @@ export function DraftBoard(p: Props) {
       ) : p.columns.length === 0 ? (
         <p className="text-sm text-muted-foreground">No legal cards or no run environment on file for this event.</p>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {p.columns.map((col) => {
             const live = col.entries.filter((e) => !takenSet.has(e.id));
             const shown = (q ? live.filter((e) => byId.get(e.id)?.name.toLowerCase().includes(q)) : live).slice(0, SHOW);

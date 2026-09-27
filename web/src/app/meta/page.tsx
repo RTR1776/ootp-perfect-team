@@ -392,7 +392,7 @@ export default async function MetaPage({
             {clans.clanAvgWar.toFixed(1)} vs {clans.soloAvgWar.toFixed(1)}. When one of these tags is
             in your bracket, expect an HR-avoid staff and up-the-middle defense.
           </p>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {clans.clans.map((c) => (
               <div key={c.clan} className="rounded-lg border border-border p-3">
                 <div className="flex items-baseline justify-between">

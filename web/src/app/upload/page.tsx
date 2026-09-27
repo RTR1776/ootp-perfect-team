@@ -16,6 +16,7 @@ import { UploadQueue } from "@/components/upload-queue";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/page-header";
+import { ago, chicagoDay, daysAgo } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -34,8 +35,10 @@ interface Source {
   refresh: string;
 }
 
-const day = (d: Date | string | null | undefined): string | null => (d ? new Date(d).toISOString().slice(0, 10) : null);
-const ageOf = (d: string | null): number | null => (d ? Math.floor((Date.now() - new Date(`${d}T12:00:00Z`).getTime()) / 86_400_000) : null);
+// Chicago calendar days: a UTC date read "tomorrow" every evening, and the
+// old age sum went to "(-1d)" for today's uploads before noon UTC.
+const day = chicagoDay;
+const ageOf = (d: string | null): number | null => daysAgo(d);
 
 async function loadFreshness(): Promise<{ sources: Source[]; attempts: Row[] }> {
   const latest = async (kind: string) =>
@@ -110,6 +113,7 @@ export default async function UploadPage() {
       <Card>
         <CardContent className="pt-4">
           <div className="mb-2 text-sm font-semibold">What the app knows right now</div>
+          <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead className="text-muted-foreground">
               <tr className="border-b border-border text-left">
@@ -126,7 +130,7 @@ export default async function UploadPage() {
                   <tr key={s.label} className="border-b border-border/50 align-top">
                     <td className="py-1.5 pr-3 font-medium">{s.label}</td>
                     <td className={cn("py-1.5 pr-3 font-mono whitespace-nowrap", stale ? "text-warning" : "text-positive")}>
-                      {s.asOf ?? "—"}{s.age != null ? ` (${s.age}d)` : ""}
+                      {s.asOf ?? "—"}{s.asOf ? ` (${ago(s.asOf)})` : ""}
                     </td>
                     <td className="py-1.5 pr-3 text-muted-foreground">{s.detail}</td>
                     <td className="py-1.5 text-muted-foreground">{s.refresh}</td>
@@ -135,6 +139,7 @@ export default async function UploadPage() {
               })}
             </tbody>
           </table>
+          </div>
           {attempts.length > 0 && (
             <div className="mt-4">
               <div className="mb-1 text-xs font-semibold">Last uploads through this page</div>

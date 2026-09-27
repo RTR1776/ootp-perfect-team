@@ -11,9 +11,10 @@ const config: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
-  // Old v1 routes (retired 2026-08-27) land on the builder.
+  // Old v1 routes (retired 2026-08-27) land on the builder. /draft is not one
+  // of them any more: the Draft Board (141da61) lives there.
   async redirects() {
-    return ["/tournaments", "/lineup", "/roster", "/draft", "/lab"].map((source) => ({
+    return ["/tournaments", "/lineup", "/roster", "/lab"].map((source) => ({
       source,
       destination: "/build",
       permanent: false,

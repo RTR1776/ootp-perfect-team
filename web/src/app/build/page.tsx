@@ -36,6 +36,7 @@ import { dataConfidence, type Confidence } from "@/lib/data-confidence";
 import type { BuilderEnv } from "@/components/roster-builder";
 import { getRatingScale } from "@/lib/rating-scale";
 import { fieldingRuns } from "@/lib/analytics/fielding";
+import { chicagoDay, daysAgo } from "@/lib/format";
 
 const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
 import { cardEligibility, tierCode, tierFitsSlots, type RosterSlot } from "@/lib/roster-rules";
@@ -143,8 +144,15 @@ export default async function BuildPage({
   let confidence: Confidence | null = null;
   let env: BuilderEnv | null = null;
   let savedRosters: { id: number; name: string; slots: RosterSlot[] }[] = [];
-  let collectionDate: string | null = null;
-  let collectionAgeDays: number | null = null;
+  // Read before the event: the empty picker shows the collection's date too.
+  const [latestCollection] = await db
+    .select({ id: uploads.id, date: uploads.uploadedAt })
+    .from(uploads)
+    .where(eq(uploads.kind, "collection"))
+    .orderBy(desc(uploads.id))
+    .limit(1);
+  const collectionDate = chicagoDay(latestCollection?.date);
+  const collectionAgeDays = daysAgo(latestCollection?.date);
 
   if (picked) {
     const [full] = await db.select().from(tournaments).where(eq(tournaments.id, picked.id));
@@ -219,15 +227,6 @@ export default async function BuildPage({
         };
       }
     }
-
-    const [latestCollection] = await db
-      .select({ id: uploads.id, date: uploads.uploadedAt })
-      .from(uploads)
-      .where(eq(uploads.kind, "collection"))
-      .orderBy(desc(uploads.id))
-      .limit(1);
-    collectionDate = latestCollection?.date.toISOString().slice(0,10) ?? null;
-    collectionAgeDays = latestCollection ? Math.floor((Date.now() - latestCollection.date.getTime()) / 86_400_000) : null;
 
     const owned = latestCollection
       ? await db
