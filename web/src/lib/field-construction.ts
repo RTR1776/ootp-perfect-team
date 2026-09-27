@@ -163,7 +163,9 @@ function winPct(teams: TeamBuild[]): number | null {
 
 /** A series' runs (one array of teams per export) summarised for /build. */
 export function summariseSeries(runs: TeamBuild[][]): SeriesBuild {
+  runs = runs.filter((teams) => teams.length > 0);
   const all = runs.flat();
+  if (!all.length) return { files: 0, teams: 0, spWeight: null, rpWeight: null, openers: { teams: 0, winPct: null, othersWinPct: null }, groups: [] };
   const top = runs.flatMap((teams) =>
     [...teams].sort((a, b) => b.w - a.w || (b.w / Math.max(1, b.w + b.l)) - (a.w / Math.max(1, a.w + a.l))).slice(0, Math.ceil(teams.length / 4)));
   const groups: GroupBuild[] = [average("Every team", "all", all), average("Best quarter by record", "top", top)];
