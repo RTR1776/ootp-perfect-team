@@ -18,8 +18,9 @@ import { envFitMaps } from "@/lib/analytics/env-fit";
 import { eraTable } from "@/lib/analytics/tournament-env";
 import { formRatings } from "@/lib/card-forms";
 import {
-  ARM_MODEL_FIT, ARM_PRIOR_IP, armKey, estimateEdge9, loadArmRows, poolArmEdges, type ArmEdge, type ArmRole, type StaffArm,
+  ARM_MODEL_FIT, ARM_PRIOR_IP, armKey, estimateEdge9, ipPerSlot, loadArmRows, poolArmEdges, type ArmEdge, type ArmRole, type StaffArm,
 } from "@/lib/league-arms";
+import type { LeagueFamily } from "@/lib/analytics/league-model";
 import { normName, type HitterUniverse } from "@/lib/league-hitters";
 
 /** A pitcher's card face in the collection export's words, and the shop names they fill. */
@@ -108,7 +109,7 @@ export function scoreArms(arms: readonly ArmPick[], edges: Map<string, ArmEdge>,
   arms.forEach((a, i) => {
     // A variant no team has pitched reads off its base card's line.
     const own = edges.get(a.key);
-    const edge = own ?? (a.variant ? edges.get(armKey({ cid: a.cardId, name: "", isVariant: false })) : undefined);
+    const edge = edgeFor(a, edges);
     const score = (role: ArmRole) => {
       const m = per[role];
       const now = m.get(3 * i), ref = own ? m.get(3 * i + 1) : m.get(3 * i + 2);
@@ -131,13 +132,34 @@ export function scoreArms(arms: readonly ArmPick[], edges: Map<string, ArmEdge>,
 
 export const toStaffArm = (a: ArmPick, s: ArmScore): StaffArm => ({ entry: a.entry, label: a.label, sp: s.sp, rp: s.rp, stamina: s.stamina });
 
-/* The league lines change once a week: pooled once, kept for five minutes. */
-let edgesCache: { at: number; value: Promise<Map<string, ArmEdge>> } | null = null;
-export function leagueArmEdges(): Promise<Map<string, ArmEdge>> {
-  if (!edgesCache || Date.now() - edgesCache.at > 5 * 60_000) {
-    const value = loadArmRows({ family: "all", split: "all" }).then(poolArmEdges);
-    value.catch(() => { edgesCache = null; });
-    edgesCache = { at: Date.now(), value };
-  }
-  return edgesCache.value;
+/* The league lines change once a week: pooled once per split (and slot
+   innings once per family), kept for five minutes. A failed read isn't kept. */
+const TTL_MS = 5 * 60_000;
+const cache = new Map<string, { at: number; value: Promise<unknown> }>();
+function cached<T>(key: string, load: () => Promise<T>): Promise<T> {
+  const hit = cache.get(key);
+  if (hit && Date.now() - hit.at <= TTL_MS) return hit.value as Promise<T>;
+  const value = load();
+  cache.set(key, { at: Date.now(), value });
+  value.catch(() => { if (cache.get(key)?.value === value) cache.delete(key); });
+  return value;
+}
+
+/** Every family's arm lines pooled per card; `split` vL / vR is against left- / right-handed batters. */
+export const leagueArmEdges = (split: "all" | "vL" | "vR" = "all") =>
+  cached(`edges:${split}`, () => loadArmRows({ family: "all", split }).then(poolArmEdges));
+
+/** Innings a rotation and a bullpen slot pitch in a week of this family. */
+export const leagueIpPerSlot = (family: LeagueFamily) => cached(`ip:${family}`, () => ipPerSlot(family));
+
+/** An arm's league edge per 9 against one side, both roles pooled by innings; null with no line. */
+export function sideEdge(e: ArmEdge | undefined): { edge9: number; ip: number } | null {
+  const parts = [e?.asSP, e?.asRP].filter((x): x is NonNullable<typeof x> => !!x && x.ip > 0);
+  const ip = parts.reduce((n, x) => n + x.ip, 0);
+  return ip > 0 ? { edge9: parts.reduce((n, x) => n + x.edge9 * x.ip, 0) / ip, ip } : null;
+}
+
+/** The league line for a pick: its own, or (a variant no team has pitched) its base card's. */
+export function edgeFor(a: Pick<ArmPick, "key" | "cardId" | "variant">, edges: Map<string, ArmEdge>): ArmEdge | undefined {
+  return edges.get(a.key) ?? (a.variant ? edges.get(armKey({ cid: a.cardId, name: "", isVariant: false })) : undefined);
 }

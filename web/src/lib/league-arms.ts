@@ -189,9 +189,11 @@ export const ROTATION = 5;
  * pin entries to a role. An arm with no relief number relieves at its
  * starter's edge, and one with no starter number can't start. `size` is how
  * many arms pitch (the roster's pitching spots, default all of them); the
- * weakest relievers past it sit.
+ * weakest relievers past it sit. `locks.at` seats a locked arm in the slot it
+ * was locked to (SP2, CL, RP3); every slot of a role pitches the same
+ * innings, so that moves labels, not runs.
  */
-export function staffSolve(arms: readonly StaffArm[], ip: { sp: number; rp: number }, locks: { SP?: string[]; RP?: string[] } = {}, size = arms.length): Staff {
+export function staffSolve(arms: readonly StaffArm[], ip: { sp: number; rp: number }, locks: StaffLocks = {}, size = arms.length): Staff {
   const lockSP = new Set(locks.SP ?? []), lockRP = new Set(locks.RP ?? []);
   const rpOf = (a: StaffArm) => a.rp ?? a.sp ?? 0;
   const canStart = (a: StaffArm) => a.sp != null && (a.stamina == null || a.stamina > STARTER_STAMINA);
@@ -211,14 +213,34 @@ export function staffSolve(arms: readonly StaffArm[], ip: { sp: number; rp: numb
     .sort((a, b) => rpOf(b) - rpOf(a))
     .map((a, i): StaffSlot => ({ slot: i === 0 ? "CL" : `RP${i}`, entry: a.entry, label: a.label, role: "RP", edge9: rpOf(a), runs: (rpOf(a) * ip.rp) / 9 }));
   const out = pen.slice(room).map((a) => ({ entry: a.entry, label: a.label }));
-  return { rotation, bullpen, out, total: [...rotation, ...bullpen].reduce((s, x) => s + x.runs, 0) };
+  const at = new Map(Object.entries(locks.at ?? {}));
+  return {
+    rotation: seat(rotation, at, (i) => `SP${i + 1}`), bullpen: seat(bullpen, at, (i) => (i === 0 ? "CL" : `RP${i}`)),
+    out, total: [...rotation, ...bullpen].reduce((s, x) => s + x.runs, 0),
+  };
+}
+
+/** Pins arms to a role (SP / RP), and optionally to a slot within it. */
+export interface StaffLocks { SP?: string[]; RP?: string[]; at?: Record<string, string> }
+
+/** Locked arms into the slots they were locked to; the rest keep their order around them. */
+function seat(group: StaffSlot[], at: Map<string, string>, name: (i: number) => string): StaffSlot[] {
+  if (!at.size) return group;
+  const out: (StaffSlot | undefined)[] = group.map(() => undefined);
+  const placed = new Set<string>();
+  group.forEach((_, i) => {
+    const s = group.find((g) => g.entry === at.get(name(i)));
+    if (s && !placed.has(s.entry)) { out[i] = s; placed.add(s.entry); }
+  });
+  const rest = group.filter((g) => !placed.has(g.entry));
+  return out.map((s, i) => ({ ...(s ?? rest.shift()!), slot: name(i) }));
 }
 
 /**
  * What one more arm adds on the same number of pitching spots: the staff
  * with him (the weakest arm then sits) minus the staff without him.
  */
-export function addArm(arms: readonly StaffArm[], candidate: StaffArm, ip: { sp: number; rp: number }, locks: { SP?: string[]; RP?: string[] } = {}) {
+export function addArm(arms: readonly StaffArm[], candidate: StaffArm, ip: { sp: number; rp: number }, locks: StaffLocks = {}) {
   const size = arms.length;
   const without = staffSolve(arms, ip, locks, size);
   const withIt = staffSolve([...arms, candidate], ip, locks, size);

@@ -72,3 +72,21 @@ test("adding an arm keeps the number of pitching spots: the weakest arm sits", (
   assert.equal(reliever.slot?.slot, "CL");
   assert.equal(reliever.season.toFixed(4), ((0.29 - -0.3) * 70 / 9).toFixed(4), "a reliever's worth is over the arm he sends to the bench");
 });
+
+test("a locked arm sits in the slot he was locked to; runs don't move", () => {
+  const arms: StaffArm[] = [
+    { entry: "A", label: "A", sp: 0.4, rp: 0.3, stamina: 90 }, { entry: "B", label: "B", sp: 0.3, rp: 0.2, stamina: 90 },
+    { entry: "C", label: "C", sp: 0.2, rp: 0.2, stamina: 90 }, { entry: "D", label: "D", sp: 0.1, rp: 0.1, stamina: 90 },
+    { entry: "E", label: "E", sp: 0.0, rp: 0.0, stamina: 90 }, { entry: "F", label: "F", sp: null, rp: 0.5, stamina: 20 },
+    { entry: "G", label: "G", sp: null, rp: -0.2, stamina: 20 },
+  ];
+  const ip = { sp: 180, rp: 70 };
+  const free = staffSolve(arms, ip);
+  const held = staffSolve(arms, ip, { SP: ["E"], RP: ["G"], at: { SP1: "E", CL: "G" } });
+  assert.equal(held.rotation[0].entry, "E");
+  assert.deepEqual(held.rotation.map((s) => s.slot), ["SP1", "SP2", "SP3", "SP4", "SP5"]);
+  assert.equal(held.bullpen[0].entry, "G");
+  assert.equal(held.bullpen[0].slot, "CL");
+  assert.equal(held.bullpen[1].entry, "F", "the rest keep their order around the lock");
+  assert.ok(Math.abs(held.total - free.total) < 1e-9, "the same arms in the same roles");
+});
