@@ -295,28 +295,43 @@ export function UploadQueue() {
     if (capturedOn) body.append("capturedOn", capturedOn);
     /* A request that fails outright (a dropped connection, a file the browser
        can no longer read) used to leave the card on "parsing" for good, with
-       no error. Give up after 90 s (the route's own limit is 60) and say why. */
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 90_000);
+       no error. Give up after 90 s (the route's own limit is 60) and say why.
+       A dropped connection is retried once first: on 2026-09-26 L.J.'s drops
+       failed at random and went through on a second try. A retried write is
+       safe, since the route recognises a file it already has by its sha256. */
+    const attempt = async () => {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 90_000);
+      try {
+        const response = await fetch(`/api/upload${dryRun ? "?dryRun=1" : ""}`, {
+          method: "POST",
+          body,
+          signal: ctrl.signal,
+        });
+        const json = (await response.json().catch(() => ({}))) as Record<string, unknown>;
+        return { ok: response.ok, json };
+      } finally {
+        clearTimeout(timer);
+      }
+    };
     try {
-      const response = await fetch(`/api/upload${dryRun ? "?dryRun=1" : ""}`, {
-        method: "POST",
-        body,
-        signal: ctrl.signal,
-      });
-      const json = (await response.json().catch(() => ({}))) as Record<string, unknown>;
-      return { ok: response.ok, json };
-    } catch (e) {
-      const err = e as Error;
-      return {
-        ok: false,
-        json: {
-          error: err?.name === "AbortError" ? "No answer from the server in 90 seconds." : "The file did not reach the server.",
-          detail: `${err?.message ?? String(e)} — refresh the page and drop the file again.`,
-        } as Record<string, unknown>,
-      };
-    } finally {
-      clearTimeout(timer);
+      return await attempt();
+    } catch (first) {
+      const aborted = (first as Error)?.name === "AbortError";
+      try {
+        if (aborted) throw first;
+        await new Promise((r) => setTimeout(r, 1500));
+        return await attempt();
+      } catch (e) {
+        const err = e as Error;
+        return {
+          ok: false,
+          json: {
+            error: err?.name === "AbortError" ? "No answer from the server in 90 seconds." : "The file did not reach the server (tried twice).",
+            detail: `${err?.message ?? String(e)} — refresh the page and drop the file again.`,
+          } as Record<string, unknown>,
+        };
+      }
     }
   }, []);
 

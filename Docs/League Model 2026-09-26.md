@@ -1,6 +1,6 @@
 # League model — 2026-09-26
 
-L.J.: league play normalises cards and seems to suppress them compared with tourneys. With this much league data, can it be modelled well enough to settle buys like Jose Canseco vs the Kevin Mitchell variant? Yes. The numbers below come from 4.6M PA of split play: 7 weekly seasons, PEL plus HD450–453 and LD404, including the 1959 and 1989 theme weeks.
+L.J.: league play normalises cards and seems to suppress them compared with tourneys. With this much league data, can it be modelled well enough to settle buys like Jose Canseco vs the Kevin Mitchell variant? Yes. The numbers below come from 4.9M PA of split play: 8 weekly seasons, PEL plus HD450–453 and LD404, including the 1959 and 1989 theme weeks. Refit 2026-09-27 with the part-played PEL week and the raw 09-20 files; nothing material moved.
 
 ## What normalisation does, measured
 
@@ -28,14 +28,14 @@ L.J.: league play normalises cards and seems to suppress them compared with tour
 
 Per board (vs LHP / vs RHP), in runs per 700 PA above the league's average bat on that board:
 
-    runs = 0.05 + 0.459·(app − app_lg)
-           + price · (14.66·dlnK + 5.52·dlnBA + 2.14·dlnGAP + 5.78·dlnPOW + 10.58·dlnEYE)
+    runs = 0.02 + 0.458·(app − app_lg)
+           + price · (14.59·dlnK + 5.83·dlnBA + 2.23·dlnGAP + 5.78·dlnPOW + 10.68·dlnEYE)
 
 - `app` is the app's calibrated tournament runs on that board, in the week's environment.
 - `dln r` is ln(rating) minus the league's PA-weighted mean ln(rating) on that board. Measuring against the league's own average is the normalisation.
 - `price` is each rating's value in the week's environment over the PT default: 1 in an ordinary week, re-priced in a theme week.
 
-Fitted on card forms pooled over every team and week they played: 253 card-board lines, thousands of PA each.
+Fitted on card forms pooled over every team and week they played: 256 card-board lines, thousands of PA each.
 
 **How well it predicts, held out:**
 
@@ -45,6 +45,7 @@ Fitted on card forms pooled over every team and week they played: 253 card-board
 | Whole weeks held out | **0.85** | 0.78 |
 | 1989 theme week | 0.82 | 0.78 |
 | 1959 theme week | 0.72 | 0.72 |
+| Current PEL week (09-27, part-played) | 0.78 | 0.66 |
 
 On held-out cards the model explains roughly 90% of the real card-to-card spread (a pooled line's sampling noise is small).
 
@@ -58,9 +59,11 @@ The PEL lineup regulars from L.J.'s screenshot, with his owned copies (Aaron 102
 
 | Candidate | adds vs RHP | adds vs LHP | Season | Wins |
 |---|---|---|---|---|
-| **Kevin Mitchell HH 100 variant** (vL K139 BA97 Gap141 Pow250 Eye212; vR K98 BA125 Gap150 Pow190 Eye172) | +2.6 | **+26.5** | **+13.8 runs** | **+1.4** |
-| Kevin Mitchell HH 100 (base) | 0.0 | +18.1 | +8.5 | +0.9 |
-| Jose Canseco LE/40 100 | +3.9 | +10.2 | +6.9 | +0.7 |
+| **Kevin Mitchell HH 100 variant** (vL K139 BA97 Gap141 Pow250 Eye212; vR K98 BA125 Gap150 Pow190 Eye172) | +2.7 | **+26.6** | **+13.9 runs** | **+1.4** |
+| Kevin Mitchell HH 100 (base) | 0.0 | +18.2 | +8.6 | +0.9 |
+| Jose Canseco LE/40 100 | +3.9 | +10.5 | +7.0 | +0.7 |
+
+Figures from the 2026-09-27 refit; the 09-26 fit had +13.8 / +8.5 / +6.9.
 
 - **The variant is worth about twice Canseco to this team.** The team's weakest bat is at DH against lefties (its best vs-LHP DH is Piazza, about league average), and the variant's vs-LHP line is the best bat on the board (+26.9).
 - Canseco is slightly the better bat against RHP (+10.2 vs +8.9), but that side of the lineup is already strong. With the variant in, Canseco would add under a run.
@@ -68,9 +71,9 @@ The PEL lineup regulars from L.J.'s screenshot, with his owned copies (Aaron 102
 
   | Scenario | Mitchell variant | Canseco |
   |---|---|---|
-  | 1989 theme week | +12.3 | +8.2 |
-  | HD instead of PEL | +13.2 | +6.7 |
-  | gloves at half value | +14.6 | +7.7 |
+  | 1989 theme week | +12.2 | +8.2 |
+  | HD instead of PEL | +13.3 | +6.9 |
+  | gloves at half value | +14.7 | +7.8 |
 
 - **One caveat:** the variant's vL Power 250 is beyond the fit's range (the highest seen is 233), a mild extrapolation.
 
@@ -86,7 +89,7 @@ Reproduce:
 
 1. **Refit when a week lands:** `pnpm league:panel` then `python3 scripts/league-fit.py` (writes `src/data/league-model.json`; `--dry` to look first). It reads every week in `League Data/` and every league week in the database. When one week was uploaded twice, the newest copy wins.
 2. **League imports now keep the split ratings** (`ingest/league.ts`), so a week uploaded through /upload or `pnpm import:league` gives the fit exact variant ratings.
-3. **The current PEL week, part-played (~100 games), is worth loading now.** It adds PEL-specific play in the league L.J. is in.
+3. **The current PEL week** was loaded part-played on 2026-09-27 (snapshots 97–99) and is now PEL's reference week. Re-upload the finished week under the same Sunday; the newest upload wins. Then refit.
    - Export all / vL / vR, then either drop them on /upload or save them under `League Data/<Sunday>/`, where Push to GitHub.command commits them.
    - On /upload, check that "Season ends" reads the Sunday the league week ends (it defaults to it), then **press Commit**. Dropping the files only previews them.
    - Use the same Sunday for the part-played week and the finished one. The panel keeps the newest upload per week, league and split.
