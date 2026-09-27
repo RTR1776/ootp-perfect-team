@@ -6,9 +6,11 @@
  * after five seconds, so a stray click never arms it for later. The confirm
  * button ignores clicks for its first half second, so a double tap (or a
  * second tap because the first seemed to do nothing) can't land on it, wherever
- * the layout puts it; the safe choice comes first and takes the focus.
+ * the layout puts it; the safe choice comes first and takes the focus. When it
+ * closes with the focus inside it, the focus goes back to the button, not to
+ * the top of the page.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -32,32 +34,47 @@ export function ConfirmButton({
   const [armed, setArmed] = useState(false);
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const group = useRef<HTMLSpanElement>(null);
+  const refocus = useRef(false);
+  // Only when the focus was in the question: a timeout while he works elsewhere mustn't pull it back.
+  const disarm = () => {
+    refocus.current = !!group.current?.contains(document.activeElement);
+    setArmed(false);
+  };
   useEffect(() => {
     if (!armed) return;
-    const t = setTimeout(() => setArmed(false), timeoutMs);
+    const t = setTimeout(disarm, timeoutMs);
     const r = setTimeout(() => setReady(true), ARM_DELAY_MS);
     return () => { clearTimeout(t); clearTimeout(r); setReady(false); };
   }, [armed, timeoutMs]);
+  useEffect(() => {
+    if (armed || !refocus.current) return;
+    refocus.current = false;
+    trigger.current?.focus();
+  }, [armed]);
 
   if (!armed) {
     return (
-      <Button type="button" size={size} variant={variant} className={className} disabled={disabled || busy} onClick={() => setArmed(true)} {...rest}>
+      <Button ref={trigger} type="button" size={size} variant={variant} className={className} disabled={disabled || busy} onClick={() => setArmed(true)} {...rest}>
         {children}
       </Button>
     );
   }
   return (
-    <span className={cn("inline-flex flex-wrap items-center gap-1.5", className)} role="group" aria-label={prompt ?? "Confirm"}>
+    <span ref={group} className={cn("inline-flex flex-wrap items-center gap-1.5", className)} role="group" aria-label={prompt ?? "Confirm"}>
       {prompt && <span className="text-xs text-muted-foreground">{prompt}</span>}
-      <Button type="button" size={size} variant="ghost" autoFocus onClick={() => setArmed(false)}>{cancelLabel}</Button>
+      <Button type="button" size={size} variant="ghost" autoFocus onClick={disarm}>{cancelLabel}</Button>
       <Button
         type="button"
         size={size}
         variant="default"
         disabled={busy || !ready}
         onClick={async () => {
+          // Read before the wait: a disabled button can lose the focus.
+          const inside = !!group.current?.contains(document.activeElement);
           setBusy(true);
-          try { await onConfirm(); } finally { setBusy(false); setArmed(false); }
+          try { await onConfirm(); } finally { refocus.current = inside; setBusy(false); setArmed(false); }
         }}
       >
         {confirmLabel}
