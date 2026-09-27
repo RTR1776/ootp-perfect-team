@@ -21,7 +21,7 @@ import {
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { cardEligibility } from "@/lib/roster-rules";
 import { LJ_FLOOR, describePosFloor, parsePosFloor, posFloorAt, type PosFloor } from "@/lib/pos-floor";
-import { fieldingRuns } from "@/lib/analytics/fielding";
+import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT } from "@/lib/roster-objective";
 import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
@@ -163,6 +163,9 @@ const LHP_SHARE_FLAG = num("lhp-share");
  * default to what that series measured (src/data/field-construction.json,
  * written by import:observed), else 0.31 / 1.0.
  */
+/** --no-glove-scale: price gloves at the archive average whatever the era's balls in play. */
+const NO_GLOVE_SCALE = flag("no-glove-scale");
+let GLOVE = 1;
 const RP_WEIGHT_FLAG = num("rp-weight");
 const SP_WEIGHT_FLAG = num("sp-weight");
 let RP_WEIGHT = RP_WEIGHT_FLAG ?? RP_WEIGHT_DEFAULT;
@@ -355,6 +358,8 @@ async function main() {
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}`);
   }
   const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
+  GLOVE = NO_GLOVE_SCALE ? 1 : gloveScale(scoringRates);
+  console.log(`gloves ×${GLOVE.toFixed(2)}: balls in play in this environment against the fit's archive (fielding.ts gloveScale)${NO_GLOVE_SCALE ? " — off (--no-glove-scale)" : ""}`);
   if (SHOW.length) {
     console.log("--- shown ---   (runs/700 PA or BF in this event; pitchers: one number)");
     for (const c of pool.filter((x) => SHOW.some((n) => x.name.toLowerCase().includes(n))).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {
@@ -387,7 +392,7 @@ async function main() {
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
   const { objective, rank, defAt, slotValue } = rosterObjective(pool, {
-    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, mustIds,
+    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, gloveScale: GLOVE, mustIds,
   });
   void defAt;
 
@@ -442,7 +447,7 @@ async function main() {
       if (pos && pos !== "DH" && !pos.startsWith("BN")) {
         const here = c.ratings[`Pos Rating ${pos}`] ?? 0;
         const best = Math.max(...HIT_POS.map((p) => c.ratings[`Pos Rating ${p}`] ?? 0));
-        const dr = fieldingRuns(pos, here);
+        const dr = GLOVE * fieldingRuns(pos, here);
         def = ` DEF ${String(Math.round(here)).padStart(3)}/${String(Math.round(best)).padStart(3)} ${(dr >= 0 ? "+" : "") + dr.toFixed(1)}${here < best * 0.6 ? " <-- out of position" : ""}${here < posFloorAt(MIN_POS, pos) ? " <-- under floor" : ""}`;
       }
     }

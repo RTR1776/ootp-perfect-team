@@ -10,6 +10,11 @@
  * - each clan with enough entries
  * - L.J.
  *
+ * Each group also carries its rotation's handedness and its lineups' (L.J.:
+ * in a left-handed power park, stack the rotation one way and make the
+ * field burn its platoons), and how often it used an opener, with the
+ * openers' record against everyone else's.
+ *
  * It also measures the playing time behind the roster objective's weights:
  * what a starter and a reliever face, each as a multiple of a lineup slot's
  * PA (roster-objective spWeight / rpWeight). In Daily All-Star Hardware Slots
@@ -38,7 +43,13 @@ export interface TeamBuild {
   /** Starters and relievers who faced a batter. */
   sp: number;
   rp: number;
+  /** Starters by the arm they throw with; lineup bats by the side they hit from. */
+  hands: Hands;
+  /** Started a reliever-length pitcher: 2+ starts at 2.2 innings a start or fewer. */
+  opener: boolean;
 }
+
+export interface Hands { spL: number; spR: number; batsL: number; batsR: number; batsS: number }
 
 export interface GroupBuild {
   key: string;
@@ -48,6 +59,10 @@ export interface GroupBuild {
   winPct: number | null;
   /** Average cards per team at each tier and role. */
   tiers: TierRoles;
+  /** Average starters by hand and lineup bats by hand, per team. */
+  hands: Hands;
+  /** Share of the group's teams that used an opener. */
+  openerShare: number;
 }
 
 export interface SeriesBuild {
@@ -56,6 +71,8 @@ export interface SeriesBuild {
   /** A starter's / reliever's batters faced over a lineup slot's PA. Null when too little play. */
   spWeight: number | null;
   rpWeight: number | null;
+  /** Teams that used an opener, and their record against everyone else's. */
+  openers: { teams: number; winPct: number | null; othersWinPct: number | null };
   groups: GroupBuild[];
 }
 
@@ -80,13 +97,24 @@ export function teamBuilds(stints: readonly LeagueStint[]): TeamBuild[] {
     const bats = rows.filter((s) => !s.isPitcher), arms = rows.filter((s) => s.isPitcher);
     const pa = bats.reduce((a, s) => a + (s.pa || 0), 0);
     const cut = BENCH_SHARE * (pa / 9);
-    const t: TeamBuild = { org, clan: rows[0].clan, mine: isMyOrg(org), w: 0, l: 0, tiers: {}, pa, spBf: 0, rpBf: 0, sp: 0, rp: 0 };
+    const t: TeamBuild = {
+      org, clan: rows[0].clan, mine: isMyOrg(org), w: 0, l: 0, tiers: {}, pa, spBf: 0, rpBf: 0, sp: 0, rp: 0,
+      hands: { spL: 0, spR: 0, batsL: 0, batsR: 0, batsS: 0 }, opener: false,
+    };
     const count = (s: LeagueStint, role: Role) => {
       if (s.val == null || !Number.isFinite(s.val)) return;
       const tier = tierCode(s.val);
       (t.tiers[tier] ??= emptyRoles())[role] += 1;
     };
-    for (const s of bats) count(s, (s.pa || 0) >= cut && s.pa > 0 ? "bats" : "bench");
+    for (const s of bats) {
+      const lineup = (s.pa || 0) >= cut && s.pa > 0;
+      count(s, lineup ? "bats" : "bench");
+      if (lineup) {
+        if (s.bats === "L") t.hands.batsL += 1;
+        else if (s.bats === "S") t.hands.batsS += 1;
+        else if (s.bats === "R") t.hands.batsR += 1;
+      }
+    }
     for (const s of arms) {
       const g = s.stats.G_p ?? 0, gs = s.stats.GS_p ?? 0, bf = s.stats.BF ?? 0;
       const starter = g > 0 ? gs >= 1 && gs >= 0.5 * g : s.pos === "SP";
@@ -96,6 +124,11 @@ export function teamBuilds(stints: readonly LeagueStint[]): TeamBuild[] {
       if (bf > 0) {
         if (starter) { t.spBf += bf; t.sp += 1; } else { t.rpBf += bf; t.rp += 1; }
       }
+      if (starter && bf > 0) {
+        if (s.throws === "L") t.hands.spL += 1;
+        else if (s.throws === "R") t.hands.spR += 1;
+      }
+      if (gs >= 2 && (s.ip || 0) / gs <= 2.2) t.opener = true;
     }
     out.push(t);
   }
@@ -115,8 +148,17 @@ function average(label: string, key: string, teams: TeamBuild[]): GroupBuild {
     }
     if (any) tiers[tier] = Object.fromEntries(ROLES.map((r) => [r, Math.round((sum[r] / teams.length) * 10) / 10])) as Record<Role, number>;
   }
+  const hands = Object.fromEntries((["spL", "spR", "batsL", "batsR", "batsS"] as const).map((k) =>
+    [k, Math.round((teams.reduce((a, t) => a + t.hands[k], 0) / teams.length) * 10) / 10])) as unknown as Hands;
+  return {
+    key, label, n: teams.length, winPct: winPct(teams), tiers, hands,
+    openerShare: Math.round((teams.filter((t) => t.opener).length / teams.length) * 100) / 100,
+  };
+}
+
+function winPct(teams: TeamBuild[]): number | null {
   const w = teams.reduce((a, t) => a + t.w, 0), l = teams.reduce((a, t) => a + t.l, 0);
-  return { key, label, n: teams.length, winPct: w + l > 0 ? Math.round((w / (w + l)) * 1000) / 1000 : null, tiers };
+  return w + l > 0 ? Math.round((w / (w + l)) * 1000) / 1000 : null;
 }
 
 /** A series' runs (one array of teams per export) summarised for /build. */
@@ -138,11 +180,13 @@ export function summariseSeries(runs: TeamBuild[][]): SeriesBuild {
   const per = (bf: number, n: number) => (n > 0 && slotPa > 0 ? Math.round((bf / n / slotPa) * 100) / 100 : null);
   const spN = all.reduce((a, t) => a + t.sp, 0), rpN = all.reduce((a, t) => a + t.rp, 0);
   const enough = all.length >= 8;
+  const openers = all.filter((t) => t.opener), others = all.filter((t) => !t.opener);
   return {
     files: runs.length,
     teams: all.length,
     spWeight: enough ? per(all.reduce((a, t) => a + t.spBf, 0), spN) : null,
     rpWeight: enough ? per(all.reduce((a, t) => a + t.rpBf, 0), rpN) : null,
+    openers: { teams: openers.length, winPct: winPct(openers), othersWinPct: winPct(others) },
     groups,
   };
 }

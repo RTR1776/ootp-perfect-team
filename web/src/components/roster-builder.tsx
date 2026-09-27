@@ -40,7 +40,7 @@ import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/li
 import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { optimizeRoster } from "@/lib/roster-optimize";
 import type { DeepMessage, DeepRequest } from "@/lib/optimize.worker";
-import { fieldingRuns } from "@/lib/analytics/fielding";
+import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { FieldView } from "@/components/build/field-view";
 import { BuyBox } from "@/components/build/buy-box";
 import { ShopBoard } from "@/components/build/shop-board";
@@ -429,6 +429,8 @@ export function RosterBuilder({
      flip it — the toggle is disabled when the base is not owned). */
   const preferVariant = defaultToVariant(tournament);
   const lhpShare = env?.lhpShare ?? LHP_SHARE_DEFAULT;
+  /* Gloves are worth more where more balls are put in play (fielding.ts gloveScale). */
+  const glove = env ? gloveScale(env.rates) : 1;
   const envs = useMemo(() => (env ? projectionEnvs(env.rates, env.park, env.lhbShare) : null), [env]);
   const pool = useMemo(() => basePool.map(c => {
     const verifiedVar = c.variantOwned && hasVariantSplitRatings(c.variantRatings, c.isPitcher);
@@ -600,7 +602,7 @@ export function RosterBuilder({
           const r = runsOf(c.cardId);
           if (r == null) return -1e6;
           // Filtered to a fielding spot: rank on bat + glove there, the way the optimiser prices it.
-          return !wantPitcher && FIELD_SPOTS.has(posFilter) ? r + fieldingRuns(posFilter, c.ratings[`Pos Rating ${posFilter}`] ?? 0) : r;
+          return !wantPitcher && FIELD_SPOTS.has(posFilter) ? r + glove * fieldingRuns(posFilter, c.ratings[`Pos Rating ${posFilter}`] ?? 0) : r;
         }
         case "obs": return (wantPitcher ? c.obs?.fip : c.obs?.woba) ?? miss;
         case "pa": return (wantPitcher ? c.obs?.ip : c.obs?.pa) ?? 0;
@@ -610,7 +612,7 @@ export function RosterBuilder({
     };
     return list.sort((a, b) => dir * (key(b) - key(a)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pool, search, posFilter, sortBy, view, fitR, envFits, lhpShare]);
+  }, [pool, search, posFilter, sortBy, view, fitR, envFits, lhpShare, glove]);
 
   const upgradeRows = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -743,8 +745,8 @@ export function RosterBuilder({
   const spWeight = meta?.construction?.spWeight ?? undefined;
   const rpWeight = meta?.construction?.rpWeight ?? undefined;
   const objective = useMemo(() => envFits
-    ? rosterObjective(pool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight })
-    : null, [envFits, pool, fillShape, lhpShare, spWeight, rpWeight]);
+    ? rosterObjective(pool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove })
+    : null, [envFits, pool, fillShape, lhpShare, spWeight, rpWeight, glove]);
   const boardRuns = (source: Record<SlotKey, number | null>): number | null => {
     if (!objective) return null;
     const complete: Record<string, number> = {};
@@ -805,7 +807,7 @@ export function RosterBuilder({
       w.onerror = (err) => { setMsg(`Deep search failed: ${err.message}`); finish(); };
       const req: DeepRequest = {
         starts, pool: searchPool, rules: tournament as RosterRules, shape: fillShape,
-        runsR: [...envFits!.runsR], runsL: [...envFits!.runsL], lhpShare, spWeight, rpWeight,
+        runsR: [...envFits!.runsR], runsL: [...envFits!.runsL], lhpShare, spWeight, rpWeight, gloveScale: glove,
         locks: [...locks], minCatchers: twoCatchers ? 2 : 0,
       };
       w.postMessage(req);
@@ -830,7 +832,7 @@ export function RosterBuilder({
       const missing = slotOrder.filter((k) => current[k] == null);
       const searchPool = (pool as FillCard[]).filter((c) => !bans.has(c.cardId));
       const searchObj = locks.size
-        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, spWeight, rpWeight, mustIds: locks })
+        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove, mustIds: locks })
         : objective;
       const greedy = fillRoster(searchPool, tournament, fillShape, fits).slots;
       // The search needs a complete board to score; fill the holes greedily first.

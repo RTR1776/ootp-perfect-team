@@ -20,3 +20,12 @@ test("league catcher defence: framing drives it, and a variant's catcher ratings
   assert.equal(formRatings(base, { DEF: 120 }, "C").CatcherFrame, 109, "a base copy is untouched");
   assert.equal(formRatings(base, { "POS C": 129 }, "C").CatcherFrame, 117, "a typed variant C rating boosts them too");
 });
+
+test("gloves scale with the environment's balls in play", async () => {
+  const { gloveScale } = await import("./fielding");
+  const { eraTable } = await import("./tournament-env");
+  const ptDefault = gloveScale(eraTable["0"].rates), deadball = gloveScale(eraTable["1920"].rates);
+  assert.ok(ptDefault < 0.9 && ptDefault >= 0.7, `PT default gives the fielders less to do (${ptDefault.toFixed(2)})`);
+  assert.ok(deadball > 1.15 && deadball <= 1.35, `1920 gives them more (${deadball.toFixed(2)})`);
+  assert.equal(gloveScale(null), 1);
+});

@@ -34,6 +34,9 @@ export interface LeagueStint {
   tier: string | null;
   isVariant: boolean;
   cardYear: number | null;
+  /** The export's B and T columns: L, R or S. Null when the file has none. */
+  bats?: string | null;
+  throws?: string | null;
   /** Selected ratings, by our canonical short names. */
   ratings: Record<string, number>;
   /** PA for hitters; innings (decimal, thirds converted) for pitchers. */
@@ -261,6 +264,8 @@ export function parseLeagueExport(text: string, filename = ""): LeagueParseResul
       tier: (row["Tier"] ?? "").trim() || null,
       isVariant: (row["VAR"] ?? "").trim().toUpperCase() === "Y",
       cardYear: num(row["CYear"]),
+      bats: (row["B"] ?? "").trim().toUpperCase() || null,
+      throws: (row["T"] ?? "").trim().toUpperCase() || null,
       ratings,
       pa,
       ip,
