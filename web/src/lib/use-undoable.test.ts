@@ -50,3 +50,16 @@ test("an action that changes nothing is not a step, and history is capped", () =
   assert.equal(h.past.length, HISTORY_LIMIT);
   assert.equal(h.present, HISTORY_LIMIT + 10);
 });
+
+test("typing a field back to where its step began removes the step (Ctrl+Z inside the field)", () => {
+  let h = initHistory({ year: "2010", bats: ["Ott"] });
+  h = pushHistory(h, { year: "2010", bats: [] }, { label: "Remove Ott" });
+  h = pushHistory(h, { year: "198", bats: [] }, { label: "edit run environment", coalesceKey: "year" });
+  h = pushHistory(h, { year: "1989", bats: [] }, { label: "edit run environment", coalesceKey: "year" });
+  assert.equal(undoLabel(h), "edit run environment");
+  h = pushHistory(h, { year: "2010", bats: [] }, { label: "edit run environment", coalesceKey: "year" });
+  assert.equal(undoLabel(h), "Remove Ott", "the no-op step is gone");
+  assert.equal(h.open, null);
+  h = undoHistory(h);
+  assert.deepEqual(h.present, { year: "2010", bats: ["Ott"] }, "one Undo takes back the remove");
+});

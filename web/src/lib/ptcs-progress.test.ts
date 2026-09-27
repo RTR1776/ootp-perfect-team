@@ -60,6 +60,19 @@ test("pace runs to the last day with data, from the category's own first scoring
   assert.equal(open.projected, null, "no projection before three scoring days");
 });
 
+test("a row logged this morning doesn't cut every category's pace: today is never a whole day", () => {
+  const o = { totalDays: 28, daysLeft: 22, dayIndex: 7, ourLines: { "PD Daily": 269, Bronze: 100 } };
+  const six = Array.from({ length: 6 }, () => ({ "PD Daily": 10 }));
+  const [without] = standings(days([...six, null]), ["PD Daily"], o);
+  const [withRow] = standings(days([...six, { Bronze: 3 }]), ["PD Daily"], o);
+  assert.equal(withRow.pace, 10);
+  assert.equal(withRow.projected, without.projected, "a Bronze row today leaves PD Daily's forecast alone");
+  assert.equal(withRow.projected, 280);
+  const [bronze] = standings(days([{ Bronze: 3 }, { Bronze: 3 }, { Bronze: 3 }, {}, {}, {}, { Bronze: 9 }]), ["Bronze"], o);
+  assert.equal(bronze.pace, 1.5, "9 over days 1-6");
+  assert.equal(bronze.projected, Math.round(9 + 9 + 1.5 * 21), "today keeps the 9 it already has, more than the pace");
+});
+
 test("verdicts: safe, short of safe, on pace, behind", () => {
   const d = days([
     { Cap: 50, Silver: 34, Open: 10, Bronze: 2 },
@@ -90,7 +103,9 @@ test("not playing: from day 7, under a tenth of the line, too few scoring days t
   assert.equal(iron.verdict, "not-playing");
   assert.equal(verdictLabel(iron), "not playing");
   const back = days([{ Live: 1 }, {}, { Live: 1 }, {}, {}, {}, { Live: 1 }]);
-  assert.equal(standings(back, ["Live"], { ...o, dayIndex: 7 })[0].verdict, "behind", "a third scoring day makes it active again");
+  assert.equal(standings(back, ["Live"], { ...o, dayIndex: 7 })[0].verdict, "not-playing", "a third 1-point day paces to 10 of 136: still not playing");
+  const active = days([{ Live: 1 }, {}, { Live: 1 }, {}, {}, { Live: 5 }, { Live: 5 }]);
+  assert.equal(standings(active, ["Live"], { ...o, dayIndex: 7 })[0].verdict, "behind", "a pace toward a quarter of the line is being played");
   const big = days([{ Live: 15 }, {}, {}, {}, {}, {}, {}]);
   assert.equal(standings(big, ["Live"], { ...o, dayIndex: 7 })[0].verdict, "behind", "a tenth of the line is being played");
 });

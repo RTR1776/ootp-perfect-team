@@ -69,6 +69,8 @@ export function useRescore(key: string | null) {
     /** The lineups for these inputs, else the last ones while the new ones come. */
     result: current?.result ?? seen.last,
     pending: key != null && !have,
+    /** What's on screen isn't for these inputs: still coming, not asked for (skipped), or failed. */
+    stale: current?.result == null && seen.last != null,
     error: current?.error ?? null,
     hurry, retry,
   };

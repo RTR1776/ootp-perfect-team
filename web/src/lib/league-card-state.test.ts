@@ -166,17 +166,22 @@ test("restore: the saved state, cleaned; the league follows the export unless pi
   assert.equal(odd.candidate, null);
 });
 
-test("v2 migrates: its list, locks and settings, taken as this export's list", () => {
-  const v2 = { pool: [OTT, WOOD, SOTO], locks: { vR: { "3B": WOOD }, vL: {} }, family: "HD", year: "1998", park: "1945 Fenway Park", glove: "0.5" };
-  const m = restoreState(null, v2, PEL);
-  assert.deepEqual(m.bats, [OTT, WOOD, SOTO]);
+test("v2 migrates: this export's list keeps its league; any other list stays his, and the banner offers the export", () => {
+  const same = { pool: [...PEL.roster].reverse(), locks: { vR: { "3B": WOOD }, vL: {} }, family: "HD", year: "1998", park: "1945 Fenway Park", glove: "0.5" };
+  const m = restoreState(null, same, PEL);
   assert.deepEqual(m.locks, { vR: { "3B": WOOD }, vL: {} });
   assert.deepEqual(m.settings, { family: "HD", year: "1998", park: "1945 Fenway Park", glove: "0.5" });
-  assert.equal(m.familyPinned, true, "v2 kept its league; one unlike the export's was his choice");
+  assert.equal(m.familyPinned, true, "the same hitters with another league: his choice");
   assert.equal(exportChange(m, PEL), null);
-  assert.deepEqual(teamEdits(m), { added: 1, removed: 3 });
+  // A list from an older export (HD451's week, saved in HD) read after the PEL week landed.
+  const old = { pool: HD.roster, locks: { vR: {}, vL: {} }, family: "HD", year: "2010", park: "", glove: "1" };
+  const o = restoreState(null, old, PEL);
+  assert.deepEqual(o.bats, HD.roster, "his list is kept");
+  assert.equal(o.settings.family, "PEL", "the league follows the export, not the old list's");
+  assert.equal(o.familyPinned, false);
+  assert.deepEqual(exportChange(o, PEL), { added: [ROLEN, PIAZZA].filter((e) => !HD.roster.includes(e)), gone: [CONNOR, VAUGHAN] }, "the banner offers the new export");
   assert.deepEqual(restoreState(null, { pool: [] }, PEL).bats, PEL.roster);
-  assert.equal(restoreState({ ...freshState(PEL), bats: [OTT] }, v2, PEL).bats.length, 1, "v3 wins over v2");
+  assert.equal(restoreState({ ...freshState(PEL), bats: [OTT] }, same, PEL).bats.length, 1, "v3 wins over v2");
 });
 
 test("the request waits for a four-digit year and a listed park, and sends the card only when included", () => {

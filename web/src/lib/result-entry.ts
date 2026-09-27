@@ -16,11 +16,14 @@ export interface EntryRow {
   eliminated: boolean;
   status: EntryStatus;
   problems: string[];
+  /** A new row the totals already count from the community dump: logging it adds only the difference. */
+  inDump?: { points: number; categories: string[] };
 }
 
 export interface EntryResponse {
   asOf: string;
   rows: EntryRow[];
-  summary: { new: number; duplicates: number; problems: number; byCategory: Record<string, number> };
+  /** byCategory: what the totals will change by (dump rows count only their difference); fromDump: new rows the dump already had. */
+  summary: { new: number; duplicates: number; problems: number; byCategory: Record<string, number>; fromDump: number };
   saved: number | null;
 }

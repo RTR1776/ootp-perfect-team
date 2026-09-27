@@ -51,14 +51,15 @@ function Switch({ checked, onChange, children }: { checked: boolean; onChange: (
 }
 
 /** What the card adds, only ever for the card on the form. */
-function CardResult({ c, result, pending }: { c: Candidate; result: ScoreResult | null; pending: boolean }) {
+function CardResult({ c, result, pending, stale }: { c: Candidate; result: ScoreResult | null; pending: boolean; stale: boolean }) {
   if (!c.include) return <p className="text-xs text-muted-foreground">Left out of the lineups. Switch on Include in lineups to score it.</p>;
   const cand = result?.candidate, add = result?.add;
   if (!cand || !add) {
     return pending ? <p className="flex items-center gap-1.5 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" />Scoring {c.name}…</p> : null;
   }
   return (
-    <div className={cn("rounded-md border border-border bg-muted/20 px-3 py-2 text-sm transition-opacity", pending && "opacity-60")} aria-busy={pending}>
+    <div className={cn("rounded-md border border-border bg-muted/20 px-3 py-2 text-sm transition-opacity", stale && "opacity-60")} aria-busy={pending}>
+      {stale && !pending && <div className="mb-1 text-xs text-warning">Not scored for your latest edits; this is the last result.</div>}
       <div className="font-semibold">
         {cand.label}: <span className={toneClass(add.season)}>{signed(add.season)} runs a season</span>
         <span className="ml-2 font-normal text-muted-foreground">({signed(add.wins)} W)</span>
@@ -73,12 +74,14 @@ function CardResult({ c, result, pending }: { c: Candidate; result: ScoreResult 
   );
 }
 
-export function CardPanel({ candidate: c, cards, result, pending, loading, cardError, onPick, onClear, act, seal }: {
+export function CardPanel({ candidate: c, cards, result, pending, stale, loading, cardError, onPick, onClear, act, seal }: {
   candidate: Candidate | null;
   cards: CardOption[];
   /** The scored result for this card, or null (not included, or not scored yet). */
   result: ScoreResult | null;
   pending: boolean;
+  /** The result shown is from before the latest edit. */
+  stale: boolean;
   /** The card being fetched, while its base values load. */
   loading: string | null;
   cardError: string | null;
@@ -172,7 +175,7 @@ export function CardPanel({ candidate: c, cards, result, pending, loading, cardE
             </div>
           </div>
         )}
-        {shown && <CardResult c={shown} result={result} pending={pending} />}
+        {shown && <CardResult c={shown} result={result} pending={pending} stale={stale} />}
       </CardContent>
     </Card>
   );

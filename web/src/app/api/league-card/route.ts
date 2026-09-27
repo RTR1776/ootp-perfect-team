@@ -56,7 +56,10 @@ export async function POST(request: NextRequest) {
   const typed = Array.isArray(body.roster) ? (body.roster as unknown[]).map((s) => String(s).trim()).filter(Boolean).slice(0, 40) : [];
   const familyGiven = ["PEL", "HD", "LD"].includes(String(body.family));
   // His export fills in only what the request leaves out; the page sends both.
-  const [mine, u] = await Promise.all([typed.length && familyGiven ? null : myLeagueBats(), loadHitterUniverse()]);
+  const [mine, u0] = await Promise.all([typed.length && familyGiven ? null : myLeagueBats(), loadHitterUniverse()]);
+  // A card the cached shop hasn't seen: read it again once before saying there's none.
+  const wanted = body.cardId != null ? Number(body.cardId) : null;
+  const u = wanted != null && Number.isSafeInteger(wanted) && !u0.shopById.has(wanted) ? await loadHitterUniverse({ fresh: true }) : u0;
   const entries = typed.length ? typed : mine?.names ?? [];
   if (!entries.length) return NextResponse.json({ error: "No league roster on file; add the team's hitters." }, { status: 400 });
   const family: LeagueFamily = familyGiven ? (body.family as LeagueFamily) : leagueFamily(mine?.league ?? "HD");

@@ -34,8 +34,10 @@ export const SAFE_MARGIN = 0.10;
 export const FORECAST_MIN_DAYS = 3;
 /** "Not playing" is called only from this day of the period… */
 export const NOT_PLAYING_FROM_DAY = 7;
-/** …and only for a category under this share of its line. */
+/** …and only for a category under this share of its line… */
 export const NOT_PLAYING_SHARE = 0.1;
+/** …that either hasn't scored on enough days to forecast, or whose pace ends the period under this share of it. */
+export const NOT_PLAYING_PACE_SHARE = 0.25;
 
 export interface SafeMark {
   /** The higher of our line and cwhit's. */
@@ -78,7 +80,7 @@ export interface StandingRow {
   /** The gap spread over the days left, today included. */
   needPerDay: number | null;
   scoringDays: number;
-  /** Points a day, from the category's first scoring day to the last day with data. */
+  /** Points a day, from the category's first scoring day to the last whole day with data (never today). */
   pace: number | null;
   /** Where that pace ends the period; null before FORECAST_MIN_DAYS scoring days. */
   projected: number | null;
@@ -101,13 +103,16 @@ const GROUP: Record<Verdict, number> = { behind: 0, "on-pace": 0, "to-safe": 0, 
  * - Pace runs to the last day with data, not to today: a day nobody has
  *   logged yet is missing, not a day that scored nothing. It starts at the
  *   category's own first scoring day — a staggered start is a plan, not a
- *   deficit.
- * - "Not playing" means under a tenth of the line with too few scoring days
- *   for a forecast, from day 7 on. The UI plan (P2) said "at most one scoring
- *   day"; with the dump counted, PTCS 7's Live has two incidental 1-point
- *   days (a Daily Live Open and a Time Travelers entry), and that rule put a
- *   category he isn't playing at the top of the list. So the bar is the
- *   forecast rule's instead.
+ *   deficit. Today is never a whole day: its points count, but it doesn't
+ *   end the pace window (L.J. logs same-day rows, and one early-morning row
+ *   made every category's pace a day short), and the projection gives it the
+ *   pace or what it has already scored, whichever is more.
+ * - "Not playing" means under a tenth of the line from day 7 on, with too
+ *   few scoring days for a forecast or a pace that ends the period under a
+ *   quarter of it. The UI plan (P2) said "at most one scoring day"; with the
+ *   dump counted, PTCS 7's Live has incidental 1-point days (a Daily Live
+ *   Open, a Time Travelers entry), and a count of days alone puts a category
+ *   he isn't playing at the top of the list the day a third one lands.
  */
 export function standings(
   days: readonly MergedDay[],
@@ -123,6 +128,9 @@ export function standings(
   },
 ): StandingRow[] {
   const lastData = lastDataIndex(days);
+  const todayIdx = o.dayIndex - 1;
+  // The last whole day with data: today, however much is logged, isn't one.
+  const end = lastData >= todayIdx ? todayIdx - 1 : lastData;
   const rows = categories.map((category): StandingRow => {
     const series = days.map((d) => d.points[category] ?? 0);
     const total = series.reduce((s, v) => s + v, 0);
@@ -130,9 +138,12 @@ export function standings(
     for (const d of days) for (const e of d.events) if (e.source === "dump" && e.categories.includes(category)) fromDump += e.points;
     const scoringDays = series.filter((v) => v > 0).length;
     const first = series.findIndex((v) => v > 0);
-    const pace = first >= 0 && lastData >= first ? total / (lastData - first + 1) : null;
+    const done = series.slice(0, end + 1).reduce((s, v) => s + v, 0);
+    const pace = first >= 0 && end >= first ? done / (end - first + 1) : null;
+    // Days after the window: today (partial) and every day still to come.
+    const after = Math.max(0, o.totalDays - end - 1);
     const projected = pace != null && scoringDays >= FORECAST_MIN_DAYS
-      ? Math.round(total + pace * Math.max(0, o.totalDays - lastData - 1))
+      ? Math.round(done + (after > 0 ? Math.max(pace, total - done) + pace * (after - 1) : total - done))
       : null;
     const ourLine = o.ourLines[category] ?? null;
     const cwhitLine = o.cwhitLines?.[category] ?? null;
@@ -144,7 +155,8 @@ export function standings(
     if (!mark) verdict = "no-line";
     else if (total >= mark.safeAt) verdict = "safe";
     else if (total >= mark.line) verdict = "to-safe";
-    else if (o.dayIndex >= NOT_PLAYING_FROM_DAY && scoringDays < FORECAST_MIN_DAYS && total < NOT_PLAYING_SHARE * mark.line) verdict = "not-playing";
+    else if (o.dayIndex >= NOT_PLAYING_FROM_DAY && total < NOT_PLAYING_SHARE * mark.line
+      && (scoringDays < FORECAST_MIN_DAYS || (projected != null && projected < NOT_PLAYING_PACE_SHARE * mark.line))) verdict = "not-playing";
     else if (projected != null && projected >= mark.line) verdict = "on-pace";
     else verdict = "behind";
 

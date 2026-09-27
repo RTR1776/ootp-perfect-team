@@ -4,7 +4,7 @@
  * card plus ratings typed off a card face (a variant in the shop, say).
  * Shared by scripts/league-compare.ts and /league-card.
  */
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, collectionCards, leagueSnapshots, leagueStints, uploads } from "@/db/schema";
 import { formRatings } from "@/lib/card-forms";
@@ -26,17 +26,23 @@ export const normName = (s: string) => s.toLowerCase().normalize("NFD").replace(
 /**
  * The shop and the newest collection, read once per five minutes per server
  * and shared by every request in between: re-reading the whole cards table
- * was most of each /league-card score (1.2–1.65 s a POST). A failed read is
- * not kept, so the next call tries again. Callers must not mutate it.
+ * was most of each /league-card score (1.2–1.65 s a POST). The copy is keyed
+ * on the newest collection and shop-list uploads (one small query a call), so
+ * an upload — on any server — is picked up at once, not five minutes later.
+ * `fresh` reads it again regardless. A failed read is not kept, so the next
+ * call tries again. Callers must not mutate it.
  */
 const UNIVERSE_TTL_MS = 5 * 60_000;
-let universe: { at: number; promise: Promise<HitterUniverse> } | null = null;
+let universe: { at: number; stamp: string; promise: Promise<HitterUniverse> } | null = null;
 
-export function loadHitterUniverse(): Promise<HitterUniverse> {
+export async function loadHitterUniverse(opts: { fresh?: boolean } = {}): Promise<HitterUniverse> {
+  const newest = await db.select({ kind: uploads.kind, id: sql<number>`max(${uploads.id})`.mapWith(Number) }).from(uploads)
+    .where(inArray(uploads.kind, ["collection", "shop_list"])).groupBy(uploads.kind);
+  const stamp = newest.map((r) => `${r.kind}:${r.id}`).sort().join("|");
   const now = Date.now();
-  if (!universe || now - universe.at > UNIVERSE_TTL_MS) {
+  if (opts.fresh || !universe || universe.stamp !== stamp || now - universe.at > UNIVERSE_TTL_MS) {
     const promise = readHitterUniverse();
-    universe = { at: now, promise };
+    universe = { at: now, stamp, promise };
     promise.catch(() => { if (universe?.promise === promise) universe = null; });
   }
   return universe.promise;

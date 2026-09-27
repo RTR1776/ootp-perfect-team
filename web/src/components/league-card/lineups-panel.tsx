@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { Input } from "@/components/ui/input";
 import { signed } from "@/lib/format";
+import { cn } from "@/lib/utils";
 import {
   BOARD_NAME, edit, FAMILIES, GLOVES, lockCount, lockMovesFrom, nameOf,
   type Board as BoardKey, type Family, type ModelAction, type ModelState,
@@ -20,7 +21,7 @@ import type { Lineup, ScoreResult } from "./use-rescore";
 const BOARDS: BoardKey[] = ["vR", "vL"];
 const gloves = (x: number) => (x === 1 ? "full" : x === 0.5 ? "half" : x === 0 ? "off" : `×${x}`);
 
-export function LineupsPanel({ state, exportFamily, result, withCard, pending, skip, error, retry, act, told, seal, history }: {
+export function LineupsPanel({ state, exportFamily, result, withCard, pending, stale, skip, error, retry, act, told, seal, history }: {
   state: ModelState;
   /** The newest export's league: choosing it again means following the export. */
   exportFamily: Family;
@@ -28,6 +29,8 @@ export function LineupsPanel({ state, exportFamily, result, withCard, pending, s
   /** The lineups with the modelled card, when it is included and scored. */
   withCard: Record<BoardKey, Lineup | null> | null;
   pending: boolean;
+  /** The lineups shown are from before the latest edit. */
+  stale: boolean;
   /** Why nothing is being scored (a half-typed year or park). */
   skip: string | null;
   error: string | null;
@@ -91,7 +94,7 @@ export function LineupsPanel({ state, exportFamily, result, withCard, pending, s
             ? <ConfirmButton variant="ghost" prompt={`Clear all ${locks} locks?`} onConfirm={clearLocks}>Clear {locks} locks</ConfirmButton>
             : <Button size="sm" variant="ghost" onClick={clearLocks}>Clear {locks} lock{locks === 1 ? "" : "s"}</Button>)}
         </div>
-        {skip && <p className="text-xs text-warning">{skip}</p>}
+        {skip && <p className="text-xs text-warning">{skip}{result ? " The lineups below are from before this edit." : ""}</p>}
         {error && (
           <div className="flex flex-wrap items-center gap-2 rounded-md border border-negative/30 bg-negative/5 px-3 py-2 text-xs text-negative">
             <span className="min-w-0 flex-1">{error}</span>
@@ -103,12 +106,12 @@ export function LineupsPanel({ state, exportFamily, result, withCard, pending, s
           {BOARDS.map((b) => (
             <Board
               key={b} board={b} bats={state.bats} locks={state.locks[b]} now={result?.now[b]} next={withCard?.[b]}
-              pending={pending} onLock={lock(b)} onSelectKeys={onSelectKeys}
+              pending={pending} stale={stale} onLock={lock(b)} onSelectKeys={onSelectKeys}
             />
           ))}
         </div>
         {result && (
-          <div className="text-[11px] text-muted-foreground">
+          <div className={cn("text-[11px] text-muted-foreground", stale && "opacity-60")}>
             {`${result.family} · run environment ${result.year === 2010 ? "PT default (2010)" : result.year} · ${result.park ? `home park ${result.park} (half weight)` : "neutral park"} · gloves ${gloves(result.defScale)} · boards weighted ${Math.round((1 - result.lhp) * 100)}/${Math.round(result.lhp * 100)} · ${result.rpw.toFixed(1)} runs a win.`}
             {result.park && result.neutral && result.now.vR && result.now.vL && result.neutral.vR != null && result.neutral.vL != null && (
               <>

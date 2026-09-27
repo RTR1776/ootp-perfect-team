@@ -235,6 +235,9 @@ export function modelReducer(s: ModelState, a: ModelAction): ModelState {
 
 /* --------------------------------------------------------- start and save */
 
+/** The source of a list migrated from v2 that doesn't match the newest export. */
+export const V2_SOURCE = "your saved list";
+
 export function freshState(ex: LeagueExport): ModelState {
   return {
     bats: [...ex.roster], arms: [], locks: NO_LOCKS, armLocks: {},
@@ -303,13 +306,19 @@ export function restoreState(saved: unknown, v2: unknown, ex: LeagueExport): Mod
     };
   }
   if (isObj(v2)) {
-    // v2 kept a list and settings but not which export the list came from:
-    // take it as this export's list, so the caption shows his edits against it.
+    // v2 kept a list and settings but not which export the list came from.
+    // The same hitters as this export: it is this export's list, and a league
+    // unlike the export's was his choice. Otherwise it may be an older
+    // export's (a week imported before he first opens this page): it stays
+    // his list, the new-export banner offers the update, and the league
+    // follows the export.
     const pool = strings(v2.pool);
     const bats = pool?.length ? pool : [...ex.roster];
-    const family = familyOf(v2.family) ?? ex.family;
+    const isThis = bats.length === ex.roster.length && ex.roster.every((e) => bats.includes(e));
+    const family = (isThis ? familyOf(v2.family) : null) ?? ex.family;
     return {
       ...freshState(ex), bats, locks: locksOf(v2.locks, bats), settings: settingsOf(v2, family), familyPinned: family !== ex.family,
+      ...(isThis ? {} : { source: V2_SOURCE, exportRoster: [...bats] }),
     };
   }
   return freshState(ex);

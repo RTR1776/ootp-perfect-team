@@ -65,6 +65,8 @@ function Model({ cards, parks, league }: Props) {
     if (notice.current != null) dismissToast(notice.current);
     notice.current = null;
   }, []);
+  // The toast outlives the page (the Toaster is in the root layout): leaving closes it, since its Undo would act on nothing.
+  useEffect(() => dropNotice, [dropNotice]);
   const undo = useCallback(() => { dropNotice(); hurry(); undoStep(); }, [dropNotice, hurry, undoStep]);
   const redo = useCallback(() => { dropNotice(); hurry(); redoStep(); }, [dropNotice, hurry, redoStep]);
   useUndoKeys(undo, redo);
@@ -127,11 +129,11 @@ function Model({ cards, parks, league }: Props) {
       <TeamPanel state={state} league={league} cards={cards} result={res} act={act} told={told} />
       <LineupsPanel
         state={state} exportFamily={league.family} result={res} withCard={cardResult?.with ?? null}
-        pending={score.pending} skip={req.skip ?? null} error={score.error} retry={score.retry}
+        pending={score.pending} stale={score.stale} skip={req.skip ?? null} error={score.error} retry={score.retry}
         act={act} told={told} seal={seal} history={{ canUndo, canRedo, undoLabel, redoLabel, undo, redo }}
       />
       <CardPanel
-        candidate={c} cards={cards} result={cardResult} pending={score.pending} loading={loading} cardError={cardError}
+        candidate={c} cards={cards} result={cardResult} pending={score.pending} stale={score.stale} loading={loading} cardError={cardError}
         onPick={(o) => void pickCard(o)} onClear={clearCard} act={act} seal={seal}
       />
       <datalist id="league-card-options">
