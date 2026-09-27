@@ -363,7 +363,7 @@ export default async function BuildPage({
           seriesFiles: meta?.files ?? 0, seriesTeams: meta?.avgTeams ?? null,
           poolSize: pool.length, poolWithPlay: ns.length, poolMedianN: ns.length ? ns[Math.floor(ns.length / 2)] : 0,
           eraBand: band ? { band: band.band, series: band.series } : null,
-          envYearKnown: envYear != null, parkOnFile: park != null,
+          envYearKnown: envYear != null, parkOnFile: park != null, staleSince: tournament.staleSeriesSince ?? null,
         });
       }
 

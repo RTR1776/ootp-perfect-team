@@ -85,3 +85,17 @@ test("a slot line reads as the game means it: the spots it leaves go to the next
   const next = editCatalogueRules(lastWeek, { slots: parseSlots("P6, D4, G4, S4, B4"), at: "2026-09-27" });
   assert.deepEqual(next.restrictions?.slots, { P: 6, D: 4, G: 4, S: 4, B: 4, I: 4 });
 });
+
+test("a refresh import keeps slots, a confirmed window and L.J.'s notes the post doesn't restate", () => {
+  const old = {
+    slots: { P: 6, D: 4, G: 4, S: 4, B: 4, I: 4 }, valueConfirmed: "2026-09-27",
+    notes: ["default RE", "2026-09-25 from L.J.: cards 50-74, 1559 cap"],
+  };
+  const kept = keepHandRules(old, { refreshText: "1987 RE, 1990 Metrodome", notes: ["from refresh post: 1805 cap"] });
+  assert.deepEqual(kept.slots, old.slots);
+  assert.equal(kept.valueConfirmed, "2026-09-27");
+  assert.deepEqual(kept.notes, ["from refresh post: 1805 cap", "2026-09-25 from L.J.: cards 50-74, 1559 cap"], "the post's notes, then his; 'default RE' is the old post's and goes");
+  assert.deepEqual(keepHandRules(old, { slots: { P: 8, D: 6, G: 4, S: 3, B: 3, I: 2 } }).slots, { P: 8, D: 6, G: 4, S: 3, B: 3, I: 2 }, "a post that states slots wins");
+  const set = editCatalogueRules({ ...lastWeek, restrictions: { valueWindowFrom: "name: Iron" } }, { value: [40, 59], at: "2026-09-27" });
+  assert.equal(set.restrictions?.valueConfirmed, "2026-09-27");
+});

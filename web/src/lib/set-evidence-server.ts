@@ -6,6 +6,7 @@ import { eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, observedCardStats } from "@/db/schema";
 import { summariseSetEvidence, type SetEvidence } from "@/lib/set-evidence";
+import { chicagoDay } from "@/lib/format";
 
 /** One series' evidence, or null when it has no exports on file. */
 export async function loadSetEvidence(series: string): Promise<SetEvidence | null> {
@@ -62,7 +63,7 @@ export async function exportsPredate(series: string, since: string): Promise<{ s
   for (const name of current) {
     const first = rows.find((r) => r.name === name)!;
     if (Number(first.width) > 3) undated++;
-    else if (new Date(first.at).toISOString().slice(0, 10) < since) before++;
+    else if ((chicagoDay(new Date(first.at)) ?? "") < since) before++;
   }
   return { stale: before + undated > 0, files: current.size, before, undated };
 }

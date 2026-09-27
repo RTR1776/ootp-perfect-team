@@ -811,12 +811,15 @@ export function RosterBuilder({
     const nameOf = (id: number) => byId.get(id)?.name ?? `#${id}`;
     const outside = [...lockIds].filter((id) => !inPool.has(id) && !banIds.has(id) && byId.has(id)).map(nameOf);
     const missed = [...must].filter((id) => !onBoard.has(id)).map(nameOf);
-    return { next, lambda, missed, outside };
+    // Greedy picks can leave a spot only an unlocked card could fill; Optimise solves positions exactly.
+    const empty = must.size ? slotOrder.filter((k) => next[k] == null).map(slotLabel) : [];
+    return { next, lambda, missed, outside, empty };
   };
   /** What a fill left off, in words for the message line or a toast. */
-  const lockNote = ({ missed, outside }: { missed: string[]; outside: string[] }) => [
+  const lockNote = ({ missed, outside, empty }: { missed: string[]; outside: string[]; empty: string[] }) => [
     outside.length ? `Locked ${outside.join(", ")} ${outside.length === 1 ? "is" : "are"} outside the chosen sets, so left off.` : "",
-    missed.length ? `Locked ${missed.join(", ")} did not fit under the rules — run Optimise.` : "",
+    missed.length ? `Locked ${missed.join(", ")} did not fit on this fill — run Optimise.` : "",
+    empty.length ? `With these locks the fill left ${empty.join(", ")} empty — run Optimise, which places positions exactly.` : "",
   ].filter(Boolean).join(" ");
   const autoFill = (silent = false, use?: { locks: number[]; bans: number[]; sets: number[] }) => {
     if (!tournament) return;
@@ -949,6 +952,10 @@ export function RosterBuilder({
       return;
     }
     setOptimizing(true);
+    // The search reads this event's pool and writes its board: a switch meanwhile drops the result.
+    const forTid = tournament.id;
+    // The Sets toast's Undo would change the sets under the search.
+    if (setsToast.current != null) { dismissToast(setsToast.current); setsToast.current = null; }
     setMsg(deep ? "Deep search: up to 12 starts × 2 search settings — a few minutes; Stop keeps the best so far." : "Searching for a better board…");
     const paint = () => new Promise((r) => setTimeout(r, 30));
     await paint();
@@ -975,8 +982,12 @@ export function RosterBuilder({
       const before = boardRuns(slots) ?? objective.objective(current);
       const onNow = new Set(Object.values(slots));
       const beforeSearch = before - 1000 * [...keep].filter((id) => !onNow.has(id)).length;
-      // A card outside the chosen sets is a break too: the search replaces it.
-      const boardLegal = !validation?.errors.length && !validation?.incomplete.some((i) => i.code === "outside-sets");
+      // A card outside the chosen sets, or one banned since, is a break too: the search replaces it.
+      const breaks = validation?.errors.length ? "broke a rule"
+        : validation?.incomplete.some((i) => i.code === "outside-sets") ? "had a card outside the chosen sets"
+        : [...onNow].some((id) => id != null && bans.has(id)) ? "had a banned card"
+        : null;
+      const boardLegal = breaks == null;
 
       // Distinct rosters only: positions are re-solved inside the search, so
       // two starts with the same cards are the same start.
@@ -1001,6 +1012,7 @@ export function RosterBuilder({
       if (deep) ({ best, ran } = await runDeep(starts, searchPool, keep));
       else for (const st of starts) {
         if (ran > 0 && performance.now() - t0 > START_BUDGET_MS) break;
+        if (lastTid.current !== forTid) break;
         setMsg(`Searching for a better board… start ${ran + 1} of ${starts.length} (${st.label})${best ? `, best so far ${fr(best.score)} runs` : ""}.`);
         await paint();
         const r = optimizeRoster(st.slots, searchPool, tournament, fillShape, {
@@ -1013,6 +1025,7 @@ export function RosterBuilder({
         // the must-carry penalty, the reported score does not.
         if (r.legal && (!best || r.score > best.score + 1e-9)) best = { slots: r.slots, score: r.score, moves: r.moves, from: st.label };
       }
+      if (lastTid.current !== forTid) return;
       if (!best && deep && ran === 0) { setMsg("Deep search stopped before its first start finished — nothing changed."); return; }
       if (!best) {
         setMsg(`No start reached a board that passes every rule (${ran} tried) — check the rule list below.`);
@@ -1032,7 +1045,7 @@ export function RosterBuilder({
         setMsg(`Optimised, but could not fit locked ${missed.join(", ")} under the rules — check the cap, the slot counts and ${missed.length === 1 ? "his positions" : "their positions"}.${outsideNote}`);
         return;
       }
-      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} ${deep ? "climb" : "start"}${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).${outsideNote}`);
+      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${breaks ? ` (board ${breaks})` : ""} → ${fr(best.score)} runs, best of ${ran} ${deep ? "climb" : "start"}${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).${outsideNote}`);
     } finally {
       setOptimizing(false);
     }
@@ -1053,6 +1066,7 @@ export function RosterBuilder({
     setSlots({});
     setForms({});
     if (setsToast.current != null) { dismissToast(setsToast.current); setsToast.current = null; }
+    stopDeep.current?.();
     const saved = readLocks(tournament.id);
     setLocks(new Set(saved.locks ?? []));
     setBans(new Set(saved.bans ?? []));
@@ -1327,7 +1341,7 @@ export function RosterBuilder({
               tournament.mode,
               tournament.entrants ? `${tournament.entrants} teams` : null,
               tournament.staleSeriesSince
-                ? `new format since ${tournament.staleSeriesSince}, older runs ignored`
+                ? `new format since ${tournament.staleSeriesSince}: its exports include older runs, so none are used`
                 : meta && meta.files > 0 ? `field data: ${meta.files} runs` : "no field data yet",
             ].filter(Boolean).join(" · ")}
           </p>
@@ -1359,7 +1373,7 @@ export function RosterBuilder({
               HR ×{tournament.environment.parkFactors.hrL.toFixed(3)}/×{tournament.environment.parkFactors.hrR.toFixed(3)}.
             </p>}
             <p className="mt-1">
-              Runs, Fit and the projected lines are read in this era and park. {env ? `Lineups are weighted ${Math.round((1 - env.lhpShare) * 100)}/${Math.round(env.lhpShare * 100)} vs RHP/LHP and arms face ${Math.round(env.lhbShare * 100)}% left-handed bats${meta?.lhpBfShare != null ? " — measured off this event's exports" : " — the defaults; no exports for this event yet"}.` : ""} Re-recommend is the greedy fill; Optimise hill-climbs it on runs with gloves priced in runs under the glove floor (70, LF 50, none at 1B). Passing the checks below verifies recorded rules.
+              Runs, Fit and the projected lines are read in this era and park. {env ? `Lineups are weighted ${Math.round((1 - env.lhpShare) * 100)}/${Math.round(env.lhpShare * 100)} vs RHP/LHP and arms face ${Math.round(env.lhbShare * 100)}% left-handed bats${meta?.lhpBfShare != null ? " — measured off this event's exports" : (tournament.staleSeriesSince ? ` — the defaults; this event's exports include runs from before its ${tournament.staleSeriesSince} format` : " — the defaults; no exports for this event yet")}.` : ""} Re-recommend is the greedy fill; Optimise hill-climbs it on runs with gloves priced in runs under the glove floor (70, LF 50, none at 1B). Passing the checks below verifies recorded rules.
             </p>
           </div>
 
@@ -1621,7 +1635,7 @@ export function RosterBuilder({
                   <span className="font-mono">{summary.roster}</span> players.{" "}
                   {target.source === "observed"
                     ? `Typical here: ${target.bats} bats · ${target.sp} SP · ${target.rp} RP.`
-                    : `No exports for this event yet — ${target.band} staff: ${target.sp} SP · ${target.rp} RP · ${target.bats} bats.`}
+                    : `${tournament?.staleSeriesSince ? `This event's exports include runs from before its ${tournament.staleSeriesSince} format, so none are used` : "No exports for this event yet"} — ${target.band} staff: ${target.sp} SP · ${target.rp} RP · ${target.bats} bats.`}
                 </div>
                 <div className="grid grid-cols-2 gap-x-3 text-xs [font-variant-numeric:tabular-nums]">
                   <div className="col-span-2" title="The objective: calibrated runs per 700 PA over both lineups (weighted by the field's pitcher handedness), rotation in full, bullpen at 0.31, bench at a tenth, gloves in runs at the slot">

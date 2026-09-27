@@ -197,6 +197,10 @@ test("a value window guessed from the refresh post is flagged until confirmed", 
   const iron = describeRules({ ...dank, name: "Daily Iron Cap", restrictions: { valueWindowFrom: "name: Iron" } }).find((i) => i.key === "value")!;
   assert.equal(iron.state, "set", "a tier word in the name is read, not guessed");
   assert.equal(iron.detail, "Card value 40–59, read off the name (Iron).");
+  // 538: read off the name, but the import's note says to check it.
+  const sunday = describeRules({ ...dank, name: "Sunday High Iron Floor and Gold Ceiling", ratingsMin: 50, ratingsMax: 89, restrictions: { valueWindowFrom: "name: Silver + Gold", refreshNote: "Ceiling set to 89 by hand; the floor is left to the parser. CONFIRM BOTH ON SCREEN." } }).find((i) => i.key === "value")!;
+  assert.equal(sunday.state, "suspect");
+  assert.equal(describeRules({ ...dank, restrictions: { ...dank.restrictions, valueConfirmed: "2026-09-27" } }).find((i) => i.key === "value")!.state, "set", "set by hand: confirmed");
 });
 
 test("a set rule in the captured rules text is flagged with those sets to apply", () => {

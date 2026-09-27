@@ -45,8 +45,9 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
   delete old.previousFormat;
   const next: Record<string, unknown> = { ...old };
   for (const k of e.drop ?? []) delete next[k];
-  // A value window set by hand is confirmed, not inferred from the name.
-  if (e.value) delete next.valueWindowFrom;
+  // A value window set by hand is confirmed, not inferred from the name; the
+  // date keeps a later refresh import from putting the guess back.
+  if (e.value) { delete next.valueWindowFrom; next.valueConfirmed = e.at; }
   if (e.cardTypes?.length) next.cardTypes = e.cardTypes;
   if (e.slots) next.slots = e.slots;
   if (e.text != null) next.text = e.text;
@@ -74,13 +75,23 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
  * the format tracker, which no refresh post carries. An import that rebuilds
  * `restrictions` from a post keeps these unless the post states the same key
  * itself; without this, the next `import:refresh` erased every card-set rule
- * confirmed on 2026-09-27.
+ * confirmed on 2026-09-27 (and would have erased the slot rules from his
+ * screenshots: the Open Slots posts don't restate them).
  */
-export const HAND_KEPT_KEYS = ["cardTypes", "text", "textFrom", "previousFormat", "formatSince"] as const;
+export const HAND_KEPT_KEYS = ["cardTypes", "slots", "valueConfirmed", "text", "textFrom", "previousFormat", "formatSince"] as const;
+
+/** A note that records L.J.'s own word ("2026-09-25 from L.J.: …"), which no post restates. */
+export const isHandNote = (n: unknown) => typeof n === "string" && /\bL\.J\.|\bconfirmed\b/i.test(n);
 
 export function keepHandRules(old: Record<string, unknown> | null | undefined, fresh: Record<string, unknown>): Record<string, unknown> {
   const out = { ...fresh };
   for (const k of HAND_KEPT_KEYS) if (out[k] == null && old?.[k] != null) out[k] = old[k];
+  // His notes ride along with whatever the post says.
+  const mine = Array.isArray(old?.notes) ? old.notes.filter(isHandNote) : [];
+  if (mine.length) {
+    const post = Array.isArray(out.notes) ? (out.notes as unknown[]) : [];
+    out.notes = [...post, ...mine.filter((n) => !post.includes(n))];
+  }
   return out;
 }
 

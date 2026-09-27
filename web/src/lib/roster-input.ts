@@ -6,7 +6,7 @@ export interface RosterInput { tournamentId: number; name: string; slots: Roster
  * chosen Sets chips). A save that carries any is kept a draft: they can only
  * make a roster less ready, so the route takes them as sent.
  */
-export const isPageCheck = (code: string) => code === "outside-sets" || /^suspect-[a-z]+$/.test(code);
+export const isPageCheck = (code: string) => code === "outside-sets" || /^suspect-[a-z]{1,20}$/.test(code);
 
 function parseChecks(raw: unknown): RuleIssue[] | null {
   if (raw == null) return [];

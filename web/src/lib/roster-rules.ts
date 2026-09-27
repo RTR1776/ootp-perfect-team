@@ -47,6 +47,10 @@ export interface RosterRules {
     cardTypes?: string[] | null;
     cards?: number | null;
     valueWindowFrom?: string;
+    /** The import's note on the row ("… CONFIRM ON SCREEN"). */
+    refreshNote?: string | null;
+    /** Date a value window was set by hand (catalogue:set --value). */
+    valueConfirmed?: string | null;
     /** The rules as captured from the game's refresh post or summary screen. */
     refreshText?: string | null;
     /** Provenance lines; L.J.'s confirmations among them. */
@@ -177,11 +181,18 @@ export const SLOTS_NAME = /\bslots?\b/i;
 export const slotsMissing = (rules: RosterRules) => SLOTS_NAME.test(rules.name ?? "") && !rules.restrictions?.slots;
 
 /**
- * A value window inferred from the refresh post's section rather than read
- * (import-refresh: "name has no tier word - confirm on screen"). A window read
- * off a tier word in the name ("name: Iron") is taken as known.
+ * A value window the import could only guess: inferred from the refresh
+ * post's section ("name has no tier word - confirm on screen"), or set by hand
+ * with a note to confirm it on screen (538, 542). A window read off a tier
+ * word in the name ("name: Iron") is taken as known, and one L.J. set by hand
+ * (valueConfirmed) is confirmed.
  */
-export const valueWindowGuessed = (rules: RosterRules) => /confirm/i.test(rules.restrictions?.valueWindowFrom ?? "");
+export const valueWindowGuessed = (rules: RosterRules) => {
+  const rx = rules.restrictions;
+  if (rx?.valueConfirmed || (rules.ratingsMin == null && rules.ratingsMax == null)) return false;
+  return /confirm/i.test(rx?.valueWindowFrom ?? "") || noteSaysConfirm(rules);
+};
+const noteSaysConfirm = (rules: RosterRules) => /\bconfirm\b[^.]*\bon screen\b/i.test(rules.restrictions?.refreshNote ?? "");
 
 export function valueWindowKnown(rules: RosterRules): boolean {
   return rules.ratingsMin != null || rules.ratingsMax != null || !!rules.restrictions?.slots
@@ -280,7 +291,7 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
   if (rules.dh == null) incomplete.push({ code: "unknown-dh", message: "DH rule has not been confirmed." });
   if (slotsMissing(rules)) incomplete.push({ code: "unknown-slots", message: "The name says tier slots, but none are on file: the board is not held to any tier counts." });
   else if (!valueWindowKnown(rules)) incomplete.push({ code: "unknown-value-window", message: "Card-value eligibility has not been confirmed for this event." });
-  if (valueWindowGuessed(rules)) incomplete.push({ code: "unconfirmed-value-window", message: `Card value ${range2(rules.ratingsMin, rules.ratingsMax)} was inferred (${rules.restrictions!.valueWindowFrom}); confirm it against the event's RESTRICTIONS line.` });
+  if (valueWindowGuessed(rules)) incomplete.push({ code: "unconfirmed-value-window", message: `Card value ${range2(rules.ratingsMin, rules.ratingsMax)} ${rules.restrictions?.valueWindowFrom ? `was inferred (${rules.restrictions.valueWindowFrom})` : "was set on import with a note to check it"}; confirm it against the event's RESTRICTIONS line.` });
   for (const hand of ["R", "L"]) {
     for (const pos of [...FIELD_POSITIONS, ...(rules.dh === true ? ["DH"] : [])]) {
       if (!occupied.has(`${hand}:${pos}`)) issue("empty-position", `Fill ${pos} vs ${hand}HP.`);
@@ -398,7 +409,7 @@ export function describeRules(rules: RosterRules, opts: { used?: Record<string, 
     const from = rx?.valueWindowFrom, guessed = valueWindowGuessed(rules), win = range2(rules.ratingsMin, rules.ratingsMax);
     out.push({
       key: "value", label: "Value", text: guessed ? `${win} — inferred, confirm` : win, state: guessed ? "suspect" : "set",
-      detail: `Card value ${win}${from ? `, ${windowSource(from)}` : ""}.${guessed ? " Confirm it against the event's RESTRICTIONS line in game." : ""}`,
+      detail: `Card value ${win}${from ? `, ${windowSource(from)}` : ""}.${noteSaysConfirm(rules) && !rx?.valueConfirmed ? " The import's note asks to confirm it on screen." : ""}${guessed ? " Confirm it against the event's RESTRICTIONS line in game." : ""}`,
     });
   } else if (!rx?.slots && !missingSlots) {
     out.push(valueWindowKnown(rules)
