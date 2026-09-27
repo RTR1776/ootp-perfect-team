@@ -13,6 +13,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import type { EntryResponse, EntryRow } from "@/lib/result-entry";
@@ -158,16 +159,19 @@ export function ResultEntry({ asOfDefault, periodName, recent }: { asOfDefault: 
                 <span className="shrink-0 text-muted-foreground">{e.eliminated ? "elim." : e.placement}{e.fieldSize ? ` / ${e.fieldSize}` : ""}</span>
                 <span className="w-28 shrink-0 text-right">{e.points > 0 ? e.categories.map((c) => `+${e.points} ${c}`).join(", ") : "0"}</span>
                 {e.eventId != null && (
-                  <button
-                    type="button"
-                    onClick={() => remove(e.eventId!)}
+                  // Two steps: the ✕ only asks; "Remove" deletes, "Keep" (or 5 s) backs out.
+                  <ConfirmButton
+                    onConfirm={() => remove(e.eventId!)}
+                    confirmLabel="Remove"
+                    cancelLabel="Keep"
                     disabled={busy != null}
-                    className="shrink-0 rounded px-1.5 text-muted-foreground hover:bg-accent hover:text-negative disabled:opacity-50"
+                    variant="ghost"
+                    className="shrink-0 px-2 text-muted-foreground"
                     title="Remove this logged result"
                     aria-label={`Remove ${e.name}`}
                   >
-                    {busy === e.eventId ? "…" : "✕"}
-                  </button>
+                    ✕
+                  </ConfirmButton>
                 )}
               </li>
             ))}

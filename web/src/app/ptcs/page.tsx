@@ -1,14 +1,16 @@
 /**
  * PTCS — the qualifying command center.
  *
- * Replaces PTCS6 Tracker.xlsx + PTCS6 Dashboard.html as the living surface:
- * category standings vs targets, pace with the three-scoring-day forecast
- * rule, the daily log, and the championship ladder (PTCS → PTMS → PTWC).
+ * Answers "which categories need points, and when can I stop?" first: each
+ * category against our projected line and cwhit's, with a safe mark past the
+ * higher one (lib/ptcs-progress). Then result entry; the dump snapshot, the
+ * daily log and the history sit folded below.
  *
- * Data: `periods` + two sources of points that never both count for one day -
- * `daily_totals` (the PTCS 6 tracker history, imported) and `results` (the
- * per-event ledger written by result entry on this page, keyed by event id) -
- * merged by lib/result-ledger. Plus the static ladder record in
+ * Data: `periods` + three sources of points, merged by lib/result-ledger so
+ * no event or day counts twice - `daily_totals` (the PTCS 6 tracker history,
+ * imported), `results` (the per-event ledger written by result entry on this
+ * page, keyed by event id) and `my_results` (every entry the community dump
+ * saw; one never logged here still counts). Plus the static ladder record in
  * `src/data/ptcs-ladder.json`.
  */
 
@@ -24,53 +26,46 @@ import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/empty-state";
 import { ResultEntry } from "@/components/result-entry";
 import { cn } from "@/lib/utils";
-import { periodCalendar, todayInChicago } from "@/lib/ptcs-progress";
-import { mergeDays, type LedgerEvent } from "@/lib/result-ledger";
+import { daysAgo, range } from "@/lib/format";
+import { CATEGORIES } from "@/lib/ingest/constants";
+import {
+  FORECAST_MIN_DAYS, NOT_PLAYING_FROM_DAY, SAFE_MARGIN,
+  lastDataIndex, periodCalendar, standings, todayInChicago, verdictLabel, type StandingRow, type Verdict,
+} from "@/lib/ptcs-progress";
+import { dumpEvent, mergeDays, type LedgerEvent } from "@/lib/result-ledger";
 import { PageHeader } from "@/components/page-header";
 import { StatTile } from "@/components/stat-tile";
 
 export const dynamic = "force-dynamic";
 
-const CATEGORIES = [
-  "Iron", "Bronze", "Silver", "Gold", "Diamond",
-  "Open", "Live", "Cap", "PD Daily", "PD Weekly",
-] as const;
+const CHIP: Record<Verdict, string> = {
+  safe: "border-positive/50 text-positive",
+  "to-safe": "border-foreground/30 text-foreground",
+  "on-pace": "border-border text-foreground",
+  behind: "border-warning/50 text-warning",
+  "not-playing": "border-border text-muted-foreground",
+  "no-line": "border-border text-muted-foreground",
+};
+const BAR: Record<Verdict, string> = {
+  safe: "bg-positive",
+  "to-safe": "bg-positive/45",
+  "on-pace": "bg-foreground/45",
+  behind: "bg-warning",
+  "not-playing": "bg-muted-foreground/40",
+  "no-line": "bg-muted-foreground/40",
+};
 
-interface CategoryLine {
-  category: string;
-  total: number;
-  target: number | null;
-  gap: number | null;
-  needPerDay: number | null;
-  scoringDays: number;
-  firstScoringIndex: number | null;
-  projected: number | null;
-  status: "qualified" | "on-pace" | "off-pace" | "not-started" | "tracking";
-}
-
-function statusChip(status: CategoryLine["status"], official: boolean): { label: string; cls: string } {
-  switch (status) {
-    case "qualified":
-      return { label: official ? "at recorded cutoff" : "above estimated line", cls: "border-positive/50 text-positive" };
-    case "on-pace":
-      return { label: "on pace", cls: "border-positive/30 text-positive" };
-    case "off-pace":
-      return { label: "off pace", cls: "border-warning/40 text-warning" };
-    case "not-started":
-      return { label: "not started", cls: "border-border text-muted-foreground" };
-    default:
-      return { label: "tracking", cls: "border-border text-muted-foreground" };
-  }
-}
+/** "MM-DD" from an ISO date. */
+const md = (iso: string) => iso.slice(5, 10);
 
 export default async function PtcsPage({ searchParams }: { searchParams: Promise<{ period?: string }> }) {
   const { period: periodParam } = await searchParams;
   const allPeriods = await db.select().from(periods).orderBy(desc(periods.startsOn));
-  const today = todayInChicago();
+  const now = todayInChicago();
   // The period in play today; a ?period=<id> link shows a past one; else the latest.
   const period =
     allPeriods.find((p) => String(p.id) === periodParam) ??
-    allPeriods.find((p) => p.startsOn <= today && today <= p.endsOn) ??
+    allPeriods.find((p) => p.startsOn <= now && now <= p.endsOn) ??
     allPeriods[0];
   if (!period) {
     return (
@@ -128,8 +123,12 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
     const c = src?.standings.categories[cat];
     if (c) berthRows.push({ cat, pts: c.pts, rank: c.rank, scored: c.scored, line: c.lines.l128, dateMax: src!.dateMax });
   }
+  // The staler of the two dumps is how far the snapshot reaches.
+  const snapshotThru = berthRows.map((r) => r.dateMax).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort()[0] ?? null;
+  const snapshotDay = snapshotThru ? Math.round((Date.parse(snapshotThru) - Date.parse(period.startsOn)) / 864e5) + 1 : null;
 
-  // Team results history from the dumps (import:myresults).
+  // Every entry in the community record (import:myresults): the History fold,
+  // and this period's events that were never logged here.
   const myRows = await db.select().from(myResults).orderBy(desc(myResults.startAt));
   interface SeriesAgg { name: string; entries: number; points: number; best: number; top16: number; last: Date }
   const bySeries = new Map<string, SeriesAgg>();
@@ -145,62 +144,52 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
   const totalPoints = myRows.reduce((s, r) => s + r.points, 0);
   const wins = myRows.filter((r) => r.finish === 1).length;
   const recent = myRows.slice(0, 14);
+  const dumpEvents = myRows
+    .filter((r) => r.categories !== "")
+    .map(dumpEvent)
+    .filter((e) => period.startsOn <= e.occurredOn && e.occurredOn <= period.endsOn);
 
-  const { dates, totalDays, elapsed, remaining } = periodCalendar(period.startsOn,period.endsOn);
-  // One source per day: logged events when there are any, else the imported total.
-  const days = mergeDays(dates, CATEGORIES, rows.map((r) => ({ occurredOn: r.occurredOn, category: r.category, points: r.points, note: r.note })), events);
+  const { today, dates, totalDays, elapsed, daysLeft, finished } = periodCalendar(period.startsOn, period.endsOn);
+  // One source per day for the imported tracker; logged events and the dump's
+  // never-logged ones count together, each event once.
+  const days = mergeDays(
+    dates, CATEGORIES,
+    rows.map((r) => ({ occurredOn: r.occurredOn, category: r.category, points: r.points, note: r.note })),
+    [...events, ...dumpEvents],
+  );
   const byDate = new Map(days.map((d) => [d.date, d]));
   const conflicts = days.filter((d) => d.conflict);
   const loggedDays = days.filter((d) => d.source === "results").length;
+  const dumpDays = days.filter((d) => d.source === "dump").length;
+  const importDays = days.filter((d) => d.source === "import").length;
+  // The dump events that count: never logged, and not on an imported day. Newest first.
+  const unlogged = days.flatMap((d) => d.events.filter((e) => e.source === "dump")).reverse();
+  const unloggedByCat = new Map<string, number>();
+  for (const e of unlogged) for (const c of e.categories) unloggedByCat.set(c, (unloggedByCat.get(c) ?? 0) + e.points);
+  const unloggedSummary = [...unloggedByCat].filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([c, v]) => `+${v} ${c}`).join(", ");
 
   const targets = (period.targets ?? {}) as Record<string, number>;
-  // The line is the dump projection (`pnpm cutoff:project --write` sets the
+  // Our line is the dump projection (`pnpm cutoff:project --write` sets the
   // targets above and this file together); cwhit's board rides beside it.
   const stored = STORED_LINES as StoredLines;
   const projection = stored.period === period.name ? stored : null;
-  const cwhitLine = (cat: string) => projection?.cwhit?.lines[cat] ?? null;
+  const cwhit = projection?.cwhit ?? null;
+  const cwhitDate = cwhit?.file.match(/^\d{4}-\d{2}-\d{2}/)?.[0] ?? null;
 
-  const lines: CategoryLine[] = CATEGORIES.map((cat) => {
-    const series = dates.map((d) => byDate.get(d)?.points[cat] ?? 0);
-    const total = series.reduce((s, v) => s + v, 0);
-    const target = targets[cat] ?? null;
-    const gap = target != null ? Math.max(0, target - total) : null;
-    const scoringDays = series.filter((v) => v > 0).length;
-    const firstScoringIndex = series.findIndex((v) => v > 0);
-
-    // The forecast rule: no projection until a category has three scoring
-    // days, and its rate runs from ITS OWN first scoring day — a deliberately
-    // staggered start is a plan, not a deficit.
-    let projected: number | null = null;
-    if (scoringDays >= 3 && firstScoringIndex >= 0) {
-      const activeDays = elapsed - firstScoringIndex;
-      const rate = total / Math.max(1, activeDays);
-      projected = Math.round(total + rate * remaining);
-    }
-
-    let status: CategoryLine["status"];
-    if (target != null && total >= target) status = "qualified";
-    else if (total === 0) status = "not-started";
-    else if (projected == null) status = "tracking";
-    else if (target != null && projected >= target) status = "on-pace";
-    else status = "off-pace";
-
-    return {
-      category: cat,
-      total,
-      target,
-      gap,
-      needPerDay: gap != null && remaining > 0 ? Math.round((gap / remaining) * 10) / 10 : null,
-      scoringDays,
-      firstScoringIndex: firstScoringIndex < 0 ? null : firstScoringIndex,
-      projected,
-      status,
-    };
+  const board = standings(days, CATEGORIES, {
+    totalDays, daysLeft, dayIndex: elapsed, ourLines: targets, cwhitLines: cwhit?.lines ?? null,
   });
+  const safe = board.filter((r) => r.verdict === "safe");
+  const toPlay = board.filter((r) => r.verdict !== "safe" && r.verdict !== "not-playing");
+  const lastIdx = lastDataIndex(days);
+  const dataThru = lastIdx >= 0 ? dates[lastIdx] : null;
 
-  const banked = lines.reduce((s, l) => s + l.total, 0);
-  const onPace = lines.filter((l) => l.status === "on-pace" || l.status === "qualified").length;
-  const rate = elapsed > 0 ? banked / elapsed : 0;
+  // Freshness: how current the totals and the lines are.
+  const lastLogged = events[0]?.occurredOn ?? null;
+  const loggedAge = lastLogged ? daysAgo(lastLogged) : null;
+  const notLogged = days.filter((d) => d.date < today && d.source === "none").length;
+  const dumpAge = projection ? daysAgo(projection.dumpReach) : null;
+  const stale = (loggedAge == null ? elapsed > 1 : loggedAge > 1) || (dumpAge != null && dumpAge > 5);
 
   const ladder = LADDER as unknown as {
     pointsTable: Record<string, number>;
@@ -223,12 +212,36 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
         eyebrow="PTCS qualifying"
         title={period.name}
         description={<>
-          {period.startsOn} → {period.endsOn} · feeds PTWC 2 ·{" "}
-          {period.targetsAreOfficial
-            ? "official targets"
-            : projection
-              ? `target = projected final line, from the day-${projection.day} dump (through ${projection.dumpReach}) grown as PTCS 5 and 6 grew${projection.cwhit ? "; cwhit's projection beside it" : ""}`
-              : "targets are estimates — run cutoff:project --write after a dump"}
+          {range(period.startsOn, period.endsOn)} · {finished ? "finished" : `${daysLeft} day${daysLeft === 1 ? "" : "s"} left`} · feeds PTWC 2
+        </>}
+        about={<>
+          <p>
+            <strong className="text-foreground">Our line</strong>{" "}
+            {period.targetsAreOfficial
+              ? "is the official cutoff."
+              : projection
+                ? `is the projected final 128th-place line: the day-${projection.day} dump (through ${md(projection.dumpReach)}) grown the way PTCS 5 and 6 grew from the same day.`
+                : "is an estimate; run pnpm cutoff:project --write after a dump."}
+            {cwhit && <> <strong className="text-foreground">cwhit line</strong> is his projected cutoff ({cwhit.file}).</>}
+          </p>
+          <p>
+            <strong className="text-foreground">Safe at</strong> is the higher of the two lines plus {Math.round(SAFE_MARGIN * 100)}%, rounded up.
+            Past it, stop feeding that category. <strong className="text-foreground">Still to get</strong> is the points from here to there.
+          </p>
+          <p>
+            Totals count every result logged here, plus each entry in the community dump that was never logged (matched by event id).
+            The dump never counts on a day the imported tracker covers.
+          </p>
+          <p>
+            <strong className="text-foreground">Projected</strong> appears once a category has {FORECAST_MIN_DAYS} scoring days. Its pace runs from the
+            category&apos;s own first scoring day to the last day with data, so a staggered start is a plan, not a deficit, and a day
+            not logged yet doesn&apos;t drag it down. <strong className="text-foreground">Need/day</strong> spreads the gap to the line over the days
+            left, today included.
+          </p>
+          <p>
+            <strong className="text-foreground">Not playing:</strong> under a tenth of the line with fewer than {FORECAST_MIN_DAYS} scoring days,
+            from day {NOT_PLAYING_FROM_DAY}. A category that starts scoring comes back.
+          </p>
         </>}
         actions={allPeriods.length > 1 && (
           <nav className="flex gap-1 text-xs">
@@ -245,70 +258,249 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
         )}
       />
 
-      {/* KPI strip */}
+      {/* Freshness: how current the totals and the lines are */}
+      {!finished && (
+        <p className={cn("text-xs", stale ? "text-warning" : "text-muted-foreground")}>
+          {lastLogged ? `Results logged through ${md(lastLogged)}` : "No results logged yet"}
+          {notLogged > 0 && ` · ${notLogged} day${notLogged === 1 ? "" : "s"} not logged`}
+          {projection
+            ? ` · Our line: dump through ${md(projection.dumpReach)} (${dumpAge === 0 ? "today" : `${dumpAge}d old`})`
+            : " · Our line: no projection stored"}
+          {cwhitDate && ` · cwhit: ${md(cwhitDate)}`}
+          {" · "}
+          <Link href="/upload" className="underline underline-offset-2 hover:text-foreground">Upload a new dump</Link>
+        </p>
+      )}
+
+      {/* KPI strip. Not-playing categories count in neither of the first two. */}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {[
-          ["Points banked", banked.toLocaleString(), "all ten categories"],
-          ["Period progress", `Day ${elapsed}`, `${remaining} of ${totalDays} left`],
-          ["Points per day", rate.toFixed(1), "PTCS 5 ran 43.9"],
-          ["Categories on pace", `${onPace} / ${lines.filter((l) => (l.target ?? 0) > 0).length}`, "including targets reached"],
-        ].map(([label, value, sub]) => (
-          <StatTile key={label} label={label} value={value} sub={sub} />
-        ))}
+        <StatTile label="Safe — stop" value={safe.length} sub={safe.length ? <Joined items={safe.map((r) => r.category)} sep=", " /> : "none yet"} />
+        <StatTile
+          label="Still to play"
+          value={toPlay.length}
+          sub={toPlay.length ? <Joined items={toPlay.map((r) => (r.toSafe != null ? `${r.category} ${r.toSafe}` : r.category))} /> : "nothing"}
+        />
+        <StatTile label="Days left" value={daysLeft} sub="today included" />
+        <StatTile
+          label="Data thru"
+          value={dataThru ? md(dataThru) : "—"}
+          sub={projection || cwhitDate ? (
+            <Joined items={[projection ? `lines ${md(projection.dumpReach)}` : null, cwhitDate ? `cwhit ${md(cwhitDate)}` : null].filter((s) => s != null)} />
+          ) : undefined}
+        />
       </div>
+
+      {/* Category standings */}
+      <Card>
+        <CardContent className="pt-6">
+          <h2 className="mb-3 text-sm font-semibold">Category standings</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                  <th className="py-2 pr-4">Category</th>
+                  <th className="py-2 pr-4">Progress</th>
+                  <th className="py-2 pr-4 text-right">Total</th>
+                  <th className="whitespace-nowrap py-2 pr-4 text-right">Our line</th>
+                  {cwhit && <th className="whitespace-nowrap py-2 pr-4 text-right" title={cwhit.file}>cwhit line</th>}
+                  <th className="whitespace-nowrap py-2 pr-4 text-right" title={`The higher line plus ${Math.round(SAFE_MARGIN * 100)}%, rounded up`}>Safe at</th>
+                  <th className="whitespace-nowrap py-2 pr-4 text-right" title="Points from here to Safe at">Still to get</th>
+                  <th className="py-2 pr-4 text-right" title="Points short of the higher line">Gap</th>
+                  <th className="py-2 pr-4 text-right" title="The gap over the days left, today included">Need/day</th>
+                  <th className="whitespace-nowrap py-2 pr-4 text-right">
+                    Projected{dataThru && <span className="ml-1 font-normal normal-case tracking-normal">thru {md(dataThru)}</span>}
+                  </th>
+                  <th className="py-2">Status</th>
+                </tr>
+              </thead>
+              <tbody className="font-mono text-[13px] tabular-nums">
+                {board.map((r) => (
+                  <tr key={r.category} className={cn("border-b border-border/50", r.verdict === "not-playing" && "opacity-60")}>
+                    <td className="py-2 pr-4 font-sans">{r.category}</td>
+                    <td className="py-2 pr-4"><ProgressBar r={r} /></td>
+                    <td className="py-2 pr-4 text-right">
+                      {r.total}
+                      {r.fromDump > 0 && (
+                        <div className="whitespace-nowrap font-sans text-[11px] text-muted-foreground">· {r.fromDump} from dump</div>
+                      )}
+                    </td>
+                    <td className="py-2 pr-4 text-right text-muted-foreground">{r.ourLine ?? "—"}</td>
+                    {cwhit && <td className="py-2 pr-4 text-right text-muted-foreground">{r.cwhitLine ?? "—"}</td>}
+                    <td className="py-2 pr-4 text-right">{r.safeAt ?? "—"}</td>
+                    <td className="py-2 pr-4 text-right font-semibold">{r.toSafe || "—"}</td>
+                    <td className="py-2 pr-4 text-right">{r.gap || "—"}</td>
+                    <td className="py-2 pr-4 text-right text-muted-foreground">{r.needPerDay?.toFixed(1) ?? "—"}</td>
+                    <td className="py-2 pr-4 text-right text-muted-foreground">{r.projected ?? "—"}</td>
+                    <td className="py-2 font-sans">
+                      <span className={cn("whitespace-nowrap rounded-full border px-2 py-0.5 text-[11px]", CHIP[r.verdict])}>
+                        {verdictLabel(r)}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Result entry */}
+      <Card>
+        <CardContent className="pt-6">
+          <h2 className="mb-1 text-sm font-semibold">Log results</h2>
+          <p className="mb-3 text-xs text-muted-foreground">
+            Paste the Your Tournaments rows as read. Each is scored from the points table (every tagged
+            category gets the full amount, TW pays nothing) and keyed by the event id in parentheses, so an
+            overlapping screenshot cannot count twice. Preview first; nothing is written until you log.
+          </p>
+          <ResultEntry
+            asOfDefault={today}
+            periodName={period.name}
+            recent={events.slice(0, 80)}
+          />
+          {unlogged.length > 0 && (
+            <details className="mt-3 text-xs">
+              <summary className="cursor-pointer text-muted-foreground">
+                In the dump but not logged ({unlogged.length}){unloggedSummary && ` — ${unloggedSummary}`}
+              </summary>
+              <p className="mt-2 text-muted-foreground">
+                Counted in the totals above. Logging one later replaces its dump entry; it never counts twice.
+              </p>
+              <ul className="mt-2 max-h-64 divide-y divide-border/50 overflow-y-auto rounded-md border border-border">
+                {unlogged.map((e) => (
+                  <li key={e.eventId ?? `${e.occurredOn}-${e.name}`} className="flex items-center gap-2 px-2 py-1 font-mono text-[12px]">
+                    <span className="w-12 shrink-0 text-muted-foreground">{md(e.occurredOn)}</span>
+                    <span className="min-w-0 flex-1 truncate font-sans">{e.name}{e.eventId != null ? ` (${e.eventId})` : ""}</span>
+                    <span className="shrink-0 text-muted-foreground">{e.finish}/{e.fieldSize}</span>
+                    <span className="w-28 shrink-0 text-right">{e.points > 0 ? e.categories.map((c) => `+${e.points} ${c}`).join(", ") : "0"}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Berth lines from the community dump */}
       {berthRows.length > 0 && (
-        <Card>
-          <CardContent className="pt-6">
-            <h2 className="mb-1 text-sm font-semibold">Berth lines — computed from the community dump</h2>
-            <p className="mb-4 text-xs text-muted-foreground">
-              Full finish orders × the points table. Line = points at 128th place (berth counts unconfirmed);
-              data through {berthRows[0]?.dateMax}. Drop a fresh dump on Upload to refresh.
-            </p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
-                    <th className="py-1.5 pr-2">Category</th>
-                    <th className="px-2 text-right">Rank</th>
-                    <th className="px-2 text-right">Points</th>
-                    <th className="px-2 text-right">Line (128th)</th>
-                    <th className="px-2 text-right">Cushion</th>
-                    <th className="px-2 text-right">Scored</th>
-                  </tr>
-                </thead>
-                <tbody className="font-mono text-[13px] tabular-nums">
-                  {berthRows.map((r) => {
-                    const cushion = r.pts - r.line;
-                    const inside = r.rank != null && r.rank <= 128;
-                    return (
-                      <tr key={r.cat} className="border-b border-border/50">
-                        <td className="py-1.5 pr-2 font-sans">{r.cat}</td>
-                        <td className={cn("px-2 text-right", inside ? "text-positive" : "text-muted-foreground")}>
-                          {r.rank ?? "—"}
-                        </td>
-                        <td className="px-2 text-right">{r.pts}</td>
-                        <td className="px-2 text-right">{r.line}</td>
-                        <td className={cn("px-2 text-right", cushion >= 0 ? "text-positive" : "text-negative")}>
-                          {cushion >= 0 ? `+${cushion}` : cushion}
-                        </td>
-                        <td className="px-2 text-right text-muted-foreground">{r.scored.toLocaleString()}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+        <Fold title={<>Dump snapshot — {snapshotThru ? `day ${snapshotDay} (through ${md(snapshotThru)})` : "latest"}</>}>
+          <p className="text-xs text-muted-foreground">
+            Standings computed from the community dump: full finish orders × the points table. The line is the points at
+            128th place today (berth counts unconfirmed). Drop a fresh dump on Upload to refresh.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                  <th className="py-1.5 pr-2">Category</th>
+                  <th className="px-2 text-right">Rank</th>
+                  <th className="whitespace-nowrap px-2 text-right">Your pts (dump)</th>
+                  <th className="whitespace-nowrap px-2 text-right">Line today (128th)</th>
+                  <th className="whitespace-nowrap px-2 text-right">Cushion today</th>
+                  <th className="whitespace-nowrap px-2 text-right">Teams scoring</th>
+                </tr>
+              </thead>
+              <tbody className="font-mono text-[13px] tabular-nums">
+                {berthRows.map((r) => {
+                  const cushion = r.pts - r.line;
+                  const inside = r.rank != null && r.rank <= 128;
+                  return (
+                    <tr key={r.cat} className="border-b border-border/50">
+                      <td className="py-1.5 pr-2 font-sans">{r.cat}</td>
+                      <td className={cn("px-2 text-right", inside ? "text-positive" : "text-muted-foreground")}>
+                        {r.rank ?? "—"}
+                      </td>
+                      <td className="px-2 text-right">{r.pts}</td>
+                      <td className="px-2 text-right">{r.line}</td>
+                      <td className={cn("px-2 text-right", cushion >= 0 ? "text-positive" : "text-negative")}>
+                        {cushion >= 0 ? `+${cushion}` : cushion}
+                      </td>
+                      <td className="px-2 text-right text-muted-foreground">{r.scored.toLocaleString()}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </Fold>
       )}
 
-      {/* Team results from the dumps */}
-      {totalEntries > 0 && (
-        <Card>
-          <CardContent className="pt-6">
-            <h2 className="mb-1 text-sm font-semibold">Team results — every entry in the community record</h2>
+      {/* Daily log */}
+      <Fold title="Daily log">
+        <p className="text-xs text-muted-foreground">
+          {loggedDays} of {dates.length} day{dates.length === 1 ? "" : "s"} from logged events
+          {dumpDays > 0 && `, ${dumpDays} from the dump only`}
+          {importDays > 0 && `, ${importDays} from the imported tracker`}.
+          {conflicts.length > 0 && (
+            <span className="text-warning">
+              {" "}{conflicts.length} day{conflicts.length === 1 ? " has" : "s have"} both — logged events count, the imported total is shown in the hover note:{" "}
+              {conflicts.map((d) => md(d.date)).join(", ")}.
+            </span>
+          )}
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th className="py-2 pr-3">Date</th>
+                {CATEGORIES.map((c) => (
+                  <th key={c} className="py-2 pr-3 text-right">{c.replace("PD ", "PD")}</th>
+                ))}
+                <th className="py-2 text-right">Day</th>
+              </tr>
+            </thead>
+            <tbody className="font-mono text-[13px]">
+              {dates.map((d) => {
+                const m = byDate.get(d)!;
+                const note = m.note ?? "";
+                const dayTotal = CATEGORIES.reduce((s, c) => s + (m.points[c] ?? 0), 0);
+                const fromDump = m.events.filter((e) => e.source === "dump").length;
+                return (
+                  <tr key={d} className={cn("border-b border-border/50", m.conflict && "bg-warning/5")} title={note}>
+                    <td className="whitespace-nowrap py-1.5 pr-3">
+                      {md(d)}
+                      <span
+                        className="ml-1 text-[10px] text-muted-foreground"
+                        title={
+                          m.source === "results" ? `${m.events.length - fromDump} logged event(s)${fromDump ? ` + ${fromDump} from the dump` : ""}`
+                            : m.source === "dump" ? `${fromDump} event(s) from the dump, none logged`
+                              : m.source === "import" ? "imported tracker total" : "nothing logged"
+                        }
+                      >
+                        {m.conflict ? "!" : m.source === "results" ? (fromDump ? "✎d" : "✎") : m.source === "dump" ? "d" : m.source === "import" ? "·" : ""}
+                      </span>
+                    </td>
+                    {CATEGORIES.map((c) => {
+                      const v = m.points[c] ?? 0;
+                      return (
+                        <td
+                          key={c}
+                          className={cn(
+                            "py-1.5 pr-3 text-right",
+                            v === 0 ? "text-muted-foreground/40" : v >= 10 ? "font-semibold text-positive" : "",
+                          )}
+                        >
+                          {v}
+                        </td>
+                      );
+                    })}
+                    <td className="py-1.5 text-right font-semibold">{dayTotal}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-[11px] text-muted-foreground">
+          Hover a row for the day&apos;s event log. ✎ built from logged events · d from dump events never logged · imported tracker total · ! both on file.
+        </p>
+      </Fold>
+
+      {/* History: team results from the dumps, and the ladder */}
+      <Fold title="History">
+        {totalEntries > 0 && (
+          <section>
+            <h3 className="mb-1 text-sm font-semibold">Team results — every entry in the community record</h3>
             <p className="mb-4 text-xs text-muted-foreground">
               {totalEntries.toLocaleString()} entries · {wins} wins · {totalPoints.toLocaleString()} lifetime points.
               From the finish-order dumps (pnpm import:myresults after each new dump).
@@ -367,156 +559,11 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                 </table>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
+          </section>
+        )}
 
-      {/* Category table */}
-      <Card>
-        <CardContent className="pt-6">
-          <h2 className="mb-1 text-sm font-semibold">Category standings</h2>
-          <p className="mb-4 text-xs text-muted-foreground">
-            Projection appears once a category has three scoring days, and its rate runs from its own
-            first scoring day — a staggered start is a plan, not a problem.
-          </p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
-                  <th className="py-2 pr-4">Category</th>
-                  <th className="py-2 pr-4">Progress</th>
-                  <th className="py-2 pr-4 text-right">Total</th>
-                  <th className="py-2 pr-4 text-right">Target</th>
-                  {projection?.cwhit && <th className="py-2 pr-4 text-right" title={projection.cwhit.file}>cwhit</th>}
-                  <th className="py-2 pr-4 text-right">Gap</th>
-                  <th className="py-2 pr-4 text-right">Need/day</th>
-                  <th className="py-2 pr-4 text-right">Projected</th>
-                  <th className="py-2">Status</th>
-                </tr>
-              </thead>
-              <tbody className="font-mono text-[13px]">
-                {lines.map((l) => {
-                  const chip = statusChip(l.status,period.targetsAreOfficial);
-                  const pctOfTarget = l.target ? Math.min(100, (l.total / l.target) * 100) : 0;
-                  return (
-                    <tr key={l.category} className="border-b border-border/50">
-                      <td className="py-2 pr-4 font-sans">{l.category}</td>
-                      <td className="py-2 pr-4">
-                        <span className="relative inline-block h-2 w-32 overflow-hidden rounded-full bg-muted align-middle">
-                          <span
-                            className={cn(
-                              "absolute inset-y-0 left-0 rounded-full",
-                              l.status === "qualified" ? "bg-positive" : "bg-primary",
-                            )}
-                            style={{ width: `${pctOfTarget}%` }}
-                          />
-                        </span>
-                      </td>
-                      <td className="py-2 pr-4 text-right">{l.total}</td>
-                      <td className="py-2 pr-4 text-right text-muted-foreground">{l.target ?? "—"}</td>
-                      {projection?.cwhit && <td className="py-2 pr-4 text-right text-muted-foreground/70">{cwhitLine(l.category) ?? "—"}</td>}
-                      <td className="py-2 pr-4 text-right">{l.gap ?? "—"}</td>
-                      <td className="py-2 pr-4 text-right text-muted-foreground">{l.needPerDay ?? "—"}</td>
-                      <td className="py-2 pr-4 text-right text-muted-foreground">{l.projected ?? "—"}</td>
-                      <td className="py-2 font-sans">
-                        <span className={cn("rounded-full border px-2 py-0.5 text-[11px]", chip.cls)}>
-                          {chip.label}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Result entry */}
-      <Card>
-        <CardContent className="pt-6">
-          <h2 className="mb-1 text-sm font-semibold">Log results</h2>
-          <p className="mb-3 text-xs text-muted-foreground">
-            Paste the Your Tournaments rows as read. Each is scored from the points table (every tagged
-            category gets the full amount, TW pays nothing) and keyed by the event id in parentheses, so an
-            overlapping screenshot cannot count twice. Preview first; nothing is written until you log.
-          </p>
-          <ResultEntry
-            asOfDefault={today}
-            periodName={period.name}
-            recent={events.slice(0, 80)}
-          />
-        </CardContent>
-      </Card>
-
-      {/* Daily log */}
-      <Card>
-        <CardContent className="pt-6">
-          <h2 className="mb-1 text-sm font-semibold">Daily log</h2>
-          <p className="mb-4 text-xs text-muted-foreground">
-            {loggedDays} of {dates.length} day{dates.length === 1 ? "" : "s"} from logged events, {dates.length - loggedDays} from the imported tracker.
-            {conflicts.length > 0 && (
-              <span className="text-warning">
-                {" "}{conflicts.length} day{conflicts.length === 1 ? " has" : "s have"} both — logged events count, the imported total is shown in the hover note:{" "}
-                {conflicts.map((d) => d.date.slice(5)).join(", ")}.
-              </span>
-            )}
-          </p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
-                  <th className="py-2 pr-3">Date</th>
-                  {CATEGORIES.map((c) => (
-                    <th key={c} className="py-2 pr-3 text-right">{c.replace("PD ", "PD")}</th>
-                  ))}
-                  <th className="py-2 text-right">Day</th>
-                </tr>
-              </thead>
-              <tbody className="font-mono text-[13px]">
-                {dates.map((d) => {
-                  const m = byDate.get(d)!;
-                  const note = m.note ?? "";
-                  const dayTotal = CATEGORIES.reduce((s, c) => s + (m.points[c] ?? 0), 0);
-                  return (
-                    <tr key={d} className={cn("border-b border-border/50", m.conflict && "bg-warning/5")} title={note}>
-                      <td className="whitespace-nowrap py-1.5 pr-3">
-                        {d.slice(5)}
-                        <span className="ml-1 text-[10px] text-muted-foreground" title={m.source === "results" ? `${m.events.length} logged event(s)` : m.source === "import" ? "imported tracker total" : "nothing logged"}>
-                          {m.conflict ? "!" : m.source === "results" ? "✎" : m.source === "import" ? "·" : ""}
-                        </span>
-                      </td>
-                      {CATEGORIES.map((c) => {
-                        const v = m.points[c] ?? 0;
-                        return (
-                          <td
-                            key={c}
-                            className={cn(
-                              "py-1.5 pr-3 text-right",
-                              v === 0 ? "text-muted-foreground/40" : v >= 10 ? "font-semibold text-positive" : "",
-                            )}
-                          >
-                            {v}
-                          </td>
-                        );
-                      })}
-                      <td className="py-1.5 text-right font-semibold">{dayTotal}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-2 text-[11px] text-muted-foreground">
-            Hover a row for the day&apos;s event log. ✎ built from logged events · imported tracker total · ! both on file.
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Ladder */}
-      <Card>
-        <CardContent className="pt-6">
-          <h2 className="mb-1 text-sm font-semibold">The championship ladder — PTCS → PTMS → PTWC</h2>
+        <section>
+          <h3 className="mb-1 text-sm font-semibold">The championship ladder — PTCS → PTMS → PTWC</h3>
           <p className="mb-4 text-xs text-muted-foreground">
             Cumulative: <span className="font-mono">{cumT}</span> tournament ·{" "}
             <span className="font-mono">{cumD}</span> perfect-draft points. Top 128 of each standing
@@ -563,8 +610,42 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
               Berths are the price of admission; points come from deep runs.
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </section>
+      </Fold>
     </div>
+  );
+}
+
+/** Items joined by `sep`, each kept on one line so a phone never splits "PD Daily 106". */
+function Joined({ items, sep = " · " }: { items: string[]; sep?: string }) {
+  return <>{items.map((s, i) => <span key={s}>{i > 0 && sep}<span className="whitespace-nowrap">{s}</span></span>)}</>;
+}
+
+/** A folded section: closed until he opens it. */
+function Fold({ title, children }: { title: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <Card>
+      <details>
+        <summary className="cursor-pointer select-none px-5 py-4 text-sm font-semibold">{title}</summary>
+        <div className="flex min-w-0 flex-col gap-4 px-5 pb-5">{children}</div>
+      </details>
+    </Card>
+  );
+}
+
+/**
+ * Points against the safe mark, with a 1px tick at our line and a fainter one
+ * at cwhit's. Full means safe; the fill takes the verdict's colour.
+ */
+function ProgressBar({ r }: { r: StandingRow }) {
+  if (r.safeAt == null) return <span className="text-muted-foreground">—</span>;
+  const at = (v: number) => `${Math.min(100, (v / r.safeAt!) * 100)}%`;
+  const title = [`${r.total} of ${r.safeAt} (safe at)`, r.ourLine != null && `our line ${r.ourLine}`, r.cwhitLine != null && `cwhit ${r.cwhitLine}`].filter(Boolean).join(" · ");
+  return (
+    <span className="relative inline-block h-2 w-32 overflow-hidden rounded-full bg-muted align-middle" title={title}>
+      <span className={cn("absolute inset-y-0 left-0 rounded-full", BAR[r.verdict])} style={{ width: at(r.total) }} />
+      {r.ourLine != null && <span className="absolute inset-y-0 w-px bg-foreground/80" style={{ left: at(r.ourLine) }} />}
+      {r.cwhitLine != null && <span className="absolute inset-y-0 w-px bg-foreground/40" style={{ left: at(r.cwhitLine) }} />}
+    </span>
   );
 }
