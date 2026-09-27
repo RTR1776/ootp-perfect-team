@@ -57,7 +57,7 @@ export async function resolveLeagueScope(a: ScopeArgs = {}): Promise<LeagueScope
     a.upload ??
     Number(
       asRows<{ id: number | null }>(
-        await db.execute(sql`select max(id) id from uploads where kind = 'collection'`),
+        await db.execute(sql`select id from uploads where kind = 'collection' order by uploaded_at desc, id desc limit 1`),
       )[0]?.id ?? 0,
     );
   const rows = asRows<{ league: string; org: string; n: number }>(

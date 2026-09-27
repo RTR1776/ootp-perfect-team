@@ -58,7 +58,7 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
     : [];
   const ids = hits.map((c) => c.cardId);
 
-  const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = new Map<number, boolean>();
   if (latest && ids.length) {
     for (const o of await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant }).from(collectionCards)

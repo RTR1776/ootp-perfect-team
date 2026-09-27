@@ -79,7 +79,7 @@ async function loadMarket(): Promise<{
     .select()
     .from(uploads)
     .where(eq(uploads.kind, "shop_list"))
-    .orderBy(desc(uploads.id))
+    .orderBy(desc(uploads.uploadedAt), desc(uploads.id))
     .limit(2);
   if (shopUploads.length === 0) return null;
 

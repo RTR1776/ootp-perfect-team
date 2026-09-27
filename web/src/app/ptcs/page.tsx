@@ -103,7 +103,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
       sql`${uploads.report}->'standings'->'window'->>'start' = ${period.startsOn}`,
       sql`${uploads.report}->'standings'->'window'->>'end' = ${period.endsOn}`,
     ))
-    .orderBy(desc(uploads.id))
+    .orderBy(desc(uploads.uploadedAt), desc(uploads.id))
     .limit(10);
   const latestBySource = new Map<string, { standings: DumpStandings; dateMax: string }>();
   for (const u of dumpUploads) {
