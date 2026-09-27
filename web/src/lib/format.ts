@@ -46,11 +46,11 @@ export function pp(x: number | null | undefined): string {
   return `${sign}${Math.round(a).toLocaleString("en-US")}`;
 }
 
-/** Innings from a decimal: 19.333 → "19.1" (outs, not tenths). */
+/** Innings from a decimal: 19.333 → "19.1" (outs, not tenths); 1234.667 → "1,234.2". */
 export function ip(x: number | null | undefined): string {
   if (x == null || !Number.isFinite(x)) return "—";
   const outs = Math.round(x * 3);
-  return `${Math.floor(outs / 3)}.${outs % 3}`;
+  return `${Math.floor(outs / 3).toLocaleString("en-US")}.${outs % 3}`;
 }
 
 /**
@@ -103,6 +103,17 @@ export function date(d: Date | string | null | undefined, now: Date = new Date()
   if (!iso) return "—";
   const label = `${MONTHS[Number(iso.slice(5, 7)) - 1]} ${Number(iso.slice(8, 10))}`;
   return iso.slice(0, 4) === chicagoDay(now)!.slice(0, 4) ? label : `${label}, ${iso.slice(0, 4)}`;
+}
+
+const chicagoClock = new Intl.DateTimeFormat("en-US", { timeZone: TIME_ZONE, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+
+/** A moment as a Chicago clock time: "14:02" today, "Sep 26 14:02" on another day. */
+export function stamp(d: Date | string | number | null | undefined, now: Date = new Date()): string {
+  if (d == null || d === "") return "—";
+  const t = d instanceof Date ? d : new Date(d);
+  if (Number.isNaN(t.getTime())) return "—";
+  const clock = chicagoClock.format(t);
+  return chicagoDay(t) === chicagoDay(now) ? clock : `${date(t, now)} ${clock}`;
 }
 
 /** "Sep 7 – Oct 4". */
