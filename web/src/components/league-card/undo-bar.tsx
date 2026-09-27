@@ -1,7 +1,7 @@
 /**
  * Undo and Redo for the whole Card Model, saying what each would take back:
- * "Undo: remove Mel Ott". In the Lineups header for now; the plan moves it to
- * the summary strip (PR 4b).
+ * "Undo: remove Mel Ott". In the header of the Lineups / Pitching staff card
+ * for now; the plan moves it to the summary strip (PR 4b).
  */
 import { Redo2, Undo2 } from "lucide-react";
 import { Button } from "@/components/ui/button";

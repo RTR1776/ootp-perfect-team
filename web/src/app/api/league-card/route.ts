@@ -26,7 +26,8 @@
  *   (starter for SPn, reliever for CL / RPn).
  * - cardId of a pitcher + ratings in card-face words (STU vL, CON vR, HRA vL,
  *   PBABIP vR, STM): the arm to model; `armAdd` is what he adds to the staff
- *   on the same number of pitching spots.
+ *   on the same number of pitching spots, and `armAdd.staff` the staff he
+ *   would join.
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
@@ -190,7 +191,7 @@ export async function POST(request: NextRequest) {
     staff: staff && { ...staff, ipPerSlot: { sp: ip.sp, rp: ip.rp }, week: ip.week, source: typedArms ? "your list" : mineArms ? `${mineArms.league}, week of ${mineArms.on}` : "—", entries: armEntries },
     armPool: picks.map(armRow),
     candidateArm: candArm ? armRow(candArm) : null,
-    armAdd: armGain && { season: armGain.season, wins: armGain.season / m.rpw, slot: armGain.slot, replaces: armGain.replaces, sits: armGain.sits },
+    armAdd: armGain && { season: armGain.season, wins: armGain.season / m.rpw, slot: armGain.slot, replaces: armGain.replaces, sits: armGain.sits, staff: armGain.with },
     warnings: [...warnings, ...m.warnings],
   });
 }
