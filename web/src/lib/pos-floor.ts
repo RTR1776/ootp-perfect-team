@@ -31,9 +31,15 @@ export function parsePosFloor(s: string | undefined | null): PosFloor | null {
   return out;
 }
 
+/**
+ * The floor in words, for the Draft Board's footer and the scripts' headers:
+ * LJ_FLOOR reads "70; LF 50; none at 1B". DH never has one (no glove).
+ */
 export function describePosFloor(f: PosFloor | null | undefined): string {
   if (f == null) return "none";
-  if (typeof f === "number") return `${f} (1B/DH exempt)`;
-  const parts = Object.entries(f).filter(([k]) => k !== "default").map(([k, v]) => `${k} ${v}`);
-  return `${f.default ?? 0}${parts.length ? ` (${parts.join(", ")})` : ""}`;
+  if (typeof f === "number") return `${f}; none at 1B`;
+  const others = Object.entries(f).filter((e): e is [string, number] => e[0] !== "default" && e[1] != null);
+  const floors = others.filter(([, v]) => v > 0).map(([k, v]) => `${k} ${v}`);
+  const none = others.filter(([, v]) => v <= 0).map(([k]) => k);
+  return [f.default ? String(f.default) : "none", ...floors, ...(none.length ? [`none at ${none.join(", ")}`] : [])].join("; ");
 }

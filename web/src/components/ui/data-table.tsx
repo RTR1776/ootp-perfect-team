@@ -12,7 +12,9 @@
  *   /played's went to −1581px); below md the priority-1 columns fit, so the
  *   header sticks to the page under the app bar instead, with no nested
  *   scroll area to trap a thumb.
- * - The first column sticks left when the table scrolls sideways.
+ * - The first column sticks left when the table scrolls sideways. A row
+ *   tints itself by setting `--row-tint` (rowClassName); the sticky cell paints
+ *   the same tint over its opaque card background, so it matches the row.
  * - `preset` adds a "Columns: Simple | Full" switch, remembered per page.
  */
 import { Fragment, useState, useSyncExternalStore } from "react";
@@ -28,12 +30,12 @@ export interface Column<T> {
   priority: 1 | 2 | 3;
   /** Shown only with Columns: Full. */
   full?: boolean;
-  /** Cell content. Defaults to String(row[key]). */
-  render?: (row: T) => React.ReactNode;
+  /** Cell content; `index` is the row's place in the sorted list (0 = top). Defaults to String(row[key]). */
+  render?: (row: T, index: number) => React.ReactNode;
   /** Plain value for sorting; a column without it can't be sorted. */
   sortValue?: (row: T) => number | string | null;
   /** Text for the phone detail row (defaults to render). */
-  text?: (row: T) => React.ReactNode;
+  text?: (row: T, index: number) => React.ReactNode;
   className?: string;
 }
 
@@ -59,6 +61,7 @@ export function DataTable<T>({
   onRowClick?: (row: T) => void;
   /** localStorage key for the Simple | Full switch; omit for no switch. */
   preset?: string;
+  /** Classes for a row's <tr>; set `[--row-tint:<colour>]` to tint the whole row. */
   rowClassName?: (row: T) => string | undefined;
   empty?: React.ReactNode;
   /** Render at most this many rows (the caller shows "Show more"). */
@@ -144,13 +147,13 @@ export function DataTable<T>({
             </tr>
           </thead>
           <tbody className="[font-variant-numeric:tabular-nums]">
-            {visible.map((row) => {
+            {visible.map((row, index) => {
               const k = rowKey(row);
               const expanded = open === k;
               return (
                 <Fragment key={k}>
                   <tr
-                    className={cn("h-8 hover:bg-muted/40", (onRowClick || hiddenOnPhone.length > 0) && "cursor-pointer md:cursor-default", onRowClick && "md:cursor-pointer", rowClassName?.(row))}
+                    className={cn("h-8 bg-[color:var(--row-tint)] hover:bg-muted/40", (onRowClick || hiddenOnPhone.length > 0) && "cursor-pointer md:cursor-default", onRowClick && "md:cursor-pointer", rowClassName?.(row))}
                     onClick={() => {
                       if (onRowClick) onRowClick(row);
                       else if (hiddenOnPhone.length) setOpen(expanded ? null : k);
@@ -163,13 +166,13 @@ export function DataTable<T>({
                         className={cn(
                           "border-b border-border/50 px-2 py-1",
                           c.align === "right" && "text-right",
-                          i === 0 && "sticky left-0 z-[5] bg-card",
+                          i === 0 && "sticky left-0 z-[5] bg-card bg-[image:linear-gradient(var(--row-tint),var(--row-tint))]",
                           sort?.key === c.key && "font-medium",
                           HIDE[c.priority],
                           c.className,
                         )}
                       >
-                        {c.render ? c.render(row) : String((row as Record<string, unknown>)[c.key] ?? "—")}
+                        {c.render ? c.render(row, index) : String((row as Record<string, unknown>)[c.key] ?? "—")}
                       </td>
                     ))}
                   </tr>
@@ -180,7 +183,7 @@ export function DataTable<T>({
                           {hiddenOnPhone.map((c) => (
                             <Fragment key={c.key}>
                               <dt className="text-muted-foreground">{c.header}</dt>
-                              <dd>{c.text ? c.text(row) : c.render ? c.render(row) : String((row as Record<string, unknown>)[c.key] ?? "—")}</dd>
+                              <dd>{c.text ? c.text(row, index) : c.render ? c.render(row, index) : String((row as Record<string, unknown>)[c.key] ?? "—")}</dd>
                             </Fragment>
                           ))}
                         </dl>

@@ -13,6 +13,7 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
+import { describePosFloor, LJ_FLOOR } from "@/lib/pos-floor";
 import { cn } from "@/lib/utils";
 
 export interface DraftEvent { id: number; label: string; isDraft: boolean }
@@ -186,10 +187,7 @@ export function DraftBoard(p: Props) {
         </p>
       )}
       <p className="text-[11px] text-muted-foreground">
-        Hitter columns rank bat (both hands, weighted to the field) plus glove at that spot, and only list cards at or above
-        the glove floor (70; LF 50; none at 1B) — the small number is the glove rating there. The two bars are the bat vs
-        LHP and vs RHP, so a platoon-only bat stands out. A dashed line is a tier break: the next card is {TIER_GAP}+ runs
-        worse. Arms rank on runs saved; S is stamina.
+        {`Hitter columns rank bat (both hands, weighted to the field) plus glove at that spot, and only list cards at or above the glove floor (${describePosFloor(LJ_FLOOR)}); the small number is the glove rating there. The two bars are the bat vs LHP and vs RHP, so a platoon-only bat stands out. A dashed line is a tier break: the next card is ${TIER_GAP}+ runs worse. Arms rank on runs saved; S is stamina.`}
       </p>
     </div>
   );

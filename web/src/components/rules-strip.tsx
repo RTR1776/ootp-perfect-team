@@ -25,11 +25,12 @@ export function RulesStrip({
   children?: React.ReactNode;
 }) {
   if (compact) {
+    // One string per item: JSX text around {expressions} can lose its spaces.
     return (
-      <p className="text-xs text-muted-foreground">
+      <p className="text-xs text-muted-foreground" aria-label="Event rules">
         {items.map((i, n) => (
           <span key={i.key} title={i.detail} className={cn(i.state === "suspect" && "text-warning", i.state === "unreadable" && "text-negative")}>
-            {n > 0 && " · "}{i.label} {i.text}
+            {`${n > 0 ? " · " : ""}${i.label} ${i.text}`}
           </span>
         ))}
       </p>

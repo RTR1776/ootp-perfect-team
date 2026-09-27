@@ -9,6 +9,8 @@
  *
  *   /cards?q=banks              name search, PT default engine, neutral park
  *   /cards?q=banks&event=569    read in that event's era, park and field
+ *   /cards?id=4711&event=569    one card by id: every CardName link lands here
+ *                               (a name can match several cards: two Hank Aarons)
  */
 import { desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -36,10 +38,11 @@ const f1 = (n: number | null | undefined) => (n == null || Number.isNaN(n) ? "�
 
 type Obs = { card_id: number; series: string; is_pitcher: boolean; instances: number; pa: number; ip: number; woba: number | null; fip: number | null; field_woba: number | null; field_fip: number | null };
 
-export default async function CardsPage({ searchParams }: { searchParams: Promise<{ q?: string; event?: string }> }) {
+export default async function CardsPage({ searchParams }: { searchParams: Promise<{ q?: string; event?: string; id?: string }> }) {
   const sp = await searchParams;
   const q = (sp.q ?? "").trim();
   const eventId = sp.event ? Number(sp.event) : null;
+  const cardId = sp.id && /^\d{1,9}$/.test(sp.id) ? Number(sp.id) : null;
 
   const events = await db.select({ id: tournaments.id, name: tournaments.name, envYear: tournaments.envYear, stadium: tournaments.stadium })
     .from(tournaments).where(eq(tournaments.retired, false)).orderBy(tournaments.name);
@@ -53,9 +56,15 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
     ? `${ev.name} · ${ev.envYear ?? "PT default"} RE${park?.row ? ` @ ${park.label}` : " (no park factors on file → neutral)"} · field ${Math.round(lhp * 100)}% LHP`
     : "PT default engine, neutral park, 30% LHP";
 
-  const hits = q.length >= 2
-    ? await db.select().from(cards).where(ilike(cards.name, `%${q}%`)).orderBy(desc(cards.cardValue)).limit(40)
-    : [];
+  // One card by id, unless a different name was typed over it (then it's a search again).
+  const byId = cardId != null ? (await db.select().from(cards).where(eq(cards.cardId, cardId)))[0] ?? null : null;
+  const single = byId && (!q || q.toLowerCase() === byId.name.toLowerCase()) ? byId : null;
+  const missingId = cardId != null && !byId && !q;
+  const hits = single
+    ? [single]
+    : q.length >= 2
+      ? await db.select().from(cards).where(ilike(cards.name, `%${q}%`)).orderBy(desc(cards.cardValue)).limit(40)
+      : [];
   const ids = hits.map((c) => c.cardId);
 
   const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
@@ -97,7 +106,7 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
             <span className="label-eyebrow">Name</span>
             <span className="relative">
               <Search aria-hidden className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input name="q" defaultValue={q} placeholder="e.g. banks" minLength={2} className="pl-8" />
+              <Input name="q" defaultValue={q || single?.name || ""} placeholder="e.g. banks" minLength={2} className="pl-8" />
             </span>
           </label>
           <label className="flex min-w-0 flex-[2] flex-col gap-1.5">
@@ -107,15 +116,20 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
               {events.map((e) => <option key={e.id} value={e.id}>{e.name}{e.envYear ? ` · ${e.envYear}` : ""}{e.stadium ? ` · ${e.stadium}` : ""}</option>)}
             </select>
           </label>
+          {/* Keeps the one card when only the event changes. */}
+          {single && <input type="hidden" name="id" value={single.cardId} />}
           <Button type="submit">Show</Button>
         </form>
         <p className="mt-2 text-xs text-muted-foreground">{envLabel}</p>
       </Card>
 
-      {q.length < 2 && (
+      {missingId && (
+        <EmptyState icon="search" title="No such card" description={`No card with id ${cardId} in the card table.`} className="min-h-[30vh]" />
+      )}
+      {!single && !missingId && q.length < 2 && (
         <p className="py-6 text-center text-sm text-muted-foreground">Type at least two letters of a card&rsquo;s name to look it up.</p>
       )}
-      {q.length >= 2 && hits.length === 0 && (
+      {!single && q.length >= 2 && hits.length === 0 && (
         <EmptyState icon="search" title="No match" description={<>No card named like &ldquo;{q}&rdquo; in the card table.</>} className="min-h-[30vh]" />
       )}
 
