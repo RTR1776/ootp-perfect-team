@@ -129,6 +129,12 @@ What that changes:
   still works and is the fastest route when you are already driving; it is
   just not the only one. A push is a real write to the remote, so Claude asks
   before pushing unless you have said to go ahead.
+- **Push to GitHub.command syncs both ways**, and a clash no longer blocks it.
+  - When a local edit and a change on GitHub touch the same file, the script
+    keeps GitHub's copy and saves this Mac's version in `_sync-conflicts/<time>/`
+    (gitignored).
+  - Its data commit takes only League Data/, Tourney Data/, web/src/data/ and
+    reference/. Other local edits stay on the Mac.
 - **A stale `.git/index.lock` or `HEAD.lock` can simply be deleted.** Moving
   them to `_to_delete/gitlocks/` was the workaround for not being able to
   remove files. That quarantine has no reason to exist now and `_to_delete/`
