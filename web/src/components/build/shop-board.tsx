@@ -15,6 +15,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { fieldingRuns } from "@/lib/analytics/fielding";
+import { CARD_TYPE_NAME, CARD_TYPE_SHORT } from "@/lib/card-sets";
 import type { BuilderCard, UpgradeCard } from "@/components/roster-builder";
 
 const RP_WEIGHT = 0.31;
@@ -171,6 +172,7 @@ export function ShopBoard(p: Props) {
               <tr key={shopKey(r.u)} className="border-b border-border/50">
                 <td className="max-w-[200px] truncate px-1.5 py-1 font-sans" onMouseEnter={(e) => p.onPeek(e, r.u)} onMouseLeave={p.onLeave}>
                   {r.u.name}
+                  {r.u.cardType != null && <span className="ml-1 text-[10px] text-muted-foreground" title={CARD_TYPE_NAME[r.u.cardType]}>{CARD_TYPE_SHORT[r.u.cardType]}</span>}
                   {r.u.variant && <span className="ml-1 rounded bg-accent px-1 text-[9px] font-semibold" title="Variant of a card you own; its ratings are estimated (+5 hitting / +3 pitching, the typical variant bump)">VAR est.</span>}
                   {r.u.isNew && <span className="ml-1 rounded bg-primary/15 px-1 text-[9px] font-semibold text-primary">NEW</span>}
                   {r.u.clubhouse && <span className="ml-1 rounded bg-muted px-1 text-[9px] text-muted-foreground">CLUB</span>}

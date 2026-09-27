@@ -9,6 +9,7 @@
 
 import * as React from "react";
 import { rankShop, shopKey, type ShopInput, type ShopRow } from "@/components/build/shop-board";
+import { CARD_TYPE_NAME, CARD_TYPE_SHORT } from "@/lib/card-sets";
 
 const pts = (v: number | null) => (v == null ? "—" : v >= 1000 ? `${Math.round(v / 1000)}k` : String(v));
 
@@ -31,7 +32,7 @@ export function BuyBox(p: ShopInput & { onOpenShop: () => void }) {
   const line = (r: ShopRow) => (
     <li key={shopKey(r.u)} className="flex items-baseline gap-1.5" title={r.where}>
       <span className="min-w-0 truncate">{r.u.name}</span>
-      <span className="shrink-0 text-muted-foreground">{r.u.pos}</span>
+      <span className="shrink-0 text-muted-foreground">{r.u.pos}{r.u.cardType != null && <span title={CARD_TYPE_NAME[r.u.cardType]}> · {CARD_TYPE_SHORT[r.u.cardType]}</span>}</span>
       <span className="ml-auto shrink-0 font-mono font-semibold text-positive">+{r.gain.toFixed(1)}</span>
       <span className="w-10 shrink-0 text-right font-mono text-muted-foreground">{pts(r.price)}</span>
     </li>

@@ -36,6 +36,9 @@ import { dataConfidence, type Confidence } from "@/lib/data-confidence";
 import type { BuilderEnv } from "@/components/roster-builder";
 import { getRatingScale } from "@/lib/rating-scale";
 import { fieldingRuns } from "@/lib/analytics/fielding";
+import { chicagoDay, daysAgo } from "@/lib/format";
+import { exportsPredate, loadSetEvidence } from "@/lib/set-evidence-server";
+import type { SetEvidence } from "@/lib/set-evidence";
 
 const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
 import { cardEligibility, tierCode, tierFitsSlots, type RosterSlot } from "@/lib/roster-rules";
@@ -143,8 +146,16 @@ export default async function BuildPage({
   let confidence: Confidence | null = null;
   let env: BuilderEnv | null = null;
   let savedRosters: { id: number; name: string; slots: RosterSlot[] }[] = [];
-  let collectionDate: string | null = null;
-  let collectionAgeDays: number | null = null;
+  let setEvidence: SetEvidence | null = null;
+  // Read before the event: the empty picker shows the collection's date too.
+  const [latestCollection] = await db
+    .select({ id: uploads.id, date: uploads.uploadedAt })
+    .from(uploads)
+    .where(eq(uploads.kind, "collection"))
+    .orderBy(desc(uploads.id))
+    .limit(1);
+  const collectionDate = chicagoDay(latestCollection?.date);
+  const collectionAgeDays = daysAgo(latestCollection?.date);
 
   if (picked) {
     const [full] = await db.select().from(tournaments).where(eq(tournaments.id, picked.id));
@@ -199,15 +210,17 @@ export default async function BuildPage({
 
     /* A weekly keeps its name and slot when its era, park or rules rotate, so
        its exports can describe a different event. restrictions.formatSince
-       marks the change: this series' own exports recorded before it (its card
-       lines, field handedness, roster shape) no longer describe the event and
-       are left out. The cards' play elsewhere still counts - it is scored
-       against each series' own baseline. */
+       marks the change: while any of this series' exports on file predates it
+       (exportsPredate: the series is summed as one, so one old file taints the
+       lot), its card lines, set evidence, field handedness and roster shape
+       no longer describe the event and are left out. The cards' play
+       elsewhere still counts - it is scored against each series' own
+       baseline. */
     const formatSince = (full.restrictions as { formatSince?: string } | null)?.formatSince ?? null;
     let seriesLive = !!full.series;
     if (full.series) {
       const [m] = await db.select().from(seriesMeta).where(eq(seriesMeta.series, full.series));
-      if (m && formatSince && m.updatedAt.toISOString().slice(0, 10) < formatSince) {
+      if (m && formatSince && (await exportsPredate(full.series, formatSince)).stale) {
         seriesLive = false;
         tournament.staleSeriesSince = formatSince;
       } else if (m) {
@@ -219,15 +232,6 @@ export default async function BuildPage({
         };
       }
     }
-
-    const [latestCollection] = await db
-      .select({ id: uploads.id, date: uploads.uploadedAt })
-      .from(uploads)
-      .where(eq(uploads.kind, "collection"))
-      .orderBy(desc(uploads.id))
-      .limit(1);
-    collectionDate = latestCollection?.date.toISOString().slice(0,10) ?? null;
-    collectionAgeDays = latestCollection ? Math.floor((Date.now() - latestCollection.date.getTime()) / 86_400_000) : null;
 
     const owned = latestCollection
       ? await db
@@ -286,6 +290,9 @@ export default async function BuildPage({
       : [];
 
     const bySeries = new Map(seriesRows.map((r) => [r.cardId, r]));
+    // What the field plays here, for the rules strip (a missing set rule shows
+    // as "field plays only …"). Skipped when the exports predate the format.
+    setEvidence = full.series && seriesLive ? await loadSetEvidence(full.series) : null;
 
     /* ------- the environment every number on the page is read in -------
        The event's era and park (PT default when no era is recorded), and how
@@ -356,7 +363,7 @@ export default async function BuildPage({
           seriesFiles: meta?.files ?? 0, seriesTeams: meta?.avgTeams ?? null,
           poolSize: pool.length, poolWithPlay: ns.length, poolMedianN: ns.length ? ns[Math.floor(ns.length / 2)] : 0,
           eraBand: band ? { band: band.band, series: band.series } : null,
-          envYearKnown: envYear != null, parkOnFile: park != null,
+          envYearKnown: envYear != null, parkOnFile: park != null, staleSince: tournament.staleSeriesSince ?? null,
         });
       }
 
@@ -394,7 +401,7 @@ export default async function BuildPage({
           ratings: trimRatings(r), proj: projFor(isP, c.bats, r), runs,
           runsR: base.runsR.get(c.cardId) ?? null, runsL: base.runsL.get(c.cardId) ?? null,
           isNew: c.firstSeenAt.getTime() >= newSince, clubhouse: /clubhouse/i.test(c.title),
-          last10: null as number | null, ask: null as number | null,
+          last10: null as number | null, ask: null as number | null, cardType: c.cardType,
         };
       });
 
@@ -427,7 +434,7 @@ export default async function BuildPage({
           upgrades.push({
             cardId: c.cardId, name: c.name, tier: c.tier, val: c.val, pos: c.isPitcher ? c.role ?? "P" : c.pos, isPitcher: c.isPitcher, year: c.year, bats: c.bats,
             ratings: trimRatings(r), proj: projFor(c.isPitcher, c.bats, r), runs: c.isPitcher ? rr : (1 - lhpShare) * rr + lhpShare * (rl ?? rr),
-            runsR: rr, runsL: rl, isNew: false, clubhouse: false, last10: null, ask: null, variant: true,
+            runsR: rr, runsL: rl, isNew: false, clubhouse: false, last10: null, ask: null, variant: true, cardType: c.cardType,
           });
         }
       }
@@ -489,6 +496,7 @@ export default async function BuildPage({
       savedRosters={savedRosters}
       collectionDate={collectionDate}
       collectionAgeDays={collectionAgeDays}
+      setEvidence={setEvidence}
     />
   );
 }

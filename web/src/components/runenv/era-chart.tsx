@@ -202,7 +202,7 @@ function Sparklines({ years, park, parkYear, lhbShare, selected, onMetric }: {
   years: number[]; park: string | null; parkYear: number | null; lhbShare: number; selected: number | null; onMetric: (k: string) => void;
 }) {
   return (
-    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-2 sm:grid-cols-2 lg:grid-cols-3">
       {METRICS.filter((m) => m.key !== "rg" && m.key !== "ra9").map((m) => (
         <Spark key={m.key} metricKey={String(m.key)} years={years} park={park} parkYear={parkYear} lhbShare={lhbShare} selected={selected} onMetric={onMetric} />
       ))}

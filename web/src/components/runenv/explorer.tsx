@@ -88,7 +88,9 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
   return (
     <div className="flex flex-col gap-4">
       {/* ---------------------------- controls ---------------------------- */}
-      <Card className="sticky top-2 z-20 backdrop-blur">
+      {/* Sticky and stacked only where there is room: on a phone it covered half the screen and the menu button.
+          A flex item's z-index applies even when static, so a bare z-20 still painted it over the header. */}
+      <Card className="backdrop-blur lg:sticky lg:top-16 lg:z-20">
         <CardContent className="flex flex-col gap-3 p-4">
           {berths.length > 0 && (
             <div className="flex flex-wrap items-center gap-1.5">
@@ -193,7 +195,7 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
       </Card>
 
       {/* ------------------------------ the read -------------------------- */}
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-3">
         <CardChecklist s={solved} spec={spec} />
         <EnvironmentPanel s={solved} base={baseSolved} baseLabel={baselineYear === 0 ? "PT default" : String(baselineYear)} />
         <ParkPanel s={solved} spec={spec} />

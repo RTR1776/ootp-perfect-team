@@ -33,6 +33,8 @@ import { calibrationSlope } from "@/lib/analytics/calibration";
 import { loadObservedRuns, blendRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { optimizeRoster } from "@/lib/roster-optimize";
+import { setRuleGuard } from "@/lib/set-evidence";
+import { loadSetEvidence } from "@/lib/set-evidence-server";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -83,6 +85,13 @@ async function main() {
   };
 
   /* ---- pool ---- */
+  // Same guard as env-roster: a narrow field means a set or year rule the flags must repeat.
+  if (SERIES) {
+    const stop = setRuleGuard(SERIES, await loadSetEvidence(SERIES), {
+      cardTypes: CARD_TYPES.size > 0, cardYears: rules.cardYearMin != null || rules.cardYearMax != null, cardYearMax: rules.cardYearMax, anySet: flag("any-set"),
+    });
+    if (stop) { console.error(`\n!! ${stop}`); process.exit(1); }
+  }
   const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
   if (!latest) throw new Error("no collection upload");
   const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })

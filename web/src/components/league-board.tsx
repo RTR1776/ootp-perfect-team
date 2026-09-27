@@ -152,8 +152,8 @@ export function LeagueBoard({ hitters, pitchers, mineHitters, minePitchers, meta
           <span className="text-xs text-muted-foreground">{showMeta ? "hide" : "show"}</span>
         </button>
         {showMeta && (
-          <div className="mt-4 grid gap-6 lg:grid-cols-3">
-            <div>
+          <div className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-3">
+            <div className="min-w-0 overflow-x-auto">
               <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Best bats by position (wOBA)</div>
               <table className="w-full text-[13px]"><tbody>
                 {HIT_POS.map((p) => { const b = meta.bestByPos[p]?.[0]; return (
@@ -163,13 +163,13 @@ export function LeagueBoard({ hitters, pitchers, mineHitters, minePitchers, meta
                     <td className="py-1 pl-2 text-right font-mono text-muted-foreground">{b ? `${b.teams} tm` : ""}</td></tr>); })}
               </tbody></table>
             </div>
-            <div>
+            <div className="min-w-0 overflow-x-auto">
               <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Best starters (FIP)</div>
               <MiniPit rows={meta.sp.slice(0, 8)} />
               <div className="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Best relievers (FIP)</div>
               <MiniPit rows={meta.rp.slice(0, 6)} />
             </div>
-            <div>
+            <div className="min-w-0 overflow-x-auto">
               <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{MY_ORG} vs the field</div>
               {meta.mine.hitters.length === 0 && meta.mine.sp.length === 0 ? <div className="text-sm text-muted-foreground">No {MY_ORG} rows in this scope — pick the league you play in.</div> : (
                 <table className="w-full text-[13px]"><tbody>

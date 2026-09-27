@@ -28,7 +28,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
-import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
+import { CARD_TYPE_NAME, CARD_TYPE_SHORT, confirmedNotes, describeRules, parseCardTypeRule, rosterSize, validateRoster, type RosterRules, type RosterSlot, type RuleIssue } from "@/lib/roster-rules";
+import { isPageCheck } from "@/lib/roster-input";
+import type { SetEvidence } from "@/lib/set-evidence";
+import { RulesStrip } from "@/components/rules-strip";
+import { SetFilter } from "@/components/set-filter";
+import { dismissToast, toast } from "@/components/ui/toast";
 import { fillOnce, fillRoster, fitMaps, HIT_POS, isComplete, rosterShape, type FillCard, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
 import { envFitMaps } from "@/lib/analytics/env-fit";
@@ -118,6 +123,8 @@ export interface UpgradeCard {
   ask: number | null;
   /** The variant of a card you already own (ratings estimated; priced at the variant's last-10). */
   variant?: boolean;
+  /** Card set (cards.card_type), so the Sets filter reaches the shop too. */
+  cardType: number | null;
 }
 
 export interface CatalogGroup {
@@ -172,6 +179,10 @@ export interface TournamentInfo extends RosterRules {
      *  stated in the rules text or the databotai crawl. */
     valueWindowFrom?: string;
     cards?: number;
+    /** The rules text as last captured from the game. */
+    refreshText?: string;
+    /** Provenance lines; L.J.'s confirmations among them (roster-rules confirmedNotes). */
+    notes?: string[];
   } | null;
   retired: boolean;
   park: { name: string; avg: number | null; hr: number | null; b2: number | null; b3: number | null } | null;
@@ -382,6 +393,7 @@ export function RosterBuilder({
   ratingScale,
   collectionDate,
   collectionAgeDays,
+  setEvidence = null,
 }: {
   groups: CatalogGroup[];
   tournament: TournamentInfo | null;
@@ -397,6 +409,8 @@ export function RosterBuilder({
   collectionDate: string | null;
   /** Days since that snapshot, computed on the server so render stays pure. */
   collectionAgeDays: number | null;
+  /** Which card sets and years this event's field has played (lib/set-evidence). */
+  setEvidence?: SetEvidence | null;
 }) {
   const router = useRouter();
   const collectionStale = collectionAgeDays != null && collectionAgeDays >= 3;
@@ -409,7 +423,7 @@ export function RosterBuilder({
   const [bans, setBans] = useState<Set<number>>(() => new Set());
   /* Remembered per tournament in this browser, so a reload keeps them. */
   const lockKey = (tid: number) => `build:locks:${tid}`;
-  const readLocks = (tid: number): { locks: number[]; bans: number[] } => {
+  const readLocks = (tid: number): { locks: number[]; bans: number[]; sets?: number[] } => {
     try { return JSON.parse(localStorage.getItem(lockKey(tid)) ?? "") ?? { locks: [], bans: [] }; } catch { return { locks: [], bans: [] }; }
   };
   /* L.J. always carries two catchers; Optimise honours it unless unticked. */
@@ -432,7 +446,7 @@ export function RosterBuilder({
   /* Gloves are worth more where more balls are put in play (fielding.ts gloveScale). */
   const glove = env ? gloveScale(env.rates) : 1;
   const envs = useMemo(() => (env ? projectionEnvs(env.rates, env.park, env.lhbShare) : null), [env]);
-  const pool = useMemo(() => basePool.map(c => {
+  const formPool = useMemo(() => basePool.map(c => {
     const verifiedVar = c.variantOwned && hasVariantSplitRatings(c.variantRatings, c.isPitcher);
     const want = forms[c.cardId] ?? (!c.baseOwned || (preferVariant && verifiedVar));
     const variant = want ? c.variantOwned || !c.baseOwned : !c.baseOwned && c.variantOwned;
@@ -444,6 +458,32 @@ export function RosterBuilder({
       : EMPTY_PROJ;
     return { ...c, variant: true, ratings, proj };
   }), [basePool, forms, preferVariant, envs, lhpShare]);
+
+  /* Card sets. The event's set rule is enforced on the server (the pool only
+     holds legal cards); the Sets chips narrow it further, and are how an event
+     with no rule on file is kept to the sets the game allows. Everything that
+     picks cards (the table, fills, Optimise, the Field view, the shop) reads
+     `pool`; scoring and lookups read `formPool`, so a board card outside the
+     chips is still scored, and flagged. Remembered per event with the locks. */
+  const ruleTypes = useMemo(() => {
+    const t = tournament?.restrictions?.cardTypes?.filter((x) => x.trim());
+    if (!t?.length) return null;
+    const parsed = t.map(parseCardTypeRule);
+    return parsed.some((x) => x == null) ? null : [...new Set(parsed.flat() as number[])].sort((a, b) => a - b);
+  }, [tournament]);
+  const [sets, setSets] = useState<number[]>([]);
+  const restoreSets = (saved: number[] | undefined): number[] => {
+    const kept = (saved ?? []).filter((t) => !ruleTypes || ruleTypes.includes(t));
+    return kept.length ? kept : ruleTypes ?? [];
+  };
+  const inSets = (list: number[], t: number | null) => list.length === 0 || (t != null && list.includes(t));
+  const pool = useMemo(() => (sets.length ? formPool.filter((c) => inSets(sets, c.cardType)) : formPool), [formPool, sets]);
+  const setCounts = useMemo(() => {
+    const n: Record<number, number> = {};
+    for (const c of formPool) if (c.cardType != null) n[c.cardType] = (n[c.cardType] ?? 0) + 1;
+    return n;
+  }, [formPool]);
+  const shopUpgrades = useMemo(() => (sets.length ? upgrades.filter((u) => inSets(sets, u.cardType)) : upgrades), [upgrades, sets]);
   const [selected, setSelected] = useState<SlotKey | null>(null);
   const [view, setView] = useState<View>("HIT");
   const [search, setSearch] = useState("");
@@ -453,6 +493,7 @@ export function RosterBuilder({
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [peek, setPeek] = useState<Peek | null>(null);
+  const [showIssues, setShowIssues] = useState(false);
   const [dragPayload, setDragPayload] = useState<string | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<SlotKey | null>(null);
   const lastTid = useRef<number | null>(null);
@@ -522,11 +563,11 @@ export function RosterBuilder({
      observed play blended by precision - and the table's FIT column is its
      percentile. Without one (no era row at all) the rating composite. */
   const fits = useMemo(() => env
-    ? envFitMaps(pool, {
+    ? envFitMaps(formPool, {
         era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear,
         observed: new Map(env.observed.map(([id, runs, n, model]) => [id, { runs, n, model }])),
       })
-    : fitMaps(pool), [pool, env]);
+    : fitMaps(formPool), [formPool, env]);
   const { fitR } = fits;
   /** The scorer's number for a card: calibrated runs per 700 in this event,
    *  observed play blended in, read at the field's pitcher handedness. */
@@ -537,7 +578,7 @@ export function RosterBuilder({
     return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l;
   };
 
-  const byId = useMemo(() => new Map(pool.map((c) => [c.cardId, c])), [pool]);
+  const byId = useMemo(() => new Map(formPool.map((c) => [c.cardId, c])), [formPool]);
 
   const serializeSlots = (source = slots): RosterSlot[] => slotOrder
     .filter(k => source[k] != null)
@@ -548,7 +589,30 @@ export function RosterBuilder({
         lineupOrder: b ? lineupPos.indexOf(b) + 1 : null,
         useVariant: byId.get(cardId)?.variant ?? false };
     });
-  const validation = tournament ? validateRoster(serializeSlots(), pool, tournament) : null;
+  const baseValidation = tournament ? validateRoster(serializeSlots(), formPool, tournament) : null;
+  /* The rules strip's items. A set or year rule that looks missing (the name
+     or the field's play says there is one) keeps the board a draft, and so
+     does a board card outside the chosen Sets chips. */
+  const ruleItems = tournament ? describeRules(tournament, { used: baseValidation?.counts.tiers, evidence: setEvidence }) : [];
+  const validation = baseValidation && (() => {
+    const extra: RuleIssue[] = [];
+    for (const i of ruleItems) {
+      if ((i.key === "sets" || i.key === "years") && i.state === "suspect") extra.push({ code: `suspect-${i.key}`, message: i.detail ?? `${i.label}: ${i.text}` });
+    }
+    if (sets.length) {
+      for (const id of new Set(serializeSlots().map((x) => x.cardId))) {
+        const c = byId.get(id);
+        if (c && !inSets(sets, c.cardType)) extra.push({ code: "outside-sets", cardId: id, message: `${c.name}: ${c.cardType != null ? CARD_TYPE_NAME[c.cardType] ?? `set ${c.cardType}` : "set unknown"} is not in the chosen sets.` });
+      }
+    }
+    const incomplete = [...baseValidation.incomplete, ...extra];
+    return { ...baseValidation, incomplete, ready: baseValidation.errors.length === 0 && incomplete.length === 0 };
+  })();
+  /* Issues that name a card mark its slots on the board. */
+  const issuesByCard = new Map<number, string[]>();
+  for (const e of [...(validation?.errors ?? []), ...(validation?.incomplete ?? [])]) {
+    if (e.cardId != null) issuesByCard.set(e.cardId, [...(issuesByCard.get(e.cardId) ?? []), e.message]);
+  }
 
   const posEligible = (c: BuilderCard, slot: SlotKey): boolean => {
     if (slot.startsWith("SP")) return c.isPitcher && (c.role === "SP" || c.role == null);
@@ -616,8 +680,14 @@ export function RosterBuilder({
 
   const upgradeRows = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return upgrades.filter((u) => (view !== "UPG" ? false : !q || u.name.toLowerCase().includes(q)));
-  }, [upgrades, search, view]);
+    return shopUpgrades.filter((u) => (view !== "UPG" ? false : !q || u.name.toLowerCase().includes(q)));
+  }, [shopUpgrades, search, view]);
+  /* Two cards with one name (two Hank Aarons) show their year next to it. */
+  const dupNames = useMemo(() => {
+    const seen = new Map<string, number>();
+    for (const c of formPool) seen.set(c.name, (seen.get(c.name) ?? 0) + 1);
+    return new Set([...seen].filter(([, n]) => n > 1).map(([name]) => name));
+  }, [formPool]);
 
   /* hover popovers --------------------------------------------------- */
   const projLine = (isP: boolean, p: Proj) =>
@@ -722,13 +792,69 @@ export function RosterBuilder({
     }
   };
 
-  const autoFill = (silent = false) => {
+  /**
+   * The greedy fill, from the cards the chips allow and never a banned one,
+   * carrying every locked card the rules leave room for (fillOnce's `must`:
+   * counted against the size, cap, tiers and variants before anything else is
+   * picked). `use` overrides the locks, bans and sets in state: on an event
+   * switch they are read from storage in the same render, before the state has
+   * caught up. Locks it could not carry come back by reason: outside the chosen
+   * sets, or no room under the rules.
+   */
+  const computeFill = (use?: { locks: number[]; bans: number[]; sets: number[] }) => {
+    const lockIds = use ? new Set(use.locks) : locks, banIds = use ? new Set(use.bans) : bans, setList = use ? use.sets : sets;
+    const candidates = formPool.filter((c) => inSets(setList, c.cardType) && !banIds.has(c.cardId));
+    const inPool = new Set(candidates.map((c) => c.cardId));
+    const must = new Set([...lockIds].filter((id) => inPool.has(id)));
+    const { slots: next, lambda } = fillRoster(candidates, tournament!, { lineupPos, spKeys, rpKeys, benchKeys, bats: batsCap }, fits, must);
+    const onBoard = new Set(Object.values(next));
+    const nameOf = (id: number) => byId.get(id)?.name ?? `#${id}`;
+    const outside = [...lockIds].filter((id) => !inPool.has(id) && !banIds.has(id) && byId.has(id)).map(nameOf);
+    const missed = [...must].filter((id) => !onBoard.has(id)).map(nameOf);
+    // Greedy picks can leave a spot only an unlocked card could fill; Optimise solves positions exactly.
+    const empty = must.size ? slotOrder.filter((k) => next[k] == null).map(slotLabel) : [];
+    return { next, lambda, missed, outside, empty };
+  };
+  /** What a fill left off, in words for the message line or a toast. */
+  const lockNote = ({ missed, outside, empty }: { missed: string[]; outside: string[]; empty: string[] }) => [
+    outside.length ? `Locked ${outside.join(", ")} ${outside.length === 1 ? "is" : "are"} outside the chosen sets, so left off.` : "",
+    missed.length ? `Locked ${missed.join(", ")} did not fit on this fill — run Optimise.` : "",
+    empty.length ? `With these locks the fill left ${empty.join(", ")} empty — run Optimise, which places positions exactly.` : "",
+  ].filter(Boolean).join(" ");
+  const autoFill = (silent = false, use?: { locks: number[]; bans: number[]; sets: number[] }) => {
     if (!tournament) return;
-    const { slots: next, lambda } = fillRoster(pool, tournament, { lineupPos, spKeys, rpKeys, benchKeys, bats: batsCap }, fits);
-    setSlots(next);
+    const fill = computeFill(use);
+    setSlots(fill.next);
+    const note = lockNote(fill);
+    if (note) { setMsg(note); return; }
     setMsg(silent
-      ? `Draft roster filled${lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""}. Review the rule checks below, then adjust your players.`
+      ? `Draft roster filled${fill.lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""} — check the rules strip, then adjust.`
       : null);
+  };
+
+  /* New Sets chips refill the board from those sets; the toast undoes it, on
+     this event only (the toast outlives an event switch, so the switch closes
+     it and the undo checks the event). */
+  const setsToast = useRef<number | null>(null);
+  const changeSets = (next: number[]) => {
+    if (!tournament) { setSets(next); return; }
+    const prevSlots = slots, prevSets = sets, forTid = tournament.id;
+    setSets(next);
+    const fill = computeFill({ locks: [...locks], bans: [...bans], sets: next });
+    setSlots(fill.next);
+    const was = new Set(Object.values(prevSlots).filter((v): v is number => v != null));
+    const now = new Set(Object.values(fill.next));
+    const added = [...now].filter((id) => !was.has(id)).length, dropped = [...was].filter((id) => !now.has(id)).length;
+    const label = next.length ? next.map((t) => CARD_TYPE_SHORT[t] ?? t).join(" + ") : "every set";
+    const poolSize = formPool.filter((c) => inSets(next, c.cardType) && !bans.has(c.cardId)).length;
+    if (setsToast.current != null) dismissToast(setsToast.current);
+    setsToast.current = toast({
+      tone: poolSize === 0 ? "error" : "info",
+      message: poolSize === 0
+        ? `No cards in your pool from ${label}: the board is empty.`
+        : `Board refilled from ${label} (${poolSize} cards): ${added} in, ${dropped} out.${lockNote(fill) ? ` ${lockNote(fill)}` : ""}`,
+      action: { label: "Undo", onClick: () => { if (lastTid.current !== forTid) return; setSets(prevSets); setSlots(prevSlots); } },
+    });
   };
 
   /* The objective env-roster scores with: calibrated runs per board with
@@ -745,8 +871,8 @@ export function RosterBuilder({
   const spWeight = meta?.construction?.spWeight ?? undefined;
   const rpWeight = meta?.construction?.rpWeight ?? undefined;
   const objective = useMemo(() => envFits
-    ? rosterObjective(pool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove })
-    : null, [envFits, pool, fillShape, lhpShare, spWeight, rpWeight, glove]);
+    ? rosterObjective(formPool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove })
+    : null, [envFits, formPool, fillShape, lhpShare, spWeight, rpWeight, glove]);
   const boardRuns = (source: Record<SlotKey, number | null>): number | null => {
     if (!objective) return null;
     const complete: Record<string, number> = {};
@@ -754,11 +880,14 @@ export function RosterBuilder({
     return objective.objective(complete);
   };
 
+  /* Sets are stored only when they differ from the event's rule, so a rule
+     the catalogue widens or drops later reaches a board that never chose. */
   useEffect(() => {
     if (!tournament || lastTid.current !== tournament.id) return;
-    try { localStorage.setItem(lockKey(tournament.id), JSON.stringify({ locks: [...locks], bans: [...bans] })); } catch { /* storage unavailable */ }
+    const chosen = sets.join(",") !== (ruleTypes ?? []).join(",");
+    try { localStorage.setItem(lockKey(tournament.id), JSON.stringify({ locks: [...locks], bans: [...bans], ...(chosen ? { sets } : {}) })); } catch { /* storage unavailable */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locks, bans]);
+  }, [locks, bans, sets]);
 
   const [optimizing, setOptimizing] = useState(false);
   /**
@@ -791,7 +920,7 @@ export function RosterBuilder({
   const stopDeep = useRef<(() => void) | null>(null);
   const [deepRunning, setDeepRunning] = useState(false);
   type Best = { slots: Record<string, number>; score: number; moves: number; from: string };
-  const runDeep = (starts: { label: string; slots: Record<string, number> }[], searchPool: FillCard[]) =>
+  const runDeep = (starts: { label: string; slots: Record<string, number> }[], searchPool: FillCard[], keep: ReadonlySet<number>) =>
     new Promise<{ best: Best | null; ran: number }>((resolve) => {
       const w = new Worker(new URL("../lib/optimize.worker.ts", import.meta.url), { type: "module" });
       let last: { best: Best | null; ran: number } = { best: null, ran: 0 };
@@ -808,7 +937,7 @@ export function RosterBuilder({
       const req: DeepRequest = {
         starts, pool: searchPool, rules: tournament as RosterRules, shape: fillShape,
         runsR: [...envFits!.runsR], runsL: [...envFits!.runsL], lhpShare, spWeight, rpWeight, gloveScale: glove,
-        locks: [...locks], minCatchers: twoCatchers ? 2 : 0,
+        locks: [...keep], minCatchers: twoCatchers ? 2 : 0,
       };
       w.postMessage(req);
     });
@@ -823,6 +952,10 @@ export function RosterBuilder({
       return;
     }
     setOptimizing(true);
+    // The search reads this event's pool and writes its board: a switch meanwhile drops the result.
+    const forTid = tournament.id;
+    // The Sets toast's Undo would change the sets under the search.
+    if (setsToast.current != null) { dismissToast(setsToast.current); setsToast.current = null; }
     setMsg(deep ? "Deep search: up to 12 starts × 2 search settings — a few minutes; Stop keeps the best so far." : "Searching for a better board…");
     const paint = () => new Promise((r) => setTimeout(r, 30));
     await paint();
@@ -831,17 +964,30 @@ export function RosterBuilder({
       for (const [k, v] of Object.entries(slots)) if (v != null) current[k] = v;
       const missing = slotOrder.filter((k) => current[k] == null);
       const searchPool = (pool as FillCard[]).filter((c) => !bans.has(c.cardId));
-      const searchObj = locks.size
-        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove, mustIds: locks })
+      // Only locks the search can use are kept: one outside the chosen sets
+      // is not in the pool, and would cost every board the must-carry penalty.
+      const inPool = new Set(searchPool.map((c) => c.cardId));
+      const keep = new Set([...locks].filter((id) => inPool.has(id)));
+      const outside = [...locks].filter((id) => !inPool.has(id) && byId.has(id)).map((id) => byId.get(id)!.name);
+      const searchObj = keep.size
+        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove, mustIds: keep })
         : objective;
-      const greedy = fillRoster(searchPool, tournament, fillShape, fits).slots;
+      const greedy = fillRoster(searchPool, tournament, fillShape, fits, keep).slots;
       // The search needs a complete board to score; fill the holes greedily first.
       for (const k of missing) if (greedy[k] != null) current[k] = greedy[k];
       // Compare against the board as the page scores and checks it, not the
       // hole-filled start: a greedy bat dropped into an empty bench slot can
       // push a full 26 to 27 and read as a rule break the board never had.
+      // The search's scores carry 1000 off per lock missing; so does this.
       const before = boardRuns(slots) ?? objective.objective(current);
-      const boardLegal = !validation?.errors.length;
+      const onNow = new Set(Object.values(slots));
+      const beforeSearch = before - 1000 * [...keep].filter((id) => !onNow.has(id)).length;
+      // A card outside the chosen sets, or one banned since, is a break too: the search replaces it.
+      const breaks = validation?.errors.length ? "broke a rule"
+        : validation?.incomplete.some((i) => i.code === "outside-sets") ? "had a card outside the chosen sets"
+        : [...onNow].some((id) => id != null && bans.has(id)) ? "had a banned card"
+        : null;
+      const boardLegal = breaks == null;
 
       // Distinct rosters only: positions are re-solved inside the search, so
       // two starts with the same cards are the same start.
@@ -858,19 +1004,20 @@ export function RosterBuilder({
       add("the greedy fill", greedy);
       // Most promising first, so a budget cut drops the long shots: λ 2 won on
       // both events measured 2026-09-26 (Negro Leagues Slots, Gold Rush).
-      for (const lam of deep ? [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5] : [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(searchPool, tournament, fillShape, fits, lam));
+      for (const lam of deep ? [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5] : [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(searchPool, tournament, fillShape, fits, lam, keep));
 
       const t0 = performance.now();
       let best: Best | null = null;
       let ran = 0;
-      if (deep) ({ best, ran } = await runDeep(starts, searchPool));
+      if (deep) ({ best, ran } = await runDeep(starts, searchPool, keep));
       else for (const st of starts) {
         if (ran > 0 && performance.now() - t0 > START_BUDGET_MS) break;
+        if (lastTid.current !== forTid) break;
         setMsg(`Searching for a better board… start ${ran + 1} of ${starts.length} (${st.label})${best ? `, best so far ${fr(best.score)} runs` : ""}.`);
         await paint();
         const r = optimizeRoster(st.slots, searchPool, tournament, fillShape, {
           objective: searchObj.objective, slotValue: searchObj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
-          pairMoves: { aTop: 8, bCheapest: 10, rank: searchObj.rank }, candidateLimit: 120, maxPasses: 40, keep: locks,
+          pairMoves: { aTop: 8, bCheapest: 10, rank: searchObj.rank }, candidateLimit: 120, maxPasses: 40, keep,
           minCatchers: twoCatchers ? 2 : 0,
         });
         ran++;
@@ -878,25 +1025,27 @@ export function RosterBuilder({
         // the must-carry penalty, the reported score does not.
         if (r.legal && (!best || r.score > best.score + 1e-9)) best = { slots: r.slots, score: r.score, moves: r.moves, from: st.label };
       }
+      if (lastTid.current !== forTid) return;
       if (!best && deep && ran === 0) { setMsg("Deep search stopped before its first start finished — nothing changed."); return; }
       if (!best) {
         setMsg(`No start reached a board that passes every rule (${ran} tried) — check the rule list below.`);
         return;
       }
+      const outsideNote = outside.length ? ` Locked ${outside.join(", ")} ${outside.length === 1 ? "is" : "are"} outside the chosen sets, so left off.` : "";
       // A board that breaks a rule is replaced even by a lower-scoring legal one.
-      if (boardLegal && best.score <= before + 1e-9) {
-        setMsg(`No better board found from ${ran} start${ran === 1 ? "" : "s"} (${fr(before)} runs).`);
+      if (boardLegal && best.score <= beforeSearch + 1e-9) {
+        setMsg(`No better board found from ${ran} start${ran === 1 ? "" : "s"} (${fr(before)} runs).${outsideNote}`);
         return;
       }
       const onBoard = new Set(Object.values(best.slots));
-      const missed = [...locks].filter((id) => !onBoard.has(id)).map((id) => byId.get(id)?.name ?? `#${id}`);
+      const missed = [...keep].filter((id) => !onBoard.has(id)).map((id) => byId.get(id)?.name ?? `#${id}`);
       best = { ...best, score: objective.objective(best.slots) };
       setSlots(best.slots);
       if (missed.length) {
-        setMsg(`Optimised, but could not fit locked ${missed.join(", ")} under the rules — check the cap, the slot counts and his positions.`);
+        setMsg(`Optimised, but could not fit locked ${missed.join(", ")} under the rules — check the cap, the slot counts and ${missed.length === 1 ? "his positions" : "their positions"}.${outsideNote}`);
         return;
       }
-      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} ${deep ? "climb" : "start"}${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).`);
+      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${breaks ? ` (board ${breaks})` : ""} → ${fr(best.score)} runs, best of ${ran} ${deep ? "climb" : "start"}${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).${outsideNote}`);
     } finally {
       setOptimizing(false);
     }
@@ -916,9 +1065,12 @@ export function RosterBuilder({
     setMsg(null);
     setSlots({});
     setForms({});
+    if (setsToast.current != null) { dismissToast(setsToast.current); setsToast.current = null; }
+    stopDeep.current?.();
     const saved = readLocks(tournament.id);
     setLocks(new Set(saved.locks ?? []));
     setBans(new Set(saved.bans ?? []));
+    setSets(restoreSets(saved.sets));
     wantFill.current = tournament.id;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tournament?.id]);
@@ -928,18 +1080,22 @@ export function RosterBuilder({
     if (!tournament || pool.length === 0) return;
     if (wantFill.current !== tournament.id) return;
     wantFill.current = null;
-    autoFill(true);
+    const saved = readLocks(tournament.id);
+    autoFill(true, { locks: saved.locks ?? [], bans: saved.bans ?? [], sets: restoreSets(saved.sets) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tournament?.id, pool, shapeKey]);
 
   const save = async () => {
     if (!tournament) return;
     const name = rosterName.trim() || `${tournament.name} roster`;
+    // The checks only this page makes (a set or year rule that looks missing,
+    // a card outside the chosen sets) go with it, so the save is a draft too.
     const payload = {
       tournamentId: tournament.id,
       name,
       slots: serializeSlots(),
       requireReady: validation?.ready ?? false,
+      checks: (validation?.incomplete ?? []).filter((i) => isPageCheck(i.code)),
     };
     setSaving(true);
     try {
@@ -1156,62 +1312,43 @@ export function RosterBuilder({
         </p>
       ) : (
         <>
-          <div className="flex flex-wrap gap-2 text-xs">
-            {tournament.retired && <Badge variant="secondary">Retired</Badge>}
-            {tournament.envYear && <Badge variant="outline">era {tournament.envYear}</Badge>}
-            {tournament.stadium && <Badge variant="outline">{tournament.stadium}</Badge>}
-            {tournament.park?.hr != null && <Badge variant="outline">park HR ×{tournament.park.hr.toFixed(2)}</Badge>}
-            {tournament.park?.avg != null && <Badge variant="outline">park AVG ×{tournament.park.avg.toFixed(2)}</Badge>}
-            {tournament.mode && <Badge variant="outline">{tournament.mode}</Badge>}
-            {tournament.entrants && <Badge variant="outline">{tournament.entrants} teams</Badge>}
-            <Badge variant="outline">{tournament.dh === false ? "no DH" : "DH"}</Badge>
-            {tournament.ratingsMax != null && (
-              <Badge
-                variant="outline"
-                title={tournament.restrictions?.valueWindowFrom
-                  ? `Window read off the event name (${tournament.restrictions.valueWindowFrom}) — the rules blurb and the databotai crawl both left it blank. Confirm against OOTP's RESTRICTIONS line.`
-                  : "Stated in the event rules"}
+          {/* The event's rules, loud when one is missing or unreadable; then
+              the event's facts in one muted line. */}
+          <RulesStrip
+            items={ruleItems}
+            refreshText={tournament.restrictions?.refreshText ?? null}
+            confirmed={confirmedNotes(tournament)}
+            onUseSets={optimizing ? undefined : changeSets}
+          >
+            {confidence && (
+              <span
+                className="inline-flex items-center gap-1.5 rounded-md border border-border px-2 py-0.5"
+                title={[confidence.headline, ...confidence.points.map((pt) => `${pt.label}: ${pt.text}`)].join("\n")}
               >
-                cards {tournament.ratingsMin ?? 40}–{tournament.ratingsMax}
-                {tournament.restrictions?.valueWindowFrom ? " *" : ""}
-              </Badge>
+                <span className={cn("inline-block size-2 rounded-full", confidence.level === "good" ? "bg-positive" : confidence.level === "fair" ? "bg-warning" : "bg-negative")} />
+                <span className="text-muted-foreground">Data</span>
+                <span className="font-medium">{confidence.level}</span>
+              </span>
             )}
-            {/* A null ceiling is not "no restriction" — it is a restriction we
-                never captured, and isLegal then passes every card. Say so out
-                loud instead of quietly recommending Perfects for a Bronze. */}
-            {tournament.ratingsMax == null && tournament.ratingsMin == null
-              && !tournament.restrictions?.slots && !tournament.isDraft && (
-              <Badge
-                className="border-transparent bg-warning/15 text-warning"
-                title="No card-value window on file for this event, so every card in your collection is being shown. Check OOTP's RESTRICTIONS line and run pnpm backfill:tierbands."
-              >
-                no card cap on file — pool unfiltered
-              </Badge>
-            )}
-            {tournament.cardYearMin != null && <Badge variant="outline">years {tournament.cardYearMin}–{tournament.cardYearMax}</Badge>}
-            {tournament.staleSeriesSince
-              ? <Badge variant="outline" title="This event kept its name but changed era, park or rules; exports from before the change describe a different event and are left out of this page.">new format since {tournament.staleSeriesSince} — older runs ignored</Badge>
-              : meta && meta.files > 0
-                ? <Badge>observed: {tournament.series}</Badge>
-                : <Badge variant="outline">no observed data yet</Badge>}
-          </div>
-
-          {confidence && (() => {
-            const tone = confidence.level === "good" ? "border-positive/60 bg-positive/5" : confidence.level === "fair" ? "border-warning/70 bg-warning/10" : "border-negative/70 bg-negative/10";
-            const dot = confidence.level === "good" ? "bg-positive" : confidence.level === "fair" ? "bg-warning" : "bg-negative";
-            return (
-              <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border px-3 py-1.5 text-xs ${tone}`} title="How much data stands behind the Runs column and Optimise for this event">
-                <span className="flex items-center gap-1.5 font-semibold"><span className={`inline-block h-2 w-2 rounded-full ${dot}`} />{confidence.headline}</span>
-                {confidence.points.map((pt) => (
-                  <span key={pt.label} className="text-muted-foreground" title={pt.text}><span className="font-medium text-foreground">{pt.label}:</span> {pt.short}</span>
-                ))}
-              </div>
-            );
-          })()}
+          </RulesStrip>
+          <p className="text-xs text-muted-foreground">
+            {tournament.retired && <Badge variant="secondary" className="mr-2">Retired</Badge>}
+            {[
+              tournament.environment?.eraLabel ?? (tournament.envYear ? `era ${tournament.envYear}` : "PT default era"),
+              tournament.stadium,
+              tournament.park?.hr != null ? `park HR ×${tournament.park.hr.toFixed(2)}` : null,
+              tournament.park?.avg != null ? `AVG ×${tournament.park.avg.toFixed(2)}` : null,
+              tournament.mode,
+              tournament.entrants ? `${tournament.entrants} teams` : null,
+              tournament.staleSeriesSince
+                ? `new format since ${tournament.staleSeriesSince}: its exports include older runs, so none are used`
+                : meta && meta.files > 0 ? `field data: ${meta.files} runs` : "no field data yet",
+            ].filter(Boolean).join(" · ")}
+          </p>
 
           {objective && (
             <BuyBox
-              upgrades={upgrades}
+              upgrades={shopUpgrades}
               slots={slots}
               lineupPos={lineupPos}
               spKeys={spKeys}
@@ -1236,7 +1373,7 @@ export function RosterBuilder({
               HR ×{tournament.environment.parkFactors.hrL.toFixed(3)}/×{tournament.environment.parkFactors.hrR.toFixed(3)}.
             </p>}
             <p className="mt-1">
-              Runs, Fit and the projected lines are read in this era and park. {env ? `Lineups are weighted ${Math.round((1 - env.lhpShare) * 100)}/${Math.round(env.lhpShare * 100)} vs RHP/LHP and arms face ${Math.round(env.lhbShare * 100)}% left-handed bats${meta?.lhpBfShare != null ? " — measured off this event's exports" : " — the defaults; no exports for this event yet"}.` : ""} Re-recommend is the greedy fill; Optimise hill-climbs it on runs with gloves priced in runs under the glove floor (70, LF 50, none at 1B). Passing the checks below verifies recorded rules.
+              Runs, Fit and the projected lines are read in this era and park. {env ? `Lineups are weighted ${Math.round((1 - env.lhpShare) * 100)}/${Math.round(env.lhpShare * 100)} vs RHP/LHP and arms face ${Math.round(env.lhbShare * 100)}% left-handed bats${meta?.lhpBfShare != null ? " — measured off this event's exports" : (tournament.staleSeriesSince ? ` — the defaults; this event's exports include runs from before its ${tournament.staleSeriesSince} format` : " — the defaults; no exports for this event yet")}.` : ""} Re-recommend is the greedy fill; Optimise hill-climbs it on runs with gloves priced in runs under the glove floor (70, LF 50, none at 1B). Passing the checks below verifies recorded rules.
             </p>
           </div>
 
@@ -1290,7 +1427,7 @@ export function RosterBuilder({
             </div>
           )}
 
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
             {/* pool table */}
             <div
               className="flex min-w-0 flex-col gap-2"
@@ -1324,12 +1461,13 @@ export function RosterBuilder({
                   </button>
                 ))}
               </div>
+              <SetFilter value={sets} onChange={changeSets} allowed={ruleTypes} counts={setCounts} disabled={optimizing} disabledTitle="Wait for the search to finish (or Stop it) before changing sets" />
               {(locks.size > 0 || bans.size > 0) && (
                 <div className="flex flex-wrap items-center gap-1 text-[11px]">
                   {[...locks].map((id) => <button key={`l${id}`} type="button" onClick={() => toggleLock(id)} className="rounded bg-positive/20 px-1.5 py-0.5" title="Locked — click to unlock">🔒 {byId.get(id)?.name ?? `#${id}`} ×</button>)}
                   {[...bans].map((id) => <button key={`b${id}`} type="button" onClick={() => toggleBan(id)} className="rounded bg-negative/20 px-1.5 py-0.5" title="Banned — click to allow">⛔ {byId.get(id)?.name ?? `#${id}`} ×</button>)}
                   <button type="button" onClick={() => { setLocks(new Set()); setBans(new Set()); }} className="text-muted-foreground underline">clear</button>
-                  <span className="text-muted-foreground">Optimise carries every 🔒 and never uses a ⛔.</span>
+                  <span className="text-muted-foreground">Every fill and Optimise keeps locked cards and skips banned ones.</span>
                 </div>
               )}
 
@@ -1338,8 +1476,8 @@ export function RosterBuilder({
                   lineupPos={lineupPos}
                   slots={slots}
                   byId={byId}
-                  pool={pool}
-                  upgrades={upgrades}
+                  pool={pool.filter((c) => !bans.has(c.cardId))}
+                  upgrades={shopUpgrades}
                   runsR={envFits?.runsR ?? null}
                   runsL={envFits?.runsL ?? null}
                   lhpShare={lhpShare}
@@ -1385,8 +1523,9 @@ export function RosterBuilder({
                               onMouseEnter={(e) => peekPool(e, c)}
                               onMouseLeave={() => setPeek(null)}
                             >
-                              {c.name}
+                              {c.name}{dupNames.has(c.name) && c.year != null && <span className="text-muted-foreground"> ’{String(c.year).slice(2)}</span>}
                               {c.bats && <span className="ml-1 text-[10px] text-muted-foreground">{c.bats}</span>}
+                              {c.cardType != null && <span className="ml-1 text-[10px] text-muted-foreground" title={CARD_TYPE_NAME[c.cardType]}>{CARD_TYPE_SHORT[c.cardType]}</span>}
                               {c.variantOwned && <button type="button" className="ml-2 rounded border px-1 text-[10px]" aria-label={`Use ${c.variant ? "base" : "variant"} ${c.name}`} disabled={!c.baseOwned} onClick={e=>{e.stopPropagation();setForms(f=>({...f,[c.cardId]:!c.variant}));}}>{c.variant ? "VAR selected" : "Base · VAR owned"}</button>}
                               {inUse && <span className="ml-1 text-[10px] text-positive">●</span>}
                               <button type="button" title={locks.has(c.cardId) ? "Locked: Optimise must carry him (click to unlock)" : "Lock: Optimise must carry him"} aria-label={`${locks.has(c.cardId) ? "Unlock" : "Lock"} ${c.name}`} onClick={(e) => { e.stopPropagation(); toggleLock(c.cardId); }} className={cn("ml-1 rounded px-0.5 text-[11px]", locks.has(c.cardId) ? "bg-positive/20" : "opacity-30 hover:opacity-100")}>🔒</button>
@@ -1429,16 +1568,30 @@ export function RosterBuilder({
               <p className="text-xs text-muted-foreground">
                 {view === "UPG"
                   ? `Legal cards you don't own, ranked on the runs each would add to the board on the page (one-card swap, glove at the spot, lineups weighted by the field's pitcher hand, relief at 0.31). Prices are from your latest shop upload — upload a new shop list and new drops appear here, badged NEW for a week. Two buys at the same spot don't add. Hover a name for the card face.`
-                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. Runs = calibrated model runs per 700 in this era and park with observed play blended in (K = 5,000); pWOBA/pFIP = the projected line here. Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Value window, card years, card types and slot tiers are checked here; the cap, variant limit and roster size are checked on the board.`}
+                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. Runs = calibrated model runs per 700 in this era and park with observed play blended in (K = 5,000); pWOBA/pFIP = the projected line here. Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Value window, card years, card sets and slot tiers are checked here; the cap, variant limit and roster size are checked on the board. A variant is scored on the ratings your collection export recorded for that copy.`}
               </p>
             </div>
 
             {/* roster panel */}
             <div className="flex flex-col gap-3">
               <div className="rounded-lg border border-border p-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-sm font-semibold" title={`${summary.filled} of ${summary.total} board slots filled (each lineup counts its own spots)`}>Roster · {summary.roster}/{(tournament ? rosterSize(tournament) : null) ?? 26}</span>
-                  <div className="flex gap-1.5">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <span className="flex items-center gap-2">
+                    <span className="whitespace-nowrap text-sm font-semibold" title={`${summary.filled} of ${summary.total} board slots filled (each lineup counts its own spots)`}>Roster {summary.roster}/{(tournament ? rosterSize(tournament) : null) ?? 26}</span>
+                    {validation && (validation.ready ? (
+                      <span className="rounded-full bg-positive/15 px-2 py-0.5 text-[11px] font-semibold text-positive" title="Legal under the rules on file · checked: value, slots, sets, years, cap, variants, positions">Legal</span>
+                    ) : (
+                      <button
+                        type="button"
+                        aria-expanded={showIssues}
+                        onClick={() => setShowIssues((v) => !v)}
+                        className={cn("rounded-full px-2 py-0.5 text-[11px] font-semibold", validation.errors.length ? "bg-negative/15 text-negative" : "bg-warning/15 text-warning")}
+                      >
+                        {validation.errors.length + validation.incomplete.length} issue{validation.errors.length + validation.incomplete.length === 1 ? "" : "s"} {showIssues ? "▴" : "▾"}
+                      </button>
+                    ))}
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
                     <Button size="sm" variant="outline" onClick={() => autoFill()} disabled={optimizing}>Re-recommend</Button>
                     <Button size="sm" onClick={() => optimize()} disabled={optimizing || !objective} title={objective ? "Hill-climb from this board on calibrated runs, gloves priced in runs, under every rule and the glove floor" : "No run environment on file for this event"}>
                       {optimizing ? "Optimising…" : "Optimise"}
@@ -1449,6 +1602,15 @@ export function RosterBuilder({
                     <Button size="sm" variant="outline" onClick={() => { setSlots({}); setMsg(null); }} disabled={optimizing}>Clear</Button>
                   </div>
                 </div>
+                {validation && !validation.ready && showIssues && (
+                  <div className="mb-2 rounded border border-border p-2 text-xs" aria-live="polite">
+                    <ul className="list-disc space-y-1 pl-4">
+                      {validation.errors.map((e, i) => <li key={`e-${e.code}-${i}`} className="text-negative">{e.message}</li>)}
+                      {validation.incomplete.map((e, i) => <li key={`i-${e.code}-${i}`} className="text-warning">{e.message}</li>)}
+                    </ul>
+                    <p className="mt-1 text-muted-foreground">{validation.counts.players}/{validation.counts.target ?? "?"} players · value {validation.counts.value}{tournament?.restrictions?.teamCap != null ? `/${tournament.restrictions.teamCap}` : ""} · {validation.counts.variants} variants</p>
+                  </div>
+                )}
                 <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] [font-variant-numeric:tabular-nums]">
                   <Counter label="Bench" k="bench" used={shape.bench} tgt={baseline.bench} />
                   <Counter label="SP" k="sp" used={shape.sp} tgt={target.sp} />
@@ -1473,7 +1635,7 @@ export function RosterBuilder({
                   <span className="font-mono">{summary.roster}</span> players.{" "}
                   {target.source === "observed"
                     ? `Typical here: ${target.bats} bats · ${target.sp} SP · ${target.rp} RP.`
-                    : `No exports for this event yet — ${target.band} staff: ${target.sp} SP · ${target.rp} RP · ${target.bats} bats.`}
+                    : `${tournament?.staleSeriesSince ? `This event's exports include runs from before its ${tournament.staleSeriesSince} format, so none are used` : "No exports for this event yet"} — ${target.band} staff: ${target.sp} SP · ${target.rp} RP · ${target.bats} bats.`}
                 </div>
                 <div className="grid grid-cols-2 gap-x-3 text-xs [font-variant-numeric:tabular-nums]">
                   <div className="col-span-2" title="The objective: calibrated runs per 700 PA over both lineups (weighted by the field's pitcher handedness), rotation in full, bullpen at 0.31, bench at a tenth, gloves in runs at the slot">
@@ -1496,7 +1658,7 @@ export function RosterBuilder({
                       slots={slots} byId={byId} selected={selected} setSelected={setSelected} assign={assign}
                       dragOverSlot={dragOverSlot} setDragOverSlot={setDragOverSlot}
                       dragActive={dragPayload != null} startDrag={startDrag} dropOnSlot={dropOnSlot}
-                      onPeek={peekSlot} clearPeek={() => setPeek(null)}
+                      onPeek={peekSlot} clearPeek={() => setPeek(null)} issuesByCard={issuesByCard} bans={bans}
                     />
                   ))}
                 </div>
@@ -1510,7 +1672,7 @@ export function RosterBuilder({
                     slots={slots} byId={byId} selected={selected} setSelected={setSelected} assign={assign}
                     dragOverSlot={dragOverSlot} setDragOverSlot={setDragOverSlot}
                     dragActive={dragPayload != null} startDrag={startDrag} dropOnSlot={dropOnSlot}
-                    onPeek={peekSlot} clearPeek={() => setPeek(null)}
+                    onPeek={peekSlot} clearPeek={() => setPeek(null)} issuesByCard={issuesByCard} bans={bans}
                   />
                 ))}
               </div>
@@ -1528,22 +1690,16 @@ export function RosterBuilder({
                       slots={slots} byId={byId} selected={selected} setSelected={setSelected} assign={assign}
                       dragOverSlot={dragOverSlot} setDragOverSlot={setDragOverSlot}
                       dragActive={dragPayload != null} startDrag={startDrag} dropOnSlot={dropOnSlot}
-                      onPeek={peekSlot} clearPeek={() => setPeek(null)}
+                      onPeek={peekSlot} clearPeek={() => setPeek(null)} issuesByCard={issuesByCard} bans={bans}
                     />
                   ))}
               </div>
 
               <div className="rounded-lg border border-border p-3">
-                {validation && <div className="mb-3 rounded border p-3 text-xs" aria-live="polite">
-                  <p className="font-semibold">{validation.ready ? "Ready — passes recorded rules" : "Draft — checks to resolve"}</p>
-                  <p className="mt-1 text-muted-foreground">{validation.counts.players}/{validation.counts.target ?? "?"} players · value {validation.counts.value}{tournament?.restrictions?.teamCap != null ? `/${tournament.restrictions.teamCap}` : ""} · {validation.counts.variants} variants</p>
-                  {!validation.ready && <details className="mt-2"><summary className="cursor-pointer">{validation.errors.length + validation.incomplete.length} checks</summary><ul className="mt-2 list-disc space-y-1 pl-4">{[...validation.errors,...validation.incomplete].map((e,i)=><li key={`${e.code}-${i}`}>{e.message}</li>)}</ul></details>}
-                  {pool.some(c=>c.variant) && <p className="mt-2 text-muted-foreground">Variant ratings are the ones your collection export recorded for that copy; Contact is rebuilt from its BABIP and Avoid-K.</p>}
-                </div>}
                 <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Save · Export</div>
                 <div className="flex gap-2">
                   <Input placeholder="Roster name" value={rosterName} onChange={(e) => setRosterName(e.target.value)} className="h-8" />
-                  <Button size="sm" onClick={save} disabled={saving || summary.filled === 0}>{saving ? "Saving…" : validation?.ready ? "Save ready roster" : "Save draft"}</Button>
+                  <Button size="sm" onClick={save} disabled={saving || summary.filled === 0}>{saving ? "Saving…" : validation?.ready ? "Save" : "Save draft"}</Button>
                 </div>
                 <Button size="sm" variant="outline" className="mt-2 w-full" onClick={exportLineup} disabled={summary.filled === 0}>
                   Export lineup (.txt + .csv)
@@ -1571,7 +1727,7 @@ export function RosterBuilder({
 
 function SlotRow({
   k, label, slots, byId, selected, setSelected, assign,
-  dragOverSlot, setDragOverSlot, dragActive, startDrag, dropOnSlot, onPeek, clearPeek,
+  dragOverSlot, setDragOverSlot, dragActive, startDrag, dropOnSlot, onPeek, clearPeek, issuesByCard, bans,
 }: {
   k: SlotKey;
   label: string;
@@ -1587,9 +1743,13 @@ function SlotRow({
   dropOnSlot: (target: SlotKey, payload: string) => void;
   onPeek: (e: React.MouseEvent<HTMLElement>, id: number) => void;
   clearPeek: () => void;
+  /** Rule issues that name this slot's card. */
+  issuesByCard: Map<number, string[]>;
+  bans: Set<number>;
 }) {
   const id = slots[k] ?? null;
   const card = id != null ? byId.get(id) : null;
+  const issues = id != null ? issuesByCard.get(id) : undefined;
   return (
     <div
       onClick={() => setSelected(k)}
@@ -1604,6 +1764,7 @@ function SlotRow({
         card ? "cursor-grab active:cursor-grabbing" : "cursor-pointer",
         selected === k ? "bg-foreground/10 ring-1 ring-foreground/30" : "hover:bg-muted/40",
         dragOverSlot === k && "ring-2 ring-info/70 bg-info/10",
+        issues && "border-l-2 border-negative",
       )}
     >
       <span className="w-8 shrink-0 font-mono text-[11px] text-muted-foreground">{label}</span>
@@ -1613,7 +1774,10 @@ function SlotRow({
         onMouseLeave={clearPeek}
       >
         {card ? card.name : "empty"}
+        {card?.cardType != null && <span className="ml-1 text-[10px] text-muted-foreground" title={CARD_TYPE_NAME[card.cardType]}>{CARD_TYPE_SHORT[card.cardType]}</span>}
       </span>
+      {issues && <span className="mr-1 text-xs text-negative" title={issues.join("\n")} aria-label={issues.join("; ")}>⚠</span>}
+      {id != null && bans.has(id) && <span className="mr-1 text-xs text-negative" title="Banned — Optimise will replace him" aria-label="banned">⛔</span>}
       {card && (
         <span className="mr-1 font-mono text-[11px] text-muted-foreground [font-variant-numeric:tabular-nums]">
           {card.isPitcher ? fmt2(card.proj.all) : fmt3(card.proj.all)}

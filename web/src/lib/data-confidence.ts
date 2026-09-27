@@ -27,6 +27,8 @@ export interface ConfidenceInput {
   envYearKnown: boolean;
   /** Park factors are on file for the stadium (else neutral). */
   parkOnFile: boolean;
+  /** The event's format changed on this date and its exports on file include older runs, so none are used. */
+  staleSince?: string | null;
 }
 
 export interface ConfidencePoint { label: string; level: ConfidenceLevel; short: string; text: string }
@@ -51,7 +53,9 @@ export function dataConfidence(i: ConfidenceInput): Confidence {
   points.push({
     label: "this event", level: exportsLevel,
     short: files === 0 ? "no data" : `${files} tourney${files === 1 ? "" : "s"}`,
-    text: files === 0
+    text: files === 0 && i.staleSince
+      ? `This event changed format on ${i.staleSince}, and its exports on file include older runs (the file sums them as one), so none are used: field handedness and roster shape are defaults, and no card has a line here.`
+      : files === 0
       ? "No exports of this event on record: field handedness and roster shape are defaults, and no card has a line here."
       : `${files} export${files === 1 ? "" : "s"} of this event${i.seriesTeams ? ` (${Math.round(i.seriesTeams)} teams each)` : ""}: field handedness measured; cards that played here carry their line here.`,
   });

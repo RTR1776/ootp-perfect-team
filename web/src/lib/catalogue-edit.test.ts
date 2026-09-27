@@ -48,3 +48,54 @@ test("a card-set rule the catalogue was missing is added, and the old rules kept
   assert.equal((next.restrictions!.previousFormat as { restrictions: Record<string, unknown> }).restrictions.cardTypes, undefined);
 });
 
+
+import { keepHandRules } from "./catalogue-edit";
+
+test("a refresh import keeps hand-set rules unless the post states them", () => {
+  const onFile = { slot: 139, refreshText: "old", cardTypes: ["Historical All-Star+Hardware Heroes"], textFrom: "L.J. 2026-09-27", slots: { P: 8 } };
+  const fresh = { slot: 139, refreshText: "Slots: 8 Perfect…", slots: { P: 8, D: 6 } };
+  const kept = keepHandRules(onFile, fresh);
+  assert.deepEqual(kept.cardTypes, ["Historical All-Star+Hardware Heroes"]);
+  assert.equal(kept.textFrom, "L.J. 2026-09-27");
+  assert.deepEqual(kept.slots, { P: 8, D: 6 }, "what the post states wins");
+  assert.equal(kept.refreshText, "Slots: 8 Perfect…");
+  const posted = keepHandRules(onFile, { ...fresh, cardTypes: ["Live"] });
+  assert.deepEqual(posted.cardTypes, ["Live"], "a set rule in the post replaces the kept one");
+  assert.deepEqual(keepHandRules(null, fresh), fresh);
+});
+
+test("a value window set by hand is confirmed: the name-inferred marker goes", () => {
+  const dank: CatalogueRules = { ...lastWeek, ratingsMin: 40, ratingsMax: 59, restrictions: { valueWindowFrom: "refresh post section: iron (name has no tier word - confirm on screen)" } };
+  const set = editCatalogueRules(dank, { value: [40, 59], at: "2026-09-27" });
+  assert.equal(set.restrictions?.valueWindowFrom, undefined);
+  assert.equal((set.restrictions?.previousFormat as { restrictions: Record<string, unknown> }).restrictions.valueWindowFrom, dank.restrictions!.valueWindowFrom, "kept in the previous format");
+  assert.equal(editCatalogueRules(dank, { dh: true, at: "2026-09-27" }).restrictions?.valueWindowFrom, dank.restrictions!.valueWindowFrom, "other edits leave it");
+});
+
+import { parseSlots } from "./catalogue-edit";
+
+test("a slot line reads as the game means it: the spots it leaves go to the next tier down", () => {
+  assert.deepEqual(parseSlots("P6, D4, G4, S4, B4"), { P: 6, D: 4, G: 4, S: 4, B: 4, I: 4 }, "Daily Open Slots");
+  assert.deepEqual(parseSlots("Slots: P8, D6, G4, S3, B3"), { P: 8, D: 6, G: 4, S: 3, B: 3, I: 2 }, "Sunday Open Slots");
+  assert.deepEqual(parseSlots("P8, D8, G4, S4, B2"), { P: 8, D: 8, G: 4, S: 4, B: 2, I: 0 }, "Time Travelers: a full 26");
+  assert.deepEqual(parseSlots("SLOTS: 12 Gold, 8 Silver, 6 Bronze, 0 Iron"), { P: 0, D: 0, G: 12, S: 8, B: 6, I: 0 }, "the summary's words; no Perfect or Diamond");
+  assert.deepEqual(parseSlots("P6, D4"), { P: 6, D: 4, G: 16, S: 0, B: 0, I: 0 });
+  assert.throws(() => parseSlots("P20, D8"), /more than a 26-card roster/);
+  assert.throws(() => parseSlots("no slots here"), /no tier/);
+  const next = editCatalogueRules(lastWeek, { slots: parseSlots("P6, D4, G4, S4, B4"), at: "2026-09-27" });
+  assert.deepEqual(next.restrictions?.slots, { P: 6, D: 4, G: 4, S: 4, B: 4, I: 4 });
+});
+
+test("a refresh import keeps slots, a confirmed window and L.J.'s notes the post doesn't restate", () => {
+  const old = {
+    slots: { P: 6, D: 4, G: 4, S: 4, B: 4, I: 4 }, valueConfirmed: "2026-09-27",
+    notes: ["default RE", "2026-09-25 from L.J.: cards 50-74, 1559 cap"],
+  };
+  const kept = keepHandRules(old, { refreshText: "1987 RE, 1990 Metrodome", notes: ["from refresh post: 1805 cap"] });
+  assert.deepEqual(kept.slots, old.slots);
+  assert.equal(kept.valueConfirmed, "2026-09-27");
+  assert.deepEqual(kept.notes, ["from refresh post: 1805 cap", "2026-09-25 from L.J.: cards 50-74, 1559 cap"], "the post's notes, then his; 'default RE' is the old post's and goes");
+  assert.deepEqual(keepHandRules(old, { slots: { P: 8, D: 6, G: 4, S: 3, B: 3, I: 2 } }).slots, { P: 8, D: 6, G: 4, S: 3, B: 3, I: 2 }, "a post that states slots wins");
+  const set = editCatalogueRules({ ...lastWeek, restrictions: { valueWindowFrom: "name: Iron" } }, { value: [40, 59], at: "2026-09-27" });
+  assert.equal(set.restrictions?.valueConfirmed, "2026-09-27");
+});

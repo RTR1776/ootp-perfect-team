@@ -1,0 +1,112 @@
+/**
+ * Audit every active event's card-set and card-year rules against what its
+ * field actually plays. Read-only.
+ *
+ *   node --env-file=.env.local --import tsx scripts/set-rule-evidence.ts
+ *
+ * Prints, per event:
+ * - rules on file that the field has broken (a set or year the rule forbids
+ *   was played). The exports are pooled over every run on file, so a format
+ *   change also shows here: the share of plays outside the rule tells which;
+ * - no set rule on file, but the captured rules text names sets ("Nel-SS-UH-HH"):
+ *   a `catalogue:set` line with those sets;
+ * - no rule on file, but the field plays three sets or fewer, or one card
+ *   year: a `catalogue:set` line to add the rule (L.J. confirms first);
+ * - no rule and no exports, but the name suggests one: confirm by name.
+ * An event whose exports predate its current format (restrictions.formatSince)
+ * is read as having none: that play describes the old event.
+ *
+ * lib/set-evidence.ts has the thresholds. This is how 2026-09-27 found
+ * All-Star Hardware (HAS + HH only) and the Live-only events.
+ */
+import { eq } from "drizzle-orm";
+import { db } from "@/db/client";
+import { cards, observedCardStats, tournaments } from "@/db/schema";
+import { CARD_TYPE_SHORT, cardTypeRuleLabel, nameSuggestsSets, parseCardTypeRule, setRuleFromText } from "@/lib/roster-rules";
+import { NO_LIVE_RULE, evidenceLine, evidenceRule, liveAbsent, setsNarrow, yearSpan, yearsNarrow } from "@/lib/set-evidence";
+import { exportsPredate, loadSetEvidenceMany } from "@/lib/set-evidence-server";
+
+async function main() {
+  // EF events play the game's default rules (build/page.tsx hides them too).
+  const events = (await db.select().from(tournaments).where(eq(tournaments.retired, false)).orderBy(tournaments.name))
+    .filter((t) => !/^EF\b/.test(t.name));
+  const evidence = await loadSetEvidenceMany([...new Set(events.map((t) => t.series).filter((s): s is string => !!s))]);
+
+  const broken: string[] = [], propose: string[] = [], confirm: string[] = [], wide: string[] = [], old: string[] = [];
+  let ruled = 0, silent = 0;
+  for (const t of events) {
+    const rx = t.restrictions as { cardTypes?: string[]; refreshText?: string; formatSince?: string } | null;
+    const types = rx?.cardTypes ?? [];
+    const label = `${t.name} (${t.id})`;
+    let e = t.series ? evidence.get(t.series) ?? null : null;
+    if (e && rx?.formatSince) {
+      const d = await exportsPredate(t.series!, rx.formatSince);
+      if (d.stale) { old.push(`${label}: ${d.before + d.undated} of ${d.files} exports predate the ${rx.formatSince} format`); e = null; }
+    }
+    const hasYears = t.cardYearMin != null || t.cardYearMax != null;
+    // The game's own words beat what the field plays.
+    const fromText = types.length ? null : setRuleFromText(rx?.refreshText);
+    if (fromText) {
+      propose.push(`${label}: the captured rules text says "${rx!.refreshText}"\n    pnpm catalogue:set --tournament ${t.id} --card-types "${cardTypeRuleLabel(fromText)}" --note "card sets from the captured rules text"`);
+      if (!hasYears) continue;
+    }
+    if (types.length || hasYears) {
+      ruled++;
+      if (!e) continue;
+      const parsed = types.map(parseCardTypeRule);
+      if (parsed.some((a) => a == null)) { broken.push(`${label}: set rule not understood: ${types.join(" / ")}`); continue; }
+      const allowed = types.length ? (parsed as number[][]).flat() : null;
+      const outside = allowed ? e.types.filter((c) => !allowed.includes(c)) : [];
+      const yearsOut = hasYears && ((t.cardYearMin != null && e.yearMin != null && e.yearMin < t.cardYearMin) || (t.cardYearMax != null && e.yearMax != null && e.yearMax > t.cardYearMax));
+      if (!outside.length && !yearsOut) continue;
+      const share = await playsOutside(t.series!, allowed, t.cardYearMin, t.cardYearMax);
+      const what = [
+        outside.length ? `sets ${outside.map((c) => `${CARD_TYPE_SHORT[c]} ${e.counts[c]}`).join(", ")} (rule: ${types.join(" / ")})` : null,
+        yearsOut ? `cards ${e.yearMin}–${e.yearMax} (rule: ${t.cardYearMin ?? "…"}–${t.cardYearMax ?? "…"})` : null,
+      ].filter(Boolean).join("; ");
+      broken.push(`${label}: ${(share * 100).toFixed(0)}% of plays break the rule on file — ${what}`);
+      continue;
+    }
+    if (!e) {
+      if (nameSuggestsSets(t)) confirm.push(label); else silent++;
+    } else {
+      // Sets and years are separate rules; a field can show both.
+      const lines: string[] = [];
+      if (setsNarrow(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-types "${evidenceRule(e)}" --note "card sets read off the field's exports"`);
+      else if (liveAbsent(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-types "${NO_LIVE_RULE}" --note "no Live card in ${e.n} played"`);
+      if (yearsNarrow(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-years ${e.yearMin}-${e.yearMax} --note "card years read off the field's exports"`);
+      if (lines.length) propose.push(`${label}: ${evidenceLine(e)}, cards ${yearSpan(e)}\n${lines.join("\n")}`);
+      else wide.push(`${label}: ${evidenceLine(e)}`);
+    }
+  }
+
+  const section = (title: string, lines: string[]) => {
+    console.log(`\n${title} (${lines.length})`);
+    for (const l of lines) console.log(`  ${l}`);
+  };
+  console.log(`${events.length} active events · ${ruled} carry a set or year rule`);
+  section("Rules the field has broken — a small share is usually an older format; a large one means check the event in game", broken);
+  section("No rule on file, narrow field — proposed rules, confirm with L.J. before running", propose);
+  section("No rule and no exports, but the name suggests one — confirm by name", confirm);
+  section("No rule on file, the field plays many sets — probably open", wide);
+  section("Exports predate the event's current format — not read", old);
+  console.log(`\n${silent} more events have no rule, no exports and a neutral name.`);
+  process.exit(0);
+}
+
+/** Share of the series' card-runs (instances) whose card the rule forbids. */
+async function playsOutside(series: string, allowed: number[] | null, yearMin: number | null, yearMax: number | null): Promise<number> {
+  const rows = await db.select({ type: cards.cardType, year: cards.year, n: observedCardStats.instances })
+    .from(observedCardStats).innerJoin(cards, eq(cards.cardId, observedCardStats.cardId))
+    .where(eq(observedCardStats.series, series));
+  let all = 0, out = 0;
+  for (const r of rows) {
+    all += r.n;
+    const badSet = allowed != null && (r.type == null || !allowed.includes(r.type));
+    const badYear = r.year != null && ((yearMin != null && r.year < yearMin) || (yearMax != null && r.year > yearMax));
+    if (badSet || badYear) out += r.n;
+  }
+  return all ? out / all : 0;
+}
+
+main().catch((e) => { console.error(e instanceof Error ? e.message : e); process.exit(1); });

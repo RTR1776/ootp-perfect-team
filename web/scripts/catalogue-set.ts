@@ -10,12 +10,16 @@
  *
  * Flags: --year N · --stadium "YYYY Name" · --dh | --no-dh · --value A-B ·
  * --card-years A-B | none · --drop key[,key] · --text "…" · --note "…" ·
- * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it)
+ * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it) ·
+ * --slots "P6, D4, G4, S4, B4" (the game's slot line; the spots it leaves go to the next tier down) ·
+ * --retire | --unretire (a retired event leaves /build's picker; its history stays)
+ *
+ * An edit that changes nothing writes nothing, so a batch can be rerun safely.
  */
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { tournaments } from "@/db/schema";
-import { editCatalogueRules, type CatalogueEdit, type CatalogueRules } from "@/lib/catalogue-edit";
+import { editCatalogueRules, parseSlots, type CatalogueEdit, type CatalogueRules } from "@/lib/catalogue-edit";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -26,7 +30,12 @@ const range = (k: string): [number, number] | undefined => {
   return [Number(m[1]), Number(m[2])];
 };
 
+/** Every flag this script reads; anything else is a typo and stops the run. */
+const KNOWN = new Set(["tournament", "year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "drop", "text", "note", "retire", "unretire", "commit"]);
+
 async function main() {
+  const unknown = argv.filter((a) => a.startsWith("--") && !KNOWN.has(a.slice(2)));
+  if (unknown.length) throw new Error(`unknown flag${unknown.length > 1 ? "s" : ""}: ${unknown.join(" ")} (see the header of scripts/catalogue-set.ts)`);
   const id = Number(val("tournament"));
   if (!id) throw new Error("usage: pnpm catalogue:set --tournament ID [--year N] [--stadium \"YYYY Name\"] … [--commit]");
   const [t] = await db.select().from(tournaments).where(eq(tournaments.id, id));
@@ -40,30 +49,46 @@ async function main() {
   if (val("value")) edit.value = range("value");
   if (val("card-years")) edit.cardYears = val("card-years") === "none" ? null : range("card-years");
   if (val("card-types")) edit.cardTypes = [val("card-types")!];
+  if (val("slots")) edit.slots = parseSlots(val("slots")!, (t.restrictions as { cards?: number } | null)?.cards ?? 26);
   if (val("drop")) edit.drop = val("drop")!.split(",").map((s) => s.trim()).filter(Boolean);
   if (val("text")) edit.text = val("text");
   if (val("note")) edit.note = val("note");
+  const retired = flag("retire") ? true : flag("unretire") ? false : t.retired;
+  // Rule flags other than the note: without one, only the retired flag can change.
+  const ruleEdit = ["year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "drop", "text"].some(flag);
 
   const before: CatalogueRules = {
     envYear: t.envYear, stadium: t.stadium, parkName: t.parkName, dh: t.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax,
     cardYearMin: t.cardYearMin, cardYearMax: t.cardYearMax, restrictions: t.restrictions ?? null,
   };
-  const after = editCatalogueRules(before, edit);
+  const after = ruleEdit ? editCatalogueRules(before, edit) : before;
 
   console.log(`${t.name} (${id})`);
+  if (!ruleEdit && retired === t.retired && !flag("retire") && !flag("unretire")) {
+    console.log("  nothing to change: no rule flag given (see the header of scripts/catalogue-set.ts).");
+    process.exit(0);
+  }
+  const retiring = retired !== t.retired;
+  if (retiring) console.log(`  retired: ${t.retired} → ${retired}${retired ? " (leaves the picker)" : ""}`);
+  let ruleChanges = 0;
   for (const k of Object.keys(before) as (keyof CatalogueRules)[]) {
     if (k === "restrictions") continue;
-    if (before[k] !== after[k]) console.log(`  ${k}: ${JSON.stringify(before[k])} → ${JSON.stringify(after[k])}`);
+    if (before[k] !== after[k]) { ruleChanges++; console.log(`  ${k}: ${JSON.stringify(before[k])} → ${JSON.stringify(after[k])}`); }
   }
   const rb = before.restrictions ?? {}, ra = after.restrictions ?? {};
   for (const k of new Set([...Object.keys(rb), ...Object.keys(ra)])) {
-    if (k === "previousFormat") continue;
-    if (JSON.stringify(rb[k]) !== JSON.stringify(ra[k])) console.log(`  restrictions.${k}: ${JSON.stringify(rb[k]) ?? "—"} → ${JSON.stringify(ra[k]) ?? "(removed)"}`);
+    // The note and the kept format only ride along with a real change.
+    if (k === "previousFormat" || k === "textFrom") continue;
+    if (JSON.stringify(rb[k]) !== JSON.stringify(ra[k])) { ruleChanges++; console.log(`  restrictions.${k}: ${JSON.stringify(rb[k]) ?? "—"} → ${JSON.stringify(ra[k]) ?? "(removed)"}`); }
   }
+  if (!ruleChanges && !retiring) { console.log("  no change: already set."); process.exit(0); }
+  if (ruleChanges && JSON.stringify(rb.textFrom) !== JSON.stringify(ra.textFrom)) console.log(`  restrictions.textFrom: ${JSON.stringify(rb.textFrom) ?? "—"} → ${JSON.stringify(ra.textFrom)}`);
 
   if (!flag("commit")) { console.log("\nDry run: nothing written yet (--commit saves it)."); process.exit(0); }
-  await db.update(tournaments).set({ ...after, updatedAt: new Date() }).where(eq(tournaments.id, id));
-  console.log("\nSaved. /build reads the new rules on its next load; the old ones are under restrictions.previousFormat.");
+  // The rules (and their kept previous format) are written only when they
+  // changed: a rerun must not overwrite previousFormat with the current rules.
+  await db.update(tournaments).set({ ...(ruleChanges ? after : {}), retired, updatedAt: new Date() }).where(eq(tournaments.id, id));
+  console.log(ruleChanges ? "\nSaved. /build reads the new rules on its next load; the old ones are under restrictions.previousFormat." : "\nSaved.");
   process.exit(0);
 }
 main().catch((e) => { console.error(e instanceof Error ? e.message : e); process.exit(1); });

@@ -167,7 +167,25 @@ export function fitMaps(pool: readonly { cardId: number; isPitcher: boolean; rat
 /** Slot key → card id. "R:C", "L:DH", "SP1", "RP3", "CL", "BN2". */
 export type FillResult = Record<string, number>;
 
-export function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: FillShape, fits: FitMaps, lambda: number): FillResult {
+const NONE: ReadonlySet<number> = new Set();
+
+/**
+ * One greedy fill. `must` are cards the board has to carry (locked on /build):
+ * each is rostered before anything else, if the ones before it leave room
+ * under every rule, so the greedy picks count them against the roster size,
+ * the cap, the tier slots and the variants instead of being overwritten after.
+ * They start only if they win a lineup spot on merit; otherwise they take the
+ * first staff or bench slot. One the shape has no slot for is released and
+ * the fill run again without it, so the board is never a player short.
+ */
+export function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: FillShape, fits: FitMaps, lambda: number, must: ReadonlySet<number> = NONE): FillResult {
+  const first = fillPass(pool, rules, shape, fits, lambda, must);
+  const on = new Set(Object.values(first.next));
+  const placed = [...first.held].filter((id) => on.has(id));
+  return placed.length === first.held.size ? first.next : fillPass(pool, rules, shape, fits, lambda, new Set(placed)).next;
+}
+
+function fillPass(pool: readonly FillCard[], rules: RosterRules, shape: FillShape, fits: FitMaps, lambda: number, must: ReadonlySet<number>): { next: FillResult; held: Set<number> } {
   const next: Record<string, number> = {};
   const byId = new Map(pool.map((c) => [c.cardId, c]));
   const rx = rules.restrictions;
@@ -178,10 +196,12 @@ export function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: F
   const score = (fit: Map<number, number>, c: FillCard) => (fit.get(c.cardId) ?? 0) - lambda * ((c.val ?? 0) - minVal);
   const byScore = (fit: Map<number, number>) => (a: FillCard, b: FillCard) => score(fit, b) - score(fit, a);
 
+  /** Must-carry cards already rostered, whether or not they hold a slot yet. */
+  const held = new Set<number>();
   const canAdd = (c: FillCard): boolean => {
     if (cardEligibility(c, rules).errors.length) return false;
     if (c.variant ? !c.variantOwned : !c.baseOwned) return false;
-    const ids = new Set([...Object.values(next), c.cardId]);
+    const ids = new Set([...Object.values(next), ...held, c.cardId]);
     const members = [...ids].map((id) => byId.get(id)!).filter(Boolean);
     if (members.filter((m) => !m.isPitcher).length > shape.bats) return false;
     if (ids.size > size) return false;
@@ -194,6 +214,12 @@ export function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: F
     }
     return true;
   };
+  for (const id of must) {
+    const c = byId.get(id);
+    if (c && canAdd(c)) held.add(id);
+  }
+  /** Must-carry cards first; the order within each group is kept. */
+  const heldFirst = (a: FillCard, b: FillCard) => Number(held.has(b.cardId)) - Number(held.has(a.cardId));
 
   const taken = new Set<number>();
   const fillLineup = (hand: "R" | "L") => {
@@ -218,7 +244,7 @@ export function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: F
   fillLineup("L");
 
   const usedIds = new Set(Object.values(next));
-  const arms = pool.filter((c) => c.isPitcher).sort(byScore(fits.fitR));
+  const arms = pool.filter((c) => c.isPitcher).sort(byScore(fits.fitR)).sort(heldFirst);
   for (const key of shape.spKeys) {
     const c = arms.find((a) => a.role === "SP" && !usedIds.has(a.cardId) && canAdd(a));
     if (c) { next[key] = c.cardId; usedIds.add(c.cardId); }
@@ -233,16 +259,18 @@ export function fillOnce(pool: readonly FillCard[], rules: RosterRules, shape: F
     if (c) { next[key] = c.cardId; usedIds.add(c.cardId); }
   }
 
-  // bench = the roster hitters who aren't starting vs RHP; the vs-LHP
-  // starters are already rostered, so they take the bench first.
+  // bench = the roster hitters who aren't starting vs RHP. A must-carry bat
+  // with no lineup spot has nowhere else to go, so he comes first; the vs-LHP
+  // starters are already rostered, so they come next.
   const startersR = new Set(shape.lineupPos.map((p) => next[`R:${p}`]).filter((v): v is number => v != null));
   const inL = (c: FillCard) => (shape.lineupPos.some((p) => next[`L:${p}`] === c.cardId) ? 1 : 0);
+  const waiting = (c: FillCard) => (held.has(c.cardId) && !inL(c) ? 1 : 0);
   let i = 0;
-  for (const c of pool.filter((c) => !c.isPitcher && !startersR.has(c.cardId)).sort((a, b) => (inL(b) - inL(a)) || (score(fits.fitR, b) - score(fits.fitR, a)))) {
+  for (const c of pool.filter((c) => !c.isPitcher && !startersR.has(c.cardId)).sort((a, b) => (waiting(b) - waiting(a)) || (inL(b) - inL(a)) || (score(fits.fitR, b) - score(fits.fitR, a)))) {
     if (i >= shape.benchKeys.length) break;
     if (canAdd(c)) { next[shape.benchKeys[i++]] = c.cardId; }
   }
-  return next;
+  return { next, held };
 }
 
 /** Every slot the shape asks for is filled. */
@@ -258,18 +286,18 @@ export function isComplete(result: FillResult, shape: FillShape): boolean {
  * Fill the board. Uncapped events get the plain greedy fill. Capped events
  * search λ ∈ [0, 8] (bisection, ~12 fills) for the smallest penalty that still
  * completes the roster; if none does the λ = 8 attempt is returned so the rule
- * panel can say what is missing.
+ * panel can say what is missing. `must`: cards the board carries (fillOnce).
  */
-export function fillRoster(pool: readonly FillCard[], rules: RosterRules, shape: FillShape, fits: FitMaps): { slots: FillResult; lambda: number } {
-  const plain = fillOnce(pool, rules, shape, fits, 0);
+export function fillRoster(pool: readonly FillCard[], rules: RosterRules, shape: FillShape, fits: FitMaps, must: ReadonlySet<number> = NONE): { slots: FillResult; lambda: number } {
+  const plain = fillOnce(pool, rules, shape, fits, 0, must);
   if (rules.restrictions?.teamCap == null || isComplete(plain, shape)) return { slots: plain, lambda: 0 };
   let lo = 0, hi = 8, best: FillResult | null = null, bestLambda = hi;
-  const atHi = fillOnce(pool, rules, shape, fits, hi);
+  const atHi = fillOnce(pool, rules, shape, fits, hi, must);
   if (!isComplete(atHi, shape)) return { slots: atHi, lambda: hi };
   best = atHi;
   for (let step = 0; step < 12; step++) {
     const mid = (lo + hi) / 2;
-    const r = fillOnce(pool, rules, shape, fits, mid);
+    const r = fillOnce(pool, rules, shape, fits, mid, must);
     if (isComplete(r, shape)) { best = r; bestLambda = mid; hi = mid; } else lo = mid;
   }
   return { slots: best, lambda: bestLambda };

@@ -85,3 +85,52 @@ test("lineup slots score defense at the assigned position", () => {
   assert.equal(slots["R:3B"], 901);
   assert.equal(slots["R:SS"], 900);
 });
+
+/* ---- locked cards (must): carried inside the fill, under every rule ---- */
+const onBoard = (res: Record<string, number>) => new Set(Object.values(res));
+const keyOf = (res: Record<string, number>, id: number) => Object.keys(res).filter((k) => res[k] === id);
+
+test("a locked bat the fill passes over is carried on the bench, and the board stays a legal 26", () => {
+  const r = rules(), p = pool(), shape = shapeFor(), fits = fitMaps(p);
+  const weakC = p.find((c) => !c.isPitcher && c.ratings["Pos Rating C"] && c.ratings.Eye === 60)!;
+  assert.ok(!onBoard(fillRoster(p, r, shape, fits).slots).has(weakC.cardId), "the plain fill leaves him out");
+  const { slots } = fillRoster(p, r, shape, fits, new Set([weakC.cardId]));
+  assert.deepEqual(keyOf(slots, weakC.cardId).map((k) => k.slice(0, 2)), ["BN"]);
+  const v = validateRoster(toSlots(slots, shape.lineupPos), p, r);
+  assert.equal(v.ready, true, [...v.errors, ...v.incomplete].map((e) => e.message).join(" | "));
+  assert.equal(v.counts.players, 26);
+});
+
+test("a locked starter takes a rotation slot instead of making a 27th player", () => {
+  const r = rules(), p = pool(), shape = shapeFor(), fits = fitMaps(p);
+  const weakSp = p.filter((c) => c.role === "SP").sort((a, b) => (a.val ?? 0) - (b.val ?? 0))[0];
+  const { slots } = fillRoster(p, r, shape, fits, new Set([weakSp.cardId]));
+  assert.ok(keyOf(slots, weakSp.cardId)[0]?.startsWith("SP"));
+  const v = validateRoster(toSlots(slots, shape.lineupPos), p, r);
+  assert.equal(v.ready, true, [...v.errors, ...v.incomplete].map((e) => e.message).join(" | "));
+  assert.equal(v.counts.players, 26);
+});
+
+test("tier slots count the locked card; one that no longer fits is left off, and the board still completes", () => {
+  const r = rules({ restrictions: { cards: 26, slots: { S: 2, B: 24, I: 26 } } }), p = pool(), shape = shapeFor(), fits = fitMaps(p);
+  const silverRp = p.filter((c) => c.isPitcher && c.role !== "SP" && (c.val ?? 0) >= 70).sort((a, b) => (a.val ?? 0) - (b.val ?? 0));
+  assert.equal(silverRp.length, 3);
+  const one = fillRoster(p, r, shape, fits, new Set([silverRp[0].cardId])).slots;
+  assert.ok(onBoard(one).has(silverRp[0].cardId));
+  let v = validateRoster(toSlots(one, shape.lineupPos), p, r);
+  assert.equal(v.ready, true, [...v.errors, ...v.incomplete].map((e) => e.message).join(" | "));
+  const three = fillRoster(p, r, shape, fits, new Set(silverRp.map((c) => c.cardId))).slots;
+  assert.deepEqual(silverRp.map((c) => onBoard(three).has(c.cardId)), [true, true, false], "two Silver slots: the third lock is left off");
+  assert.ok(isComplete(three, shape));
+  v = validateRoster(toSlots(three, shape.lineupPos), p, r);
+  assert.equal(v.ready, true, [...v.errors, ...v.incomplete].map((e) => e.message).join(" | "));
+});
+
+test("a locked bat the board has no slot for is released, not left holding a roster spot", () => {
+  const r = rules({ restrictions: { cards: 16 } }), p = pool(), fits = fitMaps(p);
+  const shape: FillShape = { lineupPos: [...HIT_POS], bats: 8, spKeys: ["SP1", "SP2", "SP3", "SP4"], rpKeys: ["CL", "RP1", "RP2", "RP3"], benchKeys: [] };
+  const weakC = p.find((c) => !c.isPitcher && c.ratings["Pos Rating C"] && c.ratings.Eye === 60)!;
+  const { slots } = fillRoster(p, r, shape, fits, new Set([weakC.cardId]));
+  assert.ok(!onBoard(slots).has(weakC.cardId));
+  assert.ok(isComplete(slots, shape), "eight starters, not seven and an empty spot");
+});

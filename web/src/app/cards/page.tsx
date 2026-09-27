@@ -141,8 +141,8 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
               {owned.has(c.cardId) && <Badge variant="outline" className="border-positive/40 text-positive">{own}</Badge>}
             </div>
             <div className="mt-1 text-sm text-muted-foreground">{c.position}{c.pitcherRole ? ` ${c.pitcherRole}` : ""} · {isP ? `T ${c.throws ?? "?"}` : `B ${c.bats ?? "?"}`} · {c.year ?? "—"} · {c.cardType ?? ""}{!owned.has(c.cardId) && " · not owned"}</div>
-            <div className="mt-3 grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-              <div className="text-sm">
+            <div className="mt-3 grid grid-cols-[minmax(0,1fr)] gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+              <div className="min-w-0 overflow-x-auto text-sm">
                 <div className="label-eyebrow">Projection in this environment</div>
                 <table className="mt-1 font-mono text-xs tabular-nums">
                   <tbody>
@@ -153,7 +153,7 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
                 </table>
                 {p?.flags.length ? <p className="mt-1 text-xs text-warning">past the fitted range: {p.flags.map((f) => `${f.rating} ${f.value}`).join(", ")}</p> : null}
               </div>
-              <div className="text-sm">
+              <div className="min-w-0 overflow-x-auto text-sm">
                 <div className="label-eyebrow">Actual, by series (this card&rsquo;s line vs that series&rsquo; field)</div>
                 {rows.length === 0 ? <p className="mt-1 text-xs text-muted-foreground">nothing on record</p> : (
                   <table className="mt-1 w-full font-mono text-xs tabular-nums">

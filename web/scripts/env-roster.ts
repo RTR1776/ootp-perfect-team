@@ -34,6 +34,9 @@ import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
 import { readFileSync } from "node:fs";
 import fieldConstruction from "../src/data/field-construction.json";
 import type { SeriesBuild } from "@/lib/field-construction";
+import { setRuleGuard } from "@/lib/set-evidence";
+import { cardTypeNames } from "@/lib/card-sets";
+import { loadSetEvidence } from "@/lib/set-evidence-server";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -71,6 +74,8 @@ const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).fil
 /**
  * --card-types 2,6,7: restrict the pool to OOTP's own card_type codes, for an
  * event that limits which KINDS of card may be used rather than their value.
+ * With --series, a field that plays three sets or fewer (or one card year)
+ * stops the run until --card-types / --card-year-min/max or --any-set is given.
  *
  * Saturday Diamond Variety is the case this exists for: "Only Negro League
  * Star+Future Legend+Snapshot may be used". Do not try to read the kind out of
@@ -208,6 +213,15 @@ async function main() {
   }
 
   /* ----------------------------------- the pool ---------------------------- */
+  // A series whose field plays only a few sets (or one card year) almost
+  // always has a set rule the flags must repeat; stop rather than build from
+  // every set. An eligible-cards export (--pool) already carries the game's filter.
+  if (SERIES && !POOL_CSV) {
+    const stop = setRuleGuard(SERIES, await loadSetEvidence(SERIES), {
+      cardTypes: CARD_TYPES.size > 0, cardYears: YEAR_MIN != null || YEAR_MAX != null, cardYearMax: YEAR_MAX, anySet: flag("any-set"),
+    });
+    if (stop) { console.error(`\n!! ${stop}`); process.exit(1); }
+  }
   const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads)
     .where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
   if (!latest) throw new Error("no collection upload");
@@ -276,7 +290,7 @@ async function main() {
     for (let i = pool.length - 1; i >= 0; i--) if (BAN.includes(pool[i].name.toLowerCase())) pool.splice(i, 1);
     console.log(`banned ${before - pool.length}: ${BAN.join(", ")}`);
   }
-  if (CARD_TYPES.size) console.log(`card types: restricted to ${[...CARD_TYPES].sort().join(", ")} (2 Negro League Star, 6 Future Legend, 7 Snapshot)`);
+  if (CARD_TYPES.size) console.log(`card sets: ${cardTypeNames([...CARD_TYPES])} only`);
   const bats = pool.filter((c) => !c.isPitcher);
   console.log(`\npool: ${pool.length} eligible owned cards — ${bats.length} bats (${bats.filter((c) => c.bats === "L").length}L / ${bats.filter((c) => c.bats === "S").length}S / ${bats.filter((c) => c.bats === "R").length}R), ${pool.length - bats.length} arms`);
 

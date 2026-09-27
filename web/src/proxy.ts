@@ -26,9 +26,12 @@ export async function proxy(request: NextRequest) {
     return NextResponse.json({ error: "unauthorised" }, { status: 401 });
   }
 
+  // Keep the query too (/cards?q=aaron comes back to its search), and only
+  // `next` on the login URL itself.
   const login = request.nextUrl.clone();
   login.pathname = "/login";
-  login.searchParams.set("next", pathname);
+  login.search = "";
+  login.searchParams.set("next", `${pathname}${request.nextUrl.search}`);
   return NextResponse.redirect(login);
 }
 

@@ -1,8 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+
+/**
+ * Where to go after signing in: a path on this site, else /build. The URL
+ * parser reads a backslash as a slash and drops tabs and newlines, so "/\\x.com"
+ * and "/<tab>/x.com" become "//x.com", another site: resolve it and keep it
+ * only if it stays on this origin.
+ */
+function safeNext(next: string | null): string {
+  if (!next || !next.startsWith("/") || /[\\\s]/.test(next)) return "/build";
+  try {
+    const to = new URL(next, window.location.origin);
+    // "/..//x.com" resolves to the path "//x.com", which is another site again once handed back.
+    return to.origin === window.location.origin && !to.pathname.startsWith("//") ? `${to.pathname}${to.search}${to.hash}` : "/build";
+  } catch {
+    return "/build";
+  }
+}
 
 function LoginForm() {
   const router = useRouter();
@@ -10,24 +27,33 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     setBusy(true);
     setError(null);
-    const response = await fetch("/api/login", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
-    setBusy(false);
-    if (response.ok) {
-      // Only same-site paths: "//evil.example" or a full URL would leave the app.
-      const next = params.get("next");
-      router.replace(next && next.startsWith("/") && !next.startsWith("//") ? next : "/");
-      router.refresh();
-    } else {
-      setError("Wrong password.");
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (response.ok) {
+        router.replace(safeNext(params.get("next")));
+        router.refresh();
+        return;
+      }
+      if (response.status === 401) {
+        setError("Wrong password.");
+        input.current?.select();
+      } else {
+        setError(`Server error (${response.status}). Try again in a moment.`);
+      }
+    } catch {
+      setError("Couldn't reach the server. Check the connection and try again.");
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -42,6 +68,7 @@ function LoginForm() {
       </div>
       <div aria-hidden className="stitch-rule" />
       <input
+        ref={input}
         type="password"
         aria-label="Password"
         autoComplete="current-password"
@@ -51,7 +78,7 @@ function LoginForm() {
         placeholder="Password"
         className="w-full rounded-md border border-input bg-background px-3 py-2.5 text-sm"
       />
-      {error && <p className="text-sm text-negative">{error}</p>}
+      {error && <p role="alert" className="text-sm text-negative">{error}</p>}
       <button
         type="submit"
         disabled={busy || !password}

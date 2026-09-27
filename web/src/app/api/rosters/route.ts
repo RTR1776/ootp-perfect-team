@@ -53,10 +53,14 @@ export async function POST(request: Request) {
   const universe = await db.select().from(cards).where(inArray(cards.cardId,ids));
   const base = new Set(owned.filter(c=>!c.isVariant).map(c=>c.cardId));
   const variants = new Set(owned.filter(c=>c.isVariant).map(c=>c.cardId));
-  const validation = validateRoster(body.slots,universe.map(c=>({
+  const checked = validateRoster(body.slots,universe.map(c=>({
     cardId:c.cardId,name:c.name,val:c.cardValue,year:c.year,isPitcher:c.isPitcher,role:c.pitcherRole,
     ratings:c.ratings,cardType:c.cardType,baseOwned:base.has(c.cardId),variantOwned:variants.has(c.cardId),
   })),{...tournament,restrictions:tournament.restrictions as RosterRules["restrictions"]});
+  // The page's own checks (roster-input isPageCheck) keep the roster a draft.
+  const validation = body.checks.length
+    ? {...checked,incomplete:[...checked.incomplete,...body.checks],ready:false}
+    : checked;
   // Drafts can be incomplete or over budget, but cannot invent cards or forms.
   const structural = validation.errors.filter(e=>["missing-card","not-owned","mixed-form","duplicate-slot","duplicate-player","lineup-hand","staff-hand","position"].includes(e.code));
   if (structural.length || (body.requireReady && !validation.ready)) return NextResponse.json({

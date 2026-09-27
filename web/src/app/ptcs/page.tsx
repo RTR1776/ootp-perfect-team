@@ -313,7 +313,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
               {totalEntries.toLocaleString()} entries · {wins} wins · {totalPoints.toLocaleString()} lifetime points.
               From the finish-order dumps (pnpm import:myresults after each new dump).
             </p>
-            <div className="grid gap-6 lg:grid-cols-2">
+            <div className="grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-2">
               <div className="overflow-x-auto">
                 <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">By series (top 15 by points)</div>
                 <table className="w-full text-sm">
