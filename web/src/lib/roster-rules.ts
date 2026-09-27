@@ -126,6 +126,21 @@ const TYPE_CODES: Record<string, number> = {
   "veteran presence": 10, vp: 10,
 };
 const TYPE_KEYS = Object.keys(TYPE_CODES).sort((a, b) => b.length - a.length);
+
+/** The game's name for each card set (cards.card_type). */
+export const CARD_TYPE_NAME: Record<number, string> = {
+  1: "Live", 2: "Negro League Star", 3: "Rookie Sensation", 4: "All-Time Legend", 5: "Historical All-Star",
+  6: "Future Legend", 7: "Snapshot", 8: "Unsung Heroes", 9: "Hardware Heroes", 10: "Veteran Presence",
+};
+/** Short tags for chips. Snapshot is "Snap", not "SS", which reads as shortstop. */
+export const CARD_TYPE_SHORT: Record<number, string> = {
+  1: "Live", 2: "NLS", 3: "RS", 4: "ATL", 5: "HAS", 6: "FL", 7: "Snap", 8: "UH", 9: "HH", 10: "VP",
+};
+
+/** A set rule in the form the catalogue stores and parseCardTypeRule reads: [5, 9] → "Historical All-Star+Hardware Heroes". */
+export function cardTypeRuleLabel(codes: readonly number[]): string {
+  return [...new Set(codes)].sort((a, b) => a - b).map((c) => CARD_TYPE_NAME[c] ?? String(c)).join("+");
+}
 const SEP = /[\s\-\/,&+]/;
 
 /**

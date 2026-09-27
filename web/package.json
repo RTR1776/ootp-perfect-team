@@ -76,6 +76,7 @@
     "roster:corrected": "node --env-file=.env.local --import tsx scripts/roster-corrected.ts",
     "roster:save": "node --env-file=.env.local --import tsx scripts/roster-save.ts",
     "catalogue:set": "node --env-file=.env.local --import tsx scripts/catalogue-set.ts",
+    "rules:audit": "node --env-file=.env.local --import tsx scripts/set-rule-evidence.ts",
     "park:sweep": "node --env-file=.env.local --import tsx scripts/park-sweep.ts",
     "vl:dh": "node --env-file=.env.local --import tsx scripts/vl-dh.ts",
     "tourney:test": "node --env-file=.env.local --import tsx scripts/tourney-test.ts",

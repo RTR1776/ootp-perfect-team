@@ -10,7 +10,10 @@
  *
  * Flags: --year N · --stadium "YYYY Name" · --dh | --no-dh · --value A-B ·
  * --card-years A-B | none · --drop key[,key] · --text "…" · --note "…" ·
- * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it)
+ * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it) ·
+ * --retire | --unretire (a retired event leaves /build's picker; its history stays)
+ *
+ * An edit that changes nothing writes nothing, so a batch can be rerun safely.
  */
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -43,27 +46,35 @@ async function main() {
   if (val("drop")) edit.drop = val("drop")!.split(",").map((s) => s.trim()).filter(Boolean);
   if (val("text")) edit.text = val("text");
   if (val("note")) edit.note = val("note");
+  const retired = flag("retire") ? true : flag("unretire") ? false : t.retired;
+  // Rule flags other than the note: without one, only the retired flag can change.
+  const ruleEdit = ["year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "drop", "text"].some(flag);
 
   const before: CatalogueRules = {
     envYear: t.envYear, stadium: t.stadium, parkName: t.parkName, dh: t.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax,
     cardYearMin: t.cardYearMin, cardYearMax: t.cardYearMax, restrictions: t.restrictions ?? null,
   };
-  const after = editCatalogueRules(before, edit);
+  const after = ruleEdit ? editCatalogueRules(before, edit) : before;
 
   console.log(`${t.name} (${id})`);
+  let changes = 0;
+  if (retired !== t.retired) { changes++; console.log(`  retired: ${t.retired} → ${retired}${retired ? " (leaves the picker)" : ""}`); }
   for (const k of Object.keys(before) as (keyof CatalogueRules)[]) {
     if (k === "restrictions") continue;
-    if (before[k] !== after[k]) console.log(`  ${k}: ${JSON.stringify(before[k])} → ${JSON.stringify(after[k])}`);
+    if (before[k] !== after[k]) { changes++; console.log(`  ${k}: ${JSON.stringify(before[k])} → ${JSON.stringify(after[k])}`); }
   }
   const rb = before.restrictions ?? {}, ra = after.restrictions ?? {};
   for (const k of new Set([...Object.keys(rb), ...Object.keys(ra)])) {
-    if (k === "previousFormat") continue;
-    if (JSON.stringify(rb[k]) !== JSON.stringify(ra[k])) console.log(`  restrictions.${k}: ${JSON.stringify(rb[k]) ?? "—"} → ${JSON.stringify(ra[k]) ?? "(removed)"}`);
+    // The note and the kept format only ride along with a real change.
+    if (k === "previousFormat" || k === "textFrom") continue;
+    if (JSON.stringify(rb[k]) !== JSON.stringify(ra[k])) { changes++; console.log(`  restrictions.${k}: ${JSON.stringify(rb[k]) ?? "—"} → ${JSON.stringify(ra[k]) ?? "(removed)"}`); }
   }
+  if (!changes) { console.log("  no change: already set."); process.exit(0); }
+  if (ruleEdit && JSON.stringify(rb.textFrom) !== JSON.stringify(ra.textFrom)) console.log(`  restrictions.textFrom: ${JSON.stringify(rb.textFrom) ?? "—"} → ${JSON.stringify(ra.textFrom)}`);
 
   if (!flag("commit")) { console.log("\nDry run: nothing written yet (--commit saves it)."); process.exit(0); }
-  await db.update(tournaments).set({ ...after, updatedAt: new Date() }).where(eq(tournaments.id, id));
-  console.log("\nSaved. /build reads the new rules on its next load; the old ones are under restrictions.previousFormat.");
+  await db.update(tournaments).set({ ...(ruleEdit ? after : {}), retired, updatedAt: new Date() }).where(eq(tournaments.id, id));
+  console.log(ruleEdit ? "\nSaved. /build reads the new rules on its next load; the old ones are under restrictions.previousFormat." : "\nSaved.");
   process.exit(0);
 }
 main().catch((e) => { console.error(e instanceof Error ? e.message : e); process.exit(1); });
