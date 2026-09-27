@@ -49,6 +49,8 @@ import {
   type UpgradeCard,
 } from "@/components/roster-builder";
 import { PageHeader } from "@/components/page-header";
+import fieldConstruction from "@/data/field-construction.json";
+import type { SeriesBuild } from "@/lib/field-construction";
 
 export const dynamic = "force-dynamic";
 
@@ -213,6 +215,7 @@ export default async function BuildPage({
           files: m.files, avgTeams: m.avgTeams, avgSp: m.avgSp, avgRp: m.avgRp,
           avgBats: m.avgBats, topCards: m.topCards,
           lhpBfShare: m.lhpBfShare ?? null, lhbPaShare: m.lhbPaShare ?? null,
+          construction: (fieldConstruction as { series: Record<string, SeriesBuild> }).series[full.series] ?? null,
         };
       }
     }
