@@ -1,35 +1,35 @@
 # Daily Low Bronze Only — Claude pick 2026-09-26 (1955 RE, 1955 Ebbets Field, 60-64, variant cap 12)
-R:C Damon Berryhill
-R:1B Edward Florentino (VAR)
-R:2B Willie Randolph
-R:3B Kyle Seager
-R:SS Jhonny Level (VAR)
-R:LF Bill Buckner (VAR)
-R:CF Jett Williams
-R:RF Jack Tobin
-L:C Yadier Molina
-L:1B Mark Bellhorn
-L:2B Willie Randolph
-L:3B Jett Williams
-L:SS Jhonny Level (VAR)
-L:LF Aaron Hicks
-L:CF Byron Buxton
-L:RF Joe Carter
-SP1 Roy Halladay
-SP2 Bruce Hurst
-SP3 Fritz Ostermueller
-SP4 Kyson Witherspoon (VAR)
-SP5 Jack Kralick
-CL Caden Scarborough
-RP1 Nelson Chittum
-RP2 Paul Assenmacher
-RP3 Grant Wolfram
-RP4 Hoby Milner
-RP5 Tommy Hunter
-RP6 Enyel De Los Santos
-BN1 Mark Bellhorn
-BN2 Jim Thome
-BN3 Joe Carter
-BN4 Byron Buxton
-BN5 Aaron Hicks
-BN6 Yadier Molina
+R:C Damon Berryhill #86976
+R:1B Edward Florentino (VAR) #84777
+R:2B Willie Randolph #86933
+R:3B Kyle Seager #86261
+R:SS Jhonny Level (VAR) #84765
+R:LF Bill Buckner (VAR) #85858
+R:CF Jett Williams #84763
+R:RF Jack Tobin #86772
+L:C Yadier Molina #86450
+L:1B Mark Bellhorn #85739
+L:2B Willie Randolph #86933
+L:3B Jett Williams #84763
+L:SS Jhonny Level (VAR) #84765
+L:LF Aaron Hicks #86687
+L:CF Byron Buxton #85821
+L:RF Joe Carter #85917
+SP1 Roy Halladay #86705
+SP2 Bruce Hurst #86361
+SP3 Fritz Ostermueller #86357
+SP4 Kyson Witherspoon (VAR) #84774
+SP5 Jack Kralick #85509
+CL Caden Scarborough #84762
+RP1 Nelson Chittum #86659
+RP2 Paul Assenmacher #86944
+RP3 Grant Wolfram #82628
+RP4 Hoby Milner #84946
+RP5 Tommy Hunter #83163
+RP6 Enyel De Los Santos #82183
+BN1 Mark Bellhorn #85739
+BN2 Jim Thome #85661
+BN3 Joe Carter #85917
+BN4 Byron Buxton #85821
+BN5 Aaron Hicks #86687
+BN6 Yadier Molina #86450

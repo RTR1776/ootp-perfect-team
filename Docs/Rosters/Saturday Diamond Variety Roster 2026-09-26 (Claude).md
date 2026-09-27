@@ -2,7 +2,7 @@
 
 Built for the new weekly format from the 2026-09-19 post: 1952 RE, 1958 Tiger Stadium, no DH, cards 1910–1959, Diamond or lower, 26 cards, Bo7. The catalogue row (541) still carries last week's rules (1975 RE, Metropolitan Stadium, card types 2/6/7): updating it from the cloud session was blocked (production DB write), so it waits on L.J.'s OK. Until then /build's Optimise builds this event for the old format.
 
-Load file: `Inbox/rosters/diamondvariety-claude-2026-09-26.txt` (`pnpm roster:save --file … --tournament 541 --name …` once the catalogue row is updated).
+Load file: `Inbox/rosters/diamondvariety-claude-2026-09-26.txt`. Each card is pinned by id. `Save 09-26 Rosters.command` on the Mac saves it to /build as "Claude pick 2026-09-26", after moving row 541 to this week's rules.
 
     node --import tsx scripts/env-roster.ts --year 1952 --park "Tiger Stadium" --park-year 1958 --min 40 --max 99 \
       --card-year-min 1910 --card-year-max 1959 --size 26 --series diamondvariety --optimize --starts 8 \
