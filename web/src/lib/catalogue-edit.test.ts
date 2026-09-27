@@ -38,3 +38,13 @@ test("previousFormat keeps only the last format, and a null window clears the ye
   assert.equal(prev.envYear, 1952);
   assert.equal((prev.restrictions as Record<string, unknown>).previousFormat, undefined, "no nesting");
 });
+
+test("a card-set rule the catalogue was missing is added, and the old rules kept", () => {
+  const next = editCatalogueRules({ ...lastWeek, restrictions: { slots: { P: 8 } } }, {
+    cardTypes: ["Historical All-Star+Hardware Heroes"], note: "field exports: only these two sets played", at: "2026-09-27",
+  });
+  assert.deepEqual(next.restrictions!.cardTypes, ["Historical All-Star+Hardware Heroes"]);
+  assert.deepEqual(next.restrictions!.slots, { P: 8 });
+  assert.equal((next.restrictions!.previousFormat as { restrictions: Record<string, unknown> }).restrictions.cardTypes, undefined);
+});
+
