@@ -2,8 +2,9 @@
  * League lineups and card modelling on the league model. Backs /league-card;
  * the same numbers as `pnpm league:compare` (lib/analytics/league-lineup).
  *
- *   GET  ?card=<id>  the shop card's ratings in card-face words, to prefill the form
- *   POST { roster?, locks?, park?, family?, year?, defScale?, dh?, cardId?, ratings? }
+ *   GET  ?card=<id>  the shop card's ratings in card-face words, to prefill the
+ *                    form; a pitcher also gets its league record (kind "arm")
+ *   POST { roster?, locks?, park?, family?, year?, defScale?, dh?, cardId?, ratings?, arms?, armLocks? }
  *
  * - roster: the team's hitters, "Name" or "Name#cardId"; defaults to his bats
  *   in the newest league export.
@@ -15,6 +16,21 @@
  *
  * Every lineup slot carries `entry`, the roster entry playing it (null for the
  * modelled card), so the page can tell a lock that held from one that didn't.
+ *
+ * The pitching staff (UI plan §5, lib/league-staff): each arm scored per role
+ * as edge per 9 over the league's arm, from league play with a ratings
+ * estimate where the sample is thin; the best five start, the rest relieve.
+ * - arms: the staff, "Name" or "Name#cardId"; defaults to his pitchers in the
+ *   newest league export.
+ * - armLocks: { SP1: entry, CL: entry, RP2: entry, … } pins an arm to a role
+ *   (starter for SPn, reliever for CL / RPn).
+ * - cardId of a pitcher + ratings in card-face words (STU vL, CON vR, HRA vL,
+ *   PBABIP vR, STM): the arm to model; `armAdd` is what he adds to the staff
+ *   on the same number of pitching spots, and `armAdd.staff` the staff he
+ *   would join. candidateRole "SP" or "RP" puts him in the rotation or the
+ *   pen instead of wherever he scores best (a starter needs Stamina over 25).
+ * Arms are scored in the team's league family (`family`): its own play
+ * first, play in the other families scaled to it (lib/league-staff).
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
@@ -24,10 +40,27 @@ import { leagueFamily, type Board, type LeagueFamily } from "@/lib/analytics/lea
 import { leagueLineups, type Lineup, type Locks } from "@/lib/analytics/league-lineup";
 import { eraFor, parkFor } from "@/lib/analytics/tournament-env";
 import { candidateHitter, FACE_KEYS, faceRatings, loadHitterUniverse, myLeagueBats, resolveRoster, type ShopHitter } from "@/lib/league-hitters";
+import { addArm, armKey, myLeagueArms, STARTER_STAMINA, staffSolve, type ArmRole } from "@/lib/league-arms";
+import {
+  ARM_FACE_KEYS, armFace, edgeFor, leagueArmEdges, leagueArmLines, leagueIpPerSlot, ownedVariant, resolveArms, scoreArms, sideEdge, toStaffArm, type ArmPick,
+} from "@/lib/league-staff";
 
 export const runtime = "nodejs";
 
 const FACE = new Set(FACE_KEYS.map(([face]) => face));
+const ARM_FACE = new Set(ARM_FACE_KEYS.map(([face]) => face));
+const ARM_SLOT = /^(SP[1-9]|CL|RP[1-9]\d?)$/;
+
+/** Typed card-face numbers: known keys only, 0–300, whole numbers. */
+function typedFace(raw: unknown, keys: Set<string>): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const [k, v] of Object.entries((raw ?? {}) as Record<string, unknown>)) {
+    const n = Number(v);
+    if (!keys.has(k) || v === "" || v == null || !Number.isFinite(n) || n < 0 || n > 300) continue;
+    out[k] = Math.round(n);
+  }
+  return out;
+}
 const SLOTS = new Set(["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "DH"]);
 const BOARDS: Board[] = ["vR", "vL"];
 
@@ -36,8 +69,19 @@ export async function GET(request: NextRequest) {
   if (!Number.isSafeInteger(id) || id <= 0) return NextResponse.json({ error: "card=<id> is required." }, { status: 400 });
   const [c] = await db.select({ cardId: cards.cardId, name: cards.name, title: cards.title, value: cards.cardValue, pos: cards.position, isPitcher: cards.isPitcher, bats: cards.bats, ratings: cards.ratings, year: cards.year })
     .from(cards).where(eq(cards.cardId, id));
-  if (!c || c.isPitcher) return NextResponse.json({ error: "No hitter with that card id." }, { status: 404 });
-  return NextResponse.json({ cardId: c.cardId, name: c.name, title: c.title, value: c.value, year: c.year, bats: c.bats, position: c.pos, face: faceRatings(c as ShopHitter) });
+  if (!c) return NextResponse.json({ error: "No card with that id." }, { status: 404 });
+  if (c.isPitcher) {
+    const r = (c.ratings ?? {}) as Record<string, number>;
+    const e = (await leagueArmEdges()).get(armKey({ cid: c.cardId, name: c.name, isVariant: false }));
+    return NextResponse.json({
+      kind: "arm", cardId: c.cardId, name: c.name, title: c.title, value: c.value, year: c.year, position: c.pos,
+      face: armFace(r),
+      // Not modelled: its parts are pHR and pBABIP.
+      movement: { vL: r["Movement vL"] ?? null, vR: r["Movement vR"] ?? null },
+      observed: e ? { asSP: e.asSP, asRP: e.asRP } : null,
+    });
+  }
+  return NextResponse.json({ kind: "bat", cardId: c.cardId, name: c.name, title: c.title, value: c.value, year: c.year, bats: c.bats, position: c.pos, face: faceRatings(c as ShopHitter) });
 }
 
 export async function POST(request: NextRequest) {
@@ -54,9 +98,10 @@ export async function POST(request: NextRequest) {
   if (parkLabel && !park?.row) return NextResponse.json({ error: `No park factors on file for "${parkLabel}".` }, { status: 400 });
 
   const typed = Array.isArray(body.roster) ? (body.roster as unknown[]).map((s) => String(s).trim()).filter(Boolean).slice(0, 40) : [];
+  const typedArms = Array.isArray(body.arms) ? (body.arms as unknown[]).map((s) => String(s).trim()).filter(Boolean).slice(0, 30) : null;
   const familyGiven = ["PEL", "HD", "LD"].includes(String(body.family));
   // His export fills in only what the request leaves out; the page sends both.
-  const [mine, u0] = await Promise.all([typed.length && familyGiven ? null : myLeagueBats(), loadHitterUniverse()]);
+  const [mine, u0, mineArms] = await Promise.all([typed.length && familyGiven ? null : myLeagueBats(), loadHitterUniverse(), typedArms ? null : myLeagueArms()]);
   // A card the cached shop hasn't seen: read it again once before saying there's none.
   const wanted = body.cardId != null ? Number(body.cardId) : null;
   const u = wanted != null && Number.isSafeInteger(wanted) && !u0.shopById.has(wanted) ? await loadHitterUniverse({ fresh: true }) : u0;
@@ -83,19 +128,24 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // optional card to model
+  // optional card to model: a hitter joins the lineups, a pitcher the staff
   let cand: ReturnType<typeof candidateHitter> | null = null;
+  let candArm: ArmPick | null = null;
+  const candArmFace = new Map<string, Record<string, number>>();
   if (body.cardId != null) {
     const cardId = Number(body.cardId);
     const card = Number.isSafeInteger(cardId) ? u.shopById.get(cardId) : undefined;
-    if (!card || card.isPitcher) return NextResponse.json({ error: "No hitter with that card id." }, { status: 404 });
-    const ratings: Record<string, number> = {};
-    for (const [k, v] of Object.entries((body.ratings ?? {}) as Record<string, unknown>)) {
-      const n = Number(v);
-      if (!FACE.has(k) || !Number.isFinite(n) || n < 0 || n > 300) continue;
-      ratings[k] = Math.round(n);
+    if (!card) return NextResponse.json({ error: "No card with that id." }, { status: 404 });
+    if (card.isPitcher) {
+      const base = (card.ratings ?? {}) as Record<string, number>;
+      candArm = {
+        entry: `model#${card.cardId}`, label: `${card.name} ${card.value} (model)`, cardId: card.cardId, key: armKey({ cid: card.cardId, name: card.name, isVariant: false }),
+        variant: false, ratings: base, base, varRatings: ownedVariant(card.cardId, u),
+      };
+      candArmFace.set(candArm.entry, typedFace(body.ratings, ARM_FACE));
+    } else {
+      cand = { ...candidateHitter(hitters.length, card.name, card, typedFace(body.ratings, FACE)), label: `${card.name} ${card.value} (model)` };
     }
-    cand = { ...candidateHitter(hitters.length, card.name, card, ratings), label: `${card.name} ${card.value} (model)` };
   }
 
   const m = leagueLineups(cand ? [...hitters, cand] : hitters, { family, year, defScale, dh, park: park?.row ?? null });
@@ -113,6 +163,49 @@ export async function POST(request: NextRequest) {
   const entryOf = new Map(hitters.map((h) => [h.id, h.entry ?? null]));
   const named = (l: Lineup | null) => l && { ...l, lineup: l.lineup.map((x) => ({ ...x, entry: entryOf.get(x.id) ?? null })) };
 
+  // ---- the pitching staff
+  const armEntries = typedArms ?? mineArms?.arms.map((x) => x.entry) ?? [];
+  const [lines, edgesVL, edgesVR, ip] = await Promise.all([leagueArmLines(family), leagueArmEdges("vL"), leagueArmEdges("vR"), leagueIpPerSlot(family)]);
+  const { arms: picks, warnings: armWarnings } = resolveArms(armEntries, u);
+  warnings.push(...armWarnings);
+  const scores = scoreArms(candArm ? [...picks, candArm] : picks, lines, candArmFace);
+  const staffArms = picks.map((a) => toStaffArm(a, scores.get(a.entry)!));
+  const armLocks: { SP: string[]; RP: string[]; at: Record<string, string> } = { SP: [], RP: [], at: {} };
+  const armEntrySet = new Set(picks.map((a) => a.entry));
+  for (const [slot, entry] of Object.entries((body.armLocks ?? {}) as Record<string, unknown>)) {
+    if (!ARM_SLOT.test(slot) || typeof entry !== "string" || !entry) continue;
+    if (!armEntrySet.has(entry)) { warnings.push(`${slot}: ${entry.replace(/#\d+$/, "")} is not on the staff; lock ignored`); continue; }
+    if (armLocks.SP.includes(entry) || armLocks.RP.includes(entry)) return NextResponse.json({ error: `${entry.replace(/#\d+$/, "")} is locked into two staff slots.` }, { status: 400 });
+    armLocks[slot.startsWith("SP") ? "SP" : "RP"].push(entry);
+    armLocks.at[slot] = entry;
+  }
+  const staff = staffArms.length ? staffSolve(staffArms, ip, armLocks) : null;
+  const sideOf = (a: ArmPick) => ({ vL: sideEdge(edgeFor(a, edgesVL))?.edge9 ?? null, vR: sideEdge(edgeFor(a, edgesVR))?.edge9 ?? null });
+  const armRow = (a: ArmPick) => {
+    const sc = scores.get(a.entry)!;
+    return {
+      entry: a.entry, label: a.label, cardId: a.cardId, sp: sc.sp, rp: sc.rp, spSource: sc.spSource, rpSource: sc.rpSource,
+      spIp: sc.spIp, rpIp: sc.rpIp, spIpFamily: sc.spIpFamily, rpIpFamily: sc.rpIpFamily, stamina: sc.stamina, ...sideOf(a),
+    };
+  };
+  // The role he was asked to pitch in, if he can: a starter needs a starter's number and Stamina over 25.
+  let role: ArmRole | undefined = body.candidateRole === "SP" || body.candidateRole === "RP" ? body.candidateRole : undefined;
+  const candScore = candArm ? scores.get(candArm.entry)! : null;
+  if (candArm && candScore && role === "SP" && (candScore.sp == null || (candScore.stamina != null && candScore.stamina <= STARTER_STAMINA))) {
+    warnings.push(`${candArm.label.replace(/ \(model\)$/, "")}: can't start (Stamina ${candScore.stamina ?? "—"}); shown where he fits best`);
+    role = undefined;
+  }
+  const candName = candArm?.label.replace(/ \(model\)$/, "") ?? "";
+  // Ratings the model can't read (a typed 0) give no score: he isn't priced as an average arm.
+  const unscored = !!candScore && candScore.sp == null && candScore.rp == null;
+  if (unscored) warnings.push(`${candName}: no score for these ratings (a rating of 0?)`);
+  const armGain = candArm && candScore && !unscored && staffArms.length ? addArm(staffArms, toStaffArm(candArm, candScore), ip, armLocks, role) : null;
+  if (armGain?.refused) {
+    warnings.push(armGain.refused === "SP"
+      ? `${candName}: every rotation spot is locked; unlock one to see him as a starter. Shown where he fits best.`
+      : `${candName}: every bullpen spot is locked; unlock one to see him as a reliever. Shown where he fits best.`);
+  }
+
   return NextResponse.json({
     family, year, dh, defScale, lhp: m.lhp, rpw: m.rpw, rg: m.rg,
     park: park?.row ? park.label : null, neutral,
@@ -122,6 +215,10 @@ export async function POST(request: NextRequest) {
     candidate: cand ? { cardId: cand.cardId, label: cand.label, title: cand.note, ...runsOf(cand.id) } : null,
     with: a ? { vR: named(a.vR), vL: named(a.vL) } : null,
     add: a ? { dR: a.dR, dL: a.dL, season: a.season, wins: a.wins, dhOnly: a.dhOnly } : null,
+    staff: staff && { ...staff, ipPerSlot: { sp: ip.sp, rp: ip.rp }, week: ip.week, source: typedArms ? "your list" : mineArms ? `${mineArms.league}, week of ${mineArms.on}` : "—", entries: armEntries },
+    armPool: picks.map(armRow),
+    candidateArm: candArm ? armRow(candArm) : null,
+    armAdd: armGain && { season: armGain.season, wins: armGain.season / m.rpw, slot: armGain.slot, replaces: armGain.replaces, sits: armGain.sits, staff: armGain.with, role: armGain.refused ? null : role ?? null, refused: armGain.refused },
     warnings: [...warnings, ...m.warnings],
   });
 }

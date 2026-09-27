@@ -11,16 +11,38 @@
  *       default era, neutral park, that role), minus the league's average arm
  * and y = a + k·x by least squares. The Card Model uses k to estimate an arm
  * with no league sample (a shop variant no team has rostered).
+ *
+ * Then, per league family (PEL, HD, LD), how a card's edge there follows its
+ * edge in the other families: a stronger league compresses edges (a card's
+ * PEL edge runs about 0.73× its edge elsewhere). For cards with 1,000+ IP in a
+ * role both in the family and outside it, y = a + b·x (x the edge outside);
+ * with under 30 such cards the family is read as the others are (a 0, b 1).
+ * And w, how many innings of the family's own play the other leagues' line is
+ * worth: the family's team-weeks are split in two, and w is the weight that
+ * best predicts one half from the other half and that prior.
  */
 import { writeFileSync } from "node:fs";
 import { db } from "@/db/client";
 import { cards } from "@/db/schema";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { eraTable } from "@/lib/analytics/tournament-env";
-import { loadArmRows, poolArmEdges, roleOf, type ArmRole } from "@/lib/league-arms";
+import { leagueFamily, type LeagueFamily } from "@/lib/analytics/league-model";
+import { ARM_PRIOR_IP, loadArmRows, poolArmEdges, roleOf, type ArmEdge, type ArmRole, type ArmRow } from "@/lib/league-arms";
 
 const DRY = process.argv.includes("--dry");
 const MIN_IP = 1000;
+const FAMILIES: LeagueFamily[] = ["PEL", "HD", "LD"];
+const FAMILY_MIN_CARDS = 30;
+const W_GRID = [150, 300, 600, 1000, 1500, 2000, 3000, 4000, 6000];
+
+const sideOf = (e: ArmEdge | undefined, role: ArmRole) => (role === "SP" ? e?.asSP : e?.asRP) ?? null;
+function ols(pts: { x: number; y: number }[]) {
+  const n = pts.length, mx = pts.reduce((a, p) => a + p.x, 0) / n, my = pts.reduce((a, p) => a + p.y, 0) / n;
+  const sxy = pts.reduce((a, p) => a + (p.x - mx) * (p.y - my), 0), sxx = pts.reduce((a, p) => a + (p.x - mx) ** 2, 0), syy = pts.reduce((a, p) => a + (p.y - my) ** 2, 0);
+  return { a: my - (sxy / sxx) * mx, b: sxy / sxx, r: sxy / Math.sqrt(sxx * syy) };
+}
+/** A team-week's half for the split-half fit: fixed, so a rerun on the same data gives the same w. */
+const half = (r: ArmRow) => { let h = 0; for (const c of `${r.snapshotId}|${r.org}`) h = (h * 31 + c.charCodeAt(0)) | 0; return h & 1; };
 const OUT = new URL("../src/data/league-arm-model.json", import.meta.url);
 
 async function main() {
@@ -70,11 +92,48 @@ async function main() {
   const sxy = pts.reduce((a, p) => a + (p.x - mx) * (p.y - my), 0), sxx = pts.reduce((a, p) => a + (p.x - mx) ** 2, 0), syy = pts.reduce((a, p) => a + (p.y - my) ** 2, 0);
   const k = sxy / sxx, intercept = my - k * mx, r = sxy / Math.sqrt(sxx * syy);
 
+  // Per league family: the slope from the other families' edge, and the weight of that prior.
+  const est = (cid: number, role: ArmRole) => { const x = app9(cid, role); return x == null ? null : intercept + k * (x - app9League); };
+  const families: Record<string, { a: number; b: number; w: number; n: number; r: number | null }> = {};
+  for (const f of FAMILIES) {
+    const inF = rows.filter((x) => leagueFamily(x.league) === f);
+    if (!inF.length) continue;
+    const F = poolArmEdges(inF), O = poolArmEdges(rows.filter((x) => leagueFamily(x.league) !== f));
+    const both: { x: number; y: number }[] = [];
+    for (const [key, e] of F) for (const role of ["SP", "RP"] as const) {
+      const a = sideOf(e, role), o = sideOf(O.get(key), role);
+      if (a && o && a.ip >= MIN_IP && o.ip >= MIN_IP) both.push({ x: o.edge9, y: a.edge9 });
+    }
+    const line = both.length >= FAMILY_MIN_CARDS ? ols(both) : { a: 0, b: 1, r: null };
+    const A = poolArmEdges(inF.filter((x) => half(x) === 0)), B = poolArmEdges(inF.filter((x) => half(x) === 1));
+    let w = W_GRID[0], bestErr = Infinity;
+    const errs: string[] = [];
+    for (const W of W_GRID) {
+      let se = 0, wt = 0;
+      for (const [key, ea] of A) {
+        if (ea.isVariant || ea.cid == null) continue;
+        for (const role of ["SP", "RP"] as const) {
+          const a = sideOf(ea, role), b = sideOf(B.get(key), role), o = sideOf(O.get(key), role), e0 = est(ea.cid, role);
+          if (!a || !b || b.ip < ARM_PRIOR_IP || e0 == null) continue;
+          const oIp = o?.ip ?? 0;
+          const prior = line.a + line.b * ((oIp * (o?.edge9 ?? 0) + ARM_PRIOR_IP * e0) / (oIp + ARM_PRIOR_IP));
+          se += b.ip * ((a.ip * a.edge9 + W * prior) / (a.ip + W) - b.edge9) ** 2; wt += b.ip;
+        }
+      }
+      const err = se / wt;
+      errs.push(`${W}: ${err.toFixed(5)}`);
+      if (err < bestErr) { bestErr = err; w = W; }
+    }
+    families[f] = { a: Math.round(line.a * 1e4) / 1e4, b: Math.round(line.b * 1e4) / 1e4, w, n: both.length, r: line.r == null ? null : Math.round(line.r * 1000) / 1000 };
+    console.log(`${f}: edge ≈ ${families[f].a} + ${families[f].b} × edge elsewhere (${both.length} card-roles, r ${families[f].r ?? "—"}); w ${w} (split-half error by w: ${errs.join(", ")})`);
+  }
+
   const out = {
     fittedAt: new Date().toISOString().slice(0, 10),
     source: `${n} base-card arms with ${MIN_IP}+ league IP, ${new Set(rows.map((r) => r.capturedOn)).size} weeks, pnpm fit:arms`,
     k: Math.round(k * 1e4) / 1e4, intercept: Math.round(intercept * 1e4) / 1e4, app9League: Math.round(app9League * 1e4) / 1e4,
     n, r: Math.round(r * 1000) / 1000, minIp: MIN_IP, bfPerIp: Math.round(bfPerIp * 1000) / 1000,
+    families,
   };
   console.log(JSON.stringify(out, null, 2));
   const show = [...pts].sort((a, b) => b.y - a.y);
