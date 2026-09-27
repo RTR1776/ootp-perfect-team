@@ -13,6 +13,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import type { EntryResponse, EntryRow } from "@/lib/result-entry";
@@ -58,8 +59,9 @@ export function ResultEntry({ asOfDefault, periodName, recent }: { asOfDefault: 
       if (!res.ok) { setMsg(data.error ?? `Request failed (${res.status}).`); return; }
       setPreview(data);
       if (!dryRun) {
-        const pts = Object.entries(data.summary.byCategory).map(([c, v]) => `+${v} ${c}`).join(", ");
-        setMsg(`Logged ${data.saved} result${data.saved === 1 ? "" : "s"}${pts ? ` — ${pts}` : ""}${data.summary.duplicates ? `; ${data.summary.duplicates} already on file` : ""}.`);
+        const pts = Object.entries(data.summary.byCategory).map(([c, v]) => `${v > 0 ? "+" : ""}${v} ${c}`).join(", ");
+        const dumped = data.summary.fromDump ? `; ${data.summary.fromDump} ${data.summary.fromDump === 1 ? "was" : "were"} already in the totals from the dump` : "";
+        setMsg(`Logged ${data.saved} result${data.saved === 1 ? "" : "s"}${pts ? ` — totals ${pts}` : ""}${dumped}${data.summary.duplicates ? `; ${data.summary.duplicates} already on file` : ""}.`);
         setText("");
         router.refresh();
       }
@@ -136,10 +138,17 @@ export function ResultEntry({ asOfDefault, periodName, recent }: { asOfDefault: 
             <span><span className="font-semibold text-foreground">{preview.summary.new}</span> new</span>
             <span><span className="font-semibold text-foreground">{preview.summary.duplicates}</span> already logged</span>
             <span><span className={cn("font-semibold", preview.summary.problems ? "text-warning" : "text-foreground")}>{preview.summary.problems}</span> unreadable</span>
-            {Object.keys(preview.summary.byCategory).length > 0 && (
-              <span className="ml-auto">
-                would add {Object.entries(preview.summary.byCategory).map(([c, v]) => `+${v} ${c}`).join(" · ")}
+            {preview.summary.fromDump > 0 && (
+              <span title="The totals already count these from the community dump; logging them changes the totals only by the difference.">
+                <span className="font-semibold text-foreground">{preview.summary.fromDump}</span> already in the totals from the dump
               </span>
+            )}
+            {Object.keys(preview.summary.byCategory).length > 0 ? (
+              <span className="ml-auto">
+                totals would change {Object.entries(preview.summary.byCategory).map(([c, v]) => `${v > 0 ? "+" : ""}${v} ${c}`).join(" · ")}
+              </span>
+            ) : preview.summary.new > 0 && (
+              <span className="ml-auto">the totals already have these points</span>
             )}
           </div>
         </div>
@@ -153,21 +162,24 @@ export function ResultEntry({ asOfDefault, periodName, recent }: { asOfDefault: 
           <ul className="mt-2 max-h-64 overflow-y-auto divide-y divide-border/50 rounded-md border border-border">
             {recent.map((e) => (
               <li key={e.eventId ?? e.name} className="flex items-center gap-2 px-2 py-1 font-mono text-[12px]">
-                <span className="w-20 shrink-0 text-muted-foreground">{e.occurredOn.slice(5)}</span>
+                <span className="w-11 shrink-0 text-muted-foreground sm:w-20">{e.occurredOn.slice(5)}</span>
                 <span className="min-w-0 flex-1 truncate font-sans">{e.name}{e.eventId != null ? ` (${e.eventId})` : ""}</span>
-                <span className="shrink-0 text-muted-foreground">{e.eliminated ? "elim." : e.placement}{e.fieldSize ? ` / ${e.fieldSize}` : ""}</span>
-                <span className="w-28 shrink-0 text-right">{e.points > 0 ? e.categories.map((c) => `+${e.points} ${c}`).join(", ") : "0"}</span>
+                <span className="hidden shrink-0 text-muted-foreground sm:inline">{e.eliminated ? "elim." : e.placement}{e.fieldSize ? ` / ${e.fieldSize}` : ""}</span>
+                <span className="shrink-0 text-right sm:w-28">{e.points > 0 ? e.categories.map((c) => `+${e.points} ${c}`).join(", ") : "0"}</span>
                 {e.eventId != null && (
-                  <button
-                    type="button"
-                    onClick={() => remove(e.eventId!)}
+                  // Two steps: the ✕ only asks; "Remove" deletes, "Keep" (or 5 s) backs out.
+                  <ConfirmButton
+                    onConfirm={() => remove(e.eventId!)}
+                    confirmLabel="Remove"
+                    cancelLabel="Keep"
                     disabled={busy != null}
-                    className="shrink-0 rounded px-1.5 text-muted-foreground hover:bg-accent hover:text-negative disabled:opacity-50"
+                    variant="ghost"
+                    className="shrink-0 px-2 text-muted-foreground"
                     title="Remove this logged result"
                     aria-label={`Remove ${e.name}`}
                   >
-                    {busy === e.eventId ? "…" : "✕"}
-                  </button>
+                    ✕
+                  </ConfirmButton>
                 )}
               </li>
             ))}
@@ -180,7 +192,9 @@ export function ResultEntry({ asOfDefault, periodName, recent }: { asOfDefault: 
 
 function PreviewRow({ r }: { r: EntryRow }) {
   const chip =
-    r.status === "new"
+    r.status === "new" && r.inDump
+      ? { label: "new · in the dump", cls: "border-border text-foreground" }
+      : r.status === "new"
       ? { label: "new", cls: "border-positive/50 text-positive" }
       : r.status === "duplicate"
         ? { label: "already logged", cls: "border-border text-muted-foreground" }

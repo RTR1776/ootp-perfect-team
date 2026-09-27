@@ -12,13 +12,16 @@
  * - cardId + ratings (optional): a card to model, in the card face's words
  *   (EYE vL, POW vR, BA vL, K vR, GAP vL, POS CF). Keys left out keep the shop
  *   card's values; a position set to 0 is one the card cannot play.
+ *
+ * Every lineup slot carries `entry`, the roster entry playing it (null for the
+ * modelled card), so the page can tell a lock that held from one that didn't.
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards } from "@/db/schema";
 import { leagueFamily, type Board, type LeagueFamily } from "@/lib/analytics/league-model";
-import { leagueLineups, type Locks } from "@/lib/analytics/league-lineup";
+import { leagueLineups, type Lineup, type Locks } from "@/lib/analytics/league-lineup";
 import { eraFor, parkFor } from "@/lib/analytics/tournament-env";
 import { candidateHitter, FACE_KEYS, faceRatings, loadHitterUniverse, myLeagueBats, resolveRoster, type ShopHitter } from "@/lib/league-hitters";
 
@@ -51,12 +54,16 @@ export async function POST(request: NextRequest) {
   if (parkLabel && !park?.row) return NextResponse.json({ error: `No park factors on file for "${parkLabel}".` }, { status: 400 });
 
   const typed = Array.isArray(body.roster) ? (body.roster as unknown[]).map((s) => String(s).trim()).filter(Boolean).slice(0, 40) : [];
-  const mine = await myLeagueBats();
+  const familyGiven = ["PEL", "HD", "LD"].includes(String(body.family));
+  // His export fills in only what the request leaves out; the page sends both.
+  const [mine, u0] = await Promise.all([typed.length && familyGiven ? null : myLeagueBats(), loadHitterUniverse()]);
+  // A card the cached shop hasn't seen: read it again once before saying there's none.
+  const wanted = body.cardId != null ? Number(body.cardId) : null;
+  const u = wanted != null && Number.isSafeInteger(wanted) && !u0.shopById.has(wanted) ? await loadHitterUniverse({ fresh: true }) : u0;
   const entries = typed.length ? typed : mine?.names ?? [];
   if (!entries.length) return NextResponse.json({ error: "No league roster on file; add the team's hitters." }, { status: 400 });
-  const family: LeagueFamily = ["PEL", "HD", "LD"].includes(String(body.family)) ? (body.family as LeagueFamily) : leagueFamily(mine?.league ?? "HD");
+  const family: LeagueFamily = familyGiven ? (body.family as LeagueFamily) : leagueFamily(mine?.league ?? "HD");
 
-  const u = await loadHitterUniverse();
   const { hitters, warnings } = resolveRoster(entries, u, false);
   if (!hitters.length) return NextResponse.json({ error: "None of those names is a hitter on file.", warnings }, { status: 400 });
   const idOf = new Map(hitters.map((h) => [h.entry, h.id]));
@@ -103,15 +110,17 @@ export async function POST(request: NextRequest) {
   }
   const runsOf = (id: number) => ({ vR: m.runs.get(id)?.vR ?? null, vL: m.runs.get(id)?.vL ?? null });
   const a = cand ? m.add(rosterIds, cand.id, now, locks) : null;
+  const entryOf = new Map(hitters.map((h) => [h.id, h.entry ?? null]));
+  const named = (l: Lineup | null) => l && { ...l, lineup: l.lineup.map((x) => ({ ...x, entry: entryOf.get(x.id) ?? null })) };
 
   return NextResponse.json({
     family, year, dh, defScale, lhp: m.lhp, rpw: m.rpw, rg: m.rg,
     park: park?.row ? park.label : null, neutral,
     roster: { source: typed.length ? "your list" : mine ? `${mine.league}, week of ${mine.on}` : "—", entries },
     pool: hitters.map((h) => ({ entry: h.entry, label: h.label, ...runsOf(h.id) })),
-    now,
-    candidate: cand ? { label: cand.label, title: cand.note, ...runsOf(cand.id) } : null,
-    with: a ? { vR: a.vR, vL: a.vL } : null,
+    now: { vR: named(now.vR), vL: named(now.vL) },
+    candidate: cand ? { cardId: cand.cardId, label: cand.label, title: cand.note, ...runsOf(cand.id) } : null,
+    with: a ? { vR: named(a.vR), vL: named(a.vL) } : null,
     add: a ? { dR: a.dR, dL: a.dL, season: a.season, wins: a.wins, dhOnly: a.dhOnly } : null,
     warnings: [...warnings, ...m.warnings],
   });

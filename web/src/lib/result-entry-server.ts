@@ -6,7 +6,7 @@
 
 import { eq, inArray } from "drizzle-orm";
 import { db } from "@/db/client";
-import { periods, results } from "@/db/schema";
+import { myResults, periods, results } from "@/db/schema";
 import { parseResultLines } from "@/lib/result-lines";
 import { scoreResult, type ResultRow } from "@/lib/scoring";
 import { todayInChicago } from "@/lib/ptcs-progress";
@@ -47,6 +47,16 @@ export async function enterResults(input: EnterResultsInput): Promise<EnterResul
       ? (await db.select({ eventId: results.eventId }).from(results).where(inArray(results.eventId, ids))).map((r) => r.eventId)
       : [],
   );
+  // Events the community dump already has: /ptcs counts them until they're
+  // logged, so logging one changes the totals only by the difference.
+  const dumped = new Map(
+    ids.length
+      ? (await db.select({ eventId: myResults.eventId, points: myResults.points, categories: myResults.categories }).from(myResults)
+        .where(inArray(myResults.eventId, ids.map(String))))
+        .filter((r) => r.categories !== "")
+        .map((r) => [Number(r.eventId), { points: r.points, categories: r.categories.split(",").map((c) => c.trim()).filter(Boolean) }])
+      : [],
+  );
 
   const seenInPaste = new Set<number>();
   const rows: EntryRow[] = [];
@@ -75,8 +85,10 @@ export async function enterResults(input: EnterResultsInput): Promise<EnterResul
     }
     if (problems.length) { rows.push(base); continue; }
     seenInPaste.add(s.eventId);
-    rows.push({ ...base, status: "new", problems: [] });
+    const inDump = dumped.get(s.eventId);
+    rows.push({ ...base, status: "new", problems: [], ...(inDump ? { inDump } : {}) });
     for (const c of s.categories) byCategory[c] = (byCategory[c] ?? 0) + s.points;
+    if (inDump) for (const c of inDump.categories) byCategory[c] = (byCategory[c] ?? 0) - inDump.points;
     toInsert.push({
       periodId: period!.id, eventId: s.eventId, occurredOn, name: s.name, standingsTag: s.standingsTag,
       categories: s.categories, fieldSize: s.fieldSize, placement: s.placement, eliminated: s.eliminated, points: s.points,
@@ -100,7 +112,8 @@ export async function enterResults(input: EnterResultsInput): Promise<EnterResul
         new: rows.filter((r) => r.status === "new").length,
         duplicates: rows.filter((r) => r.status === "duplicate").length,
         problems: rows.filter((r) => r.status === "problem").length,
-        byCategory,
+        byCategory: Object.fromEntries(Object.entries(byCategory).filter(([, v]) => v !== 0)),
+        fromDump: rows.filter((r) => r.inDump).length,
       },
       saved,
     },

@@ -4,7 +4,7 @@
  * card plus ratings typed off a card face (a variant in the shop, say).
  * Shared by scripts/league-compare.ts and /league-card.
  */
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, collectionCards, leagueSnapshots, leagueStints, uploads } from "@/db/schema";
 import { formRatings } from "@/lib/card-forms";
@@ -23,7 +23,32 @@ export interface HitterUniverse {
 
 export const normName = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
 
-export async function loadHitterUniverse(): Promise<HitterUniverse> {
+/**
+ * The shop and the newest collection, read once per five minutes per server
+ * and shared by every request in between: re-reading the whole cards table
+ * was most of each /league-card score (1.2–1.65 s a POST). The copy is keyed
+ * on the newest collection and shop-list uploads (one small query a call), so
+ * an upload — on any server — is picked up at once, not five minutes later.
+ * `fresh` reads it again regardless. A failed read is not kept, so the next
+ * call tries again. Callers must not mutate it.
+ */
+const UNIVERSE_TTL_MS = 5 * 60_000;
+let universe: { at: number; stamp: string; promise: Promise<HitterUniverse> } | null = null;
+
+export async function loadHitterUniverse(opts: { fresh?: boolean } = {}): Promise<HitterUniverse> {
+  const newest = await db.select({ kind: uploads.kind, id: sql<number>`max(${uploads.id})`.mapWith(Number) }).from(uploads)
+    .where(inArray(uploads.kind, ["collection", "shop_list"])).groupBy(uploads.kind);
+  const stamp = newest.map((r) => `${r.kind}:${r.id}`).sort().join("|");
+  const now = Date.now();
+  if (opts.fresh || !universe || universe.stamp !== stamp || now - universe.at > UNIVERSE_TTL_MS) {
+    const promise = readHitterUniverse();
+    universe = { at: now, stamp, promise };
+    promise.catch(() => { if (universe?.promise === promise) universe = null; });
+  }
+  return universe.promise;
+}
+
+async function readHitterUniverse(): Promise<HitterUniverse> {
   const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
   const owned = latest ? await db.select().from(collectionCards).where(eq(collectionCards.uploadId, latest.id)) : [];
   const shop = (await db.select({ cardId: cards.cardId, name: cards.name, title: cards.title, value: cards.cardValue, pos: cards.position, isPitcher: cards.isPitcher, bats: cards.bats, ratings: cards.ratings, year: cards.year }).from(cards)) as ShopHitter[];

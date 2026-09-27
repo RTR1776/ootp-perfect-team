@@ -9,7 +9,15 @@
  * corrected one event at a time, while an imported total is a number with a
  * free-text note. The day is flagged so the disagreement is visible rather
  * than silently resolved.
+ *
+ * The community dump (`my_results`) is a third, per-event source: every entry
+ * the dump saw, whether or not it was ever pasted here. Its events count
+ * beside the ledger's, deduplicated by event id (the ledger's row wins), and
+ * never on a day the imported tracker already covers.
  */
+
+import { PLACEMENTS } from "@/lib/ingest/constants";
+import { chicagoDay } from "@/lib/format";
 
 export interface LedgerEvent {
   eventId: number | null;
@@ -21,6 +29,51 @@ export interface LedgerEvent {
   fieldSize: number | null;
   placement: string | null;
   eliminated: boolean;
+  /** Logged on /ptcs (the default), or read from the community dump and never logged. */
+  source?: "results" | "dump";
+  /** The exact finish, where the dump gives one; a logged row has only the band. */
+  finish?: number | null;
+}
+
+/** A my_results row, as import:myresults stores it. */
+export interface DumpRow {
+  eventId: string;
+  name: string;
+  startAt: Date;
+  finish: number;
+  fieldSize: number;
+  points: number;
+  /** Comma-joined categories; "" means the event feeds none. */
+  categories: string;
+}
+
+/** The last finish in each band of PLACEMENTS. */
+const BAND_TOP = [1, 2, 4, 8, 16, 32, 64, 128, 256];
+
+/** 3 → "3rd-4th": the band a finish falls in, as the Your Tournaments screen shows it. */
+export function placementBand(finish: number): string {
+  const i = BAND_TOP.findIndex((top) => finish <= top);
+  return PLACEMENTS[i < 0 ? PLACEMENTS.length - 1 : i];
+}
+
+/**
+ * A dump row as a ledger event. Its date is the night the event started, in
+ * Chicago time — the rule the dump standings use, and the date the ledger
+ * gives the same event.
+ */
+export function dumpEvent(r: DumpRow): LedgerEvent {
+  return {
+    eventId: /^\d+$/.test(r.eventId) ? Number(r.eventId) : null,
+    name: r.name,
+    occurredOn: chicagoDay(r.startAt) ?? "",
+    categories: r.categories.split(",").map((c) => c.trim()).filter(Boolean),
+    points: r.points,
+    fieldSize: r.fieldSize,
+    placement: placementBand(r.finish),
+    eliminated: false,
+    source: "dump",
+    finish: r.finish,
+  };
 }
 
 export interface ImportedTotal {
@@ -34,7 +87,8 @@ export interface MergedDay {
   date: string;
   /** Per category, from whichever source counts for this day. */
   points: Record<string, number>;
-  source: "results" | "import" | "none";
+  /** "results" when anything was logged that day; "dump" when only the dump has events. */
+  source: "results" | "dump" | "import" | "none";
   /** True when the day has BOTH sources; `points` comes from results. */
   conflict: boolean;
   /** The imported total's numbers, kept for the conflict message. */
@@ -58,9 +112,14 @@ export function eventLogLine(e: LedgerEvent): string {
   const pts = e.points > 0
     ? " " + e.categories.map((c) => `+${e.points} ${ABBR[c] ?? c}`).join("/")
     : e.eliminated ? " unscored" : " 0";
-  return `${name}${id} ${place}${field}${pts}`;
+  return `${name}${id} ${place}${field}${pts}${e.source === "dump" ? " · dump" : ""}`;
 }
 
+/**
+ * Days × categories from every source. `events` holds the ledger's events and
+ * the dump's (source "dump") together: a dump event counts only when the
+ * ledger has no event with its id and the day has no imported total.
+ */
 export function mergeDays(
   dates: readonly string[],
   categories: readonly string[],
@@ -76,8 +135,10 @@ export function mergeDays(
     if (r.note && !d.note) d.note = r.note;
     importBy.set(r.occurredOn, d);
   }
+  const logged = new Set(events.filter((e) => e.source !== "dump" && e.eventId != null).map((e) => e.eventId));
   const eventsBy = new Map<string, LedgerEvent[]>();
   for (const e of events) {
+    if (e.source === "dump" && ((e.eventId != null && logged.has(e.eventId)) || importBy.has(e.occurredOn))) continue;
     const list = eventsBy.get(e.occurredOn) ?? [];
     list.push(e);
     eventsBy.set(e.occurredOn, list);
@@ -93,9 +154,10 @@ export function mergeDays(
       const ordered = [...evs].sort((a, b) => b.points - a.points || a.name.localeCompare(b.name));
       const note = ordered.map(eventLogLine).join("; ");
       // An imported row of all zeros is a placeholder, not a second opinion.
+      // (Dump events never reach a day with an imported row, so only logged ones can conflict.)
       const conflict = !!imp?.any;
       return {
-        date, points, source: "results", conflict,
+        date, points, source: evs.some((e) => e.source !== "dump") ? "results" : "dump", conflict,
         importPoints: imp ? { ...zero(), ...imp.points } : null,
         note: conflict ? `${note} — imported total for this day also on file: ${describe(imp!.points)}` : note,
         events: ordered,

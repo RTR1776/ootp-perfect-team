@@ -30,10 +30,25 @@ export function initHistory<S>(state: S): History<S> {
   return { past: [], present: state, presentLabel: null, future: [], open: null };
 }
 
+/** Plain-data equality: the reducer rebuilds objects, so `Object.is` can't tell "back where it began". */
+function same(a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) return true;
+  if (typeof a !== "object" || typeof b !== "object" || a == null || b == null || Array.isArray(a) !== Array.isArray(b)) return false;
+  const x = a as Record<string, unknown>, y = b as Record<string, unknown>;
+  const kx = Object.keys(x), ky = Object.keys(y);
+  return kx.length === ky.length && kx.every((k) => Object.prototype.hasOwnProperty.call(y, k) && same(x[k], y[k]));
+}
+
 /** Record `next` as the result of an action. A new action clears the redo list. */
 export function pushHistory<S>(h: History<S>, next: S, action: UndoAction): History<S> {
   if (Object.is(next, h.present)) return h;
   if (action.coalesceKey != null && action.coalesceKey === h.open) {
+    // Typed back to where the step began (Ctrl+Z inside the field does this):
+    // the step would undo nothing, so it goes, and the next Undo is a real one.
+    const start = h.past[h.past.length - 1];
+    if (start && same(next, start.state)) {
+      return { past: h.past.slice(0, -1), present: start.state, presentLabel: h.past.length > 1 ? h.past[h.past.length - 2].label : null, future: [], open: null };
+    }
     return { ...h, present: next, presentLabel: action.label, future: [] };
   }
   const past = [...h.past, { state: h.present, label: action.label }].slice(-HISTORY_LIMIT);
