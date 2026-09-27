@@ -156,10 +156,17 @@ export function poolArmEdges(rows: readonly ArmRow[]): Map<string, ArmEdge> {
     side.num += r.ip * (L.core / L.ip) - coreSum(r.stats);
     side.ip += r.ip; side.teams++; side.weeks.add(r.capturedOn);
     if (r.capturedOn >= a.newest) {
+      // A newer week starts over; lines of the same week are the same card, so each rating takes the
+      // highest: one export's mixed-up column (HD451 09-27's hitting Contact as CON) can't win a tie.
+      if (r.capturedOn > a.newest) a.edge.ratings = null;
       a.newest = r.capturedOn;
       const stm = r.ratings?.STM;
       if (stm != null) a.edge.stamina = stm;
-      a.edge.ratings = leagueArmRatings(r.ratings) ?? a.edge.ratings;
+      const face = leagueArmRatings(r.ratings);
+      if (face) {
+        const had = a.edge.ratings;
+        a.edge.ratings = had ? Object.fromEntries(Object.entries(face).map(([k, v]) => [k, Math.max(v, had[k] ?? v)])) : face;
+      }
     }
     acc.set(key, a);
   }

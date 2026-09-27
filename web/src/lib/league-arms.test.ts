@@ -224,3 +224,19 @@ test("the family blend says how much of the score is the ratings estimate", () =
   // A big sample elsewhere carries the prior.
   assert.ok(blendArm([{ fam: null, other: side(0.2, 20000), shift: 0 }], 0.1, pel).estShare < 0.01);
 });
+
+test("a card's ratings come from its newest week; two exports of that week take each rating's highest", () => {
+  const splits = (con: number) => ({ "STU vL": 150, "STU vR": 140, "CON vL": con, "CON vR": con, "HRA vL": 120, "HRA vR": 118, "PBAB vL": 100, "PBAB vR": 102, STM: 20 });
+  const rows = [
+    line({ snapshotId: 1, name: "Uehara", cid: 7, isVariant: true, ip: 30, k: 40, bb: 5, hr: 3, g: 30, capturedOn: "2026-09-20" }),
+    { ...line({ snapshotId: 2, name: "Uehara", cid: 7, isVariant: true, ip: 30, k: 40, bb: 5, hr: 3, g: 30, capturedOn: "2026-09-27" }), ratings: splits(140) },
+    { ...line({ snapshotId: 3, name: "Uehara", cid: 7, isVariant: true, org: "Team B", ip: 30, k: 40, bb: 5, hr: 3, g: 30, capturedOn: "2026-09-27" }), ratings: splits(6) },
+    line({ snapshotId: 2, name: "Other", cid: 8, org: "Team C", ip: 100, k: 80, bb: 30, hr: 10, gs: 16, g: 16, capturedOn: "2026-09-27" }),
+    line({ snapshotId: 3, name: "Other", cid: 8, org: "Team D", ip: 100, k: 80, bb: 30, hr: 10, gs: 16, g: 16, capturedOn: "2026-09-27" }),
+  ];
+  for (const order of [rows, [...rows].reverse()]) {
+    const e = poolArmEdges(order).get(armKey({ cid: 7, name: "Uehara", isVariant: true }))!;
+    assert.equal(e.ratings?.["Control vL"], 140, "HD451's 6 doesn't win");
+    assert.equal(e.ratings?.["Stuff vL"], 150);
+  }
+});
