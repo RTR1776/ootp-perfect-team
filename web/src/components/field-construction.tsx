@@ -9,7 +9,7 @@ import type { TierCode } from "@/lib/roster-rules";
 
 const TIERS: TierCode[] = ["P", "D", "G", "S", "B", "I"];
 const NAME: Record<TierCode, string> = { P: "Perfect", D: "Diamond", G: "Gold", S: "Silver", B: "Bronze", I: "Iron" };
-const f = (n: number) => (n === 0 ? "0" : n.toFixed(1).replace(/\.0$/, ""));
+const f = (n: number | null | undefined) => (n == null || !Number.isFinite(n) ? "—" : n === 0 ? "0" : n.toFixed(1).replace(/\.0$/, ""));
 const pct = (p: number | null) => (p == null ? "" : ` · ${p.toFixed(3).replace(/^0/, "")}`);
 
 export function FieldConstruction({ data, slots }: { data: SeriesBuild; slots: Record<string, number> | null }) {

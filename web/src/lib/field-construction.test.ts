@@ -46,3 +46,11 @@ test("field construction: tiers by role, the best quarter, clans, and the measur
   assert.equal(s.openers.teams, 1);
   assert.equal(s.groups[0].hands.spL, 1);
 });
+
+test("field construction: a series with no teams summarises to nothing, not NaN", () => {
+  const s = summariseSeries([[], []]);
+  assert.equal(s.teams, 0);
+  assert.deepEqual(s.groups, []);
+  assert.equal(JSON.stringify(s).includes("null,null"), false);
+});
+
