@@ -4,6 +4,23 @@ import Image from "next/image";
 import { Suspense, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+/**
+ * Where to go after signing in: a path on this site, else /build. The URL
+ * parser reads a backslash as a slash and drops tabs and newlines, so "/\\x.com"
+ * and "/<tab>/x.com" become "//x.com", another site: resolve it and keep it
+ * only if it stays on this origin.
+ */
+function safeNext(next: string | null): string {
+  if (!next || !next.startsWith("/") || /[\\\s]/.test(next)) return "/build";
+  try {
+    const to = new URL(next, window.location.origin);
+    // "/..//x.com" resolves to the path "//x.com", which is another site again once handed back.
+    return to.origin === window.location.origin && !to.pathname.startsWith("//") ? `${to.pathname}${to.search}${to.hash}` : "/build";
+  } catch {
+    return "/build";
+  }
+}
+
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
@@ -23,9 +40,7 @@ function LoginForm() {
         body: JSON.stringify({ password }),
       });
       if (response.ok) {
-        // Only same-site paths: "//evil.example" or a full URL would leave the app.
-        const next = params.get("next");
-        router.replace(next && next.startsWith("/") && !next.startsWith("//") ? next : "/build");
+        router.replace(safeNext(params.get("next")));
         router.refresh();
         return;
       }
