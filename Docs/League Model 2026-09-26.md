@@ -1,6 +1,6 @@
 # League model — 2026-09-26
 
-L.J.: league play normalises cards and seems to suppress them compared with tourneys. With this much league data, can it be modelled well enough to settle buys like Jose Canseco vs the Kevin Mitchell variant? Yes. The numbers below come from 4.9M PA of split play: 8 weekly seasons, PEL plus HD450–453 and LD404, including the 1959 and 1989 theme weeks. Refit 2026-09-27 with the part-played PEL week and the raw 09-20 files; nothing material moved.
+L.J.: league play normalises cards and seems to suppress them compared with tourneys. With this much league data, can it be modelled well enough to settle buys like Jose Canseco vs the Kevin Mitchell variant? Yes. The numbers below come from 4.9M PA of split play: 8 weekly seasons, PEL plus HD450–453 and LD404, including the 1959 and 1989 theme weeks. Refit 2026-09-27 with the 09-27 PEL week and the raw 09-20 files; nothing material moved. That PEL week was uploaded after its regular season had finished (top 699 PA, like other finished weeks).
 
 ## What normalisation does, measured
 
@@ -45,7 +45,7 @@ Fitted on card forms pooled over every team and week they played: 256 card-board
 | Whole weeks held out | **0.85** | 0.78 |
 | 1989 theme week | 0.82 | 0.78 |
 | 1959 theme week | 0.72 | 0.72 |
-| Current PEL week (09-27, part-played) | 0.78 | 0.66 |
+| Current PEL week (09-27) | 0.78 | 0.66 |
 
 On held-out cards the model explains roughly 90% of the real card-to-card spread (a pooled line's sampling noise is small).
 
@@ -85,19 +85,65 @@ Reproduce:
       --add "Kevin Mitchell VAR#86911=K vL:139,BA vL:97,GAP vL:141,POW vL:250,EYE vL:212,K vR:98,BA vR:125,GAP vR:150,POW vR:190,EYE vR:172" \
       [--year 1989] [--league HD] [--def-scale 0.5]
 
+## What league pays for (2026-09-27)
+
+L.J. asked what league values: Avoid K (cwhit's early read, Bassler), BABIP, Gap, Eye.
+
+**+10 in one rating**, in runs per 700 PA, on Carlos Beltran as the base (HD, 2010). The script is `scripts/.scratch/league-prices.ts`.
+
+| Rating | League, at typical levels | League, from 60 | League ÷ tournament |
+|---|---|---|---|
+| Avoid K | 1.5–2.0 | 3.6–3.7 | 1.2–1.4 |
+| Power | ~1.7, flat with level | 1.7 | ~0.6 (≈1.0 from 60) |
+| BABIP | 1.2–1.5 | 2.1 | ~0.7 |
+| Eye | 0.7–0.9 | 2.0 | 2.3–2.8 |
+| Gap | ~0.4 | 0.7 | ~0.7 |
+
+- **Avoid K is the best rating point in league**, level with Power. League pays 20–40% more for it than tournaments. cwhit was right.
+- **Power:** tournaments pay more for each step the higher it goes, league doesn't (a flat ~1.7). A power bat still plays in league, but tournaments overprice it for league.
+- **BABIP** matters. **Gap** hardly does.
+- **Eye** is worth little per point at normal levels, but a low Eye costs real runs. League pays more than twice what tournaments do for it.
+- The log terms make **fixing a weakness pay more than stacking a strength**: +10 Avoid K from 60 is worth 3.7 runs, from 140 it is 1.5.
+
+**Defence:** a rough check (league vs tournament zone runs per rating point; noisy) gave:
+
+| Position | League ÷ tournament |
+|---|---|
+| C | 2.5 |
+| SS | 1.8 |
+| 2B | 1.3 |
+| 1B, 3B, LF | ~1 |
+| CF | 0.6 |
+| RF | 0.5 |
+
+Bats count at about 0.68 of their tournament spread, so against the bat, C/SS/2B gloves matter more in league and the outfield less. The model still prices gloves at the tournament scale ("Glove weight" on the page) until the per-position fit is done.
+
+## Copies of one card (2026-09-27)
+
+L.J. asked whether a copy that starts badly should be cut, or whether it turns around. Every league week has many copies of the same card: hitters in 872 card-weeks, a median of 8 copies each. Pitchers in 663 card-weeks. Hershiser had 26–29 copies a PEL week.
+
+- **Hitters:** the spread of wOBA between copies is 0.0241. PA sampling alone gives 0.0240. It is all luck, so there is no room for a copy that stays good or bad all season.
+- **Pitchers:** the spread of FIP-type runs is 0.51. Luck alone gives 0.48, so about 89% is luck. The rest is small, probably role, park and usage.
+- **So don't cut a copy for a cold 25–30% of a season.** Over the rest of it, expect what the card is, not what it has done. Cut a card for being worse than the alternative on the model, not for its line.
+- No week has a mid-season snapshot yet, so first-half vs second-half can't be checked directly (see item 4 above). The spread already leaves no room for a lasting per-copy effect on hitters.
+
 ## Keeping it current
 
 1. **Refit when a week lands:** `pnpm league:panel` then `python3 scripts/league-fit.py` (writes `src/data/league-model.json`; `--dry` to look first). It reads every week in `League Data/` and every league week in the database. When one week was uploaded twice, the newest copy wins.
 2. **League imports now keep the split ratings** (`ingest/league.ts`), so a week uploaded through /upload or `pnpm import:league` gives the fit exact variant ratings.
-3. **The current PEL week** was loaded part-played on 2026-09-27 (snapshots 97–99) and is now PEL's reference week. Re-upload the finished week under the same Sunday; the newest upload wins. Then refit.
+3. **The 09-27 PEL week** (snapshots 97–99) is PEL's reference week. It was uploaded after the regular season had finished, so nothing is owed on it.
    - Export all / vL / vR, then either drop them on /upload or save them under `League Data/<Sunday>/`, where Push to GitHub.command commits them.
    - On /upload, check that "Season ends" reads the Sunday the league week ends (it defaults to it), then **press Commit**. Dropping the files only previews them.
-   - Use the same Sunday for the part-played week and the finished one. The panel keeps the newest upload per week, league and split.
+   - A part-played upload and the finished one go under the same Sunday. Both are kept; the panel reads the newest per week, league and split. Upload the part-played one first.
+4. **A mid-season export helps.** One part-played upload a week, plus the finished one, would show directly whether a copy's first half predicts its second (see "Copies of one card" below).
 
 ## Not done yet
 
 - **Pitchers:** the same panel carries arm rows; the fit is bats only so far.
 - **League defence:** fit per-position scales properly (innings at position), then default `--def-scale` from them.
-- **A page:** done 2026-09-27. **/league-card** (League → Card Model) scores a card typed off its face.
+- **A page:** done 2026-09-27. **/league-card** (League → Card Model) shows L.J.'s league lineups and what a card typed off its face adds to them.
+  - The team list starts from his bats in the newest league export and is his to edit (the export also lists cards he has dropped). The list, locks and settings are remembered in the browser.
+  - Any slot can be locked to a player. The best nine are solved around the locks.
+  - A home park moves his bats at half weight. The footer says how much the park moved each board against a neutral park. The park path runs through the app-run term (0.458), so park swings here are smaller than park:sweep's tournament-scale numbers. park:sweep, which also counts his pitchers and the field, is still the park pick.
   - Pick the base card, type the variant's numbers and positions, then score it. A 7.5% variant step can fill a side you don't know.
-  - It shows what the card adds to the league lineups, per board and per season. It uses the same numbers as `league:compare`: both go through `lib/analytics/league-lineup.ts` and `lib/league-hitters.ts`.
+  - It uses the same numbers as `league:compare`: both go through `lib/analytics/league-lineup.ts` and `lib/league-hitters.ts`.

@@ -10,9 +10,15 @@
  * any reshuffle are inside it. Boards are weighted by the league's measured
  * share of PA against LHP. Runs are per 700 PA per lineup slot, about a
  * season; wins use runs per win = 1.5 × R/G + 3.
+ *
+ * `park` is the home park: its factors at half weight (81 home games, the
+ * road averaging neutral) move each bat's app runs. The league terms are
+ * rating-based and park-free. `locks` pin a player to a slot on one board;
+ * a locked player plays there even below L.J.'s position floor (the game
+ * allows it), but not at a position he has no rating for.
  */
 import { envFitMaps } from "@/lib/analytics/env-fit";
-import { eraFor, eraTable } from "@/lib/analytics/tournament-env";
+import { eraFor, eraTable, type ParkRow } from "@/lib/analytics/tournament-env";
 import { solveEnv } from "@/lib/analytics/run-env";
 import { fieldingRuns } from "@/lib/analytics/fielding";
 import { maxAssignment } from "@/lib/assign";
@@ -35,7 +41,15 @@ export interface CardAdd {
 
 const FIELD = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
 
-export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFamily; year: number; defScale?: number; dh?: boolean }) {
+/** Slot → the hitter id locked there. */
+export type Locks = Partial<Record<string, number>>;
+
+const homeHalf = (p: ParkRow): ParkRow => ({
+  team: p.team, avgL: 1 + (p.avgL - 1) / 2, avgR: 1 + (p.avgR - 1) / 2, hrL: 1 + (p.hrL - 1) / 2,
+  hrR: 1 + (p.hrR - 1) / 2, d2: 1 + (p.d2 - 1) / 2, d3: 1 + (p.d3 - 1) / 2,
+});
+
+export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFamily; year: number; defScale?: number; dh?: boolean; park?: ParkRow | null }) {
   const era = eraFor(opts.year)?.row ?? eraTable["0"];
   const prices: BoardRatings = envPrices(era.rates);
   const rg = solveEnv(era.rates, era.rg, null).RG;
@@ -46,7 +60,7 @@ export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFam
   const byId = new Map(hitters.map((h) => [h.id, h]));
 
   const fits = envFitMaps(hitters.map((h) => ({ cardId: h.id, isPitcher: false, bats: h.bats, ratings: h.ratings })),
-    { era: era.rates, park: null, roleTrust: 0.25, eraYear: opts.year });
+    { era: era.rates, park: opts.park ? homeHalf(opts.park) : null, roleTrust: 0.25, eraYear: opts.year });
   const runs = new Map<number, Record<Board, number | null>>();
   const warnings: string[] = [];
   for (const h of hitters) {
@@ -62,22 +76,31 @@ export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFam
     runs.set(h.id, out);
   }
 
-  const cell = (id: number, slot: string, b: Board): number => {
+  const cell = (id: number, slot: string, b: Board, locked = false): number => {
     const bat = runs.get(id)?.[b];
     if (bat == null) return -Infinity;
     if (slot === "DH") return bat;
     const pr = byId.get(id)!.ratings[`Pos Rating ${slot}`] ?? 0;
-    if (!(pr > 0) || pr < posFloorAt(LJ_FLOOR, slot)) return -Infinity;
+    if (!(pr > 0) || (!locked && pr < posFloorAt(LJ_FLOOR, slot))) return -Infinity;
     return bat + defScale * fieldingRuns(slot, pr);
   };
-  const solve = (ids: number[], b: Board): Lineup | null => {
-    const pick = maxAssignment(slots.map((s) => ids.map((i) => cell(i, s, b))));
+  const solve = (ids: number[], b: Board, locks: Locks = {}): Lineup | null => {
+    const lockedAt = new Map(Object.entries(locks).filter(([, id]) => id != null && ids.includes(id)) as Array<[string, number]>);
+    const lockedIds = new Set(lockedAt.values());
+    const value = (i: number, s: string) => {
+      const pin = lockedAt.get(s);
+      if (pin != null) return i === pin ? cell(i, s, b, true) : -Infinity;
+      return lockedIds.has(i) ? -Infinity : cell(i, s, b);
+    };
+    const pick = maxAssignment(slots.map((s) => ids.map((i) => value(i, s))));
     if (!pick) return null;
-    const lineup = slots.map((s, k) => ({ slot: s, id: ids[pick[k]], label: byId.get(ids[pick[k]])!.label, runs: cell(ids[pick[k]], s, b) }));
+    const lineup = slots.map((s, k) => ({ slot: s, id: ids[pick[k]], label: byId.get(ids[pick[k]])!.label, runs: value(ids[pick[k]], s) }));
+    if (lineup.some((x) => !Number.isFinite(x.runs))) return null;
     return { lineup, total: lineup.reduce((a, x) => a + x.runs, 0) };
   };
-  const add = (rosterIds: number[], id: number, base = { vR: solve(rosterIds, "vR"), vL: solve(rosterIds, "vL") }): CardAdd => {
-    const vR = solve([...rosterIds, id], "vR"), vL = solve([...rosterIds, id], "vL");
+  const add = (rosterIds: number[], id: number, base = { vR: solve(rosterIds, "vR"), vL: solve(rosterIds, "vL") },
+    locks: Partial<Record<Board, Locks>> = {}): CardAdd => {
+    const vR = solve([...rosterIds, id], "vR", locks.vR), vL = solve([...rosterIds, id], "vL", locks.vL);
     const dR = (vR?.total ?? 0) - (base.vR?.total ?? 0), dL = (vL?.total ?? 0) - (base.vL?.total ?? 0);
     const season = (1 - lhp) * dR + lhp * dL;
     const dhAt = (b: Board) => {
