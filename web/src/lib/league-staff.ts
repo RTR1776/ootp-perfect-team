@@ -5,22 +5,28 @@
  * The measures are lib/league-arms.ts'; this resolves names to cards and
  * scores them.
  *
- * A SCORE per role (edge per 9 innings over the league's arm):
+ * A SCORE per role (edge per 9 innings over the league's arm), in the
+ * team's league family (lib/league-arms blendArm):
  *   est   = k_arm × the tournament model's runs saved per 9, over the league's
  *           average arm (fit-arm-slope.ts; PT default era, neutral park)
- *   score = (IP·edge9 + 150·est) / (IP + 150)
- * so a big league sample speaks for itself and a small one leans on the
- * ratings instead of on zero. An arm no team has used as a starter is scored
- * as one from its ratings alone. A typed card face moves the league figure by
- * what the typed ratings change: k_arm × (its model − the base card's).
+ *   the card's play in the other families, shrunk toward est by 150 IP and
+ *   scaled to this family (a PEL edge runs about 0.73× the same card's edge
+ *   elsewhere), is the prior for its play in this family
+ * so a big sample in the team's own league speaks for itself, play elsewhere
+ * counts through the family's slope, and the ratings fill in the rest. Every
+ * line of the card counts, the base card's and its variant's, each moved by
+ * what the ratings scored change over the ones it pitched with: k_arm × (the
+ * model's runs for these ratings − for those). So a variant and the same face
+ * typed on the form score the same, owned or not.
  */
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { eraTable } from "@/lib/analytics/tournament-env";
 import { formRatings } from "@/lib/card-forms";
 import {
-  ARM_MODEL_FIT, ARM_PRIOR_IP, armKey, estimateEdge9, ipPerSlot, loadArmRows, poolArmEdges, type ArmEdge, type ArmRole, type StaffArm,
+  ARM_MODEL_FIT, ARM_PRIOR_IP, armKey, blendArm, estimateEdge9, familyFit, ipPerSlot, loadArmRows, poolArmEdges,
+  type ArmEdge, type ArmLine, type ArmRole, type StaffArm,
 } from "@/lib/league-arms";
-import type { LeagueFamily } from "@/lib/analytics/league-model";
+import { leagueFamily, type LeagueFamily } from "@/lib/analytics/league-model";
 import { normName, type HitterUniverse } from "@/lib/league-hitters";
 
 /** A pitcher's card face in the collection export's words, and the shop names they fill. */
@@ -44,6 +50,15 @@ export interface ArmPick {
   ratings: Record<string, number>;
   /** The shop card's ratings, for what a typed face changes. */
   base: Record<string, number>;
+  /** The ratings of the variant he owns of this card, if he owns one. */
+  varRatings: Record<string, number> | null;
+}
+
+/** The ratings of a variant of this card that he owns; null when he owns none. */
+export function ownedVariant(cardId: number, u: HitterUniverse): Record<string, number> | null {
+  const v = u.owned.filter((o) => o.cardId === cardId && o.isVariant).sort((a, b) => (b.cardValue ?? 0) - (a.cardValue ?? 0))[0];
+  const card = u.shopById.get(cardId);
+  return v && card ? formRatings((card.ratings ?? {}) as Record<string, number>, (v.ratings ?? null) as Record<string, number> | null) : null;
 }
 
 /**
@@ -66,6 +81,7 @@ export function resolveArms(entries: readonly string[], u: HitterUniverse): { ar
     arms.push({
       entry, label: `${card.name} ${card.value}${variant ? " VAR" : ""}`, cardId: card.cardId, key: armKey({ cid: card.cardId, name: card.name, isVariant: variant }), variant,
       ratings: variant ? formRatings(base, (mine[0]!.ratings ?? null) as Record<string, number> | null) : base, base,
+      varRatings: ownedVariant(card.cardId, u),
     });
   }
   return { arms, warnings };
@@ -75,9 +91,14 @@ export interface ArmScore {
   sp: number | null; rp: number | null;
   /** Where each score comes from: 150+ league innings in that role, or mostly the ratings. */
   spSource: "league" | "estimate"; rpSource: "league" | "estimate";
+  /** League innings in the role behind each score, every family; and those in the team's family. */
   spIp: number; rpIp: number;
+  spIpFamily: number; rpIpFamily: number;
   stamina: number | null;
 }
+
+/** Each card's league lines in one family, and in the others. */
+export interface ArmLines { family: LeagueFamily; fam: Map<string, ArmEdge>; other: Map<string, ArmEdge> }
 
 /** The tournament model's runs saved per 9, per role, for each set of ratings. */
 function modelPer9(list: { id: number; ratings: Record<string, number> }[], role: ArmRole): Map<number, number> {
@@ -91,40 +112,50 @@ function modelPer9(list: { id: number; ratings: Record<string, number> }[], role
 }
 
 /**
- * Score each arm per role. `typed` holds an arm's card face as typed on the
- * form (card-face words), for the modelled card.
+ * Score each arm per role in the team's league family. `typed` holds an
+ * arm's card face as typed on the form (card-face words), for the modelled card.
  */
-export function scoreArms(arms: readonly ArmPick[], edges: Map<string, ArmEdge>, typed: Map<string, Record<string, number>> = new Map()): Map<string, ArmScore> {
-  // Three reads per arm: as typed (or owned), as owned, and the base card.
-  const rows = arms.flatMap((a, i) => {
+export function scoreArms(arms: readonly ArmPick[], lines: ArmLines, typed: Map<string, Record<string, number>> = new Map()): Map<string, ArmScore> {
+  // The typed face, where there is one: it also carries Stamina, which decides who can start.
+  const faced = arms.map((a) => {
     const t = typed.get(a.entry);
-    return [
-      { id: 3 * i, ratings: t && Object.keys(t).length ? formRatings(a.ratings, t) : a.ratings },
-      { id: 3 * i + 1, ratings: a.ratings },
-      { id: 3 * i + 2, ratings: a.base },
-    ];
+    return t && Object.keys(t).length ? formRatings(a.ratings, t) : a.ratings;
   });
+  const baseKey = (a: ArmPick) => armKey({ cid: a.cardId, name: "", isVariant: false });
+  const varKey = (a: ArmPick) => armKey({ cid: a.cardId, name: "", isVariant: true });
+  // What the variant pitched with: the copy he owns, else what its newest league line says.
+  const varFaces = arms.map((a) => {
+    if (a.varRatings) return a.varRatings;
+    const r = lines.fam.get(varKey(a))?.ratings ?? lines.other.get(varKey(a))?.ratings;
+    return r ? { ...a.base, ...r } : null;
+  });
+  // Three reads per arm: as scored, the base card, and its variant.
+  const rows = arms.flatMap((a, i) => [
+    { id: 3 * i, ratings: faced[i] },
+    { id: 3 * i + 1, ratings: a.base },
+    ...(varFaces[i] ? [{ id: 3 * i + 2, ratings: varFaces[i]! }] : []),
+  ]);
   const per = { SP: modelPer9(rows, "SP"), RP: modelPer9(rows, "RP") };
+  const fit = familyFit(lines.family);
   const out = new Map<string, ArmScore>();
   arms.forEach((a, i) => {
-    // A variant no team has pitched reads off its base card's line.
-    const own = edges.get(a.key);
-    const edge = edgeFor(a, edges);
     const score = (role: ArmRole) => {
-      const m = per[role];
-      const now = m.get(3 * i), ref = own ? m.get(3 * i + 1) : m.get(3 * i + 2);
-      if (now == null) return { score: null, source: "estimate" as const, ip: 0 };
-      const est = estimateEdge9(now);
-      const side = role === "SP" ? edge?.asSP : edge?.asRP;
-      if (!side || ref == null) return { score: est, source: "estimate" as const, ip: 0 };
-      // The league line, moved by what these ratings change over the ones it was pitched with.
-      const league = side.edge9 + ARM_MODEL_FIT.k * (now - ref);
-      return { score: (side.ip * league + ARM_PRIOR_IP * est) / (side.ip + ARM_PRIOR_IP), source: side.ip >= ARM_PRIOR_IP ? ("league" as const) : ("estimate" as const), ip: side.ip };
+      const m = per[role], now = m.get(3 * i);
+      if (now == null) return { score: null, source: "estimate" as const, ip: 0, ipFamily: 0 };
+      const side = (e: ArmEdge | undefined) => (role === "SP" ? e?.asSP : e?.asRP) ?? null;
+      const versions = [{ key: baseKey(a), ref: m.get(3 * i + 1) }, ...(varFaces[i] ? [{ key: varKey(a), ref: m.get(3 * i + 2) }] : [])];
+      const own: ArmLine[] = versions
+        .filter((v): v is { key: string; ref: number } => v.ref != null)
+        .map((v) => ({ fam: side(lines.fam.get(v.key)), other: side(lines.other.get(v.key)), shift: ARM_MODEL_FIT.k * (now - v.ref) }));
+      const b = blendArm(own, estimateEdge9(now), fit);
+      const ip = b.ipFam + b.ipOther;
+      return { score: b.score, source: ip >= ARM_PRIOR_IP ? ("league" as const) : ("estimate" as const), ip, ipFamily: b.ipFam };
     };
     const sp = score("SP"), rp = score("RP");
+    const line = lines.fam.get(a.key) ?? lines.other.get(a.key);
     out.set(a.entry, {
-      sp: sp.score, rp: rp.score, spSource: sp.source, rpSource: rp.source, spIp: sp.ip, rpIp: rp.ip,
-      stamina: a.ratings.Stamina ?? edge?.stamina ?? null,
+      sp: sp.score, rp: rp.score, spSource: sp.source, rpSource: rp.source, spIp: sp.ip, rpIp: rp.ip, spIpFamily: sp.ipFamily, rpIpFamily: rp.ipFamily,
+      stamina: faced[i].Stamina ?? line?.stamina ?? null,
     });
   });
   return out;
@@ -145,9 +176,22 @@ function cached<T>(key: string, load: () => Promise<T>): Promise<T> {
   return value;
 }
 
+/** Every family's pitcher lines of one split, read once. */
+const armRows = (split: "all" | "vL" | "vR") => cached(`rows:${split}`, () => loadArmRows({ family: "all", split }));
+
 /** Every family's arm lines pooled per card; `split` vL / vR is against left- / right-handed batters. */
 export const leagueArmEdges = (split: "all" | "vL" | "vR" = "all") =>
-  cached(`edges:${split}`, () => loadArmRows({ family: "all", split }).then(poolArmEdges));
+  cached(`edges:${split}`, () => armRows(split).then(poolArmEdges));
+
+/** Each card's lines in one league family and in the others, for scoring a team of that family. */
+export const leagueArmLines = (family: LeagueFamily) => cached(`lines:${family}`, async (): Promise<ArmLines> => {
+  const rows = await armRows("all");
+  return {
+    family,
+    fam: poolArmEdges(rows.filter((r) => leagueFamily(r.league) === family)),
+    other: poolArmEdges(rows.filter((r) => leagueFamily(r.league) !== family)),
+  };
+});
 
 /** Innings a rotation and a bullpen slot pitch in a week of this family. */
 export const leagueIpPerSlot = (family: LeagueFamily) => cached(`ip:${family}`, () => ipPerSlot(family));

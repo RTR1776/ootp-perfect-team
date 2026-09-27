@@ -201,7 +201,7 @@ export function CardPanel({ candidate: c, cards, result, pending, stale, loading
           </div>
         )}
         {shown && (arm
-          ? <ArmResult c={shown} result={result} pending={pending} stale={stale} />
+          ? <ArmResult c={shown} result={result} pending={pending} stale={stale} act={act} />
           : <CardResult c={shown} result={result} pending={pending} stale={stale} />)}
       </CardContent>
     </Card>

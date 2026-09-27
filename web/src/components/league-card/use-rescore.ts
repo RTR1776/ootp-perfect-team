@@ -28,7 +28,9 @@ export interface ArmRow {
   sp: number | null; rp: number | null;
   /** "league": 150+ league innings in that role; "estimate": mostly the ratings. */
   spSource: "league" | "estimate"; rpSource: "league" | "estimate";
+  /** League innings behind each role's score (the base card's and its variant's), and those in the team's league family. */
   spIp: number; rpIp: number;
+  spIpFamily: number; rpIpFamily: number;
   stamina: number | null;
   /** League edge per 9 against left- and right-handed batters; null with no league line. */
   vL: number | null; vR: number | null;
@@ -49,7 +51,7 @@ export interface ScoreResult {
   /** The modelled card when it's a pitcher. */
   candidateArm: ArmRow | null;
   /** What he adds on the same number of pitching spots: his slot, who leaves the rotation, who sits, and the staff with him. */
-  armAdd: { season: number; wins: number; slot: StaffSlot | null; replaces: string[]; sits: string[]; staff: Staff } | null;
+  armAdd: { season: number; wins: number; slot: StaffSlot | null; replaces: string[]; sits: string[]; staff: Staff; role: "SP" | "RP" | null } | null;
   warnings: string[];
 }
 

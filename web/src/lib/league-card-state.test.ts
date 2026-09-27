@@ -368,3 +368,20 @@ test("an arm card: its face, typed and stepped per side, and the request sends i
   assert.equal(r.face["STU vR"], "170");
   assert.equal(restoreState(JSON.parse(JSON.stringify(apply(s, edit.pickCard(WINFIELD)))), null, PEL).candidate!.kind, "bat");
 });
+
+test("a modelled pitcher can be put in the rotation or the pen; the choice is one undo step and goes in the request", () => {
+  const JANSEN_CARD: CardBase = { id: 85705, kind: "arm", name: "Kenley Jansen", title: null, base: { "STU vL": 150, STM: 19 } };
+  let h = play(initHistory(freshState(PEL)), edit.pickCard(JANSEN_CARD), edit.armRole("Kenley Jansen", "RP"));
+  assert.equal(h.present.candidate?.role, "RP");
+  assert.equal(undoLabel(h), "Model Kenley Jansen as a reliever");
+  assert.equal(scoreRequest(h.present, new Set()).body?.candidateRole, "RP");
+  assert.equal(modelReducer(h.present, edit.armRole("Kenley Jansen", "RP")), h.present, "the same choice is no step");
+  h = play(h, edit.armRole("Kenley Jansen", null));
+  assert.equal(scoreRequest(h.present, new Set()).body?.candidateRole, undefined, "wherever he scores best");
+  assert.equal(edit.armRole("Kenley Jansen", null).label, "Put Kenley Jansen where he scores best");
+  assert.equal(edit.armRole("Kenley Jansen", "SP").label, "Model Kenley Jansen as a starter");
+  const bat = apply(freshState(PEL), edit.pickCard(WINFIELD));
+  assert.equal(modelReducer(bat, edit.armRole("Dave Winfield", "SP")), bat, "a hitter has no role to pick");
+  const restored = restoreState(JSON.parse(JSON.stringify({ ...h.present, candidate: { ...h.present.candidate, role: "SP" } })), null, PEL);
+  assert.equal(restored.candidate?.role, "SP");
+});

@@ -66,7 +66,11 @@ export interface Candidate extends CardBase {
   face: Record<string, string>;
   /** Scored in the lineups (a pitcher: the staff) only when on. */
   include: boolean;
+  /** A pitcher put in the rotation (SP) or the pen (RP); none: wherever he scores best. */
+  role?: ArmSlotRole | null;
 }
+
+export type ArmSlotRole = "SP" | "RP";
 
 export interface ModelState {
   bats: string[];
@@ -107,6 +111,7 @@ type Edit =
   | { type: "step"; keys: string[]; pct: number }
   | { type: "baseFace" }
   | { type: "include"; include: boolean }
+  | { type: "armRole"; role: ArmSlotRole | null }
   | { type: "clearCard" };
 export type ModelAction = Edit & UndoAction;
 
@@ -172,6 +177,9 @@ export const edit = {
   armStep: (side: Board, pct: number): ModelAction => ({ type: "step", keys: armSideKeys(side), pct, label: `${pctText(pct)} ${BATTER_NAME[side]}` }),
   baseFace: (name: string): ModelAction => ({ type: "baseFace", label: `Reset ${name} to base` }),
   include: (name: string, include: boolean): ModelAction => ({ type: "include", include, label: include ? `Include ${name}` : `Leave out ${name}` }),
+  armRole: (name: string, role: ArmSlotRole | null): ModelAction => ({
+    type: "armRole", role, label: role ? `Model ${name} as a ${role === "SP" ? "starter" : "reliever"}` : `Put ${name} where he scores best`,
+  }),
   clearCard: (name: string): ModelAction => ({ type: "clearCard", label: `Clear ${name}` }),
 };
 
@@ -182,6 +190,7 @@ const keepLocks = (l: Locks, keep: (entry: string) => boolean): Locks => ({
   vL: Object.fromEntries(Object.entries(l.vL).filter(([, e]) => keep(e))),
 });
 const keepArmLocks = (l: ArmLocks, keep: (entry: string) => boolean): ArmLocks => Object.fromEntries(Object.entries(l).filter(([, e]) => keep(e)));
+
 
 /** A new export's list, plus anyone he added by hand (on his list but not on the export it came from). */
 const takeExport = (mine: string[], fromExport: string[], next: string[]) => [...next, ...mine.filter((e) => !fromExport.includes(e) && !next.includes(e))];
@@ -316,6 +325,8 @@ export function modelReducer(s: ModelState, a: ModelAction): ModelState {
       return c && cardEdited(c) ? { ...s, candidate: { ...c, face: baseFace(c.base) } } : s;
     case "include":
       return !c || c.include === a.include ? s : { ...s, candidate: { ...c, include: a.include } };
+    case "armRole":
+      return !c || c.kind !== "arm" || (c.role ?? null) === a.role ? s : { ...s, candidate: { ...c, role: a.role } };
     case "clearCard":
       return c ? { ...s, candidate: null } : s;
   }
@@ -387,7 +398,7 @@ function candidateOf(x: unknown): Candidate | null {
   return {
     id, kind: arm ? "arm" : "bat", name: typeof x.name === "string" && x.name ? x.name : `Card ${id}`,
     title: typeof x.title === "string" ? x.title : null, base, face, include: x.include !== false,
-    ...(arm ? { movement, observed: observedOf(x.observed) } : {}),
+    ...(arm ? { movement, observed: observedOf(x.observed), role: x.role === "SP" || x.role === "RP" ? x.role : null } : {}),
   };
 }
 
@@ -447,6 +458,8 @@ export interface ScoreBody {
   roster: string[]; locks: Locks; park: string | null; family: Family; year: number; defScale: number;
   arms: string[]; armLocks: ArmLocks;
   cardId?: number; ratings?: Record<string, number>;
+  /** A modelled pitcher's role, when he isn't put wherever he scores best. */
+  candidateRole?: ArmSlotRole;
 }
 /** A request to score, keyed by its JSON; or why there is none (null: nothing to score yet). */
 export type ScoreRequest = { key: string; body: ScoreBody; skip?: undefined } | { key: null; body?: undefined; skip: string | null };
@@ -476,6 +489,7 @@ export function scoreRequest(s: ModelState, parks: ReadonlySet<string>): ScoreRe
     }
     body.cardId = c.id;
     body.ratings = ratings;
+    if (c.kind === "arm" && c.role) body.candidateRole = c.role;
   }
   return { key: JSON.stringify(body), body };
 }

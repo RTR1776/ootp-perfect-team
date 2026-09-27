@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { addArm, armKey, ipPerSlotFrom, poolArmEdges, roleOf, staffSolve, type ArmRow, type StaffArm } from "./league-arms";
+import { addArm, armKey, blendArm, ipPerSlotFrom, leagueArmRatings, poolArmEdges, roleOf, staffSolve, type ArmRow, type ArmSide, type StaffArm } from "./league-arms";
 
 const line = (o: Partial<ArmRow> & { snapshotId: number; name: string; ip: number; k: number; bb: number; hr: number; gs?: number; g?: number }): ArmRow => ({
   league: "HD451", capturedOn: "2026-09-20", org: o.org ?? "Team A", isFreeAgent: false, cid: o.cid ?? null, isVariant: o.isVariant ?? false, pos: o.pos ?? "SP",
@@ -89,4 +89,100 @@ test("a locked arm sits in the slot he was locked to; runs don't move", () => {
   assert.equal(held.bullpen[0].slot, "CL");
   assert.equal(held.bullpen[1].entry, "F", "the rest keep their order around the lock");
   assert.ok(Math.abs(held.total - free.total) < 1e-9, "the same arms in the same roles");
+});
+
+test("with one spot fewer than arms, a starter with a poor relief number sits instead of holding the rotation", () => {
+  // Six can start. The greedy pick (five largest start-minus-relief gains) keeps Blue, whose relief is awful,
+  // and benches Haddix; starting Haddix and sitting Blue is better.
+  const arms = [arm("A", 0.4, 0.3), arm("B", 0.3, 0.2), arm("C", 0.25, 0.2), arm("D", 0.2, 0.15), arm("Blue", 0.0, -0.5), arm("Haddix", 0.1, 0.25), arm("Henke", null, 0.1, 25)];
+  const s = staffSolve(arms, ip, {}, 6);
+  assert.deepEqual(s.rotation.map((x) => x.entry).sort(), ["A", "B", "C", "D", "Haddix"]);
+  assert.deepEqual(s.bullpen.map((x) => x.entry), ["Henke"]);
+  assert.deepEqual(s.out.map((x) => x.entry), ["Blue"]);
+});
+
+test("the staff is the best split of starters, relievers and sitters (brute force)", () => {
+  let seed = 7;
+  const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const brute = (arms: StaffArm[], size: number, starters: number) => {
+    const relievers = Math.min(size - starters, arms.length - starters);
+    let best = -Infinity;
+    const walk = (i: number, sp: number, rp: number, total: number) => {
+      if (i === arms.length) { if (sp === starters && rp === relievers) best = Math.max(best, total); return; }
+      const a = arms[i];
+      const starts = a.sp != null && (a.stamina == null || a.stamina > 25);
+      if (starts) walk(i + 1, sp + 1, rp, total + (a.sp! * ip.sp) / 9);
+      walk(i + 1, sp, rp + 1, total + ((a.rp ?? a.sp ?? 0) * ip.rp) / 9);
+      walk(i + 1, sp, rp, total);
+    };
+    walk(0, 0, 0, 0);
+    return best;
+  };
+  for (let t = 0; t < 300; t++) {
+    const n = 6 + Math.floor(rnd() * 4);
+    const arms = Array.from({ length: n }, (_, i) => {
+      const reliefOnly = rnd() < 0.3;
+      return arm(`a${i}`, reliefOnly && rnd() < 0.5 ? null : rnd() - 0.4, rnd() < 0.1 ? null : rnd() - 0.4, reliefOnly ? 20 : 60);
+    });
+    const canStart = arms.filter((a) => a.sp != null && (a.stamina ?? 99) > 25).length;
+    // A staff always has its rotation, so it is never smaller than that.
+    for (const size of [n, n - 1, n - 2].filter((z) => z >= Math.min(5, canStart))) {
+      const s = staffSolve(arms, ip, {}, size);
+      const b = brute(arms, size, Math.min(5, canStart));
+      assert.ok(Math.abs(s.total - b) < 1e-9, `trial ${t}, n ${n}, size ${size}: ${s.total} vs ${b}`);
+      assert.equal(s.rotation.length + s.bullpen.length, Math.min(size, n));
+    }
+  }
+});
+
+test("adding an arm as a reliever (or a starter) puts him there, even where he'd score more elsewhere", () => {
+  const arms = [arm("A", 0.4, 0.4), arm("B", 0.3, 0.3), arm("C", 0.2, 0.2), arm("D", 0.1, 0.1), arm("E", 0.05, 0.05), arm("Pen1", null, 0.2, 20), arm("Pen2", null, -0.3, 20)];
+  const best = addArm(arms, arm("New", 0.35, 0.2), ip);
+  assert.equal(best.slot?.role, "SP");
+  const pen = addArm(arms, arm("New", 0.35, 0.2), ip, {}, "RP");
+  assert.equal(pen.slot?.role, "RP");
+  assert.deepEqual(pen.sits, ["Pen2"]);
+  assert.ok(pen.season < best.season, "his best role is worth more");
+  assert.equal(addArm(arms, arm("Closer", null, 0.29, 20), ip, {}, "RP").slot?.slot, "CL");
+});
+
+const side = (edge9: number, ip: number): ArmSide => ({ edge9, edge9Reg: 0, ip, teams: 1, weeks: 1 });
+
+test("the family blend: with no play in the family and a family read as the others, it is the old pooled score", () => {
+  const same = { a: 0, b: 1, w: 1000, n: 0 };
+  const b = blendArm([{ fam: null, other: side(0.3, 600), shift: 0 }], 0.1, same);
+  assert.equal(b.score.toFixed(6), ((600 * 0.3 + 150 * 0.1) / 750).toFixed(6));
+  assert.deepEqual([b.ipFam, b.ipOther], [0, 600]);
+  assert.equal(blendArm([], 0.1, same).score.toFixed(6), "0.100000", "no play anywhere: the ratings estimate");
+});
+
+test("the family blend: its own play leads once it is big; elsewhere counts through the family's slope", () => {
+  const pel = { a: -0.01, b: 0.7, w: 4000, n: 55 };
+  // 25,830 PEL innings at −0.03 against +0.13 elsewhere: close to his PEL line.
+  const big = blendArm([{ fam: side(-0.03, 25830), other: side(0.13, 20000), shift: 0 }], 0.1, pel).score;
+  const prior = -0.01 + 0.7 * ((20000 * 0.13 + 150 * 0.1) / 20150);
+  assert.equal(big.toFixed(6), ((25830 * -0.03 + 4000 * prior) / 29830).toFixed(6));
+  assert.ok(big < 0.01);
+  // No PEL play: the other leagues' line, scaled to PEL.
+  assert.equal(blendArm([{ fam: null, other: side(0.2, 20000), shift: 0 }], 0, pel).score.toFixed(4), (-0.01 + 0.7 * (20000 * 0.2 / 20150)).toFixed(4));
+});
+
+test("the family blend pools the base card's and the variant's lines, each moved to the ratings scored", () => {
+  const same = { a: 0, b: 1, w: 1000, n: 0 };
+  // Scoring the variant: its own line needs no move; the base line moves up by what the variant adds (+0.1).
+  const b = blendArm([{ fam: null, other: side(0.1, 3000), shift: 0.1 }, { fam: null, other: side(0.25, 1000), shift: 0 }], 0.2, same);
+  assert.equal(b.ipOther, 4000);
+  assert.equal(b.score.toFixed(6), ((4000 * ((3000 * 0.2 + 1000 * 0.25) / 4000) + 150 * 0.2) / 4150).toFixed(6));
+  // The family's lines move by the family's slope times the shift.
+  const pel = { a: 0, b: 0.5, w: 0, n: 0 };
+  assert.equal(blendArm([{ fam: side(0.1, 1000), other: null, shift: 0.2 }], 0, pel).score.toFixed(6), "0.200000");
+});
+
+test("a line's split ratings read in the shop's words, only when all are there", () => {
+  const r = { "STU vL": 160, "STU vR": 139, "CON vL": 95, "CON vR": 90, "HRA vL": 130, "HRA vR": 120, "PBAB vL": 97, "PBAB vR": 99, STM: 19, CON: 106 };
+  assert.deepEqual(leagueArmRatings(r), {
+    "Stuff vL": 160, "Stuff vR": 139, "Control vL": 95, "Control vR": 90, "pHR vL": 130, "pHR vR": 120, "pBABIP vL": 97, "pBABIP vR": 99, Stamina: 19,
+  });
+  assert.equal(leagueArmRatings({ STU: 140, CON: 82, HRA: 122, PBAB: 107, STM: 25 }), null, "exports before 09-26 have no splits");
+  assert.equal(leagueArmRatings(undefined), null);
 });

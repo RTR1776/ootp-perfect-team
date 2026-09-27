@@ -29,19 +29,23 @@ export interface StaffWith { name: string; arm: ArmRow; staff: Staff }
 const isEstimate = (a: ArmRow | undefined, role: Role) => !!a && (role === "SP" ? a.spSource : a.rpSource) === "estimate";
 
 /** "3,306 IP" of league play in the role, or a grey "est." where the ratings carry the number. */
-function Sample({ arm, role }: { arm: ArmRow | undefined; role: Role }) {
+function Sample({ arm, role, family }: { arm: ArmRow | undefined; role: Role; family: string }) {
   if (!arm) return null;
   const ip = role === "SP" ? arm.spIp : arm.rpIp;
+  const inFamily = role === "SP" ? arm.spIpFamily : arm.rpIpFamily;
   if (isEstimate(arm, role)) {
     const why = ip > 0 ? `${innings(ip)} league IP as ${AS[role]}, under 150: mostly a ratings estimate` : `No league innings as ${AS[role]}: a ratings estimate`;
     return <span className="rounded bg-muted px-1 text-[11px] text-muted-foreground" title={why}>est.</span>;
   }
-  return <span className="whitespace-nowrap rounded border border-border px-1 font-mono text-[11px]" title={`League innings as ${AS[role]}`}>{innings(ip)} IP</span>;
+  const title = `League innings as ${AS[role]}, the card's and its variant's: ${innings(inFamily)} in ${family}, ${innings(ip - inFamily)} in other leagues`;
+  return <span className="whitespace-nowrap rounded border border-border px-1 font-mono text-[11px]" title={title}>{innings(ip)} IP</span>;
 }
 
-function StaffTable({ title, role, slots, at, before, locks, options, rows, model, pending, stale, onLock, onSelectKeys }: {
+function StaffTable({ title, role, family, slots, at, before, locks, options, rows, model, pending, stale, onLock, onSelectKeys }: {
   title: string;
   role: Role;
+  /** The league family the edges are for (PEL, HD, LD). */
+  family: string;
   slots: string[];
   /** Who pitches in each slot: the staff now, or with the modelled pitcher. */
   at: Map<string, StaffSlot>;
@@ -119,7 +123,7 @@ function StaffTable({ title, role, slots, at, before, locks, options, rows, mode
                   {per9(x?.edge9)}
                   {isEstimate(arm, role) && <div className="font-sans text-[10px] text-muted-foreground sm:hidden">est.</div>}
                 </td>
-                <td className="hidden py-1 pl-2 text-right sm:table-cell"><Sample arm={arm} role={role} /></td>
+                <td className="hidden py-1 pl-2 text-right sm:table-cell"><Sample arm={arm} role={role} family={family} /></td>
                 <td className={cn("py-1 text-right font-mono", toneClass(x?.runs))}>{signed(x?.runs)}</td>
               </tr>
             );
@@ -186,10 +190,15 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
   const slotOf = new Map([...(now?.rotation ?? []), ...(now?.bullpen ?? [])].map((x) => [x.entry, x.slot]));
   const before = (group: StaffSlot[] | undefined) => (withArm && now ? { total: (group ?? []).reduce((n, x) => n + x.runs, 0), slotOf } : null);
   const sits = (withArm ? withArm.staff.out : now?.out ?? []).map((o) => o.label);
+  // A lock on a slot the board doesn't have (RP8 once the pen is shorter) still holds his role: show it, so it can be released.
+  const onBoard = new Set([...rotation, ...bullpen]);
+  const offBoard = Object.entries(state.armLocks).filter(([slot]) => !onBoard.has(slot));
+  const nowAt = new Map([...(shown?.rotation ?? []), ...(shown?.bullpen ?? [])].map((x) => [x.entry, x.slot]));
   const ip = now?.ipPerSlot;
+  const family = result?.family ?? state.settings.family;
   const table = (title: string, role: Role, slots: string[]) => (
     <StaffTable
-      title={title} role={role} slots={slots} at={at} before={before(role === "SP" ? now?.rotation : now?.bullpen)} locks={state.armLocks} options={options(role)} rows={rows}
+      title={title} role={role} family={family} slots={slots} at={at} before={before(role === "SP" ? now?.rotation : now?.bullpen)} locks={state.armLocks} options={options(role)} rows={rows}
       model={withArm?.arm.entry ?? null} pending={pending} stale={stale} onLock={lock} onSelectKeys={onSelectKeys}
     />
   );
@@ -233,11 +242,21 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
           {table("Bullpen", "RP", bullpen)}
         </div>
       )}
+      {offBoard.length > 0 && (
+        <ul className="space-y-1 text-xs">
+          {offBoard.map(([slot, entry]) => (
+            <li key={slot} className="flex flex-wrap items-center gap-x-2">
+              <Lock className="size-3 shrink-0 text-muted-foreground" aria-hidden />
+              <span>{`${nameOf(entry)} is locked at ${slot}, which a staff this size doesn't have${nowAt.get(entry) ? `; he pitches at ${nowAt.get(entry)}.` : "."}`}</span>
+              <Button size="sm" variant="ghost" className="h-7 px-2" onClick={() => lock(slot, null)}>Unlock {slot}</Button>
+            </li>
+          ))}
+        </ul>
+      )}
       {ip && (
         <p className={cn("text-[11px] text-muted-foreground", stale && "opacity-60")}>
-          Edge per 9 = FIP-type runs better than each week&apos;s league, pooled over every team that rostered the card; arms with
-          under 150 league IP lean on a ratings estimate. Season = edge × {Math.round(ip.sp)} IP (starter) / {Math.round(ip.rp)} IP
-          (reliever). Leverage not modelled.{now?.week && result ? ` Slot innings: ${result.family}, week of ${now.week.slice(5)}.` : ""}
+          {`Edge per 9 = FIP-type runs better than each week's league. ${family} play counts most; a card's play in the other leagues is scaled to ${family} and weighs in where that is thin, and arms with little of either lean on a ratings estimate. The base card's and its variant's lines both count. Season = edge × ${Math.round(ip.sp)} IP (starter) / ${Math.round(ip.rp)} IP (reliever). Leverage not modelled.`}
+          {now?.week && result ? ` Slot innings: ${result.family}, week of ${now.week.slice(5)}.` : ""}
         </p>
       )}
       {warnings.length > 0 && (

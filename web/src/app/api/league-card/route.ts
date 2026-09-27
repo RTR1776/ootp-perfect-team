@@ -27,7 +27,10 @@
  * - cardId of a pitcher + ratings in card-face words (STU vL, CON vR, HRA vL,
  *   PBABIP vR, STM): the arm to model; `armAdd` is what he adds to the staff
  *   on the same number of pitching spots, and `armAdd.staff` the staff he
- *   would join.
+ *   would join. candidateRole "SP" or "RP" puts him in the rotation or the
+ *   pen instead of wherever he scores best (a starter needs Stamina over 25).
+ * Arms are scored in the team's league family (`family`): its own play
+ * first, play in the other families scaled to it (lib/league-staff).
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { eq } from "drizzle-orm";
@@ -37,8 +40,10 @@ import { leagueFamily, type Board, type LeagueFamily } from "@/lib/analytics/lea
 import { leagueLineups, type Lineup, type Locks } from "@/lib/analytics/league-lineup";
 import { eraFor, parkFor } from "@/lib/analytics/tournament-env";
 import { candidateHitter, FACE_KEYS, faceRatings, loadHitterUniverse, myLeagueBats, resolveRoster, type ShopHitter } from "@/lib/league-hitters";
-import { addArm, armKey, myLeagueArms, staffSolve } from "@/lib/league-arms";
-import { ARM_FACE_KEYS, armFace, edgeFor, leagueArmEdges, leagueIpPerSlot, resolveArms, scoreArms, sideEdge, toStaffArm, type ArmPick } from "@/lib/league-staff";
+import { addArm, armKey, myLeagueArms, STARTER_STAMINA, staffSolve, type ArmRole } from "@/lib/league-arms";
+import {
+  ARM_FACE_KEYS, armFace, edgeFor, leagueArmEdges, leagueArmLines, leagueIpPerSlot, ownedVariant, resolveArms, scoreArms, sideEdge, toStaffArm, type ArmPick,
+} from "@/lib/league-staff";
 
 export const runtime = "nodejs";
 
@@ -133,7 +138,10 @@ export async function POST(request: NextRequest) {
     if (!card) return NextResponse.json({ error: "No card with that id." }, { status: 404 });
     if (card.isPitcher) {
       const base = (card.ratings ?? {}) as Record<string, number>;
-      candArm = { entry: `model#${card.cardId}`, label: `${card.name} ${card.value} (model)`, cardId: card.cardId, key: armKey({ cid: card.cardId, name: card.name, isVariant: false }), variant: false, ratings: base, base };
+      candArm = {
+        entry: `model#${card.cardId}`, label: `${card.name} ${card.value} (model)`, cardId: card.cardId, key: armKey({ cid: card.cardId, name: card.name, isVariant: false }),
+        variant: false, ratings: base, base, varRatings: ownedVariant(card.cardId, u),
+      };
       candArmFace.set(candArm.entry, typedFace(body.ratings, ARM_FACE));
     } else {
       cand = { ...candidateHitter(hitters.length, card.name, card, typedFace(body.ratings, FACE)), label: `${card.name} ${card.value} (model)` };
@@ -157,10 +165,10 @@ export async function POST(request: NextRequest) {
 
   // ---- the pitching staff
   const armEntries = typedArms ?? mineArms?.arms.map((x) => x.entry) ?? [];
-  const [edges, edgesVL, edgesVR, ip] = await Promise.all([leagueArmEdges(), leagueArmEdges("vL"), leagueArmEdges("vR"), leagueIpPerSlot(family)]);
+  const [lines, edgesVL, edgesVR, ip] = await Promise.all([leagueArmLines(family), leagueArmEdges("vL"), leagueArmEdges("vR"), leagueIpPerSlot(family)]);
   const { arms: picks, warnings: armWarnings } = resolveArms(armEntries, u);
   warnings.push(...armWarnings);
-  const scores = scoreArms(candArm ? [...picks, candArm] : picks, edges, candArmFace);
+  const scores = scoreArms(candArm ? [...picks, candArm] : picks, lines, candArmFace);
   const staffArms = picks.map((a) => toStaffArm(a, scores.get(a.entry)!));
   const armLocks: { SP: string[]; RP: string[]; at: Record<string, string> } = { SP: [], RP: [], at: {} };
   const armEntrySet = new Set(picks.map((a) => a.entry));
@@ -175,9 +183,19 @@ export async function POST(request: NextRequest) {
   const sideOf = (a: ArmPick) => ({ vL: sideEdge(edgeFor(a, edgesVL))?.edge9 ?? null, vR: sideEdge(edgeFor(a, edgesVR))?.edge9 ?? null });
   const armRow = (a: ArmPick) => {
     const sc = scores.get(a.entry)!;
-    return { entry: a.entry, label: a.label, cardId: a.cardId, sp: sc.sp, rp: sc.rp, spSource: sc.spSource, rpSource: sc.rpSource, spIp: sc.spIp, rpIp: sc.rpIp, stamina: sc.stamina, ...sideOf(a) };
+    return {
+      entry: a.entry, label: a.label, cardId: a.cardId, sp: sc.sp, rp: sc.rp, spSource: sc.spSource, rpSource: sc.rpSource,
+      spIp: sc.spIp, rpIp: sc.rpIp, spIpFamily: sc.spIpFamily, rpIpFamily: sc.rpIpFamily, stamina: sc.stamina, ...sideOf(a),
+    };
   };
-  const armGain = candArm && staffArms.length ? addArm(staffArms, toStaffArm(candArm, scores.get(candArm.entry)!), ip, armLocks) : null;
+  // The role he was asked to pitch in, if he can: a starter needs a starter's number and Stamina over 25.
+  let role: ArmRole | undefined = body.candidateRole === "SP" || body.candidateRole === "RP" ? body.candidateRole : undefined;
+  const candScore = candArm ? scores.get(candArm.entry)! : null;
+  if (candArm && candScore && role === "SP" && (candScore.sp == null || (candScore.stamina != null && candScore.stamina <= STARTER_STAMINA))) {
+    warnings.push(`${candArm.label.replace(/ \(model\)$/, "")} can't start (Stamina ${candScore.stamina ?? "—"}); scored where he fits best`);
+    role = undefined;
+  }
+  const armGain = candArm && candScore && staffArms.length ? addArm(staffArms, toStaffArm(candArm, candScore), ip, armLocks, role) : null;
 
   return NextResponse.json({
     family, year, dh, defScale, lhp: m.lhp, rpw: m.rpw, rg: m.rg,
@@ -191,7 +209,7 @@ export async function POST(request: NextRequest) {
     staff: staff && { ...staff, ipPerSlot: { sp: ip.sp, rp: ip.rp }, week: ip.week, source: typedArms ? "your list" : mineArms ? `${mineArms.league}, week of ${mineArms.on}` : "—", entries: armEntries },
     armPool: picks.map(armRow),
     candidateArm: candArm ? armRow(candArm) : null,
-    armAdd: armGain && { season: armGain.season, wins: armGain.season / m.rpw, slot: armGain.slot, replaces: armGain.replaces, sits: armGain.sits, staff: armGain.with },
+    armAdd: armGain && { season: armGain.season, wins: armGain.season / m.rpw, slot: armGain.slot, replaces: armGain.replaces, sits: armGain.sits, staff: armGain.with, role: role ?? null },
     warnings: [...warnings, ...m.warnings],
   });
 }

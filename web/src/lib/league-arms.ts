@@ -71,6 +71,12 @@ export interface ArmEdge {
   asRP: ArmSide | null;
   /** Stamina from the newest line (league ratings: STM). */
   stamina: number | null;
+  /**
+   * The card's pitching ratings in the shop's words, from the newest line
+   * that has the split ratings (exports since 2026-09-26; they match the shop
+   * card). What a variant no one here owns was pitched with.
+   */
+  ratings: Record<string, number> | null;
 }
 
 export const ARM_PRIOR_IP = 150;
@@ -82,6 +88,23 @@ export const armKey = (r: { cid: number | null; name: string; pos?: string; isVa
   `${r.cid != null ? `c${r.cid}` : `n${r.name}|${r.pos ?? ""}`}${r.isVariant ? "v" : ""}`;
 
 const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : 0);
+
+/** The export's pitching ratings and the shop's names for them. */
+const LEAGUE_ARM_KEYS: Array<[league: string, shop: string]> = [
+  ["STU vL", "Stuff vL"], ["STU vR", "Stuff vR"], ["CON vL", "Control vL"], ["CON vR", "Control vR"],
+  ["HRA vL", "pHR vL"], ["HRA vR", "pHR vR"], ["PBAB vL", "pBABIP vL"], ["PBAB vR", "pBABIP vR"], ["STM", "Stamina"],
+];
+/** A line's ratings in the shop's words; null unless it has every split rating. */
+export function leagueArmRatings(r: Record<string, number> | undefined): Record<string, number> | null {
+  if (!r) return null;
+  const out: Record<string, number> = {};
+  for (const [league, shop] of LEAGUE_ARM_KEYS) {
+    const v = r[league];
+    if (typeof v !== "number" || !Number.isFinite(v)) return null;
+    out[shop] = v;
+  }
+  return out;
+}
 /** 13·HR + 3·(BB + HBP) − 2·K for one line (the export's pitcher columns). */
 const coreSum = (s: Record<string, number>) => 13 * num(s.HRa) + 3 * (num(s.BBa) + num(s.HPa)) - 2 * num(s.Ka);
 
@@ -115,14 +138,19 @@ export function poolArmEdges(rows: readonly ArmRow[]): Map<string, ArmEdge> {
     if (!L || !(L.ip > 0)) continue;
     const key = armKey(r);
     const a = acc.get(key) ?? {
-      edge: { key, cid: r.cid, name: r.name, isVariant: r.isVariant, asSP: null, asRP: null, stamina: null },
+      edge: { key, cid: r.cid, name: r.name, isVariant: r.isVariant, asSP: null, asRP: null, stamina: null, ratings: null },
       sp: { num: 0, ip: 0, teams: 0, weeks: new Set<string>() }, rp: { num: 0, ip: 0, teams: 0, weeks: new Set<string>() }, newest: "",
     };
     const side = roleOf(r) === "SP" ? a.sp : a.rp;
     // IP·(league core per IP) − the card's own core sum: runs per 9 once divided by ΣIP.
     side.num += r.ip * (L.core / L.ip) - coreSum(r.stats);
     side.ip += r.ip; side.teams++; side.weeks.add(r.capturedOn);
-    if (r.capturedOn >= a.newest) { a.newest = r.capturedOn; const stm = r.ratings?.STM; if (stm != null) a.edge.stamina = stm; }
+    if (r.capturedOn >= a.newest) {
+      a.newest = r.capturedOn;
+      const stm = r.ratings?.STM;
+      if (stm != null) a.edge.stamina = stm;
+      a.edge.ratings = leagueArmRatings(r.ratings) ?? a.edge.ratings;
+    }
     acc.set(key, a);
   }
   const done = (s: Acc): ArmSide | null => {
@@ -184,35 +212,57 @@ export const ROTATION = 5;
 
 /**
  * The best staff from these arms: five starters, the rest in the pen, to
- * maximise season runs (edge × slot innings / 9). Picking the rotation is
- * picking the five arms that gain most from starting over relieving. `locks`
- * pin entries to a role. An arm with no relief number relieves at its
- * starter's edge, and one with no starter number can't start. `size` is how
- * many arms pitch (the roster's pitching spots, default all of them); the
- * weakest relievers past it sit. `locks.at` seats a locked arm in the slot it
- * was locked to (SP2, CL, RP3); every slot of a role pitches the same
+ * maximise season runs (edge × slot innings / 9). Every arm starts, relieves
+ * or sits, and the split is solved exactly: picking the five that gain most
+ * from starting is best only while every arm pitches, and once one has to sit
+ * a starter with a poor relief number can hold a spot a better reliever
+ * should have. `locks` pin entries to a role. An arm with no relief number
+ * relieves at its starter's edge, and one with no starter number can't start.
+ * `size` is how many arms pitch (the roster's pitching spots, default all of
+ * them); locked relievers pitch first. `locks.at` seats a locked arm in the
+ * slot it was locked to (SP2, CL, RP3); every slot of a role pitches the same
  * innings, so that moves labels, not runs.
  */
 export function staffSolve(arms: readonly StaffArm[], ip: { sp: number; rp: number }, locks: StaffLocks = {}, size = arms.length): Staff {
   const lockSP = new Set(locks.SP ?? []), lockRP = new Set(locks.RP ?? []);
   const rpOf = (a: StaffArm) => a.rp ?? a.sp ?? 0;
   const canStart = (a: StaffArm) => a.sp != null && (a.stamina == null || a.stamina > STARTER_STAMINA);
-  const gain = (a: StaffArm) => (a.sp! * ip.sp - rpOf(a) * ip.rp) / 9;
-  const forced = arms.filter((a) => lockSP.has(a.entry) && a.sp != null);
-  const open = arms.filter((a) => !lockSP.has(a.entry) && !lockRP.has(a.entry) && canStart(a)).sort((a, b) => gain(b) - gain(a));
-  const rotationArms = [...forced, ...open].slice(0, Math.max(ROTATION, forced.length));
-  const inRotation = new Set(rotationArms.map((a) => a.entry));
-  const rotation = rotationArms
+  const forced = (a: StaffArm) => lockSP.has(a.entry) && a.sp != null;
+  const mayStart = (a: StaffArm) => forced(a) || (!lockSP.has(a.entry) && !lockRP.has(a.entry) && canStart(a));
+  const starters = Math.min(Math.max(ROTATION, arms.filter(forced).length), arms.filter(mayStart).length);
+  const relievers = Math.min(Math.max(0, size - starters), arms.length - starters);
+  const lockedPen = arms.filter((a) => lockRP.has(a.entry)).length;
+  type Role = ArmRole | "out";
+  const roles = (a: StaffArm): Role[] => {
+    if (forced(a)) return ["SP"];
+    if (lockRP.has(a.entry)) return lockedPen <= relievers ? ["RP"] : ["RP", "out"];
+    return mayStart(a) ? ["SP", "RP", "out"] : ["RP", "out"];
+  };
+  const runs = (a: StaffArm, r: Role) => (r === "SP" ? (a.sp! * ip.sp) / 9 : r === "RP" ? (rpOf(a) * ip.rp) / 9 : 0);
+  // Best total for each (starters, relievers) count so far; at most 7 × 31 states.
+  let best = new Map<string, { total: number; picks: Role[] }>([["0,0", { total: 0, picks: [] }]]);
+  for (const a of arms) {
+    const next = new Map<string, { total: number; picks: Role[] }>();
+    for (const [key, cur] of best) {
+      const [sp, rp] = key.split(",").map(Number);
+      for (const r of roles(a)) {
+        const s2 = sp + Number(r === "SP"), r2 = rp + Number(r === "RP");
+        if (s2 > starters || r2 > relievers) continue;
+        const total = cur.total + runs(a, r), k = `${s2},${r2}`, had = next.get(k);
+        if (!had || total > had.total + 1e-12) next.set(k, { total, picks: [...cur.picks, r] });
+      }
+    }
+    best = next;
+  }
+  const picks = best.get(`${starters},${relievers}`)?.picks ?? arms.map((): Role => "out");
+  const as = (r: Role) => arms.filter((_, i) => picks[i] === r);
+  const rotation = as("SP")
     .sort((a, b) => b.sp! - a.sp!)
-    .map((a, i): StaffSlot => ({ slot: `SP${i + 1}`, entry: a.entry, label: a.label, role: "SP", edge9: a.sp!, runs: (a.sp! * ip.sp) / 9 }));
-  // Locked relievers pitch first; then the best of the rest, up to the staff's size.
-  const pen = arms.filter((a) => !inRotation.has(a.entry))
-    .sort((a, b) => Number(lockRP.has(b.entry)) - Number(lockRP.has(a.entry)) || rpOf(b) - rpOf(a));
-  const room = Math.max(0, size - rotation.length);
-  const bullpen = pen.slice(0, room)
+    .map((a, i): StaffSlot => ({ slot: `SP${i + 1}`, entry: a.entry, label: a.label, role: "SP", edge9: a.sp!, runs: runs(a, "SP") }));
+  const bullpen = as("RP")
     .sort((a, b) => rpOf(b) - rpOf(a))
-    .map((a, i): StaffSlot => ({ slot: i === 0 ? "CL" : `RP${i}`, entry: a.entry, label: a.label, role: "RP", edge9: rpOf(a), runs: (rpOf(a) * ip.rp) / 9 }));
-  const out = pen.slice(room).map((a) => ({ entry: a.entry, label: a.label }));
+    .map((a, i): StaffSlot => ({ slot: i === 0 ? "CL" : `RP${i}`, entry: a.entry, label: a.label, role: "RP", edge9: rpOf(a), runs: runs(a, "RP") }));
+  const out = as("out").sort((a, b) => rpOf(b) - rpOf(a)).map((a) => ({ entry: a.entry, label: a.label }));
   const at = new Map(Object.entries(locks.at ?? {}));
   return {
     rotation: seat(rotation, at, (i) => `SP${i + 1}`), bullpen: seat(bullpen, at, (i) => (i === 0 ? "CL" : `RP${i}`)),
@@ -238,12 +288,14 @@ function seat(group: StaffSlot[], at: Map<string, string>, name: (i: number) => 
 
 /**
  * What one more arm adds on the same number of pitching spots: the staff
- * with him (the weakest arm then sits) minus the staff without him.
+ * with him (the weakest arm then sits) minus the staff without him. `role`
+ * puts him in the rotation or the pen instead of wherever he scores best.
  */
-export function addArm(arms: readonly StaffArm[], candidate: StaffArm, ip: { sp: number; rp: number }, locks: StaffLocks = {}) {
+export function addArm(arms: readonly StaffArm[], candidate: StaffArm, ip: { sp: number; rp: number }, locks: StaffLocks = {}, role?: ArmRole) {
   const size = arms.length;
   const without = staffSolve(arms, ip, locks, size);
-  const withIt = staffSolve([...arms, candidate], ip, locks, size);
+  const pinned = role ? { ...locks, [role]: [...(locks[role] ?? []), candidate.entry] } : locks;
+  const withIt = staffSolve([...arms, candidate], ip, pinned, size);
   const slot = [...withIt.rotation, ...withIt.bullpen].find((s) => s.entry === candidate.entry) ?? null;
   const pitching = new Set([...withIt.rotation, ...withIt.bullpen].map((s) => s.entry));
   const leftRotation = without.rotation.filter((s) => !withIt.rotation.some((w) => w.entry === s.entry)).map((s) => s.label);
@@ -262,8 +314,53 @@ interface ArmModel {
   n: number; r: number | null; minIp: number;
   /** League batters faced per inning, for converting per-700-BF runs to per 9. */
   bfPerIp: number;
+  families?: Partial<Record<LeagueFamily, FamilyFit>>;
 }
 export const ARM_MODEL_FIT = ARM_MODEL as ArmModel;
+
+/** How a card's edge in one league family follows its edge in the others (scripts/fit-arm-slope.ts). */
+export interface FamilyFit {
+  /** Edge in the family ≈ a + b × edge elsewhere: a stronger league compresses edges. */
+  a: number; b: number;
+  /** Innings of the family's own play that the other leagues' line is worth. */
+  w: number;
+  n: number;
+}
+/** A family too thin to fit reads as the others do. */
+const AS_ELSEWHERE: FamilyFit = { a: 0, b: 1, w: 1000, n: 0 };
+export const familyFit = (f: LeagueFamily): FamilyFit => ARM_MODEL_FIT.families?.[f] ?? AS_ELSEWHERE;
+
+/**
+ * One version of a card in a role (the base card, or its variant): its line
+ * in the family scored for and in the other families, and `shift`, what the
+ * ratings scored change over the ones it pitched with (k × the model's runs
+ * per 9, in the other leagues' terms).
+ */
+export interface ArmLine { fam: ArmSide | null; other: ArmSide | null; shift: number }
+
+/**
+ * An arm's edge per 9 in one role and league family, from every line of the
+ * card and its ratings:
+ *   elsewhere = the other families' lines, each moved by its shift, pooled by IP
+ *   prior     = a + b × (IP·elsewhere + 150·est) / (IP + 150)
+ *   score     = (IP_f·family + w·prior) / (IP_f + w), the family's lines moved by b × shift
+ * so play in the family leads once it has a few thousand innings, play
+ * elsewhere counts through the family's slope, and the ratings estimate
+ * (`est`, in the other leagues' terms) fills in where both are thin.
+ */
+export function blendArm(lines: readonly ArmLine[], est: number, fit: FamilyFit): { score: number; ipFam: number; ipOther: number } {
+  const pool = (where: "fam" | "other", scale: number) => {
+    let sum = 0, ip = 0;
+    for (const l of lines) {
+      const x = l[where];
+      if (x && x.ip > 0) { sum += x.ip * (x.edge9 + scale * l.shift); ip += x.ip; }
+    }
+    return { edge: ip > 0 ? sum / ip : 0, ip };
+  };
+  const other = pool("other", 1), fam = pool("fam", fit.b);
+  const prior = fit.a + fit.b * ((other.ip * other.edge + ARM_PRIOR_IP * est) / (other.ip + ARM_PRIOR_IP));
+  return { score: (fam.ip * fam.edge + fit.w * prior) / (fam.ip + fit.w), ipFam: fam.ip, ipOther: other.ip };
+}
 
 /** The league edge per 9 a card's ratings predict: `app9` is its tournament-model runs saved per 9. */
 export const estimateEdge9 = (app9: number) => ARM_MODEL_FIT.intercept + ARM_MODEL_FIT.k * (app9 - ARM_MODEL_FIT.app9League);
