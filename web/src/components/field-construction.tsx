@@ -30,6 +30,8 @@ export function FieldConstruction({ data, slots }: { data: SeriesBuild; slots: R
                   {NAME[t]}{slots?.[t] != null ? ` (${slots[t]})` : ""}
                 </th>
               ))}
+              <th className="whitespace-nowrap py-0.5 pr-5 font-normal">Rotation L/R</th>
+              <th className="whitespace-nowrap py-0.5 pr-5 font-normal">Lineup L/R/S</th>
             </tr>
           </thead>
           <tbody>
@@ -47,11 +49,19 @@ export function FieldConstruction({ data, slots }: { data: SeriesBuild; slots: R
                     </td>
                   );
                 })}
+                <td className="whitespace-nowrap py-0.5 pr-5 font-mono">{g.hands ? `${f(g.hands.spL)} / ${f(g.hands.spR)}` : "—"}</td>
+                <td className="whitespace-nowrap py-0.5 pr-5 font-mono">{g.hands ? `${f(g.hands.batsL)} / ${f(g.hands.batsR)} / ${f(g.hands.batsS)}` : "—"}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {data.openers && data.openers.teams > 0 && (
+        <div className="mt-0.5 text-[11px] text-muted-foreground">
+          Openers: {data.openers.teams} of {data.teams} team-entries started a reliever-length arm (2+ starts, 2.2 IP or less a start), and won{" "}
+          {data.openers.winPct?.toFixed(3).replace(/^0/, "") ?? "—"} to the rest&apos;s {data.openers.othersWinPct?.toFixed(3).replace(/^0/, "") ?? "—"}. That is raw, not roster-adjusted.
+        </div>
+      )}
       {data.spWeight != null && (
         <div className="mt-0.5 text-[11px] text-muted-foreground">
           Here a starter faced {data.spWeight}× the batters a lineup slot gets PA, a reliever {data.rpWeight ?? "?"}×. Optimise weighs the staff by

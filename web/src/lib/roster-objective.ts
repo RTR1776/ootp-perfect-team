@@ -39,6 +39,8 @@ export interface ObjectiveOptions {
    * games a team) a starter faced 55 batters to a lineup slot's 45 PA (1.22).
    */
   spWeight?: number;
+  /** Glove runs × this: the environment's balls in play against the fit's archive (fielding.ts gloveScale). */
+  gloveScale?: number;
   /** Cards the roster must carry; a missing one costs 1000 runs. */
   mustIds?: ReadonlySet<number>;
 }
@@ -71,7 +73,7 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     if (!FIELD_POS.test(pos)) return 0;
     const c = byId.get(cardId);
     if (!c || c.isPitcher) return 0;
-    return fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`] ?? 0);
+    return (o.gloveScale ?? 1) * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`] ?? 0);
   };
 
   const spSet = new Set(shape.spKeys), rpSet = new Set(shape.rpKeys), bnSet = new Set(shape.benchKeys);

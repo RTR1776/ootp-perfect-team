@@ -120,3 +120,47 @@ For example, 1927 Silver Heart plays 2.8× the K the 1927 table implies, and 201
 5. **Relievers.** Their projections are the least reliable part of the model (0.29). Price relief arms with that in mind, and lean on observed play where a reliever has it.
 
 Analysis scripts: `web/scripts/model-panel.ts` (the panel) and `web/scripts/model-audit.py` (the numbers above). The one-off experiments are summarised here and were not kept.
+
+## Additions, 2026-09-27 (L.J.'s questions on defence, pitching depth, platoons and openers)
+
+**Gloves scale with balls in play** (`fielding.ts` `gloveScale`, used by /build and `env-roster`).
+- Within each series and position, over 8,041 card-series lines with 150+ PA in 70 series, ZR per rating point per 700 PA was 0.144 where balls in play ran 0.60–0.70 a PA, 0.148 at 0.70–0.74, and 0.188 at 0.74–0.85. That is +3% per extra 0.01 of balls in play.
+- The fielding slopes were fitted at the archive average (0.743). They are now scaled by (BIP / 0.743)^1.5, held to 0.7–1.35.
+
+  | Environment | Glove scale |
+  |---|---|
+  | PT default | ×0.81 |
+  | 2010 | ×0.91 |
+  | 1959 | ×1.01 |
+  | 1920 | ×1.22 |
+
+- L.J. was right: in a high-contact, high-BABIP era defence matters more.
+
+**Staff weights by format** (`roster-objective` `spWeight`). The objective counted a starter as one lineup slot. In Daily All-Star Hardware Slots (Bo7 bracket, ~11 games a team), a starter faced 55 batters to a lineup slot's 45 PA (1.22×) and a reliever 18.7 (0.41×). `import:observed` now measures both per series (`field-construction.json`), and /build and `env-roster --series` use them.
+
+**Platoons and park handedness.**
+- Series by series, the field does not counter a left-handed lineup with left-handed pitching: across series with 3+ exports the correlation of the field's LHB share with its LHP share is −0.25.
+
+  | Event | LHB share of PA | LHP share of batters faced |
+  |---|---|---|
+  | Night of the Living Dead (1919 Fenway) | 57% | 14% |
+  | Silver & Friends Deadball Slots | 56% | 10% |
+  | Late Silver | 51% | 28% |
+  | Golden Childhood | 53% | 30% |
+  | Late 1900s | 50% | 29% |
+  | cwhit's Cap Challenge 5 | 53% | 55% (the exception) |
+
+- In the lopsided events a left-stacked rotation faces lineups built for right-handers.
+- **What the model already does:** it scores every arm against LHB and RHB separately and blends by the field's LHB share, so a reverse-split right-hander (Saberhagen) is priced as such.
+- **What it does not see:** the opponents' vs-LHP lineups. Tournament exports carry no splits.
+- The new construction table shows each group's rotation L/R, so what the winners do is visible.
+
+**Openers.**
+- They are rare: 1.1% of 423k starts in the archive, mostly in two events. In Struggling to Sleep and Bronze OOTP Era, teams started Sabathia, Santana, Vida Blue and Cliff Lee ~28 times a run at ~1.5 IP a start.
+- The same cards as openers against as regular starters, per 100 batters, relative to the series:
+  - runs allowed +0.83 as openers, −0.76 as starters;
+  - K/BB/HR events about the same.
+- Openers always face the top of the order, which accounts for some of that.
+- Together with the earlier finding (the same card is no better per batter in relief: FIP +0.04), OOTP shows no times-through-the-order penalty for an opener to dodge. Expect no gain, and it costs bullpen innings in a short series.
+- The team-level test comes with the construction data: opener teams' record against the rest, per series. It needs `pnpm import:observed` on the Mac.
+

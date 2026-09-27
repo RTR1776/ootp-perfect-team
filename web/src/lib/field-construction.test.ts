@@ -8,10 +8,10 @@ const row = (org: string, val: number, p: Partial<LeagueStint> & { stats?: Recor
   val, tier: null, isVariant: false, cardYear: null, ratings: {}, pa: 0, ip: 0, use: 0, war: 0, stats: {}, ...p,
 });
 const team = (org: string, wins: number) => [
-  ...Array.from({ length: 9 }, (_, i) => row(org, i < 6 ? 101 : 95, { pa: 45 })),
+  ...Array.from({ length: 9 }, (_, i) => row(org, i < 6 ? 101 : 95, { pa: 45, bats: i < 3 ? "L" : i < 4 ? "S" : "R" })),
   row(org, 65, { pa: 3 }), // a bench bat: 3 PA against a 45 PA slot
-  row(org, 102, { isPitcher: true, stats: { G_p: 3, GS_p: 3, BF: 80, W: wins, L: 1 } }),
-  row(org, 88, { isPitcher: true, stats: { G_p: 2, GS_p: 2, BF: 50, W: 0, L: 1 } }),
+  row(org, 102, { isPitcher: true, throws: "R", ip: 19, stats: { G_p: 3, GS_p: 3, BF: 80, W: wins, L: 1 } }),
+  row(org, 88, { isPitcher: true, throws: "L", ip: org.startsWith("Solo") ? 3 : 12, stats: { G_p: 2, GS_p: 2, BF: 50, W: 0, L: 1 } }),
   row(org, 55, { isPitcher: true, pos: "RP", stats: { G_p: 4, GS_p: 0, BF: 18, W: 1, L: 0 } }),
 ];
 
@@ -40,4 +40,9 @@ test("field construction: tiers by role, the best quarter, clans, and the measur
   // lineup slot: 408 PA / 9 = 45.3; starters 130 BF over 2 = 65 -> 1.43; the reliever 18 -> 0.4
   assert.equal(s.spWeight, 1.43);
   assert.equal(s.rpWeight, 0.4);
+  assert.deepEqual(kc.hands, { spL: 1, spR: 1, batsL: 3, batsR: 5, batsS: 1 });
+  assert.equal(kc.opener, false);
+  assert.equal(teams.find((t) => t.org === "Solo Nine")!.opener, true, "two starts of 1.5 innings");
+  assert.equal(s.openers.teams, 1);
+  assert.equal(s.groups[0].hands.spL, 1);
 });
