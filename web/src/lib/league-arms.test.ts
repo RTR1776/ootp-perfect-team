@@ -60,11 +60,15 @@ test("the rotation is the five arms that gain most from starting", () => {
   assert.equal(locked.rotation.length, 5);
 });
 
-test("adding an arm reports the season change and who leaves the rotation", () => {
-  const arms = [arm("A", 0.4, 0.4), arm("B", 0.3, 0.3), arm("C", 0.2, 0.2), arm("D", 0.1, 0.1), arm("E", 0.05, 0.05)];
+test("adding an arm keeps the number of pitching spots: the weakest arm sits", () => {
+  const arms = [arm("A", 0.4, 0.4), arm("B", 0.3, 0.3), arm("C", 0.2, 0.2), arm("D", 0.1, 0.1), arm("E", 0.05, 0.05), arm("Pen1", null, 0.2, 20), arm("Pen2", null, -0.3, 20)];
   const r = addArm(arms, arm("New", 0.35, 0.2), ip);
   assert.equal(r.slot?.role, "SP");
-  assert.deepEqual(r.replaces, ["E"]);
-  // E moves to the pen: +0.35·180/9 (New starts) − 0.05·180/9 (E stops starting) + 0.05·70/9 (E relieves).
-  assert.equal(r.season.toFixed(4), ((0.35 - 0.05) * 20 + 0.05 * 70 / 9).toFixed(4));
+  assert.deepEqual(r.replaces, ["E"], "E leaves the rotation");
+  assert.deepEqual(r.sits, ["Pen2"], "and the worst reliever stops pitching");
+  // New starts over E (+0.30 a start's worth), E relieves in Pen2's place (+0.35 a pen slot's worth).
+  assert.equal(r.season.toFixed(4), ((0.35 - 0.05) * 180 / 9 + (0.05 - -0.3) * 70 / 9).toFixed(4));
+  const reliever = addArm(arms, arm("Closer", null, 0.29, 20), ip);
+  assert.equal(reliever.slot?.slot, "CL");
+  assert.equal(reliever.season.toFixed(4), ((0.29 - -0.3) * 70 / 9).toFixed(4), "a reliever's worth is over the arm he sends to the bench");
 });

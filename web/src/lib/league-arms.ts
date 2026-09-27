@@ -170,7 +170,13 @@ export interface StaffArm {
   stamina: number | null;
 }
 export interface StaffSlot { slot: string; entry: string; label: string; role: ArmRole; edge9: number; runs: number }
-export interface Staff { rotation: StaffSlot[]; bullpen: StaffSlot[]; total: number }
+export interface Staff {
+  rotation: StaffSlot[];
+  bullpen: StaffSlot[];
+  /** Arms past the staff's size: they don't pitch. */
+  out: { entry: string; label: string }[];
+  total: number;
+}
 
 /** Below this Stamina an arm can't turn a lineup over (card-value roleRuns' break). */
 export const STARTER_STAMINA = 25;
@@ -181,9 +187,11 @@ export const ROTATION = 5;
  * maximise season runs (edge × slot innings / 9). Picking the rotation is
  * picking the five arms that gain most from starting over relieving. `locks`
  * pin entries to a role. An arm with no relief number relieves at its
- * starter's edge, and one with no starter number can't start.
+ * starter's edge, and one with no starter number can't start. `size` is how
+ * many arms pitch (the roster's pitching spots, default all of them); the
+ * weakest relievers past it sit.
  */
-export function staffSolve(arms: readonly StaffArm[], ip: { sp: number; rp: number }, locks: { SP?: string[]; RP?: string[] } = {}): Staff {
+export function staffSolve(arms: readonly StaffArm[], ip: { sp: number; rp: number }, locks: { SP?: string[]; RP?: string[] } = {}, size = arms.length): Staff {
   const lockSP = new Set(locks.SP ?? []), lockRP = new Set(locks.RP ?? []);
   const rpOf = (a: StaffArm) => a.rp ?? a.sp ?? 0;
   const canStart = (a: StaffArm) => a.sp != null && (a.stamina == null || a.stamina > STARTER_STAMINA);
@@ -195,19 +203,30 @@ export function staffSolve(arms: readonly StaffArm[], ip: { sp: number; rp: numb
   const rotation = rotationArms
     .sort((a, b) => b.sp! - a.sp!)
     .map((a, i): StaffSlot => ({ slot: `SP${i + 1}`, entry: a.entry, label: a.label, role: "SP", edge9: a.sp!, runs: (a.sp! * ip.sp) / 9 }));
-  const bullpen = arms.filter((a) => !inRotation.has(a.entry))
+  // Locked relievers pitch first; then the best of the rest, up to the staff's size.
+  const pen = arms.filter((a) => !inRotation.has(a.entry))
+    .sort((a, b) => Number(lockRP.has(b.entry)) - Number(lockRP.has(a.entry)) || rpOf(b) - rpOf(a));
+  const room = Math.max(0, size - rotation.length);
+  const bullpen = pen.slice(0, room)
     .sort((a, b) => rpOf(b) - rpOf(a))
     .map((a, i): StaffSlot => ({ slot: i === 0 ? "CL" : `RP${i}`, entry: a.entry, label: a.label, role: "RP", edge9: rpOf(a), runs: (rpOf(a) * ip.rp) / 9 }));
-  return { rotation, bullpen, total: [...rotation, ...bullpen].reduce((s, x) => s + x.runs, 0) };
+  const out = pen.slice(room).map((a) => ({ entry: a.entry, label: a.label }));
+  return { rotation, bullpen, out, total: [...rotation, ...bullpen].reduce((s, x) => s + x.runs, 0) };
 }
 
-/** What one more arm adds: the staff with him minus the staff without him. */
+/**
+ * What one more arm adds on the same number of pitching spots: the staff
+ * with him (the weakest arm then sits) minus the staff without him.
+ */
 export function addArm(arms: readonly StaffArm[], candidate: StaffArm, ip: { sp: number; rp: number }, locks: { SP?: string[]; RP?: string[] } = {}) {
-  const without = staffSolve(arms, ip, locks);
-  const withIt = staffSolve([...arms, candidate], ip, locks);
+  const size = arms.length;
+  const without = staffSolve(arms, ip, locks, size);
+  const withIt = staffSolve([...arms, candidate], ip, locks, size);
   const slot = [...withIt.rotation, ...withIt.bullpen].find((s) => s.entry === candidate.entry) ?? null;
-  const gone = [...without.rotation].filter((s) => !withIt.rotation.some((w) => w.entry === s.entry)).map((s) => s.label);
-  return { without, with: withIt, season: withIt.total - without.total, slot, replaces: gone };
+  const pitching = new Set([...withIt.rotation, ...withIt.bullpen].map((s) => s.entry));
+  const leftRotation = without.rotation.filter((s) => !withIt.rotation.some((w) => w.entry === s.entry)).map((s) => s.label);
+  const sits = [...without.rotation, ...without.bullpen].filter((s) => !pitching.has(s.entry)).map((s) => s.label);
+  return { without, with: withIt, season: withIt.total - without.total, slot, replaces: leftRotation, sits };
 }
 
 /* ------------------------------------------------------------- estimate */
