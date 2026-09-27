@@ -2,17 +2,19 @@
  * Card model — L.J.'s league lineups on the league model, and what a card
  * would add to them. He keeps the team list current (the export also lists
  * cards he has since dropped), locks players into slots, picks a home park,
- * and scores; optionally with a card typed off its face (a variant in the
- * shop, say). Same model and lineup solve as `pnpm league:compare`.
+ * and optionally models a card typed off its face (a variant in the shop,
+ * say); the lineups rescore after each change. Same model and lineup solve as
+ * `pnpm league:compare`.
  */
 import { and, desc, eq, gte } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards } from "@/db/schema";
 import { leagueFamily } from "@/lib/analytics/league-model";
 import { parkTable } from "@/lib/analytics/tournament-env";
+import type { LeagueExport } from "@/lib/league-card-state";
 import { myLeagueBats } from "@/lib/league-hitters";
 import { PageHeader } from "@/components/page-header";
-import { LeagueCardModel } from "@/components/league-card-model";
+import { LeagueCardModel } from "@/components/league-card/card-model";
 
 export const dynamic = "force-dynamic";
 
@@ -26,21 +28,19 @@ export default async function LeagueCardPage() {
   const parks = Object.entries(parkTable)
     .flatMap(([name, years]) => Object.keys(years).map((y) => `${y} ${name}`))
     .sort((a, b) => a.slice(5).localeCompare(b.slice(5)) || a.localeCompare(b));
+  // The source names the export; the page offers its list again when a newer one arrives.
+  const league: LeagueExport = mine
+    ? { source: `${mine.league}, week of ${mine.on}`, roster: mine.names, family: leagueFamily(mine.league) }
+    : { source: null, roster: [], family: "HD" };
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <PageHeader
         eyebrow="League"
         title="Card model"
         description="Your league lineups on the league model: keep the team current, lock players in, try a home park, and see what a card would add."
-        about="Bats are scored on the league model (league play, normalised to the league's own average), gloves at the slot, and the best nine solved per board around your locks. A home park moves your bats at half weight (81 home games). A modelled card is typed off its face. The same numbers as pnpm league:compare."
+        about="Bats are scored on the league model (league play, normalised to the league's own average), gloves at the slot, and the best nine solved per board around your locks. A home park moves your bats at half weight (81 home games). A modelled card is typed off its face. Every change rescores on its own, and Undo (Ctrl+Z or ⌘Z) takes back any edit. The same numbers as pnpm league:compare."
       />
-      <LeagueCardModel
-        cards={options}
-        parks={parks}
-        roster={mine?.names ?? []}
-        rosterSource={mine ? `${mine.league}, week of ${mine.on}` : null}
-        defaultFamily={mine ? leagueFamily(mine.league) : "HD"}
-      />
+      <LeagueCardModel cards={options} parks={parks} league={league} />
     </div>
   );
 }
