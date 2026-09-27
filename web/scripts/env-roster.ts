@@ -218,7 +218,7 @@ async function main() {
   // every set. An eligible-cards export (--pool) already carries the game's filter.
   if (SERIES && !POOL_CSV) {
     const stop = setRuleGuard(SERIES, await loadSetEvidence(SERIES), {
-      cardTypes: CARD_TYPES.size > 0, cardYears: YEAR_MIN != null || YEAR_MAX != null, anySet: flag("any-set"),
+      cardTypes: CARD_TYPES.size > 0, cardYears: YEAR_MIN != null || YEAR_MAX != null, cardYearMax: YEAR_MAX, anySet: flag("any-set"),
     });
     if (stop) { console.error(`\n!! ${stop}`); process.exit(1); }
   }

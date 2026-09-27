@@ -28,11 +28,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
-import { CARD_TYPE_NAME, CARD_TYPE_SHORT, describeRules, parseCardTypeRule, rosterSize, validateRoster, type RosterRules, type RosterSlot, type RuleIssue } from "@/lib/roster-rules";
+import { CARD_TYPE_NAME, CARD_TYPE_SHORT, confirmedNotes, describeRules, parseCardTypeRule, rosterSize, validateRoster, type RosterRules, type RosterSlot, type RuleIssue } from "@/lib/roster-rules";
+import { isPageCheck } from "@/lib/roster-input";
 import type { SetEvidence } from "@/lib/set-evidence";
 import { RulesStrip } from "@/components/rules-strip";
 import { SetFilter } from "@/components/set-filter";
-import { toast } from "@/components/ui/toast";
+import { dismissToast, toast } from "@/components/ui/toast";
 import { fillOnce, fillRoster, fitMaps, HIT_POS, isComplete, rosterShape, type FillCard, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
 import { envFitMaps } from "@/lib/analytics/env-fit";
@@ -180,6 +181,8 @@ export interface TournamentInfo extends RosterRules {
     cards?: number;
     /** The rules text as last captured from the game. */
     refreshText?: string;
+    /** Provenance lines; L.J.'s confirmations among them (roster-rules confirmedNotes). */
+    notes?: string[];
   } | null;
   retired: boolean;
   park: { name: string; avg: number | null; hr: number | null; b2: number | null; b3: number | null } | null;
@@ -790,57 +793,64 @@ export function RosterBuilder({
   };
 
   /**
-   * The greedy fill, from the cards the chips allow and never a banned one;
-   * then any locked card the fill left out goes into its best empty slot, or
-   * over the weakest card it can replace. `use` overrides the locks, bans and
-   * sets in state: on an event switch they are read from storage in the same
-   * render, before the state has caught up.
+   * The greedy fill, from the cards the chips allow and never a banned one,
+   * carrying every locked card the rules leave room for (fillOnce's `must`:
+   * counted against the size, cap, tiers and variants before anything else is
+   * picked). `use` overrides the locks, bans and sets in state: on an event
+   * switch they are read from storage in the same render, before the state has
+   * caught up. Locks it could not carry come back by reason: outside the chosen
+   * sets, or no room under the rules.
    */
   const computeFill = (use?: { locks: number[]; bans: number[]; sets: number[] }) => {
     const lockIds = use ? new Set(use.locks) : locks, banIds = use ? new Set(use.bans) : bans, setList = use ? use.sets : sets;
     const candidates = formPool.filter((c) => inSets(setList, c.cardType) && !banIds.has(c.cardId));
-    const { slots: next, lambda } = fillRoster(candidates, tournament!, { lineupPos, spKeys, rpKeys, benchKeys, bats: batsCap }, fits);
-    const onBoard = new Set(Object.values(next).filter((v): v is number => v != null));
-    const missed: string[] = [];
-    for (const id of lockIds) {
-      const c = byId.get(id);
-      if (!c || onBoard.has(id) || banIds.has(id)) continue;
-      const fitsSlot = slotOrder.filter((k) => posEligible(c, k));
-      const empty = fitsSlot.find((k) => next[k] == null);
-      const weakest = fitsSlot
-        .filter((k) => next[k] != null && !lockIds.has(next[k]!))
-        .sort((a, b) => (runsOf(next[a]!) ?? 0) - (runsOf(next[b]!) ?? 0))[0];
-      const slot = empty ?? weakest;
-      if (slot == null) { missed.push(c.name); continue; }
-      place(next, slot, id);
-      onBoard.add(id);
-    }
-    return { next, lambda, missed };
+    const inPool = new Set(candidates.map((c) => c.cardId));
+    const must = new Set([...lockIds].filter((id) => inPool.has(id)));
+    const { slots: next, lambda } = fillRoster(candidates, tournament!, { lineupPos, spKeys, rpKeys, benchKeys, bats: batsCap }, fits, must);
+    const onBoard = new Set(Object.values(next));
+    const nameOf = (id: number) => byId.get(id)?.name ?? `#${id}`;
+    const outside = [...lockIds].filter((id) => !inPool.has(id) && !banIds.has(id) && byId.has(id)).map(nameOf);
+    const missed = [...must].filter((id) => !onBoard.has(id)).map(nameOf);
+    return { next, lambda, missed, outside };
   };
+  /** What a fill left off, in words for the message line or a toast. */
+  const lockNote = ({ missed, outside }: { missed: string[]; outside: string[] }) => [
+    outside.length ? `Locked ${outside.join(", ")} ${outside.length === 1 ? "is" : "are"} outside the chosen sets, so left off.` : "",
+    missed.length ? `Locked ${missed.join(", ")} did not fit under the rules — run Optimise.` : "",
+  ].filter(Boolean).join(" ");
   const autoFill = (silent = false, use?: { locks: number[]; bans: number[]; sets: number[] }) => {
     if (!tournament) return;
-    const { next, lambda, missed } = computeFill(use);
-    setSlots(next);
-    if (missed.length) { setMsg(`Locked ${missed.join(", ")} not placed — run Optimise.`); return; }
+    const fill = computeFill(use);
+    setSlots(fill.next);
+    const note = lockNote(fill);
+    if (note) { setMsg(note); return; }
     setMsg(silent
-      ? `Draft roster filled${lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""} — check the rules strip, then adjust.`
+      ? `Draft roster filled${fill.lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""} — check the rules strip, then adjust.`
       : null);
   };
 
-  /** New Sets chips refill the board from those sets; the toast undoes it. */
+  /* New Sets chips refill the board from those sets; the toast undoes it, on
+     this event only (the toast outlives an event switch, so the switch closes
+     it and the undo checks the event). */
+  const setsToast = useRef<number | null>(null);
   const changeSets = (next: number[]) => {
     if (!tournament) { setSets(next); return; }
-    const prevSlots = slots, prevSets = sets;
+    const prevSlots = slots, prevSets = sets, forTid = tournament.id;
     setSets(next);
-    const { next: board, missed } = computeFill({ locks: [...locks], bans: [...bans], sets: next });
-    setSlots(board);
+    const fill = computeFill({ locks: [...locks], bans: [...bans], sets: next });
+    setSlots(fill.next);
     const was = new Set(Object.values(prevSlots).filter((v): v is number => v != null));
-    const now = new Set(Object.values(board).filter((v): v is number => v != null));
-    const changed = [...now].filter((id) => !was.has(id)).length;
+    const now = new Set(Object.values(fill.next));
+    const added = [...now].filter((id) => !was.has(id)).length, dropped = [...was].filter((id) => !now.has(id)).length;
     const label = next.length ? next.map((t) => CARD_TYPE_SHORT[t] ?? t).join(" + ") : "every set";
-    toast({
-      message: `Board refilled from ${label}: ${changed} card${changed === 1 ? "" : "s"} changed.${missed.length ? ` Locked ${missed.join(", ")} not placed.` : ""}`,
-      action: { label: "Undo", onClick: () => { setSets(prevSets); setSlots(prevSlots); } },
+    const poolSize = formPool.filter((c) => inSets(next, c.cardType) && !bans.has(c.cardId)).length;
+    if (setsToast.current != null) dismissToast(setsToast.current);
+    setsToast.current = toast({
+      tone: poolSize === 0 ? "error" : "info",
+      message: poolSize === 0
+        ? `No cards in your pool from ${label}: the board is empty.`
+        : `Board refilled from ${label} (${poolSize} cards): ${added} in, ${dropped} out.${lockNote(fill) ? ` ${lockNote(fill)}` : ""}`,
+      action: { label: "Undo", onClick: () => { if (lastTid.current !== forTid) return; setSets(prevSets); setSlots(prevSlots); } },
     });
   };
 
@@ -867,9 +877,12 @@ export function RosterBuilder({
     return objective.objective(complete);
   };
 
+  /* Sets are stored only when they differ from the event's rule, so a rule
+     the catalogue widens or drops later reaches a board that never chose. */
   useEffect(() => {
     if (!tournament || lastTid.current !== tournament.id) return;
-    try { localStorage.setItem(lockKey(tournament.id), JSON.stringify({ locks: [...locks], bans: [...bans], sets })); } catch { /* storage unavailable */ }
+    const chosen = sets.join(",") !== (ruleTypes ?? []).join(",");
+    try { localStorage.setItem(lockKey(tournament.id), JSON.stringify({ locks: [...locks], bans: [...bans], ...(chosen ? { sets } : {}) })); } catch { /* storage unavailable */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locks, bans, sets]);
 
@@ -904,7 +917,7 @@ export function RosterBuilder({
   const stopDeep = useRef<(() => void) | null>(null);
   const [deepRunning, setDeepRunning] = useState(false);
   type Best = { slots: Record<string, number>; score: number; moves: number; from: string };
-  const runDeep = (starts: { label: string; slots: Record<string, number> }[], searchPool: FillCard[]) =>
+  const runDeep = (starts: { label: string; slots: Record<string, number> }[], searchPool: FillCard[], keep: ReadonlySet<number>) =>
     new Promise<{ best: Best | null; ran: number }>((resolve) => {
       const w = new Worker(new URL("../lib/optimize.worker.ts", import.meta.url), { type: "module" });
       let last: { best: Best | null; ran: number } = { best: null, ran: 0 };
@@ -921,7 +934,7 @@ export function RosterBuilder({
       const req: DeepRequest = {
         starts, pool: searchPool, rules: tournament as RosterRules, shape: fillShape,
         runsR: [...envFits!.runsR], runsL: [...envFits!.runsL], lhpShare, spWeight, rpWeight, gloveScale: glove,
-        locks: [...locks], minCatchers: twoCatchers ? 2 : 0,
+        locks: [...keep], minCatchers: twoCatchers ? 2 : 0,
       };
       w.postMessage(req);
     });
@@ -944,17 +957,26 @@ export function RosterBuilder({
       for (const [k, v] of Object.entries(slots)) if (v != null) current[k] = v;
       const missing = slotOrder.filter((k) => current[k] == null);
       const searchPool = (pool as FillCard[]).filter((c) => !bans.has(c.cardId));
-      const searchObj = locks.size
-        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove, mustIds: locks })
+      // Only locks the search can use are kept: one outside the chosen sets
+      // is not in the pool, and would cost every board the must-carry penalty.
+      const inPool = new Set(searchPool.map((c) => c.cardId));
+      const keep = new Set([...locks].filter((id) => inPool.has(id)));
+      const outside = [...locks].filter((id) => !inPool.has(id) && byId.has(id)).map((id) => byId.get(id)!.name);
+      const searchObj = keep.size
+        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove, mustIds: keep })
         : objective;
-      const greedy = fillRoster(searchPool, tournament, fillShape, fits).slots;
+      const greedy = fillRoster(searchPool, tournament, fillShape, fits, keep).slots;
       // The search needs a complete board to score; fill the holes greedily first.
       for (const k of missing) if (greedy[k] != null) current[k] = greedy[k];
       // Compare against the board as the page scores and checks it, not the
       // hole-filled start: a greedy bat dropped into an empty bench slot can
       // push a full 26 to 27 and read as a rule break the board never had.
+      // The search's scores carry 1000 off per lock missing; so does this.
       const before = boardRuns(slots) ?? objective.objective(current);
-      const boardLegal = !validation?.errors.length;
+      const onNow = new Set(Object.values(slots));
+      const beforeSearch = before - 1000 * [...keep].filter((id) => !onNow.has(id)).length;
+      // A card outside the chosen sets is a break too: the search replaces it.
+      const boardLegal = !validation?.errors.length && !validation?.incomplete.some((i) => i.code === "outside-sets");
 
       // Distinct rosters only: positions are re-solved inside the search, so
       // two starts with the same cards are the same start.
@@ -971,19 +993,19 @@ export function RosterBuilder({
       add("the greedy fill", greedy);
       // Most promising first, so a budget cut drops the long shots: λ 2 won on
       // both events measured 2026-09-26 (Negro Leagues Slots, Gold Rush).
-      for (const lam of deep ? [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5] : [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(searchPool, tournament, fillShape, fits, lam));
+      for (const lam of deep ? [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5] : [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(searchPool, tournament, fillShape, fits, lam, keep));
 
       const t0 = performance.now();
       let best: Best | null = null;
       let ran = 0;
-      if (deep) ({ best, ran } = await runDeep(starts, searchPool));
+      if (deep) ({ best, ran } = await runDeep(starts, searchPool, keep));
       else for (const st of starts) {
         if (ran > 0 && performance.now() - t0 > START_BUDGET_MS) break;
         setMsg(`Searching for a better board… start ${ran + 1} of ${starts.length} (${st.label})${best ? `, best so far ${fr(best.score)} runs` : ""}.`);
         await paint();
         const r = optimizeRoster(st.slots, searchPool, tournament, fillShape, {
           objective: searchObj.objective, slotValue: searchObj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
-          pairMoves: { aTop: 8, bCheapest: 10, rank: searchObj.rank }, candidateLimit: 120, maxPasses: 40, keep: locks,
+          pairMoves: { aTop: 8, bCheapest: 10, rank: searchObj.rank }, candidateLimit: 120, maxPasses: 40, keep,
           minCatchers: twoCatchers ? 2 : 0,
         });
         ran++;
@@ -996,20 +1018,21 @@ export function RosterBuilder({
         setMsg(`No start reached a board that passes every rule (${ran} tried) — check the rule list below.`);
         return;
       }
+      const outsideNote = outside.length ? ` Locked ${outside.join(", ")} ${outside.length === 1 ? "is" : "are"} outside the chosen sets, so left off.` : "";
       // A board that breaks a rule is replaced even by a lower-scoring legal one.
-      if (boardLegal && best.score <= before + 1e-9) {
-        setMsg(`No better board found from ${ran} start${ran === 1 ? "" : "s"} (${fr(before)} runs).`);
+      if (boardLegal && best.score <= beforeSearch + 1e-9) {
+        setMsg(`No better board found from ${ran} start${ran === 1 ? "" : "s"} (${fr(before)} runs).${outsideNote}`);
         return;
       }
       const onBoard = new Set(Object.values(best.slots));
-      const missed = [...locks].filter((id) => !onBoard.has(id)).map((id) => byId.get(id)?.name ?? `#${id}`);
+      const missed = [...keep].filter((id) => !onBoard.has(id)).map((id) => byId.get(id)?.name ?? `#${id}`);
       best = { ...best, score: objective.objective(best.slots) };
       setSlots(best.slots);
       if (missed.length) {
-        setMsg(`Optimised, but could not fit locked ${missed.join(", ")} under the rules — check the cap, the slot counts and his positions.`);
+        setMsg(`Optimised, but could not fit locked ${missed.join(", ")} under the rules — check the cap, the slot counts and ${missed.length === 1 ? "his positions" : "their positions"}.${outsideNote}`);
         return;
       }
-      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} ${deep ? "climb" : "start"}${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).`);
+      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${boardLegal ? "" : " (board broke a rule)"} → ${fr(best.score)} runs, best of ${ran} ${deep ? "climb" : "start"}${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).${outsideNote}`);
     } finally {
       setOptimizing(false);
     }
@@ -1029,6 +1052,7 @@ export function RosterBuilder({
     setMsg(null);
     setSlots({});
     setForms({});
+    if (setsToast.current != null) { dismissToast(setsToast.current); setsToast.current = null; }
     const saved = readLocks(tournament.id);
     setLocks(new Set(saved.locks ?? []));
     setBans(new Set(saved.bans ?? []));
@@ -1050,11 +1074,14 @@ export function RosterBuilder({
   const save = async () => {
     if (!tournament) return;
     const name = rosterName.trim() || `${tournament.name} roster`;
+    // The checks only this page makes (a set or year rule that looks missing,
+    // a card outside the chosen sets) go with it, so the save is a draft too.
     const payload = {
       tournamentId: tournament.id,
       name,
       slots: serializeSlots(),
       requireReady: validation?.ready ?? false,
+      checks: (validation?.incomplete ?? []).filter((i) => isPageCheck(i.code)),
     };
     setSaving(true);
     try {
@@ -1276,7 +1303,8 @@ export function RosterBuilder({
           <RulesStrip
             items={ruleItems}
             refreshText={tournament.restrictions?.refreshText ?? null}
-            onUseSets={setEvidence ? () => changeSets([...setEvidence.types].sort((a, b) => a - b)) : undefined}
+            confirmed={confirmedNotes(tournament)}
+            onUseSets={optimizing ? undefined : changeSets}
           >
             {confidence && (
               <span
@@ -1419,7 +1447,7 @@ export function RosterBuilder({
                   </button>
                 ))}
               </div>
-              <SetFilter value={sets} onChange={changeSets} allowed={ruleTypes} counts={setCounts} />
+              <SetFilter value={sets} onChange={changeSets} allowed={ruleTypes} counts={setCounts} disabled={optimizing} disabledTitle="Wait for the search to finish (or Stop it) before changing sets" />
               {(locks.size > 0 || bans.size > 0) && (
                 <div className="flex flex-wrap items-center gap-1 text-[11px]">
                   {[...locks].map((id) => <button key={`l${id}`} type="button" onClick={() => toggleLock(id)} className="rounded bg-positive/20 px-1.5 py-0.5" title="Locked — click to unlock">🔒 {byId.get(id)?.name ?? `#${id}`} ×</button>)}

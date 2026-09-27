@@ -1,5 +1,26 @@
-import { FIELD_POSITIONS, type RosterSlot } from "./roster-rules";
-export interface RosterInput { tournamentId: number; name: string; slots: RosterSlot[]; requireReady: boolean }
+import { FIELD_POSITIONS, type RosterSlot, type RuleIssue } from "./roster-rules";
+export interface RosterInput { tournamentId: number; name: string; slots: RosterSlot[]; requireReady: boolean; checks: RuleIssue[] }
+
+/**
+ * Checks only /build makes (a rule that looks missing, a card outside the
+ * chosen Sets chips). A save that carries any is kept a draft: they can only
+ * make a roster less ready, so the route takes them as sent.
+ */
+export const isPageCheck = (code: string) => code === "outside-sets" || /^suspect-[a-z]+$/.test(code);
+
+function parseChecks(raw: unknown): RuleIssue[] | null {
+  if (raw == null) return [];
+  if (!Array.isArray(raw) || raw.length > 40) return null;
+  const out: RuleIssue[] = [];
+  for (const x of raw) {
+    if (!x || typeof x !== "object") return null;
+    const c = x as Record<string, unknown>;
+    if (typeof c.code !== "string" || !isPageCheck(c.code) || typeof c.message !== "string") return null;
+    if (c.cardId != null && (typeof c.cardId !== "number" || !Number.isSafeInteger(c.cardId))) return null;
+    out.push({ code: c.code, message: c.message.slice(0, 300), ...(typeof c.cardId === "number" ? { cardId: c.cardId } : {}) });
+  }
+  return out;
+}
 
 export function parseRosterInput(input: unknown): {ok:true;value:RosterInput}|{ok:false;error:string} {
   const fail = (error:string) => ({ok:false as const,error});
@@ -19,5 +40,7 @@ export function parseRosterInput(input: unknown): {ok:true;value:RosterInput}|{o
     if (s.useVariant!=null && typeof s.useVariant!=="boolean") return fail("Variant selection must be true or false.");
     slots.push({cardId:s.cardId,slot:s.slot,versusHand:(s.versusHand??null) as string|null,lineupOrder:(s.lineupOrder??null) as number|null,useVariant:s.useVariant===true});
   }
-  return {ok:true,value:{tournamentId:b.tournamentId,name:b.name.trim().slice(0,120),slots,requireReady:b.requireReady===true}};
+  const checks=parseChecks(b.checks);
+  if (!checks) return fail("Invalid page checks.");
+  return {ok:true,value:{tournamentId:b.tournamentId,name:b.name.trim().slice(0,120),slots,requireReady:b.requireReady===true,checks}};
 }

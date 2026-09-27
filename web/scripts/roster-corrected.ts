@@ -88,7 +88,7 @@ async function main() {
   // Same guard as env-roster: a narrow field means a set or year rule the flags must repeat.
   if (SERIES) {
     const stop = setRuleGuard(SERIES, await loadSetEvidence(SERIES), {
-      cardTypes: CARD_TYPES.size > 0, cardYears: rules.cardYearMin != null || rules.cardYearMax != null, anySet: flag("any-set"),
+      cardTypes: CARD_TYPES.size > 0, cardYears: rules.cardYearMin != null || rules.cardYearMax != null, cardYearMax: rules.cardYearMax, anySet: flag("any-set"),
     });
     if (stop) { console.error(`\n!! ${stop}`); process.exit(1); }
   }

@@ -47,6 +47,10 @@ export interface RosterRules {
     cardTypes?: string[] | null;
     cards?: number | null;
     valueWindowFrom?: string;
+    /** The rules as captured from the game's refresh post or summary screen. */
+    refreshText?: string | null;
+    /** Provenance lines; L.J.'s confirmations among them. */
+    notes?: string[] | null;
   } | null;
 }
 
@@ -166,10 +170,22 @@ export function parseCardTypeRule(label: string): number[] | null {
 
 /** Events whose NAME says there is no value window — a confirmed absence, not an unknown. */
 const NO_WINDOW_BY_NAME = /\bopen\b|&\s*friends\b|\band friends\b/i;
+/** Events whose name promises tier slots ("Daily Open Slots", "Open Slot Quick"). */
+export const SLOTS_NAME = /\bslots?\b/i;
+
+/** A Slots event with no slot rule on file: its tiers are capped, but not here. */
+export const slotsMissing = (rules: RosterRules) => SLOTS_NAME.test(rules.name ?? "") && !rules.restrictions?.slots;
+
+/**
+ * A value window inferred from the refresh post's section rather than read
+ * (import-refresh: "name has no tier word - confirm on screen"). A window read
+ * off a tier word in the name ("name: Iron") is taken as known.
+ */
+export const valueWindowGuessed = (rules: RosterRules) => /confirm/i.test(rules.restrictions?.valueWindowFrom ?? "");
 
 export function valueWindowKnown(rules: RosterRules): boolean {
   return rules.ratingsMin != null || rules.ratingsMax != null || !!rules.restrictions?.slots
-    || NO_WINDOW_BY_NAME.test(rules.name ?? "");
+    || (NO_WINDOW_BY_NAME.test(rules.name ?? "") && !SLOTS_NAME.test(rules.name ?? ""));
 }
 
 export function cardEligibility(card: RosterCard, rules: RosterRules): { errors: RuleIssue[]; incomplete: RuleIssue[] } {
@@ -262,7 +278,9 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
   if (variantLimit != null && variants > variantLimit) issue("variant-cap", `${variants} variants selected; at most ${variantLimit} allowed.`);
   if (rx?.slots) errors.push(...slotCapacityIssues(tiers, rx.slots));
   if (rules.dh == null) incomplete.push({ code: "unknown-dh", message: "DH rule has not been confirmed." });
-  if (!valueWindowKnown(rules)) incomplete.push({ code: "unknown-value-window", message: "Card-value eligibility has not been confirmed for this event." });
+  if (slotsMissing(rules)) incomplete.push({ code: "unknown-slots", message: "The name says tier slots, but none are on file: the board is not held to any tier counts." });
+  else if (!valueWindowKnown(rules)) incomplete.push({ code: "unknown-value-window", message: "Card-value eligibility has not been confirmed for this event." });
+  if (valueWindowGuessed(rules)) incomplete.push({ code: "unconfirmed-value-window", message: `Card value ${range2(rules.ratingsMin, rules.ratingsMax)} was inferred (${rules.restrictions!.valueWindowFrom}); confirm it against the event's RESTRICTIONS line.` });
   for (const hand of ["R", "L"]) {
     for (const pos of [...FIELD_POSITIONS, ...(rules.dh === true ? ["DH"] : [])]) {
       if (!occupied.has(`${hand}:${pos}`)) issue("empty-position", `Fill ${pos} vs ${hand}HP.`);
@@ -277,6 +295,62 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
 
 /** Event names that usually mean a card-set rule (for flagging a missing one). */
 export const SUSPECT_SET_NAME = /all-?star|hardware|snapshot|negro|unsung|rookie|legend|future|veteran|\blive\b/i;
+const SET_NAME_NOT_LIVE = /all-?star|hardware|snapshot|negro|unsung|rookie|legend|future|veteran/i;
+
+/**
+ * The name suggests a card-set rule that is not on file. "Live" in a name is
+ * explained by a card-year rule instead: Daily Live Plus is 2026 cards (L.J.,
+ * 09-27), and PTCS 6 Championship - Live is 1920–1989 cards, which no Live
+ * card meets.
+ */
+export function nameSuggestsSets(rules: Pick<RosterRules, "name" | "cardYearMin" | "cardYearMax">): boolean {
+  const name = rules.name ?? "";
+  return SET_NAME_NOT_LIVE.test(name) || (/\blive\b/i.test(name) && rules.cardYearMin == null && rules.cardYearMax == null);
+}
+
+/**
+ * A card-set rule stated in the captured rules text, e.g. "Nel-SS-UH-HH, 1969
+ * RE, DH off" or "Snapshots and Unsung Heroes cards from 1950-2026, 2026 Globe
+ * Life Field": the sets of every comma clause that reads as sets once a
+ * trailing year range is cut. Null when no clause does.
+ */
+export function setRuleFromText(text: string | null | undefined): number[] | null {
+  if (!text) return null;
+  const codes = new Set<number>();
+  for (const raw of text.split(/[,;]/)) {
+    const clause = raw.replace(/\s*\b(?:from\s+)?\d{4}\s*[-–]\s*\d{4}.*$/i, "").trim();
+    const parsed = clause ? parseCardTypeRule(clause) : null;
+    for (const c of parsed ?? []) codes.add(c);
+  }
+  return codes.size ? [...codes].sort((a, b) => a - b) : null;
+}
+
+/** L.J.'s confirmations among the row's notes ("2026-09-25 from L.J.: …"). */
+export function confirmedNotes(rules: RosterRules): string[] {
+  const notes = rules.restrictions?.notes;
+  return Array.isArray(notes) ? notes.filter((n) => typeof n === "string" && /\bL\.J\.|\bconfirmed\b/i.test(n)) : [];
+}
+
+/**
+ * Who sits in which tier's slots: each tier's cards fill their own slots,
+ * then the nearest higher tier with room (a lower card may fill a higher
+ * slot). `over`: cards left with no slot, by their tier — the same overflow
+ * slotOverflow finds, tier by tier.
+ */
+export function slotUse(tiers: Record<string, number>, slots: Record<string, number>): { use: Partial<Record<TierCode, number>>; over: Partial<Record<TierCode, number>> } {
+  const order = [...TIER_ORDER].reverse();
+  const room = Object.fromEntries(order.map((t) => [t, slots[t] ?? 0])) as Record<TierCode, number>;
+  const use: Partial<Record<TierCode, number>> = {}, over: Partial<Record<TierCode, number>> = {};
+  order.forEach((t, i) => {
+    let n = tiers[t] ?? 0;
+    for (let j = i; j >= 0 && n > 0; j--) {
+      const k = Math.min(n, room[order[j]]);
+      if (k > 0) { room[order[j]] -= k; use[order[j]] = (use[order[j]] ?? 0) + k; n -= k; }
+    }
+    if (n > 0) over[t] = n;
+  });
+  return { use, over };
+}
 
 export type RuleState = "set" | "none" | "unreadable" | "suspect";
 export interface RuleItem {
@@ -286,17 +360,23 @@ export interface RuleItem {
   /**
    * set: on file. none: no such rule (or not on file — `text` says which).
    * unreadable: on file but not understood, so NOT enforced.
-   * suspect: not on file, but the name or the field's play says there is one.
+   * suspect: not on file (or only inferred), but the name, the captured text
+   * or the field's play says there is one.
    */
   state: RuleState;
   /** Longer explanation for a title or tooltip. */
   detail?: string;
-  /** Slots only: tier counts on the board, and the first tier that overflows. */
-  used?: Record<string, number>;
-  over?: TierCode | null;
+  /** Sets only: the sets "Use these sets" applies, when something names them. */
+  propose?: number[];
+  /** Slots only, with a board: each tier's slots and who fills them, and cards with no slot. */
+  slotRows?: { tier: TierCode; used: number; room: number }[];
+  unplaced?: Partial<Record<TierCode, number>>;
 }
 
 const range2 = (lo: number | null, hi: number | null) => (lo != null && hi != null ? (lo === hi ? `${lo}` : `${lo}–${hi}`) : lo != null ? `${lo}+` : `up to ${hi}`);
+const windowSource = (from: string) => (from.startsWith("name: ") ? `read off the name (${from.slice(6)})` : `inferred: ${from}`);
+/** Every set but Live: the rule a field that plays no Live card usually has. */
+const NO_LIVE_CODES = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 /**
  * An event's rules as one line of items in a fixed order, for the rules strip
@@ -304,57 +384,74 @@ const range2 = (lo: number | null, hi: number | null) => (lo != null && hi != nu
  * missing, or on file but unreadable, is an item too: silence is how the
  * 09-27 Hardware roster went wrong.
  *
- * `used`: the board's cards per tier, for "P 8/8 · D 6/6". Slots are cumulative
- * (a lower card may fill a higher slot), so only the first tier that overflows
- * is marked, never a tier over its own count alone.
- * `evidence`: what the field plays (set-evidence.ts), for a missing set rule.
+ * `used`: the board's cards per tier, for "G 13/13 · I 13/13" (slotUse: a
+ * Silver card filling a Gold slot counts in Gold).
+ * `evidence`: what the field plays (set-evidence.ts), for a missing set rule;
+ * the page leaves it out when the exports predate the event's format.
  */
 export function describeRules(rules: RosterRules, opts: { used?: Record<string, number>; evidence?: SetEvidence | null } = {}): RuleItem[] {
   const out: RuleItem[] = [];
   const rx = rules.restrictions;
+  const missingSlots = slotsMissing(rules);
 
   if (rules.ratingsMin != null || rules.ratingsMax != null) {
-    const read = rx?.valueWindowFrom ? ` (read off the name: ${rx.valueWindowFrom})` : "";
-    out.push({ key: "value", label: "Value", text: range2(rules.ratingsMin, rules.ratingsMax), state: "set", detail: `Card value ${range2(rules.ratingsMin, rules.ratingsMax)}${read}.` });
-  } else if (!rx?.slots) {
+    const from = rx?.valueWindowFrom, guessed = valueWindowGuessed(rules), win = range2(rules.ratingsMin, rules.ratingsMax);
+    out.push({
+      key: "value", label: "Value", text: guessed ? `${win} — inferred, confirm` : win, state: guessed ? "suspect" : "set",
+      detail: `Card value ${win}${from ? `, ${windowSource(from)}` : ""}.${guessed ? " Confirm it against the event's RESTRICTIONS line in game." : ""}`,
+    });
+  } else if (!rx?.slots && !missingSlots) {
     out.push(valueWindowKnown(rules)
       ? { key: "value", label: "Value", text: "any", state: "none", detail: "No value window: an Open or & Friends event." }
-      : { key: "value", label: "Value", text: rules.isDraft ? "draft" : "not on file", state: rules.isDraft ? "none" : "suspect", detail: "No card-value window on file, so every card is shown. Check the event's RESTRICTIONS line in game." });
+      : { key: "value", label: "Value", text: rules.isDraft ? "draft" : "not on file — every card shown", state: rules.isDraft ? "none" : "suspect", detail: "No card-value window on file, so every card is shown. Check the event's RESTRICTIONS line in game." });
   }
 
   if (rx?.slots) {
-    const tiers = [...TIER_ORDER].reverse().filter((t) => (rx.slots![t] ?? 0) > 0);
-    const used = opts.used;
-    const text = tiers.map((t) => (used ? `${t} ${used[t] ?? 0}/${rx.slots![t]}` : `${t}${rx.slots![t]}`)).join(" · ");
+    const slots = rx.slots, tiers = [...TIER_ORDER].reverse().filter((t) => (slots[t] ?? 0) > 0);
+    const fill = opts.used ? slotUse(opts.used, slots) : null;
+    const unplaced = fill && Object.keys(fill.over).length ? fill.over : undefined;
+    const extra = unplaced ? Object.entries(unplaced).map(([t, n]) => `${t} +${n} no slot`) : [];
     out.push({
-      key: "slots", label: "Slots", text, state: "set", used, over: used ? slotOverflow(used, rx.slots)?.tier ?? null : null,
-      detail: `Per-tier maximums: ${tiers.map((t) => `${rx.slots![t]} ${TIER_NAME[t]}`).join(", ")}. A lower-tier card may fill a higher slot.`,
+      key: "slots", label: "Slots", state: "set",
+      text: [...tiers.map((t) => (fill ? `${t} ${fill.use[t] ?? 0}/${slots[t]}` : `${t}${slots[t]}`)), ...extra].join(" · "),
+      slotRows: fill ? tiers.map((t) => ({ tier: t, used: fill.use[t] ?? 0, room: slots[t] })) : undefined,
+      unplaced,
+      detail: `Per-tier maximums: ${tiers.map((t) => `${slots[t]} ${TIER_NAME[t]}`).join(", ")}. A lower-tier card may fill a higher slot, and counts where it sits.${unplaced ? ` ${Object.entries(unplaced).map(([t, n]) => `${n} ${TIER_NAME[t as TierCode]} card${n === 1 ? "" : "s"}`).join(", ")} with no slot left: take ${Object.values(unplaced).reduce((a, b) => a + b, 0)} off.` : ""}`,
     });
+  } else if (missingSlots) {
+    out.push({ key: "slots", label: "Slots", text: "not on file — the name says Slots", state: "suspect", detail: "The name says tier slots, but no slot rule is on file: every tier is shown, and nothing holds the board to tier counts. Check the event's RESTRICTIONS line in game." });
   }
 
   const types = rx?.cardTypes?.filter((t) => t.trim()) ?? [];
   const e = opts.evidence ?? null;
   const field = e ? ` The field has played ${evidenceLine(e)}.` : "";
+  const fromText = types.length ? null : setRuleFromText(rx?.refreshText);
+  let setsFromField = false;
   if (types.length) {
     const parsed = types.map(parseCardTypeRule);
     if (parsed.some((p) => p == null)) {
-      out.push({ key: "sets", label: "Sets", text: types.join(" / "), state: "unreadable", detail: `Card-set rule on file but not understood: "${types.join(" / ")}". The pool is NOT filtered by set.${field}` });
+      out.push({ key: "sets", label: "Sets", text: `rule not understood: “${types.join(" / ")}” — pool not filtered`, state: "unreadable", detail: `Card-set rule on file but not understood: "${types.join(" / ")}". The pool is NOT filtered by set.${field}` });
     } else {
       out.push({ key: "sets", label: "Sets", text: cardTypeNames(parsed.flat() as number[]), state: "set", detail: `Only these card sets may enter.${field}` });
     }
+  } else if (fromText) {
+    out.push({ key: "sets", label: "Sets", text: `not on file — rules text says ${cardTypeNames(fromText)}`, state: "suspect", propose: fromText, detail: `The captured rules text ("${rx?.refreshText}") names card sets, but no card-set rule is on file, so the pool is not filtered by set.${field}` });
   } else if (e && setsNarrow(e)) {
-    out.push({ key: "sets", label: "Sets", text: `not on file — field plays only ${evidenceLine(e)}`, state: "suspect", detail: `No card-set rule on file, but the field has played only ${evidenceRule(e).replace(/\+/g, ", ")}. The pool may include cards the game refuses.` });
+    setsFromField = true;
+    out.push({ key: "sets", label: "Sets", text: `not on file — field plays only ${evidenceLine(e)}`, state: "suspect", propose: [...e.types].sort((a, b) => a - b), detail: `No card-set rule on file, but the field has played only ${evidenceRule(e).replace(/\+/g, ", ")}. The pool may include cards the game refuses.` });
   } else if (e && liveAbsent(e) && (rules.cardYearMax == null || rules.cardYearMax >= 2026)) {
-    out.push({ key: "sets", label: "Sets", text: `not on file — field has played no Live card`, state: "suspect", detail: `No card-set rule on file, but the field has played ${e.n} cards and not one Live card: usually a historical-cards-only rule.${field}` });
-  } else if (SUSPECT_SET_NAME.test(rules.name ?? "")) {
-    out.push({ key: "sets", label: "Sets", text: "not on file", state: "suspect", detail: `The name suggests a card-set rule, but none is on file. The pool may include cards the game refuses.${field}` });
+    out.push({ key: "sets", label: "Sets", text: `not on file — field has played no Live card`, state: "suspect", propose: NO_LIVE_CODES, detail: `No card-set rule on file, but the field has played ${e.n} cards and not one Live card: usually a rule of every set but Live.${field}` });
+  } else if (nameSuggestsSets(rules)) {
+    out.push({ key: "sets", label: "Sets", text: "not on file — the name suggests a rule", state: "suspect", detail: `The name suggests a card-set rule, but none is on file. The pool may include cards the game refuses.${field}` });
   } else {
     out.push({ key: "sets", label: "Sets", text: "any", state: "none", detail: `No card-set rule on file.${field}` });
   }
 
   if (rules.cardYearMin != null || rules.cardYearMax != null) {
     out.push({ key: "years", label: "Years", text: range2(rules.cardYearMin, rules.cardYearMax), state: "set", detail: `Card years ${range2(rules.cardYearMin, rules.cardYearMax)}.` });
-  } else if (e && !types.length && yearsNarrow(e)) {
+  } else if (e && !types.length && !setsFromField && yearsNarrow(e)) {
+    // A field narrow in sets is narrow in years for that reason (a Live-only
+    // field plays 2026 cards): the set rule is the one to file.
     out.push({ key: "years", label: "Years", text: `not on file — field plays only ${yearSpan(e)} cards`, state: "suspect", detail: `No card-year rule on file, but every card the field has played is from ${yearSpan(e)}.` });
   }
 

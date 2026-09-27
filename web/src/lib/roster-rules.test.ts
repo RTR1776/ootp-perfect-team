@@ -130,7 +130,7 @@ test("formRatings scales a variant's listed positions by its DEF boost (Nimmala 
 });
 
 /* describeRules and the set rule's message (UI plan G2, 2026-09-27) */
-import { describeRules } from "./roster-rules";
+import { confirmedNotes, describeRules, setRuleFromText, slotOverflow, slotUse } from "./roster-rules";
 import { summariseSetEvidence } from "./set-evidence";
 
 const hardware: RosterRules = {
@@ -155,13 +155,76 @@ test("a card from another set is refused by name", () => {
   assert.equal(e?.message, "Heinie Manush: card set Snapshot not allowed (allowed: Historical All-Star, Hardware Heroes).");
 });
 
-test("the tier count on the board marks only the first tier that overflows", () => {
-  // Legal: a Diamond fills the spare Perfect slot (P 7/8, D 7/6 is fine cumulatively).
+test("the slot counts show where each card sits; only cards with no slot left are marked", () => {
+  // Legal: the seventh Diamond sits in the spare Perfect slot.
   const legal = describeRules(hardware, { used: { P: 7, D: 7, G: 3, S: 3, B: 3, I: 3 } }).find((i) => i.key === "slots")!;
-  assert.equal(legal.text, "P 7/8 · D 7/6 · G 3/3 · S 3/3 · B 3/3 · I 3/3");
-  assert.equal(legal.over, null);
+  assert.equal(legal.text, "P 8/8 · D 6/6 · G 3/3 · S 3/3 · B 3/3 · I 3/3");
+  assert.equal(legal.unplaced, undefined);
   const over = describeRules(hardware, { used: { P: 9, D: 5, G: 3, S: 3, B: 3, I: 3 } }).find((i) => i.key === "slots")!;
-  assert.equal(over.over, "P");
+  assert.deepEqual(over.unplaced, { P: 1 });
+  assert.match(over.text, /P \+1 no slot$/);
+});
+
+test("a tier with no slots of its own still counts where its cards sit (544 Wonky Slots: G13 / I13)", () => {
+  const wonky: RosterRules = { ...hardware, name: "Monday Wonky Historical Slots", restrictions: { slots: { P: 0, D: 0, G: 13, S: 0, B: 0, I: 13 } } };
+  const now = describeRules(wonky, { used: { G: 8, S: 4, B: 1, I: 13 } }).find((i) => i.key === "slots")!;
+  assert.equal(now.text, "G 13/13 · I 13/13", "four Silvers and a Bronze fill the Gold slots");
+  const swapped = describeRules(wonky, { used: { G: 9, S: 4, B: 1, I: 12 } }).find((i) => i.key === "slots")!;
+  assert.equal(swapped.text, "G 13/13 · I 12/13 · B +1 no slot", "an Iron slot cannot take a Bronze");
+  assert.deepEqual(slotUse({ G: 9, S: 4, B: 1, I: 12 }, wonky.restrictions!.slots!).over, { B: 1 });
+  assert.equal(slotOverflow({ G: 9, S: 4, B: 1, I: 12 }, wonky.restrictions!.slots!)?.tier, "B", "the same tier the cumulative check names");
+});
+
+test("an Open Slots event with no slot rule on file is flagged, not read as 'Value any'", () => {
+  const open: RosterRules = { ...hardware, name: "Daily Open Slots", ratingsMin: null, ratingsMax: null, restrictions: { refreshText: "1987 RE, 1990 Metrodome" } };
+  const items = describeRules(open);
+  assert.equal(items.find((i) => i.key === "value"), undefined, "the Slots chip stands in for the value window");
+  const slots = items.find((i) => i.key === "slots")!;
+  assert.equal(slots.state, "suspect");
+  assert.match(slots.text, /not on file/);
+  const v = validateRoster([], [], open);
+  assert.ok(v.incomplete.some((i) => i.code === "unknown-slots"));
+  assert.ok(!v.incomplete.some((i) => i.code === "unknown-value-window"));
+  assert.equal(valueWindowKnown({ ...open, name: "Sunday Open Main Event" }), true, "an Open event without Slots has no window");
+});
+
+test("a value window guessed from the refresh post is flagged until confirmed", () => {
+  const dank: RosterRules = { ...hardware, name: "Daily Dank", ratingsMin: 40, ratingsMax: 59, restrictions: { valueWindowFrom: "refresh post section: iron (name has no tier word - confirm on screen)" } };
+  const value = describeRules(dank).find((i) => i.key === "value")!;
+  assert.equal(value.state, "suspect");
+  assert.equal(value.text, "40–59 — inferred, confirm");
+  assert.ok(validateRoster([], [], dank).incomplete.some((i) => i.code === "unconfirmed-value-window"));
+  const iron = describeRules({ ...dank, name: "Daily Iron Cap", restrictions: { valueWindowFrom: "name: Iron" } }).find((i) => i.key === "value")!;
+  assert.equal(iron.state, "set", "a tier word in the name is read, not guessed");
+  assert.equal(iron.detail, "Card value 40–59, read off the name (Iron).");
+});
+
+test("a set rule in the captured rules text is flagged with those sets to apply", () => {
+  assert.deepEqual(setRuleFromText("Nel-SS-UH-HH, 1969 RE, DH off, Variants on, 1964 Shea Stadium"), [2, 7, 8, 9]);
+  assert.deepEqual(setRuleFromText("Snapshots and Unsung Heroes cards from 1950-2026, 2026 Globe Life Field"), [7, 8]);
+  assert.equal(setRuleFromText("SLOTS: 12 Gold, 8 Silver, 6 Bronze, 0 Iron; 1968 RE, DH on, Variant Cap 13"), null);
+  assert.equal(setRuleFromText("High Bronze Floor-Silver Ceiling, No LE, 1805 cap, 1971 RE, DH off"), null);
+  const replay: RosterRules = { ...hardware, name: "Daily PTCS 2 Iron Replay", restrictions: { refreshText: "Nel-SS-UH-HH, 1969 RE, DH off, Variants on, 1964 Shea Stadium" } };
+  const sets = describeRules(replay).find((i) => i.key === "sets")!;
+  assert.equal(sets.state, "suspect");
+  assert.deepEqual(sets.propose, [2, 7, 8, 9]);
+});
+
+test("a Live name is explained by a card-year rule; a narrow set explains narrow years", () => {
+  const plus: RosterRules = { ...hardware, name: "Daily Live Plus", restrictions: null, cardYearMin: 2026, cardYearMax: 2026 };
+  assert.equal(describeRules(plus).find((i) => i.key === "sets")!.state, "none");
+  assert.equal(describeRules({ ...plus, name: "PTCS 6 Championship - Live", cardYearMin: 1920, cardYearMax: 1989 }).find((i) => i.key === "sets")!.state, "none");
+  assert.equal(describeRules({ ...plus, name: "Daily All-Star Hardware" }).find((i) => i.key === "sets")!.state, "suspect", "other set words still count");
+  const liveOnly = describeRules({ ...plus, cardYearMin: null, cardYearMax: null, name: "Daily Fun" }, { evidence: played([[1, 2026, 243]]) });
+  assert.equal(liveOnly.find((i) => i.key === "sets")!.state, "suspect");
+  assert.deepEqual(liveOnly.find((i) => i.key === "sets")!.propose, [1]);
+  assert.equal(liveOnly.find((i) => i.key === "years"), undefined, "one amber chip, not two");
+});
+
+test("L.J.'s confirmations are picked out of the notes", () => {
+  const nightmare: RosterRules = { ...hardware, restrictions: { notes: ["default RE", "2026-09-25 from L.J.: cards 50-74, 1559 cap", "inferred from field: x.csv"] } };
+  assert.deepEqual(confirmedNotes(nightmare), ["2026-09-25 from L.J.: cards 50-74, 1559 cap"]);
+  assert.deepEqual(confirmedNotes({ ...hardware, restrictions: { notes: ["2026-09-25 confirmed by L.J.: cards 49 or below"] } }).length, 1);
 });
 
 test("a missing set rule is flagged from the field's play or the name; an unreadable one is loud", () => {
@@ -175,6 +238,7 @@ test("a missing set rule is flagged from the field's play or the name; an unread
   const bad = sets({ ...hardware, restrictions: { cardTypes: ["Unicorns"] } });
   assert.equal(bad.state, "unreadable");
   assert.match(bad.detail!, /NOT filtered/);
+  assert.match(bad.text, /not understood: “Unicorns” — pool not filtered/, "said on the chip, not only in a title");
   const years = describeRules({ ...noRule, name: "Daily Live Plus" }, { evidence: played([[1, 2026, 141], [6, 2026, 60], [7, 2026, 3], [5, 2026, 2]]) }).find((i) => i.key === "years");
   assert.equal(years?.state, "suspect");
 });

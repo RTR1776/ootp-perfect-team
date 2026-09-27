@@ -96,14 +96,17 @@ export function evidenceRule(e: SetEvidence): string {
 export function setRuleGuard(
   series: string,
   e: SetEvidence | null,
-  given: { cardTypes: boolean; cardYears: boolean; anySet: boolean },
+  given: { cardTypes: boolean; cardYears: boolean; cardYearMax?: number | null; anySet: boolean },
 ): string | null {
   if (given.anySet || !e) return null;
   const stop: string[] = [];
+  // Only a year range that ends before 2026 keeps Live cards out; one that
+  // runs to 2026 (--card-year-max 2026) answers a year question, not this.
+  const yearsBarLive = given.cardYearMax != null && given.cardYearMax < 2026;
   if (!given.cardTypes && setsNarrow(e)) {
     stop.push(`The field in ${series} plays only ${evidenceLine(e)}, so the event very likely allows only those sets.\n`
       + `Pass --card-types ${[...e.types].sort((a, b) => a - b).join(",")} (${evidenceRule(e)}).`);
-  } else if (!given.cardTypes && liveAbsent(e) && !given.cardYears) {
+  } else if (!given.cardTypes && liveAbsent(e) && !yearsBarLive) {
     stop.push(`The field in ${series} has played no Live card in ${e.n} cards, so the event very likely bars Live cards.\n`
       + `Pass --card-types 2,3,4,5,6,7,8,9,10 (every set but Live).`);
   }

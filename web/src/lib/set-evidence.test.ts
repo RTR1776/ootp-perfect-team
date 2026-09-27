@@ -63,6 +63,9 @@ test("a year range or a missing Live set is a rule too", () => {
   assert.ok(liveAbsent(noLive));
   assert.ok(!yearsNarrow(noLive));
   assert.match(setRuleGuard("bronzeweekly", noLive, { cardTypes: false, cardYears: false, anySet: false })!, /every set but Live/);
+  // A year range that reaches 2026 still admits Live cards: it doesn't answer the stop.
+  assert.match(setRuleGuard("bronzeweekly", noLive, { cardTypes: false, cardYears: true, cardYearMax: 2026, anySet: false })!, /every set but Live/);
+  assert.equal(setRuleGuard("bronzeweekly", noLive, { cardTypes: false, cardYears: true, cardYearMax: 1999, anySet: false }), null, "a range ending before 2026 bars Live");
   assert.ok(!liveAbsent(summariseSetEvidence(rows([[7, 1950, 120], [5, 1990, 80]]))!), "200 cards is too few to call a missing Live set a rule");
 });
 

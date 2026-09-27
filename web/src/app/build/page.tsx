@@ -37,7 +37,7 @@ import type { BuilderEnv } from "@/components/roster-builder";
 import { getRatingScale } from "@/lib/rating-scale";
 import { fieldingRuns } from "@/lib/analytics/fielding";
 import { chicagoDay, daysAgo } from "@/lib/format";
-import { loadSetEvidence } from "@/lib/set-evidence-server";
+import { exportsPredate, loadSetEvidence } from "@/lib/set-evidence-server";
 import type { SetEvidence } from "@/lib/set-evidence";
 
 const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
@@ -210,15 +210,17 @@ export default async function BuildPage({
 
     /* A weekly keeps its name and slot when its era, park or rules rotate, so
        its exports can describe a different event. restrictions.formatSince
-       marks the change: this series' own exports recorded before it (its card
-       lines, field handedness, roster shape) no longer describe the event and
-       are left out. The cards' play elsewhere still counts - it is scored
-       against each series' own baseline. */
+       marks the change: while any of this series' exports on file predates it
+       (exportsPredate: the series is summed as one, so one old file taints the
+       lot), its card lines, set evidence, field handedness and roster shape
+       no longer describe the event and are left out. The cards' play
+       elsewhere still counts - it is scored against each series' own
+       baseline. */
     const formatSince = (full.restrictions as { formatSince?: string } | null)?.formatSince ?? null;
     let seriesLive = !!full.series;
     if (full.series) {
       const [m] = await db.select().from(seriesMeta).where(eq(seriesMeta.series, full.series));
-      if (m && formatSince && m.updatedAt.toISOString().slice(0, 10) < formatSince) {
+      if (m && formatSince && (await exportsPredate(full.series, formatSince)).stale) {
         seriesLive = false;
         tournament.staleSeriesSince = formatSince;
       } else if (m) {

@@ -81,9 +81,13 @@ RULES=(
   "555|--card-types|$NO_LIVE"      # Laptophound's Daily 6L Power Play
   "772|--card-years|1999-2026"     # Daily Iron & Friends OOTP Era
   "9100194|--card-years|1980-1999" # Daily Late 1900s
+  # The game's own rules text, as captured (rules:audit, 2026-09-27):
+  "632|--card-types|Negro League Star+Snapshot+Unsung Heroes+Hardware Heroes|rules text: Nel-SS-UH-HH"  # Daily PTCS 2 Iron Replay
+  "550|--card-types|Snapshot+Unsung Heroes|rules text: Snapshots and Unsung Heroes cards from 1950-2026"  # Wednesday 1950 to Now
 )
-rule() { local e="$1"; local id="${e%%|*}"; local rest="${e#*|}"; run scripts/catalogue-set.ts --tournament "$id" "${rest%%|*}" "${rest#*|}" --note "$NOTE" "${@:2}"; }
-printf '\n\033[1m2. Card rules: Live Plus 2026 cards; 12 Live events Live only; 7 events no Live; OOTP Era 1999+; Late 1900s 1980-99\033[0m\n\n'
+# id|flag|value[|note]: the note defaults to L.J.'s.
+rule() { local id flag value note; IFS='|' read -r id flag value note <<< "$1"; run scripts/catalogue-set.ts --tournament "$id" "$flag" "$value" --note "${note:-$NOTE}" "${@:2}"; }
+printf '\n\033[1m2. Card rules: Live Plus 2026 cards; 12 Live events Live only; 7 events no Live; OOTP Era 1999+; Late 1900s 1980-99; 2 set rules from the game'"'"'s rules text\033[0m\n\n'
 for e in "${RULES[@]}"; do rule "$e" | grep -v "Dry run" || { echo "Could not read event ${e%%|*}."; close 1; }; done
 echo
 if ask "Save these rules?"; then

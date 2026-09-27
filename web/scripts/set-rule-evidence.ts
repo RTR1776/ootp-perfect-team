@@ -8,9 +8,13 @@
  * - rules on file that the field has broken (a set or year the rule forbids
  *   was played). The exports are pooled over every run on file, so a format
  *   change also shows here: the share of plays outside the rule tells which;
+ * - no set rule on file, but the captured rules text names sets ("Nel-SS-UH-HH"):
+ *   a `catalogue:set` line with those sets;
  * - no rule on file, but the field plays three sets or fewer, or one card
  *   year: a `catalogue:set` line to add the rule (L.J. confirms first);
  * - no rule and no exports, but the name suggests one: confirm by name.
+ * An event whose exports predate its current format (restrictions.formatSince)
+ * is read as having none: that play describes the old event.
  *
  * lib/set-evidence.ts has the thresholds. This is how 2026-09-27 found
  * All-Star Hardware (HAS + HH only) and the Live-only events.
@@ -18,9 +22,9 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, observedCardStats, tournaments } from "@/db/schema";
-import { CARD_TYPE_SHORT, SUSPECT_SET_NAME, parseCardTypeRule } from "@/lib/roster-rules";
+import { CARD_TYPE_SHORT, cardTypeRuleLabel, nameSuggestsSets, parseCardTypeRule, setRuleFromText } from "@/lib/roster-rules";
 import { NO_LIVE_RULE, evidenceLine, evidenceRule, liveAbsent, setsNarrow, yearSpan, yearsNarrow } from "@/lib/set-evidence";
-import { loadSetEvidenceMany } from "@/lib/set-evidence-server";
+import { exportsPredate, loadSetEvidenceMany } from "@/lib/set-evidence-server";
 
 async function main() {
   // EF events play the game's default rules (build/page.tsx hides them too).
@@ -28,13 +32,24 @@ async function main() {
     .filter((t) => !/^EF\b/.test(t.name));
   const evidence = await loadSetEvidenceMany([...new Set(events.map((t) => t.series).filter((s): s is string => !!s))]);
 
-  const broken: string[] = [], propose: string[] = [], confirm: string[] = [], wide: string[] = [];
+  const broken: string[] = [], propose: string[] = [], confirm: string[] = [], wide: string[] = [], old: string[] = [];
   let ruled = 0, silent = 0;
   for (const t of events) {
-    const types = (t.restrictions as { cardTypes?: string[] } | null)?.cardTypes ?? [];
-    const e = t.series ? evidence.get(t.series) ?? null : null;
+    const rx = t.restrictions as { cardTypes?: string[]; refreshText?: string; formatSince?: string } | null;
+    const types = rx?.cardTypes ?? [];
     const label = `${t.name} (${t.id})`;
+    let e = t.series ? evidence.get(t.series) ?? null : null;
+    if (e && rx?.formatSince) {
+      const d = await exportsPredate(t.series!, rx.formatSince);
+      if (d.stale) { old.push(`${label}: ${d.before + d.undated} of ${d.files} exports predate the ${rx.formatSince} format`); e = null; }
+    }
     const hasYears = t.cardYearMin != null || t.cardYearMax != null;
+    // The game's own words beat what the field plays.
+    const fromText = types.length ? null : setRuleFromText(rx?.refreshText);
+    if (fromText) {
+      propose.push(`${label}: the captured rules text says "${rx!.refreshText}"\n    pnpm catalogue:set --tournament ${t.id} --card-types "${cardTypeRuleLabel(fromText)}" --note "card sets from the captured rules text"`);
+      if (!hasYears) continue;
+    }
     if (types.length || hasYears) {
       ruled++;
       if (!e) continue;
@@ -53,7 +68,7 @@ async function main() {
       continue;
     }
     if (!e) {
-      if (SUSPECT_SET_NAME.test(t.name)) confirm.push(label); else silent++;
+      if (nameSuggestsSets(t)) confirm.push(label); else silent++;
     } else {
       // Sets and years are separate rules; a field can show both.
       const lines: string[] = [];
@@ -74,6 +89,7 @@ async function main() {
   section("No rule on file, narrow field — proposed rules, confirm with L.J. before running", propose);
   section("No rule and no exports, but the name suggests one — confirm by name", confirm);
   section("No rule on file, the field plays many sets — probably open", wide);
+  section("Exports predate the event's current format — not read", old);
   console.log(`\n${silent} more events have no rule, no exports and a neutral name.`);
   process.exit(0);
 }

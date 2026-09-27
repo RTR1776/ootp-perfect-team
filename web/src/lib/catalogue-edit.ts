@@ -43,6 +43,8 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
   delete old.previousFormat;
   const next: Record<string, unknown> = { ...old };
   for (const k of e.drop ?? []) delete next[k];
+  // A value window set by hand is confirmed, not inferred from the name.
+  if (e.value) delete next.valueWindowFrom;
   if (e.cardTypes?.length) next.cardTypes = e.cardTypes;
   if (e.text != null) next.text = e.text;
   if (e.note != null) next.textFrom = e.note;

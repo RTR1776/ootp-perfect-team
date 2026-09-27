@@ -63,3 +63,11 @@ test("a refresh import keeps hand-set rules unless the post states them", () => 
   assert.deepEqual(posted.cardTypes, ["Live"], "a set rule in the post replaces the kept one");
   assert.deepEqual(keepHandRules(null, fresh), fresh);
 });
+
+test("a value window set by hand is confirmed: the name-inferred marker goes", () => {
+  const dank: CatalogueRules = { ...lastWeek, ratingsMin: 40, ratingsMax: 59, restrictions: { valueWindowFrom: "refresh post section: iron (name has no tier word - confirm on screen)" } };
+  const set = editCatalogueRules(dank, { value: [40, 59], at: "2026-09-27" });
+  assert.equal(set.restrictions?.valueWindowFrom, undefined);
+  assert.equal((set.restrictions?.previousFormat as { restrictions: Record<string, unknown> }).restrictions.valueWindowFrom, dank.restrictions!.valueWindowFrom, "kept in the previous format");
+  assert.equal(editCatalogueRules(dank, { dh: true, at: "2026-09-27" }).restrictions?.valueWindowFrom, dank.restrictions!.valueWindowFrom, "other edits leave it");
+});

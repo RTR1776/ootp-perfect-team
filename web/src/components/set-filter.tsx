@@ -8,7 +8,7 @@ import { CARD_TYPES, CARD_TYPE_NAME, CARD_TYPE_SHORT } from "@/lib/card-sets";
 import { cn } from "@/lib/utils";
 
 export function SetFilter({
-  value, onChange, allowed, counts,
+  value, onChange, allowed, counts, disabled = false, disabledTitle,
 }: {
   /** Selected sets; empty = all. */
   value: number[];
@@ -17,6 +17,8 @@ export function SetFilter({
   allowed: number[] | null;
   /** Cards per set in the pool, to show which sets are there at all. */
   counts?: Record<number, number>;
+  disabled?: boolean;
+  disabledTitle?: string;
 }) {
   const on = new Set(value);
   const toggle = (t: number) => {
@@ -25,17 +27,17 @@ export function SetFilter({
     onChange([...next].sort((a, b) => a - b));
   };
   return (
-    <div className="flex flex-wrap items-center gap-1" role="group" aria-label="Card sets">
+    <div className={cn("flex flex-wrap items-center gap-1", disabled && "opacity-60")} role="group" aria-label="Card sets" title={disabled ? disabledTitle : undefined}>
       <span className="mr-0.5 text-[11px] text-muted-foreground">Sets</span>
       {CARD_TYPES.map((t) => {
         const barred = allowed != null && !allowed.includes(t);
-        const n = counts?.[t] ?? null;
+        const n = counts ? counts[t] ?? 0 : null;
         return (
           <button
             key={t}
             type="button"
             aria-pressed={on.has(t)}
-            disabled={barred}
+            disabled={barred || disabled}
             onClick={() => toggle(t)}
             title={`${CARD_TYPE_NAME[t]}${barred ? " — not allowed in this event" : n != null ? ` — ${n} in your pool` : ""}`}
             className={cn(
@@ -50,7 +52,7 @@ export function SetFilter({
         );
       })}
       {value.length > 0 && (
-        <button type="button" onClick={() => onChange([])} className="ml-1 text-[11px] text-muted-foreground underline">
+        <button type="button" disabled={disabled} onClick={() => onChange([])} className="ml-1 text-[11px] text-muted-foreground underline disabled:no-underline">
           all sets
         </button>
       )}

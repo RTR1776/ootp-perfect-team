@@ -2,7 +2,7 @@
  * Loads the card sets and years a series' field played (lib/set-evidence.ts
  * reads them). Server only: it queries the database.
  */
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, observedCardStats } from "@/db/schema";
 import { summariseSetEvidence, type SetEvidence } from "@/lib/set-evidence";
@@ -33,4 +33,36 @@ export async function loadSetEvidenceMany(series: readonly string[]): Promise<Ma
     if (e) out.set(s, e);
   }
   return out;
+}
+
+/**
+ * Whether a series' exports on file predate an event's format change
+ * (restrictions.formatSince), so its field play describes another event.
+ *
+ * observed_card_stats sums every export of a series, so the answer is for the
+ * whole series: stale if ANY of its current files was imported before `since`.
+ * Files are dated by the first import batch that carried them (import_batches,
+ * kept since 2026-09-07). The filer imports each file on its own right after
+ * the event, so that date is the event's; a file first seen in a bulk import
+ * (many series at once, the 09-27 full re-import) can't be dated and counts
+ * as old. series_meta.updated_at can't answer this: every import refreshes it.
+ */
+export async function exportsPredate(series: string, since: string): Promise<{ stale: boolean; files: number; before: number; undated: number }> {
+  const pattern = `^${series.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}_[0-9]+\\.csv$`;
+  const res = await db.execute(sql`
+    select f->>'name' as name, b.id, b.started_at as at, jsonb_array_length(b.scope) as width
+    from import_batches b, jsonb_array_elements(b.files) f
+    where b.kind = 'observed' and b.status = 'published' and f->>'name' ~ ${pattern}
+    order by b.id`);
+  const rows = (Array.isArray(res) ? res : (res as { rows: unknown[] }).rows) as { name: string; id: number; at: string | Date; width: number }[];
+  if (!rows.length) return { stale: true, files: 0, before: 0, undated: 0 };
+  const latest = Math.max(...rows.map((r) => Number(r.id)));
+  const current = new Set(rows.filter((r) => Number(r.id) === latest).map((r) => r.name));
+  let before = 0, undated = 0;
+  for (const name of current) {
+    const first = rows.find((r) => r.name === name)!;
+    if (Number(first.width) > 3) undated++;
+    else if (new Date(first.at).toISOString().slice(0, 10) < since) before++;
+  }
+  return { stale: before + undated > 0, files: current.size, before, undated };
 }
