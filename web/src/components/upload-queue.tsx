@@ -293,12 +293,31 @@ export function UploadQueue() {
     const body = new FormData();
     body.append("file", file);
     if (capturedOn) body.append("capturedOn", capturedOn);
-    const response = await fetch(`/api/upload${dryRun ? "?dryRun=1" : ""}`, {
-      method: "POST",
-      body,
-    });
-    const json = (await response.json().catch(() => ({}))) as Record<string, unknown>;
-    return { ok: response.ok, json };
+    /* A request that fails outright (a dropped connection, a file the browser
+       can no longer read) used to leave the card on "parsing" for good, with
+       no error. Give up after 90 s (the route's own limit is 60) and say why. */
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 90_000);
+    try {
+      const response = await fetch(`/api/upload${dryRun ? "?dryRun=1" : ""}`, {
+        method: "POST",
+        body,
+        signal: ctrl.signal,
+      });
+      const json = (await response.json().catch(() => ({}))) as Record<string, unknown>;
+      return { ok: response.ok, json };
+    } catch (e) {
+      const err = e as Error;
+      return {
+        ok: false,
+        json: {
+          error: err?.name === "AbortError" ? "No answer from the server in 90 seconds." : "The file did not reach the server.",
+          detail: `${err?.message ?? String(e)} — refresh the page and drop the file again.`,
+        } as Record<string, unknown>,
+      };
+    } finally {
+      clearTimeout(timer);
+    }
   }, []);
 
   const addFiles = useCallback(
