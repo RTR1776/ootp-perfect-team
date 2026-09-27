@@ -116,7 +116,37 @@ L.J. asked what league values: Avoid K (cwhit's early read, Bassler), BABIP, Gap
 | CF | 0.6 |
 | RF | 0.5 |
 
-Bats count at about 0.68 of their tournament spread, so against the bat, C/SS/2B gloves matter more in league and the outfield less. The model still prices gloves at the tournament scale ("Glove weight" on the page) until the per-position fit is done.
+Bats count at about 0.68 of their tournament spread, so against the bat, C/SS/2B gloves matter more in league and the outfield less. Catchers are now measured properly (next section). The other positions are still priced at the tournament scale ("Glove weight" on the page) until the per-position fit is done.
+
+## Catcher defence (2026-09-27)
+
+L.J. asked what catcher framing is worth. Others had put it at a run or two a season. Piazza is Frame 78, Arm 59, Blocking 61.
+
+**The data:** the raw league exports carry each catcher's fielding: framing runs (FRM), steal attempts and runners thrown out (SBA/RTO), passed balls, and zone runs (ZR). There are 1,850 catcher-seasons (200+ innings at C), 1.29M innings, seven weeks in `League Data/`. Refit with `python3 scripts/catcher-fit.py` and copy the coefficients into `leagueCatcherRuns` (`lib/analytics/league-lineup.ts`).
+
+**Runs saved per 1,000 innings against the average league catcher** = framing + zone runs × 0.887 − the running game (a steal +0.20 runs, a runner thrown out −0.42). On base copies:
+
+    −49.75 + 0.3493·Frame + 0.0828·Arm + 0.0772·Blocking
+
+| Card | Innings | Observed | From ratings |
+|---|---|---|---|
+| Mike Piazza | 34,073 | −12.7 | −12.9 |
+| Josh Gibson | 311,033 | −2.0 | −0.9 |
+| Roy Campanella VAR | 271,012 | +3.1 | +2.6 |
+| Gary Carter | 74,264 | +2.6 | +2.0 |
+| Cal Raleigh | 14,574 | +4.7 | +3.6 |
+| Ethan Salas | 117,689 | +5.2 | +5.2 |
+| Johnny Bassler | 49,814 | +6.3 | +5.4 |
+| Ethan Salas VAR | 7,231 | +10.9 | +9.3 |
+
+Across the 21 cards with 5,000+ innings, observed against predicted is r 0.98.
+
+- **Framing is most of it.** It is 0.32 runs per 1,000 innings per point of Frame (r 0.76 on single seasons). Piazza's 78 costs 5 runs a 1,000 innings; Salas's 109 saves 4; Raleigh's 115 saves 7. Between ordinary catchers (Frame 92–100) it is the run or two others found. At the ends it is five or more.
+- **The running game:** runners try 114 steals per 1,000 innings against Piazza, against the league's 73, and he throws out 22% (league 26%). That costs him another ~5 runs.
+- **Variants:** the exports show a variant's catcher ratings at the base card's values, but variant catchers frame and throw as if those ratings carry the variant's C boost (Salas VAR +10.9 against base +5.2). `formRatings` now scales them with Pos Rating C.
+- **What changed:** the lineup model scored a catcher's glove from zone runs only (`fielding.ts`: about 0.03 runs per point of Pos Rating C), about a tenth of this. `league-lineup.ts` now uses the formula at C over a full slot-season (1,400 innings). Piazza behind the plate is −14.0 a season (was −0.7); Salas +7.3 (was +1.0).
+- **The tournament model** still credits catchers through zone runs only; the tournament exports have the same columns, so it can be measured the same way.
+- **The HD catcher plan** built on this is in `Docs/Rosters/League Plan HD 2026-09-27.md`, "Catchers".
 
 ## Copies of one card (2026-09-27)
 
@@ -140,7 +170,7 @@ L.J. asked whether a copy that starts badly should be cut, or whether it turns a
 ## Not done yet
 
 - **Pitchers:** the same panel carries arm rows; the fit is bats only so far.
-- **League defence:** fit per-position scales properly (innings at position), then default `--def-scale` from them.
+- **League defence:** catchers done (above). Fit the other positions from the exports' ZR by innings, then default `--def-scale` from them.
 - **A page:** done 2026-09-27. **/league-card** (League → Card Model) shows L.J.'s league lineups and what a card typed off its face adds to them.
   - The team list starts from his bats in the newest league export and is his to edit (the export also lists cards he has dropped). The list, locks and settings are remembered in the browser.
   - Any slot can be locked to a player. The best nine are solved around the locks.

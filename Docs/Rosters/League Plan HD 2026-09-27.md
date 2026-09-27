@@ -35,11 +35,49 @@ Kansas City Torrent - JW is back in HD after one PEL week (HD451 on 09-20, PEL o
   - Also Walker Jenkins, Tommy Harper, Rogers Hornsby and Roch Cholowsky.
   - Keep one utility glove (Brandon Wood) and the second catcher.
 
+## Catchers (added later on 09-27)
+
+L.J. asked whether he needs a catcher who plays both ways, with Piazza at DH and catching only to rest the starter. He also asked whether Bailey's bat holds up against RHP, and whether Salas is a real option against LHP.
+
+**Keep the platoon: Bailey (VAR) against RHP, Gibson against LHP, Piazza at DH.** It beats every single catcher who can be bought, except Cal Raleigh at about 1.5M.
+
+**Catcher defence is now measured** (see the League Model doc, "Catcher defence"). It comes from framing, the running game and blocking, and it is much bigger than the model used to credit. Runs per slot-season, HD:
+
+| Catcher | Bat vs RHP | Bat vs LHP | Defence | League results vs RHP / vs LHP (runs per 700 PA, PA) |
+|---|---|---|---|---|
+| **Ed Bailey 97 VAR** (owned) | **+6.0** | −45.7 | +4.7 | +4.3 (720) / −36 (56) |
+| **Josh Gibson 101** (owned) | −3.6 | **+1.7** | −1.2 | −4.9 (73,869) / +2.3 (83,680) |
+| Johnny Bassler 93 (owned) | −1.3 | −47.7 | +7.5 | −1.3 (19,350) / −38.8 (3,275) |
+| Ethan Salas 101 (ask 145k) | −4.3 | −16.6 | +7.3 | −4.7 (45,288) / −15.1 (11,525) |
+| Salas VAR (L10 ~314k; +7.5% step) | +1.1 | −11.6 | +13.0 | +9.9 (2,929) / +4.6 (711) |
+| Roy Campanella 100 VAR (owned) | −14.0 | −6.5 | +3.8 | −13.0 (46,933) / −4.2 (73,786) |
+| Cal Raleigh 101 (L10 ~1.5M) | +6.1 | +7.9 | +5.0 | +0.6 (3,704) / +2.1 (4,267) |
+| Mike Piazza 101 VAR (owned) | +6.3 | +2.8 | **−14.0** | |
+
+**Setups, season runs (HD, Piazza at DH).** A single catcher rests 15% of games with Piazza catching.
+
+| Setup | Season |
+|---|---|
+| **Bailey vs RHP / Gibson vs LHP (now)** | **74.8** |
+| Bailey / Salas VAR | 75.2 |
+| Salas VAR both ways | 74.5 |
+| Bassler vs RHP / Gibson vs LHP | 72.3 |
+| Salas both ways, or Gibson both ways | 65.2 |
+| Campanella VAR both ways | 61.5 |
+| Bailey both ways / Bassler both ways | 56.8 / 55.1 |
+| Cal Raleigh both ways | 77.4 |
+
+- **Bailey's bat holds up against RHP.** In league play he is about 4 runs over average (base card 1,833 PA, variant 720), and the model has him at +6. His 65 PA in PEL this week were noise. In HD451 (09-20) he hit .327 against RHP over 325 PA, framed +1.0, threw out 22 of 62 base stealers and had one passed ball in 734 innings.
+- **Salas does not hit LHP in league:** .293 wOBA over 11,525 PA against a .320 league. His glove is excellent, but as a both-ways catcher he is 10 runs worse than the platoon. The variant roughly ties the platoon, so it isn't worth ~314k.
+- **Bassler still plays** (11 teams across the five leagues on 09-20, 3 PEL teams on 09-27), nearly all against RHP. His glove is the best here, but his bat against RHP is only average, so Bailey is about 4.5 runs better on that board. Against LHP he is unplayable.
+- **Piazza at DH is right.** Behind the plate he costs about 14 runs a season: framing, 114 steal attempts per 1,000 innings against the league's 73, and passed balls. As the backup catcher 15% of the time he costs about 2 runs. In the platoon he never needs to catch.
+- **A roster spot is better spent on a bat.** With Juan Soto 102 in place of Wood (or the long man), the platoon comes to **84.4 (+9.6)**. Salas both ways plus Soto, dropping both catchers, comes to 75.0. With Soto on the team the model would DH him and bench Piazza (86.2), which is 1.8 runs more.
+
 ## Buys (tonight's prices; each scored alone against the current roster)
 
 | Card | Price | vs RHP | vs LHP | Season | Runs per 100k |
 |---|---|---|---|---|---|
-| **Kevin Mitchell 100, variant** | variant L10 268k | +2.7 | +26.6 | **+13.3 (1.4 W)** | 5.0 |
+| ~~Kevin Mitchell 100, variant~~ (sold for 265k before L.J. got it) | variant L10 268k | +2.7 | +26.6 | +13.3 (1.4 W) | 5.0 |
 | **Juan Soto 102** | L10 262k, no ask now (bid) | +8.9 | +12.7 | **+10.6 (1.1 W)** | 4.0 |
 | J.D. Martinez 100 | ask 200k | 0 | +19.0 | +8.4 | 4.2 |
 | Kevin Mitchell 100 (base) | ask 190k (L10 155k) | 0 | +18.2 | +8.1 | 4.3–5.2 |
