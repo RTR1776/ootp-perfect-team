@@ -19,13 +19,17 @@ Kansas City Torrent - JW is back in HD after one PEL week (HD451 on 09-20, PEL o
 | 3B | Scott Rolen | +4.8 | Scott Rolen | +11.7 |
 | SS | Ernie Banks | +11.4 | Ernie Banks | +16.1 |
 | LF | Heinie Manush | +10.7 | Heinie Manush | +5.1 |
-| CF | Richard Hidalgo | +10.2 | Mel Ott → **Willie Mays** (owned) | +1.6 → +6.7 |
+| CF | Richard Hidalgo | +10.2 | Mel Ott | +1.6 |
 | RF | Carlos Beltran | +7.6 | Carlos Beltran | +6.0 |
-| DH | Mel Ott | +7.9 | Mike Piazza (VAR) → **Al Simmons** (owned) | +2.8 → +5.1 |
+| DH | Mel Ott | +7.9 | Mike Piazza (VAR) | +2.8 |
 
-- **Free upgrades from the collection:** Willie Mays 98 and Al Simmons 99 are owned but not on the league team.
-  - Both help only against LHP: +6.4 and +2.2 on that board, +2.8 and +1.0 over a season.
-  - Nothing owned beats the current vs-RHP nine.
+- **Owned cards:** Willie Mays 98 and Al Simmons 99 would help against LHP (+6.4 and +2.2 on that board). **L.J. is not using them in the league.** Nothing owned beats the current vs-RHP nine.
+- **The weak spots are against LHP: CF (Ott +1.6) and DH (Piazza +2.8).** The buys below fix them.
+- **Rolen against RHP:**
+  - L.J. asked about this on 09-27. Rolen's bat against RHP is league average: .319 wOBA over 96,174 league PA, against a league .319. Against LHP he hits .336 (league .320).
+  - He plays against RHP for his glove. His 3B rating is 137 (+6.1 runs); Wood's is 91 (0.0) and Harper's 87 (−0.5).
+  - Neither of them hits RHP better: Wood .317 over 22,365 PA, Harper .323 over 84,685.
+  - The model puts Rolen +4.8 at the slot against Wood's +3.4. On actual league results the gap is wider, because the model rates Wood's bat against RHP above what it has done.
 - **Deadweight:**
   - Will Clark: +3.8 vs RHP, −12.1 vs LHP.
   - Also Walker Jenkins, Tommy Harper, Rogers Hornsby and Roch Cholowsky.
@@ -44,8 +48,10 @@ Kansas City Torrent - JW is back in HD after one PEL week (HD451 on 09-20, PEL o
 | Mike Greenwell 99 | ask 105k | +7.5 | 0 | +4.2 | 4.0 |
 
 - **Mitchell, Martinez and Greenberg all do the same job: DH against LHP.** Buy one of them.
-- Soto helps both boards, so he stacks with any of them. With Soto, Mays and Simmons on the team, the Mitchell variant still adds **+11.8**.
-- Soto, the Mitchell variant, Mays and Simmons together are about **+25 runs (2.5 W)** over today's lineups. About 4 of those runs come from Mays and Simmons, who are free; the two buys cost about 530k.
+- Soto helps both boards, so he stacks with any of them. With Soto on the team, the Mitchell variant still adds **+12.3**. Together they are about **+23 runs (2.4 W)** for about 530k.
+- **L.J.'s 200k bid on Canseco (09-27): cancel it.** For the same money J.D. Martinez (ask 200k, +8.4) or Mitchell base (ask 190k, +8.1) add more. The Mitchell variant is about twice Canseco.
+  - Canseco was the earlier session's runner-up, on the tournament model: Mitchell variant +21.0, Canseco +18.5.
+  - The league model rates his both-sides bat lower. Against RHP the lineup is already strong, so he mostly helps against LHP, where the cheaper bats do more.
 - On a ~200k budget: Mitchell base (ask 190k) or J.D. Martinez (200k), both about +8.
 
 ## Pitching (pooled league results; + = better than the league)
