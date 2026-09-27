@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ago, chicagoDay, date, daysAgo, ip, pct, pp, range, rate3, signed, tone } from "./format";
+import { ago, chicagoDay, date, daysAgo, ip, pct, pp, range, rate3, signed, stamp, tone } from "./format";
 
 const M = "−";
 
@@ -34,6 +34,8 @@ test("percent, Perfect Points and innings", () => {
   assert.equal(ip(19.3333), "19.1");
   assert.equal(ip(19.6667), "19.2");
   assert.equal(ip(7), "7.0");
+  assert.equal(ip(1234.6667), "1,234.2", "big workloads group like PA");
+  assert.equal(ip(null), "—");
 });
 
 test("dates are Chicago calendar days, never negative ages", () => {
@@ -56,4 +58,13 @@ test("short dates add the year only when it differs", () => {
   assert.equal(date("2025-12-31", now), "Dec 31, 2025");
   assert.equal(range("2026-09-07", "2026-10-04", now), "Sep 7 – Oct 4");
   assert.equal(date(undefined, now), "—");
+});
+
+test("clock stamps are Chicago times, with the day when it isn't today", () => {
+  const now = new Date("2026-09-27T21:00:00Z"); // 16:00 in Chicago
+  assert.equal(stamp(new Date("2026-09-27T19:02:00Z"), now), "14:02");
+  assert.equal(stamp(Date.parse("2026-09-27T05:10:00Z"), now), "00:10", "just after midnight in Chicago is today");
+  assert.equal(stamp("2026-09-27T04:30:00Z", now), "Sep 26 23:30", "late on the 26th in Chicago is the 27th in UTC");
+  assert.equal(stamp(null, now), "—");
+  assert.equal(stamp("not a date", now), "—");
 });
