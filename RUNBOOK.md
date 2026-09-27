@@ -48,9 +48,11 @@ Do not compare `objective:` across different `--sp/--rp` shapes — an SP slot w
 
 Other tools:
 
-- **/league-card** (League → Card Model): what a card adds to YOUR league lineups, from the numbers on its face.
-  - Pick the base card, type a variant's ratings and gloves, and choose the league, run environment and glove weight.
-  - The team defaults to your bats in the newest league export; edit the list to try another.
+- **/league-card** (League → Card Model): your league lineups, and what a card typed off its face adds to them.
+  - The team starts from your bats in the newest league export. Take off anyone you've dropped and add anyone new; the list, locks and settings are remembered in the browser.
+  - Lock a player into any slot on either board. Set the league, run environment, home park and glove weight, then **Score lineups**.
+  - The park moves your bats only. The footer says by how much, but it is not a park pick (`park:sweep` counts the pitchers and the field too).
+  - To model a card, pick the base card and type the variant's ratings and gloves, then **Score with this card**.
   - It gives the same numbers as `pnpm league:compare`.
 - `pnpm league:compare --roster "Name,…" --add "Name[#cid][=K vL:139,…]" [--league PEL|HD] [--year 1989] [--def-scale 0.5]` — what a card adds to YOUR league lineups on the league model (normalisation and theme-week pricing measured from league play): best nine per board with and without him, runs and wins per season. The model: `Docs/League Model 2026-09-26.md`. Refit after a league week lands: `pnpm league:panel`, then `python3 scripts/league-fit.py`.
 - `pnpm league:best --year 1989 --park "Huntington Park" --park-year 2026 --dh` — whole collection scored for a theme week
