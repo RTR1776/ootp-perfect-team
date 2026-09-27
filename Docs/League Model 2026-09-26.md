@@ -98,4 +98,6 @@ Reproduce:
 
 - **Pitchers:** the same panel carries arm rows; the fit is bats only so far.
 - **League defence:** fit per-position scales properly (innings at position), then default `--def-scale` from them.
-- **A page:** league-compare is CLI only. The /league page could take "add this card" the same way.
+- **A page:** done 2026-09-27. **/league-card** (League → Card Model) scores a card typed off its face.
+  - Pick the base card, type the variant's numbers and positions, then score it. A 7.5% variant step can fill a side you don't know.
+  - It shows what the card adds to the league lineups, per board and per season. It uses the same numbers as `league:compare`: both go through `lib/analytics/league-lineup.ts` and `lib/league-hitters.ts`.
