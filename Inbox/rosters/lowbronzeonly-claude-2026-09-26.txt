@@ -1,0 +1,35 @@
+# Daily Low Bronze Only — Claude pick 2026-09-26 (1955 RE, 1955 Ebbets Field, 60-64, variant cap 12)
+R:C Damon Berryhill
+R:1B Edward Florentino (VAR)
+R:2B Willie Randolph
+R:3B Kyle Seager
+R:SS Jhonny Level (VAR)
+R:LF Bill Buckner (VAR)
+R:CF Jett Williams
+R:RF Jack Tobin
+L:C Yadier Molina
+L:1B Mark Bellhorn
+L:2B Willie Randolph
+L:3B Jett Williams
+L:SS Jhonny Level (VAR)
+L:LF Aaron Hicks
+L:CF Byron Buxton
+L:RF Joe Carter
+SP1 Roy Halladay
+SP2 Bruce Hurst
+SP3 Fritz Ostermueller
+SP4 Kyson Witherspoon (VAR)
+SP5 Jack Kralick
+CL Caden Scarborough
+RP1 Nelson Chittum
+RP2 Paul Assenmacher
+RP3 Grant Wolfram
+RP4 Hoby Milner
+RP5 Tommy Hunter
+RP6 Enyel De Los Santos
+BN1 Mark Bellhorn
+BN2 Jim Thome
+BN3 Joe Carter
+BN4 Byron Buxton
+BN5 Aaron Hicks
+BN6 Yadier Molina
