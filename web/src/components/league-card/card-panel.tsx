@@ -1,41 +1,61 @@
 "use client";
 
 /**
- * Model a card: pick the shop card, type the variant's numbers over its base
- * values, and step a side he can't see by the usual variant boost (UI plan
- * C3). An included card is scored as he types: a hitter into the lineups, a
- * pitcher into the staff (his face per side of the batter, then Stamina;
- * Movement is shown but not modelled).
+ * Model a card (UI plan C7, C9): find the shop card by any part of its name,
+ * type the variant's numbers over its base values, and step a side he can't
+ * see by the usual variant boost (C3). The form reads like the card face: one
+ * table in the face's order, vs RHP | vs LHP (a pitcher's: vs RHB | vs LHB),
+ * each field with its base value under it and the change in colour once
+ * edited. A blank rating says "needs a number" and is left out, so the card
+ * keeps its shop value there; a blank position is one it can't play. An
+ * included card is scored as he types: a hitter into the lineups, a pitcher
+ * into the staff (Movement shows but isn't modelled).
  */
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { Input } from "@/components/ui/input";
+import { CardCombobox } from "@/components/card-combobox";
 import { signed } from "@/lib/format";
 import {
-  ARM_STATS, armSideKeys, BAT_STATS, BATTER_NAME, BOARD_NAME, cardEdited, edit, fieldChanged, POSITION_KEYS, POSITIONS, sideKeys, STAMINA, untouched,
-  type Board, type Candidate, type ModelAction,
+  ARM_STATS, armSideKeys, BAT_STATS, BATTER_NAME, BOARD_NAME, cardEdited, edit, faceText, fieldChanged, needsNumber, POSITION_KEYS, POSITIONS, sideKeys,
+  STAMINA, untouched, type Board, type Candidate, type ModelAction,
 } from "@/lib/league-card-state";
 import { cn } from "@/lib/utils";
 import { ArmResult } from "./arm-result";
-import { Eyebrow, toneClass } from "./bits";
+import { toneClass } from "./bits";
 import type { CardOption } from "./card-model";
 import type { ScoreResult } from "./use-rescore";
 
+/** The boards' order: vs RHP, then vs LHP. */
 const SIDES: Board[] = ["vR", "vL"];
 
-function Field({ label, value, changed, onChange, onBlur }: { label: string; value: string; changed: boolean; onChange: (v: string) => void; onBlur: () => void }) {
+/** One typed rating: the input, its base value under it, and the change in colour once edited. */
+function Field({ c, k, label, act, seal, position = false }: {
+  c: Candidate; k: string; label: string; act: (a: ModelAction) => void; seal: () => void;
+  /** A glove rating: blank means the card can't play there, not a missing number. */
+  position?: boolean;
+}) {
+  const value = c.face[k] ?? "";
+  const base = c.base[k] ?? 0;
+  const changed = fieldChanged(c, k);
+  const missing = !position && needsNumber(c, k);
+  const d = changed && value !== "" && base > 0 ? Number(value) - Math.round(base) : null;
+  let caption: React.ReactNode;
+  if (missing) caption = <span className="text-negative">needs a number</span>;
+  else if (position && value === "") caption = base > 0 ? <span className="text-warning">{`off · base ${faceText(base)}`}</span> : "can't play";
+  else caption = <>{base > 0 ? `base ${faceText(base)}` : "base —"}{d ? <span className={cn("font-mono", toneClass(d, 0))}>{` ${signed(d, 0)}`}</span> : null}</>;
   return (
-    <label className="flex flex-col gap-1">
-      <Eyebrow>{label}</Eyebrow>
+    <div className="min-w-0">
       <Input
-        inputMode="numeric" value={value} onBlur={onBlur}
-        onChange={(e) => onChange(e.target.value.replace(/[^0-9]/g, "").slice(0, 3))}
-        className={cn("h-8 w-[4.5rem] px-2 font-mono", changed && "border-primary text-primary")}
+        inputMode="numeric" value={value} onBlur={seal} aria-label={label} aria-invalid={missing || undefined}
+        onChange={(e) => act(edit.face(k, e.target.value.replace(/[^0-9]/g, "").slice(0, 3)))}
+        className={cn("h-8 px-2 font-mono", position ? "w-14" : "w-16", changed && !missing && "border-primary text-primary", missing && "border-negative")}
       />
-    </label>
+      <div className="mt-0.5 whitespace-nowrap text-[11px] text-muted-foreground">{caption}</div>
+    </div>
   );
 }
 
@@ -58,27 +78,25 @@ function CardResult({ c, result, pending, stale }: { c: Candidate; result: Score
   if (!c.include) return <p className="text-xs text-muted-foreground">Left out of the lineups. Switch on Include in lineups to score it.</p>;
   const cand = result?.candidate, add = result?.add;
   if (!cand || !add) {
-    return pending ? <p className="flex items-center gap-1.5 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" />Scoring {c.name}…</p> : null;
+    return pending ? <p className="flex items-center gap-1.5 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" />{`Scoring ${c.name}…`}</p> : null;
   }
   return (
     <div className={cn("rounded-md border border-border bg-muted/20 px-3 py-2 text-sm transition-opacity", stale && "opacity-60")} aria-busy={pending}>
       {stale && !pending && <div className="mb-1 text-xs text-warning">Not scored for your latest edits; this is the last result.</div>}
       <div className="font-semibold">
-        {cand.label}: <span className={toneClass(add.season)}>{signed(add.season)} runs a season</span>
-        <span className="ml-2 font-normal text-muted-foreground">({signed(add.wins)} W)</span>
+        {`${cand.label}: `}<span className={toneClass(add.season)}>{`${signed(add.season)} runs a season`}</span>
+        <span className="ml-2 font-normal text-muted-foreground">{`(${signed(add.wins)} W)`}</span>
       </div>
-      <div className="mt-1 text-xs text-muted-foreground">
-        As a bat: vs RHP <span className={cn("font-mono", toneClass(cand.vR))}>{signed(cand.vR)}</span>, vs LHP{" "}
-        <span className={cn("font-mono", toneClass(cand.vL))}>{signed(cand.vL)}</span>. In your lineups it adds{" "}
-        <span className="font-mono">{signed(add.dR)}</span> vs RHP and <span className="font-mono">{signed(add.dL)}</span> vs LHP;
-        straight into the DH slot with nothing else moving, <span className="font-mono">{signed(add.dhOnly)}</span>. The lineups above show where it plays.
-      </div>
+      <p className="mt-1 text-xs text-muted-foreground">
+        {`As a bat: vs RHP ${signed(cand.vR)}, vs LHP ${signed(cand.vL)}. In your lineups it adds ${signed(add.dR)} vs RHP and ${signed(add.dL)} vs LHP; straight into the DH slot with nothing else moving, ${signed(add.dhOnly)}. The lineups show where it plays.`}
+      </p>
     </div>
   );
 }
 
 export function CardPanel({ candidate: c, cards, result, pending, stale, loading, cardError, onPick, onClear, act, seal }: {
   candidate: Candidate | null;
+  /** Hitters and pitchers to model, owned ones marked. */
   cards: CardOption[];
   /** The scored result for this card, or null (not included, or not scored yet). */
   result: ScoreResult | null;
@@ -87,6 +105,7 @@ export function CardPanel({ candidate: c, cards, result, pending, stale, loading
   stale: boolean;
   /** The card being fetched, while its base values load. */
   loading: string | null;
+  /** Why the card could not be loaded; shown under the Card box. */
   cardError: string | null;
   onPick: (c: CardOption) => void;
   onClear: () => void;
@@ -94,110 +113,121 @@ export function CardPanel({ candidate: c, cards, result, pending, stale, loading
   seal: () => void;
 }) {
   const [step, setStep] = useState("7.5");
-  const byLabel = useMemo(() => new Map(cards.map((o) => [o.label, o])), [cards]);
   const labelOf = useMemo(() => new Map(cards.map((o) => [o.id, o.label])), [cards]);
   const pct = Number(step);
   const stepOk = step !== "" && Number.isFinite(pct) && pct > 0 && pct <= 50;
   const stepText = `+${stepOk ? pct : step || "0"}%`;
   const edited = c ? cardEdited(c) : false;
   const shown = c && !loading ? c : null;
+  const arm = shown?.kind === "arm";
 
-  const stepButton = (keys: string[], name: string, step: (pct: number) => ModelAction) => {
+  /** A step on the fields still at base: "+7.5%", named in full for a screen reader and the tooltip. */
+  const stepButton = (keys: string[], name: string, what: (pct: number) => ModelAction) => {
     const open = shown ? untouched(shown, keys).length > 0 : false;
     return (
       <Button
-        size="sm" variant="outline" className="h-7 px-2" disabled={!stepOk || !open} onClick={() => act(step(pct))}
+        size="sm" variant="outline" className="h-6 px-1.5 text-[11px]" disabled={!stepOk || !open} onClick={() => act(what(pct))}
+        aria-label={`${stepText} ${name}`}
         title={open ? `Step the ${name} ratings still at the card's base by ${stepText}` : `Every ${name} rating is already edited`}
       >
-        {stepText} {name}
+        {stepText}
       </Button>
     );
   };
-  const field = (key: string, label: string) => (
-    <Field key={key} label={label} value={shown?.face[key] ?? ""} changed={shown ? fieldChanged(shown, key) : false} onChange={(v) => act(edit.face(key, v))} onBlur={seal} />
+  const field = (k: string, label: string, position = false) => shown && <Field key={k} c={shown} k={k} label={label} act={act} seal={seal} position={position} />;
+  const sideHead = (side: Board, name: string, keys: string[], what: (pct: number) => ModelAction) => (
+    <div key={side} className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+      <span className="text-xs font-semibold">{name}</span>
+      {stepButton(keys, name, what)}
+    </div>
   );
-  const arm = shown?.kind === "arm";
 
   return (
-    <Card>
+    <Card className="@container">
       <CardHeader>
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
           <CardTitle className="text-base">Model a card</CardTitle>
           {shown && <Switch checked={shown.include} onChange={(on) => act(edit.include(shown.name, on))}>{arm ? "Include in the staff" : "Include in lineups"}</Switch>}
         </div>
         <CardDescription>
-          Pick the base card, a hitter or a pitcher; its ratings fill in. Type the variant&apos;s numbers over them, and step a side
-          you can&apos;t see by the usual variant boost.{arm ? "" : " A blank position is one it can't play."}
+          {`Pick the base card, a hitter or a pitcher; its ratings fill in. Type the variant's numbers over them, and step a side you can't see by the usual variant boost.${arm ? "" : " A blank position is one it can't play."}`}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex flex-wrap items-end gap-3">
-          <label className="flex min-w-0 flex-1 basis-72 flex-col gap-1">
-            <Eyebrow>Card</Eyebrow>
+        <div className="flex flex-wrap items-start gap-3">
+          <div className="flex min-w-0 flex-1 basis-64 flex-col gap-1">
+            <label htmlFor="lc-card" className="text-xs text-muted-foreground">Card</label>
             {/* Keyed by the card on the form, so an undo or a clear puts its name back. */}
-            <Input
-              key={c?.id ?? "none"} list="league-card-options" defaultValue={c ? labelOf.get(c.id) ?? c.name : ""} placeholder="Start typing a name…"
-              onChange={(e) => { const o = byLabel.get(e.target.value); if (o) onPick(o); }}
-            />
-          </label>
+            <CardCombobox key={c?.id ?? "none"} id="lc-card" options={cards} onPick={onPick} selected={c ? labelOf.get(c.id) ?? c.name : ""} keepPick noun="card" />
+            {cardError && <p role="alert" className="text-xs text-negative">{cardError}</p>}
+          </div>
           <label className="flex flex-col gap-1">
-            <Eyebrow>Variant step %</Eyebrow>
+            <span className="text-xs text-muted-foreground">Variant step %</span>
             <Input value={step} inputMode="decimal" onChange={(e) => setStep(e.target.value.replace(/[^0-9.]/g, "").slice(0, 4))} className="h-9 w-20 font-mono" />
           </label>
-          {shown && <Button size="sm" variant="ghost" disabled={!edited} onClick={() => act(edit.baseFace(shown.name))}>Reset to base</Button>}
-          {shown && (edited
-            ? <ConfirmButton variant="ghost" prompt={`Clear ${shown.name} and your edits?`} onConfirm={onClear}>Clear card</ConfirmButton>
-            : <Button size="sm" variant="ghost" onClick={onClear}>Clear card</Button>)}
+          {shown && (
+            <div className="flex items-center gap-1 self-end">
+              <Button size="sm" variant="ghost" disabled={!edited} onClick={() => act(edit.baseFace(shown.name))}>Reset to base</Button>
+              {edited
+                ? <ConfirmButton variant="ghost" prompt={`Clear ${shown.name} and your edits?`} onConfirm={onClear}>Clear card</ConfirmButton>
+                : <Button size="sm" variant="ghost" onClick={onClear}>Clear card</Button>}
+            </div>
+          )}
         </div>
-        {cardError && <p className="text-xs text-negative">{cardError}</p>}
-        {loading && <p className="flex items-center gap-1.5 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" />Loading {loading}…</p>}
+        {loading && <p className="flex items-center gap-1.5 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" />{`Loading ${loading}…`}</p>}
         {shown?.title && <div className="text-xs text-muted-foreground">{shown.title}</div>}
         {shown && !arm && (
-          <div className="space-y-3">
-            {SIDES.map((side) => (
-              <div key={side} className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <span className="w-16 text-xs font-semibold">{BOARD_NAME[side]}</span>
-                  {stepButton(sideKeys(side), BOARD_NAME[side], (p) => edit.step(side, p))}
-                </div>
-                <div className="flex flex-wrap items-end gap-2">
-                  {BAT_STATS.map(([k, name]) => field(`${k} ${side}`, name))}
-                </div>
-              </div>
-            ))}
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
-                <span className="w-16 text-xs font-semibold">Glove</span>
+          <div className="space-y-4">
+            <div role="group" aria-label="Batting ratings" className="grid grid-cols-[5rem_1fr_1fr] items-start gap-x-2 gap-y-1.5">
+              <div />
+              {SIDES.map((side) => sideHead(side, BOARD_NAME[side], sideKeys(side), (p) => edit.step(side, p)))}
+              {BAT_STATS.map(([k, name]) => (
+                <Fragment key={k}>
+                  <div className="pt-1.5 text-xs">{name}</div>
+                  {SIDES.map((side) => field(`${k} ${side}`, `${name} ${BOARD_NAME[side]}`))}
+                </Fragment>
+              ))}
+            </div>
+            <div role="group" aria-label="Glove ratings" className="space-y-1.5">
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-semibold">Glove</span>
                 {stepButton(POSITION_KEYS, "positions", (p) => edit.step("positions", p))}
               </div>
-              <div className="flex flex-wrap items-end gap-2">
-                {POSITIONS.map((p) => field(`POS ${p}`, p))}
+              <div className="grid grid-cols-4 gap-x-2 gap-y-2 @min-[36rem]:grid-cols-8">
+                {POSITIONS.map((p) => (
+                  <div key={p} className="min-w-0">
+                    <div className="font-mono text-[11px] text-muted-foreground">{p}</div>
+                    {field(`POS ${p}`, `Glove at ${p}`, true)}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         )}
         {shown && arm && (
-          <div className="space-y-3">
-            {SIDES.map((side) => (
-              <div key={side} className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <span className="w-16 text-xs font-semibold">{BATTER_NAME[side]}</span>
-                  {stepButton(armSideKeys(side), BATTER_NAME[side], (p) => edit.armStep(side, p))}
-                </div>
-                <div className="flex flex-wrap items-end gap-2">
-                  {ARM_STATS.map(([k, name]) => field(`${k} ${side}`, name))}
-                </div>
-              </div>
+          <div role="group" aria-label="Pitching ratings" className="grid grid-cols-[5rem_1fr_1fr] items-start gap-x-2 gap-y-1.5">
+            <div />
+            {SIDES.map((side) => sideHead(side, BATTER_NAME[side], armSideKeys(side), (p) => edit.armStep(side, p)))}
+            {ARM_STATS.map(([k, name]) => (
+              <Fragment key={k}>
+                <div className="pt-1.5 text-xs">{name}</div>
+                {SIDES.map((side) => field(`${k} ${side}`, `${name} ${BATTER_NAME[side]}`))}
+                {/* The card face's Movement sits under Stuff: shown, not modelled. */}
+                {k === "STU" && shown.movement && (
+                  <>
+                    <div className="text-xs text-muted-foreground" title="Not modelled; its parts are pHR and pBABIP">Movement</div>
+                    {SIDES.map((side) => (
+                      <div key={side} className="px-2 pb-1 font-mono text-xs text-muted-foreground" title="Not modelled; its parts are pHR and pBABIP">
+                        {shown.movement?.[side] ?? "—"}
+                      </div>
+                    ))}
+                  </>
+                )}
+              </Fragment>
             ))}
-            <div className="flex flex-wrap items-end gap-x-4 gap-y-2">
-              {field(STAMINA, "Stamina")}
-              {shown.movement && (
-                <div className="pb-2 text-xs text-muted-foreground" title="Not modelled; its parts are pHR and pBABIP">
-                  Movement {BATTER_NAME.vR} <span className="font-mono">{shown.movement.vR ?? "—"}</span> · {BATTER_NAME.vL}{" "}
-                  <span className="font-mono">{shown.movement.vL ?? "—"}</span> (not modelled)
-                </div>
-              )}
-            </div>
+            <div className="pt-1.5 text-xs">Stamina</div>
+            {field(STAMINA, "Stamina")}
+            <div />
           </div>
         )}
         {shown && (arm
