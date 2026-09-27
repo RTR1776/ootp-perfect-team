@@ -29,3 +29,51 @@ test("gloves scale with the environment's balls in play", async () => {
   assert.ok(deadball > 1.15 && deadball <= 1.35, `1920 gives them more (${deadball.toFixed(2)})`);
   assert.equal(gloveScale(null), 1);
 });
+
+/* A plain team: one player per field slot, rated 100 there only, and a DH who plays nowhere. */
+const BAT = Object.fromEntries(["Avoid K", "BABIP", "Gap", "Power", "Eye"].flatMap((k) => [[`${k} vR`, 100], [`${k} vL`, 100]]));
+const FIELDERS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
+const TEAM = [
+  ...FIELDERS.map((p, id) => ({ id, label: `${p} man`, bats: "R", ratings: { ...BAT, [`Pos Rating ${p}`]: 100 } })),
+  { id: 8, label: "DH man", bats: "L", ratings: { ...BAT } },
+];
+
+test("the lock menus' ratings: every field slot rated above 0, rounded", async () => {
+  const { fieldRatings } = await import("./league-lineup");
+  assert.deepEqual(fieldRatings({ "Pos Rating 3B": 137.4, "Pos Rating SS": 0, "Pos Rating P": 50, "Pos Rating C": 45 }), { C: 45, "3B": 137 });
+  assert.deepEqual(fieldRatings({}), {});
+});
+
+test("locks that can't make a legal nine: each is taken off in turn, then all of them", async () => {
+  const { leagueLineups, solveAround, keptLocks } = await import("./league-lineup");
+  const m = leagueLineups(TEAM, { family: "PEL", year: 2010 });
+  const ids = TEAM.map((h) => h.id);
+  const slotOf = (l: { lineup: Array<{ slot: string; id: number }> } | null, id: number) => l?.lineup.find((x) => x.id === id)?.slot;
+
+  const free = solveAround(m.solve, ids, "vR", {});
+  assert.ok(free.lineup, "the plain team fields nine");
+  assert.deepEqual(free.dropped, []);
+
+  // The DH man at short: he has no rating there.
+  assert.equal(m.solve(ids, "vR", { SS: 8 }), null);
+  const ss = solveAround(m.solve, ids, "vR", { SS: 8, LF: 5 });
+  assert.deepEqual(ss.dropped, ["SS"], "only the bad lock goes");
+  assert.equal(slotOf(ss.lineup, 4), "SS");
+  assert.equal(slotOf(ss.lineup, 5), "LF", "the other lock holds");
+  assert.deepEqual(keptLocks({ SS: 8, LF: 5 }, ss.dropped), { LF: 5 });
+
+  // The only catcher at DH: nobody else can catch.
+  const dh = solveAround(m.solve, ids, "vL", { DH: 0 });
+  assert.deepEqual(dh.dropped, ["DH"]);
+  assert.equal(slotOf(dh.lineup, 0), "C");
+
+  // Two bad locks: neither alone fixes it, so both go.
+  const both = solveAround(m.solve, ids, "vR", { DH: 0, SS: 8 });
+  assert.deepEqual(both.dropped, ["SS", "DH"]);
+  assert.ok(both.lineup);
+
+  // Eight players can't field nine, locks or not: nothing to drop.
+  const short = solveAround(m.solve, ids.slice(0, 8), "vR", { SS: 4 });
+  assert.equal(short.lineup, null);
+  assert.deepEqual(short.dropped, []);
+});
