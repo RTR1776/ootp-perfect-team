@@ -54,7 +54,7 @@ Other tools:
   - The park moves your bats only. The footer says by how much, but it is not a park pick (`park:sweep` counts the pitchers and the field too).
   - To model a card, pick the base card and type the variant's ratings and gloves, then **Score with this card**.
   - It gives the same numbers as `pnpm league:compare`.
-- `pnpm league:compare --roster "Name,…" --add "Name[#cid][=K vL:139,…]" [--league PEL|HD] [--year 1989] [--def-scale 0.5]` — what a card adds to YOUR league lineups on the league model (normalisation and theme-week pricing measured from league play): best nine per board with and without him, runs and wins per season. The model: `Docs/League Model 2026-09-26.md`. Refit after a league week lands: `pnpm league:panel`, then `python3 scripts/league-fit.py`.
+- `pnpm league:compare --roster "Name,…" --add "Name[#cid][=K vL:139,…]" [--league PEL|HD] [--year 1989] [--def-scale 0.5]` — what a card adds to YOUR league lineups on the league model (normalisation and theme-week pricing measured from league play): best nine per board with and without him, runs and wins per season. The model: `Docs/League Model 2026-09-26.md`. Refit after a league week lands: `pnpm league:panel`, then `python3 scripts/league-fit.py`. Catcher defence (framing, running game, blocking) refits from the raw exports with `python3 scripts/catcher-fit.py`.
 - `pnpm league:best --year 1989 --park "Huntington Park" --park-year 2026 --dh` — whole collection scored for a theme week
 - `pnpm tourney:brief --series bronzeweekly` — what a series has rewarded, what you own, what it costs
 - `pnpm arm:roles` — every arm with the role term in and out

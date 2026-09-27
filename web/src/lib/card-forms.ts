@@ -31,6 +31,12 @@
  * card) but the dumps only carry the listed ones, and a linear fit from the
  * components underpredicts the unlisted ones by 11–22 points, so nothing is
  * invented for them.
+ *
+ * CATCHER RATINGS (CatcherAbil / CatcherFrame / Catcher Arm) are the base
+ * card's on a variant row too (C ABI/FRM/ARM in both exports), but the variant
+ * plays them boosted: over 2026 league play, variant catchers frame and throw
+ * like base ratings × the variant's C boost (Salas, Gibson, Carter, Bench,
+ * Campanella; see leagueCatcherRuns). So they scale with Pos Rating C.
  */
 const RATING_KEYS: Record<string, string> = {
   "GAP vL": "Gap vL", "GAP vR": "Gap vR", "POW vL": "Power vL", "POW vR": "Power vR",
@@ -72,6 +78,13 @@ export function formRatings(base: Record<string, number>, exported: Record<strin
   // In-game numbers entered by hand (position-overrides.ts) beat the estimate.
   for (const [k, v] of Object.entries(exported)) {
     if (k.startsWith("POS ") && Number.isFinite(v)) result[`Pos Rating ${k.slice(4)}`] = v;
+  }
+  // Catcher ratings ride the catcher boost (header note).
+  const c0 = base["Pos Rating C"], c1 = result["Pos Rating C"];
+  if (c0 > 0 && c1 > 0 && c1 !== c0) {
+    for (const key of ["CatcherAbil", "CatcherFrame", "Catcher Arm"]) {
+      if (base[key] > 0) result[key] = Math.round(base[key] * (c1 / c0));
+    }
   }
   for (const [from, to] of Object.entries(RATING_KEYS)) {
     const n = exported[from];

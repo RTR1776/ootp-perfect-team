@@ -4,8 +4,9 @@
  * CLI and the /league-card page, so both read the same numbers.
  *
  * Per board, the best nine are solved exactly (Hungarian): bat on the league
- * model plus glove at the slot (fielding.ts runs × defScale), under L.J.'s
- * position floor, DH unconditional unless dh is false. A card's worth is the
+ * model plus glove at the slot (fielding.ts runs × defScale; behind the plate,
+ * leagueCatcherRuns), under L.J.'s position floor, DH unconditional unless dh
+ * is false. A card's worth is the
  * best lineup with him minus the best lineup without him: the bench move and
  * any reshuffle are inside it. Boards are weighted by the league's measured
  * share of PA against LHP. Runs are per 700 PA per lineup slot, about a
@@ -40,6 +41,28 @@ export interface CardAdd {
 }
 
 const FIELD = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
+
+/**
+ * A catcher's defence in league play: runs saved per `innings` (default a
+ * full slot season, 1,400) against the average league catcher.
+ *
+ * Measured 2026-09-27 on the raw league exports' catcher fielding columns:
+ * 1,850 catcher-seasons, 1.29M innings, seven weeks. The runs are framing (FRM),
+ * the running game (a steal +0.20 runs, a runner thrown out −0.42) and zone
+ * runs (ZR × 0.887). On base copies, per 1,000 innings:
+ *     −49.75 + 0.3493·CatcherFrame + 0.0828·Catcher Arm + 0.0772·CatcherAbil
+ * Pooled per card it matches what 21 catchers did at r 0.98 (variants with
+ * their ratings boosted, card-forms.ts). Framing is most of it: Piazza (Frame
+ * 78) gives up 5 runs a 1,000 innings to it and Salas (109) saves 4. Piazza
+ * also draws 114 steal attempts a 1,000 innings against the league's 73.
+ * ZR alone (fielding.ts) sees about a tenth of this, so it is not used here.
+ * Null when the card has no catcher ratings.
+ */
+export function leagueCatcherRuns(r: Record<string, number>, innings = 1400): number | null {
+  const frm = r.CatcherFrame, arm = r["Catcher Arm"], abi = r.CatcherAbil;
+  if (!(frm > 0 && arm > 0 && abi > 0)) return null;
+  return ((-49.75 + 0.3493 * frm + 0.0828 * arm + 0.0772 * abi) * innings) / 1000;
+}
 
 /** Slot → the hitter id locked there. */
 export type Locks = Partial<Record<string, number>>;
@@ -80,9 +103,11 @@ export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFam
     const bat = runs.get(id)?.[b];
     if (bat == null) return -Infinity;
     if (slot === "DH") return bat;
-    const pr = byId.get(id)!.ratings[`Pos Rating ${slot}`] ?? 0;
+    const r = byId.get(id)!.ratings;
+    const pr = r[`Pos Rating ${slot}`] ?? 0;
     if (!(pr > 0) || (!locked && pr < posFloorAt(LJ_FLOOR, slot))) return -Infinity;
-    return bat + defScale * fieldingRuns(slot, pr);
+    const glove = (slot === "C" ? leagueCatcherRuns(r) : null) ?? fieldingRuns(slot, pr);
+    return bat + defScale * glove;
   };
   const solve = (ids: number[], b: Board, locks: Locks = {}): Lineup | null => {
     const lockedAt = new Map(Object.entries(locks).filter(([, id]) => id != null && ids.includes(id)) as Array<[string, number]>);
