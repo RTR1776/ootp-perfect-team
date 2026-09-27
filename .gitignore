@@ -25,6 +25,9 @@ Archive/
 # Quarantine folder, no longer needed: Claude can delete files directly (verified 2026-09-21). Safe to empty.
 _to_delete/
 
+# Push to GitHub.command saves this Mac's side of a half-merged file here, then keeps GitHub's copy
+_sync-conflicts/
+
 # Transient outbox: filed exports awaiting L.J.'s cwhit/DCFC upload, cleared by him
 Tourney Data/DCFC Upload Queue/
 
