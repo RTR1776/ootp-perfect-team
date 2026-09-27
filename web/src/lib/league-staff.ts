@@ -23,7 +23,7 @@ import { envFitMaps } from "@/lib/analytics/env-fit";
 import { eraTable } from "@/lib/analytics/tournament-env";
 import { formRatings } from "@/lib/card-forms";
 import {
-  ARM_MODEL_FIT, ARM_PRIOR_IP, armKey, blendArm, estimateEdge9, familyFit, ipPerSlot, loadArmRows, poolArmEdges,
+  ARM_MODEL_FIT, armKey, blendArm, estimateEdge9, familyFit, ipPerSlot, loadArmRows, poolArmEdges, variantFace,
   type ArmEdge, type ArmLine, type ArmRole, type StaffArm,
 } from "@/lib/league-arms";
 import { leagueFamily, type LeagueFamily } from "@/lib/analytics/league-model";
@@ -89,7 +89,7 @@ export function resolveArms(entries: readonly string[], u: HitterUniverse): { ar
 
 export interface ArmScore {
   sp: number | null; rp: number | null;
-  /** Where each score comes from: 150+ league innings in that role, or mostly the ratings. */
+  /** Where each score mostly comes from: league play, or the ratings estimate (over half its weight). */
   spSource: "league" | "estimate"; rpSource: "league" | "estimate";
   /** League innings in the role behind each score, every family; and those in the team's family. */
   spIp: number; rpIp: number;
@@ -127,7 +127,7 @@ export function scoreArms(arms: readonly ArmPick[], lines: ArmLines, typed: Map<
   const varFaces = arms.map((a) => {
     if (a.varRatings) return a.varRatings;
     const r = lines.fam.get(varKey(a))?.ratings ?? lines.other.get(varKey(a))?.ratings;
-    return r ? { ...a.base, ...r } : null;
+    return r ? variantFace(a.base, r) : null;
   });
   // Three reads per arm: as scored, the base card, and its variant.
   const rows = arms.flatMap((a, i) => [
@@ -148,8 +148,7 @@ export function scoreArms(arms: readonly ArmPick[], lines: ArmLines, typed: Map<
         .filter((v): v is { key: string; ref: number } => v.ref != null)
         .map((v) => ({ fam: side(lines.fam.get(v.key)), other: side(lines.other.get(v.key)), shift: ARM_MODEL_FIT.k * (now - v.ref) }));
       const b = blendArm(own, estimateEdge9(now), fit);
-      const ip = b.ipFam + b.ipOther;
-      return { score: b.score, source: ip >= ARM_PRIOR_IP ? ("league" as const) : ("estimate" as const), ip, ipFamily: b.ipFam };
+      return { score: b.score, source: b.estShare > 0.5 ? ("estimate" as const) : ("league" as const), ip: b.ipFam + b.ipOther, ipFamily: b.ipFam };
     };
     const sp = score("SP"), rp = score("RP");
     const line = lines.fam.get(a.key) ?? lines.other.get(a.key);

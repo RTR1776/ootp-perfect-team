@@ -18,6 +18,8 @@ export const innings = (ip: number) => Math.round(ip).toLocaleString("en-US");
 
 /** A warning about the staff (a staff slot, or a pitcher on the list), so each tab shows its own. */
 export const staffWarning = (w: string, arms: string[]) => /^(SP\d|CL|RP\d+): /.test(w) || arms.some((e) => w.startsWith(`${nameOf(e)}:`));
+/** A warning about the modelled card ("Kenley Jansen 100: can't start …"): its result card says it instead. */
+export const cardWarning = (w: string, label: string | null | undefined) => !!label && w.startsWith(`${label.replace(/ \(model\)$/, "")}:`);
 
 export const Eyebrow = ({ children }: { children: React.ReactNode }) => (
   <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{children}</span>

@@ -17,7 +17,7 @@ import {
   type LeagueExport, type ModelAction, type ModelState,
 } from "@/lib/league-card-state";
 import { cn } from "@/lib/utils";
-import { innings, NativeSelect, per9, ScoreStatus, staffWarning, toneClass } from "./bits";
+import { cardWarning, innings, NativeSelect, per9, ScoreStatus, staffWarning, toneClass } from "./bits";
 import type { ArmRow, ScoreResult, Staff, StaffSlot } from "./use-rescore";
 
 type Role = "SP" | "RP";
@@ -34,10 +34,10 @@ function Sample({ arm, role, family }: { arm: ArmRow | undefined; role: Role; fa
   const ip = role === "SP" ? arm.spIp : arm.rpIp;
   const inFamily = role === "SP" ? arm.spIpFamily : arm.rpIpFamily;
   if (isEstimate(arm, role)) {
-    const why = ip > 0 ? `${innings(ip)} league IP as ${AS[role]}, under 150: mostly a ratings estimate` : `No league innings as ${AS[role]}: a ratings estimate`;
+    const why = ip > 0 ? `Mostly a ratings estimate: ${innings(inFamily)} IP as ${AS[role]} in ${family}, ${innings(ip - inFamily)} in other leagues` : `No league innings as ${AS[role]}: a ratings estimate`;
     return <span className="rounded bg-muted px-1 text-[11px] text-muted-foreground" title={why}>est.</span>;
   }
-  const title = `League innings as ${AS[role]}, the card's and its variant's: ${innings(inFamily)} in ${family}, ${innings(ip - inFamily)} in other leagues`;
+  const title = `League innings as ${AS[role]} (the card's, and its variant's where its ratings are known): ${innings(inFamily)} in ${family}, ${innings(ip - inFamily)} in other leagues`;
   return <span className="whitespace-nowrap rounded border border-border px-1 font-mono text-[11px]" title={title}>{innings(ip)} IP</span>;
 }
 
@@ -159,7 +159,7 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
   if (withArm) rows.set(withArm.arm.entry, withArm.arm);
   const locks = armLockCount(state.armLocks);
   const atExport = modelReducer(state, edit.resetStaff(league)) === state;
-  const warnings = (result?.warnings ?? []).filter((w) => staffWarning(w, state.arms));
+  const warnings = (result?.warnings ?? []).filter((w) => staffWarning(w, state.arms) && !cardWarning(w, result?.candidateArm?.label));
   const clearLocks = () => told(edit.clearArmLocks(locks), `Cleared ${locks} staff lock${locks === 1 ? "" : "s"}`);
   // An arm locks into one slot, so locking him elsewhere moves him: say so.
   const lock = (slot: string, entry: string | null) => {
@@ -255,7 +255,7 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
       )}
       {ip && (
         <p className={cn("text-[11px] text-muted-foreground", stale && "opacity-60")}>
-          {`Edge per 9 = FIP-type runs better than each week's league. ${family} play counts most; a card's play in the other leagues is scaled to ${family} and weighs in where that is thin, and arms with little of either lean on a ratings estimate. The base card's and its variant's lines both count. Season = edge × ${Math.round(ip.sp)} IP (starter) / ${Math.round(ip.rp)} IP (reliever). Leverage not modelled.`}
+          {`Edge per 9 = FIP-type runs better than each week's league. ${family} play counts most; a card's play in the other leagues is scaled to ${family} and weighs in where that is thin, and arms with little of either lean on a ratings estimate. The base card's line counts, and its variant's where the variant's ratings are known (his own copy, or the league export's). Season = edge × ${Math.round(ip.sp)} IP (starter) / ${Math.round(ip.rp)} IP (reliever). Leverage not modelled.`}
           {now?.week && result ? ` Slot innings: ${result.family}, week of ${now.week.slice(5)}.` : ""}
         </p>
       )}

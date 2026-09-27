@@ -51,7 +51,9 @@ export interface ScoreResult {
   /** The modelled card when it's a pitcher. */
   candidateArm: ArmRow | null;
   /** What he adds on the same number of pitching spots: his slot, who leaves the rotation, who sits, and the staff with him. */
-  armAdd: { season: number; wins: number; slot: StaffSlot | null; replaces: string[]; sits: string[]; staff: Staff; role: "SP" | "RP" | null } | null;
+  armAdd: { season: number; wins: number; slot: StaffSlot | null; replaces: string[]; sits: string[]; staff: Staff; role: "SP" | "RP" | null;
+    /** The role asked for, when every spot of it is locked: he is shown where he fits best instead. */
+    refused?: "SP" | "RP" | null } | null;
   warnings: string[];
 }
 

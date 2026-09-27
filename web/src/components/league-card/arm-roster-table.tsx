@@ -35,8 +35,8 @@ export function ArmRosterTable({ arms, result, onRemove }: {
           <th className="w-10 py-1 font-medium" title="Where the staff puts him now">Now</th>
           <th className="w-14 py-1 text-right font-medium" title="Edge per 9 innings as a starter; grey is an estimate from ratings">as SP /9</th>
           <th className="w-14 py-1 text-right font-medium" title="Edge per 9 innings as a reliever; grey is an estimate from ratings">as RP /9</th>
-          <th className="hidden w-14 py-1 text-right font-medium sm:table-cell" title="League edge per 9 against left-handed batters">vs LHB</th>
-          <th className="hidden w-14 py-1 text-right font-medium sm:table-cell" title="League edge per 9 against right-handed batters">vs RHB</th>
+          <th className="hidden w-14 py-1 text-right font-medium sm:table-cell" title="Against left-handed batters: edge per 9 as pitched, every league pooled. Not scaled to your league and not used in any score.">vs LHB</th>
+          <th className="hidden w-14 py-1 text-right font-medium sm:table-cell" title="Against right-handed batters: edge per 9 as pitched, every league pooled. Not scaled to your league and not used in any score.">vs RHB</th>
           <th className="w-8 py-1"><span className="sr-only">Remove</span></th>
         </tr>
       </thead>
@@ -54,8 +54,9 @@ export function ArmRosterTable({ arms, result, onRemove }: {
                   : <Edge x={a?.sp} estimate={a?.spSource === "estimate"} />}
               </td>
               <td className="py-0.5 text-right font-mono"><Edge x={a?.rp} estimate={a?.rpSource === "estimate"} /></td>
-              <td className="hidden py-0.5 text-right font-mono sm:table-cell"><Edge x={a?.vL} /></td>
-              <td className="hidden py-0.5 text-right font-mono sm:table-cell"><Edge x={a?.vR} /></td>
+              {/* Context only: raw, every league pooled; muted so they don't read like the scored columns. */}
+              <td className="hidden py-0.5 text-right font-mono text-muted-foreground sm:table-cell">{per9(a?.vL)}</td>
+              <td className="hidden py-0.5 text-right font-mono text-muted-foreground sm:table-cell">{per9(a?.vR)}</td>
               <td className="py-0.5 text-right">
                 <button
                   onClick={() => onRemove(e)} aria-label={`Remove ${nameOf(e)}`}

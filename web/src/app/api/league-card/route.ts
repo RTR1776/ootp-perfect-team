@@ -192,10 +192,19 @@ export async function POST(request: NextRequest) {
   let role: ArmRole | undefined = body.candidateRole === "SP" || body.candidateRole === "RP" ? body.candidateRole : undefined;
   const candScore = candArm ? scores.get(candArm.entry)! : null;
   if (candArm && candScore && role === "SP" && (candScore.sp == null || (candScore.stamina != null && candScore.stamina <= STARTER_STAMINA))) {
-    warnings.push(`${candArm.label.replace(/ \(model\)$/, "")} can't start (Stamina ${candScore.stamina ?? "—"}); scored where he fits best`);
+    warnings.push(`${candArm.label.replace(/ \(model\)$/, "")}: can't start (Stamina ${candScore.stamina ?? "—"}); shown where he fits best`);
     role = undefined;
   }
-  const armGain = candArm && candScore && staffArms.length ? addArm(staffArms, toStaffArm(candArm, candScore), ip, armLocks, role) : null;
+  const candName = candArm?.label.replace(/ \(model\)$/, "") ?? "";
+  // Ratings the model can't read (a typed 0) give no score: he isn't priced as an average arm.
+  const unscored = !!candScore && candScore.sp == null && candScore.rp == null;
+  if (unscored) warnings.push(`${candName}: no score for these ratings (a rating of 0?)`);
+  const armGain = candArm && candScore && !unscored && staffArms.length ? addArm(staffArms, toStaffArm(candArm, candScore), ip, armLocks, role) : null;
+  if (armGain?.refused) {
+    warnings.push(armGain.refused === "SP"
+      ? `${candName}: every rotation spot is locked; unlock one to see him as a starter. Shown where he fits best.`
+      : `${candName}: every bullpen spot is locked; unlock one to see him as a reliever. Shown where he fits best.`);
+  }
 
   return NextResponse.json({
     family, year, dh, defScale, lhp: m.lhp, rpw: m.rpw, rg: m.rg,
@@ -209,7 +218,7 @@ export async function POST(request: NextRequest) {
     staff: staff && { ...staff, ipPerSlot: { sp: ip.sp, rp: ip.rp }, week: ip.week, source: typedArms ? "your list" : mineArms ? `${mineArms.league}, week of ${mineArms.on}` : "—", entries: armEntries },
     armPool: picks.map(armRow),
     candidateArm: candArm ? armRow(candArm) : null,
-    armAdd: armGain && { season: armGain.season, wins: armGain.season / m.rpw, slot: armGain.slot, replaces: armGain.replaces, sits: armGain.sits, staff: armGain.with, role: role ?? null },
+    armAdd: armGain && { season: armGain.season, wins: armGain.season / m.rpw, slot: armGain.slot, replaces: armGain.replaces, sits: armGain.sits, staff: armGain.with, role: armGain.refused ? null : role ?? null, refused: armGain.refused },
     warnings: [...warnings, ...m.warnings],
   });
 }

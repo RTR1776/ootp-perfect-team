@@ -24,6 +24,9 @@ export function ArmResult({ c, result, pending, stale, act }: {
   if (!result || !arm) {
     return pending ? <p className="flex items-center gap-1.5 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" />Scoring {c.name}…</p> : null;
   }
+  if (arm.sp == null && arm.rp == null) {
+    return <p className="text-xs text-warning">{`No score for ${c.name} with these ratings: is one of them 0?`}</p>;
+  }
   const canStart = arm.sp != null && (arm.stamina == null || arm.stamina > STARTER_STAMINA);
   // A starter he can't be (Stamina typed down since) is scored where he fits best.
   const chosen = c.role === "SP" && !canStart ? null : (c.role ?? null);
@@ -39,7 +42,7 @@ export function ArmResult({ c, result, pending, stale, act }: {
   const elsewhere = ip(role) - ipFamily(role);
   const where = `${innings(ipFamily(role))} IP in ${result.family}${elsewhere > 0 ? `, ${innings(elsewhere)} elsewhere` : ""}`;
   let from: string;
-  if (estimate(role)) from = `Estimate from ratings: ${per9(score(role))}/9 as ${role} (${ip(role) > 0 ? `only ${innings(ip(role))} league IP` : "no league sample"}).`;
+  if (estimate(role)) from = `Mostly the ratings estimate: ${per9(score(role))}/9 as ${role} (${ip(role) > 0 ? `${where}` : "no league sample"}).`;
   else if (cardEdited(c)) from = `League play moved by your edits: ${per9(score(role))}/9 as ${role}, from ${where}.`;
   else from = `League: ${per9(score(role))}/9 as ${role}, from ${where}.`;
 
@@ -98,6 +101,11 @@ export function ArmResult({ c, result, pending, stale, act }: {
         <p>{from}</p>
         <p>{slot}{otherRole ? ` ${otherRole}` : ""}</p>
         {c.role === "SP" && !canStart && <p className="text-warning">{`Stamina ${arm.stamina ?? "—"}: can't start; shown where he fits best.`}</p>}
+        {add?.refused && (
+          <p className="text-warning">
+            {`Every ${add.refused === "SP" ? "rotation" : "bullpen"} spot is locked: unlock one to see him as a ${add.refused === "SP" ? "starter" : "reliever"}. Shown where he fits best.`}
+          </p>
+        )}
         {add?.slot && result.staff && (
           <>
             <p className="pt-1">

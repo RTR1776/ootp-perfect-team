@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { addArm, armKey, blendArm, ipPerSlotFrom, leagueArmRatings, poolArmEdges, roleOf, staffSolve, type ArmRow, type ArmSide, type StaffArm } from "./league-arms";
+import { addArm, armKey, blendArm, ipPerSlotFrom, leagueArmRatings, poolArmEdges, roleOf, staffSolve, variantFace, type ArmRow, type ArmSide, type StaffArm } from "./league-arms";
 
 const line = (o: Partial<ArmRow> & { snapshotId: number; name: string; ip: number; k: number; bb: number; hr: number; gs?: number; g?: number }): ArmRow => ({
   league: "HD451", capturedOn: "2026-09-20", org: o.org ?? "Team A", isFreeAgent: false, cid: o.cid ?? null, isVariant: o.isVariant ?? false, pos: o.pos ?? "SP",
@@ -185,4 +185,42 @@ test("a line's split ratings read in the shop's words, only when all are there",
   });
   assert.equal(leagueArmRatings({ STU: 140, CON: 82, HRA: 122, PBAB: 107, STM: 25 }), null, "exports before 09-26 have no splits");
   assert.equal(leagueArmRatings(undefined), null);
+});
+
+test("a pin never takes a locked arm's spot or adds one: with the rotation or the pen all locked it is refused", () => {
+  const arms = [arm("A", 0.4, 0.3), arm("B", 0.3, 0.2), arm("C", 0.2, 0.2), arm("D", 0.1, 0.1), arm("E", 0.05, 0.05), arm("P1", null, 0.2, 20), arm("P2", null, 0.1, 20)];
+  const rotationLocked = { SP: ["A", "B", "C", "D", "E"], at: { SP1: "A", SP2: "B", SP3: "C", SP4: "D", SP5: "E" } };
+  const starter = arm("Ace", 0.5, 0.1);
+  const pinned = addArm(arms, starter, ip, rotationLocked, "SP");
+  assert.equal(pinned.refused, "SP");
+  assert.equal(pinned.with.rotation.length, 5, "no sixth starter");
+  assert.equal(pinned.season.toFixed(6), addArm(arms, starter, ip, rotationLocked).season.toFixed(6), "the same as where he fits best");
+  const penLocked = { RP: ["P1", "P2"], at: { CL: "P1", RP1: "P2" } };
+  const reliever = addArm(arms, arm("Closer", null, 0.6, 20), ip, penLocked, "RP");
+  assert.equal(reliever.refused, "RP");
+  assert.ok(reliever.with.bullpen.some((x) => x.entry === "P1") && reliever.with.bullpen.some((x) => x.entry === "P2"), "both locked relievers still pitch");
+  assert.equal(addArm(arms, arm("Closer", null, 0.6, 20), ip, {}, "RP").refused, null, "with a free spot the pin holds");
+});
+
+test("a staff never pitches more arms than it has spots: four starters and a fifth to add", () => {
+  const four = [arm("A", 0.4, 0.3), arm("B", 0.3, 0.2), arm("C", 0.2, 0.2), arm("D", 0.1, 0.1)];
+  const r = addArm(four, arm("E", 0.35, 0.1), ip);
+  assert.equal(r.with.rotation.length + r.with.bullpen.length, 4);
+  assert.deepEqual(r.sits, ["D"]);
+  assert.equal(r.season.toFixed(6), (((0.35 - 0.1) * ip.sp) / 9).toFixed(6));
+});
+
+test("a variant's league ratings never fall below its base card's (an export's mixed-up column)", () => {
+  const base = { "Stuff vL": 140, "Control vL": 95, "pHR vL": 120, Stamina: 60, "GB%": 50 };
+  const league = { "Stuff vL": 150, "Control vL": 9, "pHR vL": 120, Stamina: 60 };
+  assert.deepEqual(variantFace(base, league), { "Stuff vL": 150, "Control vL": 95, "pHR vL": 120, Stamina: 60, "GB%": 50 });
+});
+
+test("the family blend says how much of the score is the ratings estimate", () => {
+  const pel = { a: 0, b: 1, w: 4000, n: 0 };
+  assert.equal(blendArm([], 0.1, pel).estShare, 1, "no play anywhere");
+  // 200 PEL innings and nothing elsewhere: still mostly the estimate under a 4,000-inning prior.
+  assert.ok(blendArm([{ fam: side(0.2, 200), other: null, shift: 0 }], 0.1, pel).estShare > 0.9);
+  // A big sample elsewhere carries the prior.
+  assert.ok(blendArm([{ fam: null, other: side(0.2, 20000), shift: 0 }], 0.1, pel).estShare < 0.01);
 });

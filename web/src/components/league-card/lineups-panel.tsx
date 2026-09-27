@@ -13,7 +13,7 @@ import {
   type Board as BoardKey, type Family, type ModelAction, type ModelState,
 } from "@/lib/league-card-state";
 import { Board } from "./board";
-import { Eyebrow, NativeSelect, ScoreStatus, staffWarning } from "./bits";
+import { cardWarning, Eyebrow, NativeSelect, ScoreStatus, staffWarning } from "./bits";
 import type { Lineup, ScoreResult } from "./use-rescore";
 
 const BOARDS: BoardKey[] = ["vR", "vL"];
@@ -42,7 +42,7 @@ export function LineupsPanel({ state, exportFamily, result, withCard, pending, s
 }) {
   const s = state.settings;
   const locks = lockCount(state.locks);
-  const warnings = (result?.warnings ?? []).filter((w) => !staffWarning(w, state.arms));
+  const warnings = (result?.warnings ?? []).filter((w) => !staffWarning(w, state.arms) && !cardWarning(w, result?.candidateArm?.label));
   const clearLocks = () => told(edit.clearLocks(locks), `Cleared ${locks} lock${locks === 1 ? "" : "s"}`);
   // A player locks into one slot per board, so locking him elsewhere moves him: say so.
   const lock = (board: BoardKey) => (slot: string, entry: string | null) => {

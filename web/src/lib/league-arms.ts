@@ -94,6 +94,16 @@ const LEAGUE_ARM_KEYS: Array<[league: string, shop: string]> = [
   ["STU vL", "Stuff vL"], ["STU vR", "Stuff vR"], ["CON vL", "Control vL"], ["CON vR", "Control vR"],
   ["HRA vL", "pHR vL"], ["HRA vR", "pHR vR"], ["PBAB vL", "pBABIP vL"], ["PBAB vR", "pBABIP vR"], ["STM", "Stamina"],
 ];
+/**
+ * A variant's ratings from its league line, over its base card's. A variant is
+ * its base card boosted, so a league rating below the base card's is the
+ * export's, not the card's (HD451's 09-27 export put the hitters' Contact in
+ * the pitchers' CON columns): the base card's value stands.
+ */
+export function variantFace(base: Record<string, number>, league: Record<string, number>): Record<string, number> {
+  return { ...base, ...Object.fromEntries(Object.entries(league).map(([k, v]) => [k, Math.max(v, base[k] ?? v)])) };
+}
+
 /** A line's ratings in the shop's words; null unless it has every split rating. */
 export function leagueArmRatings(r: Record<string, number> | undefined): Record<string, number> | null {
   if (!r) return null;
@@ -229,7 +239,9 @@ export function staffSolve(arms: readonly StaffArm[], ip: { sp: number; rp: numb
   const canStart = (a: StaffArm) => a.sp != null && (a.stamina == null || a.stamina > STARTER_STAMINA);
   const forced = (a: StaffArm) => lockSP.has(a.entry) && a.sp != null;
   const mayStart = (a: StaffArm) => forced(a) || (!lockSP.has(a.entry) && !lockRP.has(a.entry) && canStart(a));
-  const starters = Math.min(Math.max(ROTATION, arms.filter(forced).length), arms.filter(mayStart).length);
+  // Five start, or more if more are locked there; never more than the staff has spots for (locks aside).
+  const lockedStarters = arms.filter(forced).length;
+  const starters = Math.min(Math.max(ROTATION, lockedStarters), arms.filter(mayStart).length, Math.max(size, lockedStarters));
   const relievers = Math.min(Math.max(0, size - starters), arms.length - starters);
   const lockedPen = arms.filter((a) => lockRP.has(a.entry)).length;
   type Role = ArmRole | "out";
@@ -289,18 +301,32 @@ function seat(group: StaffSlot[], at: Map<string, string>, name: (i: number) => 
 /**
  * What one more arm adds on the same number of pitching spots: the staff
  * with him (the weakest arm then sits) minus the staff without him. `role`
- * puts him in the rotation or the pen instead of wherever he scores best.
+ * puts him in the rotation or the pen instead of wherever he scores best,
+ * unless that would take a spot a locked arm holds or add one (all five
+ * rotation slots locked, or every pen spot): then `refused` names the role
+ * and he goes where he scores best.
  */
 export function addArm(arms: readonly StaffArm[], candidate: StaffArm, ip: { sp: number; rp: number }, locks: StaffLocks = {}, role?: ArmRole) {
   const size = arms.length;
   const without = staffSolve(arms, ip, locks, size);
-  const pinned = role ? { ...locks, [role]: [...(locks[role] ?? []), candidate.entry] } : locks;
-  const withIt = staffSolve([...arms, candidate], ip, pinned, size);
+  const best = staffSolve([...arms, candidate], ip, locks, size);
+  let withIt = best, refused: ArmRole | null = null;
+  if (role) {
+    const pinned = staffSolve([...arms, candidate], ip, { ...locks, [role]: [...(locks[role] ?? []), candidate.entry] }, size);
+    const on = (st: Staff) => new Set([...st.rotation, ...st.bullpen].map((x) => x.entry));
+    const bestOn = on(best), pinnedOn = on(pinned);
+    const locked = [...(locks.SP ?? []), ...(locks.RP ?? [])];
+    const bumps = locked.some((e) => bestOn.has(e) && !pinnedOn.has(e));
+    const grows = pinned.rotation.length + pinned.bullpen.length > best.rotation.length + best.bullpen.length
+      || pinned.rotation.length > Math.max(ROTATION, (locks.SP ?? []).length);
+    if (bumps || grows || !pinnedOn.has(candidate.entry)) refused = role;
+    else withIt = pinned;
+  }
   const slot = [...withIt.rotation, ...withIt.bullpen].find((s) => s.entry === candidate.entry) ?? null;
   const pitching = new Set([...withIt.rotation, ...withIt.bullpen].map((s) => s.entry));
   const leftRotation = without.rotation.filter((s) => !withIt.rotation.some((w) => w.entry === s.entry)).map((s) => s.label);
   const sits = [...without.rotation, ...without.bullpen].filter((s) => !pitching.has(s.entry)).map((s) => s.label);
-  return { without, with: withIt, season: withIt.total - without.total, slot, replaces: leftRotation, sits };
+  return { without, with: withIt, season: withIt.total - without.total, slot, replaces: leftRotation, sits, refused };
 }
 
 /* ------------------------------------------------------------- estimate */
@@ -348,7 +374,7 @@ export interface ArmLine { fam: ArmSide | null; other: ArmSide | null; shift: nu
  * elsewhere counts through the family's slope, and the ratings estimate
  * (`est`, in the other leagues' terms) fills in where both are thin.
  */
-export function blendArm(lines: readonly ArmLine[], est: number, fit: FamilyFit): { score: number; ipFam: number; ipOther: number } {
+export function blendArm(lines: readonly ArmLine[], est: number, fit: FamilyFit): { score: number; ipFam: number; ipOther: number; estShare: number } {
   const pool = (where: "fam" | "other", scale: number) => {
     let sum = 0, ip = 0;
     for (const l of lines) {
@@ -359,7 +385,9 @@ export function blendArm(lines: readonly ArmLine[], est: number, fit: FamilyFit)
   };
   const other = pool("other", 1), fam = pool("fam", fit.b);
   const prior = fit.a + fit.b * ((other.ip * other.edge + ARM_PRIOR_IP * est) / (other.ip + ARM_PRIOR_IP));
-  return { score: (fam.ip * fam.edge + fit.w * prior) / (fam.ip + fit.w), ipFam: fam.ip, ipOther: other.ip };
+  // How much of the score is the ratings estimate: its weight in the prior, times the prior's.
+  const estShare = (fit.w / (fam.ip + fit.w)) * (ARM_PRIOR_IP / (other.ip + ARM_PRIOR_IP));
+  return { score: (fam.ip * fam.edge + fit.w * prior) / (fam.ip + fit.w), ipFam: fam.ip, ipOther: other.ip, estShare };
 }
 
 /** The league edge per 9 a card's ratings predict: `app9` is its tournament-model runs saved per 9. */
