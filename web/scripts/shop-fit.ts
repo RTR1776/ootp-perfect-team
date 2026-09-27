@@ -48,7 +48,7 @@ async function main() {
            s.buy_order_high, s.sell_order_low, s.last10, s.owned
     from cards c
     join card_snapshots s on s.card_id = c.card_id
-     and s.upload_id = (select max(upload_id) from card_snapshots)
+     and s.upload_id = (select id from uploads where kind = 'shop_list' order by uploaded_at desc, id desc limit 1)
     where c.card_value >= ${MINVAL}`));
 
   const pool: any[] = [];

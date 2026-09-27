@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   const body = parsed.value;
   const [tournament] = await db.select().from(tournaments).where(eq(tournaments.id,body.tournamentId));
   if (!tournament) return NextResponse.json({error:"Tournament no longer exists."},{status:404});
-  const [latest] = await db.select({id:uploads.id}).from(uploads).where(eq(uploads.kind,"collection")).orderBy(desc(uploads.id)).limit(1);
+  const [latest] = await db.select({id:uploads.id}).from(uploads).where(eq(uploads.kind,"collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = latest ? await db.select().from(collectionCards).where(eq(collectionCards.uploadId,latest.id)) : [];
   const ids = [...new Set(body.slots.map(s=>s.cardId))];
   const universe = await db.select().from(cards).where(inArray(cards.cardId,ids));

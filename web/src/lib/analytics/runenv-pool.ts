@@ -22,7 +22,7 @@ export async function ownedPool(): Promise<Pool> {
   const [latest] = await db
     .select({ id: uploads.id, at: uploads.uploadedAt })
     .from(uploads).where(eq(uploads.kind, "collection"))
-    .orderBy(desc(uploads.id)).limit(1);
+    .orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   if (!latest) return { cards: [], asOf: null, count: 0 };
 
   const owned = await db

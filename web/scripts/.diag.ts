@@ -7,7 +7,7 @@ import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 
 async function main() {
   const era = eraTable["1979"], pr = parkRow("Louisville Slugger Field", 2026);
-  const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })
     .from(collectionCards).where(eq(collectionCards.uploadId, latest!.id));
   const variants = new Map(owned.filter(o => o.isVariant).map(o => [o.cardId!, o.ratings]));

@@ -83,7 +83,7 @@ const rows = <T,>(r: unknown): T[] => (Array.isArray(r) ? r : ((r as { rows?: T[
   console.log(`base cards: ${filled} cards given ${fills} unlisted position ratings`);
 
   // Owned variant copies in the current upload: stamp POS keys (harvest, then overrides on top).
-  const [up] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [up] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   if (up) {
     const own = await db.select({ id: collectionCards.id, cardId: collectionCards.cardId, ratings: collectionCards.ratings, isVariant: collectionCards.isVariant }).from(collectionCards).where(eq(collectionCards.uploadId, up.id));
     let stamped = 0;

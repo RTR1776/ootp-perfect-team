@@ -81,11 +81,13 @@ const localNoon = (day: string) => new Date(Number(day.slice(0, 4)), Number(day.
  * year, or last year when this year's would be in the future). Null when the
  * name carries no date.
  */
-export function nameDateOf(name: string, today: string): string | null {
+export function nameDateOf(name: string, today: string, max = today): string | null {
+  // A day after `max` is a typo, not a date: it would pin the file as the newest until then.
   const iso = /(\d{4}-\d{2}-\d{2})/.exec(name)?.[1];
-  if (isDay(iso)) return iso;
+  if (isDay(iso) && iso! <= max) return iso!;
   const compact = /(?<!\d)(20\d{2})(\d{2})(\d{2})(?!\d)/.exec(name);
-  if (compact && isDay(`${compact[1]}-${compact[2]}-${compact[3]}`)) return `${compact[1]}-${compact[2]}-${compact[3]}`;
+  const c = compact ? `${compact[1]}-${compact[2]}-${compact[3]}` : null;
+  if (c && isDay(c) && c <= max) return c;
   const md = /(?:^|[\s_(-])(\d{1,2})\.(\d{1,2})(?=\.csv$|[\s_)-]|$)/i.exec(name);
   if (md) {
     const mmdd = `${md[1].padStart(2, "0")}-${md[2].padStart(2, "0")}`;
@@ -122,17 +124,29 @@ export function folderDateOf(path: string): string | null {
  * old pt_card_list.csv dropped by mistake reads as older than the one on file,
  * not as today's. A timestamp in the future is ignored.
  */
+/**
+ * The latest day a file of this kind can be saved as: today, or for a league
+ * week the Sunday it ends (the coming one, from Tuesday on). Readers take the
+ * latest day, so a later one would pin the file as the newest until then, and
+ * every real file before it would read as older. The route refuses a later
+ * day; the page's date fields stop there.
+ */
+export function latestDayFor(kind: UploadKind | null | undefined, today: string): string {
+  return kind === "league" ? leagueWeekOf(localNoon(today)) : today;
+}
+
 export function defaultSavedAs(kind: UploadKind, name: string, folderDate: string | null, now: Date, modified?: Date | null): string {
   const today = localDay(now);
   const written = modified && !Number.isNaN(modified.getTime()) && modified.getTime() <= now.getTime() ? modified : null;
   if (kind === "league") {
-    if (folderDate) return folderDate;
-    const named = nameDateOf(name, today);
+    if (folderDate && folderDate <= latestDayFor("league", today)) return folderDate;
+    const named = nameDateOf(name, today, latestDayFor("league", today));
     return leagueWeekOf(named ? localNoon(named) : written ?? now);
   }
   const writtenDay = written ? localDay(written) : null;
-  if (kind === "standings") return folderDate ?? writtenDay ?? today;
-  return nameDateOf(name, today) ?? folderDate ?? writtenDay ?? today;
+  const folder = folderDate && folderDate <= today ? folderDate : null;
+  if (kind === "standings") return folder ?? writtenDay ?? today;
+  return nameDateOf(name, today) ?? folder ?? writtenDay ?? today;
 }
 
 /** The most recent Sunday on or before a day (a Sunday is its own). */

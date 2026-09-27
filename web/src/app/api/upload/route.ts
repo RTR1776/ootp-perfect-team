@@ -46,7 +46,7 @@ import { periods } from "@/db/schema";
 import { leagueSnapshots, leagueStints } from "@/db/schema";
 import { chicagoDay } from "@/lib/format";
 import { leagueWeekOf } from "@/lib/league-week";
-import { nameDateOf, shopListUpdatesCards, stampFor, type UploadKind as Kind } from "@/lib/upload-rules";
+import { latestDayFor, nameDateOf, shopListUpdatesCards, stampFor, type UploadKind as Kind } from "@/lib/upload-rules";
 
 export const runtime = "nodejs";
 /** The shop list is ~1.5MB and 3,700 rows; the default 10s is not enough. */
@@ -169,7 +169,14 @@ export async function POST(request: Request) {
    * file with no date belongs to the week that ends on Sunday.
    */
   const today = chicagoDay(new Date())!;
-  const fromName = nameDateOf(file.name, today);
+  const latest = latestDayFor(kind, today);
+  if (capturedOnRaw && capturedOnRaw > latest) {
+    return NextResponse.json(
+      { kind, error: `Saved as ${capturedOnRaw} is after ${latest}. A later day would make this file the newest until then, so every real file before it would read as older. Pick the day it was exported.` },
+      { status: 400 },
+    );
+  }
+  const fromName = nameDateOf(file.name, today, latest);
   const dated = capturedOnRaw != null || fromName != null;
   const capturedOn = capturedOnRaw ?? fromName ?? (kind === "league" ? leagueWeekOf(new Date()) : today);
   // Noon UTC so the date survives a round-trip through any timezone.

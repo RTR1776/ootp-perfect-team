@@ -223,10 +223,10 @@ async function main() {
     if (stop) { console.error(`\n!! ${stop}`); process.exit(1); }
   }
   const [latest] = await db.select({ id: uploads.id, at: uploads.uploadedAt }).from(uploads)
-    .where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+    .where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   if (!latest) throw new Error("no collection upload");
   const [shop] = await db.select({ id: uploads.id }).from(uploads)
-    .where(eq(uploads.kind, "shop_list")).orderBy(desc(uploads.id)).limit(1);
+    .where(eq(uploads.kind, "shop_list")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })
     .from(collectionCards).where(eq(collectionCards.uploadId, latest.id));
   const baseSet = new Set(owned.filter((o) => !o.isVariant).map((o) => o.cardId!));

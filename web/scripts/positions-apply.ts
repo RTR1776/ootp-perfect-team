@@ -11,7 +11,7 @@ import { collectionCards, uploads } from "@/db/schema";
 import { POSITION_OVERRIDES, positionOverride } from "@/lib/position-overrides";
 
 (async () => {
-  const [up] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.id)).limit(1);
+  const [up] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   if (!up) { console.log("no collection upload"); process.exit(1); }
   const rows = await db.select({ id: collectionCards.id, cardId: collectionCards.cardId, name: collectionCards.name, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })
     .from(collectionCards).where(eq(collectionCards.uploadId, up.id));

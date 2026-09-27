@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { chicagoDay } from "./format";
 import {
-  MAX_UPLOAD_BYTES, compareSaveOrder, defaultSavedAs, folderDateOf, isCsvName, lastSunday, leagueWeekCheck, nameDateOf,
+  MAX_UPLOAD_BYTES, compareSaveOrder, defaultSavedAs, folderDateOf, isCsvName, lastSunday, latestDayFor, leagueWeekCheck, nameDateOf,
   olderThanOnFile, readDropped, saveInOrder, savePlan, shopListUpdatesCards, stampFor, supersededBy, tooLarge, tooLargeMessage,
   willSaveSummary, type SaveOutcome, type UploadKind,
 } from "./upload-rules";
@@ -139,6 +139,19 @@ test("dates in filenames", () => {
   assert.equal(nameDateOf("pt_card_list.csv", today), null);
   assert.equal(nameDateOf("hd451_vl (1).csv", today), null);
   assert.equal(nameDateOf("pt_card_list 2026-02-30.csv", today), null);
+  assert.equal(nameDateOf("pt_card_list 2026-10-05.csv", today), null, "a later day is a typo, not a date");
+  assert.equal(nameDateOf("pt27_tournaments_competitve_dump_20261005.csv", today), null);
+  assert.equal(nameDateOf("pel_all 2026-10-04.csv", "2026-09-30", latestDayFor("league", "2026-09-30")), "2026-10-04", "a league week can end on the coming Sunday");
+});
+
+test("nothing can be saved as a day after today, or after the league week's Sunday", () => {
+  assert.equal(latestDayFor("shop_list", "2026-09-27"), "2026-09-27");
+  assert.equal(latestDayFor("collection", "2026-09-30"), "2026-09-30");
+  assert.equal(latestDayFor("league", "2026-09-30"), "2026-10-04", "Wednesday: this week's Sunday");
+  assert.equal(latestDayFor("league", "2026-09-28"), "2026-09-27", "Monday: the week that just ended");
+  assert.equal(latestDayFor("league", "2026-09-27"), "2026-09-27", "Sunday is its own");
+  assert.equal(defaultSavedAs("shop_list", "pt_card_list 2026-10-05.csv", null, new Date(2026, 8, 27, 10)), "2026-09-27", "a typo'd name falls back to today");
+  assert.equal(defaultSavedAs("collection", "collection.csv", "2026-10-05", new Date(2026, 8, 27, 10)), "2026-09-27", "so does a future folder");
 });
 
 test("the Saved as date a file starts with", () => {

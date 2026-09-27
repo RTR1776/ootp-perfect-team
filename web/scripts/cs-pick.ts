@@ -45,7 +45,7 @@ const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
     select c.card_id, c.name, c.card_value val, c.tier, c.year, c.bats, c.is_pitcher, c.pitcher_role,
            c.position, c.ratings, s.buy_order_high, s.sell_order_low, s.last10
     from cards c join card_snapshots s on s.card_id=c.card_id
-     and s.upload_id=(select max(upload_id) from card_snapshots) where c.card_value >= 90`));
+     and s.upload_id=(select id from uploads where kind = 'shop_list' order by uploaded_at desc, id desc limit 1) where c.card_value >= 90`));
 
   const pool: any[] = [];
   for (const r of owned) {

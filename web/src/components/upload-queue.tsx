@@ -29,9 +29,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import * as format from "@/lib/format";
 import {
-  KIND_LABEL, NOT_CSV, defaultSavedAs, folderDateOf, isCsvName, isPending as pending, kindNoun, leagueWeekCheck, readDropped,
-  saveInOrder, savePlan, tooLarge, tooLargeMessage, willSaveSummary,
-  type Dropped, type SaveOutcome, type UploadKind,
+  defaultSavedAs, type Dropped, folderDateOf, isCsvName, isPending as pending, KIND_LABEL, kindNoun, latestDayFor, leagueWeekCheck, NOT_CSV, readDropped, saveInOrder, type SaveOutcome, savePlan, tooLarge, tooLargeMessage, type UploadKind, willSaveSummary,
 } from "@/lib/upload-rules";
 import { cn } from "@/lib/utils";
 
@@ -108,7 +106,13 @@ async function send(file: File, opts: { dryRun: boolean; capturedOn?: string | n
       const response = await fetch(`/api/upload${opts.dryRun ? "?dryRun=1" : ""}`, { method: "POST", body, signal: ctrl.signal });
       // Vercel turns away a body over 4.5 MB before the route runs, with a bare 413.
       if (response.status === 413) return { ok: false, reached: false, json: { error: tooLargeMessage(file.size) } as Record<string, unknown> };
+      // The sign-in check answers before the importer sees the file.
+      if (response.status === 401) return { ok: false, reached: false, json: { error: "Signed out, so the file wasn't read. Reload the page to sign in, then drop it again." } as Record<string, unknown> };
       const json = (await response.json().catch(() => ({}))) as Record<string, unknown>;
+      // The route always says what it read, or why not; a bare hosting error (502, 504) doesn't.
+      if (!response.ok && typeof json.kind !== "string" && typeof json.error !== "string") {
+        return { ok: false, reached: false, json: { error: `Server error (HTTP ${response.status}); nothing was saved. Try again in a minute.` } as Record<string, unknown> };
+      }
       return { ok: response.ok, reached: true, json };
     } finally {
       clearTimeout(timer);
@@ -333,6 +337,38 @@ function StatusIcon({ status }: { status: Status }) {
 
 const dateInput = "rounded-md border border-border bg-background px-2 py-0.5 font-mono text-xs text-foreground disabled:opacity-60";
 
+/**
+ * A date field that commits a whole date, not each keystroke: a native date
+ * input reports a full date after every typed part ("1" in the month gives
+ * 2026-01-20), so typing commits on blur or Enter; a day picked from the
+ * calendar commits at once. Nothing after `max` (latestDayFor) is taken.
+ */
+function DateField({ value, max, disabled, onCommit }: { value: string; max: string; disabled?: boolean; onCommit: (day: string) => void }) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const typing = useRef(false);
+  const commit = (day: string | null) => {
+    setDraft(null);
+    typing.current = false;
+    if (day && day !== value && /^\d{4}-\d{2}-\d{2}$/.test(day) && day <= max) onCommit(day);
+  };
+  return (
+    <input
+      type="date"
+      value={draft ?? value}
+      max={max}
+      disabled={disabled}
+      className={dateInput}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") { e.preventDefault(); commit(draft); return; }
+        if (e.key === "Escape") { setDraft(null); typing.current = false; return; }
+        typing.current = true;
+      }}
+      onChange={(e) => (typing.current ? setDraft(e.target.value) : commit(e.target.value))}
+      onBlur={() => commit(draft)}
+    />
+  );
+}
+
 function ItemRow({
   row, saving, shopGoes, inGroup, onToggle, onRemove, onDate, onForce,
 }: {
@@ -377,7 +413,7 @@ function ItemRow({
           {!inGroup && it.kind && pending(it) && (
             <label className="flex items-center gap-1.5 text-xs text-muted-foreground">
               Saved as
-              <input type="date" value={it.capturedOn ?? ""} disabled={saving} onChange={(e) => e.target.value && onDate(e.target.value)} className={dateInput} />
+              <DateField value={it.capturedOn ?? ""} max={latestDayFor(it.kind, format.chicagoDay(new Date())!)} disabled={saving} onCommit={onDate} />
             </label>
           )}
           {!inGroup && it.kind && it.status === "saved" && it.capturedOn && (
@@ -493,7 +529,7 @@ function LeagueGroup({
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 pt-3">
         <label className="flex items-center gap-2 text-sm font-medium">
           League week ending
-          <input type="date" value={week} disabled={saving || !done || !open.length} onChange={(e) => e.target.value && onWeek(e.target.value)} className={dateInput} />
+          <DateField value={week} max={latestDayFor("league", format.chicagoDay(new Date())!)} disabled={saving || !done || !open.length} onCommit={onWeek} />
         </label>
         <span className="text-xs text-muted-foreground">
           <span aria-hidden className="hidden sm:inline">· </span>
@@ -582,6 +618,42 @@ export function UploadQueue() {
       document.removeEventListener("click", onClick, true);
     };
   }, [dirty, leaveMessage]);
+
+  /* Back and Forward are history moves, which neither listener above sees
+     (the 09-26 way of losing a queue). While anything is unsaved, one extra
+     entry for this page sits on top: Back lands on it and asks; staying puts
+     it back, leaving goes on back. Once nothing is unsaved, it comes off. */
+  const guarded = useRef(false);
+  useEffect(() => {
+    if (!dirty) {
+      if (guarded.current && (window.history.state as { uploadGuard?: boolean } | null)?.uploadGuard) window.history.back();
+      guarded.current = false;
+      return;
+    }
+    const arm = () => window.history.pushState({ ...(window.history.state ?? {}), uploadGuard: true }, "", window.location.href);
+    if (!guarded.current) { arm(); guarded.current = true; }
+    const onPop = () => {
+      if (!guarded.current) return;
+      if (window.confirm(leaveMessage)) { guarded.current = false; window.history.back(); }
+      else arm();
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, [dirty, leaveMessage]);
+
+  /* The Save bar pins to the bottom of the screen; toasts sit above it, not on it. */
+  const bar = useRef<HTMLDivElement>(null);
+  const showBar = pendingCount > 0 || saving != null || previewing || clearable > 0;
+  useEffect(() => {
+    const el = bar.current;
+    if (!showBar || !el) return;
+    const root = document.documentElement;
+    const lift = () => root.style.setProperty("--toast-lift", `${el.offsetHeight + 8}px`);
+    lift();
+    const ro = new ResizeObserver(lift);
+    ro.observe(el);
+    return () => { ro.disconnect(); root.style.removeProperty("--toast-lift"); };
+  }, [showBar]);
 
   const preview = async (item: QueueItem) => {
     if (removed.current.has(item.id) || !item.file) return;
@@ -788,8 +860,8 @@ export function UploadQueue() {
             </LeagueGroup>
           ))}
 
-          {(pendingCount > 0 || saving || previewing || clearable > 0) && (
-            <div className="sticky bottom-0 z-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-lg border-t border-border bg-card px-4 py-3 shadow-[0_-6px_16px_-10px_rgb(0_0_0/0.5)]">
+          {showBar && (
+            <div ref={bar} className="sticky bottom-0 z-10 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-lg border-t border-border bg-card px-4 py-3 shadow-[0_-6px_16px_-10px_rgb(0_0_0/0.5)]">
               <div className="min-w-0 flex-1 basis-56 text-sm" aria-live="polite">
                 {saving ? (
                   <span>Saving {Math.min(saving.done + 1, saving.total)} of {saving.total}…</span>
