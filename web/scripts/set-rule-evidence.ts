@@ -74,7 +74,8 @@ async function main() {
       const lines: string[] = [];
       if (setsNarrow(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-types "${evidenceRule(e)}" --note "card sets read off the field's exports"`);
       else if (liveAbsent(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-types "${NO_LIVE_RULE}" --note "no Live card in ${e.n} played"`);
-      if (yearsNarrow(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-years ${e.yearMin}-${e.yearMax} --note "card years read off the field's exports"`);
+      // A year rule read off the current field is a correction, not a new format, so the format date stays.
+      if (yearsNarrow(e)) lines.push(`    pnpm catalogue:set --tournament ${t.id} --card-years ${e.yearMin}-${e.yearMax} --format-since keep --note "card years read off the field's exports"`);
       if (lines.length) propose.push(`${label}: ${evidenceLine(e)}, cards ${yearSpan(e)}\n${lines.join("\n")}`);
       else wide.push(`${label}: ${evidenceLine(e)}`);
     }

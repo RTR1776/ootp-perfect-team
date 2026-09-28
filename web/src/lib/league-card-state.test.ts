@@ -167,6 +167,8 @@ test("restore: the saved state, cleaned; the league follows the export unless pi
   assert.deepEqual(odd.bats, PEL.roster);
   assert.deepEqual(odd.settings, { family: "PEL", year: "2010", park: "", glove: "1" });
   assert.equal(odd.candidate, null);
+  const oldPark = restoreState({ ...saved, settings: { ...saved.settings, park: "2005 Minue Maid Park" } }, null, PEL);
+  assert.equal(oldPark.settings.park, "2005 Minute Maid Park", "a park saved under its old spelling still scores");
 });
 
 test("v2 migrates: this export's list keeps its league; any other list stays his, and the banner offers the export", () => {

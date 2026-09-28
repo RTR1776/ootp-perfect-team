@@ -14,7 +14,7 @@ import {
   type EraRates, type ParkFactors, type RateLine, type RunEnv,
 } from "@/lib/analytics/run-env";
 import { envFor, marginalRatings, type Env, type RatingValue } from "@/lib/analytics/card-value";
-import { eraTable, parkFor, parkTable, type EraRow, type ParkRow } from "@/lib/analytics/tournament-env";
+import { eraTable, parkFor, parkKeyFor, parkTable, type EraRow, type ParkRow } from "@/lib/analytics/tournament-env";
 
 export { eraTable, parkTable };
 export { PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
@@ -32,7 +32,7 @@ export const parkYears = (name: string): number[] =>
 export const parkRow = (name: string | null, year: number | null): ParkRow | null => {
   if (!name) return null;
   // The catalogue's spellings ("Great American Ball Park", "McAfee Coliseum") resolve the way /build resolves them.
-  const key = parkTable[name] ? name : parkFor(name).name;
+  const key = parkKeyFor(name, year) ?? parkFor(name).name;
   const ys = key ? parkTable[key] : undefined;
   if (!key || !ys) return null;
   if (year != null && ys[String(year)]) return ys[String(year)];

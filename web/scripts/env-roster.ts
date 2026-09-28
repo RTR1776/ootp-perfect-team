@@ -125,6 +125,12 @@ const ROLE_TRUST = num("role-trust", 1)!;
  */
 const OBS_K = num("obs-k", OBS_K_DEFAULT)!;
 /**
+ * --obs-exclude "bronzeweekly": series left out of every card's observed play.
+ * For an event whose format just changed: its own exports on file describe the
+ * old format, so they should not count even as play elsewhere.
+ */
+const OBS_EXCLUDE = (val("obs-exclude") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+/**
  * --slots "G13,I13" — a slots event's per-tier maximums, as tier codes
  * P/D/G/S/B/I. A lower-tier card may fill a higher-tier slot, which is what
  * tierFitsSlots and slotCapacityIssues already implement, so this only has to
@@ -367,9 +373,9 @@ async function main() {
     const base = envFitMaps(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
     // `both` is already env-fit's 0.7 R / 0.3 L read, so it is also the reference that lets a variant keep its boost.
-    observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both);
+    observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both, OBS_EXCLUDE);
     const n = [...observed.values()];
-    console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}`);
+    console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
   const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
   GLOVE = NO_GLOVE_SCALE ? 1 : gloveScale(scoringRates);

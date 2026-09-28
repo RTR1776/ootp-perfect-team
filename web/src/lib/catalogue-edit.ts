@@ -36,11 +36,42 @@ export interface CatalogueEdit {
   text?: string;
   /** Where the change came from; stored as restrictions.textFrom. */
   note?: string;
+  /**
+   * The Chicago day the current format first ran, YYYY-MM-DD (null clears
+   * it). While any export of the series was filed before it, /build leaves
+   * the series out as this event's own play (exportsPredate). A weekly's new
+   * format starts about a week after PT's post, because the next run was
+   * already scheduled under the old rules.
+   */
+  formatSince?: string | null;
   /** Date of the change, stamped on previousFormat. */
   at: string;
 }
 
+/**
+ * The format date and its source (formatSinceFrom) move together: a new date
+ * drops the old date's source, and the note, if any, becomes the new one.
+ * Undefined leaves both alone; catalogue:set makes the caller say which it is
+ * whenever the format itself changes.
+ */
+function applyFormatSince(r: Record<string, unknown>, e: CatalogueEdit) {
+  if (e.formatSince === undefined) return;
+  if (e.formatSince === null) { delete r.formatSince; delete r.formatSinceFrom; return; }
+  if (r.formatSince !== e.formatSince) delete r.formatSinceFrom;
+  r.formatSince = e.formatSince;
+  if (e.note != null) r.formatSinceFrom = e.note;
+}
+
 export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): CatalogueRules {
+  // A format date on its own is bookkeeping, not a new format: the rules, their
+  // source (textFrom) and the kept previous format stay as they are.
+  const onlyDate = e.formatSince !== undefined
+    && [e.envYear, e.stadium, e.dh, e.value, e.cardYears, e.drop, e.cardTypes, e.slots, e.text].every((v) => v === undefined);
+  if (onlyDate) {
+    const r: Record<string, unknown> = { ...(row.restrictions ?? {}) };
+    applyFormatSince(r, e);
+    return { ...row, restrictions: r };
+  }
   const old = { ...(row.restrictions ?? {}) };
   delete old.previousFormat;
   const next: Record<string, unknown> = { ...old };
@@ -52,6 +83,7 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
   if (e.slots) next.slots = e.slots;
   if (e.text != null) next.text = e.text;
   if (e.note != null) next.textFrom = e.note;
+  applyFormatSince(next, e);
   next.previousFormat = {
     changedOn: e.at, envYear: row.envYear, stadium: row.stadium, dh: row.dh,
     ratingsMin: row.ratingsMin, ratingsMax: row.ratingsMax,
@@ -78,7 +110,7 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
  * confirmed on 2026-09-27 (and would have erased the slot rules from his
  * screenshots: the Open Slots posts don't restate them).
  */
-export const HAND_KEPT_KEYS = ["cardTypes", "slots", "valueConfirmed", "text", "textFrom", "previousFormat", "formatSince"] as const;
+export const HAND_KEPT_KEYS = ["cardTypes", "slots", "valueConfirmed", "text", "textFrom", "previousFormat", "formatSince", "formatSinceFrom"] as const;
 
 /** A note that records L.J.'s own word ("2026-09-25 from L.J.: …"), which no post restates. */
 export const isHandNote = (n: unknown) => typeof n === "string" && /\bL\.J\.|\bconfirmed\b/i.test(n);

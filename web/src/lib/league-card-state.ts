@@ -417,11 +417,15 @@ function yearOf(x: unknown, years?: ReadonlySet<string>): string {
   return !years || years.has(y) ? y : DEFAULT_YEAR;
 }
 
+/** Park names the list no longer offers under the name a saved board may hold. */
+const RENAMED_PARKS: Record<string, string> = { "2005 Minue Maid Park": "2005 Minute Maid Park" };
+
 function settingsOf(x: Obj, family: Family, years?: ReadonlySet<string>): Settings {
+  const park = typeof x.park === "string" ? x.park.slice(0, 80) : "";
   return {
     family,
     year: yearOf(x.year, years),
-    park: typeof x.park === "string" ? x.park.slice(0, 80) : "",
+    park: RENAMED_PARKS[park] ?? park,
     glove: GLOVES.some(([v]) => v === x.glove) ? (x.glove as string) : "1",
   };
 }
