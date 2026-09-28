@@ -1,0 +1,74 @@
+{
+  "asOf": "2026-09-28",
+  "from": "L.J.'s roster, rotation, bullpen and lineup screenshots, 2026-09-28: the new HD season, after the Soto buy",
+  "family": "HD",
+  "bats": [
+    "Ed Bailey#86637",
+    "Mike Piazza#86463",
+    "Bret Boone#86701",
+    "Scott Rolen#86405",
+    "Brandon Wood#86593",
+    "Ernie Banks#86621",
+    "Leodalis De Vries#84724",
+    "Heinie Manush#86370",
+    "Richard Hidalgo#86707",
+    "Walker Jenkins#84735",
+    "Hank Aaron#86655",
+    "Mel Ott#86272",
+    "Juan Soto#87013"
+  ],
+  "arms": [
+    "Harvey Haddix#86623",
+    "Orel Hershiser#83135",
+    "Bret Saberhagen#86915",
+    "Dave Stieb#86958",
+    "Cy Young#86572",
+    "Vida Blue#85756",
+    "Rich Gossage#85046",
+    "Craig Kimbrel#85467",
+    "Cliff Lee#85693",
+    "Robb Nen#83906",
+    "CC Sabathia#86350",
+    "Zack Britton#86426",
+    "Daniel Palencia#84613"
+  ],
+  "lineups": {
+    "vR": {
+      "LF": "Heinie Manush#86370",
+      "1B": "Leodalis De Vries#84724",
+      "RF": "Juan Soto#87013",
+      "CF": "Richard Hidalgo#86707",
+      "DH": "Mike Piazza#86463",
+      "SS": "Ernie Banks#86621",
+      "C": "Ed Bailey#86637",
+      "2B": "Brandon Wood#86593",
+      "3B": "Scott Rolen#86405"
+    },
+    "vL": {
+      "3B": "Scott Rolen#86405",
+      "SS": "Ernie Banks#86621",
+      "RF": "Juan Soto#87013",
+      "DH": "Hank Aaron#86655",
+      "C": "Mike Piazza#86463",
+      "CF": "Richard Hidalgo#86707",
+      "2B": "Bret Boone#86701",
+      "1B": "Leodalis De Vries#84724",
+      "LF": "Heinie Manush#86370"
+    }
+  },
+  "staff": {
+    "SP1": "Bret Saberhagen#86915",
+    "SP2": "Cy Young#86572",
+    "SP3": "Orel Hershiser#83135",
+    "SP4": "Harvey Haddix#86623",
+    "SP5": "Cliff Lee#85693",
+    "CL": "Zack Britton#86426",
+    "RP1": "Craig Kimbrel#85467",
+    "RP2": "Robb Nen#83906",
+    "RP3": "Daniel Palencia#84613",
+    "RP4": "Rich Gossage#85046",
+    "RP5": "Vida Blue#85756",
+    "RP6": "Dave Stieb#86958",
+    "RP7": "CC Sabathia#86350"
+  }
+}

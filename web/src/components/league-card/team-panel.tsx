@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { CardCombobox } from "@/components/card-combobox";
 import {
-  armLockCount, edit, exportChange, exportLabel, lockCount, modelReducer, nameOf, teamEdits,
+  armLockCount, edit, exportChange, exportLabel, fromRoster, listName, lockCount, modelReducer, nameOf, teamEdits,
   type LeagueExport, type ModelAction, type ModelState,
 } from "@/lib/league-card-state";
 import { ArmRosterTable } from "./arm-roster-table";
@@ -36,7 +36,11 @@ function changeText({ added, gone }: { added: string[]; gone: string[] }): strin
   return parts.length ? `${parts.join(" · ")}.` : "Same players.";
 }
 
-/** A newer league export than the one his lists follow: take it (keeping the players he added), or keep his list. */
+/**
+ * A newer league export than the one his lists follow, or his team sheet: take
+ * it (keeping the players he added), or keep his list. A sheet's lineups and
+ * staff roles come with it.
+ */
 export function ExportBanner({ state, league, act, told }: {
   state: ModelState;
   league: LeagueExport;
@@ -48,7 +52,8 @@ export function ExportBanner({ state, league, act, told }: {
   return (
     <div role="status" className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-md border border-primary/40 bg-primary/5 px-3 py-2 text-sm">
       <p className="min-w-0 flex-1 basis-64">
-        <span className="font-medium">{`New league export: ${exportLabel(league.source)}. `}</span>{changeText(change)}
+        <span className="font-medium">{`${fromRoster(league.source) ? "Newer than the export" : "New league export"}: ${exportLabel(league.source)}. `}</span>
+        {changeText(change)}{league.locks ? " Update team also sets your lineups and staff roles." : ""}
       </p>
       <div className="flex gap-2">
         <Button size="sm" onClick={() => told(edit.updateTeam(league), `Team updated to ${exportLabel(league.source!)}`)}>Update team</Button>
@@ -80,7 +85,7 @@ export function TeamPanel({ state, league, cards, result, act, told }: {
       <CardHeader>
         <CardTitle className="text-base">Your team</CardTitle>
         <CardDescription>
-          {state.source
+          {state.source && !fromRoster(state.source)
             ? `${caption(state)}. The export lists everyone who played for you that week, so take off anyone you've dropped. Saved in this browser.`
             : `${caption(state)}. Saved in this browser.`}
         </CardDescription>
@@ -106,10 +111,12 @@ export function TeamPanel({ state, league, cards, result, act, told }: {
           {league.source && (
             <ConfirmButton
               variant="ghost" disabled={atExport}
-              prompt={`Reset team to the export${locks ? ` and clear ${locks} lock${locks === 1 ? "" : "s"}` : ""}?`}
-              onConfirm={() => told(edit.resetTeam(league), "Team reset to the export")}
+              prompt={league.locks
+                ? `Reset team to ${listName(league.source)}, with its lineups and staff roles?`
+                : `Reset team to ${listName(league.source)}${locks ? ` and clear ${locks} lock${locks === 1 ? "" : "s"}` : ""}?`}
+              onConfirm={() => told(edit.resetTeam(league), `Team reset to ${listName(league.source)}`)}
             >
-              Reset to the export
+              {`Reset to ${listName(league.source)}`}
             </ConfirmButton>
           )}
         </div>

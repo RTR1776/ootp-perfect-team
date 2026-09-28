@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { initHistory, pushHistory, undoHistory, undoLabel, type History } from "./use-undoable";
 import {
-  armLockMovesFrom, BAT_STATS, edit, exportChange, exportLabel, freshState, lockMovesFrom, modelReducer, needsNumber, restoreState, scoreRequest, teamEdits,
+  armLockMovesFrom, BAT_STATS, edit, exportChange, exportLabel, freshState, fromRoster, listName, lockMovesFrom, modelReducer, needsNumber, restoreState, rosterSource, scoreRequest, teamEdits,
   type CardBase, type LeagueExport, type ModelAction, type ModelState,
 } from "./league-card-state";
 
@@ -423,4 +423,44 @@ test("a modelled pitcher can be put in the rotation or the pen; the choice is on
   assert.equal(modelReducer(bat, edit.armRole("Dave Winfield", "SP")), bat, "a hitter has no role to pick");
   const restored = restoreState(JSON.parse(JSON.stringify({ ...h.present, candidate: { ...h.present.candidate, role: "SP" } })), null, PEL);
   assert.equal(restored.candidate?.role, "SP");
+});
+
+// His team sheet of 09-28: Soto in, Piazza out of this cut-down list, and his lineups and staff roles.
+const SHEET: LeagueExport = {
+  source: rosterSource("2026-09-28"), roster: [OTT, WOOD, BAILEY, ROLEN, SOTO], arms: ARMS, family: "HD",
+  locks: { vR: { RF: SOTO, C: BAILEY, "2B": WOOD }, vL: { RF: SOTO, "3B": ROLEN, C: PIAZZA } },
+  armLocks: { SP1: LEE, CL: BRITTON, RP1: HOLLAND },
+};
+
+test("a team sheet starts the page with its lineups and staff roles, for players on its lists", () => {
+  const s = freshState(SHEET);
+  assert.deepEqual(s.locks, { vR: { RF: SOTO, C: BAILEY, "2B": WOOD }, vL: { RF: SOTO, "3B": ROLEN } }, "Piazza is not on the list, so his lock is left out");
+  assert.deepEqual(s.armLocks, { SP1: LEE, CL: BRITTON });
+  assert.equal(listName(s.source), "your roster");
+  assert.equal(exportLabel(s.source!), "your roster of 09-28");
+  assert.ok(fromRoster(s.source) && !fromRoster(PEL.source));
+});
+
+test("Update team takes a sheet's lineups in place of his locks; an export keeps his", () => {
+  const mine = apply(freshState(PEL), edit.lock("vR", "LF", OTT), edit.armLock("RP1", HENKE));
+  const toSheet = apply(mine, edit.updateTeam(SHEET));
+  assert.deepEqual(toSheet.bats, [OTT, WOOD, BAILEY, ROLEN, SOTO]);
+  assert.deepEqual(toSheet.locks.vR, { RF: SOTO, C: BAILEY, "2B": WOOD });
+  assert.deepEqual(toSheet.armLocks, { SP1: LEE, CL: BRITTON });
+  assert.equal(toSheet.source, SHEET.source);
+  assert.equal(exportChange(toSheet, SHEET), null, "no banner once the list follows the sheet");
+  const toExport = apply(mine, edit.updateTeam(HD));
+  assert.deepEqual(toExport.locks.vR, { LF: OTT }, "an export keeps his own locks");
+  assert.deepEqual(toExport.armLocks, { RP1: HENKE });
+});
+
+test("Reset goes back to the sheet's lineups, and is no step when already there", () => {
+  const s = freshState(SHEET);
+  assert.equal(modelReducer(s, edit.resetTeam(SHEET)), s);
+  assert.equal(modelReducer(s, edit.resetStaff(SHEET)), s);
+  const moved = apply(s, edit.lock("vR", "RF", OTT), edit.armLock("SP1", STIEB));
+  const back = apply(moved, edit.resetTeam(SHEET));
+  assert.deepEqual(back.locks, s.locks);
+  assert.deepEqual(back.armLocks, s.armLocks);
+  assert.deepEqual(apply(moved, edit.resetStaff(SHEET)).armLocks, s.armLocks);
 });
