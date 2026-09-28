@@ -48,17 +48,28 @@ export interface CatalogueEdit {
   at: string;
 }
 
+/**
+ * The format date and its source (formatSinceFrom) move together: a new date
+ * drops the old date's source, and the note, if any, becomes the new one.
+ * Undefined leaves both alone; catalogue:set makes the caller say which it is
+ * whenever the format itself changes.
+ */
+function applyFormatSince(r: Record<string, unknown>, e: CatalogueEdit) {
+  if (e.formatSince === undefined) return;
+  if (e.formatSince === null) { delete r.formatSince; delete r.formatSinceFrom; return; }
+  if (r.formatSince !== e.formatSince) delete r.formatSinceFrom;
+  r.formatSince = e.formatSince;
+  if (e.note != null) r.formatSinceFrom = e.note;
+}
+
 export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): CatalogueRules {
-  // A format date on its own is bookkeeping, not a new format: the rules and
-  // the kept previous format stay as they are. The note, if any, says where
-  // the date came from without replacing the rules' own source.
+  // A format date on its own is bookkeeping, not a new format: the rules, their
+  // source (textFrom) and the kept previous format stay as they are.
   const onlyDate = e.formatSince !== undefined
     && [e.envYear, e.stadium, e.dh, e.value, e.cardYears, e.drop, e.cardTypes, e.slots, e.text].every((v) => v === undefined);
   if (onlyDate) {
     const r: Record<string, unknown> = { ...(row.restrictions ?? {}) };
-    if (e.formatSince === null) { delete r.formatSince; delete r.formatSinceFrom; }
-    else r.formatSince = e.formatSince;
-    if (e.formatSince !== null && e.note != null) r.formatSinceFrom = e.note;
+    applyFormatSince(r, e);
     return { ...row, restrictions: r };
   }
   const old = { ...(row.restrictions ?? {}) };
@@ -72,8 +83,7 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
   if (e.slots) next.slots = e.slots;
   if (e.text != null) next.text = e.text;
   if (e.note != null) next.textFrom = e.note;
-  if (e.formatSince === null) { delete next.formatSince; delete next.formatSinceFrom; }
-  else if (e.formatSince !== undefined) next.formatSince = e.formatSince;
+  applyFormatSince(next, e);
   next.previousFormat = {
     changedOn: e.at, envYear: row.envYear, stadium: row.stadium, dh: row.dh,
     ratingsMin: row.ratingsMin, ratingsMax: row.ratingsMax,

@@ -71,7 +71,12 @@ export function parkFor(stadium: string | null): ParkPick {
   if (/^standard stadium$/i.test(name)) return { name, year: wantYear, row: null, label: "Standard Stadium (neutral)" };
 
   let key: string | null = parkTable[name] ? name : null;
-  if (!key && PARK_ALIAS[name] && parkTable[PARK_ALIAS[name]]) key = PARK_ALIAS[name];
+  // The alias also wins when only it has the year asked for: "2005 Minute Maid
+  // Park" is the 2005 park (until 2026-09-28 its row was filed as "Minue Maid
+  // Park", so Daily Bronze Only Curiosities read 2026 Daikin Park's factors),
+  // while "2026 Minute Maid Park" is today's Daikin Park.
+  const alias = PARK_ALIAS[name];
+  if (alias && parkTable[alias] && (!key || (wantYear != null && !parkTable[key][String(wantYear)] && parkTable[alias][String(wantYear)]))) key = alias;
   if (!key) {
     // Spacing and punctuation are not a different park: "Great American Ball Park" is the
     // table's "Great American Ballpark". Until 2026-09-26 that miss ran Thursday Night Gold

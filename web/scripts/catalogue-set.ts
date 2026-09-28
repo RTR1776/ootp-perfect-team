@@ -13,8 +13,9 @@
  * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it) ·
  * --slots "P6, D4, G4, S4, B4" (the game's slot line; the spots it leaves go to the next tier down) ·
  * --retire | --unretire (a retired event leaves /build's picker; its history stays) ·
- * --format-since YYYY-MM-DD | none (the Chicago day the current format first ran; with no
- *   other rule flag it changes only that date and keeps previousFormat as it is)
+ * --format-since YYYY-MM-DD | keep | none (the Chicago day the current format first ran; with
+ *   no other rule flag it changes only that date and keeps previousFormat as it is; required,
+ *   as a date, keep or none, whenever the year, stadium, DH or card years change)
  *
  * An edit that changes nothing writes nothing, so a batch can be rerun safely.
  */
@@ -55,10 +56,24 @@ async function main() {
   if (val("drop")) edit.drop = val("drop")!.split(",").map((s) => s.trim()).filter(Boolean);
   if (val("text")) edit.text = val("text");
   if (val("note")) edit.note = val("note");
-  if (val("format-since")) {
-    const d = val("format-since")!;
-    if (d !== "none" && !/^\d{4}-\d{2}-\d{2}$/.test(d)) throw new Error(`--format-since takes YYYY-MM-DD or none, got "${d}"`);
-    edit.formatSince = d === "none" ? null : d;
+  if (flag("format-since")) {
+    const d = val("format-since");
+    // Date.parse rolls 2026-02-31 over to March, so the day must survive the round trip.
+    const day = (s: string) => /^\d{4}-\d{2}-\d{2}$/.test(s) && !Number.isNaN(Date.parse(`${s}T00:00:00Z`))
+      && new Date(`${s}T00:00:00Z`).toISOString().slice(0, 10) === s;
+    if (!d || !(d === "none" || d === "keep" || day(d))) throw new Error(`--format-since takes YYYY-MM-DD, keep or none, got ${d ? `"${d}"` : "nothing"}`);
+    if (d !== "keep") edit.formatSince = d === "none" ? null : d;
+  }
+  // A new run environment, park, DH rule or card-year window is a new format,
+  // and the exports on file describe the old one. The date must not be left to
+  // describe the wrong format by accident, so the caller says which it is.
+  const years = t.cardYearMin == null && t.cardYearMax == null ? null : [t.cardYearMin, t.cardYearMax];
+  const formatChange = (edit.envYear !== undefined && edit.envYear !== t.envYear)
+    || (edit.stadium !== undefined && edit.stadium !== t.stadium)
+    || (edit.dh !== undefined && edit.dh !== t.dh)
+    || (edit.cardYears !== undefined && JSON.stringify(edit.cardYears) !== JSON.stringify(years));
+  if (formatChange && !flag("format-since")) {
+    throw new Error("this changes the run environment, park, DH or card years, so say when the new format starts: --format-since YYYY-MM-DD (the Chicago day of its first run), or keep, or none");
   }
   const retired = flag("retire") ? true : flag("unretire") ? false : t.retired;
   // Rule flags other than the note: without one, only the retired flag can change.

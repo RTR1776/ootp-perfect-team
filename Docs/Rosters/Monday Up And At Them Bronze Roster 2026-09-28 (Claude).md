@@ -4,7 +4,7 @@ Run #28, Monday 07:05 CDT. The new format's first run: 1979 RE, 1977 Olympic Sta
 
 The environment: 4.28 runs a game, HR 1.96% of PA, K 12.5%. The park barely favours either side (0.03 R/G toward right-handed bats).
 
-**Old and new are kept apart.** No Monday Bronze export was used: the five on file (#23–#27) are all the old format. The build passes no `--series`, so the field's shape and handedness come from the defaults, not from Rio Grande. `--obs-exclude bronzeweekly` (new) also leaves those exports out of every card's observed play elsewhere. With them left in, the lineups are the same and two arms change (67.1 against 67.3 weighted runs).
+**Old and new are kept apart.** No Monday Bronze export was used: the four on file (#23, #25, #26 and #27) are all the old format. The build passes no `--series`, so the field's shape and handedness come from the defaults, not from Rio Grande. `--obs-exclude bronzeweekly` (new) also leaves those exports out of every card's observed play elsewhere. With them left in, the lineups are the same and two arms change (67.1 against 67.3 weighted runs).
 
 Load file: `Inbox/rosters/bronzeweekly-claude-2026-09-28.txt` (every card pinned by id). `Set Weekly Format Dates.command` saves it to /build as "Claude pick 2026-09-28". `roster:save --dry` passes it: 35 slots, ready.
 

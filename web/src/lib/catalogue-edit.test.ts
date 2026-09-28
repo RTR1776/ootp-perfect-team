@@ -68,7 +68,19 @@ test("a format change can carry its date", () => {
   assert.equal(next.restrictions!.formatSince, "2026-09-26");
   assert.equal((next.restrictions!.previousFormat as Record<string, unknown>).envYear, 1975);
   const moved = editCatalogueRules({ ...lastWeek, restrictions: { formatSince: "2026-09-20" } }, { envYear: 2010, at: "2026-10-03" });
-  assert.equal(moved.restrictions!.formatSince, "2026-09-20", "a change without a date keeps the one on file");
+  assert.equal(moved.restrictions!.formatSince, "2026-09-20", "the library keeps it unless told (catalogue:set makes the caller choose)");
+});
+
+test("the date's source moves with the date", () => {
+  const onFile = { ...lastWeek, restrictions: { formatSince: "2026-09-20", formatSinceFrom: "the 09-19 post" } };
+  const redated = editCatalogueRules(onFile, { formatSince: "2026-09-28", at: "2026-09-28" });
+  assert.equal(redated.restrictions!.formatSinceFrom, undefined, "a new date without a note has no source");
+  const same = editCatalogueRules(onFile, { formatSince: "2026-09-20", at: "2026-09-28" });
+  assert.equal(same.restrictions!.formatSinceFrom, "the 09-19 post", "the same date keeps its source");
+  const full = editCatalogueRules(onFile, { envYear: 2001, formatSince: "2026-10-26", note: "10-24 post", at: "2026-10-25" });
+  assert.equal(full.restrictions!.formatSince, "2026-10-26");
+  assert.equal(full.restrictions!.formatSinceFrom, "10-24 post", "a format change's note is also the date's source");
+  assert.equal(full.restrictions!.textFrom, "10-24 post");
 });
 
 
