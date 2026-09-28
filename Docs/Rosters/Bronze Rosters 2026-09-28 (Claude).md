@@ -11,7 +11,7 @@ L.J. is focusing on Bronze and asked for a roster in every current Bronze tourna
 - Bronze Quick (504), and EF 4T Bronze and EF H2H Bronze (572, 578). They aren't in his results, and there are no exports for them.
 - The Perfectly Bronze drafts. Drafts are picked live.
 
-`Save Bronze Rosters.command` saves all nine to /build as "Claude pick 2026-09-28". It first checks each one against its event's rules (`roster:save --dry`; all nine pass from here, "ready"), then asks once. The load files are in `Inbox/rosters/`, with every card pinned by id.
+All nine are on /build as "Claude pick 2026-09-28": L.J. ran `Save Bronze Rosters.command` on 09-28, and a read-only check found all nine saved and ready (the script is removed). The load files are in `Inbox/rosters/`, with every card pinned by id.
 
 ## How they were built
 
@@ -40,7 +40,7 @@ L.J. is focusing on Bronze and asked for a roster in every current Bronze tourna
 
 - **Where the rules come from:** the catalogue, which for the dailies is the 09-02 refresh post. I didn't see the game's rules screens, so glance at each event's rules before entering. "Default RE" is read as 2010, the PT default.
 - **Reading the scores:** they are weighted runs against the era's average card. **Compare them within an event, not across events.** A pool of 60–64 cards sits below average everywhere, so Low Bronze Only's −25 is not worse play than OOTP Era's +59.
-- **Lineups:** listed by position. The model doesn't score batting order, so set it in game (on-base and speed on top, power 2–5).
+- **Lineups:** listed by position. Build now shows a recommended batting order under each lineup (the most runs on the run model); load the roster there to see it.
 - The staff is listed best first, and the best reliever closes.
 
 | Event | Rules | Score (greedy) | Value | VAR | Field exports |
