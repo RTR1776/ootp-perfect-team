@@ -33,6 +33,8 @@ export interface CatalogueEdit {
   cardTypes?: string[];
   /** Per-tier maximums, parseSlots' output. */
   slots?: Record<string, number>;
+  /** The cap on the roster's total card value, restrictions.teamCap; null clears it. */
+  teamCap?: number | null;
   text?: string;
   /** Where the change came from; stored as restrictions.textFrom. */
   note?: string;
@@ -66,7 +68,7 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
   // A format date on its own is bookkeeping, not a new format: the rules, their
   // source (textFrom) and the kept previous format stay as they are.
   const onlyDate = e.formatSince !== undefined
-    && [e.envYear, e.stadium, e.dh, e.value, e.cardYears, e.drop, e.cardTypes, e.slots, e.text].every((v) => v === undefined);
+    && [e.envYear, e.stadium, e.dh, e.value, e.cardYears, e.drop, e.cardTypes, e.slots, e.teamCap, e.text].every((v) => v === undefined);
   if (onlyDate) {
     const r: Record<string, unknown> = { ...(row.restrictions ?? {}) };
     applyFormatSince(r, e);
@@ -81,6 +83,8 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
   if (e.value) { delete next.valueWindowFrom; next.valueConfirmed = e.at; }
   if (e.cardTypes?.length) next.cardTypes = e.cardTypes;
   if (e.slots) next.slots = e.slots;
+  if (e.teamCap === null) delete next.teamCap;
+  else if (e.teamCap !== undefined) next.teamCap = e.teamCap;
   if (e.text != null) next.text = e.text;
   if (e.note != null) next.textFrom = e.note;
   applyFormatSince(next, e);

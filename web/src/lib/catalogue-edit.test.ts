@@ -134,3 +134,16 @@ test("a refresh import keeps slots, a confirmed window and L.J.'s notes the post
   const set = editCatalogueRules({ ...lastWeek, restrictions: { valueWindowFrom: "name: Iron" } }, { value: [40, 59], at: "2026-09-27" });
   assert.equal(set.restrictions?.valueConfirmed, "2026-09-27");
 });
+
+test("a team cap is set, kept with the old format, and cleared", () => {
+  const goldFloor: CatalogueRules = { ...lastWeek, ratingsMin: 80, ratingsMax: 105, restrictions: { cards: 26, teamCap: 2242 } };
+  const dregs = editCatalogueRules(goldFloor, { value: [50, 64], teamCap: 1468, formatSince: "2026-09-28", at: "2026-09-28" });
+  assert.equal(dregs.restrictions!.teamCap, 1468);
+  assert.deepEqual([dregs.ratingsMin, dregs.ratingsMax], [50, 64]);
+  assert.equal(dregs.restrictions!.cards, 26);
+  const prev = dregs.restrictions!.previousFormat as { restrictions: Record<string, unknown> };
+  assert.equal(prev.restrictions.teamCap, 2242, "a cap with a format date is a new format, not only a date");
+  const open = editCatalogueRules(dregs, { teamCap: null, at: "2026-10-05" });
+  assert.equal(open.restrictions!.teamCap, undefined);
+  assert.equal(editCatalogueRules(dregs, { text: "same cap", at: "2026-10-05" }).restrictions!.teamCap, 1468, "left alone when not given");
+});
