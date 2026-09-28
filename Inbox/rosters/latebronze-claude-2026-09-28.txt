@@ -1,0 +1,36 @@
+# Daily Late Bronze — Claude pick 2026-09-28 (default RE read as 2010, 2003 Dodger Stadium, DH, 40-69)
+R:C Tim McCarver #85833
+R:1B Edward Florentino (VAR) #84777
+R:2B Jhonny Level (VAR) #84765
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Deion Sanders #86962
+R:CF Billy Southworth #86379
+R:RF Jack Tobin #86772
+R:DH Wes Covington #86651
+L:C Thayron Liranzo (VAR) #85135
+L:1B Scott Spiezio #85702
+L:2B Alfonso Soriano #86754
+L:3B Dave Brain (VAR) #85934
+L:SS Jhonny Level (VAR) #84765
+L:LF Steve Pearce #86366
+L:CF Deion Sanders #86962
+L:RF Jack Tobin #86772
+L:DH Dave Harris #83649
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Bob Miller #84715
+SP4 Bruce Hurst #86361
+SP5 Kyson Witherspoon (VAR) #84774
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Satchel Paige #84839
+RP3 Todd Jones (VAR) #86434
+RP4 Justin Bruihl #84971
+RP5 Juan Morillo #81833
+RP6 Riley O'Brien #81884
+BN1 Dave Harris #83649
+BN2 Thayron Liranzo (VAR) #85135
+BN3 Alfonso Soriano #86754
+BN4 Scott Spiezio #85702
+BN5 Steve Pearce #86366

@@ -28,7 +28,7 @@ Of the +80.6:
 
 The 18 Bronze / 8 Iron split binds on both rosters, so each Bronze card in means a Bronze card out.
 
-Load file: `Inbox/rosters/bronzeptcs3-claude-2026-09-28.txt` (every card pinned by id). `roster:save --dry` passes it: 35 slots, ready. `Save Bronze PTCS 3 Roster.command` saves it to /build as "Claude pick 2026-09-28".
+Load file: `Inbox/rosters/bronzeptcs3-claude-2026-09-28.txt` (every card pinned by id). `roster:save --dry` passes it: 35 slots, ready. L.J. saved it to /build as "Claude pick 2026-09-28" on 09-28 (the script is removed).
 
 ```
 vs RHP (runs per 700 PA on this board)      vs LHP
