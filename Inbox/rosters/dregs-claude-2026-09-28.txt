@@ -1,0 +1,36 @@
+# Monday Now We're into the Dregs — Claude pick 2026-09-28 (1994 RE, 1996 Dodger Stadium, DH, 50-64, cap 1468, variants on)
+R:C Damon Berryhill #86976
+R:1B Edward Florentino (VAR) #84777
+R:2B Nap Lajoie #86581
+R:3B Kyle Seager #86261
+R:SS Jhonny Level (VAR) #84765
+R:LF Aaron Hicks #86687
+R:CF Jett Williams #84763
+R:RF Jay Bruce #86409
+R:DH Jack Cust #86804
+L:C Josh Phegley #83428
+L:1B Edward Florentino (VAR) #84777
+L:2B Jett Williams #84763
+L:3B Kyle Seager #86261
+L:SS Jhonny Level (VAR) #84765
+L:LF Andruw Jones (VAR) #86321
+L:CF Dave Henderson #86926
+L:RF Aaron Hicks #86687
+L:DH Jack Cust #86804
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Bruce Hurst #86361
+SP4 Kyson Witherspoon (VAR) #84774
+SP5 Roy Halladay #86705
+CL Cade Gibson #82102
+RP1 Jerry Don Gleaton #84016
+RP2 Orlando Ribalta #82014
+RP3 Peter Strzelecki #86506
+RP4 Hayden Juenger #86032
+RP5 Lyon Richardson #81952
+RP6 Don August (VAR) #86423
+BN1 Dave Henderson #86926
+BN2 Andruw Jones (VAR) #86321
+BN3 Lou Brock #84315
+BN4 Lenny Harris #86396
+BN5 Josh Phegley #83428
