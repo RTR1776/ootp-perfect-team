@@ -82,6 +82,16 @@ def load_stats_export(path: str | Path) -> pd.DataFrame:
     missing = [c for c in ("CID", "Name", "POS") if c not in df.columns]
     if missing:
         raise ValueError(f"{path.name}: not a 184-col stats export (missing {missing})")
+    # OOTP's wider 338-column view also carries hitter Contact as CON, CON vL
+    # and CON vR, ahead of the pitching block, so pitcher Control arrives as
+    # CON_1, CON vL_1, CON vR_1 (HD451, 2026-09-27). Keep Control under the
+    # names the curves read. That view also writes B and T as words.
+    for c in ("CON", "CON vL", "CON vR"):
+        if f"{c}_1" in df.columns:
+            df = df.drop(columns=[c]).rename(columns={f"{c}_1": c})
+    for c in ("B", "T"):
+        if c in df.columns:
+            df[c] = df[c].replace({"Left": "L", "Right": "R", "Switch": "S"})
     df = df.rename(columns=RENAME)
     # force numeric on the renamed stat blocks
     for col in df.columns:
