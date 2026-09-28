@@ -15,6 +15,7 @@ import type { Owned } from "@/lib/card-search";
 import type { LeagueExport } from "@/lib/league-card-state";
 import { myLeagueArms } from "@/lib/league-arms";
 import { loadHitterUniverse, myLeagueBats } from "@/lib/league-hitters";
+import { newerTeamSheet } from "@/lib/league-team";
 import { PageHeader } from "@/components/page-header";
 import { LeagueCardModel } from "@/components/league-card/card-model";
 
@@ -43,10 +44,11 @@ export default async function LeagueCardPage() {
   // Run environments: the PT default (listed as 2010) first, then every year on file, newest first.
   const years = [String(PT_DEFAULT_ENV_YEAR), ...eraYears.filter((y) => y > 0 && y !== PT_DEFAULT_ENV_YEAR).map(String)];
   // The source names the export; the page offers its list again when a newer one arrives.
+  // His team sheet takes the export's place while it is the newer of the two.
   const arms = mineArms?.arms.map((a) => a.entry) ?? [];
-  const league: LeagueExport = mine
+  const league: LeagueExport = newerTeamSheet(mine?.on ?? null) ?? (mine
     ? { source: `${mine.league}, week of ${mine.on}`, roster: mine.names, arms, family: leagueFamily(mine.league) }
-    : { source: null, roster: [], arms, family: "HD" };
+    : { source: null, roster: [], arms, family: "HD" });
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <PageHeader

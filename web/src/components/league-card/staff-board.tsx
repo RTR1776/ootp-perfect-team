@@ -15,7 +15,7 @@ import { ConfirmButton } from "@/components/ui/confirm-button";
 import { Select } from "@/components/ui/select";
 import { signed } from "@/lib/format";
 import {
-  armLockCount, armLockMovesFrom, edit, modelReducer, nameOf, ROTATION_SLOTS, STARTER_STAMINA,
+  armLockCount, armLockMovesFrom, edit, listName, modelReducer, nameOf, ROTATION_SLOTS, STARTER_STAMINA,
   type LeagueExport, type ModelAction, type ModelState,
 } from "@/lib/league-card-state";
 import { cn } from "@/lib/utils";
@@ -229,10 +229,12 @@ export function StaffPanel({ state, league, result, withArm, pending, stale, ski
           {league.source && (
             <ConfirmButton
               variant="ghost" disabled={atExport}
-              prompt={`Reset staff to the export${locks ? ` and clear ${locks} lock${locks === 1 ? "" : "s"}` : ""}?`}
-              onConfirm={() => told(edit.resetStaff(league), "Staff reset to the export")}
+              prompt={league.armLocks
+                ? `Reset staff to ${listName(league.source)}, with its roles?`
+                : `Reset staff to ${listName(league.source)}${locks ? ` and clear ${locks} lock${locks === 1 ? "" : "s"}` : ""}?`}
+              onConfirm={() => told(edit.resetStaff(league), `Staff reset to ${listName(league.source)}`)}
             >
-              Reset staff to the export
+              {`Reset staff to ${listName(league.source)}`}
             </ConfirmButton>
           )}
         </div>

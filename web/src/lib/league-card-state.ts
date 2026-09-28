@@ -89,8 +89,21 @@ export interface ModelState {
   familyPinned: boolean;
 }
 
-/** The newest league export, as the page reads it. */
-export interface LeagueExport { source: string | null; roster: string[]; arms: string[]; family: Family }
+/**
+ * The newest league export, as the page reads it; or L.J.'s team sheet
+ * (lib/league-team) when that is newer. A sheet also carries his lineups and
+ * staff roles as locks, which the list takes with it.
+ */
+export interface LeagueExport {
+  source: string | null; roster: string[]; arms: string[]; family: Family;
+  locks?: Locks; armLocks?: ArmLocks;
+}
+
+/** A team sheet's source: "your roster of 2026-09-28". */
+export const rosterSource = (asOf: string) => `your roster of ${asOf}`;
+export const fromRoster = (source: string | null) => !!source && source.startsWith("your roster of ");
+/** What a list follows, in words: "your roster" or "the export". */
+export const listName = (source: string | null) => (fromRoster(source) ? "your roster" : "the export");
 
 type Edit =
   | { type: "add"; entry: string }
@@ -199,6 +212,12 @@ const keepLocks = (l: Locks, keep: (entry: string) => boolean): Locks => ({
   vL: Object.fromEntries(Object.entries(l.vL).filter(([, e]) => keep(e))),
 });
 const keepArmLocks = (l: ArmLocks, keep: (entry: string) => boolean): ArmLocks => Object.fromEntries(Object.entries(l).filter(([, e]) => keep(e)));
+const sameRecord = (a: Record<string, string>, b: Record<string, string>) =>
+  Object.keys(a).length === Object.keys(b).length && Object.entries(a).every(([k, v]) => b[k] === v);
+const sameLocks = (a: Locks, b: Locks) => sameRecord(a.vR, b.vR) && sameRecord(a.vL, b.vL);
+/** The locks a list brings: a team sheet's lineups and staff roles (for players on `bats` / `arms`), else none. */
+const exLocks = (ex: LeagueExport, bats: string[]): Locks => (ex.locks ? locksOf(ex.locks, bats) : NO_LOCKS);
+const exArmLocks = (ex: LeagueExport, arms: string[]): ArmLocks => (ex.armLocks ? armLocksOf(ex.armLocks, arms) : {});
 
 
 /** A new export's list, plus anyone he added by hand (on his list but not on the export it came from). */
@@ -287,24 +306,29 @@ export function modelReducer(s: ModelState, a: ModelAction): ModelState {
       return armLockCount(s.armLocks) ? { ...s, armLocks: {} } : s;
     case "resetTeam": {
       const { ex } = a;
-      const same = sameList(s.bats, ex.roster) && sameList(s.exportRoster, ex.roster) && !lockCount(s.locks)
-        && sameList(s.arms, ex.arms) && sameList(s.exportArms, ex.arms) && !armLockCount(s.armLocks)
+      const locks = exLocks(ex, ex.roster), armLocks = exArmLocks(ex, ex.arms);
+      const same = sameList(s.bats, ex.roster) && sameList(s.exportRoster, ex.roster) && sameLocks(s.locks, locks)
+        && sameList(s.arms, ex.arms) && sameList(s.exportArms, ex.arms) && sameRecord(s.armLocks, armLocks)
         && s.source === ex.source && !s.familyPinned && s.settings.family === ex.family;
       return same ? s : {
-        ...s, bats: [...ex.roster], locks: NO_LOCKS, arms: [...ex.arms], armLocks: {},
+        ...s, bats: [...ex.roster], locks, arms: [...ex.arms], armLocks,
         settings: { ...s.settings, family: ex.family }, familyPinned: false,
         source: ex.source, exportRoster: [...ex.roster], exportArms: [...ex.arms],
       };
     }
     case "resetStaff": {
       const { ex } = a;
-      const same = sameList(s.arms, ex.arms) && sameList(s.exportArms, ex.arms) && !armLockCount(s.armLocks);
-      return same ? s : { ...s, arms: [...ex.arms], armLocks: {}, exportArms: [...ex.arms] };
+      const armLocks = exArmLocks(ex, ex.arms);
+      const same = sameList(s.arms, ex.arms) && sameList(s.exportArms, ex.arms) && sameRecord(s.armLocks, armLocks);
+      return same ? s : { ...s, arms: [...ex.arms], armLocks, exportArms: [...ex.arms] };
     }
     case "updateTeam": {
       const bats = updatedBats(s, a.ex), arms = updatedArms(s, a.ex);
+      // A team sheet sets the lineups and staff roles as he set them in game; an export keeps his own locks.
+      const locks = a.ex.locks ? exLocks(a.ex, bats) : keepLocks(s.locks, (e) => bats.includes(e));
+      const armLocks = a.ex.armLocks ? exArmLocks(a.ex, arms) : keepArmLocks(s.armLocks, (e) => arms.includes(e));
       return {
-        ...s, bats, locks: keepLocks(s.locks, (e) => bats.includes(e)), arms, armLocks: keepArmLocks(s.armLocks, (e) => arms.includes(e)),
+        ...s, bats, locks, arms, armLocks,
         settings: s.familyPinned ? s.settings : { ...s.settings, family: a.ex.family },
         source: a.ex.source, exportRoster: [...a.ex.roster], exportArms: [...a.ex.arms],
       };
@@ -348,7 +372,7 @@ export const V2_SOURCE = "your saved list";
 
 export function freshState(ex: LeagueExport): ModelState {
   return {
-    bats: [...ex.roster], arms: [...ex.arms], locks: NO_LOCKS, armLocks: {},
+    bats: [...ex.roster], arms: [...ex.arms], locks: exLocks(ex, ex.roster), armLocks: exArmLocks(ex, ex.arms),
     settings: { family: ex.family, year: DEFAULT_YEAR, park: "", glove: "1" }, candidate: null,
     source: ex.source, exportRoster: [...ex.roster], exportArms: [...ex.arms], familyPinned: false,
   };
