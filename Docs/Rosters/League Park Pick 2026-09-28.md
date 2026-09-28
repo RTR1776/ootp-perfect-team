@@ -37,7 +37,7 @@ Before any park he is **+60 runs better than the HD field**: bats +55, arms +5. 
 
 - **Fenway pays because it is lopsided:** right-handed home runs ×1.385, left-handed ×0.808. His power is right-handed (Aaron, Banks, Rolen, Gibson, Piazza).
 - **The more extreme power parks lift the field too.** Baker Bowl, Rio Grande, Las Vegas, Truist and the 1905 Polo Grounds all lift both sides' home runs. They also raise scoring, and the more runs are scored, the more runs a win costs (about 1.5 × R/G + 3). So his +60-run edge buys fewer wins in them. The table does not charge for that, so these parks are a little worse than they look.
-- **Soto turns it around:** his Power 200 is left-handed, and Fenway cuts left-handed homers. With him, Fenway falls to +0.7, and the best parks are the all-round power parks at +3 or less before the scoring cost. That is why Fenway is still the pick while the Soto order is open: little is lost if he lands, and the full gain is kept if he doesn't.
+- **Soto turns it around:** his Power 200 is left-handed, and Fenway cuts left-handed homers. With him, Fenway falls to +0.7, and the best parks are the all-round power parks, at +3.4 or less before the scoring cost. That is why Fenway is still the pick while the Soto order is open: little is lost if he lands, and the full gain is kept if he doesn't.
 - **His five:** SkyDome 1992 is the best of them in every case, at under half of Fenway without Soto.
 
 ## Soto or Canseco (league model)

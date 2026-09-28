@@ -6,7 +6,8 @@
  * rules are kept under restrictions.previousFormat (lib/catalogue-edit.ts).
  *
  *   pnpm catalogue:set --tournament 541 --year 1952 --stadium "1958 Tiger Stadium" \
- *     --card-years 1910-1959 --drop cardTypes,pendingRefresh --text "…" --note "…" [--commit]
+ *     --card-years 1910-1959 --drop cardTypes,pendingRefresh --text "…" --note "…" \
+ *     --format-since 2026-09-26 [--commit]
  *
  * Flags: --year N · --stadium "YYYY Name" · --dh | --no-dh · --value A-B ·
  * --card-years A-B | none · --drop key[,key] · --text "…" · --note "…" ·

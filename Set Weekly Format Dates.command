@@ -7,8 +7,8 @@
 # but the run of each weekly that was already scheduled when it went up kept the
 # old rules. So each new format first ran a week after that run: Monday Bronze
 # was Rio Grande 1995 on 09-21 and is Olympic Stadium 1979 from 09-28. The
-# catalogue dated 13 of the changes 09-20 and the other 4 not at all, so old-
-# format exports could be read as the new format.
+# catalogue dated 12 of them 09-20 and left 5 undated, so old-format exports
+# could be read as the new format.
 #
 # 1. Saturday Diamond Variety (541) gets the rules it has played since 09-26:
 #    1952 RE, 1958 Tiger Stadium, cards 1910-1959, no card-kind rule.
