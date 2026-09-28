@@ -39,7 +39,7 @@ export const NAV: NavGroup[] = [
     items: [
       { href: "/league", label: "League", icon: Trophy, hint: "Card lines from the league exports" },
       { href: "/meta", label: "League Meta", icon: Globe, hint: "How the league's teams are built" },
-      { href: "/league-card", label: "Card Model", icon: FlaskConical, hint: "What a card would add to your league lineups" },
+      { href: "/league-card", label: "Card Model", icon: FlaskConical, hint: "What a card would add to your league lineups and staff" },
     ],
   },
   {

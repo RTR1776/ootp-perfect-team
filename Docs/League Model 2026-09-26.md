@@ -1,6 +1,6 @@
 # League model — 2026-09-26
 
-L.J.: league play normalises cards and seems to suppress them compared with tourneys. With this much league data, can it be modelled well enough to settle buys like Jose Canseco vs the Kevin Mitchell variant? Yes. The numbers below come from 4.9M PA of split play: 8 weekly seasons, PEL plus HD450–453 and LD404, including the 1959 and 1989 theme weeks. Refit 2026-09-27 with the 09-27 PEL week and the raw 09-20 files; nothing material moved. That PEL week was uploaded after its regular season had finished (top 699 PA, like other finished weeks).
+L.J.: league play normalises cards and seems to suppress them compared with tourneys. With this much league data, can it be modelled well enough to settle buys like Jose Canseco vs the Kevin Mitchell variant? Yes. The numbers below come from 4.9M PA of split play: 8 weekly seasons, PEL plus HD450–453 and LD404, including the 1959 and 1989 theme weeks. Refit 2026-09-27 with the 09-27 PEL week and the raw 09-20 files, and again 2026-09-28 with all four HD leagues of that week (5.65M PA; `Docs/League Week 2026-09-27.md`). Nothing material moved either time. That PEL week was uploaded after its regular season had finished (top 699 PA, like other finished weeks).
 
 ## What normalisation does, measured
 
@@ -19,7 +19,7 @@ L.J.: league play normalises cards and seems to suppress them compared with tour
 
   These are noisy: listed position, not innings. `league-compare --def-scale` exists for this.
 - **Theme weeks change the run environment.**
-  - Ordinary weeks fit 2010–2013.
+  - Ordinary weeks are the 2010 run environment, the PT default (L.J., 2026-09-27). The fit's 2010–2013 spread was noise.
   - 2026-08-23 fits **1959** and 2026-09-20 fits **1989** (`league-era.ts`).
   - Each week is scored in its own environment.
   - In those theme weeks, Avoid K was worth about 0.55 of an ordinary week, and Power 0.63–0.78.
@@ -28,8 +28,10 @@ L.J.: league play normalises cards and seems to suppress them compared with tour
 
 Per board (vs LHP / vs RHP), in runs per 700 PA above the league's average bat on that board:
 
-    runs = 0.02 + 0.458·(app − app_lg)
-           + price · (14.59·dlnK + 5.83·dlnBA + 2.23·dlnGAP + 5.78·dlnPOW + 10.68·dlnEYE)
+    runs = 0.01 + 0.462·(app − app_lg)
+           + price · (13.76·dlnK + 6.20·dlnBA + 2.37·dlnGAP + 5.27·dlnPOW + 10.67·dlnEYE)
+
+(Refit 2026-09-28. The 09-26 fit had 0.458 and 14.59 / 5.83 / 2.23 / 5.78 / 10.68; the tables below are from it.)
 
 - `app` is the app's calibrated tournament runs on that board, in the week's environment.
 - `dln r` is ln(rating) minus the league's PA-weighted mean ln(rating) on that board. Measuring against the league's own average is the normalisation.

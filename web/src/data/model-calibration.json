@@ -1,295 +1,295 @@
 {
-  "fittedAt": "2026-09-25",
+  "fittedAt": "2026-09-27",
   "minN": 300,
   "frame": "within-series: card's observed runs above its field vs model runs above the field's model mean; PT default engine, neutral park, roleTrust 0.25",
   "hit": {
-    "lines": 6545,
-    "cards": 1272,
-    "n": 14381462,
-    "slope": 0.4993,
-    "intercept": 0.358,
-    "r": 0.5978,
-    "rmse": 9.3,
-    "sdModel": 13.89,
-    "sdObs": 11.6,
+    "lines": 7147,
+    "cards": 1319,
+    "n": 16046328,
+    "slope": 0.509,
+    "intercept": 0.345,
+    "r": 0.6082,
+    "rmse": 9.28,
+    "sdModel": 13.96,
+    "sdObs": 11.69,
     "applied": true,
     "deciles": [
       {
-        "n": 655,
-        "model": -25.9,
-        "observed": -15
+        "n": 715,
+        "model": -26.3,
+        "observed": -15.9
       },
       {
-        "n": 655,
-        "model": -16.8,
-        "observed": -9.4
+        "n": 715,
+        "model": -17,
+        "observed": -10.2
       },
       {
-        "n": 655,
-        "model": -11.8,
-        "observed": -7.7
+        "n": 715,
+        "model": -12.1,
+        "observed": -7.2
       },
       {
-        "n": 655,
-        "model": -8.4,
-        "observed": -5.3
+        "n": 715,
+        "model": -8.6,
+        "observed": -4.9
       },
       {
-        "n": 655,
-        "model": -5.3,
-        "observed": -1.5
+        "n": 715,
+        "model": -5.4,
+        "observed": -1.8
       },
       {
-        "n": 655,
-        "model": -2.2,
-        "observed": 1
+        "n": 715,
+        "model": -2.3,
+        "observed": 0.7
       },
       {
-        "n": 655,
-        "model": 1.4,
-        "observed": 2.9
+        "n": 715,
+        "model": 1.2,
+        "observed": 2.6
       },
       {
-        "n": 655,
-        "model": 5.8,
-        "observed": 3.5
+        "n": 715,
+        "model": 5.5,
+        "observed": 3.3
       },
       {
-        "n": 655,
-        "model": 11.5,
+        "n": 715,
+        "model": 11.1,
         "observed": 6.9
       },
       {
-        "n": 650,
-        "model": 25.3,
-        "observed": 11.7
+        "n": 712,
+        "model": 25.1,
+        "observed": 12
       }
     ],
     "byRelease": [
       {
         "key": "2026-03",
-        "cards": 605,
-        "n": 4438451,
+        "cards": 620,
+        "n": 4752014,
         "resid": -2.2
       },
       {
         "key": "2026-04",
-        "cards": 115,
-        "n": 1850934,
-        "resid": 0.9
+        "cards": 116,
+        "n": 1966074,
+        "resid": 1
       },
       {
         "key": "2026-05",
-        "cards": 96,
-        "n": 1432036,
-        "resid": 0.3
+        "cards": 97,
+        "n": 1515015,
+        "resid": 0.2
       },
       {
         "key": "2026-06",
-        "cards": 113,
-        "n": 1909901,
-        "resid": 1.8
+        "cards": 114,
+        "n": 2072043,
+        "resid": 1.7
       },
       {
         "key": "2026-07",
         "cards": 145,
-        "n": 2834218,
-        "resid": 1.5
+        "n": 3231243,
+        "resid": 1.4
       },
       {
         "key": "2026-08",
-        "cards": 130,
-        "n": 1612990,
-        "resid": -0.4
+        "cards": 131,
+        "n": 2008445,
+        "resid": -0.5
       },
       {
         "key": "2026-09",
-        "cards": 68,
-        "n": 302932,
-        "resid": 1.3
+        "cards": 96,
+        "n": 501494,
+        "resid": 2.6
       }
     ],
     "byTier": [
       {
         "key": "B",
-        "cards": 253,
-        "n": 1908441,
-        "resid": 1.2
+        "cards": 265,
+        "n": 2393016,
+        "resid": 1.1
       },
       {
         "key": "D",
-        "cards": 230,
-        "n": 4340798,
+        "cards": 241,
+        "n": 4628781,
         "resid": 0
       },
       {
         "key": "G",
-        "cards": 276,
-        "n": 3199509,
+        "cards": 280,
+        "n": 3369713,
         "resid": -0.3
       },
       {
         "key": "I",
-        "cards": 116,
-        "n": 258095,
-        "resid": -4
+        "cards": 125,
+        "n": 310891,
+        "resid": -3.9
       },
       {
         "key": "P",
-        "cards": 132,
-        "n": 1620013,
-        "resid": -0.8
+        "cards": 136,
+        "n": 1811663,
+        "resid": -0.7
       },
       {
         "key": "S",
-        "cards": 265,
-        "n": 3054606,
-        "resid": 0.4
+        "cards": 272,
+        "n": 3532264,
+        "resid": 0.3
       }
     ]
   },
   "pit": {
-    "lines": 5660,
-    "cards": 1099,
-    "n": 15021571,
-    "slope": 0.5129,
-    "intercept": 0.162,
-    "r": 0.5781,
-    "rmse": 5.77,
-    "sdModel": 7.98,
-    "sdObs": 7.08,
+    "lines": 6132,
+    "cards": 1121,
+    "n": 16710984,
+    "slope": 0.5352,
+    "intercept": 0.152,
+    "r": 0.5972,
+    "rmse": 5.82,
+    "sdModel": 8.09,
+    "sdObs": 7.25,
     "applied": true,
     "deciles": [
       {
-        "n": 566,
-        "model": -19.5,
-        "observed": -9.5
+        "n": 614,
+        "model": -19.8,
+        "observed": -9.9
       },
       {
-        "n": 566,
-        "model": -11.3,
-        "observed": -5.7
+        "n": 614,
+        "model": -11.6,
+        "observed": -6.3
       },
       {
-        "n": 566,
-        "model": -7.5,
-        "observed": -4.1
+        "n": 614,
+        "model": -7.8,
+        "observed": -4.4
       },
       {
-        "n": 566,
-        "model": -4.5,
-        "observed": -2.4
+        "n": 614,
+        "model": -4.7,
+        "observed": -2.7
       },
       {
-        "n": 566,
-        "model": -2.1,
-        "observed": -1.7
+        "n": 614,
+        "model": -2.2,
+        "observed": -1.9
       },
       {
-        "n": 566,
-        "model": 0.3,
-        "observed": -0.3
+        "n": 614,
+        "model": 0.1,
+        "observed": -0.2
       },
       {
-        "n": 566,
-        "model": 2.5,
-        "observed": 1.9
+        "n": 614,
+        "model": 2.4,
+        "observed": 2
       },
       {
-        "n": 566,
-        "model": 4.7,
-        "observed": 3.3
+        "n": 614,
+        "model": 4.6,
+        "observed": 3.1
       },
       {
-        "n": 566,
-        "model": 7.8,
-        "observed": 4.6
+        "n": 614,
+        "model": 7.7,
+        "observed": 4.7
       },
       {
-        "n": 566,
-        "model": 13.4,
-        "observed": 6.8
+        "n": 606,
+        "model": 13.3,
+        "observed": 7.2
       }
     ],
     "byRelease": [
       {
         "key": "2026-03",
-        "cards": 648,
-        "n": 6209054,
+        "cards": 655,
+        "n": 6708644,
         "resid": 0
       },
       {
         "key": "2026-04",
-        "cards": 70,
-        "n": 2353701,
+        "cards": 71,
+        "n": 2495560,
         "resid": 1
       },
       {
         "key": "2026-05",
-        "cards": 74,
-        "n": 970083,
+        "cards": 75,
+        "n": 1060634,
         "resid": -0.1
       },
       {
         "key": "2026-06",
         "cards": 75,
-        "n": 1478037,
-        "resid": -1.3
+        "n": 1609992,
+        "resid": -1.4
       },
       {
         "key": "2026-07",
         "cards": 96,
-        "n": 2309538,
-        "resid": 0.5
+        "n": 2665852,
+        "resid": 0.7
       },
       {
         "key": "2026-08",
-        "cards": 84,
-        "n": 1347475,
+        "cards": 87,
+        "n": 1611151,
         "resid": -0.8
       },
       {
         "key": "2026-09",
-        "cards": 52,
-        "n": 353683,
-        "resid": -0.6
+        "cards": 62,
+        "n": 559151,
+        "resid": -0.7
       }
     ],
     "byTier": [
       {
         "key": "B",
-        "cards": 292,
-        "n": 1998449,
+        "cards": 296,
+        "n": 2484319,
         "resid": 0
       },
       {
         "key": "D",
-        "cards": 146,
-        "n": 4340457,
+        "cards": 147,
+        "n": 4613003,
         "resid": 0.6
       },
       {
         "key": "G",
-        "cards": 206,
-        "n": 3370026,
+        "cards": 208,
+        "n": 3536063,
         "resid": -0.1
       },
       {
         "key": "I",
-        "cards": 136,
-        "n": 327996,
-        "resid": -0.6
+        "cards": 147,
+        "n": 402202,
+        "resid": -0.4
       },
       {
         "key": "P",
         "cards": 104,
-        "n": 1855014,
-        "resid": -1
+        "n": 2068985,
+        "resid": -0.8
       },
       {
         "key": "S",
-        "cards": 215,
-        "n": 3129629,
+        "cards": 219,
+        "n": 3606412,
         "resid": -0.1
       }
     ]

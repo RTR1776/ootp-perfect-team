@@ -133,7 +133,7 @@ export function ShopBoard(p: Props) {
   const newCount = p.upgrades.filter((u) => u.isNew).length;
 
   if (!p.runsR) return <p className="rounded-lg border border-border p-4 text-sm text-muted-foreground">No run environment on file for this event, so there is nothing to price the shop against.</p>;
-  if (onBoard.length === 0) return <p className="rounded-lg border border-border p-4 text-sm text-muted-foreground">Fill or load a roster first (Re-recommend, or a saved roster) — the shop is ranked on what each card adds to the board on the page.</p>;
+  if (onBoard.length === 0) return <p className="rounded-lg border border-border p-4 text-sm text-muted-foreground">Fill or load a roster first (Reset to recommended, or a saved roster): the shop is ranked on what each card adds to the board on the page.</p>;
 
   return (
     <div className="flex flex-col gap-2">

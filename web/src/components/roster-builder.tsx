@@ -20,8 +20,8 @@
 
 import type { SeriesBuild } from "@/lib/field-construction";
 import { FieldConstruction } from "@/components/field-construction";
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
-import { Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { Info, Loader2, Redo2, Undo2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,8 +33,8 @@ import { isPageCheck } from "@/lib/roster-input";
 import type { SetEvidence } from "@/lib/set-evidence";
 import { RulesStrip } from "@/components/rules-strip";
 import { SetFilter } from "@/components/set-filter";
-import { dismissToast, toast } from "@/components/ui/toast";
-import { fillOnce, fillRoster, fitMaps, HIT_POS, isComplete, rosterShape, type FillCard, type FillShape } from "@/lib/roster-fill";
+import { dismissToast, toast, type ToastInput } from "@/components/ui/toast";
+import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillResult, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import type { Confidence } from "@/lib/data-confidence";
@@ -43,12 +43,19 @@ import type { ParkRow } from "@/lib/analytics/tournament-env";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
 import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/lib/analytics/projections";
 import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
-import { optimizeRoster } from "@/lib/roster-optimize";
-import type { DeepMessage, DeepRequest } from "@/lib/optimize.worker";
+import { searchCard, toPlainFits, type SearchBest, type SearchMessage, type SearchRequest } from "@/lib/roster-search";
 import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
+import { ip, signed, stamp } from "@/lib/format";
+import {
+  EMPTY_BOARD, NO_ADJ, benchKeysOf, boardContent, boardDiff, boardKey, boardReducer, clampCount, diffText, droppedNote,
+  parseSaved, restoreBoard, rpKeysOf, runsText, slotKeys, spKeysOf, toSaved,
+  type BoardAction, type BoardDiff, type Counts, type Slots,
+} from "@/lib/build-board";
+import { useUndoable, useUndoKeys } from "@/lib/use-undoable";
 import { FieldView } from "@/components/build/field-view";
 import { BuyBox } from "@/components/build/buy-box";
 import { ShopBoard } from "@/components/build/shop-board";
+import { SearchProgressBar, setSearchProgress } from "@/components/build/search-progress";
 
 export interface ObservedLine {
   cardId: number;
@@ -204,14 +211,29 @@ type SlotKey = string; // "R:C", "L:DH", "SP1", "RP3", "CL", "BN2"
 type View = "HIT" | "PIT" | "UPG" | "FIELD";
 const FIELD_SPOTS = new Set(["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"]);
 
-/** Slot groups a card may occupy at most once each. */
-type Group = "R" | "L" | "P";
-const groupOfSlot = (s: SlotKey): Group =>
-  s.startsWith("L:") ? "L" : s.startsWith("R:") || s.startsWith("BN") ? "R" : "P";
-
-const range = (n: number) => Array.from({ length: Math.max(0, n) }, (_, i) => i);
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 const slotLabel = (k: SlotKey) => k.replace("R:", "vs RHP ").replace("L:", "vs LHP ");
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
+const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
+
+/* The board shown while the history still holds the last event's (the render
+   between an event switch and its restore): nothing, never the old board. */
+const NO_SLOTS: Slots = {};
+const NO_FORMS: Record<number, boolean> = {};
+const NO_SETS: number[] = [];
+
+/** How a search ended: finished, stopped (keep the best so far), cancelled by an event switch, or failed. */
+interface SearchOutcome { best: SearchBest | null; ran: number; total: number; cut: boolean; how: "done" | "stopped" | "cancelled" | "failed" }
+
+/** A bulk change's toast, written once the change has rendered (its runs need the new board's scores). */
+interface Notice {
+  tid: number;
+  before: Slots;
+  beforeRuns: number | null;
+  say: (c: { diff: BoardDiff; after: Slots; runs: string; inOut: string }) => string;
+  tone?: ToastInput["tone"];
+  detail?: string;
+}
 
 /* Fit composite + percentile scoring live in src/lib/roster-fill.ts. */
 function bestDefPos(r: Record<string, number>): { pos: string; val: number } {
@@ -414,8 +436,19 @@ export function RosterBuilder({
 }) {
   const router = useRouter();
   const collectionStale = collectionAgeDays != null && collectionAgeDays >= 3;
-  const [slots, setSlots] = useState<Record<SlotKey, number | null>>({});
-  const [forms, setForms] = useState<Record<number, boolean>>({});
+  /* The board — slots, copies, bench/SP/RP counts, card sets — is one value
+     under one undo history (UI plan B3): every change is a labelled step,
+     Undo/Redo and Cmd/Ctrl+Z take it back, and it is kept per event in this
+     browser (build:board:<tid>) so a reload or a switch back restores it. It
+     belongs to one event: until the switch to another has restored that
+     one's board, the page shows an empty board, never the last event's. */
+  const {
+    state: board, dispatch, undo: undoStep, redo: redoStep, reset: resetBoard, canUndo, canRedo, undoLabel, redoLabel,
+  } = useUndoable(boardReducer, EMPTY_BOARD);
+  const tid = tournament?.id ?? null;
+  const own = board.tid != null && board.tid === tid;
+  const slots = own ? board.slots : NO_SLOTS;
+  const forms = own ? board.forms : NO_FORMS;
   /* Lock / ban, per tournament: Optimise must carry every locked card and may
      not use a banned one (L.J.'s calls the model cannot make — "always two
      catchers", "Incaviglia belongs", "not Bunny Hearn"). */
@@ -464,14 +497,16 @@ export function RosterBuilder({
      with no rule on file is kept to the sets the game allows. Everything that
      picks cards (the table, fills, Optimise, the Field view, the shop) reads
      `pool`; scoring and lookups read `formPool`, so a board card outside the
-     chips is still scored, and flagged. Remembered per event with the locks. */
+     chips is still scored, and flagged. Remembered per event with the locks,
+     and part of the board's history: a change of sets refills the board, and
+     one Undo takes back both. */
   const ruleTypes = useMemo(() => {
     const t = tournament?.restrictions?.cardTypes?.filter((x) => x.trim());
     if (!t?.length) return null;
     const parsed = t.map(parseCardTypeRule);
     return parsed.some((x) => x == null) ? null : [...new Set(parsed.flat() as number[])].sort((a, b) => a - b);
   }, [tournament]);
-  const [sets, setSets] = useState<number[]>([]);
+  const sets = own ? board.sets : NO_SETS;
   const restoreSets = (saved: number[] | undefined): number[] => {
     const kept = (saved ?? []).filter((t) => !ruleTypes || ruleTypes.includes(t));
     return kept.length ? kept : ruleTypes ?? [];
@@ -491,12 +526,12 @@ export function RosterBuilder({
   const [sortBy, setSortBy] = useState<string>("proj");
   const [rosterName, setRosterName] = useState("");
   const [saving, setSaving] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
   const [peek, setPeek] = useState<Peek | null>(null);
   const [showIssues, setShowIssues] = useState(false);
   const [dragPayload, setDragPayload] = useState<string | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<SlotKey | null>(null);
   const lastTid = useRef<number | null>(null);
+  const lastName = useRef<string | null>(null);
 
   const dh = tournament?.dh ?? true;
   const lineupPos: string[] = useMemo(() => (dh ? [...HIT_POS, "DH"] : [...HIT_POS]), [dh]);
@@ -509,13 +544,9 @@ export function RosterBuilder({
   );
 
   /* Slot counts = the series baseline plus whatever the user nudged for THIS
-     tournament, so switching events resizes the board on the very first
-     render (no effect round-trip, no stale bench slots). */
-  const tid = tournament?.id ?? null;
-  const [adj, setAdj] = useState<{ tid: number | null; bench: number; sp: number; rp: number }>(
-    { tid: null, bench: 0, sp: 0, rp: 0 },
-  );
-  const a = adj.tid === tid ? adj : { bench: 0, sp: 0, rp: 0 };
+     tournament (the board's `adj`), so switching events resizes the board on
+     the very first render (no effect round-trip, no stale bench slots). */
+  const a = own ? board.adj : NO_ADJ;
 
   const baseline = useMemo(() => ({
     bench: Math.max(0, target.bats - lineupPos.length),
@@ -524,24 +555,26 @@ export function RosterBuilder({
   }), [target, lineupPos.length]);
 
   const shape = useMemo(() => ({
-    bench: clamp(baseline.bench + a.bench, 0, 12),
-    sp: clamp(baseline.sp + a.sp, 0, 9),
-    rp: clamp(baseline.rp + a.rp, 1, 12),
+    bench: clampCount("bench", baseline.bench + a.bench),
+    sp: clampCount("sp", baseline.sp + a.sp),
+    rp: clampCount("rp", baseline.rp + a.rp),
   }), [baseline, a.bench, a.sp, a.rp]);
 
-  const setCount = (k: "bench" | "sp" | "rp", value: number) =>
-    setAdj((s) => {
-      const base = s.tid === tid ? s : { tid, bench: 0, sp: 0, rp: 0 };
-      const lo = k === "rp" ? 1 : 0;
-      const hi = k === "sp" ? 9 : 12;
-      return { ...base, tid, [k]: clamp(value, lo, hi) - baseline[k] };
-    });
-  const bump = (k: "bench" | "sp" | "rp", d: number) => setCount(k, shape[k] + d);
+  /** New bench / SP / RP counts, as one step. A slot the board loses takes its card off with it. */
+  const changeCounts = (next: Counts, label: string) => {
+    const c: Counts = { bench: clampCount("bench", next.bench), sp: clampCount("sp", next.sp), rp: clampCount("rp", next.rp) };
+    const keep = new Set(slotKeys(lineupPos, c));
+    const kept: Slots = {};
+    for (const [k, v] of Object.entries(slots)) if (v != null && keep.has(k)) kept[k] = v;
+    act({ type: "set", next: { adj: { bench: c.bench - baseline.bench, sp: c.sp - baseline.sp, rp: c.rp - baseline.rp }, slots: kept }, label });
+  };
+  const bump = (k: "bench" | "sp" | "rp", d: number) =>
+    changeCounts({ ...shape, [k]: shape[k] + d }, `${k === "bench" ? "Bench" : k === "sp" ? "Starters" : "Relievers"} ${shape[k]} → ${clampCount(k, shape[k] + d)}`);
 
-  const spKeys = useMemo(() => range(shape.sp).map((i) => `SP${i + 1}`), [shape.sp]);
-  const rpKeys = useMemo(() => ["CL", ...range(Math.max(0, shape.rp - 1)).map((i) => `RP${i + 1}`)], [shape.rp]);
+  const spKeys = useMemo(() => spKeysOf(shape.sp), [shape.sp]);
+  const rpKeys = useMemo(() => rpKeysOf(shape.rp), [shape.rp]);
   const staffKeys = useMemo(() => [...spKeys, ...rpKeys], [spKeys, rpKeys]);
-  const benchKeys = useMemo(() => range(shape.bench).map((i) => `BN${i + 1}`), [shape.bench]);
+  const benchKeys = useMemo(() => benchKeysOf(shape.bench), [shape.bench]);
   /* Hitters the roster may carry = roster size less the staff slots, AS THE
      BOARD STANDS. It was the series baseline (target.bats), so a board with a
      staff slot taken off for a bat (or a saved 14-bat roster loaded) read as
@@ -623,19 +656,15 @@ export function RosterBuilder({
     return !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) > 0;
   };
 
-  /** Put a card in a slot, clearing any other slot it holds in the same group. */
-  const place = (next: Record<SlotKey, number | null>, slot: SlotKey, id: number | null) => {
-    if (id != null) {
-      const g = groupOfSlot(slot);
-      for (const k of Object.keys(next)) {
-        if (k !== slot && next[k] === id && groupOfSlot(k) === g) next[k] = null;
-      }
-    }
-    next[slot] = id;
-  };
+  const nameOf = (id: number) => byId.get(id)?.name ?? `#${id}`;
 
+  /** Put a card in a slot (clearing any other slot he holds in the same group), or empty it: one step. */
   const assign = (slot: SlotKey, cardId: number | null) => {
-    setSlots((s) => { const next = { ...s }; place(next, slot, cardId); return next; });
+    const was = slots[slot] ?? null;
+    act({
+      type: "place", slot, id: cardId,
+      label: cardId == null ? `Take ${was != null ? nameOf(was) : "the card"} off ${slotLabel(slot)}` : `Put ${nameOf(cardId)} at ${slotLabel(slot)}`,
+    });
     if (cardId != null) setSelected(null);
   };
 
@@ -699,7 +728,7 @@ export function RosterBuilder({
     const o = c.obs;
     const extra = o
       ? c.isPitcher
-        ? `observed FIP ${fmt2(o.fip)} · ${Math.round(o.ip).toLocaleString()} IP here`
+        ? `observed FIP ${fmt2(o.fip)} · ${ip(o.ip)} IP here`
         : `observed wOBA ${fmt3(o.woba)} · ${o.pa.toLocaleString()} PA here`
       : "no observed data in this tournament";
     setPeek(peekFrom(e.currentTarget, {
@@ -732,9 +761,8 @@ export function RosterBuilder({
 
   /* actions --------------------------------------------------------- */
   const clickCard = (c: BuilderCard) => {
-    if (!selected) { setMsg("Pick a slot first, or drag the card straight onto one."); return; }
-    if (!posEligible(c, selected)) { setMsg(`${c.name} can't fill ${slotLabel(selected)}.`); return; }
-    setMsg(null);
+    if (!selected) { toast({ message: "Pick a slot first, or drag the card straight onto one." }); return; }
+    if (!posEligible(c, selected)) { toast({ message: `${c.name} can't fill ${slotLabel(selected)}.` }); return; }
     assign(selected, c.cardId);
   };
 
@@ -755,8 +783,7 @@ export function RosterBuilder({
       const id = Number(payload.slice(5));
       const c = byId.get(id);
       if (!c) return;
-      if (!posEligible(c, target)) { setMsg(`${c.name} can't fill ${slotLabel(target)}.`); return; }
-      setMsg(null);
+      if (!posEligible(c, target)) { toast({ message: `${c.name} can't fill ${slotLabel(target)}.` }); return; }
       assign(target, id);
       return;
     }
@@ -768,16 +795,12 @@ export function RosterBuilder({
       const b = slots[target] ?? null;
       const ca = a != null ? byId.get(a) : null;
       const cb = b != null ? byId.get(b) : null;
-      if (ca && !posEligible(ca, target)) { setMsg(`${ca.name} can't fill ${slotLabel(target)}.`); return; }
-      if (cb && !posEligible(cb, from)) { setMsg(`${cb.name} can't fill ${slotLabel(from)}.`); return; }
-      setMsg(null);
-      setSlots((s) => {
-        const next = { ...s };
-        next[from] = null;
-        next[target] = null;
-        place(next, target, a);
-        place(next, from, b);
-        return next;
+      if (ca && !posEligible(ca, target)) { toast({ message: `${ca.name} can't fill ${slotLabel(target)}.` }); return; }
+      if (cb && !posEligible(cb, from)) { toast({ message: `${cb.name} can't fill ${slotLabel(from)}.` }); return; }
+      if (!ca && !cb) return;
+      act({
+        type: "swap", from, to: target,
+        label: ca && cb ? `Swap ${ca.name} and ${cb.name}` : `Move ${(ca ?? cb)!.name} to ${slotLabel(ca ? target : from)}`,
       });
     }
   };
@@ -785,11 +808,7 @@ export function RosterBuilder({
   /** Dropping a rostered player back on the pool takes him off the roster. */
   const dropOnPool = (payload: string) => {
     setDragPayload(null);
-    if (payload.startsWith("slot:")) {
-      const from = payload.slice(5);
-      setSlots((s) => ({ ...s, [from]: null }));
-      setMsg(null);
-    }
+    if (payload.startsWith("slot:")) assign(payload.slice(5), null);
   };
 
   /**
@@ -808,7 +827,6 @@ export function RosterBuilder({
     const must = new Set([...lockIds].filter((id) => inPool.has(id)));
     const { slots: next, lambda } = fillRoster(candidates, tournament!, { lineupPos, spKeys, rpKeys, benchKeys, bats: batsCap }, fits, must);
     const onBoard = new Set(Object.values(next));
-    const nameOf = (id: number) => byId.get(id)?.name ?? `#${id}`;
     const outside = [...lockIds].filter((id) => !inPool.has(id) && !banIds.has(id) && byId.has(id)).map(nameOf);
     const missed = [...must].filter((id) => !onBoard.has(id)).map(nameOf);
     // Greedy picks can leave a spot only an unlocked card could fill; Optimise solves positions exactly.
@@ -821,40 +839,31 @@ export function RosterBuilder({
     missed.length ? `Locked ${missed.join(", ")} did not fit on this fill — run Optimise.` : "",
     empty.length ? `With these locks the fill left ${empty.join(", ")} empty — run Optimise, which places positions exactly.` : "",
   ].filter(Boolean).join(" ");
-  const autoFill = (silent = false, use?: { locks: number[]; bans: number[]; sets: number[] }) => {
+  /** The fill's note when it could not carry every lock, else the plain "filled" line. */
+  const fillNote = (fill: ReturnType<typeof computeFill>) => lockNote(fill)
+    || `Draft roster filled${fill.lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""} — check the Rules strip, then adjust.`;
+  /** Reset to recommended: the greedy fill, as one step with a toast of what changed. */
+  const autoFill = () => {
     if (!tournament) return;
-    const fill = computeFill(use);
-    setSlots(fill.next);
+    const fill = computeFill();
     const note = lockNote(fill);
-    if (note) { setMsg(note); return; }
-    setMsg(silent
-      ? `Draft roster filled${fill.lambda > 0 ? " under the cap (cheaper cards traded in where the budget ran out)" : ""} — check the rules strip, then adjust.`
-      : null);
+    bulk({ type: "set", next: { slots: fill.next }, label: "Reset to recommended" }, {
+      say: ({ runs, inOut }) => `Recommended board${runs ? `: ${runs}` : ""}. ${inOut}${note ? ` ${note}` : ""}`,
+      same: `The board is already the recommended one.${note ? ` ${note}` : ""}`,
+    });
   };
 
-  /* New Sets chips refill the board from those sets; the toast undoes it, on
-     this event only (the toast outlives an event switch, so the switch closes
-     it and the undo checks the event). */
-  const setsToast = useRef<number | null>(null);
+  /* New Sets chips refill the board from those sets, as one step: Undo (the
+     toast's, or Cmd/Ctrl+Z) takes back the sets and the refill together. */
   const changeSets = (next: number[]) => {
-    if (!tournament) { setSets(next); return; }
-    const prevSlots = slots, prevSets = sets, forTid = tournament.id;
-    setSets(next);
+    if (!tournament) return;
     const fill = computeFill({ locks: [...locks], bans: [...bans], sets: next });
-    setSlots(fill.next);
-    const was = new Set(Object.values(prevSlots).filter((v): v is number => v != null));
-    const now = new Set(Object.values(fill.next));
-    const added = [...now].filter((id) => !was.has(id)).length, dropped = [...was].filter((id) => !now.has(id)).length;
     const label = next.length ? next.map((t) => CARD_TYPE_SHORT[t] ?? t).join(" + ") : "every set";
     const poolSize = formPool.filter((c) => inSets(next, c.cardType) && !bans.has(c.cardId)).length;
-    if (setsToast.current != null) dismissToast(setsToast.current);
-    setsToast.current = toast({
-      tone: poolSize === 0 ? "error" : "info",
-      message: poolSize === 0
-        ? `No cards in your pool from ${label}: the board is empty.`
-        : `Board refilled from ${label} (${poolSize} cards): ${added} in, ${dropped} out.${lockNote(fill) ? ` ${lockNote(fill)}` : ""}`,
-      action: { label: "Undo", onClick: () => { if (lastTid.current !== forTid) return; setSets(prevSets); setSlots(prevSlots); } },
-    });
+    const note = lockNote(fill);
+    bulk({ type: "set", next: { sets: next, slots: fill.next }, label: `Sets: ${label}` }, poolSize === 0
+      ? { tone: "error", say: () => `No cards in your pool from ${label}: the board is empty.` }
+      : { say: ({ inOut }) => `Board refilled from ${label} (${poolSize} cards). ${inOut}${note ? ` ${note}` : ""}` });
   };
 
   /* The objective env-roster scores with: calibrated runs per board with
@@ -880,210 +889,364 @@ export function RosterBuilder({
     return objective.objective(complete);
   };
 
+  /* One Undo notice at a time: after another change, an older one's Undo
+     would take back the wrong step. The toasts outlive the page (the Toaster
+     is in the root layout), so leaving or switching events closes it too. */
+  const notice = useRef<number | null>(null);
+  const dropNotice = useCallback(() => {
+    if (notice.current != null) dismissToast(notice.current);
+    notice.current = null;
+  }, []);
+  /** The "Removed from your board" note: edits leave it open; a switch or leaving closes it. */
+  const removedNote = useRef<number | null>(null);
+  const dropRemovedNote = useCallback(() => {
+    if (removedNote.current != null) dismissToast(removedNote.current);
+    removedNote.current = null;
+  }, []);
+  /** Every change to the board goes through here, as one labelled step. */
+  const act = (action: BoardAction) => {
+    if (!own) return;
+    dropNotice();
+    dispatch(action);
+  };
+  const undo = useCallback(() => { dropNotice(); undoStep(); }, [dropNotice, undoStep]);
+  const redo = useCallback(() => { dropNotice(); redoStep(); }, [dropNotice, redoStep]);
+  useUndoKeys(undo, redo, tournament != null);
+
+  /**
+   * A bulk change (Reset to recommended, Optimise, Search longer, Load, Clear,
+   * Sets): one step, then a toast saying what changed, with Undo: "Better
+   * board: +311.4 → +359.5 runs (+48.1). In: Hank Aaron 1B. Out: Brandon
+   * Wood." The toast is written once the change has rendered, when the new
+   * board's runs can be read (a loaded roster brings its own copies). A change
+   * that changes nothing is no step, and says `same` instead.
+   */
+  const pendingNotice = useRef<Notice | null>(null);
+  const bulk = (action: BoardAction, n: { say: Notice["say"]; tone?: Notice["tone"]; detail?: string; same?: string }): boolean => {
+    if (!tournament || !own) return false;
+    if (boardReducer(board, action) === board) {
+      if (n.same) toast({ message: n.same });
+      return false;
+    }
+    act(action);
+    pendingNotice.current = { tid: tournament.id, before: slots, beforeRuns: boardRuns(slots), say: n.say, tone: n.tone, detail: n.detail };
+    return true;
+  };
+  useEffect(() => {
+    const n = pendingNotice.current;
+    if (!n || board.tid !== n.tid) return;
+    pendingNotice.current = null;
+    const diff = boardDiff(n.before, board.slots, slotOrder);
+    const message = n.say({
+      diff, after: board.slots, runs: runsText(n.beforeRuns, boardRuns(board.slots)),
+      inOut: diffText(diff, board.slots, slotOrder, nameOf),
+    });
+    notice.current = toast({ message, tone: n.tone, detail: n.detail, action: { label: "Undo", onClick: () => { if (lastTid.current === n.tid) undo(); } } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board]);
+
   /* Sets are stored only when they differ from the event's rule, so a rule
      the catalogue widens or drops later reaches a board that never chose. */
   useEffect(() => {
-    if (!tournament || lastTid.current !== tournament.id) return;
+    if (!tournament || lastTid.current !== tournament.id || board.tid !== tournament.id) return;
     const chosen = sets.join(",") !== (ruleTypes ?? []).join(",");
     try { localStorage.setItem(lockKey(tournament.id), JSON.stringify({ locks: [...locks], bans: [...bans], ...(chosen ? { sets } : {}) })); } catch { /* storage unavailable */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locks, bans, sets]);
 
-  const [optimizing, setOptimizing] = useState(false);
-  /**
-   * Hill-climb from several starting boards and keep the best (env-roster's
-   * multi-start search, pruned to each slot's top candidates so each climb
-   * finishes in seconds in the browser): single swaps, then a paid-for upgrade
-   * when the cap binds, with both boards' positions re-solved exactly after
-   * every move (assign.ts), under every rule and L.J.'s glove floor.
-   *
-   * Starts: the board as it stands, the greedy fill, then greedy fills under
-   * a rising value penalty λ (the CLI's λ sweep, thinned). One climb stops at
-   * the first board no one- or two-card move improves, and which board that
-   * is depends on where it began — Negro Leagues Slots, 2026-09-26: from the
-   * greedy fill +39.5, from a hand-built board +47.9. Starts run one at a
-   * time with a paint between, and no new one begins after START_BUDGET_MS.
-   * Gold Rush (2026-09-26, local dev build): one climb +196.7 in 4 s; six
-   * starts with positions solved exactly +204.5 in 52 s. Each climb costs
-   * about 1.3× the old one, so the budget, not the start list, sets the wait.
-   *
-   * Prune width, measured on Gold Rush (3,321-card pool, 2026-09-17): greedy
-   * 150.7 runs; top 30 per slot 170.1 in 16 s; top 60 173.8 in 14 s; top 120
-   * 175.1 in 17 s; the full pool with 12 λ starts 179.4 in 4½ min. The width
-   * barely moves the time (the pair search is bounded by aTop/bCheapest), so
-   * 120 it is; the CLI stays the reference for a weekly event.
-   */
-  const MAX_STARTS = 6;
-  const START_BUDGET_MS = 30_000;
-  /* Deep search runs in a worker (optimize.worker.ts); Stop resolves it early
-     with the best board so far. */
-  const stopDeep = useRef<(() => void) | null>(null);
-  const [deepRunning, setDeepRunning] = useState(false);
-  type Best = { slots: Record<string, number>; score: number; moves: number; from: string };
-  const runDeep = (starts: { label: string; slots: Record<string, number> }[], searchPool: FillCard[], keep: ReadonlySet<number>) =>
-    new Promise<{ best: Best | null; ran: number }>((resolve) => {
-      const w = new Worker(new URL("../lib/optimize.worker.ts", import.meta.url), { type: "module" });
-      let last: { best: Best | null; ran: number } = { best: null, ran: 0 };
-      const finish = () => { w.terminate(); stopDeep.current = null; setDeepRunning(false); resolve(last); };
-      stopDeep.current = finish;
-      setDeepRunning(true);
-      w.onmessage = (e: MessageEvent<DeepMessage>) => {
-        const m = e.data;
-        last = { best: m.best, ran: m.done };
-        if (m.type === "done") { finish(); return; }
-        setMsg(`Deep search: ${m.done} of ${m.total} climbs done${m.best ? `, best so far ${fr(objective!.objective(m.best.slots))} runs` : ""} — Stop keeps the best so far.`);
-      };
-      w.onerror = (err) => { setMsg(`Deep search failed: ${err.message}`); finish(); };
-      const req: DeepRequest = {
-        starts, pool: searchPool, rules: tournament as RosterRules, shape: fillShape,
-        runsR: [...envFits!.runsR], runsL: [...envFits!.runsL], lhpShare, spWeight, rpWeight, gloveScale: glove,
-        locks: [...keep], minCatchers: twoCatchers ? 2 : 0,
-      };
-      w.postMessage(req);
-    });
+  /** The latest render's board, locks, bans and actions, for code that runs after an await or from a toast. */
+  const latest = useRef({ board, locks, bans, autoFill, bulk, boardRuns, slotOrder });
+  useEffect(() => { latest.current = { board, locks, bans, autoFill, bulk, boardRuns, slotOrder }; });
 
-  const optimize = async (deep = false) => {
-    if (!tournament || !objective) return;
+  /* Optimise and Search longer (lib/roster-search.ts) run in a Web Worker
+     (optimize.worker.ts), so the page stays usable while they climb and Stop
+     works in both, keeping the best board found so far. Progress goes to the
+     bar in the roster header (components/build/search-progress.tsx). A search
+     belongs to the event it started on: switching events cancels it and
+     drops its result. */
+  const [optimizing, setOptimizing] = useState<"quick" | "deep" | null>(null);
+  const searchRun = useRef<{ stop: () => void; cancel: () => void; startedAt: number } | null>(null);
+  /** Stop, unless it is a double-click's second click on the button that just started the search. */
+  const stopSearch = (e: React.MouseEvent) => {
+    const run = searchRun.current;
+    if (!run || e.detail > 1 || performance.now() - run.startedAt < 500) return;
+    run.stop();
+  };
+  const startSearch = (req: SearchRequest, runTid: number) => new Promise<SearchOutcome>((resolve) => {
+    const failed = (why: string) => toast({ tone: "error", message: `The search ${why}. Your board is unchanged.` });
+    let w: Worker;
+    try {
+      w = new Worker(new URL("../lib/optimize.worker.ts", import.meta.url), { type: "module" });
+    } catch {
+      failed("could not start in this browser");
+      setSearchProgress(null);
+      resolve({ best: null, ran: 0, total: 0, cut: false, how: "failed" });
+      return;
+    }
+    let last: Omit<SearchOutcome, "how"> = { best: null, ran: 0, total: 0, cut: false };
+    let ended = false;
+    const end = (how: SearchOutcome["how"]) => {
+      if (ended) return;
+      ended = true;
+      w.terminate();
+      searchRun.current = null;
+      setSearchProgress(null);
+      resolve(how === "cancelled" ? { best: null, ran: 0, total: last.total, cut: false, how } : { ...last, how });
+    };
+    searchRun.current = { stop: () => end("stopped"), cancel: () => end("cancelled"), startedAt: performance.now() };
+    w.onmessage = (e: MessageEvent<SearchMessage>) => {
+      // One already on its way when the event switched.
+      if (lastTid.current !== runTid) { end("cancelled"); return; }
+      const m = e.data;
+      last = { best: m.best, ran: m.done, total: m.total, cut: m.cut ?? false };
+      if (m.type === "done") { end("done"); return; }
+      setSearchProgress({
+        mode: req.mode, done: m.done, total: m.total, current: m.current ?? null,
+        best: m.best && objective ? objective.objective(m.best.slots) : null,
+      });
+    };
+    w.onerror = (err) => {
+      err.preventDefault();
+      failed(`failed${err.message ? `: ${err.message}` : ""}`);
+      end("failed");
+    };
+    try {
+      w.postMessage(req);
+    } catch (e) {
+      failed(`could not start (${e instanceof Error ? e.message : "the board could not be sent to it"})`);
+      end("failed");
+    }
+  });
+
+  /**
+   * Optimise ("quick") or Search longer ("deep"): hill-climb from several
+   * starting boards and keep the best, on calibrated runs with gloves priced
+   * in runs, under every rule and L.J.'s glove floor (lib/roster-search.ts has
+   * the starts, the settings and the time budget). The result is one step with
+   * a toast of what changed; a board he changed while it ran is not
+   * overwritten, the result is offered instead.
+   */
+  const optimize = async (mode: "quick" | "deep") => {
+    if (!tournament || !objective || !envFits || !own || searchRun.current) return;
     const size = rosterSize(tournament) ?? 26;
     const slotsForPlayers = lineupPos.length + benchKeys.length + spKeys.length + rpKeys.length;
     // vs RHP the lineup and bench hold distinct bats, so these alone must fit.
     if (slotsForPlayers > size) {
-      setMsg(`The board has ${slotsForPlayers} player slots (${lineupPos.length + benchKeys.length} bats, ${spKeys.length} SP, ${rpKeys.length} RP) for a ${size}-man roster — take a bench or staff slot off first.`);
+      toast({ tone: "error", message: `The board has ${slotsForPlayers} player slots (${lineupPos.length + benchKeys.length} bats, ${spKeys.length} SP, ${rpKeys.length} RP) for a ${size}-man roster. Take a bench or staff slot off first.` });
       return;
     }
-    setOptimizing(true);
-    // The search reads this event's pool and writes its board: a switch meanwhile drops the result.
-    const forTid = tournament.id;
-    // The Sets toast's Undo would change the sets under the search.
-    if (setsToast.current != null) { dismissToast(setsToast.current); setsToast.current = null; }
-    setMsg(deep ? "Deep search: up to 12 starts × 2 search settings — a few minutes; Stop keeps the best so far." : "Searching for a better board…");
-    const paint = () => new Promise((r) => setTimeout(r, 30));
-    await paint();
+    const runTid = tournament.id;
+    // An open Undo (the Sets toast's among them) would change the board under the search.
+    dropNotice();
+    const searchPool = (pool as FillCard[]).filter((c) => !bans.has(c.cardId)).map(searchCard);
+    // Only locks the search can use are kept: one outside the chosen sets is
+    // not in the pool, and would cost every board the must-carry penalty.
+    const inPool = new Set(searchPool.map((c) => c.cardId));
+    const keep = [...locks].filter((id) => inPool.has(id));
+    const outside = [...locks].filter((id) => !inPool.has(id) && byId.has(id)).map(nameOf);
+    // Compare against the board as the page scores and checks it. The
+    // search's scores carry 1000 off per lock missing; so does this.
+    const before = boardRuns(slots) ?? 0;
+    const onNow = new Set(Object.values(slots).filter((v): v is number => v != null));
+    const beforeSearch = before - 1000 * keep.filter((id) => !onNow.has(id)).length;
+    // A card outside the chosen sets, or one banned since, is a break too: the search replaces it.
+    const breaks = validation?.errors.length ? "broke a rule"
+      : validation?.incomplete.some((i) => i.code === "outside-sets") ? "had a card outside the chosen sets"
+      : [...onNow].some((id) => bans.has(id)) ? "had a banned card"
+      : null;
+    const current: FillResult = {};
+    for (const k of slotOrder) { const id = slots[k]; if (id != null) current[k] = id; }
+    const started = { board, locks, bans };
+    setOptimizing(mode);
+    setSearchProgress({ mode, done: 0, total: 0, current: null, best: null });
+    let out: SearchOutcome;
     try {
-      const current: Record<string, number> = {};
-      for (const [k, v] of Object.entries(slots)) if (v != null) current[k] = v;
-      const missing = slotOrder.filter((k) => current[k] == null);
-      const searchPool = (pool as FillCard[]).filter((c) => !bans.has(c.cardId));
-      // Only locks the search can use are kept: one outside the chosen sets
-      // is not in the pool, and would cost every board the must-carry penalty.
-      const inPool = new Set(searchPool.map((c) => c.cardId));
-      const keep = new Set([...locks].filter((id) => inPool.has(id)));
-      const outside = [...locks].filter((id) => !inPool.has(id) && byId.has(id)).map((id) => byId.get(id)!.name);
-      const searchObj = keep.size
-        ? rosterObjective(searchPool, { shape: fillShape, runsR: envFits!.runsR, runsL: envFits!.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove, mustIds: keep })
-        : objective;
-      const greedy = fillRoster(searchPool, tournament, fillShape, fits, keep).slots;
-      // The search needs a complete board to score; fill the holes greedily first.
-      for (const k of missing) if (greedy[k] != null) current[k] = greedy[k];
-      // Compare against the board as the page scores and checks it, not the
-      // hole-filled start: a greedy bat dropped into an empty bench slot can
-      // push a full 26 to 27 and read as a rule break the board never had.
-      // The search's scores carry 1000 off per lock missing; so does this.
-      const before = boardRuns(slots) ?? objective.objective(current);
-      const onNow = new Set(Object.values(slots));
-      const beforeSearch = before - 1000 * [...keep].filter((id) => !onNow.has(id)).length;
-      // A card outside the chosen sets, or one banned since, is a break too: the search replaces it.
-      const breaks = validation?.errors.length ? "broke a rule"
-        : validation?.incomplete.some((i) => i.code === "outside-sets") ? "had a card outside the chosen sets"
-        : [...onNow].some((id) => id != null && bans.has(id)) ? "had a banned card"
-        : null;
-      const boardLegal = breaks == null;
-
-      // Distinct rosters only: positions are re-solved inside the search, so
-      // two starts with the same cards are the same start.
-      const starts: { label: string; slots: Record<string, number> }[] = [];
-      const seen = new Set<string>();
-      const add = (label: string, b: Record<string, number>) => {
-        if (starts.length >= (deep ? 12 : MAX_STARTS) || !isComplete(b, fillShape)) return;
-        const key = [...new Set(Object.values(b))].sort((x, y) => x - y).join(",");
-        if (seen.has(key)) return;
-        seen.add(key);
-        starts.push({ label, slots: b });
-      };
-      add("your board", current);
-      add("the greedy fill", greedy);
-      // Most promising first, so a budget cut drops the long shots: λ 2 won on
-      // both events measured 2026-09-26 (Negro Leagues Slots, Gold Rush).
-      for (const lam of deep ? [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5] : [2, 1, 4, 0.5, 8]) add(`λ ${lam}`, fillOnce(searchPool, tournament, fillShape, fits, lam, keep));
-
-      const t0 = performance.now();
-      let best: Best | null = null;
-      let ran = 0;
-      if (deep) ({ best, ran } = await runDeep(starts, searchPool, keep));
-      else for (const st of starts) {
-        if (ran > 0 && performance.now() - t0 > START_BUDGET_MS) break;
-        if (lastTid.current !== forTid) break;
-        setMsg(`Searching for a better board… start ${ran + 1} of ${starts.length} (${st.label})${best ? `, best so far ${fr(best.score)} runs` : ""}.`);
-        await paint();
-        const r = optimizeRoster(st.slots, searchPool, tournament, fillShape, {
-          objective: searchObj.objective, slotValue: searchObj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
-          pairMoves: { aTop: 8, bCheapest: 10, rank: searchObj.rank }, candidateLimit: 120, maxPasses: 40, keep,
-          minCatchers: twoCatchers ? 2 : 0,
-        });
-        ran++;
-        // Only boards that pass every rule compete; the search score carries
-        // the must-carry penalty, the reported score does not.
-        if (r.legal && (!best || r.score > best.score + 1e-9)) best = { slots: r.slots, score: r.score, moves: r.moves, from: st.label };
-      }
-      if (lastTid.current !== forTid) return;
-      if (!best && deep && ran === 0) { setMsg("Deep search stopped before its first start finished — nothing changed."); return; }
-      if (!best) {
-        setMsg(`No start reached a board that passes every rule (${ran} tried) — check the rule list below.`);
-        return;
-      }
-      const outsideNote = outside.length ? ` Locked ${outside.join(", ")} ${outside.length === 1 ? "is" : "are"} outside the chosen sets, so left off.` : "";
-      // A board that breaks a rule is replaced even by a lower-scoring legal one.
-      if (boardLegal && best.score <= beforeSearch + 1e-9) {
-        setMsg(`No better board found from ${ran} start${ran === 1 ? "" : "s"} (${fr(before)} runs).${outsideNote}`);
-        return;
-      }
-      const onBoard = new Set(Object.values(best.slots));
-      const missed = [...keep].filter((id) => !onBoard.has(id)).map((id) => byId.get(id)?.name ?? `#${id}`);
-      best = { ...best, score: objective.objective(best.slots) };
-      setSlots(best.slots);
-      if (missed.length) {
-        setMsg(`Optimised, but could not fit locked ${missed.join(", ")} under the rules — check the cap, the slot counts and ${missed.length === 1 ? "his positions" : "their positions"}.${outsideNote}`);
-        return;
-      }
-      setMsg(`${locks.size || bans.size ? `(${locks.size} locked, ${bans.size} banned) ` : ""}Optimised: ${fr(before)}${breaks ? ` (board ${breaks})` : ""} → ${fr(best.score)} runs, best of ${ran} ${deep ? "climb" : "start"}${ran === 1 ? "" : "s"} (from ${best.from}, ${best.moves} move${best.moves === 1 ? "" : "s"}; calibrated, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} R/L, gloves priced in runs, positions solved exactly).${outsideNote}`);
+      out = await startSearch({
+        mode, board: current, pool: searchPool, rules: tournament as RosterRules, shape: fillShape, fits: toPlainFits(fits),
+        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, gloveScale: glove,
+        locks: keep, minCatchers: twoCatchers ? 2 : 0,
+      }, runTid);
     } finally {
-      setOptimizing(false);
+      setOptimizing(null);
     }
+    if (lastTid.current !== runTid || out.how === "cancelled" || out.how === "failed") return;
+    const { best, ran, cut } = out;
+    const climbs = plural(ran, mode === "quick" ? "start" : "climb");
+    const outsideNote = outside.length ? `Locked ${outside.join(", ")} ${outside.length === 1 ? "is" : "are"} outside the chosen sets, so left off.` : "";
+    if (!best) {
+      toast(out.how === "stopped" && ran === 0
+        ? { message: "Stopped before the first start finished. Nothing changed." }
+        : ran === 0
+          // The search found no complete board to start from: some slot has nobody left to fill it.
+          ? { tone: "error", message: "No complete board to start from: a slot has no eligible card left. Check the bans, the Sets chips and the empty slots." }
+          : { tone: "error", message: `No start reached a board that passes every rule (${ran} tried). Open the issues in the roster header.` });
+      return;
+    }
+    const onBest = new Set(Object.values(best.slots));
+    const missed = keep.filter((id) => !onBest.has(id)).map(nameOf);
+    const tail = [
+      breaks ? `Your board ${breaks}.` : "",
+      missed.length ? `Locked ${missed.join(", ")} could not fit under the rules: check the cap, the slot counts and ${missed.length === 1 ? "his positions" : "their positions"}.` : "",
+      outsideNote,
+    ].filter(Boolean).join(" ");
+    const detail = `Best of ${climbs}${cut ? " (the time limit stopped it)" : ""}, from ${best.from}, ${plural(best.moves, "move")}. Calibrated runs, both lineups at ${Math.round((1 - lhpShare) * 100)}/${Math.round(lhpShare * 100)} vs RHP/LHP, gloves priced in runs, positions solved exactly${locks.size || bans.size ? `; ${locks.size} locked, ${bans.size} banned` : ""}.`;
+    const label = mode === "quick" ? "Optimise" : "Search longer";
+    const found = objective.objective(best.slots);
+    // He changed the board, the locks or the bans while it ran: his changes stay. The result is
+    // offered if it beats the board he has now and still fits its slots (a bench or staff count
+    // changed means it was built for another board).
+    const now = latest.current;
+    if (now.board !== started.board || now.locks !== started.locks || now.bans !== started.bans) {
+      const nowRuns = now.boardRuns(now.board.slots) ?? 0;
+      const sameShape = Object.keys(best.slots).every((k) => now.slotOrder.includes(k as SlotKey)) && now.slotOrder.length === slotOrder.length;
+      if (!sameShape) {
+        toast({ message: `The slot counts changed while the search ran, so its result (${signed(found)} runs) no longer fits your board. Run it again.`, detail });
+        return;
+      }
+      if (found <= nowRuns + 1e-9) {
+        toast({ message: `The board changed while the search ran. Nothing it found beats yours now (${signed(nowRuns)} runs).`, detail });
+        return;
+      }
+      toast({
+        message: `The board changed while the search ran, so its result was not applied: ${signed(found)} runs against your ${signed(nowRuns)}.`,
+        detail,
+        // A long search may end while he looks elsewhere: the offer stays until he closes it.
+        duration: 0,
+        action: {
+          label: "Use it",
+          onClick: () => {
+            if (lastTid.current !== runTid || latest.current.slotOrder.length !== slotOrder.length) return;
+            latest.current.bulk({ type: "set", next: { slots: best.slots }, label }, { say: ({ runs, inOut }) => `Search result${runs ? `: ${runs}` : ""}. ${inOut}`, detail });
+          },
+        },
+      });
+      return;
+    }
+    // A board that breaks a rule is replaced even by a lower-scoring legal one.
+    if (!breaks && best.score <= beforeSearch + 1e-9) {
+      toast({ message: `No better board found (${climbs}${cut ? ", stopped at the time limit" : ""}). Yours stays at ${signed(before)} runs.${outsideNote ? ` ${outsideNote}` : ""}` });
+      return;
+    }
+    bulk({ type: "set", next: { slots: best.slots }, label }, {
+      say: ({ runs, inOut }) => `${breaks ? "Legal board" : "Better board"}${runs ? `: ${runs}` : ""}. ${inOut}${tail ? ` ${tail}` : ""}`,
+      detail,
+    });
   };
 
-  // Switching tournaments empties the board and asks for a fresh
-  // recommendation; the fill runs in the second effect, once the pool for
-  // the new event has arrived.
-  const wantFill = useRef<number | null>(null);
+  /* Switching events resets the view and cancels a running search (the
+     event it started on keeps its board as it was); the next effect restores
+     the new event's board. */
+  const wantInit = useRef<number | null>(null);
+  /** The event whose kept board this page may write: set once that board is restored or filled. */
+  const inited = useRef<number | null>(null);
+  /** The kept board as last written or restored, so an unchanged board is not written again. */
+  const lastKept = useRef<string | null>(null);
   useEffect(() => {
-    if (!tournament) return;
+    if (!tournament) {
+      // Back to the picker (the logo, the Build link, Back): a running search stops too. Its
+      // Stop lives in the roster header, which the picker page doesn't show.
+      if (searchRun.current) {
+        searchRun.current.cancel();
+        toast({ message: `Search stopped: you left ${lastName.current ?? "the event"}. Nothing was changed.` });
+      }
+      dropRemovedNote();
+      lastTid.current = null;
+      return;
+    }
     if (lastTid.current === tournament.id) return;
+    const left = lastName.current;
     lastTid.current = tournament.id;
+    lastName.current = tournament.name;
     setSelected(null);
     setSearch("");
     setPosFilter("ALL");
-    setMsg(null);
-    setSlots({});
-    setForms({});
-    if (setsToast.current != null) { dismissToast(setsToast.current); setsToast.current = null; }
-    stopDeep.current?.();
+    dropNotice();
+    dropRemovedNote();
+    pendingNotice.current = null;
+    if (searchRun.current) {
+      searchRun.current.cancel();
+      toast({ message: `Search stopped: you switched events. Nothing was changed on ${left ?? "the last event"}.` });
+    }
     const saved = readLocks(tournament.id);
     setLocks(new Set(saved.locks ?? []));
     setBans(new Set(saved.bans ?? []));
-    setSets(restoreSets(saved.sets));
-    wantFill.current = tournament.id;
+    inited.current = null;
+    wantInit.current = tournament.id;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tournament?.id]);
 
+  /* The event's kept board (build:board:<tid>) comes back instead of a fresh
+     fill; cards no longer in the pool come off and are named. With none kept,
+     the greedy fill, which is not written until he changes it (a reload then
+     fills again from the latest data). Either way the history starts here, so
+     Undo never reaches the last event's board. With no pool at all (nothing
+     loaded) a kept board is left alone. */
+  const readBoard = (id: number) => {
+    try { return parseSaved(localStorage.getItem(boardKey(id))); } catch { return null; }
+  };
   const shapeKey = slotOrder.join("|");
   useEffect(() => {
-    if (!tournament || pool.length === 0) return;
-    if (wantFill.current !== tournament.id) return;
-    wantFill.current = null;
-    const saved = readLocks(tournament.id);
-    autoFill(true, { locks: saved.locks ?? [], bans: saved.bans ?? [], sets: restoreSets(saved.sets) });
+    if (!tournament || wantInit.current !== tournament.id) return;
+    wantInit.current = null;
+    const id = tournament.id;
+    const savedLocks = readLocks(id);
+    const setList = restoreSets(savedLocks.sets);
+    const kept = basePool.length ? readBoard(id) : null;
+    if (kept) {
+      const ids = new Set(basePool.map((c) => c.cardId));
+      const r = restoreBoard(kept, { inPool: (cid) => ids.has(cid), baseline, lineupPos });
+      const next = { tid: id, slots: r.slots, forms: r.forms, adj: r.adj, sets: setList };
+      resetBoard(next);
+      lastKept.current = JSON.stringify(boardContent(next, slotKeys(lineupPos, r.counts), r.counts));
+      inited.current = id;
+      const note = droppedNote(r.dropped);
+      const restored = toast({
+        message: `Restored your board from ${stamp(kept.savedAt)}.${note ? ` ${note}` : ""}`,
+        action: { label: "Start from recommendation", onClick: () => { if (lastTid.current === id) latest.current.autoFill(); } },
+        // A card taken off stays said until he closes it: it isn't the Undo notice, which the next edit closes.
+        duration: note ? 0 : undefined,
+      });
+      if (note) removedNote.current = restored;
+      else notice.current = restored;
+      return;
+    }
+    const fill = computeFill({ locks: savedLocks.locks ?? [], bans: savedLocks.bans ?? [], sets: setList });
+    const next = { tid: id, slots: fill.next, forms: {}, adj: NO_ADJ, sets: setList };
+    resetBoard(next);
+    lastKept.current = JSON.stringify(boardContent(next, slotOrder, shape));
+    if (!basePool.length) return;
+    inited.current = id;
+    toast({ message: fillNote(fill) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tournament?.id, pool, shapeKey]);
+
+  /* Keep the board per event on every change, so a reload or a switch back
+     restores it: not before this event's board is restored (the empty board
+     in between would overwrite it), and not while it is unchanged. */
+  useEffect(() => {
+    if (!tournament || board.tid !== tournament.id || inited.current !== tournament.id) return;
+    const content = JSON.stringify(boardContent(board, slotOrder, shape));
+    if (content === lastKept.current) return;
+    lastKept.current = content;
+    try {
+      localStorage.setItem(boardKey(tournament.id), JSON.stringify(toSaved(board, slotOrder, shape, (id) => byId.get(id)?.name, Date.now())));
+    } catch { /* storage unavailable: the board just isn't kept */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board, shapeKey]);
+
+  /* Leaving the page stops a running search (its worker would run on) and
+     closes this page's toasts. After a tick: StrictMode's rehearsal unmount
+     in development remounts at once, and must not close them. */
+  const mounted = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    const running = searchRun;
+    return () => {
+      mounted.current = false;
+      running.current?.cancel();
+      setTimeout(() => { if (!mounted.current) { dropNotice(); dropRemovedNote(); } }, 0);
+    };
+  }, [dropNotice, dropRemovedNote]);
 
   const save = async () => {
     if (!tournament) return;
@@ -1101,19 +1264,22 @@ export function RosterBuilder({
     try {
       const res = await fetch("/api/rosters", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
       const result = await res.json();
-      if (res.ok) { setMsg(`Saved “${name}”${result.validation?.ready ? " — ready." : " as a draft; rule checks remain."}`); router.refresh(); }
-      else setMsg(result.error ?? `Save failed (${res.status}).`);
-    } catch { setMsg("Could not save. Your roster is still here; try again."); }
+      if (res.ok) {
+        toast({ tone: "success", message: `Saved “${name}”${result.validation?.ready ? ": ready." : " as a draft; rule checks remain."}` });
+        router.refresh();
+      } else toast({ tone: "error", message: result.error ?? `Save failed (${res.status}).` });
+    } catch { toast({ tone: "error", message: "Could not save. Your roster is still here; try again." }); }
     finally { setSaving(false); }
   };
 
+  /** Load a saved roster onto the board, in its own shape and copies: one step, with a toast of what changed. */
   const loadSaved = (r: SavedRoster) => {
-    const next: Record<SlotKey, number | null> = {};
+    const loaded: Slots = {};
     const savedForms: Record<number, boolean> = {};
     let maxBn = 0, maxSp = 0, maxRp = 0;
     for (const s of r.slots) {
       const key = s.versusHand === "R" || s.versusHand === "L" ? `${s.versusHand}:${s.slot}` : s.slot;
-      next[key] = s.cardId;
+      loaded[key] = s.cardId;
       savedForms[s.cardId] = s.useVariant;
       const bn = /^BN(\d+)$/.exec(key); if (bn) maxBn = Math.max(maxBn, +bn[1]);
       const sp = /^SP(\d+)$/.exec(key); if (sp) maxSp = Math.max(maxSp, +sp[1]);
@@ -1122,17 +1288,24 @@ export function RosterBuilder({
     // The board takes the saved roster's own shape — shrinking as well as
     // growing — so a saved 14 bats / 6 SP / 6 RP does not sit on a board with
     // a 7th, empty relief slot that makes 27 when anything fills it.
-    if (r.slots.length) {
-      setCount("bench", maxBn);
-      setCount("sp", maxSp);
-      setCount("rp", maxRp + 1);
-    }
-    setSlots(next);
-    setForms(savedForms);
+    const c: Counts = r.slots.length
+      ? { bench: clampCount("bench", maxBn), sp: clampCount("sp", maxSp), rp: clampCount("rp", maxRp + 1) }
+      : shape;
+    const keys = new Set(slotKeys(lineupPos, c));
+    const next: Slots = {};
+    for (const [k, id] of Object.entries(loaded)) if (keys.has(k)) next[k] = id;
     const switched = [...new Set(r.slots.map((s) => s.cardId))]
-      .map((id) => basePool.find((c) => c.cardId === id))
-      .filter((c): c is NonNullable<typeof c> => c != null && (savedForms[c.cardId] ? !c.variantOwned && c.baseOwned : !c.baseOwned && c.variantOwned));
-    setMsg(`Loaded “${r.name}”.${switched.length ? ` Using the copy you own for ${switched.map((c) => c.name).join(", ")} (the saved copy is not in your collection) — save again to keep it.` : ""}`);
+      .map((id) => basePool.find((x) => x.cardId === id))
+      .filter((x): x is NonNullable<typeof x> => x != null && (savedForms[x.cardId] ? !x.variantOwned && x.baseOwned : !x.baseOwned && x.variantOwned));
+    const switchedNote = switched.length ? ` Using the copy you own for ${switched.map((x) => x.name).join(", ")} (the saved copy is not in your collection); save again to keep it.` : "";
+    bulk({
+      type: "set",
+      next: { slots: next, forms: savedForms, adj: { bench: c.bench - baseline.bench, sp: c.sp - baseline.sp, rp: c.rp - baseline.rp } },
+      label: `Load “${r.name}”`,
+    }, {
+      say: ({ runs, inOut }) => `Loaded “${r.name}”${runs ? `: ${runs}` : ""}. ${inOut}${switchedNote}`,
+      same: `“${r.name}” is already on the board.`,
+    });
   };
 
   /* export ----------------------------------------------------------- */
@@ -1177,11 +1350,11 @@ export function RosterBuilder({
       const order = b ? lineupPos.indexOf(b) + 1 : "";
       csv.push([section, b ?? a, order, c.cardId, esc(c.name), c.isPitcher ? c.role ?? "P" : c.pos, c.bats ?? "", c.val ?? "", c.variant ? "Y" : "N", validation?.ready ? "Ready" : "Draft"].join(","));
     }
-    const stamp = new Date().toISOString().slice(0, 10);
+    const day = new Date().toISOString().slice(0, 10);
     const base = name.replace(/[^A-Za-z0-9 _-]/g, "").trim().replace(/\s+/g, "_");
-    download(`${base}_${stamp}.txt`, txt.join("\n"), "text/plain");
-    download(`${base}_${stamp}.csv`, csv.join("\n"), "text/csv");
-    setMsg("Exported .txt lineup card + .csv — both hit your Downloads folder.");
+    download(`${base}_${day}.txt`, txt.join("\n"), "text/plain");
+    download(`${base}_${day}.csv`, csv.join("\n"), "text/csv");
+    toast({ message: "Exported the .txt lineup card and the .csv; both are in your Downloads folder." });
   };
 
   /* summary ---------------------------------------------------------- */
@@ -1243,7 +1416,7 @@ export function RosterBuilder({
     o == null
       ? "no observed data in this tournament"
       : isP
-        ? `observed FIP ${fmt2(o.fip)} over ${o.ip.toLocaleString()} IP in this series · WAR ${o.war.toFixed(1)}`
+        ? `observed FIP ${fmt2(o.fip)} over ${ip(o.ip)} IP in this series · WAR ${o.war.toFixed(1)}`
         : `observed wOBA ${fmt3(o.woba)} over ${o.pa.toLocaleString()} PA in this series · WAR ${o.war.toFixed(1)}`;
 
   const Th = ({ id, label, title, right = true }: { id?: string; label: string; title?: string; right?: boolean }) => (
@@ -1284,9 +1457,11 @@ export function RosterBuilder({
         {switching && <Loader2 className="size-4 shrink-0 animate-spin text-muted-foreground" aria-label="Loading tournament" />}
         <select
           aria-label="Tournament"
-          className="h-10 w-full min-w-0 rounded-md border border-input bg-card px-3 text-sm font-medium shadow-sm sm:w-[26rem]"
+          className="h-10 w-full min-w-0 rounded-md border border-input bg-card px-3 text-sm font-medium shadow-sm disabled:cursor-not-allowed disabled:opacity-60 sm:w-[26rem]"
           value={tournament ? String(tournament.id) : ""}
           onChange={(e) => pickTournament(e.target.value)}
+          disabled={optimizing != null}
+          title={optimizing ? "Stop the search first" : undefined}
         >
           <option value="">Choose a tournament…</option>
           {groups.map((g) => (
@@ -1363,7 +1538,7 @@ export function RosterBuilder({
           )}
 
           <div className="rounded-lg border border-border p-3 text-xs leading-relaxed">
-            <p className="font-semibold">Environment and recommendation limits</p>
+            <p className="font-semibold">Environment</p>
             <p className="mt-1 text-muted-foreground">
               {tournament.environment?.eraLabel} · {tournament.environment?.parkLabel}.
               {tournament.environment?.runsPerGame != null && ` Modeled environment: ${tournament.environment.runsPerGame.toFixed(2)} runs per team/game (35% left-handed batting); this is not a forecast for your roster.`}
@@ -1372,9 +1547,6 @@ export function RosterBuilder({
               Park factors, left/right: AVG ×{tournament.environment.parkFactors.avgL.toFixed(3)}/×{tournament.environment.parkFactors.avgR.toFixed(3)};
               HR ×{tournament.environment.parkFactors.hrL.toFixed(3)}/×{tournament.environment.parkFactors.hrR.toFixed(3)}.
             </p>}
-            <p className="mt-1">
-              Runs, Fit and the projected lines are read in this era and park. {env ? `Lineups are weighted ${Math.round((1 - env.lhpShare) * 100)}/${Math.round(env.lhpShare * 100)} vs RHP/LHP and arms face ${Math.round(env.lhbShare * 100)}% left-handed bats${meta?.lhpBfShare != null ? " — measured off this event's exports" : (tournament.staleSeriesSince ? ` — the defaults; this event's exports include runs from before its ${tournament.staleSeriesSince} format` : " — the defaults; no exports for this event yet")}.` : ""} Re-recommend is the greedy fill; Optimise hill-climbs it on runs with gloves priced in runs under the glove floor (70, LF 50, none at 1B). Passing the checks below verifies recorded rules.
-            </p>
           </div>
 
           {meta && (
@@ -1411,8 +1583,8 @@ export function RosterBuilder({
                                 sub: `${c.pos} · used by ${c.teams} teams (${c.pct}%)`,
                                 isPitcher: c.isPitcher,
                                 ratings: mine?.ratings ?? null,
-                                stat: mine ? projLine(c.isPitcher, mine.proj) : (c.isPitcher ? `${c.ip.toLocaleString()} IP here` : `${c.pa.toLocaleString()} PA here`),
-                                extra: mine ? (c.isPitcher ? `${c.ip.toLocaleString()} IP here` : `${c.pa.toLocaleString()} PA here`) : null,
+                                stat: mine ? projLine(c.isPitcher, mine.proj) : (c.isPitcher ? `${ip(c.ip)} IP here` : `${c.pa.toLocaleString()} PA here`),
+                                extra: mine ? (c.isPitcher ? `${ip(c.ip)} IP here` : `${c.pa.toLocaleString()} PA here`) : null,
                               }));
                             }}
                             onMouseLeave={() => setPeek(null)}
@@ -1460,8 +1632,16 @@ export function RosterBuilder({
                     {p}
                   </button>
                 ))}
+                <button
+                  type="button"
+                  popoverTarget="build-how"
+                  className="ml-auto inline-flex items-center gap-1 rounded px-1 text-[11px] text-muted-foreground hover:text-foreground"
+                >
+                  <Info className="size-3.5" aria-hidden /> How these numbers work
+                </button>
               </div>
-              <SetFilter value={sets} onChange={changeSets} allowed={ruleTypes} counts={setCounts} disabled={optimizing} disabledTitle="Wait for the search to finish (or Stop it) before changing sets" />
+              <HowTheNumbersWork env={env} tournament={tournament} hasMeasuredHands={meta?.lhpBfShare != null} ratingScale={ratingScale} />
+              <SetFilter value={sets} onChange={changeSets} allowed={ruleTypes} counts={setCounts} disabled={optimizing != null} disabledTitle="Wait for the search to finish (or Stop it) before changing sets" />
               {(locks.size > 0 || bans.size > 0) && (
                 <div className="flex flex-wrap items-center gap-1 text-[11px]">
                   {[...locks].map((id) => <button key={`l${id}`} type="button" onClick={() => toggleLock(id)} className="rounded bg-positive/20 px-1.5 py-0.5" title="Locked — click to unlock">🔒 {byId.get(id)?.name ?? `#${id}`} ×</button>)}
@@ -1486,7 +1666,7 @@ export function RosterBuilder({
                     setView("HIT");
                     setPosFilter(pos === "DH" ? "ALL" : pos);
                     setSortBy("runs");
-                    setMsg(`Picking for ${slotLabel(slot)} — sorted by bat + glove at ${pos}. Click a card to place it.`);
+                    toast({ message: `Picking for ${slotLabel(slot)}: sorted by bat + glove at ${pos}. Click a card to place it.` });
                   }}
                 />
               ) : view !== "UPG" ? (
@@ -1526,7 +1706,7 @@ export function RosterBuilder({
                               {c.name}{dupNames.has(c.name) && c.year != null && <span className="text-muted-foreground"> ’{String(c.year).slice(2)}</span>}
                               {c.bats && <span className="ml-1 text-[10px] text-muted-foreground">{c.bats}</span>}
                               {c.cardType != null && <span className="ml-1 text-[10px] text-muted-foreground" title={CARD_TYPE_NAME[c.cardType]}>{CARD_TYPE_SHORT[c.cardType]}</span>}
-                              {c.variantOwned && <button type="button" className="ml-2 rounded border px-1 text-[10px]" aria-label={`Use ${c.variant ? "base" : "variant"} ${c.name}`} disabled={!c.baseOwned} onClick={e=>{e.stopPropagation();setForms(f=>({...f,[c.cardId]:!c.variant}));}}>{c.variant ? "VAR selected" : "Base · VAR owned"}</button>}
+                              {c.variantOwned && <button type="button" className="ml-2 rounded border px-1 text-[10px]" aria-label={`Use ${c.variant ? "base" : "variant"} ${c.name}`} disabled={!c.baseOwned} onClick={e=>{e.stopPropagation();act({ type: "set", next: { forms: { ...forms, [c.cardId]: !c.variant } }, label: `Use the ${c.variant ? "base" : "variant"} ${c.name}` });}}>{c.variant ? "VAR selected" : "Base · VAR owned"}</button>}
                               {inUse && <span className="ml-1 text-[10px] text-positive">●</span>}
                               <button type="button" title={locks.has(c.cardId) ? "Locked: Optimise must carry him (click to unlock)" : "Lock: Optimise must carry him"} aria-label={`${locks.has(c.cardId) ? "Unlock" : "Lock"} ${c.name}`} onClick={(e) => { e.stopPropagation(); toggleLock(c.cardId); }} className={cn("ml-1 rounded px-0.5 text-[11px]", locks.has(c.cardId) ? "bg-positive/20" : "opacity-30 hover:opacity-100")}>🔒</button>
                               <button type="button" title={bans.has(c.cardId) ? "Banned: Optimise will not use him (click to allow)" : "Ban: Optimise will not use him"} aria-label={`${bans.has(c.cardId) ? "Unban" : "Ban"} ${c.name}`} onClick={(e) => { e.stopPropagation(); toggleBan(c.cardId); }} className={cn("rounded px-0.5 text-[11px]", bans.has(c.cardId) ? "bg-negative/20" : "opacity-30 hover:opacity-100")}>⛔</button>
@@ -1541,7 +1721,7 @@ export function RosterBuilder({
                             <td className="px-1.5 text-right" title={obsTitle(c.obs, c.isPitcher)}>
                               {c.isPitcher ? fmt2(c.obs?.fip) : fmt3(c.obs?.woba)}
                             </td>
-                            <td className="px-1.5 text-right">{c.isPitcher ? (c.obs?.ip?.toLocaleString() ?? "—") : (c.obs?.pa?.toLocaleString() ?? "—")}</td>
+                            <td className="px-1.5 text-right">{c.isPitcher ? ip(c.obs?.ip) : (c.obs?.pa?.toLocaleString() ?? "—")}</td>
                           </tr>
                         );
                       })}
@@ -1565,11 +1745,9 @@ export function RosterBuilder({
                 />
               )}
 
-              <p className="text-xs text-muted-foreground">
-                {view === "UPG"
-                  ? `Legal cards you don't own, ranked on the runs each would add to the board on the page (one-card swap, glove at the spot, lineups weighted by the field's pitcher hand, relief at 0.31). Prices are from your latest shop upload — upload a new shop list and new drops appear here, badged NEW for a week. Two buys at the same spot don't add. Hover a name for the card face.`
-                  : `${rows.length} eligible cards${rows.length > 400 ? " (showing 400)" : ""}. Runs = calibrated model runs per 700 in this era and park with observed play blended in (K = 5,000); pWOBA/pFIP = the projected line here. Obs/PA are this tournament only. Hover a name for the card face (a full bar = ${ratingScale}, the game's current ceiling); drag a name onto a slot to roster him. Value window, card years, card sets and slot tiers are checked here; the cap, variant limit and roster size are checked on the board. A variant is scored on the ratings your collection export recorded for that copy.`}
-              </p>
+              {view !== "UPG" && (
+                <p className="text-xs text-muted-foreground">{rows.length} eligible cards{rows.length > 400 ? " (showing 400)" : ""}.</p>
+              )}
             </div>
 
             {/* roster panel */}
@@ -1591,17 +1769,39 @@ export function RosterBuilder({
                       </button>
                     ))}
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    <Button size="sm" variant="outline" onClick={() => autoFill()} disabled={optimizing}>Re-recommend</Button>
-                    <Button size="sm" onClick={() => optimize()} disabled={optimizing || !objective} title={objective ? "Hill-climb from this board on calibrated runs, gloves priced in runs, under every rule and the glove floor" : "No run environment on file for this event"}>
-                      {optimizing ? "Optimising…" : "Optimise"}
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="flex items-center">
+                      <Button
+                        size="icon" variant="ghost" className="size-8" onClick={undo} disabled={!canUndo}
+                        aria-label={undoLabel ? `Undo: ${lower(undoLabel)}` : "Undo"}
+                        title={undoLabel ? `Undo: ${lower(undoLabel)} (Ctrl+Z or ⌘Z)` : "Nothing to undo"}
+                      >
+                        <Undo2 />
+                      </Button>
+                      <Button
+                        size="icon" variant="ghost" className="size-8" onClick={redo} disabled={!canRedo}
+                        aria-label={redoLabel ? `Redo: ${lower(redoLabel)}` : "Redo"}
+                        title={redoLabel ? `Redo: ${lower(redoLabel)} (Shift+Ctrl+Z or ⇧⌘Z)` : "Nothing to redo"}
+                      >
+                        <Redo2 />
+                      </Button>
+                    </span>
+                    <Button size="sm" variant="outline" onClick={autoFill} disabled={optimizing != null} title="Refill the board with the greedy recommendation: locked cards kept, banned ones skipped">Reset to recommended</Button>
+                    {optimizing === "quick"
+                      ? <Button size="sm" onClick={stopSearch} title="Stop, and keep the best board found so far">Stop</Button>
+                      : <Button size="sm" onClick={() => void optimize("quick")} disabled={optimizing != null || !objective} title={objective ? "Hill-climb from this board and a few other starts on calibrated runs, gloves priced in runs, under every rule and the glove floor. Half a minute at most; Stop keeps the best so far." : "No run environment on file for this event"}>Optimise</Button>}
+                    {optimizing === "deep"
+                      ? <Button size="sm" variant="outline" onClick={stopSearch} title="Stop, and keep the best board found so far">Stop</Button>
+                      : <Button size="sm" variant="outline" onClick={() => void optimize("deep")} disabled={optimizing != null || !objective} title="More starts, each climbed with Optimise's settings and a wider search. A few minutes; never worse than Optimise; Stop keeps the best board so far.">Search longer</Button>}
+                    <Button
+                      size="sm" variant="outline" disabled={optimizing != null}
+                      onClick={() => bulk({ type: "set", next: { slots: {} }, label: "Clear the board" }, { say: ({ diff }) => `Cleared the board (${plural(diff.removed.length, "player")} off).`, same: "The board is already empty." })}
+                    >
+                      Clear
                     </Button>
-                    {deepRunning
-                      ? <Button size="sm" variant="outline" onClick={() => stopDeep.current?.()}>Stop</Button>
-                      : <Button size="sm" variant="outline" onClick={() => optimize(true)} disabled={optimizing || !objective} title="More starts, each climbed with the quick settings and a wider search, in the background. A few minutes; never worse than Optimise; Stop keeps the best board so far.">Deep search</Button>}
-                    <Button size="sm" variant="outline" onClick={() => { setSlots({}); setMsg(null); }} disabled={optimizing}>Clear</Button>
                   </div>
                 </div>
+                <SearchProgressBar />
                 {validation && !validation.ready && showIssues && (
                   <div className="mb-2 rounded border border-border p-2 text-xs" aria-live="polite">
                     <ul className="list-disc space-y-1 pl-4">
@@ -1621,7 +1821,7 @@ export function RosterBuilder({
                     title="5 starters, 7 relievers, the rest bats — L.J.'s shape for best-of-seven weeklies"
                     onClick={() => {
                       const size = (tournament ? rosterSize(tournament) : null) ?? 26;
-                      setCount("sp", 5); setCount("rp", 7); setCount("bench", Math.max(0, size - lineupPos.length - 12));
+                      changeCounts({ sp: 5, rp: 7, bench: Math.max(0, size - lineupPos.length - 12) }, "5 SP · 7 RP");
                     }}
                   >5 SP · 7 RP</button>
                   <label className="flex items-center gap-1" title="Optimise keeps at least two catchers on the roster">
@@ -1715,7 +1915,6 @@ export function RosterBuilder({
                 )}
               </div>
 
-              {msg && <p className="text-xs text-muted-foreground">{msg}</p>}
             </div>
           </div>
           {peek && <CardPeek p={peek} scale={ratingScale} />}
@@ -1792,6 +1991,44 @@ function SlotRow({
           ×
         </button>
       )}
+    </div>
+  );
+}
+
+/**
+ * "How these numbers work": the method notes that were two long footnotes (the
+ * environment box and the foot of the pool), behind one (i) (UI plan B4). A
+ * native popover: it closes on Escape or a click outside.
+ */
+function HowTheNumbersWork({ env, tournament, hasMeasuredHands, ratingScale }: {
+  env: BuilderEnv | null;
+  tournament: TournamentInfo;
+  hasMeasuredHands: boolean;
+  ratingScale: number;
+}) {
+  const hands = env
+    ? `Lineups are weighted ${Math.round((1 - env.lhpShare) * 100)}/${Math.round(env.lhpShare * 100)} vs RHP/LHP and arms face ${Math.round(env.lhbShare * 100)}% left-handed bats${hasMeasuredHands ? ", measured off this event's exports" : tournament.staleSeriesSince ? `: the defaults, since this event's exports include runs from before its ${tournament.staleSeriesSince} format` : ": the defaults, with no exports for this event yet"}.`
+    : "This event has no run environment on file, so Fit is the ratings composite and there are no Runs.";
+  return (
+    <div
+      id="build-how"
+      popover="auto"
+      className="m-auto max-h-[80dvh] w-[min(36rem,calc(100vw-2rem))] overflow-y-auto rounded-lg border border-border bg-card p-4 text-xs leading-relaxed text-card-foreground shadow-xl backdrop:bg-black/30"
+    >
+      <div className="mb-2 flex items-start justify-between gap-3">
+        <p className="text-sm font-semibold">How these numbers work</p>
+        <button type="button" popoverTarget="build-how" popoverTargetAction="hide" aria-label="Close" className="rounded p-0.5 text-muted-foreground hover:text-foreground">
+          <X className="size-4" />
+        </button>
+      </div>
+      <ul className="list-disc space-y-1.5 pl-4">
+        <li><b>Runs</b> are calibrated model runs per 700 PA in this event&apos;s era and park, with this tournament&apos;s observed play blended in by precision (K = 5,000). {hands} <b>Fit</b> is the 0–99 percentile of Runs within this legal pool.</li>
+        <li><b>pWOBA / pFIP</b> are the projected lines here. <b>Obs</b> and <b>PA / IP</b> are this tournament only.</li>
+        <li><b>Reset to recommended</b> is the greedy fill. <b>Optimise</b> hill-climbs from your board and a few other starts on runs, with gloves priced in runs under the glove floor (70, LF 50, none at 1B). <b>Search longer</b> tries more starts and a wider search. Both keep locked cards and skip banned ones.</li>
+        <li><b>Rules:</b> the value window, card years, card sets and slot tiers are checked in the pool; the cap, the variant limit and the roster size on the board. Legal means legal under the rules on file.</li>
+        <li><b>Shop:</b> legal cards you don&apos;t own, ranked on the runs each would add to this board (one-card swap, glove at the spot, lineups weighted by the field&apos;s pitcher hand, relief at 0.31). Prices are from your latest shop upload; new drops are badged NEW for a week. Two buys at the same spot don&apos;t add.</li>
+        <li>Hover a name for the card face (a full bar = {ratingScale}, the game&apos;s current ceiling); drag a name onto a slot to roster him. A variant is scored on the ratings your collection export recorded for that copy.</li>
+      </ul>
     </div>
   );
 }

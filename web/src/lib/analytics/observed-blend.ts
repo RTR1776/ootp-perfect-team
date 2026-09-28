@@ -108,13 +108,16 @@ export async function loadObservedRuns(
   modelRuns: (cardId: number) => number | null | undefined,
   /** The base card's model on env-fit's basis, 0.7 R + 0.3 L (see `ObservedRuns.model`). */
   reference?: (cardId: number) => number | null | undefined,
+  /** Series left out entirely: an event's own exports from before its format changed. */
+  excludeSeries: readonly string[] = [],
 ): Promise<Map<number, ObservedRuns>> {
   const out = new Map<number, ObservedRuns>();
   if (!cardIds.length) return out;
   const ids = sql.join(cardIds.map((id) => sql`${id}`), sql`, `);
+  const skip = excludeSeries.length ? sql` and series not in (${sql.join(excludeSeries.map((s) => sql`${s}`), sql`, `)})` : sql``;
   const lines = asRows(await db.execute(sql`
     select card_id, series, is_pitcher, pa, ip, woba, fip, counters
-    from observed_card_stats where card_id in (${ids})`));
+    from observed_card_stats where card_id in (${ids})${skip}`));
   if (!lines.length) return out;
   const seriesIn = sql.join([...new Set(lines.map((l) => str(l.series)))].map((s) => sql`${s}`), sql`, `);
   // Series baselines from the same table, so they carry the same exclusions:

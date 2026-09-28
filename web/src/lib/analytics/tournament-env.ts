@@ -51,16 +51,35 @@ export interface ParkPick { name: string | null; year: number | null; row: ParkR
  * Catalogue spellings that name a park the factor table files under another
  * name. Each one is the same ballpark: McAfee Coliseum was the Oakland park's
  * name in 2004-08 (the table has it as McAfee Stadium 2008). Minute Maid Park
- * became Daikin Park in 2025, so a 2005 event takes the Houston park's
- * nearest-year factors. Heinsohn Park is the PT park the table lists as
- * Heinsohn Ballpark (neutral factors).
+ * became Daikin Park in 2025: the table has Minute Maid 2005 and Daikin 2026,
+ * and a year takes whichever of the two is nearer (parkKeyFor). Heinsohn Park
+ * is the PT park the table lists as Heinsohn Ballpark (neutral factors).
+ * "Minue Maid Park" is the table's own misspelling before 2026-09-28, which a
+ * saved Card Model board can still hold.
  */
 const PARK_ALIAS: Record<string, string> = {
   "Comisky Park": "Comiskey Park", // databotai's spelling
   "McAfee Coliseum": "McAfee Stadium",
   "Minute Maid Park": "Daikin Park",
   "Heinsohn Park": "Heinsohn Ballpark",
+  "Minue Maid Park": "Minute Maid Park",
 };
+
+/**
+ * The table key for a park name: the name itself, its alias, or, when both are
+ * in the table (Minute Maid Park 2005, Daikin Park 2026), whichever has a year
+ * nearer the one asked for; the most recent park when no year is asked.
+ */
+export function parkKeyFor(name: string, wantYear: number | null): string | null {
+  const alias = PARK_ALIAS[name];
+  const keys = [parkTable[name] ? name : null, alias && parkTable[alias] ? alias : null].filter((k): k is string => !!k);
+  if (keys.length < 2) return keys[0] ?? null;
+  const gap = (k: string) => {
+    const ys = Object.keys(parkTable[k]).map(Number);
+    return wantYear == null ? -Math.max(...ys) : Math.min(...ys.map((y) => Math.abs(y - wantYear)));
+  };
+  return gap(keys[1]) < gap(keys[0]) ? keys[1] : keys[0];
+}
 
 /** Neutral until proven otherwise — a missing park must never fake a factor. */
 export function parkFor(stadium: string | null): ParkPick {
@@ -70,8 +89,7 @@ export function parkFor(stadium: string | null): ParkPick {
   const name = (m ? m[2] : stadium).trim();
   if (/^standard stadium$/i.test(name)) return { name, year: wantYear, row: null, label: "Standard Stadium (neutral)" };
 
-  let key: string | null = parkTable[name] ? name : null;
-  if (!key && PARK_ALIAS[name] && parkTable[PARK_ALIAS[name]]) key = PARK_ALIAS[name];
+  let key: string | null = parkKeyFor(name, wantYear);
   if (!key) {
     // Spacing and punctuation are not a different park: "Great American Ball Park" is the
     // table's "Great American Ballpark". Until 2026-09-26 that miss ran Thursday Night Gold
