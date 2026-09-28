@@ -8,7 +8,7 @@ import { CARD_TYPES, CARD_TYPE_NAME, CARD_TYPE_SHORT } from "@/lib/card-sets";
 import { cn } from "@/lib/utils";
 
 export function SetFilter({
-  value, onChange, allowed, counts, disabled = false, disabledTitle,
+  value, onChange, allowed, counts, countLabel = "in your pool", disabled = false, disabledTitle,
 }: {
   /** Selected sets; empty = all. */
   value: number[];
@@ -17,6 +17,8 @@ export function SetFilter({
   allowed: number[] | null;
   /** Cards per set in the pool, to show which sets are there at all. */
   counts?: Record<number, number>;
+  /** Where `counts` counts, for each chip's title: "in your pool" (Build), "on this board" (Played). */
+  countLabel?: string;
   disabled?: boolean;
   disabledTitle?: string;
 }) {
@@ -39,7 +41,7 @@ export function SetFilter({
             aria-pressed={on.has(t)}
             disabled={barred || disabled}
             onClick={() => toggle(t)}
-            title={`${CARD_TYPE_NAME[t]}${barred ? " — not allowed in this event" : n != null ? ` — ${n} in your pool` : ""}`}
+            title={`${CARD_TYPE_NAME[t]}${barred ? " — not allowed in this event" : n != null ? ` — ${n} ${countLabel}` : ""}`}
             className={cn(
               "rounded-full border px-2 py-0.5 text-[11px]",
               on.has(t) ? "border-primary bg-primary/15 text-primary" : "border-border text-muted-foreground hover:text-foreground",

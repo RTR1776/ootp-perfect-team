@@ -17,17 +17,30 @@
  * Model runs are scored at the PT default engine and a neutral park - a
  * draft's environment is announced late or randomised, and the default is
  * the centre of what runs.
+ *
+ *   /played                 every card with play
+ *   /played?event=9100139   only the cards legal there (its card sets, value
+ *                           window, years, slots), with its rules on one line;
+ *                           event=0 is the PT default, no event
+ *
+ * The board's filters ride in the URL too (lib/played-filters): the page reads
+ * them so a reload or a shared link opens the same board.
  */
 import { unstable_cache } from "next/cache";
 import { desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { cards, collectionCards, importBatches, uploads } from "@/db/schema";
+import { cards, collectionCards, importBatches, tournaments, uploads } from "@/db/schema";
 import { eraTable } from "@/lib/analytics/tournament-env";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { loadObservedRuns, blendRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 import { wobaOf, fipOf } from "@/lib/analytics/league";
-import { PlayedBoard, type PlayedLine } from "@/components/played-board";
+import { PlayedBoard, type PlayedEvent, type PlayedLine } from "@/components/played-board";
+import type { PickerGroup } from "@/components/event-picker";
 import { EmptyState } from "@/components/empty-state";
+import { groupEvents } from "@/lib/event-groups";
+import { filtersFromParams, filtersToParams } from "@/lib/played-filters";
+import { cardEligibility, describeRules, ruleCardTypes, type RosterRules } from "@/lib/roster-rules";
+import { exportsPredate, loadSetEvidence } from "@/lib/set-evidence-server";
 
 export const dynamic = "force-dynamic";
 
@@ -104,7 +117,7 @@ async function buildLines(uploadId: number | null): Promise<{ lines: PlayedLine[
     const r = (c.ratings ?? {}) as Record<string, number>;
     lines.push({
       cardId: id, name: c.name, val: c.cardValue, tier: c.tier, pos: c.position ?? "?", role: c.pitcherRole,
-      isPitcher: isP, bats: c.bats, throws: c.throws, year: c.year, owned: owned.has(id),
+      isPitcher: isP, bats: c.bats, throws: c.throws, year: c.year, owned: owned.has(id), cardType: c.cardType,
       model: model ?? 0, obs: ob?.runs ?? null, n: Math.round(n), pa: Math.round(num(p.pa)), ip: Math.round(num(p.ip) * 10) / 10,
       series: num(p.series), instances: num(p.instances),
       blend: model == null ? (ob?.runs ?? 0) : blendRuns(model, ob, OBS_K_DEFAULT),
@@ -118,13 +131,68 @@ async function buildLines(uploadId: number | null): Promise<{ lines: PlayedLine[
   return { lines, collectionDate: latest?.at ? new Date(latest.at).toISOString().slice(0, 10) : null };
 }
 
-export default async function PlayedPage() {
+export default async function PlayedPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const sp = await searchParams;
+  const get = (key: string) => { const v = sp[key]; return Array.isArray(v) ? v[0] : v; };
+  const eventRaw = get("event");
+  const eventParam = eventRaw != null && /^\d{1,9}$/.test(eventRaw) ? Number(eventRaw) : null;
+
   const [batch] = await db.select({ id: importBatches.id }).from(importBatches)
     .where(eq(importBatches.status, "published")).orderBy(desc(importBatches.id)).limit(1);
   const [upload] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
-  const key = [`played`, String(batch?.id ?? 0), String(upload?.id ?? 0)];
+  // v2: lines carry cardType. The key names the shape, since the function's own text doesn't change.
+  const key = [`played`, "v2", String(batch?.id ?? 0), String(upload?.id ?? 0)];
   const cached = unstable_cache(() => buildLines(upload?.id ?? null), key, { revalidate: 3600, tags: ["played"] });
-  const { lines, collectionDate } = await cached();
+  const [{ lines, collectionDate }, catalog] = await Promise.all([
+    cached(),
+    db.select({ id: tournaments.id, name: tournaments.name, envYear: tournaments.envYear, series: tournaments.series, isDraft: tournaments.isDraft, retired: tournaments.retired })
+      .from(tournaments).orderBy(tournaments.name),
+  ]);
   if (!lines.length) return <EmptyState icon="played" title="Played" description="The board of what has actually produced in tournaments — every card with play on record, ranked by runs." hint={<>It fills from tournament exports: double-click <span className="font-medium text-foreground">File OOTP Exports.command</span> after an event.</>} />;
-  return <PlayedBoard lines={lines} k={OBS_K_DEFAULT} collectionDate={collectionDate} />;
+
+  // The picker: drafts first (the board is built for them), then as on Build.
+  const item = (c: (typeof catalog)[number]) => ({ id: c.id, label: c.name, era: c.envYear ? String(c.envYear) : null, hasSeries: !!c.series });
+  const groups: PickerGroup[] = groupEvents(catalog, item, { first: ["Perfect Drafts"] });
+
+  /* With an event, only the cards the game would let in: its card sets, value
+     window, card years and slots (roster-rules cardEligibility, as the Draft
+     Board filters). Runs stay at the PT default; the rules line says what
+     was applied, and flags a rule that is missing or can't be read. */
+  let event: PlayedEvent | null = null;
+  let board = lines;
+  const full = eventParam ? (await db.select().from(tournaments).where(eq(tournaments.id, eventParam)))[0] ?? null : null;
+  if (full) {
+    const rules: RosterRules = {
+      name: full.name, dh: full.dh, ratingsMin: full.ratingsMin, ratingsMax: full.ratingsMax,
+      cardYearMin: full.cardYearMin, cardYearMax: full.cardYearMax, isDraft: full.isDraft,
+      restrictions: (full.restrictions ?? {}) as RosterRules["restrictions"],
+    };
+    board = lines.filter((l) => cardEligibility({
+      cardId: l.cardId, name: l.name, val: l.val, year: l.year, isPitcher: l.isPitcher, role: l.role,
+      cardType: l.cardType, ratings: {}, baseOwned: false, variantOwned: false,
+    }, rules).errors.length === 0);
+    // What the field plays, for a set rule that is missing; not when its exports predate the format.
+    const formatSince = (full.restrictions as { formatSince?: string } | null)?.formatSince ?? null;
+    const stale = !!(full.series && formatSince && (await exportsPredate(full.series, formatSince)).stale);
+    const evidence = full.series && !stale ? await loadSetEvidence(full.series) : null;
+    event = { id: full.id, name: full.name, rules: describeRules(rules, { evidence }), sets: ruleCardTypes(rules) };
+    // A retired event is off the picker's lists, but it is the one on show.
+    if (!groups.some((g) => g.items.some((i) => i.id === full.id))) groups.push({ label: "Retired", items: [item(full)] });
+  }
+
+  // A navigation to another event or other filters starts the board afresh from
+  // its URL; the board's own URL edits (history.replaceState) don't reach here.
+  const boardKey = `${eventParam ?? "none"}?${filtersToParams(filtersFromParams(get, event?.sets ?? null), event?.sets ?? null)}`;
+  return (
+    <PlayedBoard
+      key={boardKey}
+      lines={board}
+      k={OBS_K_DEFAULT}
+      collectionDate={collectionDate}
+      groups={groups}
+      event={event}
+      eventParam={eventParam}
+      missingEvent={eventParam && !full ? eventParam : null}
+    />
+  );
 }

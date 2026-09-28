@@ -130,7 +130,7 @@ test("formRatings scales a variant's listed positions by its DEF boost (Nimmala 
 });
 
 /* describeRules and the set rule's message (UI plan G2, 2026-09-27) */
-import { confirmedNotes, describeRules, setRuleFromText, slotOverflow, slotUse } from "./roster-rules";
+import { confirmedNotes, describeRules, ruleCardTypes, setRuleFromText, slotOverflow, slotUse } from "./roster-rules";
 import { summariseSetEvidence } from "./set-evidence";
 
 const hardware: RosterRules = {
@@ -245,4 +245,13 @@ test("a missing set rule is flagged from the field's play or the name; an unread
   assert.match(bad.text, /not understood: “Unicorns” — pool not filtered/, "said on the chip, not only in a title");
   const years = describeRules({ ...noRule, name: "Daily Live Plus" }, { evidence: played([[1, 2026, 141], [6, 2026, 60], [7, 2026, 3], [5, 2026, 2]]) }).find((i) => i.key === "years");
   assert.equal(years?.state, "suspect");
+});
+
+test("an event's set rule as codes: none, read, or unreadable", () => {
+  assert.deepEqual(ruleCardTypes(hardware), [5, 9]);
+  assert.deepEqual(ruleCardTypes({ restrictions: { cardTypes: ["Snapshots", "UH"] } }), [7, 8]);
+  assert.equal(ruleCardTypes({ restrictions: { slots: { P: 26 } } }), null, "no rule");
+  assert.equal(ruleCardTypes({ restrictions: { cardTypes: [" "] } }), null, "a blank label is no rule");
+  assert.equal(ruleCardTypes({ restrictions: { cardTypes: ["Live", "Unicorns"] } }), null, "unreadable: not filtered, not guessed");
+  assert.equal(ruleCardTypes({ restrictions: null }), null);
 });

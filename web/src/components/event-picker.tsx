@@ -71,10 +71,13 @@ export function EventPicker({
   }, [open]);
 
   const pick = (id: number | null) => { setOpen(false); setQ(""); onPick(id); };
+  /** Move the highlight and keep it in view: Enter picks what is highlighted. */
+  const move = (to: number) => { setCursor(to); document.getElementById(`${listId}-${to}`)?.scrollIntoView({ block: "nearest" }); };
   const onKey = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape") { setOpen(false); return; }
-    if (e.key === "ArrowDown") { e.preventDefault(); setCursor((c) => Math.min(flat.length - 1, c + 1)); }
-    else if (e.key === "ArrowUp") { e.preventDefault(); setCursor((c) => Math.max(0, c - 1)); }
+    // Tab leaves the list closed, as Escape does; the focus still moves on.
+    if (e.key === "Escape" || e.key === "Tab") { setOpen(false); return; }
+    if (e.key === "ArrowDown") { e.preventDefault(); move(Math.min(flat.length - 1, cursor + 1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); move(Math.max(0, cursor - 1)); }
     else if (e.key === "Enter") { e.preventDefault(); const it = flat[cursor]; if (it) pick(it.id); }
   };
 

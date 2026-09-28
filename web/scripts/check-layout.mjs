@@ -10,9 +10,14 @@
  *   /build for weeks);
  * - the page itself never scrolls sideways (scrollWidth ≤ innerWidth). A wide
  *   table must scroll inside its own box.
+ * On pages off PENDING (rebuilt for the UI plan), tables too:
+ * - a table with more than 25 rows keeps its header in view when it scrolls
+ *   (scrolled for real: a sticky header inside an overflow box scrolled away on
+ *   /played, to −1581px);
+ * - on a phone, at most 4 columns show.
  *
- * Later UI-plan PRs add assertions here (sticky table headers, no font under
- * 11px, and the simplicity checks for pages taken off PENDING below).
+ * Later UI-plan PRs add assertions here (no font under 11px, and the other
+ * simplicity checks for pages taken off PENDING below).
  *
  * Chromium: $CHROMIUM, else the cloud image's /opt/pw-browsers/chromium, else
  * the installed Google Chrome.
@@ -31,7 +36,7 @@ const only = process.argv.includes("--only") ? process.argv[process.argv.indexOf
 // Every nav link, read from lib/nav.ts so a new page is checked without edits here.
 const navHrefs = [...readFileSync(new URL("../src/lib/nav.ts", import.meta.url), "utf8").matchAll(/href:\s*"([^"]+)"/g)].map((m) => m[1]);
 // States a bare nav link never reaches: Build overflowed only with an event chosen.
-const EXTRA = ["/build?t=9100139", "/draft?t=9100139", "/cards?q=aaron"];
+const EXTRA = ["/build?t=9100139", "/draft?t=9100139", "/cards?q=aaron", "/played?event=9100139"];
 const ROUTES = [...new Set([...navHrefs, ...EXTRA])].filter((r) => !only || r.startsWith(only));
 const WIDTHS = [
   { name: "phone", width: 390, height: 844 },
@@ -43,7 +48,8 @@ const WIDTHS = [
  * page, little prose before the first table, at most 4 columns on a phone).
  * A page leaves this list in the PR that rebuilds it and never rejoins it.
  */
-export const PENDING = ["/build", "/draft", "/ptcs", "/cards", "/played", "/market", "/league", "/meta", "/runenv", "/environments", "/upload"];
+export const PENDING = ["/build", "/draft", "/ptcs", "/cards", "/market", "/league", "/meta", "/runenv", "/environments", "/upload"];
+const pending = (route) => PENDING.includes(new URL(route, "http://x").pathname);
 
 const executablePath = process.env.CHROMIUM ?? (existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined);
 const browser = await chromium.launch(executablePath ? { executablePath } : { channel: "chrome" });
@@ -75,8 +81,55 @@ async function check(page, route, w) {
     return { sw: document.documentElement.scrollWidth, vw, off };
   });
   if (m.sw > m.vw) problems.push(`scrolls sideways: ${m.sw}px wide on a ${m.vw}px screen${m.off.length ? `\n        first past the edge: ${m.off.join("\n                             ")}` : ""}`);
+  if (!pending(route) && route !== "/login") problems.push(...(await tableProblems(page, w)));
   console.log(`${problems.length ? "FAIL" : "ok  "}  ${w.name.padEnd(7)} ${route}${problems.length ? `\n      ${problems.join("\n      ")}` : ""}`);
   if (problems.length) failures.push(`${w.name} ${route}`);
+}
+
+/**
+ * The table rules for a rebuilt page. Each visible table with more than 25
+ * body rows is scrolled 600px (its own box when it has one, else the page) and
+ * its header must still be at the top of what shows. On a phone, no table
+ * shows more than 4 columns.
+ */
+async function tableProblems(page, w) {
+  const found = await page.evaluate(async ({ phone }) => {
+    const out = [];
+    const shown = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== "hidden"; };
+    const frame = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const tables = [...document.querySelectorAll("main table")].filter(shown);
+    for (const [i, table] of tables.entries()) {
+      const name = `table ${i + 1} of ${tables.length}`;
+      const head = table.tHead?.rows[0];
+      const cols = head ? [...head.cells].filter(shown).length : 0;
+      if (phone && cols > 4) out.push(`${name} shows ${cols} columns on a phone (at most 4)`);
+      const rows = [...(table.tBodies[0]?.rows ?? [])].filter(shown).length;
+      const th = head?.cells[0];
+      if (rows <= 25 || !th) continue;
+      let box = table.parentElement;
+      while (box && box !== document.body) {
+        const s = getComputedStyle(box);
+        if (/(auto|scroll)/.test(s.overflowY) && box.scrollHeight > box.clientHeight + 4) break;
+        box = box.parentElement;
+      }
+      let ok;
+      if (box && box !== document.body) {
+        box.scrollTop = Math.min(600, box.scrollHeight - box.clientHeight);
+        await frame();
+        ok = Math.abs(th.getBoundingClientRect().top - box.getBoundingClientRect().top) <= 2;
+        box.scrollTop = 0;
+      } else {
+        scrollTo(0, table.getBoundingClientRect().top + scrollY + 600);
+        await frame();
+        const top = th.getBoundingClientRect().top;
+        ok = top >= 0 && top <= 120;
+        scrollTo(0, 0);
+      }
+      if (!ok) out.push(`${name} (${rows} rows): header scrolls away`);
+    }
+    return out;
+  }, { phone: w.width < 768 });
+  return found;
 }
 
 for (const w of WIDTHS) {

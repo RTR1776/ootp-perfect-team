@@ -37,6 +37,7 @@ import type { BuilderEnv } from "@/components/roster-builder";
 import { getRatingScale } from "@/lib/rating-scale";
 import { fieldingRuns } from "@/lib/analytics/fielding";
 import { chicagoDay, daysAgo } from "@/lib/format";
+import { groupEvents } from "@/lib/event-groups";
 import { exportsPredate, loadSetEvidence } from "@/lib/set-evidence-server";
 import type { SetEvidence } from "@/lib/set-evidence";
 
@@ -56,40 +57,6 @@ import fieldConstruction from "@/data/field-construction.json";
 import type { SeriesBuild } from "@/lib/field-construction";
 
 export const dynamic = "force-dynamic";
-
-/* ---------------- catalog grouping ---------------- */
-
-const DAY_RE = /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/;
-const TIERS = ["Iron", "Bronze", "Silver", "Gold", "Diamond", "Open"] as const;
-const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-function groupOf(t: { name: string; isDraft: boolean; retired: boolean }): string | null {
-  if (/^EF\b/.test(t.name)) return null; // default-rules H2H/4T events — hidden
-  // Retired events stay in the database - their history still feeds /meta and
-  // the environment search - but they leave the picker. They remain reachable
-  // by id, so a link to an old build keeps working.
-  if (t.retired) return null;
-  if (t.isDraft) return "Perfect Drafts";
-  if (/\bQuick\b/i.test(t.name)) return "Quicks";
-  const day = t.name.match(DAY_RE)?.[1];
-  if (day) return `Weeklies — ${day}`;
-  if (/^Dail?y\b/i.test(t.name)) {
-    for (const tier of TIERS) if (t.name.includes(tier)) return `Dailies — ${tier}`;
-    if (/\bLive\b/.test(t.name)) return "Dailies — Live";
-    return "Dailies — Other";
-  }
-  return "Specials";
-}
-
-const GROUP_ORDER = [
-  ...TIERS.map((t) => `Dailies — ${t}`),
-  "Dailies — Live",
-  "Dailies — Other",
-  ...DAYS.map((d) => `Weeklies — ${d}`),
-  "Quicks",
-  "Perfect Drafts",
-  "Specials",
-];
 
 export default async function BuildPage({
   searchParams,
@@ -122,20 +89,13 @@ export default async function BuildPage({
     );
   }
 
-  const groupMap = new Map<string, CatalogGroup>();
-  for (const c of catalog) {
-    const g = groupOf(c);
-    if (!g) continue;
-    const entry = groupMap.get(g) ?? { label: g, items: [] };
-    entry.items.push({
-      id: c.id,
-      label: `${c.name}${c.envYear ? ` · ${c.envYear}` : ""}`,
-      hasSeries: !!c.series,
-      simRuns: c.simRuns ?? 0,
-    });
-    groupMap.set(g, entry);
-  }
-  const groups = GROUP_ORDER.filter((g) => groupMap.has(g)).map((g) => groupMap.get(g)!);
+  // Dailies by tier, weeklies by day, quicks, drafts, specials last (lib/event-groups).
+  const groups: CatalogGroup[] = groupEvents(catalog, (c) => ({
+    id: c.id,
+    label: `${c.name}${c.envYear ? ` · ${c.envYear}` : ""}`,
+    hasSeries: !!c.series,
+    simRuns: c.simRuns ?? 0,
+  }));
 
   const picked = t ? catalog.find((c) => String(c.id) === t) ?? null : null;
 

@@ -1,6 +1,13 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Card padding is p-3 on a phone and p-5 from sm (UI plan G4). It rides in
+ * --card-pad rather than as sm: classes, so a caller's own padding (py-3,
+ * pt-6, p-4) still wins at every width, as it did before.
+ */
+const PAD = "p-(--card-pad) [--card-pad:0.75rem] sm:[--card-pad:1.25rem]";
+
 function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
@@ -14,7 +21,7 @@ function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
 }
 
 function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("flex flex-col gap-1.5 p-5", className)} {...props} />;
+  return <div className={cn("flex flex-col gap-1.5", PAD, className)} {...props} />;
 }
 
 function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
@@ -33,7 +40,7 @@ function CardDescription({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 }
 
 function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("p-5 pt-0", className)} {...props} />;
+  return <div className={cn(PAD, "pt-0", className)} {...props} />;
 }
 
 export { Card, CardHeader, CardTitle, CardDescription, CardContent };

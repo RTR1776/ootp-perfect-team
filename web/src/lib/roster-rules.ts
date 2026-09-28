@@ -170,6 +170,19 @@ export function parseCardTypeRule(label: string): number[] | null {
   return codes.size ? [...codes] : null;
 }
 
+/**
+ * An event's card-set rule as set codes, lowest first: [5, 9] for Historical
+ * All-Star + Hardware Heroes. Null when it has no rule, or when any part of the
+ * rule can't be read (the pool is then not filtered by set; describeRules says
+ * so in red).
+ */
+export function ruleCardTypes(rules: Pick<RosterRules, "restrictions">): number[] | null {
+  const labels = rules.restrictions?.cardTypes?.filter((t) => t.trim());
+  if (!labels?.length) return null;
+  const parsed = labels.map(parseCardTypeRule);
+  return parsed.some((p) => p == null) ? null : [...new Set(parsed.flat() as number[])].sort((a, b) => a - b);
+}
+
 /* ------------------------------------------------------------- eligibility */
 
 /** Events whose NAME says there is no value window — a confirmed absence, not an unknown. */
