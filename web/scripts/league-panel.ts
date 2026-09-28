@@ -39,7 +39,7 @@ import { mkdirSync, readdirSync, readFileSync, writeFileSync, statSync, existsSy
 import { dirname, join } from "node:path";
 import { sql } from "drizzle-orm";
 import { parseCsv, num } from "@/lib/ingest/csv";
-import { parseLeagueFilename } from "@/lib/ingest/league";
+import { hand, parseLeagueFilename, resolveRatingCols } from "@/lib/ingest/league";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { envFor, marginalRatings } from "@/lib/analytics/card-value";
 import { linearWeights, type EraRates } from "@/lib/analytics/run-env";
@@ -133,11 +133,15 @@ async function main() {
 
     if (job.src === "file") {
       const parsed = parseCsv(readFileSync(job.file!, "utf8"), { extraFields: "drop" });
+      // Pitcher Control by its place in the pitching block: the 338-column view
+      // also has hitter Contact under CON / CON vL / CON vR.
+      const cols = new Map(resolveRatingCols(parsed.headers));
+      const col = (name: string) => (name.startsWith("CON") ? cols.get(name) ?? "" : name);
       for (const r of parsed.rows) {
         const org = (r["ORG"] ?? "").trim(), pos = (r["POS"] ?? "").trim();
         if (!org || org === "-" || !pos) continue;
         const isP = pos === "SP" || pos === "RP" || pos === "CL";
-        const rec: Out = { ...base, src: "file", org, pos, cid: num(r["CID"]), name: (r["Name"] ?? "").trim(), bats: (r["B"] ?? "").trim(),
+        const rec: Out = { ...base, src: "file", org, pos, cid: num(r["CID"]), name: (r["Name"] ?? "").trim(), bats: hand(r["B"]) ?? "",
           val: num(r["VAL"]), var: (r["VAR"] ?? "").trim().toUpperCase() === "Y" ? 1 : 0, vlvl: num(r["VLvl"]), isP: isP ? 1 : 0, SPE: num(r["SPE"]), STM: num(r["STM"]) };
         for (const [csv] of STATS) rec[csv] = num(r[csv]) ?? 0;
         const ratings: Record<string, number> = {};
@@ -147,10 +151,10 @@ async function main() {
             if (v != null) ratings[`${shop} ${hs}`] = v;
           }
         } else {
-          for (const ps of ["vL", "vR"]) for (const k of PIT) rec[`${k}_${ps}`] = num(r[`${k} ${ps}`]);
-          for (const [shop, col] of [["Stuff", "STU"], ["Control", "CON"], ["pBABIP", "PBABIP"], ["pHR", "HRA"]] as const) {
-            const v = num(r[col]); if (v != null) ratings[shop] = v;
-            for (const ps of ["vL", "vR"]) { const w = num(r[`${col} ${ps}`]); if (w != null) ratings[`${shop} ${ps}`] = w; }
+          for (const ps of ["vL", "vR"]) for (const k of PIT) rec[`${k}_${ps}`] = num(r[col(`${k} ${ps}`)]);
+          for (const [shop, name] of [["Stuff", "STU"], ["Control", "CON"], ["pBABIP", "PBABIP"], ["pHR", "HRA"]] as const) {
+            const v = num(r[col(name)]); if (v != null) ratings[shop] = v;
+            for (const ps of ["vL", "vR"]) { const w = num(r[col(`${name} ${ps}`)]); if (w != null) ratings[`${shop} ${ps}`] = w; }
           }
           if (rec.STM != null) ratings.Stamina = rec.STM as number;
         }

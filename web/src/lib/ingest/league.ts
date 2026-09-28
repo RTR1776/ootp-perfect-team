@@ -16,6 +16,10 @@
  * - `K's` (with apostrophe) is the hitter K-avoid rating.
  * - Clan tags live in the team name suffix (`- CG`, `- HotL`, `GH`, …); they
  *   mark coordinated groups that measurably outperform (+2.4 WAR, p = .04).
+ * - The view can be wider. HD451 of 2026-09-27 came as 338 columns: hitter
+ *   Contact (`CON`, `CON vL`, `CON vR`) before the pitching block, so pitcher
+ *   Control is `CON_1`, `CON vL_1`, `CON vR_1`; and `B`/`T` read "Right" with
+ *   the letter in `B_1`/`T_1`. `resolveRatingCols` and `hand` handle both.
  */
 
 import { num, parseCsv } from "./csv";
@@ -165,6 +169,43 @@ const RATING_COLS: Array<[key: string, col: string]> = [
   ["VLvl", "VLvl"],
 ];
 
+/**
+ * Pitcher Control, which shares its name with hitter Contact, found by its
+ * place in the pitching block: the first column of that name after its Stuff
+ * column. The 200-column view has only the pitching one; the 338-column view
+ * has Contact first, so reading `CON` by name took hitting for pitching.
+ */
+const CONTROL_AFTER: Record<string, string> = {
+  CON: "STU",
+  "CON vL": "STU vL",
+  "CON vR": "STU vR",
+};
+
+/** A header without the `_1`, `_2` suffix the de-duplication added. */
+const baseName = (h: string) => h.replace(/_\d+$/, "");
+
+/** RATING_COLS with each Control column pointed at the file's pitching one. */
+export function resolveRatingCols(headers: string[]): Array<[key: string, col: string]> {
+  return RATING_COLS.flatMap(([key, col]): Array<[string, string]> => {
+    const anchor = CONTROL_AFTER[col];
+    if (!anchor) return [[key, col]];
+    const at = headers.indexOf(anchor);
+    const found = at < 0 ? undefined : headers.slice(at + 1).find((h) => baseName(h) === col);
+    if (found) return [[key, found]];
+    // No Stuff column to anchor on: trust the name only when nothing shares it.
+    return headers.filter((h) => baseName(h) === col).length === 1 ? [[key, col]] : [];
+  });
+}
+
+/** L, R or S from either the letter or the word ("Right", "Switch"). */
+export function hand(value: string | undefined): string | null {
+  const v = (value ?? "").trim().toUpperCase();
+  if (v === "LEFT") return "L";
+  if (v === "RIGHT") return "R";
+  if (v === "SWITCH") return "S";
+  return v || null;
+}
+
 const STAT_COLS: Array<[key: string, col: string]> = [
   // batting
   ["PA", "PA"],
@@ -210,6 +251,7 @@ const PITCHER_POS = new Set(["SP", "RP", "CL"]);
 export function parseLeagueExport(text: string, filename = ""): LeagueParseResult {
   const meta = parseLeagueFilename(filename);
   const parsed = parseCsv(text, { extraFields: "drop" });
+  const ratingCols = resolveRatingCols(parsed.headers);
 
   const stints: LeagueStint[] = [];
   const teams = new Set<string>();
@@ -235,7 +277,7 @@ export function parseLeagueExport(text: string, filename = ""): LeagueParseResul
     if (cid != null) cids.add(cid);
 
     const ratings: Record<string, number> = {};
-    for (const [key, col] of RATING_COLS) {
+    for (const [key, col] of ratingCols) {
       const v = num(row[col]);
       if (v != null) ratings[key] = v;
     }
@@ -264,8 +306,8 @@ export function parseLeagueExport(text: string, filename = ""): LeagueParseResul
       tier: (row["Tier"] ?? "").trim() || null,
       isVariant: (row["VAR"] ?? "").trim().toUpperCase() === "Y",
       cardYear: num(row["CYear"]),
-      bats: (row["B"] ?? "").trim().toUpperCase() || null,
-      throws: (row["T"] ?? "").trim().toUpperCase() || null,
+      bats: hand(row["B"]),
+      throws: hand(row["T"]),
       ratings,
       pa,
       ip,
