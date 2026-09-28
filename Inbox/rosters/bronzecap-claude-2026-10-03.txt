@@ -1,0 +1,36 @@
+# Saturday Bronze Cap — Claude pick 2026-09-28 for the new format's first run, 10-03 (2016 RE, 2025 Standard Stadium, DH, 40-69, cap 1386)
+R:C Thayron Liranzo (VAR) #85135
+R:1B Edward Florentino (VAR) #84777
+R:2B Jhonny Level (VAR) #84765
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce #86366
+R:CF Deion Sanders #86962
+R:RF Jack Tobin #86772
+R:DH Wes Covington #86651
+L:C Thayron Liranzo (VAR) #85135
+L:1B Steve Pearce #86366
+L:2B Jhonny Level (VAR) #84765
+L:3B Dave Brain (VAR) #85934
+L:SS Kid Elberfeld (VAR) #86368
+L:LF Jack Tobin #86772
+L:CF Deion Sanders #86962
+L:RF Sammy Sosa #85691
+L:DH Gary Sheffield #86950
+SP1 James McDonald (VAR) #86384
+SP2 Fritz Ostermueller #86357
+SP3 Bob Miller #84715
+SP4 Tin Can Kincannon #86073
+SP5 Bob Gibson #86658
+CL Todd Jones (VAR) #86434
+RP1 Reed Garrett #84825
+RP2 Steve Farr #86924
+RP3 R.T. Walker #86952
+RP4 Ron Robinson #86778
+RP5 Jerry Augustine #86424
+RP6 Dwight Bernard #84216
+BN1 Kid Elberfeld (VAR) #86368
+BN2 Gary Sheffield #86950
+BN3 Charlie Eden #82834
+BN4 Buck Rodgers #84312
+BN5 Sammy Sosa #85691

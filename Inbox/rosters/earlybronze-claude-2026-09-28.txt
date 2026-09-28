@@ -1,0 +1,35 @@
+# Daily Early Bronze — Claude pick 2026-09-28 (1942 RE, 1945 Wrigley Field, no DH, cards up to 69, no variants)
+R:C Tim McCarver #85833
+R:1B Broderick Perkins #86460
+R:2B Hank Blalock #86433
+R:3B Kyle Seager #86261
+R:SS Leo Cardenas #85843
+R:LF Deion Sanders #86962
+R:CF Billy Southworth #86379
+R:RF Jack Tobin #86772
+L:C Chris Cannizzaro #85168
+L:1B Scott Spiezio #85702
+L:2B Mark Grudzielanek #87000
+L:3B Honus Wagner #86712
+L:SS Leo Cardenas #85843
+L:LF Steve Pearce #86366
+L:CF Jett Williams #84763
+L:RF Deion Sanders #86962
+SP1 Fritz Ostermueller #86357
+SP2 Bob Miller #84715
+SP3 Bruce Hurst #86361
+SP4 Cool Papa Bell #86981
+SP5 Jose Lima #84852
+CL Edwin Diaz #86422
+RP1 Satchel Paige #84839
+RP2 Justin Bruihl #84971
+RP3 Jose A. Ferrer #82245
+RP4 Juan Morillo #81833
+RP5 Vinnie Chulk #83171
+RP6 Riley O'Brien #81884
+BN1 Mark Grudzielanek #87000
+BN2 Steve Pearce #86366
+BN3 Jett Williams #84763
+BN4 Scott Spiezio #85702
+BN5 Honus Wagner #86712
+BN6 Chris Cannizzaro #85168

@@ -7,7 +7,7 @@ Run #28 (1440028), Monday 19:59. Feeds Bronze, Cap and TW. 128 teams, Bo7. Rules
 
 This is the new format's first run: the slot was Monday Gold Floor Cap (80–105, 2025 Standard Stadium, cap 2242) through #27. The catalogue still has the old rules (row 548), so the build passes the rules by hand and no `--series`. `--obs-exclude goldfloorcapweekly` keeps the old exports out; no card here could have played in them anyway.
 
-Load file: `Inbox/rosters/dregs-claude-2026-09-28.txt`, with every card pinned by id; by name alone, Lajoie and Andruw Jones would resolve to L.J.'s 99s. `Save Dregs Roster.command` first gives event 548 these rules, then saves the roster to /build as "Claude pick 2026-09-28".
+Load file: `Inbox/rosters/dregs-claude-2026-09-28.txt`, with every card pinned by id; by name alone, Lajoie and Andruw Jones would resolve to L.J.'s 99s. `Save Dregs Roster.command` gave event 548 these rules, then saved the roster to /build as "Claude pick 2026-09-28" (L.J. ran it 09-28; the script is removed).
 
 **The environment:** 4.37 runs a game, HR 2.41% of PA, K 15.9%. The park is a pitchers' park and leans 0.15 R/G toward right-handed bats. The model gives the vs-RHP lineup the friendly side of the park in 7 of 9 spots.
 

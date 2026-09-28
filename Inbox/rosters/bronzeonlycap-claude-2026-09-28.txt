@@ -1,0 +1,36 @@
+# Daily Bronze Only Cap — Claude pick 2026-09-28 (2019 RE, 2026 American Family Field, DH, 60-69, cap 1689, variant cap 13)
+R:C Tim McCarver #85833
+R:1B Edward Florentino (VAR) #84777
+R:2B Jhonny Level (VAR) #84765
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Ed Morgan (VAR) #85943
+R:CF Deion Sanders #86962
+R:RF Jack Tobin #86772
+R:DH Wes Covington #86651
+L:C Thayron Liranzo (VAR) #85135
+L:1B Scott Spiezio #85702
+L:2B Willie Randolph #86933
+L:3B Dave Brain (VAR) #85934
+L:SS Jhonny Level (VAR) #84765
+L:LF Ed Morgan (VAR) #85943
+L:CF Jett Williams #84763
+L:RF Deion Sanders #86962
+L:DH Dave Harris #83649
+SP1 Fritz Ostermueller #86357
+SP2 Bob Miller #84715
+SP3 Kyson Witherspoon (VAR) #84774
+SP4 Bruce Hurst #86361
+SP5 Roy Halladay #86705
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Caden Scarborough #84762
+RP3 Paul Assenmacher #86944
+RP4 Don Robinson (VAR) #86773
+RP5 Grant Wolfram #82628
+RP6 Eric Orze #82330
+BN1 Dave Harris #83649
+BN2 Thayron Liranzo (VAR) #85135
+BN3 Scott Spiezio #85702
+BN4 Jett Williams #84763
+BN5 Willie Randolph #86933
