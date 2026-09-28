@@ -12,7 +12,9 @@
  * --card-years A-B | none · --drop key[,key] · --text "…" · --note "…" ·
  * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it) ·
  * --slots "P6, D4, G4, S4, B4" (the game's slot line; the spots it leaves go to the next tier down) ·
- * --retire | --unretire (a retired event leaves /build's picker; its history stays)
+ * --retire | --unretire (a retired event leaves /build's picker; its history stays) ·
+ * --format-since YYYY-MM-DD | none (the Chicago day the current format first ran; with no
+ *   other rule flag it changes only that date and keeps previousFormat as it is)
  *
  * An edit that changes nothing writes nothing, so a batch can be rerun safely.
  */
@@ -31,7 +33,7 @@ const range = (k: string): [number, number] | undefined => {
 };
 
 /** Every flag this script reads; anything else is a typo and stops the run. */
-const KNOWN = new Set(["tournament", "year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "drop", "text", "note", "retire", "unretire", "commit"]);
+const KNOWN = new Set(["tournament", "year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "drop", "text", "note", "format-since", "retire", "unretire", "commit"]);
 
 async function main() {
   const unknown = argv.filter((a) => a.startsWith("--") && !KNOWN.has(a.slice(2)));
@@ -53,9 +55,14 @@ async function main() {
   if (val("drop")) edit.drop = val("drop")!.split(",").map((s) => s.trim()).filter(Boolean);
   if (val("text")) edit.text = val("text");
   if (val("note")) edit.note = val("note");
+  if (val("format-since")) {
+    const d = val("format-since")!;
+    if (d !== "none" && !/^\d{4}-\d{2}-\d{2}$/.test(d)) throw new Error(`--format-since takes YYYY-MM-DD or none, got "${d}"`);
+    edit.formatSince = d === "none" ? null : d;
+  }
   const retired = flag("retire") ? true : flag("unretire") ? false : t.retired;
   // Rule flags other than the note: without one, only the retired flag can change.
-  const ruleEdit = ["year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "drop", "text"].some(flag);
+  const ruleEdit = ["year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "drop", "text", "format-since"].some(flag);
 
   const before: CatalogueRules = {
     envYear: t.envYear, stadium: t.stadium, parkName: t.parkName, dh: t.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax,
@@ -88,7 +95,8 @@ async function main() {
   // The rules (and their kept previous format) are written only when they
   // changed: a rerun must not overwrite previousFormat with the current rules.
   await db.update(tournaments).set({ ...(ruleChanges ? after : {}), retired, updatedAt: new Date() }).where(eq(tournaments.id, id));
-  console.log(ruleChanges ? "\nSaved. /build reads the new rules on its next load; the old ones are under restrictions.previousFormat." : "\nSaved.");
+  const newFormat = JSON.stringify(rb.previousFormat) !== JSON.stringify(ra.previousFormat);
+  console.log(!ruleChanges ? "\nSaved." : newFormat ? "\nSaved. /build reads the new rules on its next load; the old ones are under restrictions.previousFormat." : "\nSaved. /build reads it on its next load.");
   process.exit(0);
 }
 main().catch((e) => { console.error(e instanceof Error ? e.message : e); process.exit(1); });

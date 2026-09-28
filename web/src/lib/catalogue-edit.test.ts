@@ -48,6 +48,29 @@ test("a card-set rule the catalogue was missing is added, and the old rules kept
   assert.equal((next.restrictions!.previousFormat as { restrictions: Record<string, unknown> }).restrictions.cardTypes, undefined);
 });
 
+test("a format date on its own changes only the date, and keeps the rules and their kept previous format", () => {
+  const changed = editCatalogueRules(lastWeek, { envYear: 1952, stadium: "1958 Tiger Stadium", at: "2026-09-20" });
+  const dated = editCatalogueRules(changed, { formatSince: "2026-09-26", note: "L.J.: the new format first ran 09-26", at: "2026-09-28" });
+  assert.deepEqual({ ...dated, restrictions: null }, { ...changed, restrictions: null }, "the row's rules are untouched");
+  const r = dated.restrictions!;
+  assert.equal(r.formatSince, "2026-09-26");
+  assert.equal(r.formatSinceFrom, "L.J.: the new format first ran 09-26");
+  assert.deepEqual(r.previousFormat, changed.restrictions!.previousFormat, "not restamped with the current format");
+  assert.equal(r.textFrom, undefined, "the rules' own source is left alone");
+  const cleared = editCatalogueRules(dated, { formatSince: null, at: "2026-09-28" });
+  assert.equal(cleared.restrictions!.formatSince, undefined);
+  assert.equal(cleared.restrictions!.formatSinceFrom, undefined, "its source goes with it");
+});
+
+test("a format change can carry its date", () => {
+  const next = editCatalogueRules(lastWeek, { envYear: 1952, cardYears: [1910, 1959], formatSince: "2026-09-26", at: "2026-09-28" });
+  assert.equal(next.envYear, 1952);
+  assert.equal(next.restrictions!.formatSince, "2026-09-26");
+  assert.equal((next.restrictions!.previousFormat as Record<string, unknown>).envYear, 1975);
+  const moved = editCatalogueRules({ ...lastWeek, restrictions: { formatSince: "2026-09-20" } }, { envYear: 2010, at: "2026-10-03" });
+  assert.equal(moved.restrictions!.formatSince, "2026-09-20", "a change without a date keeps the one on file");
+});
+
 
 import { keepHandRules } from "./catalogue-edit";
 
