@@ -40,13 +40,13 @@ test("switching kind starts the hand and position over", () => {
 });
 
 test("a position means L.J.'s glove floor there", () => {
-  assert.deepEqual(names({ ...base, pos: "C" }), ["Cal Raleigh"], "Piazza's C 64 is under the catcher floor of 70");
-  assert.deepEqual(names({ ...base, pos: "CF" }), [], "Aaron's CF 57 is under 70");
-  assert.deepEqual(names({ ...base, pos: "LF" }), ["Hank Aaron"], "LF's floor is 50");
-  assert.deepEqual(names({ ...base, pos: "1B" }), ["Mike Piazza", "Hank Aaron"], "first base has none, but he must be rated there");
+  assert.deepEqual(names({ ...base, pos: "C" }), ["Mike Piazza", "Cal Raleigh"], "Piazza's C 64 clears the floor of 60");
+  assert.deepEqual(names({ ...base, pos: "CF" }), [], "Aaron's CF 57 is under 60");
+  assert.deepEqual(names({ ...base, pos: "LF" }), ["Hank Aaron"]);
+  assert.deepEqual(names({ ...base, pos: "1B" }), ["Hank Aaron"], "first base has the floor too: Piazza's 1B 55 is under it");
   assert.equal(names({ ...base, pos: "DH" }).length, 4, "anyone can DH (the min PA still holds)");
   assert.equal(ratedAt({ RF: 87, LF: 85, "1B": 75, CF: 57 }), "RF 87 · LF 85 · 1B 75");
-  assert.equal(ratedAt({ C: 64, "1B": 55 }), "1B 55");
+  assert.equal(ratedAt({ C: 64, "1B": 55 }), "C 64", "1B 55 is under the floor now");
 });
 
 test("hand: a switch hitter bats both ways, an arm throws one", () => {

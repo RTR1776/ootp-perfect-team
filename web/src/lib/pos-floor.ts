@@ -3,15 +3,17 @@
  *
  * "I am not playing a 50 or below anywhere but 1B" (2026-09) became "I don't
  * mind bad defense (50–70) at 1B and maybe LF" (2026-09-16): no floor at first,
- * 50 in left, 70 everywhere else. A plain number keeps the older shape — that
- * floor everywhere except first base and DH.
+ * 50 in left, 70 everywhere else. Then "let all positions have a floor of 60"
+ * (2026-09-28, when the C 70 kept his Piazza variant's C 69 off the Card
+ * Model's boards): 60 at every position, first base and left included. A plain
+ * number keeps the older shape — that floor everywhere except first base and DH.
  *
  * Flag form: --min-pos 70            (70 everywhere, 1B/DH exempt)
  *            --min-pos 70,1B:0,LF:50 (per position; the bare number is the default)
  */
 export type PosFloor = number | ({ default?: number } & Partial<Record<string, number>>);
 
-export const LJ_FLOOR: PosFloor = { default: 70, "1B": 0, LF: 50 };
+export const LJ_FLOOR: PosFloor = { default: 60 };
 
 export function posFloorAt(f: PosFloor | null | undefined, pos: string): number {
   if (f == null || pos === "DH") return 0;
@@ -33,7 +35,7 @@ export function parsePosFloor(s: string | undefined | null): PosFloor | null {
 
 /**
  * The floor in words, for the Draft Board's footer and the scripts' headers:
- * LJ_FLOOR reads "70; LF 50; none at 1B". DH never has one (no glove).
+ * LJ_FLOOR reads "60". DH never has one (no glove).
  */
 export function describePosFloor(f: PosFloor | null | undefined): string {
   if (f == null) return "none";

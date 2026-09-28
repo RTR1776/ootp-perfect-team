@@ -168,13 +168,23 @@ export function percentile(value: number, pool: number[], lowerIsBetter = false)
 /** Qualifying thresholds for ONE league week (a full season). Scale by weeks when pooling. */
 export const QUAL = { hitterPA: 300, splitPA: { vL: 100, vR: 200 }, spIP: 100, rpIP: 30 } as const;
 
+/**
+ * L.J.'s floors on a whole line, whatever the scope: "60 IP is meaningless.
+ * Use 500 PA / 400 IP." At 100 IP a week, one roster's hot half-season made
+ * the best-starter list: Camilo Pascual's variant was #2 on 195 IP from one
+ * team (FIP 3.75; 4.42 over 1,262 IP in every week on file), Juan Marichal's
+ * #8 on 197. A split's floor is its share of a whole line, as in QUAL.
+ */
+export const FLOOR = { hitterPA: 500, spIP: 400 } as const;
+
 export function hitterQual(split: string, weeks: number): number {
   const base = split === "vL" ? QUAL.splitPA.vL : split === "vR" ? QUAL.splitPA.vR : QUAL.hitterPA;
-  return base * Math.max(1, weeks);
+  return Math.max(base * Math.max(1, weeks), Math.round((FLOOR.hitterPA * base) / QUAL.hitterPA));
 }
 export function pitcherQual(role: "SP" | "RP", split: string, weeks: number): number {
   const base = role === "SP" ? QUAL.spIP : QUAL.rpIP;
-  return (split === "all" ? base : Math.round(base / 2)) * Math.max(1, weeks);
+  const whole = Math.max(base * Math.max(1, weeks), role === "SP" ? FLOOR.spIP : 0);
+  return split === "all" ? whole : Math.round(whole / 2);
 }
 
 /* ------------------------------------------------------------------ */
