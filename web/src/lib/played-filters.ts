@@ -7,8 +7,8 @@
  * Fixes over the first board: switching kind starts the hand and position
  * over (S on Starters read "0 of 1,836"); the count is out of the current kind
  * only; Min PA is a value in the field (300), not a placeholder; a position
- * means L.J.'s glove floor there (LJ_FLOOR: C 70 kept Piazza's C 64 off), not
- * a flat 50.
+ * means L.J.'s glove floor there (LJ_FLOOR, 60 since 2026-09-28), not a flat
+ * 50.
  */
 import { CARD_TYPES, CARD_TYPE_SHORT } from "@/lib/card-sets";
 import { LJ_FLOOR, posFloorAt } from "@/lib/pos-floor";
