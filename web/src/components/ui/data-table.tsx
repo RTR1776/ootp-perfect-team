@@ -111,7 +111,10 @@ export function DataTable<T>({
           ))}
         </div>
       )}
-      <div className="rounded-lg border border-border md:max-h-[calc(100dvh-8rem)] md:overflow-auto md:overscroll-contain">
+      {/* 10rem leaves the app bar and what follows the box (Show more, notes) on
+          screen at the page's end, so the sticky header never slides under the
+          bar; isolate keeps its z-index from painting over the bar. */}
+      <div className="rounded-lg border border-border md:isolate md:max-h-[calc(100dvh-10rem)] md:overflow-auto md:overscroll-contain">
         <table className="w-full border-separate border-spacing-0 text-[13px]">
           <thead>
             <tr>
@@ -158,7 +161,6 @@ export function DataTable<T>({
                       if (onRowClick) onRowClick(row);
                       else if (hiddenOnPhone.length) setOpen(expanded ? null : k);
                     }}
-                    aria-expanded={!onRowClick && hiddenOnPhone.length ? expanded : undefined}
                   >
                     {shown.map((c, i) => (
                       <td
@@ -173,6 +175,17 @@ export function DataTable<T>({
                         )}
                       >
                         {c.render ? c.render(row, index) : String((row as Record<string, unknown>)[c.key] ?? "—")}
+                        {/* The row tap opens the hidden columns on a phone; this is the keyboard's way in. */}
+                        {i === 0 && !onRowClick && hiddenOnPhone.length > 0 && (
+                          <button
+                            type="button"
+                            aria-expanded={expanded}
+                            onClick={(e) => { e.stopPropagation(); setOpen(expanded ? null : k); }}
+                            className="sr-only focus:not-sr-only focus:ml-1 focus:text-xs focus:text-primary focus:underline md:hidden"
+                          >
+                            {expanded ? "Hide details" : "Details"}
+                          </button>
+                        )}
                       </td>
                     ))}
                   </tr>

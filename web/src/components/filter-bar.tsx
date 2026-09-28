@@ -32,10 +32,16 @@ export function FilterBar({ primary, active = [], onClearAll, children }: {
     closer.current?.focus();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     document.addEventListener("keydown", onKey);
+    // The sheet is md:hidden. A phone turned to landscape (or a window widened
+    // past md) would hide it with the page still locked, so close it there.
+    const wide = window.matchMedia("(min-width: 48rem)");
+    const onWide = () => { if (wide.matches) setOpen(false); };
+    wide.addEventListener("change", onWide);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
+      wide.removeEventListener("change", onWide);
       document.body.style.overflow = prev;
       back?.focus();
     };

@@ -112,6 +112,21 @@ export function PlayedBoard({ lines, k, collectionDate, groups, event, eventPara
   const [limit, setLimit] = useState(PAGE);
   const [picked, setPicked] = useState<number | null>(null);
   const [navigating, startNav] = useTransition();
+  // A link to /played while the board is filtered (the sidebar's Played)
+  // changes the URL but not the key the page was rendered under, so the board
+  // would keep its filters under a bare URL and lose them on reload. Read the
+  // filters again from any query the board did not write itself.
+  const query = params.toString();
+  const [seen, setSeen] = useState(query); // the query last reacted to
+  const [own, setOwn] = useState(query); // the query the board last wrote, or opened on
+  if (query !== seen) {
+    setSeen(query);
+    if (query !== own) {
+      setOwn(query);
+      setF(filtersFromParams((key) => params.get(key), eventSets));
+      setLimit(PAGE);
+    }
+  }
 
   /** Every filter change: the board, the page length, and the URL (so a reload or Back keeps it). */
   const apply = (next: PlayedFilters) => {
@@ -121,6 +136,7 @@ export function PlayedBoard({ lines, k, collectionDate, groups, event, eventPara
     if (eventParam != null) out.set("event", String(eventParam));
     for (const [key, v] of filtersToParams(next, eventSets)) out.set(key, v);
     const qs = out.toString();
+    setOwn(qs);
     const url = qs ? `${pathname}?${qs}` : pathname;
     if (`${window.location.pathname}${window.location.search}` !== url) window.history.replaceState(null, "", url);
   };
