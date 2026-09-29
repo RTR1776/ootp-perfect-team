@@ -133,6 +133,12 @@ export interface EnvFitOptions {
    */
   calibrate?: boolean;
   /**
+   * Only the runs maps: skip the percentile boards (fitR/fitL, atR/atL come
+   * back empty). About three times faster over the whole catalogue, for a
+   * caller that reads runs only (Card Fit scores every card in every event).
+   */
+  runsOnly?: boolean;
+  /**
    * NOTE for cap formats: env-roster's --rp-weight (a reliever's innings as a
    * fraction of a starter's) defaults to 0.5. The exports say 0.31 in Gold
    * Floor Cap and 0.24 across all 12,019 team-events with 10+ games played:
@@ -289,6 +295,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
     return out;
   };
 
+  if (o.runsOnly) return { fitR: new Map(), fitL: new Map(), atR: {}, atL: {}, runsR, runsL, envLeft, envRight, envPitch };
   return {
     fitR: board(runsR), fitL: board(runsL),
     atR: at(runsR), atL: at(runsL),

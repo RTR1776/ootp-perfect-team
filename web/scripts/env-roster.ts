@@ -74,6 +74,9 @@ const SHOW = (val("show") ?? "").split(",").map((x) => x.trim().toLowerCase()).f
 /** Cards to exclude outright — for testing whether a headline card earns its points. */
 const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
 /**
+ * --no-le: the event's rules line says "No LE" (Friday Nightmare Cap from
+ * 2026-10-02). Limited Edition cards (card_sub_type "LE") stay out of the pool.
+ *
  * --card-types 2,6,7: restrict the pool to OOTP's own card_type codes, for an
  * event that limits which KINDS of card may be used rather than their value.
  * With --series, a field that plays three sets or fewer (or one card year)
@@ -207,7 +210,7 @@ async function main() {
   const rules: RosterRules = {
     name: NAME, dh: DH, ratingsMin: MIN, ratingsMax: MAX,
     cardYearMin: YEAR_MIN, cardYearMax: YEAR_MAX, isDraft: false,
-    restrictions: { teamCap: CAP, cards: SIZE, variantCap: VARIANT_CAP, variantsAllowed: VARIANT_CAP !== 0, slots: SLOTS },
+    restrictions: { teamCap: CAP, cards: SIZE, variantCap: VARIANT_CAP, variantsAllowed: VARIANT_CAP !== 0, slots: SLOTS, noLimitedEdition: flag("no-le") },
   };
 
   /* -------------------------------- the environment ------------------------ */
@@ -293,7 +296,7 @@ async function main() {
     const ratings = useVariant ? formRatings(base, vr, c.position) : base;
     const card: P = {
       cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher,
-      role: c.pitcherRole, cardType: c.cardType, ratings,
+      role: c.pitcherRole, cardType: c.cardType, le: c.cardSubType === "LE", ratings,
       baseOwned: baseSet.has(cid), variantOwned: vr != null,
       variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", tier: c.tier ?? "", bats: c.bats,
     };

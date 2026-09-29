@@ -14,6 +14,8 @@
  * --card-types "Historical All-Star+Hardware Heroes" (the card-set rule, as roster-rules reads it) ·
  * --slots "P6, D4, G4, S4, B4" (the game's slot line; the spots it leaves go to the next tier down) ·
  * --cap N | none (the cap on the roster's total card value) ·
+ * --variant-cap N | none (at most N variants; a cap lifts a "no variants" rule) ·
+ * --no-le | --le-ok ("No LE": Limited Edition cards barred, or allowed again) ·
  * --name "…" (the game renamed the event; the row, its id and its history stay) ·
  * --retire | --unretire (a retired event leaves /build's picker; its history stays) ·
  * --format-since YYYY-MM-DD | keep | none (the Chicago day the current format first ran; with
@@ -37,7 +39,7 @@ const range = (k: string): [number, number] | undefined => {
 };
 
 /** Every flag this script reads; anything else is a typo and stops the run. */
-const KNOWN = new Set(["tournament", "year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "cap", "name", "drop", "text", "note", "format-since", "retire", "unretire", "commit"]);
+const KNOWN = new Set(["tournament", "year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "cap", "variant-cap", "no-le", "le-ok", "name", "drop", "text", "note", "format-since", "retire", "unretire", "commit"]);
 
 async function main() {
   const unknown = argv.filter((a) => a.startsWith("--") && !KNOWN.has(a.slice(2)));
@@ -62,6 +64,15 @@ async function main() {
     else if (c && /^\d+$/.test(c)) edit.teamCap = Number(c);
     else throw new Error(`--cap takes a whole number or none, got ${c ? `"${c}"` : "nothing"}`);
   }
+  if (flag("variant-cap")) {
+    const c = val("variant-cap");
+    if (c === "none") edit.variantCap = null;
+    else if (c && /^\d+$/.test(c)) edit.variantCap = Number(c);
+    else throw new Error(`--variant-cap takes a whole number or none, got ${c ? `"${c}"` : "nothing"}`);
+  }
+  if (flag("no-le") && flag("le-ok")) throw new Error("--no-le and --le-ok contradict each other");
+  if (flag("no-le")) edit.noLimitedEdition = true;
+  if (flag("le-ok")) edit.noLimitedEdition = false;
   if (val("drop")) edit.drop = val("drop")!.split(",").map((s) => s.trim()).filter(Boolean);
   if (val("text")) edit.text = val("text");
   if (val("note")) edit.note = val("note");
@@ -88,7 +99,7 @@ async function main() {
   if (flag("name") && !val("name")?.trim()) throw new Error("--name takes the event's new name");
   const name = flag("name") ? val("name")!.trim() : t.name;
   // Rule flags other than the note: without one, only the name and the retired flag can change.
-  const ruleEdit = ["year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "cap", "drop", "text", "format-since"].some(flag);
+  const ruleEdit = ["year", "stadium", "dh", "no-dh", "value", "card-years", "card-types", "slots", "cap", "variant-cap", "no-le", "le-ok", "drop", "text", "format-since"].some(flag);
 
   const before: CatalogueRules = {
     envYear: t.envYear, stadium: t.stadium, parkName: t.parkName, dh: t.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax,

@@ -55,7 +55,7 @@ export async function POST(request: Request) {
   const variants = new Set(owned.filter(c=>c.isVariant).map(c=>c.cardId));
   const checked = validateRoster(body.slots,universe.map(c=>({
     cardId:c.cardId,name:c.name,val:c.cardValue,year:c.year,isPitcher:c.isPitcher,role:c.pitcherRole,
-    ratings:c.ratings,cardType:c.cardType,baseOwned:base.has(c.cardId),variantOwned:variants.has(c.cardId),
+    ratings:c.ratings,cardType:c.cardType,le:c.cardSubType==="LE",baseOwned:base.has(c.cardId),variantOwned:variants.has(c.cardId),
   })),{...tournament,restrictions:tournament.restrictions as RosterRules["restrictions"]});
   // The page's own checks (roster-input isPageCheck) keep the roster a draft.
   const validation = body.checks.length

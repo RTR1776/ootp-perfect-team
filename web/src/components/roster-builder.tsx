@@ -91,6 +91,8 @@ export interface BuilderCard {
   baseOwned: boolean;
   variantOwned: boolean;
   cardType: number | null;
+  /** A Limited Edition card; a "No LE" event's rules read it. */
+  le?: boolean;
   variantRatings: Record<string, number> | null;
   ratings: Record<string, number>;
   proj: Proj;

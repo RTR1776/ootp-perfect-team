@@ -80,7 +80,7 @@ async function buildLines(uploadId: number | null): Promise<{ lines: PlayedLine[
   const universe = await db.select({
     cardId: cards.cardId, name: cards.name, cardValue: cards.cardValue, tier: cards.tier, position: cards.position,
     pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, throws: cards.throws, year: cards.year,
-    cardType: cards.cardType, ratings: cards.ratings,
+    cardType: cards.cardType, cardSubType: cards.cardSubType, ratings: cards.ratings,
   }).from(cards);
   const fits = envFitMaps(universe.map((c) => ({
     cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole,
@@ -117,7 +117,7 @@ async function buildLines(uploadId: number | null): Promise<{ lines: PlayedLine[
     const r = (c.ratings ?? {}) as Record<string, number>;
     lines.push({
       cardId: id, name: c.name, val: c.cardValue, tier: c.tier, pos: c.position ?? "?", role: c.pitcherRole,
-      isPitcher: isP, bats: c.bats, throws: c.throws, year: c.year, owned: owned.has(id), cardType: c.cardType,
+      isPitcher: isP, bats: c.bats, throws: c.throws, year: c.year, owned: owned.has(id), cardType: c.cardType, le: c.cardSubType === "LE",
       model: model ?? 0, obs: ob?.runs ?? null, n: Math.round(n), pa: Math.round(num(p.pa)), ip: Math.round(num(p.ip) * 10) / 10,
       series: num(p.series), instances: num(p.instances),
       blend: model == null ? (ob?.runs ?? 0) : blendRuns(model, ob, OBS_K_DEFAULT),
@@ -169,7 +169,7 @@ export default async function PlayedPage({ searchParams }: { searchParams: Promi
     };
     board = lines.filter((l) => cardEligibility({
       cardId: l.cardId, name: l.name, val: l.val, year: l.year, isPitcher: l.isPitcher, role: l.role,
-      cardType: l.cardType, ratings: {}, baseOwned: false, variantOwned: false,
+      cardType: l.cardType, le: l.le, ratings: {}, baseOwned: false, variantOwned: false,
     }, rules).errors.length === 0);
     // What the field plays, for a set rule that is missing; not when its exports predate the format.
     const formatSince = (full.restrictions as { formatSince?: string } | null)?.formatSince ?? null;

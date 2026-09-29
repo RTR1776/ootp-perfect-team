@@ -29,7 +29,7 @@ export const NAV: NavGroup[] = [
   {
     label: "Scout",
     items: [
-      { href: "/cards", label: "Cards", icon: Search, hint: "One card's projection and every series it played" },
+      { href: "/cards", label: "Cards", icon: Search, hint: "New cards and where each one fits for you; any card's projection and play" },
       { href: "/played", label: "Played", icon: ListOrdered, hint: "Every card with tournament play, ranked by runs" },
       { href: "/market", label: "Market", icon: CandlestickChart, hint: "Prices, value per PP and movers" },
       { href: "/eras", label: "Era Strength", icon: Hourglass, hint: "Your cards against the best in five eras, and what to buy" },

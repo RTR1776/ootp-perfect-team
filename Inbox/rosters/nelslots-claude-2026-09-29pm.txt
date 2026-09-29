@@ -1,0 +1,35 @@
+# Saturday Negro Leagues Slots — Claude pick 2026-09-29 PM: NLS only, P4 D4 G4 S4 B5 I5, PT default RE, 2026 Coors Field, no DH
+R:C Tom Young #84557
+R:1B Lennie Pearson (VAR) #84880
+R:2B Larry Doby #84878
+R:3B Pat Patterson #87080
+R:SS Halley Harding #86979
+R:LF Wilson Redus #84570
+R:CF John Beckwith #84571
+R:RF Cocaina Garcia #86954
+L:C Josh Gibson #86898
+L:1B Lennie Pearson (VAR) #84880
+L:2B Larry Doby #84878
+L:3B Pat Patterson #87080
+L:SS Halley Harding #86979
+L:LF Wilson Redus #84570
+L:CF John Beckwith #84571
+L:RF Cocaina Garcia #86954
+SP1 Hilton Smith #85864
+SP2 Satchel Paige #84844
+SP3 Luther Farrell #86900
+SP4 Count Leblanc #86978
+SP5 Sam Streeter #84538
+CL Dan Bankhead #84884
+RP1 Dave Brown #84506
+RP2 Cool Papa Bell #86981
+RP3 Hubert Lockhart #87082
+RP4 Tin Can Kincannon #86073
+RP5 Patricio Scantlebury #85828
+RP6 Connie Johnson #84420
+BN1 Donald Reeves #84464
+BN2 Joe Scott #84882
+BN3 Connie Day #86982
+BN4 Dee Williams #84416
+BN5 Ed Mayweather #84459
+BN6 Josh Gibson #86898

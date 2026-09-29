@@ -7,11 +7,19 @@
  * every series it has played — each line against that series' own field, so
  * a .380 in a Bronze field and a .346 in Silver fields can be compared.
  *
+ *   /cards                      the new cards: where each one starts for L.J. (Card Fit)
  *   /cards?q=banks              name search, PT default engine, neutral park
  *   /cards?q=banks&event=569    read in that event's era, park and field
  *   /cards?id=4711&event=569    one card by id: every CardName link lands here
- *                               (a name can match several cards: two Hank Aarons)
+ *                               (a name can match several cards: two Hank Aarons),
+ *                               with where it fits in every current event
+ *
+ * Card Fit scores every card in every current event (about seven seconds), so
+ * its results are cached, keyed by everything they read (card-fit-load
+ * fitVersion), and stream in under the rest of the page.
  */
+import { Suspense } from "react";
+import { unstable_cache } from "next/cache";
 import { desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, collectionCards, seriesMeta, tournaments, uploads } from "@/db/schema";
@@ -29,8 +37,44 @@ import { EmptyState } from "@/components/empty-state";
 import { TierBadge } from "@/components/tier-badge";
 import { cardArtUrl } from "@/lib/card-art";
 import { isTier } from "@/lib/tiers";
+import { CardFitTable, NewCardsBoard } from "@/components/card-fit";
+import { fitVersion, loadCardFit, newCardIds } from "@/lib/card-fit-load";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+/** Bump when Card Fit's scoring changes, so cached results from the old code aren't served. */
+const FIT_CODE = "fit-v2";
+
+const cached = <T,>(fn: () => Promise<T>, key: string[]) => unstable_cache(fn, [FIT_CODE, ...key], { revalidate: 86_400, tags: ["card-fit"] })();
+
+/** The new cards (shop and pulled) with their fit, one cache entry per data version. */
+async function newCardsFit() {
+  const version = await fitVersion();
+  const ids = await cached(newCardIds, ["new-ids", ...version]);
+  const all = [...ids.pulled, ...ids.shop.filter((id) => !ids.pulled.includes(id))];
+  const data = await cached(() => loadCardFit(all), ["new-fit", ...version]);
+  return { pulled: ids.pulled, data };
+}
+
+async function NewCards() {
+  const { pulled, data } = await newCardsFit();
+  if (!data.cards.length) return <p className="py-6 text-center text-sm text-muted-foreground">No new cards on file. Drop the shop list (or your collection) on Upload after a release.</p>;
+  return <NewCardsBoard data={data} pulled={pulled} />;
+}
+
+async function FitFor({ id }: { id: number }) {
+  // A new card reads the board's entry; any other is scored on its own.
+  const version = await fitVersion();
+  const ids = await cached(newCardIds, ["new-ids", ...version]);
+  const data = ids.pulled.includes(id) || ids.shop.includes(id)
+    ? (await newCardsFit()).data
+    : await cached(() => loadCardFit([id]), ["card", String(id), ...version]);
+  return <CardFitTable data={data} cardId={id} />;
+}
+
+const fitLoading = (what: string) => (
+  <p className="animate-pulse py-6 text-center text-sm text-muted-foreground">{what}</p>
+);
 const asRows = <T,>(r: unknown): T[] => (Array.isArray(r) ? (r as T[]) : ((r as { rows?: T[] }).rows ?? []));
 const f3 = (n: number | null | undefined) => (n == null || Number.isNaN(n) ? "—" : n.toFixed(3).replace(/^0/, ""));
 const f2 = (n: number | null | undefined) => (n == null || Number.isNaN(n) ? "—" : n.toFixed(2));
@@ -97,7 +141,7 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
       <PageHeader
         eyebrow="Scout"
         title="Cards"
-        description={<>Projection, the roster tools&rsquo; blend, and every series the card has played — read in one event&rsquo;s environment.</>}
+        description={<>Where a card fits for you in every current event, its projection and blend in one event&rsquo;s environment, and every series it has played. With no search: the new cards.</>}
       />
 
       <Card className="p-4">
@@ -127,7 +171,12 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
         <EmptyState icon="search" title="No such card" description={`No card with id ${cardId} in the card table.`} className="min-h-[30vh]" />
       )}
       {!single && !missingId && q.length < 2 && (
-        <p className="py-6 text-center text-sm text-muted-foreground">Type at least two letters of a card&rsquo;s name to look it up.</p>
+        <>
+          <p className="text-sm text-muted-foreground">Type at least two letters of a card&rsquo;s name to look one up. Below: the newest cards, and where each would start for you.</p>
+          <Suspense fallback={fitLoading("Placing the new cards in every current event…")}>
+            <NewCards />
+          </Suspense>
+        </>
       )}
       {!single && q.length >= 2 && hits.length === 0 && (
         <EmptyState icon="search" title="No match" description={<>No card named like &ldquo;{q}&rdquo; in the card table.</>} className="min-h-[30vh]" />
@@ -193,6 +242,11 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
           </Card>
         );
       })}
+      {single && (
+        <Suspense fallback={fitLoading(`Placing ${single.name} in every current event…`)}>
+          <FitFor id={single.cardId} />
+        </Suspense>
+      )}
       {latest && <p className="text-xs text-muted-foreground">Ownership from the collection of {String(latest.at).slice(0, 10)}. Observed lines pool every instance of a series; &ldquo;vs field&rdquo; is the card against that series&rsquo; own average, which is the read the blend uses.</p>}
     </div>
   );
