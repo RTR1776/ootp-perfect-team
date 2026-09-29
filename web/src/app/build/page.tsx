@@ -25,7 +25,7 @@ import {
   tournaments,
   uploads,
 } from "@/db/schema";
-import { and, desc, eq, inArray } from "drizzle-orm";
+import { and, desc, eq, inArray, lt } from "drizzle-orm";
 import { EMPTY_PROJ, projectCard, projectionEnvs, projOf } from "@/lib/analytics/projections";
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { eraFor, eraTable, parkFor, solveFor } from "@/lib/analytics/tournament-env";
@@ -43,6 +43,7 @@ import type { SetEvidence } from "@/lib/set-evidence";
 
 const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
 import { cardEligibility, tierCode, tierFitsSlots, type RosterSlot } from "@/lib/roster-rules";
+import { newSince, savedCollectionId, type NewCard } from "@/lib/saved-roster-freshness";
 import {
   RosterBuilder,
   type BuilderCard,
@@ -105,7 +106,7 @@ export default async function BuildPage({
   let meta: SeriesMetaInfo | null = null;
   let confidence: Confidence | null = null;
   let env: BuilderEnv | null = null;
-  let savedRosters: { id: number; name: string; slots: RosterSlot[] }[] = [];
+  let savedRosters: { id: number; name: string; slots: RosterSlot[]; builtOn?: string | null; newCards?: NewCard[] }[] = [];
   let setEvidence: SetEvidence | null = null;
   // Read before the event: the empty picker shows the collection's date too.
   const [latestCollection] = await db
@@ -433,13 +434,38 @@ export default async function BuildPage({
         .select()
         .from(rosterSlots)
         .where(inArray(rosterSlots.rosterId, savedList.map((r) => r.id)));
-      savedRosters = savedList.map((r) => ({
-        id: r.id,
-        name: r.name,
-        slots: slotRows
-          .filter((s) => s.rosterId === r.id)
-          .map((s) => ({ cardId: s.cardId, slot: s.slot, versusHand: s.versusHand, lineupOrder: s.lineupOrder, useVariant: s.useVariant })),
+      /* A roster saved against an older collection: the cards owned now that
+         weren't then and that this event takes (lib/saved-roster-freshness),
+         so the list can say it is behind and the load can name them. */
+      const savedOn = new Map(savedList.map((r) => [r.id, savedCollectionId(r.notes)]));
+      const olderIds = latestCollection
+        ? [...new Set([...savedOn.values()].filter((id): id is number => id != null && id !== latestCollection.id))]
+        : [];
+      const older = olderIds.length
+        ? await db.select({ id: uploads.id, date: uploads.uploadedAt }).from(uploads)
+            .where(and(inArray(uploads.id, olderIds), eq(uploads.kind, "collection"), lt(uploads.uploadedAt, latestCollection!.date)))
+        : [];
+      const thenRows = older.length
+        ? await db.select({ uploadId: collectionCards.uploadId, cardId: collectionCards.cardId, isVariant: collectionCards.isVariant })
+            .from(collectionCards).where(inArray(collectionCards.uploadId, older.map((u) => u.id)))
+        : [];
+      const variantsAllowed = (tournament.restrictions as { variantsAllowed?: boolean | null } | null)?.variantsAllowed !== false;
+      const fresh = new Map(older.map((u) => {
+        const rows = thenRows.filter((r) => r.uploadId === u.id && r.cardId != null);
+        const then = { base: new Set(rows.filter((r) => !r.isVariant).map((r) => r.cardId!)), variant: new Set(rows.filter((r) => r.isVariant).map((r) => r.cardId!)) };
+        return [u.id, { builtOn: chicagoDay(u.date), newCards: newSince(pool, then, variantsAllowed) }];
       }));
+      savedRosters = savedList.map((r) => {
+        const f = fresh.get(savedOn.get(r.id) ?? -1);
+        return {
+          id: r.id,
+          name: r.name,
+          slots: slotRows
+            .filter((s) => s.rosterId === r.id)
+            .map((s) => ({ cardId: s.cardId, slot: s.slot, versusHand: s.versusHand, lineupOrder: s.lineupOrder, useVariant: s.useVariant })),
+          ...(f ? { builtOn: f.builtOn, newCards: f.newCards } : {}),
+        };
+      });
     }
   }
 
