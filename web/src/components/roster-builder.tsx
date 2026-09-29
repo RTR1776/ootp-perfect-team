@@ -48,7 +48,7 @@ import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/li
 import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { searchCard, toPlainFits, type SearchBest, type SearchMessage, type SearchRequest } from "@/lib/roster-search";
 import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
-import { ip, signed, stamp } from "@/lib/format";
+import { date, ip, signed, stamp } from "@/lib/format";
 import {
   EMPTY_BOARD, NO_ADJ, benchKeysOf, boardContent, boardDiff, boardKey, boardReducer, clampCount, diffText, droppedNote,
   parseSaved, restoreBoard, rpKeysOf, runsText, slotKeys, spKeysOf, toSaved,
@@ -212,6 +212,9 @@ interface SavedRoster {
   id: number;
   name: string;
   slots: RosterSlot[];
+  /** Saved against an older collection: its day, and the cards owned since that this event takes (lib/saved-roster-freshness). */
+  builtOn?: string | null;
+  newCards?: { cardId: number; variant: boolean }[];
 }
 
 type SlotKey = string; // "R:C", "L:DH", "SP1", "RP3", "CL", "BN2"
@@ -1322,6 +1325,18 @@ export function RosterBuilder({
   };
 
   /** Load a saved roster onto the board, in its own shape and copies: one step, with a toast of what changed. */
+  /** A saved roster's newer cards, best first on this event's scorer: "Steve Pearce (VAR), Joe Dugan (VAR) and 2 more". */
+  const newCardsLine = (r: SavedRoster, max = 4): string => {
+    const cards = (r.newCards ?? [])
+      .map((n) => ({ n, c: basePool.find((x) => x.cardId === n.cardId) }))
+      .filter((x): x is { n: { cardId: number; variant: boolean }; c: NonNullable<typeof x.c> } => x.c != null)
+      .sort((a, b) => (runsOf(b.n.cardId) ?? -99) - (runsOf(a.n.cardId) ?? -99));
+    if (!cards.length) return "";
+    const names = cards.slice(0, max).map(({ n, c }) => `${c.name}${n.variant ? " (VAR)" : ""}`);
+    const more = cards.length - names.length;
+    return more > 0 ? `${names.join(", ")} and ${more} more` : names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : names[0];
+  };
+
   const loadSaved = (r: SavedRoster) => {
     const loaded: Slots = {};
     const savedForms: Record<number, boolean> = {};
@@ -1347,12 +1362,14 @@ export function RosterBuilder({
       .map((id) => basePool.find((x) => x.cardId === id))
       .filter((x): x is NonNullable<typeof x> => x != null && (savedForms[x.cardId] ? !x.variantOwned && x.baseOwned : !x.baseOwned && x.variantOwned));
     const switchedNote = switched.length ? ` Using the copy you own for ${switched.map((x) => x.name).join(", ")} (the saved copy is not in your collection); save again to keep it.` : "";
+    const fresh = newCardsLine(r);
+    const staleNote = fresh ? ` It was saved on the ${r.builtOn ? date(r.builtOn) : "older"} collection; since then you've got ${fresh}. Optimise to see what they add.` : "";
     bulk({
       type: "set",
       next: { slots: next, forms: savedForms, adj: { bench: c.bench - baseline.bench, sp: c.sp - baseline.sp, rp: c.rp - baseline.rp } },
       label: `Load “${r.name}”`,
     }, {
-      say: ({ runs, inOut }) => `Loaded “${r.name}”${runs ? `: ${runs}` : ""}. ${inOut}${switchedNote}`,
+      say: ({ runs, inOut }) => `Loaded “${r.name}”${runs ? `: ${runs}` : ""}. ${inOut}${switchedNote}${staleNote}`,
       same: `“${r.name}” is already on the board.`,
     });
   };
@@ -1961,6 +1978,14 @@ export function RosterBuilder({
                     {savedRosters.map((r) => (
                       <button key={r.id} onClick={() => loadSaved(r)} className="rounded border border-border px-2 py-1 text-left text-xs hover:bg-muted/50">
                         {r.name} <span className="text-muted-foreground">({r.slots.length} slots)</span>
+                        {r.newCards && r.newCards.length > 0 && (
+                          <span
+                            className="ml-1.5 rounded bg-primary/15 px-1 text-[10px] font-semibold text-primary"
+                            title={`Saved on the ${r.builtOn ? date(r.builtOn) : "older"} collection. Cards you've got since that fit this event: ${newCardsLine(r, 12)}. Load it and Optimise to see what they add.`}
+                          >
+                            {r.newCards.length} new {r.newCards.length === 1 ? "card fits" : "cards fit"}
+                          </span>
+                        )}
                       </button>
                     ))}
                   </div>
