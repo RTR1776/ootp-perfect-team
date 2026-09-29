@@ -147,3 +147,15 @@ test("a team cap is set, kept with the old format, and cleared", () => {
   assert.equal(open.restrictions!.teamCap, undefined);
   assert.equal(editCatalogueRules(dregs, { text: "same cap", at: "2026-10-05" }).restrictions!.teamCap, 1468, "left alone when not given");
 });
+
+test("the dump's newest run predates a format started later, so the sync keeps the hand-set name", async () => {
+  const { dumpPredatesFormat } = await import("./catalogue-edit");
+  // Tuesday Up to 1969's last run in the 09-29 dump: 2026-09-22 13:02Z (08:02 Chicago).
+  const lastOld = Date.parse("2026-09-22T13:02:00Z") / 1000;
+  assert.equal(dumpPredatesFormat("2026-09-29", lastOld), true);
+  // The Dregs' first run, Monday 09-28 19:59 Chicago (09-29 00:59Z), is the new format.
+  const firstNew = Date.parse("2026-09-29T00:59:00Z") / 1000;
+  assert.equal(dumpPredatesFormat("2026-09-28", firstNew), false, "a Chicago-day comparison, not a UTC one");
+  assert.equal(dumpPredatesFormat(undefined, lastOld), false);
+  assert.equal(dumpPredatesFormat("soon", lastOld), false);
+});

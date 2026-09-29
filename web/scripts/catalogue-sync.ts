@@ -24,6 +24,7 @@
  *
  *   pnpm catalogue:sync [--dry]
  */
+import { dumpPredatesFormat } from "../src/lib/catalogue-edit";
 import { readdirSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -99,6 +100,11 @@ async function main() {
      * scheduled size (the dump's finisher count rounded up to 32/64/128/256)
      * is the truth and overwrites.
      */
+    // A format newer than anything in the dump: its title and field size are the old event's.
+    if (dumpPredatesFormat((row.restrictions as { formatSince?: unknown } | null)?.formatSince, s.start)) {
+      console.log(`= ${slot} "${row.name}" kept: its format started ${(row.restrictions as { formatSince: string }).formatSince}, after the dump's newest run ("${s.title}")`);
+      continue;
+    }
     const scheduled = [32, 64, 128, 256].find((n) => n >= s.field) ?? 256;
     if (row.entrants !== scheduled) {
       console.log(`# ${slot} field ${row.entrants ?? "?"} -> ${scheduled} (${s.field} finishers in the newest run)`);

@@ -1,0 +1,36 @@
+# Saturday Bronze Cap — Claude pick 2026-09-29, rebuilt on the 09-29 collection (Pearce and Dugan variants; same rules and settings as the pick it replaces)
+R:C Thayron Liranzo (VAR) #85135
+R:1B Edward Florentino (VAR) #84777
+R:2B Jhonny Level (VAR) #84765
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Deion Sanders #86962
+R:RF Jack Tobin #86772
+R:DH Wes Covington #86651
+L:C Thayron Liranzo (VAR) #85135
+L:1B Steve Pearce (VAR) #86366
+L:2B Jhonny Level (VAR) #84765
+L:3B Dave Brain (VAR) #85934
+L:SS Kid Elberfeld (VAR) #86368
+L:LF Deion Sanders #86962
+L:CF Dwayne Hosey #86801
+L:RF Jack Tobin #86772
+L:DH Pete Incaviglia #86943
+SP1 James McDonald (VAR) #86384
+SP2 Fritz Ostermueller #86357
+SP3 Kyson Witherspoon (VAR) #84774
+SP4 Tin Can Kincannon #86073
+SP5 Bob Gibson #86658
+CL Todd Jones (VAR) #86434
+RP1 Reed Garrett #84825
+RP2 Steve Farr #86924
+RP3 R.T. Walker #86952
+RP4 Jerry Augustine #86424
+RP5 Dwight Bernard #84216
+RP6 Daniel Norris #82952
+BN1 Dwayne Hosey #86801
+BN2 Kid Elberfeld (VAR) #86368
+BN3 Pete Incaviglia #86943
+BN4 Buck Rodgers #84312
+BN5 Charlie Eden #82834

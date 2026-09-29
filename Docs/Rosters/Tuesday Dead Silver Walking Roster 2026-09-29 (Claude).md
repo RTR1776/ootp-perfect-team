@@ -23,7 +23,7 @@ The rules text says "pre-1920". The game's own card data puts every 1920 card in
 
 The 1920 build scores −22.9 weighted runs against −42.1 for the 1919-only one.
 
-`Save Dead Silver Roster.command` asks first whether the game takes a 1920 card on this event's roster. **Check in game before answering: try adding Jack Tobin.**
+**Settled 09-29: the game takes 1920 cards.** L.J. answered yes in `Save Dead Silver Roster.command`, which is now removed. Event 549 has cards 1871–1920, and the 1920 roster is saved as "Claude pick 2026-09-28". A rebuild with the Dugan variant, for the 10-06 run, is in `Docs/Rosters/Roster Refresh 2026-09-29 (Claude).md`. The script asked:
 - **Yes:** the event is saved with cards 1871–1920, and the 1920 roster goes to /build.
 - **Anything else:** cards 1871–1919, and the 1919-only roster.
 
