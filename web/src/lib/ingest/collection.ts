@@ -34,8 +34,12 @@ export interface CollectionCard {
 export interface MatchedCollectionCard extends CollectionCard {
   cardId: number | null;
   matchDistance: number | null;
-  /** How confident we are, derived from the distance separation described below. */
-  matchQuality: "exact" | "variant" | "fuzzy" | "unmatched";
+  /**
+   * How confident we are, derived from the distance separation described
+   * below; "implied" is a base copy added by impliedBaseCopies, not a row of
+   * the export.
+   */
+  matchQuality: "exact" | "variant" | "fuzzy" | "unmatched" | "implied";
 }
 
 export interface CollectionParseResult {
@@ -221,6 +225,39 @@ export function matchCollectionToShop(
 
   const hits = matched.filter((m) => m.cardId != null).length;
   return { matched, matchRate: collection.length ? hits / collection.length : 0 };
+}
+
+/**
+ * Base copies a collection export implies but does not list.
+ *
+ * The game's export is inconsistent about a card owned both ways: the
+ * 2026-09-29 morning export listed a base row beside the variant for 152
+ * cards, and the one that afternoon listed only the variant for the same
+ * cards (3,925 rows against 3,774). L.J., 2026-09-29: he has both copies for
+ * most variants, and in Iron, Bronze and Silver the base can be assumed; not
+ * always for clubhouse cards, and LEs can't be variants. So every variant
+ * with no base row implies one, except a clubhouse card's. A roster only
+ * needs the base in events that bar or cap variants.
+ *
+ * Returns the card ids that need an implied base row.
+ */
+export function impliedBaseCopies(
+  rows: readonly { cardId: number | null; isVariant: boolean }[],
+  isClubhouse: (cardId: number) => boolean,
+): number[] {
+  const base = new Set(rows.filter((r) => !r.isVariant && r.cardId != null).map((r) => r.cardId!));
+  const out = new Set<number>();
+  for (const r of rows) if (r.isVariant && r.cardId != null && !base.has(r.cardId) && !isClubhouse(r.cardId)) out.add(r.cardId);
+  return [...out];
+}
+
+/** The implied base row for a variant row, as it is stored beside the export's own. */
+export function impliedBaseRow<P extends string | null>(variant: { cardId: number | null; name: string; pos: P; cardValue: number | null; released: string | null }) {
+  return {
+    cardId: variant.cardId, name: variant.name, pos: variant.pos as P, cardValue: variant.cardValue,
+    isVariant: false, isActive: false, released: variant.released,
+    matchDistance: null, matchQuality: "implied" as const, ratings: {} as Record<string, number>,
+  };
 }
 
 export function looksLikeCollection(headerLine: string): boolean {

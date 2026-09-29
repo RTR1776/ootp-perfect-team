@@ -1,0 +1,36 @@
+# Daily Bronze PTCS 3 Replay Slots — Claude pick 2026-09-29 PM, rebuilt with the cards L.J. got on 09-29 (same rules and settings as the pick it replaces)
+R:C Thayron Liranzo (VAR) #85135
+R:1B Edward Florentino (VAR) #84777
+R:2B Jhonny Level (VAR) #84765
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Billy Southworth #86379
+R:RF Deion Sanders #86962
+R:DH Wes Covington #86651
+L:C Thayron Liranzo (VAR) #85135
+L:1B Steve Pearce (VAR) #86366
+L:2B Jhonny Level (VAR) #84765
+L:3B Joe Dugan (VAR) #86765
+L:SS Dave Brain (VAR) #85934
+L:LF Andruw Jones (VAR) #86321
+L:CF Dwayne Hosey #86801
+L:RF Deion Sanders #86962
+L:DH Dave Harris #83649
+SP1 James McDonald (VAR) #86384
+SP2 Fritz Ostermueller #86357
+SP3 Tanner McDougal (VAR) #85032
+SP4 Bob Miller #84715
+SP5 Kyson Witherspoon (VAR) #84774
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Todd Jones (VAR) #86434
+RP3 Satchel Paige #84839
+RP4 Mike Marshall #84720
+RP5 Hector Carrasco #83082
+RP6 Hector Rondon #83078
+BN1 Ted Easterly #84686
+BN2 Joe Dugan (VAR) #86765
+BN3 Dwayne Hosey #86801
+BN4 Andruw Jones (VAR) #86321
+BN5 Dave Harris #83649
