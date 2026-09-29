@@ -7,6 +7,8 @@
  * The row's previous rules are kept under restrictions.previousFormat (the
  * latest one only), so a change can be read back and undone by hand.
  */
+import { chicagoDay } from "@/lib/format";
+
 export interface CatalogueRules {
   envYear: number | null;
   stadium: string | null;
@@ -104,6 +106,22 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
     cardYearMax: e.cardYears === undefined ? row.cardYearMax : e.cardYears?.[1] ?? null,
     restrictions: next,
   };
+}
+
+/**
+ * True when a slot's newest run in the community dump started before the
+ * event's current format (restrictions.formatSince, a Chicago day). The dump
+ * then only knows the old event: its title and field size describe the
+ * format that was replaced, so catalogue:sync must not write them over a
+ * rename made by hand for the new one. On 2026-09-29 it did: the dump's
+ * newest Monday and Tuesday runs were from 09-22, and it put "Monday Gold
+ * Floor Cap" and "Tuesday Up to 1969" back over the Dregs and Dead Silver
+ * Walking.
+ */
+export function dumpPredatesFormat(formatSince: unknown, newestRunStart: number): boolean {
+  if (typeof formatSince !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(formatSince)) return false;
+  const day = chicagoDay(new Date(newestRunStart * 1000));
+  return day != null && day < formatSince;
 }
 
 /**

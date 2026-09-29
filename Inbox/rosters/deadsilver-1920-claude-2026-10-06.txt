@@ -1,0 +1,35 @@
+# Tuesday Dead Silver Walking — Claude pick 2026-09-29 for the next run (10-06), rebuilt on the 09-29 collection with Dugan (VAR); 1920 cards count (L.J. checked 09-29); same settings as deadsilver-1920-claude-2026-09-29.txt
+R:C Ted Easterly #84686
+R:1B Joe Judge #84194
+R:2B Nap Lajoie #86581
+R:3B Joe Dugan (VAR) #86765
+R:SS Dave Brain (VAR) #85934
+R:LF Tom Brown #86767
+R:CF Pop Corkhill #86582
+R:RF Jack Tobin #86772
+L:C Wilbert Robinson #84182
+L:1B Joe Judge #84194
+L:2B Joe Dugan (VAR) #86765
+L:3B Bill Keister #86454
+L:SS Dave Brain (VAR) #85934
+L:LF Tom Brown #86767
+L:CF Tillie Walker #86597
+L:RF Willie Keeler #85878
+SP1 Phil Douglas #83311
+SP2 Pretzels Getzien #85139
+SP3 Frank Foreman (VAR) #84049
+SP4 Dick Rudolph #83229
+CL Stan Coveleski #83247
+RP1 Joe McGinnity #84052
+RP2 Mordecai Brown #82677
+RP3 Frank Killen #82675
+RP4 Christy Mathewson #86706
+BN1 Willie Keeler #85878
+BN2 Emmet Heidrick #84794
+BN3 Bill Keister #86454
+BN4 Dick Hoblitzel (VAR) #83655
+BN5 Joe Start #82708
+BN6 Aleck Smith #86448
+BN7 Tillie Walker #86597
+BN8 Branch Rickey #85018
+BN9 Wilbert Robinson #84182
