@@ -20,18 +20,30 @@ Every Claude-made Bronze roster was rebuilt on the 09-29 collection (upload 171)
 **Not refreshed:**
 - **Daily Live Bronze (561):** the rebuild scores the same, −155.4.
 - **Monday Now We're into the Dregs (548):** −8.1 to −5.6, but for eight swaps. That's within the optimiser's run-to-run noise, and the current roster reached the quarterfinal of the format's first run, so it stays.
-- **Daily Early Bronze (525), held:** the rebuild scores 29.3 to 42.1, but it plays base copies of James McDonald, Adam Cimber and Bill Buckner. Only the 09-29 export shows those; before, he had them as variants, which this event bars. Steve Sax also comes in. The load file is `Inbox/rosters/earlybronze-claude-2026-09-29-held.txt`. It is not in the script; save it once he confirms the base copies are real.
+- **Daily Early Bronze (525), released 09-29:** the rebuild scores 29.3 to 42.1, playing base copies of James McDonald, Adam Cimber and Bill Buckner (this event bars variants), plus Steve Sax. L.J. confirmed he owns both copies. `Save Pop-up Roster.command` saves it from `Inbox/rosters/earlybronze-claude-2026-09-29.txt`.
 
 The scores are weighted runs on each event's own scale, so compare them within a row, not across rows.
 - **Load files:** `Inbox/rosters/*-claude-2026-09-29.txt`. Dead Silver's is `deadsilver-1920-claude-2026-10-06.txt`: this week's run started before the refresh, and the saved 09-28 pick stays for it.
 - **Batting orders:** load a roster on /build to see its batting order under each lineup.
+
+## Rebuilt again: three events that play the PT default
+
+Late Bronze, Curiosities and Live Bronze play the PT default engine ("default RE"). env-roster was given `--year 2010` for them, which it read as MLB's 2010 row (strikeouts 18.5%, homers 2.6% of PA). The PT default row that /build uses has 22.6% and 3.2%. env-roster now reads 2010 as the PT default, and the three were rebuilt with the 09-29 collection. `Save Pop-up Roster.command` saves the rebuilds as "Claude pick 2026-09-29", replacing today's copies.
+
+| Event | Change on the PT default rates |
+|---|---|
+| Daily Late Bronze (524) | Southworth, Scarborough, Ed Morgan (VAR) and Dugan (VAR) in; Florentino (VAR), O'Brien, Spiezio and Sax out (92.2) |
+| Daily Bronze Only Curiosities (527) | Tommy Davis for Byron Buxton; otherwise the same 26 (37.4 weighted runs) |
+| Daily Live Bronze (561) | Sam Antonacci and David Peterson for Jesus Sanchez and Martin Perez (−147.5) |
+
+The scores are on the PT default scale, so they don't compare with the table above. Load files: `*-claude-2026-09-29-ptdefault.txt`.
 
 ## The collection export lists base copies it didn't before
 
 - **What changed:** the 09-29 export has a base row next to the variant for 152 cards. For 146 of them, both earlier exports (09-25 and 09-27) listed only the variant, for example Dave Brain, Andruw Jones, Mickey Mantle's 68 and Mike Trout's 51. Each extra row carries the base card's own ratings.
 - **Why it matters:** if L.J. doesn't own those base copies, an event that bars variants (Early Bronze) or caps them (PTCS 3, Low Bronze Only and Bronze Only Cap) could plan on a base card he doesn't have.
 - **The saved rosters are unaffected:** none of the ten in the script plays one of those 146 base copies. The held Early Bronze rebuild plays three (McDonald, Cimber, Buckner). The cards used as base that the 09-27 export didn't have are real new buys: Steve Sax, Paul Waner and Jim Edmonds, released 09-23 and 09-24, one row each.
-- **To settle:** check one card in game, such as whether he has both a base Dave Brain and the variant.
+- **Settled 09-29:** L.J. owns both copies for most variants, and in Iron, Bronze and Silver he can be assumed to own the base. The 09-29 export is right; the earlier ones left those base copies out.
 
 ## What refreshes by itself, and what doesn't
 

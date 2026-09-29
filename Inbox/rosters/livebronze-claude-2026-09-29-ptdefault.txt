@@ -1,0 +1,36 @@
+# Daily Live Bronze — Claude pick 2026-09-29, rebuilt on the PT default rates (it had been scored on MLB's 2010), 09-29 collection
+R:C Carter Jensen #82374
+R:1B Vladimir Guerrero Jr. #82507
+R:2B Michael Massey #82367
+R:3B Sam Antonacci #85231
+R:SS Gunnar Henderson #82642
+R:LF Daylen Lile #82018
+R:CF Jackson Merrill #81749
+R:RF Kody Clemens #82332
+R:DH Masataka Yoshida #82609
+L:C Luis Torrens #82079
+L:1B Vladimir Guerrero Jr. #82507
+L:2B Michael Massey #82367
+L:3B Royce Lewis #82339
+L:SS Gunnar Henderson #82642
+L:LF Mauricio Dubon #82144
+L:CF Jackson Merrill #81749
+L:RF Teoscar Hernandez #81782
+L:DH Dominic Canzone #82232
+SP1 Andrew Alvarez #85566
+SP2 Patrick Sandoval #82615
+SP3 Bubba Chandler #81909
+SP4 Janson Junk #82126
+SP5 David Peterson #82094
+CL Justin Bruihl #84971
+RP1 Juan Morillo #81833
+RP2 Riley O'Brien #81884
+RP3 Evan Sisk #85245
+RP4 Grant Wolfram #82628
+RP5 Jose A. Ferrer #82245
+RP6 Brock Stewart #81789
+BN1 Dominic Canzone #82232
+BN2 Teoscar Hernandez #81782
+BN3 Royce Lewis #82339
+BN4 Mauricio Dubon #82144
+BN5 Luis Torrens #82079

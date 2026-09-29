@@ -27,6 +27,7 @@ import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
 import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
+import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
 import { optimizeRoster } from "@/lib/roster-optimize";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
@@ -193,7 +194,11 @@ const SERIES = val("series") ?? null;
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
 async function main() {
-  const era = eraTable[String(YEAR)] ?? eraTable["0"];
+  // 2010 is databotai's label for PT's default engine, so it reads the default
+  // row, as /build and the catalogue do (eraFor). eraTable["2010"] is MLB's 2010
+  // (K 18.5% against the default's 22.6%): Late Bronze, Curiosities and Live
+  // Bronze were built on it before 2026-09-29.
+  const era = (YEAR != null ? eraFor(YEAR)?.row : undefined) ?? eraTable["0"];
   if (!era) throw new Error(`no era row for ${YEAR}`);
   const pr = parkRow(PARK, PARK_YEAR);
   if (PARK && !pr) console.log(`!! no park factors on file for ${PARK_YEAR} ${PARK} — running neutral`);
@@ -209,7 +214,7 @@ async function main() {
   const solved = solveEnv(era.rates, era.rg, bp35);
   const line = rateLine(bp35 ? applyPark(era.rates, bp35) : era.rates, solved.RG);
   console.log(`\n=== ${NAME} ===`);
-  console.log(`${YEAR ?? "PT default"} RE${pr ? ` @ ${PARK_YEAR} ${PARK}` : " (neutral park)"} · DH ${DH ? "on" : "off"} · value ${MIN ?? "—"}–${MAX ?? "—"} · cap ${CAP ?? "none"} · ${SIZE} players`);
+  console.log(`${YEAR == null ? "PT default" : YEAR === PT_DEFAULT_ENV_YEAR ? "PT default (2010)" : YEAR} RE${pr ? ` @ ${PARK_YEAR} ${PARK}` : " (neutral park)"} · DH ${DH ? "on" : "off"} · value ${MIN ?? "—"}–${MAX ?? "—"} · cap ${CAP ?? "none"} · ${SIZE} players`);
   console.log(`R/G ${solved.RG.toFixed(2)}  AVG ${line.avg.toFixed(3)}  OBP ${line.obp.toFixed(3)}  SLG ${line.slg.toFixed(3)}  K% ${(line.kPct * 100).toFixed(1)}  HR/PA ${(line.hrPa * 100).toFixed(2)}%  preset ${solved.preset}`);
   console.log(`sac bunt (1st & 2nd, 0 out) ${solved.bunt_12_0 >= 0 ? "+" : ""}${solved.bunt_12_0.toFixed(3)} runs · steal break-even ${(solved.sbbe0 * 100).toFixed(1)}% (0 out) / ${(solved.sbbe1 * 100).toFixed(1)}% (1 out)`);
   if (pr) {
