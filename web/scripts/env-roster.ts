@@ -32,6 +32,7 @@ import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/an
 import { optimizeRoster } from "@/lib/roster-optimize";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
 import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
+import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { readFileSync } from "node:fs";
 import fieldConstruction from "../src/data/field-construction.json";
 import type { SeriesBuild } from "@/lib/field-construction";
@@ -240,11 +241,16 @@ async function main() {
     .where(eq(uploads.kind, "shop_list")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })
     .from(collectionCards).where(eq(collectionCards.uploadId, latest.id));
-  const baseSet = new Set(owned.filter((o) => !o.isVariant).map((o) => o.cardId!));
-  const variants = new Map(owned.filter((o) => o.isVariant).map((o) => [o.cardId!, o.ratings]));
-  const ownedIds = [...new Set(owned.map((o) => o.cardId!))];
   const universe = await db.select().from(cards);
   const byId = new Map(universe.map((c) => [c.cardId, c]));
+  // A variant listed without its base implies the base (ingest/collection), for
+  // an upload filed before the importer added those rows itself.
+  const baseSet = new Set([
+    ...owned.filter((o) => !o.isVariant).map((o) => o.cardId!),
+    ...impliedBaseCopies(owned, (id) => /clubhouse/i.test(byId.get(id)?.title ?? "")),
+  ]);
+  const variants = new Map(owned.filter((o) => o.isVariant).map((o) => [o.cardId!, o.ratings]));
+  const ownedIds = [...new Set(owned.map((o) => o.cardId!))];
   const prices = shop
     ? new Map((await db.select({ cardId: cardSnapshots.cardId, ask: cardSnapshots.sellOrderLow })
         .from(cardSnapshots).where(eq(cardSnapshots.uploadId, shop.id))).map((p) => [p.cardId, p.ask]))

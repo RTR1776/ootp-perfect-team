@@ -35,6 +35,8 @@ import { cards, cardSnapshots, collectionCards, importBatches, standings, upload
 import { stampPositionOverrides } from "@/lib/position-overrides";
 import { parseShopList, looksLikeShopList } from "@/lib/ingest/pt-card-list";
 import {
+  impliedBaseCopies,
+  impliedBaseRow,
   looksLikeCollection,
   matchCollectionToShop,
   parseCollection,
@@ -500,6 +502,7 @@ export async function POST(request: Request) {
         cardValue: cards.cardValue,
         isPitcher: cards.isPitcher,
         ratings: cards.ratings,
+        title: cards.title,
       })
       .from(cards);
 
@@ -554,6 +557,11 @@ export async function POST(request: Request) {
       ratings: m.ratings,
     }));
     stampPositionOverrides(rows);
+    // A variant listed without its base copy implies the base (ingest/collection).
+    const clubhouse = new Set(universe.filter((u) => /clubhouse/i.test(u.title)).map((u) => u.cardId));
+    for (const id of impliedBaseCopies(rows, (cid) => clubhouse.has(cid))) {
+      rows.push({ uploadId: upload.id, ...impliedBaseRow(matched.find((m) => m.cardId === id && m.isVariant)!) });
+    }
     for (let i = 0; i < rows.length; i += 100) {
       await db.insert(collectionCards).values(rows.slice(i, i + 100));
     }

@@ -18,6 +18,7 @@ import { db } from "@/db/client";
 import { cards, collectionCards, tournaments, uploads } from "@/db/schema";
 import { HIT_POS } from "@/lib/roster-fill";
 import { cardEligibility, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
+import { impliedBaseCopies } from "@/lib/ingest/collection";
 
 const argv = process.argv.slice(2);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
@@ -29,8 +30,12 @@ async function main() {
   if (!t) throw new Error(`no tournament ${TID}`);
   const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   const owned = latest ? await db.select().from(collectionCards).where(eq(collectionCards.uploadId, latest.id)) : [];
-  const base = new Set(owned.filter((c) => !c.isVariant).map((c) => c.cardId)), variants = new Set(owned.filter((c) => c.isVariant).map((c) => c.cardId));
   const universe = await db.select().from(cards);
+  // A variant listed without its base implies the base (ingest/collection), for
+  // an upload filed before the importer added those rows itself.
+  const clubhouse = new Set(universe.filter((c) => /clubhouse/i.test(c.title)).map((c) => c.cardId));
+  const base = new Set([...owned.filter((c) => !c.isVariant).map((c) => c.cardId), ...impliedBaseCopies(owned, (id) => clubhouse.has(id))]);
+  const variants = new Set(owned.filter((c) => c.isVariant).map((c) => c.cardId));
   const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
   const lineupPos = t.dh ? [...HIT_POS, "DH"] : [...HIT_POS];
   const rules = { ...t, restrictions: t.restrictions as RosterRules["restrictions"] } as unknown as RosterRules;
