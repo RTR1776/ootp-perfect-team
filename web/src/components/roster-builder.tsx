@@ -36,7 +36,10 @@ import { SetFilter } from "@/components/set-filter";
 import { dismissToast, toast, type ToastInput } from "@/components/ui/toast";
 import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillResult, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
-import { envFitMaps } from "@/lib/analytics/env-fit";
+import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
+import { hitterRates } from "@/lib/analytics/card-value";
+import { calibrationSlope } from "@/lib/analytics/calibration";
+import { bestOrder, obp, orderEnv, paLine, pitcherLine, shrink, slg } from "@/lib/batting-order";
 import type { Confidence } from "@/lib/data-confidence";
 import type { EraRates } from "@/lib/analytics/run-env";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
@@ -68,6 +71,10 @@ export interface ObservedLine {
 }
 
 export type { Proj };
+
+interface OrderRow { cardId: number | null; name: string; pos: string; obp: number; slg: number }
+/** A lineup's recommended batting order and the usual one, each with its runs per nine innings. */
+interface BattingOrder { rows: OrderRow[]; book: OrderRow[]; runs: number; bookRuns: number }
 
 export interface BuilderCard {
   cardId: number;
@@ -613,13 +620,55 @@ export function RosterBuilder({
 
   const byId = useMemo(() => new Map(formPool.map((c) => [c.cardId, c])), [formPool]);
 
+  /* batting order ------------------------------------------------------
+     Each full lineup is played through nine innings on the run model's
+     base/out chain (lib/batting-order), every batter on his own odds: his
+     ratings against that pitcher hand, in this event's run environment and
+     park, on the calibrated scale. The order with the most runs is shown,
+     and the usual order (The Book) is scored beside it. With no DH the
+     pitcher bats ninth. */
+  const lineupKey = (hand: "R" | "L") => lineupPos.map((p) => `${slots[`${hand}:${p}`] ?? ""}${byId.get(slots[`${hand}:${p}`] ?? -1)?.variant ? "v" : ""}`).join(",");
+  const orderKeyR = lineupKey("R"), orderKeyL = lineupKey("L");
+  const battingOrders = useMemo(() => {
+    if (!envFits || !env) return null;
+    const chain = orderEnv(env.rates);
+    const s = calibrationSlope("hit");
+    const out: Partial<Record<"R" | "L", BattingOrder>> = {};
+    for (const hand of ["R", "L"] as const) {
+      const ids = lineupPos.map((p) => slots[`${hand}:${p}`]);
+      if (ids.some((id) => id == null || !byId.has(id))) continue;
+      const lines = ids.map((id) => {
+        const c = byId.get(id!)!;
+        const side = batsLeftOn(c.bats, hand) ? envFits.envLeft : envFits.envRight;
+        const league = paLine(side.rates, side.park);
+        const r = hitterRates(c.ratings, side.rates, hand === "R" ? "vR" : "vL");
+        return r ? shrink(paLine(r, side.park), league, s) : league;
+      });
+      if (!dh) lines.push(pitcherLine(env.rates));
+      const res = bestOrder(lines, chain, dh ? [] : [lineupPos.length]);
+      const row = (i: number) => (i < ids.length
+        ? { cardId: ids[i]!, name: byId.get(ids[i]!)!.name, pos: lineupPos[i], obp: obp(lines[i]), slg: slg(lines[i]) }
+        : { cardId: null, name: "Pitcher", pos: "P", obp: obp(lines[i]), slg: slg(lines[i]) });
+      out[hand] = { rows: res.order.map(row), book: res.book.map(row), runs: res.runs, bookRuns: res.bookRuns };
+    }
+    return out;
+    // The keys stand for the two lineups: nothing else on the board moves the order.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [envFits, env, orderKeyR, orderKeyL, dh]);
+  /** A lineup spot's place in the recommended order, for the save and the export; the spot's own index until the lineup is full. */
+  const orderAt = (hand: string, pos: string, cardId: number): number => {
+    const o = battingOrders?.[hand as "R" | "L"];
+    const i = o ? o.rows.findIndex((r) => r.pos === pos && r.cardId === cardId) : -1;
+    return i >= 0 ? i + 1 : lineupPos.indexOf(pos) + 1;
+  };
+
   const serializeSlots = (source = slots): RosterSlot[] => slotOrder
     .filter(k => source[k] != null)
     .map(k => {
       const [a, b] = k.split(":");
       const cardId = source[k] as number;
       return { cardId, slot: b ?? a, versusHand: b ? a : "both",
-        lineupOrder: b ? lineupPos.indexOf(b) + 1 : null,
+        lineupOrder: b ? orderAt(a, b, cardId) : null,
         useVariant: byId.get(cardId)?.variant ?? false };
     });
   const baseValidation = tournament ? validateRoster(serializeSlots(), formPool, tournament) : null;
@@ -1327,8 +1376,10 @@ export function RosterBuilder({
     const txt: string[] = [`${name} — ${new Date().toISOString().slice(0, 10)}`, ""];
     txt.push(validation?.ready ? "READY — passed recorded rules" : "DRAFT — not ready for entry", ...(validation?.errors.map(e=>e.message) ?? []), ...(validation?.incomplete.map(e=>e.message) ?? []), "");
     for (const hand of ["R", "L"] as const) {
-      txt.push(`vs ${hand}HP`);
-      lineupPos.forEach((p, i) => txt.push(`  ${i + 1}. ${p.padEnd(2)}  ${line(slots[`${hand}:${p}`])}`));
+      const o = battingOrders?.[hand];
+      txt.push(`vs ${hand}HP${o ? " (batting order: the most runs on the run model)" : ""}`);
+      if (o) o.rows.forEach((r, i) => txt.push(`  ${i + 1}. ${r.pos.padEnd(2)}  ${r.cardId == null ? "Pitcher" : line(r.cardId)}`));
+      else lineupPos.forEach((p, i) => txt.push(`  ${i + 1}. ${p.padEnd(2)}  ${line(slots[`${hand}:${p}`])}`));
       txt.push("");
     }
     txt.push("Rotation");
@@ -1347,7 +1398,7 @@ export function RosterBuilder({
       if (!c) continue;
       const [a, b] = k.split(":");
       const section = b ? `vs ${a}HP` : k.startsWith("BN") ? "Bench" : "Staff";
-      const order = b ? lineupPos.indexOf(b) + 1 : "";
+      const order = b ? orderAt(a, b, id) : "";
       csv.push([section, b ?? a, order, c.cardId, esc(c.name), c.isPitcher ? c.role ?? "P" : c.pos, c.bats ?? "", c.val ?? "", c.variant ? "Y" : "N", validation?.ready ? "Ready" : "Draft"].join(","));
     }
     const day = new Date().toISOString().slice(0, 10);
@@ -1861,6 +1912,7 @@ export function RosterBuilder({
                       onPeek={peekSlot} clearPeek={() => setPeek(null)} issuesByCard={issuesByCard} bans={bans}
                     />
                   ))}
+                  {env && <BattingOrderList order={battingOrders?.[hand] ?? null} hand={hand} />}
                 </div>
               ))}
 
@@ -1920,6 +1972,35 @@ export function RosterBuilder({
           {peek && <CardPeek p={peek} scale={ratingScale} />}
         </>
       )}
+    </div>
+  );
+}
+
+/** The recommended batting order under a lineup, and how it compares with the usual one. */
+function BattingOrderList({ order, hand }: { order: BattingOrder | null; hand: "R" | "L" }) {
+  if (!order) return <div className="mt-2 border-t border-border pt-2 text-[11px] text-muted-foreground">Fill the lineup to see a batting order.</div>;
+  const gain = order.runs - order.bookRuns;
+  const same = order.rows.every((r, i) => r.pos === order.book[i].pos);
+  const usual = order.book.map((r, i) => `${i + 1} ${r.name}`).join(" · ");
+  return (
+    <div className="mt-2 border-t border-border pt-2">
+      <div className="mb-1 flex items-baseline justify-between gap-2 text-[11px] text-muted-foreground">
+        <span className="font-semibold uppercase tracking-wide" title={`Every order is played through nine innings on the run model (this event's era and park, each batter's ratings vs ${hand}HP); this one scores the most. Speed and steals are not in it.`}>Batting order</span>
+        <span className="text-right" title={`The usual order (The Book: the best three at 1, 2 and 4, on-base first, power 4-5): ${usual}. ${order.bookRuns.toFixed(2)} runs per nine innings.`}>
+          {same || gain < 0.005 ? "same as the usual order" : `+${gain.toFixed(2)} runs/9 over the usual order`}
+        </span>
+      </div>
+      <ol className="space-y-0.5 text-xs">
+        {order.rows.map((r, i) => (
+          <li key={`${r.pos}-${r.cardId}`} className="flex items-baseline gap-1.5">
+            <span className="w-3 shrink-0 text-right font-mono text-muted-foreground">{i + 1}</span>
+            <span className="min-w-0 truncate">{r.name}</span>
+            <span className="shrink-0 text-[10px] text-muted-foreground">{r.pos}</span>
+            <span className="ml-auto shrink-0 font-mono text-[10px] text-muted-foreground" title="Projected OBP / SLG against this pitcher hand, in this event">{fmt3(r.obp)}/{fmt3(r.slg)}</span>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-1 text-right font-mono text-[10px] text-muted-foreground" title="Expected runs per nine innings for this lineup in this order, on the calibrated scale">{order.runs.toFixed(2)} runs/9</div>
     </div>
   );
 }

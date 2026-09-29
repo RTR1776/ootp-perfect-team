@@ -22,11 +22,11 @@ export interface ParkFactors { avg: number; hr: number; d2: number; d3: number }
 
 export const NEUTRAL_PARK: ParkFactors = { avg: 1, hr: 1, d2: 1, d3: 1 };
 
-type Base = [number, number, number];
+export type Base = [number, number, number];
 
-const BASES: Base[] = [];
+export const BASES: Base[] = [];
 for (let a = 0; a < 2; a++) for (let b = 0; b < 2; b++) for (let c = 0; c < 2; c++) BASES.push([a, b, c]);
-const bidx = (b: Base) => b[0] * 4 + b[1] * 2 + b[2];
+export const bidx = (b: Base) => b[0] * 4 + b[1] * 2 + b[2];
 
 const EVS = ["K", "BB", "HR", "B1", "B2", "B3", "OUT"] as const;
 type Ev = (typeof EVS)[number];
@@ -42,11 +42,12 @@ export function probs(e: EraRates): Record<Ev, number> {
 }
 
 /** Ground-ball share of outs — falls as the era's home-run rate climbs. */
-const gshare = (hrbip: number) => Math.min(0.62, Math.max(0.42, 0.6 - 4.0 * (hrbip - 0.014)));
+export const gshare = (hrbip: number) => Math.min(0.62, Math.max(0.42, 0.6 - 4.0 * (hrbip - 0.014)));
 
-type Trans = [Base, number, number, number]; // [newBases, outsAdded, runs, weight]
+export type Trans = [Base, number, number, number]; // [newBases, outsAdded, runs, weight]
 
-function trans(b: Base, ev: Ev, g: number, dp: number, o: number): Trans[] {
+/** Where one event sends the runners; batting-order.ts plays whole lineups through the same table. */
+export function trans(b: Base, ev: Ev, g: number, dp: number, o: number): Trans[] {
   const [b1, b2, b3] = b;
   const out: Trans[] = [];
   if (ev === "K") out.push([b, 1, 0, 1]);
