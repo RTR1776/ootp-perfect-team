@@ -11,16 +11,25 @@
  * league. A card whose index falls only because the league got better is not
  * declining — the indexing is what separates those.
  *
- *   pnpm card:decline --team "Kansas City Torrent" --league HD453
+ * Theme weeks (2026-09-20 ran 1989) are left out unless --env asks for one:
+ * a card's value against its league moves with the environment.
+ *
+ *   pnpm card:decline --team "Kansas City Torrent" --league HD453 [--env 1989]
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
+import { ENV_YEAR_MAX, ENV_YEAR_MIN, LEAGUE_ENV_YEAR, parseEnvYear } from "@/lib/league-week";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
 const val = (k: string, d: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const TEAM = val("team", "Kansas City Torrent"), LEAGUE = val("league", "HD453"), ON = val("on", "2026-09-13");
 const MIN = Number(val("min", "400"));
+/** Theme weeks (1989 etc.) are a different run environment — a card's value
+ *  relative to its league moves with the environment, so they are not part of
+ *  a decline trend unless asked for. */
+const ENV = parseEnvYear(val("env", String(LEAGUE_ENV_YEAR)));
+if (ENV == null) throw new Error(`--env wants a year the app can price, ${ENV_YEAR_MIN}-${ENV_YEAR_MAX}, e.g. --env 1989`);
 
 async function main() {
   const roster = asRows<any>(await db.execute(sql`
@@ -36,7 +45,7 @@ async function main() {
              case when st.is_pitcher then (st.stats->>'BF')::numeric else st.pa::numeric end as w,
              case when st.is_pitcher then (st.stats->>'ER')::numeric else (st.stats->>'wRAA')::numeric end as num
       from league_stints st join league_snapshots ls on ls.id = st.snapshot_id
-      where ls.split = 'all'
+      where ls.split = 'all' and ls.env_year = ${ENV}
     ),
     ok as (select * from wk where w > 0 and num is not null),
     lgm as (select wk, is_pitcher, sum(num)/sum(w) as mean from ok group by 1,2)

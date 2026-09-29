@@ -13,12 +13,15 @@
  *
  * "Latest" respects the newest-COMPLETE rule from lib/league-snapshots: an
  * export missing its pitching block is passed over for the previous week.
+ * "All" pools the league's 2010 weeks only: a theme week (env_year 1989 on
+ * 2026-09-20) is another run environment, so it is read on its own week.
  */
 
 import { eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { leagueSnapshots, leagueStints } from "@/db/schema";
 import { MIN_PITCHER_SHARE } from "@/lib/league-snapshots";
+import { LEAGUE_ENV_YEAR } from "@/lib/league-week";
 import { leagueTier } from "@/lib/analytics/league";
 import { hitterLines, metaSummary, pitcherLines, withRegression, type BoardStint } from "@/lib/analytics/league-board";
 import { isMyOrg } from "@/lib/my-team";
@@ -27,7 +30,7 @@ import { EmptyState } from "@/components/empty-state";
 
 export const dynamic = "force-dynamic";
 
-interface SnapRow { id: number; league: string; split: string; capturedOn: string; teams: number; rows: number; pitchers: number; total: number }
+interface SnapRow { id: number; league: string; split: string; capturedOn: string; envYear: number; teams: number; rows: number; pitchers: number; total: number }
 
 function inScope(league: string, scope: string): boolean {
   if (scope === "all") return true;
@@ -44,7 +47,7 @@ export default async function LeaguePage({ searchParams }: { searchParams: Promi
   const snaps = (await db
     .select({
       id: leagueSnapshots.id, league: leagueSnapshots.league, split: leagueSnapshots.split, capturedOn: leagueSnapshots.capturedOn,
-      teams: leagueSnapshots.teams, rows: leagueSnapshots.rows,
+      envYear: leagueSnapshots.envYear, teams: leagueSnapshots.teams, rows: leagueSnapshots.rows,
       pitchers: sql<number>`count(*) filter (where ${leagueStints.isPitcher})`.mapWith(Number),
       total: sql<number>`count(*)`.mapWith(Number),
     })
@@ -58,12 +61,14 @@ export default async function LeaguePage({ searchParams }: { searchParams: Promi
 
   const complete = (s: SnapRow) => s.total > 0 && s.pitchers / s.total >= MIN_PITCHER_SHARE;
   const weeks = [...new Set(snaps.map((s) => s.capturedOn))].sort().reverse();
+  /** Theme weeks: week → its run environment. */
+  const themes: Record<string, number> = Object.fromEntries(snaps.filter((s) => s.envYear !== LEAGUE_ENV_YEAR).map((s) => [s.capturedOn, s.envYear]));
   const leagues = [...new Set(snaps.map((s) => s.league))].sort();
 
   // snapshot selection
   const ofSplit = snaps.filter((s) => s.split === split && inScope(s.league, scope));
   let chosen: SnapRow[];
-  if (week === "all") chosen = ofSplit.filter(complete);
+  if (week === "all") chosen = ofSplit.filter((s) => complete(s) && s.envYear === LEAGUE_ENV_YEAR);
   else if (week === "latest") {
     chosen = [];
     for (const lg of new Set(ofSplit.map((s) => s.league))) {
@@ -96,8 +101,8 @@ export default async function LeaguePage({ searchParams }: { searchParams: Promi
   return (
     <LeagueBoard
       hitters={hit} pitchers={pit} mineHitters={mineHit} minePitchers={minePit} meta={meta}
-      filters={{ week, scope, split }} weeks={weeks} leagues={leagues}
-      scopeInfo={{ snapshots: chosen.map((s) => ({ league: s.league, capturedOn: s.capturedOn, teams: s.teams })), nWeeks, myLeague }}
+      filters={{ week, scope, split }} weeks={weeks} themes={themes} leagues={leagues}
+      scopeInfo={{ snapshots: chosen.map((s) => ({ league: s.league, capturedOn: s.capturedOn, envYear: s.envYear, teams: s.teams })), nWeeks, myLeague }}
     />
   );
 }

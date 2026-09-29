@@ -380,6 +380,15 @@ export const leagueSnapshots = pgTable(
     split: text("split").notNull().default("all"), // all | vL | vR
     /** Which week of play the export covers — supplied on upload, defaults to today. */
     capturedOn: date("captured_on").notNull(),
+    /**
+     * Run environment the season was played in. Leagues default to 2010; a
+     * THEME WEEK overrides it (2026-08-23 ran 1959, 2026-09-20 ran 1989).
+     * Anything that pools weeks (/league's all weeks, the /meta and /market
+     * pools, split:check, card:decline) must filter on this, or it fits one
+     * environment's rates on another's. Set on /upload or `import:league
+     * --env`; `league:env` retags a week already on file.
+     */
+    envYear: integer("env_year").notNull().default(2010),
     teams: integer("teams").notNull().default(0),
     rows: integer("rows").notNull().default(0),
   },

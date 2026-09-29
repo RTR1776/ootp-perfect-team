@@ -13,7 +13,9 @@
  *   the way every reader picks it (uploaded_at, then id);
  * - league files: `replaces`, the snapshot of the same league, split and week,
  *   and `weeks`, that league and split's weeks on file, so the page can say
- *   what a different week would replace without sending the file again;
+ *   what a different week would replace without sending the file again; and
+ *   `envFit`, the era the file's own play fits, so the page can ask about a
+ *   theme week before it is saved as the league's usual 2010;
  * - `alreadyImported` when this exact file (sha256) is on file already.
  *
  * Every real write is recorded in import_batches (kind "upload:<kind>", the
@@ -45,7 +47,8 @@ import { looksLikeDump, parseDump, computeStandings } from "@/lib/analytics/dump
 import { periods } from "@/db/schema";
 import { leagueSnapshots, leagueStints } from "@/db/schema";
 import { chicagoDay } from "@/lib/format";
-import { leagueWeekOf } from "@/lib/league-week";
+import { ENV_YEAR_MAX, ENV_YEAR_MIN, LEAGUE_ENV_YEAR, leagueWeekOf, parseEnvYear } from "@/lib/league-week";
+import { fitEra, hitTotalsOf } from "@/lib/analytics/league-era";
 import { latestDayFor, nameDateOf, shopListUpdatesCards, stampFor, type UploadKind as Kind } from "@/lib/upload-rules";
 
 export const runtime = "nodejs";
@@ -284,12 +287,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ kind, error: "No rows parsed from the league export." }, { status: 422 });
     }
 
+    /* The run environment the week was played in: the league's usual 2010
+       unless the page names a theme week's year (2026-09-20 ran 1989).
+       Untagged, a theme week pools with the 2010 weeks everywhere. */
+    const envRaw = (form.get("envYear") as string | null)?.trim() || null;
+    const envYear = envRaw == null ? LEAGUE_ENV_YEAR : parseEnvYear(envRaw);
+    if (envYear == null) {
+      return NextResponse.json({ kind, error: `Run environment ${envRaw} isn't a year the app can price (${ENV_YEAR_MIN}-${ENV_YEAR_MAX}).` }, { status: 400 });
+    }
+
     const report = {
       league: parsed.league,
       split: parsed.split,
       ...parsed.stats,
       capturedOn,
       capturedOnWasSupplied: capturedOnRaw != null,
+      envYear,
     };
 
     if (dryRun) {
@@ -304,6 +317,7 @@ export async function POST(request: Request) {
         .orderBy(desc(leagueSnapshots.capturedOn), desc(leagueSnapshots.id));
       const weeks = snaps.filter((s, i) => snaps.findIndex((t) => t.capturedOn === s.capturedOn) === i);
       const newest = weeks[0];
+      const fit = fitEra(hitTotalsOf(parsed.stints), file.name);
       return NextResponse.json({
         kind,
         dryRun: true,
@@ -311,6 +325,7 @@ export async function POST(request: Request) {
         onFile: newest ? { id: newest.uploadId, filename: newest.filename, date: newest.capturedOn, rows: newest.rows } : null,
         replaces: weeks.find((w) => w.capturedOn === capturedOn) ?? null,
         weeks,
+        envFit: fit ? { year: Number(fit.year) || LEAGUE_ENV_YEAR, distance: fit.distance, offNorm: fit.offNorm } : null,
       });
     }
 
@@ -334,6 +349,7 @@ export async function POST(request: Request) {
         league,
         split: parsed.split,
         capturedOn,
+        envYear,
         teams: parsed.stats.teams,
         rows: parsed.stints.length,
       })

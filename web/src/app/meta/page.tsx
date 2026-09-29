@@ -66,7 +66,8 @@ function canonicalise(shopRatings: Record<string, number>): Record<string, numbe
 
 async function loadLatestSnapshots() {
   // Newest COMPLETE snapshot per league — a truncated export is skipped rather
-  // than allowed to strip a league's pitchers out of every pool below.
+  // than allowed to strip a league's pitchers out of every pool below, and a
+  // theme week (another run environment) rather than taken as the meta.
   const { picks, skipped } = await latestCompleteSnapshots();
   const latest = picks;
   if (latest.size === 0) return null;
@@ -212,6 +213,9 @@ export default async function MetaPage({
   }
 
   const { latest, byLeague, skipped } = data;
+  const truncated = skipped.filter((x) => x.reason === "truncated");
+  /** Week → env year, one entry per theme week passed over. */
+  const themeWeeks = [...new Map(skipped.filter((x) => x.reason === "theme").map((x) => [x.capturedOn, x.envYear])).entries()].sort();
   const leagues = [...byLeague.keys()].sort((a, b) =>
     a === "PEL" ? -1 : b === "PEL" ? 1 : a.localeCompare(b),
   );
@@ -277,14 +281,21 @@ export default async function MetaPage({
           normalization frame
         </>}
       />
-      {skipped.length > 0 && (
+      {truncated.length > 0 && (
         <p className="-mt-2 text-xs text-warning">
-          Skipped {skipped.length} truncated export
-          {skipped.length === 1 ? "" : "s"} —{" "}
-          {skipped
+          Skipped {truncated.length} truncated export
+          {truncated.length === 1 ? "" : "s"} —{" "}
+          {truncated
             .map((x) => `${x.league} ${x.capturedOn} (${x.pitchers} pitcher rows in ${x.rows})`)
             .join(", ")}
           . Those leagues are reading the previous complete week; re-export to refresh.
+        </p>
+      )}
+      {themeWeeks.length > 0 && (
+        <p className="-mt-2 text-xs text-muted-foreground">
+          Theme weeks left out:{" "}
+          {themeWeeks.map(([on, year]) => `${on} (${year})`).join(", ")}. A theme week is another run
+          environment, so each league reads its newest 2010 week.
         </p>
       )}
 

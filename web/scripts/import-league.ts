@@ -8,11 +8,18 @@
  *   pnpm import:league "../League Data/2026-09-06/hd452_all.csv" ...
  *   pnpm import:league "../League Data/2026-09-06" --dry
  *   pnpm import:league <paths...> --on 2026-08-30
+ *   pnpm import:league "../League Data/2026-09-20" --env 1989
  *
  * capturedOn: `--on YYYY-MM-DD`, else a YYYY-MM-DD folder name (that is what
  * `League Data/<date>/` is for), else today. It is the week the season covers,
  * not the download time — a backfill must say so or /market and /meta read the
  * history wrong.
+ *
+ * envYear: `--env YYYY` for a THEME WEEK (2026-09-20 ran 1989), else 2010,
+ * the league's usual environment. Untagged, a theme week pools with the 2010
+ * weeks and fits one environment's rates on another's. A file whose own play
+ * fits decades from 2010 while saved as 2010 gets a warning; `pnpm league:env`
+ * retags a week already on file.
  *
  * League and split come from the FILENAME (`hd452_vL.csv` → HD452 / vL), so
  * exports keep their original names. Files whose league cannot be read are
@@ -32,6 +39,8 @@ import { and, eq, inArray } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { leagueSnapshots, leagueStints, uploads } from "../src/db/schema";
 import { looksLikeLeagueExport, parseLeagueExport } from "../src/lib/ingest/league";
+import { ENV_YEAR_MAX, ENV_YEAR_MIN, LEAGUE_ENV_YEAR, parseEnvYear } from "../src/lib/league-week";
+import { fitEra, hitTotalsOf } from "../src/lib/analytics/league-era";
 
 /* DATABASE_URL: exported by the shell, or read out of web/.env.local here.
    The db client builds lazily on first query, so filling process.env after the
@@ -62,7 +71,7 @@ async function withRetry<T>(fn: () => Promise<T>, attempts = 4): Promise<T> {
 
 function usage(msg?: string): never {
   if (msg) console.error(`error: ${msg}\n`);
-  console.error('usage: pnpm import:league <folder|file...> [--on YYYY-MM-DD] [--dry]');
+  console.error('usage: pnpm import:league <folder|file...> [--on YYYY-MM-DD] [--env YYYY] [--dry]');
   process.exit(msg ? 1 : 0);
 }
 
@@ -94,7 +103,15 @@ async function main() {
   const onFlag = onIdx >= 0 ? argv[onIdx + 1] : undefined;
   if (onIdx >= 0 && (!onFlag || !DATE_RE.test(onFlag))) usage("--on wants YYYY-MM-DD");
 
-  const paths = argv.filter((a, i) => !a.startsWith("--") && !(onIdx >= 0 && i === onIdx + 1));
+  /* Theme weeks run a different run environment; untagged they would pool with
+     the 2010 weeks and fit one environment's rates on another's. */
+  const envIdx = argv.indexOf("--env");
+  const envYear = envIdx >= 0 ? parseEnvYear(argv[envIdx + 1]) : LEAGUE_ENV_YEAR;
+  if (envYear == null) usage(`--env wants a year the app can price, ${ENV_YEAR_MIN}-${ENV_YEAR_MAX}, e.g. --env 1989`);
+
+  const paths = argv.filter(
+    (a, i) => !a.startsWith("--") && !(onIdx >= 0 && i === onIdx + 1) && !(envIdx >= 0 && i === envIdx + 1),
+  );
   const files = collect(paths);
 
   /* Parse everything before writing anything: a folder with one bad file
@@ -113,7 +130,7 @@ async function main() {
   });
 
   for (const { file, parsed, capturedOn } of jobs) {
-    const label = `${parsed.league} ${parsed.split} ${capturedOn}`;
+    const label = `${parsed.league} ${parsed.split} ${capturedOn}${envYear === LEAGUE_ENV_YEAR ? "" : ` env ${envYear}`}`;
     const s = parsed.stats;
     const summary = `${s.rows} rows · ${s.teams} teams · ${s.uniqueCids} cards · ${s.freeAgentRows} FA · ${s.clanTeams} clan teams`;
     /* Loud, but not fatal: the file is still worth having, it just must not be
@@ -124,6 +141,13 @@ async function main() {
           `(${(s.pitcherShare * 100).toFixed(1)}%) — the pitching block looks missing. ` +
           `Importing anyway; readers will fall back to the previous complete week. ` +
           `Re-export this view with pitchers included.`,
+      );
+    }
+    const fit = envYear === LEAGUE_ENV_YEAR ? fitEra(hitTotalsOf(parsed.stints), basename(file)) : null;
+    if (fit?.offNorm) {
+      console.warn(
+        `  ! ${label}: its play fits ${fit.year} (${fit.distance.toFixed(2)}), not the league's ${LEAGUE_ENV_YEAR}. ` +
+          `If this was a theme week, import it with --env <year>.`,
       );
     }
 
@@ -137,6 +161,7 @@ async function main() {
       split: parsed.split,
       ...s,
       capturedOn,
+      envYear,
       capturedOnWasSupplied: true,
       source: "import-league",
     } as unknown as Record<string, unknown>;
@@ -157,6 +182,7 @@ async function main() {
         league: parsed.league!,
         split: parsed.split,
         capturedOn,
+        envYear,
         teams: s.teams,
         rows: parsed.stints.length,
       }).returning();

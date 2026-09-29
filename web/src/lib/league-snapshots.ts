@@ -11,11 +11,17 @@
  * export is pitchers, and anything under MIN_PITCHER_SHARE is treated as
  * truncated and skipped in favour of the previous week. One bad export then
  * costs that league a week of freshness instead of its pitching.
+ *
+ * It also has to be an ORDINARY week. A theme week (env_year other than 2010:
+ * 2026-09-20 ran 1989) is a different run environment and a different meta,
+ * so the /meta and /market pools read the league's newest 2010 week instead,
+ * and say which theme week they passed over.
  */
 
 import { desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { leagueSnapshots, leagueStints } from "@/db/schema";
+import { LEAGUE_ENV_YEAR } from "@/lib/league-week";
 
 /** A complete export runs ~45% pitchers; 15% is far below any real one. */
 export const MIN_PITCHER_SHARE = 0.15;
@@ -35,11 +41,15 @@ export interface SkippedSnapshot {
   capturedOn: string;
   rows: number;
   pitchers: number;
+  /** "truncated": the pitching block is missing; "theme": a theme week's environment. */
+  reason: "truncated" | "theme";
+  envYear: number;
 }
 
 /**
- * Newest complete `all`-split snapshot per league, plus the truncated ones
- * that were passed over so a caller can say why a league looks stale.
+ * Newest complete, ordinary-week `all`-split snapshot per league, plus the
+ * truncated and theme-week ones passed over on the way, so a caller can say
+ * why a league reads an older week.
  */
 export async function latestCompleteSnapshots(): Promise<{
   picks: Map<string, SnapshotPick>;
@@ -51,6 +61,7 @@ export async function latestCompleteSnapshots(): Promise<{
       league: leagueSnapshots.league,
       split: leagueSnapshots.split,
       capturedOn: leagueSnapshots.capturedOn,
+      envYear: leagueSnapshots.envYear,
       teams: leagueSnapshots.teams,
       rows: leagueSnapshots.rows,
       pitchers: sql<number>`count(*) filter (where ${leagueStints.isPitcher})`.mapWith(Number),
@@ -67,12 +78,15 @@ export async function latestCompleteSnapshots(): Promise<{
   for (const r of rows) {
     if (picks.has(r.league)) continue; // already have a newer complete one
     const share = r.total > 0 ? r.pitchers / r.total : 0;
-    if (share < MIN_PITCHER_SHARE) {
+    const reason = share < MIN_PITCHER_SHARE ? "truncated" : r.envYear !== LEAGUE_ENV_YEAR ? "theme" : null;
+    if (reason) {
       skipped.push({
         league: r.league,
         capturedOn: r.capturedOn,
         rows: r.total,
         pitchers: r.pitchers,
+        reason,
+        envYear: r.envYear,
       });
       continue;
     }

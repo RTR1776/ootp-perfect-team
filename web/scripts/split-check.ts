@@ -18,16 +18,25 @@
  * Split ratings live on the card, not in the league export, so cards.ratings is
  * joined in by cid.
  *
- *   pnpm split:check [--min 120]
+ * Theme weeks (2026-09-20 ran 1989) are a different run environment, so only
+ * one environment's weeks are pooled: the league's 2010 unless --env says.
+ *
+ *   pnpm split:check [--min 120] [--env 1989]
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { hitterRates, pitcherRates, cardRuns, envFor } from "@/lib/analytics/card-value";
-import { eraTable } from "@/lib/analytics/runenv-view";
+import { eraFor } from "@/lib/analytics/tournament-env";
 import { linearWeights, NEUTRAL_PARK } from "@/lib/analytics/run-env";
+import { ENV_YEAR_MAX, ENV_YEAR_MIN, LEAGUE_ENV_YEAR, parseEnvYear } from "@/lib/league-week";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
+const envArg = argv.indexOf("--env");
+/** Theme weeks run a different run environment; pooling them with 2010 fits
+ *  one environment's rates on another's. Default to the league norm. */
+const ENV = envArg >= 0 ? parseEnvYear(argv[envArg + 1]) : LEAGUE_ENV_YEAR;
+if (ENV == null) throw new Error(`--env wants a year the app can price, ${ENV_YEAR_MIN}-${ENV_YEAR_MAX}, e.g. --env 1989`);
 const MIN = Number((() => { const i = argv.indexOf("--min"); return i >= 0 ? argv[i + 1] : "120"; })());
 const wmean = (v: number[], w: number[]) => v.reduce((a, b, i) => a + b * w[i], 0) / w.reduce((a, b) => a + b, 0);
 function corr(x: number[], y: number[], w: number[]) {
@@ -38,7 +47,8 @@ function corr(x: number[], y: number[], w: number[]) {
 }
 
 async function main() {
-  const era = eraTable["0"] ?? eraTable["2010"];
+  // The model scores in the same environment the pooled weeks were played in (2010: PT default).
+  const era = eraFor(ENV)!.row;
   const env = envFor(era.rates, NEUTRAL_PARK, linearWeights(era.rates));
   /**
    * Aggregated in SQL, not in node. Pulling every split stint with its stats
@@ -56,6 +66,7 @@ async function main() {
       from league_stints st
       join league_snapshots ls on ls.id = st.snapshot_id
       where ls.split in ('vL','vR') and st.cid is not null
+        and ls.env_year = ${ENV}
     ),
     ok as (select * from stint where w > 0 and num is not null),
     cell as (

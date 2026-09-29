@@ -97,8 +97,9 @@ async function loadMarket(): Promise<{
   const byId = new Map(universe.map((u) => [u.cardId, u]));
 
   // Quality machinery from the latest non-PEL league snapshots, when present.
-  // Truncated exports are skipped by latestCompleteSnapshots (see that module),
-  // so a pitching-less export cannot hollow out the percentile pool here.
+  // Truncated exports and theme weeks are skipped by latestCompleteSnapshots
+  // (see that module), so a pitching-less export cannot hollow out the
+  // percentile pool here, nor a 1989 week's rosters stand in for the meta.
   const { picks } = await latestCompleteSnapshots();
   const latestByLeague = new Map<string, number>();
   for (const [league, snap] of picks) {

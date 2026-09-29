@@ -83,7 +83,8 @@
     "tourney:test": "node --env-file=.env.local --import tsx scripts/tourney-test.ts",
     "model:panel": "node --env-file=.env.local --import tsx scripts/model-panel.ts",
     "league:panel": "node --import tsx scripts/league-panel.ts",
-    "league:compare": "node --env-file=.env.local --import tsx scripts/league-compare.ts"
+    "league:compare": "node --env-file=.env.local --import tsx scripts/league-compare.ts",
+    "league:env": "node --env-file=.env.local --import tsx scripts/league-env.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
