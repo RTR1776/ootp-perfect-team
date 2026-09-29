@@ -13,6 +13,7 @@ import { TierDot } from "@/components/tier-badge";
 import { cn } from "@/lib/utils";
 import type { Tier } from "@/lib/tiers";
 import { MY_ORG, MY_ORG_SHORT, anyMine } from "@/lib/my-team";
+import { LEAGUE_ENV_YEAR } from "@/lib/league-week";
 import {
   HIT_POS, f1, f2, f3, pct1, hitterQual, pitcherQual,
   type HitterLine, type PitcherLine, type MetaSummary,
@@ -24,7 +25,9 @@ interface Filters { week: string; scope: string; split: string }
 interface Props {
   hitters: HitterLine[]; pitchers: PitcherLine[]; mineHitters: HitterLine[]; minePitchers: PitcherLine[];
   meta: MetaSummary; filters: Filters; weeks: string[]; leagues: string[];
-  scopeInfo: { snapshots: { league: string; capturedOn: string; teams: number }[]; nWeeks: number; myLeague: string[] };
+  /** Theme weeks and the year each ran; every other week ran the league's 2010. */
+  themes: Record<string, number>;
+  scopeInfo: { snapshots: { league: string; capturedOn: string; envYear: number; teams: number }[]; nWeeks: number; myLeague: string[] };
 }
 
 type HitCol = { key: keyof HitterLine; label: string; fmt: (v: number) => string; desc?: boolean; title?: string };
@@ -66,7 +69,7 @@ function weekLabel(d: string): string {
 
 const isMine = (orgs: string[]) => anyMine(orgs);
 
-export function LeagueBoard({ hitters, pitchers, mineHitters, minePitchers, meta, filters, weeks, leagues, scopeInfo }: Props) {
+export function LeagueBoard({ hitters, pitchers, mineHitters, minePitchers, meta, filters, weeks, themes, leagues, scopeInfo }: Props) {
   const router = useRouter();
   const [kind, setKind] = useState<Kind>("hit");
   const [pos, setPos] = useState<string>("all");
@@ -122,8 +125,8 @@ export function LeagueBoard({ hitters, pitchers, mineHitters, minePitchers, meta
           <span className="text-xs uppercase tracking-wide text-muted-foreground">Week</span>
           <select className="rounded-md border border-border bg-background px-2 py-1" value={filters.week} onChange={(e) => nav({ week: e.target.value })}>
             <option value="latest">Most recent (per league)</option>
-            <option value="all">All weeks pooled</option>
-            {weeks.map((w) => <option key={w} value={w}>{weekLabel(w)}</option>)}
+            <option value="all">{Object.keys(themes).length ? "All 2010 weeks pooled" : "All weeks pooled"}</option>
+            {weeks.map((w) => <option key={w} value={w}>{weekLabel(w)}{themes[w] ? ` · ${themes[w]} theme` : ""}</option>)}
           </select>
         </label>
         <label className="flex items-center gap-2">
@@ -141,7 +144,10 @@ export function LeagueBoard({ hitters, pitchers, mineHitters, minePitchers, meta
           <Seg options={[["all", "All"], ["vL", "vs LHP / LHB"], ["vR", "vs RHP / RHB"]]} value={filters.split} onChange={(v) => nav({ split: v })} />
         </div>
         <div className="ml-auto text-xs text-muted-foreground">
-          {scopeInfo.snapshots.map((s) => `${s.league} ${s.capturedOn.slice(5)}`).join(" · ")}
+          {scopeInfo.snapshots.map((s) => `${s.league} ${s.capturedOn.slice(5)}${s.envYear !== LEAGUE_ENV_YEAR ? ` (${s.envYear})` : ""}`).join(" · ")}
+          {filters.week === "all" && Object.keys(themes).length > 0 && (
+            <span className="block">Theme weeks left out: {Object.entries(themes).sort().map(([w, y]) => `${w.slice(5)} (${y})`).join(", ")}; pick one to read it alone.</span>
+          )}
         </div>
       </CardContent></Card>
 

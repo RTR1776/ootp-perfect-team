@@ -26,6 +26,7 @@ import { envFitMaps } from "@/lib/analytics/env-fit";
 import { roleRuns, hitterRates, pitcherRates, cardRuns, envFor } from "@/lib/analytics/card-value";
 import { linearWeights, NEUTRAL_PARK } from "@/lib/analytics/run-env";
 import { HIT_POS } from "@/lib/roster-fill";
+import { LEAGUE_ENV_YEAR } from "@/lib/league-week";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -69,14 +70,16 @@ async function main() {
   const themeFits = envFitMaps(pool as any, { era: era.rates, park: half });
   const baseFits = envFitMaps(pool as any, { era: base.rates, park: null });
 
-  /* observed, league-wide, latest three weeks weighted */
+  /* observed, league-wide, latest three weeks weighted; the league's own 2010
+     weeks only, since a theme week's index is another environment's */
   const ids = pool.map((c) => c.cardId);
   const obsRows = asRows<any>(await db.execute(sql`
     with wk as (
       select ls.captured_on::text wk, st.cid, st.is_pitcher,
         case when st.is_pitcher then (st.stats->>'BF')::numeric else st.pa::numeric end w,
         case when st.is_pitcher then (st.stats->>'ER')::numeric else (st.stats->>'wRAA')::numeric end num
-      from league_stints st join league_snapshots ls on ls.id=st.snapshot_id where ls.split='all'),
+      from league_stints st join league_snapshots ls on ls.id=st.snapshot_id
+      where ls.split='all' and ls.env_year = ${LEAGUE_ENV_YEAR}),
     ok as (select * from wk where w>0 and num is not null),
     lgm as (select wk, is_pitcher, sum(num)/sum(w) mean from ok group by 1,2)
     select o.cid, o.wk, sum(o.w) w, sum((o.num/o.w - l.mean)*o.w)/nullif(sum(o.w),0) above, bool_or(o.is_pitcher) isp

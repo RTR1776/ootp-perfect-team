@@ -16,6 +16,11 @@
  * pill, the bar at the bottom counts what is not saved yet, and leaving the
  * page asks first.
  *
+ * A league week also carries its run environment: 2010, the league's usual,
+ * unless it was a THEME WEEK (2026-09-20 ran 1989). A file whose own play fits
+ * decades away while its week says 2010 gets a warning, since an untagged
+ * theme week pools with the 2010 weeks everywhere.
+ *
  * Save order is forced (upload-rules compareSaveOrder): shop list, collection,
  * standings, league, dump. The collection export carries no Card ID and is
  * matched against the card universe by rating fingerprint, so it waits for
@@ -28,6 +33,7 @@ import { AlertTriangle, Check, ChevronRight, FileCheck2, Loader2, Upload, X } fr
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import * as format from "@/lib/format";
+import { LEAGUE_ENV_YEAR, parseEnvYear } from "@/lib/league-week";
 import {
   defaultSavedAs, type Dropped, folderDateOf, isCsvName, isPending as pending, KIND_LABEL, kindNoun, latestDayFor, leagueWeekCheck, NOT_CSV, readDropped, saveInOrder, type SaveOutcome, savePlan, tooLarge, tooLargeMessage, type UploadKind, willSaveSummary,
 } from "@/lib/upload-rules";
@@ -68,6 +74,8 @@ interface QueueItem {
   cardsUpdated?: boolean;
   /** The route never read it: not a CSV, too large, unreadable, or the request failed. Such a file isn't "Not recognised". */
   local?: boolean;
+  /** League: the era the file's own play fits; `offNorm` when that is decades from 2010. */
+  envFit?: { year: number; distance: number; offNorm: boolean } | null;
 }
 
 interface Row {
@@ -95,10 +103,11 @@ const andList = (xs: string[]) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, 
  * its sha256. `reached` is false when the route never answered (a 413, a
  * failed request), so the page doesn't call the file "Not recognised".
  */
-async function send(file: File, opts: { dryRun: boolean; capturedOn?: string | null }) {
+async function send(file: File, opts: { dryRun: boolean; capturedOn?: string | null; envYear?: number | null }) {
   const body = new FormData();
   body.append("file", file);
   if (opts.capturedOn) body.append("capturedOn", opts.capturedOn);
+  if (opts.envYear != null) body.append("envYear", String(opts.envYear));
   const attempt = async () => {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 90_000);
@@ -369,6 +378,33 @@ function DateField({ value, max, disabled, onCommit }: { value: string; max: str
   );
 }
 
+/** A run-environment year: commits on blur or Enter; anything the era table can't price reverts. */
+function EnvField({ value, disabled, onCommit }: { value: number; disabled?: boolean; onCommit: (year: number) => void }) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const commit = () => {
+    const year = parseEnvYear(draft);
+    setDraft(null);
+    if (year != null && year !== value) onCommit(year);
+  };
+  return (
+    <input
+      type="text"
+      inputMode="numeric"
+      maxLength={4}
+      aria-label="Run environment year"
+      value={draft ?? String(value)}
+      disabled={disabled}
+      className={cn(dateInput, "w-[4.5rem] text-center")}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") { e.preventDefault(); commit(); }
+        if (e.key === "Escape") setDraft(null);
+      }}
+      onChange={(e) => setDraft(e.target.value.replace(/\D/g, ""))}
+      onBlur={commit}
+    />
+  );
+}
+
 function ItemRow({
   row, saving, shopGoes, inGroup, onToggle, onRemove, onDate, onForce,
 }: {
@@ -497,12 +533,15 @@ function Warning({ text, forced, onForce, disabled }: { text: string; forced: bo
 /* ------------------------------------------------------------------ */
 
 function LeagueGroup({
-  week, rows, saving, onWeek, children,
+  week, env, rows, saving, onWeek, onEnv, children,
 }: {
   week: string;
+  /** The run environment the week was played in. */
+  env: number;
   rows: Row[];
   saving: boolean;
   onWeek: (value: string) => void;
+  onEnv: (year: number) => void;
   children: React.ReactNode;
 }) {
   const known = rows.filter((r) => r.it.kind === "league");
@@ -523,6 +562,9 @@ function LeagueGroup({
         : newer.length === all ? "Each league has a newer week on file, which stays current."
           : `${andList(newer)} ${newer.length === 1 ? "has" : "have"} a newer week on file, which stays current.`,
     ].filter(Boolean).join(" ");
+  // Files whose play fits decades from 2010 while the week is still set to 2010: an untagged theme week?
+  const offNorm = env === LEAGUE_ENV_YEAR && done ? open.filter((r) => r.it.envFit?.offNorm) : [];
+  const fitYears = [...new Set(offNorm.map((r) => r.it.envFit!.year))].sort();
 
   return (
     <section className="rounded-xl border border-border bg-card/40" aria-label={`League week ending ${week}`}>
@@ -536,12 +578,25 @@ function LeagueGroup({
           {plural(rows.length, "file")}
           {done ? check.leagues.length > 0 && `: ${check.leagues.join(", ")} × ${check.splits.join("/")}` : " · previewing…"}
         </span>
+        <label className="flex items-center gap-2 text-sm font-medium">
+          Run environment
+          <EnvField value={env} disabled={saving || !done || !open.length} onCommit={onEnv} />
+        </label>
       </div>
       <div className="space-y-1 px-3 pb-2 pt-1.5 text-xs">
         {done && check.problems.map((p) => <p key={p} className="text-warning">{p}</p>)}
+        {offNorm.length > 0 && (
+          <p className="text-warning">
+            {offNorm.length === open.length ? (offNorm.length === 1 ? "This file plays" : "Every file plays") : `${plural(offNorm.length, "file")} of ${open.length} ${offNorm.length === 1 ? "plays" : "play"}`}{" "}
+            like {andList(fitYears.map(String))}, not the league&apos;s {LEAGUE_ENV_YEAR}. If this was a theme week, set its run environment to the year the game ran.
+          </p>
+        )}
         <p className="text-muted-foreground">
           {note && <>{note} </>}
-          The Sunday the league week ends: a part-played export and the finished one share it, and the newer replaces the older.
+          The Sunday the league week ends: a part-played export and the finished one share it, and the newer replaces the older.{" "}
+          {env === LEAGUE_ENV_YEAR
+            ? `Run environment ${LEAGUE_ENV_YEAR} is the league's usual; a theme week takes its own year (09-20 ran 1989).`
+            : `A ${env} theme week: pooled reads (League's all weeks, Meta, Market) leave it out.`}
         </p>
       </div>
       <ul className="space-y-1.5 px-2 pb-2">{children}</ul>
@@ -556,6 +611,8 @@ export function UploadQueue() {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [dragging, setDragging] = useState(false);
   const [saving, setSaving] = useState<{ done: number; total: number } | null>(null);
+  /** Theme weeks set here: league week → the year it ran. A week not in it ran the league's 2010. */
+  const [envByWeek, setEnvByWeek] = useState<Record<string, number>>({});
   const inputRef = useRef<HTMLInputElement>(null);
   /** Requests go one at a time, previews and saves alike: parsing several
       1.5MB files at once on one serverless instance can hit its memory ceiling. */
@@ -677,6 +734,7 @@ export function UploadQueue() {
       source,
       onFile: (json.onFile as OnFile | null) ?? null,
       weeks: json.weeks as Week[] | undefined,
+      envFit: (json.envFit as QueueItem["envFit"]) ?? null,
       capturedOn: kind ? defaultSavedAs(kind, item.name, item.folderDate, new Date(), item.modified != null ? new Date(item.modified) : null) : undefined,
     });
   };
@@ -718,7 +776,8 @@ export function UploadQueue() {
       try {
         tally = await saveInOrder(queue, async (item): Promise<SaveOutcome> => {
           patch(item.id, { status: "saving" });
-          const { ok, json } = await send(item.file!, { dryRun: false, capturedOn: item.capturedOn });
+          const envYear = item.kind === "league" && item.capturedOn ? envByWeek[item.capturedOn] ?? LEAGUE_ENV_YEAR : null;
+          const { ok, json } = await send(item.file!, { dryRun: false, capturedOn: item.capturedOn, envYear });
           step();
           const already = json.alreadyImported;
           if (ok && already && typeof already === "object") {
@@ -781,8 +840,22 @@ export function UploadQueue() {
     const open = row.it.open ?? (row.it.status === "error" || (pending(row.it) && row.warn));
     patch(row.it.id, { open: !open });
   };
-  const setWeek = (week: string, value: string) =>
+  const setWeek = (week: string, value: string) => {
     setItems((prev) => prev.map((it) => (it.kind === "league" && pending(it) && it.capturedOn === week ? { ...it, capturedOn: value } : it)));
+    // The run environment goes with the files, unless the week they join already has one.
+    setEnvByWeek((prev) => {
+      if (prev[week] == null || prev[value] != null) return prev;
+      const { [week]: year, ...rest } = prev;
+      return { ...rest, [value]: year };
+    });
+  };
+  const setEnv = (week: string, year: number) =>
+    setEnvByWeek((prev) => {
+      const next = { ...prev };
+      if (year === LEAGUE_ENV_YEAR) delete next[week];
+      else next[week] = year;
+      return next;
+    });
 
   const itemRow = (row: Row, inGroup = false) => (
     <ItemRow
@@ -855,7 +928,7 @@ export function UploadQueue() {
         <div className="space-y-3">
           {loose.length > 0 && <ul className="space-y-1.5">{loose.map((r) => itemRow(r))}</ul>}
           {weeks.map((week) => (
-            <LeagueGroup key={week} week={week} rows={rows.filter((r) => weekOf(r.it) === week)} saving={saving != null} onWeek={(value) => setWeek(week, value)}>
+            <LeagueGroup key={week} week={week} env={envByWeek[week] ?? LEAGUE_ENV_YEAR} rows={rows.filter((r) => weekOf(r.it) === week)} saving={saving != null} onWeek={(value) => setWeek(week, value)} onEnv={(year) => setEnv(week, year)}>
               {rows.filter((r) => weekOf(r.it) === week).map((r) => itemRow(r, true))}
             </LeagueGroup>
           ))}

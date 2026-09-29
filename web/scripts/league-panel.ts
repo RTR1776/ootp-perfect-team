@@ -25,9 +25,10 @@
  * THEME WEEKS. The league's run environment changes. Ordinary weeks play the
  * PT default (they fit 2010-2013); theme weeks jump (2026-08-23 fits 1959,
  * 2026-09-20 fits 1989). Each week is scored in its own environment: the
- * fitted year when league-era calls it a theme week, the PT default otherwise.
- * Without DATABASE_URL, only files are read and every week is scored in the
- * default, with a warning.
+ * week's env_year tag when it has one, else the fitted year when the play fits
+ * far from 2010 (league-era `weekEnv`, which prints a note to tag it), else the
+ * PT default. Without DATABASE_URL, only files are read and every week is
+ * scored in the default, with a warning.
  *
  * Each row also carries scale_<rating>: what +10 of that rating is worth to an
  * average card in the week's environment, over what it is worth in the PT
@@ -44,7 +45,8 @@ import { envFitMaps } from "@/lib/analytics/env-fit";
 import { envFor, marginalRatings } from "@/lib/analytics/card-value";
 import { linearWeights, type EraRates } from "@/lib/analytics/run-env";
 import { eraFor, eraTable } from "@/lib/analytics/tournament-env";
-import { fitEraYear } from "@/lib/analytics/league-era";
+import { weekEnv } from "@/lib/analytics/league-era";
+import { LEAGUE_ENV_YEAR } from "@/lib/league-week";
 
 const ROOT = join(process.cwd(), "..", "League Data");
 const OUT = process.argv[2] ?? join(process.cwd(), "..", "Archive", ".league-panel.csv");
@@ -77,9 +79,10 @@ const BASE_WORTH = worth((eraTable["0"] ?? eraTable["2010"]).rates);
 const RATING_OF: Record<string, string> = { K: "Avoid Ks", BA: "BABIP", GAP: "Gap", POW: "Power", EYE: "Eye" };
 
 async function envOf(week: string): Promise<{ year: number; themed: boolean }> {
-  if (!HAS_DB) return { year: 2010, themed: false };
-  const fit = await fitEraYear(week).catch(() => null);
-  return fit?.themed ? { year: Number(fit.year), themed: true } : { year: 2010, themed: false };
+  if (!HAS_DB) return { year: LEAGUE_ENV_YEAR, themed: false };
+  const env = await weekEnv(week);
+  if (env.note) console.warn(`!! ${env.note}`);
+  return { year: env.year, themed: env.themed };
 }
 
 async function main() {
