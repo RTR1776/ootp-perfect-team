@@ -222,6 +222,7 @@ export default async function BuildPage({
             year: cards.year,
             ratings: cards.ratings,
             cardType: cards.cardType,
+            cardSubType: cards.cardSubType,
           })
           .from(cards)
           .where(inArray(cards.cardId, ownedIds))
@@ -289,6 +290,7 @@ export default async function BuildPage({
           variantOwned: variantSet.has(c.cardId),
           variantRatings: variants.get(c.cardId) ?? null,
           cardType: c.cardType,
+          le: c.cardSubType === "LE",
           ratings: trimRatings(r),
           proj: projFor(isP, c.bats, r),
           obs: bySeries.get(c.cardId) ?? null,
@@ -309,7 +311,7 @@ export default async function BuildPage({
       const universe = await db.select({
         cardId: cards.cardId, name: cards.name, tier: cards.tier, cardValue: cards.cardValue, position: cards.position,
         pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
-        title: cards.title, firstSeenAt: cards.firstSeenAt,
+        title: cards.title, firstSeenAt: cards.firstSeenAt, cardSubType: cards.cardSubType,
       }).from(cards);
       const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
       const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
@@ -333,7 +335,7 @@ export default async function BuildPage({
         .filter((c) => !ownedSet.has(c.cardId) && isLegal(c.cardValue, c.year))
         .map((c) => ({ c, runs: c.isPitcher ? base.runsR.get(c.cardId) : both(c.cardId) }))
         .filter((x): x is { c: (typeof universe)[number]; runs: number } => x.runs != null)
-        .filter(({ c }) => cardEligibility({ cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher ?? false, role: c.pitcherRole, cardType: c.cardType, ratings: (c.ratings ?? {}) as Record<string, number>, baseOwned: false, variantOwned: false }, tournament!).errors.length === 0);
+        .filter(({ c }) => cardEligibility({ cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher ?? false, role: c.pitcherRole, cardType: c.cardType, le: c.cardSubType === "LE", ratings: (c.ratings ?? {}) as Record<string, number>, baseOwned: false, variantOwned: false }, tournament!).errors.length === 0);
       const top = (wantPitcher: boolean, limit: number) => scored
         .filter((x) => (x.c.isPitcher ?? false) === wantPitcher)
         .sort((a, b) => b.runs - a.runs)

@@ -44,6 +44,8 @@ export interface RosterRules {
     teamCap?: number | null;
     variantCap?: number | null;
     variantsAllowed?: boolean | null;
+    /** "No LE" in the rules line: Limited Edition cards may not enter. */
+    noLimitedEdition?: boolean | null;
     cardTypes?: string[] | null;
     cards?: number | null;
     valueWindowFrom?: string;
@@ -66,6 +68,8 @@ export interface RosterCard {
   isPitcher: boolean;
   role: string | null;
   cardType?: number | null;
+  /** A Limited Edition card (cards.card_sub_type "LE"); only a "No LE" event reads it. */
+  le?: boolean | null;
   ratings: Record<string, number>;
   baseOwned: boolean;
   variantOwned: boolean;
@@ -227,6 +231,10 @@ export function cardEligibility(card: RosterCard, rules: RosterRules): { errors:
     if (card.year == null) unknown("missing-year", "card year is missing.");
     else if ((rules.cardYearMin != null && card.year < rules.cardYearMin) || (rules.cardYearMax != null && card.year > rules.cardYearMax)) fail("card-year", "card year is outside this event's range.");
   }
+  if (rules.restrictions?.noLimitedEdition) {
+    if (card.le == null) unknown("missing-le", "whether it is a Limited Edition card is not known.");
+    else if (card.le) fail("limited-edition", "Limited Edition cards are not allowed.");
+  }
   const types = rules.restrictions?.cardTypes;
   if (types?.length) {
     const parsed = types.map(parseCardTypeRule);
@@ -378,7 +386,7 @@ export function slotUse(tiers: Record<string, number>, slots: Record<string, num
 
 export type RuleState = "set" | "none" | "unreadable" | "suspect";
 export interface RuleItem {
-  key: "value" | "slots" | "sets" | "years" | "variants" | "cap" | "size" | "dh";
+  key: "value" | "slots" | "sets" | "years" | "le" | "variants" | "cap" | "size" | "dh";
   label: string;
   text: string;
   /**
@@ -479,6 +487,7 @@ export function describeRules(rules: RosterRules, opts: { used?: Record<string, 
     out.push({ key: "years", label: "Years", text: `not on file — field plays only ${yearSpan(e)} cards`, state: "suspect", detail: `No card-year rule on file, but every card the field has played is from ${yearSpan(e)}.` });
   }
 
+  if (rx?.noLimitedEdition) out.push({ key: "le", label: "LE", text: "none", state: "set", detail: "No Limited Edition cards." });
   if (rx?.variantsAllowed === false) out.push({ key: "variants", label: "Variants", text: "none", state: "set" });
   else if (rx?.variantCap != null) out.push({ key: "variants", label: "Variants", text: `≤ ${rx.variantCap}`, state: "set" });
   if (rx?.teamCap != null) out.push({ key: "cap", label: "Cap", text: rx.teamCap.toLocaleString("en-US"), state: "set", detail: "Total card value of the roster." });

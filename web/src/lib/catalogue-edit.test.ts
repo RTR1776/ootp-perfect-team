@@ -159,3 +159,15 @@ test("the dump's newest run predates a format started later, so the sync keeps t
   assert.equal(dumpPredatesFormat(undefined, lastOld), false);
   assert.equal(dumpPredatesFormat("soon", lastOld), false);
 });
+
+test("a variant cap lifts a no-variants rule, No LE is set and lifted, and neither alone is only a date change", () => {
+  const nightmare: CatalogueRules = { ...lastWeek, restrictions: { cards: 26, teamCap: 1559, variantsAllowed: false, formatSince: "2026-10-02" } };
+  const next = editCatalogueRules(nightmare, { value: [65, 79], teamCap: 1805, variantCap: 6, noLimitedEdition: true, at: "2026-09-29" });
+  const r = next.restrictions!;
+  assert.deepEqual([next.ratingsMin, next.ratingsMax, r.teamCap, r.variantCap, r.noLimitedEdition, r.variantsAllowed], [65, 79, 1805, 6, true, undefined]);
+  assert.equal(r.formatSince, "2026-10-02", "the format date stays");
+  assert.equal(((r.previousFormat as Record<string, unknown>).restrictions as Record<string, unknown>).variantsAllowed, false);
+  const lifted = editCatalogueRules(next, { noLimitedEdition: false, variantCap: null, at: "2026-10-09" }).restrictions!;
+  assert.deepEqual([lifted.noLimitedEdition, lifted.variantCap], [undefined, undefined]);
+  assert.ok(lifted.previousFormat, "a rule change keeps the format before it");
+});

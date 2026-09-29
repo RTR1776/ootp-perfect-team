@@ -59,10 +59,10 @@ export default async function DraftPage({ searchParams }: { searchParams: Promis
     };
     const universe = (await db.select({
       cardId: cards.cardId, name: cards.name, cardValue: cards.cardValue, position: cards.position, pitcherRole: cards.pitcherRole,
-      isPitcher: cards.isPitcher, bats: cards.bats, throws: cards.throws, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
+      isPitcher: cards.isPitcher, bats: cards.bats, throws: cards.throws, year: cards.year, cardType: cards.cardType, cardSubType: cards.cardSubType, ratings: cards.ratings,
     }).from(cards)).filter((c) => cardEligibility({
       cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher ?? false, role: c.pitcherRole,
-      cardType: c.cardType, ratings: (c.ratings ?? {}) as Record<string, number>, baseOwned: false, variantOwned: false,
+      cardType: c.cardType, le: c.cardSubType === "LE", ratings: (c.ratings ?? {}) as Record<string, number>, baseOwned: false, variantOwned: false,
     }, rules).errors.length === 0);
 
     if (eraRow && universe.length) {

@@ -41,6 +41,8 @@ export interface PlayedLine {
   isPitcher: boolean; bats: string | null; throws: string | null; year: number | null; owned: boolean;
   /** Card set (cards.card_type): the Sets filter and the tag after the year. */
   cardType: number | null;
+  /** A Limited Edition card, for a "No LE" event's rules. */
+  le?: boolean;
   /** Model runs per 700 PA (PT default engine, neutral park). */
   model: number;
   /** Observed runs per 700 on the model's scale; null with no play. */

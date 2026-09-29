@@ -255,3 +255,11 @@ test("an event's set rule as codes: none, read, or unreadable", () => {
   assert.equal(ruleCardTypes({ restrictions: { cardTypes: ["Live", "Unicorns"] } }), null, "unreadable: not filtered, not guessed");
   assert.equal(ruleCardTypes({ restrictions: null }), null);
 });
+test("a No LE event bars Limited Edition cards, and a card whose edition isn't known is incomplete, not legal",()=>{
+  const noLe={...rules,restrictions:{noLimitedEdition:true}};
+  const card=fixture().cards[0];
+  assert.ok(cardEligibility({...card,le:true},noLe).errors.some(e=>e.code==="limited-edition"));
+  assert.equal(cardEligibility({...card,le:false},noLe).errors.length,0);
+  assert.ok(cardEligibility({...card},noLe).incomplete.some(e=>e.code==="missing-le"));
+  assert.equal(cardEligibility({...card,le:true},rules).errors.length,0,"no rule, no check");
+});

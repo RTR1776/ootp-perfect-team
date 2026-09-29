@@ -1,0 +1,36 @@
+# Saturday Iron Warriors — Claude pick 2026-09-29 PM: 1991 RE, 1991 Cleveland Stadium, DH, 40-59; old-format exports left out
+R:C Ted Easterly #84686
+R:1B Shawn Green #87028
+R:2B Nap Lajoie #86581
+R:3B Jim Tabor #85905
+R:SS Javier Baez (VAR) #86417
+R:LF Dwayne Hosey #86801
+R:CF Carlos Beltran #86298
+R:RF Jay Bruce #86409
+R:DH Broderick Perkins #86460
+L:C Charlie O'Brien #86925
+L:1B Matt Davidson #84666
+L:2B Dan Uggla #86599
+L:3B Jim Tabor #85905
+L:SS Javier Baez (VAR) #86417
+L:LF Andruw Jones (VAR) #86321
+L:CF Carlos Beltran #86298
+L:RF Dwayne Hosey #86801
+L:DH Pete Incaviglia #86943
+SP1 James McDonald (VAR) #86384
+SP2 Tin Can Kincannon #86073
+SP3 Justin Verlander #87014
+SP4 Patricio Scantlebury #85828
+SP5 Bullet Campbell #87084
+CL Todd Jones (VAR) #86434
+RP1 Mike Marshall #84720
+RP2 Hector Rondon #83078
+RP3 Reed Garrett #84825
+RP4 Hector Carrasco #83082
+RP5 Ken Lehman #83074
+RP6 Cionel Perez #84959
+BN1 Dan Uggla #86599
+BN2 Matt Davidson #84666
+BN3 Pete Incaviglia #86943
+BN4 Andruw Jones (VAR) #86321
+BN5 Charlie O'Brien #86925

@@ -111,14 +111,32 @@ export async function loadObservedRuns(
   /** Series left out entirely: an event's own exports from before its format changed. */
   excludeSeries: readonly string[] = [],
 ): Promise<Map<number, ObservedRuns>> {
-  const out = new Map<number, ObservedRuns>();
-  if (!cardIds.length) return out;
-  const ids = sql.join(cardIds.map((id) => sql`${id}`), sql`, `);
+  if (!cardIds.length) return new Map();
+  return observedRunsFrom(await loadObservedBook(cardIds, excludeSeries), modelRuns, reference);
+}
+
+/**
+ * The tournament lines loadObservedRuns reads, loaded once so they can be
+ * read in many run environments (Card Fit scores every current event): the
+ * card lines, each series' baseline, and every card that played those series
+ * (the level M_s is built from them). `cardIds` limits the card lines; left
+ * out, every card's lines are loaded.
+ */
+export interface ObservedBook {
+  lines: Row[];
+  base: Map<string, { woba: number; fip: number }>;
+  played: Row[];
+}
+
+export async function loadObservedBook(cardIds?: readonly number[], excludeSeries: readonly string[] = []): Promise<ObservedBook> {
+  const empty: ObservedBook = { lines: [], base: new Map(), played: [] };
+  if (cardIds && !cardIds.length) return empty;
+  const only = cardIds ? sql` and card_id in (${sql.join(cardIds.map((id) => sql`${id}`), sql`, `)})` : sql``;
   const skip = excludeSeries.length ? sql` and series not in (${sql.join(excludeSeries.map((s) => sql`${s}`), sql`, `)})` : sql``;
   const lines = asRows(await db.execute(sql`
-    select card_id, series, is_pitcher, pa, ip, woba, fip, counters
-    from observed_card_stats where card_id in (${ids})${skip}`));
-  if (!lines.length) return out;
+    select card_id, series, is_pitcher, pa, ip, woba, fip, (counters->>'BF')::float bf
+    from observed_card_stats where true${only}${skip}`));
+  if (!lines.length) return empty;
   const seriesIn = sql.join([...new Set(lines.map((l) => str(l.series)))].map((s) => sql`${s}`), sql`, `);
   // Series baselines from the same table, so they carry the same exclusions:
   // one row per (series, side, counter) summed over every card that played it.
@@ -144,11 +162,25 @@ export async function loadObservedRuns(
       fip: fipOf([stintLike(c.p, c.ip, 0) as never]),
     });
   }
+  // Every card that played those series, for each field's level. With no
+  // card filter the lines are that already.
+  const played = cardIds ? asRows(await db.execute(sql`
+    select series, card_id, is_pitcher, pa, (counters->>'BF')::float bf
+    from observed_card_stats where series in (${seriesIn})`)) : lines;
+  return { lines, base, played };
+}
+
+/** loadObservedRuns on a loaded book, in the run environment `modelRuns` scores. */
+export function observedRunsFrom(
+  book: ObservedBook,
+  modelRuns: (cardId: number) => number | null | undefined,
+  reference?: (cardId: number) => number | null | undefined,
+): Map<number, ObservedRuns> {
+  const out = new Map<number, ObservedRuns>();
+  const { lines, base, played } = book;
+  if (!lines.length) return out;
   // The level of each field on the model's scale: PA-weighted (BF for arms)
   // mean of the model's runs over every card that played the series.
-  const played = asRows(await db.execute(sql`
-    select series, card_id, is_pitcher, pa, (counters->>'BF')::float bf
-    from observed_card_stats where series in (${seriesIn})`));
   const level = new Map<string, { h: { num: number; den: number }; p: { num: number; den: number } }>();
   for (const r of played) {
     const m = modelRuns(num(r.card_id));
@@ -174,7 +206,7 @@ export async function loadObservedRuns(
     const M = levelOf(series, isP);
     if (M == null) continue;
     if (isP) {
-      const bf = num((l.counters as Record<string, unknown> | null)?.BF);
+      const bf = num(l.bf);
       if (!(bf > 0) || l.fip == null || !(b.fip > 0)) continue;
       // FIP is runs per 9 IP; over the card's own IP; saved = negative allowed.
       const runsSaved = -((num(l.fip) - b.fip) / 9) * num(l.ip);
