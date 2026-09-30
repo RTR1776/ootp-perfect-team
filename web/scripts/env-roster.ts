@@ -30,6 +30,7 @@ import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
 import { optimizeRoster } from "@/lib/roster-optimize";
+import { runSearch, toPlainFits, type SearchBest } from "@/lib/roster-search";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
 import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
@@ -93,6 +94,8 @@ const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).fil
  */
 const CARD_TYPES = new Set((val("card-types") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0));
 const OPTIMIZE = flag("optimize");
+/** --compare-search: also run /build's Optimise and Search longer (lib/roster-search) on the same inputs and print their scores. */
+const COMPARE_SEARCH = flag("compare-search");
 /** Catchers the optimiser must carry. L.J. always carries two, and /build defaults to it; --min-catchers 0 turns it off. */
 const MIN_CATCHERS = num("min-catchers", 2)!;
 /**
@@ -452,6 +455,19 @@ async function main() {
         candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS,
       });
       if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
+    }
+    if (COMPARE_SEARCH) {
+      /* /build's own search (roster-search: Optimise = quick, Search longer = deep) on these same
+         inputs, from the greedy fill as "your board", scored on the same objective. */
+      for (const mode of ["quick", "deep"] as const) {
+        const t0 = Date.now();
+        let done: SearchBest | null = null;
+        runSearch({ mode, budgetMs: 30_000, board: slots, pool, rules, shape, fits: toPlainFits(fits), runsR: [...fits.runsR], runsL: [...fits.runsL],
+          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, gloveScale: GLOVE, locks: [], minCatchers: MIN_CATCHERS },
+          (m) => { if (m.type === "done") done = m.best; }, () => Date.now());
+        const b = done as SearchBest | null;
+        console.log(`compare-search: /build ${mode === "quick" ? "Optimise" : "Search longer"} ${b ? objective(b.slots).toFixed(1) : "none"} runs (from ${b?.from ?? "-"}) in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
+      }
     }
     console.log(`\noptimiser: ${starts.size} λ starts hill-climbed; best ${best.score.toFixed(1)} runs vs ${greedyScore.toFixed(1)} greedy (+${(best.score - greedyScore).toFixed(1)}), ${best.moves} moves from λ ${best.from.toFixed(2)}`);
     slots = best.slots; lambda = best.from;
