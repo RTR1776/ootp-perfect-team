@@ -1,0 +1,36 @@
+# PTCS 7 Championship - Iron — Claude pick 2026-09-30-ptcs7, rebuilt from the catalogue's rules by current-rosters (--year 1970 --park Dodger Stadium --park-year 1971 --dh --max 49 --cap 1175 --variant-cap 11 --size 26 --series PTCS 7 Championship)
+R:C Buck Rodgers #84312
+R:1B Stan Hack #86458
+R:2B Tsung-Che Cheng (VAR) #84612
+R:3B Kid Elberfeld (VAR) #86368
+R:SS Javier Baez (VAR) #86417
+R:LF Sam Rice #85069
+R:CF Dwayne Hosey #86801
+R:RF Walt French #86960
+R:DH George Sisler (VAR) #87002
+L:C Cal McVey (VAR) #83567
+L:1B Stan Hack #86458
+L:2B Tsung-Che Cheng (VAR) #84612
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Javier Baez (VAR) #86417
+L:LF Rafael Landestoy #85673
+L:CF Dwayne Hosey #86801
+L:RF Sammy Sosa #85691
+L:DH Pete Incaviglia #86943
+SP1 Tin Can Kincannon #86073
+SP2 Mark Langston #85840
+SP3 Marco Estrada #87046
+SP4 Bob Gibson #86658
+SP5 Bunny Hearn #84681
+CL Todd Jones (VAR) #86434
+RP1 Reed Garrett #84825
+RP2 Zach Agnos #81805
+RP3 Steve Farr #86924
+RP4 R.T. Walker #86952
+RP5 Brian Wolfe #86975
+RP6 Wyatt Mills #85632
+BN1 Pete Incaviglia #86943
+BN2 Charlie Eden #82834
+BN3 Cal McVey (VAR) #83567
+BN4 Sammy Sosa #85691
+BN5 Rafael Landestoy #85673
