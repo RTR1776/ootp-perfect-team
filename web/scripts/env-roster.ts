@@ -95,7 +95,9 @@ const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).fil
 const CARD_TYPES = new Set((val("card-types") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0));
 const OPTIMIZE = flag("optimize");
 /** --compare-search: also run /build's Optimise and Search longer (lib/roster-search) on the same inputs and print their scores. */
-const COMPARE_SEARCH = flag("compare-search");
+const COMPARE_SEARCH = flag("compare-search") || flag("compare-only");
+/** --compare-only: /build's searches only, without the CLI's own λ climbs (its score was measured already). */
+const COMPARE_ONLY = flag("compare-only");
 /** Catchers the optimiser must carry. L.J. always carries two, and /build defaults to it; --min-catchers 0 turns it off. */
 const MIN_CATCHERS = num("min-catchers", 2)!;
 /**
@@ -449,7 +451,7 @@ async function main() {
     }
 
     let best = { slots, score: greedyScore, from: lambda, moves: 0 };
-    for (const [, st] of starts) {
+    for (const [, st] of COMPARE_ONLY ? [] : starts) {
       const r = optimizeRoster(st.slots, pool, rules, shape, {
         objective, slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
         candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS,
@@ -462,7 +464,7 @@ async function main() {
       for (const mode of ["quick", "deep"] as const) {
         const t0 = Date.now();
         let done: SearchBest | null = null;
-        runSearch({ mode, budgetMs: 30_000, board: slots, pool, rules, shape, fits: toPlainFits(fits), runsR: [...fits.runsR], runsL: [...fits.runsL],
+        runSearch({ mode, board: slots, pool, rules, shape, fits: toPlainFits(fits), runsR: [...fits.runsR], runsL: [...fits.runsL],
           lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, gloveScale: GLOVE, locks: [], minCatchers: MIN_CATCHERS },
           (m) => { if (m.type === "done") done = m.best; }, () => Date.now());
         const b = done as SearchBest | null;

@@ -20,8 +20,9 @@ L.J., 2026-09-29: new cards come in batches (a release, pulls, variants), and he
    - Filter by event tier, or show only the events where it starts.
 4. **Open the event (its name links to Build):**
    - The saved roster shows "N new cards fit".
-   - Load it, press Optimise, then save.
-   - Or ask Claude to rebuild every current event (below).
+   - Load it, press Optimise (about a minute) or Search longer (several minutes), then save.
+   - Since 09-30 these match Claude's full builds (below), so there's no need to ask Claude.
+   - Claude's batch rebuild (below) is still there for doing many events at once.
 
 ## The fast path: rebuild only where a new card starts (`--new-cards`)
 
@@ -74,3 +75,26 @@ Use `--skip` for an event built to L.J.'s own shape (Dead Silver: 4 SP / 5 RP) o
   - where none is saved, the best team your legal cards make, built without the card being placed.
 - **The runs are one swap into that team.** That's the first move Optimise would weigh, not the reshuffle a cap or slot rule can force. So a big number in a cap event is a reason to open Build, not a finished roster.
 - **Speed:** about seven seconds to place the new cards in all ~90 current events. The result is cached until an upload, a rules change or a saved roster changes it. Any other card is scored when opened (about five seconds the first time).
+
+## Build's search vs Claude's builds (2026-09-30)
+
+L.J.: "I don't want to have you put lineups in there, we should just make sure the optimizer is as good as you are."
+
+**How it was measured:** `env-roster --compare-search` (or `--compare-only`) runs /build's Optimise and Search longer (`lib/roster-search.ts`) on the CLI build's exact inputs.
+
+**What was wrong:** Build's search climbed only each slot's top 120 candidates. It missed trades that need a card outside that list, which matters most under a tight cap. Saturday Bronze Cap: Optimise 8.8, Claude 20.3.
+
+**The fix:** after the narrow climbs, each mode takes its best 2 or 3 boards and climbs them once more over the full pool (`POLISH`). Optimise also tries λ 8.
+
+| Event | Claude (CLI) | Optimise before → after | Search longer before → after |
+|---|---|---|---|
+| Saturday Bronze Cap | 20.3 | 8.8 → **20.3** | 18.8 → **20.3** |
+| Daily Bronze Only Cap | 95.0 | 94.6 → 94.6 | 94.6 → 94.6 |
+| Daily Late Bronze | 100.6 | 100.6 → 100.6 | 100.6 → 100.6 |
+| Daily Gold Cap | 209.1 | 211.3 → **214.9** | 213.2 → **214.8** |
+| Daily Gold Slots | 239.7 | 234.5 → 234.5 | — → **239.7** |
+
+**Result:**
+- Search longer matches or beats Claude's builds on every event measured (within 0.4 runs).
+- Optimise does too on three of five, in about a minute.
+- For a big event, press Search longer.

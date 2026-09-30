@@ -56,11 +56,13 @@ test("quick mode climbs each start once, posting progress before each and the be
   const starts = searchStarts(request());
   const end = msgs.at(-1)!;
   assert.equal(end.type, "done");
-  assert.equal(end.total, starts.length);
-  assert.equal(end.done, starts.length);
+  const polished = msgs.filter((m) => m.current?.endsWith(", full pool")).length;
+  assert.ok(polished >= 1 && polished <= 2, "its best boards are polished over the full pool");
+  assert.equal(end.done, starts.length + polished);
+  assert.equal(end.total, end.done);
   assert.equal(end.cut, false);
-  assert.deepEqual(msgs.slice(0, -1).map((m) => m.current), starts.map((s) => s.label));
-  assert.deepEqual(msgs.slice(0, -1).map((m) => m.done), starts.map((_, i) => i));
+  assert.deepEqual(msgs.slice(0, starts.length).map((m) => m.current), starts.map((s) => s.label));
+  assert.deepEqual(msgs.slice(0, -1).map((m) => m.done), msgs.slice(0, -1).map((_, i) => i));
   const obj = rosterObjective(pool, { shape, runsR: runs, runsL: runs, lhpShare: 0.3 });
   assert.ok(end.best);
   assert.ok(Math.abs(end.best.score - obj.objective(end.best.slots)) < 1e-9);
@@ -72,8 +74,10 @@ test("deep mode climbs each start under both settings", () => {
   const msgs = collect(request({ mode: "deep" }));
   const end = msgs.at(-1)!;
   const n = searchStarts(request({ mode: "deep" })).length;
-  assert.equal(end.total, 2 * n);
-  assert.equal(end.done, 2 * n);
+  const polished = msgs.filter((m) => m.current?.endsWith(", full pool")).length;
+  assert.ok(polished >= 1 && polished <= 3);
+  assert.equal(end.done, 2 * n + polished);
+  assert.equal(end.total, end.done);
   assert.ok(msgs.some((m) => m.current?.endsWith(", wide")));
 });
 
@@ -81,7 +85,7 @@ test("quick mode starts no climb after its time budget; the first always runs", 
   let calls = 0;
   const clock = () => 20_000 * calls++; // each reading is 20 s later
   const end = collect(request({ budgetMs: 10_000 }), clock).at(-1)!;
-  assert.equal(end.done, 1);
+  assert.equal(end.done, 2, "one climb, then its board polished");
   assert.equal(end.cut, true);
   assert.ok(end.best, "the one climb's board is kept");
   calls = 0;

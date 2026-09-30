@@ -15,12 +15,12 @@
  * a hand-built board +47.9).
  *
  * MODES.
- *   quick (Optimise)        up to 6 starts, each climbed once with the
+ *   quick (Optimise)        up to 7 starts, each climbed once with the
  *                           narrow settings; no climb starts after the time
- *                           budget (30 s). Gold Rush, 2026-09-26: one climb
- *                           +196.7 in 4 s, six +204.5 in 52 s.
+ *                           budget (45 s); then its 2 best boards polished
+ *                           over the full pool (POLISH), even past the budget.
  *   deep  (Search longer)   up to 12 starts, each climbed under both
- *                           settings, until done or stopped. A few minutes.
+ *                           settings, then its 3 best polished. Several minutes.
  *
  * Wider is not simply better: the climb is steepest-ascent, so a different
  * candidate list takes a different path. On Saturday Bronze Cap (2026-09-26)
@@ -48,8 +48,19 @@ export const SETTINGS = [
   { candidateLimit: 120, aTop: 8, bCheapest: 10, maxPasses: 40, tag: "" },
   { candidateLimit: 300, aTop: 10, bCheapest: 12, maxPasses: 80, tag: ", wide" },
 ];
-export const QUICK = { maxStarts: 6, lambdas: [2, 1, 4, 0.5, 8], budgetMs: 30_000 };
-export const DEEP = { maxStarts: 12, lambdas: [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5] };
+/**
+ * POLISH. The narrow climbs stop where no move among each slot's top 120 helps;
+ * a trade that needs a card outside that list (the cheap reliever that pays for
+ * a bat under a tight cap) stays invisible. So the best boards found are climbed
+ * once more over the full pool with the CLI's pair settings (env-roster, the
+ * reference). From a board that is already good the full climb has few moves
+ * left, so it is quick where a full climb from a cold start is not.
+ * Measured 2026-09-30 on the CLI's inputs (env-roster --compare-search): see
+ * Docs/Handoff 2026-09-30.md.
+ */
+export const POLISH = { candidateLimit: undefined as number | undefined, aTop: 10, bCheapest: 12, maxPasses: 80, tag: ", full pool" };
+export const QUICK = { maxStarts: 7, lambdas: [2, 8, 1, 4, 0.5], budgetMs: 45_000, polish: 2 };
+export const DEEP = { maxStarts: 12, lambdas: [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5], polish: 3 };
 
 type Entries = [number, number][];
 /** FitMaps as entry arrays, to cross postMessage. */
@@ -161,23 +172,43 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
     spWeight: d.spWeight, rpWeight: d.rpWeight, gloveScale: d.gloveScale,
     mustIds: locks.size ? locks : undefined,
   });
-  const total = starts.length * settings.length;
+  const plan = quick ? QUICK : DEEP;
+  const total = starts.length * settings.length + plan.polish;
   let best: SearchBest | null = null;
   let done = 0;
   let cut = false;
+  const found: SearchBest[] = [];
+  const climb = (slots: FillResult, cfg: { candidateLimit?: number; aTop: number; bCheapest: number; maxPasses: number }, from: string) => {
+    const r = optimizeRoster(slots, d.pool, d.rules, d.shape, {
+      objective: obj.objective, slotValue: obj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
+      pairMoves: { aTop: cfg.aTop, bCheapest: cfg.bCheapest, rank: obj.rank }, maxPasses: cfg.maxPasses,
+      candidateLimit: cfg.candidateLimit, keep: locks, minCatchers: d.minCatchers,
+    });
+    // Only boards that pass every rule compete.
+    if (r.legal) {
+      const b = { slots: r.slots, score: r.score, moves: r.moves, from };
+      found.push(b);
+      if (!best || r.score > best.score + 1e-9) best = b;
+    }
+    done++;
+  };
   climbs: for (const st of starts) {
     for (const cfg of settings) {
       if (done > 0 && now() - t0 > budget) { cut = true; break climbs; }
       post({ type: "progress", done, total, best, current: st.label + cfg.tag });
-      const r = optimizeRoster(st.slots, d.pool, d.rules, d.shape, {
-        objective: obj.objective, slotValue: obj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
-        pairMoves: { aTop: cfg.aTop, bCheapest: cfg.bCheapest, rank: obj.rank }, maxPasses: cfg.maxPasses,
-        candidateLimit: cfg.candidateLimit, keep: locks, minCatchers: d.minCatchers,
-      });
-      // Only boards that pass every rule compete.
-      if (r.legal && (!best || r.score > best.score + 1e-9)) best = { slots: r.slots, score: r.score, moves: r.moves, from: st.label + cfg.tag };
-      done++;
+      climb(st.slots, cfg, st.label + cfg.tag);
     }
   }
-  post({ type: "done", done, total, best, cut });
+  // The best distinct boards, polished over the full pool (quick: its one best, even past the budget).
+  const seen = new Set<string>();
+  const top = found.sort((a, b) => b.score - a.score).filter((b) => {
+    const k = [...new Set(Object.values(b.slots))].sort((x, y) => x - y).join(",");
+    return seen.has(k) ? false : (seen.add(k), true);
+  }).slice(0, plan.polish);
+  for (const b of top) {
+    post({ type: "progress", done, total, best, current: b.from + POLISH.tag });
+    climb(b.slots, POLISH, b.from + POLISH.tag);
+  }
+  // Fewer distinct boards than planned polishes: the count ends where the work did.
+  post({ type: "done", done, total: done, best, cut });
 }
