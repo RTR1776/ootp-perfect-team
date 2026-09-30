@@ -1,0 +1,35 @@
+# Wednesday Night of the Living Deadball — Claude pick 2026-09-30-deadball3, rebuilt from the catalogue's rules by current-rosters (--year 1920 --park Fenway Park --park-year 1919 --min 40 --max 105 --card-year-min 1800 --card-year-max 1920 --size 26 --obs-exclude deadballweekly)
+R:C King Kelly #85153
+R:1B Roger Connor #86577
+R:2B Jack Burdock #86067
+R:3B John McGraw #86438
+R:SS Honus Wagner #85540
+R:LF Shoeless Joe Jackson #86372
+R:CF Roy Thomas #86784
+R:RF Chick Stahl #86583
+L:C King Kelly #85153
+L:1B Roger Connor #86577
+L:2B Joe Dugan (VAR) #86765
+L:3B John McGraw #86438
+L:SS Honus Wagner #85540
+L:LF Walt Wilmot #85724
+L:CF Jimmy Sheckard #84663
+L:RF Chick Stahl #86583
+SP1 Cy Young (VAR) #86572
+SP2 Hugh Daily #85227
+SP3 Rube Marquard #86891
+SP4 Jack Coombs #85937
+CL Babe Ruth #86439
+RP1 Hod Eller #83320
+RP2 Nick Altrock #87049
+RP3 Dave Brown #84506
+BN1 Jack Tobin #86772
+BN2 Joe Judge #84194
+BN3 Jake Daubert #83740
+BN4 Walt Wilmot #85724
+BN5 Elmer Smith #84706
+BN6 Joe Dugan (VAR) #86765
+BN7 Tom Brown #86767
+BN8 Ted Easterly #84686
+BN9 Jimmy Sheckard #84663
+BN10 Willie Keeler #85878
