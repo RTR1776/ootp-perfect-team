@@ -40,7 +40,7 @@ async function main() {
   const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
   const lineupPos = t.dh ? [...HIT_POS, "DH"] : [...HIT_POS];
   const rules = { ...t, restrictions: t.restrictions as RosterRules["restrictions"] } as unknown as RosterRules;
-  const asCard = (c: (typeof universe)[number]) => ({ cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number>, cardType: c.cardType, le: c.cardSubType === "LE", baseOwned: base.has(c.cardId), variantOwned: variants.has(c.cardId) });
+  const asCard = (c: (typeof universe)[number]) => ({ cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number>, cardType: c.cardType, le: c.cardSubType === "LE", baseOwned: base.has(c.cardId), variantOwned: variants.has(c.cardId), player: c.brefId });
   const slots: RosterSlot[] = [];
   for (const l of readFileSync(FILE!, "utf8").split(/\r?\n/).map((x) => x.trim()).filter((x) => x && !x.startsWith("#"))) {
     const m = /^(\S+)\s+(.+)$/.exec(l); if (!m) continue;

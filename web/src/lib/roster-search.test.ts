@@ -98,3 +98,16 @@ test("a locked card is on every board the search keeps", () => {
   const end = collect(request({ locks: [6], board: {} })).at(-1)!;
   assert.ok(end.best && Object.values(end.best.slots).includes(6), "the weak SS stays because he is locked");
 });
+
+test("the search never carries two cards of one player", () => {
+  // 12 (best SP) and 14 (best reliever) are the same player: only one of them may be rostered.
+  const twin = pool.map((c) => (c.cardId === 12 || c.cardId === 14 ? { ...c, player: "youngcy01" } : c));
+  for (const mode of ["quick", "deep"] as const) {
+    const free = collect(request({ mode })).at(-1)!.best!;
+    const ids = new Set(Object.values(free.slots));
+    assert.ok(ids.has(12) && ids.has(14), "without the rule both are on the best board");
+    const end = collect(request({ mode, pool: twin, board: {} })).at(-1)!;
+    const on = new Set(Object.values(end.best!.slots));
+    assert.ok(!(on.has(12) && on.has(14)), `${mode}: one card per player`);
+  }
+});

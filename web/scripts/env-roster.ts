@@ -286,7 +286,7 @@ async function main() {
       pool.push({
         cardId: m.cardId, name: m.name, val: m.val, year: m.year, isPitcher: m.isPitcher,
         role: m.role, cardType: m.cardType, ratings: m.ratings,
-        baseOwned: true, variantOwned: m.variant, variant: m.variant,
+        baseOwned: true, variantOwned: m.variant, variant: m.variant, player: byId.get(m.cardId)?.brefId ?? null,
         pos: byId.get(m.cardId)?.position ?? "", tier: byId.get(m.cardId)?.tier ?? "", bats: m.bats,
       });
     }
@@ -302,7 +302,7 @@ async function main() {
     const card: P = {
       cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher,
       role: c.pitcherRole, cardType: c.cardType, le: c.cardSubType === "LE", ratings,
-      baseOwned: baseSet.has(cid), variantOwned: vr != null,
+      baseOwned: baseSet.has(cid), variantOwned: vr != null, player: c.brefId,
       variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", tier: c.tier ?? "", bats: c.bats,
     };
     if (card.variant && !card.variantOwned) continue;

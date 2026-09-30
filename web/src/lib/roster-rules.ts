@@ -73,6 +73,24 @@ export interface RosterCard {
   ratings: Record<string, number>;
   baseOwned: boolean;
   variantOwned: boolean;
+  /**
+   * The player (cards.bref_id). The game allows one card per player on a
+   * roster: Cy Young's Perfect and his Diamond can't both be carried (L.J.,
+   * 2026-09-30). Cards without it are never counted as the same player.
+   */
+  player?: string | null;
+}
+
+/** The first card that shares its player with an earlier one, or null. */
+export function samePlayer(members: readonly Pick<RosterCard, "cardId" | "player">[]): Pick<RosterCard, "cardId" | "player"> | null {
+  const seen = new Map<string, number>();
+  for (const m of members) {
+    if (!m.player) continue;
+    const other = seen.get(m.player);
+    if (other != null && other !== m.cardId) return m;
+    seen.set(m.player, m.cardId);
+  }
+  return null;
 }
 
 export interface RosterSlot {
@@ -291,6 +309,8 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
     if (previous && previous.useVariant !== s.useVariant) issue("mixed-form", `${c.name} must use the same card form in both lineups.`, c.cardId);
     unique.set(c.cardId, s);
   }
+  const twin = samePlayer([...unique.keys()].map((id) => byId.get(id)!));
+  if (twin) issue("same-player", `${byId.get(twin.cardId)!.name} is on the roster twice: the game allows one card per player.`, twin.cardId);
   let value = 0, variants = 0;
   const tiers: Record<string, number> = {};
   for (const [id, s] of unique) {

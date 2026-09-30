@@ -17,6 +17,15 @@ test("shared handed lineups count each player once and accept a complete roster"
   const {cards,slots}=fixture(); const v=validateRoster(slots,cards,rules);
   assert.equal(v.ready,true); assert.equal(v.counts.players,26);assert.equal(v.counts.value,1820);
 });
+test("two cards of one player are not allowed (one card per player)",()=>{
+  const {cards,slots}=fixture();
+  cards[19].player="youngcy01"; cards[20].player="youngcy01";
+  const v=validateRoster(slots,cards,rules);
+  assert.equal(v.ready,false);
+  assert.ok(v.errors.some(e=>e.code==="same-player"&&e.cardId===21));
+  cards[20].player="othercy01";
+  assert.equal(validateRoster(slots,cards,rules).ready,true,"different players are fine");
+});
 test("variant cap counts forms once across both lineups",()=>{
   const {cards,slots}=fixture(); slots.filter(s=>s.cardId===1).forEach(s=>s.useVariant=true);
   assert.equal(validateRoster(slots,cards,{...rules,restrictions:{variantCap:1}}).ready,true);

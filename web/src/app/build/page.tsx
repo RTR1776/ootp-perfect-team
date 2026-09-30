@@ -212,6 +212,7 @@ export default async function BuildPage({
           .select({
             cardId: cards.cardId,
             name: cards.name,
+            brefId: cards.brefId,
             tier: cards.tier,
             cardValue: cards.cardValue,
             position: cards.position,
@@ -288,6 +289,7 @@ export default async function BuildPage({
           variant: variantSet.has(c.cardId),
           baseOwned: baseSet.has(c.cardId),
           variantOwned: variantSet.has(c.cardId),
+          player: c.brefId,
           variantRatings: variants.get(c.cardId) ?? null,
           cardType: c.cardType,
           le: c.cardSubType === "LE",
