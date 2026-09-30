@@ -1,0 +1,199 @@
+/**
+ * Rebuild Claude's roster for every current event, from the catalogue's rules,
+ * after new cards (L.J., 2026-09-29: "do the updating for all the current
+ * tourneys not just bronze ... just current").
+ *
+ * Current: not retired, not a draft, not an EF event or a Quick (--quicks adds
+ * the Quicks), and its slot ran within --days (default 8) in the newest
+ * tournaments dump. An event that already has a roster saved against the
+ * newest collection is skipped unless --all. --only 521,532 picks events by id
+ * (any event, current or not).
+ *
+ * Each event's flags come from lib/event-roster-args (the catalogue read the
+ * way /build reads it); an event with a rule the flags can't carry is listed
+ * and skipped. env-roster runs with the settings every Claude pick uses: 26
+ * cards, 14 bats / 5 SP / 7 RP, relief role trust 0.25, the optimiser from 16
+ * starts. Its field-set guard still stops an event whose exports say there is
+ * a set rule the catalogue lacks.
+ *
+ * Each legal build becomes a load file in Inbox/rosters with every card pinned
+ * by id, and the batch a manifest (Inbox/rosters/current-<tag>.tsv: event id,
+ * load file, event name) that "Save Current Rosters.command" saves from on the
+ * Mac. Nothing here writes to the database.
+ *
+ *   node --env-file=.env.local --import tsx scripts/current-rosters.ts --list
+ *   node --env-file=.env.local --import tsx scripts/current-rosters.ts --out /tmp/rosters [--jobs 4] [--only 521,532] [--skip 549] [--patch rules.json] [--tag 2026-09-29-late] [--all] [--quicks]
+ */
+import { spawn } from "node:child_process";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { desc, eq } from "drizzle-orm";
+import { db } from "@/db/client";
+import { cards, collectionCards, rosters, tournaments, uploads } from "@/db/schema";
+import { parseDump } from "@/lib/analytics/dumps";
+import { eventGroupOf } from "@/lib/event-groups";
+import { eventRosterArgs } from "@/lib/event-roster-args";
+import { impliedBaseCopies } from "@/lib/ingest/collection";
+import { savedCollectionId } from "@/lib/saved-roster-freshness";
+import { exportsPredate } from "@/lib/set-evidence-server";
+import { chicagoDay } from "@/lib/format";
+import { editCatalogueRules, parseSlots, type CatalogueEdit } from "@/lib/catalogue-edit";
+
+const argv = process.argv.slice(2);
+const flag = (k: string) => argv.includes(`--${k}`);
+const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
+const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
+const DAYS = Number(val("days", "8"));
+const JOBS = Number(val("jobs", "4"));
+const ONLY = (val("only") ?? "").split(",").map((s) => Number(s.trim())).filter((n) => n > 0);
+/** Events to leave alone: a pick built to L.J.'s own shape (Dead Silver's 4 SP / 5 RP), or a format change not yet in the catalogue. */
+const SKIP = new Set((val("skip") ?? "").split(",").map((s) => Number(s.trim())).filter((n) => n > 0));
+/**
+ * --patch rules.json: rule changes not in the catalogue yet, keyed by event id,
+ * in catalogue:set's edit form (envYear, stadium, dh, value, cardYears, slots
+ * as the game's line, teamCap, variantCap, noLimitedEdition, drop, text,
+ * formatSince). They go through the same editCatalogueRules the catalogue
+ * update uses, so a roster is built to the rules the Mac script is about to
+ * write, and its save is checked against them once they are written.
+ */
+const PATCH: Record<string, Omit<CatalogueEdit, "at" | "slots"> & { slots?: string }> = val("patch") ? JSON.parse(readFileSync(val("patch")!, "utf8")) : {};
+const OUT = val("out");
+/**
+ * --tag: names the batch's load files, manifest and saved rosters ("Claude pick
+ * <tag>"). Default the Chicago day; give a second batch the same day its own
+ * (2026-09-29-late), so it doesn't replace that morning's picks of the same name.
+ */
+const TAG = val("tag") ?? chicagoDay(new Date())!;
+const BUILD = ["--optimize", "--starts", "16", "--role-trust", "0.25", "--sp", "5", "--rp", "7", "--bats", "14"];
+
+/** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
+function lastRuns(): { at: Map<number, number>; newest: number } {
+  const dir = join(ROOT, "Tourney Data");
+  const f = readdirSync(dir).filter((x) => /^pt27_tournaments_.*\.csv$/.test(x)).sort().at(-1);
+  if (!f) throw new Error(`no tournaments dump in ${dir}`);
+  const d = parseDump(readFileSync(join(dir, f), "utf8"));
+  if (!d) throw new Error(`could not read ${f}`);
+  const at = new Map<number, number>();
+  for (const e of d.events) { const s = Math.floor(Number(e.id) / 10000); at.set(s, Math.max(at.get(s) ?? 0, e.start)); }
+  return { at, newest: Math.max(...at.values()) };
+}
+
+interface Job { id: number; name: string; slug: string; args: string[]; notes: string[] }
+
+async function main() {
+  const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
+  if (!latest) throw new Error("no collection upload");
+  const runs = lastRuns();
+  const all = (await db.select().from(tournaments)).map((t) => {
+    const p = PATCH[String(t.id)];
+    if (!p) return t;
+    const rx = (t.restrictions ?? null) as Record<string, unknown> | null;
+    const edit: CatalogueEdit = { ...p, slots: p.slots ? parseSlots(p.slots, (rx as { cards?: number } | null)?.cards ?? 26) : undefined, at: chicagoDay(new Date())! };
+    return { ...t, ...editCatalogueRules({ envYear: t.envYear, stadium: t.stadium, parkName: t.parkName, dh: t.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax, cardYearMin: t.cardYearMin, cardYearMax: t.cardYearMax, restrictions: rx }, edit) };
+  });
+  const saved = await db.select({ t: rosters.tournamentId, notes: rosters.notes }).from(rosters);
+  const fresh = new Set(saved.filter((r) => savedCollectionId(r.notes) === latest.id).map((r) => r.t));
+
+  const current = all.filter((t) => {
+    if (ONLY.length) return ONLY.includes(t.id);
+    if (t.retired || t.isDraft) return false;
+    const g = eventGroupOf(t);
+    if (!g) return false;
+    if (g === "Quicks") return flag("quicks");
+    const last = t.slot != null ? runs.at.get(t.slot) : undefined;
+    return last != null && (runs.newest - last) / 86400 <= DAYS;
+  }).sort((a, b) => a.name.localeCompare(b.name));
+
+  const jobs: Job[] = [], skipped: string[] = [];
+  for (const t of current) {
+    if (SKIP.has(t.id)) { skipped.push(`${t.id} ${t.name}: --skip`); continue; }
+    if (!ONLY.length && !flag("all") && fresh.has(t.id)) { skipped.push(`${t.id} ${t.name}: already built on the newest collection`); continue; }
+    const since = (t.restrictions as { formatSince?: string } | null)?.formatSince;
+    const stale = !!(t.series && since && (await exportsPredate(t.series, since)).stale);
+    const r = eventRosterArgs(t, { seriesStale: stale });
+    if (r.problems.length) { skipped.push(`${t.id} ${t.name}: ${r.problems.join("; ")}`); continue; }
+    jobs.push({ id: t.id, name: t.name, slug: (t.series ?? `event${t.id}`).replace(/[^a-z0-9]/gi, "").toLowerCase(), args: r.args, notes: r.notes });
+  }
+
+  console.log(`${current.length} current event${current.length === 1 ? "" : "s"} (ran within ${DAYS} days of the dump's newest run); ${jobs.length} to build.`);
+  for (const s of skipped) console.log(`  skip ${s}`);
+  if (flag("list") || !OUT) {
+    for (const j of jobs) console.log(`  ${j.id} ${j.name}\n      ${j.args.join(" ")}${j.notes.length ? `\n      (${j.notes.join("; ")})` : ""}`);
+    if (!OUT && !flag("list")) console.log("\n--out DIR runs them.");
+    process.exit(0);
+  }
+
+  mkdirSync(OUT, { recursive: true });
+  const results: { job: Job; status: string; objective: number | null; file: string | null }[] = [];
+  let next = 0;
+  const run = (job: Job) => new Promise<void>((resolve) => {
+    const out = join(OUT, `${job.id}.txt`);
+    const child = spawn(process.execPath, ["--import", "tsx", "scripts/env-roster.ts", ...job.args, ...BUILD], { env: process.env });
+    let text = "";
+    child.stdout.on("data", (d) => { text += d; });
+    child.stderr.on("data", (d) => { text += d; });
+    child.on("close", async (code) => {
+      writeFileSync(out, text);
+      const legal = /^LEGAL — every rule check passes/m.test(text);
+      const objective = Number(/^objective: ([-0-9.]+)/m.exec(text)?.[1] ?? NaN);
+      let file: string | null = null, status = code === 0 ? (legal ? "built" : "not legal") : "failed";
+      if (status === "built") {
+        try { file = await toLoadFile(text, job, latest.id); } catch (e) { status = `no load file: ${e instanceof Error ? e.message : e}`; }
+      } else if (code !== 0) status = `failed: ${(text.split("\n").find((l) => l.startsWith("!!")) ?? text.trim().split("\n").at(-1) ?? "").slice(0, 160)}`;
+      results.push({ job, status, objective: Number.isFinite(objective) ? objective : null, file });
+      console.log(`  [${results.length}/${jobs.length}] ${job.id} ${job.name}: ${status}${Number.isFinite(objective) ? ` · ${objective}` : ""}`);
+      resolve();
+    });
+  });
+  await Promise.all(Array.from({ length: Math.min(JOBS, jobs.length) }, async () => { while (next < jobs.length) await run(jobs[next++]); }));
+
+  const built = results.filter((r) => r.file).sort((a, b) => a.job.name.localeCompare(b.job.name));
+  // A second batch the same day adds to the day's manifest; an event built again replaces its line.
+  const manifest = join(ROOT, "Inbox/rosters", `current-${TAG}.tsv`);
+  const kept = existsSync(manifest) ? readFileSync(manifest, "utf8").split("\n").filter((l) => l.trim() && !built.some((r) => l.startsWith(`${r.job.id}\t`))) : [];
+  const lines = [...kept, ...built.map((r) => `${r.job.id}\t${r.file}\t${r.job.name}`)].sort((a, b) => a.split("\t")[2].localeCompare(b.split("\t")[2]));
+  writeFileSync(manifest, lines.join("\n") + "\n");
+  writeFileSync(join(OUT, "summary.json"), JSON.stringify(results.map((r) => ({ id: r.job.id, name: r.job.name, status: r.status, objective: r.objective, file: r.file, notes: r.job.notes, args: r.job.args })), null, 2));
+  console.log(`\n${built.length} of ${jobs.length} built and legal; manifest ${manifest}`);
+  for (const r of results.filter((x) => !x.file)) console.log(`  NOT BUILT ${r.job.id} ${r.job.name}: ${r.status}`);
+  process.exit(0);
+}
+
+/**
+ * env-roster's printout as a roster:save load file, every card pinned by id:
+ * matched by name, value and year among the cards owned in the collection
+ * (a variant implies its base copy). Starters ace first; the best reliever closes.
+ */
+async function toLoadFile(text: string, job: Job, uploadId: number): Promise<string> {
+  const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant }).from(collectionCards).where(eq(collectionCards.uploadId, uploadId));
+  const universe = await db.select({ cardId: cards.cardId, name: cards.name, value: cards.cardValue, year: cards.year, isPitcher: cards.isPitcher, title: cards.title }).from(cards);
+  const club = new Set(universe.filter((c) => /clubhouse/i.test(c.title)).map((c) => c.cardId));
+  const base = new Set(owned.filter((o) => !o.isVariant && o.cardId != null).map((o) => o.cardId!));
+  for (const id of impliedBaseCopies(owned, (i) => club.has(i))) base.add(id);
+  const vars = new Set(owned.filter((o) => o.isVariant && o.cardId != null).map((o) => o.cardId!));
+  const re = /^(R:\w+|L:\w+|SP\d|CL|RP\d+|BN\d+)\s+(.+?)\s{2,}(\d+)\s+([LRS])\s+(\d{4})\s+([+-]?\d+\.\d)/;
+  const lines: string[] = [], bench: string[] = [], sps: { runs: number; pin: string }[] = [], rps: { runs: number; pin: string }[] = [];
+  for (const l of text.split(/\r?\n/)) {
+    const m = re.exec(l);
+    if (!m) continue;
+    const [, key, rawName, value, , year, runs] = m;
+    const isVar = /\(VAR\)$/.test(rawName);
+    const name = rawName.replace(/\s*\(VAR\)$/, "");
+    const pitcher = /^(SP|RP|CL)/.test(key);
+    const hits = universe.filter((c) => c.name.toLowerCase() === name.toLowerCase() && c.value === Number(value) && c.year === Number(year)
+      && (isVar ? vars.has(c.cardId) : base.has(c.cardId) || vars.has(c.cardId)) && (key.startsWith("BN") || (c.isPitcher ?? false) === pitcher));
+    if (hits.length !== 1) throw new Error(`${key} ${rawName} ${value} ${year}: ${hits.length} owned matches`);
+    const pin = `${rawName} #${hits[0].cardId}`;
+    if (key.startsWith("SP")) sps.push({ runs: Number(runs), pin });
+    else if (key === "CL" || key.startsWith("RP")) rps.push({ runs: Number(runs), pin });
+    else if (key.startsWith("BN")) bench.push(`${key} ${pin}`);
+    else lines.push(`${key} ${pin}`);
+  }
+  const staff = [...sps.sort((a, b) => b.runs - a.runs).map((p, i) => `SP${i + 1} ${p.pin}`), ...rps.sort((a, b) => b.runs - a.runs).map((p, i) => `${i === 0 ? "CL" : `RP${i}`} ${p.pin}`)];
+  const file = `${job.slug}-claude-${TAG}.txt`;
+  const head = `# ${job.name} — Claude pick ${TAG.replace(/-([a-z]+)$/, " $1")}, rebuilt from the catalogue's rules by current-rosters (${job.args.filter((a) => a !== "--name" && a !== job.name).join(" ")})`;
+  writeFileSync(join(ROOT, "Inbox/rosters", file), [head, ...lines, ...staff, ...bench].join("\n") + "\n");
+  return file;
+}
+
+main().catch((e) => { console.error(e instanceof Error ? e.message : e); process.exit(1); });

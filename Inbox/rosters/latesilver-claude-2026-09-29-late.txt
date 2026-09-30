@@ -1,0 +1,36 @@
+# Daily Late Silver — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1992 --park Oriole Park at Camden Yards --park-year 1992 --dh --min 40 --max 79 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series latesilver)
+R:C Darrell Porter #85896
+R:1B Matt Carpenter #86771
+R:2B Hank Blalock #86433
+R:3B Corey Koskie (VAR) #86449
+R:SS Dave Brain (VAR) #85934
+R:LF Willie McGee (VAR) #85753
+R:CF Lee Thomas (VAR) #86145
+R:RF Andy Van Slyke #86936
+R:DH Wes Covington #86651
+L:C Mike Zunino #86431
+L:1B Steve Pearce (VAR) #86366
+L:2B Randy Ready #86921
+L:3B Matt Carpenter #86771
+L:SS Dave Brain (VAR) #85934
+L:LF Willie McGee (VAR) #85753
+L:CF Lee Thomas (VAR) #86145
+L:RF Ruben Sierra #86274
+L:DH Dave Harris #83649
+SP1 Jordan Montgomery #86354
+SP2 Jakie May (VAR) #85286
+SP3 Fritz Ostermueller #86357
+SP4 James McDonald (VAR) #86384
+SP5 Jacob deGrom #86675
+CL Edwin Diaz #86422
+RP1 Chad Bradford #86341
+RP2 Michael King (VAR) #83248
+RP3 Adam Cimber (VAR) #84271
+RP4 Seth Morehead #84285
+RP5 Rudy May #85288
+RP6 Bruce Ruffin #86777
+BN1 Steve Pearce (VAR) #86366
+BN2 Randy Ready #86921
+BN3 Ruben Sierra #86274
+BN4 Dave Harris #83649
+BN5 Mike Zunino #86431

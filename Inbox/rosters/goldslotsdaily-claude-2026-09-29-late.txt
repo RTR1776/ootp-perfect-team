@@ -1,0 +1,36 @@
+# Daily Gold Slots — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Connie Mack Stadium --park-year 1968 --dh --min 40 --max 89 --slots G12,S8,B6 --variant-cap 13 --size 26 --series goldslotsdaily)
+R:C Darrell Porter #85896
+R:1B Lee Thomas (VAR) #86145
+R:2B Hank Blalock #86433
+R:3B Hank Thompson #86668
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Curtis Granderson #86596
+R:CF Shoeless Joe Jackson #86372
+R:RF Bo Jackson #86966
+R:DH Wes Covington #86651
+L:C Mike Zunino #86431
+L:1B Shoeless Joe Jackson #86372
+L:2B Randy Ready #86921
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Zack Cozart #86109
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Frank Howard #85311
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Dizzy Dean #86473
+SP4 Jordan Montgomery #86354
+SP5 Jake Peavy #82683
+CL Edwin Diaz #86422
+RP1 Chad Bradford #86341
+RP2 Fritz Ostermueller #86357
+RP3 Jakie May (VAR) #85286
+RP4 James McDonald (VAR) #86384
+RP5 Michael King (VAR) #83248
+RP6 Adam Cimber (VAR) #84271
+BN1 Zack Cozart #86109
+BN2 Randy Ready #86921
+BN3 Frank Howard #85311
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino #86431

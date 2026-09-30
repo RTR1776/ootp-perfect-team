@@ -1,0 +1,36 @@
+# Daily Gold Cap — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Jacobs Field --park-year 1999 --dh --min 40 --max 89 --cap 1780 --size 26 --series goldcapdaily)
+R:C Nathan Flewelling (VAR) #86283
+R:1B Lee Thomas (VAR) #86145
+R:2B Brandon Lowe (VAR) #83746
+R:3B Hank Blalock #86433
+R:SS Zack Cozart #86109
+R:LF Curtis Granderson #86596
+R:CF Shoeless Joe Jackson #86372
+R:RF Bo Jackson #86966
+R:DH Wes Covington #86651
+L:C Mike Zunino #86431
+L:1B Steve Pearce (VAR) #86366
+L:2B Brandon Lowe (VAR) #83746
+L:3B Dave Brain (VAR) #85934
+L:SS Zack Cozart #86109
+L:LF Curtis Granderson #86596
+L:CF Shoeless Joe Jackson #86372
+L:RF Bo Jackson #86966
+L:DH Dave Harris #83649
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Jakie May (VAR) #85286
+SP4 James McDonald (VAR) #86384
+SP5 Fritz Ostermueller #86357
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Todd Jones (VAR) #86434
+RP3 Satchel Paige #84839
+RP4 Reed Garrett #84825
+RP5 Tin Can Kincannon #86073
+RP6 R.T. Walker #86952
+BN1 Steve Pearce (VAR) #86366
+BN2 Dave Brain (VAR) #85934
+BN3 Dave Harris #83649
+BN4 Mike Zunino #86431
+BN5 Charlie Eden #82834

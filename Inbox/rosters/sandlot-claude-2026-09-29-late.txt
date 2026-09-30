@@ -1,0 +1,36 @@
+# Tuesday Sporer's Sandlot — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1992 --park SkyDome --park-year 1992 --dh --min 40 --max 89 --card-year-min 1980 --card-year-max 2026 --variant-cap 12 --size 26 --obs-exclude sandlot)
+R:C Nathan Flewelling (VAR) #86283
+R:1B J.T. Snow (VAR) #86323
+R:2B Marcus Semien #86744
+R:3B Hank Blalock #86433
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Curtis Granderson #86596
+R:CF Eric Davis #86974
+R:RF Bo Jackson #86966
+R:DH Al Oliver #87011
+L:C Mike Zunino #86431
+L:1B Steve Pearce (VAR) #86366
+L:2B Randy Ready #86921
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Zack Cozart #86109
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Al Oliver #87011
+SP1 J.A. Happ #86352
+SP2 Dave Stieb (VAR) #85911
+SP3 Jake Peavy #82683
+SP4 Jordan Montgomery #86354
+SP5 Raisel Iglesias #83322
+CL Edwin Diaz #86422
+RP1 Chad Bradford #86341
+RP2 Dave Righetti #85870
+RP3 Gary Lucas #85847
+RP4 Javier Lopez #86408
+RP5 Shane Reynolds #83273
+RP6 James McDonald (VAR) #86384
+BN1 Mike Zunino #86431
+BN2 Steve Pearce (VAR) #86366
+BN3 Randy Ready #86921
+BN4 Zack Cozart #86109
+BN5 Jeff Francoeur (VAR) #86300

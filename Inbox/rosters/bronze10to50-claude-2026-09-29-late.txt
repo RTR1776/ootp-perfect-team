@@ -1,0 +1,36 @@
+# Daily Bronze 1910-59 — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1959 --park Seals Stadium --park-year 1959 --dh --min 40 --max 69 --card-year-min 1910 --card-year-max 1959 --size 26 --series bronze10to50)
+R:C Ted Easterly #84686
+R:1B Stan Hack #86458
+R:2B Joe Dugan (VAR) #86765
+R:3B Pat Patterson #87080
+R:SS Honus Wagner #86712
+R:LF Jack Tobin #86772
+R:CF Billy Southworth #86379
+R:RF Paul Waner #86999
+R:DH Wes Covington #86651
+L:C Gabby Hartnett #86254
+L:1B Jackie Robinson (VAR) #84390
+L:2B Joe Dugan (VAR) #86765
+L:3B Pat Patterson #87080
+L:SS Honus Wagner #86712
+L:LF Ed Morgan (VAR) #85943
+L:CF Jim Landis (VAR) #83608
+L:RF Jack Tobin #86772
+L:DH Dave Harris #83649
+SP1 Fritz Ostermueller #86357
+SP2 Cool Papa Bell #86981
+SP3 Red Lucas #86781
+SP4 Tin Can Kincannon #86073
+SP5 Mickey Haefner #85717
+CL Satchel Paige #84839
+RP1 Clay Bryant #84265
+RP2 Roy Face #82672
+RP3 Elmer Singleton #83182
+RP4 Nelson Chittum #86659
+RP5 Ken Lehman #83074
+RP6 Christy Mathewson #86706
+BN1 Dave Harris #83649
+BN2 Ed Morgan (VAR) #85943
+BN3 Gabby Hartnett #86254
+BN4 Jim Landis (VAR) #83608
+BN5 Jackie Robinson (VAR) #84390

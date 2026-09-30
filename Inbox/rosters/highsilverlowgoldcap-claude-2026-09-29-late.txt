@@ -1,0 +1,36 @@
+# Daily High Silver-Low Gold Cap — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 2007 --park Shea Stadium --park-year 2008 --dh --min 75 --max 84 --cap 2068 --size 26 --series highsilverlowgoldcap)
+R:C Nathan Flewelling (VAR) #86283
+R:1B Nick Esasky (VAR) #86704
+R:2B Marcus Semien #86744
+R:3B Corey Koskie (VAR) #86449
+R:SS Zack Cozart #86109
+R:LF Willie McGee (VAR) #85753
+R:CF Lee Thomas (VAR) #86145
+R:RF Andy Van Slyke #86936
+R:DH Brandon Lowe (VAR) #83746
+L:C Mike Zunino #86431
+L:1B Nick Esasky (VAR) #86704
+L:2B Brandon Lowe (VAR) #83746
+L:3B Randy Ready #86921
+L:SS Zack Cozart #86109
+L:LF Reggie Sanders #85359
+L:CF Willie McGee (VAR) #85753
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Frank Howard #85311
+SP1 Jordan Montgomery #86354
+SP2 Jake Peavy #82683
+SP3 Raisel Iglesias #83322
+SP4 Shane Reynolds #83273
+SP5 Seth Hernandez (VAR) #84742
+CL Javier Lopez #86408
+RP1 Michael King (VAR) #83248
+RP2 Matt Garza #86294
+RP3 Jacob deGrom #86675
+RP4 Robby Snelling #85119
+RP5 Seth Morehead #84285
+RP6 Chad Billingsley #85222
+BN1 Randy Ready #86921
+BN2 Frank Howard #85311
+BN3 Reggie Sanders #85359
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino #86431

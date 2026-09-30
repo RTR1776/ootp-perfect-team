@@ -1,0 +1,35 @@
+# Daily PTCS 2 Iron Replay — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1969 --park Shea Stadium --park-year 1964 --min 40 --max 59 --card-types 2,7,8,9 --size 26 --series ptcs2iron)
+R:C Ted Easterly #84686
+R:1B Broderick Perkins #86460
+R:2B Nap Lajoie #86581
+R:3B Kid Elberfeld (VAR) #86368
+R:SS Ozzie Smith #86972
+R:LF Walt French #86960
+R:CF Milt Thompson #86927
+R:RF Jay Bruce #86409
+L:C Charlie O'Brien #86925
+L:1B Matt Davidson #84666
+L:2B Daryl Spencer (VAR) #86620
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Ozzie Smith #86972
+L:LF Andruw Jones (VAR) #86321
+L:CF Dave Henderson #86926
+L:RF Sammy Sosa #85691
+SP1 James McDonald (VAR) #86384
+SP2 Tin Can Kincannon #86073
+SP3 Patricio Scantlebury #85828
+SP4 Bullet Campbell #87084
+SP5 Elden Auker #86769
+CL Mike Marshall #84720
+RP1 Hector Rondon #83078
+RP2 Reed Garrett #84825
+RP3 Hector Carrasco #83082
+RP4 Ken Lehman #83074
+RP5 Luis Perdomo #83077
+RP6 Antonio Alfonseca #83071
+BN1 Matt Davidson #84666
+BN2 Daryl Spencer (VAR) #86620
+BN3 Andruw Jones (VAR) #86321
+BN4 Dave Henderson #86926
+BN5 Charlie O'Brien #86925
+BN6 Sammy Sosa #85691

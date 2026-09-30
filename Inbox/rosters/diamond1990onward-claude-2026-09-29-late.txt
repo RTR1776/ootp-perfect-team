@@ -1,0 +1,36 @@
+# Daily Diamond 1990 Onward — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1957 --park Griffith Stadium --park-year 1954 --dh --max 99 --card-year-min 1990 --size 26 --series diamond1990onward)
+R:C Darren Daulton #86253
+R:1B Matt Carpenter #86763
+R:2B Colt Emerson (VAR) #85116
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Ethan Holliday #84744
+R:LF Alex Gordon #86698
+R:CF Jacoby Ellsbury #86726
+R:RF Yoenis Cespedes (VAR) #84617
+R:DH Kyle Stowers #86242
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86763
+L:2B Aidan Miller #85117
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Barry Larkin #86264
+L:LF Alex Gordon #86698
+L:CF Yoenis Cespedes (VAR) #84617
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Josh Vitters (VAR) #86419
+SP1 J.A. Happ #86352
+SP2 Payton Tolle #84646
+SP3 Jordan Montgomery #86354
+SP4 Jake Peavy #82683
+SP5 Connelly Early #84638
+CL Tony Fossas (VAR) #83324
+RP1 Edwin Diaz #86422
+RP2 Chad Bradford #86341
+RP3 Jake McGee (VAR) #86789
+RP4 Cla Meredith #85213
+RP5 Dave Stieb (VAR) #85911
+RP6 Andrew Bailey #85192
+BN1 Josh Vitters (VAR) #86419
+BN2 Aidan Miller #85117
+BN3 Barry Larkin #86264
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino #86431

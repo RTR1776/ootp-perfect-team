@@ -1,0 +1,36 @@
+# Wednesday 1950 to Now — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Globe Life Field --park-year 2026 --dh --min 40 --max 105 --card-year-min 1950 --card-year-max 2026 --card-types 7,8 --size 26 --obs-exclude 1950tonow)
+R:C Charles Johnson #86365
+R:1B Matt Carpenter #86771
+R:2B Brandon Lowe (VAR) #83746
+R:3B Corey Koskie (VAR) #86449
+R:SS Trea Turner (VAR) #82923
+R:LF Lonnie Smith #86721
+R:CF Hank Thompson #86668
+R:RF Richard Hidalgo #86707
+R:DH Wes Covington #86651
+L:C Chris Cannizzaro #85168
+L:1B Joe Adcock #84203
+L:2B Randy Ready #86921
+L:3B Garrett Atkins #83502
+L:SS Trea Turner (VAR) #82923
+L:LF Lonnie Smith #86721
+L:CF Richard Hidalgo #86707
+L:RF Brandon Lowe (VAR) #83746
+L:DH Dick Dietz #85842
+SP1 J.A. Happ #86352
+SP2 Larry Jackson #86646
+SP3 CC Sabathia #86350
+SP4 Jordan Montgomery #86354
+SP5 James McDonald (VAR) #86384
+CL Jake McGee (VAR) #86789
+RP1 Robb Nen #83906
+RP2 Joe Sambito #84075
+RP3 Chad Bradford #86341
+RP4 Daniel Palencia (VAR) #84613
+RP5 Steve Hamilton (VAR) #83306
+RP6 Gary Lucas #85847
+BN1 Randy Ready #86921
+BN2 Garrett Atkins #83502
+BN3 Dick Dietz #85842
+BN4 Joe Adcock #84203
+BN5 Chris Cannizzaro #85168

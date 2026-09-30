@@ -1,0 +1,36 @@
+# Daily Iron & Friends OOTP Era Slots — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1999 --dh --card-year-min 1999 --card-year-max 2026 --slots P1,D1,G1,S1,B1,I21 --size 26 --series ironandfriends)
+R:C Joe Mack #85615
+R:1B Shawn Green #87028
+R:2B Dan Uggla #86599
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Jhonny Level (VAR) #84765
+R:LF Juan Soto #87013
+R:CF Carlos Beltran #86298
+R:RF Jay Bruce #86409
+R:DH Ty Wigginton #86086
+L:C Sam Huff #85265
+L:1B Matt Davidson #84666
+L:2B Dan Uggla #86599
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Jhonny Level (VAR) #84765
+L:LF Andruw Jones (VAR) #86321
+L:CF Carlos Beltran #86298
+L:RF Juan Soto #87013
+L:DH Grady Sizemore (VAR) #85391
+SP1 J.A. Happ #86352
+SP2 Jordan Montgomery #86354
+SP3 James McDonald (VAR) #86384
+SP4 Justin Verlander #87014
+SP5 Dallas Braden #86293
+CL Todd Jones (VAR) #86434
+RP1 Hector Rondon #83078
+RP2 Hector Carrasco #83082
+RP3 Reed Garrett #84825
+RP4 Kody Funderburk #82329
+RP5 Cionel Perez #84959
+RP6 Luis Perdomo #83077
+BN1 Jonathan Lucroy (VAR) #85349
+BN2 Matt Davidson #84666
+BN3 Grady Sizemore (VAR) #85391
+BN4 Andruw Jones (VAR) #86321
+BN5 Sam Huff #85265

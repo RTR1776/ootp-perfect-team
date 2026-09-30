@@ -12,6 +12,7 @@ import { db } from "@/db/client";
 import { cards, collectionCards, rosters, rosterSlots, tournaments, uploads } from "@/db/schema";
 
 import { validateRoster, type RosterRules } from "@/lib/roster-rules";
+import { formRatings } from "@/lib/card-forms";
 import { parseRosterInput } from "@/lib/roster-input";
 
 export const runtime = "nodejs";
@@ -53,9 +54,13 @@ export async function POST(request: Request) {
   const universe = await db.select().from(cards).where(inArray(cards.cardId,ids));
   const base = new Set(owned.filter(c=>!c.isVariant).map(c=>c.cardId));
   const variants = new Set(owned.filter(c=>c.isVariant).map(c=>c.cardId));
+  // A card played as its variant is checked on the variant's ratings (its export
+  // lists positions the base card lacks), as the page's own check does.
+  const varRatings = new Map(owned.filter(c=>c.isVariant&&c.cardId!=null).map(c=>[c.cardId!,(c.ratings??{}) as Record<string,number>]));
+  const asVariant = new Set(body.slots.filter(s=>s.useVariant).map(s=>s.cardId));
   const checked = validateRoster(body.slots,universe.map(c=>({
     cardId:c.cardId,name:c.name,val:c.cardValue,year:c.year,isPitcher:c.isPitcher,role:c.pitcherRole,
-    ratings:c.ratings,cardType:c.cardType,le:c.cardSubType==="LE",baseOwned:base.has(c.cardId),variantOwned:variants.has(c.cardId),
+    ratings:asVariant.has(c.cardId)?formRatings((c.ratings??{}) as Record<string,number>,varRatings.get(c.cardId)??null,c.position):c.ratings,cardType:c.cardType,le:c.cardSubType==="LE",baseOwned:base.has(c.cardId),variantOwned:variants.has(c.cardId),
   })),{...tournament,restrictions:tournament.restrictions as RosterRules["restrictions"]});
   // The page's own checks (roster-input isPageCheck) keep the roster a draft.
   const validation = body.checks.length

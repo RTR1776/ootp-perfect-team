@@ -1,0 +1,36 @@
+# Daily Late 1900s — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Wrigley Field --park-year 1998 --dh --min 40 --max 105 --card-year-min 1980 --card-year-max 1999 --size 26 --series late1900s)
+R:C Mike Piazza (VAR) #86463
+R:1B Eddie Murray #85757
+R:2B Carlos Baerga (VAR) #85747
+R:3B Wade Boggs #86260
+R:SS Barry Larkin #86264
+R:LF Lonnie Smith #86721
+R:CF Eric Davis #86974
+R:RF Bo Jackson #86966
+R:DH Will Clark #86913
+L:C Mike Piazza (VAR) #86463
+L:1B Eddie Murray #85757
+L:2B Randy Ready #86921
+L:3B Doug DeCinces #86907
+L:SS Barry Larkin #86264
+L:LF Lonnie Smith #86721
+L:CF Willie McGee (VAR) #85753
+L:RF Bo Jackson #86966
+L:DH Al Oliver #87011
+SP1 Bret Saberhagen #86915
+SP2 Dave Stieb #86958
+SP3 Orel Hershiser #83135
+SP4 Dave Stieb (VAR) #85911
+SP5 Kevin Brown #85401
+CL Tony Fossas (VAR) #83324
+RP1 Joe Sambito #84075
+RP2 Rich Gossage #85046
+RP3 Dave Righetti #85870
+RP4 Gary Lucas #85847
+RP5 Dave Smith #84084
+RP6 Gregg Olson (VAR) #86946
+BN1 Al Oliver #87011
+BN2 Willie McGee (VAR) #85753
+BN3 Darren Daulton #86253
+BN4 Randy Ready #86921
+BN5 Doug DeCinces #86907
