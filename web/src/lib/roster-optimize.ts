@@ -16,7 +16,7 @@
  * because the greedy fill is one of its starting points.
  */
 
-import { cardEligibility, rosterSize, slotCapacityIssues, tierCode, type RosterRules } from "./roster-rules";
+import { cardEligibility, rosterSize, samePlayer, slotCapacityIssues, tierCode, type RosterRules } from "./roster-rules";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { isComplete, type FillCard, type FillResult, type FillShape } from "./roster-fill";
 import { maxAssignment } from "./assign";
@@ -126,6 +126,7 @@ function legal(
 
   const members = [...ids].map((id) => byId.get(id)).filter((c): c is FillCard => c != null);
   if (members.length !== ids.size) return false;
+  if (samePlayer(members)) return false; // one card per player
   // The copy on the board must be one L.J. owns. candidatesFor already keeps
   // unowned forms out of every move; this stops one that was on the STARTING
   // board (a saved roster naming the base copy of a variant-only card) from

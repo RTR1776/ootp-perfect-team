@@ -90,6 +90,8 @@ export interface BuilderCard {
   variant: boolean;
   baseOwned: boolean;
   variantOwned: boolean;
+  /** The player (bref id): one card per player on a roster. */
+  player?: string | null;
   cardType: number | null;
   /** A Limited Edition card; a "No LE" event's rules read it. */
   le?: boolean;

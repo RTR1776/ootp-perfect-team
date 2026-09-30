@@ -88,7 +88,7 @@ export function searchCard(c: FillCard): FillCard {
   for (const k in c.ratings) if (k.startsWith("Pos Rating ")) ratings[k] = c.ratings[k];
   return {
     cardId: c.cardId, name: c.name, val: c.val, year: c.year, isPitcher: c.isPitcher, role: c.role, cardType: c.cardType ?? null,
-    ratings, baseOwned: c.baseOwned, variantOwned: c.variantOwned, variant: c.variant,
+    ratings, baseOwned: c.baseOwned, variantOwned: c.variantOwned, variant: c.variant, player: c.player ?? null,
   };
 }
 
