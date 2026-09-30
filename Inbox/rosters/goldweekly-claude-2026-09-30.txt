@@ -1,0 +1,36 @@
+# Thursday Night Gold Rush — Claude pick 2026-09-30, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park Great American Ballpark --park-year 2026 --dh --min 40 --max 89 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --obs-exclude goldweekly)
+R:C Darrell Porter #85896
+R:1B Lee Thomas (VAR) #86145
+R:2B Hank Blalock #86433
+R:3B Hank Thompson #86668
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Curtis Granderson #86596
+R:CF Shoeless Joe Jackson #86372
+R:RF Bo Jackson #86966
+R:DH Wes Covington #86651
+L:C Mike Zunino #86431
+L:1B Shoeless Joe Jackson #86372
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Kaelen Culpepper (VAR) #85033
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Frank Howard #85311
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Luther Farrell #86900
+SP4 Dizzy Dean #86473
+SP5 Dave Stieb (VAR) #85911
+CL Edwin Diaz #86422
+RP1 Gregg Olson (VAR) #86946
+RP2 Chad Bradford #86341
+RP3 Dave Righetti #85870
+RP4 Steve Hamilton (VAR) #83306
+RP5 Raisel Iglesias #83322
+RP6 Jakie May (VAR) #85286
+BN1 Jeff Francoeur (VAR) #86300
+BN2 Frank Howard #85311
+BN3 Mike Zunino #86431
+BN4 Chris Sabo #87059
+BN5 Randy Ready #86921

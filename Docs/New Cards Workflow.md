@@ -23,6 +23,24 @@ L.J., 2026-09-29: new cards come in batches (a release, pulls, variants), and he
    - Load it, press Optimise, then save.
    - Or ask Claude to rebuild every current event (below).
 
+## The fast path: rebuild only where a new card starts (`--new-cards`)
+
+L.J., 2026-09-30, after the Sabo LE: "we need to make sure we have a system in place so that when new cards come out they are easily put in various tourney rosters where they belong … needs to be efficient."
+
+After he uploads the shop list and collection on /upload, the whole loop is:
+
+1. **Claude runs** `scripts/current-rosters.ts --new-cards --out <dir> --jobs 4`. About 10 s to triage, then a few minutes per batch of builds.
+   - For every current event it takes the cards owned now that the event's saved roster's collection didn't have (the same count as Build's "N new cards fit" chip).
+   - It places them with Card Fit, the same numbers /cards shows.
+   - It rebuilds only the events where one of them **starts** and its one swap adds at least `--min-gain` runs (default 1). Current events with no saved roster are rebuilt too.
+   - A rebuild that comes out with **the same cards** as the saved roster is left out of the manifest ("UNCHANGED").
+   - The printout lists each rebuilt event with the card that triggered it (`[new: Chris Sabo 3B +8.2]`).
+2. **L.J. runs** Push to GitHub, then `Save Current Rosters.command`. It saves only the rosters that changed.
+
+On 09-30 (Sabo LE, Boone UH, Estrada, Montalvo), this was 25 of 74 current events instead of all 74.
+
+For buy advice, the same Card Fit numbers for the shop's new cards he doesn't own are on /cards (no search, "New in the shop").
+
 ## Rebuilding every current event at once
 
 `scripts/current-rosters.ts` rebuilds Claude's pick for every current event from the catalogue's rules.
