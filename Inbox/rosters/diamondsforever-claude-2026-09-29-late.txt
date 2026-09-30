@@ -1,0 +1,36 @@
+# Daily Diamonds are Forever — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park Dell Diamond --park-year 2026 --dh --min 40 --max 99 --size 26 --series diamondsforever)
+R:C Ed Bailey (VAR) #86637
+R:1B Matt Carpenter #86763
+R:2B Arjun Nimmala (VAR) #84745
+R:3B Honus Wagner #85540
+R:SS Luke Appling #82759
+R:LF Jacoby Ellsbury #86726
+R:CF Lee Thomas (VAR) #86145
+R:RF Bo Jackson #86966
+R:DH Wes Covington #86651
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86763
+L:2B Arjun Nimmala (VAR) #84745
+L:3B Josh Vitters (VAR) #86419
+L:SS Honus Wagner #85540
+L:LF Bo Jackson #86966
+L:CF Willie Mays #86634
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Al Simmons #85942
+SP1 J.A. Happ #86352
+SP2 Larry Jackson #86646
+SP3 Jim Kaat (VAR) #85114
+SP4 Sam Jones #86070
+SP5 Steve Carlton (VAR) #85109
+CL Tony Fossas (VAR) #83324
+RP1 Edwin Diaz #86422
+RP2 Jake McGee (VAR) #86789
+RP3 Joe Sambito #84075
+RP4 Chad Bradford #86341
+RP5 Payton Tolle #84646
+RP6 Dizzy Dean #86473
+BN1 Al Simmons #85942
+BN2 Josh Vitters (VAR) #86419
+BN3 Willie Mays #86634
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino #86431

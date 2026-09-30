@@ -1,0 +1,36 @@
+# Sunday Open Main Event — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Truist Park --park-year 2026 --dh --size 26 --obs-exclude openweekly)
+R:C Ed Bailey (VAR) #86637
+R:1B Hank Aaron #86655
+R:2B Leodalis De Vries #84724
+R:3B Scott Rolen #86405
+R:SS Ernie Banks #86621
+R:LF Heinie Manush #86370
+R:CF Richard Hidalgo #86707
+R:RF Juan Soto #87013
+R:DH Hideki Matsui #87042
+L:C Mike Piazza (VAR) #86463
+L:1B Josh Vitters (VAR) #86419
+L:2B Bret Boone #86701
+L:3B Scott Rolen #86405
+L:SS Ernie Banks #86621
+L:LF Hank Aaron #86655
+L:CF Al Simmons #85942
+L:RF Juan Soto #87013
+L:DH Hideki Matsui #87042
+SP1 Bret Saberhagen #86915
+SP2 Cliff Lee (VAR) #85693
+SP3 Cy Young (VAR) #86572
+SP4 Dave Stieb #86958
+SP5 Orel Hershiser #83135
+CL Tony Fossas (VAR) #83324
+RP1 Zack Britton #86426
+RP2 J.A. Happ #86352
+RP3 Jake McGee (VAR) #86789
+RP4 Robb Nen #83906
+RP5 Edwin Diaz #86422
+RP6 Hilton Smith #85864
+BN1 Mike Piazza (VAR) #86463
+BN2 Al Simmons #85942
+BN3 Bret Boone #86701
+BN4 Bo Jackson #86966
+BN5 Josh Vitters (VAR) #86419

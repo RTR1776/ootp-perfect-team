@@ -1,0 +1,35 @@
+# Daily Diamond Up to 1969 — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 2009 --park Coors Field --park-year 1996 --max 99 --card-year-min 1800 --card-year-max 1969 --size 26 --series diamondupto1969)
+R:C Ed Bailey (VAR) #86637
+R:1B Lee Thomas (VAR) #86145
+R:2B Hank Thompson #86668
+R:3B Honus Wagner #85540
+R:SS Luke Appling #82759
+R:LF Al Simmons #85942
+R:CF Shoeless Joe Jackson #86372
+R:RF Chick Stahl #86583
+L:C Josh Gibson #86898
+L:1B Rudy York (VAR) #86429
+L:2B Larry Doby #84878
+L:3B Ron Santo (VAR) #85094
+L:SS Honus Wagner #85540
+L:LF Al Simmons #85942
+L:CF Willie Mays #86634
+L:RF Chick Stahl #86583
+SP1 Cy Young #86996
+SP2 Larry Jackson #86646
+SP3 Jim Kaat (VAR) #85114
+SP4 Steve Carlton (VAR) #85109
+SP5 Sam Jones #86070
+CL Dizzy Dean #86473
+RP1 Steve Hamilton (VAR) #83306
+RP2 Dutch Leonard #85704
+RP3 Hugh Daily #85227
+RP4 Carl Hubbell #86893
+RP5 Jakie May (VAR) #85286
+RP6 Pete Donohue #84079
+BN1 Wes Covington #86651
+BN2 Ron Santo (VAR) #85094
+BN3 Larry Doby #84878
+BN4 Rudy York (VAR) #86429
+BN5 Willie Mays #86634
+BN6 Josh Gibson #86898

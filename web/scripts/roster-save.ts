@@ -19,6 +19,7 @@ import { cards, collectionCards, tournaments, uploads } from "@/db/schema";
 import { HIT_POS } from "@/lib/roster-fill";
 import { cardEligibility, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
+import { formRatings } from "@/lib/card-forms";
 
 const argv = process.argv.slice(2);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
@@ -56,7 +57,15 @@ async function main() {
     const [a, b] = key.split(":");
     slots.push({ cardId: c.cardId, slot: b ?? a, versusHand: b ? a : "both", lineupOrder: b ? lineupPos.indexOf(b) + 1 : null, useVariant: wantVar || (!base.has(c.cardId) && variants.has(c.cardId)) });
   }
-  const v = validateRoster(slots, universe.map(asCard), rules);
+  // A card the roster plays as its variant is checked on the variant's ratings: the
+  // export lists every position the variant can play (Nimmala's variant has 2B; the
+  // base card only 3B and SS), as Build's own check reads it.
+  const varRatings = new Map(owned.filter((c) => c.isVariant && c.cardId != null).map((c) => [c.cardId!, (c.ratings ?? {}) as Record<string, number>]));
+  const asVariant = new Set(slots.filter((s) => s.useVariant).map((s) => s.cardId));
+  const v = validateRoster(slots, universe.map((c) => {
+    const card = asCard(c);
+    return asVariant.has(c.cardId) ? { ...card, ratings: formRatings(card.ratings, varRatings.get(c.cardId) ?? null, c.position) } : card;
+  }), rules);
   console.log(`${t.name}: ${slots.length} slots · ${v.ready ? "ready" : "DRAFT: " + [...v.errors, ...v.incomplete].map((e) => e.message).join(" | ")}`);
   if (argv.includes("--dry")) { console.log("dry run: nothing saved"); process.exit(0); }
   const notes = JSON.stringify({ version: 1, status: v.ready ? "ready" : "draft", collectionUploadId: latest?.id, checkedAt: new Date().toISOString(), validation: v, via: "roster:save", file: FILE });

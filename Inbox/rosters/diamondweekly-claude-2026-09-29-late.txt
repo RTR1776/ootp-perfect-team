@@ -1,0 +1,36 @@
+# Wednesday Ice to See You — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 1977 --dh --min 90 --max 99 --size 26 --obs-exclude diamondweekly)
+R:C Ed Bailey (VAR) #86637
+R:1B Matt Carpenter #86763
+R:2B Arjun Nimmala (VAR) #84745
+R:3B Honus Wagner #85540
+R:SS Luke Appling #82759
+R:LF Alex Gordon #86698
+R:CF Jacoby Ellsbury #86726
+R:RF Chick Stahl #86583
+R:DH Lonnie Smith #86721
+L:C Elston Howard #85490
+L:1B Josh Vitters (VAR) #86419
+L:2B Aidan Miller #85117
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Honus Wagner #85540
+L:LF Lonnie Smith #86721
+L:CF Willie Mays #86634
+L:RF Chick Stahl #86583
+L:DH Al Simmons #85942
+SP1 Larry Jackson #86646
+SP2 Steve Carlton (VAR) #85109
+SP3 Payton Tolle #84646
+SP4 Sam Jones #86070
+SP5 Tommy John #86604
+CL Tony Fossas (VAR) #83324
+RP1 Jake McGee (VAR) #86789
+RP2 Devin Williams #83851
+RP3 Joe Sambito #84075
+RP4 Andrew Bailey #85192
+RP5 Connelly Early #84638
+RP6 Mark Langston #86956
+BN1 Al Simmons #85942
+BN2 Josh Vitters (VAR) #86419
+BN3 Aidan Miller #85117
+BN4 Willie Mays #86634
+BN5 Elston Howard #85490

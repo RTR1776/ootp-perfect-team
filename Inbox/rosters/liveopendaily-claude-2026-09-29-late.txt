@@ -1,0 +1,36 @@
+# Daily Live Open — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park American Family Field --park-year 2026 --dh --min 40 --max 100 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveopendaily)
+R:C Gabriel Moreno #81848
+R:1B Bryce Harper #82057
+R:2B Otto Lopez #82108
+R:3B Kevin McGonigle #85007
+R:SS Bobby Witt Jr. #82379
+R:LF Jake McCarthy #81809
+R:CF Pete Crow-Armstrong #81990
+R:RF Corbin Carroll #81849
+R:DH Yordan Alvarez #82178
+L:C Gabriel Moreno #81848
+L:1B Yandy Diaz #82538
+L:2B Otto Lopez #82108
+L:3B Kevin McGonigle #85007
+L:SS Bobby Witt Jr. #82379
+L:LF Jackson Chourio #81934
+L:CF Pete Crow-Armstrong #81990
+L:RF Corbin Carroll #81849
+L:DH Yordan Alvarez #82178
+SP1 Tarik Skubal #82424
+SP2 Max Fried #82587
+SP3 Logan Webb #81732
+SP4 Jesus Luzardo #82066
+SP5 Cam Schlittler #82580
+CL Louie Varland #82511
+RP1 Adrian Morejon #81760
+RP2 Cade Smith #82450
+RP3 Tanner Scott #81792
+RP4 Calvin Faucher #82119
+RP5 Matt Brash #82247
+RP6 Sam Hentges #81727
+BN1 Ben Rice #82572
+BN2 Jackson Chourio #81934
+BN3 Yandy Diaz #82538
+BN4 William Contreras #81935
+BN5 Shohei Ohtani #81776

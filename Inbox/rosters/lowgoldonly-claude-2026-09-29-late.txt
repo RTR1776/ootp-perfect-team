@@ -1,0 +1,36 @@
+# Daily Low Gold Only — Claude pick 2026-09-29 late, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Fenway Park --park-year 2026 --dh --min 80 --max 84 --variant-cap 8 --size 26 --series lowgoldonly)
+R:C Eduardo Tait #84743
+R:1B J.T. Snow (VAR) #86323
+R:2B Marcus Semien #86744
+R:3B Hanley Ramirez #86807
+R:SS Zack Cozart #86109
+R:LF Carl Crawford #85310
+R:CF Roy Thomas #86784
+R:RF Brandon Lowe (VAR) #83746
+R:DH Howard Johnson (VAR) #82733
+L:C Josh Gibson #86898
+L:1B Jimmie Foxx #84011
+L:2B Brandon Lowe (VAR) #83746
+L:3B Hanley Ramirez #86807
+L:SS Zack Cozart #86109
+L:LF Reggie Sanders #85359
+L:CF Roy Thomas #86784
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Frank Howard #85311
+SP1 Raisel Iglesias #83322
+SP2 Jake Peavy #82683
+SP3 Shane Reynolds #83273
+SP4 Seth Hernandez (VAR) #84742
+SP5 Rube Marquard #86891
+CL Javier Lopez #86408
+RP1 Matt Garza #86294
+RP2 Robby Snelling #85119
+RP3 Gary Lavelle #85838
+RP4 Luis Arroyo (VAR) #85489
+RP5 Tom Burgmeier #85208
+RP6 Calvin Faucher #82119
+BN1 Josh Gibson #86898
+BN2 Frank Howard #85311
+BN3 Jimmie Foxx #84011
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Reggie Sanders #85359
