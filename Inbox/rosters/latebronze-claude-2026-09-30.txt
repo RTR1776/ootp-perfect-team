@@ -1,0 +1,36 @@
+# Daily Late Bronze — Claude pick 2026-09-30, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Dodger Stadium --park-year 2003 --dh --min 40 --max 69 --size 26 --series latebronze)
+R:C Tim McCarver #85833
+R:1B Steve Pearce (VAR) #86366
+R:2B Jhonny Level (VAR) #84765
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Deion Sanders #86962
+R:CF Billy Southworth #86379
+R:RF Jack Tobin #86772
+R:DH Wes Covington #86651
+L:C Thayron Liranzo (VAR) #85135
+L:1B Steve Pearce (VAR) #86366
+L:2B Jhonny Level (VAR) #84765
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Ed Morgan (VAR) #85943
+L:CF Jett Williams #84763
+L:RF Deion Sanders #86962
+L:DH Dave Harris #83649
+SP1 James McDonald (VAR) #86384
+SP2 Fritz Ostermueller #86357
+SP3 Tanner McDougal (VAR) #85032
+SP4 Bob Miller #84715
+SP5 Kyson Witherspoon (VAR) #84774
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Todd Jones (VAR) #86434
+RP3 Satchel Paige #84839
+RP4 Justin Bruihl #84971
+RP5 Juan Morillo #81833
+RP6 Caden Scarborough #84762
+BN1 Thayron Liranzo (VAR) #85135
+BN2 Chris Sabo #87059
+BN3 Dave Harris #83649
+BN4 Ed Morgan (VAR) #85943
+BN5 Jett Williams #84763
