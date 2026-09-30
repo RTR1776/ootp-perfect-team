@@ -27,7 +27,8 @@ ask() {
   return 1
 }
 
-MANIFEST=$(ls -t ../Inbox/rosters/current-*.tsv 2>/dev/null | head -1)
+# A manifest can be named (Set Up PTCS 7.command does); otherwise the newest.
+MANIFEST=${1:-$(ls -t ../Inbox/rosters/current-*.tsv 2>/dev/null | head -1)}
 [ -n "$MANIFEST" ] || { echo "No Inbox/rosters/current-*.tsv. Run Push to GitHub.command first."; close 1; }
 DAY=$(basename "$MANIFEST" .tsv); DAY=${DAY#current-}
 NAME="Claude pick $(printf '%s' "$DAY" | sed -E 's/-([a-z]+)$/ \1/')"

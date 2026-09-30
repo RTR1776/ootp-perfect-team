@@ -69,6 +69,12 @@ const SKIP = new Set((val("skip") ?? "").split(",").map((s) => Number(s.trim()))
  */
 const PATCH: Record<string, Omit<CatalogueEdit, "at" | "slots"> & { slots?: string }> = val("patch") ? JSON.parse(readFileSync(val("patch")!, "utf8")) : {};
 const OUT = val("out");
+/**
+ * --add rows.json: events not in the catalogue yet (an announced championship),
+ * as tournament rows (import-ptcs6-championship --dry --json writes them). They
+ * are built like any other; a row of the same id on file is replaced.
+ */
+const ADD: Record<string, unknown>[] = val("add") ? JSON.parse(readFileSync(val("add")!, "utf8")) : [];
 /** --new-cards: the least a new card's one swap must add (runs) for its event to be rebuilt. */
 const MIN_GAIN = Number(val("min-gain", "1"));
 /**
@@ -159,7 +165,9 @@ async function main() {
   const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
   if (!latest) throw new Error("no collection upload");
   const runs = lastRuns();
-  const all = (await db.select().from(tournaments)).map((t) => {
+  const added = ADD.map((r) => ({ retired: false, isDraft: false, slot: null, ...r })) as unknown as (typeof tournaments.$inferSelect)[];
+  const addedIds = new Set(added.map((r) => r.id));
+  const all = [...(await db.select().from(tournaments)).filter((t) => !addedIds.has(t.id)), ...added].map((t) => {
     const p = PATCH[String(t.id)];
     if (!p) return t;
     const rx = (t.restrictions ?? null) as Record<string, unknown> | null;
@@ -194,6 +202,11 @@ async function main() {
     jobs.push({ id: t.id, name: t.name, slug: (t.series ?? `event${t.id}`).replace(/[^a-z0-9]/gi, "").toLowerCase(), args: r.args, notes: r.notes, why: why?.get(t.id) ?? undefined });
   }
   if (why) console.log(`--new-cards: ${noNew} current event${noNew === 1 ? "" : "s"} where no new card starts (or adds ${MIN_GAIN}+ runs) are left as saved.`);
+
+  // Events that share a series (a championship's ten) get their id in the file name.
+  const bySlug = new Map<string, number>();
+  for (const j of jobs) bySlug.set(j.slug, (bySlug.get(j.slug) ?? 0) + 1);
+  for (const j of jobs) if (bySlug.get(j.slug)! > 1) j.slug = `${j.slug}-${j.id}`;
 
   console.log(`${current.length} current event${current.length === 1 ? "" : "s"} (ran within ${DAYS} days of the dump's newest run); ${jobs.length} to build.`);
   for (const s of skipped) console.log(`  skip ${s}`);
