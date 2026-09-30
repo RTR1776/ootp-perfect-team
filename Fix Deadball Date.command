@@ -5,8 +5,8 @@
 # 1919 Fenway, cards 1800-1920) first ran 09-23 (run #27, L.J.); runs before
 # that were a different format. This sets that date, so the older exports are
 # kept out of this event's own play (shown first; only a typed "y" writes).
-# Then it saves Claude's rebuilt roster (one card per player, built without
-# the old-format exports) as "Claude pick 2026-09-30 deadball2".
+# Then it saves Claude's rebuilt roster (4 SP / 4 RP / 18 bats, one card per player, without
+# the old-format exports) as "Claude pick 2026-09-30 deadball3".
 # Safe to run twice. Delete this file once it has run.
 
 cd "$(dirname "$0")/web" || exit 1
@@ -22,4 +22,4 @@ while read -r -t 1 -n 1 _ 2>/dev/null; do :; done
 read -r -p "Write this change? [y/N] " ok
 case "$ok" in y|Y|yes|YES|Yes) run scripts/catalogue-set.ts "${SET[@]}" --commit || { read -r -p "Press return to close."; exit 1; } ;; *) echo "Left as it is." ;; esac
 echo
-exec "../Save Current Rosters.command" ../Inbox/rosters/current-2026-09-30-deadball2.tsv
+exec "../Save Current Rosters.command" ../Inbox/rosters/current-2026-09-30-deadball3.tsv
