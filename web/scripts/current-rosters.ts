@@ -205,6 +205,15 @@ async function main() {
 
   mkdirSync(OUT, { recursive: true });
   const results: { job: Job; status: string; objective: number | null; file: string | null }[] = [];
+  // The manifest is rewritten after every build, so a batch cut short keeps what it built.
+  // A second batch the same day adds to the day's manifest; an event built again replaces its line.
+  const writeManifest = (built: { job: Job; file: string | null }[]) => {
+    const manifest = join(ROOT, "Inbox/rosters", `current-${TAG}.tsv`);
+    const kept = existsSync(manifest) ? readFileSync(manifest, "utf8").split("\n").filter((l) => l.trim() && !built.some((r) => l.startsWith(`${r.job.id}\t`))) : [];
+    const lines = [...kept, ...built.map((r) => `${r.job.id}\t${r.file}\t${r.job.name}`)].sort((a, b) => a.split("\t")[2].localeCompare(b.split("\t")[2]));
+    writeFileSync(manifest, lines.join("\n") + "\n");
+    return manifest;
+  };
   let next = 0;
   const run = (job: Job) => new Promise<void>((resolve) => {
     const out = join(OUT, `${job.id}.txt`);
@@ -225,18 +234,15 @@ async function main() {
         } catch (e) { status = `no load file: ${e instanceof Error ? e.message : e}`; }
       } else if (code !== 0) status = `failed: ${(text.split("\n").find((l) => l.startsWith("!!")) ?? text.trim().split("\n").at(-1) ?? "").slice(0, 160)}`;
       results.push({ job, status, objective: Number.isFinite(objective) ? objective : null, file });
+      if (file) writeManifest([{ job, file }]);
       console.log(`  [${results.length}/${jobs.length}] ${job.id} ${job.name}: ${status}${Number.isFinite(objective) ? ` · ${objective}` : ""}`);
       resolve();
     });
   });
   await Promise.all(Array.from({ length: Math.min(JOBS, jobs.length) }, async () => { while (next < jobs.length) await run(jobs[next++]); }));
 
-  const built = results.filter((r) => r.file).sort((a, b) => a.job.name.localeCompare(b.job.name));
-  // A second batch the same day adds to the day's manifest; an event built again replaces its line.
-  const manifest = join(ROOT, "Inbox/rosters", `current-${TAG}.tsv`);
-  const kept = existsSync(manifest) ? readFileSync(manifest, "utf8").split("\n").filter((l) => l.trim() && !built.some((r) => l.startsWith(`${r.job.id}\t`))) : [];
-  const lines = [...kept, ...built.map((r) => `${r.job.id}\t${r.file}\t${r.job.name}`)].sort((a, b) => a.split("\t")[2].localeCompare(b.split("\t")[2]));
-  writeFileSync(manifest, lines.join("\n") + "\n");
+  const built = results.filter((r) => r.file);
+  const manifest = writeManifest(built);
   writeFileSync(join(OUT, "summary.json"), JSON.stringify(results.map((r) => ({ id: r.job.id, name: r.job.name, status: r.status, objective: r.objective, file: r.file, why: r.job.why, notes: r.job.notes, args: r.job.args })), null, 2));
   console.log(`\n${built.length} of ${jobs.length} built and legal; manifest ${manifest}`);
   for (const r of results.filter((x) => x.status === "same cards as the saved roster")) console.log(`  UNCHANGED ${r.job.id} ${r.job.name}: the rebuild keeps the saved roster's cards`);
