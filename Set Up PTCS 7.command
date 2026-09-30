@@ -5,7 +5,8 @@
 #    9070001-9070010, from web/src/db/seed/ptcs7-championship.json: 1970 RE,
 #    1971 Dodger Stadium, DH, best of 9, variant cap 11, and each event's cap
 #    and value window. It shows the rows first; only a typed "y" writes.
-# 2. Saves Claude's eight rosters (every event but the two PD drafts) from
+# 2. Saves Claude's six rosters (Bronze, Silver, Gold, Diamond, Open, Cap;
+#    L.J. is not qualifying in Iron or Live, and the PDs are drafts) from
 #    Inbox/rosters/current-2026-09-30-ptcs7.tsv, through Save Current Rosters.
 #
 # Safe to run twice. Delete this file once it has run.
