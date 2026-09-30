@@ -39,7 +39,9 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { join } from "node:path";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { cards, collectionCards, rosterSlots, rosters, tournaments, uploads } from "@/db/schema";
+import { cards, collectionCards, rosterSlots, rosters, seriesMeta, tournaments, uploads } from "@/db/schema";
+import { rosterShape } from "@/lib/roster-fill";
+import { rosterSize } from "@/lib/roster-rules";
 import { parseDump } from "@/lib/analytics/dumps";
 import { eventGroupOf } from "@/lib/event-groups";
 import { eventRosterArgs } from "@/lib/event-roster-args";
@@ -83,7 +85,14 @@ const MIN_GAIN = Number(val("min-gain", "1"));
  * (2026-09-29-late), so it doesn't replace that morning's picks of the same name.
  */
 const TAG = val("tag") ?? chicagoDay(new Date())!;
-const BUILD = ["--optimize", "--starts", "16", "--role-trust", "0.25", "--sp", "5", "--rp", "7", "--bats", "14"];
+/**
+ * The roster shape (SP / RP / bats) is each event's own, as /build sizes it
+ * (roster-fill rosterShape): the series' exports when they are the current
+ * format, else the era table (a 1920 event carries 4 SP and 4 RP, L.J.
+ * 2026-09-30; until then every build here was 5 / 7 / 14). --sp / --rp /
+ * --bats override it for the whole batch.
+ */
+const BUILD = ["--optimize", "--starts", "16", "--role-trust", "0.25"];
 
 /** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
 function lastRuns(): { at: Map<number, number>; newest: number } {
@@ -189,6 +198,7 @@ async function main() {
   }).sort((a, b) => a.name.localeCompare(b.name));
 
   const why = flag("new-cards") ? await newCardEvents(current, latest.id, savedNow) : null;
+  const metaBy = new Map((await db.select().from(seriesMeta)).map((m) => [m.series, m]));
   const jobs: Job[] = [], skipped: string[] = [];
   let noNew = 0;
   for (const t of current) {
@@ -199,6 +209,10 @@ async function main() {
     const stale = !!(t.series && since && (await exportsPredate(t.series, since)).stale);
     const r = eventRosterArgs(t, { seriesStale: stale });
     if (r.problems.length) { skipped.push(`${t.id} ${t.name}: ${r.problems.join("; ")}`); continue; }
+    const meta = t.series && !stale ? metaBy.get(t.series) ?? null : null;
+    const sh = rosterShape(t.envYear, t.dh === true ? 9 : 8, rosterSize({ restrictions: t.restrictions } as Parameters<typeof rosterSize>[0]) ?? 26, meta);
+    r.args.push("--sp", val("sp") ?? String(sh.sp), "--rp", val("rp") ?? String(sh.rp), "--bats", val("bats") ?? String(sh.bats));
+    r.notes.push(`shape ${val("sp") ?? sh.sp} SP / ${val("rp") ?? sh.rp} RP / ${val("bats") ?? sh.bats} bats (${val("sp") ? "--sp" : sh.source === "observed" ? "the series' exports" : `era table, ${sh.band}`})`);
     jobs.push({ id: t.id, name: t.name, slug: (t.series ?? `event${t.id}`).replace(/[^a-z0-9]/gi, "").toLowerCase(), args: r.args, notes: r.notes, why: why?.get(t.id) ?? undefined });
   }
   if (why) console.log(`--new-cards: ${noNew} current event${noNew === 1 ? "" : "s"} where no new card starts (or adds ${MIN_GAIN}+ runs) are left as saved.`);
