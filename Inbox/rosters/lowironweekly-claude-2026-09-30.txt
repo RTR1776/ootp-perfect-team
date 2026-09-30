@@ -1,0 +1,36 @@
+# Friday Danksville — Claude pick 2026-09-30, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Kingdome --park-year 1977 --dh --min 40 --max 49 --size 26 --obs-exclude lowironweekly)
+R:C Steve Swisher #85777
+R:1B Stan Hack #86458
+R:2B Wally Backman #86903
+R:3B Kid Elberfeld (VAR) #86368
+R:SS Javier Baez (VAR) #86417
+R:LF Dwayne Hosey #86801
+R:CF Austin Jackson #84808
+R:RF Walt French #86960
+R:DH George Sisler (VAR) #87002
+L:C Cal McVey (VAR) #83567
+L:1B Todd Helton #86888
+L:2B Javier Baez (VAR) #86417
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Alex Rodriguez #86734
+L:LF Dwayne Hosey #86801
+L:CF Austin Jackson #84808
+L:RF Sammy Sosa #85691
+L:DH Pete Incaviglia #86943
+SP1 Tin Can Kincannon #86073
+SP2 Marco Estrada #87046
+SP3 Bob Gibson #86658
+SP4 Mark Langston #85840
+SP5 John Danks #86065
+CL Todd Jones (VAR) #86434
+RP1 Reed Garrett #84825
+RP2 Gerardo Carrillo #86540
+RP3 Zach Agnos #81805
+RP4 Alec Gamboa #86045
+RP5 Mike Garcia #86664
+RP6 Gavin Hollowell #86003
+BN1 Pete Incaviglia #86943
+BN2 Todd Helton #86888
+BN3 Cal McVey (VAR) #83567
+BN4 Alex Rodriguez #86734
+BN5 Sammy Sosa #85691
