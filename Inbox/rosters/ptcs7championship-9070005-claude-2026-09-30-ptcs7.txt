@@ -1,0 +1,36 @@
+# PTCS 7 Championship - Diamond — Claude pick 2026-09-30-ptcs7, rebuilt from the catalogue's rules by current-rosters (--year 1970 --park Dodger Stadium --park-year 1971 --dh --max 94 --cap 1742 --variant-cap 11 --size 26 --series PTCS 7 Championship)
+R:C Darrell Porter #85896
+R:1B Matt Carpenter #86771
+R:2B Hank Blalock #86433
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Luke Appling #82759
+R:LF Chick Stahl #86583
+R:CF Bo Jackson #86966
+R:RF Curtis Granderson #86596
+R:DH Wes Covington #86651
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86771
+L:2B Steve Sax #87007
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Luke Appling #82759
+L:LF Chick Stahl #86583
+L:CF Bo Jackson #86966
+L:RF Curtis Granderson #86596
+L:DH Chris Sabo #87059
+SP1 J.A. Happ #86352
+SP2 Jordan Montgomery #86354
+SP3 Fritz Ostermueller #86357
+SP4 Jakie May (VAR) #85286
+SP5 James McDonald (VAR) #86384
+CL Edwin Diaz #86422
+RP1 Chad Bradford #86341
+RP2 Todd Jones (VAR) #86434
+RP3 Tin Can Kincannon #86073
+RP4 Ace Adams #86197
+RP5 Steve Farr #86924
+RP6 R.T. Walker #86952
+BN1 George Sisler (VAR) #87002
+BN2 Al Burch #84328
+BN3 Chris Sabo #87059
+BN4 Mike Zunino #86431
+BN5 Steve Sax #87007

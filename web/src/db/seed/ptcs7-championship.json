@@ -1,0 +1,114 @@
+{
+  "series": "PTCS 7 Championship",
+  "playedOn": "2026-10-10",
+  "capturedOn": "2026-09-30",
+  "source": "PTCS 7 championship format announcement (L.J.'s screenshot, 2026-09-30)",
+  "note": "All events Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs); first sim ET. 'Low <tier>' is the tier's lower half as a ceiling with no floor (Low Iron 40-49, Low Bronze 40-64, ... Low Diamond 40-94), per tierWindowFromName; 'Gold Floor' is 80 and up. Variant cap and Live-only are set in `rules` because parseRestrictions doesn't read them.",
+  "events": [
+    {
+      "category": "Iron",
+      "name": "PTCS 7 Championship - Iron",
+      "firstSimEt": "11:00",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), Low Iron, 1175 cap",
+      "rules": {
+        "valueMax": 49,
+        "variantCap": 11,
+        "variantsAllowed": true
+      }
+    },
+    {
+      "category": "Bronze",
+      "name": "PTCS 7 Championship - Bronze",
+      "firstSimEt": "11:30",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), Low Bronze, 1352 cap",
+      "rules": {
+        "valueMax": 64,
+        "variantCap": 11,
+        "variantsAllowed": true
+      }
+    },
+    {
+      "category": "Silver",
+      "name": "PTCS 7 Championship - Silver",
+      "firstSimEt": "11:00",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), Low Silver, 1482 cap",
+      "rules": {
+        "valueMax": 74,
+        "variantCap": 11,
+        "variantsAllowed": true
+      }
+    },
+    {
+      "category": "Gold",
+      "name": "PTCS 7 Championship - Gold",
+      "firstSimEt": "11:00",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), Low Gold, 1612 cap",
+      "rules": {
+        "valueMax": 84,
+        "variantCap": 11,
+        "variantsAllowed": true
+      }
+    },
+    {
+      "category": "Diamond",
+      "name": "PTCS 7 Championship - Diamond",
+      "firstSimEt": "11:30",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), Low Diamond, 1742 cap",
+      "rules": {
+        "valueMax": 94,
+        "variantCap": 11,
+        "variantsAllowed": true
+      }
+    },
+    {
+      "category": "Open",
+      "name": "PTCS 7 Championship - Open",
+      "firstSimEt": "11:50",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), 1822 cap",
+      "rules": {
+        "variantCap": 11,
+        "variantsAllowed": true
+      }
+    },
+    {
+      "category": "Live",
+      "name": "PTCS 7 Championship - Live",
+      "firstSimEt": "11:00",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), Live cards only, 1822 cap",
+      "rules": {
+        "cardTypes": [
+          "Live"
+        ],
+        "variantCap": 11,
+        "variantsAllowed": true
+      }
+    },
+    {
+      "category": "Cap",
+      "name": "PTCS 7 Championship - Cap",
+      "firstSimEt": "11:30",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), Gold Floor, 2342 cap",
+      "rules": {
+        "valueMin": 80,
+        "variantCap": 11,
+        "variantsAllowed": true
+      }
+    },
+    {
+      "category": "PD Daily",
+      "name": "PTCS 7 Championship - PD Daily",
+      "firstSimEt": "11:30",
+      "isDraft": true,
+      "draftFormat": "Non-Live Low of Lows PD (draft is the low part of each tier)",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Non-Live Low of Lows PD"
+    },
+    {
+      "category": "PD Weekly",
+      "name": "PTCS 7 Championship - PD Weekly",
+      "firstSimEt": "11:00",
+      "isDraft": true,
+      "draftFormat": "Modified Perfectly Gold",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Modified Perfectly Gold PD"
+    }
+  ]
+}

@@ -1,7 +1,13 @@
 /**
- * Load the ten PTCS 6 championship events (Sat Sep 12) as tournaments.
+ * Load a PTCS championship's ten events as tournaments, from its seed file.
  *
- *   pnpm import:ptcs6:championship
+ *   pnpm import:ptcs6:championship                      # PTCS 6 (Sat Sep 12), ids 9060001-
+ *   pnpm exec tsx scripts/import-ptcs6-championship.ts --seed src/db/seed/ptcs7-championship.json --id-base 9070000 [--dry] [--json rows.json]
+ *
+ * --dry prints the rows without writing; --json also writes them to a file
+ * (current-rosters --add builds rosters from it before the rows are written).
+ * A seed event's `rules` object is laid over what parseRestrictions reads, for
+ * a clause it doesn't parse (PTCS 7's "Variants Cap 11", a Live-only rule).
  *
  * Source is `src/db/seed/ptcs6-championship.json` — the format announcement
  * kept as the verbatim rules blurb per event, so `parseRestrictions` does the
@@ -17,7 +23,7 @@
  * correction overwrites rather than duplicating.
  */
 
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { sql } from "drizzle-orm";
 import { db } from "../src/db/client";
@@ -25,7 +31,11 @@ import { parks, tournaments } from "../src/db/schema";
 import { parseRestrictions, tierWindowFromName } from "../src/lib/ingest/restrictions";
 import { CATEGORIES } from "../src/lib/ingest/constants";
 
-const ID_BASE = 9_060_000;
+const argv = process.argv.slice(2);
+const val = (k: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : undefined; };
+const ID_BASE = Number(val("id-base") ?? 9_060_000);
+const SEED = val("seed") ?? "src/db/seed/ptcs6-championship.json";
+const DRY = argv.includes("--dry");
 
 interface SeedEvent {
   category: string;
@@ -34,6 +44,8 @@ interface SeedEvent {
   text: string;
   isDraft?: boolean;
   draftFormat?: string;
+  /** Restriction fields laid over the parsed text, for a clause the parser misses. */
+  rules?: Record<string, unknown>;
 }
 interface Seed {
   series: string;
@@ -43,7 +55,7 @@ interface Seed {
 }
 
 async function main() {
-  const path = join(process.cwd(), "src/db/seed/ptcs6-championship.json");
+  const path = join(process.cwd(), SEED);
   const seed = JSON.parse(readFileSync(path, "utf8")) as Seed;
 
   const unknown = seed.events
@@ -63,7 +75,7 @@ async function main() {
   };
 
   const rows = seed.events.map((e, i) => {
-    const r = parseRestrictions(e.text);
+    const r = { ...parseRestrictions(e.text), ...(e.rules ?? {}) } as ReturnType<typeof parseRestrictions>;
     const parkName = resolvePark(r.park);
     // The announcement never restates the tier for a category event - "PTCS 6
     // Championship - Bronze" says it in the name - so parseRestrictions finds
@@ -103,7 +115,8 @@ async function main() {
     };
   });
 
-  await db.insert(tournaments).values(rows).onConflictDoUpdate({
+  if (val("json")) writeFileSync(val("json")!, JSON.stringify(rows, null, 2));
+  if (!DRY) await db.insert(tournaments).values(rows).onConflictDoUpdate({
     target: tournaments.id,
     set: {
       name: sql`excluded.name`, envYear: sql`excluded.env_year`, mode: sql`excluded.mode`,
@@ -117,7 +130,7 @@ async function main() {
     },
   });
 
-  console.log(`ptcs6 championship: ${rows.length} events upserted as "${seed.series}"`);
+  console.log(`${DRY ? "DRY RUN — nothing written. " : ""}${rows.length} events ${DRY ? "would be upserted" : "upserted"} as "${seed.series}"`);
   for (const row of rows) {
     const r = row.restrictions as Record<string, unknown>;
     const band = row.ratingsMin != null || row.ratingsMax != null
