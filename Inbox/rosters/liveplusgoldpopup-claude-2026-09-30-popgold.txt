@@ -1,0 +1,36 @@
+# Live-Plus Gold Pop-up — Claude pick 2026-09-30 popgold, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 2026 --dh --min 40 --max 89 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveplusgoldpopup)
+R:C Eduardo Tait #84743
+R:1B Edward Florentino (VAR) #84777
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Angel Genao #84740
+R:SS Jhonny Level (VAR) #84765
+R:LF Owen Caissie (VAR) #84640
+R:CF Eduardo Quintero #84741
+R:RF Zyhir Hope #84739
+R:DH Josue De Paula #84729
+L:C Thayron Liranzo (VAR) #85135
+L:1B Charlie Condon #85123
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Aiva Arquette (VAR) #84768
+L:SS Angel Genao #84740
+L:LF Eduardo Quintero #84741
+L:CF Kevin Alcantara (VAR) #84755
+L:RF Joshua Baez #86598
+L:DH Josue De Paula #84729
+SP1 Seth Hernandez (VAR) #84742
+SP2 Robby Snelling #85119
+SP3 Rhett Lowder #84636
+SP4 Didier Fuentes #84770
+SP5 Travis Sykora (VAR) #85120
+CL Tanner Scott #81792
+RP1 Calvin Faucher #82119
+RP2 Matt Brash #82247
+RP3 Edgardo Henriquez #81769
+RP4 Sam Hentges #81727
+RP5 Colin Holderman #82430
+RP6 Justin Martinez #86848
+BN1 Aiva Arquette (VAR) #84768
+BN2 Charlie Condon #85123
+BN3 Joshua Baez #86598
+BN4 Thayron Liranzo (VAR) #85135
+BN5 Kevin Alcantara (VAR) #84755
