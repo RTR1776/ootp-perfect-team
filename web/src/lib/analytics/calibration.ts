@@ -61,3 +61,27 @@ export function eraCorrectionPerPoint(year: number | null | undefined, modelLine
   for (const r of Object.keys(band.runs)) if (modelLine[r] != null) out[r] = (band.runs[r] - modelLine[r]) / 10;
   return out;
 }
+
+/**
+ * Power's curve, on top of the era correction. The era slopes are linear per
+ * rating point, and play pays Power on a log curve: checked 2026-10-01 against
+ * the production model (era fix applied, each series' own environment, park
+ * and left-handed share), 1,424 bats over 72 series. The residual (play minus
+ * model) rose by about 4 runs per 700 PA per e-fold of Power, a doubling being
+ * about +2.6, and nothing else was stable across halves. Contact-only bats
+ * (Power under 60, Contact 110+) ran 2.5 runs under the model; this term alone
+ * clears that.
+ *
+ * Fit within series on half the series and tested on the other half: 3.6 and
+ * 4.1, error per card down 4% both ways; 3.8 on all of them. Deadball (6 series)
+ * gave 0.3 and 5.5 and made the held-out half worse, so it is left at zero.
+ * The rating is floored at 20: a vL Power of 1 is "no power", not -12 runs.
+ * Cwhit's site rates contact bats higher still; play does not.
+ */
+export const POWER_CURVE = { runsPerELog: 3.8, from: 1921, ref: ERA_AVERAGE_RATING, floor: 20 } as const;
+
+/** Runs to add to a bat's board for its Power on that board, in this era. */
+export function powerCurveRuns(year: number | null | undefined, power: number | null | undefined): number {
+  if (year == null || year < POWER_CURVE.from || power == null || !Number.isFinite(power)) return 0;
+  return POWER_CURVE.runsPerELog * Math.log(Math.max(power, POWER_CURVE.floor) / POWER_CURVE.ref);
+}

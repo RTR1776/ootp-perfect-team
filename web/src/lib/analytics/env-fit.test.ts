@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { envFitMaps } from "./env-fit";
-import { eraBand, eraCorrectionPerPoint } from "./calibration";
+import { eraBand, eraCorrectionPerPoint, powerCurveRuns } from "./calibration";
 import { eraTable } from "./tournament-env";
 
 const bat = (id: number, over: Record<string, number>) => {
@@ -55,4 +55,17 @@ test("observed play moves a variant by the base card's deviation, not back to th
   assert.ok(Math.abs(both(v) - (model + boost + w * 4)) < 1e-9, "variant keeps its boost");
   const vOld = envFitMaps([variant], { era: era.rates, park: null, observed: new Map([[10, obs]]) });
   assert.ok(Math.abs(both(vOld) - (model + (1 - w) * boost + w * 4)) < 1e-9, "without the reference, the level blend (the old behaviour)");
+});
+
+test("Power's log curve: more for big power, less for none, nothing in deadball or for an average card", () => {
+  const pool = [bat(1, { Power: 220 }), bat(2, { Power: 1 }), bat(3, {})];
+  const era = eraTable["2010"] ?? eraTable["0"];
+  const plain = envFitMaps(pool, { era: era.rates, park: null, eraYear: 2010 });
+  assert.ok(Math.abs(powerCurveRuns(2010, 220) - 3.8 * Math.log(2)) < 1e-9);
+  assert.equal(powerCurveRuns(2010, 1), powerCurveRuns(2010, 20), "floored at 20");
+  assert.equal(powerCurveRuns(1915, 220), 0, "deadball is left alone");
+  assert.equal(powerCurveRuns(2010, 110), 0);
+  assert.equal(powerCurveRuns(null, 220), 0);
+  const lin = (id: number) => plain.runsR.get(id)!;
+  assert.ok(lin(1) - lin(3) > powerCurveRuns(2010, 220) - 1e-9, "the curve adds to what the era line already pays");
 });
