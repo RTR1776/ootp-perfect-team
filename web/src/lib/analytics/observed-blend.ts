@@ -110,9 +110,11 @@ export async function loadObservedRuns(
   reference?: (cardId: number) => number | null | undefined,
   /** Series left out entirely: an event's own exports from before its format changed. */
   excludeSeries: readonly string[] = [],
+  /** The event, for the field-strength floor (fieldFloor). Left out, every field counts. */
+  event?: { series?: string | null; ratingsMax?: number | null },
 ): Promise<Map<number, ObservedRuns>> {
   if (!cardIds.length) return new Map();
-  return observedRunsFrom(await loadObservedBook(cardIds, excludeSeries), modelRuns, reference);
+  return observedRunsFrom(await loadObservedBook(cardIds, excludeSeries), modelRuns, reference, event);
 }
 
 /**
@@ -126,10 +128,33 @@ export interface ObservedBook {
   lines: Row[];
   base: Map<string, { woba: number; fip: number }>;
   played: Row[];
+  /** Each series' field strength: the PA/BF-weighted card value of every card that played it. */
+  strength: Map<string, number>;
+}
+
+/**
+ * Play only counts against a field at most this many card-value points weaker
+ * than the event's (L.J., 2026-10-01: "you can't model a bronze card against a
+ * bronze field and how that card performs against gold variant level
+ * pitchers"). Gold Rush's field is 86; this drops every Bronze and Silver
+ * series and keeps Gold and up. Ratings carry a card where no such play exists.
+ */
+export const FIELD_MARGIN = 8;
+
+/**
+ * The weakest field whose play may count for an event: its own series' strength
+ * when its exports are on file, else its value ceiling less 3 (a field plays a
+ * little under its cap: Gold Rush 89 -> 86, Bronze 69 -> 66), less FIELD_MARGIN.
+ * Null (no floor) for an event with neither.
+ */
+export function fieldFloor(book: ObservedBook, ev: { series?: string | null; ratingsMax?: number | null }): number | null {
+  const own = ev.series ? book.strength.get(ev.series) : undefined;
+  const level = own ?? (ev.ratingsMax != null ? ev.ratingsMax - 3 : null);
+  return level == null ? null : level - FIELD_MARGIN;
 }
 
 export async function loadObservedBook(cardIds?: readonly number[], excludeSeries: readonly string[] = []): Promise<ObservedBook> {
-  const empty: ObservedBook = { lines: [], base: new Map(), played: [] };
+  const empty: ObservedBook = { lines: [], base: new Map(), played: [], strength: new Map() };
   if (cardIds && !cardIds.length) return empty;
   const only = cardIds ? sql` and card_id in (${sql.join(cardIds.map((id) => sql`${id}`), sql`, `)})` : sql``;
   const skip = excludeSeries.length ? sql` and series not in (${sql.join(excludeSeries.map((s) => sql`${s}`), sql`, `)})` : sql``;
@@ -167,7 +192,14 @@ export async function loadObservedBook(cardIds?: readonly number[], excludeSerie
   const played = cardIds ? asRows(await db.execute(sql`
     select series, card_id, is_pitcher, pa, (counters->>'BF')::float bf
     from observed_card_stats where series in (${seriesIn})`)) : lines;
-  return { lines, base, played };
+  const str_ = asRows(await db.execute(sql`
+    select o.series, sum(case when o.is_pitcher then coalesce((o.counters->>'BF')::float, 0) else coalesce(o.pa, 0) end * c.card_value)
+         / nullif(sum(case when o.is_pitcher then coalesce((o.counters->>'BF')::float, 0) else coalesce(o.pa, 0) end), 0) s
+    from observed_card_stats o join cards c on c.card_id = o.card_id
+    where o.series in (${seriesIn}) and c.card_value is not null group by 1`));
+  const strength = new Map<string, number>();
+  for (const r of str_) if (r.s != null && Number.isFinite(num(r.s))) strength.set(str(r.series), num(r.s));
+  return { lines, base, played, strength };
 }
 
 /** loadObservedRuns on a loaded book, in the run environment `modelRuns` scores. */
@@ -175,9 +207,12 @@ export function observedRunsFrom(
   book: ObservedBook,
   modelRuns: (cardId: number) => number | null | undefined,
   reference?: (cardId: number) => number | null | undefined,
+  /** The event: play against fields weaker than fieldFloor() is left out of each card's line. */
+  event?: { series?: string | null; ratingsMax?: number | null },
 ): Map<number, ObservedRuns> {
   const out = new Map<number, ObservedRuns>();
   const { lines, base, played } = book;
+  const floor = event ? fieldFloor(book, event) : null;
   if (!lines.length) return out;
   // The level of each field on the model's scale: PA-weighted (BF for arms)
   // mean of the model's runs over every card that played the series.
@@ -202,6 +237,7 @@ export function observedRunsFrom(
     const series = str(l.series), cardId = num(l.card_id), isP = !!l.is_pitcher;
     const b = base.get(series);
     if (!b) continue;
+    if (floor != null) { const st = book.strength.get(series); if (st != null && st < floor) continue; }
     const a = acc.get(cardId) ?? { num: 0, den: 0, series: new Set<string>() };
     const M = levelOf(series, isP);
     if (M == null) continue;

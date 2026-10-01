@@ -319,7 +319,7 @@ export default async function BuildPage({
       const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
       // The reference (the base card's model, env-fit's 0.7 R / 0.3 L read) lets an
       // owned variant keep its boost; a base card blends exactly as before.
-      const observed = await loadObservedRuns(pool.map((c) => c.cardId), both, bothHands(base));
+      const observed = await loadObservedRuns(pool.map((c) => c.cardId), both, bothHands(base), [], { series: full.series, ratingsMax: full.ratingsMax });
       env = { rates: eraRow.rates, park, lhpShare, lhbShare, eraYear: envYear ?? 2010, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n, o.model]) };
       {
         const ns = pool.map((c) => observed.get(c.cardId)?.n ?? 0).filter((n) => n > 0).sort((a, b) => a - b);

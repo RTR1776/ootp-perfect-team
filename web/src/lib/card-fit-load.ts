@@ -249,7 +249,7 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
 
     const base = envFitMaps(allInputs, opts);
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };
-    const observed = observedRunsFrom(book, both, bothHands(base));
+    const observed = observedRunsFrom(book, both, bothHands(base), { series: t.series, ratingsMax: t.ratingsMax });
 
     // The forms read with play blended in: every legal base card, his legal variants, the targets and his saved roster.
     const variantsOk = rx?.variantsAllowed !== false && rx?.variantCap !== 0;
