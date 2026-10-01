@@ -11346,30 +11346,30 @@
    ]
   },
   "goldweekly": {
-   "files": 3,
-   "teams": 711,
-   "spWeight": 1.32,
-   "rpWeight": 0.43,
+   "files": 1,
+   "teams": 236,
+   "spWeight": 1.07,
+   "rpWeight": 0.51,
    "openers": {
     "teams": 0,
     "winPct": null,
-    "othersWinPct": 0.5
+    "othersWinPct": 0.502
    },
    "groups": [
     {
      "key": "all",
      "label": "Every team",
-     "n": 711,
-     "winPct": 0.5,
+     "n": 236,
+     "winPct": 0.502,
      "tiers": {
       "G": {
-       "bats": 11.5,
-       "bench": 1.5,
+       "bats": 11.3,
+       "bench": 1.3,
        "sp": 4.7,
-       "rp": 5.7
+       "rp": 7.1
       },
       "S": {
-       "bats": 0.6,
+       "bats": 0.7,
        "bench": 0.1,
        "sp": 0.1,
        "rp": 0.3
@@ -11389,8 +11389,281 @@
      },
      "hands": {
       "spL": 1.8,
-      "spR": 3.1,
+      "spR": 3,
+      "batsL": 3.7,
+      "batsR": 6.8,
+      "batsS": 1.5
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "top",
+     "label": "Best quarter by record",
+     "n": 59,
+     "winPct": 0.612,
+     "tiers": {
+      "G": {
+       "bats": 11.8,
+       "bench": 0.9,
+       "sp": 4.6,
+       "rp": 7
+      },
+      "S": {
+       "bats": 1,
+       "bench": 0.1,
+       "sp": 0.2,
+       "rp": 0.2
+      },
+      "B": {
+       "bats": 0.1,
+       "bench": 0,
+       "sp": 0,
+       "rp": 0.1
+      }
+     },
+     "hands": {
+      "spL": 2.1,
+      "spR": 2.8,
+      "batsL": 4,
+      "batsR": 7.3,
+      "batsS": 1.6
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:HOTL",
+     "label": "HotL",
+     "n": 13,
+     "winPct": 0.528,
+     "tiers": {
+      "G": {
+       "bats": 10.7,
+       "bench": 1.1,
+       "sp": 4,
+       "rp": 6.1
+      },
+      "S": {
+       "bats": 2.2,
+       "bench": 0.1,
+       "sp": 0.6,
+       "rp": 0.7
+      },
+      "B": {
+       "bats": 0,
+       "bench": 0,
+       "sp": 0.2,
+       "rp": 0.2
+      }
+     },
+     "hands": {
+      "spL": 1.9,
+      "spR": 2.8,
       "batsL": 3.8,
+      "batsR": 8,
+      "batsS": 1.1
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:GH",
+     "label": "GH",
+     "n": 9,
+     "winPct": 0.575,
+     "tiers": {
+      "G": {
+       "bats": 11,
+       "bench": 1,
+       "sp": 4.7,
+       "rp": 6.9
+      },
+      "S": {
+       "bats": 1.3,
+       "bench": 0.4,
+       "sp": 0,
+       "rp": 0.4
+      }
+     },
+     "hands": {
+      "spL": 2.6,
+      "spR": 2.1,
+      "batsL": 3.9,
+      "batsR": 7.1,
+      "batsS": 1.3
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:JW",
+     "label": "JW",
+     "n": 6,
+     "winPct": 0.549,
+     "tiers": {
+      "G": {
+       "bats": 11.3,
+       "bench": 1.2,
+       "sp": 4.8,
+       "rp": 6.5
+      },
+      "S": {
+       "bats": 1.3,
+       "bench": 0,
+       "sp": 0.2,
+       "rp": 0.5
+      },
+      "B": {
+       "bats": 0,
+       "bench": 0,
+       "sp": 0,
+       "rp": 0.2
+      }
+     },
+     "hands": {
+      "spL": 2.2,
+      "spR": 2.8,
+      "batsL": 3.2,
+      "batsR": 8.5,
+      "batsS": 1
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:TBD",
+     "label": "TBD",
+     "n": 4,
+     "winPct": 0.389,
+     "tiers": {
+      "G": {
+       "bats": 10.8,
+       "bench": 0.8,
+       "sp": 4,
+       "rp": 6.5
+      },
+      "S": {
+       "bats": 1.8,
+       "bench": 0,
+       "sp": 0.8,
+       "rp": 0.3
+      },
+      "B": {
+       "bats": 0.8,
+       "bench": 0,
+       "sp": 0,
+       "rp": 0
+      }
+     },
+     "hands": {
+      "spL": 2,
+      "spR": 2.8,
+      "batsL": 4.3,
+      "batsR": 7.5,
+      "batsS": 1.5
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:BFF",
+     "label": "BFF",
+     "n": 4,
+     "winPct": 0.654,
+     "tiers": {
+      "G": {
+       "bats": 11.8,
+       "bench": 1,
+       "sp": 3.8,
+       "rp": 8.3
+      },
+      "S": {
+       "bats": 0.8,
+       "bench": 0,
+       "sp": 0.5,
+       "rp": 0
+      }
+     },
+     "hands": {
+      "spL": 1.5,
+      "spR": 2.8,
+      "batsL": 4.3,
+      "batsR": 6.3,
+      "batsS": 2
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "mine",
+     "label": "You",
+     "n": 1,
+     "winPct": 0.647,
+     "tiers": {
+      "G": {
+       "bats": 11,
+       "bench": 1,
+       "sp": 5,
+       "rp": 7
+      },
+      "S": {
+       "bats": 2,
+       "bench": 0,
+       "sp": 0,
+       "rp": 0
+      }
+     },
+     "hands": {
+      "spL": 3,
+      "spR": 2,
+      "batsL": 5,
+      "batsR": 7,
+      "batsS": 1
+     },
+     "openerShare": 0
+    }
+   ]
+  },
+  "goldweekly-pre20260924": {
+   "files": 2,
+   "teams": 475,
+   "spWeight": 1.44,
+   "rpWeight": 0.37,
+   "openers": {
+    "teams": 0,
+    "winPct": null,
+    "othersWinPct": 0.499
+   },
+   "groups": [
+    {
+     "key": "all",
+     "label": "Every team",
+     "n": 475,
+     "winPct": 0.499,
+     "tiers": {
+      "G": {
+       "bats": 11.6,
+       "bench": 1.6,
+       "sp": 4.7,
+       "rp": 5.1
+      },
+      "S": {
+       "bats": 0.6,
+       "bench": 0.1,
+       "sp": 0.1,
+       "rp": 0.2
+      },
+      "B": {
+       "bats": 0.1,
+       "bench": 0,
+       "sp": 0,
+       "rp": 0
+      },
+      "I": {
+       "bats": 0,
+       "bench": 0,
+       "sp": 0,
+       "rp": 0
+      }
+     },
+     "hands": {
+      "spL": 1.8,
+      "spR": 3.1,
+      "batsL": 3.9,
       "batsR": 6.8,
       "batsS": 1.6
      },
@@ -11399,19 +11672,19 @@
     {
      "key": "top",
      "label": "Best quarter by record",
-     "n": 179,
-     "winPct": 0.608,
+     "n": 120,
+     "winPct": 0.607,
      "tiers": {
       "G": {
-       "bats": 12,
-       "bench": 1.1,
-       "sp": 4.8,
-       "rp": 6.3
+       "bats": 12.1,
+       "bench": 1.2,
+       "sp": 4.9,
+       "rp": 6
       },
       "S": {
        "bats": 0.9,
        "bench": 0.1,
-       "sp": 0.2,
+       "sp": 0.1,
        "rp": 0.2
       },
       "B": {
@@ -11422,29 +11695,29 @@
       }
      },
      "hands": {
-      "spL": 2,
-      "spR": 3,
-      "batsL": 4,
-      "batsR": 7.2,
-      "batsS": 1.8
+      "spL": 1.9,
+      "spR": 3.1,
+      "batsL": 4.1,
+      "batsR": 7.1,
+      "batsS": 1.9
      },
      "openerShare": 0
     },
     {
      "key": "clan:HOTL",
      "label": "HotL",
-     "n": 41,
-     "winPct": 0.554,
+     "n": 28,
+     "winPct": 0.565,
      "tiers": {
       "G": {
-       "bats": 11.3,
+       "bats": 11.6,
        "bench": 0.9,
-       "sp": 4.2,
-       "rp": 5.4
+       "sp": 4.3,
+       "rp": 5
       },
       "S": {
-       "bats": 1.9,
-       "bench": 0.3,
+       "bats": 1.8,
+       "bench": 0.4,
        "sp": 0.6,
        "rp": 0.5
       },
@@ -11458,26 +11731,26 @@
      "hands": {
       "spL": 2,
       "spR": 2.9,
-      "batsL": 4.1,
-      "batsR": 7.3,
-      "batsS": 1.8
+      "batsL": 4.3,
+      "batsR": 7,
+      "batsS": 2.1
      },
      "openerShare": 0
     },
     {
      "key": "clan:GH",
      "label": "GH",
-     "n": 28,
-     "winPct": 0.552,
+     "n": 19,
+     "winPct": 0.536,
      "tiers": {
       "G": {
-       "bats": 11.5,
-       "bench": 1,
+       "bats": 11.7,
+       "bench": 0.9,
        "sp": 4.8,
-       "rp": 5.7
+       "rp": 5.2
       },
       "S": {
-       "bats": 1.3,
+       "bats": 1.2,
        "bench": 0.3,
        "sp": 0.1,
        "rp": 0.5
@@ -11486,117 +11759,15 @@
        "bats": 0,
        "bench": 0,
        "sp": 0,
-       "rp": 0
-      }
-     },
-     "hands": {
-      "spL": 2.4,
-      "spR": 2.5,
-      "batsL": 4.6,
-      "batsR": 6.5,
-      "batsS": 1.7
-     },
-     "openerShare": 0
-    },
-    {
-     "key": "clan:JW",
-     "label": "JW",
-     "n": 13,
-     "winPct": 0.548,
-     "tiers": {
-      "G": {
-       "bats": 11.6,
-       "bench": 0.8,
-       "sp": 4.8,
-       "rp": 6.1
-      },
-      "S": {
-       "bats": 1.8,
-       "bench": 0,
-       "sp": 0.2,
-       "rp": 0.3
-      },
-      "B": {
-       "bats": 0,
-       "bench": 0,
-       "sp": 0,
        "rp": 0.1
       }
      },
      "hands": {
-      "spL": 2.5,
-      "spR": 2.5,
-      "batsL": 4.2,
-      "batsR": 8,
-      "batsS": 1.2
-     },
-     "openerShare": 0
-    },
-    {
-     "key": "clan:TBD",
-     "label": "TBD",
-     "n": 12,
-     "winPct": 0.543,
-     "tiers": {
-      "G": {
-       "bats": 10.8,
-       "bench": 1,
-       "sp": 4.5,
-       "rp": 5.2
-      },
-      "S": {
-       "bats": 1.6,
-       "bench": 0.2,
-       "sp": 0.3,
-       "rp": 0.6
-      },
-      "B": {
-       "bats": 0.3,
-       "bench": 0.2,
-       "sp": 0,
-       "rp": 0.1
-      }
-     },
-     "hands": {
-      "spL": 1.8,
-      "spR": 3,
-      "batsL": 4.3,
-      "batsR": 6.8,
-      "batsS": 1.7
-     },
-     "openerShare": 0
-    },
-    {
-     "key": "clan:BFF",
-     "label": "BFF",
-     "n": 11,
-     "winPct": 0.594,
-     "tiers": {
-      "G": {
-       "bats": 12.1,
-       "bench": 0.9,
-       "sp": 4.5,
-       "rp": 6.4
-      },
-      "S": {
-       "bats": 0.8,
-       "bench": 0.1,
-       "sp": 0.2,
-       "rp": 0
-      },
-      "B": {
-       "bats": 0.1,
-       "bench": 0,
-       "sp": 0,
-       "rp": 0
-      }
-     },
-     "hands": {
-      "spL": 1.1,
-      "spR": 3.6,
-      "batsL": 4.4,
+      "spL": 2.3,
+      "spR": 2.6,
+      "batsL": 4.9,
       "batsR": 6.2,
-      "batsS": 2.5
+      "batsS": 1.8
      },
      "openerShare": 0
     },
@@ -11629,29 +11800,125 @@
      "openerShare": 0
     },
     {
-     "key": "mine",
-     "label": "You",
-     "n": 3,
-     "winPct": 0.514,
+     "key": "clan:TBD",
+     "label": "TBD",
+     "n": 8,
+     "winPct": 0.584,
      "tiers": {
       "G": {
-       "bats": 11.3,
-       "bench": 0.3,
-       "sp": 4.7,
-       "rp": 5.7
+       "bats": 10.9,
+       "bench": 1.1,
+       "sp": 4.8,
+       "rp": 4.5
       },
       "S": {
-       "bats": 2,
+       "bats": 1.5,
        "bench": 0.3,
+       "sp": 0.1,
+       "rp": 0.8
+      },
+      "B": {
+       "bats": 0.1,
+       "bench": 0.3,
+       "sp": 0,
+       "rp": 0.1
+      }
+     },
+     "hands": {
+      "spL": 1.8,
+      "spR": 3.1,
+      "batsL": 4.4,
+      "batsR": 6.4,
+      "batsS": 1.8
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:BFF",
+     "label": "BFF",
+     "n": 7,
+     "winPct": 0.54,
+     "tiers": {
+      "G": {
+       "bats": 12.3,
+       "bench": 0.9,
+       "sp": 5,
+       "rp": 5.3
+      },
+      "S": {
+       "bats": 0.9,
+       "bench": 0.1,
+       "sp": 0,
+       "rp": 0
+      },
+      "B": {
+       "bats": 0.1,
+       "bench": 0,
        "sp": 0,
        "rp": 0
       }
      },
      "hands": {
-      "spL": 2,
-      "spR": 2.7,
-      "batsL": 5.7,
-      "batsR": 6.7,
+      "spL": 0.9,
+      "spR": 4.1,
+      "batsL": 4.4,
+      "batsR": 6.1,
+      "batsS": 2.7
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:JW",
+     "label": "JW",
+     "n": 7,
+     "winPct": 0.547,
+     "tiers": {
+      "G": {
+       "bats": 11.9,
+       "bench": 0.4,
+       "sp": 4.7,
+       "rp": 5.7
+      },
+      "S": {
+       "bats": 2.1,
+       "bench": 0,
+       "sp": 0.3,
+       "rp": 0.1
+      }
+     },
+     "hands": {
+      "spL": 2.9,
+      "spR": 2.1,
+      "batsL": 5,
+      "batsR": 7.6,
+      "batsS": 1.4
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "mine",
+     "label": "You",
+     "n": 2,
+     "winPct": 0.389,
+     "tiers": {
+      "G": {
+       "bats": 11.5,
+       "bench": 0,
+       "sp": 4.5,
+       "rp": 5
+      },
+      "S": {
+       "bats": 2,
+       "bench": 0.5,
+       "sp": 0,
+       "rp": 0
+      }
+     },
+     "hands": {
+      "spL": 1.5,
+      "spR": 3,
+      "batsL": 6,
+      "batsR": 6.5,
       "batsS": 1
      },
      "openerShare": 0
