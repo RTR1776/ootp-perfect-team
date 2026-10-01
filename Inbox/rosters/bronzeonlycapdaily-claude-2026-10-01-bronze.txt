@@ -1,0 +1,36 @@
+# Daily Bronze Only Cap — Claude pick 2026-10-01 bronze, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park American Family Field --park-year 2026 --dh --min 60 --max 69 --cap 1689 --variant-cap 13 --size 26 --series bronzeonlycapdaily --sp 6 --rp 7 --bats 13)
+R:C Thayron Liranzo (VAR) #85135
+R:1B Edward Florentino (VAR) #84777
+R:2B Jhonny Level (VAR) #84765
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Deion Sanders #86962
+R:RF Jack Tobin #86772
+R:DH Wes Covington #86651
+L:C Chris Cannizzaro #85168
+L:1B Thayron Liranzo (VAR) #85135
+L:2B Jhonny Level (VAR) #84765
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Steve Pearce (VAR) #86366
+L:CF Jett Williams #84763
+L:RF Deion Sanders #86962
+L:DH Steve Sax #87007
+SP1 Fritz Ostermueller #86357
+SP2 Tanner McDougal (VAR) #85032
+SP3 Bob Miller #84715
+SP4 Kyson Witherspoon (VAR) #84774
+SP5 Bruce Hurst #86361
+SP6 Corey Kluber (VAR) #87008
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Don Robinson (VAR) #86773
+RP3 Paul Assenmacher #86944
+RP4 Caden Scarborough #84762
+RP5 Roy Halladay #86705
+RP6 Eric Orze #82330
+BN1 Chris Sabo #87059
+BN2 Steve Sax #87007
+BN3 Jett Williams #84763
+BN4 Chris Cannizzaro #85168

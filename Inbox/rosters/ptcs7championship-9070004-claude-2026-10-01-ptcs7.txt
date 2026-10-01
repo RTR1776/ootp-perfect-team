@@ -1,0 +1,36 @@
+# PTCS 7 Championship - Gold — Claude pick 2026-10-01-ptcs7, rebuilt from the catalogue's rules by current-rosters (--year 1970 --park Dodger Stadium --park-year 1971 --dh --min 40 --max 84 --cap 1612 --variant-cap 11 --size 26 --series PTCS 7 Championship --sp 5 --rp 6 --bats 15)
+R:C Darrell Porter #85896
+R:1B Matt Carpenter #86771
+R:2B Randy Ready #86921
+R:3B Hank Blalock #86433
+R:SS Zack Cozart #86109
+R:LF Willie McGee (VAR) #85753
+R:CF Lee Thomas (VAR) #86145
+R:RF Bryce Harper #86905
+R:DH Wes Covington #86651
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86771
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Zack Cozart #86109
+L:LF Willie McGee (VAR) #85753
+L:CF Dwayne Hosey #86801
+L:RF Bryce Harper #86905
+L:DH Steve Sax #87007
+SP1 Jordan Montgomery #86354
+SP2 Fritz Ostermueller #86357
+SP3 Jakie May (VAR) #85286
+SP4 James McDonald (VAR) #86384
+SP5 Tin Can Kincannon #86073
+CL Todd Jones (VAR) #86434
+RP1 Mike Marshall #84720
+RP2 Reed Garrett #84825
+RP3 Zach Agnos #81805
+RP4 Don Larsen #82979
+RP5 R.T. Walker #86952
+BN1 Stan Hack #86458
+BN2 Steve Sax #87007
+BN3 Chris Sabo #87059
+BN4 Dwayne Hosey #86801
+BN5 Mike Zunino #86431
+BN6 Al Burch #84328

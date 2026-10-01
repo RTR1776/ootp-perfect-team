@@ -1,0 +1,36 @@
+# PTCS 7 Championship - Bronze — Claude pick 2026-10-01-ptcs7, rebuilt from the catalogue's rules by current-rosters (--year 1970 --park Dodger Stadium --park-year 1971 --dh --min 40 --max 64 --cap 1352 --variant-cap 11 --size 26 --series PTCS 7 Championship --sp 5 --rp 6 --bats 15)
+R:C Rick Wilkins #86392
+R:1B Edward Florentino (VAR) #84777
+R:2B Steve Sax #87007
+R:3B Kyle Seager #86261
+R:SS Jhonny Level (VAR) #84765
+R:LF Jack Tobin #86772
+R:CF Dwayne Hosey #86801
+R:RF Aaron Hicks #86687
+R:DH Stan Hack #86458
+L:C Rick Wilkins #86392
+L:1B Edward Florentino (VAR) #84777
+L:2B Steve Sax #87007
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Jhonny Level (VAR) #84765
+L:LF Aaron Hicks #86687
+L:CF Dwayne Hosey #86801
+L:RF Sammy Sosa #85691
+L:DH Pete Incaviglia #86943
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Corey Kluber (VAR) #87008
+SP4 Bruce Hurst #86361
+SP5 Tin Can Kincannon #86073
+CL Todd Jones (VAR) #86434
+RP1 Reed Garrett #84825
+RP2 Zach Agnos #81805
+RP3 Don Larsen #82979
+RP4 Steve Farr #86924
+RP5 R.T. Walker #86952
+BN1 Kid Elberfeld (VAR) #86368
+BN2 Pete Incaviglia #86943
+BN3 Buck Rodgers #84312
+BN4 Charlie Eden #82834
+BN5 Sammy Sosa #85691
+BN6 Darrel Chaney #82846

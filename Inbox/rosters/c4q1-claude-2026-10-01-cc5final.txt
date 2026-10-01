@@ -1,0 +1,36 @@
+# Thursday CWhit's Cap Challenge 5 — Claude pick 2026-10-01-cc5final, observed-heavy (--year 1979 --park Louisville Slugger Field --park-year 2026 --dh --min 90 --max 100 --cap 2444 --size 26 --series c4q1 --sp 6 --rp 6 --bats 14 --assume-variant 86708 --obs-k 1000 --obs-exclude <every series but c4q1> --must "Hideki Matsui" --ban Borbon,Pollet,Pena; 313.9 runs)
+R:C Ed Bailey (VAR) #86637
+R:1B Will Clark #86913
+R:2B Matt Carpenter #86763
+R:3B Josh Vitters (VAR) #86419
+R:SS Ethan Holliday #84744
+R:LF Alex Gordon #86698
+R:CF Chick Stahl #86583
+R:RF Kyle Stowers #86242
+R:DH Hideki Matsui #87042
+L:C Roy Campanella (VAR) #82762
+L:1B Will Clark #86913
+L:2B Matt Carpenter #86763
+L:3B Josh Vitters (VAR) #86419
+L:SS Barry Larkin #86264
+L:LF Alex Gordon #86698
+L:CF Al Simmons #85942
+L:RF Chick Stahl #86583
+L:DH Hideki Matsui #87042
+SP1 Cliff Lee (VAR) #85693
+SP2 Larry Jackson #86646
+SP3 Manny Banuelos #86564
+SP4 Kyle Freeland (VAR) #86708
+SP5 Mark Langston #86956
+SP6 Sam Jones #86070
+CL John Habyan #83315
+RP1 Matt Anderson #86557
+RP2 Noah Schultz #84626
+RP3 Tommy John #86604
+RP4 Al Leiter (VAR) #85796
+RP5 Jack Lynch #83321
+BN1 Bryce Rainer #84732
+BN2 Al Simmons #85942
+BN3 Roy Campanella (VAR) #82762
+BN4 Edouard Julien #84213
+BN5 Barry Larkin #86264

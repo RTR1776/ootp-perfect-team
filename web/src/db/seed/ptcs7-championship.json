@@ -3,7 +3,7 @@
   "playedOn": "2026-10-10",
   "capturedOn": "2026-09-30",
   "source": "PTCS 7 championship format announcement (L.J.'s screenshot, 2026-09-30)",
-  "note": "All events Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs); first sim ET. 'Low <tier>' is the tier's lower half as a ceiling with no floor (Low Iron 40-49, Low Bronze 40-64, ... Low Diamond 40-94), per tierWindowFromName; 'Gold Floor' is 80 and up. Variant cap and Live-only are set in `rules` because parseRestrictions doesn't read them.",
+  "note": "All events Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs); first sim ET. 'Low <tier>' is the tier's lower half as a ceiling with no floor (Low Iron 40-49, Low Bronze 40-64, ... Low Diamond 40-94), per tierWindowFromName; 'Gold Floor' is 80 and up. Variant cap and Live-only are set in `rules` because parseRestrictions doesn't read them. Ranges confirmed by L.J. 2026-10-01: Bronze 40-64, Silver 40-74, Gold 40-84, Diamond 40-94, Open 40-103, Cap 85-103 (not the Gold Floor of 80 first read).",
   "events": [
     {
       "category": "Iron",
@@ -24,7 +24,8 @@
       "rules": {
         "valueMax": 64,
         "variantCap": 11,
-        "variantsAllowed": true
+        "variantsAllowed": true,
+        "valueMin": 40
       }
     },
     {
@@ -35,7 +36,8 @@
       "rules": {
         "valueMax": 74,
         "variantCap": 11,
-        "variantsAllowed": true
+        "variantsAllowed": true,
+        "valueMin": 40
       }
     },
     {
@@ -46,7 +48,8 @@
       "rules": {
         "valueMax": 84,
         "variantCap": 11,
-        "variantsAllowed": true
+        "variantsAllowed": true,
+        "valueMin": 40
       }
     },
     {
@@ -57,7 +60,8 @@
       "rules": {
         "valueMax": 94,
         "variantCap": 11,
-        "variantsAllowed": true
+        "variantsAllowed": true,
+        "valueMin": 40
       }
     },
     {
@@ -67,7 +71,9 @@
       "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), 1822 cap",
       "rules": {
         "variantCap": 11,
-        "variantsAllowed": true
+        "variantsAllowed": true,
+        "valueMin": 40,
+        "valueMax": 103
       }
     },
     {
@@ -87,11 +93,12 @@
       "category": "Cap",
       "name": "PTCS 7 Championship - Cap",
       "firstSimEt": "11:30",
-      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), Gold Floor, 2342 cap",
+      "text": "Best of 9, DH on, 1970 RE, 1971 Dodger Stadium, Variants Cap 11 (not including Live and PDs), 85-103, 2342 cap",
       "rules": {
-        "valueMin": 80,
+        "valueMin": 85,
         "variantCap": 11,
-        "variantsAllowed": true
+        "variantsAllowed": true,
+        "valueMax": 103
       }
     },
     {

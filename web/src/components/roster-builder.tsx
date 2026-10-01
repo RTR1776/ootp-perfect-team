@@ -57,6 +57,7 @@ import {
 import { useUndoable, useUndoKeys } from "@/lib/use-undoable";
 import { FieldView } from "@/components/build/field-view";
 import { BuyBox } from "@/components/build/buy-box";
+import { CardList } from "@/components/build/card-list";
 import { ShopBoard } from "@/components/build/shop-board";
 import { SearchProgressBar, setSearchProgress } from "@/components/build/search-progress";
 
@@ -1967,6 +1968,8 @@ export function RosterBuilder({
                     />
                   ))}
               </div>
+
+              <CardList slotOrder={slotOrder} slots={slots} byId={byId} />
 
               <div className="rounded-lg border border-border p-3">
                 <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Save · Export</div>
