@@ -69,6 +69,7 @@ const POOL_CSV = val("pool") ?? null;
  * repairs around it — which is also how you find out what it costs, since the
  * score difference against the free run IS the price of the conviction.
  */
+const ASSUME_VARIANT = (val("assume-variant") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 /** --show "Name,Name": print the model's runs for these owned cards in this event, whether or not they make the roster. */
 const SHOW = (val("show") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
@@ -258,6 +259,20 @@ async function main() {
     ...impliedBaseCopies(owned, (id) => /clubhouse/i.test(byId.get(id)?.title ?? "")),
   ]);
   const variants = new Map(owned.filter((o) => o.isVariant).map((o) => [o.cardId!, o.ratings]));
+  /*
+   * --assume-variant id[,id]: a variant he is about to buy, scored before he owns it. Its
+   * ratings are his base copy's export scaled by the variant boost measured on his own
+   * variants (Cliff Lee, Al Leiter, 2026-09-30: +8% on STU, CON, HRA and PBABIP, both
+   * splits; hitters' BA, GAP, POW, EYE and K likewise). Never for a save: the copy isn't owned.
+   */
+  for (const id of ASSUME_VARIANT) {
+    const base = owned.find((o) => o.cardId === id && !o.isVariant)?.ratings as Record<string, number> | undefined;
+    if (!base) { console.log(`!! --assume-variant ${id}: no base copy in the collection to scale`); continue; }
+    const scaled: Record<string, number> = { ...base };
+    for (const [k, v] of Object.entries(base)) if (typeof v === "number" && /^(STU|CON|HRA|PBABIP|BA|GAP|POW|EYE|K) v[LR]$/.test(k)) scaled[k] = Math.round(v * 1.08);
+    variants.set(id, scaled);
+    console.log(`assumed variant ${id}: base export x1.08 on the split ratings`);
+  }
   const ownedIds = [...new Set(owned.map((o) => o.cardId!))];
   const prices = shop
     ? new Map((await db.select({ cardId: cardSnapshots.cardId, ask: cardSnapshots.sellOrderLow })
