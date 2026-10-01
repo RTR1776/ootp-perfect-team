@@ -1,0 +1,88 @@
+
+=== Thursday Night Gold Rush ===
+2019 RE @ 2026 Great American Ballpark · DH on · value 40–89 · cap none · 26 players
+R/G 5.00  AVG 0.255  OBP 0.327  SLG 0.439  K% 22.6  HR/PA 3.80%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.085 runs · steal break-even 82.7% (0 out) / 79.7% (1 out)
+park: all-LHB lineup 4.98 R/G vs all-RHB 5.02 — 0.04 R/G swing toward RIGHT-handed bats
+card sets: Negro League Star, Rookie Sensation, All-Time Legend, Historical All-Star, Future Legend, Snapshot, Unsung Heroes, Hardware Heroes, Veteran Presence only
+
+pool: 2132 eligible owned cards — 1272 bats (413L / 157S / 702R), 860 arms
+shape: 13 bats / 5 SP / 8 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 2115 of 2132 pool cards have innings on record (median 2019 PA/BF); K = 5000; left out: goldweekly
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +6.5  Avoid Ks +3.7  BABIP +1.9  Eye +1.2  Gap +0.8
+                          RHB: Power +6.3  Avoid Ks +3.7  BABIP +1.9  Eye +1.2  Gap +0.8
+                         arms: pHR +2.1  Stuff +1.8  pBABIP +1.1  Control +0.9
+
+optimiser: 16 λ starts hill-climbed; best 242.4 runs vs 205.9 greedy (+36.5), 31 moves from λ 3.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Nathan Flewelling (VAR)     75  L  2026    +6.0  park:L DEF  67/ 67 -0.6
+R:1B    Lee Thomas (VAR)            77  L  1962   +22.4  park:L DEF  91/ 93 +1.4
+R:2B    Brandon Lowe (VAR)          82  L  2020   +12.3  park:L DEF  91/ 91 -2.8
+R:3B    Hank Thompson               87  L  1953   +17.4  park:L DEF  92/ 92 +0.1
+R:SS    Kaelen Culpepper (VAR)      89  R  2026    +8.3  park:R DEF 117/130 +1.1
+R:LF    Curtis Granderson           87  L  2011   +18.0  park:L DEF 113/117 +1.1
+R:CF    Shoeless Joe Jackson        88  L  1915   +21.6  park:L DEF  66/ 88 -2.2
+R:RF    Bo Jackson                  88  R  1989   +29.3  park:R DEF 123/123 +1.7
+R:DH    Wes Covington               67  L  1958   +21.7  park:L
+
+--- lineup vs LHP ---
+L:C     Mike Zunino                 75  R  2021   +29.0  park:R DEF  77/ 77 -0.3
+L:1B    Shoeless Joe Jackson        88  L  1915    +9.6  park:L DEF  73/ 88 -0.4
+L:2B    Brandon Lowe (VAR)          82  L  2020   +20.0  park:L DEF  91/ 91 -2.8
+L:3B    Chris Sabo                  66  R  1990   +33.0  park:R DEF  77/ 77 -1.5
+L:SS    Kaelen Culpepper (VAR)      89  R  2026   +15.4  park:R DEF 117/130 +1.1
+L:LF    Curtis Granderson           87  L  2011   +18.0  park:L DEF 113/117 +1.1
+L:CF    Bo Jackson                  88  R  1989   +23.4  park:R DEF 103/123 -0.5
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +29.2  park:R DEF 149/149 +3.5
+L:DH    Frank Howard                81  R  1968   +31.9  park:R
+
+--- rotation ---
+SP1     Dave Stieb (VAR)            89  R  1990    +8.9   SP STM  78
+SP2     Dizzy Dean                  88  R  1932    +8.7   SP STM  98
+SP3     Jim Kaat (VAR)              87  L  1967   +10.4   SP STM  78
+SP4     J.A. Happ                   87  L  2015   +12.4   SP STM  62
+SP5     Luther Farrell              87  L  1927    +8.5   SP STM 104
+
+--- bullpen ---
+CL      Javier Lopez                80  L  2010    +8.0   RP STM   9
+RP1     Steve Hamilton (VAR)        89  L  1965    +8.6   RP STM  19
+RP2     Carl Hubbell                86  R  1928    +8.2   SP STM  81
+RP3     Edwin Diaz                  67  R  2016   +10.8   CL STM  13
+RP4     Gary Lucas                  86  L  1986    +7.9   RP STM  24
+RP5     Chad Bradford               74  R  2006    +9.6   RP STM  11
+RP6     Dave Righetti               85  L  1986    +9.1   CL STM  49
+RP7     Gregg Olson (VAR)           88  R  1989    +9.6   CL STM  21
+
+--- bench ---
+BN1     Frank Howard                81  R  1968    +1.8  park:R
+BN2     Jeff Francoeur (VAR)        81  R  2005    -5.6  park:R
+BN3     Chris Sabo                  66  R  1990    +0.5  park:R
+BN4     Mike Zunino                 75  R  2021   -15.1  park:R
+
+26 players · value 2136 · λ 3.000 · 9 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Wes Covington          L EYE  64 (86/52)  POW 115 (40/143)  K  93  BABIP  84  GAP  71  SPE  15
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Curtis Granderson      L EYE 160 (94/184)  POW 145 (158/141)  K  78  BABIP  91  GAP  98  SPE 106
+  Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
+  Brandon Lowe           L EYE 132 (119/136)  POW 132 (155/124)  K  75  BABIP  95  GAP  93  SPE  73
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  Nathan Flewelling      L EYE 133 (130/134)  POW 116 (63/140)  K  55  BABIP  77  GAP  79  SPE  52
+  Frank Howard           R EYE  84 (101/79)  POW 158 (171/154)  K  62  BABIP  76  GAP  80  SPE  20
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
+LEGAL — every rule check passes
+(23 of 26 have a live ask in the last shop snapshot)
+objective: 242.4 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 13 bats) 1043 · rotation 438 · bullpen 655 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)

@@ -1,0 +1,90 @@
+
+=== Daily Bronze Only Cap ===
+2019 RE @ 2026 American Family Field · DH on · value 60–69 · cap 1689 · 26 players
+R/G 4.44  AVG 0.240  OBP 0.313  SLG 0.411  K% 22.6  HR/PA 3.41%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.042 runs · steal break-even 81.5% (0 out) / 78.7% (1 out)
+park: all-LHB lineup 4.41 R/G vs all-RHB 4.46 — 0.05 R/G swing toward RIGHT-handed bats
+
+pool: 1000 eligible owned cards — 544 bats (207L / 62S / 275R), 456 arms
+staff weights from bronzeonlycapdaily's exports: SP 1.1, RP 0.52 (a lineup slot = 1)
+field (bronzeonlycapdaily, 2 exports): 39% of batters faced thrown left-handed · 43% of PA by left-handed bats · 13.2 bats / 5.9 SP / 6.1 RP per team
+shape: 13 bats / 6 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 977 of 1000 pool cards have innings on record (median 829 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.8  Avoid Ks +3.3  BABIP +1.6  Eye +1.1  Gap +0.8
+                          RHB: Power +5.6  Avoid Ks +3.3  BABIP +1.7  Eye +1.2  Gap +0.8
+                         arms: pHR +1.9  Stuff +1.6  pBABIP +1.0  Control +0.9
+
+optimiser: 12 λ starts hill-climbed; best 80.1 runs vs 27.3 greedy (+52.8), 11 moves from λ 1.50
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Thayron Liranzo (VAR)       65  S  2026    -4.0  park:L DEF  67/ 76 -0.6
+R:1B    Edward Florentino (VAR)     63  L  2026    +9.0  park:L DEF  91/ 91 +1.4
+R:2B    Jhonny Level (VAR)          64  S  2026    +2.9  park:L DEF 107/107 -0.8
+R:3B    Hank Blalock                68  L  2003   +13.5  park:L DEF 105/108 +1.5
+R:SS    Dave Brain (VAR)            68  R  1907    +5.8  park:R DEF  93/ 99 -1.5
+R:LF    Steve Pearce (VAR)          69  R  2016    +5.3  park:R DEF  67/ 73 -1.8
+R:CF    Deion Sanders               69  L  1992    +2.1  park:L DEF 120/131 +0.3
+R:RF    Jack Tobin                  61  L  1920    +4.7  park:L DEF  73/ 77 -1.7
+R:DH    Wes Covington               67  L  1958   +20.6  park:L
+
+--- lineup vs LHP ---
+L:C     Chris Cannizzaro            65  R  1970    +6.0  park:R DEF  72/ 72 -0.4
+L:1B    Thayron Liranzo (VAR)       65  S  2026    +0.3  park:R DEF  76/ 76 -0.1
+L:2B    Jhonny Level (VAR)          64  S  2026    -1.5  park:R DEF 107/107 -0.8
+L:3B    Chris Sabo                  66  R  1990   +32.2  park:R DEF  77/ 77 -1.5
+L:SS    Dave Brain (VAR)            68  R  1907    +7.4  park:R DEF  93/ 99 -1.5
+L:LF    Steve Pearce (VAR)          69  R  2016   +18.0  park:R DEF  67/ 73 -1.8
+L:CF    Jett Williams               62  R  2026    +4.2  park:R DEF  87/ 93 -1.2
+L:RF    Deion Sanders               69  L  1992    +4.0  park:L DEF 122/131 +1.7
+L:DH    Steve Sax                   62  R  1989   +12.2  park:R
+
+--- rotation ---
+SP1     Fritz Ostermueller          64  L  1944    +6.4   SP STM  98
+SP2     Kyson Witherspoon (VAR)     63  R  2026    +0.4   SP STM  59
+SP3     Roy Halladay                61  R  2004    -1.7   SP STM  73
+SP4     Bruce Hurst                 64  L  1990    +0.1   SP STM  86
+SP5     Tanner McDougal (VAR)       66  R  2026    +2.5   SP STM  62
+SP6     Corey Kluber (VAR)          64  R  2022    -0.3   SP STM  64
+
+--- bullpen ---
+CL      Fernando Rodney             63  R  2013    -1.4   CL STM  17
+RP1     Paul Assenmacher            62  L  1989    +0.7   RP STM  17
+RP2     Caden Scarborough           64  R  2026    +0.3   RP STM  46
+RP3     Don Robinson (VAR)          65  R  1984    +1.2   RP STM  39
+RP4     Adam Cimber (VAR)           69  R  2018    +5.7   RP STM  17
+RP5     Edwin Diaz                  67  R  2016   +11.0   CL STM  13
+RP6     Satchel Paige               68  R  1952    +3.4   RP STM  57
+
+--- bench ---
+BN1     Steve Sax                   62  R  1989    -8.1  park:R
+BN2     Jett Williams               62  R  2026    -8.7  park:R
+BN3     Chris Sabo                  66  R  1990    -0.2  park:R
+BN4     Chris Cannizzaro            65  R  1970   -16.9  park:R
+
+26 players · value 1689 / 1689 (0 spare) · λ 1.500 · 10 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Wes Covington          L EYE  64 (86/52)  POW 115 (40/143)  K  93  BABIP  84  GAP  71  SPE  15
+  Hank Blalock           L EYE  67 (43/73)  POW  97 (40/117)  K  77  BABIP  93  GAP  88  SPE  26
+  Edward Florentino      L EYE 134 (99/148)  POW 106 (79/119)  K  60  BABIP  89  GAP  88  SPE  43
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Steve Pearce           R EYE 147 (167/140)  POW 106 (142/98)  K 105  BABIP  92  GAP  76  SPE  46
+  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Jhonny Level           S EYE  68 (62/70)  POW 100 (87/104)  K  97  BABIP  98  GAP 109  SPE  36
+  Deion Sanders          L EYE  63 (40/67)  POW  85 (112/77)  K  75  BABIP 149  GAP 113  SPE 119
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Thayron Liranzo        S EYE 153 (164/149)  POW 116 (138/108)  K  63  BABIP  66  GAP  95  SPE  25
+  Steve Sax              R EYE  85 (90/84)  POW  46 (55/44)  K 179  BABIP 122  GAP  68  SPE  83
+  Jett Williams          R EYE 151 (160/148)  POW  74 (88/69)  K  78  BABIP  81  GAP 125  SPE 114
+  Chris Cannizzaro       R EYE 115 (133/110)  POW  47 (84/19)  K  91  BABIP  88  GAP  66  SPE  46
+LEGAL — every rule check passes
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 80.1 weighted runs (bats 61/39 R/L, SP 1.1, RP 0.52, bench 0.1)
+points: lineup(both boards, 13 bats) 849 · rotation 382 · bullpen 458 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Paul Assenmacher         pBABIP 37 (fitted 50–175)
+   Edwin Diaz               pBABIP 25 (fitted 50–175)
