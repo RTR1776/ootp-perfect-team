@@ -51,16 +51,23 @@ export async function loadSetEvidenceMany(series: readonly string[]): Promise<Ma
 export async function exportsPredate(series: string, since: string): Promise<{ stale: boolean; files: number; before: number; undated: number }> {
   const pattern = `^${series.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}_[0-9]+\\.csv$`;
   const res = await db.execute(sql`
-    select f->>'name' as name, b.id, b.started_at as at, jsonb_array_length(b.scope) as width
+    select f->>'name' as name, f->>'runOn' as run_on, f->>'series' as filed_as, b.id, b.started_at as at, jsonb_array_length(b.scope) as width
     from import_batches b, jsonb_array_elements(b.files) f
     where b.kind = 'observed' and b.status = 'published' and f->>'name' ~ ${pattern}
     order by b.id`);
-  const rows = (Array.isArray(res) ? res : (res as { rows: unknown[] }).rows) as { name: string; id: number; at: string | Date; width: number }[];
+  const rows = (Array.isArray(res) ? res : (res as { rows: unknown[] }).rows) as { name: string; run_on: string | null; filed_as: string | null; id: number; at: string | Date; width: number }[];
   if (!rows.length) return { stale: true, files: 0, before: 0, undated: 0 };
   const latest = Math.max(...rows.map((r) => Number(r.id)));
-  const current = new Set(rows.filter((r) => Number(r.id) === latest).map((r) => r.name));
+  // A file the importer filed under another series (an old-format run split off
+  // to "<slug>-preYYYYMMDD", lib/format-split) is not this series' play.
+  const newest = rows.filter((r) => Number(r.id) === latest && (!r.filed_as || r.filed_as === series));
+  const current = new Set(newest.map((r) => r.name));
+  if (!current.size) return { stale: true, files: 0, before: 0, undated: 0 };
   let before = 0, undated = 0;
   for (const name of current) {
+    // The run's own day when the importer recorded it; else the day it was first filed.
+    const runOn = newest.find((r) => r.name === name)!.run_on;
+    if (runOn) { if (runOn < since) before++; continue; }
     const first = rows.find((r) => r.name === name)!;
     if (Number(first.width) > 3) undated++;
     else if ((chicagoDay(new Date(first.at)) ?? "") < since) before++;
