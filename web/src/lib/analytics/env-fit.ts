@@ -27,7 +27,7 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT } from "@/lib/analytics/calibration";
+import { CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -237,7 +237,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
       const v = c.ratings[`${ERA_SPLIT_KEY[r]} v${board}`] ?? c.ratings[r];
       if (v != null) d += pp[r] * (v - ERA_AVERAGE_RATING);
     }
-    return d;
+    return d + powerCurveRuns(o.eraYear, c.ratings[`Power v${board}`] ?? c.ratings.Power);
   };
   for (const c of pool) {
     let r = runsOf(c, "R"), l = runsOf(c, "L");
