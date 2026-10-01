@@ -21,5 +21,5 @@ while read -r -t 1 -n 1 _ 2>/dev/null; do :; done
 read -r -p "Write this change? [y/N] " ok
 case "$ok" in y|Y|yes|YES|Yes) run scripts/catalogue-set.ts "${SET[@]}" --commit || { read -r -p "Press return to close."; exit 1; } ;; *) echo "Left as it is." ;; esac
 echo
-"../Save Current Rosters.command" ../Inbox/rosters/current-2026-10-01-silver.tsv < /dev/tty
+"../Save Current Rosters.command" ../Inbox/rosters/current-2026-10-01-silver2.tsv < /dev/tty
 exec "../Save Current Rosters.command" ../Inbox/rosters/current-2026-10-01-cc5.tsv
