@@ -35,6 +35,8 @@ import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-en
 import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { readFileSync } from "node:fs";
+import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-order";
+import { calibrationSlope } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
 import type { SeriesBuild } from "@/lib/field-construction";
 import { setRuleGuard } from "@/lib/set-evidence";
@@ -541,6 +543,29 @@ async function main() {
   for (const p of lineupPos) console.log(row(`R:${p}`, "R"));
   console.log(`\n--- lineup vs LHP ---`);
   for (const p of lineupPos) console.log(row(`L:${p}`, "L"));
+  /* Batting order, the way /build's board shows it (lib/batting-order): each
+     lineup played through nine innings on the event's base/out chain, every
+     batter on his own odds against that hand; with no DH the pitcher bats ninth. */
+  {
+    const chain = orderEnv(scoringRates);
+    const s = calibrationSlope("hit");
+    for (const hand of ["R", "L"] as const) {
+      const ids = lineupPos.map((p) => slots[`${hand}:${p}`]);
+      if (ids.some((id) => id == null || !poolById.has(id))) continue;
+      const lines = ids.map((id) => {
+        const c = poolById.get(id!)!;
+        const side = batsLeftOn(c.bats, hand) ? fits.envLeft : fits.envRight;
+        const league = paLine(side.rates, side.park);
+        const r = hitterRates(c.ratings, side.rates, hand === "R" ? "vR" : "vL");
+        return r ? shrink(paLine(r, side.park), league, s) : league;
+      });
+      if (!DH) lines.push(pitcherLine(scoringRates));
+      const res = bestOrder(lines, chain, DH ? [] : [lineupPos.length]);
+      const nm = (i: number) => (i < ids.length ? `${poolById.get(ids[i]!)!.name}${poolById.get(ids[i]!)!.variant ? " (VAR)" : ""} ${lineupPos[i]}` : "Pitcher");
+      console.log(`\n--- batting order vs ${hand}HP --- (${res.runs.toFixed(2)} runs/game; The Book's order ${res.bookRuns.toFixed(2)})`);
+      res.order.forEach((i, k) => console.log(`  ${k + 1}. ${nm(i)}`));
+    }
+  }
   console.log(`\n--- rotation ---`);
   for (const k of shape.spKeys) console.log(row(k, "R"));
   console.log(`\n--- bullpen ---`);
