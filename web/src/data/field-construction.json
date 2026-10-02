@@ -16029,6 +16029,151 @@
   },
   "lowironweekly": {
    "files": 1,
+   "teams": 234,
+   "spWeight": 1.23,
+   "rpWeight": 0.48,
+   "openers": {
+    "teams": 0,
+    "winPct": null,
+    "othersWinPct": 0.5
+   },
+   "groups": [
+    {
+     "key": "all",
+     "label": "Every team",
+     "n": 234,
+     "winPct": 0.5,
+     "tiers": {
+      "I": {
+       "bats": 11.8,
+       "bench": 1.9,
+       "sp": 4.9,
+       "rp": 6.3
+      }
+     },
+     "hands": {
+      "spL": 2.5,
+      "spR": 2.4,
+      "batsL": 2.4,
+      "batsR": 8.3,
+      "batsS": 1.1
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "top",
+     "label": "Best quarter by record",
+     "n": 59,
+     "winPct": 0.6,
+     "tiers": {
+      "I": {
+       "bats": 12.8,
+       "bench": 1.3,
+       "sp": 4.9,
+       "rp": 6.8
+      }
+     },
+     "hands": {
+      "spL": 2.4,
+      "spR": 2.5,
+      "batsL": 2.3,
+      "batsR": 9.1,
+      "batsS": 1.4
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:HOTL",
+     "label": "HotL",
+     "n": 14,
+     "winPct": 0.607,
+     "tiers": {
+      "I": {
+       "bats": 13,
+       "bench": 1.1,
+       "sp": 4.9,
+       "rp": 6.2
+      }
+     },
+     "hands": {
+      "spL": 2.6,
+      "spR": 2.3,
+      "batsL": 1.9,
+      "batsR": 9.9,
+      "batsS": 1.2
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:JW",
+     "label": "JW",
+     "n": 8,
+     "winPct": 0.559,
+     "tiers": {
+      "I": {
+       "bats": 13.8,
+       "bench": 0.5,
+       "sp": 5,
+       "rp": 6.6
+      }
+     },
+     "hands": {
+      "spL": 2.4,
+      "spR": 2.6,
+      "batsL": 1.9,
+      "batsR": 10.3,
+      "batsS": 1.6
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:GH",
+     "label": "GH",
+     "n": 6,
+     "winPct": 0.512,
+     "tiers": {
+      "I": {
+       "bats": 12.7,
+       "bench": 1.5,
+       "sp": 4.8,
+       "rp": 6.7
+      }
+     },
+     "hands": {
+      "spL": 2,
+      "spR": 2.8,
+      "batsL": 2.3,
+      "batsR": 8.5,
+      "batsS": 1.8
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "mine",
+     "label": "You",
+     "n": 1,
+     "winPct": 0.5,
+     "tiers": {
+      "I": {
+       "bats": 13,
+       "bench": 1,
+       "sp": 5,
+       "rp": 7
+      }
+     },
+     "hands": {
+      "spL": 2,
+      "spR": 3,
+      "batsL": 3,
+      "batsR": 9,
+      "batsS": 1
+     },
+     "openerShare": 0
+    }
+   ]
+  },
+  "lowironweekly-pre20260925": {
+   "files": 1,
    "teams": 242,
    "spWeight": 1.16,
    "rpWeight": 0.46,
