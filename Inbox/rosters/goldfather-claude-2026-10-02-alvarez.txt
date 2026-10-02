@@ -1,0 +1,35 @@
+# Daily Goldfather II — Claude pick 2026-10-02 alvarez, rebuilt from the catalogue's rules by current-rosters (--year 1974 --park Yankee Stadium --park-year 1971 --min 40 --max 89 --size 26 --series goldfather --sp 6 --rp 6 --bats 14)
+R:C Nathan Flewelling (VAR) #86283
+R:1B Pedro Alvarez #87062
+R:2B Adam Kennedy #84172
+R:3B Hank Thompson #86668
+R:SS Francisco Lindor #87053
+R:LF Shoeless Joe Jackson #86372
+R:CF Lee Thomas (VAR) #86145
+R:RF Bo Jackson #86966
+L:C Mike Zunino #86431
+L:1B Shoeless Joe Jackson #86372
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Zack Cozart #86109
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Carl Hubbell #86893
+SP4 Jake Peavy #82683
+SP5 Dizzy Dean #86473
+SP6 Raisel Iglesias #83322
+CL Chad Bradford #86341
+RP1 Dave Righetti #85870
+RP2 Gary Lucas #85847
+RP3 Javier Lopez #86408
+RP4 Dave Stieb (VAR) #85911
+RP5 Count Leblanc #86978
+BN1 Curtis Granderson #86596
+BN2 Zack Cozart #86109
+BN3 Randy Ready #86921
+BN4 Chris Sabo #87059
+BN5 Jeff Francoeur (VAR) #86300
+BN6 Mike Zunino #86431

@@ -92,7 +92,7 @@ const TAG = val("tag") ?? chicagoDay(new Date())!;
  * 2026-09-30; until then every build here was 5 / 7 / 14). --sp / --rp /
  * --bats override it for the whole batch.
  */
-const BUILD = ["--optimize", "--starts", "16", "--role-trust", "0.25"];
+const BUILD = ["--optimize", "--starts", "16", "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : [])];
 
 /** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
 function lastRuns(): { at: Map<number, number>; newest: number } {

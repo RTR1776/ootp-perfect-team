@@ -1,0 +1,35 @@
+# Daily Goldfather II — Claude pick 2026-10-02 win, rebuilt from the catalogue's rules by current-rosters (--year 1974 --park Yankee Stadium --park-year 1971 --min 40 --max 89 --size 26 --series goldfather --sp 6 --rp 6 --bats 14)
+R:C Nathan Flewelling (VAR) #86283
+R:1B Lee Thomas (VAR) #86145
+R:2B Marcus Semien #86744
+R:3B Hank Thompson #86668
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Bo Jackson #86966
+R:CF Shoeless Joe Jackson #86372
+R:RF Andy Van Slyke #86936
+L:C Mike Zunino #86431
+L:1B Shoeless Joe Jackson #86372
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Kaelen Culpepper (VAR) #85033
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Carl Hubbell #86893
+SP4 Jake Peavy #82683
+SP5 Dizzy Dean #86473
+SP6 Raisel Iglesias #83322
+CL Chad Bradford #86341
+RP1 Dave Righetti #85870
+RP2 Gary Lucas #85847
+RP3 Javier Lopez #86408
+RP4 Dave Stieb (VAR) #85911
+RP5 Count Leblanc #86978
+BN1 Curtis Granderson #86596
+BN2 Josh Bell (VAR) #85437
+BN3 Chris Sabo #87059
+BN4 Randy Ready #86921
+BN5 Jeff Francoeur (VAR) #86300
+BN6 Mike Zunino #86431
