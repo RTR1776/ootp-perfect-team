@@ -473,6 +473,7 @@ async function main() {
       });
       if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }
+    let deepBoard: Record<string, number> | null = null;
     if (COMPARE_SEARCH) {
       /* /build's own search (roster-search: Optimise = quick, Search longer = deep) on these same
          inputs, from the greedy fill as "your board", scored on the same objective. */
@@ -483,11 +484,20 @@ async function main() {
           lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, gloveScale: GLOVE, locks: [], minCatchers: MIN_CATCHERS },
           (m) => { if (m.type === "done") done = m.best; }, () => Date.now());
         const b = done as SearchBest | null;
+        if (mode === "deep" && b) deepBoard = b.slots;
         console.log(`compare-search: /build ${mode === "quick" ? "Optimise" : "Search longer"} ${b ? objective(b.slots).toFixed(1) : "none"} runs (from ${b?.from ?? "-"}) in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
       }
     }
     console.log(`\noptimiser: ${starts.size} λ starts hill-climbed; best ${best.score.toFixed(1)} runs vs ${greedyScore.toFixed(1)} greedy (+${(best.score - greedyScore).toFixed(1)}), ${best.moves} moves from λ ${best.from.toFixed(2)}`);
     slots = best.slots; lambda = best.from;
+    if (deepBoard) {
+      // Where /build's Search longer board differs from the CLI's, slot by slot.
+      const nameOf = (id: number) => pool.find((c) => c.cardId === id)?.name ?? String(id);
+      const diff = Object.keys({ ...deepBoard, ...best.slots }).sort()
+        .filter((k) => deepBoard![k] !== best.slots[k])
+        .map((k) => `  ${k.padEnd(10)} CLI ${best.slots[k] ? nameOf(best.slots[k]) : "-"}  |  /build ${deepBoard![k] ? nameOf(deepBoard![k]) : "-"}`);
+      console.log(diff.length ? `compare-search: Search longer differs in ${diff.length} slots\n${diff.join("\n")}` : "compare-search: Search longer board is the same as the CLI's");
+    }
   }
   const poolById = new Map(pool.map((c) => [c.cardId, c]));
   const out: RosterSlot[] = Object.entries(slots).map(([k, cardId]) => {
