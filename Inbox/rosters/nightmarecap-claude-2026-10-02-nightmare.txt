@@ -1,0 +1,35 @@
+# Friday Nightmare Cap — Claude pick 2026-10-02 nightmare, rebuilt from the catalogue's rules by current-rosters (--year 1971 --park County Stadium --park-year 1970 --min 65 --max 79 --cap 1805 --variant-cap 6 --no-le --size 26 --series nightmarecap --sp 6 --rp 6 --bats 14)
+R:C Tim McCarver #85833
+R:1B Lee Thomas (VAR) #86145
+R:2B Hank Blalock #86433
+R:3B Matt Carpenter #86771
+R:SS Dave Brain (VAR) #85934
+R:LF Deion Sanders #86962
+R:CF Bryce Harper #86905
+R:RF Andy Van Slyke #86936
+L:C Chris Cannizzaro #85168
+L:1B Matt Carpenter #86771
+L:2B Mark Grudzielanek #87000
+L:3B Joe Dugan (VAR) #86765
+L:SS Dave Brain (VAR) #85934
+L:LF Steve Pearce (VAR) #86366
+L:CF Tommy Davis #83510
+L:RF Deion Sanders #86962
+SP1 Jordan Montgomery #86354
+SP2 Jakie May (VAR) #85286
+SP3 Dan Bankhead #84884
+SP4 Doug Davis #86802
+SP5 Bob Miller #84715
+SP6 Tanner McDougal (VAR) #85032
+CL Edwin Diaz #86422
+RP1 Satchel Paige #84839
+RP2 Clay Bryant #84265
+RP3 Billy Wagner #85778
+RP4 Vinnie Chulk #83171
+RP5 Evan Sisk #85245
+BN1 Steve Pearce (VAR) #86366
+BN2 Joe Dugan (VAR) #86765
+BN3 Mark Grudzielanek #87000
+BN4 Wes Covington #86651
+BN5 Chris Cannizzaro #85168
+BN6 Tommy Davis #83510
