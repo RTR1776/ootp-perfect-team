@@ -491,12 +491,13 @@ async function main() {
     console.log(`\noptimiser: ${starts.size} λ starts hill-climbed; best ${best.score.toFixed(1)} runs vs ${greedyScore.toFixed(1)} greedy (+${(best.score - greedyScore).toFixed(1)}), ${best.moves} moves from λ ${best.from.toFixed(2)}`);
     slots = best.slots; lambda = best.from;
     if (deepBoard) {
-      // Where /build's Search longer board differs from the CLI's, slot by slot.
+      // Which cards /build's Search longer board has that the CLI's doesn't, and back.
       const nameOf = (id: number) => pool.find((c) => c.cardId === id)?.name ?? String(id);
-      const diff = Object.keys({ ...deepBoard, ...best.slots }).sort()
-        .filter((k) => deepBoard![k] !== best.slots[k])
-        .map((k) => `  ${k.padEnd(10)} CLI ${best.slots[k] ? nameOf(best.slots[k]) : "-"}  |  /build ${deepBoard![k] ? nameOf(deepBoard![k]) : "-"}`);
-      console.log(diff.length ? `compare-search: Search longer differs in ${diff.length} slots\n${diff.join("\n")}` : "compare-search: Search longer board is the same as the CLI's");
+      const cli = new Set(Object.values(best.slots)), deep = new Set(Object.values(deepBoard));
+      const only = (a: Set<number>, b: Set<number>) => [...a].filter((id) => !b.has(id)).map(nameOf).join(", ") || "-";
+      console.log(only(deep, cli) === "-" && only(cli, deep) === "-"
+        ? "compare-search: Search longer picks the same 26 cards as the CLI"
+        : `compare-search: Search longer differs - /build only: ${only(deep, cli)}; CLI only: ${only(cli, deep)}`);
     }
   }
   const poolById = new Map(pool.map((c) => [c.cardId, c]));

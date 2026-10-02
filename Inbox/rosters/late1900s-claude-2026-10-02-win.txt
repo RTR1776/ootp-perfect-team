@@ -1,0 +1,36 @@
+# Daily Late 1900s — Claude pick 2026-10-02 win, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Wrigley Field --park-year 1998 --dh --min 40 --max 105 --card-year-min 1980 --card-year-max 1999 --size 26 --series late1900s --sp 5 --rp 8 --bats 13)
+R:C Mike Piazza (VAR) #86463
+R:1B Eddie Murray #85757
+R:2B Chuck Knoblauch #85930
+R:3B Carlos Baerga (VAR) #85747
+R:SS Barry Larkin #86264
+R:LF Lonnie Smith #86721
+R:CF Eric Davis #86974
+R:RF Bo Jackson #86966
+R:DH Will Clark #86913
+L:C Mike Piazza (VAR) #86463
+L:1B Eddie Murray #85757
+L:2B Chuck Knoblauch #85930
+L:3B Chris Sabo #87059
+L:SS Barry Larkin #86264
+L:LF Lonnie Smith #86721
+L:CF Pedro Guerrero #86940
+L:RF Bo Jackson #86966
+L:DH Cecil Fielder #86764
+SP1 Bret Saberhagen #86915
+SP2 Dave Stieb #86958
+SP3 Orel Hershiser #83135
+SP4 Kevin Brown #85401
+SP5 Nolan Ryan #85926
+CL Tony Fossas (VAR) #83324
+RP1 Rich Gossage #85046
+RP2 Joe Sambito #84075
+RP3 Dave Smith #84084
+RP4 Gregg Olson (VAR) #86946
+RP5 Dave Righetti #85870
+RP6 Jeff Montgomery #83319
+RP7 Pedro Borbon #83305
+BN1 Cecil Fielder #86764
+BN2 Darren Daulton #86253
+BN3 Chris Sabo #87059
+BN4 Pedro Guerrero #86940
