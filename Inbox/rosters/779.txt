@@ -1,0 +1,10 @@
+
+=== Saturday Negro Leagues Slots ===
+PT default (2010) RE @ 2026 Coors Field · DH off · value —–— · cap none · 26 players
+R/G 5.15  AVG 0.261  OBP 0.332  SLG 0.435  K% 22.6  HR/PA 3.30%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.081 runs · steal break-even 82.4% (0 out) / 79.4% (1 out)
+park: all-LHB lineup 5.07 R/G vs all-RHB 5.19 — 0.12 R/G swing toward RIGHT-handed bats
+
+!! Every card played in nelslotsweekly is from 1896–1964, so the event very likely allows only those years.
+Pass --card-year-min 1896 --card-year-max 1964.
+Or pass --any-set to build from every set and year anyway.

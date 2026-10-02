@@ -1,0 +1,35 @@
+# Saturday Negro Leagues Slots — Claude pick 2026-10-02 nel, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Coors Field --park-year 2026 --card-year-min 1871 --card-year-max 2026 --card-types 2 --slots P4,D4,G4,S4,B5,I5 --size 26 --series nelslotsweekly --sp 7 --rp 6 --bats 13)
+R:C Biz Mackey #86894
+R:1B Lennie Pearson (VAR) #84880
+R:2B Larry Doby #84878
+R:3B John Beckwith #84571
+R:SS Pop Lloyd #86896
+R:LF Cocaina Garcia #86954
+R:CF Wilson Redus #84570
+R:RF Mack Eggleston #86977
+L:C Josh Gibson #86898
+L:1B Lennie Pearson (VAR) #84880
+L:2B Larry Doby #84878
+L:3B John Beckwith #84571
+L:SS Pop Lloyd #86896
+L:LF Cocaina Garcia #86954
+L:CF Wilson Redus #84570
+L:RF Mack Eggleston #86977
+SP1 Hilton Smith #85864
+SP2 Satchel Paige #84844
+SP3 Count Leblanc #86978
+SP4 Luther Farrell #86900
+SP5 Sam Streeter #84538
+SP6 Dan Bankhead #84884
+SP7 Cool Papa Bell #86981
+CL Hubert Lockhart #87082
+RP1 Tin Can Kincannon #86073
+RP2 Laymon Yokely #84445
+RP3 Patricio Scantlebury #85828
+RP4 Bullet Campbell #87084
+RP5 Roy Welmaker #84425
+BN1 Josh Gibson #86898
+BN2 Pat Patterson #87080
+BN3 Esteban Montalvo #87081
+BN4 Joe Scott #84882
+BN5 Donald Reeves #84464
