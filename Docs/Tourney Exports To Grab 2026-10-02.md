@@ -2,10 +2,12 @@
 
 From the database: the newest daily export imported was run on 09-27 (imported 09-27 22:57Z). Since then only the weekly-format splits were re-imported. These are the non-draft events L.J. played (from the logged results) whose export isn't in any import. Drafts have never been filed and are left out. Oldest first, because Your Tournaments drops them as they age.
 
+**L.J.'s screen, 10-02:** the oldest row still listed is Daily Live Plus 1860178 (Sep 25). So the two 09-24 events (1390191, 1900121) are gone. Grab the rest oldest first: 1550027 Danksville and 1220197 Low Bronze go next.
+
 | Played | Event id | Event | File it becomes |
 |---|---|---|---|
-| 2026-09-24 | 1390191 | Daily All-Star Hardware Slots | ptcs4cap_191 or allstarhardwareslots_191 |
-| 2026-09-24 | 1900121 | Daily Silver & Friends Slots | silverfriendsslots_121 |
+| ~~2026-09-24~~ gone | 1390191 | Daily All-Star Hardware Slots | ptcs4cap_191 or allstarhardwareslots_191 |
+| ~~2026-09-24~~ gone | 1900121 | Daily Silver & Friends Slots | silverfriendsslots_121 |
 | 2026-09-25 | 1550027 | Friday Danksville | lowironweekly_27 |
 | 2026-09-26 | 1220197 | Daily Low Bronze Only | lowbronzeonlydaily_197 |
 | 2026-09-27 | 1220198 | Daily Low Bronze Only | lowbronzeonlydaily_198 |
