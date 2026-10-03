@@ -1,0 +1,36 @@
+# PTCS 7 Championship - Silver — Claude pick 2026-10-03 pulls, rebuilt from the catalogue's rules by current-rosters (--year 1970 --park Dodger Stadium --park-year 1971 --dh --min 40 --max 74 --cap 1482 --variant-cap 11 --size 26 --series PTCS 7 Championship --sp 5 --rp 6 --bats 15)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Hank Blalock #86433
+R:3B Chris Sabo #87059
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Deion Sanders #86962
+R:RF Bryce Harper #86905
+R:DH Wes Covington #86651
+L:C Bob Boone #87032
+L:1B Matt Carpenter #86771
+L:2B Steve Sax #87007
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Steve Pearce (VAR) #86366
+L:CF Deion Sanders #86962
+L:RF Bryce Harper #86905
+L:DH Pete Incaviglia #86943
+SP1 Fritz Ostermueller #86357
+SP2 Jakie May (VAR) #85286
+SP3 James McDonald (VAR) #86384
+SP4 Corey Kluber (VAR) #87008
+SP5 Tin Can Kincannon #86073
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 Steve Farr #86924
+RP4 R.T. Walker #86952
+RP5 Brian Wolfe #86975
+BN1 George Sisler (VAR) #87002
+BN2 Steve Sax #87007
+BN3 Jonathan Lucroy (VAR) #85349
+BN4 Stan Hack #86458
+BN5 Pete Incaviglia #86943
+BN6 Buck Rodgers #84312
