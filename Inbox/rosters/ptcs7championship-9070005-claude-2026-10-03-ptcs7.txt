@@ -1,0 +1,36 @@
+# PTCS 7 Championship - Diamond — Claude pick 2026-10-03-ptcs7, rebuilt from the catalogue's rules by current-rosters (--year 1970 --park Dodger Stadium --park-year 1971 --dh --min 40 --max 94 --cap 1742 --variant-cap 11 --size 26 --series PTCS 7 Championship --sp 5 --rp 6 --bats 15)
+R:C Mack Eggleston #86977
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Luke Appling #82759
+R:LF Alex Gordon #86698
+R:CF Chick Stahl #86583
+R:RF Bo Jackson #86966
+R:DH Shoeless Joe Jackson #86372
+L:C Mack Eggleston #86977
+L:1B Shoeless Joe Jackson #86372
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Luke Appling #82759
+L:LF Alex Gordon #86698
+L:CF Chick Stahl #86583
+L:RF Bo Jackson #86966
+L:DH Chris Sabo #87059
+SP1 Jim Kaat (VAR) #85114
+SP2 J.A. Happ #86352
+SP3 Carl Hubbell #86893
+SP4 James McDonald (VAR) #86384
+SP5 Corey Kluber (VAR) #87008
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 Tin Can Kincannon #86073
+RP4 R.T. Walker #86952
+RP5 Brian Wolfe #86975
+BN1 Nap Lajoie #86581
+BN2 Charlie Eden #82834
+BN3 Jonathan Lucroy (VAR) #85349
+BN4 George Sisler (VAR) #87002
+BN5 Chris Sabo #87059
+BN6 Buck Rodgers #84312
