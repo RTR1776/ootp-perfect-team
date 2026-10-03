@@ -1,0 +1,35 @@
+# Daily Dank — Claude pick 2026-10-03 new, rebuilt from the catalogue's rules by current-rosters (--year 1945 --park Comiskey Park --park-year 1945 --min 40 --max 49 --variant-cap 13 --size 26 --series dankdaily --sp 4 --rp 5 --bats 17)
+R:C Eliezer J. Alfonzo (VAR) #84314
+R:1B Stan Hack #86458
+R:2B Jeff Kent #86299
+R:3B Kid Elberfeld (VAR) #86368
+R:SS Javier Baez (VAR) #86417
+R:LF Fred Lynn #85410
+R:CF Dwayne Hosey #86801
+R:RF Vladimir Guerrero #86474
+L:C Elias Diaz #82357
+L:1B Mark Trumbo #85200
+L:2B Jeff Kent #86299
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Javier Baez (VAR) #86417
+L:LF Sammy Sosa #85691
+L:CF Dwayne Hosey #86801
+L:RF Vladimir Guerrero #86474
+SP1 Tin Can Kincannon #86073
+SP2 Marco Estrada #87046
+SP3 Mark Langston #85840
+SP4 Joe Saunders #86383
+CL Todd Jones (VAR) #86434
+RP1 Reed Garrett #84825
+RP2 Randy Choate #87026
+RP3 Zach Agnos #81805
+RP4 Wayne Granger #84235
+BN1 George Sisler (VAR) #87002
+BN2 Tsung-Che Cheng (VAR) #84612
+BN3 Mark Trumbo #85200
+BN4 Billy Bryan (VAR) #85849
+BN5 Harold Baines #85097
+BN6 Jonathan Lucroy (VAR) #85349
+BN7 Pete Incaviglia #86943
+BN8 Elias Diaz #82357
+BN9 Sammy Sosa #85691
