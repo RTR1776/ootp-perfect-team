@@ -72,6 +72,12 @@ const POOL_CSV = val("pool") ?? null;
  * score difference against the free run IS the price of the conviction.
  */
 const ASSUME_VARIANT = (val("assume-variant") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
+/**
+ * --assume-owned id[,id]: cards he doesn't own, put in the pool as base copies, to
+ * price a buy by the full rebuild (a cap event moves other cards around it, which
+ * Card Fit's one swap can't). Never for a save: the cards aren't owned.
+ */
+const ASSUME_OWNED = (val("assume-owned") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 /** --show "Name,Name": print the model's runs for these owned cards in this event, whether or not they make the roster. */
 const SHOW = (val("show") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
@@ -275,6 +281,7 @@ async function main() {
     variants.set(id, scaled);
     console.log(`assumed variant ${id}: base export x1.08 on the split ratings`);
   }
+  for (const id of ASSUME_OWNED) if (!baseSet.has(id)) { baseSet.add(id); owned.push({ cardId: id, isVariant: false, ratings: null }); console.log(`assumed owned ${byId.get(id)?.name ?? id} (${id})`); }
   const ownedIds = [...new Set(owned.map((o) => o.cardId!))];
   const prices = shop
     ? new Map((await db.select({ cardId: cardSnapshots.cardId, ask: cardSnapshots.sellOrderLow })
