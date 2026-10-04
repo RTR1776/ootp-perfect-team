@@ -1,0 +1,36 @@
+# Sunday Silver and Gold Cap — Claude pick 2026-10-04 sgcap2: 6 SP / 6 RP / 14 bats, cap 2026/2026, 8 variants, 247.8
+R:C Darrell Porter #85896
+R:1B Pedro Alvarez #87062
+R:2B Matt Carpenter #86771
+R:3B Corey Koskie (VAR) #86449
+R:SS Francisco Lindor #87053
+R:LF Curtis Granderson #86596
+R:CF Lee Thomas (VAR) #86145
+R:RF Bo Jackson #86966
+R:DH Gus Bell #85785
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86771
+L:2B Randy Ready #86921
+L:3B Aiva Arquette (VAR) #84768
+L:SS Francisco Lindor #87053
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Frank Howard #85311
+SP1 Jakie May (VAR) #85286
+SP2 Jordan Montgomery #86354
+SP3 Raisel Iglesias #83322
+SP4 Jim Kaat (VAR) #85114
+SP5 J.A. Happ #86352
+SP6 Carl Hubbell #86893
+CL Alex Claudio (VAR) #86447
+RP1 Bruce Ruffin #86777
+RP2 Chad Bradford #86341
+RP3 Michael King (VAR) #83248
+RP4 Rudy May #85288
+RP5 Brad Clontz #85920
+BN1 Aiva Arquette (VAR) #84768
+BN2 Randy Ready #86921
+BN3 Frank Howard #85311
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino #86431
