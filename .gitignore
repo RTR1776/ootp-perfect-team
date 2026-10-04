@@ -46,3 +46,6 @@ Tourney Data/DCFC Rejected/
 
 # throwaway analysis scripts
 web/scripts/.scratch/
+
+# cwhit upload folder, rebuilt by Make cwhit Upload Folder.command
+UPLOAD TO CWHIT TODAY/

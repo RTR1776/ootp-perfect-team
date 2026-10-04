@@ -8,8 +8,9 @@ The flow that works with OOTP's exporter (it always writes the SAME
 filename into online_data, so each download overwrites the last):
 
   1. Double-click this. Any unfiled export it finds gets the two prompts
-     (tournament, then id) and lands in Archive/Completed + the DCFC
-     Upload Queue.
+     (tournament, then id) and lands in Archive/Completed. If cwhit's
+     sheet lists it as Missing, his copy (renamed, trimmed to his 200
+     columns) also goes in UPLOAD TO CWHIT TODAY.
   2. Then it offers to KEEP WATCHING. Say yes, go back to OOTP, and
      export tournament after tournament — each file is caught and
      prompted for the moment it lands, so "which one is this?" is always
@@ -78,7 +79,8 @@ SCAN_GLOBS = [
     os.path.join(HOME, "Application Support/Out of the Park Developments/OOTP Baseball 27/saved_games/*/import_export"),
 ]
 DEST = os.path.join(HOME, "Desktop/OOTP Perfect Team/Archive/Completed")
-QUEUE = os.path.join(HOME, "Desktop/OOTP Perfect Team/Tourney Data/DCFC Upload Queue")
+# cwhit gets only what his sheet lists as Missing (web/scripts/cwhit_upload.py).
+CWHIT_DIR = os.path.join(HOME, "Desktop/OOTP Perfect Team/UPLOAD TO CWHIT TODAY")
 MAX_AGE_DAYS = 7      # ignore stale stats CSVs (old archives live in online_data too)
 POLL_SECONDS = 1.5
 IDLE_QUIT_MINUTES = 10
@@ -1097,19 +1099,45 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
                 print(f"collision, kept old: {name}")
                 remember_skip(p, mt)
                 return "skip"
-        if not group.startswith("pd"):
-            shutil.copy2(p, os.path.join(QUEUE, name))  # DCFC takes tournament stats only
         os.replace(p, dest)
         filed.append(name)
-        print(f"✓ filed {name}" + ("  (archived only — no PD model yet, not queued for DCFC)" if group.startswith("pd") else ""))
+        print(f"✓ filed {name}" + ("" if group.startswith("pd") else "  " + for_cwhit(dest, name)))
         notify(f"Filed {name}")
         if not group.startswith("pd"):
             queue_import(varname)
         return "ok"
 
+def cwhit_status() -> dict | None:
+    """cwhit's sheet as {his filename: status}, read once; None if there is no sheet."""
+    global _CWHIT
+    if _CWHIT is None:
+        try:
+            sys.path.insert(0, os.path.join(REPO, "web/scripts"))
+            import cwhit_upload as cu
+            sheet = cu.find_sheet(REPO)
+            _CWHIT = (cu, cu.read_sheet(sheet) if sheet else None)
+        except Exception as e:  # never let cwhit's sheet stop the filing
+            print(f"(cwhit sheet not read: {e})")
+            _CWHIT = (None, None)
+    return _CWHIT
+
+_CWHIT = None
+
+def for_cwhit(path: str, name: str) -> str:
+    """Put cwhit's copy in UPLOAD TO CWHIT TODAY if his sheet lists it as Missing."""
+    cu, status = cwhit_status()
+    if cu is None or status is None:
+        return "(no cwhit sheet found - run Make cwhit Upload Folder.command later)"
+    his = cu.his_name(name)
+    st = status.get(his or "")
+    if st != "Missing":
+        return f"(cwhit: {his} is {st.lower() if st else 'not on his sheet'}, not needed)"
+    os.makedirs(CWHIT_DIR, exist_ok=True)
+    ok, detail = cu.write_for_cwhit(path, os.path.join(CWHIT_DIR, his))
+    return f"→ cwhit needs it: {his}" if ok else f"(cwhit needs {his}, but not sent: {detail})"
+
 def main() -> None:
     os.makedirs(DEST, exist_ok=True)
-    os.makedirs(QUEUE, exist_ok=True)
     filed: list = []
 
     # WATCH FIRST. The picker should appear because you just hit download, not
@@ -1181,7 +1209,7 @@ def main() -> None:
     # window that closes like any other and never blocks the next run.
     notify(f"Done — filed {len(filed)} export(s)")
     report = (time.strftime("%a %b %-d %H:%M") + f" — filed {len(filed)} export(s):\n{lines}\n\n"
-              "Copies for cwhit are in Tourney Data/DCFC Upload Queue."
+              "Anything cwhit still needs is in UPLOAD TO CWHIT TODAY."
               + (f"\n\nDatabase:\n{summary}" if summary else "")
               + (f"\n\nCard art:\n{art}" if art else "") + "\n")
     path = os.path.join(REPO, "Archive/last-filing-report.txt")
