@@ -1,37 +1,65 @@
 [
   {
-    "id": 779,
-    "name": "Saturday Negro Leagues Slots",
-    "status": "failed: !! Every card played in nelslotsweekly is from 1896–1964, so the event very likely allows only those years.",
-    "objective": null,
-    "file": null,
+    "id": 547,
+    "name": "Sunday Open Main Event",
+    "status": "built",
+    "objective": 473.1,
+    "file": "openweekly-claude-2026-10-04-sunday.txt",
     "notes": [
-      "PT default RE",
-      "shape 7 SP / 6 RP / 13 bats (the series' exports)"
+      "shape 6 SP / 7 RP / 13 bats (the series' exports)"
     ],
     "args": [
       "--year",
       "2010",
       "--park",
-      "Coors Field",
+      "Truist Park",
       "--park-year",
       "2026",
-      "--card-types",
-      "2",
-      "--slots",
-      "P4,D4,G4,S4,B5,I5",
+      "--dh",
       "--size",
       "26",
       "--series",
-      "nelslotsweekly",
+      "openweekly",
       "--name",
-      "Saturday Negro Leagues Slots",
+      "Sunday Open Main Event",
       "--sp",
+      "6",
+      "--rp",
       "7",
+      "--bats",
+      "13"
+    ]
+  },
+  {
+    "id": 546,
+    "name": "Sunday Open Slots",
+    "status": "built",
+    "objective": 374,
+    "file": "openslotsweekly-claude-2026-10-04-sunday.txt",
+    "notes": [
+      "shape 6 SP / 6 RP / 14 bats (the series' exports)"
+    ],
+    "args": [
+      "--year",
+      "1969",
+      "--park",
+      "Shea Stadium",
+      "--park-year",
+      "1964",
+      "--slots",
+      "P8,D6,G4,S3,B3,I2",
+      "--size",
+      "26",
+      "--series",
+      "openslotsweekly",
+      "--name",
+      "Sunday Open Slots",
+      "--sp",
+      "6",
       "--rp",
       "6",
       "--bats",
-      "13"
+      "14"
     ]
   }
 ]
