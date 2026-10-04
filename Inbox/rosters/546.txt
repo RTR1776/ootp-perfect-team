@@ -1,0 +1,111 @@
+
+=== Sunday Open Slots ===
+1969 RE @ 1964 Shea Stadium · DH off · value —–— · cap none · 26 players
+R/G 4.16  AVG 0.249  OBP 0.321  SLG 0.373  K% 15.2  HR/PA 2.20%  preset Traditional
+sac bunt (1st & 2nd, 0 out) +0.043 runs · steal break-even 78.7% (0 out) / 75.5% (1 out)
+park: all-LHB lineup 4.14 R/G vs all-RHB 4.18 — 0.03 R/G swing toward RIGHT-handed bats
+
+pool: 3812 eligible owned cards — 2115 bats (707L / 255S / 1153R), 1697 arms
+staff weights from openslotsweekly's exports: SP 1.58, RP 0.37 (a lineup slot = 1)
+field (openslotsweekly, 1 exports): 42% of batters faced thrown left-handed · 38% of PA by left-handed bats · 13.6 bats / 6 SP / 4.3 RP per team
+shape: 14 bats / 6 SP / 6 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 2517 of 3812 pool cards have innings on record (median 247 PA/BF); K = 5000
+gloves ×0.97: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.4  Avoid Ks +1.9  BABIP +1.9  Eye +1.4  Gap +0.8
+                          RHB: Power +3.8  Avoid Ks +1.9  BABIP +1.8  Eye +1.4  Gap +0.8
+                         arms: pHR +1.2  pBABIP +1.1  Control +1.0  Stuff +1.0
+
+optimiser: 17 λ starts hill-climbed; best 374.0 runs vs 302.2 greedy (+71.8), 27 moves from λ 5.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +31.6  park:L DEF 112/112 +0.7
+R:1B    Hank Aaron                 102  R  1959   +26.8  park:R DEF  75/ 87 -0.2
+R:2B    Leodalis De Vries          102  S  2026   +26.9  park:L DEF 130/130 +2.5
+R:3B    Pedro Alvarez               81  L  2013   +28.3  park:L DEF  75/ 96 -2.1
+R:SS    Ernie Banks                102  R  1959   +27.6  park:R DEF 133/133 +3.5
+R:LF    Mike Greenwell              99  L  1988   +33.9  park:L DEF 125/125 +2.3
+R:CF    Bo Jackson                  88  R  1989   +26.0  park:R DEF 103/123 -0.6
+R:RF    Juan Soto                  102  L  2024   +37.0  park:L DEF  91/ 91 -0.6
+
+--- lineup vs LHP ---
+L:C     Mike Piazza (VAR)          101  R  1995   +40.4  park:R DEF  69/ 69 -0.6
+L:1B    Josh Vitters (VAR)          95  R  2012   +28.2  park:R DEF  99/ 99 +2.7
+L:2B    Leodalis De Vries          102  S  2026   +22.0  park:R DEF 130/130 +2.5
+L:3B    Chris Sabo                  66  R  1990   +29.8  park:R DEF  77/ 77 -1.8
+L:SS    Ernie Banks                102  R  1959   +29.8  park:R DEF 133/133 +3.5
+L:LF    Hank Aaron                 102  R  1959   +40.1  park:R DEF  85/ 87 -0.8
+L:CF    Bo Jackson                  88  R  1989   +25.1  park:R DEF 103/123 -0.6
+L:RF    Juan Soto                  102  L  2024   +34.9  park:L DEF  91/ 91 -0.6
+
+--- batting order vs RHP --- (4.83 runs/game; The Book's order 4.80)
+  1. Mike Greenwell LF
+  2. Juan Soto RF
+  3. Ed Bailey (VAR) C
+  4. Ernie Banks SS
+  5. Leodalis De Vries 2B
+  6. Hank Aaron 1B
+  7. Pedro Alvarez 3B
+  8. Bo Jackson CF
+  9. Pitcher
+
+--- batting order vs LHP --- (4.85 runs/game; The Book's order 4.84)
+  1. Leodalis De Vries 2B
+  2. Juan Soto RF
+  3. Ernie Banks SS
+  4. Hank Aaron LF
+  5. Chris Sabo 3B
+  6. Bo Jackson CF
+  7. Josh Vitters (VAR) 1B
+  8. Mike Piazza (VAR) C
+  9. Pitcher
+
+--- rotation ---
+SP1     Sam Jones                   92  R  1921    +9.5   SP STM  82
+SP2     Jim Kaat (VAR)              87  L  1967    +9.1   SP STM  78
+SP3     Larry Jackson               92  R  1959   +10.6   SP STM  92
+SP4     Orel Hershiser             102  R  1988   +12.1   SP STM 100
+SP5     Bret Saberhagen            102  R  1989   +13.7   SP STM 106
+SP6     Cy Young (VAR)             102  R  1895   +12.8   SP STM 114
+
+--- bullpen ---
+CL      Edwin Diaz                  67  R  2016    +1.7   CL STM  13
+RP1     James McDonald (VAR)        55  L  2010    +0.8   SP STM  59
+RP2     Chad Bradford               74  R  2006    +5.0   RP STM  11
+RP3     Jack Wenninger              79  L  2026    +4.1   RP STM  48
+RP4     J.A. Happ                   87  L  2015    +8.1   SP STM  62
+RP5     Tony Fossas (VAR)           99  L  1995   +14.7   RP STM  13
+
+--- bench ---
+BN1     Mike Piazza (VAR)          101  R  1995   +30.8  park:R
+BN2     Josh Vitters (VAR)          95  R  2012   +11.9  park:R
+BN3     George Sisler (VAR)         48  L  1928    +3.0  park:L
+BN4     Chris Sabo                  66  R  1990    -4.2  park:R
+BN5     Paul Waner                  61  L  1943    +7.1  park:L
+BN6     Matt Carpenter              74  L  2015   +10.3  park:L
+
+26 players · value 2256 · λ 5.000 · 8 variants
+vs RHP lineup gets the friendly park side in 5 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Juan Soto              L EYE 238 (244/236)  POW 200 (200/200)  K 116  BABIP 116  GAP  92  SPE  52
+  Mike Greenwell         L EYE 159 (44/202)  POW 101 (71/116)  K 183  BABIP 111  GAP 131  SPE  60
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Mike Piazza            R EYE 111 (84/124)  POW 187 (226/172)  K 106  BABIP 155  GAP  67  SPE  39
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Ernie Banks            R EYE 126 (145/120)  POW 187 (160/196)  K 129  BABIP 117  GAP  94  SPE  44
+  Leodalis De Vries      S EYE 145 (144/145)  POW 118 (115/120)  K 127  BABIP 152  GAP 152  SPE  91
+  Hank Aaron             R EYE  97 (111/94)  POW 181 (210/172)  K 134  BABIP 136  GAP 123  SPE  69
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Josh Vitters           R EYE  71 (84/66)  POW 103 (117/98)  K 131  BABIP 138  GAP 144  SPE  55
+  Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  Paul Waner             L EYE 159 (146/163)  POW  27 (1/33)  K 193  BABIP 122  GAP  93  SPE  22
+  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+LEGAL — every rule check passes
+(18 of 26 have a live ask in the last shop snapshot)
+objective: 374.0 weighted runs (bats 58/42 R/L, SP 1.58, RP 0.37, bench 0.1)
+points: lineup(both boards, 11 bats) 1035 · rotation 577 · bullpen 461 · bench-only 183
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)
