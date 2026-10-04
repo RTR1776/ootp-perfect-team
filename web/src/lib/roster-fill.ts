@@ -54,10 +54,17 @@ export interface FitMaps {
  * Where he gave a range the later half of the band takes the larger number.
  * Hitters take the rest of the roster. A series with observed exports
  * (series_meta) overrides this; the table is the fallback.
+ *
+ * L.J., 2026-10-04: "Please stop giving 8 RP ever, never ever except league
+ * maybe ... balance SPs in the pen for stamina." So a tournament pen is at
+ * most MAX_RP; arms past that become starters (who can go long out of the
+ * pen), and the 2010-on band is 6 SP / 7 RP. League rosters don't use this.
  */
+export const MAX_RP = 7;
+
 export function eraStaff(envYear: number | null | undefined): { sp: number; rp: number; band: string } {
-  if (envYear == null) return { sp: 5, rp: 8, band: "no env year — modern default" };
-  if (envYear >= 2010) return { sp: 5, rp: 8, band: "2010–present" };
+  if (envYear == null) return { sp: 6, rp: 7, band: "no env year — modern default" };
+  if (envYear >= 2010) return { sp: 6, rp: 7, band: "2010–present" };
   if (envYear >= 1980) return { sp: 5, rp: envYear >= 1995 ? 7 : 6, band: "1980s–2000s" };
   if (envYear >= 1960) return { sp: 5, rp: envYear >= 1970 ? 6 : 5, band: "1960s–70s" };
   if (envYear >= 1920) return { sp: 4, rp: envYear >= 1940 ? 5 : 4, band: "1920s–50s" };
@@ -77,9 +84,12 @@ export function rosterShape(
   if (meta?.avgSp != null && (meta.avgBats != null || meta.avgRp != null)) {
     // --sp 4 --rp 4 alone is a complete shape: the bats are what is left.
     const bats = clamp(Math.round(meta.avgBats ?? size - meta.avgSp - (meta.avgRp ?? 0)), lineupSize, 22);
-    const sp = clamp(Math.round(meta.avgSp), 1, 9);
-    const rp = clamp(size - bats - sp, 1, 12);
-    return { bats, sp, rp, source: "observed", band: era.band };
+    const sp0 = clamp(Math.round(meta.avgSp), 1, 9);
+    const rp0 = clamp(size - bats - sp0, 1, 12);
+    // Never more than MAX_RP relievers: the extra arms start (and go long) instead.
+    const rp = Math.min(rp0, MAX_RP);
+    const sp = Math.min(9, sp0 + (rp0 - rp));
+    return { bats: bats + (rp0 - rp) - (sp - sp0), sp, rp, source: "observed", band: era.band };
   }
   const sp = era.sp, rp = era.rp;
   const bats = clamp(size - sp - rp, lineupSize, 22);
