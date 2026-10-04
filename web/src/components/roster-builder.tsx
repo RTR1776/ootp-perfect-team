@@ -36,6 +36,7 @@ import { SetFilter } from "@/components/set-filter";
 import { dismissToast, toast, type ToastInput } from "@/components/ui/toast";
 import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillResult, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
+import { auditRoster, orderStaff } from "@/lib/roster-audit";
 import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
 import { hitterRates } from "@/lib/analytics/card-value";
 import { calibrationSlope } from "@/lib/analytics/calibration";
@@ -1175,7 +1176,7 @@ export function RosterBuilder({
           label: "Use it",
           onClick: () => {
             if (lastTid.current !== runTid || latest.current.slotOrder.length !== slotOrder.length) return;
-            latest.current.bulk({ type: "set", next: { slots: best.slots }, label }, { say: ({ runs, inOut }) => `Search result${runs ? `: ${runs}` : ""}. ${inOut}`, detail });
+            latest.current.bulk({ type: "set", next: { slots: orderStaff(best.slots, (id) => envFits.runsR.get(id) ?? -Infinity) }, label }, { say: ({ runs, inOut }) => `Search result${runs ? `: ${runs}` : ""}. ${inOut}`, detail });
           },
         },
       });
@@ -1186,7 +1187,9 @@ export function RosterBuilder({
       toast({ message: `No better board found (${climbs}${cut ? ", stopped at the time limit" : ""}). Yours stays at ${signed(before)} runs.${outsideNote ? ` ${outsideNote}` : ""}` });
       return;
     }
-    bulk({ type: "set", next: { slots: best.slots }, label }, {
+    // Rotation and pen best-first: SP1 starts the most, CL closes (roster-audit orderStaff).
+    const staffValue = (id: number) => envFits.runsR.get(id) ?? -Infinity;
+    bulk({ type: "set", next: { slots: orderStaff(best.slots, staffValue) }, label }, {
       say: ({ runs, inOut }) => `${breaks ? "Legal board" : "Better board"}${runs ? `: ${runs}` : ""}. ${inOut}${tail ? ` ${tail}` : ""}`,
       detail,
     });
@@ -1433,6 +1436,16 @@ export function RosterBuilder({
   };
 
   /* summary ---------------------------------------------------------- */
+  /** The roster check every board shows (lib/roster-audit), the same one env-roster prints. */
+  const rosterCheck = useMemo(() => {
+    const filled = Object.fromEntries(Object.entries(slots).filter((e): e is [string, number] => e[1] != null));
+    if (!Object.keys(filled).length) return [];
+    const top = meta?.construction?.groups.find((g) => g.key === "top");
+    const sum = (k: "sp" | "rp" | "bats" | "bench") => top ? Object.values(top.tiers).reduce((n, t) => n + ((t as Record<string, number>)[k] ?? 0), 0) : 0;
+    const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
+    return auditRoster({ slots: filled, cards: byId as unknown as Map<number, { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }>, lineupPos, envYear: tournament?.envYear, posFloor: LJ_FLOOR, field });
+  }, [slots, byId, lineupPos, tournament?.envYear, meta]);
+
   const summary = useMemo(() => {
     const lineupIds = lineupPos.map((p) => slots[`R:${p}`]).filter((v): v is number => v != null);
     const hitters = lineupIds.map((id) => byId.get(id)!).filter(Boolean);
@@ -1909,6 +1922,13 @@ export function RosterBuilder({
                     <input type="checkbox" checked={twoLong} onChange={(e) => setTwoLong(e.target.checked)} /> 2 long
                   </label>
                 </div>
+                {rosterCheck.length > 0 && (
+                  <ul className="mb-2 space-y-0.5 text-[10.5px]" title="L.J.'s roster rules (lib/roster-audit): staff caps beside the field's best quarter, starters' stamina for the era, stamina guys in the pen, a backup at every position">
+                    {rosterCheck.map((l, i) => (
+                      <li key={i} className={l.ok ? "text-muted-foreground" : "font-medium text-red-600 dark:text-red-400"}>{l.ok ? "✓" : "✗"} {l.text}</li>
+                    ))}
+                  </ul>
+                )}
                 <div className="mb-2 text-[10.5px] text-muted-foreground">
                   Carrying <span className="font-mono">{summary.hitterCount}</span> hitters ·{" "}
                   <span className="font-mono">{summary.spUsed}</span> SP ·{" "}
