@@ -17,6 +17,7 @@
  */
 
 import { cardEligibility, rosterSize, samePlayer, slotCapacityIssues, tierCode, type RosterRules } from "./roster-rules";
+import { LONG_MAN_STAMINA } from "./roster-audit";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { isComplete, type FillCard, type FillResult, type FillShape } from "./roster-fill";
 import { maxAssignment } from "./assign";
@@ -80,6 +81,18 @@ export interface OptimizeOptions {
    * fills every bench seat with a better bat.
    */
   minCatchers?: number;
+  /**
+   * Carry at least this many shortstops (hitters rated at or above the SS
+   * floor): a backup SS, so the starter can rest. L.J., 2026-10-04: "no back
+   * up SS ... literally Banks never rests."
+   */
+  minShortstops?: number;
+  /**
+   * Pen arms (CL/RP slots) with stamina at or above LONG_MAN_STAMINA the
+   * roster must carry. L.J., 2026-10-04: "you would be dumb to only use RPs
+   * in bullpen, need some stam guys."
+   */
+  minLongMen?: number;
   pairMoves?: {
     /** Upgrade candidates considered per slot, best-ranked first. */
     aTop: number;
@@ -109,7 +122,7 @@ export interface OptimizeResult {
  */
 function legal(
   slots: FillResult, byId: Map<number, FillCard>, rules: RosterRules, shape: FillShape, minPlayers = 0,
-  minCatchers = 0, catcherFloor = 1,
+  minCatchers = 0, catcherFloor = 1, minShortstops = 0, ssFloor = 1, minLongMen = 0,
 ): boolean {
   const rx = rules.restrictions;
   const size = rosterSize(rules) ?? Infinity;
@@ -133,6 +146,15 @@ function legal(
   // riding through the whole search untouched.
   if (members.some((m) => (m.variant ? !m.variantOwned : !m.baseOwned))) return false;
   if (minCatchers > 0 && members.filter((m) => !m.isPitcher && (m.ratings["Pos Rating C"] ?? 0) >= catcherFloor).length < minCatchers) return false;
+  if (minShortstops > 0 && members.filter((m) => !m.isPitcher && (m.ratings["Pos Rating SS"] ?? 0) >= ssFloor).length < minShortstops) return false;
+  if (minLongMen > 0) {
+    let long = 0;
+    for (const [key, id] of Object.entries(slots)) {
+      if (key !== "CL" && !/^RP\d/.test(key)) continue;
+      if ((byId.get(id)?.ratings.Stamina ?? 0) >= LONG_MAN_STAMINA) long++;
+    }
+    if (long < minLongMen) return false;
+  }
   if (members.filter((m) => !m.isPitcher).length > shape.bats) return false;
   if (rx?.teamCap != null && members.reduce((n, m) => n + (m.val ?? 0), 0) > rx.teamCap) return false;
   if (members.filter((m) => m.variant).length > variantLimit) return false;
@@ -197,6 +219,12 @@ export function optimizeRoster(
     pool.filter((c) => !c.isPitcher && (c.ratings["Pos Rating C"] ?? 0) >= cf)
       .sort((a, b) => rank("R:C", b) - rank("R:C", a)).slice(0, 10).forEach((c) => keepIds.add(c.cardId));
   }
+  if ((o.minShortstops ?? 0) > 0 && o.pairMoves) {
+    const sf = Math.max(1, posFloorAt(o.posFloor, "SS"));
+    const rank = o.pairMoves.rank;
+    pool.filter((c) => !c.isPitcher && (c.ratings["Pos Rating SS"] ?? 0) >= sf)
+      .sort((a, b) => rank("R:SS", b) - rank("R:SS", a)).slice(0, 10).forEach((c) => keepIds.add(c.cardId));
+  }
   /** Who may play each slot at all — before pruning, so reassignment is exact. */
   const eligible = new Map([...full].map(([k, list]) => [k, new Set(list.map((c) => c.cardId))]));
   const cands = new Map(keys.map((k) => {
@@ -218,11 +246,14 @@ export function optimizeRoster(
   const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start)).size);
   const minC = o.minCatchers ?? 0;
   const cFloor = Math.max(1, posFloorAt(o.posFloor, "C"));
+  const minSS = o.minShortstops ?? 0;
+  const ssFloor = Math.max(1, posFloorAt(o.posFloor, "SS"));
+  const minLong = o.minLongMen ?? 0;
   const startScore = o.objective(slots);
   // A starting board that breaks a rule (an unowned copy on a saved roster)
   // scores -Infinity, so the first legal board the search finds replaces it
   // even when it is worth fewer runs.
-  const startLegal = legal(slots, byId, rules, shape, minPlayers, minC, cFloor);
+  const startLegal = legal(slots, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong);
   let score = startLegal ? startScore : -Infinity;
   let moves = 0;
 
@@ -327,7 +358,7 @@ export function optimizeRoster(
   /** The reassigned board when it is complete, legal and strictly better. */
   const settle = (from: FillResult, fromScore: number): { slots: FillResult; score: number } | null => {
     const t = reassign(from);
-    if (t === from || !isComplete(t, shape) || !legal(t, byId, rules, shape, minPlayers, minC, cFloor)) return null;
+    if (t === from || !isComplete(t, shape) || !legal(t, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong)) return null;
     const s = o.objective(t);
     return s > fromScore + 1e-9 ? { slots: t, score: s } : null;
   };
@@ -347,7 +378,7 @@ export function optimizeRoster(
         if (c.cardId === current) continue;
         const trial = place(slots, key, c);
         if (!isComplete(trial, shape)) continue;
-        if (!legal(trial, byId, rules, shape, minPlayers, minC, cFloor)) continue;
+        if (!legal(trial, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong)) continue;
         const s = o.objective(trial);
         if (s > bestScore + 1e-9) { bestScore = s; bestKey = key; bestId = c.cardId; bestSlots = trial; }
         // A new bat on the roster: also score him with every position re-solved
@@ -373,7 +404,7 @@ export function optimizeRoster(
               if (cb.cardId === slots[b]) continue;
               const t2 = place(t1, b, cb);
               if (!isComplete(t2, shape)) continue;
-              if (!legal(t2, byId, rules, shape, minPlayers, minC, cFloor)) continue;
+              if (!legal(t2, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong)) continue;
               const s = o.objective(t2);
               if (s > bestScore + 1e-9) { bestScore = s; bestPair = { a, ai: ca.cardId, b, bi: cb.cardId }; }
             }

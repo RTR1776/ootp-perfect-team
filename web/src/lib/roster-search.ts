@@ -85,7 +85,7 @@ export const fromPlainFits = (p: PlainFits): FitMaps => ({
  */
 export function searchCard(c: FillCard): FillCard {
   const ratings: Record<string, number> = {};
-  for (const k in c.ratings) if (k.startsWith("Pos Rating ")) ratings[k] = c.ratings[k];
+  for (const k in c.ratings) if (k.startsWith("Pos Rating ") || k === "Stamina") ratings[k] = c.ratings[k];
   return {
     cardId: c.cardId, name: c.name, val: c.val, year: c.year, isPitcher: c.isPitcher, role: c.role, cardType: c.cardType ?? null,
     ratings, baseOwned: c.baseOwned, variantOwned: c.variantOwned, variant: c.variant, player: c.player ?? null,
@@ -113,6 +113,10 @@ export interface SearchRequest {
   /** Locked cards the pool holds: every board must carry them (1000 runs off each one missing). */
   locks: number[];
   minCatchers: number;
+  /** Shortstops to carry (a backup SS); 0 turns it off. */
+  minShortstops?: number;
+  /** Pen arms with a long man's stamina to carry; 0 turns it off. */
+  minLongMen?: number;
 }
 export interface SearchBest { slots: FillResult; score: number; moves: number; from: string }
 export interface SearchMessage {
@@ -182,7 +186,7 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
     const r = optimizeRoster(slots, d.pool, d.rules, d.shape, {
       objective: obj.objective, slotValue: obj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
       pairMoves: { aTop: cfg.aTop, bCheapest: cfg.bCheapest, rank: obj.rank }, maxPasses: cfg.maxPasses,
-      candidateLimit: cfg.candidateLimit, keep: locks, minCatchers: d.minCatchers,
+      candidateLimit: cfg.candidateLimit, keep: locks, minCatchers: d.minCatchers, minShortstops: d.minShortstops ?? 0, minLongMen: d.minLongMen ?? 0,
     });
     // Only boards that pass every rule compete.
     if (r.legal) {

@@ -20,6 +20,17 @@ He likes directness, hates padding, and says **"WE GRIND"** when he wants execut
 
 ---
 
+## Tournament roster rules — L.J., 2026-10-04 (firm; the code enforces them)
+
+He stopped trusting the rosters after 8-RP pens, 13 pitchers, 6-man rotations and no backup SS. Never hand him a roster that breaks these, and show the `--- roster check ---` block (env-roster prints it; `lib/roster-audit.ts`) with every roster:
+- **Rotation: 5 SP at most, ever.** Older eras can use fewer.
+- **Pen: 7 at most, never 8** (except league), and **12 pitchers at most** in all (`MAX_SP`/`MAX_RP`/`MAX_ARMS` in `lib/roster-fill.ts`).
+- **Stamina guys in the pen:** at least 2 pen arms with stamina 45 or more (`minLongMen`). "You'd be dumb to only use RPs in the bullpen."
+- **Backups:** 2 catchers and 2 shortstops (`minCatchers`, `minShortstops`), and the check shows a backup for every position. "Banks never rests."
+- **Order matters:** SP1 is the best starter and CL the best reliever (`orderStaff`).
+- **Know the event:** era/RE, park, DH, what the field's best quarter carries (SP/RP/bats, `field-construction.json`), and starters' stamina against the era floor.
+- **Hand rosters over sorted by card value** (102, 97, 88, …), with lineups and the staff.
+
 ## The two workstreams
 
 ### 1. PTCS qualifying tracker (the daily one)
