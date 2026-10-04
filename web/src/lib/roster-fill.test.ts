@@ -4,19 +4,21 @@ import { eraStaff, fillRoster, fitMaps, HIT_POS, isComplete, rosterShape, type F
 import { validateRoster, type RosterRules, type RosterSlot } from "./roster-rules";
 
 test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest", () => {
-  assert.deepEqual([eraStaff(2024).sp, eraStaff(2024).rp], [5, 8]);
+  assert.deepEqual([eraStaff(2024).sp, eraStaff(2024).rp], [6, 7], "L.J. 10-04: never 8 RP");
   assert.deepEqual([eraStaff(2006).sp, eraStaff(2006).rp], [5, 7]);
   assert.deepEqual([eraStaff(1984).sp, eraStaff(1984).rp], [5, 6]);
   assert.deepEqual([eraStaff(1968).sp, eraStaff(1968).rp], [5, 5]);
   assert.deepEqual([eraStaff(1935).sp, eraStaff(1935).rp], [4, 4]);
   assert.deepEqual([eraStaff(1907).sp, eraStaff(1907).rp], [4, 3]);
-  for (const y of [1907, 1935, 1968, 1984, 2006, 2024]) assert.ok(eraStaff(y).rp <= 8, `never 9 RP (${y})`);
+  for (const y of [1907, 1935, 1968, 1984, 2006, 2024]) assert.ok(eraStaff(y).rp <= 7, `never 8 RP (${y})`);
   const cap = rosterShape(1935, 8, 26, null);
   assert.deepEqual([cap.bats, cap.sp, cap.rp, cap.source], [18, 4, 4, "era"]);
   const dh = rosterShape(2010, 9, 26, null);
-  assert.deepEqual([dh.bats, dh.sp, dh.rp], [13, 5, 8]);
+  assert.deepEqual([dh.bats, dh.sp, dh.rp], [13, 6, 7]);
   const observed = rosterShape(1935, 8, 26, { avgSp: 4.4, avgRp: 6, avgBats: 12.6 });
-  assert.deepEqual([observed.bats, observed.sp, observed.rp, observed.source], [13, 4, 9, "observed"], "exports win over the table");
+  assert.deepEqual([observed.bats, observed.sp, observed.rp, observed.source], [13, 6, 7, "observed"], "exports win over the table, but the pen stops at 7: the extra arms start");
+  const explicit = rosterShape(2010, 9, 26, { avgSp: 5, avgRp: 8, avgBats: 13 });
+  assert.deepEqual([explicit.bats, explicit.sp, explicit.rp], [13, 6, 7], "--sp 5 --rp 8 comes out 6 SP / 7 RP");
   assert.equal(rosterShape(1935, 8, 22, null).bats, 14, "roster size other than 26");
 });
 
