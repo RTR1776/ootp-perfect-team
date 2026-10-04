@@ -1,42 +1,74 @@
 [
   {
-    "id": 538,
-    "name": "Sunday Silver and Gold Cap",
+    "id": 531,
+    "name": "Daily Diamond Jumble Slots",
     "status": "built",
-    "objective": 243.7,
-    "file": "highironfloorgoldceilingweekly-claude-2026-10-04-sgcap.txt",
+    "objective": 332.5,
+    "file": "diamondslotsdaily-claude-2026-10-04-rules.txt",
     "notes": [
       "PT default RE",
-      "shape 5 SP / 8 RP / 13 bats (the series' exports)"
+      "value window read off the name (name: Diamond)",
+      "shape 5 SP / 7 RP / 14 bats (the series' exports)"
     ],
     "args": [
       "--year",
       "2010",
       "--park",
-      "Atlanta Fulton County Stadium",
+      "Jack Murphy Stadium",
       "--park-year",
-      "1977",
+      "1984",
       "--dh",
       "--min",
-      "70",
+      "40",
       "--max",
-      "89",
-      "--cap",
-      "2026",
-      "--variant-cap",
-      "13",
+      "99",
+      "--card-types",
+      "2,5,7,8,9",
+      "--slots",
+      "D12,G8,S3,B3",
       "--size",
       "26",
       "--series",
-      "highironfloorgoldceilingweekly",
+      "diamondslotsdaily",
       "--name",
-      "Sunday Silver and Gold Cap",
+      "Daily Diamond Jumble Slots",
       "--sp",
       "5",
       "--rp",
-      "8",
+      "7",
       "--bats",
-      "13"
+      "14"
+    ]
+  },
+  {
+    "id": 547,
+    "name": "Sunday Open Main Event",
+    "status": "built",
+    "objective": 464.8,
+    "file": "openweekly-claude-2026-10-04-rules.txt",
+    "notes": [
+      "shape 5 SP / 7 RP / 14 bats (the series' exports)"
+    ],
+    "args": [
+      "--year",
+      "2010",
+      "--park",
+      "Truist Park",
+      "--park-year",
+      "2026",
+      "--dh",
+      "--size",
+      "26",
+      "--series",
+      "openweekly",
+      "--name",
+      "Sunday Open Main Event",
+      "--sp",
+      "5",
+      "--rp",
+      "7",
+      "--bats",
+      "14"
     ]
   }
 ]
