@@ -14,7 +14,7 @@ L:2B Bret Boone #86701
 L:3B Scott Rolen #86405
 L:SS Ernie Banks #86621
 L:LF Hank Aaron #86655
-L:CF Al Simmons #85942
+L:CF Richard Hidalgo #86707
 L:RF Juan Soto #87013
 L:DH Hideki Matsui #87042
 SP1 Bret Saberhagen #86915
