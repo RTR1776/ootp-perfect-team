@@ -1,0 +1,36 @@
+# Live-Plus Diamond Pop-up (Wed 10-07 18:59) — Claude pick 2026-10-04: env-roster --year 2010 --park Fenway Park --park-year 2026 --dh --min 40 --max 99 --card-year-min 2026 --card-year-max 2026 --size 26 --sp 5 --rp 8 --bats 13 --optimize --starts 16 --role-trust 0.25 (collection 186). Legal, 11 variants.
+R:C Eduardo Tait
+R:1B Ethan Holliday (VAR)
+R:2B Colt Emerson (VAR)
+R:3B Arjun Nimmala (VAR)
+R:SS Kaelen Culpepper (VAR)
+R:LF JJ Wetherholt (VAR)
+R:CF Max Clark (VAR)
+R:RF Josue De Paula (VAR)
+R:DH Bryce Rainer
+L:C William Contreras
+L:1B Ethan Holliday (VAR)
+L:2B Kaelen Culpepper (VAR)
+L:3B Arjun Nimmala (VAR)
+L:SS Aidan Miller
+L:LF JJ Wetherholt (VAR)
+L:CF Luis Pena
+L:RF Kevin Alcantara (VAR)
+L:DH Josue De Paula (VAR)
+SP1 Payton Tolle
+SP2 Trey Yesavage (VAR)
+SP3 Connelly Early
+SP4 Noah Schultz
+SP5 Seth Hernandez (VAR)
+CL Cade Smith
+RP1 Jarlin Susana
+RP2 Adrian Morejon
+RP3 Thomas White
+RP4 Edgardo Henriquez
+RP5 Jack Wenninger
+RP6 Travis Sykora (VAR)
+RP7 David Bednar
+BN1 William Contreras
+BN2 Luis Pena
+BN3 Kevin Alcantara (VAR)
+BN4 Aidan Miller
