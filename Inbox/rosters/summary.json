@@ -1,65 +1,42 @@
 [
   {
-    "id": 547,
-    "name": "Sunday Open Main Event",
+    "id": 538,
+    "name": "Sunday Silver and Gold Cap",
     "status": "built",
-    "objective": 473.1,
-    "file": "openweekly-claude-2026-10-04-sunday.txt",
+    "objective": 243.7,
+    "file": "highironfloorgoldceilingweekly-claude-2026-10-04-sgcap.txt",
     "notes": [
-      "shape 6 SP / 7 RP / 13 bats (the series' exports)"
+      "PT default RE",
+      "shape 5 SP / 8 RP / 13 bats (the series' exports)"
     ],
     "args": [
       "--year",
       "2010",
       "--park",
-      "Truist Park",
+      "Atlanta Fulton County Stadium",
       "--park-year",
-      "2026",
+      "1977",
       "--dh",
+      "--min",
+      "70",
+      "--max",
+      "89",
+      "--cap",
+      "2026",
+      "--variant-cap",
+      "13",
       "--size",
       "26",
       "--series",
-      "openweekly",
+      "highironfloorgoldceilingweekly",
       "--name",
-      "Sunday Open Main Event",
+      "Sunday Silver and Gold Cap",
       "--sp",
-      "6",
+      "5",
       "--rp",
-      "7",
+      "8",
       "--bats",
       "13"
-    ]
-  },
-  {
-    "id": 546,
-    "name": "Sunday Open Slots",
-    "status": "built",
-    "objective": 374,
-    "file": "openslotsweekly-claude-2026-10-04-sunday.txt",
-    "notes": [
-      "shape 6 SP / 6 RP / 14 bats (the series' exports)"
-    ],
-    "args": [
-      "--year",
-      "1969",
-      "--park",
-      "Shea Stadium",
-      "--park-year",
-      "1964",
-      "--slots",
-      "P8,D6,G4,S3,B3,I2",
-      "--size",
-      "26",
-      "--series",
-      "openslotsweekly",
-      "--name",
-      "Sunday Open Slots",
-      "--sp",
-      "6",
-      "--rp",
-      "6",
-      "--bats",
-      "14"
     ]
   }
 ]
