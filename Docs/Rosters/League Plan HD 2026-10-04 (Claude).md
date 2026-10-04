@@ -48,3 +48,9 @@ No cheap catcher helps: base Ethan Salas adds 0. The VARs aren't for sale; the n
 - Season value vs RHP (53% of games): +3 runs if Bailey (VAR) hits like his ratings (+5.1), +8 if he hits like his league record (−4.2 over 1,126 PA). The model's best use is DH vs RHP over Matsui (+2.8); catching gives about the same.
 - Per 100k: Jansen ≈ 4 runs; Yogi ≈ 0.8–2; Plank ≈ 1.6.
 - Sell candidates (on no saved tourney roster and not on the league team; 10-04 buy orders): Beltran 175k, Sam McDowell 118k, Vida Blue 99k, Hornsby 85k, Chris Davis 80k (~557k). Check tourney use first.
+
+## Refit with every league of the 10-04 week (PEL in, 10-04 evening)
+- League model refit on 10 weeks (`league:panel` → `league-fit.py` → `fit:arms`). Each card held out: r 0.929; each week held out: r 0.852. The 10-01 mid-season HD452 upload is now dropped as part of the 10-04 season (`dropSuperseded`, `lib/league-arms.ts`), so no season counts twice.
+- Park: unchanged against the HD field alone. 1987 Yankee Stadium +2.2, 1952 Yankee Stadium +2.0 (chosen), Candlestick +1.1, 1949 Polo Grounds +1.0, Tropicana −1.0.
+- Yogi (87069): the refit model has him at +15.8 vs RHP and −7.7 vs LHP; Bailey VAR at +1.5 / −49.4. **His first week of HD play: +34 per 700 PA vs RHP over 809 PA** (HD450/452/453) and −10 vs LHP over 252 PA. Catching him against righties instead of Bailey is worth about +4 runs a season on the model alone, and about +10 (one win) once his actual HD results are counted.
+- Arms, pooled with PEL: Jansen +5.7 per 200 IP over 24,725 IP (99.5k), Plank +4.9 (225k), Madson +8.6 over 532 IP (41k, small sample), Chapman +3.6. Stieb −3.2: off.

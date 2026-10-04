@@ -406,10 +406,20 @@ export const per9 = (runs700: number) => (runs700 * ARM_MODEL_FIT.bfPerIp * 9) /
 /* -------------------------------------------------------------- loaders */
 
 /**
- * Pitcher lines from the complete snapshots of one league family (or all
- * of them) and one split. A snapshot missing its pitching block (under
- * MIN_PITCHER_SHARE pitchers) is left out.
+ * A league uploaded mid-season and again at the end of it (HD452 on 10-01 and
+ * 10-04) is ONE season: the later capture holds the earlier one's games. A
+ * league season runs Monday to Sunday, so keep only the latest capture of a
+ * league (and split) within each Monday-Sunday week, and no season counts twice.
  */
+export function dropSuperseded<T extends { league: string; on: string }>(snaps: T[]): T[] {
+  const weekEnd = (s: string) => {
+    const d = new Date(String(s).slice(0, 10) + "T00:00:00Z");
+    return new Date(d.getTime() + ((7 - d.getUTCDay()) % 7) * 864e5).toISOString().slice(0, 10);
+  };
+  const day = (s: string) => String(s).slice(0, 10);
+  return snaps.filter((s) => !snaps.some((o) => o !== s && o.league === s.league && weekEnd(o.on) === weekEnd(s.on) && day(o.on) > day(s.on)));
+}
+
 export async function loadArmRows(opts: { family?: LeagueFamily | "all"; split?: "all" | "vL" | "vR"; weeks?: string[] } = {}): Promise<ArmRow[]> {
   const split = opts.split ?? "all";
   const snaps = await db.select({
@@ -418,7 +428,7 @@ export async function loadArmRows(opts: { family?: LeagueFamily | "all"; split?:
     total: sql<number>`count(*)`.mapWith(Number),
   }).from(leagueSnapshots).innerJoin(leagueStints, eq(leagueStints.snapshotId, leagueSnapshots.id))
     .where(eq(leagueSnapshots.split, split)).groupBy(leagueSnapshots.id);
-  const ok = snaps.filter((s) => s.total > 0 && s.pitchers / s.total >= MIN_PITCHER_SHARE
+  const ok = dropSuperseded(snaps.map((s) => ({ ...s, on: String(s.on) }))).filter((s) => s.total > 0 && s.pitchers / s.total >= MIN_PITCHER_SHARE
     && (!opts.family || opts.family === "all" || leagueFamily(s.league) === opts.family)
     && (!opts.weeks || opts.weeks.includes(String(s.on).slice(0, 10))));
   if (!ok.length) return [];
