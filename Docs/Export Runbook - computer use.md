@@ -11,7 +11,7 @@ here every click is decided from a fresh screenshot.
 3. Approve OOTP (full) when Claude asks. Don't touch the mouse while it runs; to stop it, say so in the chat.
 
 ## What to export
-- `Docs/Tourney Exports To Grab 2026-10-03.md` (the newest of these) lists the played events with no export on file. Ask the cloud Claude to refresh it, or work down the screen and skip anything already filed.
+- `Docs/Tourney Exports To Grab 2026-10-04.md` (the newest of these) lists the played events with no export on file. Ask the cloud Claude to refresh it, or work down the screen and skip anything already filed.
 - Skip drafts (PD Daily / PD Weekly rows); they've never been exported. Skip EF pop-ups and Quicks.
 - Work **oldest first**, because Your Tournaments drops events after about a week.
 
