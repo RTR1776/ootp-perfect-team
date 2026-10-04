@@ -39,3 +39,12 @@ No cheap catcher helps: base Ethan Salas adds 0. The VARs aren't for sale; the n
 - 2026 Tropicana Field ranks 191st of 238 for this roster (edge −1.0). It boosts right-handed hitting (RHB AVG ×1.065, HR ×1.082), which helps the field more than this lefty-leaning lineup.
 - A fit over all 238 parks (R² 0.999) gives edge ≈ 10.5·(LHB HR −1) + 8.0·(LHB AVG −1) − 7.0·(RHB HR −1) − 5.6·(RHB AVG −1), in runs per 81 home games. Doubles and triples don't matter.
 - What to look for: **a lefty park.** LHB HR up (≥1.15), RHB HR down (≤0.90), LHB AVG at or above 1.00, RHB AVG at or below 1.00. How many runs a park allows overall barely matters; the left/right split is what counts.
+
+## Park chosen: 1952 Yankee Stadium (L.J. 10-04)
+
+## Catcher framing vs the new Yogi (87069, Clubhouse BR9 1956, 102 L, last-10 ~385k, no asks on 10-04)
+- Framing, measured (1,850 catcher-seasons, `leagueCatcherRuns`): runs saved per 1,000 innings = −49.75 + 0.349·Frame + 0.083·Arm + 0.077·Blocking. Per 1,000 innings: Raleigh +3.6, Bailey −0.6, Gibson −0.9, **Yogi −5.5** (Frame 84), Piazza −12.9. Yogi catching instead of Bailey costs about 5 runs per 1,000 innings, about 0.05 runs a game.
+- Yogi's bat (league model): +18.1 vs RHP (Contact 163, Power 174, Eye 141, Avoid K 248), −5.7 vs LHP. Gibson stays C vs LHP.
+- Season value vs RHP (53% of games): +3 runs if Bailey (VAR) hits like his ratings (+5.1), +8 if he hits like his league record (−4.2 over 1,126 PA). The model's best use is DH vs RHP over Matsui (+2.8); catching gives about the same.
+- Per 100k: Jansen ≈ 4 runs; Yogi ≈ 0.8–2; Plank ≈ 1.6.
+- Sell candidates (on no saved tourney roster and not on the league team; 10-04 buy orders): Beltran 175k, Sam McDowell 118k, Vida Blue 99k, Hornsby 85k, Chris Davis 80k (~557k). Check tourney use first.
