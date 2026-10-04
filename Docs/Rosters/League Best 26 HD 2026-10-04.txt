@@ -1,0 +1,167 @@
+scope: HD452 · Kansas City Torrent - JW · week 2026-10-04 · collection upload 186  (all resolved from newest data)
+era 2010 from --year (the 2026-10-04 line fits 2010)
+
+=== whole-collection board · 2010 RE · neutral park ===
+2010: R/G 4.38  K% 18.5  HR/PA 2.52%  AVG 0.256 OBP 0.326 SLG 0.401
+2010: K% 18.5  HR/PA 2.52%  AVG 0.256 OBP 0.326 SLG 0.401   (the fixed reference environment)
+
+pool: 4025 owned cards scored (upload 186), 213 of them variants scored on their own boosted ratings; 1 matched too far off (distance > 10) to trust the base card and use only their own ratings — export a fresh pt_card_list to resolve them
+
+spread 2010 vs 2010: bats ×1.000, arms ×1.000 — Δ below is measured AFTER rescaling 2010 by this, so it is card-specific, not the era's compression
+
++10 rating buys in 2010 — LHB: Power +4.2  Avoid Ks +2.7  BABIP +2.0  Eye +1.3  Gap +0.9
+                       RHB: Power +4.2  Avoid Ks +2.7  BABIP +2.0  Eye +1.3  Gap +0.9
+                      arms: pHR +1.4  Stuff +1.3  pBABIP +1.1  Control +0.9
+
+--- top 30 BATS in the collection (* = on the roster now) ---
+   val tier    year name                        2010     Δadj Δrank  best position
+  *102 Perfect 2024 Juan Soto                   +41.9    +0.0     0  L  RF 91
+  *100 Perfect 2009 Hideki Matsui               +41.6    +0.0     0  L  LF 59
+  *102 Perfect 1959 Hank Aaron                  +41.4    +0.0     0  R  RF 87
+  *101 Perfect 1995 Mike Piazza ✦               +38.0    +0.0     0  R  C 69
+  *102 Perfect 1959 Ernie Banks                 +37.6    +0.0     0  R  3B 133
+  *101 Perfect 1934 Mel Ott                     +32.0    +0.0     0  L  RF 91
+  *101 Perfect 2000 Richard Hidalgo             +31.9    +0.0     0  R  LF 124
+    88 Gold    1989 Bo Jackson                  +29.3    +0.0     0  R  RF 123
+  *101 Perfect 1995 Mike Piazza                 +29.0    +0.0     0  R  C 64
+  *102 Perfect 1928 Heinie Manush               +26.5    +0.0     0  L  LF 115
+  *101 Perfect 2008 Brandon Wood                +26.2    +0.0     0  R  1B 105
+   100 Perfect 1929 Lefty O'Doul                +25.8    +0.0     0  L  LF 74
+  *102 Perfect 2026 Leodalis De Vries           +25.4    +0.0     0  S  2B 130
+   101 Perfect 2013 Chris Davis                 +23.3    +0.0     0  L  1B 84
+   101 Perfect 1921 Rogers Hornsby              +23.0    +0.0     0  R  2B 126
+  *101 Perfect 2006 Carlos Beltran              +22.7    +0.0     0  S  RF 149
+  *101 Perfect 1939 Josh Gibson                 +22.6    +0.0     0  R  C 108
+  *100 Perfect 1989 Will Clark                  +21.6    +0.0     0  L  1B 91
+  *101 Perfect 2002 Scott Rolen                 +21.3    +0.0     0  R  3B 137
+  *102 Perfect 2001 Bret Boone                  +21.2    +0.0     0  R  2B 125
+   101 Perfect 1999 Chipper Jones               +20.8    +0.0     0  S  3B 65
+   101 Perfect 1970 Tommy Harper                +19.9    +0.0     0  R  LF 107
+    81 Gold    2013 Pedro Alvarez               +19.3    +0.0     0  L  1B 96
+    99 Diamond 1930 Al Simmons                  +19.2    +0.0     0  R  LF 90
+    98 Diamond 1959 Willie Mays                 +19.0    +0.0     0  R  CF 107
+   101 Perfect 1935 Arky Vaughan                +18.1    +0.0     0  L  3B 102
+    94 Diamond 2026 Arjun Nimmala ✦             +17.6    +0.0     0  R  3B 128
+   101 Perfect 2026 Roch Cholowsky              +17.5    +0.0     0  R  2B 135
+  *101 Perfect 1924 Pop Lloyd                   +16.2    +0.0     0  L  2B 128
+  *101 Perfect 2026 Walker Jenkins              +16.2    +0.0     0  L  LF 127
+
+--- top 30 ARMS in the collection ---
+   val tier    year name                        2010     Δadj Δrank  role STM
+  *102 Perfect 1984 Willie Hernandez            +19.7    +0.0     0  CL   67
+  *102 Perfect 2016 Zack Britton                +16.9    +0.0     0  CL   18
+  *100 Perfect 2012 Craig Kimbrel               +13.9    +0.0     0  CL   20
+  *101 Perfect 1982 Rich Gossage                +13.6    +0.0     0  CL   48
+  *102 Perfect 1895 Cy Young ✦                  +13.4    +0.0     0  SP  114
+  *101 Perfect 2000 Robb Nen                    +13.1    +0.0     0  CL   19
+  *102 Perfect 1989 Bret Saberhagen             +12.7    +0.0     0  SP  106
+  *102 Perfect 1988 Orel Hershiser              +12.7    +0.0     0  SP  100
+  *100 Perfect 2026 Daniel Palencia ✦           +12.6    +0.0     0  CL   14
+   100 Perfect 1987 Tom Henke                   +11.6    +0.0     0  CL   25
+  *101 Perfect 1959 Harvey Haddix               +11.5    +0.0     0  SP  114
+  *102 Perfect 1895 Cy Young                    +11.4    +0.0     0  SP  114
+   100 Perfect 1983 Jesse Orosco                +11.2    +0.0     0  CL   61
+  *101 Perfect 2008 CC Sabathia                 +10.8    +0.0     0  SP  105
+  *101 Perfect 1985 Dave Stieb                  +10.6    +0.0     0  SP  106
+    99 Diamond 2012 Jake McGee ✦                +10.6    +0.0     0  RP   12
+    99 Diamond 2023 Devin Williams              +10.6    +0.0     0  CL   17
+    99 Diamond 1995 Tony Fossas ✦               +10.5    +0.0     0  RP   13
+  *100 Perfect 2026 Daniel Palencia             +10.5    +0.0     0  CL   14
+    88 Gold    1989 Gregg Olson ✦               +10.2    +0.0     0  CL   21
+  *100 Perfect 2011 Cliff Lee ✦                 +10.0    +0.0     0  SP   84
+    98 Diamond 2011 Jonny Venters                +9.4    +0.0     0  RP   18
+    98 Diamond 1971 Joe Grzenda                  +8.6    +0.0     0  RP   62
+    89 Gold    2013 Brett Cecil                  +8.6    +0.0     0  RP   12
+    99 Diamond 2012 Jake McGee                   +8.6    +0.0     0  RP   12
+    80 Gold    2010 Javier Lopez                 +8.5    +0.0     0  RP    9
+    84 Gold    1961 Luis Arroyo ✦                +8.5    +0.0     0  CL   43
+    94 Diamond 2009 Andrew Bailey                +8.5    +0.0     0  CL   21
+    99 Diamond 1995 Tony Fossas                  +8.4    +0.0     0  RP   13
+    87 Gold    2015 Tony Watson ✦                +8.4    +0.0     0  RP   11
+
+--- biggest 2010 → 2010 GAINERS (who this week specifically helps) ---
+  *102 Perfect 1959 Hank Aaron                  +41.4    +0.0     0  bat
+  *102 Perfect 1959 Ernie Banks                 +37.6    +0.0     0  bat
+  *102 Perfect 2001 Bret Boone                  +21.2    +0.0     0  bat
+  *102 Perfect 2016 Zack Britton                +16.9    +0.0     0  arm
+  *102 Perfect 2026 Leodalis De Vries           +25.4    +0.0     0  bat
+  *102 Perfect 1984 Willie Hernandez            +19.7    +0.0     0  arm
+  *102 Perfect 1988 Orel Hershiser              +12.7    +0.0     0  arm
+  *102 Perfect 1928 Heinie Manush               +26.5    +0.0     0  bat
+  *102 Perfect 1989 Bret Saberhagen             +12.7    +0.0     0  arm
+  *102 Perfect 2024 Juan Soto                   +41.9    +0.0     0  bat
+  *102 Perfect 1895 Cy Young ✦                  +13.4    +0.0     0  arm
+  *101 Perfect 2006 Carlos Beltran              +22.7    +0.0     0  bat
+   101 Perfect 1971 Vida Blue                    +8.2    +0.0     0  arm
+   101 Perfect 2026 Roch Cholowsky              +17.5    +0.0     0  bat
+   101 Perfect 2013 Chris Davis                 +23.3    +0.0     0  bat
+  *101 Perfect 1939 Josh Gibson                 +22.6    +0.0     0  bat
+  *101 Perfect 1982 Rich Gossage                +13.6    +0.0     0  arm
+  *101 Perfect 1959 Harvey Haddix               +11.5    +0.0     0  arm
+
+--- biggest LOSERS (same list, other end) ---
+  *102 Perfect 1959 Hank Aaron                  +41.4    +0.0     0  bat
+  *102 Perfect 1959 Ernie Banks                 +37.6    +0.0     0  bat
+  *102 Perfect 2001 Bret Boone                  +21.2    +0.0     0  bat
+  *102 Perfect 2016 Zack Britton                +16.9    +0.0     0  arm
+  *102 Perfect 2026 Leodalis De Vries           +25.4    +0.0     0  bat
+  *102 Perfect 1984 Willie Hernandez            +19.7    +0.0     0  arm
+  *102 Perfect 1988 Orel Hershiser              +12.7    +0.0     0  arm
+  *102 Perfect 1928 Heinie Manush               +26.5    +0.0     0  bat
+  *102 Perfect 1989 Bret Saberhagen             +12.7    +0.0     0  arm
+  *102 Perfect 2024 Juan Soto                   +41.9    +0.0     0  bat
+
+--- ceiling by tier: the best card each tier can offer in 2010 ---
+  Perfect    95 owned   best bat Juan Soto +41.9                 best arm Willie Hernandez +19.7
+  Diamond   303 owned   best bat Al Simmons +19.2                best arm Jake McGee +10.6
+  Gold      521 owned   best bat Bo Jackson +29.3                best arm Gregg Olson +10.2
+  Silver    718 owned   best bat Matt Carpenter +7.7             best arm Alex Claudio +7.2
+  Bronze   1041 owned   best bat Chris Sabo +8.0                 best arm Edwin Diaz +3.5
+  Iron     1347 owned   best bat Todd Walker -5.0                best arm Randy Choate +3.0
+
+--- best available AT EACH POSITION, whole collection ---
+  C   *Mike Piazza +38.0/69   ·   *Mike Piazza +29.0/64   ·   *Josh Gibson +22.6/108
+  1B  *Hank Aaron +41.4/75   ·   *Ernie Banks +37.6/107   ·   *Brandon Wood +26.2/105
+  2B  *Brandon Wood +26.2/93   ·   *Leodalis De Vries +25.4/130   ·   Rogers Hornsby +23.0/126
+  3B  *Ernie Banks +37.6/133   ·   *Brandon Wood +26.2/91   ·   *Leodalis De Vries +25.4/116
+  SS  *Ernie Banks +37.6/133   ·   *Brandon Wood +26.2/83   ·   *Leodalis De Vries +25.4/115
+  LF  *Juan Soto +41.9/87   ·   *Hideki Matsui +41.6/59   ·   *Hank Aaron +41.4/85
+  CF  *Hank Aaron +41.4/57   ·   *Mel Ott +32.0/70   ·   *Richard Hidalgo +31.9/114
+  RF  *Juan Soto +41.9/91   ·   *Hank Aaron +41.4/87   ·   *Mel Ott +32.0/91
+  DH  *Juan Soto +41.9   ·   *Hideki Matsui +41.6   ·   *Hank Aaron +41.4
+
+=== BEST 26 FROM THE WHOLE COLLECTION · 2010 ===
+  --- lineup ---
+   1. RF *102 Perfect 2024 Juan Soto                   +41.9    +0.0     0  DEF 91/91 +0.8
+   2. LF *100 Perfect 2009 Hideki Matsui               +41.6    +0.0     0  DEF 59/59 -1.6
+   3. 1B *102 Perfect 1959 Hank Aaron                  +41.4    +0.0     0  DEF 75/87 -0.3
+   4. C  *101 Perfect 1995 Mike Piazza ✦               +38.0    +0.0     0  DEF 69/69 -2.2
+   5. SS *102 Perfect 1959 Ernie Banks                 +37.6    +0.0     0  DEF 133/133 +10.6
+   6. DH *101 Perfect 1934 Mel Ott                     +32.0    +0.0     0  
+   7. CF *101 Perfect 2000 Richard Hidalgo             +31.9    +0.0     0  DEF 114/124 +6.0
+   8. 2B *102 Perfect 2026 Leodalis De Vries           +25.4    +0.0     0  DEF 130/130 +7.5
+   9. 3B *101 Perfect 2002 Scott Rolen                 +21.3    +0.0     0  DEF 137/137 +7.1
+  --- bench (5) ---
+  *101 Perfect 1995 Mike Piazza                 +29.0    +0.0     0  R  C 64  (backup C)
+    88 Gold    1989 Bo Jackson                  +29.3    +0.0     0  R  RF 123
+  *102 Perfect 1928 Heinie Manush               +26.5    +0.0     0  L  LF 115
+  *101 Perfect 2008 Brandon Wood                +26.2    +0.0     0  R  1B 105
+   100 Perfect 1929 Lefty O'Doul                +25.8    +0.0     0  L  LF 74
+  --- rotation (5) ---
+  *102 Perfect 1984 Willie Hernandez            +19.7    +0.0     0  STM  67  as SP +14.0
+  *102 Perfect 1895 Cy Young ✦                  +13.4    +0.0     0  STM 114  as SP +13.4
+  *102 Perfect 1989 Bret Saberhagen             +12.7    +0.0     0  STM 106  as SP +12.7
+  *102 Perfect 1988 Orel Hershiser              +12.7    +0.0     0  STM 100  as SP +12.7
+  *101 Perfect 1959 Harvey Haddix               +11.5    +0.0     0  STM 114  as SP +11.5
+  --- bullpen (7) ---
+  *102 Perfect 1895 Cy Young                    +11.4    +0.0     0  STM 114  as RP +13.4
+  *102 Perfect 2016 Zack Britton                +16.9    +0.0     0  STM  18  as RP +13.3
+  *101 Perfect 2008 CC Sabathia                 +10.8    +0.0     0  STM 105  as RP +12.9
+  *101 Perfect 1985 Dave Stieb                  +10.6    +0.0     0  STM 106  as RP +12.7
+  *100 Perfect 2011 Cliff Lee ✦                 +10.0    +0.0     0  STM  84  as RP +12.0
+  *100 Perfect 2012 Craig Kimbrel               +13.9    +0.0     0  STM  20  as RP +10.3
+    99 Diamond 1900 Cy Young                     +8.3    +0.0     0  STM 109  as RP +10.3
+
+  21 of the best 26 are already on the roster; 5 would be changes.
+  rostered but not in the best 26: Robb Nen, Daniel Palencia, Walker Jenkins, Rich Gossage, Josh Gibson, Carlos Beltran, Ed Bailey, Bret Boone, Pop Lloyd, Mike Greenwell, Will Clark
+  adding:   Bo Jackson, Lefty O'Doul, Cy Young
