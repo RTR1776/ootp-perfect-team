@@ -54,3 +54,8 @@ No cheap catcher helps: base Ethan Salas adds 0. The VARs aren't for sale; the n
 - Park: unchanged against the HD field alone. 1987 Yankee Stadium +2.2, 1952 Yankee Stadium +2.0 (chosen), Candlestick +1.1, 1949 Polo Grounds +1.0, Tropicana −1.0.
 - Yogi (87069): the refit model has him at +15.8 vs RHP and −7.7 vs LHP; Bailey VAR at +1.5 / −49.4. **His first week of HD play: +34 per 700 PA vs RHP over 809 PA** (HD450/452/453) and −10 vs LHP over 252 PA. Catching him against righties instead of Bailey is worth about +4 runs a season on the model alone, and about +10 (one win) once his actual HD results are counted.
 - Arms, pooled with PEL: Jansen +5.7 per 200 IP over 24,725 IP (99.5k), Plank +4.9 (225k), Madson +8.6 over 532 IP (41k, small sample), Chapman +3.6. Stieb −3.2: off.
+
+## Decision (L.J., 10-04 evening)
+- Holding a 400k buy order on Yogi (87069) so the roster is set for the week. Gibson VAR (400k, ≈ +9 runs, about even with Yogi) passed on. Beltran, Chris Davis sold; Chipper listed at 60k.
+- League roster once Yogi lands: C Yogi vs RHP / Gibson vs LHP; Matsui DH both; Bailey off. Bench Gibson/Yogi, Boone, Ott, Wood, Piazza VAR (PH only). Rotation Cliff Lee VAR, Hershiser, Cy Young VAR, Sabathia, Saberhagen; pen W. Hernandez (CL), Britton, Kimbrel, Nen, Palencia VAR, Gossage, Haddix (long). Stieb and Fossas off. Park 1952 Yankee Stadium.
+- To do after Yogi is bought and the collection is re-uploaded: update `web/src/data/league-team.json`.
