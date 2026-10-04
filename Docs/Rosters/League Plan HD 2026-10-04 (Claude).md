@@ -34,3 +34,8 @@ Best to worst is ~10 runs. Recommendation: 1919 Sportsman's Park.
 | Aroldis Chapman (RP) | 153k | ≈ +2 | 1.3 |
 | Cal Raleigh (C, both boards) | ~1.5M | +6.3 (+8 with gloves ×1.5) | 0.4–0.5 |
 No cheap catcher helps: base Ethan Salas adds 0. The VARs aren't for sale; the new Yogi is out of budget.
+
+## Park type (L.J. 10-04: Sportsman's Park and Southwest aren't choices; HD452 used 2026 Tropicana Field)
+- 2026 Tropicana Field ranks 191st of 238 for this roster (edge −1.0). It boosts right-handed hitting (RHB AVG ×1.065, HR ×1.082), which helps the field more than this lefty-leaning lineup.
+- A fit over all 238 parks (R² 0.999) gives edge ≈ 10.5·(LHB HR −1) + 8.0·(LHB AVG −1) − 7.0·(RHB HR −1) − 5.6·(RHB AVG −1), in runs per 81 home games. Doubles and triples don't matter.
+- What to look for: **a lefty park.** LHB HR up (≥1.15), RHB HR down (≤0.90), LHB AVG at or above 1.00, RHB AVG at or below 1.00. How many runs a park allows overall barely matters; the left/right split is what counts.
