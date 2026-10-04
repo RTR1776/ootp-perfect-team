@@ -8,7 +8,9 @@
 #
 # Each file is found in Archive/ (or the DCFC Upload Queue), matched by its
 # sha256 to the copy that was filed, and checked before it is copied:
-#   - 200 columns, the same header as every other file in the batch
+#   - cwhit's 200 columns in his order (CWHIT_COLUMNS, from split_export.py,
+#     read off a cwhit-view export 2026-09-24). A wider export that has all
+#     200 is trimmed and reordered to his view; one missing any is held back.
 #   - every row has a CID and a team (ORG)
 #   - at least 20 teams (a 1-2 team export is the truncated-run tell)
 #   - for Dead Silver Walking: no card newer than 1919
@@ -19,6 +21,7 @@ cd "$(dirname "$0")" || exit 1
 /usr/bin/python3 - <<'PY'
 import csv, hashlib, os, shutil, collections
 ROOT = os.getcwd()
+CWHIT_COLUMNS = ['POS', 'Name', 'First Name', 'Last Name', 'ORG', 'HT', 'WT', 'B', 'T', 'VAL', 'CTM', 'CFR', 'CYear', 'CEra', 'ST', 'CID', 'Tier', 'Title', 'L10', 'VAR', 'VLvl', 'BABIP', 'GAP', 'POW', 'EYE', "K's", 'BA vL', 'GAP vL', 'POW vL', 'EYE vL', 'K vL', 'BA vR', 'GAP vR', 'POW vR', 'EYE vR', 'K vR', 'BUN', 'BFH', 'BBT', 'GBT', 'FBT', 'STU', 'CON', 'PBABIP', 'HRA', 'STU vL', 'CON vL', 'PBABIP vL', 'HRA vL', 'STU vR', 'CON vR', 'PBABIP vR', 'HRA vR', 'FB', 'CH', 'CB', 'SL', 'SI', 'SP', 'CT', 'FO', 'CC', 'SC', 'KC', 'KN', 'PIT', 'G/F', 'VELO', 'Slot', 'PT', 'STM', 'HLD', 'C ABI', 'C FRM', 'C ARM', 'IF RNG', 'IF ERR', 'IF ARM', 'TDP', 'OF RNG', 'OF ERR', 'OF ARM', 'P', 'C', '1B', '2B', '3B', 'SS', 'LF', 'CF', 'RF', 'P Pot', 'C Pot', '1B Pot', '2B Pot', '3B Pot', 'SS Pot', 'LF Pot', 'CF Pot', 'RF Pot', 'SPE', 'SR', 'STE', 'RUN', 'G', 'GS', 'PA', 'AB', 'H', '1B_1', '2B_1', '3B_1', 'HR', 'RBI', 'R', 'BB', 'IBB', 'HP', 'SH', 'SF', 'CI', 'K', 'GIDP', 'RC', 'WPA', 'wRC', 'wRAA', 'WAR', 'PI/PA', 'SB', 'CS', 'wSB', 'UBR', 'G_1', 'GS_1', 'W', 'L', 'HLD_1', 'SD', 'MD', 'IP', 'BF', 'AB_1', '1B_2', '2B_2', '3B_2', 'HR_1', 'R_1', 'ER', 'BB_1', 'IBB_1', 'K_1', 'HP_1', 'SH_1', 'SF_1', 'WP', 'BK', 'CI_1', 'DP', 'GF', 'IR', 'IRS', 'pLi', 'PI', 'GB', 'FB_1', 'SB_1', 'CS_1', 'WPA_1', 'WAR_1', 'rWAR', 'SIERA', 'G_2', 'GS_2', 'TC', 'A', 'PO', 'E', 'DP_1', 'TP', 'RNG', 'ZR', 'EFF', 'SBA', 'RTO', 'IP_1', 'PB', 'CER', 'BIZ-R', 'BIZ-Rm', 'BIZ-L', 'BIZ-Lm', 'BIZ-E', 'BIZ-Em', 'BIZ-U', 'BIZ-Um', 'BIZ-Z', 'BIZ-Zm', 'FRM', 'ARM']
 MAN = os.path.join(ROOT, "Tourney Data/DCFC Upload 2026-10-04.tsv")
 OUT = os.path.join(ROOT, "Tourney Data/DCFC READY TO UPLOAD 2026-10-04")
 SEARCH = [os.path.join(ROOT, "Archive"), os.path.join(ROOT, "Tourney Data/DCFC Upload Queue")]
@@ -30,7 +33,7 @@ for base in SEARCH:
             if f.endswith(".csv"): where[f].append(os.path.join(d, f))
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 os.makedirs(OUT, exist_ok=True)
-ok, bad, header0 = [], [], None
+ok, bad = [], []
 for src, dst, name, date, want, maxyear, note in rows:
     hits = [p for p in where.get(src, []) if sha(p) == want]
     if not hits:
@@ -40,9 +43,15 @@ for src, dst, name, date, want, maxyear, note in rows:
     with open(p, newline="", encoding="utf-8-sig") as fh:
         r = csv.reader(fh); header = next(r); body = list(r)
     why = []
-    if len(header) != 200: why.append(f"{len(header)} columns, not 200")
-    if header0 is None and len(header) == 200: header0 = header
-    elif header0 is not None and header != header0: why.append("header differs from the rest of the batch")
+    at = {}
+    for i, h in enumerate(header): at.setdefault(h, i)   # first of a repeated name, as cwhit's view has it
+    missing = [c for c in CWHIT_COLUMNS if c not in at]
+    if missing: why.append(f"{len(missing)} of cwhit's columns missing ({', '.join(missing[:4])})")
+    trimmed = header != CWHIT_COLUMNS and not missing
+    if trimmed:
+        idx = [at[c] for c in CWHIT_COLUMNS]
+        body = [[x[i] if i < len(x) else "" for i in idx] for x in body]
+        header = list(CWHIT_COLUMNS)
     ix = {h: i for i, h in enumerate(header)}
     if "CID" not in ix or "ORG" not in ix:
         why.append("no CID or ORG column")
@@ -55,11 +64,15 @@ for src, dst, name, date, want, maxyear, note in rows:
         if yrs and max(yrs) > int(maxyear): why.append(f"has a {max(yrs)} card; this event is {maxyear} or earlier")
     if why:
         bad.append((src, dst, "; ".join(why))); continue
-    shutil.copy2(p, os.path.join(OUT, dst))
-    ok.append((src, dst, len(body), teams))
+    if trimmed:
+        with open(os.path.join(OUT, dst), "w", newline="", encoding="utf-8") as fh:
+            w = csv.writer(fh, lineterminator="\n"); w.writerow(header); w.writerows(body)
+    else:
+        shutil.copy2(p, os.path.join(OUT, dst))
+    ok.append((src, dst, len(body), teams, "trimmed to cwhit's 200" if trimmed else "as filed"))
 rep = [f"cwhit upload, built {__import__('datetime').date.today()}: {len(ok)} ready, {len(bad)} held back.", "",
        "READY (drag the whole folder to cwhit's uploader):"]
-rep += [f"  {d:34} <- {s:38} {n:6} rows {t:4} teams" for s, d, n, t in ok]
+rep += [f"  {d:34} <- {s:38} {n:6} rows {t:4} teams  {how}" for s, d, n, t, how in ok]
 if bad:
     rep += ["", "HELD BACK (not in the folder):"] + [f"  {d:34} <- {s:38} {w}" for s, d, w in bad]
 open(os.path.join(OUT, "_report.txt"), "w").write("\n".join(rep) + "\n")
