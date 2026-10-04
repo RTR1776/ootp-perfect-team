@@ -476,6 +476,8 @@ export function RosterBuilder({
   };
   /* L.J. always carries two catchers; Optimise honours it unless unticked. */
   const [twoCatchers, setTwoCatchers] = useState(true);
+  const [twoShortstops, setTwoShortstops] = useState(true);
+  const [twoLong, setTwoLong] = useState(true);
   const toggleIn = (set: Set<number>, id: number) => { const n = new Set(set); if (n.has(id)) n.delete(id); else n.add(id); return n; };
   const toggleLock = (id: number) => { setLocks((s) => toggleIn(s, id)); setBans((s) => { const n = new Set(s); n.delete(id); return n; }); };
   const toggleBan = (id: number) => { setBans((s) => toggleIn(s, id)); setLocks((s) => { const n = new Set(s); n.delete(id); return n; }); };
@@ -1121,7 +1123,7 @@ export function RosterBuilder({
       out = await startSearch({
         mode, board: current, pool: searchPool, rules: tournament as RosterRules, shape: fillShape, fits: toPlainFits(fits),
         runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, gloveScale: glove,
-        locks: keep, minCatchers: twoCatchers ? 2 : 0,
+        locks: keep, minCatchers: twoCatchers ? 2 : 0, minShortstops: twoShortstops ? 2 : 0, minLongMen: twoLong ? 2 : 0,
       }, runTid);
     } finally {
       setOptimizing(null);
@@ -1899,6 +1901,12 @@ export function RosterBuilder({
                   >5 SP · 7 RP</button>
                   <label className="flex items-center gap-1" title="Optimise keeps at least two catchers on the roster">
                     <input type="checkbox" checked={twoCatchers} onChange={(e) => setTwoCatchers(e.target.checked)} /> 2 C
+                  </label>
+                  <label className="flex items-center gap-1" title="Optimise keeps a backup shortstop on the roster">
+                    <input type="checkbox" checked={twoShortstops} onChange={(e) => setTwoShortstops(e.target.checked)} /> 2 SS
+                  </label>
+                  <label className="flex items-center gap-1" title="Optimise keeps two stamina arms (45+) in the pen">
+                    <input type="checkbox" checked={twoLong} onChange={(e) => setTwoLong(e.target.checked)} /> 2 long
                   </label>
                 </div>
                 <div className="mb-2 text-[10.5px] text-muted-foreground">

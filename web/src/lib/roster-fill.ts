@@ -55,16 +55,22 @@ export interface FitMaps {
  * Hitters take the rest of the roster. A series with observed exports
  * (series_meta) overrides this; the table is the fallback.
  *
- * L.J., 2026-10-04: "Please stop giving 8 RP ever, never ever except league
- * maybe ... balance SPs in the pen for stamina." So a tournament pen is at
- * most MAX_RP; arms past that become starters (who can go long out of the
- * pen), and the 2010-on band is 6 SP / 7 RP. League rosters don't use this.
+ * L.J., 2026-10-04 — tournament staffs, firm:
+ *   "Please stop giving 8 RP ever, never ever except league maybe"
+ *   "you gave me 13 pitchers"
+ *   "THERE ARE NEVER 6 SP - A rotation is 5 at most, period - now you would be
+ *    dumb to only use RPs in bullpen, need some stam guys"
+ * So: at most MAX_SP starters, MAX_RP in the pen, MAX_ARMS in all; arms past
+ * the caps become bats. The pen's stamina guys are enforced by the optimiser
+ * (minLongMen). League rosters don't use this.
  */
+export const MAX_SP = 5;
 export const MAX_RP = 7;
+export const MAX_ARMS = 12;
 
 export function eraStaff(envYear: number | null | undefined): { sp: number; rp: number; band: string } {
-  if (envYear == null) return { sp: 6, rp: 7, band: "no env year — modern default" };
-  if (envYear >= 2010) return { sp: 6, rp: 7, band: "2010–present" };
+  if (envYear == null) return { sp: 5, rp: 7, band: "no env year — modern default" };
+  if (envYear >= 2010) return { sp: 5, rp: 7, band: "2010–present" };
   if (envYear >= 1980) return { sp: 5, rp: envYear >= 1995 ? 7 : 6, band: "1980s–2000s" };
   if (envYear >= 1960) return { sp: 5, rp: envYear >= 1970 ? 6 : 5, band: "1960s–70s" };
   if (envYear >= 1920) return { sp: 4, rp: envYear >= 1940 ? 5 : 4, band: "1920s–50s" };
@@ -86,14 +92,17 @@ export function rosterShape(
     const bats = clamp(Math.round(meta.avgBats ?? size - meta.avgSp - (meta.avgRp ?? 0)), lineupSize, 22);
     const sp0 = clamp(Math.round(meta.avgSp), 1, 9);
     const rp0 = clamp(size - bats - sp0, 1, 12);
-    // Never more than MAX_RP relievers: the extra arms start (and go long) instead.
-    const rp = Math.min(rp0, MAX_RP);
-    const sp = Math.min(9, sp0 + (rp0 - rp));
-    return { bats: bats + (rp0 - rp) - (sp - sp0), sp, rp, source: "observed", band: era.band };
+    return { ...capStaff(bats, sp0, rp0), source: "observed", band: era.band };
   }
-  const sp = era.sp, rp = era.rp;
-  const bats = clamp(size - sp - rp, lineupSize, 22);
-  return { bats, sp, rp, source: "era", band: era.band };
+  const c = capStaff(clamp(size - era.sp - era.rp, lineupSize, 22), era.sp, era.rp);
+  return { ...c, source: "era", band: era.band };
+}
+
+/** At most MAX_SP starters (extra starters go to the pen, where they are the long men), MAX_RP relievers and MAX_ARMS arms; the rest bat. */
+export function capStaff(bats: number, sp: number, rp: number): { bats: number; sp: number; rp: number } {
+  const spC = Math.min(sp, MAX_SP);
+  const rpC = Math.min(rp + (sp - spC), MAX_RP, MAX_ARMS - spC);
+  return { bats: bats + (sp + rp) - (spC + rpC), sp: spC, rp: rpC };
 }
 
 /* ------------------------------------------------------------ scoring */

@@ -4,21 +4,25 @@ import { eraStaff, fillRoster, fitMaps, HIT_POS, isComplete, rosterShape, type F
 import { validateRoster, type RosterRules, type RosterSlot } from "./roster-rules";
 
 test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest", () => {
-  assert.deepEqual([eraStaff(2024).sp, eraStaff(2024).rp], [6, 7], "L.J. 10-04: never 8 RP");
+  assert.deepEqual([eraStaff(2024).sp, eraStaff(2024).rp], [5, 7], "L.J. 10-04: 5 SP at most, never 8 RP, never 13 arms");
   assert.deepEqual([eraStaff(2006).sp, eraStaff(2006).rp], [5, 7]);
   assert.deepEqual([eraStaff(1984).sp, eraStaff(1984).rp], [5, 6]);
   assert.deepEqual([eraStaff(1968).sp, eraStaff(1968).rp], [5, 5]);
   assert.deepEqual([eraStaff(1935).sp, eraStaff(1935).rp], [4, 4]);
   assert.deepEqual([eraStaff(1907).sp, eraStaff(1907).rp], [4, 3]);
-  for (const y of [1907, 1935, 1968, 1984, 2006, 2024]) assert.ok(eraStaff(y).rp <= 7, `never 8 RP (${y})`);
+  for (const y of [1907, 1935, 1968, 1984, 2006, 2024]) assert.ok(eraStaff(y).sp <= 5 && eraStaff(y).rp <= 7 && eraStaff(y).sp + eraStaff(y).rp <= 12, `5 SP, 7 RP, 12 arms at most (${y})`);
   const cap = rosterShape(1935, 8, 26, null);
   assert.deepEqual([cap.bats, cap.sp, cap.rp, cap.source], [18, 4, 4, "era"]);
   const dh = rosterShape(2010, 9, 26, null);
-  assert.deepEqual([dh.bats, dh.sp, dh.rp], [13, 6, 7]);
+  assert.deepEqual([dh.bats, dh.sp, dh.rp], [14, 5, 7]);
   const observed = rosterShape(1935, 8, 26, { avgSp: 4.4, avgRp: 6, avgBats: 12.6 });
-  assert.deepEqual([observed.bats, observed.sp, observed.rp, observed.source], [13, 6, 7, "observed"], "exports win over the table, but the pen stops at 7: the extra arms start");
+  assert.deepEqual([observed.bats, observed.sp, observed.rp, observed.source], [15, 4, 7, "observed"], "exports win over the table, but the pen stops at 7 and the staff at 12");
   const explicit = rosterShape(2010, 9, 26, { avgSp: 5, avgRp: 8, avgBats: 13 });
-  assert.deepEqual([explicit.bats, explicit.sp, explicit.rp], [13, 6, 7], "--sp 5 --rp 8 comes out 6 SP / 7 RP");
+  assert.deepEqual([explicit.bats, explicit.sp, explicit.rp], [14, 5, 7], "--sp 5 --rp 8 comes out 5 SP / 7 RP / 14 bats");
+  const six = rosterShape(2010, 9, 26, { avgSp: 6, avgRp: 6, avgBats: 14 });
+  assert.deepEqual([six.bats, six.sp, six.rp], [14, 5, 7], "a 6th starter goes to the pen as a long man");
+  const deadball = rosterShape(1910, 8, 26, { avgSp: 4, avgRp: 3, avgBats: 19 });
+  assert.deepEqual([deadball.bats, deadball.sp, deadball.rp], [19, 4, 3], "small staffs are left alone");
   assert.equal(rosterShape(1935, 8, 22, null).bats, 14, "roster size other than 26");
 });
 

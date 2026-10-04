@@ -38,6 +38,7 @@ import { readFileSync } from "node:fs";
 import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-order";
 import { calibrationSlope } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
+import { auditRoster, orderStaff } from "../src/lib/roster-audit";
 import type { SeriesBuild } from "@/lib/field-construction";
 import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
@@ -103,6 +104,10 @@ const COMPARE_SEARCH = flag("compare-search") || flag("compare-only");
 const COMPARE_ONLY = flag("compare-only");
 /** Catchers the optimiser must carry. L.J. always carries two, and /build defaults to it; --min-catchers 0 turns it off. */
 const MIN_CATCHERS = num("min-catchers", 2)!;
+/** Shortstops the optimiser must carry: a backup SS (L.J. 2026-10-04); --min-ss 0 turns it off. */
+const MIN_SS = num("min-ss", 2)!;
+/** Long men (pen arms with stamina ≥ 45) the optimiser must carry (L.J. 2026-10-04); --min-long 0 turns it off. */
+const MIN_LONG = num("min-long", 2)!;
 /**
  * --candidate-limit N: prune each slot to its N best candidates by runs
  * before hill-climbing (what /build does with 30, so the search finishes in
@@ -471,7 +476,7 @@ async function main() {
     for (const [, st] of COMPARE_ONLY ? [] : starts) {
       const r = optimizeRoster(st.slots, pool, rules, shape, {
         objective, slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
-        candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS,
+        candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG,
       });
       if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }
@@ -483,7 +488,7 @@ async function main() {
         const t0 = Date.now();
         let done: SearchBest | null = null;
         runSearch({ mode, board: slots, pool, rules, shape, fits: toPlainFits(fits), runsR: [...fits.runsR], runsL: [...fits.runsL],
-          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, gloveScale: GLOVE, locks: [], minCatchers: MIN_CATCHERS },
+          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, gloveScale: GLOVE, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG },
           (m) => { if (m.type === "done") done = m.best; }, () => Date.now());
         const b = done as SearchBest | null;
         if (mode === "deep" && b) deepBoard = b.slots;
@@ -502,6 +507,8 @@ async function main() {
         : `compare-search: Search longer differs - /build only: ${only(deep, cli)}; CLI only: ${only(cli, deep)}`);
     }
   }
+  // Rotation and pen best-first: the game starts SP1 most and closes with CL.
+  slots = orderStaff(slots, (id) => fits.runsR.get(id) ?? -Infinity);
   const poolById = new Map(pool.map((c) => [c.cardId, c]));
   const out: RosterSlot[] = Object.entries(slots).map(([k, cardId]) => {
     const [a, b] = k.split(":");
@@ -586,6 +593,14 @@ async function main() {
     console.log(`  ${c.name.padEnd(22)} ${(c.bats ?? "-")} EYE ${String(g("Eye")).padStart(3)} (${g("Eye vL")}/${g("Eye vR")})  POW ${String(g("Power")).padStart(3)} (${g("Power vL")}/${g("Power vR")})  K ${String(g("Avoid Ks")).padStart(3)}  BABIP ${String(g("BABIP")).padStart(3)}  GAP ${String(g("Gap")).padStart(3)}  SPE ${String(g("Speed")).padStart(3)}`);
   }
   console.log(v.ready ? "LEGAL — every rule check passes" : `NOT READY: ${[...v.errors, ...v.incomplete].map((e) => e.message).join(" | ")}`);
+  {
+    // The baseball checks (lib/roster-audit): staff caps beside the field's best quarter, starters' stamina, long men, a backup at every position.
+    const top = (fieldConstruction as any).series?.[SERIES ?? ""]?.groups?.find((g: any) => g.key === "top");
+    const sum = (k: string) => top ? Object.values(top.tiers as Record<string, Record<string, number>>).reduce((n, t) => n + (t[k] ?? 0), 0) : 0;
+    const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
+    console.log("\n--- roster check ---");
+    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
+  }
   const spend = rostered.filter((c) => (prices.get(c.cardId) ?? 0) > 0).length;
   if (spend) console.log(`(${spend} of ${rostered.length} have a live ask in the last shop snapshot)`);
   console.log(`objective: ${objective(slots).toFixed(1)} weighted runs (bats ${Math.round((1-LHP_SHARE)*100)}/${Math.round(LHP_SHARE*100)} R/L, SP ${SP_WEIGHT}, RP ${RP_WEIGHT}, bench ${BENCH_WEIGHT})`);
