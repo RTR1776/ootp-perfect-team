@@ -92,7 +92,9 @@ const TAG = val("tag") ?? chicagoDay(new Date())!;
  * 2026-09-30; until then every build here was 5 / 7 / 14). --sp / --rp /
  * --bats override it for the whole batch.
  */
-const BUILD = ["--optimize", "--starts", val("starts") ?? "16", "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : [])];
+const BUILD = ["--optimize", "--starts", val("starts") ?? "16", "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
+  // Cards bought but not yet uploaded (env-roster --assume-owned); a roster carrying one saves only after the upload.
+  ...(val("assume-owned") ? ["--assume-owned", val("assume-owned")!] : [])];
 
 /** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
 function lastRuns(): { at: Map<number, number>; newest: number } {

@@ -73,6 +73,8 @@ const POOL_CSV = val("pool") ?? null;
  * score difference against the free run IS the price of the conviction.
  */
 const ASSUME_VARIANT = (val("assume-variant") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
+/** --assume-owned id[,id]: base cards he has bought but not yet uploaded, scored as owned. Never for a save. */
+const ASSUME_OWNED = (val("assume-owned") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 /** --show "Name,Name": print the model's runs for these owned cards in this event, whether or not they make the roster. */
 const SHOW = (val("show") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
@@ -282,7 +284,12 @@ async function main() {
     variants.set(id, scaled);
     console.log(`assumed variant ${id}: base export x1.08 on the split ratings`);
   }
-  const ownedIds = [...new Set(owned.map((o) => o.cardId!))];
+  for (const id of ASSUME_OWNED) {
+    if (!byId.has(id)) { console.log(`!! --assume-owned ${id}: no such card`); continue; }
+    baseSet.add(id);
+    console.log(`assumed owned ${id} ${byId.get(id)!.name} ${byId.get(id)!.cardValue}: bought, not yet in the collection upload`);
+  }
+  const ownedIds = [...new Set([...owned.map((o) => o.cardId!), ...ASSUME_OWNED.filter((id) => byId.has(id))])];
   const prices = shop
     ? new Map((await db.select({ cardId: cardSnapshots.cardId, ask: cardSnapshots.sellOrderLow })
         .from(cardSnapshots).where(eq(cardSnapshots.uploadId, shop.id))).map((p) => [p.cardId, p.ask]))
