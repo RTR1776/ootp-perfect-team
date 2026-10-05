@@ -78,3 +78,8 @@ Season runs for next HD week in 1952 Yankee Stadium, against the roster with Yog
 | Alex Rodriguez | 99k | −2.5 over 86,316 PA | — | 0, makes neither lineup | — |
 
 Call: keep the Yogi order and get Jansen with CS. If Yogi hasn't filled when the week starts, buy Plank first, then Canseco (~450k for both, ≈ +6 runs). Yates is the best arm on the list but the worst per PP of the good ones. Pass on Henke VAR, Ford VAR, Harvey, Kimbro, A-Rod and Mitchell.
+
+## George Brett (87025, Clubhouse Hardware Heroes 1985, 103 L, 3B/1B 88) on the market at 500k (10-05)
+- League model, with or without Yogi: **+13.9 to +15.2 runs a season (≈ +1.5 wins)**: +21.5 to +22.9 vs RHP, +4.4 to +5.6 vs LHP. His league record agrees: +21.7 per 700 PA vs RHP over 9,822 PA, +3.5 vs LHP over 6,481 PA. He's a left-handed hitter, so 1952 Yankee Stadium helps him further.
+- Yogi on the same roster (model): +3.0, about +9 counting his actual HD stats (809 PA). The two don't overlap; Brett is worth more, with 15 times the sample. Per 100k: Brett ≈ 3, Yogi 1–2.5.
+- Lineups with Brett (gloves ×1.5): vs RHP 1B Brett, 3B Rolen (glove 137), Aaron to the bench; vs LHP 1B Brett, LF Aaron, CF Manush, De Vries to the bench. Piazza VAR comes off the 26 to make room.
