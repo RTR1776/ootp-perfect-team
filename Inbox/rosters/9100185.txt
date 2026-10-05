@@ -1,0 +1,120 @@
+
+=== Daily Diamond Up to 1969 ===
+2009 RE @ 1996 Coors Field · DH off · value —–99 · cap none · 26 players
+R/G 6.04  AVG 0.304  OBP 0.372  SLG 0.472  K% 18.0  HR/PA 3.04%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.129 runs · steal break-even 83.6% (0 out) / 80.4% (1 out)
+park: all-LHB lineup 5.62 R/G vs all-RHB 6.28 — 0.66 R/G swing toward RIGHT-handed bats
+
+pool: 1178 eligible owned cards — 732 bats (242L / 54S / 436R), 446 arms
+!! no exports on record for series diamondupto1969 — shape and handedness fall back to the era table
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 879 of 1178 pool cards have innings on record (median 257 PA/BF); K = 5000
+gloves ×0.91: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.9  Avoid Ks +3.3  BABIP +2.7  Eye +1.5  Gap +1.0
+                          RHB: Power +5.3  Avoid Ks +3.7  BABIP +3.0  Eye +1.6  Gap +1.0
+                         arms: Stuff +1.8  pHR +1.7  pBABIP +1.7  Control +1.1
+
+optimiser: 17 λ starts hill-climbed; best 229.8 runs vs 193.9 greedy (+35.9), 26 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +32.2  park:L DEF 112/112 +0.7
+R:1B    Rudy York (VAR)             88  R  1943   +23.2  park:R DEF  71/ 71 -0.6
+R:2B    Larry Doby                  98  L  1946   +15.2  park:L DEF  87/ 87 -3.7
+R:3B    Ron Santo (VAR)             93  R  1969   +18.4  park:R DEF  74/ 74 -2.1
+R:SS    Honus Wagner                99  R  1903   +16.0  park:R DEF 113/114 +0.8
+R:LF    Al Simmons                  99  R  1930   +18.6  park:R DEF  90/ 90 -0.4
+R:CF    Willie Mays                 98  R  1959   +14.4  park:R DEF 107/107 -0.3
+R:RF    Chick Stahl                 93  L  1899   +14.1  park:L DEF 126/129 +2.2
+
+--- lineup vs LHP ---
+L:C     Josh Gibson                 84  R  1946   +14.4  park:R DEF  69/ 75 -0.6
+L:1B    Rudy York (VAR)             88  R  1943   +28.2  park:R DEF  71/ 71 -0.6
+L:2B    Larry Doby                  98  L  1946   +10.2  park:L DEF  87/ 87 -3.7
+L:3B    Honus Wagner                99  R  1903   +15.3  park:R DEF 114/114 +2.8
+L:SS    Ernie Banks (VAR)           83  R  1961   +12.8  park:R DEF 113/113 +0.8
+L:LF    Al Simmons                  99  R  1930   +29.8  park:R DEF  90/ 90 -0.4
+L:CF    Willie Mays                 98  R  1959   +29.5  park:R DEF 107/107 -0.3
+L:RF    Chick Stahl                 93  L  1899   +14.6  park:L DEF 126/129 +2.2
+
+--- batting order vs RHP --- (6.11 runs/game; The Book's order 6.10)
+  1. Chick Stahl RF
+  2. Ron Santo (VAR) 3B
+  3. Ed Bailey (VAR) C
+  4. Willie Mays CF
+  5. Honus Wagner SS
+  6. Al Simmons LF
+  7. Rudy York (VAR) 1B
+  8. Larry Doby 2B
+  9. Pitcher
+
+--- batting order vs LHP --- (6.27 runs/game; The Book's order 6.26)
+  1. Chick Stahl RF
+  2. Rudy York (VAR) 1B
+  3. Willie Mays CF
+  4. Al Simmons LF
+  5. Honus Wagner 3B
+  6. Ernie Banks (VAR) SS
+  7. Josh Gibson C
+  8. Larry Doby 2B
+  9. Pitcher
+
+--- rotation ---
+SP1     Cy Young                    99  R  1900   +12.2   SP STM 109
+SP2     Larry Jackson               92  R  1959   +11.8   SP STM  92
+SP3     Sam Jones                   92  R  1921   +10.9   SP STM  82
+SP4     Jim Kaat (VAR)              87  L  1967   +10.5   SP STM  78
+SP5     Steve Carlton (VAR)         96  L  1969   +10.4   SP STM  86
+
+--- bullpen ---
+CL      Hugh Daily                  93  R  1884    +8.4   SP STM 100
+RP1     Dutch Leonard               97  R  1945    +8.3   SP STM  92
+RP2     Milt Pappas                 96  R  1959    +8.2   SP STM  79
+RP3     Luther Farrell              87  L  1927    +8.1   SP STM 104
+RP4     Steve Hamilton (VAR)        89  L  1965    +7.5   RP STM  19
+RP5     Pete Donohue                96  R  1925    +7.2   SP STM  73
+RP6     Bob Friend                  99  R  1960    +7.0   SP STM  73
+
+--- bench ---
+BN1     Shoeless Joe Jackson        88  L  1915   +16.6  park:L
+BN2     Hank Thompson               87  L  1953   +12.1  park:L
+BN3     Josh Gibson                 84  R  1946    +8.7  park:R
+BN4     Rocky Colavito              96  R  1961   +12.6  park:R
+BN5     Willie McCovey              93  L  1959   +14.8  park:L
+BN6     Ernie Banks (VAR)           83  R  1961    +1.0  park:R
+
+26 players · value 2419 · λ 1.000 · 7 variants
+vs RHP lineup gets the friendly park side in 3 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Rudy York              R EYE 161 (181/154)  POW 179 (204/170)  K  63  BABIP  74  GAP 124  SPE  66
+  Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
+  Ron Santo              R EYE 114 (124/110)  POW 126 (105/135)  K  90  BABIP 121  GAP  68  SPE  36
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Honus Wagner           R EYE  79 (72/81)  POW  89 (100/86)  K 165  BABIP 120  GAP 118  SPE  93
+  Larry Doby             L EYE  87 (90/86)  POW 105 (101/107)  K  72  BABIP 129  GAP 134  SPE  62
+  Willie McCovey         L EYE 116 (95/124)  POW 140 (166/131)  K  71  BABIP 122  GAP 112  SPE  57
+  Willie Mays            R EYE 129 (174/114)  POW 141 (158/135)  K 114  BABIP  98  GAP 138  SPE 118
+  Chick Stahl            L EYE 112 (90/122)  POW  86 (92/85)  K 149  BABIP 116  GAP 105  SPE  80
+  Rocky Colavito         R EYE 169 (175/167)  POW 138 (132/140)  K 103  BABIP  66  GAP  82  SPE  16
+  Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
+  Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
+  Ernie Banks            R EYE  91 (96/89)  POW 123 (153/113)  K 103  BABIP  81  GAP  80  SPE  34
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Cy Young 109, Larry Jackson 92, Sam Jones 82, Jim Kaat 78, Steve Carlton 86 (era floor 50)
+  ✓ stamina guys in the pen (45+): Hugh Daily 100, Dutch Leonard 92, Milt Pappas 79, Luther Farrell 104, Pete Donohue 73, Bob Friend 73
+  ✓ C  backup: Ed Bailey 112, Josh Gibson 69
+  ✓ 1B backup: Honus Wagner 89, Josh Gibson 75, Ernie Banks 107, Shoeless Joe Jackson 73, Willie McCovey 76
+  ✓ 2B backup: Hank Thompson 88
+  ✓ 3B backup: Honus Wagner 114, Ron Santo 74, Hank Thompson 92
+  ✓ SS backup: Honus Wagner 113, Ernie Banks 113
+  ✓ LF backup: Chick Stahl 129, Ernie Banks 96, Shoeless Joe Jackson 88, Hank Thompson 85, Rocky Colavito 70
+  ✓ CF backup: Chick Stahl 111, Al Simmons 63, Shoeless Joe Jackson 66, Hank Thompson 63
+  ✓ RF backup: Honus Wagner 104, Shoeless Joe Jackson 83, Hank Thompson 79, Rocky Colavito 69
+(25 of 26 have a live ask in the last shop snapshot)
+objective: 229.8 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 10 bats) 932 · rotation 466 · bullpen 657 · bench-only 364
