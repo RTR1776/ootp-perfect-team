@@ -210,7 +210,7 @@ async function main() {
     const r = eventRosterArgs(t, { seriesStale: stale });
     if (r.problems.length) { skipped.push(`${t.id} ${t.name}: ${r.problems.join("; ")}`); continue; }
     const meta = t.series && !stale ? metaBy.get(t.series) ?? null : null;
-    const sh = rosterShape(t.envYear, t.dh === true ? 9 : 8, rosterSize({ restrictions: t.restrictions } as Parameters<typeof rosterSize>[0]) ?? 26, meta);
+    const sh = rosterShape(t.envYear, t.dh === true ? 9 : 8, rosterSize({ restrictions: t.restrictions } as Parameters<typeof rosterSize>[0]) ?? 26, meta, t.cardYearMin);
     r.args.push("--sp", val("sp") ?? String(sh.sp), "--rp", val("rp") ?? String(sh.rp), "--bats", val("bats") ?? String(sh.bats));
     r.notes.push(`shape ${val("sp") ?? sh.sp} SP / ${val("rp") ?? sh.rp} RP / ${val("bats") ?? sh.bats} bats (${val("sp") ? "--sp" : sh.source === "observed" ? "the series' exports" : `era table, ${sh.band}`})`);
     jobs.push({ id: t.id, name: t.name, slug: (t.series ?? `event${t.id}`).replace(/[^a-z0-9]/gi, "").toLowerCase(), args: r.args, notes: r.notes, why: why?.get(t.id) ?? undefined });

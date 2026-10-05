@@ -24,6 +24,9 @@ test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest
   const deadball = rosterShape(1910, 8, 26, { avgSp: 4, avgRp: 3, avgBats: 19 });
   assert.deepEqual([deadball.bats, deadball.sp, deadball.rp], [19, 4, 3], "small staffs are left alone");
   assert.equal(rosterShape(1935, 8, 22, null).bats, 14, "roster size other than 26");
+  const modernCards = rosterShape(1957, 9, 26, null, 1990);
+  assert.deepEqual([modernCards.bats, modernCards.sp, modernCards.rp], [15, 5, 6], "1957 RE with 1990-on cards staffs like the 1990s");
+  assert.deepEqual([rosterShape(2009, 9, 26, null, 1800).sp, rosterShape(2009, 9, 26, null, 1800).rp], [5, 7], "an older card window leaves a modern RE alone");
 });
 
 /* ---- a synthetic pool: 40 hitters across the positions, 24 arms ---- */

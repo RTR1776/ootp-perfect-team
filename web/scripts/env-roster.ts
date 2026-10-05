@@ -363,7 +363,7 @@ async function main() {
   const LHP_SHARE = LHP_SHARE_FLAG ?? meta?.lhpBfShare ?? LHP_SHARE_DEFAULT;
   const LHB_SHARE = meta?.lhbPaShare ?? 0.35;
   if (meta) console.log(`field (${SERIES}, ${meta.files} exports): ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats · ${meta.avgBats} bats / ${meta.avgSp} SP / ${meta.avgRp} RP per team`);
-  const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any);
+  const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any, YEAR_MIN);
   const shape: FillShape = {
     lineupPos, bats: shp.bats,
     spKeys: Array.from({ length: shp.sp }, (_, i) => `SP${i + 1}`),

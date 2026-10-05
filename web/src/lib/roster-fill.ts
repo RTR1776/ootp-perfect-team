@@ -77,16 +77,25 @@ export function eraStaff(envYear: number | null | undefined): { sp: number; rp: 
   return { sp: 4, rp: 3, band: "deadball" };
 }
 
-/** bats / SP / RP for a roster of `total`, from observed series meta when present, else the era table. */
+/**
+ * bats / SP / RP for a roster of `total`, from observed series meta when
+ * present, else the era table. The table reads the later of the run
+ * environment and the event's earliest card year: arms' stamina comes from the
+ * cards, so Daily Diamond 1990 Onward (1957 RE, 1990-on cards) staffs like the
+ * 1990s, not like a 1957 team (4 SP / 5 RP / 17 bats).
+ */
 export function rosterShape(
   envYear: number | null | undefined,
   lineupSize: number,
   total: number | null,
   meta: { avgSp: number | null; avgRp: number | null; avgBats: number | null } | null | undefined,
+  cardYearMin?: number | null,
 ): { bats: number; sp: number; rp: number; source: "observed" | "era"; band: string } {
   const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
   const size = total ?? 26;
-  const era = eraStaff(envYear);
+  const later = envYear != null && cardYearMin != null && cardYearMin > envYear;
+  const era0 = eraStaff(later ? cardYearMin : envYear);
+  const era = later ? { ...era0, band: `${era0.band}, cards ${cardYearMin} on` } : era0;
   if (meta?.avgSp != null && (meta.avgBats != null || meta.avgRp != null)) {
     // --sp 4 --rp 4 alone is a complete shape: the bats are what is left.
     const bats = clamp(Math.round(meta.avgBats ?? size - meta.avgSp - (meta.avgRp ?? 0)), lineupSize, 22);

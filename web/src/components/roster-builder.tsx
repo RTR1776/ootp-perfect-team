@@ -557,7 +557,7 @@ export function RosterBuilder({
   /* roster shape — what teams actually roster in this series when we have
      exports, else the era's typical staff (eraStaff), hitters taking the rest */
   const target = useMemo(
-    () => rosterShape(tournament?.envYear, lineupPos.length, tournament ? rosterSize(tournament) : 26, meta),
+    () => rosterShape(tournament?.envYear, lineupPos.length, tournament ? rosterSize(tournament) : 26, meta, tournament?.cardYearMin),
     [meta, lineupPos.length, tournament],
   );
 
