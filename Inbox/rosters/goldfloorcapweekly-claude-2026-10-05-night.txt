@@ -1,0 +1,36 @@
+# Monday Now We're into the Dregs — Claude pick 2026-10-05 night, rebuilt from the catalogue's rules by current-rosters (--year 1994 --park Dodger Stadium --park-year 1996 --dh --min 50 --max 64 --cap 1468 --size 26 --series goldfloorcapweekly --sp 5 --rp 7 --bats 14)
+R:C Rick Wilkins #86392
+R:1B Edward Florentino (VAR) #84777
+R:2B Jett Williams #84763
+R:3B Jim Tabor #85905
+R:SS Jhonny Level (VAR) #84765
+R:LF Bill Buckner (VAR) #85858
+R:CF Lou Brock #84315
+R:RF Aaron Hicks #86687
+R:DH Jack Cust #86804
+L:C Sam Huff #85265
+L:1B Matt Davidson (VAR) #84666
+L:2B Jett Williams #84763
+L:3B Jim Tabor #85905
+L:SS Jhonny Level (VAR) #84765
+L:LF Andruw Jones (VAR) #86321
+L:CF Dave Henderson #86926
+L:RF Aaron Hicks #86687
+L:DH Jack Cust #86804
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Corey Kluber (VAR) #87008
+SP4 Kyson Witherspoon (VAR) #84774
+SP5 Justin Verlander #87014
+CL Roger Mason #87020
+RP1 Zach Agnos #81805
+RP2 Juan Mejia #81806
+RP3 Lucas Erceg #82384
+RP4 Peter Strzelecki #86506
+RP5 Don August (VAR) #86423
+RP6 Isidro Fabre (VAR) #84401
+BN1 Mike Trout (VAR) #84793
+BN2 Matt Davidson (VAR) #84666
+BN3 Andruw Jones (VAR) #86321
+BN4 Dave Henderson #86926
+BN5 Sam Huff #85265
