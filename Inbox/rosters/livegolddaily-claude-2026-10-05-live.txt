@@ -1,0 +1,36 @@
+# Daily Live Gold — Claude pick 2026-10-05 live, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Citizens Bank Park --park-year 2026 --dh --min 40 --max 89 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series livegolddaily --sp 5 --rp 7 --bats 14)
+R:C William Contreras #81935
+R:1B Sal Stewart #84990
+R:2B Otto Lopez #82108
+R:3B Luis Garcia Jr. #82026
+R:SS Jose Ramirez #82444
+R:LF Ceddanne Rafaela #82608
+R:CF Jake McCarthy #81809
+R:RF Wilyer Abreu #82607
+R:DH Alec Burleson #81877
+L:C William Contreras #81935
+L:1B Sal Stewart #84990
+L:2B Otto Lopez #82108
+L:3B Luis Garcia Jr. #82026
+L:SS Jose Ramirez #82444
+L:LF Ceddanne Rafaela #82608
+L:CF Jake McCarthy #81809
+L:RF Andy Pages #81773
+L:DH Alec Burleson #81877
+SP1 Hunter Brown #82189
+SP2 Sonny Gray #82621
+SP3 Shane Baz #82650
+SP4 MacKenzie Gore #82221
+SP5 George Kirby #82252
+CL Tanner Scott #81792
+RP1 Edgardo Henriquez #81769
+RP2 Calvin Faucher #82119
+RP3 Matt Brash #82247
+RP4 Colin Holderman #82430
+RP5 Ben Brown #82003
+RP6 Jake Bennett #85633
+BN1 Andy Pages #81773
+BN2 Jac Caglianone #82370
+BN3 Luis Arraez #81717
+BN4 Drake Baldwin #82145
+BN5 Rafael Devers #81721

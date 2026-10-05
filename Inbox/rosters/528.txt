@@ -16,58 +16,58 @@ gloves ×0.81: balls in play in this environment against the fit's archive (fiel
                           RHB: Power +5.3  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.8
                          arms: pHR +1.8  Stuff +1.6  pBABIP +1.0  Control +0.9
 
-optimiser: 9 λ starts hill-climbed; best -81.0 runs vs -81.0 greedy (+0.0), 0 moves from λ 0.00
+optimiser: 9 λ starts hill-climbed; best -63.1 runs vs -81.0 greedy (+17.9), 28 moves from λ 7.00
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Dillon Dingler              73  R  2026   -14.2  park:R DEF  82/ 82 -0.2
+R:C     William Contreras           86  R  2026    -5.2  park:R DEF  65/ 65 -0.6
 R:1B    Sal Stewart                 89  R  2026    -5.3  park:R DEF  93/ 93 +1.7
-R:2B    Geraldo Perdomo             83  S  2026   -10.9  park:L DEF  90/ 96 -2.9
-R:3B    Corey Seager                77  L  2026   -10.9  park:L DEF  86/106 -0.5
-R:SS    Ceddanne Rafaela            83  R  2026    -7.7  park:R DEF  71/122 -4.0 <-- out of position
-R:LF    Andy Pages                  85  R  2026    -9.2  park:R DEF 100/100 +0.3
+R:2B    Otto Lopez                  83  R  2026    -4.2  park:R DEF  78/ 78 -4.4
+R:3B    Luis Garcia Jr.             81  L  2026    -4.7  park:L DEF  62/ 88 -3.1
+R:SS    Jose Ramirez                85  S  2026    -5.6  park:L DEF  60/ 73 -5.3
+R:LF    Ceddanne Rafaela            83  R  2026    -7.7  park:R DEF 122/122 +1.7
 R:CF    Jake McCarthy               83  L  2026    -2.3  park:L DEF  78/ 97 -1.6
-R:RF    Michael Harris II           89  L  2026    -9.6  park:L DEF  99/107 +0.1
-R:DH    William Contreras           86  R  2026    -5.2  park:R
+R:RF    Wilyer Abreu                82  L  2026    -6.1  park:L DEF  88/ 88 -0.7
+R:DH    Alec Burleson               82  L  2026    -5.4  park:L
 
 --- lineup vs LHP ---
-L:C     Dillon Dingler              73  R  2026   -10.7  park:R DEF  82/ 82 -0.2
+L:C     William Contreras           86  R  2026    -2.5  park:R DEF  65/ 65 -0.6
 L:1B    Sal Stewart                 89  R  2026    -2.6  park:R DEF  93/ 93 +1.7
-L:2B    Ceddanne Rafaela            83  R  2026    -6.0  park:R DEF  89/122 -3.0
-L:3B    Jose Ramirez                85  S  2026    -5.1  park:R DEF  73/ 73 -1.9
-L:SS    Jeremy Pena                 74  R  2026    -8.8  park:R DEF  75/ 93 -3.6
-L:LF    Jake McCarthy               83  L  2026    -6.0  park:L DEF  97/ 97 +0.1
-L:CF    Julio Rodriguez             78  R  2026    -9.9  park:R DEF 102/118 -0.5
+L:2B    Otto Lopez                  83  R  2026    -2.4  park:R DEF  78/ 78 -4.4
+L:3B    Luis Garcia Jr.             81  L  2026    -6.9  park:L DEF  62/ 88 -3.1
+L:SS    Jose Ramirez                85  S  2026    -5.1  park:R DEF  60/ 73 -5.3
+L:LF    Ceddanne Rafaela            83  R  2026    -6.0  park:R DEF 122/122 +1.7
+L:CF    Jake McCarthy               83  L  2026    -6.0  park:L DEF  78/ 97 -1.6
 L:RF    Andy Pages                  85  R  2026    -6.6  park:R DEF 100/100 +0.1
-L:DH    William Contreras           86  R  2026    -2.5  park:R
+L:DH    Alec Burleson               82  L  2026    -6.8  park:L
 
---- batting order vs RHP --- (3.94 runs/game; The Book's order 3.94)
-  1. Geraldo Perdomo 2B
-  2. Corey Seager 3B
-  3. Sal Stewart 1B
-  4. Michael Harris II RF
+--- batting order vs RHP --- (4.04 runs/game; The Book's order 4.04)
+  1. Jose Ramirez SS
+  2. Alec Burleson DH
+  3. Wilyer Abreu RF
+  4. Luis Garcia Jr. 3B
   5. Jake McCarthy CF
-  6. William Contreras DH
-  7. Andy Pages LF
-  8. Dillon Dingler C
-  9. Ceddanne Rafaela SS
+  6. William Contreras C
+  7. Sal Stewart 1B
+  8. Otto Lopez 2B
+  9. Ceddanne Rafaela LF
 
---- batting order vs LHP --- (3.91 runs/game; The Book's order 3.91)
-  1. William Contreras DH
+--- batting order vs LHP --- (3.99 runs/game; The Book's order 3.98)
+  1. William Contreras C
   2. Sal Stewart 1B
-  3. Dillon Dingler C
-  4. Andy Pages RF
-  5. Jose Ramirez 3B
-  6. Jake McCarthy LF
-  7. Ceddanne Rafaela 2B
-  8. Jeremy Pena SS
-  9. Julio Rodriguez CF
+  3. Luis Garcia Jr. 3B
+  4. Alec Burleson DH
+  5. Otto Lopez 2B
+  6. Jose Ramirez SS
+  7. Andy Pages RF
+  8. Jake McCarthy CF
+  9. Ceddanne Rafaela LF
 
 --- rotation ---
 SP1     Hunter Brown                85  R  2026    +0.5   SP STM  71
 SP2     Sonny Gray                  88  R  2026    -1.4   SP STM  76
 SP3     Shane Baz                   86  R  2026    -1.6   SP STM  82
 SP4     MacKenzie Gore              85  L  2026    -2.2   SP STM  77
-SP5     Jake Bennett                84  L  2026    -2.7   SP STM  69
+SP5     George Kirby                80  R  2026    -2.5   SP STM  83
 
 --- bullpen ---
 CL      Tanner Scott                89  R  2026    +5.6   CL STM  15
@@ -75,48 +75,48 @@ RP1     Edgardo Henriquez           81  R  2026    +4.4   RP STM  17
 RP2     Calvin Faucher              80  R  2026    +3.7   RP STM  17
 RP3     Matt Brash                  83  R  2026    +3.5   RP STM  19
 RP4     Colin Holderman             85  R  2026    +3.5   RP STM  15
-RP5     Brandyn Garcia              83  L  2026    +2.6   RP STM  19
-RP6     Robert Suarez               89  R  2026    +2.0   RP STM  15
+RP5     Ben Brown                   89  R  2026    +0.4   RP STM  69
+RP6     Jake Bennett                84  L  2026    -2.7   SP STM  69
 
 --- bench ---
-BN1     Julio Rodriguez             78  R  2026   -11.2  park:R
-BN2     Jeremy Pena                 74  R  2026   -11.3  park:R
-BN3     Jose Ramirez                85  S  2026    -5.6  park:L
-BN4     Luis Garcia Jr.             81  L  2026    -4.7  park:L
-BN5     Matt Olson                  89  L  2026    -7.2  park:L
+BN1     Andy Pages                  85  R  2026    -9.2  park:R
+BN2     Jac Caglianone              74  L  2026    -6.2  park:L
+BN3     Luis Arraez                 84  L  2026    -6.1  park:L
+BN4     Drake Baldwin               83  L  2026    -7.7  park:L
+BN5     Rafael Devers               85  L  2026    -5.8  park:L
 
-26 players · value 2173 · λ 0.000 · 0 variants
-vs RHP lineup gets the friendly park side in 4 of 9 spots
+26 players · value 2180 · λ 7.000 · 0 variants
+vs RHP lineup gets the friendly park side in 5 of 9 spots
 
 --- order inputs (rostered bats) ---
   Jake McCarthy          L EYE  60 (60/61)  POW  78 (69/81)  K  94  BABIP 104  GAP 106  SPE 104
+  Otto Lopez             R EYE  62 (65/62)  POW  67 (67/67)  K 109  BABIP 113  GAP  81  SPE  72
   Luis Garcia Jr.        L EYE  56 (55/57)  POW 101 (98/103)  K  94  BABIP  84  GAP  98  SPE  47
   William Contreras      R EYE  87 (92/86)  POW  77 (79/77)  K  98  BABIP  88  GAP  73  SPE  16
   Sal Stewart            R EYE  89 (89/89)  POW 106 (107/106)  K  75  BABIP  88  GAP  79  SPE  21
+  Alec Burleson          L EYE  76 (75/77)  POW  89 (86/91)  K  91  BABIP  96  GAP  88  SPE  19
   Jose Ramirez           S EYE 100 (96/102)  POW  87 (81/89)  K 103  BABIP  67  GAP 100  SPE  61
-  Matt Olson             L EYE  89 (86/91)  POW 118 (117/119)  K  67  BABIP  83  GAP 121  SPE  13
+  Rafael Devers          L EYE  93 (89/95)  POW 109 (101/112)  K  67  BABIP  85  GAP 123  SPE  14
+  Wilyer Abreu           L EYE  91 (89/92)  POW  94 (91/95)  K  77  BABIP  83  GAP 121  SPE  31
+  Luis Arraez            L EYE  56 (56/56)  POW  48 (41/51)  K 213  BABIP 105  GAP  81  SPE  42
+  Jac Caglianone         L EYE  65 (64/66)  POW  97 (90/100)  K  66  BABIP 109  GAP  82  SPE  21
+  Drake Baldwin          L EYE  87 (89/87)  POW  97 (94/99)  K  75  BABIP  99  GAP  57  SPE  18
   Ceddanne Rafaela       R EYE  46 (50/45)  POW  81 (83/81)  K  83  BABIP 111  GAP  92  SPE  63
   Andy Pages             R EYE  77 (80/77)  POW  91 (94/91)  K  81  BABIP  92  GAP  82  SPE  37
-  Michael Harris II      L EYE  45 (42/46)  POW  97 (96/98)  K  85  BABIP 109  GAP  91  SPE  63
-  Corey Seager           L EYE 100 (90/106)  POW  90 (86/92)  K  74  BABIP  73  GAP  90  SPE   4
-  Geraldo Perdomo        S EYE 123 (113/127)  POW  66 (68/66)  K 100  BABIP  76  GAP  74  SPE  62
-  Julio Rodriguez        R EYE  72 (75/72)  POW  92 (94/92)  K  76  BABIP  81  GAP  69  SPE  52
-  Jeremy Pena            R EYE  63 (64/63)  POW  87 (89/87)  K  78  BABIP  99  GAP  72  SPE  46
-  Dillon Dingler         R EYE  65 (67/65)  POW 100 (104/99)  K  75  BABIP  76  GAP  96  SPE  41
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
-  ✓ starters' stamina Hunter Brown 71, Sonny Gray 76, Shane Baz 82, MacKenzie Gore 77, Jake Bennett 69 (era floor 50)
-  ✗ no long man: every reliever under stamina 45
-  ✓ C  backup: William Contreras 65
-  ✓ 1B backup: Ceddanne Rafaela 76, Geraldo Perdomo 96, Corey Seager 106, Jeremy Pena 86, Jose Ramirez 66, Luis Garcia Jr. 88, Matt Olson 89
-  ✓ 2B backup: Ceddanne Rafaela 89, Geraldo Perdomo 90, Corey Seager 88, Jeremy Pena 93, Jose Ramirez 72, Luis Garcia Jr. 65
-  ✓ 3B backup: Ceddanne Rafaela 75, Geraldo Perdomo 82, Corey Seager 86, Sal Stewart 61, Jeremy Pena 81, Jose Ramirez 73, Luis Garcia Jr. 62
-  ✓ SS backup: Ceddanne Rafaela 71, Geraldo Perdomo 75, Corey Seager 75, Jeremy Pena 75, Jose Ramirez 60
-  ✓ LF backup: Ceddanne Rafaela 122, Geraldo Perdomo 72, Jake McCarthy 97, Michael Harris II 107, Andy Pages 100, Jeremy Pena 66, Jose Ramirez 68, Julio Rodriguez 118, Luis Garcia Jr. 79
-  ✓ CF backup: Ceddanne Rafaela 107, Jake McCarthy 78, Michael Harris II 90, Andy Pages 80, Julio Rodriguez 102
-  ✓ RF backup: Ceddanne Rafaela 117, Geraldo Perdomo 65, Jake McCarthy 89, Michael Harris II 99, Andy Pages 100, Jeremy Pena 61, Jose Ramirez 62, Julio Rodriguez 112, Luis Garcia Jr. 71
+  ✓ starters' stamina Hunter Brown 71, Sonny Gray 76, Shane Baz 82, MacKenzie Gore 77, George Kirby 83 (era floor 50)
+  ✓ stamina guys in the pen (45+): Ben Brown 69, Jake Bennett 69
+  ✓ C  backup: Drake Baldwin 61
+  ✓ 1B backup: Jose Ramirez 66, Otto Lopez 73, Luis Garcia Jr. 88, Ceddanne Rafaela 76, Alec Burleson 67, Jac Caglianone 64, Luis Arraez 66, Rafael Devers 75
+  ✓ 2B backup: Jose Ramirez 72, Luis Garcia Jr. 65, Ceddanne Rafaela 89
+  ✓ 3B backup: Jose Ramirez 73, Otto Lopez 66, Ceddanne Rafaela 75, Sal Stewart 61
+  ✓ SS backup: Otto Lopez 61, Ceddanne Rafaela 71
+  ✓ LF backup: Jose Ramirez 68, Otto Lopez 75, Luis Garcia Jr. 79, Jake McCarthy 97, Wilyer Abreu 88, Andy Pages 100, Jac Caglianone 71
+  ✓ CF backup: Wilyer Abreu 63, Ceddanne Rafaela 107, Andy Pages 80
+  ✓ RF backup: Jose Ramirez 62, Otto Lopez 67, Luis Garcia Jr. 71, Jake McCarthy 89, Wilyer Abreu 88, Ceddanne Rafaela 117, Andy Pages 100, Jac Caglianone 69
 (26 of 26 have a live ask in the last shop snapshot)
-objective: -81.0 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
-points: lineup(both boards, 12 bats) 985 · rotation 428 · bullpen 590 · bench-only 170
+objective: -63.1 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 10 bats) 839 · rotation 424 · bullpen 591 · bench-only 326

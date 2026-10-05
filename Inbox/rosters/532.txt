@@ -17,58 +17,58 @@ gloves ×0.81: balls in play in this environment against the fit's archive (fiel
                           RHB: Power +5.3  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.7
                          arms: pHR +1.8  Stuff +1.6  pBABIP +1.0  Control +0.9
 
-optimiser: 9 λ starts hill-climbed; best -57.0 runs vs -57.0 greedy (+0.0), 0 moves from λ 0.00
+optimiser: 9 λ starts hill-climbed; best -38.1 runs vs -57.0 greedy (+18.9), 27 moves from λ 1.00
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Dillon Dingler              73  R  2026   -12.3  park:R DEF  82/ 82 -0.2
-R:1B    CJ Abrams                   90  L  2026    -6.5  park:L DEF  91/ 91 +1.4
-R:2B    Ceddanne Rafaela            83  R  2026    -8.4  park:R DEF  89/122 -3.0
+R:C     William Contreras           86  R  2026    -5.1  park:R DEF  65/ 65 -0.6
+R:1B    Luis Garcia Jr.             81  L  2026    -4.2  park:L DEF  88/ 88 +1.1
+R:2B    Kevin McGonigle             95  L  2026    +0.1  park:L DEF  74/ 74 -4.9
 R:3B    Jose Ramirez                85  S  2026    -5.5  park:L DEF  73/ 73 -1.9
-R:SS    Jeremy Pena                 74  R  2026   -10.4  park:R DEF  75/ 93 -3.6
-R:LF    Michael Harris II           89  L  2026    -9.7  park:L DEF 107/107 +0.7
+R:SS    Otto Lopez                  83  R  2026    -3.8  park:R DEF  61/ 78 -5.1
+R:LF    Jordan Walker               91  R  2026    -4.2  park:R DEF  77/ 77 -1.2
 R:CF    Corbin Carroll              91  L  2026    -0.7  park:L DEF  85/104 -1.3
 R:RF    Jackson Chourio             93  R  2026    -3.7  park:R DEF  86/ 91 -0.8
-R:DH    Kyle Schwarber              99  L  2026    -2.7  park:L
+R:DH    Ben Rice                    94  L  2026    -1.8  park:L
 
 --- lineup vs LHP ---
-L:C     Dillon Dingler              73  R  2026    -9.0  park:R DEF  82/ 82 -0.2
+L:C     William Contreras           86  R  2026    -2.4  park:R DEF  65/ 65 -0.6
 L:1B    Miguel Vargas               94  R  2026    -1.7  park:R DEF  83/ 83 +0.6
-L:2B    Ceddanne Rafaela            83  R  2026    -6.7  park:R DEF  89/122 -3.0
+L:2B    Kevin McGonigle             95  L  2026    -4.5  park:L DEF  74/ 74 -4.9
 L:3B    Jose Ramirez                85  S  2026    -5.2  park:R DEF  73/ 73 -1.9
-L:SS    Jeremy Pena                 74  R  2026    -8.0  park:R DEF  75/ 93 -3.6
-L:LF    Andy Pages                  85  R  2026    -6.1  park:R DEF 100/100 +0.3
+L:SS    Otto Lopez                  83  R  2026    -2.0  park:R DEF  61/ 78 -5.1
+L:LF    Jordan Walker               91  R  2026    -2.3  park:R DEF  77/ 77 -1.2
 L:CF    Corbin Carroll              91  L  2026    -3.3  park:L DEF  85/104 -1.3
 L:RF    Jackson Chourio             93  R  2026    -2.5  park:R DEF  86/ 91 -0.8
-L:DH    Yandy Diaz                  94  R  2026    -0.9  park:R
+L:DH    Hunter Goodman              93  R  2026    +0.2  park:R
 
---- batting order vs RHP --- (4.05 runs/game; The Book's order 4.05)
-  1. Kyle Schwarber DH
+--- batting order vs RHP --- (4.11 runs/game; The Book's order 4.11)
+  1. Kevin McGonigle 2B
   2. Jose Ramirez 3B
-  3. CJ Abrams 1B
+  3. Ben Rice DH
   4. Corbin Carroll CF
-  5. Michael Harris II LF
-  6. Jackson Chourio RF
-  7. Dillon Dingler C
-  8. Ceddanne Rafaela 2B
-  9. Jeremy Pena SS
+  5. Luis Garcia Jr. 1B
+  6. Otto Lopez SS
+  7. Jordan Walker LF
+  8. Jackson Chourio RF
+  9. William Contreras C
 
---- batting order vs LHP --- (4.04 runs/game; The Book's order 4.04)
-  1. Yandy Diaz DH
-  2. Miguel Vargas 1B
-  3. Jackson Chourio RF
-  4. Corbin Carroll CF
-  5. Jose Ramirez 3B
-  6. Andy Pages LF
-  7. Dillon Dingler C
-  8. Ceddanne Rafaela 2B
-  9. Jeremy Pena SS
+--- batting order vs LHP --- (4.09 runs/game; The Book's order 4.09)
+  1. Miguel Vargas 1B
+  2. Jose Ramirez 3B
+  3. Hunter Goodman DH
+  4. Jordan Walker LF
+  5. William Contreras C
+  6. Jackson Chourio RF
+  7. Corbin Carroll CF
+  8. Otto Lopez SS
+  9. Kevin McGonigle 2B
 
 --- rotation ---
 SP1     Logan Webb                  95  R  2026    +1.2   SP STM  85
 SP2     Hunter Brown                85  R  2026    +0.6   SP STM  71
-SP3     Cade Cavalli                90  R  2026    -1.8   SP STM  74
-SP4     Ranger Suarez               92  L  2026    -2.1   SP STM  70
-SP5     Clay Holmes                 90  R  2026    -2.1   SP STM  69
+SP3     Shane Baz                   86  R  2026    -1.8   SP STM  82
+SP4     Cade Cavalli                90  R  2026    -1.8   SP STM  74
+SP5     Ranger Suarez               92  L  2026    -2.1   SP STM  70
 
 --- bullpen ---
 CL      Tanner Scott                89  R  2026    +6.6   CL STM  15
@@ -76,48 +76,48 @@ RP1     Adrian Morejon              93  L  2026    +6.2   RP STM  18
 RP2     Cade Smith                  96  R  2026    +5.7   CL STM  17
 RP3     Edgardo Henriquez           81  R  2026    +4.3   RP STM  17
 RP4     Colin Holderman             85  R  2026    +3.8   RP STM  15
-RP5     David Bednar                93  L  2026    +2.7   CL STM  17
-RP6     Devin Williams              91  R  2026    +2.4   CL STM  14
+RP5     Ben Brown                   89  R  2026    +0.8   RP STM  69
+RP6     Clay Holmes                 90  R  2026    -2.1   SP STM  69
 
 --- bench ---
-BN1     Andy Pages                  85  R  2026    -8.5  park:R
-BN2     Miguel Vargas               94  R  2026    -4.1  park:R
-BN3     Yandy Diaz                  94  R  2026    -3.2  park:R
-BN4     Jake McCarthy               83  L  2026    -5.9  park:L
-BN5     Garrett Mitchell            90  L  2026    -9.6  park:L
+BN1     Yandy Diaz                  94  R  2026    -3.2  park:R
+BN2     Hunter Goodman              93  R  2026    -3.4  park:R
+BN3     Kyle Schwarber              99  L  2026    -2.7  park:L
+BN4     Drake Baldwin               83  L  2026    -9.1  park:L
+BN5     Miguel Vargas               94  R  2026    -4.1  park:R
 
-26 players · value 2303 · λ 0.000 · 0 variants
+26 players · value 2333 · λ 1.000 · 0 variants
 vs RHP lineup gets the friendly park side in 5 of 9 spots
 
 --- order inputs (rostered bats) ---
+  Kevin McGonigle        L EYE 117 (102/123)  POW  79 (76/81)  K  97  BABIP  89  GAP  74  SPE  45
   Corbin Carroll         L EYE 103 (98/105)  POW  86 (86/87)  K  74  BABIP  84  GAP 193  SPE 120
+  Ben Rice               L EYE  99 (96/101)  POW 123 (115/126)  K  66  BABIP  76  GAP  98  SPE  39
   Kyle Schwarber         L EYE 131 (129/132)  POW 141 (126/146)  K  47  BABIP  90  GAP  76  SPE  21
   Yandy Diaz             R EYE  80 (82/80)  POW  89 (92/89)  K  96  BABIP 106  GAP  65  SPE   4
+  Hunter Goodman         R EYE  77 (79/77)  POW 134 (139/132)  K  54  BABIP  92  GAP  81  SPE  41
   Jackson Chourio        R EYE  74 (79/73)  POW  97 (97/97)  K  73  BABIP 111  GAP  84  SPE  59
+  Otto Lopez             R EYE  62 (65/62)  POW  67 (67/67)  K 109  BABIP 113  GAP  81  SPE  72
   Miguel Vargas          R EYE 123 (129/121)  POW 105 (109/104)  K  85  BABIP  64  GAP 119  SPE  33
+  Jordan Walker          R EYE  72 (75/72)  POW 100 (104/99)  K  71  BABIP 118  GAP  79  SPE  31
+  Luis Garcia Jr.        L EYE  56 (55/57)  POW 101 (98/103)  K  94  BABIP  84  GAP  98  SPE  47
+  William Contreras      R EYE  87 (92/86)  POW  77 (79/77)  K  98  BABIP  88  GAP  73  SPE  16
   Jose Ramirez           S EYE 100 (96/102)  POW  87 (81/89)  K 103  BABIP  67  GAP 100  SPE  61
-  Jake McCarthy          L EYE  60 (60/61)  POW  78 (69/81)  K  94  BABIP 104  GAP 106  SPE 104
-  CJ Abrams              L EYE  78 (74/80)  POW 103 (96/107)  K  71  BABIP  93  GAP  99  SPE  75
-  Ceddanne Rafaela       R EYE  46 (50/45)  POW  81 (83/81)  K  83  BABIP 111  GAP  92  SPE  63
-  Andy Pages             R EYE  77 (80/77)  POW  91 (94/91)  K  81  BABIP  92  GAP  82  SPE  37
-  Garrett Mitchell       L EYE  99 (96/100)  POW  67 (63/69)  K  52  BABIP 141  GAP 100  SPE  75
-  Michael Harris II      L EYE  45 (42/46)  POW  97 (96/98)  K  85  BABIP 109  GAP  91  SPE  63
-  Jeremy Pena            R EYE  63 (64/63)  POW  87 (89/87)  K  78  BABIP  99  GAP  72  SPE  46
-  Dillon Dingler         R EYE  65 (67/65)  POW 100 (104/99)  K  75  BABIP  76  GAP  96  SPE  41
+  Drake Baldwin          L EYE  87 (89/87)  POW  97 (94/99)  K  75  BABIP  99  GAP  57  SPE  18
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (192 teams): 4.9 SP / 7.5 RP / 13.1 bats
-  ✓ starters' stamina Logan Webb 85, Hunter Brown 71, Cade Cavalli 74, Ranger Suarez 70, Clay Holmes 69 (era floor 50)
-  ✗ no long man: every reliever under stamina 45
-  ✗ C  backup: NONE — only Dillon Dingler can play it (floor 60)
-  ✓ 1B backup: Jeremy Pena 86, Ceddanne Rafaela 76, Jose Ramirez 66, Jackson Chourio 72, CJ Abrams 91, Miguel Vargas 83, Yandy Diaz 65
-  ✓ 2B backup: Jeremy Pena 93, Jose Ramirez 72, Jackson Chourio 60, CJ Abrams 76
-  ✓ 3B backup: Jeremy Pena 81, Ceddanne Rafaela 75, CJ Abrams 66
-  ✓ SS backup: Ceddanne Rafaela 71, Jose Ramirez 60
-  ✓ LF backup: Jeremy Pena 66, Ceddanne Rafaela 122, Jose Ramirez 68, Corbin Carroll 104, Jackson Chourio 91, Michael Harris II 107, CJ Abrams 88, Andy Pages 100, Jake McCarthy 97, Garrett Mitchell 104
-  ✓ CF backup: Ceddanne Rafaela 107, Jackson Chourio 67, Michael Harris II 90, CJ Abrams 66, Andy Pages 80, Jake McCarthy 78, Garrett Mitchell 86
-  ✓ RF backup: Jeremy Pena 61, Ceddanne Rafaela 117, Jose Ramirez 62, Corbin Carroll 96, Michael Harris II 99, CJ Abrams 81, Andy Pages 100, Jake McCarthy 89, Garrett Mitchell 99
+  ✓ starters' stamina Logan Webb 85, Hunter Brown 71, Shane Baz 82, Cade Cavalli 74, Ranger Suarez 70 (era floor 50)
+  ✓ stamina guys in the pen (45+): Ben Brown 69, Clay Holmes 69
+  ✓ C  backup: Drake Baldwin 61
+  ✓ 1B backup: Otto Lopez 73, Kevin McGonigle 72, Jose Ramirez 66, Jackson Chourio 72, Jordan Walker 69, Luis Garcia Jr. 88, Miguel Vargas 83, Yandy Diaz 65
+  ✓ 2B backup: Otto Lopez 78, Jose Ramirez 72, Jackson Chourio 60, Luis Garcia Jr. 65
+  ✓ 3B backup: Otto Lopez 66, Kevin McGonigle 66, Luis Garcia Jr. 62
+  ✓ SS backup: Jose Ramirez 60
+  ✓ LF backup: Otto Lopez 75, Kevin McGonigle 68, Jose Ramirez 68, Corbin Carroll 104, Jackson Chourio 91, Luis Garcia Jr. 79
+  ✓ CF backup: Jackson Chourio 67
+  ✓ RF backup: Otto Lopez 67, Kevin McGonigle 61, Jose Ramirez 62, Corbin Carroll 96, Jordan Walker 73, Luis Garcia Jr. 71
 (25 of 26 have a live ask in the last shop snapshot)
-objective: -57.0 weighted runs (bats 58/42 R/L, SP 1.36, RP 0.44, bench 0.1)
-points: lineup(both boards, 12 bats) 1050 · rotation 452 · bullpen 628 · bench-only 173
+objective: -38.1 weighted runs (bats 58/42 R/L, SP 1.36, RP 0.44, bench 0.1)
+points: lineup(both boards, 11 bats) 986 · rotation 448 · bullpen 623 · bench-only 276

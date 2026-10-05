@@ -1,0 +1,123 @@
+
+=== Wednesday 1950 to Now ===
+PT default (2010) RE @ 2026 Globe Life Field · DH on · value 40–105 · cap none · 26 players
+R/G 4.34  AVG 0.237  OBP 0.311  SLG 0.396  K% 22.6  HR/PA 3.12%  preset Moderate Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.025 runs · steal break-even 80.8% (0 out) / 77.8% (1 out)
+park: all-LHB lineup 4.50 R/G vs all-RHB 4.26 — 0.24 R/G swing toward LEFT-handed bats
+card sets: Snapshot, Unsung Heroes only
+
+pool: 759 eligible owned cards — 420 bats (146L / 60S / 214R), 339 arms
+staff weights from 1950tonow's exports: SP 1.3, RP 0.41 (a lineup slot = 1)
+field (1950tonow, 1 exports): 51% of batters faced thrown left-handed · 36% of PA by left-handed bats · 12.5 bats / 4.9 SP / 6.8 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 628 of 759 pool cards have innings on record (median 175 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.4  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.8
+                          RHB: Power +5.1  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.8
+                         arms: pHR +1.7  Stuff +1.6  pBABIP +0.9  Control +0.8
+
+optimiser: 9 λ starts hill-climbed; best 213.6 runs vs 204.7 greedy (+9.0), 5 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Bob Boone                   73  R  1986    -4.7  park:R DEF 137/137 +1.2
+R:1B    J.T. Snow (VAR)             83  L  2004   +14.8  park:L DEF  96/ 96 +2.0
+R:2B    Adam Kennedy                82  L  2002   +11.9  park:L DEF 112/112 -0.2
+R:3B    Matt Carpenter              74  L  2015   +15.3  park:L DEF  74/102 -1.8
+R:SS    Francisco Lindor            88  S  2024   +10.0  park:L DEF 110/110 +0.4
+R:LF    Lonnie Smith                98  R  1989   +11.1  park:R DEF 133/133 +2.4
+R:CF    Hank Thompson               87  L  1953   +17.4  park:L DEF  63/ 92 -2.3
+R:RF    Richard Hidalgo            101  R  2000   +33.2  park:R DEF 119/124 +1.5
+R:DH    Trea Turner (VAR)           98  R  2023   +12.4  park:R
+
+--- lineup vs LHP ---
+L:C     Ivan Rodriguez              76  R  2003    +7.2  park:R DEF  90/ 90 +0.0
+L:1B    Joe Adcock                  95  R  1956   +18.9  park:R DEF  99/ 99 +2.3
+L:2B    Randy Ready                 77  R  1987   +17.4  park:R DEF 115/115 +0.2
+L:3B    Garrett Atkins              94  R  2008   +15.0  park:R DEF  71/ 71 -2.2
+L:SS    Francisco Lindor            88  S  2024   +12.0  park:R DEF 110/110 +0.4
+L:LF    Lonnie Smith                98  R  1989   +12.6  park:R DEF 133/133 +2.4
+L:CF    Richard Hidalgo            101  R  2000   +12.6  park:R DEF 114/124 +0.0
+L:RF    Brandon Lowe (VAR)          82  L  2020   +11.2  park:L DEF  68/ 91 -2.1
+L:DH    Trea Turner (VAR)           98  R  2023   +10.1  park:R
+
+--- batting order vs RHP --- (4.87 runs/game; The Book's order 4.87)
+  1. J.T. Snow (VAR) 1B
+  2. Hank Thompson CF
+  3. Matt Carpenter 3B
+  4. Richard Hidalgo RF
+  5. Francisco Lindor SS
+  6. Trea Turner (VAR) DH
+  7. Adam Kennedy 2B
+  8. Lonnie Smith LF
+  9. Bob Boone C
+
+--- batting order vs LHP --- (4.64 runs/game; The Book's order 4.63)
+  1. Randy Ready 2B
+  2. Richard Hidalgo CF
+  3. Brandon Lowe (VAR) RF
+  4. Francisco Lindor SS
+  5. Trea Turner (VAR) DH
+  6. Lonnie Smith LF
+  7. Garrett Atkins 3B
+  8. Joe Adcock 1B
+  9. Ivan Rodriguez C
+
+--- rotation ---
+SP1     Larry Jackson               92  R  1959   +11.7   SP STM  92
+SP2     CC Sabathia                101  L  2008   +10.4   SP STM 105
+SP3     J.A. Happ                   87  L  2015   +10.3   SP STM  62
+SP4     Kyle Freeland (VAR)         91  L  2018    +9.2   SP STM  80
+SP5     Milt Pappas                 96  R  1959    +7.3   SP STM  79
+
+--- bullpen ---
+CL      Robb Nen                   101  R  2000   +13.8   CL STM  19
+RP1     Jake McGee (VAR)            99  L  2012   +12.7   RP STM  12
+RP2     Daniel Palencia (VAR)      100  R  2026   +11.0   CL STM  14
+RP3     Joe Sambito                 98  L  1980   +10.3   RP STM  24
+RP4     Aaron Heilman               89  R  2005    +8.9   RP STM  49
+RP5     Gary Lucas                  86  L  1986    +7.7   RP STM  24
+RP6     Mark Langston               91  R  1989    +6.8   SP STM  86
+
+--- bench ---
+BN1     Joe Adcock                  95  R  1956    -4.3  park:R
+BN2     Randy Ready                 77  R  1987    +2.1  park:R
+BN3     Garrett Atkins              94  R  2008    +3.1  park:R
+BN4     Ivan Rodriguez              76  R  2003    -7.7  park:R
+BN5     Brandon Lowe (VAR)          82  L  2020    +3.3  park:L
+
+26 players · value 2339 · λ 0.000 · 6 variants
+vs RHP lineup gets the friendly park side in 5 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Richard Hidalgo        R EYE 128 (122/130)  POW 165 (98/188)  K 127  BABIP 121  GAP 119  SPE  59
+  Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
+  Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  J.T. Snow              L EYE 161 (177/154)  POW  73 (60/76)  K  97  BABIP 138  GAP 134  SPE  56
+  Trea Turner            R EYE  89 (84/91)  POW 137 (127/140)  K 113  BABIP  95  GAP  86  SPE 120
+  Adam Kennedy           L EYE  48 (40/51)  POW 114 (90/124)  K  87  BABIP 138  GAP  96  SPE  66
+  Lonnie Smith           R EYE 146 (155/143)  POW 106 (100/108)  K  80  BABIP 149  GAP 112  SPE  98
+  Francisco Lindor       S EYE 110 (98/115)  POW 126 (138/122)  K  99  BABIP 101  GAP 109  SPE  61
+  Brandon Lowe           L EYE 132 (119/136)  POW 132 (155/124)  K  75  BABIP  95  GAP  93  SPE  73
+  Garrett Atkins         R EYE  94 (148/82)  POW 102 (123/97)  K  96  BABIP  93  GAP  99  SPE  47
+  Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
+  Joe Adcock             R EYE  73 (118/55)  POW 126 (114/130)  K  62  BABIP  91  GAP  82  SPE  40
+  Bob Boone              R EYE  94 (109/90)  POW  61 (58/62)  K 165  BABIP 103  GAP  66  SPE  33
+  Ivan Rodriguez         R EYE  86 (125/76)  POW  75 (60/80)  K  88  BABIP  86  GAP  86  SPE  56
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (29 teams): 5.0 SP / 7.1 RP / 13.7 bats
+  ✓ starters' stamina Larry Jackson 92, CC Sabathia 105, J.A. Happ 62, Kyle Freeland 80, Milt Pappas 79 (era floor 50)
+  ✓ stamina guys in the pen (45+): Aaron Heilman 49, Mark Langston 86
+  ✓ C  backup: Bob Boone 137, Ivan Rodriguez 90
+  ✓ 1B backup: J.T. Snow 96, Matt Carpenter 102, Joe Adcock 99
+  ✓ 2B backup: Adam Kennedy 112, Hank Thompson 88, Matt Carpenter 80, Randy Ready 115, Brandon Lowe 91
+  ✓ 3B backup: Hank Thompson 92, Matt Carpenter 74, Randy Ready 91, Garrett Atkins 71
+  ✓ SS backup: Trea Turner 106
+  ✓ LF backup: Hank Thompson 85, Richard Hidalgo 124, Joe Adcock 74, Brandon Lowe 86
+  ✓ CF backup: Hank Thompson 63, Richard Hidalgo 114
+  ✓ RF backup: Hank Thompson 79, Richard Hidalgo 119, Brandon Lowe 68
+(19 of 26 have a live ask in the last shop snapshot)
+objective: 213.6 weighted runs (bats 49/51 R/L, SP 1.3, RP 0.41, bench 0.1)
+points: lineup(both boards, 14 bats) 1208 · rotation 467 · bullpen 664 · bench-only 0
