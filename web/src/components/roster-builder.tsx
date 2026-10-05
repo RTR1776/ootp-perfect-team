@@ -36,6 +36,7 @@ import { SetFilter } from "@/components/set-filter";
 import { dismissToast, toast, type ToastInput } from "@/components/ui/toast";
 import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillResult, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
+import { BACKUP_PENALTY, backupPositions, missingBackups } from "@/lib/roster-optimize";
 import { auditRoster, orderStaff } from "@/lib/roster-audit";
 import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
 import { hitterRates } from "@/lib/analytics/card-value";
@@ -479,6 +480,7 @@ export function RosterBuilder({
   const [twoCatchers, setTwoCatchers] = useState(true);
   const [twoShortstops, setTwoShortstops] = useState(true);
   const [twoLong, setTwoLong] = useState(true);
+  const [backups, setBackups] = useState(true);
   const toggleIn = (set: Set<number>, id: number) => { const n = new Set(set); if (n.has(id)) n.delete(id); else n.add(id); return n; };
   const toggleLock = (id: number) => { setLocks((s) => toggleIn(s, id)); setBans((s) => { const n = new Set(s); n.delete(id); return n; }); };
   const toggleBan = (id: number) => { setBans((s) => toggleIn(s, id)); setLocks((s) => { const n = new Set(s); n.delete(id); return n; }); };
@@ -557,7 +559,7 @@ export function RosterBuilder({
   /* roster shape — what teams actually roster in this series when we have
      exports, else the era's typical staff (eraStaff), hitters taking the rest */
   const target = useMemo(
-    () => rosterShape(tournament?.envYear, lineupPos.length, tournament ? rosterSize(tournament) : 26, meta),
+    () => rosterShape(tournament?.envYear, lineupPos.length, tournament ? rosterSize(tournament) : 26, meta, tournament?.cardYearMin),
     [meta, lineupPos.length, tournament],
   );
 
@@ -1108,14 +1110,17 @@ export function RosterBuilder({
     // search's scores carry 1000 off per lock missing; so does this.
     const before = boardRuns(slots) ?? 0;
     const onNow = new Set(Object.values(slots).filter((v): v is number => v != null));
-    const beforeSearch = before - 1000 * keep.filter((id) => !onNow.has(id)).length;
+    const current: FillResult = {};
+    for (const k of slotOrder) { const id = slots[k]; if (id != null) current[k] = id; }
+    // The search also takes BACKUP_PENALTY off a board per position without a backup; so does this,
+    // or a board that adds the backup by giving up a few bench runs would read as no better.
+    const gaps = backups ? missingBackups(current, new Map(searchPool.map((c) => [c.cardId, c])), backupPositions(searchPool, tournament as RosterRules, LJ_FLOOR)) : [];
+    const beforeSearch = before - 1000 * keep.filter((id) => !onNow.has(id)).length - BACKUP_PENALTY * gaps.length;
     // A card outside the chosen sets, or one banned since, is a break too: the search replaces it.
     const breaks = validation?.errors.length ? "broke a rule"
       : validation?.incomplete.some((i) => i.code === "outside-sets") ? "had a card outside the chosen sets"
       : [...onNow].some((id) => bans.has(id)) ? "had a banned card"
       : null;
-    const current: FillResult = {};
-    for (const k of slotOrder) { const id = slots[k]; if (id != null) current[k] = id; }
     const started = { board, locks, bans };
     setOptimizing(mode);
     setSearchProgress({ mode, done: 0, total: 0, current: null, best: null });
@@ -1124,7 +1129,7 @@ export function RosterBuilder({
       out = await startSearch({
         mode, board: current, pool: searchPool, rules: tournament as RosterRules, shape: fillShape, fits: toPlainFits(fits),
         runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, gloveScale: glove,
-        locks: keep, minCatchers: twoCatchers ? 2 : 0, minShortstops: twoShortstops ? 2 : 0, minLongMen: twoLong ? 2 : 0,
+        locks: keep, minCatchers: twoCatchers ? 2 : 0, minShortstops: twoShortstops ? 2 : 0, minLongMen: twoLong ? 2 : 0, backups,
       }, runTid);
     } finally {
       setOptimizing(null);
@@ -1920,6 +1925,9 @@ export function RosterBuilder({
                   </label>
                   <label className="flex items-center gap-1" title="Optimise keeps two stamina arms (45+) in the pen">
                     <input type="checkbox" checked={twoLong} onChange={(e) => setTwoLong(e.target.checked)} /> 2 long
+                  </label>
+                  <label className="flex items-center gap-1" title="Optimise keeps a backup at every position the pool can cover twice">
+                    <input type="checkbox" checked={backups} onChange={(e) => setBackups(e.target.checked)} /> backups
                   </label>
                 </div>
                 {rosterCheck.length > 0 && (

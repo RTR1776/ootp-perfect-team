@@ -93,6 +93,15 @@ export interface OptimizeOptions {
    * in bullpen, need some stam guys."
    */
   minLongMen?: number;
+  /**
+   * A backup at every fielding position: two rostered hitters at or above the
+   * position floor, wherever the pool has two. L.J., 2026-10-04: "you have to
+   * know ... backups, etc." Monday Bronze came out of the search 10-05 with
+   * Deion Sanders the only CF. Scored as a penalty (BACKUP_PENALTY a missing
+   * position) rather than a legality rule, so a board missing two backups can
+   * still climb to one missing none a swap at a time.
+   */
+  backups?: boolean;
   pairMoves?: {
     /** Upgrade candidates considered per slot, best-ranked first. */
     aTop: number;
@@ -111,6 +120,30 @@ export interface OptimizeResult {
   /** Whether the start and the result pass every rule the search enforces. */
   startLegal: boolean;
   legal: boolean;
+  /** Positions still without a backup when `backups` was asked for (the pool had two who could play it). */
+  missingBackups: string[];
+}
+
+/** Runs the search gives up to carry a backup at a position — more than any bench bat is worth. */
+export const BACKUP_PENALTY = 25;
+const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
+export interface BackupPosition { pos: string; floor: number; can: FillCard[] }
+
+/** The fielding positions this pool can cover twice (owned, eligible hitters at or above the floor). */
+export function backupPositions(pool: readonly FillCard[], rules: RosterRules, posFloor?: PosFloor): BackupPosition[] {
+  return FIELD_POS.map((pos) => {
+    const floor = Math.max(1, posFloorAt(posFloor, pos));
+    const can = pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= floor
+      && (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length);
+    return { pos, floor, can };
+  }).filter((b) => new Set(b.can.map((c) => c.cardId)).size >= 2);
+}
+
+/** Of `positions`, those the board carries fewer than two hitters for. */
+export function missingBackups(slots: FillResult, byId: ReadonlyMap<number, FillCard>, positions: readonly BackupPosition[]): string[] {
+  if (!positions.length) return [];
+  const hitters = [...new Set(Object.values(slots))].map((id) => byId.get(id)).filter((c): c is FillCard => c != null && !c.isPitcher);
+  return positions.filter((b) => hitters.filter((c) => (c.ratings[`Pos Rating ${b.pos}`] ?? 0) >= b.floor).length < 2).map((b) => b.pos);
 }
 
 /**
@@ -225,6 +258,15 @@ export function optimizeRoster(
     pool.filter((c) => !c.isPitcher && (c.ratings["Pos Rating SS"] ?? 0) >= sf)
       .sort((a, b) => rank("R:SS", b) - rank("R:SS", a)).slice(0, 10).forEach((c) => keepIds.add(c.cardId));
   }
+  // Backups: the positions the pool can cover twice, and the ten best at each
+  // kept through pruning (as with catchers and shortstops).
+  const backupPos = o.backups ? backupPositions(pool, rules, o.posFloor) : [];
+  if (o.pairMoves) {
+    const rank = o.pairMoves.rank;
+    for (const b of backupPos) [...b.can].sort((x, y) => rank(`R:${b.pos}`, y) - rank(`R:${b.pos}`, x)).slice(0, 10).forEach((c) => keepIds.add(c.cardId));
+  }
+  const missing = (sl: FillResult) => missingBackups(sl, byId, backupPos);
+  const obj = (sl: FillResult) => o.objective(sl) - BACKUP_PENALTY * missing(sl).length;
   /** Who may play each slot at all — before pruning, so reassignment is exact. */
   const eligible = new Map([...full].map(([k, list]) => [k, new Set(list.map((c) => c.cardId))]));
   const cands = new Map(keys.map((k) => {
@@ -249,7 +291,7 @@ export function optimizeRoster(
   const minSS = o.minShortstops ?? 0;
   const ssFloor = Math.max(1, posFloorAt(o.posFloor, "SS"));
   const minLong = o.minLongMen ?? 0;
-  const startScore = o.objective(slots);
+  const startScore = obj(slots);
   // A starting board that breaks a rule (an unowned copy on a saved roster)
   // scores -Infinity, so the first legal board the search finds replaces it
   // even when it is worth fewer runs.
@@ -359,7 +401,7 @@ export function optimizeRoster(
   const settle = (from: FillResult, fromScore: number): { slots: FillResult; score: number } | null => {
     const t = reassign(from);
     if (t === from || !isComplete(t, shape) || !legal(t, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong)) return null;
-    const s = o.objective(t);
+    const s = obj(t);
     return s > fromScore + 1e-9 ? { slots: t, score: s } : null;
   };
 
@@ -379,7 +421,7 @@ export function optimizeRoster(
         const trial = place(slots, key, c);
         if (!isComplete(trial, shape)) continue;
         if (!legal(trial, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong)) continue;
-        const s = o.objective(trial);
+        const s = obj(trial);
         if (s > bestScore + 1e-9) { bestScore = s; bestKey = key; bestId = c.cardId; bestSlots = trial; }
         // A new bat on the roster: also score him with every position re-solved
         // around him. (Moves among rostered bats need no re-solve — the board
@@ -405,7 +447,7 @@ export function optimizeRoster(
               const t2 = place(t1, b, cb);
               if (!isComplete(t2, shape)) continue;
               if (!legal(t2, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong)) continue;
-              const s = o.objective(t2);
+              const s = obj(t2);
               if (s > bestScore + 1e-9) { bestScore = s; bestPair = { a, ai: ca.cardId, b, bi: cb.cardId }; }
             }
           }
@@ -422,5 +464,5 @@ export function optimizeRoster(
     if (settled) { slots = settled.slots; score = settled.score; }
   }
   // No legal board reachable from an illegal start: hand the start back as it was scored.
-  return { slots, score: Number.isFinite(score) ? score : startScore, moves, startScore, startLegal, legal: Number.isFinite(score) };
+  return { slots, score: Number.isFinite(score) ? score : startScore, moves, startScore, startLegal, legal: Number.isFinite(score), missingBackups: missing(slots) };
 }

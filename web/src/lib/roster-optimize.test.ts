@@ -135,3 +135,17 @@ test("minCatchers puts a second catcher on the roster even when a better bat sit
   assert.equal(two.legal, true);
   assert.ok(Object.values(two.slots).includes(4), JSON.stringify(two.slots));
 });
+
+test("backups puts a second centre fielder on the roster, and leaves positions the pool can't cover twice alone", () => {
+  const sh: FillShape = { lineupPos: ["CF", "DH"], spKeys: [], rpKeys: [], benchKeys: ["BN1"], bats: 3 };
+  const three: RosterRules = { ...rules, restrictions: { cards: 3 } };
+  const pool = [hitter(1, { CF: 90, SS: 70 }), hitter(2, {}), hitter(3, {}), hitter(4, { CF: 80 })];
+  const runs = new Map([[1, 10], [2, 30], [3, 20], [4, 1]]);
+  const obj = rosterObjective(pool, { shape: sh, runsR: runs, runsL: runs });
+  const start = { "R:CF": 1, "R:DH": 2, BN1: 3, "L:CF": 1, "L:DH": 2 };
+  const free = optimizeRoster(start, pool, three, sh, { objective: obj.objective });
+  assert.equal(free.slots.BN1, 3, "left alone, the better bat keeps the bench seat");
+  const b = optimizeRoster(start, pool, three, sh, { objective: obj.objective, backups: true });
+  assert.ok(Object.values(b.slots).includes(4), JSON.stringify(b.slots));
+  assert.deepEqual(b.missingBackups, [], "SS has one man in the pool, so it is not asked for");
+});

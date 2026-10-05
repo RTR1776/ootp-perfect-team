@@ -123,6 +123,7 @@ type Edit =
   | { type: "pickCard"; card: CardBase }
   | { type: "face"; key: string; value: string }
   | { type: "step"; keys: string[]; pct: number }
+  | { type: "boost"; deltas: Record<string, number> }
   | { type: "baseFace" }
   | { type: "include"; include: boolean }
   | { type: "armRole"; role: ArmSlotRole | null }
@@ -191,6 +192,11 @@ export const edit = {
   pickCard: (card: CardBase): ModelAction => ({ type: "pickCard", card, label: `Model ${card.name}` }),
   face: (key: string, value: string): ModelAction => ({ type: "face", key, value, label: `Edit ${fieldName(key)}`, coalesceKey: `face:${key}` }),
   /** The variant step on one side's batting ratings, or on the positions. */
+  /** A variant's boost as the shop lists it, points over the base card on both sides ("+10 Avoid K, +14 Eye"). */
+  boost: (deltas: Record<string, number>): ModelAction => ({
+    type: "boost", deltas,
+    label: `Variant ${Object.entries(deltas).map(([k, d]) => `${d >= 0 ? "+" : ""}${d} ${BAT_STATS.find(([s]) => s === k)?.[1] ?? k}`).join(", ")}`,
+  }),
   step: (what: Board | "positions", pct: number): ModelAction => ({
     type: "step", keys: what === "positions" ? POSITION_KEYS : sideKeys(what), pct,
     label: `${pctText(pct)} ${what === "positions" ? "positions" : BOARD_NAME[what]}`,
@@ -352,6 +358,16 @@ export function modelReducer(s: ModelState, a: ModelAction): ModelState {
       // Only fields still at the card's base: a number typed off the face stays.
       const face = { ...c.face };
       for (const k of untouched(c, a.keys)) face[k] = faceText(c.base[k] * (1 + a.pct / 100));
+      return Object.keys(face).some((k) => face[k] !== c.face[k]) ? { ...s, candidate: { ...c, face } } : s;
+    }
+    case "boost": {
+      if (!c || c.kind !== "bat") return s;
+      // From the base card, so applying it twice doesn't add twice; both sides.
+      const face = { ...c.face };
+      for (const [k, d] of Object.entries(a.deltas)) for (const side of ["vL", "vR"]) {
+        const key = `${k} ${side}`;
+        if (c.base[key] != null && Number.isFinite(d)) face[key] = faceText(c.base[key] + d);
+      }
       return Object.keys(face).some((k) => face[k] !== c.face[k]) ? { ...s, candidate: { ...c, face } } : s;
     }
     case "baseFace":

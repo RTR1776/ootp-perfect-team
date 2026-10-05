@@ -98,7 +98,7 @@ async function main() {
     // ---- shape, as /build sizes it
     const lineupPos = t.dh ? [...HIT_POS, "DH"] : [...HIT_POS];
     const [m] = t.series ? await db.select().from(seriesMeta).where(eq(seriesMeta.series, t.series)) : [];
-    const { bats, sp, rp, source, band } = rosterShape(t.envYear, lineupPos.length, rosterSize(rules) ?? 26, m ?? null);
+    const { bats, sp, rp, source, band } = rosterShape(t.envYear, lineupPos.length, rosterSize(rules) ?? 26, m ?? null, t.cardYearMin);
     const shape: FillShape = {
       lineupPos, bats,
       spKeys: Array.from({ length: sp }, (_, i) => `SP${i + 1}`),

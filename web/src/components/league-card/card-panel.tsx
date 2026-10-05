@@ -113,6 +113,9 @@ export function CardPanel({ candidate: c, cards, result, pending, stale, loading
   seal: () => void;
 }) {
   const [step, setStep] = useState("7.5");
+  const [boost, setBoost] = useState<Record<string, string>>({});
+  const boostEntries = Object.entries(boost).filter(([, v]) => v !== "" && v !== "-" && Number.isFinite(Number(v)) && Number(v) !== 0);
+  const boostDeltas = boostEntries.length ? Object.fromEntries(boostEntries.map(([k, v]) => [k, Number(v)])) : null;
   const labelOf = useMemo(() => new Map(cards.map((o) => [o.id, o.label])), [cards]);
   const pct = Number(step);
   const stepOk = step !== "" && Number.isFinite(pct) && pct > 0 && pct <= 50;
@@ -187,6 +190,17 @@ export function CardPanel({ candidate: c, cards, result, pending, stale, loading
                   {SIDES.map((side) => field(`${k} ${side}`, `${name} ${BOARD_NAME[side]}`))}
                 </Fragment>
               ))}
+            </div>
+            <div role="group" aria-label="Variant boost" className="flex flex-wrap items-end gap-2">
+              <span className="w-full text-xs text-muted-foreground">Variant boost: points over the base card, both sides, as the shop lists them</span>
+              {BAT_STATS.map(([k, name]) => (
+                <label key={k} className="flex flex-col gap-0.5">
+                  <span className="text-[11px] text-muted-foreground">{name}</span>
+                  <Input value={boost[k] ?? ""} inputMode="numeric" aria-label={`Variant boost to ${name}`}
+                    onChange={(e) => setBoost((b) => ({ ...b, [k]: e.target.value.replace(/[^0-9-]/g, "").slice(0, 3) }))} className="h-8 w-14 font-mono" />
+                </label>
+              ))}
+              <Button size="sm" variant="outline" disabled={!boostDeltas} onClick={() => boostDeltas && act(edit.boost(boostDeltas))}>Apply</Button>
             </div>
             <div role="group" aria-label="Glove ratings" className="space-y-1.5">
               <div className="flex items-center gap-1.5">
