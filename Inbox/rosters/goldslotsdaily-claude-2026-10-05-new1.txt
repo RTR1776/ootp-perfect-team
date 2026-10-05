@@ -1,0 +1,36 @@
+# Daily Gold Slots — Claude pick 2026-10-05-new1, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Connie Mack Stadium --park-year 1968 --dh --min 40 --max 89 --slots G12,S8,B6 --variant-cap 13 --size 26 --series goldslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Mack Eggleston #86977
+R:1B Lee Thomas (VAR) #86145
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Pedro Alvarez #87062
+R:SS Francisco Lindor #87053
+R:LF Kal Daniels #84163
+R:CF Shoeless Joe Jackson #86372
+R:RF Bo Jackson #86966
+R:DH Carlos Delgado #86998
+L:C Mike Zunino #86431
+L:1B Shoeless Joe Jackson #86372
+L:2B Randy Ready #86921
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Francisco Lindor #87053
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Chris Sabo #87059
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Jordan Montgomery #86354
+SP4 Dizzy Dean #86473
+SP5 Jakie May (VAR) #85286
+CL Chad Bradford #86341
+RP1 Bruce Ruffin #86777
+RP2 Fritz Ostermueller #86357
+RP3 Edwin Diaz #86422
+RP4 Satchel Paige #84839
+RP5 James McDonald (VAR) #86384
+RP6 Bob Miller #84715
+BN1 Randy Ready #86921
+BN2 Chris Sabo #87059
+BN3 Jeff Francoeur (VAR) #86300
+BN4 Mike Zunino #86431
+BN5 Curtis Granderson #86596
