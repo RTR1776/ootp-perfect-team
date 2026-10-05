@@ -1,0 +1,36 @@
+# Daily Diamond Jumble Slots — Claude pick 2026-10-05-new1, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Jack Murphy Stadium --park-year 1984 --dh --min 40 --max 99 --card-types 2,5,7,8,9 --slots D12,G8,S3,B3 --size 26 --series diamondslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Matt Carpenter #86763
+R:3B Hank Thompson #86668
+R:SS Honus Wagner #85540
+R:LF Mike Greenwell #86909
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Kal Daniels #84163
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86763
+L:2B Mike Schmidt #86286
+L:3B Chris Sabo #87059
+L:SS Honus Wagner #85540
+L:LF Al Simmons #85942
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Willie Mays #86634
+SP1 Larry Jackson #86646
+SP2 Sam Jones #86070
+SP3 Jim Kaat (VAR) #85114
+SP4 J.A. Happ #86352
+SP5 Cy Young #86996
+CL Jake McGee (VAR) #86789
+RP1 Dave Righetti #85870
+RP2 Aaron Heilman #86324
+RP3 Chad Bradford #86341
+RP4 Dennis Cook (VAR) #83261
+RP5 James McDonald (VAR) #86384
+RP6 Paul Assenmacher #86944
+BN1 Al Simmons #85942
+BN2 Willie Mays #86634
+BN3 Chris Sabo #87059
+BN4 Mike Schmidt #86286
+BN5 Mike Zunino #86431
