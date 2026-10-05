@@ -1,0 +1,36 @@
+# Daily Diamond — Claude pick 2026-10-05-new1, rebuilt from the catalogue's rules by current-rosters (--year 1985 --park Kingdome --park-year 1982 --dh --min 40 --max 99 --size 26 --series diamonddaily --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Ethan Holliday (VAR) #84744
+R:LF Mike Greenwell #86909
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Kal Daniels #84163
+L:C Mike Zunino #86431
+L:1B Josh Vitters (VAR) #86419
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Barry Larkin #86264
+L:LF Bo Jackson #86966
+L:CF Carlos Beltran #87066
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Al Simmons #85942
+SP1 Larry Jackson #86646
+SP2 Sam Jones #86070
+SP3 Jim Kaat (VAR) #85114
+SP4 Steve Carlton (VAR) #85109
+SP5 Cy Young #86996
+CL Tony Fossas (VAR) #83324
+RP1 Jake McGee (VAR) #86789
+RP2 Joe Sambito #84075
+RP3 Cla Meredith #85213
+RP4 Kyle Freeland (VAR) #86708
+RP5 Connelly Early #84638
+RP6 J.A. Happ #86352
+BN1 Al Simmons #85942
+BN2 Mike Zunino #86431
+BN3 Barry Larkin #86264
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Josh Vitters (VAR) #86419
