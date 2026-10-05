@@ -1,0 +1,36 @@
+# Daily Low Gold Only — Claude pick 2026-10-05-new1, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Fenway Park --park-year 2026 --dh --min 80 --max 84 --variant-cap 8 --size 26 --series lowgoldonly --sp 5 --rp 7 --bats 14)
+R:C Eduardo Tait #84743
+R:1B Pedro Alvarez #87062
+R:2B Adam Kennedy #84172
+R:3B Zack Cozart #86109
+R:SS Carlos Guillen #87050
+R:LF Nick Esasky (VAR) #86704
+R:CF Jon Nunnally #86407
+R:RF Brandon Lowe (VAR) #83746
+R:DH Kal Daniels #84163
+L:C Josh Gibson #86898
+L:1B Nick Esasky (VAR) #86704
+L:2B Brandon Lowe (VAR) #83746
+L:3B Zack Cozart #86109
+L:SS Carlos Guillen #87050
+L:LF Reggie Sanders #85359
+L:CF Andrew McCutchen #85664
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Frank Howard #85311
+SP1 Raisel Iglesias #83322
+SP2 Jake Peavy #82683
+SP3 Shane Reynolds #83273
+SP4 Seth Hernandez (VAR) #84742
+SP5 Robby Snelling #85119
+CL Javier Lopez #86408
+RP1 Gary Lavelle #85838
+RP2 Rube Marquard #86891
+RP3 Luis Arroyo (VAR) #85489
+RP4 Matt Garza #86294
+RP5 Tom Burgmeier #85208
+RP6 Jesse Chavez #86411
+BN1 Josh Gibson #86898
+BN2 Frank Howard #85311
+BN3 Reggie Sanders #85359
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Andrew McCutchen #85664

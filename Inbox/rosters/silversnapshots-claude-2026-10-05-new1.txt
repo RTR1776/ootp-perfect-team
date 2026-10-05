@@ -1,0 +1,36 @@
+# Daily Silver Snapshots — Claude pick 2026-10-05-new1, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Three Rivers Stadium --park-year 1986 --dh --max 79 --card-types 7 --size 26 --series silversnapshots --sp 5 --rp 7 --bats 14)
+R:C Victor Martinez #83705
+R:1B Dan Pasqua #84721
+R:2B Jose Ramirez (VAR) #86719
+R:3B Corey Koskie (VAR) #86449
+R:SS Jose Oquendo #85738
+R:LF Mike Greenwell #86930
+R:CF Duke Snider #85225
+R:RF Willie Keeler #85878
+R:DH Carlos Delgado #86998
+L:C Ivan Rodriguez #85348
+L:1B Jose Oquendo #85738
+L:2B Jose Ramirez (VAR) #86719
+L:3B Corey Koskie (VAR) #86449
+L:SS Woodie Held #85505
+L:LF Ed Morgan (VAR) #85943
+L:CF Shane Mack #85534
+L:RF Willie Keeler #85878
+L:DH Dave Harris #83649
+SP1 Jordan Montgomery #86354
+SP2 Jakie May (VAR) #85286
+SP3 Chad Billingsley #85222
+SP4 Nick Altrock #87049
+SP5 Doug Davis #86802
+CL Michael King (VAR) #83248
+RP1 Rudy May #85288
+RP2 Mark Littell (VAR) #83263
+RP3 Jason Motte #86788
+RP4 Dennis Cook (VAR) #83261
+RP5 Greg McMichael #83251
+RP6 Jonathan Loaisiga #83258
+BN1 Shane Mack #85534
+BN2 Ed Morgan (VAR) #85943
+BN3 Dave Harris #83649
+BN4 Woodie Held #85505
+BN5 Ivan Rodriguez #85348
