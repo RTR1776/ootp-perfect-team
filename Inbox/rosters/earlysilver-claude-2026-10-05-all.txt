@@ -1,0 +1,36 @@
+# Daily Early Silver — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Marlins Park --park-year 2017 --dh --min 40 --max 79 --size 26 --series earlysilver --sp 5 --rp 7 --bats 14)
+R:C Nathan Flewelling (VAR) #86283
+R:1B Matt Carpenter #86771
+R:2B Randy Ready #86921
+R:3B Hank Blalock #86433
+R:SS Jhonny Level (VAR) #84765
+R:LF Willie McGee (VAR) #85753
+R:CF Lee Thomas (VAR) #86145
+R:RF Andy Van Slyke #86936
+R:DH Gus Bell #85785
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86771
+L:2B Randy Ready #86921
+L:3B Jhonny Level (VAR) #84765
+L:SS Garry Templeton #85713
+L:LF Steve Pearce (VAR) #86366
+L:CF Willie McGee (VAR) #85753
+L:RF Ruben Sierra #86274
+L:DH Chris Sabo #87059
+SP1 Jordan Montgomery #86354
+SP2 Jakie May (VAR) #85286
+SP3 James McDonald (VAR) #86384
+SP4 Fritz Ostermueller #86357
+SP5 Jacob deGrom #86675
+CL Edwin Diaz #86422
+RP1 Chad Bradford #86341
+RP2 Bruce Ruffin #86777
+RP3 Michael King (VAR) #83248
+RP4 Seth Morehead #84285
+RP5 Jack Wenninger #85125
+RP6 Rudy May #85288
+BN1 Steve Pearce (VAR) #86366
+BN2 Chris Sabo #87059
+BN3 Ruben Sierra #86274
+BN4 Garry Templeton #85713
+BN5 Mike Zunino #86431

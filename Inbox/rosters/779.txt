@@ -4,7 +4,123 @@ PT default (2010) RE @ 2026 Coors Field · DH off · value —–— · cap none
 R/G 5.15  AVG 0.261  OBP 0.332  SLG 0.435  K% 22.6  HR/PA 3.30%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.081 runs · steal break-even 82.4% (0 out) / 79.4% (1 out)
 park: all-LHB lineup 5.07 R/G vs all-RHB 5.19 — 0.12 R/G swing toward RIGHT-handed bats
+card sets: Negro League Star only
 
-!! Every card played in nelslotsweekly is from 1896–1964, so the event very likely allows only those years.
-Pass --card-year-min 1896 --card-year-max 1964.
-Or pass --any-set to build from every set and year anyway.
+pool: 202 eligible owned cards — 130 bats (44L / 18S / 68R), 72 arms
+staff weights from nelslotsweekly's exports: SP 1.39, RP 0.48 (a lineup slot = 1)
+field (nelslotsweekly, 1 exports): 31% of batters faced thrown left-handed · 40% of PA by left-handed bats · 12.8 bats / 6.8 SP / 4.4 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 197 of 202 pool cards have innings on record (median 1127 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.4  Avoid Ks +3.7  BABIP +2.0  Eye +1.2  Gap +0.9
+                          RHB: Power +5.6  Avoid Ks +3.8  BABIP +2.1  Eye +1.2  Gap +0.9
+                         arms: Stuff +1.9  pHR +1.8  pBABIP +1.2  Control +0.9
+
+optimiser: 8 λ starts hill-climbed; best 112.4 runs vs 69.2 greedy (+43.1), 28 moves from λ 7.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Josh Gibson                 84  R  1946    +2.9  park:R DEF  69/ 75 -0.5
+R:1B    Lennie Pearson (VAR)        93  R  1946    +5.8  park:R DEF  92/ 92 +1.5
+R:2B    Larry Doby                  98  L  1946   +13.2  park:L DEF  87/ 87 -3.3
+R:3B    John Beckwith               98  R  1929    +4.5  park:R DEF  90/ 98 -0.1
+R:SS    Pop Lloyd                  101  L  1924   +27.8  park:L DEF 114/128 +0.8
+R:LF    Cool Papa Bell             100  S  1925   +10.5  park:L DEF 134/134 +2.5
+R:CF    Wilson Redus                99  R  1927    +8.7  park:R DEF  63/ 86 -2.3
+R:RF    Mack Eggleston              88  R  1927    +9.1  park:R DEF  98/ 98 -0.0
+
+--- lineup vs LHP ---
+L:C     Josh Gibson                 84  R  1946    +9.8  park:R DEF  69/ 75 -0.5
+L:1B    Lennie Pearson (VAR)        93  R  1946   +12.3  park:R DEF  92/ 92 +1.5
+L:2B    Larry Doby                  98  L  1946    +7.0  park:L DEF  87/ 87 -3.3
+L:3B    John Beckwith               98  R  1929    +4.6  park:R DEF  90/ 98 -0.1
+L:SS    Pop Lloyd                  101  L  1924   +15.2  park:L DEF 114/128 +0.8
+L:LF    Cool Papa Bell             100  S  1925   +14.1  park:R DEF 134/134 +2.5
+L:CF    Wilson Redus                99  R  1927    +7.4  park:R DEF  63/ 86 -2.3
+L:RF    Mack Eggleston              88  R  1927   +11.6  park:R DEF  98/ 98 -0.0
+
+--- batting order vs RHP --- (4.55 runs/game; The Book's order 4.54)
+  1. Mack Eggleston RF
+  2. John Beckwith 3B
+  3. Lennie Pearson (VAR) 1B
+  4. Pop Lloyd SS
+  5. Cool Papa Bell LF
+  6. Wilson Redus CF
+  7. Larry Doby 2B
+  8. Josh Gibson C
+  9. Pitcher
+
+--- batting order vs LHP --- (4.56 runs/game; The Book's order 4.54)
+  1. Mack Eggleston RF
+  2. Pop Lloyd SS
+  3. Josh Gibson C
+  4. Lennie Pearson (VAR) 1B
+  5. Cool Papa Bell LF
+  6. John Beckwith 3B
+  7. Larry Doby 2B
+  8. Wilson Redus CF
+  9. Pitcher
+
+--- rotation ---
+SP1     Hilton Smith               101  R  1938   +11.6   SP STM  91
+SP2     Satchel Paige              100  R  1944   +10.3   SP STM  96
+SP3     Luther Farrell              87  L  1927    +8.2   SP STM 104
+SP4     Count Leblanc               89  R  1921    +7.4   SP STM  93
+SP5     Dan Bankhead                74  R  1946    +3.5   SP STM  74
+
+--- bullpen ---
+CL      Hubert Lockhart             75  L  1923    -2.0   SP STM  86
+RP1     Tin Can Kincannon           45  R  1934    -5.1   SP STM  74
+RP2     Jimmy Hill                  77  L  1938    -5.3   SP STM  72
+RP3     Roy Partlow                 78  L  1939    -5.7   SP STM  73
+RP4     Laymon Yokely               67  R  1928    -6.8   SP STM  73
+RP5     Patricio Scantlebury        56  L  1946    -7.6   SP STM  68
+RP6     Bullet Campbell             56  R  1926    -8.1   SP STM  75
+
+--- bench ---
+BN1     Pat Patterson               67  S  1935    +1.5  park:L
+BN2     Esteban Montalvo            58  L  1923    -4.5  park:L
+BN3     Donald Reeves               69  L  1938   -12.8  park:L
+BN4     David Whatley               67  L  1941   -14.4  park:L
+BN5     Joe Scott                   54  L  1948   -14.9  park:L
+BN6     Eddie Douglass              65  L  1924   -14.6  park:L
+
+26 players · value 2046 · λ 7.000 · 1 variants
+vs RHP lineup gets the friendly park side in 3 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Pop Lloyd              L EYE 128 (115/132)  POW  72 (60/77)  K 168  BABIP 162  GAP 126  SPE 104
+  Larry Doby             L EYE  87 (90/86)  POW 105 (101/107)  K  72  BABIP 129  GAP 134  SPE  62
+  Cool Papa Bell         S EYE  87 (90/86)  POW  83 (89/81)  K 122  BABIP 131  GAP 140  SPE 119
+  Mack Eggleston         R EYE 105 (109/104)  POW  88 (91/88)  K  95  BABIP 130  GAP  67  SPE  37
+  Wilson Redus           R EYE  54 (51/55)  POW 124 (122/125)  K 100  BABIP 105  GAP 118  SPE  58
+  Lennie Pearson         R EYE  85 (88/85)  POW 125 (134/121)  K  97  BABIP  88  GAP 101  SPE  89
+  John Beckwith          R EYE  89 (80/93)  POW  86 (92/85)  K 103  BABIP 119  GAP 115  SPE  56
+  Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
+  Pat Patterson          S EYE  51 (50/52)  POW  86 (83/88)  K 112  BABIP 114  GAP 114  SPE  74
+  Esteban Montalvo       L EYE  76 (55/82)  POW  99 (70/113)  K  77  BABIP  69  GAP  93  SPE  66
+  Donald Reeves          L EYE  61 (61/62)  POW  86 (83/87)  K  94  BABIP  77  GAP  75  SPE  65
+  David Whatley          L EYE  63 (62/64)  POW  62 (61/63)  K 102  BABIP  79  GAP  66  SPE  68
+  Eddie Douglass         L EYE  65 (65/66)  POW  84 (81/85)  K  93  BABIP  68  GAP  72  SPE  60
+  Joe Scott              L EYE  97 (94/99)  POW  83 (80/85)  K  77  BABIP  48  GAP 132  SPE  42
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (27 teams): 4.7 SP / 6.8 RP / 13.5 bats
+  ✓ starters' stamina Hilton Smith 91, Satchel Paige 96, Luther Farrell 104, Count Leblanc 93, Dan Bankhead 74 (era floor 50)
+  ✓ stamina guys in the pen (45+): Hubert Lockhart 86, Tin Can Kincannon 74, Jimmy Hill 72, Roy Partlow 73, Laymon Yokely 73, Patricio Scantlebury 68, Bullet Campbell 75
+  ✓ C  backup: John Beckwith 60, Mack Eggleston 73
+  ✓ 1B backup: Josh Gibson 75, Pop Lloyd 90, John Beckwith 82, Cool Papa Bell 76, Joe Scott 73
+  ✓ 2B backup: Pop Lloyd 128, Lennie Pearson 63, John Beckwith 98, Pat Patterson 85
+  ✓ 3B backup: Pop Lloyd 119, Pat Patterson 84
+  ✓ SS backup: John Beckwith 84, Pat Patterson 72
+  ✓ LF backup: Lennie Pearson 76, John Beckwith 85, Wilson Redus 86, Donald Reeves 66
+  ✓ CF backup: John Beckwith 63, Cool Papa Bell 122, David Whatley 63
+  ✓ RF backup: John Beckwith 80, Wilson Redus 77, Cool Papa Bell 129, Esteban Montalvo 64, Donald Reeves 63, David Whatley 79
+(26 of 26 have a live ask in the last shop snapshot)
+objective: 112.4 weighted runs (bats 69/31 R/L, SP 1.39, RP 0.48, bench 0.1)
+points: lineup(both boards, 8 bats) 761 · rotation 451 · bullpen 454 · bench-only 380
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
+   Patricio Scantlebury     pBABIP 45 (fitted 50–175)

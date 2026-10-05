@@ -1,0 +1,126 @@
+
+=== Daily Gold Cap ===
+1999 RE @ 1999 Jacobs Field · DH on · value 40–89 · cap 1780 · 26 players
+R/G 5.12  AVG 0.272  OBP 0.344  SLG 0.430  K% 16.8  HR/PA 2.92%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.052 runs · steal break-even 81.9% (0 out) / 78.9% (1 out)
+park: all-LHB lineup 5.17 R/G vs all-RHB 5.09 — 0.07 R/G swing toward LEFT-handed bats
+
+pool: 3440 eligible owned cards — 1894 bats (623L / 231S / 1040R), 1546 arms
+staff weights from goldcapdaily's exports: SP 1.22, RP 0.45 (a lineup slot = 1)
+field (goldcapdaily, 2 exports): 42% of batters faced thrown left-handed · 41% of PA by left-handed bats · 13.2 bats / 5.8 SP / 5.6 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 3169 of 3440 pool cards have innings on record (median 535 PA/BF); K = 5000
+gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.1  Avoid Ks +2.7  BABIP +2.2  Eye +1.5  Gap +0.9
+                          RHB: Power +4.8  Avoid Ks +2.7  BABIP +2.2  Eye +1.5  Gap +0.9
+                         arms: pHR +1.7  Stuff +1.3  pBABIP +1.3  Control +1.1
+
+optimiser: 8 λ starts hill-climbed; best 210.3 runs vs 119.8 greedy (+90.4), 22 moves from λ 2.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Mack Eggleston              88  R  1927    +9.1  park:R DEF  73/ 98 -0.5
+R:1B    Lee Thomas (VAR)            77  L  1962   +20.5  park:L DEF  91/ 93 +1.6
+R:2B    Kaelen Culpepper (VAR)      89  R  2026    +8.0  park:R DEF 130/130 +2.4
+R:3B    Pedro Alvarez               81  L  2013   +43.0  park:L DEF  75/ 96 -2.0
+R:SS    Francisco Lindor            88  S  2024   +11.4  park:L DEF 110/110 +0.4
+R:LF    Curtis Granderson           87  L  2011   +17.9  park:L DEF 113/117 +1.3
+R:CF    Shoeless Joe Jackson        88  L  1915   +21.6  park:L DEF  66/ 88 -2.5
+R:RF    Bo Jackson                  88  R  1989   +26.6  park:R DEF 123/123 +2.0
+R:DH    Josue De Paula (VAR)        87  L  2026   +20.3  park:L
+
+--- lineup vs LHP ---
+L:C     Mack Eggleston              88  R  1927   +11.4  park:R DEF  73/ 98 -0.5
+L:1B    Steve Pearce (VAR)          69  R  2016   +17.5  park:R DEF  73/ 73 -0.4
+L:2B    Kaelen Culpepper (VAR)      89  R  2026   +12.9  park:R DEF 130/130 +2.4
+L:3B    Chris Sabo                  66  R  1990   +22.8  park:R DEF  77/ 77 -1.7
+L:SS    Francisco Lindor            88  S  2024   +12.8  park:R DEF 110/110 +0.4
+L:LF    Curtis Granderson           87  L  2011   +16.8  park:L DEF 113/117 +1.3
+L:CF    Shoeless Joe Jackson        88  L  1915    +9.9  park:L DEF  66/ 88 -2.5
+L:RF    Bo Jackson                  88  R  1989   +20.0  park:R DEF 123/123 +2.0
+L:DH    Josue De Paula (VAR)        87  L  2026   +11.2  park:L
+
+--- batting order vs RHP --- (6.11 runs/game; The Book's order 6.10)
+  1. Curtis Granderson LF
+  2. Josue De Paula (VAR) DH
+  3. Pedro Alvarez 3B
+  4. Bo Jackson RF
+  5. Shoeless Joe Jackson CF
+  6. Lee Thomas (VAR) 1B
+  7. Francisco Lindor SS
+  8. Kaelen Culpepper (VAR) 2B
+  9. Mack Eggleston C
+
+--- batting order vs LHP --- (5.95 runs/game; The Book's order 5.95)
+  1. Steve Pearce (VAR) 1B
+  2. Chris Sabo 3B
+  3. Bo Jackson RF
+  4. Kaelen Culpepper (VAR) 2B
+  5. Francisco Lindor SS
+  6. Curtis Granderson LF
+  7. Josue De Paula (VAR) DH
+  8. Shoeless Joe Jackson CF
+  9. Mack Eggleston C
+
+--- rotation ---
+SP1     J.A. Happ                   87  L  2015   +11.9   SP STM  62
+SP2     Jim Kaat (VAR)              87  L  1967   +10.6   SP STM  78
+SP3     Jakie May (VAR)             72  R  1927    +7.5   SP STM  69
+SP4     Fritz Ostermueller          64  L  1944    +6.6   SP STM  98
+SP5     James McDonald (VAR)        55  L  2010    +6.2   SP STM  59
+
+--- bullpen ---
+CL      Edwin Diaz                  67  R  2016   +10.2   CL STM  13
+RP1     Caden Scarborough           64  R  2026    +1.5   RP STM  46
+RP2     Randy Choate                45  L  2013    +1.0   RP STM   6
+RP3     Mike Marshall               57  R  1973    -1.1   CL STM  74
+RP4     Todd Jones (VAR)            43  L  2000    -1.3   CL STM  17
+RP5     Reed Garrett                49  R  2024    -3.4   RP STM  25
+RP6     R.T. Walker                 40  R  1947   -11.0   RP STM  69
+
+--- bench ---
+BN1     Chris Sabo                  66  R  1990    +4.6  park:R
+BN2     Tommy Dean                  41  R  1970   -20.9  park:R
+BN3     Rick Wilkins                57  L  1996    -4.0  park:L
+BN4     Tsung-Che Cheng (VAR)       44  L  2026   -12.8  park:L
+BN5     Steve Pearce (VAR)          69  R  2016    +5.5  park:R
+
+26 players · value 1780 / 1780 (0 spare) · λ 2.000 · 9 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Josue De Paula         L EYE 134 (110/143)  POW 148 (126/156)  K  91  BABIP 102  GAP 106  SPE  59
+  Curtis Granderson      L EYE 160 (94/184)  POW 145 (158/141)  K  78  BABIP  91  GAP  98  SPE 106
+  Francisco Lindor       S EYE 110 (98/115)  POW 126 (138/122)  K  99  BABIP 101  GAP 109  SPE  61
+  Mack Eggleston         R EYE 105 (109/104)  POW  88 (91/88)  K  95  BABIP 130  GAP  67  SPE  37
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  Steve Pearce           R EYE 147 (167/140)  POW 106 (142/98)  K 105  BABIP  92  GAP  76  SPE  46
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Rick Wilkins           L EYE 104 (38/128)  POW  80 (71/83)  K  59  BABIP  88  GAP  78  SPE  34
+  Tsung-Che Cheng        L EYE 135 (117/141)  POW  49 (29/55)  K  88  BABIP  92  GAP  38  SPE  82
+  Tommy Dean             R EYE  60 (46/63)  POW  57 (1/65)  K  70  BABIP  56  GAP  52  SPE  49
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (30 teams): 4.8 SP / 7.0 RP / 14.0 bats
+  ✓ starters' stamina J.A. Happ 62, Jim Kaat 78, Jakie May 69, Fritz Ostermueller 98, James McDonald 59 (era floor 50)
+  ✓ stamina guys in the pen (45+): Caden Scarborough 46, Mike Marshall 74, R.T. Walker 69
+  ✓ C  backup: Rick Wilkins 60
+  ✓ 1B backup: Kaelen Culpepper 102, Pedro Alvarez 96, Shoeless Joe Jackson 73, Lee Thomas 91, Steve Pearce 73
+  ✓ 2B backup: Tsung-Che Cheng 79
+  ✓ 3B backup: Kaelen Culpepper 122, Pedro Alvarez 75, Chris Sabo 77
+  ✓ SS backup: Kaelen Culpepper 117, Tommy Dean 60
+  ✓ LF backup: Kaelen Culpepper 78, Shoeless Joe Jackson 88, Lee Thomas 93, Josue De Paula 71, Bo Jackson 116, Steve Pearce 67
+  ✓ CF backup: Lee Thomas 73, Bo Jackson 103, Curtis Granderson 89
+  ✓ RF backup: Mack Eggleston 98, Kaelen Culpepper 68, Shoeless Joe Jackson 83, Lee Thomas 86, Josue De Paula 69, Curtis Granderson 117
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 210.3 weighted runs (bats 58/42 R/L, SP 1.22, RP 0.45, bench 0.1)
+points: lineup(both boards, 11 bats) 908 · rotation 365 · bullpen 365 · bench-only 142
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)
+   Todd Jones               pBABIP 37 (fitted 50–175)

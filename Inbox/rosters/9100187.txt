@@ -1,0 +1,125 @@
+
+=== Thursday CWhit's Cap Challenge 5 ===
+1979 RE @ 2026 Louisville Slugger Field · DH on · value 90–100 · cap 2444 · 26 players
+R/G 4.38  AVG 0.261  OBP 0.327  SLG 0.392  K% 12.5  HR/PA 2.14%  preset Traditional
+sac bunt (1st & 2nd, 0 out) +0.043 runs · steal break-even 79.2% (0 out) / 76.1% (1 out)
+park: all-LHB lineup 5.09 R/G vs all-RHB 4.03 — 1.06 R/G swing toward LEFT-handed bats
+
+pool: 337 eligible owned cards — 198 bats (76L / 20S / 102R), 139 arms
+staff weights from c4q1's exports: SP 1.43, RP 0.39 (a lineup slot = 1)
+field (c4q1, 2 exports): 54% of batters faced thrown left-handed · 53% of PA by left-handed bats · 13.8 bats / 5.8 SP / 4.2 RP per team
+shape: 14 bats / 5 SP / 7 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 336 of 337 pool cards have innings on record (median 16648 PA/BF); K = 5000
+gloves ×1.04: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.2  BABIP +2.4  Avoid Ks +1.9  Eye +1.4  Gap +0.9
+                          RHB: Power +3.2  BABIP +1.9  Avoid Ks +1.5  Eye +1.3  Gap +0.9
+                         arms: pHR +1.3  pBABIP +1.3  Control +1.0  Stuff +0.9
+
+optimiser: 6 λ starts hill-climbed; best 307.8 runs vs 240.0 greedy (+67.9), 12 moves from λ 7.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +37.5  park:L DEF 112/112 +0.8
+R:1B    Will Clark                 100  L  1989   +33.2  park:L DEF  91/ 91 +1.9
+R:2B    Arjun Nimmala (VAR)         94  R  2026   +12.6  park:R DEF 126/128 +2.1
+R:3B    Josh Vitters (VAR)          95  R  2012   +12.3  park:R DEF  86/ 99 -0.7
+R:SS    Ethan Holliday (VAR)        95  L  2026   +25.0  park:L DEF  93/113 -2.0
+R:LF    Alex Gordon                 92  L  2011   +16.5  park:L DEF 153/153 +4.8
+R:CF    Kyle Stowers                93  L  2025   +21.4  park:L DEF  63/ 95 -3.0
+R:RF    Mike Greenwell              99  L  1988   +38.0  park:L DEF 117/125 +1.7
+R:DH    Hideki Matsui              100  L  2009   +41.2  park:L
+
+--- lineup vs LHP ---
+L:C     Roy Campanella (VAR)       100  R  1951   +20.7  park:R DEF 118/118 +1.0
+L:1B    Will Clark                 100  L  1989   +15.1  park:L DEF  91/ 91 +1.9
+L:2B    Arjun Nimmala (VAR)         94  R  2026   +15.5  park:R DEF 126/128 +2.1
+L:3B    Josh Vitters (VAR)          95  R  2012   +30.4  park:R DEF  86/ 99 -0.7
+L:SS    Barry Larkin                93  R  1991   +20.4  park:R DEF  96/ 96 -1.6
+L:LF    Al Simmons                  99  R  1930   +28.0  park:R DEF  90/ 90 -0.4
+L:CF    Luis Pena                   90  R  2026   +14.8  park:R DEF  70/ 99 -2.6
+L:RF    Chick Stahl                 93  L  1899   +14.8  park:L DEF 126/129 +2.5
+L:DH    Hideki Matsui              100  L  2009   +51.4  park:L
+
+--- batting order vs RHP --- (5.85 runs/game; The Book's order 5.84)
+  1. Will Clark 1B
+  2. Mike Greenwell RF
+  3. Hideki Matsui DH
+  4. Ed Bailey (VAR) C
+  5. Ethan Holliday (VAR) SS
+  6. Alex Gordon LF
+  7. Kyle Stowers CF
+  8. Arjun Nimmala (VAR) 2B
+  9. Josh Vitters (VAR) 3B
+
+--- batting order vs LHP --- (5.25 runs/game; The Book's order 5.25)
+  1. Chick Stahl RF
+  2. Hideki Matsui DH
+  3. Al Simmons LF
+  4. Will Clark 1B
+  5. Josh Vitters (VAR) 3B
+  6. Arjun Nimmala (VAR) 2B
+  7. Roy Campanella (VAR) C
+  8. Barry Larkin SS
+  9. Luis Pena CF
+
+--- rotation ---
+SP1     Cliff Lee (VAR)            100  L  2011   +11.3   SP STM  84
+SP2     Larry Jackson               92  R  1959   +10.6   SP STM  92
+SP3     Sam Jones                   92  R  1921    +9.5   SP STM  82
+SP4     Kyle Freeland (VAR)         91  L  2018    +7.9   SP STM  80
+SP5     Noah Schultz                92  L  2026    +7.2   SP STM  56
+
+--- bullpen ---
+CL      Tommy John                  92  R  1979    +5.3   SP STM  90
+RP1     Mark Langston               91  R  1989    +5.2   SP STM  86
+RP2     Pedro Borbon                92  R  1996    +5.0   RP STM  16
+RP3     Howie Pollet                91  L  1949    +4.8   SP STM  97
+RP4     John Habyan                 91  R  1991    +4.1   RP STM  22
+RP5     Buddy Groom                 90  L  2002    +1.0   RP STM   8
+RP6     Al Leiter (VAR)             90  L  1996    +0.1   SP STM  86
+
+--- bench ---
+BN1     Al Simmons                  99  R  1930   +14.3  park:R
+BN2     Roy Campanella (VAR)       100  R  1951   +11.1  park:R
+BN3     Chick Stahl                 93  L  1899   +11.0  park:L
+BN4     Luis Pena                   90  R  2026    +5.7  park:R
+BN5     Barry Larkin                93  R  1991    +2.7  park:R
+
+26 players · value 2444 / 2444 (0 spare) · λ 7.000 · 8 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Hideki Matsui          L EYE 166 (148/172)  POW 179 (235/160)  K 148  BABIP 135  GAP  69  SPE  31
+  Mike Greenwell         L EYE 159 (44/202)  POW 101 (71/116)  K 183  BABIP 111  GAP 131  SPE  60
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Will Clark             L EYE 146 (91/166)  POW 117 (114/118)  K  97  BABIP 174  GAP 124  SPE  56
+  Ethan Holliday         L EYE 164 (151/168)  POW 139 (117/147)  K  72  BABIP 114  GAP 103  SPE  51
+  Kyle Stowers           L EYE 105 (86/114)  POW 116 (33/147)  K  73  BABIP 133  GAP  84  SPE  51
+  Alex Gordon            L EYE 126 (130/124)  POW 100 (110/98)  K  91  BABIP 140  GAP 112  SPE  62
+  Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Josh Vitters           R EYE  71 (84/66)  POW 103 (117/98)  K 131  BABIP 138  GAP 144  SPE  55
+  Roy Campanella         R EYE  79 (82/79)  POW 135 (140/133)  K 102  BABIP 114  GAP 111  SPE  12
+  Chick Stahl            L EYE 112 (90/122)  POW  86 (92/85)  K 149  BABIP 116  GAP 105  SPE  80
+  Luis Pena              R EYE 116 (134/111)  POW  78 (89/74)  K 129  BABIP 125  GAP 109  SPE 116
+  Barry Larkin           R EYE  86 (155/68)  POW  95 (125/88)  K  98  BABIP 112  GAP  87  SPE  74
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (60 teams): 4.9 SP / 6.0 RP / 14.7 bats
+  ✗ starters' stamina Cliff Lee 84, Larry Jackson 92, Sam Jones 82, Kyle Freeland 80, Noah Schultz 56 (era floor 60) — SHORT: Noah Schultz
+  ✓ stamina guys in the pen (45+): Tommy John 90, Mark Langston 86, Howie Pollet 97, Al Leiter 86
+  ✓ C  backup: Ed Bailey 112, Roy Campanella 118
+  ✓ 1B backup: Ethan Holliday 113, Arjun Nimmala 105, Josh Vitters 99, Alex Gordon 82, Luis Pena 82
+  ✓ 2B backup: Ethan Holliday 104, Josh Vitters 77, Luis Pena 99
+  ✓ 3B backup: Ethan Holliday 102, Arjun Nimmala 128, Alex Gordon 62, Luis Pena 85
+  ✓ SS backup: Ethan Holliday 93, Arjun Nimmala 116, Josh Vitters 70, Barry Larkin 96, Luis Pena 80
+  ✓ LF backup: Ethan Holliday 66, Arjun Nimmala 84, Josh Vitters 72, Kyle Stowers 94, Mike Greenwell 125, Alex Gordon 153, Luis Pena 90, Chick Stahl 129, Al Simmons 90
+  ✓ CF backup: Arjun Nimmala 60, Kyle Stowers 63, Luis Pena 70, Chick Stahl 111, Al Simmons 63
+  ✓ RF backup: Arjun Nimmala 75, Josh Vitters 66, Kyle Stowers 95, Mike Greenwell 117, Luis Pena 82, Chick Stahl 126
+(23 of 26 have a live ask in the last shop snapshot)
+objective: 307.8 weighted runs (bats 46/54 R/L, SP 1.43, RP 0.39, bench 0.1)
+points: lineup(both boards, 14 bats) 1340 · rotation 467 · bullpen 637 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Will Clark               BABIP 174 (fitted 17–164)

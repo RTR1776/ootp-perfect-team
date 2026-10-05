@@ -1,0 +1,124 @@
+
+=== Daily Roaring Silvers ===
+1927 RE @ 1927 Yankee Stadium · DH off · value —–79 · cap none · 26 players
+R/G 4.85  AVG 0.277  OBP 0.340  SLG 0.394  K% 5.3  HR/PA 1.37%  preset Moderate Small Ball
+sac bunt (1st & 2nd, 0 out) +0.081 runs · steal break-even 78.7% (0 out) / 75.6% (1 out)
+park: all-LHB lineup 4.79 R/G vs all-RHB 4.88 — 0.09 R/G swing toward RIGHT-handed bats
+
+pool: 408 eligible owned cards — 270 bats (88L / 27S / 155R), 138 arms
+!! no exports on record for series roaringsilvers — shape and handedness fall back to the era table
+shape: 18 bats / 4 SP / 4 RP (1920s–50s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 403 of 408 pool cards have innings on record (median 407 PA/BF); K = 5000
+gloves ×1.22: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: BABIP +2.4  Power +2.2  Eye +1.4  Gap +1.1  Avoid Ks +0.7
+                          RHB: BABIP +2.4  Power +2.3  Eye +1.4  Gap +1.1  Avoid Ks +0.7
+                         arms: pBABIP +1.4  Control +1.0  pHR +0.8  Stuff +0.4
+
+optimiser: 9 λ starts hill-climbed; best -25.9 runs vs -43.2 greedy (+17.3), 6 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Biz Mackey                  74  S  1924    -6.0  park:L DEF  71/ 71 -0.7
+R:1B    Joe Judge                   74  L  1920    +4.5  park:L DEF  75/ 75 -0.3
+R:2B    Nap Lajoie                  50  R  1905   -13.2  park:R DEF 114/114 +0.2
+R:3B    Dave Brain (VAR)            68  R  1907    -5.1  park:R DEF  99/ 99 +1.3
+R:SS    Halley Harding              71  S  1926    -9.2  park:L DEF  70/ 70 -6.2
+R:LF    Pop Corkhill                71  L  1887    -5.5  park:L DEF 147/147 +5.0
+R:CF    Billy Southworth            68  L  1926    +5.5  park:L DEF  93/107 -1.4
+R:RF    Willie Keeler               77  L  1894    +3.3  park:L DEF  86/ 86 -1.3
+
+--- lineup vs LHP ---
+L:C     Biz Mackey                  74  S  1924    -8.4  park:R DEF  71/ 71 -0.7
+L:1B    Honus Wagner                68  R  1913    -0.7  park:R DEF  86/108 +1.4
+L:2B    Joe Dugan (VAR)             65  R  1920    +6.9  park:R DEF  70/ 70 -8.2
+L:3B    Bill Keister                72  L  1899    +2.5  park:L DEF  62/ 67 -4.7
+L:SS    Dave Brain (VAR)            68  R  1907    -5.1  park:R DEF  93/ 99 -2.3
+L:LF    Ed Morgan (VAR)             66  R  1929    +3.1  park:R DEF  61/ 61 -3.3
+L:CF    Tillie Walker               78  R  1914    -2.9  park:R DEF  97/117 -1.1
+L:RF    Cocaina Garcia              77  L  1927    -6.6  park:L DEF  87/ 90 -1.2
+
+--- batting order vs RHP --- (4.07 runs/game; The Book's order 4.07)
+  1. Halley Harding SS
+  2. Joe Judge 1B
+  3. Dave Brain (VAR) 3B
+  4. Biz Mackey C
+  5. Willie Keeler RF
+  6. Nap Lajoie 2B
+  7. Billy Southworth CF
+  8. Pop Corkhill LF
+  9. Pitcher
+
+--- batting order vs LHP --- (4.33 runs/game; The Book's order 4.32)
+  1. Tillie Walker CF
+  2. Ed Morgan (VAR) LF
+  3. Honus Wagner 1B
+  4. Joe Dugan (VAR) 2B
+  5. Bill Keister 3B
+  6. Biz Mackey C
+  7. Dave Brain (VAR) SS
+  8. Cocaina Garcia RF
+  9. Pitcher
+
+--- rotation ---
+SP1     Jakie May (VAR)             72  R  1927    +7.1   SP STM  69
+SP2     Nick Altrock                76  S  1906    +3.3   SP STM  90
+SP3     Hubert Lockhart             75  L  1923    +1.8   SP STM  86
+SP4     Cool Papa Bell              68  R  1923    +0.5   SP STM  86
+
+--- bullpen ---
+CL      Red Lucas                   68  L  1927    -0.3   SP STM  93
+RP1     Watty Clark                 74  L  1927    -1.0   RP STM  25
+RP2     Phil Douglas                74  R  1917    -1.0   SP STM  68
+RP3     Frank Foreman (VAR)         75  R  1889    -1.5   SP STM  80
+
+--- bench ---
+BN1     Tom Brown                   66  L  1891    +1.6  park:L
+BN2     Jack Tobin                  61  L  1920    -2.3  park:L
+BN3     Cocaina Garcia              77  L  1927    -2.5  park:L
+BN4     Emmet Heidrick              79  L  1901    -2.6  park:L
+BN5     Ed Morgan (VAR)             66  R  1929    -5.6  park:R
+BN6     Bill Keister                72  L  1899   -10.6  park:L
+BN7     Joe Dugan (VAR)             65  R  1920   -11.0  park:R
+BN8     Tillie Walker               78  R  1914   -12.2  park:R
+BN9     Tex Erwin                   77  L  1911    -7.0  park:L
+BN10    Honus Wagner                68  R  1913   -23.0  park:R
+
+26 players · value 1844 · λ 0.000 · 5 variants
+vs RHP lineup gets the friendly park side in 6 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Billy Southworth       L EYE  51 (5/61)  POW  96 (81/102)  K 201  BABIP  76  GAP  84  SPE  69
+  Joe Judge              L EYE 107 (115/105)  POW  63 (33/69)  K  93  BABIP 109  GAP 118  SPE  71
+  Willie Keeler          L EYE  41 (31/45)  POW  53 (43/57)  K 205  BABIP 139  GAP  84  SPE  83
+  Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
+  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Cocaina Garcia         L EYE  29 (27/30)  POW 107 (105/108)  K 113  BABIP 130  GAP  71  SPE  41
+  Emmet Heidrick         L EYE  38 (28/41)  POW  75 (25/84)  K 113  BABIP  93  GAP  92  SPE  86
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Pop Corkhill           L EYE  41 (32/45)  POW  75 (66/78)  K 220  BABIP  93  GAP  75  SPE  74
+  Ed Morgan              R EYE 132 (127/134)  POW  42 (55/37)  K  96  BABIP 143  GAP 131  SPE  69
+  Biz Mackey             S EYE  58 (55/59)  POW  76 (75/77)  K 110  BABIP 119  GAP 119  SPE  63
+  Tex Erwin              L EYE  97 (94/99)  POW  91 (10/109)  K  85  BABIP  62  GAP  81  SPE  66
+  Halley Harding         S EYE 114 (104/118)  POW  21 (20/22)  K 125  BABIP 162  GAP  68  SPE 108
+  Bill Keister           L EYE  44 (61/39)  POW  71 (78/69)  K 149  BABIP 123  GAP 108  SPE  89
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Tillie Walker          R EYE  97 (158/84)  POW  81 (84/80)  K  62  BABIP 117  GAP 119  SPE  78
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Honus Wagner           R EYE  81 (51/89)  POW  69 (113/46)  K 109  BABIP  97  GAP  90  SPE  71
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 4 RP / 18 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✗ starters' stamina Jakie May 69, Nick Altrock 90, Hubert Lockhart 86, Cool Papa Bell 86 (era floor 70) — SHORT: Jakie May
+  ✓ stamina guys in the pen (45+): Red Lucas 93, Phil Douglas 68, Frank Foreman 80
+  ✓ C  backup: Tex Erwin 62
+  ✓ 1B backup: Biz Mackey 69, Joe Judge 75, Nap Lajoie 96, Pop Corkhill 66, Honus Wagner 86
+  ✓ 2B backup: Nap Lajoie 114, Joe Dugan 70, Bill Keister 67
+  ✓ 3B backup: Dave Brain 99, Honus Wagner 108, Joe Dugan 63, Bill Keister 62
+  ✓ SS backup: Halley Harding 70, Dave Brain 93, Honus Wagner 99
+  ✓ LF backup: Billy Southworth 107, Pop Corkhill 147, Tillie Walker 117, Cocaina Garcia 90, Ed Morgan 61, Tom Brown 68, Jack Tobin 77
+  ✓ CF backup: Billy Southworth 93, Pop Corkhill 133, Tillie Walker 97, Emmet Heidrick 82
+  ✓ RF backup: Billy Southworth 93, Willie Keeler 86, Pop Corkhill 145, Cocaina Garcia 87, Tom Brown 63, Jack Tobin 73, Emmet Heidrick 98
+(25 of 26 have a live ask in the last shop snapshot)
+objective: -25.9 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 14 bats) 979 · rotation 291 · bullpen 291 · bench-only 283

@@ -1,0 +1,35 @@
+# Daily Diamond Cap — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Jarry Park --park-year 1976 --min 40 --max 99 --cap 1788 --size 26 --series diamondcapdaily --sp 5 --rp 5 --bats 16)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Ethan Holliday (VAR) #84744
+R:LF Mike Greenwell #86909
+R:CF Al Simmons #85942
+R:RF Bo Jackson #86966
+L:C Mike Zunino #86431
+L:1B Ethan Holliday (VAR) #84744
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Arjun Nimmala (VAR) #84745
+L:LF Mike Greenwell #86909
+L:CF Al Simmons #85942
+L:RF Bo Jackson #86966
+SP1 Larry Jackson #86646
+SP2 Cy Young #86996
+SP3 Jim Kaat (VAR) #85114
+SP4 Bruce Hurst #86361
+SP5 James McDonald (VAR) #86384
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 Tin Can Kincannon #86073
+RP4 R.T. Walker #86952
+BN1 George Sisler (VAR) #87002
+BN2 Nap Lajoie #86581
+BN3 Chris Sabo #87059
+BN4 Javier Baez (VAR) #86417
+BN5 Jonathan Lucroy (VAR) #85349
+BN6 Stan Hack #86458
+BN7 Tsung-Che Cheng (VAR) #84612
+BN8 Mike Zunino #86431

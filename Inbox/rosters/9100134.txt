@@ -1,0 +1,122 @@
+
+=== Daily Low Diamond Only ===
+PT default (2010) RE @ 2000 Coors Field · DH on · value 90–94 · cap none · 26 players
+R/G 5.56  AVG 0.269  OBP 0.340  SLG 0.456  K% 22.6  HR/PA 3.93%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.113 runs · steal break-even 83.2% (0 out) / 80.1% (1 out)
+park: all-LHB lineup 5.36 R/G vs all-RHB 5.67 — 0.31 R/G swing toward RIGHT-handed bats
+
+pool: 155 eligible owned cards — 93 bats (34L / 12S / 47R), 62 arms
+staff weights from lowdiamondonly's exports: SP 1.24, RP 0.44 (a lineup slot = 1)
+field (lowdiamondonly, 1 exports): 35% of batters faced thrown left-handed · 44% of PA by left-handed bats · 12.6 bats / 5.5 SP / 6.3 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 155 of 155 pool cards have innings on record (median 10687 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +6.5  Avoid Ks +3.9  BABIP +2.0  Eye +1.2  Gap +0.8
+                          RHB: Power +6.7  Avoid Ks +4.1  BABIP +2.2  Eye +1.2  Gap +0.8
+                         arms: pHR +2.2  Stuff +2.0  pBABIP +1.2  Control +0.9
+
+optimiser: 7 λ starts hill-climbed; best 237.1 runs vs 227.1 greedy (+10.0), 4 moves from λ 2.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Darren Daulton              93  L  1992    +9.0  park:L DEF  90/ 90 +0.0
+R:1B    Willie McCovey              93  L  1959   +15.1  park:L DEF  76/ 76 -0.1
+R:2B    Arjun Nimmala (VAR)         94  R  2026   +15.5  park:R DEF 126/128 +1.6
+R:3B    Bryce Rainer                92  L  2026   +17.1  park:L DEF 102/104 +1.2
+R:SS    Luke Appling                92  R  1936   +15.8  park:R DEF 110/110 +0.4
+R:LF    Alex Gordon                 92  L  2011   +17.4  park:L DEF 153/153 +3.7
+R:CF    Chick Stahl                 93  L  1899   +15.0  park:L DEF 111/129 -0.1
+R:RF    Kyle Stowers                93  L  2025   +18.9  park:L DEF  95/ 95 -0.2
+R:DH    Ron Santo (VAR)             93  R  1969   +18.3  park:R
+
+--- lineup vs LHP ---
+L:C     Jason Kendall               91  R  1998    +5.9  park:R DEF  64/ 64 -0.7
+L:1B    Lennie Pearson (VAR)        93  R  1946   +13.3  park:R DEF  92/ 92 +1.5
+L:2B    Luis Pena                   90  R  2026   +16.9  park:R DEF  99/ 99 -1.8
+L:3B    Arjun Nimmala (VAR)         94  R  2026   +20.3  park:R DEF 128/128 +4.0
+L:SS    Barry Larkin                93  R  1991   +25.9  park:R DEF  96/ 96 -1.2
+L:LF    Alex Gordon                 92  L  2011    +7.9  park:L DEF 153/153 +3.7
+L:CF    Ryan Waldschmidt (VAR)      94  R  2026   +12.5  park:R DEF  98/118 -0.7
+L:RF    Chick Stahl                 93  L  1899   +17.8  park:L DEF 126/129 +2.0
+L:DH    Ron Santo (VAR)             93  R  1969   +12.8  park:R
+
+--- batting order vs RHP --- (5.91 runs/game; The Book's order 5.90)
+  1. Luke Appling SS
+  2. Ron Santo (VAR) DH
+  3. Kyle Stowers RF
+  4. Arjun Nimmala (VAR) 2B
+  5. Chick Stahl CF
+  6. Willie McCovey 1B
+  7. Darren Daulton C
+  8. Alex Gordon LF
+  9. Bryce Rainer 3B
+
+--- batting order vs LHP --- (6.01 runs/game; The Book's order 6.01)
+  1. Barry Larkin SS
+  2. Luis Pena 2B
+  3. Ryan Waldschmidt (VAR) CF
+  4. Arjun Nimmala (VAR) 3B
+  5. Lennie Pearson (VAR) 1B
+  6. Chick Stahl RF
+  7. Ron Santo (VAR) DH
+  8. Jason Kendall C
+  9. Alex Gordon LF
+
+--- rotation ---
+SP1     Larry Jackson               92  R  1959   +12.6   SP STM  92
+SP2     Sam Jones                   92  R  1921   +11.3   SP STM  82
+SP3     Kyle Freeland (VAR)         91  L  2018   +10.7   SP STM  80
+SP4     Manny Banuelos              93  R  2012    +9.0   SP STM  69
+SP5     Hugh Daily                  93  R  1884    +8.5   SP STM 100
+
+--- bullpen ---
+CL      Andrew Bailey               94  R  2009    +9.5   CL STM  21
+RP1     Noah Schultz                92  L  2026    +8.5   SP STM  56
+RP2     Mark Langston               91  R  1989    +8.3   SP STM  86
+RP3     Sean Marshall               93  L  2010    +8.0   RP STM  14
+RP4     Jarlin Susana               94  R  2026    +7.1   RP STM  25
+RP5     Tommy John                  92  R  1979    +7.0   SP STM  90
+RP6     Jeff Montgomery             94  R  1989    +6.9   CL STM  23
+
+--- bench ---
+BN1     Luis Pena                   90  R  2026    +9.5  park:R
+BN2     Ryan Waldschmidt (VAR)      94  R  2026    +8.0  park:R
+BN3     Lennie Pearson (VAR)        93  R  1946    +6.9  park:R
+BN4     Barry Larkin                93  R  1991    +6.3  park:R
+BN5     Jason Kendall               91  R  1998    -4.0  park:R
+
+26 players · value 2407 · λ 2.000 · 5 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Kyle Stowers           L EYE 105 (86/114)  POW 116 (33/147)  K  73  BABIP 133  GAP  84  SPE  51
+  Ron Santo              R EYE 114 (124/110)  POW 126 (105/135)  K  90  BABIP 121  GAP  68  SPE  36
+  Alex Gordon            L EYE 126 (130/124)  POW 100 (110/98)  K  91  BABIP 140  GAP 112  SPE  62
+  Bryce Rainer           L EYE 159 (145/163)  POW  97 (95/98)  K  73  BABIP 135  GAP 144  SPE  56
+  Luke Appling           R EYE 165 (174/162)  POW  53 (10/62)  K 154  BABIP 154  GAP  82  SPE  64
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Willie McCovey         L EYE 116 (95/124)  POW 140 (166/131)  K  71  BABIP 122  GAP 112  SPE  57
+  Chick Stahl            L EYE 112 (90/122)  POW  86 (92/85)  K 149  BABIP 116  GAP 105  SPE  80
+  Luis Pena              R EYE 116 (134/111)  POW  78 (89/74)  K 129  BABIP 125  GAP 109  SPE 116
+  Darren Daulton         L EYE 153 (131/160)  POW 136 (138/136)  K  70  BABIP  90  GAP 134  SPE  50
+  Ryan Waldschmidt       R EYE 145 (145/145)  POW 134 (136/133)  K  71  BABIP  93  GAP  93  SPE  81
+  Lennie Pearson         R EYE  85 (88/85)  POW 125 (134/121)  K  97  BABIP  88  GAP 101  SPE  89
+  Barry Larkin           R EYE  86 (155/68)  POW  95 (125/88)  K  98  BABIP 112  GAP  87  SPE  74
+  Jason Kendall          R EYE  80 (89/77)  POW  65 (81/60)  K 122  BABIP 107  GAP  81  SPE  71
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (16 teams): 5.0 SP / 7.3 RP / 13.3 bats
+  ✓ starters' stamina Larry Jackson 92, Sam Jones 82, Kyle Freeland 80, Manny Banuelos 69, Hugh Daily 100 (era floor 50)
+  ✓ stamina guys in the pen (45+): Noah Schultz 56, Mark Langston 86, Tommy John 90
+  ✓ C  backup: Darren Daulton 90, Jason Kendall 64
+  ✓ 1B backup: Arjun Nimmala 105, Bryce Rainer 104, Willie McCovey 76, Alex Gordon 82, Luis Pena 82, Ryan Waldschmidt 75, Lennie Pearson 92
+  ✓ 2B backup: Arjun Nimmala 126, Bryce Rainer 96, Luis Pena 99, Lennie Pearson 63
+  ✓ 3B backup: Arjun Nimmala 128, Bryce Rainer 102, Alex Gordon 62, Ron Santo 74, Luis Pena 85
+  ✓ SS backup: Luke Appling 110, Arjun Nimmala 116, Bryce Rainer 89, Barry Larkin 96, Luis Pena 80
+  ✓ LF backup: Arjun Nimmala 84, Bryce Rainer 64, Chick Stahl 129, Kyle Stowers 94, Luis Pena 90, Ryan Waldschmidt 118, Lennie Pearson 76
+  ✓ CF backup: Arjun Nimmala 60, Chick Stahl 111, Kyle Stowers 63, Luis Pena 70, Ryan Waldschmidt 98
+  ✓ RF backup: Arjun Nimmala 75, Bryce Rainer 64, Chick Stahl 126, Kyle Stowers 95, Luis Pena 82, Ryan Waldschmidt 109
+(21 of 26 have a live ask in the last shop snapshot)
+objective: 237.1 weighted runs (bats 65/35 R/L, SP 1.24, RP 0.44, bench 0.1)
+points: lineup(both boards, 14 bats) 1296 · rotation 461 · bullpen 650 · bench-only 0

@@ -149,3 +149,16 @@ test("backups puts a second centre fielder on the roster, and leaves positions t
   assert.ok(Object.values(b.slots).includes(4), JSON.stringify(b.slots));
   assert.deepEqual(b.missingBackups, [], "SS has one man in the pool, so it is not asked for");
 });
+
+test("a pen with no long men climbs to two, a swap at a time", () => {
+  const sh: FillShape = { lineupPos: ["DH"], spKeys: ["SP1"], rpKeys: ["CL", "RP1", "RP2"], benchKeys: [], bats: 1 };
+  const five: RosterRules = { ...rules, restrictions: { cards: 5 } };
+  const arm = (id: number, stamina: number, role = "RP") => ({ cardId: id, name: `P${id}`, val: 80, year: 2026, isPitcher: true, role, cardType: 1, ratings: { Stamina: stamina }, baseOwned: true, variantOwned: false, variant: false });
+  const pool = [hitter(1, {}), arm(2, 80, "SP"), arm(3, 15), arm(4, 15), arm(5, 15), arm(6, 60, "SP"), arm(7, 70, "SP")];
+  const runs = new Map([[1, 10], [2, 5], [3, 4], [4, 4], [5, 4], [6, 1], [7, 1]]);
+  const obj = rosterObjective(pool as never, { shape: sh, runsR: runs, runsL: runs });
+  const start = { "R:DH": 1, "L:DH": 1, SP1: 2, CL: 3, RP1: 4, RP2: 5 };
+  const r = optimizeRoster(start, pool as never, five, sh, { objective: obj.objective, minLongMen: 2 });
+  const pen = [r.slots.CL, r.slots.RP1, r.slots.RP2];
+  assert.ok(pen.includes(6) && pen.includes(7), JSON.stringify(r.slots));
+});

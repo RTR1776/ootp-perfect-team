@@ -1,0 +1,36 @@
+# Daily Bronze OOTP Era — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 2009 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 69 --card-year-min 1999 --card-year-max 2026 --size 26 --series bronzeootp --sp 5 --rp 7 --bats 14)
+R:C Thayron Liranzo (VAR) #85135
+R:1B Edward Florentino (VAR) #84777
+R:2B Hank Blalock #86433
+R:3B Kyle Seager #86261
+R:SS Jhonny Level (VAR) #84765
+R:LF Steve Pearce (VAR) #86366
+R:CF Jim Edmonds #86991
+R:RF Aaron Hicks #86687
+R:DH Jack Cust #86804
+L:C Thayron Liranzo (VAR) #85135
+L:1B Scott Spiezio #85702
+L:2B Alfonso Soriano #86754
+L:3B Jhonny Level (VAR) #84765
+L:SS Jefferson Rojas #84751
+L:LF Steve Pearce (VAR) #86366
+L:CF Jett Williams #84763
+L:RF Aaron Hicks #86687
+L:DH Jack Cust #86804
+SP1 James McDonald (VAR) #86384
+SP2 Tanner McDougal (VAR) #85032
+SP3 Corey Kluber (VAR) #87008
+SP4 Kyson Witherspoon (VAR) #84774
+SP5 Roy Halladay #86705
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Justin Bruihl #84971
+RP3 Caden Scarborough #84762
+RP4 Juan Morillo #81833
+RP5 Billy Wagner #85778
+RP6 Justin Verlander #87014
+BN1 Alfonso Soriano #86754
+BN2 Jefferson Rojas #84751
+BN3 Scott Spiezio #85702
+BN4 Carter Jensen #82374
+BN5 Jett Williams #84763

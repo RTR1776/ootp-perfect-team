@@ -1,0 +1,125 @@
+
+=== Daily Silver & Friends Slots ===
+PT default (2010) RE @ 2026 Daikin Park · DH on · value —–— · cap none · 26 players
+R/G 4.43  AVG 0.240  OBP 0.314  SLG 0.401  K% 22.6  HR/PA 3.14%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.031 runs · steal break-even 81.0% (0 out) / 77.9% (1 out)
+park: all-LHB lineup 4.58 R/G vs all-RHB 4.35 — 0.23 R/G swing toward LEFT-handed bats
+
+pool: 3812 eligible owned cards — 2115 bats (707L / 255S / 1153R), 1697 arms
+staff weights from silverfriendsslots's exports: SP 1.26, RP 0.42 (a lineup slot = 1)
+field (silverfriendsslots, 11 exports): 43% of batters faced thrown left-handed · 42% of PA by left-handed bats · 13.3 bats / 6 SP / 5.7 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 3450 of 3812 pool cards have innings on record (median 543 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.3  Avoid Ks +3.4  BABIP +1.8  Eye +1.2  Gap +0.8
+                          RHB: Power +5.2  Avoid Ks +3.2  BABIP +1.6  Eye +1.1  Gap +0.8
+                         arms: pHR +1.7  Stuff +1.6  pBABIP +1.0  Control +0.8
+
+optimiser: 8 λ starts hill-climbed; best 234.7 runs vs 204.3 greedy (+30.4), 6 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +37.4  park:L DEF 112/112 +0.6
+R:1B    Matt Carpenter              74  L  2015   +13.9  park:L DEF 102/102 +2.6
+R:2B    Randy Ready                 77  R  1987    +4.0  park:R DEF 115/115 +0.2
+R:3B    Corey Koskie (VAR)          75  L  2001   +10.2  park:L DEF 114/114 +2.5
+R:SS    Ernie Banks                102  R  1959   +32.0  park:R DEF 133/133 +2.9
+R:LF    Willie McGee (VAR)          79  S  1985    +8.6  park:L DEF 131/131 +2.3
+R:CF    Bo Jackson                  88  R  1989   +24.1  park:R DEF 103/123 -0.5
+R:RF    Andy Van Slyke              77  L  1988   +14.1  park:L DEF 125/125 +1.9
+R:DH    Lee Thomas (VAR)            77  L  1962   +21.4  park:L
+
+--- lineup vs LHP ---
+L:C     Mike Zunino                 75  R  2021   +28.3  park:R DEF  77/ 77 -0.3
+L:1B    Aiva Arquette (VAR)         71  R  2026    +1.6  park:R DEF 127/127 +5.1
+L:2B    Randy Ready                 77  R  1987   +18.7  park:R DEF 115/115 +0.2
+L:3B    Chris Sabo                  66  R  1990   +32.2  park:R DEF  77/ 77 -1.5
+L:SS    Ernie Banks                102  R  1959   +30.3  park:R DEF 133/133 +2.9
+L:LF    Willie McGee (VAR)          79  S  1985   +12.5  park:R DEF 131/131 +2.3
+L:CF    Bo Jackson                  88  R  1989   +19.9  park:R DEF 103/123 -0.5
+L:RF    Ruben Sierra                78  S  1989   +13.6  park:R DEF  83/ 83 -1.1
+L:DH    Cecil Fielder               78  R  1990   +19.5  park:R
+
+--- batting order vs RHP --- (5.22 runs/game; The Book's order 5.22)
+  1. Ed Bailey (VAR) C
+  2. Matt Carpenter 1B
+  3. Ernie Banks SS
+  4. Bo Jackson CF
+  5. Lee Thomas (VAR) DH
+  6. Andy Van Slyke RF
+  7. Corey Koskie (VAR) 3B
+  8. Willie McGee (VAR) LF
+  9. Randy Ready 2B
+
+--- batting order vs LHP --- (5.10 runs/game; The Book's order 5.09)
+  1. Randy Ready 2B
+  2. Ernie Banks SS
+  3. Bo Jackson CF
+  4. Chris Sabo 3B
+  5. Cecil Fielder DH
+  6. Mike Zunino C
+  7. Aiva Arquette (VAR) 1B
+  8. Ruben Sierra RF
+  9. Willie McGee (VAR) LF
+
+--- rotation ---
+SP1     Jordan Montgomery           77  L  2023    +7.7   SP STM  87
+SP2     Jakie May (VAR)             72  R  1927    +7.6   SP STM  69
+SP3     Fritz Ostermueller          64  L  1944    +5.7   SP STM  98
+SP4     Jacob deGrom                79  L  2014    +5.6   SP STM  73
+SP5     Chad Billingsley            78  R  2008    +3.9   SP STM  74
+
+--- bullpen ---
+CL      Chad Bradford               74  R  2006    +9.9   RP STM  11
+RP1     Bruce Ruffin                71  S  1993    +7.2   RP STM  51
+RP2     Edwin Diaz                  67  R  2016    +7.1   CL STM  13
+RP3     Jack Wenninger              79  L  2026    +5.8   RP STM  48
+RP4     Michael King (VAR)          76  R  2022    +5.7   RP STM  47
+RP5     Seth Morehead               78  L  1957    +5.4   RP STM  24
+RP6     James McDonald (VAR)        55  L  2010    +3.1   SP STM  59
+
+--- bench ---
+BN1     Chris Sabo                  66  R  1990    +0.4  park:R
+BN2     Aiva Arquette (VAR)         71  R  2026    -0.1  park:R
+BN3     Ruben Sierra                78  S  1989    -2.4  park:L
+BN4     Cecil Fielder               78  R  1990   -10.1  park:R
+BN5     Mike Zunino                 75  R  2021   -16.6  park:R
+
+26 players · value 1984 · λ 0.000 · 8 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Ernie Banks            R EYE 126 (145/120)  POW 187 (160/196)  K 129  BABIP 117  GAP  94  SPE  44
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Andy Van Slyke         L EYE 106 (77/120)  POW 108 (44/133)  K  64  BABIP 106  GAP  98  SPE  95
+  Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  Corey Koskie           L EYE 113 (68/135)  POW 107 (85/119)  K  73  BABIP  86  GAP 108  SPE  67
+  Willie McGee           S EYE  53 (47/56)  POW  75 (100/66)  K 113  BABIP 152  GAP 126  SPE 117
+  Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Aiva Arquette          R EYE  78 (98/70)  POW 118 (104/124)  K  95  BABIP 103  GAP 117  SPE  78
+  Ruben Sierra           S EYE  50 (50/50)  POW 116 (120/115)  K  83  BABIP  97  GAP 128  SPE  69
+  Cecil Fielder          R EYE 106 (112/104)  POW 170 (211/156)  K  36  BABIP  76  GAP  78  SPE   8
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (164 teams): 4.9 SP / 7.2 RP / 13.6 bats
+  ✓ starters' stamina Jordan Montgomery 87, Jakie May 69, Fritz Ostermueller 98, Jacob deGrom 73, Chad Billingsley 74 (era floor 50)
+  ✓ stamina guys in the pen (45+): Bruce Ruffin 51, Jack Wenninger 48, Michael King 47, James McDonald 59
+  ✓ C  backup: Ed Bailey 112, Mike Zunino 77
+  ✓ 1B backup: Ernie Banks 107, Lee Thomas 91, Matt Carpenter 102, Cecil Fielder 61, Aiva Arquette 127
+  ✓ 2B backup: Matt Carpenter 80, Aiva Arquette 112
+  ✓ 3B backup: Ernie Banks 133, Randy Ready 91, Corey Koskie 114, Matt Carpenter 74, Chris Sabo 77, Aiva Arquette 113
+  ✓ SS backup: Aiva Arquette 100
+  ✓ LF backup: Lee Thomas 93, Bo Jackson 116, Aiva Arquette 85
+  ✓ CF backup: Lee Thomas 73, Andy Van Slyke 99, Willie McGee 118
+  ✓ RF backup: Lee Thomas 86, Bo Jackson 123, Andy Van Slyke 125, Aiva Arquette 83, Ruben Sierra 83
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 234.7 weighted runs (bats 57/43 R/L, SP 1.26, RP 0.42, bench 0.1)
+points: lineup(both boards, 14 bats) 1114 · rotation 370 · bullpen 500 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)

@@ -1,0 +1,122 @@
+
+=== Wednesday Night of the Living Deadball ===
+1920 RE @ 1919 Fenway Park · DH off · value 40–105 · cap none · 26 players
+R/G 4.12  AVG 0.264  OBP 0.323  SLG 0.353  K% 6.3  HR/PA 0.54%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.133 runs · steal break-even 76.7% (0 out) / 72.9% (1 out)
+park: all-LHB lineup 3.07 R/G vs all-RHB 4.79 — 1.73 R/G swing toward RIGHT-handed bats
+
+pool: 357 eligible owned cards — 246 bats (78L / 24S / 144R), 111 arms
+staff weights from deadballweekly's exports: SP 2.1, RP 0.27 (a lineup slot = 1)
+field (deadballweekly, 2 exports): 17% of batters faced thrown left-handed · 55% of PA by left-handed bats · 15.2 bats / 5.6 SP / 1.8 RP per team
+shape: 15 bats / 5 SP / 6 RP (1920s–50s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 256 of 357 pool cards have innings on record (median 221 PA/BF); K = 5000
+gloves ×1.22: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: BABIP +1.5  Gap +1.1  Eye +1.0  Power +0.9  Avoid Ks +0.6
+                          RHB: BABIP +2.6  Eye +1.3  Gap +1.2  Power +0.9  Avoid Ks +0.9
+                         arms: pBABIP +1.2  Control +0.8  Stuff +0.3  pHR +0.3
+
+optimiser: 9 λ starts hill-climbed; best 160.9 runs vs 154.5 greedy (+6.4), 7 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     King Kelly                 100  R  1879    +9.0  park:R DEF  90/111 +0.0
+R:1B    Roger Connor               101  S  1885   +13.7  park:L DEF  94/ 94 +2.6
+R:2B    Jack Burdock                87  R  1883    +2.3  park:R DEF 127/127 +2.6
+R:3B    John McGraw                101  L  1899    +9.5  park:L DEF  79/ 79 -2.0
+R:SS    Honus Wagner                99  R  1903   +13.2  park:R DEF 113/114 +1.1
+R:LF    Shoeless Joe Jackson        88  L  1915   +16.5  park:L DEF  88/ 88 -0.7
+R:CF    Roy Thomas                  82  L  1903   +14.7  park:L DEF 112/112 -0.1
+R:RF    Chick Stahl                 93  L  1899   +10.5  park:L DEF 126/129 +2.9
+
+--- lineup vs LHP ---
+L:C     King Kelly                 100  R  1879   +14.4  park:R DEF  90/111 +0.0
+L:1B    Roger Connor               101  S  1885   +26.2  park:R DEF  94/ 94 +2.6
+L:2B    Jack Burdock                87  R  1883    +6.1  park:R DEF 127/127 +2.6
+L:3B    Joe Dugan (VAR)             65  R  1920   +28.8  park:R DEF  63/ 70 -4.6
+L:SS    Honus Wagner                99  R  1903    +5.6  park:R DEF 113/114 +1.1
+L:LF    Tillie Walker               78  R  1914    +9.4  park:R DEF 117/117 +2.1
+L:CF    Roy Thomas                  82  L  1903    +3.2  park:L DEF 112/112 -0.1
+L:RF    Chick Stahl                 93  L  1899   +14.3  park:L DEF 126/129 +2.9
+
+--- batting order vs RHP --- (3.42 runs/game; The Book's order 3.40)
+  1. John McGraw 3B
+  2. Roy Thomas CF
+  3. Honus Wagner SS
+  4. King Kelly C
+  5. Jack Burdock 2B
+  6. Roger Connor 1B
+  7. Shoeless Joe Jackson LF
+  8. Chick Stahl RF
+  9. Pitcher
+
+--- batting order vs LHP --- (3.96 runs/game; The Book's order 3.95)
+  1. Tillie Walker LF
+  2. Roger Connor 1B
+  3. King Kelly C
+  4. Joe Dugan (VAR) 3B
+  5. Honus Wagner SS
+  6. Jack Burdock 2B
+  7. Chick Stahl RF
+  8. Roy Thomas CF
+  9. Pitcher
+
+--- rotation ---
+SP1     Cy Young (VAR)             102  R  1895   +10.1   SP STM 114
+SP2     Hugh Daily                  93  R  1884    +6.5   SP STM 100
+SP3     Rube Marquard               84  S  1916    +3.8   SP STM  82
+SP4     Babe Ruth                   97  L  1916    +3.7   SP STM 104
+SP5     Jack Coombs                100  S  1910    +3.6   SP STM 106
+
+--- bullpen ---
+CL      Hod Eller                   86  R  1919    +1.8   SP STM  76
+RP1     Nick Altrock                76  S  1906    +1.4   SP STM  90
+RP2     Ed Karger                   92  R  1907    +0.4   SP STM  94
+RP3     Carl Mays                   81  L  1915    +0.4   RP STM  37
+RP4     Jack Lynch                  91  R  1884    +0.1   SP STM  97
+RP5     Christy Mathewson           65  R  1914    -0.1   SP STM 102
+
+--- bench ---
+BN1     Jimmy Sheckard             100  L  1901    +9.9  park:L
+BN2     Joe Dugan (VAR)             65  R  1920    +6.2  park:R
+BN3     Ezra Sutton                 91  R  1884    -7.5  park:R
+BN4     Jack Tobin                  61  L  1920   +11.3  park:L
+BN5     Tillie Walker               78  R  1914    -0.8  park:R
+BN6     Con Daily                   71  L  1891    -4.2  park:L
+BN7     Tom Brown                   66  L  1891   +11.2  park:L
+
+26 players · value 2250 · λ 0.000 · 2 variants
+vs RHP lineup gets the friendly park side in 5 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Roy Thomas             L EYE 204 (210/202)  POW  30 (60/10)  K 120  BABIP 151  GAP  65  SPE  68
+  Roger Connor           S EYE 133 (138/131)  POW  13 (24/10)  K 212  BABIP 155  GAP 117  SPE  76
+  Honus Wagner           R EYE  79 (72/81)  POW  89 (100/86)  K 165  BABIP 120  GAP 118  SPE  93
+  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
+  Chick Stahl            L EYE 112 (90/122)  POW  86 (92/85)  K 149  BABIP 116  GAP 105  SPE  80
+  Jimmy Sheckard         L EYE  88 (88/89)  POW 107 (80/120)  K  96  BABIP 121  GAP 124  SPE  93
+  John McGraw            L EYE 255 (235/262)  POW  15 (1/20)  K 133  BABIP 153  GAP  47  SPE  78
+  King Kelly             R EYE  83 (88/82)  POW  77 (80/77)  K 132  BABIP 137  GAP 131  SPE 102
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Jack Burdock           R EYE  65 (60/67)  POW  90 (97/88)  K  90  BABIP 126  GAP 115  SPE  72
+  Tillie Walker          R EYE  97 (158/84)  POW  81 (84/80)  K  62  BABIP 117  GAP 119  SPE  78
+  Con Daily              L EYE  57 (44/61)  POW   1 (1/1)  K 110  BABIP 117  GAP 103  SPE  48
+  Ezra Sutton            R EYE  71 (82/68)  POW  35 (42/33)  K 125  BABIP 131  GAP  86  SPE  68
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (59 teams): 4.4 SP / 3.8 RP / 15.9 bats
+  ✓ starters' stamina Cy Young 114, Hugh Daily 100, Rube Marquard 82, Babe Ruth 104, Jack Coombs 106 (era floor 70)
+  ✓ stamina guys in the pen (45+): Hod Eller 76, Nick Altrock 90, Ed Karger 94, Jack Lynch 97, Christy Mathewson 102
+  ✓ C  backup: Con Daily 76
+  ✓ 1B backup: Honus Wagner 89, Shoeless Joe Jackson 73, Con Daily 77
+  ✓ 2B backup: King Kelly 96, Joe Dugan 70
+  ✓ 3B backup: King Kelly 94, Honus Wagner 114, John McGraw 79, Joe Dugan 63, Ezra Sutton 119
+  ✓ SS backup: Ezra Sutton 100
+  ✓ LF backup: Shoeless Joe Jackson 88, Chick Stahl 129, Tillie Walker 117, Jimmy Sheckard 102, Jack Tobin 77, Tom Brown 68
+  ✓ CF backup: King Kelly 87, Shoeless Joe Jackson 66, Chick Stahl 111, Tillie Walker 97, Jimmy Sheckard 84
+  ✓ RF backup: King Kelly 111, Honus Wagner 104, Shoeless Joe Jackson 83, Jimmy Sheckard 95, Jack Tobin 73, Tom Brown 63
+(23 of 26 have a live ask in the last shop snapshot)
+objective: 160.9 weighted runs (bats 83/17 R/L, SP 2.1, RP 0.27, bench 0.1)
+points: lineup(both boards, 10 bats) 894 · rotation 476 · bullpen 491 · bench-only 389

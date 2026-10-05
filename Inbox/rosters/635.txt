@@ -1,0 +1,122 @@
+
+=== Daily Golden Heart ===
+1956 RE @ 1958 Crosley Field · DH on · value 40–89 · cap none · 26 players
+R/G 5.17  AVG 0.281  OBP 0.353  SLG 0.423  K% 12.1  HR/PA 2.66%  preset Moderate Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.022 runs · steal break-even 81.1% (0 out) / 78.0% (1 out)
+park: all-LHB lineup 5.43 R/G vs all-RHB 5.04 — 0.39 R/G swing toward LEFT-handed bats
+
+pool: 937 eligible owned cards — 541 bats (173L / 50S / 318R), 396 arms
+staff weights from goldenheart's exports: SP 1.45, RP 0.38 (a lineup slot = 1)
+field (goldenheart, 15 exports): 42% of batters faced thrown left-handed · 39% of PA by left-handed bats · 14.3 bats / 5.5 SP / 4.4 RP per team
+shape: 14 bats / 5 SP / 7 RP (1920s–50s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 849 of 937 pool cards have innings on record (median 252 PA/BF); K = 5000
+gloves ×1.03: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.8  BABIP +2.5  Avoid Ks +2.0  Eye +1.7  Gap +0.8
+                          RHB: Power +4.4  BABIP +2.3  Avoid Ks +1.8  Eye +1.6  Gap +0.8
+                         arms: pHR +1.6  pBABIP +1.4  Control +1.2  Stuff +0.9
+
+optimiser: 9 λ starts hill-climbed; best 196.3 runs vs 167.7 greedy (+28.6), 29 moves from λ 2.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Darrell Porter              74  L  1973    +1.0  park:L DEF  80/ 80 -0.3
+R:1B    Lee Thomas (VAR)            77  L  1962   +17.4  park:L DEF  91/ 93 +1.8
+R:2B    Randy Ready                 77  R  1987    +0.2  park:R DEF 115/115 +0.3
+R:3B    Hank Thompson               87  L  1953   +16.3  park:L DEF  92/ 92 +0.1
+R:SS    Doug DeCinces               85  R  1982    +1.8  park:R DEF  92/ 99 -2.1
+R:LF    Eric Davis                  85  R  1989   +19.5  park:R DEF  86/ 86 -0.8
+R:CF    Bo Jackson                  88  R  1989   +25.1  park:R DEF 103/123 -0.6
+R:RF    Andy Van Slyke              77  L  1988   +18.4  park:L DEF 125/125 +2.4
+R:DH    Rudy York (VAR)             88  R  1943   +13.1  park:R
+
+--- lineup vs LHP ---
+L:C     Josh Gibson                 84  R  1946    +7.4  park:R DEF  69/ 75 -0.7
+L:1B    Rudy York (VAR)             88  R  1943   +15.1  park:R DEF  71/ 71 -0.7
+L:2B    Randy Ready                 77  R  1987   +21.7  park:R DEF 115/115 +0.3
+L:3B    Doug DeCinces               85  R  1982   +16.8  park:R DEF  99/ 99 +1.1
+L:SS    Ernie Banks (VAR)           83  R  1961    +7.1  park:R DEF 113/113 +0.9
+L:LF    Willie McGee (VAR)          79  S  1985   +15.2  park:R DEF 131/131 +2.9
+L:CF    Dale Murphy                 88  R  1982   +14.9  park:R DEF 102/112 -0.6
+L:RF    Bo Jackson                  88  R  1989   +22.3  park:R DEF 123/123 +2.2
+L:DH    Frank Howard                81  R  1968   +33.2  park:R
+
+--- batting order vs RHP --- (5.92 runs/game; The Book's order 5.91)
+  1. Hank Thompson 3B
+  2. Andy Van Slyke RF
+  3. Eric Davis LF
+  4. Bo Jackson CF
+  5. Lee Thomas (VAR) 1B
+  6. Rudy York (VAR) DH
+  7. Darrell Porter C
+  8. Doug DeCinces SS
+  9. Randy Ready 2B
+
+--- batting order vs LHP --- (5.93 runs/game; The Book's order 5.92)
+  1. Randy Ready 2B
+  2. Bo Jackson RF
+  3. Rudy York (VAR) 1B
+  4. Frank Howard DH
+  5. Dale Murphy CF
+  6. Doug DeCinces 3B
+  7. Josh Gibson C
+  8. Ernie Banks (VAR) SS
+  9. Willie McGee (VAR) LF
+
+--- rotation ---
+SP1     Jim Kaat (VAR)              87  L  1967   +10.6   SP STM  78
+SP2     Dizzy Dean                  88  R  1932    +8.2   SP STM  98
+SP3     Fritz Ostermueller          64  L  1944    +4.9   SP STM  98
+SP4     Nolan Ryan                  87  R  1989    +4.7   SP STM 100
+SP5     Dan Bankhead                74  R  1946    +2.9   SP STM  74
+
+--- bullpen ---
+CL      Dave Righetti               85  L  1986    +9.7   CL STM  49
+RP1     Gary Lucas                  86  L  1986    +9.1   RP STM  24
+RP2     Steve Hamilton (VAR)        89  L  1965    +8.1   RP STM  19
+RP3     Gregg Olson (VAR)           88  R  1989    +7.1   CL STM  21
+RP4     Al Worthington              86  R  1964    +6.9   CL STM  25
+RP5     Joe Beggs                   89  R  1940    +6.5   RP STM  46
+RP6     Mark Littell (VAR)          77  L  1979    +6.5   RP STM  21
+
+--- bench ---
+BN1     Willie McGee (VAR)          79  S  1985    +4.4  park:L
+BN2     Frank Howard                81  R  1968    -5.0  park:R
+BN3     Josh Gibson                 84  R  1946    -0.1  park:R
+BN4     Ernie Banks (VAR)           83  R  1961    -6.0  park:R
+BN5     Dale Murphy                 88  R  1982   -13.4  park:R
+
+26 players · value 2153 · λ 2.000 · 8 variants
+vs RHP lineup gets the friendly park side in 4 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Eric Davis             R EYE 151 (175/143)  POW 174 (158/180)  K  61  BABIP  97  GAP  64  SPE 107
+  Andy Van Slyke         L EYE 106 (77/120)  POW 108 (44/133)  K  64  BABIP 106  GAP  98  SPE  95
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
+  Rudy York              R EYE 161 (181/154)  POW 179 (204/170)  K  63  BABIP  74  GAP 124  SPE  66
+  Willie McGee           S EYE  53 (47/56)  POW  75 (100/66)  K 113  BABIP 152  GAP 126  SPE 117
+  Doug DeCinces          R EYE 107 (125/101)  POW 113 (122/111)  K  90  BABIP  83  GAP 131  SPE  49
+  Darrell Porter         L EYE 120 (61/146)  POW  94 (57/108)  K  50  BABIP  84  GAP 109  SPE  46
+  Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
+  Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
+  Frank Howard           R EYE  84 (101/79)  POW 158 (171/154)  K  62  BABIP  76  GAP  80  SPE  20
+  Ernie Banks            R EYE  91 (96/89)  POW 123 (153/113)  K 103  BABIP  81  GAP  80  SPE  34
+  Dale Murphy            R EYE 124 (135/120)  POW 120 (140/114)  K  60  BABIP 102  GAP  53  SPE  61
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (235 teams): 5.0 SP / 5.9 RP / 14.6 bats
+  ✓ starters' stamina Jim Kaat 78, Dizzy Dean 98, Fritz Ostermueller 98, Nolan Ryan 100, Dan Bankhead 74 (era floor 60)
+  ✓ stamina guys in the pen (45+): Dave Righetti 49, Joe Beggs 46
+  ✓ C  backup: Darrell Porter 80, Josh Gibson 69
+  ✓ 1B backup: Lee Thomas 91, Rudy York 71, Josh Gibson 75, Ernie Banks 107, Dale Murphy 100
+  ✓ 2B backup: Hank Thompson 88
+  ✓ 3B backup: Doug DeCinces 99, Randy Ready 91, Hank Thompson 92
+  ✓ SS backup: Doug DeCinces 92, Ernie Banks 113
+  ✓ LF backup: Lee Thomas 93, Bo Jackson 116, Hank Thompson 85, Eric Davis 86, Ernie Banks 96, Dale Murphy 112, Willie McGee 131
+  ✓ CF backup: Lee Thomas 73, Bo Jackson 103, Andy Van Slyke 99, Hank Thompson 63, Eric Davis 60, Dale Murphy 102, Willie McGee 118
+  ✓ RF backup: Lee Thomas 86, Bo Jackson 123, Andy Van Slyke 125, Hank Thompson 79, Dale Murphy 100
+(22 of 26 have a live ask in the last shop snapshot)
+objective: 196.3 weighted runs (bats 58/42 R/L, SP 1.45, RP 0.38, bench 0.1)
+points: lineup(both boards, 14 bats) 1153 · rotation 400 · bullpen 600 · bench-only 0

@@ -1,0 +1,36 @@
+# Daily Bronze Only Curiosities — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Minute Maid Park --park-year 2005 --dh --min 60 --max 69 --card-types 3,7,8 --size 26 --series bronzecuriosity --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey #86616
+R:1B Bill Buckner (VAR) #85858
+R:2B Mark Grudzielanek #87000
+R:3B Joe Dugan (VAR) #86765
+R:SS Dave Brain (VAR) #85934
+R:LF Tom Brown #86767
+R:CF Billy Southworth #86379
+R:RF Deion Sanders #86962
+R:DH Wes Covington #86651
+L:C Chris Cannizzaro #85168
+L:1B Scott Spiezio #85702
+L:2B Joe Dugan (VAR) #86765
+L:3B Honus Wagner #86712
+L:SS Dave Brain (VAR) #85934
+L:LF Ed Morgan (VAR) #85943
+L:CF Deion Sanders #86962
+L:RF Tom Brown #86767
+L:DH Dave Harris #83649
+SP1 Bob Miller #84715
+SP2 Roy Halladay #86705
+SP3 Red Lucas #86781
+SP4 Jack Kralick #85509
+SP5 Chris Short #83112
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Don Robinson (VAR) #86773
+RP3 Paul Assenmacher #86944
+RP4 Clay Bryant #84265
+RP5 Gary Gentry #87074
+RP6 Justin Masterson #86358
+BN1 Dave Harris #83649
+BN2 Ed Morgan (VAR) #85943
+BN3 Scott Spiezio #85702
+BN4 Honus Wagner #86712
+BN5 Chris Cannizzaro #85168

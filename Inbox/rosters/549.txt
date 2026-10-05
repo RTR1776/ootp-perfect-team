@@ -1,0 +1,122 @@
+
+=== Tuesday Dead Silver Walking ===
+1919 RE @ 1911 Washington Park · DH off · value 40–79 · cap none · 26 players
+R/G 3.90  AVG 0.259  OBP 0.318  SLG 0.342  K% 7.3  HR/PA 0.50%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.143 runs · steal break-even 76.0% (0 out) / 72.0% (1 out)
+park: all-LHB lineup 4.16 R/G vs all-RHB 3.77 — 0.39 R/G swing toward LEFT-handed bats
+
+pool: 280 eligible owned cards — 192 bats (58L / 19S / 115R), 88 arms
+staff weights from upto1969weekly's exports: SP 2.09, RP 0.3 (a lineup slot = 1)
+field (upto1969weekly, 1 exports): 15% of batters faced thrown left-handed · 58% of PA by left-handed bats · 15.2 bats / 5 SP / 2.5 RP per team
+shape: 15 bats / 5 SP / 6 RP (deadball) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 279 of 280 pool cards have innings on record (median 424 PA/BF); K = 5000
+gloves ×1.21: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: BABIP +2.2  Eye +1.2  Gap +1.1  Power +0.9  Avoid Ks +0.9
+                          RHB: BABIP +2.0  Eye +1.1  Gap +1.1  Power +0.8  Avoid Ks +0.8
+                         arms: pBABIP +1.3  Control +0.8  Stuff +0.4  pHR +0.3
+
+optimiser: 9 λ starts hill-climbed; best -13.8 runs vs -35.2 greedy (+21.4), 6 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ted Easterly                58  L  1910    -2.6  park:L DEF  62/ 62 -1.1
+R:1B    Joe Judge                   74  L  1920    +7.2  park:L DEF  75/ 75 -0.3
+R:2B    Nap Lajoie                  50  R  1905    -6.7  park:R DEF 114/114 +0.1
+R:3B    Joe Dugan (VAR)             65  R  1920    -2.0  park:R DEF  63/ 70 -4.5
+R:SS    Dave Brain (VAR)            68  R  1907    -0.7  park:R DEF  93/ 99 -2.3
+R:LF    Tom Brown                   66  L  1891   +11.7  park:L DEF  68/ 68 -2.6
+R:CF    Pop Corkhill                71  L  1887    -3.1  park:L DEF 133/147 +1.4
+R:RF    Jack Tobin                  61  L  1920   +11.8  park:L DEF  73/ 77 -2.6
+
+--- lineup vs LHP ---
+L:C     Wilbert Robinson            77  R  1896    -7.4  park:R DEF  75/ 75 -0.6
+L:1B    Joe Judge                   74  L  1920    +2.8  park:L DEF  75/ 75 -0.3
+L:2B    Joe Dugan (VAR)             65  R  1920   +16.7  park:R DEF  70/ 70 -8.1
+L:3B    Bill Keister                72  L  1899    +8.5  park:L DEF  62/ 67 -4.7
+L:SS    Dave Brain (VAR)            68  R  1907    +2.8  park:R DEF  93/ 99 -2.3
+L:LF    Tom Brown                   66  L  1891    +0.6  park:L DEF  68/ 68 -2.6
+L:CF    Tillie Walker               78  R  1914    +2.6  park:R DEF  97/117 -1.1
+L:RF    Willie Keeler               77  L  1894    -1.9  park:L DEF  86/ 86 -1.3
+
+--- batting order vs RHP --- (3.42 runs/game; The Book's order 3.42)
+  1. Tom Brown LF
+  2. Joe Judge 1B
+  3. Ted Easterly C
+  4. Jack Tobin RF
+  5. Pop Corkhill CF
+  6. Joe Dugan (VAR) 3B
+  7. Nap Lajoie 2B
+  8. Dave Brain (VAR) SS
+  9. Pitcher
+
+--- batting order vs LHP --- (3.44 runs/game; The Book's order 3.43)
+  1. Tillie Walker CF
+  2. Joe Judge 1B
+  3. Joe Dugan (VAR) 2B
+  4. Bill Keister 3B
+  5. Tom Brown LF
+  6. Willie Keeler RF
+  7. Dave Brain (VAR) SS
+  8. Wilbert Robinson C
+  9. Pitcher
+
+--- rotation ---
+SP1     Nick Altrock                76  S  1906    +1.1   SP STM  90
+SP2     Phil Douglas                74  R  1917    -0.5   SP STM  68
+SP3     Frank Foreman (VAR)         75  R  1889    -1.3   SP STM  80
+SP4     Pretzels Getzien            64  R  1888    -1.4   SP STM  90
+SP5     Joe McGinnity               75  R  1904    -2.1   SP STM 101
+
+--- bullpen ---
+CL      Dick Rudolph                74  R  1914    -2.2   SP STM  96
+RP1     Ed Cushman                  78  R  1885    -2.4   SP STM  89
+RP2     Frank Killen                74  L  1893    -2.4   SP STM  82
+RP3     Charlie Buffinton           76  R  1891    -2.4   SP STM  81
+RP4     Eddie Plank                 66  L  1916    -2.4   SP STM  81
+RP5     Mordecai Brown              74  S  1910    -2.5   SP STM  80
+
+--- bench ---
+BN1     Wilbert Robinson            77  R  1896   -20.3  park:R
+BN2     Emmet Heidrick              79  L  1901    -1.5  park:L
+BN3     Branch Rickey               78  L  1906    -4.2  park:L
+BN4     Bill Keister                72  L  1899    -6.6  park:L
+BN5     Tillie Walker               78  R  1914    -7.2  park:R
+BN6     Kid Elberfeld (VAR)         47  R  1903   -13.1  park:R
+BN7     Willie Keeler               77  L  1894    +6.8  park:L
+
+26 players · value 1827 · λ 0.000 · 4 variants
+vs RHP lineup gets the friendly park side in 5 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
+  Joe Judge              L EYE 107 (115/105)  POW  63 (33/69)  K  93  BABIP 109  GAP 118  SPE  71
+  Willie Keeler          L EYE  41 (31/45)  POW  53 (43/57)  K 205  BABIP 139  GAP  84  SPE  83
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Emmet Heidrick         L EYE  38 (28/41)  POW  75 (25/84)  K 113  BABIP  93  GAP  92  SPE  86
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Ted Easterly           L EYE  58 (54/60)  POW   1 (1/1)  K  97  BABIP  97  GAP  87  SPE  67
+  Pop Corkhill           L EYE  41 (32/45)  POW  75 (66/78)  K 220  BABIP  93  GAP  75  SPE  74
+  Branch Rickey          L EYE  68 (82/64)  POW  77 (10/88)  K  98  BABIP  86  GAP  79  SPE  65
+  Bill Keister           L EYE  44 (61/39)  POW  71 (78/69)  K 149  BABIP 123  GAP 108  SPE  89
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Tillie Walker          R EYE  97 (158/84)  POW  81 (84/80)  K  62  BABIP 117  GAP 119  SPE  78
+  Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
+  Wilbert Robinson       R EYE  35 (48/31)  POW  39 (53/35)  K 121  BABIP 116  GAP  64  SPE  47
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (27 teams): 4.2 SP / 4.4 RP / 15.9 bats
+  ✗ starters' stamina Nick Altrock 90, Phil Douglas 68, Frank Foreman 80, Pretzels Getzien 90, Joe McGinnity 101 (era floor 80) — SHORT: Phil Douglas
+  ✓ stamina guys in the pen (45+): Dick Rudolph 96, Ed Cushman 89, Frank Killen 82, Charlie Buffinton 81, Eddie Plank 81, Mordecai Brown 80
+  ✓ C  backup: Ted Easterly 62, Wilbert Robinson 75
+  ✓ 1B backup: Nap Lajoie 96, Pop Corkhill 66
+  ✓ 2B backup: Nap Lajoie 114, Joe Dugan 70, Bill Keister 67
+  ✓ 3B backup: Dave Brain 99, Joe Dugan 63, Bill Keister 62, Kid Elberfeld 85
+  ✓ SS backup: Kid Elberfeld 83
+  ✓ LF backup: Pop Corkhill 147, Jack Tobin 77, Tillie Walker 117, Branch Rickey 60
+  ✓ CF backup: Pop Corkhill 133, Tillie Walker 97, Emmet Heidrick 82
+  ✓ RF backup: Pop Corkhill 145, Jack Tobin 73, Tom Brown 63, Willie Keeler 86, Emmet Heidrick 98
+(25 of 26 have a live ask in the last shop snapshot)
+objective: -13.8 weighted runs (bats 85/15 R/L, SP 2.09, RP 0.3, bench 0.1)
+points: lineup(both boards, 12 bats) 817 · rotation 364 · bullpen 442 · bench-only 204

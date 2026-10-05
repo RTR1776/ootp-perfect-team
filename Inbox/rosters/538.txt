@@ -8,7 +8,7 @@ park: all-LHB lineup 4.93 R/G vs all-RHB 5.00 — 0.07 R/G swing toward RIGHT-ha
 pool: 1145 eligible owned cards — 651 bats (224L / 82S / 345R), 494 arms
 staff weights from highironfloorgoldceilingweekly's exports: SP 1.27, RP 0.43 (a lineup slot = 1)
 field (highironfloorgoldceilingweekly, 1 exports): 39% of batters faced thrown left-handed · 41% of PA by left-handed bats · 13 bats / 5.3 SP / 6.3 RP per team
-shape: 13 bats / 5 SP / 8 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
 observed play: 1140 of 1145 pool cards have innings on record (median 3274 PA/BF); K = 5000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 
@@ -16,12 +16,12 @@ gloves ×0.81: balls in play in this environment against the fit's archive (fiel
                           RHB: Power +6.2  Avoid Ks +3.6  BABIP +1.9  Eye +1.2  Gap +0.8
                          arms: pHR +2.0  Stuff +1.8  pBABIP +1.1  Control +0.9
 
-optimiser: 15 λ starts hill-climbed; best 243.7 runs vs 176.5 greedy (+67.1), 14 moves from λ 1.00
+optimiser: 8 λ starts hill-climbed; best 245.2 runs vs 182.8 greedy (+62.4), 17 moves from λ 1.00
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Darrell Porter              74  L  1973    +4.8  park:L DEF  80/ 80 -0.2
 R:1B    Matt Carpenter              74  L  2015   +14.6  park:L DEF 102/102 +2.6
-R:2B    Brandon Lowe (VAR)          82  L  2020   +11.5  park:L DEF  91/ 91 -2.8
+R:2B    Kaelen Culpepper (VAR)      89  R  2026    +8.0  park:R DEF 130/130 +2.1
 R:3B    Pedro Alvarez               81  L  2013   +38.1  park:L DEF  75/ 96 -1.7
 R:SS    Francisco Lindor            88  S  2024   +10.6  park:L DEF 110/110 +0.4
 R:LF    Curtis Granderson           87  L  2011   +16.2  park:L DEF 113/117 +1.1
@@ -31,62 +31,62 @@ R:DH    Gus Bell                    70  L  1955   +15.1  park:L
 
 --- lineup vs LHP ---
 L:C     Mike Zunino                 75  R  2021   +29.2  park:R DEF  77/ 77 -0.3
-L:1B    Matt Carpenter              74  L  2015    -0.7  park:L DEF 102/102 +2.6
-L:2B    Brandon Lowe (VAR)          82  L  2020   +19.4  park:L DEF  91/ 91 -2.8
-L:3B    Randy Ready                 77  R  1987   +20.1  park:R DEF  91/115 +0.0
+L:1B    Cecil Fielder               78  R  1990   +20.7  park:R DEF  61/ 61 -1.6
+L:2B    Randy Ready                 77  R  1987   +20.1  park:R DEF 115/115 +0.2
+L:3B    Kaelen Culpepper (VAR)      89  R  2026   +15.5  park:R DEF 122/130 +3.3
 L:SS    Francisco Lindor            88  S  2024   +14.0  park:R DEF 110/110 +0.4
 L:LF    Curtis Granderson           87  L  2011   +16.7  park:L DEF 113/117 +1.1
 L:CF    Bo Jackson                  88  R  1989   +20.7  park:R DEF 103/123 -0.5
 L:RF    Jeff Francoeur (VAR)        81  R  2005   +30.0  park:R DEF 149/149 +3.6
 L:DH    Frank Howard                81  R  1968   +31.4  park:R
 
---- batting order vs RHP --- (5.60 runs/game; The Book's order 5.59)
+--- batting order vs RHP --- (5.65 runs/game; The Book's order 5.64)
   1. Curtis Granderson LF
-  2. Matt Carpenter 1B
+  2. Kaelen Culpepper (VAR) 2B
   3. Pedro Alvarez 3B
   4. Bo Jackson RF
   5. Lee Thomas (VAR) CF
-  6. Francisco Lindor SS
-  7. Gus Bell DH
-  8. Brandon Lowe (VAR) 2B
+  6. Matt Carpenter 1B
+  7. Francisco Lindor SS
+  8. Gus Bell DH
   9. Darrell Porter C
 
---- batting order vs LHP --- (5.62 runs/game; The Book's order 5.61)
-  1. Randy Ready 3B
+--- batting order vs LHP --- (5.83 runs/game; The Book's order 5.82)
+  1. Randy Ready 2B
   2. Bo Jackson CF
   3. Frank Howard DH
   4. Jeff Francoeur (VAR) RF
-  5. Francisco Lindor SS
-  6. Brandon Lowe (VAR) 2B
-  7. Curtis Granderson LF
-  8. Mike Zunino C
-  9. Matt Carpenter 1B
+  5. Kaelen Culpepper (VAR) 3B
+  6. Francisco Lindor SS
+  7. Cecil Fielder 1B
+  8. Curtis Granderson LF
+  9. Mike Zunino C
 
 --- rotation ---
-SP1     Jakie May (VAR)             72  R  1927    +7.9   SP STM  69
-SP2     Jordan Montgomery           77  L  2023    +7.6   SP STM  87
+SP1     J.A. Happ                   87  L  2015   +11.8   SP STM  62
+SP2     Jim Kaat (VAR)              87  L  1967   +10.5   SP STM  78
 SP3     Raisel Iglesias             80  R  2015    +8.3   SP STM  69
-SP4     Jim Kaat (VAR)              87  L  1967   +10.5   SP STM  78
-SP5     J.A. Happ                   87  L  2015   +11.8   SP STM  62
+SP4     Jakie May (VAR)             72  R  1927    +7.9   SP STM  69
+SP5     Jordan Montgomery           77  L  2023    +7.6   SP STM  87
 
 --- bullpen ---
-CL      Rudy May                    74  L  1979    +4.6   RP STM  48
+CL      Chad Bradford               74  R  2006   +10.0   RP STM  11
 RP1     Bruce Ruffin                71  S  1993    +7.7   RP STM  51
-RP2     Chad Bradford               74  R  2006   +10.0   RP STM  11
-RP3     Michael King (VAR)          76  R  2022    +6.1   RP STM  47
-RP4     Javier Lopez                80  L  2010    +8.1   RP STM   9
+RP2     Rudy May                    74  L  1979    +4.6   RP STM  48
+RP3     Brad Clontz                 73  R  1995    +4.0   RP STM  19
+RP4     Alex Claudio (VAR)          70  L  2017    +2.2   RP STM  23
 RP5     Chris Sale                  70  L  2010    +0.6   RP STM  49
-RP6     Brad Clontz                 73  R  1995    +4.0   RP STM  19
-RP7     Alex Claudio (VAR)          70  L  2017    +2.2   RP STM  23
+RP6     Bruce Sutter                71  R  1982    -0.0   CL STM  41
 
 --- bench ---
-BN1     Frank Howard                81  R  1968    +0.4  park:R
-BN2     Mike Zunino                 75  R  2021   -15.9  park:R
+BN1     Mike Zunino                 75  R  2021   -15.9  park:R
+BN2     Frank Howard                81  R  1968    +0.4  park:R
 BN3     Jeff Francoeur (VAR)        81  R  2005    -5.8  park:R
-BN4     Randy Ready                 77  R  1987    +5.1  park:R
+BN4     Cecil Fielder               78  R  1990    -9.8  park:R
+BN5     Randy Ready                 77  R  1987    +5.1  park:R
 
-26 players · value 2026 / 2026 (0 spare) · λ 1.000 · 7 variants
-vs RHP lineup gets the friendly park side in 8 of 9 spots
+26 players · value 2026 / 2026 (0 spare) · λ 1.000 · 6 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
 
 --- order inputs (rostered bats) ---
   Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
@@ -95,14 +95,28 @@ vs RHP lineup gets the friendly park side in 8 of 9 spots
   Curtis Granderson      L EYE 160 (94/184)  POW 145 (158/141)  K  78  BABIP  91  GAP  98  SPE 106
   Gus Bell               L EYE  72 (61/76)  POW 103 (71/118)  K 105  BABIP  91  GAP  92  SPE  59
   Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
-  Brandon Lowe           L EYE 132 (119/136)  POW 132 (155/124)  K  75  BABIP  95  GAP  93  SPE  73
   Francisco Lindor       S EYE 110 (98/115)  POW 126 (138/122)  K  99  BABIP 101  GAP 109  SPE  61
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
   Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
   Darrell Porter         L EYE 120 (61/146)  POW  94 (57/108)  K  50  BABIP  84  GAP 109  SPE  46
   Frank Howard           R EYE  84 (101/79)  POW 158 (171/154)  K  62  BABIP  76  GAP  80  SPE  20
   Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
+  Cecil Fielder          R EYE 106 (112/104)  POW 170 (211/156)  K  36  BABIP  76  GAP  78  SPE   8
   Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
 LEGAL — every rule check passes
-(23 of 26 have a live ask in the last shop snapshot)
-objective: 243.7 weighted runs (bats 61/39 R/L, SP 1.27, RP 0.43, bench 0.1)
-points: lineup(both boards, 13 bats) 1035 · rotation 403 · bullpen 588 · bench-only 0
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (30 teams): 4.9 SP / 7.3 RP / 13.7 bats
+  ✓ starters' stamina J.A. Happ 62, Jim Kaat 78, Raisel Iglesias 69, Jakie May 69, Jordan Montgomery 87 (era floor 50)
+  ✓ stamina guys in the pen (45+): Bruce Ruffin 51, Rudy May 48, Chris Sale 49
+  ✓ C  backup: Darrell Porter 80, Mike Zunino 77
+  ✓ 1B backup: Kaelen Culpepper 102, Lee Thomas 91, Matt Carpenter 102, Pedro Alvarez 96, Cecil Fielder 61
+  ✓ 2B backup: Kaelen Culpepper 130, Matt Carpenter 80, Randy Ready 115
+  ✓ 3B backup: Kaelen Culpepper 122, Matt Carpenter 74, Pedro Alvarez 75, Randy Ready 91
+  ✓ SS backup: Kaelen Culpepper 117
+  ✓ LF backup: Kaelen Culpepper 78, Lee Thomas 93, Bo Jackson 116, Gus Bell 65
+  ✓ CF backup: Lee Thomas 73, Bo Jackson 103, Curtis Granderson 89
+  ✓ RF backup: Kaelen Culpepper 68, Lee Thomas 86, Bo Jackson 123, Curtis Granderson 117, Jeff Francoeur 149
+(22 of 26 have a live ask in the last shop snapshot)
+objective: 245.2 weighted runs (bats 61/39 R/L, SP 1.27, RP 0.43, bench 0.1)
+points: lineup(both boards, 14 bats) 1120 · rotation 403 · bullpen 503 · bench-only 0

@@ -1,0 +1,121 @@
+
+=== Saturday Diamond Variety ===
+1952 RE @ 1958 Tiger Stadium · DH off · value 40–99 · cap none · 26 players
+R/G 4.33  AVG 0.256  OBP 0.328  SLG 0.379  K% 10.9  HR/PA 2.05%  preset Moderate Small Ball
+sac bunt (1st & 2nd, 0 out) +0.055 runs · steal break-even 78.9% (0 out) / 75.8% (1 out)
+park: all-LHB lineup 4.35 R/G vs all-RHB 4.32 — 0.04 R/G swing toward LEFT-handed bats
+
+pool: 833 eligible owned cards — 518 bats (173L / 35S / 310R), 315 arms
+staff weights from diamondvariety's exports: SP 1.84, RP 0.34 (a lineup slot = 1)
+field (diamondvariety, 1 exports): 26% of batters faced thrown left-handed · 49% of PA by left-handed bats · 14.4 bats / 5.4 SP / 3.2 RP per team
+shape: 14 bats / 5 SP / 7 RP (1920s–50s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 627 of 833 pool cards have innings on record (median 305 PA/BF); K = 5000
+gloves ×1.06: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.7  BABIP +1.9  Eye +1.5  Avoid Ks +1.4  Gap +0.8
+                          RHB: Power +3.3  BABIP +2.0  Eye +1.5  Avoid Ks +1.4  Gap +0.8
+                         arms: pHR +1.2  pBABIP +1.2  Control +1.1  Stuff +0.7
+
+optimiser: 9 λ starts hill-climbed; best 207.5 runs vs 175.2 greedy (+32.3), 26 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +38.3  park:L DEF 112/112 +0.8
+R:1B    Rudy York (VAR)             88  R  1943   +19.1  park:R DEF  71/ 71 -0.8
+R:2B    Larry Doby                  98  L  1946    +8.6  park:L DEF  87/ 87 -4.3
+R:3B    Hank Thompson               87  L  1953    +8.4  park:L DEF  92/ 92 +0.1
+R:SS    Luke Appling                92  R  1936   +15.0  park:R DEF 110/110 +0.5
+R:LF    Shoeless Joe Jackson        88  L  1915   +15.4  park:L DEF  88/ 88 -0.6
+R:CF    Willie Mays                 98  R  1959   +10.0  park:R DEF 107/107 -0.4
+R:RF    Mickey Mantle               88  S  1959   +11.3  park:L DEF 119/123 +1.9
+
+--- lineup vs LHP ---
+L:C     Mack Eggleston              88  R  1927    +7.8  park:R DEF  73/ 98 -0.6
+L:1B    Rudy York (VAR)             88  R  1943   +20.1  park:R DEF  71/ 71 -0.8
+L:2B    Larry Doby                  98  L  1946    +2.3  park:L DEF  87/ 87 -4.3
+L:3B    Joe Dugan (VAR)             65  R  1920   +17.8  park:R DEF  63/ 70 -4.0
+L:SS    Willie Wells                91  R  1938    +4.5  park:R DEF 105/116 -0.3
+L:LF    Al Simmons                  99  R  1930   +30.9  park:R DEF  90/ 90 -0.5
+L:CF    Willie Mays                 98  R  1959   +28.3  park:R DEF 107/107 -0.4
+L:RF    Chick Hafey                 89  R  1928    +6.1  park:R DEF  81/ 83 -1.6
+
+--- batting order vs RHP --- (4.34 runs/game; The Book's order 4.33)
+  1. Luke Appling SS
+  2. Mickey Mantle RF
+  3. Rudy York (VAR) 1B
+  4. Ed Bailey (VAR) C
+  5. Hank Thompson 3B
+  6. Shoeless Joe Jackson LF
+  7. Willie Mays CF
+  8. Larry Doby 2B
+  9. Pitcher
+
+--- batting order vs LHP --- (4.23 runs/game; The Book's order 4.22)
+  1. Mack Eggleston C
+  2. Rudy York (VAR) 1B
+  3. Joe Dugan (VAR) 3B
+  4. Willie Mays CF
+  5. Al Simmons LF
+  6. Willie Wells SS
+  7. Chick Hafey RF
+  8. Larry Doby 2B
+  9. Pitcher
+
+--- rotation ---
+SP1     Larry Jackson               92  R  1959   +10.5   SP STM  92
+SP2     Sam Jones                   92  R  1921    +9.3   SP STM  82
+SP3     Dutch Leonard               97  R  1945    +7.5   SP STM  92
+SP4     Luther Farrell              87  L  1927    +6.9   SP STM 104
+SP5     Milt Pappas                 96  R  1959    +6.3   SP STM  79
+
+--- bullpen ---
+CL      Pete Donohue                96  R  1925    +6.1   SP STM  73
+RP1     Carl Hubbell                86  R  1928    +5.8   SP STM  81
+RP2     Count Leblanc               89  R  1921    +5.7   SP STM  93
+RP3     Joe Beggs                   89  R  1940    +5.1   RP STM  46
+RP4     Babe Ruth                   97  L  1916    +5.1   SP STM 104
+RP5     Howie Pollet                91  L  1949    +4.7   SP STM  97
+RP6     Dizzy Trout                 97  R  1944    +4.1   SP STM 104
+
+--- bench ---
+BN1     Al Simmons                  99  R  1930   +12.2  park:R
+BN2     Chick Hafey                 89  R  1928    +7.7  park:R
+BN3     Mack Eggleston              88  R  1927    +4.3  park:R
+BN4     Willie McCovey              93  L  1959   +12.8  park:L
+BN5     Joe Dugan (VAR)             65  R  1920    -3.4  park:R
+BN6     Willie Wells                91  R  1938   -12.6  park:R
+
+26 players · value 2370 · λ 1.000 · 3 variants
+vs RHP lineup gets the friendly park side in 5 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Rudy York              R EYE 161 (181/154)  POW 179 (204/170)  K  63  BABIP  74  GAP 124  SPE  66
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Luke Appling           R EYE 165 (174/162)  POW  53 (10/62)  K 154  BABIP 154  GAP  82  SPE  64
+  Willie McCovey         L EYE 116 (95/124)  POW 140 (166/131)  K  71  BABIP 122  GAP 112  SPE  57
+  Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
+  Mickey Mantle          S EYE 167 (118/184)  POW 135 (110/143)  K  62  BABIP 100  GAP  78  SPE  98
+  Willie Mays            R EYE 129 (174/114)  POW 141 (158/135)  K 114  BABIP  98  GAP 138  SPE 118
+  Larry Doby             L EYE  87 (90/86)  POW 105 (101/107)  K  72  BABIP 129  GAP 134  SPE  62
+  Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
+  Chick Hafey            R EYE  64 (73/61)  POW 131 (140/128)  K  91  BABIP 124  GAP 154  SPE  79
+  Mack Eggleston         R EYE 105 (109/104)  POW  88 (91/88)  K  95  BABIP 130  GAP  67  SPE  37
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Willie Wells           R EYE  92 (94/92)  POW  78 (88/74)  K 106  BABIP  96  GAP  84  SPE  69
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (30 teams): 4.4 SP / 5.0 RP / 15.8 bats
+  ✓ starters' stamina Larry Jackson 92, Sam Jones 82, Dutch Leonard 92, Luther Farrell 104, Milt Pappas 79 (era floor 60)
+  ✓ stamina guys in the pen (45+): Pete Donohue 73, Carl Hubbell 81, Count Leblanc 93, Joe Beggs 46, Babe Ruth 104, Howie Pollet 97, Dizzy Trout 104
+  ✓ C  backup: Ed Bailey 112, Mack Eggleston 73
+  ✓ 1B backup: Shoeless Joe Jackson 73, Willie Wells 77, Willie McCovey 76
+  ✓ 2B backup: Hank Thompson 88, Willie Wells 116, Joe Dugan 70
+  ✓ 3B backup: Hank Thompson 92, Joe Dugan 63
+  ✓ SS backup: Luke Appling 110, Willie Wells 105
+  ✓ LF backup: Hank Thompson 85, Mickey Mantle 123, Shoeless Joe Jackson 88, Willie Wells 71, Chick Hafey 83, Al Simmons 90
+  ✓ CF backup: Hank Thompson 63, Mickey Mantle 103, Shoeless Joe Jackson 66, Al Simmons 63
+  ✓ RF backup: Hank Thompson 79, Mickey Mantle 119, Shoeless Joe Jackson 83, Mack Eggleston 98, Chick Hafey 81
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 207.5 weighted runs (bats 74/26 R/L, SP 1.84, RP 0.34, bench 0.1)
+points: lineup(both boards, 13 bats) 1168 · rotation 464 · bullpen 645 · bench-only 93

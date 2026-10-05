@@ -1,0 +1,125 @@
+
+=== Daily Low Gold Only ===
+PT default (2010) RE @ 2026 Fenway Park · DH on · value 80–84 · cap none · 26 players
+R/G 4.74  AVG 0.252  OBP 0.324  SLG 0.414  K% 22.6  HR/PA 3.05%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.052 runs · steal break-even 81.6% (0 out) / 78.4% (1 out)
+park: all-LHB lineup 4.63 R/G vs all-RHB 4.80 — 0.17 R/G swing toward RIGHT-handed bats
+
+pool: 267 eligible owned cards — 153 bats (54L / 15S / 84R), 114 arms
+staff weights from lowgoldonly's exports: SP 1.35, RP 0.46 (a lineup slot = 1)
+field (lowgoldonly, 2 exports): 36% of batters faced thrown left-handed · 45% of PA by left-handed bats · 12.9 bats / 4.9 SP / 6 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 265 of 267 pool cards have innings on record (median 2854 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.9  Avoid Ks +3.4  BABIP +1.9  Eye +1.2  Gap +0.9
+                          RHB: Power +5.2  Avoid Ks +3.5  BABIP +1.9  Eye +1.2  Gap +0.9
+                         arms: Stuff +1.7  pHR +1.7  pBABIP +1.1  Control +0.9
+
+optimiser: 8 λ starts hill-climbed; best 178.9 runs vs 138.5 greedy (+40.4), 8 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Eduardo Tait                80  L  2026    +3.3  park:L DEF  79/ 79 -0.3
+R:1B    J.T. Snow (VAR)             83  L  2004   +14.6  park:L DEF  96/ 96 +2.0
+R:2B    Adam Kennedy                82  L  2002   +11.5  park:L DEF 112/112 -0.2
+R:3B    Pedro Alvarez               81  L  2013   +34.8  park:L DEF  75/ 96 -1.7
+R:SS    Carlos Guillen              83  S  2006    +8.3  park:L DEF  89/ 90 -2.0
+R:LF    Howard Johnson (VAR)        84  S  1989   +12.7  park:L DEF  72/ 72 -1.5
+R:CF    Jon Nunnally                82  L  1997   +10.7  park:L DEF  87/100 -1.2
+R:RF    Brandon Lowe (VAR)          82  L  2020   +10.5  park:L DEF  68/ 91 -2.1
+R:DH    Nick Esasky (VAR)           81  R  1989   +10.7  park:R
+
+--- lineup vs LHP ---
+L:C     Josh Gibson                 84  R  1946    +9.4  park:R DEF  69/ 75 -0.5
+L:1B    Nick Esasky (VAR)           81  R  1989    +8.2  park:R DEF  85/ 85 +0.8
+L:2B    Brandon Lowe (VAR)          82  L  2020   +18.2  park:L DEF  91/ 91 -2.8
+L:3B    Zack Cozart                 83  R  2017   +16.5  park:R DEF  94/ 97 +0.3
+L:SS    Carlos Guillen              83  S  2006    +4.0  park:R DEF  89/ 90 -2.0
+L:LF    Howard Johnson (VAR)        84  S  1989    +2.5  park:R DEF  72/ 72 -1.5
+L:CF    Andrew McCutchen            83  R  2017   +13.5  park:R DEF  92/105 -1.0
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +29.8  park:R DEF 149/149 +3.6
+L:DH    Frank Howard                81  R  1968   +30.6  park:R
+
+--- batting order vs RHP --- (4.95 runs/game; The Book's order 4.95)
+  1. J.T. Snow (VAR) 1B
+  2. Nick Esasky (VAR) DH
+  3. Pedro Alvarez 3B
+  4. Eduardo Tait C
+  5. Adam Kennedy 2B
+  6. Brandon Lowe (VAR) RF
+  7. Howard Johnson (VAR) LF
+  8. Jon Nunnally CF
+  9. Carlos Guillen SS
+
+--- batting order vs LHP --- (5.12 runs/game; The Book's order 5.12)
+  1. Andrew McCutchen CF
+  2. Zack Cozart 3B
+  3. Frank Howard DH
+  4. Jeff Francoeur (VAR) RF
+  5. Josh Gibson C
+  6. Brandon Lowe (VAR) 2B
+  7. Nick Esasky (VAR) 1B
+  8. Howard Johnson (VAR) LF
+  9. Carlos Guillen SS
+
+--- rotation ---
+SP1     Raisel Iglesias             80  R  2015    +8.5   SP STM  69
+SP2     Jake Peavy                  83  R  2004    +7.5   SP STM  71
+SP3     Shane Reynolds              81  R  1999    +6.2   SP STM  79
+SP4     Seth Hernandez (VAR)        84  R  2026    +6.0   SP STM  64
+SP5     Robby Snelling              81  R  2026    +5.8   SP STM  63
+
+--- bullpen ---
+CL      Javier Lopez                80  L  2010    +8.1   RP STM   9
+RP1     Gary Lavelle                82  S  1977    +5.4   CL STM  46
+RP2     Rube Marquard               84  S  1916    +5.2   SP STM  82
+RP3     Luis Arroyo (VAR)           84  L  1961    +4.9   CL STM  43
+RP4     Matt Garza                  81  R  2011    +4.8   SP STM  72
+RP5     Edgardo Henriquez           81  R  2026    +4.2   RP STM  17
+RP6     Tom Burgmeier               83  L  1980    +4.1   CL STM  24
+
+--- bench ---
+BN1     Zack Cozart                 83  R  2017    +2.7  park:R
+BN2     Josh Gibson                 84  R  1946    +2.2  park:R
+BN3     Frank Howard                81  R  1968    -0.5  park:R
+BN4     Jeff Francoeur (VAR)        81  R  2005    -6.0  park:R
+BN5     Andrew McCutchen            83  R  2017    -7.9  park:R
+
+26 players · value 2134 · λ 1.000 · 7 variants
+vs RHP lineup gets the friendly park side in 8 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  J.T. Snow              L EYE 161 (177/154)  POW  73 (60/76)  K  97  BABIP 138  GAP 134  SPE  56
+  Howard Johnson         S EYE 115 (149/104)  POW 131 (98/145)  K  61  BABIP 111  GAP 140  SPE  77
+  Adam Kennedy           L EYE  48 (40/51)  POW 114 (90/124)  K  87  BABIP 138  GAP  96  SPE  66
+  Nick Esasky            R EYE 135 (164/124)  POW 147 (161/141)  K  67  BABIP  95  GAP  93  SPE  30
+  Jon Nunnally           L EYE 114 (82/128)  POW 110 (77/125)  K  57  BABIP 125  GAP  97  SPE  75
+  Brandon Lowe           L EYE 132 (119/136)  POW 132 (155/124)  K  75  BABIP  95  GAP  93  SPE  73
+  Carlos Guillen         S EYE 139 (133/141)  POW  83 (83/83)  K  89  BABIP 140  GAP 125  SPE  69
+  Eduardo Tait           L EYE  66 (54/70)  POW 134 (106/144)  K  76  BABIP  85  GAP 144  SPE  39
+  Zack Cozart            R EYE 115 (114/115)  POW 102 (112/99)  K 100  BABIP 100  GAP  80  SPE  56
+  Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
+  Frank Howard           R EYE  84 (101/79)  POW 158 (171/154)  K  62  BABIP  76  GAP  80  SPE  20
+  Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
+  Andrew McCutchen       R EYE 107 (140/98)  POW  84 (115/75)  K  91  BABIP  83  GAP  70  SPE 103
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (32 teams): 4.8 SP / 7.3 RP / 13.7 bats
+  ✓ starters' stamina Raisel Iglesias 69, Jake Peavy 71, Shane Reynolds 79, Seth Hernandez 64, Robby Snelling 63 (era floor 50)
+  ✓ stamina guys in the pen (45+): Gary Lavelle 46, Rube Marquard 82, Matt Garza 72
+  ✓ C  backup: Eduardo Tait 79, Josh Gibson 69
+  ✓ 1B backup: Carlos Guillen 90, J.T. Snow 96, Pedro Alvarez 96, Nick Esasky 85, Josh Gibson 75
+  ✓ 2B backup: Adam Kennedy 112, Brandon Lowe 91
+  ✓ 3B backup: Pedro Alvarez 75, Zack Cozart 94
+  ✓ SS backup: Zack Cozart 97
+  ✓ LF backup: Jon Nunnally 100, Brandon Lowe 86, Nick Esasky 67
+  ✓ CF backup: Jon Nunnally 87, Andrew McCutchen 92
+  ✓ RF backup: Jon Nunnally 91, Brandon Lowe 68, Andrew McCutchen 105, Jeff Francoeur 149
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 178.9 weighted runs (bats 64/36 R/L, SP 1.35, RP 0.46, bench 0.1)
+points: lineup(both boards, 14 bats) 1150 · rotation 409 · bullpen 575 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Shane Reynolds           pBABIP 47 (fitted 50–175)

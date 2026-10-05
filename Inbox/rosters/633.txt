@@ -1,0 +1,125 @@
+
+=== Daily Bronze OOTP Era ===
+2009 RE @ 2026 Heinsohn Ballpark · DH on · value 40–69 · cap none · 26 players
+R/G 4.61  AVG 0.261  OBP 0.333  SLG 0.416  K% 18.0  HR/PA 2.74%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.032 runs · steal break-even 81.4% (0 out) / 78.3% (1 out)
+park: all-LHB lineup 4.61 R/G vs all-RHB 4.61 — 0.00 R/G swing toward RIGHT-handed bats
+
+pool: 1318 eligible owned cards — 666 bats (218L / 92S / 356R), 652 arms
+staff weights from bronzeootp's exports: SP 1.13, RP 0.48 (a lineup slot = 1)
+field (bronzeootp, 12 exports): 25% of batters faced thrown left-handed · 45% of PA by left-handed bats · 13.6 bats / 5.4 SP / 6.5 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1111 of 1318 pool cards have innings on record (median 165 PA/BF); K = 5000
+gloves ×0.91: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.6  Avoid Ks +2.7  BABIP +2.1  Eye +1.4  Gap +0.9
+                          RHB: Power +4.6  Avoid Ks +2.7  BABIP +2.1  Eye +1.4  Gap +0.9
+                         arms: pHR +1.5  Stuff +1.3  pBABIP +1.2  Control +1.0
+
+optimiser: 9 λ starts hill-climbed; best 64.1 runs vs 25.7 greedy (+38.3), 23 moves from λ 2.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Thayron Liranzo (VAR)       65  S  2026    -1.2  park:L DEF  67/ 76 -0.6
+R:1B    Edward Florentino (VAR)     63  L  2026   +11.2  park:L DEF  91/ 91 +1.6
+R:2B    Hank Blalock                68  L  2003   +15.4  park:L DEF 108/108 -0.7
+R:3B    Kyle Seager                 64  L  2014    +3.8  park:L DEF 116/116 +3.0
+R:SS    Jhonny Level (VAR)          64  S  2026    +2.5  park:L DEF  94/107 -1.6
+R:LF    Steve Pearce (VAR)          69  R  2016    +5.5  park:R DEF  67/ 73 -2.0
+R:CF    Jim Edmonds                 63  L  2010    +3.9  park:L DEF  70/ 88 -2.2
+R:RF    Aaron Hicks                 63  S  2020    +3.0  park:L DEF  71/ 71 -2.1
+R:DH    Jack Cust                   63  L  2008    +8.8  park:L
+
+--- lineup vs LHP ---
+L:C     Thayron Liranzo (VAR)       65  S  2026    +4.7  park:R DEF  67/ 76 -0.6
+L:1B    Scott Spiezio               67  S  2002    +7.2  park:R DEF  91/ 91 +1.6
+L:2B    Alfonso Soriano             66  R  2003    +6.1  park:R DEF  64/ 64 -6.9
+L:3B    Jhonny Level (VAR)          64  S  2026    -2.8  park:R DEF 105/107 +1.7
+L:SS    Jefferson Rojas             66  R  2026    -0.5  park:R DEF 110/128 +0.4
+L:LF    Steve Pearce (VAR)          69  R  2016   +17.9  park:R DEF  67/ 73 -2.0
+L:CF    Jett Williams               62  R  2026    +3.5  park:R DEF  87/103 -1.3
+L:RF    Aaron Hicks                 63  S  2020    -0.9  park:R DEF  71/ 71 -2.1
+L:DH    Jack Cust                   63  L  2008    +5.1  park:L
+
+--- batting order vs RHP --- (4.69 runs/game; The Book's order 4.68)
+  1. Aaron Hicks RF
+  2. Steve Pearce (VAR) LF
+  3. Edward Florentino (VAR) 1B
+  4. Hank Blalock 2B
+  5. Jhonny Level (VAR) SS
+  6. Jim Edmonds CF
+  7. Kyle Seager 3B
+  8. Jack Cust DH
+  9. Thayron Liranzo (VAR) C
+
+--- batting order vs LHP --- (4.83 runs/game; The Book's order 4.83)
+  1. Scott Spiezio 1B
+  2. Steve Pearce (VAR) LF
+  3. Jett Williams CF
+  4. Alfonso Soriano 2B
+  5. Jefferson Rojas SS
+  6. Jhonny Level (VAR) 3B
+  7. Thayron Liranzo (VAR) C
+  8. Jack Cust DH
+  9. Aaron Hicks RF
+
+--- rotation ---
+SP1     James McDonald (VAR)        55  L  2010    +6.4   SP STM  59
+SP2     Tanner McDougal (VAR)       66  R  2026    +2.7   SP STM  62
+SP3     Corey Kluber (VAR)          64  R  2022    +2.2   SP STM  64
+SP4     Kyson Witherspoon (VAR)     63  R  2026    +0.7   SP STM  59
+SP5     Roy Halladay                61  R  2004    -1.2   SP STM  73
+
+--- bullpen ---
+CL      Edwin Diaz                  67  R  2016   +11.6   CL STM  13
+RP1     Adam Cimber (VAR)           69  R  2018    +5.2   RP STM  17
+RP2     Justin Bruihl               69  L  2026    +2.4   RP STM  18
+RP3     Caden Scarborough           64  R  2026    +2.0   RP STM  46
+RP4     Juan Morillo                69  R  2026    +1.3   RP STM  16
+RP5     Billy Wagner                68  L  2007    +1.0   CL STM  18
+RP6     Justin Verlander            58  R  2006    -1.6   SP STM  83
+
+--- bench ---
+BN1     Alfonso Soriano             66  R  2003    -0.3  park:R
+BN2     Jefferson Rojas             66  R  2026    -5.8  park:R
+BN3     Scott Spiezio               67  S  2002    -6.0  park:L
+BN4     Carter Jensen               66  L  2026    -6.2  park:L
+BN5     Jett Williams               62  R  2026    -6.3  park:R
+
+26 players · value 1682 · λ 2.000 · 9 variants
+vs RHP lineup gets the friendly park side in 8 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Hank Blalock           L EYE  67 (43/73)  POW  97 (40/117)  K  77  BABIP  93  GAP  88  SPE  26
+  Edward Florentino      L EYE 134 (99/148)  POW 106 (79/119)  K  60  BABIP  89  GAP  88  SPE  43
+  Jack Cust              L EYE 213 (211/214)  POW 142 (128/146)  K  30  BABIP  91  GAP  60  SPE   8
+  Steve Pearce           R EYE 147 (167/140)  POW 106 (142/98)  K 105  BABIP  92  GAP  76  SPE  46
+  Jim Edmonds            L EYE  88 (79/91)  POW  98 (98/98)  K  65  BABIP  97  GAP 114  SPE  59
+  Kyle Seager            L EYE  80 (45/88)  POW  96 (48/113)  K  85  BABIP  72  GAP  63  SPE  53
+  Aaron Hicks            S EYE 215 (169/230)  POW  71 (79/69)  K 109  BABIP  64  GAP 100  SPE  73
+  Jhonny Level           S EYE  68 (62/70)  POW 100 (87/104)  K  97  BABIP  98  GAP 109  SPE  36
+  Alfonso Soriano        R EYE  62 (82/49)  POW 121 (100/128)  K  68  BABIP  91  GAP  95  SPE 106
+  Thayron Liranzo        S EYE 153 (164/149)  POW 116 (138/108)  K  63  BABIP  66  GAP  95  SPE  25
+  Jefferson Rojas        R EYE  69 (72/68)  POW  82 (88/81)  K 123  BABIP  82  GAP 120  SPE  84
+  Scott Spiezio          S EYE 131 (136/129)  POW  61 (81/48)  K 140  BABIP  83  GAP 110  SPE  43
+  Carter Jensen          L EYE  97 (94/99)  POW  90 (87/92)  K  57  BABIP  79  GAP 121  SPE  72
+  Jett Williams          R EYE 151 (160/148)  POW  74 (88/69)  K  78  BABIP  81  GAP 125  SPE 114
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (352 teams): 5.0 SP / 7.1 RP / 13.9 bats
+  ✓ starters' stamina James McDonald 59, Tanner McDougal 62, Corey Kluber 64, Kyson Witherspoon 59, Roy Halladay 73 (era floor 50)
+  ✓ stamina guys in the pen (45+): Caden Scarborough 46, Justin Verlander 83
+  ✓ C  backup: Carter Jensen 66
+  ✓ 1B backup: Thayron Liranzo 76, Jhonny Level 84, Jim Edmonds 69, Edward Florentino 91, Steve Pearce 73, Jefferson Rojas 84, Scott Spiezio 91
+  ✓ 2B backup: Jhonny Level 107, Hank Blalock 108, Jefferson Rojas 128, Alfonso Soriano 64, Jett Williams 93, Scott Spiezio 60
+  ✓ 3B backup: Jhonny Level 105, Hank Blalock 105, Kyle Seager 116, Jefferson Rojas 110, Jett Williams 83
+  ✓ SS backup: Jhonny Level 94, Jefferson Rojas 110, Jett Williams 78
+  ✓ LF backup: Jhonny Level 76, Aaron Hicks 69, Edward Florentino 74, Jefferson Rojas 71, Jett Williams 103, Scott Spiezio 62
+  ✓ CF backup: Jim Edmonds 70, Jett Williams 87
+  ✓ RF backup: Jhonny Level 68, Jim Edmonds 88, Edward Florentino 67, Jefferson Rojas 61, Jett Williams 97
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 64.1 weighted runs (bats 75/25 R/L, SP 1.13, RP 0.48, bench 0.1)
+points: lineup(both boards, 13 bats) 843 · rotation 309 · bullpen 464 · bench-only 66
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)

@@ -1,0 +1,122 @@
+
+=== Daily Live Plus ===
+PT default (2010) RE @ 2026 PNC Park · DH on · value 40–105 · cap none · 26 players
+R/G 4.46  AVG 0.246  OBP 0.318  SLG 0.398  K% 22.6  HR/PA 2.84%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.030 runs · steal break-even 80.8% (0 out) / 77.6% (1 out)
+park: all-LHB lineup 4.51 R/G vs all-RHB 4.44 — 0.06 R/G swing toward LEFT-handed bats
+
+pool: 1451 eligible owned cards — 701 bats (251L / 83S / 367R), 750 arms
+staff weights from liveplus's exports: SP 1.25, RP 0.39 (a lineup slot = 1)
+field (liveplus, 7 exports): 45% of batters faced thrown left-handed · 56% of PA by left-handed bats · 13.1 bats / 5.1 SP / 6.7 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 688 of 1451 pool cards have innings on record (median 85 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.9  Avoid Ks +3.3  BABIP +1.8  Eye +1.2  Gap +0.8
+                          RHB: Power +4.7  Avoid Ks +3.3  BABIP +1.8  Eye +1.2  Gap +0.8
+                         arms: Stuff +1.6  pHR +1.6  pBABIP +1.0  Control +0.9
+
+optimiser: 9 λ starts hill-climbed; best 229.3 runs vs 223.8 greedy (+5.5), 4 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Eduardo Tait                80  L  2026    +3.2  park:L DEF  79/ 79 -0.3
+R:1B    Ethan Holliday (VAR)        95  L  2026   +23.8  park:L DEF 113/113 +3.7
+R:2B    Roch Cholowsky             101  R  2026   +14.4  park:R DEF 135/135 +2.7
+R:3B    Kaelen Culpepper (VAR)      89  R  2026   +14.4  park:R DEF 122/130 +3.3
+R:SS    Leodalis De Vries          102  S  2026   +28.1  park:L DEF 115/130 +0.9
+R:LF    JJ Wetherholt (VAR)         96  L  2026   +16.7  park:L DEF  76/ 96 -1.2
+R:CF    Walker Jenkins             101  L  2026   +21.0  park:L DEF 114/127 +0.0
+R:RF    Cody Bellinger             100  L  2026   +11.7  park:L DEF 134/139 +2.5
+R:DH    Josue De Paula (VAR)        87  L  2026   +19.4  park:L
+
+--- lineup vs LHP ---
+L:C     Gabriel Moreno             100  R  2026    +1.7  park:R DEF  76/ 76 -0.3
+L:1B    Leodalis De Vries          102  S  2026   +21.9  park:R DEF 107/130 +3.1
+L:2B    Roch Cholowsky             101  R  2026   +22.8  park:R DEF 135/135 +2.7
+L:3B    Arjun Nimmala (VAR)         94  R  2026   +17.3  park:R DEF 128/128 +4.0
+L:SS    Kaelen Culpepper (VAR)      89  R  2026   +21.3  park:R DEF 117/130 +1.1
+L:LF    Kevin Alcantara (VAR)       76  R  2026   +12.6  park:R DEF 122/122 +1.7
+L:CF    Luis Pena                   90  R  2026   +14.3  park:R DEF  70/ 99 -2.0
+L:RF    Cody Bellinger             100  L  2026   +15.0  park:L DEF 134/139 +2.5
+L:DH    Aidan Miller                98  R  2026   +13.9  park:R
+
+--- batting order vs RHP --- (5.10 runs/game; The Book's order 5.09)
+  1. Walker Jenkins CF
+  2. Leodalis De Vries SS
+  3. Ethan Holliday (VAR) 1B
+  4. Josue De Paula (VAR) DH
+  5. JJ Wetherholt (VAR) LF
+  6. Roch Cholowsky 2B
+  7. Eduardo Tait C
+  8. Kaelen Culpepper (VAR) 3B
+  9. Cody Bellinger RF
+
+--- batting order vs LHP --- (4.97 runs/game; The Book's order 4.97)
+  1. Leodalis De Vries 1B
+  2. Roch Cholowsky 2B
+  3. Aidan Miller DH
+  4. Arjun Nimmala (VAR) 3B
+  5. Kaelen Culpepper (VAR) SS
+  6. Luis Pena CF
+  7. Cody Bellinger RF
+  8. Kevin Alcantara (VAR) LF
+  9. Gabriel Moreno C
+
+--- rotation ---
+SP1     Connelly Early              96  L  2026    +8.6   SP STM  75
+SP2     Payton Tolle                99  L  2026    +8.3   SP STM  70
+SP3     Noah Schultz                92  L  2026    +8.0   SP STM  56
+SP4     Bubba Chandler             100  S  2026    +7.9   SP STM  82
+SP5     Trey Yesavage (VAR)         97  R  2026    +6.4   SP STM  69
+
+--- bullpen ---
+CL      Daniel Palencia (VAR)      100  R  2026   +11.1   CL STM  14
+RP1     Seth Hernandez (VAR)        84  R  2026    +5.9   SP STM  64
+RP2     Tarik Skubal               100  L  2026    +5.8   SP STM  78
+RP3     Louie Varland              100  L  2026    +5.8   CL STM  25
+RP4     Cade Smith                  96  R  2026    +5.8   CL STM  17
+RP5     Jack Wenninger              79  L  2026    +5.7   RP STM  48
+RP6     Jarlin Susana               94  R  2026    +5.4   RP STM  25
+
+--- bench ---
+BN1     Arjun Nimmala (VAR)         94  R  2026   +13.3  park:R
+BN2     Aidan Miller                98  R  2026    +9.0  park:R
+BN3     Luis Pena                   90  R  2026    +6.7  park:R
+BN4     Kevin Alcantara (VAR)       76  R  2026    +1.9  park:R
+BN5     Gabriel Moreno             100  R  2026    -2.2  park:R
+
+26 players · value 2446 · λ 0.000 · 9 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Leodalis De Vries      S EYE 145 (144/145)  POW 118 (115/120)  K 127  BABIP 152  GAP 152  SPE  91
+  Ethan Holliday         L EYE 164 (151/168)  POW 139 (117/147)  K  72  BABIP 114  GAP 103  SPE  51
+  Walker Jenkins         L EYE 162 (149/166)  POW  96 (84/100)  K 132  BABIP 139  GAP 129  SPE  85
+  Josue De Paula         L EYE 134 (110/143)  POW 148 (126/156)  K  91  BABIP 102  GAP 106  SPE  59
+  JJ Wetherholt          L EYE 118 (107/122)  POW  78 (73/80)  K 138  BABIP 135  GAP 119  SPE  82
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  Roch Cholowsky         R EYE 142 (137/144)  POW 122 (133/118)  K 109  BABIP 128  GAP 112  SPE  59
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Cody Bellinger         L EYE 132 (110/140)  POW  84 (90/82)  K 138  BABIP 118  GAP 101  SPE  64
+  Aidan Miller           R EYE 156 (176/149)  POW 145 (152/143)  K  77  BABIP  94  GAP  96  SPE  93
+  Luis Pena              R EYE 116 (134/111)  POW  78 (89/74)  K 129  BABIP 125  GAP 109  SPE 116
+  Eduardo Tait           L EYE  66 (54/70)  POW 134 (106/144)  K  76  BABIP  85  GAP 144  SPE  39
+  Kevin Alcantara        R EYE  99 (106/97)  POW 120 (138/113)  K  69  BABIP 106  GAP  82  SPE  94
+  Gabriel Moreno         R EYE  96 (98/96)  POW  77 (82/76)  K  93  BABIP 115  GAP  92  SPE  26
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (110 teams): 4.7 SP / 7.7 RP / 13.5 bats
+  ✓ starters' stamina Connelly Early 75, Payton Tolle 70, Noah Schultz 56, Bubba Chandler 82, Trey Yesavage 69 (era floor 50)
+  ✓ stamina guys in the pen (45+): Seth Hernandez 64, Tarik Skubal 78, Jack Wenninger 48
+  ✓ C  backup: Eduardo Tait 79, Gabriel Moreno 76
+  ✓ 1B backup: Leodalis De Vries 107, Roch Cholowsky 109, Kaelen Culpepper 102, Cody Bellinger 64, JJ Wetherholt 81, Ethan Holliday 113, Arjun Nimmala 105, Luis Pena 82, Kevin Alcantara 84, Aidan Miller 99
+  ✓ 2B backup: Leodalis De Vries 130, Kaelen Culpepper 130, JJ Wetherholt 96, Ethan Holliday 104, Arjun Nimmala 126, Luis Pena 99, Aidan Miller 123
+  ✓ 3B backup: Leodalis De Vries 116, Roch Cholowsky 121, Kaelen Culpepper 122, JJ Wetherholt 84, Ethan Holliday 102, Arjun Nimmala 128, Luis Pena 85, Aidan Miller 122
+  ✓ SS backup: Leodalis De Vries 115, Roch Cholowsky 119, Kaelen Culpepper 117, JJ Wetherholt 78, Ethan Holliday 93, Arjun Nimmala 116, Luis Pena 80, Aidan Miller 112
+  ✓ LF backup: Leodalis De Vries 89, Roch Cholowsky 76, Kaelen Culpepper 78, Walker Jenkins 127, Cody Bellinger 139, JJ Wetherholt 76, Ethan Holliday 66, Josue De Paula 71, Arjun Nimmala 84, Luis Pena 90, Kevin Alcantara 122, Aidan Miller 63
+  ✓ CF backup: Leodalis De Vries 67, Walker Jenkins 114, Cody Bellinger 127, Arjun Nimmala 60, Luis Pena 70, Kevin Alcantara 108
+  ✓ RF backup: Leodalis De Vries 82, Roch Cholowsky 75, Kaelen Culpepper 68, Walker Jenkins 117, JJ Wetherholt 67, Josue De Paula 69, Arjun Nimmala 75, Luis Pena 82, Kevin Alcantara 115, Aidan Miller 61
+(23 of 26 have a live ask in the last shop snapshot)
+objective: 229.3 weighted runs (bats 55/45 R/L, SP 1.25, RP 0.39, bench 0.1)
+points: lineup(both boards, 14 bats) 1309 · rotation 484 · bullpen 653 · bench-only 0

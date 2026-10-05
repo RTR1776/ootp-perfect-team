@@ -1,0 +1,123 @@
+
+=== Daily Live Silver ===
+PT default (2010) RE @ 2026 Yankee Stadium · DH on · value 40–79 · cap none · 26 players
+R/G 4.37  AVG 0.238  OBP 0.311  SLG 0.398  K% 22.6  HR/PA 3.23%  preset Moderate Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.027 runs · steal break-even 80.8% (0 out) / 77.8% (1 out)
+park: all-LHB lineup 4.38 R/G vs all-RHB 4.36 — 0.02 R/G swing toward LEFT-handed bats
+card sets: Live only
+
+pool: 1197 eligible owned cards — 577 bats (191L / 69S / 317R), 620 arms
+staff weights from livesilverdaily's exports: SP 1.22, RP 0.4 (a lineup slot = 1)
+field (livesilverdaily, 1 exports): 26% of batters faced thrown left-handed · 45% of PA by left-handed bats · 13 bats / 5.2 SP / 7.1 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 914 of 1197 pool cards have innings on record (median 94 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.5  Avoid Ks +3.2  BABIP +1.6  Eye +1.1  Gap +0.7
+                          RHB: Power +5.3  Avoid Ks +3.2  BABIP +1.7  Eye +1.1  Gap +0.7
+                         arms: pHR +1.8  Stuff +1.6  pBABIP +0.9  Control +0.8
+
+optimiser: 9 λ starts hill-climbed; best -126.2 runs vs -130.8 greedy (+4.5), 21 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Carter Jensen               66  L  2026   -11.8  park:L DEF  66/ 66 -0.6
+R:1B    Ketel Marte                 71  S  2026    -8.9  park:L DEF  84/ 84 +0.7
+R:2B    Gunnar Henderson            66  L  2026   -11.9  park:L DEF  93/102 -2.5
+R:3B    Corey Seager                77  L  2026   -10.3  park:L DEF  86/106 -0.5
+R:SS    Bryson Stott                71  L  2026   -10.0  park:L DEF  60/ 86 -5.3
+R:LF    Julio Rodriguez             78  R  2026   -11.4  park:R DEF 118/118 +1.5
+R:CF    Mickey Moniak               76  L  2026    -6.9  park:L DEF  63/ 85 -2.3
+R:RF    Carson Benge                78  L  2026    -6.7  park:L DEF  87/ 89 -0.8
+R:DH    Vladimir Guerrero Jr.       68  R  2026    -8.5  park:R
+
+--- lineup vs LHP ---
+L:C     Carson Kelly                78  R  2026   -10.9  park:R DEF  66/ 80 -0.6
+L:1B    Jordan Westburg             75  R  2026    -8.8  park:R DEF  90/ 90 +1.3
+L:2B    Nick Gonzales               78  R  2026    -7.9  park:R DEF  65/ 70 -6.1
+L:3B    Bryson Stott                71  L  2026   -11.0  park:L DEF  69/ 86 -2.4
+L:SS    Chase Meidroth              78  R  2026   -10.0  park:R DEF  61/ 81 -5.1
+L:LF    Ketel Marte                 71  S  2026    -7.2  park:R DEF  80/ 84 -1.0
+L:CF    Mickey Moniak               76  L  2026   -11.5  park:L DEF  63/ 85 -2.3
+L:RF    Julio Rodriguez             78  R  2026   -10.5  park:R DEF 112/118 +1.0
+L:DH    Vladimir Guerrero Jr.       68  R  2026    -7.7  park:R
+
+--- batting order vs RHP --- (3.74 runs/game; The Book's order 3.74)
+  1. Corey Seager 3B
+  2. Bryson Stott SS
+  3. Ketel Marte 1B
+  4. Mickey Moniak CF
+  5. Carson Benge RF
+  6. Gunnar Henderson 2B
+  7. Carter Jensen C
+  8. Julio Rodriguez LF
+  9. Vladimir Guerrero Jr. DH
+
+--- batting order vs LHP --- (3.73 runs/game; The Book's order 3.72)
+  1. Vladimir Guerrero Jr. DH
+  2. Carson Kelly C
+  3. Jordan Westburg 1B
+  4. Ketel Marte LF
+  5. Nick Gonzales 2B
+  6. Bryson Stott 3B
+  7. Mickey Moniak CF
+  8. Julio Rodriguez RF
+  9. Chase Meidroth SS
+
+--- rotation ---
+SP1     Andrew Alvarez              68  L  2026    -3.3   SP STM  70
+SP2     Walbert Urena               76  R  2026    -3.4   SP STM  68
+SP3     Joe Boyle                   76  R  2026    -4.0   SP STM  58
+SP4     Landen Roupp                78  R  2026    -4.1   SP STM  74
+SP5     Patrick Sandoval            62  L  2026    -4.8   SP STM  62
+
+--- bullpen ---
+CL      Sam Hentges                 78  L  2026    +3.2   RP STM  15
+RP1     Justin Martinez             78  R  2026    +2.4   RP STM  17
+RP2     Gregory Santos              74  R  2026    +1.9   CL STM  17
+RP3     Orion Kerkering             76  R  2026    +1.4   RP STM  16
+RP4     Yohan Ramirez               72  R  2026    +0.6   RP STM  21
+RP5     Carmen Mlodzinski           75  R  2026    -4.1   RP STM  82
+RP6     Joe Musgrove                76  R  2026    -4.1   RP STM  53
+
+--- bench ---
+BN1     Nick Gonzales               78  R  2026   -10.3  park:R
+BN2     Jordan Westburg             75  R  2026   -10.7  park:R
+BN3     Chase Meidroth              78  R  2026   -11.4  park:R
+BN4     Ryan O'Hearn                72  L  2026    -8.9  park:L
+BN5     Carson Kelly                78  R  2026   -12.7  park:R
+
+26 players · value 1921 · λ 1.000 · 0 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Carson Benge           L EYE  72 (68/74)  POW  83 (78/85)  K  79  BABIP 109  GAP  65  SPE  83
+  Mickey Moniak          L EYE  59 (58/60)  POW 104 (98/107)  K  69  BABIP  89  GAP 107  SPE 100
+  Vladimir Guerrero Jr.  R EYE  84 (87/84)  POW  64 (65/64)  K 105  BABIP  80  GAP  69  SPE  10
+  Ryan O'Hearn           L EYE  77 (76/78)  POW  89 (88/90)  K  79  BABIP  92  GAP  69  SPE  20
+  Ketel Marte            S EYE  78 (76/79)  POW  95 (98/95)  K  95  BABIP  62  GAP  92  SPE  47
+  Bryson Stott           L EYE  89 (89/89)  POW  69 (68/70)  K  89  BABIP  87  GAP 104  SPE  62
+  Corey Seager           L EYE 100 (90/106)  POW  90 (86/92)  K  74  BABIP  73  GAP  90  SPE   4
+  Nick Gonzales          R EYE  70 (72/70)  POW  53 (55/53)  K  94  BABIP 142  GAP  67  SPE  67
+  Jordan Westburg        R EYE  67 (76/64)  POW  95 (98/95)  K  81  BABIP  84  GAP  92  SPE  35
+  Chase Meidroth         R EYE  88 (90/88)  POW  70 (71/70)  K  75  BABIP 109  GAP  74  SPE  35
+  Julio Rodriguez        R EYE  72 (75/72)  POW  92 (94/92)  K  76  BABIP  81  GAP  69  SPE  52
+  Carter Jensen          L EYE  97 (94/99)  POW  90 (87/92)  K  57  BABIP  79  GAP 121  SPE  72
+  Gunnar Henderson       L EYE  87 (87/88)  POW  91 (88/92)  K  76  BABIP  60  GAP 106  SPE  61
+  Carson Kelly           R EYE  90 (93/90)  POW  82 (85/82)  K  89  BABIP  75  GAP  62  SPE  35
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (32 teams): 5.1 SP / 7.9 RP / 13.4 bats
+  ✓ starters' stamina Andrew Alvarez 70, Walbert Urena 68, Joe Boyle 58, Landen Roupp 74, Patrick Sandoval 62 (era floor 50)
+  ✓ stamina guys in the pen (45+): Carmen Mlodzinski 82, Joe Musgrove 53
+  ✓ C  backup: Carter Jensen 66, Carson Kelly 66
+  ✓ 1B backup: Bryson Stott 86, Gunnar Henderson 102, Corey Seager 106, Carson Benge 64, Ketel Marte 84, Vladimir Guerrero Jr. 67, Carson Kelly 80, Chase Meidroth 73, Nick Gonzales 70, Jordan Westburg 90
+  ✓ 2B backup: Bryson Stott 74, Gunnar Henderson 93, Corey Seager 88, Ketel Marte 71, Chase Meidroth 81, Nick Gonzales 65, Jordan Westburg 71
+  ✓ 3B backup: Bryson Stott 69, Gunnar Henderson 86, Corey Seager 86, Chase Meidroth 65, Jordan Westburg 67
+  ✓ SS backup: Bryson Stott 60, Gunnar Henderson 79, Corey Seager 75, Chase Meidroth 61
+  ✓ LF backup: Bryson Stott 60, Gunnar Henderson 69, Mickey Moniak 85, Carson Benge 89, Julio Rodriguez 118, Ketel Marte 80, Chase Meidroth 70
+  ✓ CF backup: Carson Benge 66, Julio Rodriguez 102
+  ✓ RF backup: Gunnar Henderson 64, Mickey Moniak 77, Carson Benge 87, Julio Rodriguez 112, Ketel Marte 72, Chase Meidroth 63
+(26 of 26 have a live ask in the last shop snapshot)
+objective: -126.2 weighted runs (bats 74/26 R/L, SP 1.22, RP 0.4, bench 0.1)
+points: lineup(both boards, 13 bats) 960 · rotation 360 · bullpen 529 · bench-only 72

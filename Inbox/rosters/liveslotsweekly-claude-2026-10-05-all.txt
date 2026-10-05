@@ -1,0 +1,36 @@
+# Friday Night Live Slots — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 2026 --dh --min 40 --max 105 --card-types 1 --card-year-min 2026 --card-year-max 2026 --slots P8,D5,G4,S3,B3,I3 --size 26 --obs-exclude liveslotsweekly --sp 5 --rp 7 --bats 14)
+R:C Gabriel Moreno #81848
+R:1B Miguel Vargas #82471
+R:2B Bobby Witt Jr. #82379
+R:3B Kevin McGonigle #85007
+R:SS Otto Lopez #82108
+R:LF Pete Crow-Armstrong #81990
+R:CF Corbin Carroll #81849
+R:RF Shohei Ohtani #81776
+R:DH Yordan Alvarez #82178
+L:C Gabriel Moreno #81848
+L:1B Miguel Vargas #82471
+L:2B Bobby Witt Jr. #82379
+L:3B Kevin McGonigle #85007
+L:SS Otto Lopez #82108
+L:LF Pete Crow-Armstrong #81990
+L:CF Corbin Carroll #81849
+L:RF Shohei Ohtani #81776
+L:DH Yordan Alvarez #82178
+SP1 Tarik Skubal #82424
+SP2 Max Fried #82587
+SP3 Jacob Misiorowski #81947
+SP4 Hunter Brown #82189
+SP5 Nolan McLean #82089
+CL Adrian Morejon #81760
+RP1 Colin Holderman #82430
+RP2 Sam Hentges #81727
+RP3 Justin Martinez #86848
+RP4 Yohan Ramirez #81910
+RP5 Ben Brown #82003
+RP6 Andrew Alvarez #85566
+BN1 Kody Clemens #82332
+BN2 Keibert Ruiz #82012
+BN3 Randal Grichuk #82569
+BN4 Dominic Canzone #82232
+BN5 Joe Mack #85615

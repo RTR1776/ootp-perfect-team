@@ -1,0 +1,122 @@
+
+=== Daily Live Iron ===
+PT default (2010) RE @ 2026 Petco Park · DH on · value —–59 · cap none · 26 players
+R/G 4.27  AVG 0.236  OBP 0.310  SLG 0.392  K% 22.6  HR/PA 3.11%  preset Moderate Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.019 runs · steal break-even 80.5% (0 out) / 77.4% (1 out)
+park: all-LHB lineup 4.28 R/G vs all-RHB 4.27 — 0.01 R/G swing toward LEFT-handed bats
+card sets: Live only
+
+pool: 615 eligible owned cards — 301 bats (81L / 40S / 180R), 314 arms
+!! no exports on record for series liveirondaily — shape and handedness fall back to the era table
+shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 478 of 615 pool cards have innings on record (median 69 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.2  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.7
+                          RHB: Power +5.2  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.7
+                         arms: pHR +1.7  Stuff +1.5  pBABIP +0.9  Control +0.8
+
+optimiser: 9 λ starts hill-climbed; best -240.7 runs vs -243.6 greedy (+2.9), 9 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Joe Mack                    51  L  2026   -21.6  park:L DEF  70/ 70 -0.5
+R:1B    Ryan Vilade                 56  R  2026   -17.0  park:R DEF  77/ 77 +0.0
+R:2B    Anthony Volpe               57  R  2026   -20.2  park:R DEF  89/ 89 -3.0
+R:3B    Trevor Story                52  R  2026   -17.4  park:R DEF  71/ 93 -2.2
+R:SS    Brayan Rocchio              58  S  2026   -18.8  park:L DEF  69/ 86 -4.2
+R:LF    Randal Grichuk              55  R  2026   -15.5  park:R DEF  66/ 66 -1.9
+R:CF    Justin Crawford             59  L  2026   -18.6  park:L DEF  75/ 97 -1.8
+R:RF    Nathan Lukes                57  L  2026   -17.0  park:L DEF  79/ 82 -1.3
+R:DH    Keibert Ruiz                59  S  2026   -15.2  park:L
+
+--- lineup vs LHP ---
+L:C     Nick Fortes                 49  R  2026   -19.8  park:R DEF  64/ 64 -0.7
+L:1B    Trevor Story                52  R  2026   -15.1  park:R DEF  93/ 93 +1.7
+L:2B    Anthony Volpe               57  R  2026   -18.3  park:R DEF  89/ 89 -3.0
+L:3B    Edmundo Sosa                57  R  2026   -16.2  park:R DEF  68/ 76 -2.5
+L:SS    Brayan Rocchio              58  S  2026   -17.3  park:R DEF  69/ 86 -4.2
+L:LF    Jo Adell                    58  R  2026   -15.5  park:R DEF  79/ 79 -1.1
+L:CF    Ryan Waldschmidt            58  R  2026   -18.1  park:R DEF  65/ 86 -2.2
+L:RF    Randal Grichuk              55  R  2026   -13.3  park:R DEF  61/ 66 -2.6
+L:DH    Keibert Ruiz                59  S  2026   -13.4  park:R
+
+--- batting order vs RHP --- (3.38 runs/game; The Book's order 3.38)
+  1. Justin Crawford CF
+  2. Nathan Lukes RF
+  3. Randal Grichuk LF
+  4. Keibert Ruiz DH
+  5. Brayan Rocchio SS
+  6. Ryan Vilade 1B
+  7. Joe Mack C
+  8. Trevor Story 3B
+  9. Anthony Volpe 2B
+
+--- batting order vs LHP --- (3.45 runs/game; The Book's order 3.44)
+  1. Anthony Volpe 2B
+  2. Keibert Ruiz DH
+  3. Jo Adell LF
+  4. Randal Grichuk RF
+  5. Brayan Rocchio SS
+  6. Nick Fortes C
+  7. Edmundo Sosa 3B
+  8. Trevor Story 1B
+  9. Ryan Waldschmidt CF
+
+--- rotation ---
+SP1     Elmer Rodriguez             59  L  2026    -8.7   SP STM  58
+SP2     Cade Povich                 59  L  2026    -9.6   SP STM  59
+SP3     George Klassen              58  R  2026    -9.7   SP STM  59
+SP4     Luis Gil                    59  R  2026    -9.8   SP STM  59
+SP5     Luinder Avila               56  R  2026    -9.9   SP STM  68
+
+--- bullpen ---
+CL      Kody Funderburk             58  L  2026    -3.6   RP STM  21
+RP1     Cionel Perez                55  L  2026    -4.2   RP STM  16
+RP2     Danny Young                 55  L  2026    -4.3   RP STM  14
+RP3     Taylor Rogers               54  L  2026    -4.7   RP STM  15
+RP4     Andrew Chafin               59  R  2026    -4.8   RP STM  14
+RP5     Kendry Rojas                58  L  2026    -7.7   RP STM  62
+RP6     Hagen Smith                 55  L  2026    -8.6   RP STM  63
+
+--- bench ---
+BN1     Jo Adell                    58  R  2026   -17.1  park:R
+BN2     Dominic Smith               59  L  2026   -16.2  park:L
+BN3     Edmundo Sosa                57  R  2026   -19.0  park:R
+BN4     Ryan Waldschmidt            58  R  2026   -20.0  park:R
+BN5     Nick Fortes                 49  R  2026   -22.5  park:R
+
+26 players · value 1470 · λ 0.000 · 0 variants
+vs RHP lineup gets the friendly park side in 5 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Keibert Ruiz           S EYE  55 (53/56)  POW  75 (75/76)  K 110  BABIP  74  GAP  85  SPE   7
+  Randal Grichuk         R EYE  56 (58/56)  POW  88 (88/88)  K  77  BABIP  74  GAP 109  SPE  47
+  Dominic Smith          L EYE  72 (72/73)  POW  76 (71/78)  K  90  BABIP  76  GAP  57  SPE  24
+  Nathan Lukes           L EYE  67 (66/68)  POW  74 (73/75)  K  90  BABIP  77  GAP  61  SPE  47
+  Ryan Vilade            R EYE  78 (80/78)  POW  74 (74/75)  K  67  BABIP  82  GAP  79  SPE  59
+  Jo Adell               R EYE  58 (59/58)  POW  90 (92/90)  K  72  BABIP  79  GAP  78  SPE  32
+  Trevor Story           R EYE  54 (56/54)  POW  76 (78/76)  K  65  BABIP  98  GAP  84  SPE  47
+  Justin Crawford        L EYE  71 (68/73)  POW  43 (39/45)  K  87  BABIP  96  GAP  75  SPE  85
+  Brayan Rocchio         S EYE  68 (67/69)  POW  67 (71/66)  K  98  BABIP  71  GAP  72  SPE  46
+  Edmundo Sosa           R EYE  44 (49/43)  POW  83 (86/82)  K  79  BABIP  77  GAP  80  SPE  56
+  Ryan Waldschmidt       R EYE  79 (82/79)  POW  59 (60/59)  K  65  BABIP  92  GAP  78  SPE  57
+  Anthony Volpe          R EYE  85 (88/84)  POW  61 (62/61)  K  73  BABIP  77  GAP  85  SPE  65
+  Joe Mack               L EYE  68 (67/69)  POW  86 (83/88)  K  62  BABIP  65  GAP  64  SPE  21
+  Nick Fortes            R EYE  50 (53/50)  POW  64 (67/63)  K  98  BABIP  70  GAP  68  SPE  10
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Elmer Rodriguez 58, Cade Povich 59, George Klassen 59, Luis Gil 59, Luinder Avila 68 (era floor 50)
+  ✓ stamina guys in the pen (45+): Kendry Rojas 62, Hagen Smith 63
+  ✓ C  backup: Joe Mack 70, Nick Fortes 64
+  ✓ 1B backup: Joe Mack 60, Brayan Rocchio 75, Anthony Volpe 76, Trevor Story 93, Nathan Lukes 73, Ryan Vilade 77, Edmundo Sosa 76, Ryan Waldschmidt 70, Jo Adell 63
+  ✓ 2B backup: Brayan Rocchio 86, Trevor Story 81, Nathan Lukes 65, Edmundo Sosa 75
+  ✓ 3B backup: Brayan Rocchio 74, Anthony Volpe 76, Trevor Story 71, Edmundo Sosa 68
+  ✓ SS backup: Anthony Volpe 72, Trevor Story 64
+  ✓ LF backup: Brayan Rocchio 72, Anthony Volpe 72, Justin Crawford 97, Nathan Lukes 82, Randal Grichuk 66, Ryan Vilade 72, Edmundo Sosa 71, Ryan Waldschmidt 86, Jo Adell 79
+  ✓ CF backup: Justin Crawford 75, Ryan Waldschmidt 65
+  ✓ RF backup: Brayan Rocchio 63, Anthony Volpe 64, Justin Crawford 92, Nathan Lukes 79, Randal Grichuk 61, Ryan Vilade 66, Edmundo Sosa 64, Ryan Waldschmidt 79, Jo Adell 72
+(26 of 26 have a live ask in the last shop snapshot)
+objective: -240.7 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 13 bats) 726 · rotation 291 · bullpen 394 · bench-only 59

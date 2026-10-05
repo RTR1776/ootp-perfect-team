@@ -1,0 +1,125 @@
+
+=== Daily Low Bronze Only ===
+1955 RE @ 1955 Ebbets Field · DH off · value 60–64 · cap none · 26 players
+R/G 4.58  AVG 0.259  OBP 0.331  SLG 0.400  K% 11.5  HR/PA 2.47%  preset Traditional
+sac bunt (1st & 2nd, 0 out) +0.028 runs · steal break-even 80.0% (0 out) / 77.1% (1 out)
+park: all-LHB lineup 4.67 R/G vs all-RHB 4.54 — 0.14 R/G swing toward LEFT-handed bats
+
+pool: 512 eligible owned cards — 278 bats (102L / 33S / 143R), 234 arms
+staff weights from lowbronzeonlydaily's exports: SP 1.91, RP 0.4 (a lineup slot = 1)
+field (lowbronzeonlydaily, 4 exports): 43% of batters faced thrown left-handed · 49% of PA by left-handed bats · 14.4 bats / 4.7 SP / 3.7 RP per team
+shape: 14 bats / 5 SP / 7 RP (1920s–50s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 497 of 512 pool cards have innings on record (median 447 PA/BF); K = 5000
+gloves ×1.05: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.0  BABIP +2.1  Avoid Ks +1.6  Eye +1.5  Gap +0.9
+                          RHB: Power +4.2  BABIP +2.0  Avoid Ks +1.5  Eye +1.5  Gap +0.9
+                         arms: pHR +1.4  pBABIP +1.2  Control +1.1  Stuff +0.8
+
+optimiser: 9 λ starts hill-climbed; best -17.6 runs vs -49.0 greedy (+31.5), 7 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Damon Berryhill             61  S  1988   -17.6  park:L DEF  84/ 84 -0.2
+R:1B    Edward Florentino (VAR)     63  L  2026    +8.4  park:L DEF  91/ 91 +1.9
+R:2B    Jett Williams               62  R  2026   -15.8  park:R DEF  93/103 -3.3
+R:3B    Kyle Seager                 64  L  2014    -4.0  park:L DEF 116/116 +3.5
+R:SS    Jhonny Level (VAR)          64  S  2026    -1.9  park:L DEF  94/107 -1.9
+R:LF    Bill Buckner (VAR)          64  L  1974    +4.6  park:L DEF  68/ 83 -2.3
+R:CF    Jim Edmonds                 63  L  2010    -1.1  park:L DEF  70/ 88 -2.6
+R:RF    Jack Tobin                  61  L  1920    +2.3  park:L DEF  73/ 77 -2.3
+
+--- lineup vs LHP ---
+L:C     Yadier Molina               62  R  2007   -15.3  park:R DEF 122/122 +1.1
+L:1B    Mark Bellhorn               64  S  2002    +7.2  park:R DEF  82/ 82 +0.7
+L:2B    Steve Sax                   62  R  1989   +12.7  park:R DEF  83/ 83 -4.9
+L:3B    Adrian Beltre               63  R  2015    -2.6  park:R DEF  86/ 86 -0.7
+L:SS    Jhonny Level (VAR)          64  S  2026    -7.0  park:R DEF  94/107 -1.9
+L:LF    Jett Williams               62  R  2026    +0.9  park:R DEF 103/103 +0.6
+L:CF    Byron Buxton                64  R  2019    -0.8  park:R DEF 122/122 +0.5
+L:RF    Joe Carter                  64  R  1991    -0.8  park:R DEF 104/104 +0.5
+
+--- batting order vs RHP --- (4.01 runs/game; The Book's order 4.00)
+  1. Edward Florentino (VAR) 1B
+  2. Jett Williams 2B
+  3. Jim Edmonds CF
+  4. Jack Tobin RF
+  5. Bill Buckner (VAR) LF
+  6. Jhonny Level (VAR) SS
+  7. Kyle Seager 3B
+  8. Damon Berryhill C
+  9. Pitcher
+
+--- batting order vs LHP --- (4.01 runs/game; The Book's order 3.99)
+  1. Yadier Molina C
+  2. Jett Williams LF
+  3. Mark Bellhorn 1B
+  4. Adrian Beltre 3B
+  5. Steve Sax 2B
+  6. Byron Buxton CF
+  7. Jhonny Level (VAR) SS
+  8. Joe Carter RF
+  9. Pitcher
+
+--- rotation ---
+SP1     Fritz Ostermueller          64  L  1944    +8.4   SP STM  98
+SP2     Corey Kluber (VAR)          64  R  2022    +2.4   SP STM  64
+SP3     Kyson Witherspoon (VAR)     63  R  2026    +0.6   SP STM  59
+SP4     Bruce Hurst                 64  L  1990    +0.5   SP STM  86
+SP5     Roy Halladay                61  R  2004    -0.3   SP STM  73
+
+--- bullpen ---
+CL      Caden Scarborough           64  R  2026    +2.0   RP STM  46
+RP1     Grant Wolfram               64  L  2026    -0.7   RP STM  19
+RP2     Tommy Hunter                64  R  2016    -1.1   RP STM  17
+RP3     Paul Assenmacher            62  L  1989    -1.3   RP STM  17
+RP4     Jack Kralick                64  L  1961    -1.5   SP STM  83
+RP5     Fred Green                  62  R  1960    -2.0   RP STM  25
+RP6     Eric Orze                   62  R  2026    -2.5   RP STM  21
+
+--- bench ---
+BN1     Steve Sax                   62  R  1989   -15.4  park:R
+BN2     Mark Bellhorn               64  S  2002   -15.5  park:L
+BN3     Joe Carter                  64  R  1991   -21.6  park:R
+BN4     Byron Buxton                64  R  2019   -26.6  park:R
+BN5     Adrian Beltre               63  R  2015   -26.9  park:R
+BN6     Yadier Molina               62  R  2007   -37.3  park:R
+
+26 players · value 1639 · λ 0.000 · 5 variants
+vs RHP lineup gets the friendly park side in 7 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Edward Florentino      L EYE 134 (99/148)  POW 106 (79/119)  K  60  BABIP  89  GAP  88  SPE  43
+  Bill Buckner           L EYE  56 (45/60)  POW  64 (1/74)  K 204  BABIP 110  GAP 115  SPE  81
+  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Jim Edmonds            L EYE  88 (79/91)  POW  98 (98/98)  K  65  BABIP  97  GAP 114  SPE  59
+  Jhonny Level           S EYE  68 (62/70)  POW 100 (87/104)  K  97  BABIP  98  GAP 109  SPE  36
+  Kyle Seager            L EYE  80 (45/88)  POW  96 (48/113)  K  85  BABIP  72  GAP  63  SPE  53
+  Steve Sax              R EYE  85 (90/84)  POW  46 (55/44)  K 179  BABIP 122  GAP  68  SPE  83
+  Mark Bellhorn          S EYE 138 (118/145)  POW  86 (110/79)  K  40  BABIP 110  GAP  77  SPE  54
+  Jett Williams          R EYE 151 (160/148)  POW  74 (88/69)  K  78  BABIP  81  GAP 125  SPE 114
+  Damon Berryhill        S EYE  63 (28/69)  POW  72 (37/80)  K  71  BABIP  88  GAP 101  SPE  17
+  Joe Carter             R EYE  63 (48/66)  POW 107 (112/106)  K  70  BABIP  71  GAP 125  SPE  78
+  Byron Buxton           R EYE  61 (66/59)  POW  65 (87/55)  K  76  BABIP  89  GAP 156  SPE 122
+  Adrian Beltre          R EYE  72 (110/58)  POW  72 (110/58)  K 133  BABIP  70  GAP  90  SPE  19
+  Yadier Molina          R EYE  77 (148/52)  POW  47 (52/46)  K 127  BABIP  80  GAP  56  SPE  14
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (62 teams): 4.6 SP / 5.0 RP / 15.4 bats
+  ✗ starters' stamina Fritz Ostermueller 98, Corey Kluber 64, Kyson Witherspoon 59, Bruce Hurst 86, Roy Halladay 73 (era floor 60) — SHORT: Kyson Witherspoon
+  ✓ stamina guys in the pen (45+): Caden Scarborough 46, Jack Kralick 83
+  ✓ C  backup: Damon Berryhill 84, Yadier Molina 122
+  ✓ 1B backup: Jhonny Level 84, Jim Edmonds 69, Edward Florentino 91, Bill Buckner 83, Mark Bellhorn 82, Joe Carter 93
+  ✓ 2B backup: Jhonny Level 107, Jett Williams 93, Steve Sax 83, Mark Bellhorn 61
+  ✓ 3B backup: Jhonny Level 105, Jett Williams 83, Kyle Seager 116, Adrian Beltre 86
+  ✓ SS backup: Jett Williams 78
+  ✓ LF backup: Jhonny Level 76, Jett Williams 103, Edward Florentino 74, Jack Tobin 77, Bill Buckner 68, Joe Carter 99
+  ✓ CF backup: Jett Williams 87, Jim Edmonds 70, Byron Buxton 122, Joe Carter 81
+  ✓ RF backup: Jhonny Level 68, Jett Williams 97, Jim Edmonds 88, Edward Florentino 67, Jack Tobin 73, Joe Carter 104
+(24 of 26 have a live ask in the last shop snapshot)
+objective: -17.6 weighted runs (bats 57/43 R/L, SP 1.91, RP 0.4, bench 0.1)
+points: lineup(both boards, 14 bats) 881 · rotation 316 · bullpen 442 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Tommy Hunter             pBABIP 49 (fitted 50–175)
+   Paul Assenmacher         pBABIP 37 (fitted 50–175)

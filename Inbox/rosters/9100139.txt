@@ -1,0 +1,126 @@
+
+=== Daily All-Star Hardware Slots ===
+PT default (2010) RE @ 2008 McAfee Stadium · DH on · value —–— · cap none · 26 players
+R/G 4.02  AVG 0.227  OBP 0.301  SLG 0.380  K% 22.6  HR/PA 2.98%  preset Balanced
+sac bunt (1st & 2nd, 0 out) -0.002 runs · steal break-even 80.1% (0 out) / 77.2% (1 out)
+park: all-LHB lineup 4.09 R/G vs all-RHB 3.98 — 0.11 R/G swing toward LEFT-handed bats
+card sets: Historical All-Star, Hardware Heroes only
+
+pool: 425 eligible owned cards — 284 bats (83L / 38S / 163R), 141 arms
+staff weights from allstarhardwareslots's exports: SP 1.35, RP 0.4 (a lineup slot = 1)
+field (allstarhardwareslots, 3 exports): 37% of batters faced thrown left-handed · 36% of PA by left-handed bats · 13 bats / 5.6 SP / 5.5 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 394 of 425 pool cards have innings on record (median 2696 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.2  Avoid Ks +3.0  BABIP +1.5  Eye +1.1  Gap +0.7
+                          RHB: Power +4.8  Avoid Ks +2.9  BABIP +1.5  Eye +1.1  Gap +0.8
+                         arms: pHR +1.6  Stuff +1.4  pBABIP +0.9  Control +0.8
+
+optimiser: 7 λ starts hill-climbed; best 393.6 runs vs 333.4 greedy (+60.2), 24 moves from λ 4.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +37.5  park:L DEF 112/112 +0.6
+R:1B    Hank Aaron                 102  R  1959   +29.3  park:R DEF  75/ 87 -0.2
+R:2B    Bret Boone                 102  R  2001   +15.9  park:R DEF 125/125 +1.5
+R:3B    Pedro Alvarez               81  L  2013   +39.3  park:L DEF  75/ 96 -1.7
+R:SS    Ernie Banks                102  R  1959   +30.4  park:R DEF 133/133 +2.9
+R:LF    Mike Greenwell              99  L  1988   +36.1  park:L DEF 125/125 +1.9
+R:CF    Bo Jackson                  88  R  1989   +28.9  park:R DEF 103/123 -0.5
+R:RF    Juan Soto                  102  L  2024   +45.8  park:L DEF  91/ 91 -0.5
+R:DH    Hideki Matsui              100  L  2009   +37.9  park:L
+
+--- lineup vs LHP ---
+L:C     Mike Piazza (VAR)          101  R  1995   +40.8  park:R DEF  69/ 69 -0.5
+L:1B    Hank Aaron                 102  R  1959   +40.1  park:R DEF  75/ 87 -0.2
+L:2B    Bret Boone                 102  R  2001   +36.3  park:R DEF 125/125 +1.5
+L:3B    Chris Sabo                  66  R  1990   +30.0  park:R DEF  77/ 77 -1.5
+L:SS    Ernie Banks                102  R  1959   +28.8  park:R DEF 133/133 +2.9
+L:LF    Juan Soto                  102  L  2024   +40.7  park:L DEF  87/ 91 -0.5
+L:CF    Willie Mays                 98  R  1959   +27.5  park:R DEF 107/107 -0.3
+L:RF    Bo Jackson                  88  R  1989   +23.5  park:R DEF 123/123 +1.7
+L:DH    Hideki Matsui              100  L  2009   +58.2  park:L
+
+--- batting order vs RHP --- (5.69 runs/game; The Book's order 5.68)
+  1. Hideki Matsui DH
+  2. Juan Soto RF
+  3. Ed Bailey (VAR) C
+  4. Pedro Alvarez 3B
+  5. Ernie Banks SS
+  6. Mike Greenwell LF
+  7. Hank Aaron 1B
+  8. Bo Jackson CF
+  9. Bret Boone 2B
+
+--- batting order vs LHP --- (6.01 runs/game; The Book's order 6.00)
+  1. Juan Soto LF
+  2. Ernie Banks SS
+  3. Hideki Matsui DH
+  4. Hank Aaron 1B
+  5. Mike Piazza (VAR) C
+  6. Chris Sabo 3B
+  7. Bo Jackson RF
+  8. Willie Mays CF
+  9. Bret Boone 2B
+
+--- rotation ---
+SP1     Bret Saberhagen            102  R  1989   +14.5   SP STM 106
+SP2     Orel Hershiser             102  R  1988   +12.9   SP STM 100
+SP3     Jim Kaat (VAR)              87  L  1967   +10.8   SP STM  78
+SP4     Steve Carlton (VAR)         96  L  1969    +9.0   SP STM  86
+SP5     Dave Stieb (VAR)            89  R  1990    +7.5   SP STM  78
+
+--- bullpen ---
+CL      Dave Righetti               85  L  1986    +8.4   CL STM  49
+RP1     Brad Hand                   76  L  2017    +1.1   CL STM  14
+RP2     Bob Walk                    73  R  1988    -0.1   SP STM  82
+RP3     Todd Jones (VAR)            43  L  2000    -0.5   CL STM  17
+RP4     Max Fried (VAR)             74  L  2021    -0.7   SP STM  73
+RP5     Mike Marshall               57  R  1973    -0.9   CL STM  74
+RP6     Alex Reyes                  53  R  2021    -3.1   CL STM  18
+
+--- bench ---
+BN1     Rafael Furcal               69  S  2003    -9.2  park:L
+BN2     Chris Sabo                  66  R  1990    -1.0  park:R
+BN3     Willie Mays                 98  R  1959   +12.5  park:R
+BN4     Hank Blalock                68  L  2003    +3.3  park:L
+BN5     Mike Piazza (VAR)          101  R  1995   +33.4  park:R
+
+26 players · value 2212 · λ 4.000 · 7 variants
+vs RHP lineup gets the friendly park side in 5 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Juan Soto              L EYE 238 (244/236)  POW 200 (200/200)  K 116  BABIP 116  GAP  92  SPE  52
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Hideki Matsui          L EYE 166 (148/172)  POW 179 (235/160)  K 148  BABIP 135  GAP  69  SPE  31
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Mike Greenwell         L EYE 159 (44/202)  POW 101 (71/116)  K 183  BABIP 111  GAP 131  SPE  60
+  Mike Piazza            R EYE 111 (84/124)  POW 187 (226/172)  K 106  BABIP 155  GAP  67  SPE  39
+  Ernie Banks            R EYE 126 (145/120)  POW 187 (160/196)  K 129  BABIP 117  GAP  94  SPE  44
+  Hank Aaron             R EYE  97 (111/94)  POW 181 (210/172)  K 134  BABIP 136  GAP 123  SPE  69
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Bret Boone             R EYE  85 (114/77)  POW 137 (142/135)  K 114  BABIP 134  GAP 112  SPE  46
+  Willie Mays            R EYE 129 (174/114)  POW 141 (158/135)  K 114  BABIP  98  GAP 138  SPE 118
+  Hank Blalock           L EYE  67 (43/73)  POW  97 (40/117)  K  77  BABIP  93  GAP  88  SPE  26
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Rafael Furcal          S EYE  85 (129/73)  POW  64 (73/62)  K 122  BABIP  89  GAP  94  SPE 108
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (23 teams): 5.0 SP / 6.9 RP / 13.4 bats
+  ✓ starters' stamina Bret Saberhagen 106, Orel Hershiser 100, Jim Kaat 78, Steve Carlton 86, Dave Stieb 78 (era floor 50)
+  ✓ stamina guys in the pen (45+): Dave Righetti 49, Bob Walk 82, Max Fried 73, Mike Marshall 74
+  ✓ C  backup: Ed Bailey 112, Mike Piazza 69
+  ✓ 1B backup: Ernie Banks 107, Pedro Alvarez 96
+  ✓ 2B backup: Hank Blalock 108
+  ✓ 3B backup: Ernie Banks 133, Pedro Alvarez 75, Chris Sabo 77, Hank Blalock 105
+  ✓ SS backup: Rafael Furcal 104
+  ✓ LF backup: Bo Jackson 116, Juan Soto 87, Hank Aaron 85, Mike Greenwell 125
+  ✓ CF backup: Bo Jackson 103, Willie Mays 107
+  ✓ RF backup: Bo Jackson 123, Juan Soto 91, Hank Aaron 87, Mike Greenwell 117
+(20 of 26 have a live ask in the last shop snapshot)
+objective: 393.6 weighted runs (bats 63/37 R/L, SP 1.35, RP 0.4, bench 0.1)
+points: lineup(both boards, 12 bats) 1138 · rotation 476 · bullpen 461 · bench-only 137
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Todd Jones               pBABIP 37 (fitted 50–175)

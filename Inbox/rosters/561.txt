@@ -1,0 +1,122 @@
+
+=== Daily Live Bronze ===
+PT default (2010) RE @ 2026 Kauffman Stadium · DH on · value 40–69 · cap none · 26 players
+R/G 4.59  AVG 0.248  OBP 0.320  SLG 0.406  K% 22.6  HR/PA 2.92%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.040 runs · steal break-even 81.2% (0 out) / 78.1% (1 out)
+park: all-LHB lineup 4.54 R/G vs all-RHB 4.62 — 0.07 R/G swing toward RIGHT-handed bats
+card sets: Live only
+
+pool: 1020 eligible owned cards — 491 bats (157L / 59S / 275R), 529 arms
+!! no exports on record for series livebronzedaily — shape and handedness fall back to the era table
+shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 830 of 1020 pool cards have innings on record (median 101 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.7  Avoid Ks +3.4  BABIP +1.8  Eye +1.2  Gap +0.9
+                          RHB: Power +5.0  Avoid Ks +3.4  BABIP +1.8  Eye +1.2  Gap +0.9
+                         arms: Stuff +1.7  pHR +1.6  pBABIP +1.1  Control +0.9
+
+optimiser: 9 λ starts hill-climbed; best -156.1 runs vs -163.9 greedy (+7.8), 8 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Carter Jensen               66  L  2026   -13.1  park:L DEF  66/ 66 -0.6
+R:1B    Colson Montgomery           68  L  2026   -12.9  park:L DEF  98/ 98 +2.2
+R:2B    Willy Adames                62  R  2026   -14.2  park:R DEF  89/ 89 -3.0
+R:3B    Kody Clemens                66  L  2026   -10.8  park:L DEF  61/ 78 -3.2
+R:SS    Gunnar Henderson            66  L  2026   -13.0  park:L DEF  79/102 -3.1
+R:LF    Dominic Canzone             68  L  2026    -9.6  park:L DEF  62/ 62 -2.2
+R:CF    Jackson Merrill             69  L  2026   -13.7  park:L DEF  90/108 -1.1
+R:RF    Daylen Lile                 64  L  2026   -11.8  park:L DEF  75/ 83 -1.6
+R:DH    Vladimir Guerrero Jr.       68  R  2026    -8.6  park:R
+
+--- lineup vs LHP ---
+L:C     Luis Torrens                62  R  2026   -17.0  park:R DEF  77/ 77 -0.3
+L:1B    Paul Goldschmidt            66  R  2026   -11.1  park:R DEF  70/ 70 -0.7
+L:2B    Ozzie Albies                65  S  2026   -11.5  park:R DEF  66/ 70 -5.9
+L:3B    Gunnar Henderson            66  L  2026   -15.5  park:L DEF  86/102 -0.5
+L:SS    Willy Adames                62  R  2026   -14.6  park:R DEF  73/ 89 -3.8
+L:LF    Dominic Canzone             68  L  2026   -10.9  park:L DEF  62/ 62 -2.2
+L:CF    Royce Lewis                 69  R  2026   -13.9  park:R DEF  65/ 91 -2.2
+L:RF    Teoscar Hernandez           67  R  2026   -10.5  park:R DEF  61/ 66 -2.6
+L:DH    Vladimir Guerrero Jr.       68  R  2026    -8.7  park:R
+
+--- batting order vs RHP --- (3.82 runs/game; The Book's order 3.82)
+  1. Vladimir Guerrero Jr. DH
+  2. Gunnar Henderson SS
+  3. Kody Clemens 3B
+  4. Dominic Canzone LF
+  5. Daylen Lile RF
+  6. Jackson Merrill CF
+  7. Willy Adames 2B
+  8. Carter Jensen C
+  9. Colson Montgomery 1B
+
+--- batting order vs LHP --- (3.84 runs/game; The Book's order 3.84)
+  1. Vladimir Guerrero Jr. DH
+  2. Paul Goldschmidt 1B
+  3. Dominic Canzone LF
+  4. Ozzie Albies 2B
+  5. Royce Lewis CF
+  6. Teoscar Hernandez RF
+  7. Willy Adames SS
+  8. Luis Torrens C
+  9. Gunnar Henderson 3B
+
+--- rotation ---
+SP1     Bubba Chandler              68  S  2026    -3.5   SP STM  75
+SP2     Andrew Alvarez              68  L  2026    -4.0   SP STM  70
+SP3     Patrick Sandoval            62  L  2026    -4.5   SP STM  62
+SP4     Janson Junk                 69  R  2026    -4.9   SP STM  66
+SP5     David Peterson              68  L  2026    -5.8   SP STM  87
+
+--- bullpen ---
+CL      Justin Bruihl               69  L  2026    +2.4   RP STM  18
+RP1     Juan Morillo                69  R  2026    +1.5   RP STM  16
+RP2     Riley O'Brien               69  R  2026    +0.7   CL STM  23
+RP3     Evan Sisk                   66  L  2026    -0.3   RP STM  17
+RP4     Grant Wolfram               64  L  2026    -0.5   RP STM  19
+RP5     Brayan Bello                61  R  2026    -5.1   RP STM  76
+RP6     Stephen Kolek               68  R  2026    -6.5   SP STM  60
+
+--- bench ---
+BN1     Teoscar Hernandez           67  R  2026   -12.1  park:R
+BN2     Paul Goldschmidt            66  R  2026   -13.1  park:R
+BN3     Ozzie Albies                65  S  2026   -13.2  park:L
+BN4     Royce Lewis                 69  R  2026   -13.8  park:R
+BN5     Luis Torrens                62  R  2026   -18.7  park:R
+
+26 players · value 1727 · λ 0.000 · 0 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Vladimir Guerrero Jr.  R EYE  84 (87/84)  POW  64 (65/64)  K 105  BABIP  80  GAP  69  SPE  10
+  Dominic Canzone        L EYE  75 (73/76)  POW  98 (96/99)  K  75  BABIP  76  GAP  95  SPE  23
+  Kody Clemens           L EYE  67 (67/68)  POW 102 (98/104)  K  74  BABIP  64  GAP 115  SPE  71
+  Daylen Lile            L EYE  67 (66/68)  POW  83 (72/86)  K  83  BABIP  81  GAP 100  SPE 108
+  Teoscar Hernandez      R EYE  72 (73/72)  POW  91 (94/91)  K  61  BABIP 100  GAP  74  SPE  24
+  Colson Montgomery      L EYE  80 (80/81)  POW 109 (105/110)  K  49  BABIP  77  GAP  98  SPE  62
+  Gunnar Henderson       L EYE  87 (87/88)  POW  91 (88/92)  K  76  BABIP  60  GAP 106  SPE  61
+  Carter Jensen          L EYE  97 (94/99)  POW  90 (87/92)  K  57  BABIP  79  GAP 121  SPE  72
+  Paul Goldschmidt       R EYE  76 (78/76)  POW  94 (95/94)  K  74  BABIP  78  GAP  74  SPE   8
+  Ozzie Albies           S EYE  70 (67/72)  POW  89 (90/89)  K  99  BABIP  66  GAP  70  SPE  37
+  Jackson Merrill        L EYE  67 (67/68)  POW  93 (90/94)  K  71  BABIP  84  GAP  82  SPE  78
+  Royce Lewis            R EYE  78 (82/77)  POW  88 (88/89)  K  72  BABIP  77  GAP  91  SPE  29
+  Willy Adames           R EYE  74 (77/74)  POW  95 (95/95)  K  63  BABIP  75  GAP 102  SPE  31
+  Luis Torrens           R EYE  66 (68/66)  POW  75 (80/74)  K  80  BABIP  74  GAP  76  SPE  35
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Bubba Chandler 75, Andrew Alvarez 70, Patrick Sandoval 62, Janson Junk 66, David Peterson 87 (era floor 50)
+  ✓ stamina guys in the pen (45+): Brayan Bello 76, Stephen Kolek 60
+  ✓ C  backup: Carter Jensen 66, Luis Torrens 77
+  ✓ 1B backup: Gunnar Henderson 102, Willy Adames 86, Kody Clemens 78, Jackson Merrill 94, Colson Montgomery 98, Vladimir Guerrero Jr. 67, Ozzie Albies 61, Royce Lewis 91, Paul Goldschmidt 70
+  ✓ 2B backup: Gunnar Henderson 93, Willy Adames 89, Jackson Merrill 64, Colson Montgomery 80, Ozzie Albies 66, Royce Lewis 78
+  ✓ 3B backup: Gunnar Henderson 86, Willy Adames 78, Kody Clemens 61, Jackson Merrill 64, Colson Montgomery 75, Royce Lewis 66
+  ✓ SS backup: Gunnar Henderson 79, Willy Adames 73, Colson Montgomery 66, Royce Lewis 60
+  ✓ LF backup: Gunnar Henderson 69, Willy Adames 67, Kody Clemens 67, Jackson Merrill 108, Daylen Lile 83, Ozzie Albies 70, Royce Lewis 87, Teoscar Hernandez 66
+  ✓ CF backup: Jackson Merrill 90, Royce Lewis 65
+  ✓ RF backup: Gunnar Henderson 64, Kody Clemens 63, Jackson Merrill 103, Daylen Lile 75, Ozzie Albies 62, Royce Lewis 78, Teoscar Hernandez 61
+(26 of 26 have a live ask in the last shop snapshot)
+objective: -156.1 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 14 bats) 926 · rotation 335 · bullpen 466 · bench-only 0

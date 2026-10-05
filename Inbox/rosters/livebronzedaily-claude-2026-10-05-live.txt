@@ -1,0 +1,36 @@
+# Daily Live Bronze — Claude pick 2026-10-05 live, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Kauffman Stadium --park-year 2026 --dh --min 40 --max 69 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series livebronzedaily --sp 5 --rp 7 --bats 14)
+R:C Carter Jensen #82374
+R:1B Colson Montgomery #82473
+R:2B Willy Adames #81720
+R:3B Kody Clemens #82332
+R:SS Gunnar Henderson #82642
+R:LF Dominic Canzone #82232
+R:CF Jackson Merrill #81749
+R:RF Daylen Lile #82018
+R:DH Vladimir Guerrero Jr. #82507
+L:C Luis Torrens #82079
+L:1B Paul Goldschmidt #82571
+L:2B Ozzie Albies #82140
+L:3B Gunnar Henderson #82642
+L:SS Willy Adames #81720
+L:LF Dominic Canzone #82232
+L:CF Royce Lewis #82339
+L:RF Teoscar Hernandez #81782
+L:DH Vladimir Guerrero Jr. #82507
+SP1 Bubba Chandler #81909
+SP2 Andrew Alvarez #85566
+SP3 Patrick Sandoval #82615
+SP4 Janson Junk #82126
+SP5 David Peterson #82094
+CL Justin Bruihl #84971
+RP1 Juan Morillo #81833
+RP2 Riley O'Brien #81884
+RP3 Evan Sisk #85245
+RP4 Grant Wolfram #82628
+RP5 Brayan Bello #82619
+RP6 Stephen Kolek #85624
+BN1 Teoscar Hernandez #81782
+BN2 Paul Goldschmidt #82571
+BN3 Ozzie Albies #82140
+BN4 Royce Lewis #82339
+BN5 Luis Torrens #82079

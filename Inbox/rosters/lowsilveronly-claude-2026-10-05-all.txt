@@ -1,0 +1,36 @@
+# Daily Low Silver Only — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 70 --max 74 --size 26 --series lowsilveronly --sp 5 --rp 7 --bats 14)
+R:C Darrell Porter #85896
+R:1B Matt Carpenter #86771
+R:2B Jose Oquendo #85738
+R:3B Wade Boggs #86260
+R:SS Aiva Arquette (VAR) #84768
+R:LF Gus Bell #85785
+R:CF Duke Snider #85225
+R:RF Bryce Harper #86905
+R:DH Joe Judge #84194
+L:C Sandy Leon #85734
+L:1B Matt Carpenter #86771
+L:2B Jose Oquendo #85738
+L:3B Aiva Arquette (VAR) #84768
+L:SS Kevin Mitchell #86733
+L:LF Chuck Essegian (VAR) #85320
+L:CF Mitch Webster #85448
+L:RF Ollie Brown #85160
+L:DH Joe Judge #84194
+SP1 Jakie May (VAR) #85286
+SP2 Dan Bankhead #84884
+SP3 Doug Davis #86802
+SP4 Gage Jump #85128
+SP5 Andy McGaffigan (VAR) #86948
+CL Chad Bradford #86341
+RP1 Bruce Ruffin #86777
+RP2 Rudy May #85288
+RP3 Brad Clontz #85920
+RP4 Alex Claudio (VAR) #86447
+RP5 Gregory Santos #85611
+RP6 Yohan Ramirez #81910
+BN1 Chuck Essegian (VAR) #85320
+BN2 Mitch Webster #85448
+BN3 Ollie Brown #85160
+BN4 Kevin Mitchell #86733
+BN5 Sandy Leon #85734

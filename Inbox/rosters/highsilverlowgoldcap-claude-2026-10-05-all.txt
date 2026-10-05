@@ -1,0 +1,36 @@
+# Daily Low Gold Cap — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 2007 --park Shea Stadium --park-year 2008 --dh --min 40 --max 84 --cap 1610 --size 26 --obs-exclude highsilverlowgoldcap --sp 5 --rp 7 --bats 14)
+R:C Josh Gibson #86898
+R:1B Matt Carpenter #86771
+R:2B Randy Ready #86921
+R:3B Chris Sabo #87059
+R:SS Zack Cozart #86109
+R:LF Brandon Lowe (VAR) #83746
+R:CF Willie McGee (VAR) #85753
+R:RF Lee Thomas (VAR) #86145
+R:DH Pedro Alvarez #87062
+L:C Josh Gibson #86898
+L:1B Matt Carpenter #86771
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Zack Cozart #86109
+L:LF Brandon Lowe (VAR) #83746
+L:CF Willie McGee (VAR) #85753
+L:RF Lee Thomas (VAR) #86145
+L:DH Pete Incaviglia #86943
+SP1 Jordan Montgomery #86354
+SP2 Jake Peavy #82683
+SP3 Raisel Iglesias #83322
+SP4 Jakie May (VAR) #85286
+SP5 Fritz Ostermueller #86357
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 Tin Can Kincannon #86073
+RP4 Bob Gibson #86658
+RP5 Steve Farr #86924
+RP6 R.T. Walker #86952
+BN1 Kevin Brown #85824
+BN2 Pete Incaviglia #86943
+BN3 Tommy Dean #85169
+BN4 Fred Lynn #85410
+BN5 Tsung-Che Cheng (VAR) #84612

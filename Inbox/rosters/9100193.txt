@@ -1,0 +1,124 @@
+
+=== Dr. Dynastic's Daily Time Travelers Slots ===
+1968 RE @ 1968 Busch Stadium · DH on · value —–— · cap none · 26 players
+R/G 3.74  AVG 0.240  OBP 0.308  SLG 0.352  K% 15.4  HR/PA 1.91%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.082 runs · steal break-even 77.1% (0 out) / 73.6% (1 out)
+park: all-LHB lineup 3.57 R/G vs all-RHB 3.84 — 0.26 R/G swing toward RIGHT-handed bats
+card sets: Live only
+
+pool: 1353 eligible owned cards — 641 bats (224L / 73S / 344R), 712 arms
+staff weights from timetravelersslots's exports: SP 1.63, RP 0.44 (a lineup slot = 1)
+field (timetravelersslots, 2 exports): 22% of batters faced thrown left-handed · 42% of PA by left-handed bats · 14.4 bats / 4.4 SP / 3.8 RP per team
+shape: 15 bats / 4 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 613 of 1353 pool cards have innings on record (median 85 PA/BF); K = 5000
+gloves ×0.99: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.0  Avoid Ks +1.7  BABIP +1.6  Eye +1.2  Gap +0.7
+                          RHB: Power +3.2  Avoid Ks +1.8  BABIP +1.7  Eye +1.2  Gap +0.7
+                         arms: pHR +1.1  pBABIP +1.0  Stuff +0.9  Control +0.8
+
+optimiser: 9 λ starts hill-climbed; best -7.9 runs vs -19.1 greedy (+11.2), 23 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Gabriel Moreno             100  R  2026    -3.3  park:R DEF  76/ 76 -0.4
+R:1B    Pete Alonso                 94  R  2026    -3.9  park:R DEF  72/ 72 -0.6
+R:2B    Bobby Witt Jr.             100  R  2026    -5.1  park:R DEF 109/109 -0.6
+R:3B    Kevin McGonigle             95  L  2026    -0.9  park:L DEF  66/ 74 -3.3
+R:SS    Otto Lopez                  83  R  2026    -4.8  park:R DEF  61/ 78 -6.3
+R:LF    Pete Crow-Armstrong        100  L  2026    -1.0  park:L DEF 124/124 +2.2
+R:CF    Corbin Carroll              91  L  2026    -3.2  park:L DEF  85/104 -1.6
+R:RF    Shohei Ohtani              100  L  2026    +2.7  park:L DEF  68/ 68 -2.6
+R:DH    Yordan Alvarez             100  L  2026    +9.5  park:L
+
+--- lineup vs LHP ---
+L:C     Gabriel Moreno             100  R  2026    -0.3  park:R DEF  76/ 76 -0.4
+L:1B    Pete Alonso                 94  R  2026    -4.2  park:R DEF  72/ 72 -0.6
+L:2B    Bobby Witt Jr.             100  R  2026    -5.3  park:R DEF 109/109 -0.6
+L:3B    Kevin McGonigle             95  L  2026    -6.1  park:L DEF  66/ 74 -3.3
+L:SS    Otto Lopez                  83  R  2026    -4.2  park:R DEF  61/ 78 -6.3
+L:LF    Pete Crow-Armstrong        100  L  2026    -5.6  park:L DEF 124/124 +2.2
+L:CF    Corbin Carroll              91  L  2026    -6.0  park:L DEF  85/104 -1.6
+L:RF    Shohei Ohtani              100  L  2026    -1.0  park:L DEF  68/ 68 -2.6
+L:DH    Yordan Alvarez             100  L  2026    +5.4  park:L
+
+--- batting order vs RHP --- (3.52 runs/game; The Book's order 3.52)
+  1. Yordan Alvarez DH
+  2. Pete Alonso 1B
+  3. Pete Crow-Armstrong LF
+  4. Bobby Witt Jr. 2B
+  5. Gabriel Moreno C
+  6. Shohei Ohtani RF
+  7. Corbin Carroll CF
+  8. Otto Lopez SS
+  9. Kevin McGonigle 3B
+
+--- batting order vs LHP --- (3.45 runs/game; The Book's order 3.45)
+  1. Gabriel Moreno C
+  2. Yordan Alvarez DH
+  3. Pete Alonso 1B
+  4. Bobby Witt Jr. 2B
+  5. Otto Lopez SS
+  6. Pete Crow-Armstrong LF
+  7. Shohei Ohtani RF
+  8. Corbin Carroll CF
+  9. Kevin McGonigle 3B
+
+--- rotation ---
+SP1     Tarik Skubal               100  L  2026    +4.1   SP STM  78
+SP2     Max Fried                  100  L  2026    +3.4   SP STM  73
+SP3     Jacob Misiorowski          100  R  2026    +2.3   SP STM  74
+SP4     Logan Webb                  95  R  2026    +1.0   SP STM  85
+
+--- bullpen ---
+CL      Cade Smith                  96  R  2026    +4.8   CL STM  17
+RP1     Adrian Morejon              93  L  2026    +3.4   RP STM  18
+RP2     Edgardo Henriquez           81  R  2026    +2.4   RP STM  17
+RP3     Colin Holderman             85  R  2026    +2.3   RP STM  15
+RP4     Matt Brash                  83  R  2026    +2.2   RP STM  19
+RP5     Hunter Brown                85  R  2026    +0.3   SP STM  71
+RP6     Payton Tolle                93  L  2026    -0.6   SP STM  75
+
+--- bench ---
+BN1     Ketel Marte                 71  S  2026    -8.8  park:L
+BN2     Shea Langeliers             78  R  2026    -6.6  park:R
+BN3     Jac Caglianone              74  L  2026    -6.9  park:L
+BN4     Carter Jensen               66  L  2026   -12.0  park:L
+BN5     Carson Benge                78  L  2026    -7.7  park:L
+BN6     Vladimir Guerrero Jr.       68  R  2026    -8.6  park:R
+
+26 players · value 2309 · λ 1.000 · 0 variants
+vs RHP lineup gets the friendly park side in 5 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Yordan Alvarez         L EYE 126 (117/129)  POW 131 (124/134)  K  86  BABIP 116  GAP  85  SPE  19
+  Shohei Ohtani          L EYE 105 (99/107)  POW 111 (104/114)  K  65  BABIP 100  GAP  94  SPE  67
+  Kevin McGonigle        L EYE 117 (102/123)  POW  79 (76/81)  K  97  BABIP  89  GAP  74  SPE  45
+  Pete Crow-Armstrong    L EYE  94 (91/95)  POW 125 (111/130)  K  64  BABIP 113  GAP 115  SPE  90
+  Corbin Carroll         L EYE 103 (98/105)  POW  86 (86/87)  K  74  BABIP  84  GAP 193  SPE 120
+  Gabriel Moreno         R EYE  96 (98/96)  POW  77 (82/76)  K  93  BABIP 115  GAP  92  SPE  26
+  Pete Alonso            R EYE  95 (98/94)  POW 112 (115/112)  K  69  BABIP  97  GAP  78  SPE  12
+  Otto Lopez             R EYE  62 (65/62)  POW  67 (67/67)  K 109  BABIP 113  GAP  81  SPE  72
+  Bobby Witt Jr.         R EYE  83 (85/83)  POW  87 (87/87)  K  92  BABIP 105  GAP  90  SPE  97
+  Shea Langeliers        R EYE  76 (79/76)  POW 111 (112/111)  K  75  BABIP  80  GAP  84  SPE  21
+  Jac Caglianone         L EYE  65 (64/66)  POW  97 (90/100)  K  66  BABIP 109  GAP  82  SPE  21
+  Carson Benge           L EYE  72 (68/74)  POW  83 (78/85)  K  79  BABIP 109  GAP  65  SPE  83
+  Vladimir Guerrero Jr.  R EYE  84 (87/84)  POW  64 (65/64)  K 105  BABIP  80  GAP  69  SPE  10
+  Ketel Marte            S EYE  78 (76/79)  POW  95 (98/95)  K  95  BABIP  62  GAP  92  SPE  47
+  Carter Jensen          L EYE  97 (94/99)  POW  90 (87/92)  K  57  BABIP  79  GAP 121  SPE  72
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 7 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (32 teams): 4.0 SP / 5.3 RP / 15.9 bats
+  ✓ starters' stamina Tarik Skubal 78, Max Fried 73, Jacob Misiorowski 74, Logan Webb 85 (era floor 60)
+  ✓ stamina guys in the pen (45+): Hunter Brown 71, Payton Tolle 75
+  ✓ C  backup: Carter Jensen 66
+  ✓ 1B backup: Otto Lopez 73, Bobby Witt Jr. 95, Kevin McGonigle 72, Pete Crow-Armstrong 61, Ketel Marte 84, Shea Langeliers 61, Jac Caglianone 64, Carson Benge 64, Vladimir Guerrero Jr. 67
+  ✓ 2B backup: Otto Lopez 78, Kevin McGonigle 74, Ketel Marte 71
+  ✓ 3B backup: Otto Lopez 66, Bobby Witt Jr. 102
+  ✓ SS backup: Bobby Witt Jr. 95
+  ✓ LF backup: Otto Lopez 75, Bobby Witt Jr. 68, Kevin McGonigle 68, Corbin Carroll 104, Shohei Ohtani 62, Ketel Marte 80, Jac Caglianone 71, Carson Benge 89
+  ✓ CF backup: Pete Crow-Armstrong 110, Carson Benge 66
+  ✓ RF backup: Otto Lopez 67, Bobby Witt Jr. 67, Kevin McGonigle 61, Corbin Carroll 96, Pete Crow-Armstrong 119, Ketel Marte 72, Jac Caglianone 69, Carson Benge 87
+(25 of 26 have a live ask in the last shop snapshot)
+objective: -7.9 weighted runs (bats 78/22 R/L, SP 1.63, RP 0.44, bench 0.1)
+points: lineup(both boards, 9 bats) 863 · rotation 395 · bullpen 616 · bench-only 435

@@ -1,0 +1,36 @@
+# Tuesday Live — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 2023 --park Tropicana Field --park-year 2026 --dh --min 40 --max 100 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --obs-exclude liveweekly --sp 5 --rp 7 --bats 14)
+R:C Gabriel Moreno #81848
+R:1B Bryce Harper #82057
+R:2B Bobby Witt Jr. #82379
+R:3B Kevin McGonigle #85007
+R:SS Otto Lopez #82108
+R:LF Pete Crow-Armstrong #81990
+R:CF Corbin Carroll #81849
+R:RF Shohei Ohtani #81776
+R:DH Yordan Alvarez #82178
+L:C Gabriel Moreno #81848
+L:1B Yandy Diaz #82538
+L:2B Bobby Witt Jr. #82379
+L:3B Kevin McGonigle #85007
+L:SS Otto Lopez #82108
+L:LF Pete Crow-Armstrong #81990
+L:CF Corbin Carroll #81849
+L:RF Shohei Ohtani #81776
+L:DH Yordan Alvarez #82178
+SP1 Tarik Skubal #82424
+SP2 Jacob Misiorowski #81947
+SP3 Max Fried #82587
+SP4 Logan Webb #81732
+SP5 Hunter Brown #82189
+CL Louie Varland #82511
+RP1 Cade Smith #82450
+RP2 Adrian Morejon #81760
+RP3 David Bednar #82583
+RP4 Colin Holderman #82430
+RP5 Cam Schlittler #82580
+RP6 Jesus Luzardo #82066
+BN1 Ben Rice #82572
+BN2 James Wood #82027
+BN3 Yandy Diaz #82538
+BN4 Kyle Schwarber #82055
+BN5 William Contreras #81935
