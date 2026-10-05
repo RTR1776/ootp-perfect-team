@@ -1,0 +1,126 @@
+
+=== Monday Up And At Them Bronze ===
+1979 RE @ 1977 Olympic Stadium · DH on · value 40–69 · cap none · 26 players
+R/G 4.28  AVG 0.258  OBP 0.325  SLG 0.387  K% 12.5  HR/PA 1.96%  preset Moderate Small Ball
+sac bunt (1st & 2nd, 0 out) +0.051 runs · steal break-even 79.0% (0 out) / 75.8% (1 out)
+park: all-LHB lineup 4.26 R/G vs all-RHB 4.30 — 0.03 R/G swing toward RIGHT-handed bats
+card sets: Negro League Star, Rookie Sensation, All-Time Legend, Historical All-Star, Future Legend, Snapshot, Unsung Heroes, Hardware Heroes, Veteran Presence only
+
+pool: 1275 eligible owned cards — 752 bats (242L / 90S / 420R), 523 arms
+staff weights from bronzeweekly's exports: SP 1.39, RP 0.41 (a lineup slot = 1)
+field (bronzeweekly, 1 exports): 37% of batters faced thrown left-handed · 50% of PA by left-handed bats · 14 bats / 5.6 SP / 4.7 RP per team
+shape: 14 bats / 5 SP / 7 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1255 of 1275 pool cards have innings on record (median 592 PA/BF); K = 5000
+gloves ×1.04: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.2  BABIP +2.0  Avoid Ks +1.6  Eye +1.3  Gap +1.0
+                          RHB: Power +3.3  BABIP +2.0  Avoid Ks +1.6  Eye +1.3  Gap +1.0
+                         arms: pBABIP +1.2  pHR +1.1  Control +0.9  Stuff +0.8
+
+optimiser: 15 λ starts hill-climbed; best 88.4 runs vs 37.9 greedy (+50.5), 26 moves from λ 1.50
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Tim McCarver                68  L  1966    -1.6  park:L DEF  80/ 80 -0.3
+R:1B    Edward Florentino (VAR)     63  L  2026    +8.1  park:L DEF  91/ 91 +1.9
+R:2B    Hank Blalock                68  L  2003   +13.9  park:L DEF 108/108 -0.8
+R:3B    Jhonny Level (VAR)          64  S  2026    -2.3  park:L DEF 105/107 +1.9
+R:SS    Dave Brain (VAR)            68  R  1907    +1.4  park:R DEF  93/ 99 -2.0
+R:LF    Steve Pearce (VAR)          69  R  2016    +0.7  park:R DEF  67/ 73 -2.4
+R:CF    Billy Southworth            68  L  1926    +2.5  park:L DEF  93/107 -1.2
+R:RF    Deion Sanders               69  L  1992    -2.4  park:L DEF 122/131 +2.2
+R:DH    Wes Covington               67  L  1958   +21.1  park:L
+
+--- lineup vs LHP ---
+L:C     Thayron Liranzo (VAR)       65  S  2026    +0.2  park:R DEF  67/ 76 -0.7
+L:1B    Scott Spiezio               67  S  2002    +9.9  park:R DEF  91/ 91 +1.9
+L:2B    Steve Sax                   62  R  1989   +13.8  park:R DEF  83/ 83 -4.9
+L:3B    Chris Sabo                  66  R  1990   +29.9  park:R DEF  77/ 77 -1.9
+L:SS    Dave Brain (VAR)            68  R  1907    +4.0  park:R DEF  93/ 99 -2.0
+L:LF    Steve Pearce (VAR)          69  R  2016   +16.0  park:R DEF  67/ 73 -2.4
+L:CF    Deion Sanders               69  L  1992    +0.8  park:L DEF 120/131 +0.4
+L:RF    Jhonny Level (VAR)          64  S  2026    -7.0  park:R DEF  68/107 -2.7
+L:DH    Dave Harris                 67  R  1930   +15.0  park:R
+
+--- batting order vs RHP --- (4.27 runs/game; The Book's order 4.27)
+  1. Steve Pearce (VAR) LF
+  2. Edward Florentino (VAR) 1B
+  3. Dave Brain (VAR) SS
+  4. Wes Covington DH
+  5. Billy Southworth CF
+  6. Hank Blalock 2B
+  7. Jhonny Level (VAR) 3B
+  8. Tim McCarver C
+  9. Deion Sanders RF
+
+--- batting order vs LHP --- (4.56 runs/game; The Book's order 4.55)
+  1. Scott Spiezio 1B
+  2. Steve Pearce (VAR) LF
+  3. Dave Harris DH
+  4. Chris Sabo 3B
+  5. Steve Sax 2B
+  6. Dave Brain (VAR) SS
+  7. Deion Sanders CF
+  8. Jhonny Level (VAR) RF
+  9. Thayron Liranzo (VAR) C
+
+--- rotation ---
+SP1     Fritz Ostermueller          64  L  1944    +8.5   SP STM  98
+SP2     James McDonald (VAR)        55  L  2010    +6.2   SP STM  59
+SP3     Corey Kluber (VAR)          64  R  2022    +2.7   SP STM  64
+SP4     Tanner McDougal (VAR)       66  R  2026    +2.7   SP STM  62
+SP5     Bob Miller                  69  R  1963    +2.3   SP STM  62
+
+--- bullpen ---
+CL      Edwin Diaz                  67  R  2016   +11.9   CL STM  13
+RP1     Adam Cimber (VAR)           69  R  2018    +5.2   RP STM  17
+RP2     Satchel Paige               68  R  1952    +4.1   RP STM  57
+RP3     Caden Scarborough           64  R  2026    +2.1   RP STM  46
+RP4     Billy Wagner                68  L  2007    +1.3   CL STM  18
+RP5     Randy Choate                45  L  2013    +1.0   RP STM   6
+RP6     Kyson Witherspoon (VAR)     63  R  2026    +0.7   SP STM  59
+
+--- bench ---
+BN1     Chris Sabo                  66  R  1990    -4.0  park:R
+BN2     Thayron Liranzo (VAR)       65  S  2026    -7.7  park:L
+BN3     Dave Harris                 67  R  1930    -8.8  park:R
+BN4     Steve Sax                   62  R  1989   -12.3  park:R
+BN5     Scott Spiezio               67  S  2002   -14.2  park:L
+
+26 players · value 1693 · λ 1.500 · 10 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Wes Covington          L EYE  64 (86/52)  POW 115 (40/143)  K  93  BABIP  84  GAP  71  SPE  15
+  Hank Blalock           L EYE  67 (43/73)  POW  97 (40/117)  K  77  BABIP  93  GAP  88  SPE  26
+  Edward Florentino      L EYE 134 (99/148)  POW 106 (79/119)  K  60  BABIP  89  GAP  88  SPE  43
+  Billy Southworth       L EYE  51 (5/61)  POW  96 (81/102)  K 201  BABIP  76  GAP  84  SPE  69
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Steve Pearce           R EYE 147 (167/140)  POW 106 (142/98)  K 105  BABIP  92  GAP  76  SPE  46
+  Tim McCarver           L EYE  68 (19/77)  POW  73 (86/69)  K 162  BABIP  78  GAP  95  SPE  74
+  Jhonny Level           S EYE  68 (62/70)  POW 100 (87/104)  K  97  BABIP  98  GAP 109  SPE  36
+  Deion Sanders          L EYE  63 (40/67)  POW  85 (112/77)  K  75  BABIP 149  GAP 113  SPE 119
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Thayron Liranzo        S EYE 153 (164/149)  POW 116 (138/108)  K  63  BABIP  66  GAP  95  SPE  25
+  Dave Harris            R EYE  90 (115/84)  POW  89 (124/81)  K  65  BABIP  73  GAP 129  SPE  67
+  Steve Sax              R EYE  85 (90/84)  POW  46 (55/44)  K 179  BABIP 122  GAP  68  SPE  83
+  Scott Spiezio          S EYE 131 (136/129)  POW  61 (81/48)  K 140  BABIP  83  GAP 110  SPE  43
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (59 teams): 4.9 SP / 6.6 RP / 14.3 bats
+  ✗ starters' stamina Fritz Ostermueller 98, James McDonald 59, Corey Kluber 64, Tanner McDougal 62, Bob Miller 62 (era floor 60) — SHORT: James McDonald
+  ✓ stamina guys in the pen (45+): Satchel Paige 57, Caden Scarborough 46, Kyson Witherspoon 59
+  ✓ C  backup: Tim McCarver 80, Thayron Liranzo 67
+  ✓ 1B backup: Edward Florentino 91, Jhonny Level 84, Steve Pearce 73, Thayron Liranzo 76, Scott Spiezio 91
+  ✓ 2B backup: Hank Blalock 108, Jhonny Level 107, Scott Spiezio 60, Steve Sax 83
+  ✓ 3B backup: Dave Brain 99, Hank Blalock 105, Jhonny Level 105, Chris Sabo 77
+  ✓ SS backup: Jhonny Level 94
+  ✓ LF backup: Edward Florentino 74, Billy Southworth 107, Jhonny Level 76, Deion Sanders 131, Scott Spiezio 62
+  ✓ CF backup: Billy Southworth 93, Deion Sanders 120
+  ✓ RF backup: Edward Florentino 67, Billy Southworth 93, Jhonny Level 68, Deion Sanders 122
+(25 of 26 have a live ask in the last shop snapshot)
+objective: 88.4 weighted runs (bats 63/37 R/L, SP 1.39, RP 0.41, bench 0.1)
+points: lineup(both boards, 14 bats) 931 · rotation 318 · bullpen 444 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)

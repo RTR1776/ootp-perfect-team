@@ -1,0 +1,121 @@
+
+=== Live-Plus Diamond Pop-up ===
+PT default (2010) RE @ 2026 Fenway Park · DH on · value 40–99 · cap none · 26 players
+R/G 4.74  AVG 0.252  OBP 0.324  SLG 0.414  K% 22.6  HR/PA 3.05%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.052 runs · steal break-even 81.6% (0 out) / 78.4% (1 out)
+park: all-LHB lineup 4.63 R/G vs all-RHB 4.80 — 0.17 R/G swing toward RIGHT-handed bats
+
+pool: 1426 eligible owned cards — 688 bats (244L / 81S / 363R), 738 arms
+!! no exports on record for series liveplusdiamondpopup — shape and handedness fall back to the era table
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 684 of 1426 pool cards have innings on record (median 101 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.9  Avoid Ks +3.4  BABIP +1.9  Eye +1.2  Gap +0.9
+                          RHB: Power +5.2  Avoid Ks +3.5  BABIP +1.9  Eye +1.2  Gap +0.9
+                         arms: Stuff +1.7  pHR +1.7  pBABIP +1.1  Control +0.9
+
+optimiser: 16 λ starts hill-climbed; best 181.0 runs vs 168.2 greedy (+12.8), 22 moves from λ 0.50
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Eduardo Tait                80  L  2026    +1.0  park:L DEF  79/ 79 -0.3
+R:1B    Ethan Holliday (VAR)        95  L  2026   +23.8  park:L DEF 113/113 +3.7
+R:2B    Colt Emerson (VAR)          98  L  2026   +14.4  park:L DEF 119/119 +0.7
+R:3B    Arjun Nimmala (VAR)         94  R  2026   +13.8  park:R DEF 128/128 +4.0
+R:SS    Kaelen Culpepper (VAR)      89  R  2026   +13.0  park:R DEF 117/130 +1.1
+R:LF    JJ Wetherholt (VAR)         96  L  2026   +17.2  park:L DEF  76/ 96 -1.2
+R:CF    Max Clark (VAR)             98  L  2026   +11.1  park:L DEF 114/129 +0.0
+R:RF    Josue De Paula (VAR)        87  L  2026   +18.1  park:L DEF  69/ 71 -2.0
+R:DH    Bryce Rainer                92  L  2026   +15.6  park:L
+
+--- lineup vs LHP ---
+L:C     William Contreras           86  R  2026    -3.0  park:R DEF  65/ 65 -0.6
+L:1B    Ethan Holliday (VAR)        95  L  2026    +7.3  park:L DEF 113/113 +3.7
+L:2B    Kaelen Culpepper (VAR)      89  R  2026   +20.6  park:R DEF 130/130 +2.1
+L:3B    Arjun Nimmala (VAR)         94  R  2026   +18.7  park:R DEF 128/128 +4.0
+L:SS    Aidan Miller                98  R  2026   +15.2  park:R DEF 112/123 +0.6
+L:LF    Ryan Waldschmidt (VAR)      94  R  2026   +11.0  park:R DEF 118/118 +1.5
+L:CF    Luis Pena                   90  R  2026   +15.0  park:R DEF  70/ 99 -2.0
+L:RF    Kevin Alcantara (VAR)       76  R  2026   +14.5  park:R DEF 115/122 +1.2
+L:DH    Josue De Paula (VAR)        87  L  2026    +9.7  park:L
+
+--- batting order vs RHP --- (5.10 runs/game; The Book's order 5.09)
+  1. Ethan Holliday (VAR) 1B
+  2. Kaelen Culpepper (VAR) SS
+  3. Josue De Paula (VAR) RF
+  4. Arjun Nimmala (VAR) 3B
+  5. JJ Wetherholt (VAR) LF
+  6. Colt Emerson (VAR) 2B
+  7. Eduardo Tait C
+  8. Max Clark (VAR) CF
+  9. Bryce Rainer DH
+
+--- batting order vs LHP --- (5.08 runs/game; The Book's order 5.07)
+  1. Luis Pena CF
+  2. Kaelen Culpepper (VAR) 2B
+  3. Aidan Miller SS
+  4. Arjun Nimmala (VAR) 3B
+  5. Ryan Waldschmidt (VAR) LF
+  6. Kevin Alcantara (VAR) RF
+  7. Josue De Paula (VAR) DH
+  8. William Contreras C
+  9. Ethan Holliday (VAR) 1B
+
+--- rotation ---
+SP1     Connelly Early              96  L  2026    +8.8   SP STM  75
+SP2     Payton Tolle                99  L  2026    +8.5   SP STM  70
+SP3     Noah Schultz                92  L  2026    +8.1   SP STM  56
+SP4     Trey Yesavage (VAR)         97  R  2026    +6.6   SP STM  69
+SP5     Seth Hernandez (VAR)        84  R  2026    +5.9   SP STM  64
+
+--- bullpen ---
+CL      Jack Wenninger              79  L  2026    +6.1   RP STM  48
+RP1     Cade Smith                  96  R  2026    +5.8   CL STM  17
+RP2     Jarlin Susana               94  R  2026    +5.8   RP STM  25
+RP3     Thomas White                97  L  2026    +5.4   SP STM  69
+RP4     Adrian Morejon              93  L  2026    +5.3   RP STM  18
+RP5     Edgardo Henriquez           81  R  2026    +4.3   RP STM  17
+RP6     Travis Sykora (VAR)         78  R  2026    +3.8   SP STM  70
+
+--- bench ---
+BN1     Aidan Miller                98  R  2026    +9.2  park:R
+BN2     Luis Pena                   90  R  2026    +7.9  park:R
+BN3     Ryan Waldschmidt (VAR)      94  R  2026    +6.3  park:R
+BN4     Kevin Alcantara (VAR)       76  R  2026    +3.1  park:R
+BN5     William Contreras           86  R  2026    -4.7  park:R
+
+26 players · value 2359 · λ 0.500 · 12 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Ethan Holliday         L EYE 164 (151/168)  POW 139 (117/147)  K  72  BABIP 114  GAP 103  SPE  51
+  Josue De Paula         L EYE 134 (110/143)  POW 148 (126/156)  K  91  BABIP 102  GAP 106  SPE  59
+  JJ Wetherholt          L EYE 118 (107/122)  POW  78 (73/80)  K 138  BABIP 135  GAP 119  SPE  82
+  Bryce Rainer           L EYE 159 (145/163)  POW  97 (95/98)  K  73  BABIP 135  GAP 144  SPE  56
+  Colt Emerson           L EYE 129 (119/132)  POW  98 (84/103)  K  97  BABIP 126  GAP 130  SPE  81
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  Max Clark              L EYE 124 (107/131)  POW  81 (75/83)  K 107  BABIP 128  GAP 107  SPE 112
+  Aidan Miller           R EYE 156 (176/149)  POW 145 (152/143)  K  77  BABIP  94  GAP  96  SPE  93
+  Luis Pena              R EYE 116 (134/111)  POW  78 (89/74)  K 129  BABIP 125  GAP 109  SPE 116
+  Ryan Waldschmidt       R EYE 145 (145/145)  POW 134 (136/133)  K  71  BABIP  93  GAP  93  SPE  81
+  Kevin Alcantara        R EYE  99 (106/97)  POW 120 (138/113)  K  69  BABIP 106  GAP  82  SPE  94
+  Eduardo Tait           L EYE  66 (54/70)  POW 134 (106/144)  K  76  BABIP  85  GAP 144  SPE  39
+  William Contreras      R EYE  87 (92/86)  POW  77 (79/77)  K  98  BABIP  88  GAP  73  SPE  16
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Connelly Early 75, Payton Tolle 70, Noah Schultz 56, Trey Yesavage 69, Seth Hernandez 64 (era floor 50)
+  ✓ stamina guys in the pen (45+): Jack Wenninger 48, Thomas White 69, Travis Sykora 70
+  ✓ C  backup: Eduardo Tait 79, William Contreras 65
+  ✓ 1B backup: Kaelen Culpepper 102, Colt Emerson 97, Arjun Nimmala 105, JJ Wetherholt 81, Bryce Rainer 104, Aidan Miller 99, Luis Pena 82, Kevin Alcantara 84, Ryan Waldschmidt 75
+  ✓ 2B backup: Kaelen Culpepper 130, Colt Emerson 119, Arjun Nimmala 126, JJ Wetherholt 96, Ethan Holliday 104, Bryce Rainer 96, Aidan Miller 123, Luis Pena 99
+  ✓ 3B backup: Kaelen Culpepper 122, Colt Emerson 103, JJ Wetherholt 84, Ethan Holliday 102, Bryce Rainer 102, Aidan Miller 122, Luis Pena 85
+  ✓ SS backup: Kaelen Culpepper 117, Colt Emerson 101, Arjun Nimmala 116, JJ Wetherholt 78, Ethan Holliday 93, Bryce Rainer 89, Aidan Miller 112, Luis Pena 80
+  ✓ LF backup: Kaelen Culpepper 78, Colt Emerson 87, Arjun Nimmala 84, Max Clark 129, Josue De Paula 71, JJ Wetherholt 76, Ethan Holliday 66, Bryce Rainer 64, Aidan Miller 63, Luis Pena 90, Kevin Alcantara 122, Ryan Waldschmidt 118
+  ✓ CF backup: Colt Emerson 61, Arjun Nimmala 60, Max Clark 114, Luis Pena 70, Kevin Alcantara 108, Ryan Waldschmidt 98
+  ✓ RF backup: Kaelen Culpepper 68, Colt Emerson 82, Arjun Nimmala 75, Max Clark 129, Josue De Paula 69, JJ Wetherholt 67, Bryce Rainer 64, Aidan Miller 61, Luis Pena 82, Kevin Alcantara 115, Ryan Waldschmidt 109
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 181.0 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 14 bats) 1273 · rotation 468 · bullpen 618 · bench-only 0
