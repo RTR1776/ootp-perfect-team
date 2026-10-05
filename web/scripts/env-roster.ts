@@ -552,7 +552,7 @@ async function main() {
     const arm = c.isPitcher
       ? ` ${String(c.role ?? "").padEnd(2)} STM ${String(Math.round(c.ratings["Stamina"] ?? 0)).padStart(3)}`
       : "";
-    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}  ${side}${def}${arm}`;
+    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}  ${side}${def}${arm}  #${c.cardId}`;
   };
 
   console.log(`\n--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)`);
