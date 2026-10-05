@@ -33,6 +33,9 @@ export function auditSummary(lines: readonly AuditLine[]): { passed: string; fai
   return { passed: parts.join(" · "), failed: lines.filter((l) => !l.ok) };
 }
 
+/** Stamina points under the era floor a starter may be and still pass the check. */
+export const STAMINA_SLACK = 5;
+
 /** A starter's minimum stamina by run environment: older eras ask starters to go deeper. */
 export function starterStaminaFloor(envYear: number | null | undefined): number {
   if (envYear == null || envYear >= 1980) return 50;
@@ -62,8 +65,10 @@ export function auditRoster(o: {
   out.push({ ok: arms <= MAX_ARMS && rp.length <= MAX_RP && sp.length <= MAX_SP, text: `staff ${sp.length} SP / ${rp.length} RP / ${bats.length} bats (caps: ${MAX_SP} SP, ${MAX_RP} RP, ${MAX_ARMS} arms)${f}`, short: `staff ${sp.length}/${rp.length}/${bats.length}` });
 
   const floor = starterStaminaFloor(o.envYear);
-  const short = sp.filter((c) => (c.ratings.Stamina ?? 0) < floor);
-  out.push({ ok: short.length === 0, text: `starters' stamina ${sp.map((c) => `${c.name} ${c.ratings.Stamina ?? "?"}`).join(", ")} (era floor ${floor})${short.length ? ` — SHORT: ${short.map((c) => c.name).join(", ")}` : ""}`, short: "starters' stamina" });
+  // The floor is a rule of thumb, so a starter a few points under it (McDonald's 59 at a floor of 60) passes, named.
+  const short = sp.filter((c) => (c.ratings.Stamina ?? 0) < floor - STAMINA_SLACK);
+  const close = sp.filter((c) => (c.ratings.Stamina ?? 0) < floor && (c.ratings.Stamina ?? 0) >= floor - STAMINA_SLACK);
+  out.push({ ok: short.length === 0, text: `starters' stamina ${sp.map((c) => `${c.name} ${c.ratings.Stamina ?? "?"}`).join(", ")} (era floor ${floor})${short.length ? ` — SHORT: ${short.map((c) => c.name).join(", ")}` : ""}${close.length ? ` — just under: ${close.map((c) => c.name).join(", ")}` : ""}`, short: "starters' stamina" });
   const long = rp.filter((c) => (c.ratings.Stamina ?? 0) >= LONG_MAN_STAMINA);
   out.push({ ok: long.length >= 2, text: long.length ? `stamina guys in the pen (${LONG_MAN_STAMINA}+): ${long.map((c) => `${c.name} ${c.ratings.Stamina}`).join(", ")}${long.length < 2 ? " — need 2" : ""}` : `no long man: every reliever under stamina ${LONG_MAN_STAMINA}`, short: `${long.length} long men` });
 

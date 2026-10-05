@@ -139,6 +139,14 @@ export function backupPositions(pool: readonly FillCard[], rules: RosterRules, p
   }).filter((b) => new Set(b.can.map((c) => c.cardId)).size >= 2);
 }
 
+/** How many long men (pen arms at LONG_MAN_STAMINA+) the board is short of `want`. */
+export function longMenShort(slots: FillResult, byId: ReadonlyMap<number, FillCard>, want: number): number {
+  if (!want) return 0;
+  let long = 0;
+  for (const [key, id] of Object.entries(slots)) if ((key === "CL" || /^RP\d/.test(key)) && (byId.get(id)?.ratings.Stamina ?? 0) >= LONG_MAN_STAMINA) long++;
+  return Math.max(0, want - long);
+}
+
 /** Of `positions`, those the board carries fewer than two hitters for. */
 export function missingBackups(slots: FillResult, byId: ReadonlyMap<number, FillCard>, positions: readonly BackupPosition[]): string[] {
   if (!positions.length) return [];
@@ -266,7 +274,10 @@ export function optimizeRoster(
     for (const b of backupPos) [...b.can].sort((x, y) => rank(`R:${b.pos}`, y) - rank(`R:${b.pos}`, x)).slice(0, 10).forEach((c) => keepIds.add(c.cardId));
   }
   const missing = (sl: FillResult) => missingBackups(sl, byId, backupPos);
-  const obj = (sl: FillResult) => o.objective(sl) - BACKUP_PENALTY * missing(sl).length;
+  // Long men, the same way: a pen with none needs two swaps to reach two, which a
+  // legality rule can't climb (the Live events of 10-05 kept seven 15-stamina relievers).
+  const longShort = (sl: FillResult) => longMenShort(sl, byId, minLongWanted);
+  const obj = (sl: FillResult) => o.objective(sl) - BACKUP_PENALTY * (missing(sl).length + longShort(sl));
   /** Who may play each slot at all — before pruning, so reassignment is exact. */
   const eligible = new Map([...full].map(([k, list]) => [k, new Set(list.map((c) => c.cardId))]));
   const cands = new Map(keys.map((k) => {
@@ -290,7 +301,9 @@ export function optimizeRoster(
   const cFloor = Math.max(1, posFloorAt(o.posFloor, "C"));
   const minSS = o.minShortstops ?? 0;
   const ssFloor = Math.max(1, posFloorAt(o.posFloor, "SS"));
-  const minLong = o.minLongMen ?? 0;
+  // Scored as a penalty in obj (above), not a legality rule.
+  const minLongWanted = o.minLongMen ?? 0;
+  const minLong = 0;
   const startScore = obj(slots);
   // A starting board that breaks a rule (an unowned copy on a saved roster)
   // scores -Infinity, so the first legal board the search finds replaces it

@@ -36,7 +36,7 @@ import { SetFilter } from "@/components/set-filter";
 import { dismissToast, toast, type ToastInput } from "@/components/ui/toast";
 import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillResult, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
-import { BACKUP_PENALTY, backupPositions, missingBackups } from "@/lib/roster-optimize";
+import { BACKUP_PENALTY, backupPositions, longMenShort, missingBackups } from "@/lib/roster-optimize";
 import { auditRoster, auditSummary, orderStaff } from "@/lib/roster-audit";
 import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
 import { hitterRates } from "@/lib/analytics/card-value";
@@ -1119,10 +1119,12 @@ export function RosterBuilder({
     const onNow = new Set(Object.values(slots).filter((v): v is number => v != null));
     const current: FillResult = {};
     for (const k of slotOrder) { const id = slots[k]; if (id != null) current[k] = id; }
-    // The search also takes BACKUP_PENALTY off a board per position without a backup; so does this,
-    // or a board that adds the backup by giving up a few bench runs would read as no better.
-    const gaps = backups ? missingBackups(current, new Map(searchPool.map((c) => [c.cardId, c])), backupPositions(searchPool, tournament as RosterRules, LJ_FLOOR)) : [];
-    const beforeSearch = before - 1000 * keep.filter((id) => !onNow.has(id)).length - BACKUP_PENALTY * gaps.length;
+    // The search also takes BACKUP_PENALTY off a board per position without a backup and per long man
+    // short; so does this, or a board that adds one by giving up a few runs would read as no better.
+    const poolById = new Map(searchPool.map((c) => [c.cardId, c]));
+    const gaps = backups ? missingBackups(current, poolById, backupPositions(searchPool, tournament as RosterRules, LJ_FLOOR)).length : 0;
+    const longGap = longMenShort(current, poolById, twoLong ? 2 : 0);
+    const beforeSearch = before - 1000 * keep.filter((id) => !onNow.has(id)).length - BACKUP_PENALTY * (gaps + longGap);
     // A card outside the chosen sets, or one banned since, is a break too: the search replaces it.
     const breaks = validation?.errors.length ? "broke a rule"
       : validation?.incomplete.some((i) => i.code === "outside-sets") ? "had a card outside the chosen sets"
