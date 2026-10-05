@@ -17,7 +17,21 @@ import { posFloorAt, type PosFloor } from "./pos-floor";
 
 export interface AuditCard { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }
 export interface FieldShape { sp: number; rp: number; bats: number; label: string }
-export interface AuditLine { ok: boolean; text: string }
+export interface AuditLine {
+  ok: boolean;
+  text: string;
+  /** A few words for the passing summary on /build ("staff 5/7/14", "C backup"). */
+  short: string;
+}
+
+/** /build's compact form: every passing line in one row, each failing line in full. */
+export function auditSummary(lines: readonly AuditLine[]): { passed: string; failed: AuditLine[] } {
+  const ok = lines.filter((l) => l.ok);
+  const backups = ok.filter((l) => / backup$/.test(l.short));
+  const allBackups = backups.length > 0 && !lines.some((l) => !l.ok && / backup$/.test(l.short));
+  const parts = [...ok.filter((l) => !/ backup$/.test(l.short)).map((l) => l.short), ...(allBackups ? ["a backup everywhere"] : backups.map((l) => l.short))];
+  return { passed: parts.join(" · "), failed: lines.filter((l) => !l.ok) };
+}
 
 /** A starter's minimum stamina by run environment: older eras ask starters to go deeper. */
 export function starterStaminaFloor(envYear: number | null | undefined): number {
@@ -45,13 +59,13 @@ export function auditRoster(o: {
   const bats = members.filter((c) => !c.isPitcher);
   const arms = sp.length + rp.length;
   const f = o.field ? ` · ${o.field.label}: ${o.field.sp.toFixed(1)} SP / ${o.field.rp.toFixed(1)} RP / ${o.field.bats.toFixed(1)} bats` : "";
-  out.push({ ok: arms <= MAX_ARMS && rp.length <= MAX_RP && sp.length <= MAX_SP, text: `staff ${sp.length} SP / ${rp.length} RP / ${bats.length} bats (caps: ${MAX_SP} SP, ${MAX_RP} RP, ${MAX_ARMS} arms)${f}` });
+  out.push({ ok: arms <= MAX_ARMS && rp.length <= MAX_RP && sp.length <= MAX_SP, text: `staff ${sp.length} SP / ${rp.length} RP / ${bats.length} bats (caps: ${MAX_SP} SP, ${MAX_RP} RP, ${MAX_ARMS} arms)${f}`, short: `staff ${sp.length}/${rp.length}/${bats.length}` });
 
   const floor = starterStaminaFloor(o.envYear);
   const short = sp.filter((c) => (c.ratings.Stamina ?? 0) < floor);
-  out.push({ ok: short.length === 0, text: `starters' stamina ${sp.map((c) => `${c.name} ${c.ratings.Stamina ?? "?"}`).join(", ")} (era floor ${floor})${short.length ? ` — SHORT: ${short.map((c) => c.name).join(", ")}` : ""}` });
+  out.push({ ok: short.length === 0, text: `starters' stamina ${sp.map((c) => `${c.name} ${c.ratings.Stamina ?? "?"}`).join(", ")} (era floor ${floor})${short.length ? ` — SHORT: ${short.map((c) => c.name).join(", ")}` : ""}`, short: "starters' stamina" });
   const long = rp.filter((c) => (c.ratings.Stamina ?? 0) >= LONG_MAN_STAMINA);
-  out.push({ ok: long.length >= 2, text: long.length ? `stamina guys in the pen (${LONG_MAN_STAMINA}+): ${long.map((c) => `${c.name} ${c.ratings.Stamina}`).join(", ")}${long.length < 2 ? " — need 2" : ""}` : `no long man: every reliever under stamina ${LONG_MAN_STAMINA}` });
+  out.push({ ok: long.length >= 2, text: long.length ? `stamina guys in the pen (${LONG_MAN_STAMINA}+): ${long.map((c) => `${c.name} ${c.ratings.Stamina}`).join(", ")}${long.length < 2 ? " — need 2" : ""}` : `no long man: every reliever under stamina ${LONG_MAN_STAMINA}`, short: `${long.length} long men` });
 
   for (const pos of o.lineupPos) {
     if (pos === "DH") continue;
@@ -60,7 +74,7 @@ export function auditRoster(o: {
     const starters = new Set([o.slots[`R:${pos}`], o.slots[`L:${pos}`]].filter((x) => x != null));
     const backups = can.filter((c) => !starters.has(c.cardId) || starters.size > 1);
     const ok = can.length >= 2;
-    out.push({ ok, text: `${pos.padEnd(2)} backup: ${ok ? can.filter((c) => !(starters.size === 1 && starters.has(c.cardId))).map((c) => `${c.name} ${c.ratings[`Pos Rating ${pos}`]}`).join(", ") || backups.map((c) => c.name).join(", ") : `NONE — only ${can.map((c) => c.name).join(", ") || "nobody"} can play it (floor ${fl})`}` });
+    out.push({ ok, text: `${pos.padEnd(2)} backup: ${ok ? can.filter((c) => !(starters.size === 1 && starters.has(c.cardId))).map((c) => `${c.name} ${c.ratings[`Pos Rating ${pos}`]}`).join(", ") || backups.map((c) => c.name).join(", ") : `NONE — only ${can.map((c) => c.name).join(", ") || "nobody"} can play it (floor ${fl})`}`, short: `${pos} backup` });
   }
   return out;
 }

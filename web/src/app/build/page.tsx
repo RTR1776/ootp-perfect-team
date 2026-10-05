@@ -106,7 +106,7 @@ export default async function BuildPage({
   let meta: SeriesMetaInfo | null = null;
   let confidence: Confidence | null = null;
   let env: BuilderEnv | null = null;
-  let savedRosters: { id: number; name: string; slots: RosterSlot[]; builtOn?: string | null; newCards?: NewCard[] }[] = [];
+  let savedRosters: { id: number; name: string; slots: RosterSlot[]; savedAt: number; recommended?: boolean; builtOn?: string | null; newCards?: NewCard[] }[] = [];
   let setEvidence: SetEvidence | null = null;
   // Read before the event: the empty picker shows the collection's date too.
   const [latestCollection] = await db
@@ -459,11 +459,16 @@ export default async function BuildPage({
         const then = { base: new Set(rows.filter((r) => !r.isVariant).map((r) => r.cardId!)), variant: new Set(rows.filter((r) => r.isVariant).map((r) => r.cardId!)) };
         return [u.id, { builtOn: chicagoDay(u.date), newCards: newSince(pool, then, variantsAllowed) }];
       }));
+      // The newest "Claude pick" is the recommended roster: /build opens on it
+      // unless his own board here is newer (L.J. 10-05: "make it the default").
+      const recommended = savedList.find((r) => /^claude pick/i.test(r.name))?.id ?? null;
       savedRosters = savedList.map((r) => {
         const f = fresh.get(savedOn.get(r.id) ?? -1);
         return {
           id: r.id,
           name: r.name,
+          savedAt: r.updatedAt.getTime(),
+          ...(r.id === recommended ? { recommended: true } : {}),
           slots: slotRows
             .filter((s) => s.rosterId === r.id)
             .map((s) => ({ cardId: s.cardId, slot: s.slot, versusHand: s.versusHand, lineupOrder: s.lineupOrder, useVariant: s.useVariant })),

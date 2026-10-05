@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { auditRoster, orderStaff, starterStaminaFloor } from "./roster-audit";
+import { auditRoster, auditSummary, orderStaff, starterStaminaFloor } from "./roster-audit";
 import { LJ_FLOOR } from "./pos-floor";
 
 const bat = (id: number, name: string, pos: Record<string, number>) => ({ cardId: id, name, isPitcher: false, ratings: Object.fromEntries(Object.entries(pos).map(([p, v]) => [`Pos Rating ${p}`, v])) });
@@ -29,4 +29,17 @@ test("the closer is the best reliever and SP1 the best starter", () => {
   const v: Record<number, number> = { 1: 7, 2: 11, 3: 9, 10: -1, 11: 10, 12: 4 };
   const o = orderStaff({ SP1: 1, SP2: 2, SP3: 3, CL: 10, RP1: 11, RP2: 12, "R:C": 50 }, (id) => v[id]);
   assert.deepEqual([o.SP1, o.SP2, o.SP3, o.CL, o.RP1, o.RP2, o["R:C"]], [2, 3, 1, 11, 12, 10, 50]);
+});
+
+test("the passing checks collapse to one row, the failing ones stay whole", () => {
+  const s = auditSummary([
+    { ok: true, text: "staff 5 SP / 7 RP / 14 bats", short: "staff 5/7/14" },
+    { ok: false, text: "starters' stamina … SHORT: X", short: "starters' stamina" },
+    { ok: true, text: "C  backup: A, B", short: "C backup" },
+    { ok: true, text: "SS backup: C, D", short: "SS backup" },
+  ]);
+  assert.equal(s.passed, "staff 5/7/14 · a backup everywhere");
+  assert.deepEqual(s.failed.map((l) => l.short), ["starters' stamina"]);
+  const cf = auditSummary([{ ok: true, text: "", short: "C backup" }, { ok: false, text: "CF backup: NONE", short: "CF backup" }]);
+  assert.equal(cf.passed, "C backup", "a missing backup somewhere: name the ones that pass");
 });

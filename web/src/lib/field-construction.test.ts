@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { summariseSeries, teamBuilds } from "./field-construction";
+import { combineClans, summariseSeries, teamBuilds } from "./field-construction";
 import { clanOf, type LeagueStint } from "./ingest/league";
 
 const row = (org: string, val: number, p: Partial<LeagueStint> & { stats?: Record<string, number> }): LeagueStint => ({
@@ -54,3 +54,16 @@ test("field construction: a series with no teams summarises to nothing, not NaN"
   assert.equal(JSON.stringify(s).includes("null,null"), false);
 });
 
+
+test("the clan rows combine into one, weighted by entries", () => {
+  const g = (key: string, label: string, n: number, winPct: number, bats: number) => ({
+    key, label, n, winPct, tiers: { P: { bats, bench: 0, sp: 1, rp: 2 } }, hands: { spL: 1, spR: 4, batsL: 3, batsR: 6, batsS: 0 }, openerShare: 0,
+  });
+  const out = combineClans([g("all", "Every team", 100, 0.5, 5), g("clan:GH", "GH", 30, 0.6, 8), g("clan:HOTL", "HotL", 10, 0.5, 4), g("mine", "You", 5, 0.55, 6)]);
+  assert.deepEqual(out.map((x) => x.key), ["all", "clans", "mine"]);
+  const c = out[1];
+  assert.equal(c.label, "Clans (GH, HotL)");
+  assert.equal(c.n, 40);
+  assert.equal(c.winPct, 0.575);
+  assert.equal(c.tiers.P!.bats, 7);
+});
