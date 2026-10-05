@@ -92,7 +92,9 @@ const TAG = val("tag") ?? chicagoDay(new Date())!;
  * 2026-09-30; until then every build here was 5 / 7 / 14). --sp / --rp /
  * --bats override it for the whole batch.
  */
-const BUILD = ["--optimize", "--starts", val("starts") ?? "16", "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : [])];
+const BUILD = ["--optimize", "--starts", val("starts") ?? "16", "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
+  // Cards bought but not yet uploaded (env-roster --assume-owned); a roster carrying one saves only after the upload.
+  ...(val("assume-owned") ? ["--assume-owned", val("assume-owned")!] : [])];
 
 /** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
 function lastRuns(): { at: Map<number, number>; newest: number } {
@@ -305,8 +307,12 @@ async function toLoadFile(text: string, job: Job, uploadId: number): Promise<str
     const isVar = /\(VAR\)$/.test(rawName);
     const name = rawName.replace(/\s*\(VAR\)$/, "");
     const pitcher = /^(SP|RP|CL)/.test(key);
-    const hits = universe.filter((c) => c.name.toLowerCase() === name.toLowerCase() && c.value === Number(value) && c.year === Number(year)
+    let hits = universe.filter((c) => c.name.toLowerCase() === name.toLowerCase() && c.value === Number(value) && c.year === Number(year)
       && (isVar ? vars.has(c.cardId) : base.has(c.cardId) || vars.has(c.cardId)) && (key.startsWith("BN") || (c.isPitcher ?? false) === pitcher));
+    // Two owned cards can share name, value and year (a Live card and a Future Legend, 10-05 Payton Tolle):
+    // env-roster ends each row with the card's id, which settles it.
+    const pinned = /\s#(\d+)\s*$/.exec(l);
+    if (hits.length > 1 && pinned) hits = hits.filter((c) => c.cardId === Number(pinned[1]));
     if (hits.length !== 1) throw new Error(`${key} ${rawName} ${value} ${year}: ${hits.length} owned matches`);
     const pin = `${rawName} #${hits[0].cardId}`;
     if (key.startsWith("SP")) sps.push({ runs: Number(runs), pin });
