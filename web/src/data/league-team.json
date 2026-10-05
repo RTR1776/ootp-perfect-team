@@ -1,6 +1,6 @@
 {
   "asOf": "2026-10-05",
-  "from": "L.J.'s HD roster as set in game on 2026-10-05 (no Yogi or Brett), from Claude's best 26 of the whole collection (league model, gloves in runs, 1952 Yankee Stadium, arms on pooled HD+PEL play) with his own batting orders and staff order. Pen roles in game: everyone's primary role is Middle Relief; Willie Hernandez is on Use more often with Long Relief as his secondary role, so he pitches as often as possible (he sits in the app's first pen slot, which the app calls CL); Kimbrel, Nen and Britton have Closer as their secondary role, Gossage and Haddix Long Relief",
+  "from": "L.J.'s HD roster for the week of 10-05 with George Brett (87025, bought 10-05 late) in for Mel Ott, the one bat in neither lineup. Lineups from the league model (gloves in runs, 1952 Yankee Stadium): Brett at 1B on both boards, Aaron to LF vs LHP and the bench vs RHP; batting order from lib/batting-order. Staff as L.J. set it in game: everyone's primary role Middle Relief, Willie Hernandez on Use more often with Long Relief secondary (the app's first pen slot, called CL); Kimbrel, Nen and Britton Closer secondary, Gossage and Haddix Long Relief",
   "family": "HD",
   "bats": [
     "Ed Bailey#86637",
@@ -14,9 +14,9 @@
     "Heinie Manush#86370",
     "Richard Hidalgo#86707",
     "Willie Mays#86634",
-    "Mel Ott#86272",
     "Juan Soto#87013",
-    "Hideki Matsui#87042"
+    "Hideki Matsui#87042",
+    "George Brett#87025"
   ],
   "arms": [
     "Orel Hershiser#83135",
@@ -34,26 +34,26 @@
   ],
   "lineups": {
     "vR": {
+      "1B": "George Brett#87025",
       "DH": "Hideki Matsui#87042",
-      "RF": "Juan Soto#87013",
-      "SS": "Ernie Banks#86621",
-      "CF": "Richard Hidalgo#86707",
-      "1B": "Hank Aaron#86655",
       "C": "Ed Bailey#86637",
+      "RF": "Juan Soto#87013",
+      "CF": "Richard Hidalgo#86707",
+      "SS": "Ernie Banks#86621",
       "2B": "Leodalis De Vries#84724",
       "LF": "Heinie Manush#86370",
       "3B": "Pop Lloyd#86896"
     },
     "vL": {
       "RF": "Juan Soto#87013",
-      "SS": "Ernie Banks#86621",
+      "1B": "George Brett#87025",
       "DH": "Hideki Matsui#87042",
-      "1B": "Hank Aaron#86655",
-      "2B": "Bret Boone#86701",
+      "LF": "Hank Aaron#86655",
+      "SS": "Ernie Banks#86621",
       "CF": "Willie Mays#86634",
-      "LF": "Heinie Manush#86370",
-      "3B": "Scott Rolen#86405",
-      "C": "Josh Gibson#86252"
+      "2B": "Bret Boone#86701",
+      "C": "Josh Gibson#86252",
+      "3B": "Scott Rolen#86405"
     }
   },
   "staff": {
