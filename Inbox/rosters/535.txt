@@ -1,0 +1,129 @@
+
+=== Saturday Bronze Cap ===
+2016 RE (neutral park) · DH on · value 40–69 · cap 1386 · 26 players
+R/G 4.48  AVG 0.254  OBP 0.322  SLG 0.416  K% 21.1  HR/PA 3.08%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.035 runs · steal break-even 81.1% (0 out) / 78.0% (1 out)
+
+pool: 2295 eligible owned cards — 1243 bats (399L / 149S / 695R), 1052 arms
+staff weights from bronzecapweekly's exports: SP 1.21, RP 0.46 (a lineup slot = 1)
+field (bronzecapweekly, 1 exports): 40% of batters faced thrown left-handed · 35% of PA by left-handed bats · 13 bats / 5.6 SP / 6 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 2129 of 2295 pool cards have innings on record (median 301 PA/BF); K = 5000
+gloves ×0.85: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.1  Avoid Ks +3.2  BABIP +1.9  Eye +1.1  Gap +0.9
+                          RHB: Power +5.1  Avoid Ks +3.2  BABIP +1.9  Eye +1.1  Gap +0.9
+                         arms: pHR +1.7  Stuff +1.6  pBABIP +1.1  Control +0.8
+
+optimiser: 8 λ starts hill-climbed; best 5.6 runs vs -117.4 greedy (+122.9), 15 moves from λ 6.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Thayron Liranzo (VAR)       65  S  2026    -4.2  park:L DEF  67/ 76 -0.6
+R:1B    Stan Hack                   46  L  1944    -8.5  park:L DEF  77/ 77 +0.0
+R:2B    Hank Blalock                68  L  2003   +15.2  park:L DEF 108/108 -0.7
+R:3B    Chris Sabo                  66  R  1990    +2.5  park:R DEF  77/ 77 -1.6
+R:SS    Dave Brain (VAR)            68  R  1907    +5.1  park:R DEF  93/ 99 -1.6
+R:LF    Steve Pearce (VAR)          69  R  2016    +4.0  park:R DEF  67/ 73 -1.9
+R:CF    Deion Sanders               69  L  1992    -0.4  park:L DEF 120/131 +0.3
+R:RF    Jhonny Level (VAR)          64  S  2026    +2.2  park:L DEF  68/107 -2.2
+R:DH    Wes Covington               67  L  1958   +23.7  park:L
+
+--- lineup vs LHP ---
+L:C     Thayron Liranzo (VAR)       65  S  2026    +1.4  park:R DEF  67/ 76 -0.6
+L:1B    Steve Pearce (VAR)          69  R  2016   +17.3  park:R DEF  73/ 73 -0.4
+L:2B    Jhonny Level (VAR)          64  S  2026    -2.3  park:R DEF 107/107 -0.8
+L:3B    Chris Sabo                  66  R  1990   +35.1  park:R DEF  77/ 77 -1.6
+L:SS    Dave Brain (VAR)            68  R  1907    +7.0  park:R DEF  93/ 99 -1.6
+L:LF    Deion Sanders               69  L  1992    +1.5  park:L DEF 131/131 +2.4
+L:CF    Dwayne Hosey                49  S  1995    -5.1  park:R DEF  71/ 90 -2.0
+L:RF    Sammy Sosa                  43  R  1990    -7.1  park:R DEF 101/101 +0.2
+L:DH    Pete Incaviglia             46  R  1986    +5.0  park:R
+
+--- batting order vs RHP --- (4.61 runs/game; The Book's order 4.61)
+  1. Stan Hack 1B
+  2. Steve Pearce (VAR) LF
+  3. Chris Sabo 3B
+  4. Wes Covington DH
+  5. Dave Brain (VAR) SS
+  6. Hank Blalock 2B
+  7. Thayron Liranzo (VAR) C
+  8. Jhonny Level (VAR) RF
+  9. Deion Sanders CF
+
+--- batting order vs LHP --- (4.67 runs/game; The Book's order 4.67)
+  1. Steve Pearce (VAR) 1B
+  2. Chris Sabo 3B
+  3. Thayron Liranzo (VAR) C
+  4. Dave Brain (VAR) SS
+  5. Jhonny Level (VAR) 2B
+  6. Deion Sanders LF
+  7. Sammy Sosa RF
+  8. Pete Incaviglia DH
+  9. Dwayne Hosey CF
+
+--- rotation ---
+SP1     Fritz Ostermueller          64  L  1944    +7.2   SP STM  98
+SP2     James McDonald (VAR)        55  L  2010    +6.8   SP STM  59
+SP3     Tanner McDougal (VAR)       66  R  2026    +2.8   SP STM  62
+SP4     Tin Can Kincannon           45  R  1934    -5.5   SP STM  74
+SP5     Bob Gibson                  44  R  1959    -8.8   SP STM  69
+
+--- bullpen ---
+CL      Todd Jones (VAR)            43  L  2000    +5.3   CL STM  17
+RP1     Randy Choate                45  L  2013    +1.1   RP STM   6
+RP2     Reed Garrett                49  R  2024    -1.4   RP STM  25
+RP3     Steve Farr                  43  R  1989   -10.4   CL STM  24
+RP4     R.T. Walker                 40  R  1947   -12.5   RP STM  69
+RP5     Ron Robinson                43  R  1986   -12.5   RP STM  48
+RP6     Harry Eisenstat             40  L  1941   -21.5   RP STM  24
+
+--- bench ---
+BN1     Charlie Eden                40  L  1885   -28.9  park:L
+BN2     Dwayne Hosey                49  S  1995   -15.2  park:L
+BN3     Pete Incaviglia             46  R  1986   -16.2  park:R
+BN4     Nick Fortes                 49  R  2026   -22.4  park:R
+BN5     Sammy Sosa                  43  R  1990   -34.2  park:R
+
+26 players · value 1386 / 1386 (0 spare) · λ 6.000 · 7 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Wes Covington          L EYE  64 (86/52)  POW 115 (40/143)  K  93  BABIP  84  GAP  71  SPE  15
+  Hank Blalock           L EYE  67 (43/73)  POW  97 (40/117)  K  77  BABIP  93  GAP  88  SPE  26
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Steve Pearce           R EYE 147 (167/140)  POW 106 (142/98)  K 105  BABIP  92  GAP  76  SPE  46
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Jhonny Level           S EYE  68 (62/70)  POW 100 (87/104)  K  97  BABIP  98  GAP 109  SPE  36
+  Deion Sanders          L EYE  63 (40/67)  POW  85 (112/77)  K  75  BABIP 149  GAP 113  SPE 119
+  Thayron Liranzo        S EYE 153 (164/149)  POW 116 (138/108)  K  63  BABIP  66  GAP  95  SPE  25
+  Stan Hack              L EYE 128 (144/123)  POW  38 (1/46)  K 183  BABIP  81  GAP  61  SPE  47
+  Dwayne Hosey           S EYE  91 (94/90)  POW  72 (68/74)  K  53  BABIP  99  GAP 139  SPE  86
+  Pete Incaviglia        R EYE  84 (100/79)  POW 116 (137/110)  K  37  BABIP  84  GAP  62  SPE  47
+  Nick Fortes            R EYE  50 (53/50)  POW  64 (67/63)  K  98  BABIP  70  GAP  68  SPE  10
+  Charlie Eden           L EYE  68 (68/69)  POW  18 (18/19)  K  83  BABIP  73  GAP  89  SPE  71
+  Sammy Sosa             R EYE  46 (66/37)  POW  65 (115/34)  K  36  BABIP  80  GAP  99  SPE 102
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (28 teams): 4.9 SP / 7.4 RP / 13.5 bats
+  ✓ starters' stamina Fritz Ostermueller 98, James McDonald 59, Tanner McDougal 62, Tin Can Kincannon 74, Bob Gibson 69 (era floor 50)
+  ✓ stamina guys in the pen (45+): R.T. Walker 69, Ron Robinson 48
+  ✓ C  backup: Nick Fortes 64
+  ✓ 1B backup: Thayron Liranzo 76, Stan Hack 77, Jhonny Level 84, Steve Pearce 73
+  ✓ 2B backup: Hank Blalock 108, Jhonny Level 107
+  ✓ 3B backup: Dave Brain 99, Hank Blalock 105, Jhonny Level 105
+  ✓ SS backup: Jhonny Level 94
+  ✓ LF backup: Deion Sanders 131, Jhonny Level 76, Steve Pearce 67, Dwayne Hosey 90, Sammy Sosa 97
+  ✓ CF backup: Deion Sanders 120, Dwayne Hosey 71, Sammy Sosa 80
+  ✓ RF backup: Deion Sanders 122, Jhonny Level 68, Dwayne Hosey 76, Sammy Sosa 101
+(25 of 26 have a live ask in the last shop snapshot)
+objective: 5.6 weighted runs (bats 60/40 R/L, SP 1.21, RP 0.46, bench 0.1)
+points: lineup(both boards, 12 bats) 720 · rotation 274 · bullpen 303 · bench-only 89
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
+   Bob Gibson               pBABIP 44 (fitted 50–175)
+   Todd Jones               pBABIP 37 (fitted 50–175)
+   Steve Farr               pBABIP 20 (fitted 50–175)
+   Ron Robinson             pBABIP 13 (fitted 50–175)
+   Harry Eisenstat          pBABIP 30 (fitted 50–175)

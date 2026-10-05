@@ -1,0 +1,126 @@
+
+=== Daily Low Gold Cap ===
+2007 RE @ 2008 Shea Stadium · DH on · value 40–84 · cap 1610 · 26 players
+R/G 4.48  AVG 0.254  OBP 0.325  SLG 0.408  K% 17.1  HR/PA 2.68%  preset Moderate Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.008 runs · steal break-even 80.8% (0 out) / 77.9% (1 out)
+park: all-LHB lineup 4.66 R/G vs all-RHB 4.39 — 0.28 R/G swing toward LEFT-handed bats
+
+pool: 3225 eligible owned cards — 1777 bats (582L / 217S / 978R), 1448 arms
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 2844 of 3225 pool cards have innings on record (median 261 PA/BF); K = 5000; left out: highsilverlowgoldcap
+gloves ×0.93: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.4  Avoid Ks +2.5  BABIP +2.1  Eye +1.3  Gap +0.9
+                          RHB: Power +4.5  Avoid Ks +2.4  BABIP +1.9  Eye +1.3  Gap +0.9
+                         arms: pHR +1.5  Stuff +1.2  pBABIP +1.1  Control +0.9
+
+optimiser: 8 λ starts hill-climbed; best 123.9 runs vs 19.7 greedy (+104.2), 29 moves from λ 6.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Josh Gibson                 84  R  1946    +4.0  park:R DEF  69/ 75 -0.6
+R:1B    Matt Carpenter              74  L  2015   +14.0  park:L DEF 102/102 +2.9
+R:2B    Randy Ready                 77  R  1987    +6.8  park:R DEF 115/115 +0.3
+R:3B    Chris Sabo                  66  R  1990    +4.2  park:R DEF  77/ 77 -1.7
+R:SS    Zack Cozart                 83  R  2017    +5.4  park:R DEF  97/ 97 -1.3
+R:LF    Brandon Lowe (VAR)          82  L  2020   +11.0  park:L DEF  86/ 91 -0.7
+R:CF    Willie McGee (VAR)          79  S  1985    +8.1  park:L DEF 118/131 +0.3
+R:RF    Lee Thomas (VAR)            77  L  1962   +19.4  park:L DEF  86/ 93 -1.0
+R:DH    Pedro Alvarez               81  L  2013   +38.1  park:L
+
+--- lineup vs LHP ---
+L:C     Josh Gibson                 84  R  1946   +10.0  park:R DEF  69/ 75 -0.6
+L:1B    Matt Carpenter              74  L  2015    +2.9  park:L DEF 102/102 +2.9
+L:2B    Randy Ready                 77  R  1987   +16.0  park:R DEF 115/115 +0.3
+L:3B    Chris Sabo                  66  R  1990   +22.7  park:R DEF  77/ 77 -1.7
+L:SS    Zack Cozart                 83  R  2017   +15.0  park:R DEF  97/ 97 -1.3
+L:LF    Brandon Lowe (VAR)          82  L  2020   +17.6  park:L DEF  86/ 91 -0.7
+L:CF    Willie McGee (VAR)          79  S  1985   +13.9  park:R DEF 118/131 +0.3
+L:RF    Lee Thomas (VAR)            77  L  1962    -4.3  park:L DEF  86/ 93 -1.0
+L:DH    Pete Incaviglia             46  R  1986    +5.9  park:R
+
+--- batting order vs RHP --- (5.02 runs/game; The Book's order 5.01)
+  1. Matt Carpenter 1B
+  2. Brandon Lowe (VAR) LF
+  3. Lee Thomas (VAR) RF
+  4. Pedro Alvarez DH
+  5. Willie McGee (VAR) CF
+  6. Josh Gibson C
+  7. Chris Sabo 3B
+  8. Zack Cozart SS
+  9. Randy Ready 2B
+
+--- batting order vs LHP --- (4.88 runs/game; The Book's order 4.88)
+  1. Randy Ready 2B
+  2. Chris Sabo 3B
+  3. Brandon Lowe (VAR) LF
+  4. Josh Gibson C
+  5. Zack Cozart SS
+  6. Matt Carpenter 1B
+  7. Willie McGee (VAR) CF
+  8. Pete Incaviglia DH
+  9. Lee Thomas (VAR) RF
+
+--- rotation ---
+SP1     Jordan Montgomery           77  L  2023    +8.0   SP STM  87
+SP2     Jake Peavy                  83  R  2004    +7.9   SP STM  71
+SP3     Raisel Iglesias             80  R  2015    +7.7   SP STM  69
+SP4     Jakie May (VAR)             72  R  1927    +7.3   SP STM  69
+SP5     Fritz Ostermueller          64  L  1944    +5.8   SP STM  98
+
+--- bullpen ---
+CL      Randy Choate                45  L  2013    +1.0   RP STM   6
+RP1     Todd Jones (VAR)            43  L  2000    -1.1   CL STM  17
+RP2     Reed Garrett                49  R  2024    -3.0   RP STM  25
+RP3     Tin Can Kincannon           45  R  1934    -5.8   SP STM  74
+RP4     Bob Gibson                  44  R  1959    -9.8   SP STM  69
+RP5     Steve Farr                  43  R  1989    -9.9   CL STM  24
+RP6     R.T. Walker                 40  R  1947    -9.9   RP STM  69
+
+--- bench ---
+BN1     Kevin Brown                 45  R  1998   -15.2  park:R
+BN2     Pete Incaviglia             46  R  1986   -11.1  park:R
+BN3     Tommy Dean                  41  R  1970   -21.1  park:R
+BN4     Fred Lynn                   46  L  1989    -8.9  park:L
+BN5     Tsung-Che Cheng (VAR)       44  L  2026   -11.0  park:L
+
+26 players · value 1610 / 1610 (0 spare) · λ 6.000 · 6 variants
+vs RHP lineup gets the friendly park side in 5 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  Brandon Lowe           L EYE 132 (119/136)  POW 132 (155/124)  K  75  BABIP  95  GAP  93  SPE  73
+  Willie McGee           S EYE  53 (47/56)  POW  75 (100/66)  K 113  BABIP 152  GAP 126  SPE 117
+  Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
+  Zack Cozart            R EYE 115 (114/115)  POW 102 (112/99)  K 100  BABIP 100  GAP  80  SPE  56
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
+  Fred Lynn              L EYE 119 (102/126)  POW  78 (1/89)  K  62  BABIP  65  GAP  48  SPE  23
+  Tsung-Che Cheng        L EYE 135 (117/141)  POW  49 (29/55)  K  88  BABIP  92  GAP  38  SPE  82
+  Pete Incaviglia        R EYE  84 (100/79)  POW 116 (137/110)  K  37  BABIP  84  GAP  62  SPE  47
+  Kevin Brown            R EYE  75 (64/79)  POW  66 (10/74)  K  52  BABIP  80  GAP  81  SPE  18
+  Tommy Dean             R EYE  60 (46/63)  POW  57 (1/65)  K  70  BABIP  56  GAP  52  SPE  49
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Jordan Montgomery 87, Jake Peavy 71, Raisel Iglesias 69, Jakie May 69, Fritz Ostermueller 98 (era floor 50)
+  ✓ stamina guys in the pen (45+): Tin Can Kincannon 74, Bob Gibson 69, R.T. Walker 69
+  ✓ C  backup: Kevin Brown 66
+  ✓ 1B backup: Josh Gibson 75, Lee Thomas 91, Pedro Alvarez 96
+  ✓ 2B backup: Matt Carpenter 80, Brandon Lowe 91, Tsung-Che Cheng 79
+  ✓ 3B backup: Zack Cozart 94, Randy Ready 91, Matt Carpenter 74, Pedro Alvarez 75
+  ✓ SS backup: Tommy Dean 60
+  ✓ LF backup: Willie McGee 131, Lee Thomas 93, Fred Lynn 74
+  ✓ CF backup: Lee Thomas 73
+  ✓ RF backup: Brandon Lowe 68, Fred Lynn 69
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 123.9 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 10 bats) 749 · rotation 376 · bullpen 309 · bench-only 176
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Todd Jones               pBABIP 37 (fitted 50–175)
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
+   Bob Gibson               pBABIP 44 (fitted 50–175)
+   Steve Farr               pBABIP 20 (fitted 50–175)

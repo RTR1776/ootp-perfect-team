@@ -1,0 +1,124 @@
+
+=== Friday Nightmare Cap ===
+1971 RE @ 1970 County Stadium · DH off · value 65–79 · cap 1805 · 26 players
+R/G 3.99  AVG 0.246  OBP 0.317  SLG 0.365  K% 14.6  HR/PA 2.05%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.062 runs · steal break-even 78.1% (0 out) / 74.7% (1 out)
+park: all-LHB lineup 3.84 R/G vs all-RHB 4.07 — 0.23 R/G swing toward RIGHT-handed bats
+
+pool: 1137 eligible owned cards — 639 bats (232L / 80S / 327R), 498 arms
+staff weights from nightmarecap's exports: SP 1.61, RP 0.41 (a lineup slot = 1)
+field (nightmarecap, 1 exports): 31% of batters faced thrown left-handed · 51% of PA by left-handed bats · 13.7 bats / 5.6 SP / 4.2 RP per team
+shape: 14 bats / 5 SP / 7 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1131 of 1137 pool cards have innings on record (median 2089 PA/BF); K = 5000
+gloves ×0.99: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.1  BABIP +1.8  Avoid Ks +1.7  Eye +1.3  Gap +0.8
+                          RHB: Power +3.6  BABIP +1.8  Avoid Ks +1.8  Eye +1.3  Gap +0.8
+                         arms: pHR +1.1  pBABIP +1.0  Control +0.9  Stuff +0.9
+
+optimiser: 8 λ starts hill-climbed; best 110.1 runs vs 75.8 greedy (+34.2), 18 moves from λ 5.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Tim McCarver                68  L  1966    -0.2  park:L DEF  80/ 80 -0.3
+R:1B    Lee Thomas (VAR)            77  L  1962   +18.3  park:L DEF  91/ 93 +1.8
+R:2B    Hank Blalock                68  L  2003   +13.6  park:L DEF 108/108 -0.8
+R:3B    Matt Carpenter              74  L  2015   +13.6  park:L DEF  74/102 -2.3
+R:SS    Dave Brain (VAR)            68  R  1907    +4.1  park:R DEF  93/ 99 -1.9
+R:LF    Willie McGee (VAR)          79  S  1985    +7.8  park:L DEF 131/131 +2.8
+R:CF    Bryce Harper                74  L  2013   +14.5  park:L DEF  93/117 -1.1
+R:RF    Andy Van Slyke              77  L  1988   +13.4  park:L DEF 125/125 +2.3
+
+--- lineup vs LHP ---
+L:C     Chris Cannizzaro            65  R  1970    +3.1  park:R DEF  72/ 72 -0.6
+L:1B    Matt Carpenter              74  L  2015    -0.2  park:L DEF 102/102 +3.1
+L:2B    Jefferson Rojas             66  R  2026    -3.1  park:R DEF 128/128 +2.3
+L:3B    Joe Dugan (VAR)             65  R  1920    +6.9  park:R DEF  63/ 70 -3.7
+L:SS    Dave Brain (VAR)            68  R  1907    +4.4  park:R DEF  93/ 99 -1.9
+L:LF    Scott Spiezio               67  S  2002   +11.0  park:R DEF  62/ 91 -2.6
+L:CF    Willie McGee (VAR)          79  S  1985   +11.1  park:R DEF 118/131 +0.3
+L:RF    Deion Sanders               69  L  1992    +0.5  park:L DEF 122/131 +2.1
+
+--- batting order vs RHP --- (3.53 runs/game; The Book's order 3.52)
+  1. Matt Carpenter 3B
+  2. Bryce Harper CF
+  3. Andy Van Slyke RF
+  4. Lee Thomas (VAR) 1B
+  5. Willie McGee (VAR) LF
+  6. Tim McCarver C
+  7. Hank Blalock 2B
+  8. Dave Brain (VAR) SS
+  9. Pitcher
+
+--- batting order vs LHP --- (3.55 runs/game; The Book's order 3.54)
+  1. Chris Cannizzaro C
+  2. Matt Carpenter 1B
+  3. Scott Spiezio LF
+  4. Joe Dugan (VAR) 3B
+  5. Willie McGee (VAR) CF
+  6. Jefferson Rojas 2B
+  7. Dave Brain (VAR) SS
+  8. Deion Sanders RF
+  9. Pitcher
+
+--- rotation ---
+SP1     Jordan Montgomery           77  L  2023    +8.2   SP STM  87
+SP2     Jakie May (VAR)             72  R  1927    +7.2   SP STM  69
+SP3     Dan Bankhead                74  R  1946    +3.8   SP STM  74
+SP4     Tanner McDougal (VAR)       66  R  2026    +2.6   SP STM  62
+SP5     Bob Miller                  69  R  1963    +2.3   SP STM  62
+
+--- bullpen ---
+CL      Edwin Diaz                  67  R  2016   +12.0   CL STM  13
+RP1     Satchel Paige               68  R  1952    +4.0   RP STM  57
+RP2     Clay Bryant                 66  R  1936    +0.3   RP STM  24
+RP3     Vinnie Chulk                66  R  2007    -0.2   RP STM  16
+RP4     Kent Mercker                66  L  1996    -0.8   RP STM  13
+RP5     Chris Short                 65  R  1963    -2.3   SP STM  66
+RP6     Erik Miller                 65  L  2026    -2.4   RP STM  19
+
+--- bench ---
+BN1     Joe Dugan (VAR)             65  R  1920    -4.9  park:R
+BN2     Deion Sanders               69  L  1992    +0.5  park:L
+BN3     Jefferson Rojas             66  R  2026    -9.1  park:R
+BN4     Wes Covington               67  L  1958   +21.6  park:L
+BN5     Scott Spiezio               67  S  2002   -10.1  park:L
+BN6     Chris Cannizzaro            65  R  1970   -19.6  park:R
+
+26 players · value 1805 / 1805 (0 spare) · λ 5.000 · 6 variants
+vs RHP lineup gets the friendly park side in 7 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Wes Covington          L EYE  64 (86/52)  POW 115 (40/143)  K  93  BABIP  84  GAP  71  SPE  15
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Bryce Harper           L EYE 153 (170/148)  POW 103 (41/127)  K  82  BABIP  81  GAP  93  SPE  81
+  Hank Blalock           L EYE  67 (43/73)  POW  97 (40/117)  K  77  BABIP  93  GAP  88  SPE  26
+  Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  Andy Van Slyke         L EYE 106 (77/120)  POW 108 (44/133)  K  64  BABIP 106  GAP  98  SPE  95
+  Willie McGee           S EYE  53 (47/56)  POW  75 (100/66)  K 113  BABIP 152  GAP 126  SPE 117
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Deion Sanders          L EYE  63 (40/67)  POW  85 (112/77)  K  75  BABIP 149  GAP 113  SPE 119
+  Tim McCarver           L EYE  68 (19/77)  POW  73 (86/69)  K 162  BABIP  78  GAP  95  SPE  74
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Jefferson Rojas        R EYE  69 (72/68)  POW  82 (88/81)  K 123  BABIP  82  GAP 120  SPE  84
+  Scott Spiezio          S EYE 131 (136/129)  POW  61 (81/48)  K 140  BABIP  83  GAP 110  SPE  43
+  Chris Cannizzaro       R EYE 115 (133/110)  POW  47 (84/19)  K  91  BABIP  88  GAP  66  SPE  46
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (25 teams): 4.9 SP / 5.8 RP / 14.7 bats
+  ✓ starters' stamina Jordan Montgomery 87, Jakie May 69, Dan Bankhead 74, Tanner McDougal 62, Bob Miller 62 (era floor 60)
+  ✓ stamina guys in the pen (45+): Satchel Paige 57, Chris Short 66
+  ✓ C  backup: Tim McCarver 80, Chris Cannizzaro 72
+  ✓ 1B backup: Matt Carpenter 102, Lee Thomas 91, Jefferson Rojas 84, Scott Spiezio 91
+  ✓ 2B backup: Hank Blalock 108, Matt Carpenter 80, Jefferson Rojas 128, Joe Dugan 70, Scott Spiezio 60
+  ✓ 3B backup: Dave Brain 99, Hank Blalock 105, Matt Carpenter 74, Jefferson Rojas 110, Joe Dugan 63
+  ✓ SS backup: Jefferson Rojas 110
+  ✓ LF backup: Lee Thomas 93, Bryce Harper 110, Willie McGee 131, Jefferson Rojas 71, Deion Sanders 131, Scott Spiezio 62
+  ✓ CF backup: Lee Thomas 73, Bryce Harper 93, Andy Van Slyke 99, Willie McGee 118, Deion Sanders 120
+  ✓ RF backup: Lee Thomas 86, Bryce Harper 117, Andy Van Slyke 125, Jefferson Rojas 61, Deion Sanders 122
+(25 of 26 have a live ask in the last shop snapshot)
+objective: 110.1 weighted runs (bats 69/31 R/L, SP 1.61, RP 0.41, bench 0.1)
+points: lineup(both boards, 13 bats) 917 · rotation 358 · bullpen 463 · bench-only 67
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)

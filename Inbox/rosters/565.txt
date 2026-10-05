@@ -1,0 +1,126 @@
+
+=== Daily Diamond Cap ===
+1968 RE @ 1976 Jarry Park · DH off · value 40–99 · cap 1788 · 26 players
+R/G 4.19  AVG 0.255  OBP 0.322  SLG 0.373  K% 15.4  HR/PA 2.10%  preset Moderate Small Ball
+sac bunt (1st & 2nd, 0 out) +0.051 runs · steal break-even 78.1% (0 out) / 74.6% (1 out)
+park: all-LHB lineup 4.28 R/G vs all-RHB 4.14 — 0.14 R/G swing toward LEFT-handed bats
+
+pool: 3722 eligible owned cards — 2065 bats (688L / 247S / 1130R), 1657 arms
+!! no exports on record for series diamondcapdaily — shape and handedness fall back to the era table
+shape: 16 bats / 5 SP / 5 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 2428 of 3722 pool cards have innings on record (median 216 PA/BF); K = 5000
+gloves ×0.99: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.6  Avoid Ks +2.0  BABIP +2.0  Eye +1.3  Gap +0.7
+                          RHB: Power +3.5  Avoid Ks +2.0  BABIP +1.9  Eye +1.2  Gap +0.7
+                         arms: pHR +1.2  pBABIP +1.1  Stuff +1.0  Control +0.9
+
+optimiser: 8 λ starts hill-climbed; best 199.5 runs vs 56.0 greedy (+143.5), 19 moves from λ 3.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +32.8  park:L DEF 112/112 +0.7
+R:1B    Pedro Alvarez               81  L  2013   +31.8  park:L DEF  96/ 96 +2.4
+R:2B    Kaelen Culpepper (VAR)      89  R  2026   +10.7  park:R DEF 130/130 +2.6
+R:3B    Arjun Nimmala (VAR)         94  R  2026   +11.3  park:R DEF 128/128 +4.9
+R:SS    Ethan Holliday (VAR)        95  L  2026   +21.6  park:L DEF  93/113 -1.9
+R:LF    Mike Greenwell              99  L  1988   +34.1  park:L DEF 125/125 +2.3
+R:CF    Al Simmons                  99  R  1930   +14.6  park:R DEF  63/ 90 -2.8
+R:RF    Bo Jackson                  88  R  1989   +25.5  park:R DEF 123/123 +2.1
+
+--- lineup vs LHP ---
+L:C     Mike Zunino                 75  R  2021   +24.9  park:R DEF  77/ 77 -0.4
+L:1B    Ethan Holliday (VAR)        95  L  2026    +6.2  park:L DEF 113/113 +4.5
+L:2B    Kaelen Culpepper (VAR)      89  R  2026   +16.8  park:R DEF 130/130 +2.6
+L:3B    Chris Sabo                  66  R  1990   +27.5  park:R DEF  77/ 77 -1.8
+L:SS    Arjun Nimmala (VAR)         94  R  2026   +15.0  park:R DEF 116/128 +1.3
+L:LF    Mike Greenwell              99  L  1988    +2.7  park:L DEF 125/125 +2.3
+L:CF    Al Simmons                  99  R  1930   +29.1  park:R DEF  63/ 90 -2.8
+L:RF    Bo Jackson                  88  R  1989   +23.1  park:R DEF 123/123 +2.1
+
+--- batting order vs RHP --- (4.39 runs/game; The Book's order 4.38)
+  1. Ethan Holliday (VAR) SS
+  2. Mike Greenwell LF
+  3. Ed Bailey (VAR) C
+  4. Pedro Alvarez 1B
+  5. Arjun Nimmala (VAR) 3B
+  6. Kaelen Culpepper (VAR) 2B
+  7. Bo Jackson RF
+  8. Al Simmons CF
+  9. Pitcher
+
+--- batting order vs LHP --- (4.09 runs/game; The Book's order 4.08)
+  1. Ethan Holliday (VAR) 1B
+  2. Kaelen Culpepper (VAR) 2B
+  3. Bo Jackson RF
+  4. Chris Sabo 3B
+  5. Al Simmons CF
+  6. Arjun Nimmala (VAR) SS
+  7. Mike Zunino C
+  8. Mike Greenwell LF
+  9. Pitcher
+
+--- rotation ---
+SP1     Larry Jackson               92  R  1959   +10.5   SP STM  92
+SP2     Cy Young                    99  R  1900    +9.5   SP STM 109
+SP3     Jim Kaat (VAR)              87  L  1967    +9.0   SP STM  78
+SP4     Bruce Hurst                 64  L  1990    +0.8   SP STM  86
+SP5     James McDonald (VAR)        55  L  2010    +0.8   SP STM  59
+
+--- bullpen ---
+CL      Randy Choate                45  L  2013    +0.6   RP STM   6
+RP1     Todd Jones (VAR)            43  L  2000    -2.2   CL STM  17
+RP2     Reed Garrett                49  R  2024    -3.5   RP STM  25
+RP3     Tin Can Kincannon           45  R  1934    -5.2   SP STM  74
+RP4     R.T. Walker                 40  R  1947    -8.3   RP STM  69
+
+--- bench ---
+BN1     George Sisler (VAR)         48  L  1928    +2.0  park:L
+BN2     Nap Lajoie                  50  R  1905    -4.8  park:R
+BN3     Chris Sabo                  66  R  1990    -4.6  park:R
+BN4     Javier Baez (VAR)           49  R  2021    -7.4  park:R
+BN5     Jonathan Lucroy (VAR)       48  R  2017    -7.4  park:R
+BN6     Stan Hack                   46  L  1944    -7.8  park:L
+BN7     Tsung-Che Cheng (VAR)       44  L  2026   -12.5  park:L
+BN8     Mike Zunino                 75  R  2021   -19.1  park:R
+
+26 players · value 1787 / 1788 (1 spare) · λ 3.000 · 11 variants
+vs RHP lineup gets the friendly park side in 4 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Mike Greenwell         L EYE 159 (44/202)  POW 101 (71/116)  K 183  BABIP 111  GAP 131  SPE  60
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Ethan Holliday         L EYE 164 (151/168)  POW 139 (117/147)  K  72  BABIP 114  GAP 103  SPE  51
+  Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
+  Jonathan Lucroy        R EYE 120 (135/114)  POW  44 (25/50)  K 146  BABIP  81  GAP  79  SPE  31
+  Stan Hack              L EYE 128 (144/123)  POW  38 (1/46)  K 183  BABIP  81  GAP  61  SPE  47
+  Tsung-Che Cheng        L EYE 135 (117/141)  POW  49 (29/55)  K  88  BABIP  92  GAP  38  SPE  82
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 5 RP / 16 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✗ starters' stamina Larry Jackson 92, Cy Young 109, Jim Kaat 78, Bruce Hurst 86, James McDonald 59 (era floor 60) — SHORT: James McDonald
+  ✓ stamina guys in the pen (45+): Tin Can Kincannon 74, R.T. Walker 69
+  ✓ C  backup: Ed Bailey 112, Mike Zunino 77
+  ✓ 1B backup: Ethan Holliday 113, Kaelen Culpepper 102, Arjun Nimmala 105, Pedro Alvarez 96, Nap Lajoie 96, Stan Hack 77
+  ✓ 2B backup: Ethan Holliday 104, Arjun Nimmala 126, Nap Lajoie 114, Javier Baez 102, Tsung-Che Cheng 79
+  ✓ 3B backup: Ethan Holliday 102, Kaelen Culpepper 122, Arjun Nimmala 128, Pedro Alvarez 75, Chris Sabo 77
+  ✓ SS backup: Ethan Holliday 93, Kaelen Culpepper 117, Arjun Nimmala 116, Javier Baez 88
+  ✓ LF backup: Ethan Holliday 66, Kaelen Culpepper 78, Arjun Nimmala 84, Al Simmons 90, Bo Jackson 116
+  ✓ CF backup: Arjun Nimmala 60, Bo Jackson 103
+  ✓ RF backup: Kaelen Culpepper 68, Arjun Nimmala 75, Mike Greenwell 117
+(25 of 26 have a live ask in the last shop snapshot)
+objective: 199.5 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 10 bats) 883 · rotation 397 · bullpen 222 · bench-only 285
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Todd Jones               pBABIP 37 (fitted 50–175)
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)

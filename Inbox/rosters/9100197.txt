@@ -1,0 +1,122 @@
+
+=== Daily Low Silver Only ===
+PT default (2010) RE @ 2026 Heinsohn Ballpark · DH on · value 70–74 · cap none · 26 players
+R/G 4.46  AVG 0.243  OBP 0.316  SLG 0.401  K% 22.6  HR/PA 3.08%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.032 runs · steal break-even 80.9% (0 out) / 77.8% (1 out)
+park: all-LHB lineup 4.46 R/G vs all-RHB 4.46 — 0.00 R/G swing toward RIGHT-handed bats
+
+pool: 332 eligible owned cards — 194 bats (65L / 27S / 102R), 138 arms
+staff weights from lowsilveronly's exports: SP 1.19, RP 0.45 (a lineup slot = 1)
+field (lowsilveronly, 4 exports): 43% of batters faced thrown left-handed · 52% of PA by left-handed bats · 13.3 bats / 5.2 SP / 6.7 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 330 of 332 pool cards have innings on record (median 1154 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.1  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.8
+                          RHB: Power +5.1  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.8
+                         arms: pHR +1.7  Stuff +1.6  pBABIP +1.0  Control +0.8
+
+optimiser: 9 λ starts hill-climbed; best 80.8 runs vs 75.9 greedy (+4.9), 3 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Darrell Porter              74  L  1973    +3.7  park:L DEF  80/ 80 -0.2
+R:1B    Matt Carpenter              74  L  2015   +14.4  park:L DEF 102/102 +2.6
+R:2B    Jose Oquendo                73  S  1988    -7.4  park:L DEF 139/139 +3.2
+R:3B    Wade Boggs                  74  L  1989    +7.9  park:L DEF  87/ 87 -0.4
+R:SS    Aiva Arquette (VAR)         71  R  2026    -1.4  park:R DEF 100/127 -0.8
+R:LF    Gus Bell                    70  L  1955   +15.1  park:L DEF  65/ 65 -2.0
+R:CF    Duke Snider                 73  L  1949    +7.9  park:L DEF 116/116 +0.1
+R:RF    Bryce Harper                74  L  2013   +15.1  park:L DEF 117/117 +1.3
+R:DH    Joe Judge                   74  L  1920    +8.9  park:L
+
+--- lineup vs LHP ---
+L:C     Sandy Leon                  72  S  2016    +4.2  park:R DEF  83/ 83 -0.2
+L:1B    Matt Carpenter              74  L  2015    -1.0  park:L DEF 102/102 +2.6
+L:2B    Jose Oquendo                73  S  1988    +3.2  park:R DEF 139/139 +3.2
+L:3B    Aiva Arquette (VAR)         71  R  2026    +0.2  park:R DEF 113/127 +2.4
+L:SS    Kevin Mitchell              71  R  1986    +8.4  park:R DEF  78/ 86 -3.2
+L:LF    Chuck Essegian (VAR)        74  R  1962    +4.1  park:R DEF  84/ 84 -0.7
+L:CF    Mitch Webster               72  S  1986    +8.0  park:R DEF  97/117 -0.7
+L:RF    Ollie Brown                 74  R  1970    +5.1  park:R DEF  78/ 78 -1.4
+L:DH    Joe Judge                   74  L  1920    -2.7  park:L
+
+--- batting order vs RHP --- (4.42 runs/game; The Book's order 4.41)
+  1. Wade Boggs 3B
+  2. Matt Carpenter 1B
+  3. Bryce Harper RF
+  4. Gus Bell LF
+  5. Aiva Arquette (VAR) SS
+  6. Duke Snider CF
+  7. Darrell Porter C
+  8. Joe Judge DH
+  9. Jose Oquendo 2B
+
+--- batting order vs LHP --- (4.34 runs/game; The Book's order 4.34)
+  1. Sandy Leon C
+  2. Jose Oquendo 2B
+  3. Aiva Arquette (VAR) 3B
+  4. Kevin Mitchell SS
+  5. Mitch Webster CF
+  6. Ollie Brown RF
+  7. Chuck Essegian (VAR) LF
+  8. Matt Carpenter 1B
+  9. Joe Judge DH
+
+--- rotation ---
+SP1     Jakie May (VAR)             72  R  1927    +7.5   SP STM  69
+SP2     Dan Bankhead                74  R  1946    +3.4   SP STM  74
+SP3     Doug Davis                  73  R  2004    +2.5   SP STM  66
+SP4     Gage Jump                   73  L  2026    +2.0   SP STM  73
+SP5     Andy McGaffigan (VAR)       73  R  1986    +1.5   SP STM  55
+
+--- bullpen ---
+CL      Chad Bradford               74  R  2006    +9.8   RP STM  11
+RP1     Bruce Ruffin                71  S  1993    +7.0   RP STM  51
+RP2     Rudy May                    74  L  1979    +4.8   RP STM  48
+RP3     Brad Clontz                 73  R  1995    +4.1   RP STM  19
+RP4     Alex Claudio (VAR)          70  L  2017    +1.9   RP STM  23
+RP5     Gregory Santos              74  R  2026    +1.5   CL STM  17
+RP6     Yohan Ramirez               72  R  2026    +1.1   RP STM  21
+
+--- bench ---
+BN1     Chuck Essegian (VAR)        74  R  1962    -1.8  park:R
+BN2     Mitch Webster               72  S  1986    -4.5  park:L
+BN3     Ollie Brown                 74  R  1970   -10.7  park:R
+BN4     Kevin Mitchell              71  R  1986   -16.0  park:R
+BN5     Sandy Leon                  72  S  2016   -19.7  park:L
+
+26 players · value 1893 · λ 0.000 · 5 variants
+vs RHP lineup gets the friendly park side in 8 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Bryce Harper           L EYE 153 (170/148)  POW 103 (41/127)  K  82  BABIP  81  GAP  93  SPE  81
+  Gus Bell               L EYE  72 (61/76)  POW 103 (71/118)  K 105  BABIP  91  GAP  92  SPE  59
+  Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  Joe Judge              L EYE 107 (115/105)  POW  63 (33/69)  K  93  BABIP 109  GAP 118  SPE  71
+  Wade Boggs             L EYE 132 (107/140)  POW  22 (1/30)  K 159  BABIP 132  GAP 111  SPE  36
+  Duke Snider            L EYE  71 (58/75)  POW 107 (69/124)  K  59  BABIP  99  GAP  94  SPE  94
+  Darrell Porter         L EYE 120 (61/146)  POW  94 (57/108)  K  50  BABIP  84  GAP 109  SPE  46
+  Aiva Arquette          R EYE  78 (98/70)  POW 118 (104/124)  K  95  BABIP 103  GAP 117  SPE  78
+  Chuck Essegian         R EYE 105 (89/113)  POW 141 (149/137)  K  68  BABIP  76  GAP  58  SPE  18
+  Mitch Webster          S EYE 107 (60/129)  POW  60 (79/48)  K 103  BABIP 124  GAP 115  SPE  98
+  Jose Oquendo           S EYE 121 (81/138)  POW  50 (90/16)  K 146  BABIP 120  GAP  84  SPE  49
+  Ollie Brown            R EYE  61 (37/65)  POW  99 (118/95)  K  77  BABIP  85  GAP 107  SPE  34
+  Kevin Mitchell         R EYE 123 (84/140)  POW  95 (92/96)  K  71  BABIP  81  GAP  87  SPE  69
+  Sandy Leon             S EYE  73 (114/58)  POW  58 (86/37)  K  68  BABIP 121  GAP  93  SPE  22
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (64 teams): 5.0 SP / 7.2 RP / 13.6 bats
+  ✓ starters' stamina Jakie May 69, Dan Bankhead 74, Doug Davis 66, Gage Jump 73, Andy McGaffigan 55 (era floor 50)
+  ✓ stamina guys in the pen (45+): Bruce Ruffin 51, Rudy May 48
+  ✓ C  backup: Darrell Porter 80, Sandy Leon 83
+  ✓ 1B backup: Aiva Arquette 127, Jose Oquendo 87, Joe Judge 75, Kevin Mitchell 77
+  ✓ 2B backup: Aiva Arquette 112, Matt Carpenter 80
+  ✓ 3B backup: Aiva Arquette 113, Jose Oquendo 114, Matt Carpenter 74, Wade Boggs 87, Kevin Mitchell 86
+  ✓ SS backup: Aiva Arquette 100, Jose Oquendo 117, Kevin Mitchell 78
+  ✓ LF backup: Aiva Arquette 85, Jose Oquendo 113, Gus Bell 65, Bryce Harper 110, Kevin Mitchell 77, Mitch Webster 113, Chuck Essegian 84
+  ✓ CF backup: Jose Oquendo 94, Duke Snider 116, Bryce Harper 93, Mitch Webster 97
+  ✓ RF backup: Aiva Arquette 83, Jose Oquendo 104, Bryce Harper 117, Kevin Mitchell 69, Mitch Webster 117, Chuck Essegian 69, Ollie Brown 78
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 80.8 weighted runs (bats 57/43 R/L, SP 1.19, RP 0.45, bench 0.1)
+points: lineup(both boards, 14 bats) 1020 · rotation 365 · bullpen 508 · bench-only 0

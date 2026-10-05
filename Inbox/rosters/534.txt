@@ -1,0 +1,127 @@
+
+=== Saturday Iron Warriors ===
+1991 RE @ 1991 Cleveland Stadium · DH on · value 40–59 · cap none · 26 players
+R/G 4.34  AVG 0.258  OBP 0.327  SLG 0.380  K% 15.2  HR/PA 2.00%  preset Traditional
+sac bunt (1st & 2nd, 0 out) +0.036 runs · steal break-even 79.0% (0 out) / 75.5% (1 out)
+park: all-LHB lineup 4.16 R/G vs all-RHB 4.44 — 0.28 R/G swing toward RIGHT-handed bats
+
+pool: 1294 eligible owned cards — 699 bats (192L / 87S / 420R), 595 arms
+shape: 15 bats / 5 SP / 6 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1146 of 1294 pool cards have innings on record (median 152 PA/BF); K = 5000; left out: ironweekly
+gloves ×0.98: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.2  Avoid Ks +1.9  BABIP +1.9  Eye +1.3  Gap +0.8
+                          RHB: Power +3.5  Avoid Ks +2.1  BABIP +2.1  Eye +1.3  Gap +0.8
+                         arms: pBABIP +1.2  pHR +1.1  Stuff +1.0  Control +1.0
+
+optimiser: 9 λ starts hill-climbed; best -105.0 runs vs -144.7 greedy (+39.7), 9 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Rick Wilkins                57  L  1996   -10.9  park:L DEF  60/ 60 -0.9
+R:1B    Shawn Green                 59  L  2004    -6.3  park:L DEF  96/ 96 +2.4
+R:2B    Nap Lajoie                  50  R  1905   -13.1  park:R DEF 114/114 +0.1
+R:3B    Jim Tabor                   54  R  1939    -6.2  park:R DEF  69/ 69 -2.9
+R:SS    Freddy Galvis (VAR)         58  S  2019   -19.6  park:L DEF 113/129 +0.8
+R:LF    Bob Bowman                  55  R  1957    -8.4  park:R DEF  65/ 65 -2.4
+R:CF    Carlos Beltran              58  S  1999   -15.5  park:L DEF 118/118 +0.3
+R:RF    Jay Bruce                   58  L  2017    -2.1  park:L DEF  73/ 73 -2.1
+R:DH    Broderick Perkins           57  L  1980    +2.1  park:L
+
+--- lineup vs LHP ---
+L:C     Charlie O'Brien             55  R  1989   -19.2  park:R DEF  79/ 79 -0.3
+L:1B    Matt Davidson               56  R  2018    -1.4  park:R DEF  71/ 71 -0.7
+L:2B    Freddy Galvis (VAR)         58  S  2019   -14.0  park:R DEF 129/129 +2.4
+L:3B    Jim Tabor                   54  R  1939   -16.0  park:R DEF  69/ 69 -2.9
+L:SS    Kid Elberfeld (VAR)         47  R  1903   -16.5  park:R DEF  83/ 85 -3.2
+L:LF    Andruw Jones (VAR)          57  R  2011    +9.8  park:R DEF 103/103 +0.6
+L:CF    Carlos Beltran              58  S  1999   -12.1  park:R DEF 118/118 +0.3
+L:RF    Dwayne Hosey                49  S  1995    -7.0  park:R DEF  76/ 90 -1.9
+L:DH    Pete Incaviglia             46  R  1986    +8.3  park:R
+
+--- batting order vs RHP --- (3.82 runs/game; The Book's order 3.82)
+  1. Bob Bowman LF
+  2. Shawn Green 1B
+  3. Jim Tabor 3B
+  4. Nap Lajoie 2B
+  5. Broderick Perkins DH
+  6. Rick Wilkins C
+  7. Jay Bruce RF
+  8. Freddy Galvis (VAR) SS
+  9. Carlos Beltran CF
+
+--- batting order vs LHP --- (3.97 runs/game; The Book's order 3.97)
+  1. Andruw Jones (VAR) LF
+  2. Pete Incaviglia DH
+  3. Matt Davidson 1B
+  4. Dwayne Hosey RF
+  5. Kid Elberfeld (VAR) SS
+  6. Charlie O'Brien C
+  7. Freddy Galvis (VAR) 2B
+  8. Jim Tabor 3B
+  9. Carlos Beltran CF
+
+--- rotation ---
+SP1     James McDonald (VAR)        55  L  2010    +6.7   SP STM  59
+SP2     Justin Verlander            58  R  2006    -0.3   SP STM  83
+SP3     Tin Can Kincannon           45  R  1934    -4.9   SP STM  74
+SP4     Bullet Campbell             56  R  1926    -5.4   SP STM  75
+SP5     Patricio Scantlebury        56  L  1946    -5.9   SP STM  68
+
+--- bullpen ---
+CL      Todd Jones (VAR)            43  L  2000    +4.9   CL STM  17
+RP1     Randy Choate                45  L  2013    +0.6   RP STM   6
+RP2     Mike Marshall               57  R  1973    -0.2   CL STM  74
+RP3     Hector Rondon               59  R  2018    -1.8   CL STM  16
+RP4     Reed Garrett                49  R  2024    -2.0   RP STM  25
+RP5     Kendry Rojas                58  L  2026    -6.3   RP STM  62
+
+--- bench ---
+BN1     Pete Incaviglia             46  R  1986   -19.6  park:R
+BN2     Kid Elberfeld (VAR)         47  R  1903   -19.1  park:R
+BN3     Andruw Jones (VAR)          57  R  2011   -22.8  park:R
+BN4     Matt Davidson               56  R  2018   -18.3  park:R
+BN5     Dwayne Hosey                49  S  1995   -15.6  park:L
+BN6     Charlie O'Brien             55  R  1989   -27.8  park:R
+
+26 players · value 1397 · λ 0.000 · 5 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Broderick Perkins      L EYE  80 (67/84)  POW  67 (1/77)  K  88  BABIP 102  GAP  94  SPE  52
+  Jay Bruce              L EYE 104 (100/106)  POW  94 (40/110)  K  70  BABIP  65  GAP  87  SPE  22
+  Jim Tabor              R EYE  60 (68/55)  POW 108 (88/117)  K  92  BABIP  72  GAP  82  SPE  66
+  Shawn Green            L EYE  97 (88/101)  POW 122 (104/128)  K  75  BABIP  70  GAP  69  SPE  38
+  Bob Bowman             R EYE  92 (112/87)  POW  63 (69/62)  K  81  BABIP 128  GAP  62  SPE  18
+  Rick Wilkins           L EYE 104 (38/128)  POW  80 (71/83)  K  59  BABIP  88  GAP  78  SPE  34
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Carlos Beltran         S EYE  52 (50/53)  POW  81 (113/70)  K  74  BABIP 102  GAP  75  SPE 110
+  Dwayne Hosey           S EYE  91 (94/90)  POW  72 (68/74)  K  53  BABIP  99  GAP 139  SPE  86
+  Matt Davidson          R EYE  97 (109/95)  POW  85 (113/77)  K  59  BABIP  69  GAP  84  SPE   1
+  Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
+  Pete Incaviglia        R EYE  84 (100/79)  POW 116 (137/110)  K  37  BABIP  84  GAP  62  SPE  47
+  Freddy Galvis          S EYE  51 (25/59)  POW  92 (66/100)  K  74  BABIP  96  GAP  77  SPE  35
+  Andruw Jones           R EYE 137 (119/143)  POW 130 (117/134)  K  46  BABIP  70  GAP  37  SPE  42
+  Charlie O'Brien        R EYE  95 (86/99)  POW  78 (87/75)  K 162  BABIP  31  GAP  78  SPE  10
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina James McDonald 59, Justin Verlander 83, Tin Can Kincannon 74, Bullet Campbell 75, Patricio Scantlebury 68 (era floor 50)
+  ✓ stamina guys in the pen (45+): Mike Marshall 74, Kendry Rojas 62
+  ✓ C  backup: Rick Wilkins 60, Charlie O'Brien 79
+  ✓ 1B backup: Nap Lajoie 96, Shawn Green 96, Broderick Perkins 61, Matt Davidson 71
+  ✓ 2B backup: Freddy Galvis 129, Nap Lajoie 114
+  ✓ 3B backup: Kid Elberfeld 85
+  ✓ SS backup: Freddy Galvis 113, Kid Elberfeld 83
+  ✓ LF backup: Bob Bowman 65, Dwayne Hosey 90, Andruw Jones 103
+  ✓ CF backup: Dwayne Hosey 71
+  ✓ RF backup: Shawn Green 61, Jay Bruce 73, Bob Bowman 64, Dwayne Hosey 76, Andruw Jones 87
+(23 of 26 have a live ask in the last shop snapshot)
+objective: -105.0 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 15 bats) 816 · rotation 270 · bullpen 311 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
+   Patricio Scantlebury     pBABIP 45 (fitted 50–175)
+   Todd Jones               pBABIP 37 (fitted 50–175)
+   Hector Rondon            pBABIP 37 (fitted 50–175)

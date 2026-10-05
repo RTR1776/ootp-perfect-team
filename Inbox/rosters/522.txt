@@ -1,0 +1,124 @@
+
+=== Daily Early Silver ===
+PT default (2010) RE @ 2017 Marlins Park · DH on · value 40–79 · cap none · 26 players
+R/G 4.04  AVG 0.233  OBP 0.307  SLG 0.376  K% 22.6  HR/PA 2.70%  preset Balanced
+sac bunt (1st & 2nd, 0 out) +0.001 runs · steal break-even 79.7% (0 out) / 76.5% (1 out)
+park: all-LHB lineup 4.06 R/G vs all-RHB 4.03 — 0.03 R/G swing toward LEFT-handed bats
+
+pool: 2958 eligible owned cards — 1624 bats (528L / 202S / 894R), 1334 arms
+!! no exports on record for series earlysilver — shape and handedness fall back to the era table
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 2668 of 2958 pool cards have innings on record (median 314 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.7  Avoid Ks +3.0  BABIP +1.6  Eye +1.1  Gap +0.8
+                          RHB: Power +4.4  Avoid Ks +3.0  BABIP +1.6  Eye +1.1  Gap +0.8
+                         arms: pHR +1.5  Stuff +1.5  pBABIP +0.9  Control +0.8
+
+optimiser: 9 λ starts hill-climbed; best 152.5 runs vs 116.3 greedy (+36.2), 25 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Nathan Flewelling (VAR)     75  L  2026    +4.1  park:L DEF  67/ 67 -0.6
+R:1B    Matt Carpenter              74  L  2015   +13.1  park:L DEF 102/102 +2.6
+R:2B    Randy Ready                 77  R  1987    +2.8  park:R DEF 115/115 +0.2
+R:3B    Hank Blalock                68  L  2003   +17.5  park:L DEF 105/108 +1.5
+R:SS    Jhonny Level (VAR)          64  S  2026    +3.8  park:L DEF  94/107 -1.4
+R:LF    Willie McGee (VAR)          79  S  1985    +7.0  park:L DEF 131/131 +2.3
+R:CF    Lee Thomas (VAR)            77  L  1962   +20.4  park:L DEF  73/ 93 -1.9
+R:RF    Andy Van Slyke              77  L  1988   +13.6  park:L DEF 125/125 +1.9
+R:DH    Gus Bell                    70  L  1955   +14.6  park:L
+
+--- lineup vs LHP ---
+L:C     Mike Zunino                 75  R  2021   +26.5  park:R DEF  77/ 77 -0.3
+L:1B    Matt Carpenter              74  L  2015    -2.4  park:L DEF 102/102 +2.6
+L:2B    Randy Ready                 77  R  1987   +18.8  park:R DEF 115/115 +0.2
+L:3B    Jhonny Level (VAR)          64  S  2026    -0.6  park:R DEF 105/107 +1.5
+L:SS    Garry Templeton             78  S  1979    +6.4  park:R DEF  87/ 87 -2.2
+L:LF    Steve Pearce (VAR)          69  R  2016   +14.8  park:R DEF  67/ 73 -1.8
+L:CF    Willie McGee (VAR)          79  S  1985   +12.7  park:R DEF 118/131 +0.2
+L:RF    Ruben Sierra                78  S  1989   +12.2  park:R DEF  83/ 83 -1.1
+L:DH    Chris Sabo                  66  R  1990   +31.0  park:R
+
+--- batting order vs RHP --- (4.12 runs/game; The Book's order 4.12)
+  1. Matt Carpenter 1B
+  2. Lee Thomas (VAR) CF
+  3. Andy Van Slyke RF
+  4. Gus Bell DH
+  5. Willie McGee (VAR) LF
+  6. Jhonny Level (VAR) SS
+  7. Hank Blalock 3B
+  8. Nathan Flewelling (VAR) C
+  9. Randy Ready 2B
+
+--- batting order vs LHP --- (4.27 runs/game; The Book's order 4.26)
+  1. Randy Ready 2B
+  2. Steve Pearce (VAR) LF
+  3. Mike Zunino C
+  4. Chris Sabo DH
+  5. Ruben Sierra RF
+  6. Garry Templeton SS
+  7. Willie McGee (VAR) CF
+  8. Jhonny Level (VAR) 3B
+  9. Matt Carpenter 1B
+
+--- rotation ---
+SP1     Jordan Montgomery           77  L  2023    +7.8   SP STM  87
+SP2     Jakie May (VAR)             72  R  1927    +7.4   SP STM  69
+SP3     James McDonald (VAR)        55  L  2010    +6.3   SP STM  59
+SP4     Fritz Ostermueller          64  L  1944    +5.9   SP STM  98
+SP5     Jacob deGrom                79  L  2014    +5.7   SP STM  73
+
+--- bullpen ---
+CL      Edwin Diaz                  67  R  2016   +10.2   CL STM  13
+RP1     Chad Bradford               74  R  2006    +9.9   RP STM  11
+RP2     Bruce Ruffin                71  S  1993    +6.9   RP STM  51
+RP3     Michael King (VAR)          76  R  2022    +5.7   RP STM  47
+RP4     Seth Morehead               78  L  1957    +5.4   RP STM  24
+RP5     Jack Wenninger              79  L  2026    +5.3   RP STM  48
+RP6     Rudy May                    74  L  1979    +4.9   RP STM  48
+
+--- bench ---
+BN1     Steve Pearce (VAR)          69  R  2016    +2.1  park:R
+BN2     Chris Sabo                  66  R  1990    -0.3  park:R
+BN3     Ruben Sierra                78  S  1989    -2.8  park:L
+BN4     Garry Templeton             78  S  1979    -4.6  park:L
+BN5     Mike Zunino                 75  R  2021   -17.1  park:R
+
+26 players · value 1893 · λ 1.000 · 8 variants
+vs RHP lineup gets the friendly park side in 8 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Hank Blalock           L EYE  67 (43/73)  POW  97 (40/117)  K  77  BABIP  93  GAP  88  SPE  26
+  Gus Bell               L EYE  72 (61/76)  POW 103 (71/118)  K 105  BABIP  91  GAP  92  SPE  59
+  Andy Van Slyke         L EYE 106 (77/120)  POW 108 (44/133)  K  64  BABIP 106  GAP  98  SPE  95
+  Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  Willie McGee           S EYE  53 (47/56)  POW  75 (100/66)  K 113  BABIP 152  GAP 126  SPE 117
+  Nathan Flewelling      L EYE 133 (130/134)  POW 116 (63/140)  K  55  BABIP  77  GAP  79  SPE  52
+  Jhonny Level           S EYE  68 (62/70)  POW 100 (87/104)  K  97  BABIP  98  GAP 109  SPE  36
+  Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
+  Steve Pearce           R EYE 147 (167/140)  POW 106 (142/98)  K 105  BABIP  92  GAP  76  SPE  46
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Ruben Sierra           S EYE  50 (50/50)  POW 116 (120/115)  K  83  BABIP  97  GAP 128  SPE  69
+  Garry Templeton        S EYE  34 (15/38)  POW  64 (71/62)  K  96  BABIP 137  GAP 126  SPE  92
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Jordan Montgomery 87, Jakie May 69, James McDonald 59, Fritz Ostermueller 98, Jacob deGrom 73 (era floor 50)
+  ✓ stamina guys in the pen (45+): Bruce Ruffin 51, Michael King 47, Jack Wenninger 48, Rudy May 48
+  ✓ C  backup: Nathan Flewelling 67, Mike Zunino 77
+  ✓ 1B backup: Jhonny Level 84, Lee Thomas 91, Steve Pearce 73
+  ✓ 2B backup: Jhonny Level 107, Hank Blalock 108, Matt Carpenter 80
+  ✓ 3B backup: Jhonny Level 105, Randy Ready 91, Hank Blalock 105, Matt Carpenter 74, Chris Sabo 77
+  ✓ SS backup: Jhonny Level 94, Garry Templeton 87
+  ✓ LF backup: Jhonny Level 76, Lee Thomas 93, Willie McGee 131, Gus Bell 65, Steve Pearce 67
+  ✓ CF backup: Lee Thomas 73, Andy Van Slyke 99, Willie McGee 118
+  ✓ RF backup: Jhonny Level 68, Lee Thomas 86, Andy Van Slyke 125, Ruben Sierra 83
+(25 of 26 have a live ask in the last shop snapshot)
+objective: 152.5 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 14 bats) 1027 · rotation 347 · bullpen 519 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)

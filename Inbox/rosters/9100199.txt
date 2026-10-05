@@ -1,0 +1,122 @@
+
+=== Daily Diamond 1990 Onward ===
+1957 RE @ 1954 Griffith Stadium · DH on · value —–99 · cap none · 26 players
+R/G 4.14  AVG 0.255  OBP 0.323  SLG 0.376  K% 12.5  HR/PA 1.98%  preset Moderate Small Ball
+sac bunt (1st & 2nd, 0 out) +0.062 runs · steal break-even 78.3% (0 out) / 75.1% (1 out)
+park: all-LHB lineup 4.19 R/G vs all-RHB 4.12 — 0.08 R/G swing toward LEFT-handed bats
+
+pool: 2169 eligible owned cards — 1118 bats (383L / 156S / 579R), 1051 arms
+!! no exports on record for series diamond1990onward — shape and handedness fall back to the era table
+shape: 15 bats / 5 SP / 6 RP (1980s–2000s, cards 1990 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1275 of 2169 pool cards have innings on record (median 185 PA/BF); K = 5000
+gloves ×1.03: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.3  BABIP +2.0  Avoid Ks +1.6  Eye +1.3  Gap +0.8
+                          RHB: Power +3.3  BABIP +1.9  Avoid Ks +1.6  Eye +1.3  Gap +0.8
+                         arms: pBABIP +1.1  pHR +1.1  Control +0.9  Stuff +0.8
+
+optimiser: 9 λ starts hill-climbed; best 251.3 runs vs 219.3 greedy (+32.1), 28 moves from λ 2.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Darren Daulton              93  L  1992    +6.0  park:L DEF  90/ 90 +0.0
+R:1B    Pedro Alvarez               81  L  2013   +37.4  park:L DEF  96/ 96 +2.5
+R:2B    Kaelen Culpepper (VAR)      89  R  2026   +11.2  park:R DEF 130/130 +2.7
+R:3B    Arjun Nimmala (VAR)         94  R  2026   +12.9  park:R DEF 128/128 +5.1
+R:SS    Ethan Holliday (VAR)        95  L  2026   +25.2  park:L DEF  93/113 -2.0
+R:LF    Alex Gordon                 92  L  2011   +16.5  park:L DEF 153/153 +4.7
+R:CF    Jacoby Ellsbury             98  L  2011   +23.7  park:L DEF 123/136 +0.6
+R:RF    Kyle Stowers                93  L  2025   +21.9  park:L DEF  95/ 95 -0.3
+R:DH    J.T. Snow (VAR)             83  L  2004   +18.7  park:L
+
+--- lineup vs LHP ---
+L:C     Mike Zunino                 75  R  2021   +38.6  park:R DEF  77/ 77 -0.4
+L:1B    Josh Vitters (VAR)          95  R  2012   +34.7  park:R DEF  99/ 99 +2.9
+L:2B    Kaelen Culpepper (VAR)      89  R  2026   +18.7  park:R DEF 130/130 +2.7
+L:3B    Arjun Nimmala (VAR)         94  R  2026   +18.3  park:R DEF 128/128 +5.1
+L:SS    Barry Larkin                93  R  1991   +23.5  park:R DEF  96/ 96 -1.5
+L:LF    Alex Gordon                 92  L  2011    +2.8  park:L DEF 153/153 +4.7
+L:CF    Yoenis Cespedes (VAR)       98  R  2009   +14.4  park:R DEF 108/127 -0.3
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +34.8  park:R DEF 149/149 +4.5
+L:DH    Chris Sabo                  66  R  1990   +26.6  park:R
+
+--- batting order vs RHP --- (4.82 runs/game; The Book's order 4.82)
+  1. J.T. Snow (VAR) DH
+  2. Ethan Holliday (VAR) SS
+  3. Pedro Alvarez 1B
+  4. Jacoby Ellsbury CF
+  5. Kyle Stowers RF
+  6. Darren Daulton C
+  7. Arjun Nimmala (VAR) 3B
+  8. Alex Gordon LF
+  9. Kaelen Culpepper (VAR) 2B
+
+--- batting order vs LHP --- (4.76 runs/game; The Book's order 4.76)
+  1. Barry Larkin SS
+  2. Chris Sabo DH
+  3. Arjun Nimmala (VAR) 3B
+  4. Jeff Francoeur (VAR) RF
+  5. Josh Vitters (VAR) 1B
+  6. Kaelen Culpepper (VAR) 2B
+  7. Mike Zunino C
+  8. Yoenis Cespedes (VAR) CF
+  9. Alex Gordon LF
+
+--- rotation ---
+SP1     Connelly Early              96  L  2026    +7.9   SP STM  75
+SP2     J.A. Happ                   87  L  2015    +7.8   SP STM  62
+SP3     Payton Tolle                99  L  2026    +7.6   SP STM  70
+SP4     Kyle Freeland (VAR)         91  L  2018    +7.5   SP STM  80
+SP5     Noah Schultz                92  L  2026    +7.1   SP STM  56
+
+--- bullpen ---
+CL      Tony Fossas (VAR)           99  L  1995   +14.4   RP STM  13
+RP1     Jake McGee (VAR)            99  L  2012   +10.4   RP STM  12
+RP2     Cla Meredith                99  R  2006    +8.5   RP STM  20
+RP3     Andrew Bailey               94  R  2009    +7.4   CL STM  21
+RP4     Manny Banuelos              93  R  2012    +5.8   SP STM  69
+RP5     Dave Stieb (VAR)            89  R  1990    +5.8   SP STM  78
+
+--- bench ---
+BN1     Chris Sabo                  66  R  1990   -10.3  park:R
+BN2     Yoenis Cespedes (VAR)       98  R  2009   +11.0  park:R
+BN3     Barry Larkin                93  R  1991    +0.5  park:R
+BN4     Mike Zunino                 75  R  2021   -28.2  park:R
+BN5     Jeff Francoeur (VAR)        81  R  2005    -9.7  park:R
+BN6     Josh Vitters (VAR)          95  R  2012   +11.5  park:R
+
+26 players · value 2364 · λ 2.000 · 11 variants
+vs RHP lineup gets the friendly park side in 7 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Ethan Holliday         L EYE 164 (151/168)  POW 139 (117/147)  K  72  BABIP 114  GAP 103  SPE  51
+  Jacoby Ellsbury        L EYE  88 (78/91)  POW 115 (75/133)  K 116  BABIP 128  GAP 111  SPE 119
+  Kyle Stowers           L EYE 105 (86/114)  POW 116 (33/147)  K  73  BABIP 133  GAP  84  SPE  51
+  J.T. Snow              L EYE 161 (177/154)  POW  73 (60/76)  K  97  BABIP 138  GAP 134  SPE  56
+  Alex Gordon            L EYE 126 (130/124)  POW 100 (110/98)  K  91  BABIP 140  GAP 112  SPE  62
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Josh Vitters           R EYE  71 (84/66)  POW 103 (117/98)  K 131  BABIP 138  GAP 144  SPE  55
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  Yoenis Cespedes        R EYE  49 (52/49)  POW 121 (126/120)  K  84  BABIP 136  GAP 135  SPE 102
+  Darren Daulton         L EYE 153 (131/160)  POW 136 (138/136)  K  70  BABIP  90  GAP 134  SPE  50
+  Barry Larkin           R EYE  86 (155/68)  POW  95 (125/88)  K  98  BABIP 112  GAP  87  SPE  74
+  Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✗ starters' stamina Connelly Early 75, J.A. Happ 62, Payton Tolle 70, Kyle Freeland 80, Noah Schultz 56 (era floor 60) — SHORT: Noah Schultz
+  ✓ stamina guys in the pen (45+): Manny Banuelos 69, Dave Stieb 78
+  ✓ C  backup: Darren Daulton 90, Mike Zunino 77
+  ✓ 1B backup: Ethan Holliday 113, Kaelen Culpepper 102, Arjun Nimmala 105, Pedro Alvarez 96, Alex Gordon 82, J.T. Snow 96, Josh Vitters 99
+  ✓ 2B backup: Ethan Holliday 104, Arjun Nimmala 126, Josh Vitters 77
+  ✓ 3B backup: Ethan Holliday 102, Kaelen Culpepper 122, Pedro Alvarez 75, Alex Gordon 62, Josh Vitters 86, Chris Sabo 77
+  ✓ SS backup: Ethan Holliday 93, Kaelen Culpepper 117, Arjun Nimmala 116, Barry Larkin 96, Josh Vitters 70
+  ✓ LF backup: Ethan Holliday 66, Kaelen Culpepper 78, Arjun Nimmala 84, Jacoby Ellsbury 136, Kyle Stowers 94, Yoenis Cespedes 126, Josh Vitters 72
+  ✓ CF backup: Arjun Nimmala 60, Jacoby Ellsbury 123, Kyle Stowers 63, Yoenis Cespedes 108
+  ✓ RF backup: Kaelen Culpepper 68, Arjun Nimmala 75, Kyle Stowers 95, Yoenis Cespedes 127, Josh Vitters 66, Jeff Francoeur 149
+(23 of 26 have a live ask in the last shop snapshot)
+objective: 251.3 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 15 bats) 1326 · rotation 465 · bullpen 573 · bench-only 0

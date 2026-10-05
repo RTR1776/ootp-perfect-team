@@ -1,0 +1,36 @@
+# Daily All-Star Hardware Slots — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park McAfee Stadium --park-year 2008 --dh --card-types 5,9 --slots P8,D6,G3,S3,B3,I3 --size 26 --series allstarhardwareslots --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Hank Aaron #86655
+R:2B Bret Boone #86701
+R:3B Pedro Alvarez #87062
+R:SS Ernie Banks #86621
+R:LF Mike Greenwell #86909
+R:CF Bo Jackson #86966
+R:RF Juan Soto #87013
+R:DH Hideki Matsui #87042
+L:C Mike Piazza (VAR) #86463
+L:1B Hank Aaron #86655
+L:2B Bret Boone #86701
+L:3B Chris Sabo #87059
+L:SS Ernie Banks #86621
+L:LF Juan Soto #87013
+L:CF Willie Mays #86634
+L:RF Bo Jackson #86966
+L:DH Hideki Matsui #87042
+SP1 Bret Saberhagen #86915
+SP2 Orel Hershiser #83135
+SP3 Jim Kaat (VAR) #85114
+SP4 Steve Carlton (VAR) #85109
+SP5 Dave Stieb (VAR) #85911
+CL Dave Righetti #85870
+RP1 Brad Hand #86251
+RP2 Bob Walk #86971
+RP3 Todd Jones (VAR) #86434
+RP4 Max Fried (VAR) #85919
+RP5 Mike Marshall #84720
+RP6 Alex Reyes #86229
+BN1 Rafael Furcal #86308
+BN2 Chris Sabo #87059
+BN3 Willie Mays #86634
+BN4 Hank Blalock #86433
+BN5 Mike Piazza (VAR) #86463

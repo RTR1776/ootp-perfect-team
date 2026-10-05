@@ -1,0 +1,125 @@
+
+=== Daily Late 1900s ===
+1999 RE @ 1998 Wrigley Field · DH on · value 40–105 · cap none · 26 players
+R/G 5.14  AVG 0.271  OBP 0.343  SLG 0.434  K% 16.8  HR/PA 3.07%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.056 runs · steal break-even 82.1% (0 out) / 79.1% (1 out)
+park: all-LHB lineup 5.16 R/G vs all-RHB 5.14 — 0.02 R/G swing toward LEFT-handed bats
+
+pool: 424 eligible owned cards — 242 bats (72L / 50S / 120R), 182 arms
+staff weights from late1900s's exports: SP 1.28, RP 0.4 (a lineup slot = 1)
+field (late1900s, 6 exports): 29% of batters faced thrown left-handed · 48% of PA by left-handed bats · 13.4 bats / 5.2 SP / 6.4 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 328 of 424 pool cards have innings on record (median 356 PA/BF); K = 5000
+gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.9  Avoid Ks +2.7  BABIP +2.3  Eye +1.5  Gap +0.9
+                          RHB: Power +5.3  Avoid Ks +2.7  BABIP +2.2  Eye +1.4  Gap +0.9
+                         arms: pHR +1.7  Stuff +1.3  pBABIP +1.3  Control +1.1
+
+optimiser: 9 λ starts hill-climbed; best 303.2 runs vs 278.3 greedy (+24.9), 3 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Mike Piazza (VAR)          101  R  1995   +29.3  park:R DEF  69/ 69 -0.6
+R:1B    Eddie Murray               100  S  1984   +18.4  park:L DEF  98/ 98 +2.5
+R:2B    Carlos Baerga (VAR)         86  S  1993    +7.0  park:L DEF  96/ 96 -2.5
+R:3B    Chipper Jones              101  S  1999   +19.6  park:L DEF  65/ 65 -3.2
+R:SS    Shawon Dunston              95  R  1985    +8.2  park:R DEF 117/117 +1.3
+R:LF    Mike Greenwell              99  L  1988   +32.1  park:L DEF 125/125 +2.2
+R:CF    Eric Davis                  85  R  1989   +20.8  park:R DEF  60/ 86 -2.8
+R:RF    Bo Jackson                  88  R  1989   +30.4  park:R DEF 123/123 +2.0
+R:DH    Will Clark                 100  L  1989   +24.9  park:L
+
+--- lineup vs LHP ---
+L:C     Mike Piazza (VAR)          101  R  1995   +43.3  park:R DEF  69/ 69 -0.6
+L:1B    Will Clark                 100  L  1989   +14.5  park:L DEF  91/ 91 +1.6
+L:2B    Randy Ready                 77  R  1987   +12.5  park:R DEF 115/115 +0.3
+L:3B    Chris Sabo                  66  R  1990   +24.3  park:R DEF  77/ 77 -1.7
+L:SS    Barry Larkin                93  R  1991   +22.4  park:R DEF  96/ 96 -1.4
+L:LF    Lonnie Smith                98  R  1989   +12.3  park:R DEF 133/133 +2.8
+L:CF    Eric Davis                  85  R  1989   +12.4  park:R DEF  60/ 86 -2.8
+L:RF    Bo Jackson                  88  R  1989   +26.1  park:R DEF 123/123 +2.0
+L:DH    Chipper Jones              101  S  1999   +29.5  park:R
+
+--- batting order vs RHP --- (6.34 runs/game; The Book's order 6.34)
+  1. Mike Greenwell LF
+  2. Will Clark DH
+  3. Mike Piazza (VAR) C
+  4. Bo Jackson RF
+  5. Chipper Jones 3B
+  6. Eddie Murray 1B
+  7. Eric Davis CF
+  8. Shawon Dunston SS
+  9. Carlos Baerga (VAR) 2B
+
+--- batting order vs LHP --- (6.45 runs/game; The Book's order 6.43)
+  1. Randy Ready 2B
+  2. Chris Sabo 3B
+  3. Chipper Jones DH
+  4. Mike Piazza (VAR) C
+  5. Bo Jackson RF
+  6. Barry Larkin SS
+  7. Eric Davis CF
+  8. Lonnie Smith LF
+  9. Will Clark 1B
+
+--- rotation ---
+SP1     Bret Saberhagen            102  R  1989   +15.7   SP STM 106
+SP2     Dave Stieb                 101  R  1985   +14.2   SP STM 106
+SP3     Orel Hershiser             102  R  1988   +13.7   SP STM 100
+SP4     Kevin Brown                100  R  1996    +9.0   SP STM  94
+SP5     Mark Langston               91  R  1989    +6.7   SP STM  86
+
+--- bullpen ---
+CL      Willie Hernandez           102  L  1984   +18.6   CL STM  67
+RP1     Tony Fossas (VAR)           99  L  1995   +15.9   RP STM  13
+RP2     Rich Gossage               101  R  1982   +11.2   CL STM  48
+RP3     Joe Sambito                 98  L  1980   +10.5   RP STM  24
+RP4     Gregg Olson (VAR)           88  R  1989    +8.9   CL STM  21
+RP5     Dave Smith                 100  R  1980    +8.2   CL STM  24
+RP6     Dave Righetti               85  L  1986    +6.8   CL STM  49
+
+--- bench ---
+BN1     Lonnie Smith                98  R  1989   +12.1  park:R
+BN2     Darren Daulton              93  L  1992    +8.1  park:L
+BN3     Barry Larkin                93  R  1991    +6.3  park:R
+BN4     Chris Sabo                  66  R  1990    +3.9  park:R
+BN5     Randy Ready                 77  R  1987    +3.8  park:R
+
+26 players · value 2451 · λ 0.000 · 4 variants
+vs RHP lineup gets the friendly park side in 5 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Mike Greenwell         L EYE 159 (44/202)  POW 101 (71/116)  K 183  BABIP 111  GAP 131  SPE  60
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Mike Piazza            R EYE 111 (84/124)  POW 187 (226/172)  K 106  BABIP 155  GAP  67  SPE  39
+  Will Clark             L EYE 146 (91/166)  POW 117 (114/118)  K  97  BABIP 174  GAP 124  SPE  56
+  Eric Davis             R EYE 151 (175/143)  POW 174 (158/180)  K  61  BABIP  97  GAP  64  SPE 107
+  Chipper Jones          S EYE 165 (140/174)  POW 136 (160/128)  K 110  BABIP 118  GAP 112  SPE  82
+  Eddie Murray           S EYE 153 (161/150)  POW 118 (101/124)  K 108  BABIP 132  GAP  74  SPE  50
+  Lonnie Smith           R EYE 146 (155/143)  POW 106 (100/108)  K  80  BABIP 149  GAP 112  SPE  98
+  Shawon Dunston         R EYE  71 (74/70)  POW  90 (93/90)  K 123  BABIP 144  GAP 141  SPE 108
+  Darren Daulton         L EYE 153 (131/160)  POW 136 (138/136)  K  70  BABIP  90  GAP 134  SPE  50
+  Carlos Baerga          S EYE  68 (35/75)  POW 102 (92/106)  K 123  BABIP 114  GAP  88  SPE  68
+  Barry Larkin           R EYE  86 (155/68)  POW  95 (125/88)  K  98  BABIP 112  GAP  87  SPE  74
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (94 teams): 4.9 SP / 7.2 RP / 13.8 bats
+  ✓ starters' stamina Bret Saberhagen 106, Dave Stieb 106, Orel Hershiser 100, Kevin Brown 94, Mark Langston 86 (era floor 50)
+  ✓ stamina guys in the pen (45+): Willie Hernandez 67, Rich Gossage 48, Dave Righetti 49
+  ✓ C  backup: Darren Daulton 90
+  ✓ 1B backup: Eddie Murray 98, Will Clark 91
+  ✓ 2B backup: Carlos Baerga 96, Randy Ready 115
+  ✓ 3B backup: Carlos Baerga 70, Chipper Jones 65, Randy Ready 91, Chris Sabo 77
+  ✓ SS backup: Shawon Dunston 117, Barry Larkin 96
+  ✓ LF backup: Eric Davis 86, Bo Jackson 116, Mike Greenwell 125, Lonnie Smith 133
+  ✓ CF backup: Bo Jackson 103
+  ✓ RF backup: Mike Greenwell 117
+(16 of 26 have a live ask in the last shop snapshot)
+objective: 303.2 weighted runs (bats 71/29 R/L, SP 1.28, RP 0.4, bench 0.1)
+points: lineup(both boards, 13 bats) 1189 · rotation 496 · bullpen 673 · bench-only 93
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Will Clark               BABIP 174 (fitted 17–164)

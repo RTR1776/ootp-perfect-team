@@ -1,0 +1,127 @@
+
+=== Daily Bronze Only Curiosities ===
+PT default (2010) RE @ 2005 Minute Maid Park · DH on · value 60–69 · cap none · 26 players
+R/G 4.53  AVG 0.243  OBP 0.316  SLG 0.406  K% 22.6  HR/PA 3.25%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.038 runs · steal break-even 81.1% (0 out) / 78.1% (1 out)
+park: all-LHB lineup 4.20 R/G vs all-RHB 4.71 — 0.52 R/G swing toward RIGHT-handed bats
+card sets: Rookie Sensation, Snapshot, Unsung Heroes only
+
+pool: 393 eligible owned cards — 229 bats (84L / 25S / 120R), 164 arms
+staff weights from bronzecuriosity's exports: SP 1.23, RP 0.44 (a lineup slot = 1)
+field (bronzecuriosity, 4 exports): 31% of batters faced thrown left-handed · 42% of PA by left-handed bats · 13.5 bats / 5.6 SP / 6.2 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 391 of 393 pool cards have innings on record (median 2018 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.8  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.8
+                          RHB: Power +5.8  Avoid Ks +3.4  BABIP +1.8  Eye +1.2  Gap +0.8
+                         arms: pHR +1.8  Stuff +1.6  pBABIP +1.0  Control +0.8
+
+optimiser: 9 λ starts hill-climbed; best 18.5 runs vs -7.0 greedy (+25.5), 20 moves from λ 3.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey                   69  L  1959   -10.5  park:L DEF  91/ 91 +0.0
+R:1B    Bill Buckner (VAR)          64  L  1974    +6.3  park:L DEF  83/ 83 +0.6
+R:2B    Mark Grudzielanek           65  R  2005   -10.2  park:R DEF 139/139 +3.2
+R:3B    Joe Dugan (VAR)             65  R  1920    -2.6  park:R DEF  63/ 70 -3.0
+R:SS    Dave Brain (VAR)            68  R  1907    +5.3  park:R DEF  93/ 99 -1.6
+R:LF    Tom Brown                   66  L  1891    +7.3  park:L DEF  68/ 68 -1.8
+R:CF    Billy Southworth            68  L  1926    +5.5  park:L DEF  93/107 -0.9
+R:RF    Deion Sanders               69  L  1992    +1.3  park:L DEF 122/131 +1.7
+R:DH    Wes Covington               67  L  1958   +23.5  park:L
+
+--- lineup vs LHP ---
+L:C     Chris Cannizzaro            65  R  1970    +2.8  park:R DEF  72/ 72 -0.5
+L:1B    Scott Spiezio               67  S  2002    +9.8  park:R DEF  91/ 91 +1.4
+L:2B    Joe Dugan (VAR)             65  R  1920    +7.3  park:R DEF  70/ 70 -5.4
+L:3B    Honus Wagner                68  R  1913    +2.4  park:R DEF 108/108 +1.8
+L:SS    Dave Brain (VAR)            68  R  1907    +7.6  park:R DEF  93/ 99 -1.6
+L:LF    Ed Morgan (VAR)             66  R  1929    +5.7  park:R DEF  61/ 61 -2.2
+L:CF    Deion Sanders               69  L  1992    +1.4  park:L DEF 120/131 +0.3
+L:RF    Tom Brown                   66  L  1891    -4.1  park:L DEF  63/ 68 -2.5
+L:DH    Dave Harris                 67  R  1930   +17.9  park:R
+
+--- batting order vs RHP --- (4.19 runs/game; The Book's order 4.18)
+  1. Ed Bailey C
+  2. Bill Buckner (VAR) 1B
+  3. Dave Brain (VAR) SS
+  4. Wes Covington DH
+  5. Billy Southworth CF
+  6. Joe Dugan (VAR) 3B
+  7. Mark Grudzielanek 2B
+  8. Deion Sanders RF
+  9. Tom Brown LF
+
+--- batting order vs LHP --- (4.47 runs/game; The Book's order 4.46)
+  1. Scott Spiezio 1B
+  2. Chris Cannizzaro C
+  3. Dave Harris DH
+  4. Dave Brain (VAR) SS
+  5. Ed Morgan (VAR) LF
+  6. Joe Dugan (VAR) 2B
+  7. Honus Wagner 3B
+  8. Deion Sanders CF
+  9. Tom Brown RF
+
+--- rotation ---
+SP1     Bob Miller                  69  R  1963    +1.4   SP STM  62
+SP2     Roy Halladay                61  R  2004    -1.1   SP STM  73
+SP3     Red Lucas                   68  L  1927    -3.0   SP STM  93
+SP4     Jack Kralick                64  L  1961    -3.2   SP STM  83
+SP5     Chris Short                 65  R  1963    -3.3   SP STM  66
+
+--- bullpen ---
+CL      Edwin Diaz                  67  R  2016   +11.8   CL STM  13
+RP1     Adam Cimber (VAR)           69  R  2018    +4.8   RP STM  17
+RP2     Don Robinson (VAR)          65  R  1984    +1.0   RP STM  39
+RP3     Paul Assenmacher            62  L  1989    +0.9   RP STM  17
+RP4     Clay Bryant                 66  R  1936    +0.1   RP STM  24
+RP5     Gary Gentry                 66  R  1969    -3.9   SP STM  76
+RP6     Justin Masterson            60  R  2009    -4.1   SP STM  55
+
+--- bench ---
+BN1     Dave Harris                 67  R  1930    -4.6  park:R
+BN2     Ed Morgan (VAR)             66  R  1929    +1.2  park:R
+BN3     Scott Spiezio               67  S  2002    -7.9  park:L
+BN4     Honus Wagner                68  R  1913   -14.1  park:R
+BN5     Chris Cannizzaro            65  R  1970   -18.5  park:R
+
+26 players · value 1716 · λ 3.000 · 6 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Wes Covington          L EYE  64 (86/52)  POW 115 (40/143)  K  93  BABIP  84  GAP  71  SPE  15
+  Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
+  Bill Buckner           L EYE  56 (45/60)  POW  64 (1/74)  K 204  BABIP 110  GAP 115  SPE  81
+  Billy Southworth       L EYE  51 (5/61)  POW  96 (81/102)  K 201  BABIP  76  GAP  84  SPE  69
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Deion Sanders          L EYE  63 (40/67)  POW  85 (112/77)  K  75  BABIP 149  GAP 113  SPE 119
+  Ed Morgan              R EYE 132 (127/134)  POW  42 (55/37)  K  96  BABIP 143  GAP 131  SPE  69
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Dave Harris            R EYE  90 (115/84)  POW  89 (124/81)  K  65  BABIP  73  GAP 129  SPE  67
+  Scott Spiezio          S EYE 131 (136/129)  POW  61 (81/48)  K 140  BABIP  83  GAP 110  SPE  43
+  Mark Grudzielanek      R EYE  55 (87/33)  POW  63 (55/65)  K  89  BABIP 141  GAP  91  SPE  69
+  Ed Bailey              L EYE 149 (103/164)  POW  75 (76/75)  K  94  BABIP  83  GAP  53  SPE   9
+  Honus Wagner           R EYE  81 (51/89)  POW  69 (113/46)  K 109  BABIP  97  GAP  90  SPE  71
+  Chris Cannizzaro       R EYE 115 (133/110)  POW  47 (84/19)  K  91  BABIP  88  GAP  66  SPE  46
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (64 teams): 5.0 SP / 7.1 RP / 13.9 bats
+  ✓ starters' stamina Bob Miller 62, Roy Halladay 73, Red Lucas 93, Jack Kralick 83, Chris Short 66 (era floor 50)
+  ✓ stamina guys in the pen (45+): Gary Gentry 76, Justin Masterson 55
+  ✓ C  backup: Ed Bailey 91, Chris Cannizzaro 72
+  ✓ 1B backup: Bill Buckner 83, Scott Spiezio 91, Honus Wagner 86
+  ✓ 2B backup: Mark Grudzielanek 139, Joe Dugan 70, Scott Spiezio 60
+  ✓ 3B backup: Dave Brain 99, Joe Dugan 63, Honus Wagner 108
+  ✓ SS backup: Honus Wagner 99
+  ✓ LF backup: Bill Buckner 68, Billy Southworth 107, Deion Sanders 131, Tom Brown 68, Scott Spiezio 62, Ed Morgan 61
+  ✓ CF backup: Billy Southworth 93, Deion Sanders 120
+  ✓ RF backup: Billy Southworth 93, Deion Sanders 122, Tom Brown 63
+(26 of 26 have a live ask in the last shop snapshot)
+objective: 18.5 weighted runs (bats 69/31 R/L, SP 1.23, RP 0.44, bench 0.1)
+points: lineup(both boards, 14 bats) 934 · rotation 327 · bullpen 455 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Edwin Diaz               pBABIP 25 (fitted 50–175)
+   Paul Assenmacher         pBABIP 37 (fitted 50–175)

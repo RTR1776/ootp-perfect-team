@@ -1,0 +1,123 @@
+
+=== Daily Bronze 1910-59 ===
+1959 RE @ 1959 Seals Stadium · DH on · value 40–69 · cap none · 26 players
+R/G 4.11  AVG 0.248  OBP 0.317  SLG 0.376  K% 13.3  HR/PA 2.37%  preset Moderate Small Ball
+sac bunt (1st & 2nd, 0 out) +0.059 runs · steal break-even 78.4% (0 out) / 75.3% (1 out)
+park: all-LHB lineup 4.18 R/G vs all-RHB 4.07 — 0.11 R/G swing toward LEFT-handed bats
+
+pool: 467 eligible owned cards — 284 bats (96L / 15S / 173R), 183 arms
+staff weights from bronze10to50's exports: SP 1.67, RP 0.36 (a lineup slot = 1)
+field (bronze10to50, 10 exports): 33% of batters faced thrown left-handed · 39% of PA by left-handed bats · 14.9 bats / 5.4 SP / 3.4 RP per team
+shape: 15 bats / 5 SP / 6 RP (1920s–50s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 460 of 467 pool cards have innings on record (median 474 PA/BF); K = 5000
+gloves ×1.02: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.9  BABIP +1.9  Avoid Ks +1.7  Eye +1.3  Gap +0.8
+                          RHB: Power +4.0  BABIP +1.8  Avoid Ks +1.6  Eye +1.3  Gap +0.7
+                         arms: pHR +1.3  pBABIP +1.1  Control +0.9  Stuff +0.8
+
+optimiser: 9 λ starts hill-climbed; best -59.5 runs vs -83.6 greedy (+24.1), 17 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ted Easterly                58  L  1910   -15.7  park:L DEF  62/ 62 -0.9
+R:1B    Stan Hack                   46  L  1944   -16.2  park:L DEF  77/ 77 +0.0
+R:2B    Joe Dugan (VAR)             65  R  1920    -8.8  park:R DEF  70/ 70 -6.8
+R:3B    Jim Tabor                   54  R  1939    -9.0  park:R DEF  69/ 69 -3.0
+R:SS    Pat Patterson               67  S  1935    -4.4  park:L DEF  72/ 85 -4.9
+R:LF    Billy Southworth            68  L  1926    +1.2  park:L DEF 107/107 +0.9
+R:CF    Bob Allison (VAR)           67  R  1959    +0.2  park:R DEF  77/ 94 -2.1
+R:RF    Jack Tobin                  61  L  1920    +2.0  park:L DEF  73/ 77 -2.2
+R:DH    Wes Covington               67  L  1958   +20.3  park:L
+
+--- lineup vs LHP ---
+L:C     Gabby Hartnett              66  R  1936    -5.4  park:R DEF  88/ 88 -0.0
+L:1B    Jackie Robinson (VAR)       58  R  1947    -6.9  park:R DEF  76/ 76 -0.1
+L:2B    Joe Dugan (VAR)             65  R  1920   +11.1  park:R DEF  70/ 70 -6.8
+L:3B    Pat Patterson               67  S  1935    -8.5  park:R DEF  84/ 85 -0.9
+L:SS    Honus Wagner                68  R  1913    -0.1  park:R DEF  99/108 -1.1
+L:LF    Ed Morgan (VAR)             66  R  1929    +5.0  park:R DEF  61/ 61 -2.8
+L:CF    Jim Landis (VAR)            66  R  1958   -10.0  park:R DEF  64/ 80 -2.8
+L:RF    Jack Tobin                  61  L  1920   -23.4  park:L DEF  73/ 77 -2.2
+L:DH    Dave Harris                 67  R  1930   +15.2  park:R
+
+--- batting order vs RHP --- (3.98 runs/game; The Book's order 3.97)
+  1. Stan Hack 1B
+  2. Bob Allison (VAR) CF
+  3. Wes Covington DH
+  4. Billy Southworth LF
+  5. Jack Tobin RF
+  6. Pat Patterson SS
+  7. Joe Dugan (VAR) 2B
+  8. Jim Tabor 3B
+  9. Ted Easterly C
+
+--- batting order vs LHP --- (3.94 runs/game; The Book's order 3.94)
+  1. Ed Morgan (VAR) LF
+  2. Dave Harris DH
+  3. Gabby Hartnett C
+  4. Joe Dugan (VAR) 2B
+  5. Honus Wagner SS
+  6. Jackie Robinson (VAR) 1B
+  7. Jim Landis (VAR) CF
+  8. Pat Patterson 3B
+  9. Jack Tobin RF
+
+--- rotation ---
+SP1     Fritz Ostermueller          64  L  1944    +8.5   SP STM  98
+SP2     Cool Papa Bell              68  R  1923    -0.0   SP STM  86
+SP3     Red Lucas                   68  L  1927    -1.5   SP STM  93
+SP4     Mickey Haefner              64  L  1944    -3.6   SP STM  84
+SP5     Chuck Stobbs                67  L  1954    -3.6   SP STM  73
+
+--- bullpen ---
+CL      Satchel Paige               68  R  1952    +3.9   RP STM  57
+RP1     Clay Bryant                 66  R  1936    +0.2   RP STM  24
+RP2     Elmer Singleton             67  R  1959    -1.6   RP STM  24
+RP3     Roy Face                    66  R  1958    -1.9   CL STM  23
+RP4     Nelson Chittum              61  R  1959    -2.7   RP STM  24
+RP5     Laymon Yokely               67  R  1928    -3.9   SP STM  73
+
+--- bench ---
+BN1     Ed Morgan (VAR)             66  R  1929    -5.4  park:R
+BN2     Dave Harris                 67  R  1930   -12.1  park:R
+BN3     Gabby Hartnett              66  R  1936   -18.9  park:R
+BN4     Honus Wagner                68  R  1913   -22.3  park:R
+BN5     Jim Landis (VAR)            66  R  1958   -24.4  park:R
+BN6     Jackie Robinson (VAR)       58  R  1947   -28.0  park:R
+
+26 players · value 1670 · λ 1.000 · 5 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Wes Covington          L EYE  64 (86/52)  POW 115 (40/143)  K  93  BABIP  84  GAP  71  SPE  15
+  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Billy Southworth       L EYE  51 (5/61)  POW  96 (81/102)  K 201  BABIP  76  GAP  84  SPE  69
+  Bob Allison            R EYE 117 (119/117)  POW 130 (109/138)  K  74  BABIP  68  GAP  92  SPE  80
+  Pat Patterson          S EYE  51 (50/52)  POW  86 (83/88)  K 112  BABIP 114  GAP 114  SPE  74
+  Ed Morgan              R EYE 132 (127/134)  POW  42 (55/37)  K  96  BABIP 143  GAP 131  SPE  69
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Jim Tabor              R EYE  60 (68/55)  POW 108 (88/117)  K  92  BABIP  72  GAP  82  SPE  66
+  Dave Harris            R EYE  90 (115/84)  POW  89 (124/81)  K  65  BABIP  73  GAP 129  SPE  67
+  Ted Easterly           L EYE  58 (54/60)  POW   1 (1/1)  K  97  BABIP  97  GAP  87  SPE  67
+  Stan Hack              L EYE 128 (144/123)  POW  38 (1/46)  K 183  BABIP  81  GAP  61  SPE  47
+  Gabby Hartnett         R EYE  64 (80/59)  POW  87 (128/77)  K  81  BABIP  96  GAP  75  SPE  28
+  Honus Wagner           R EYE  81 (51/89)  POW  69 (113/46)  K 109  BABIP  97  GAP  90  SPE  71
+  Jim Landis             R EYE  85 (78/87)  POW  77 (96/70)  K  86  BABIP  74  GAP  75  SPE  77
+  Jackie Robinson        R EYE  73 (91/67)  POW  64 (95/40)  K 117  BABIP  82  GAP  78  SPE  92
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (154 teams): 4.5 SP / 5.2 RP / 15.6 bats
+  ✓ starters' stamina Fritz Ostermueller 98, Cool Papa Bell 86, Red Lucas 93, Mickey Haefner 84, Chuck Stobbs 73 (era floor 60)
+  ✓ stamina guys in the pen (45+): Satchel Paige 57, Laymon Yokely 73
+  ✓ C  backup: Ted Easterly 62, Gabby Hartnett 88
+  ✓ 1B backup: Stan Hack 77, Jackie Robinson 76, Honus Wagner 86
+  ✓ 2B backup: Pat Patterson 85
+  ✓ 3B backup: Pat Patterson 84, Joe Dugan 63, Jim Tabor 69, Honus Wagner 108
+  ✓ SS backup: Pat Patterson 72, Honus Wagner 99
+  ✓ LF backup: Bob Allison 94, Jack Tobin 77, Billy Southworth 107, Ed Morgan 61
+  ✓ CF backup: Bob Allison 77, Billy Southworth 93, Jim Landis 64
+  ✓ RF backup: Billy Southworth 93, Jim Landis 80
+(25 of 26 have a live ask in the last shop snapshot)
+objective: -59.5 weighted runs (bats 67/33 R/L, SP 1.67, RP 0.36, bench 0.1)
+points: lineup(both boards, 15 bats) 944 · rotation 331 · bullpen 395 · bench-only 0

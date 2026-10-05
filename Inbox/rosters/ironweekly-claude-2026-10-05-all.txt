@@ -1,0 +1,36 @@
+# Saturday Iron Warriors — Claude pick 2026-10-05 all, rebuilt from the catalogue's rules by current-rosters (--year 1991 --park Cleveland Stadium --park-year 1991 --dh --min 40 --max 59 --size 26 --obs-exclude ironweekly --sp 5 --rp 6 --bats 15)
+R:C Rick Wilkins #86392
+R:1B Shawn Green #87028
+R:2B Nap Lajoie #86581
+R:3B Jim Tabor #85905
+R:SS Freddy Galvis (VAR) #85743
+R:LF Bob Bowman #86803
+R:CF Carlos Beltran #86298
+R:RF Jay Bruce #86409
+R:DH Broderick Perkins #86460
+L:C Charlie O'Brien #86925
+L:1B Matt Davidson #84666
+L:2B Freddy Galvis (VAR) #85743
+L:3B Jim Tabor #85905
+L:SS Kid Elberfeld (VAR) #86368
+L:LF Andruw Jones (VAR) #86321
+L:CF Carlos Beltran #86298
+L:RF Dwayne Hosey #86801
+L:DH Pete Incaviglia #86943
+SP1 James McDonald (VAR) #86384
+SP2 Justin Verlander #87014
+SP3 Tin Can Kincannon #86073
+SP4 Bullet Campbell #87084
+SP5 Patricio Scantlebury #85828
+CL Todd Jones (VAR) #86434
+RP1 Randy Choate #87026
+RP2 Mike Marshall #84720
+RP3 Hector Rondon #83078
+RP4 Reed Garrett #84825
+RP5 Kendry Rojas #85561
+BN1 Pete Incaviglia #86943
+BN2 Kid Elberfeld (VAR) #86368
+BN3 Andruw Jones (VAR) #86321
+BN4 Matt Davidson #84666
+BN5 Dwayne Hosey #86801
+BN6 Charlie O'Brien #86925

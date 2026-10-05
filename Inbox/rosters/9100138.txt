@@ -1,0 +1,124 @@
+
+=== Daily Early Years Cap ===
+1888 RE (neutral park) · DH off · value 40–105 · cap 1500 · 26 players
+R/G 4.88  AVG 0.239  OBP 0.291  SLG 0.320  K% 10.1  HR/PA 0.65%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.182 runs · steal break-even 73.7% (0 out) / 69.5% (1 out)
+
+pool: 717 eligible owned cards — 461 bats (154L / 43S / 264R), 256 arms
+staff weights from earlyyearscap's exports: SP 3.12, RP 0.23 (a lineup slot = 1)
+field (earlyyearscap, 1 exports): 18% of batters faced thrown left-handed · 46% of PA by left-handed bats · 14.4 bats / 3.7 SP / 1.7 RP per team
+shape: 15 bats / 4 SP / 7 RP (deadball) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 710 of 717 pool cards have innings on record (median 837 PA/BF); K = 5000
+gloves ×1.17: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: BABIP +1.7  Power +1.0  Avoid Ks +1.0  Gap +1.0  Eye +0.8
+                          RHB: BABIP +1.7  Power +1.0  Avoid Ks +1.0  Gap +1.0  Eye +0.8
+                         arms: pBABIP +1.0  Control +0.5  Stuff +0.5  pHR +0.4
+
+optimiser: 7 λ starts hill-climbed; best 95.2 runs vs -47.2 greedy (+142.4), 13 moves from λ 8.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ted Easterly                58  L  1910    -3.3  park:L DEF  62/ 62 -1.0
+R:1B    Nap Lajoie                  50  R  1905    -3.8  park:R DEF  96/114 +2.8
+R:2B    Pop Lloyd                  101  L  1924   +29.3  park:L DEF 128/128 +2.7
+R:3B    Kid Elberfeld (VAR)         47  R  1903   -12.6  park:R DEF  85/ 85 -0.9
+R:SS    Luke Appling                92  R  1936   +21.9  park:R DEF 110/110 +0.5
+R:LF    Heinie Manush              102  L  1928   +28.6  park:L DEF 115/115 +1.8
+R:CF    Shoeless Joe Jackson        88  L  1915   +20.6  park:L DEF  66/ 88 -3.1
+R:RF    Walt French                 44  L  1927    -8.7  park:L DEF  74/ 78 -2.4
+
+--- lineup vs LHP ---
+L:C     Bruno Block                 41  R  1912   -26.1  park:R DEF  79/ 79 -0.4
+L:1B    Scoops Carey (VAR)          52  R  1902    -3.4  park:R DEF  61/ 61 -2.3
+L:2B    Pop Lloyd                  101  L  1924   +13.6  park:L DEF 128/128 +2.7
+L:3B    Kid Elberfeld (VAR)         47  R  1903    -7.8  park:R DEF  85/ 85 -0.9
+L:SS    Luke Appling                92  R  1936    +6.3  park:R DEF 110/110 +0.5
+L:LF    Heinie Manush              102  L  1928   +15.2  park:L DEF 115/115 +1.8
+L:CF    Maurice Archdeacon          45  L  1924   -11.0  park:L DEF  65/ 85 -3.2
+L:RF    Shoeless Joe Jackson        88  L  1915    +0.3  park:L DEF  83/ 88 -1.5
+
+--- batting order vs RHP --- (2.88 runs/game; The Book's order 2.88)
+  1. Luke Appling SS
+  2. Kid Elberfeld (VAR) 3B
+  3. Pop Lloyd 2B
+  4. Heinie Manush LF
+  5. Shoeless Joe Jackson CF
+  6. Nap Lajoie 1B
+  7. Ted Easterly C
+  8. Walt French RF
+  9. Pitcher
+
+--- batting order vs LHP --- (2.72 runs/game; The Book's order 2.71)
+  1. Luke Appling SS
+  2. Maurice Archdeacon CF
+  3. Shoeless Joe Jackson RF
+  4. Pop Lloyd 2B
+  5. Heinie Manush LF
+  6. Kid Elberfeld (VAR) 3B
+  7. Scoops Carey (VAR) 1B
+  8. Bruno Block C
+  9. Pitcher
+
+--- rotation ---
+SP1     Cy Young (VAR)             102  R  1895    +9.5   SP STM 114
+SP2     Dizzy Dean                  88  R  1932    +8.4   SP STM  98
+SP3     Jakie May (VAR)             72  R  1927    +6.8   SP STM  69
+SP4     Tin Can Kincannon           45  R  1934    -3.6   SP STM  74
+
+--- bullpen ---
+CL      Bert Gallia (VAR)           46  R  1917    -5.5   SP STM  66
+RP1     Bunny Hearn                 45  L  1926    -6.4   SP STM  55
+RP2     Oral Hildebrand             45  R  1937    -6.7   SP STM  76
+RP3     Joe Boehling                42  L  1916    -7.7   SP STM  63
+RP4     Fred Frankhouse             41  R  1939    -8.5   RP STM  25
+RP5     Bob Barr                    41  R  1886    -9.5   SP STM  89
+RP6     Rube Schauer                42  R  1915   -10.3   RP STM  49
+
+--- bench ---
+BN1     George Sisler (VAR)         48  L  1928    +5.7  park:L
+BN2     Maurice Archdeacon          45  L  1924   -17.0  park:L
+BN3     Scoops Carey (VAR)          52  R  1902   -17.3  park:R
+BN4     Bill Everitt                42  L  1898   -22.2  park:L
+BN5     Charlie Eden                40  L  1885   -25.7  park:L
+BN6     Al Burch                    41  L  1906   -26.5  park:L
+BN7     Bruno Block                 41  R  1912   -38.1  park:R
+
+26 players · value 1500 / 1500 (0 spare) · λ 8.000 · 6 variants
+vs RHP lineup gets the friendly park side in 5 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Pop Lloyd              L EYE 128 (115/132)  POW  72 (60/77)  K 168  BABIP 162  GAP 126  SPE 104
+  Heinie Manush          L EYE  92 (75/98)  POW 105 (122/100)  K 224  BABIP 150  GAP 140  SPE  69
+  Luke Appling           R EYE 165 (174/162)  POW  53 (10/62)  K 154  BABIP 154  GAP  82  SPE  64
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
+  Ted Easterly           L EYE  58 (54/60)  POW   1 (1/1)  K  97  BABIP  97  GAP  87  SPE  67
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Walt French            L EYE  62 (42/66)  POW   1 (1/1)  K 117  BABIP  97  GAP  68  SPE  77
+  Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
+  Maurice Archdeacon     L EYE 113 (115/113)  POW   1 (1/1)  K  45  BABIP 126  GAP  63  SPE 112
+  Scoops Carey           R EYE  59 (46/63)  POW  25 (23/26)  K 116  BABIP  83  GAP 162  SPE  59
+  Bill Everitt           L EYE  77 (76/78)  POW  27 (26/28)  K  88  BABIP  89  GAP  50  SPE  73
+  Charlie Eden           L EYE  68 (68/69)  POW  18 (18/19)  K  83  BABIP  73  GAP  89  SPE  71
+  Al Burch               L EYE  83 (65/89)  POW  19 (11/22)  K  75  BABIP  83  GAP  29  SPE  69
+  Bruno Block            R EYE  46 (55/43)  POW   7 (1/10)  K  63  BABIP  73  GAP  84  SPE  49
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 7 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (8 teams): 3.0 SP / 3.4 RP / 15.7 bats
+  ✗ starters' stamina Cy Young 114, Dizzy Dean 98, Jakie May 69, Tin Can Kincannon 74 (era floor 80) — SHORT: Jakie May, Tin Can Kincannon
+  ✓ stamina guys in the pen (45+): Bert Gallia 66, Bunny Hearn 55, Oral Hildebrand 76, Joe Boehling 63, Bob Barr 89, Rube Schauer 49
+  ✓ C  backup: Ted Easterly 62, Bruno Block 79
+  ✓ 1B backup: Nap Lajoie 96, Pop Lloyd 90, Shoeless Joe Jackson 73, Scoops Carey 61
+  ✓ 2B backup: Nap Lajoie 114
+  ✓ 3B backup: Pop Lloyd 119
+  ✓ SS backup: Pop Lloyd 114, Kid Elberfeld 83
+  ✓ LF backup: Shoeless Joe Jackson 88, Walt French 78, Maurice Archdeacon 85, Al Burch 80
+  ✓ CF backup: Shoeless Joe Jackson 66, Heinie Manush 97, Maurice Archdeacon 65
+  ✓ RF backup: Shoeless Joe Jackson 83, Walt French 74, Maurice Archdeacon 81, Al Burch 80
+(22 of 26 have a live ask in the last shop snapshot)
+objective: 95.2 weighted runs (bats 82/18 R/L, SP 3.12, RP 0.23, bench 0.1)
+points: lineup(both boards, 11 bats) 720 · rotation 307 · bullpen 302 · bench-only 171
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)

@@ -1,0 +1,127 @@
+
+=== Friday Danksville ===
+1987 RE @ 1977 Kingdome · DH on · value 40–49 · cap none · 26 players
+R/G 4.45  AVG 0.254  OBP 0.322  SLG 0.396  K% 14.9  HR/PA 2.61%  preset Balanced
+sac bunt (1st & 2nd, 0 out) +0.025 runs · steal break-even 79.7% (0 out) / 76.6% (1 out)
+park: all-LHB lineup 4.50 R/G vs all-RHB 4.42 — 0.07 R/G swing toward LEFT-handed bats
+
+pool: 436 eligible owned cards — 259 bats (65L / 29S / 165R), 177 arms
+staff weights from lowironweekly's exports: SP 1.23, RP 0.48 (a lineup slot = 1)
+field (lowironweekly, 1 exports): 44% of batters faced thrown left-handed · 26% of PA by left-handed bats · 13.7 bats / 5.2 SP / 5.9 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 409 of 436 pool cards have innings on record (median 481 PA/BF); K = 5000
+gloves ×0.99: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.5  Avoid Ks +2.0  BABIP +1.9  Eye +1.3  Gap +0.8
+                          RHB: Power +4.2  Avoid Ks +2.0  BABIP +1.9  Eye +1.3  Gap +0.8
+                         arms: pHR +1.5  pBABIP +1.1  Stuff +1.0  Control +0.9
+
+optimiser: 8 λ starts hill-climbed; best -176.8 runs vs -189.1 greedy (+12.3), 12 moves from λ 2.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Eliezer J. Alfonzo (VAR)    48  R  2006   -26.2  park:R DEF  60/ 60 -0.9
+R:1B    Stan Hack                   46  L  1944    -9.4  park:L DEF  77/ 77 +0.0
+R:2B    Jeff Kent                   47  R  1992    -9.6  park:R DEF  63/ 80 -7.7
+R:3B    Kid Elberfeld (VAR)         47  R  1903   -22.2  park:R DEF  85/ 85 -0.8
+R:SS    Javier Baez (VAR)           49  R  2021   -11.3  park:R DEF  88/102 -2.6
+R:LF    Fred Lynn                   46  L  1989   -17.4  park:L DEF  74/ 74 -1.7
+R:CF    Dwayne Hosey                49  S  1995   -12.3  park:L DEF  71/ 90 -2.4
+R:RF    Vladimir Guerrero           48  R  1997   -15.6  park:R DEF 117/117 +1.6
+R:DH    George Sisler (VAR)         48  L  1928    -1.7  park:L
+
+--- lineup vs LHP ---
+L:C     Nick Fortes                 49  R  2026   -25.9  park:R DEF  64/ 64 -0.8
+L:1B    Mark Trumbo                 49  R  2011   -10.3  park:R DEF  92/ 92 +1.9
+L:2B    Javier Baez (VAR)           49  R  2021   -14.6  park:R DEF 102/102 -1.7
+L:3B    Eguy Rosario                44  R  2024   -14.2  park:R DEF  80/ 80 -1.4
+L:SS    Kid Elberfeld (VAR)         47  R  1903   -17.3  park:R DEF  83/ 85 -3.3
+L:LF    Sammy Sosa                  43  R  1990    +2.0  park:R DEF  97/101 +0.1
+L:CF    Dwayne Hosey                49  S  1995    -1.3  park:R DEF  71/ 90 -2.4
+L:RF    Vladimir Guerrero           48  R  1997   -17.3  park:R DEF 117/117 +1.6
+L:DH    Pete Incaviglia             46  R  1986   +14.6  park:R
+
+--- batting order vs RHP --- (3.87 runs/game; The Book's order 3.86)
+  1. Stan Hack 1B
+  2. Kid Elberfeld (VAR) 3B
+  3. Vladimir Guerrero RF
+  4. George Sisler (VAR) DH
+  5. Javier Baez (VAR) SS
+  6. Fred Lynn LF
+  7. Jeff Kent 2B
+  8. Dwayne Hosey CF
+  9. Eliezer J. Alfonzo (VAR) C
+
+--- batting order vs LHP --- (3.82 runs/game; The Book's order 3.81)
+  1. Javier Baez (VAR) 2B
+  2. Pete Incaviglia DH
+  3. Sammy Sosa LF
+  4. Dwayne Hosey CF
+  5. Kid Elberfeld (VAR) SS
+  6. Vladimir Guerrero RF
+  7. Eguy Rosario 3B
+  8. Mark Trumbo 1B
+  9. Nick Fortes C
+
+--- rotation ---
+SP1     Tin Can Kincannon           45  R  1934    +0.2   SP STM  74
+SP2     Mark Langston               48  R  1986    -6.5   SP STM  77
+SP3     Bunny Hearn                 45  L  1926    -6.9   SP STM  55
+SP4     Joe Saunders                44  L  2010    -7.1   SP STM  79
+SP5     Bob Gibson                  44  R  1959    -8.0   SP STM  69
+
+--- bullpen ---
+CL      Todd Jones (VAR)            43  L  2000    +7.4   CL STM  17
+RP1     Randy Choate                45  L  2013    +1.6   RP STM   6
+RP2     Reed Garrett                49  R  2024    -1.0   RP STM  25
+RP3     Gavin Hollowell             49  R  2026    -5.1   RP STM  17
+RP4     Zach Agnos                  49  R  2026    -5.3   RP STM  22
+RP5     Marco Estrada               49  R  2015    -8.3   SP STM  68
+RP6     Kevin Appier                48  R  2000    -8.8   SP STM  72
+
+--- bench ---
+BN1     Eguy Rosario                44  R  2024   -63.2  park:R
+BN2     Mark Trumbo                 49  R  2011   -13.6  park:R
+BN3     Sammy Sosa                  43  R  1990   -26.3  park:R
+BN4     Nick Fortes                 49  R  2026   -29.4  park:R
+BN5     Pete Incaviglia             46  R  1986   -12.8  park:R
+
+26 players · value 1217 · λ 2.000 · 5 variants
+vs RHP lineup gets the friendly park side in 4 of 9 spots
+
+--- order inputs (rostered bats) ---
+  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
+  Stan Hack              L EYE 128 (144/123)  POW  38 (1/46)  K 183  BABIP  81  GAP  61  SPE  47
+  Jeff Kent              R EYE  80 (100/72)  POW 109 (105/111)  K  42  BABIP  69  GAP 108  SPE  52
+  Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
+  Dwayne Hosey           S EYE  91 (94/90)  POW  72 (68/74)  K  53  BABIP  99  GAP 139  SPE  86
+  Pete Incaviglia        R EYE  84 (100/79)  POW 116 (137/110)  K  37  BABIP  84  GAP  62  SPE  47
+  Mark Trumbo            R EYE  37 (37/38)  POW 106 (100/108)  K  65  BABIP  64  GAP  82  SPE  40
+  Vladimir Guerrero      R EYE  62 (68/61)  POW  80 (89/77)  K 101  BABIP  83  GAP 108  SPE 109
+  Fred Lynn              L EYE 119 (102/126)  POW  78 (1/89)  K  62  BABIP  65  GAP  48  SPE  23
+  Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
+  Eliezer J. Alfonzo     R EYE  40 (28/44)  POW  83 (75/86)  K  67  BABIP  67  GAP  84  SPE  23
+  Sammy Sosa             R EYE  46 (66/37)  POW  65 (115/34)  K  36  BABIP  80  GAP  99  SPE 102
+  Nick Fortes            R EYE  50 (53/50)  POW  64 (67/63)  K  98  BABIP  70  GAP  68  SPE  10
+  Eguy Rosario           R EYE  54 (1/63)  POW  44 (90/1)  K  74  BABIP  65  GAP  69  SPE  13
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (59 teams): 4.9 SP / 6.8 RP / 14.1 bats
+  ✓ starters' stamina Tin Can Kincannon 74, Mark Langston 77, Bunny Hearn 55, Joe Saunders 79, Bob Gibson 69 (era floor 50)
+  ✓ stamina guys in the pen (45+): Marco Estrada 68, Kevin Appier 72
+  ✓ C  backup: Eliezer J. Alfonzo 60, Nick Fortes 64
+  ✓ 1B backup: Jeff Kent 80, Stan Hack 77, Mark Trumbo 92
+  ✓ 2B backup: Javier Baez 102, Jeff Kent 63, Eguy Rosario 80
+  ✓ 3B backup: Kid Elberfeld 85, Eguy Rosario 80
+  ✓ SS backup: Javier Baez 88, Kid Elberfeld 83, Eguy Rosario 68
+  ✓ LF backup: Dwayne Hosey 90, Fred Lynn 74, Sammy Sosa 97
+  ✓ CF backup: Vladimir Guerrero 94, Sammy Sosa 80
+  ✓ RF backup: Dwayne Hosey 76, Fred Lynn 69, Sammy Sosa 101
+(23 of 26 have a live ask in the last shop snapshot)
+objective: -176.8 weighted runs (bats 56/44 R/L, SP 1.23, RP 0.48, bench 0.1)
+points: lineup(both boards, 14 bats) 659 · rotation 226 · bullpen 332 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
+   Bob Gibson               pBABIP 44 (fitted 50–175)
+   Todd Jones               pBABIP 37 (fitted 50–175)

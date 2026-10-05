@@ -1,0 +1,121 @@
+
+=== Monday Wonky Historical Slots ===
+2009 RE @ 2026 Coors Field · DH off · value 40–99 · cap none · 26 players
+R/G 5.36  AVG 0.281  OBP 0.351  SLG 0.453  K% 18.0  HR/PA 2.93%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.086 runs · steal break-even 83.0% (0 out) / 80.0% (1 out)
+park: all-LHB lineup 5.29 R/G vs all-RHB 5.41 — 0.12 R/G swing toward RIGHT-handed bats
+
+pool: 875 eligible owned cards — 554 bats (184L / 46S / 324R), 321 arms
+staff weights from wonkyslots's exports: SP 1.27, RP 0.48 (a lineup slot = 1)
+field (wonkyslots, 1 exports): 30% of batters faced thrown left-handed · 45% of PA by left-handed bats · 13.5 bats / 7 SP / 4.9 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 735 of 875 pool cards have innings on record (median 350 PA/BF); K = 5000
+gloves ×0.91: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +4.8  Avoid Ks +3.1  BABIP +2.4  Eye +1.4  Gap +1.1
+                          RHB: Power +5.0  Avoid Ks +3.2  BABIP +2.5  Eye +1.4  Gap +1.1
+                         arms: pHR +1.6  Stuff +1.6  pBABIP +1.4  Control +1.1
+
+optimiser: 9 λ starts hill-climbed; best 182.0 runs vs 154.8 greedy (+27.2), 7 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Mack Eggleston              88  R  1927    +9.8  park:R DEF  73/ 98 -0.5
+R:1B    Rudy York (VAR)             88  R  1943   +14.9  park:R DEF  71/ 71 -0.6
+R:2B    Larry Doby                  98  L  1946   +14.2  park:L DEF  87/ 87 -3.7
+R:3B    Honus Wagner                99  R  1903   +15.4  park:R DEF 114/114 +2.8
+R:SS    Luke Appling                92  R  1936    +9.3  park:R DEF 110/110 +0.4
+R:LF    Al Simmons                  99  R  1930   +18.5  park:R DEF  90/ 90 -0.4
+R:CF    Shoeless Joe Jackson        88  L  1915   +21.8  park:L DEF  66/ 88 -2.4
+R:RF    Chick Stahl                 93  L  1899   +14.0  park:L DEF 126/129 +2.2
+
+--- lineup vs LHP ---
+L:C     Mack Eggleston              88  R  1927   +11.7  park:R DEF  73/ 98 -0.5
+L:1B    Rudy York (VAR)             88  R  1943   +19.9  park:R DEF  71/ 71 -0.6
+L:2B    Larry Doby                  98  L  1946    +9.7  park:L DEF  87/ 87 -3.7
+L:3B    Dave Brain (VAR)            68  R  1907    +6.2  park:R DEF  99/ 99 +1.0
+L:SS    Honus Wagner                99  R  1903   +14.4  park:R DEF 113/114 +0.8
+L:LF    Al Simmons                  99  R  1930   +28.1  park:R DEF  90/ 90 -0.4
+L:CF    Shoeless Joe Jackson        88  L  1915    +9.1  park:L DEF  66/ 88 -2.4
+L:RF    Chick Stahl                 93  L  1899   +14.4  park:L DEF 126/129 +2.2
+
+--- batting order vs RHP --- (5.29 runs/game; The Book's order 5.28)
+  1. Luke Appling SS
+  2. Chick Stahl RF
+  3. Rudy York (VAR) 1B
+  4. Shoeless Joe Jackson CF
+  5. Honus Wagner 3B
+  6. Mack Eggleston C
+  7. Al Simmons LF
+  8. Larry Doby 2B
+  9. Pitcher
+
+--- batting order vs LHP --- (5.30 runs/game; The Book's order 5.27)
+  1. Mack Eggleston C
+  2. Chick Stahl RF
+  3. Rudy York (VAR) 1B
+  4. Al Simmons LF
+  5. Honus Wagner SS
+  6. Shoeless Joe Jackson CF
+  7. Larry Doby 2B
+  8. Dave Brain (VAR) 3B
+  9. Pitcher
+
+--- rotation ---
+SP1     Cy Young                    99  R  1900   +11.3   SP STM 109
+SP2     Sam Jones                   92  R  1921   +10.6   SP STM  82
+SP3     Carl Hubbell                86  R  1928    +8.6   SP STM  81
+SP4     Dizzy Dean                  88  R  1932    +8.3   SP STM  98
+SP5     Dutch Leonard               97  R  1945    +8.2   SP STM  92
+
+--- bullpen ---
+CL      Jakie May (VAR)             72  R  1927    +6.0   SP STM  69
+RP1     Nick Altrock                76  S  1906    +3.6   SP STM  90
+RP2     Dan Bankhead                74  R  1946    +3.3   SP STM  74
+RP3     Fritz Ostermueller          64  L  1944    +3.1   SP STM  98
+RP4     Cool Papa Bell              68  R  1923    +0.0   SP STM  86
+RP5     Hubert Lockhart             75  L  1923    -0.8   SP STM  86
+RP6     Clay Bryant                 66  R  1936    -2.5   RP STM  24
+
+--- bench ---
+BN1     Duke Snider                 73  L  1949    +9.5  park:L
+BN2     Earl Webb                   72  L  1931    +5.6  park:L
+BN3     Dave Brain (VAR)            68  R  1907    +3.8  park:R
+BN4     Biz Mackey                  74  S  1924    +1.8  park:L
+BN5     Tom Brown                   66  L  1891    +1.4  park:L
+BN6     Pat Patterson               67  S  1935    +0.5  park:L
+
+26 players · value 2122 · λ 0.000 · 3 variants
+vs RHP lineup gets the friendly park side in 3 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
+  Honus Wagner           R EYE  79 (72/81)  POW  89 (100/86)  K 165  BABIP 120  GAP 118  SPE  93
+  Rudy York              R EYE 161 (181/154)  POW 179 (204/170)  K  63  BABIP  74  GAP 124  SPE  66
+  Larry Doby             L EYE  87 (90/86)  POW 105 (101/107)  K  72  BABIP 129  GAP 134  SPE  62
+  Chick Stahl            L EYE 112 (90/122)  POW  86 (92/85)  K 149  BABIP 116  GAP 105  SPE  80
+  Mack Eggleston         R EYE 105 (109/104)  POW  88 (91/88)  K  95  BABIP 130  GAP  67  SPE  37
+  Duke Snider            L EYE  71 (58/75)  POW 107 (69/124)  K  59  BABIP  99  GAP  94  SPE  94
+  Luke Appling           R EYE 165 (174/162)  POW  53 (10/62)  K 154  BABIP 154  GAP  82  SPE  64
+  Earl Webb              L EYE  95 (87/98)  POW  78 (91/74)  K  82  BABIP 126  GAP 177  SPE  62
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Biz Mackey             S EYE  58 (55/59)  POW  76 (75/77)  K 110  BABIP 119  GAP 119  SPE  63
+  Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
+  Pat Patterson          S EYE  51 (50/52)  POW  86 (83/88)  K 112  BABIP 114  GAP 114  SPE  74
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (25 teams): 4.9 SP / 7.1 RP / 14.0 bats
+  ✓ starters' stamina Cy Young 109, Sam Jones 82, Carl Hubbell 81, Dizzy Dean 98, Dutch Leonard 92 (era floor 50)
+  ✓ stamina guys in the pen (45+): Jakie May 69, Nick Altrock 90, Dan Bankhead 74, Fritz Ostermueller 98, Cool Papa Bell 86, Hubert Lockhart 86
+  ✓ C  backup: Biz Mackey 71
+  ✓ 1B backup: Shoeless Joe Jackson 73, Honus Wagner 89, Biz Mackey 69
+  ✓ 2B backup: Pat Patterson 85
+  ✓ 3B backup: Honus Wagner 114, Dave Brain 99, Pat Patterson 84
+  ✓ SS backup: Luke Appling 110, Honus Wagner 113, Dave Brain 93, Pat Patterson 72
+  ✓ LF backup: Shoeless Joe Jackson 88, Chick Stahl 129, Tom Brown 68
+  ✓ CF backup: Al Simmons 63, Chick Stahl 111, Duke Snider 116
+  ✓ RF backup: Mack Eggleston 98, Shoeless Joe Jackson 83, Honus Wagner 104, Earl Webb 73, Tom Brown 63
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 182.0 weighted runs (bats 70/30 R/L, SP 1.27, RP 0.48, bench 0.1)
+points: lineup(both boards, 9 bats) 813 · rotation 462 · bullpen 495 · bench-only 352

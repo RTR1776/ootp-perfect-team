@@ -1,0 +1,121 @@
+
+=== Daily Goldfather II ===
+1974 RE @ 1971 Yankee Stadium · DH off · value 40–89 · cap none · 26 players
+R/G 3.90  AVG 0.248  OBP 0.318  SLG 0.356  K% 13.1  HR/PA 1.62%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.082 runs · steal break-even 77.5% (0 out) / 73.9% (1 out)
+park: all-LHB lineup 4.29 R/G vs all-RHB 3.69 — 0.60 R/G swing toward LEFT-handed bats
+
+pool: 3440 eligible owned cards — 1894 bats (623L / 231S / 1040R), 1546 arms
+staff weights from goldfather's exports: SP 1.42, RP 0.41 (a lineup slot = 1)
+field (goldfather, 15 exports): 37% of batters faced thrown left-handed · 43% of PA by left-handed bats · 13.8 bats / 5.5 SP / 5.5 RP per team
+shape: 14 bats / 5 SP / 7 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 2799 of 3440 pool cards have innings on record (median 218 PA/BF); K = 5000
+gloves ×1.03: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.7  BABIP +1.9  Avoid Ks +1.7  Eye +1.3  Gap +0.8
+                          RHB: Power +2.2  BABIP +1.8  Avoid Ks +1.5  Eye +1.3  Gap +0.8
+                         arms: pBABIP +1.1  pHR +1.0  Control +0.9  Stuff +0.8
+
+optimiser: 9 λ starts hill-climbed; best 219.8 runs vs 166.6 greedy (+53.2), 13 moves from λ 0.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Mack Eggleston              88  R  1927    +6.6  park:R DEF  73/ 98 -0.5
+R:1B    Pedro Alvarez               81  L  2013   +42.0  park:L DEF  96/ 96 +2.5
+R:2B    Adam Kennedy                82  L  2002   +10.4  park:L DEF 112/112 -0.2
+R:3B    Hank Thompson               87  L  1953   +14.8  park:L DEF  92/ 92 +0.1
+R:SS    Francisco Lindor            88  S  2024    +8.4  park:L DEF 110/110 +0.5
+R:LF    Shoeless Joe Jackson        88  L  1915   +16.3  park:L DEF  88/ 88 -0.6
+R:CF    Lee Thomas (VAR)            77  L  1962   +16.5  park:L DEF  73/ 93 -2.4
+R:RF    Bo Jackson                  88  R  1989   +22.2  park:R DEF 123/123 +2.2
+
+--- lineup vs LHP ---
+L:C     Mike Zunino                 75  R  2021   +21.4  park:R DEF  77/ 77 -0.4
+L:1B    Shoeless Joe Jackson        88  L  1915   +10.8  park:L DEF  73/ 88 -0.5
+L:2B    Randy Ready                 77  R  1987   +16.9  park:R DEF 115/115 +0.3
+L:3B    Chris Sabo                  66  R  1990   +22.8  park:R DEF  77/ 77 -1.9
+L:SS    Zack Cozart                 83  R  2017   +13.2  park:R DEF  97/ 97 -1.4
+L:LF    Curtis Granderson           87  L  2011   +11.0  park:L DEF 113/117 +1.4
+L:CF    Bo Jackson                  88  R  1989   +15.1  park:R DEF 103/123 -0.6
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +17.9  park:R DEF 149/149 +4.5
+
+--- batting order vs RHP --- (4.08 runs/game; The Book's order 4.07)
+  1. Hank Thompson 3B
+  2. Francisco Lindor SS
+  3. Lee Thomas (VAR) CF
+  4. Pedro Alvarez 1B
+  5. Shoeless Joe Jackson LF
+  6. Mack Eggleston C
+  7. Adam Kennedy 2B
+  8. Bo Jackson RF
+  9. Pitcher
+
+--- batting order vs LHP --- (3.78 runs/game; The Book's order 3.77)
+  1. Randy Ready 2B
+  2. Bo Jackson CF
+  3. Curtis Granderson LF
+  4. Chris Sabo 3B
+  5. Shoeless Joe Jackson 1B
+  6. Zack Cozart SS
+  7. Mike Zunino C
+  8. Jeff Francoeur (VAR) RF
+  9. Pitcher
+
+--- rotation ---
+SP1     J.A. Happ                   87  L  2015   +10.3   SP STM  62
+SP2     Jim Kaat (VAR)              87  L  1967    +9.8   SP STM  78
+SP3     Raisel Iglesias             80  R  2015    +8.2   SP STM  69
+SP4     Jake Peavy                  83  R  2004    +7.9   SP STM  71
+SP5     Dizzy Dean                  88  R  1932    +7.7   SP STM  98
+
+--- bullpen ---
+CL      Chad Bradford               74  R  2006    +9.4   RP STM  11
+RP1     Dave Righetti               85  L  1986    +9.1   CL STM  49
+RP2     Gary Lucas                  86  L  1986    +8.5   RP STM  24
+RP3     Javier Lopez                80  L  2010    +7.8   RP STM   9
+RP4     Carl Hubbell                86  R  1928    +7.6   SP STM  81
+RP5     Steve Hamilton (VAR)        89  L  1965    +7.1   RP STM  19
+RP6     Dave Stieb (VAR)            89  R  1990    +7.1   SP STM  78
+
+--- bench ---
+BN1     Curtis Granderson           87  L  2011   +12.9  park:L
+BN2     Zack Cozart                 83  R  2017    +1.3  park:R
+BN3     Randy Ready                 77  R  1987    +0.1  park:R
+BN4     Chris Sabo                  66  R  1990    -4.5  park:R
+BN5     Jeff Francoeur (VAR)        81  R  2005    -6.9  park:R
+BN6     Mike Zunino                 75  R  2021   -18.2  park:R
+
+26 players · value 2162 · λ 0.000 · 5 variants
+vs RHP lineup gets the friendly park side in 6 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
+  Curtis Granderson      L EYE 160 (94/184)  POW 145 (158/141)  K  78  BABIP  91  GAP  98  SPE 106
+  Adam Kennedy           L EYE  48 (40/51)  POW 114 (90/124)  K  87  BABIP 138  GAP  96  SPE  66
+  Francisco Lindor       S EYE 110 (98/115)  POW 126 (138/122)  K  99  BABIP 101  GAP 109  SPE  61
+  Mack Eggleston         R EYE 105 (109/104)  POW  88 (91/88)  K  95  BABIP 130  GAP  67  SPE  37
+  Zack Cozart            R EYE 115 (114/115)  POW 102 (112/99)  K 100  BABIP 100  GAP  80  SPE  56
+  Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (344 teams): 4.9 SP / 6.6 RP / 14.2 bats
+  ✓ starters' stamina J.A. Happ 62, Jim Kaat 78, Raisel Iglesias 69, Jake Peavy 71, Dizzy Dean 98 (era floor 60)
+  ✓ stamina guys in the pen (45+): Dave Righetti 49, Carl Hubbell 81, Dave Stieb 78
+  ✓ C  backup: Mack Eggleston 73, Mike Zunino 77
+  ✓ 1B backup: Lee Thomas 91, Pedro Alvarez 96, Shoeless Joe Jackson 73
+  ✓ 2B backup: Adam Kennedy 112, Hank Thompson 88, Randy Ready 115
+  ✓ 3B backup: Hank Thompson 92, Pedro Alvarez 75, Zack Cozart 94, Randy Ready 91, Chris Sabo 77
+  ✓ SS backup: Francisco Lindor 110, Zack Cozart 97
+  ✓ LF backup: Hank Thompson 85, Lee Thomas 93, Bo Jackson 116, Shoeless Joe Jackson 88, Curtis Granderson 113
+  ✓ CF backup: Hank Thompson 63, Lee Thomas 73, Bo Jackson 103, Shoeless Joe Jackson 66, Curtis Granderson 89
+  ✓ RF backup: Mack Eggleston 98, Hank Thompson 79, Lee Thomas 86, Bo Jackson 123, Shoeless Joe Jackson 83, Jeff Francoeur 149, Curtis Granderson 117
+(21 of 26 have a live ask in the last shop snapshot)
+objective: 219.8 weighted runs (bats 63/37 R/L, SP 1.42, RP 0.41, bench 0.1)
+points: lineup(both boards, 14 bats) 1148 · rotation 425 · bullpen 589 · bench-only 0

@@ -1,0 +1,128 @@
+
+=== Daily Iron Dreamland ===
+1907 RE @ 1886 Swampoodle Grounds · DH off · value —–59 · cap none · 26 players
+R/G 3.36  AVG 0.238  OBP 0.296  SLG 0.302  K% 9.8  HR/PA 0.28%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.187 runs · steal break-even 73.2% (0 out) / 68.5% (1 out)
+park: all-LHB lineup 3.36 R/G vs all-RHB 3.36 — 0.00 R/G swing toward RIGHT-handed bats
+
+pool: 1294 eligible owned cards — 699 bats (192L / 87S / 420R), 595 arms
+!! no exports on record for series irondreamland — shape and handedness fall back to the era table
+shape: 19 bats / 4 SP / 3 RP (deadball) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1146 of 1294 pool cards have innings on record (median 152 PA/BF); K = 5000
+gloves ×1.17: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: BABIP +1.7  Eye +0.9  Avoid Ks +0.9  Gap +0.9  Power +0.4
+                          RHB: BABIP +1.7  Eye +0.9  Avoid Ks +0.9  Gap +0.9  Power +0.4
+                         arms: pBABIP +1.0  Control +0.6  Stuff +0.5  pHR +0.2
+
+optimiser: 8 λ starts hill-climbed; best -72.6 runs vs -124.5 greedy (+51.8), 18 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ted Easterly                58  L  1910    -4.8  park:L DEF  62/ 62 -1.0
+R:1B    Broderick Perkins           57  L  1980    +4.0  park:L DEF  61/ 61 -2.3
+R:2B    Nap Lajoie                  50  R  1905    -9.0  park:R DEF 114/114 +0.1
+R:3B    Jim Tabor                   54  R  1939    -9.3  park:R DEF  69/ 69 -3.4
+R:SS    Kid Elberfeld (VAR)         47  R  1903   -13.2  park:R DEF  83/ 85 -3.9
+R:LF    Milt Thompson               58  L  1989   -11.4  park:L DEF 121/121 +2.4
+R:CF    Lou Brock                   51  L  1962    -6.4  park:L DEF  69/ 69 -2.9
+R:RF    Bob Bowman                  55  R  1957    -2.9  park:R DEF  64/ 65 -3.4
+
+--- lineup vs LHP ---
+L:C     Cal McVey (VAR)             47  R  1879   -20.8  park:R DEF  61/ 85 -1.1
+L:1B    Scoops Carey (VAR)          52  R  1902    -3.9  park:R DEF  61/ 61 -2.3
+L:2B    Dan Uggla                   59  R  2006    -3.6  park:R DEF  81/ 81 -5.8
+L:3B    Kid Elberfeld (VAR)         47  R  1903    -8.2  park:R DEF  85/ 85 -0.9
+L:SS    Freddy Galvis (VAR)         58  S  2019    -8.6  park:R DEF 113/129 +1.0
+L:LF    Andruw Jones (VAR)          57  R  2011   +13.2  park:R DEF 103/103 +0.7
+L:CF    Dwayne Hosey                49  S  1995    -2.1  park:R DEF  71/ 90 -2.8
+L:RF    Dexter Fowler               53  S  2010   -10.2  park:R DEF  76/ 76 -2.2
+
+--- batting order vs RHP --- (2.52 runs/game; The Book's order 2.52)
+  1. Bob Bowman RF
+  2. Kid Elberfeld (VAR) SS
+  3. Milt Thompson LF
+  4. Broderick Perkins 1B
+  5. Nap Lajoie 2B
+  6. Ted Easterly C
+  7. Lou Brock CF
+  8. Jim Tabor 3B
+  9. Pitcher
+
+--- batting order vs LHP --- (2.55 runs/game; The Book's order 2.54)
+  1. Andruw Jones (VAR) LF
+  2. Dexter Fowler RF
+  3. Dan Uggla 2B
+  4. Dwayne Hosey CF
+  5. Kid Elberfeld (VAR) 3B
+  6. Cal McVey (VAR) C
+  7. Scoops Carey (VAR) 1B
+  8. Freddy Galvis (VAR) SS
+  9. Pitcher
+
+--- rotation ---
+SP1     James McDonald (VAR)        55  L  2010    +6.7   SP STM  59
+SP2     Justin Verlander            58  R  2006    +1.2   SP STM  83
+SP3     Marco Estrada               49  R  2015    -0.0   SP STM  68
+SP4     Bullet Campbell             56  R  1926    -2.1   SP STM  75
+
+--- bullpen ---
+CL      Todd Jones (VAR)            43  L  2000    +5.6   CL STM  17
+RP1     Mike Marshall               57  R  1973    +0.3   CL STM  74
+RP2     Erick Fedde                 51  R  2026    -1.9   RP STM  90
+
+--- bench ---
+BN1     Dwayne Hosey                49  S  1995   -13.5  park:L
+BN2     Todd Walker                 55  L  2003    +0.2  park:L
+BN3     Jay Bruce                   58  L  2017    -7.4  park:L
+BN4     Scoops Carey (VAR)          52  R  1902   -17.8  park:R
+BN5     Dexter Fowler               53  S  2010   -13.6  park:L
+BN6     Lenny Harris                52  L  2000    -6.5  park:L
+BN7     Cal McVey (VAR)             47  R  1879   -25.7  park:R
+BN8     George Sisler (VAR)         48  L  1928    +5.1  park:L
+BN9     Freddy Galvis (VAR)         58  S  2019   -23.9  park:L
+BN10    Dan Uggla                   59  R  2006   -18.6  park:R
+BN11    Andruw Jones (VAR)          57  R  2011   -30.5  park:R
+
+26 players · value 1387 · λ 1.000 · 8 variants
+vs RHP lineup gets the friendly park side in 4 of 8 spots
+
+--- order inputs (rostered bats) ---
+  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
+  Broderick Perkins      L EYE  80 (67/84)  POW  67 (1/77)  K  88  BABIP 102  GAP  94  SPE  52
+  Todd Walker            L EYE  87 (80/90)  POW  61 (66/59)  K 163  BABIP  96  GAP  97  SPE  28
+  Bob Bowman             R EYE  92 (112/87)  POW  63 (69/62)  K  81  BABIP 128  GAP  62  SPE  18
+  Ted Easterly           L EYE  58 (54/60)  POW   1 (1/1)  K  97  BABIP  97  GAP  87  SPE  67
+  Lou Brock              L EYE  66 (53/70)  POW  64 (47/68)  K  71  BABIP  93  GAP 108  SPE  77
+  Lenny Harris           L EYE  77 (10/88)  POW  41 (10/48)  K 103  BABIP  91  GAP  69  SPE  92
+  Jay Bruce              L EYE 104 (100/106)  POW  94 (40/110)  K  70  BABIP  65  GAP  87  SPE  22
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Jim Tabor              R EYE  60 (68/55)  POW 108 (88/117)  K  92  BABIP  72  GAP  82  SPE  66
+  Milt Thompson          L EYE  81 (42/90)  POW  33 (23/36)  K  90  BABIP 130  GAP  81  SPE 107
+  Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
+  Dwayne Hosey           S EYE  91 (94/90)  POW  72 (68/74)  K  53  BABIP  99  GAP 139  SPE  86
+  Dexter Fowler          S EYE  99 (128/93)  POW  42 (8/50)  K  63  BABIP 102  GAP  96  SPE 101
+  Scoops Carey           R EYE  59 (46/63)  POW  25 (23/26)  K 116  BABIP  83  GAP 162  SPE  59
+  Dan Uggla              R EYE  87 (88/87)  POW 107 (74/122)  K  66  BABIP  89  GAP  73  SPE  57
+  Freddy Galvis          S EYE  51 (25/59)  POW  92 (66/100)  K  74  BABIP  96  GAP  77  SPE  35
+  Cal McVey              R EYE  65 (67/65)  POW  11 (11/11)  K 125  BABIP  80  GAP  81  SPE  67
+  Andruw Jones           R EYE 137 (119/143)  POW 130 (117/134)  K  46  BABIP  70  GAP  37  SPE  42
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 3 RP / 19 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✗ starters' stamina James McDonald 59, Justin Verlander 83, Marco Estrada 68, Bullet Campbell 75 (era floor 80) — SHORT: James McDonald, Marco Estrada, Bullet Campbell
+  ✓ stamina guys in the pen (45+): Mike Marshall 74, Erick Fedde 90
+  ✓ C  backup: Ted Easterly 62, Cal McVey 61
+  ✓ 1B backup: Nap Lajoie 96, Broderick Perkins 61, Cal McVey 60, Scoops Carey 61, Lenny Harris 67
+  ✓ 2B backup: Nap Lajoie 114, Freddy Galvis 129, Dan Uggla 81
+  ✓ 3B backup: Kid Elberfeld 85, Jim Tabor 69
+  ✓ SS backup: Kid Elberfeld 83, Freddy Galvis 113
+  ✓ LF backup: Bob Bowman 65, Milt Thompson 121, Dwayne Hosey 90, Andruw Jones 103, Lenny Harris 65
+  ✓ CF backup: Lou Brock 69, Milt Thompson 114, Cal McVey 70, Dwayne Hosey 71, Dexter Fowler 64
+  ✓ RF backup: Bob Bowman 64, Milt Thompson 111, Cal McVey 85, Dwayne Hosey 76, Dexter Fowler 76, Andruw Jones 87, Jay Bruce 73, Lenny Harris 61
+(24 of 26 have a live ask in the last shop snapshot)
+objective: -72.6 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 15 bats) 805 · rotation 218 · bullpen 151 · bench-only 213
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Todd Jones               pBABIP 37 (fitted 50–175)
