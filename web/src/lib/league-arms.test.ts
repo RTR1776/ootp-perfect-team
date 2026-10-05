@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { addArm, armKey, blendArm, ipPerSlotFrom, leagueArmRatings, poolArmEdges, roleOf, staffSolve, variantFace, type ArmRow, type ArmSide, type StaffArm } from "./league-arms";
+import { addArm, armKey, dropSuperseded, blendArm, ipPerSlotFrom, leagueArmRatings, poolArmEdges, roleOf, staffSolve, variantFace, type ArmRow, type ArmSide, type StaffArm } from "./league-arms";
 
 const line = (o: Partial<ArmRow> & { snapshotId: number; name: string; ip: number; k: number; bb: number; hr: number; gs?: number; g?: number }): ArmRow => ({
   league: "HD451", capturedOn: "2026-09-20", org: o.org ?? "Team A", isFreeAgent: false, cid: o.cid ?? null, isVariant: o.isVariant ?? false, pos: o.pos ?? "SP",
@@ -239,4 +239,9 @@ test("a card's ratings come from its newest week; two exports of that week take 
     assert.equal(e.ratings?.["Control vL"], 140, "HD451's 6 doesn't win");
     assert.equal(e.ratings?.["Stuff vL"], 150);
   }
+});
+
+test("a mid-season upload is dropped when the same league was captured again that week", () => {
+  const s = [{ league: "HD452", on: "2026-10-01" }, { league: "HD452", on: "2026-10-04" }, { league: "HD451", on: "2026-10-04" }, { league: "HD452", on: "2026-09-27" }];
+  assert.deepEqual(dropSuperseded(s).map((x) => `${x.league} ${x.on}`), ["HD452 2026-10-04", "HD451 2026-10-04", "HD452 2026-09-27"], "09-27 ended the week before: its own season");
 });

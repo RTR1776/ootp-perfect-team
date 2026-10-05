@@ -48,3 +48,33 @@ No cheap catcher helps: base Ethan Salas adds 0. The VARs aren't for sale; the n
 - Season value vs RHP (53% of games): +3 runs if Bailey (VAR) hits like his ratings (+5.1), +8 if he hits like his league record (−4.2 over 1,126 PA). The model's best use is DH vs RHP over Matsui (+2.8); catching gives about the same.
 - Per 100k: Jansen ≈ 4 runs; Yogi ≈ 0.8–2; Plank ≈ 1.6.
 - Sell candidates (on no saved tourney roster and not on the league team; 10-04 buy orders): Beltran 175k, Sam McDowell 118k, Vida Blue 99k, Hornsby 85k, Chris Davis 80k (~557k). Check tourney use first.
+
+## Refit with every league of the 10-04 week (PEL in, 10-04 evening)
+- League model refit on 10 weeks (`league:panel` → `league-fit.py` → `fit:arms`). Each card held out: r 0.929; each week held out: r 0.852. The 10-01 mid-season HD452 upload is now dropped as part of the 10-04 season (`dropSuperseded`, `lib/league-arms.ts`), so no season counts twice.
+- Park: unchanged against the HD field alone. 1987 Yankee Stadium +2.2, 1952 Yankee Stadium +2.0 (chosen), Candlestick +1.1, 1949 Polo Grounds +1.0, Tropicana −1.0.
+- Yogi (87069): the refit model has him at +15.8 vs RHP and −7.7 vs LHP; Bailey VAR at +1.5 / −49.4. **His first week of HD play: +34 per 700 PA vs RHP over 809 PA** (HD450/452/453) and −10 vs LHP over 252 PA. Catching him against righties instead of Bailey is worth about +4 runs a season on the model alone, and about +10 (one win) once his actual HD results are counted.
+- Arms, pooled with PEL: Jansen +5.7 per 200 IP over 24,725 IP (99.5k), Plank +4.9 (225k), Madson +8.6 over 532 IP (41k, small sample), Chapman +3.6. Stieb −3.2: off.
+
+## Decision (L.J., 10-04 evening)
+- Holding a 400k buy order on Yogi (87069) so the roster is set for the week. Gibson VAR (400k, ≈ +9 runs, about even with Yogi) passed on. Beltran, Chris Davis sold; Chipper listed at 60k.
+- League roster once Yogi lands: C Yogi vs RHP / Gibson vs LHP; Matsui DH both; Bailey off. Bench Gibson/Yogi, Boone, Ott, Wood, Piazza VAR (PH only). Rotation Cliff Lee VAR, Hershiser, Cy Young VAR, Sabathia, Saberhagen; pen W. Hernandez (CL), Britton, Kimbrel, Nen, Palencia VAR, Gossage, Haddix (long). Stieb and Fossas off. Park 1952 Yankee Stadium.
+- To do after Yogi is bought and the collection is re-uploaded: update `web/src/data/league-team.json`.
+
+## Other buys while the Yogi order waits (L.J.'s list, 10-04 late)
+Season runs for next HD week in 1952 Yankee Stadium, against the roster with Yogi on it. Arms: pooled HD+PEL runs saved per 200 IP (shrunk +150 IP), at about 65 IP for a reliever and 190 for a starter, and the pen at ×1.3 for leverage. Bats: `league-compare --league HD452`, checked against each card's pooled league record (runs per 700 PA, shrunk +300 PA).
+
+| Card | Price | League record | Replaces | Season runs | Runs/100k |
+|---|---|---|---|---|---|
+| Yogi Berra (87069), BO held | 400k | +25 vs RHP over 809 PA | Bailey VAR at C vs RHP | +4 model, ≈ +10 with his record | 1–2.5 |
+| Kenley Jansen | ~120 CS | +5.7 over 24,725 IP (vR specialist) | Palencia VAR | ≈ +1.5 | no PP |
+| **Eddie Plank** (base) | 250k | +4.9 over 18,832 IP; pHR 161, Movement 150, low K | Saberhagen (+1.7) | ≈ +3 to +3.5; the low-AVG park and fewer RHB homers suit a contact lefty | ≈ 1.3 |
+| **Jose Canseco** | ~200k | +12.8 vs LHP (3,006 PA), +19.7 vs RHP (3,326 PA) | De Vries vs LHP (Canseco RF, Soto LF, Manush CF, Aaron 1B) | model +3.6 (vs LHP only); ≈ +3 after the park cuts RHB HR | ≈ 1.5 |
+| Kirby Yates | ~350k | +10.1 over 4,507 IP; Stuff 165, pHR 171, both sides | Nen base (+2.8) | ≈ +3.3 | ≈ 0.95 |
+| Kevin Mitchell (base) | ~150k | +26.4 vs LHP, −7.4 vs RHP | Matsui at DH vs LHP | model +1.0, ≈ +2 with his record; a RHB, so the park hurts | ≈ 1 |
+| Tom Henke VAR | 111k | +3.4 over 508 IP (base −2.5 over 12,772) | Gossage (+2.1), who is also a long man | ≈ +0.5 | 0.4 |
+| Bryan Harvey | 160k | +2.1 over 189 IP; LHB killer (Stuff vL 192) but pHR vR 80 | — | ≈ 0; too little data | — |
+| Whitey Ford VAR | 250k | −1.6 over 1,350 IP (base −1.1 over 17,774) | — | negative | — |
+| Henry Kimbro | ~150k | −0.5 over 6,412 PA | — | 0, makes neither lineup | — |
+| Alex Rodriguez | 99k | −2.5 over 86,316 PA | — | 0, makes neither lineup | — |
+
+Call: keep the Yogi order and get Jansen with CS. If Yogi hasn't filled when the week starts, buy Plank first, then Canseco (~450k for both, ≈ +6 runs). Yates is the best arm on the list but the worst per PP of the good ones. Pass on Henke VAR, Ford VAR, Harvey, Kimbro, A-Rod and Mitchell.

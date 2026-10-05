@@ -36,6 +36,7 @@
  * theme week at that environment's price.
  */
 import { mkdirSync, readdirSync, readFileSync, writeFileSync, statSync, existsSync } from "node:fs";
+import { dropSuperseded } from "@/lib/league-arms";
 import { dirname, join } from "node:path";
 import { sql } from "drizzle-orm";
 import { parseCsv, num } from "@/lib/ingest/csv";
@@ -102,7 +103,9 @@ async function main() {
     const snaps = asRows(await db.execute(sql`
       select distinct on (captured_on, league, split) id, captured_on::text wk, league, split
       from league_snapshots where split in ('vL', 'vR') order by captured_on, league, split, id desc`));
-    for (const s of snaps) {
+    // One season once: a mid-season upload is dropped when the same league was captured again within the week.
+    const bySplit = (sp: string) => dropSuperseded(snaps.filter((s: any) => s.split === sp).map((s: any) => ({ ...s, on: String(s.wk) }))) as any[];
+    for (const s of [...bySplit("vL"), ...bySplit("vR")]) {
       const key = `${s.wk}|${s.league}|${s.split}`;
       if (!jobs.has(key)) jobs.set(key, { week: s.wk, league: s.league, split: s.split, src: "db", snapshotId: Number(s.id) });
     }
