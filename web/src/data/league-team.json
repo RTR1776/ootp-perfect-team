@@ -1,19 +1,19 @@
 {
-  "asOf": "2026-09-29",
-  "from": "Claude's HD452 plan of 2026-09-29, which L.J. adopted ('update'): Matsui, Josh Gibson (C vs LHP) and Tony Fossas (VAR) in; Piazza, Vida Blue and Stieb out; De Vries to 2B vs RHP; Sabathia into the rotation. Lineups from the league model with gloves in runs, batting order from lib/batting-order",
+  "asOf": "2026-10-05",
+  "from": "Claude's HD best 26 of 2026-10-05, from the whole collection (upload of 10-03) with no Yogi or Brett: league model, gloves in runs, 1952 Yankee Stadium, arms on pooled HD+PEL play. Pop Lloyd at 3B vs RHP, Willie Mays in CF vs LHP, Willie Hernandez closing; Wood, Jenkins, Piazza and Fossas off. Batting order from lib/batting-order",
   "family": "HD",
   "bats": [
     "Ed Bailey#86637",
     "Josh Gibson#86252",
-    "Bret Boone#86701",
-    "Scott Rolen#86405",
-    "Brandon Wood#86593",
-    "Ernie Banks#86621",
+    "Hank Aaron#86655",
     "Leodalis De Vries#84724",
+    "Pop Lloyd#86896",
+    "Scott Rolen#86405",
+    "Bret Boone#86701",
+    "Ernie Banks#86621",
     "Heinie Manush#86370",
     "Richard Hidalgo#86707",
-    "Walker Jenkins#84735",
-    "Hank Aaron#86655",
+    "Willie Mays#86634",
     "Mel Ott#86272",
     "Juan Soto#87013",
     "Hideki Matsui#87042"
@@ -24,12 +24,12 @@
     "Cy Young#86572",
     "CC Sabathia#86350",
     "Bret Saberhagen#86915",
+    "Willie Hernandez#86914",
     "Zack Britton#86426",
     "Craig Kimbrel#85467",
     "Daniel Palencia#84613",
     "Rich Gossage#85046",
     "Robb Nen#83906",
-    "Tony Fossas#83324",
     "Harvey Haddix#86623"
   ],
   "lineups": {
@@ -37,12 +37,12 @@
       "DH": "Hideki Matsui#87042",
       "RF": "Juan Soto#87013",
       "C": "Ed Bailey#86637",
-      "CF": "Richard Hidalgo#86707",
       "SS": "Ernie Banks#86621",
-      "1B": "Brandon Wood#86593",
-      "3B": "Scott Rolen#86405",
+      "CF": "Richard Hidalgo#86707",
+      "1B": "Hank Aaron#86655",
       "2B": "Leodalis De Vries#84724",
-      "LF": "Heinie Manush#86370"
+      "LF": "Heinie Manush#86370",
+      "3B": "Pop Lloyd#86896"
     },
     "vL": {
       "RF": "Juan Soto#87013",
@@ -50,9 +50,9 @@
       "DH": "Hideki Matsui#87042",
       "1B": "Hank Aaron#86655",
       "2B": "Bret Boone#86701",
-      "CF": "Mel Ott#86272",
-      "C": "Josh Gibson#86252",
+      "CF": "Willie Mays#86634",
       "LF": "Heinie Manush#86370",
+      "C": "Josh Gibson#86252",
       "3B": "Scott Rolen#86405"
     }
   },
@@ -62,12 +62,12 @@
     "SP3": "Cy Young#86572",
     "SP4": "CC Sabathia#86350",
     "SP5": "Bret Saberhagen#86915",
-    "CL": "Zack Britton#86426",
-    "RP1": "Craig Kimbrel#85467",
-    "RP2": "Daniel Palencia#84613",
-    "RP3": "Rich Gossage#85046",
-    "RP4": "Robb Nen#83906",
-    "RP5": "Tony Fossas#83324",
+    "CL": "Willie Hernandez#86914",
+    "RP1": "Zack Britton#86426",
+    "RP2": "Craig Kimbrel#85467",
+    "RP3": "Daniel Palencia#84613",
+    "RP4": "Rich Gossage#85046",
+    "RP5": "Robb Nen#83906",
     "RP6": "Harvey Haddix#86623"
   }
 }
