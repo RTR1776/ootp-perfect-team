@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   EMPTY_BOARD, boardContent, boardDiff, boardKey, boardReducer, diffText, droppedNote, parseSaved, restoreBoard,
-  runsText, sameBoard, slotKeys, toSaved, whereIs, type BoardState,
+  runsText, sameBoard, savedRosterBoard, slotKeys, toSaved, whereIs, type BoardState,
 } from "./build-board";
 
 const LINEUP = ["C", "1B", "SS"];
@@ -100,4 +100,20 @@ test("a change in runs reads before, after and the difference", () => {
   assert.equal(runsText(311.4, 359.5), "+311.4 → +359.5 runs (+48.1)");
   assert.equal(runsText(12, -3.04), "+12.0 → −3.0 runs (−15.0)");
   assert.equal(runsText(null, 3), "");
+});
+
+test("a saved roster opens as the board: its keys, forms and counts", () => {
+  const b = savedRosterBoard([
+    { cardId: 1, slot: "C", versusHand: "R", useVariant: false },
+    { cardId: 2, slot: "C", versusHand: "L", useVariant: true },
+    { cardId: 3, slot: "SP1", versusHand: "both", useVariant: false },
+    { cardId: 4, slot: "SP5", versusHand: "both", useVariant: false },
+    { cardId: 5, slot: "CL", versusHand: "both", useVariant: false },
+    { cardId: 6, slot: "RP6", versusHand: "both", useVariant: false },
+    { cardId: 2, slot: "BN4", versusHand: "both", useVariant: true },
+  ], 123, { 1: "A" });
+  assert.deepEqual(b.slots, { "R:C": 1, "L:C": 2, SP1: 3, SP5: 4, CL: 5, RP6: 6, BN4: 2 });
+  assert.deepEqual(b.counts, { bench: 4, sp: 5, rp: 7 }, "the closer is one of the 7 relievers");
+  assert.equal(b.forms[2], true);
+  assert.equal(b.savedAt, 123);
 });

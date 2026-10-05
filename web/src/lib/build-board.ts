@@ -164,6 +164,31 @@ export interface Restored { slots: Slots; forms: Record<number, boolean>; adj: C
  * has (the event dropped its DH). Choices of copy are kept for cards still
  * in the pool.
  */
+/**
+ * A roster saved on /build (or from the cloud, roster:save) as the board this
+ * page keeps, so restoreBoard can open on it: slot keys as the board names
+ * them ("R:C", "SP1", "BN2"), and the counts the roster itself carries.
+ */
+export function savedRosterBoard(
+  slots: readonly { cardId: number; slot: string; versusHand: string | null; useVariant: boolean }[],
+  savedAt: number,
+  names: Record<number, string> = {},
+): SavedBoard {
+  const out: Record<string, number> = {};
+  const forms: Record<number, boolean> = {};
+  let bench = 0, sp = 0, rp = 0;
+  for (const s of slots) {
+    const key = s.versusHand === "R" || s.versusHand === "L" ? `${s.versusHand}:${s.slot}` : s.slot;
+    out[key] = s.cardId;
+    forms[s.cardId] = s.useVariant;
+    const n = Number(/\d+$/.exec(key)?.[0] ?? 0);
+    if (/^BN\d+$/.test(key)) bench = Math.max(bench, n);
+    if (/^SP\d+$/.test(key)) sp = Math.max(sp, n);
+    if (/^RP\d+$/.test(key)) rp = Math.max(rp, n);
+  }
+  return { v: 1, slots: out, forms, counts: { bench, sp, rp: rp + (out.CL != null ? 1 : 0) }, names, savedAt };
+}
+
 export function restoreBoard(
   saved: SavedBoard,
   ctx: { inPool: (id: number) => boolean; baseline: Counts; lineupPos: readonly string[] },

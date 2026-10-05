@@ -37,7 +37,7 @@ import { dismissToast, toast, type ToastInput } from "@/components/ui/toast";
 import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillResult, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
 import { BACKUP_PENALTY, backupPositions, missingBackups } from "@/lib/roster-optimize";
-import { auditRoster, orderStaff } from "@/lib/roster-audit";
+import { auditRoster, auditSummary, orderStaff } from "@/lib/roster-audit";
 import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
 import { hitterRates } from "@/lib/analytics/card-value";
 import { calibrationSlope } from "@/lib/analytics/calibration";
@@ -53,7 +53,7 @@ import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { date, ip, signed, stamp } from "@/lib/format";
 import {
   EMPTY_BOARD, NO_ADJ, benchKeysOf, boardContent, boardDiff, boardKey, boardReducer, clampCount, diffText, droppedNote,
-  parseSaved, restoreBoard, rpKeysOf, runsText, slotKeys, spKeysOf, toSaved,
+  parseSaved, restoreBoard, rpKeysOf, runsText, savedRosterBoard, slotKeys, spKeysOf, toSaved,
   type BoardAction, type BoardDiff, type Counts, type Slots,
 } from "@/lib/build-board";
 import { useUndoable, useUndoKeys } from "@/lib/use-undoable";
@@ -219,6 +219,10 @@ interface SavedRoster {
   id: number;
   name: string;
   slots: RosterSlot[];
+  /** Epoch ms of its last save. */
+  savedAt?: number;
+  /** The newest "Claude pick" for this event: the board the page opens on unless his own is newer. */
+  recommended?: boolean;
   /** Saved against an older collection: its day, and the cards owned since that this event takes (lib/saved-roster-freshness). */
   builtOn?: string | null;
   newCards?: { cardId: number; variant: boolean }[];
@@ -907,6 +911,9 @@ export function RosterBuilder({
   /** Reset to recommended: the greedy fill, as one step with a toast of what changed. */
   const autoFill = () => {
     if (!tournament) return;
+    // The recommended roster is Claude's newest pick for this event when there is one; else the greedy fill.
+    const rec = savedRosters.find((r) => r.recommended);
+    if (rec) { loadSaved(rec); return; }
     const fill = computeFill();
     const note = lockNote(fill);
     bulk({ type: "set", next: { slots: fill.next }, label: "Reset to recommended" }, {
@@ -1259,6 +1266,40 @@ export function RosterBuilder({
     const savedLocks = readLocks(id);
     const setList = restoreSets(savedLocks.sets);
     const kept = basePool.length ? readBoard(id) : null;
+    /* The recommended roster (Claude's newest pick for this event) opens when it
+       is newer than his own board here: L.J. 10-05, "I want to be able to open
+       the builder and see the recommended roster based on current cards - then
+       when new cards, I can optimize." His board is one click away. */
+    const rec = basePool.length ? savedRosters.find((r) => r.recommended) : undefined;
+    if (rec && (!kept || (rec.savedAt ?? 0) > kept.savedAt)) {
+      const ids = new Set(basePool.map((c) => c.cardId));
+      const names = Object.fromEntries(rec.slots.map((s) => [s.cardId, byId.get(s.cardId)?.name ?? `#${s.cardId}`]));
+      const r = restoreBoard(savedRosterBoard(rec.slots, rec.savedAt ?? 0, names), { inPool: (cid) => ids.has(cid), baseline, lineupPos });
+      const next = { tid: id, slots: r.slots, forms: r.forms, adj: r.adj, sets: setList };
+      resetBoard(next);
+      lastKept.current = JSON.stringify(boardContent(next, slotKeys(lineupPos, r.counts), r.counts));
+      inited.current = id;
+      const note = droppedNote(r.dropped);
+      const fresh = newCardsLine(rec);
+      const opened = toast({
+        message: `Opened the recommended roster, “${rec.name}”.${fresh ? ` Since it was built you've got ${fresh}: Optimise to see what they add.` : ""}${note ? ` ${note}` : ""}`,
+        action: kept ? {
+          label: "Use my board",
+          onClick: () => {
+            if (lastTid.current !== id) return;
+            const mine = restoreBoard(kept, { inPool: (cid) => ids.has(cid), baseline, lineupPos });
+            latest.current.bulk({ type: "set", next: { slots: mine.slots, forms: mine.forms, adj: mine.adj }, label: "Your board" }, {
+              say: ({ runs, inOut }) => `Your board from ${stamp(kept.savedAt)}${runs ? `: ${runs}` : ""}. ${inOut}`,
+              same: "Your board is already on it.",
+            });
+          },
+        } : undefined,
+        duration: note || fresh ? 0 : undefined,
+      });
+      if (note) removedNote.current = opened;
+      else notice.current = opened;
+      return;
+    }
     if (kept) {
       const ids = new Set(basePool.map((c) => c.cardId));
       const r = restoreBoard(kept, { inPool: (cid) => ids.has(cid), baseline, lineupPos });
@@ -1604,8 +1645,10 @@ export function RosterBuilder({
             {[
               tournament.environment?.eraLabel ?? (tournament.envYear ? `era ${tournament.envYear}` : "PT default era"),
               tournament.stadium,
-              tournament.park?.hr != null ? `park HR ×${tournament.park.hr.toFixed(2)}` : null,
-              tournament.park?.avg != null ? `AVG ×${tournament.park.avg.toFixed(2)}` : null,
+              tournament.environment?.runsPerGame != null ? `${tournament.environment.runsPerGame.toFixed(2)} R/G` : null,
+              tournament.environment?.parkFactors
+                ? `park vs LHB/RHB: AVG ×${tournament.environment.parkFactors.avgL.toFixed(2)}/${tournament.environment.parkFactors.avgR.toFixed(2)}, HR ×${tournament.environment.parkFactors.hrL.toFixed(2)}/${tournament.environment.parkFactors.hrR.toFixed(2)}`
+                : tournament.park?.hr != null ? `park HR ×${tournament.park.hr.toFixed(2)}${tournament.park.avg != null ? `, AVG ×${tournament.park.avg.toFixed(2)}` : ""}` : null,
               tournament.mode,
               tournament.entrants ? `${tournament.entrants} teams` : null,
               tournament.staleSeriesSince
@@ -1629,18 +1672,6 @@ export function RosterBuilder({
               onOpenShop={() => setView("UPG")}
             />
           )}
-
-          <div className="rounded-lg border border-border p-3 text-xs leading-relaxed">
-            <p className="font-semibold">Environment</p>
-            <p className="mt-1 text-muted-foreground">
-              {tournament.environment?.eraLabel} · {tournament.environment?.parkLabel}.
-              {tournament.environment?.runsPerGame != null && ` Modeled environment: ${tournament.environment.runsPerGame.toFixed(2)} runs per team/game (35% left-handed batting); this is not a forecast for your roster.`}
-            </p>
-            {tournament.environment?.parkFactors && <p className="mt-1 text-muted-foreground">
-              Park factors, left/right: AVG ×{tournament.environment.parkFactors.avgL.toFixed(3)}/×{tournament.environment.parkFactors.avgR.toFixed(3)};
-              HR ×{tournament.environment.parkFactors.hrL.toFixed(3)}/×{tournament.environment.parkFactors.hrR.toFixed(3)}.
-            </p>}
-          </div>
 
           {meta && (
             <div className="rounded-lg border border-border p-3">
@@ -1879,7 +1910,7 @@ export function RosterBuilder({
                         <Redo2 />
                       </Button>
                     </span>
-                    <Button size="sm" variant="outline" onClick={autoFill} disabled={optimizing != null} title="Refill the board with the greedy recommendation: locked cards kept, banned ones skipped">Reset to recommended</Button>
+                    <Button size="sm" variant="outline" onClick={autoFill} disabled={optimizing != null} title="Load the recommended roster: Claude's newest pick for this event, or with none saved the greedy fill (locked cards kept, banned ones skipped)">Reset to recommended</Button>
                     {optimizing === "quick"
                       ? <Button size="sm" onClick={stopSearch} title="Stop, and keep the best board found so far">Stop</Button>
                       : <Button size="sm" onClick={() => void optimize("quick")} disabled={optimizing != null || !objective} title={objective ? "Hill-climb from this board and a few other starts on calibrated runs, gloves priced in runs, under every rule and the glove floor, then polish the best two over every card you own. About a minute; Stop keeps the best so far." : "No run environment on file for this event"}>Optimise</Button>}
@@ -1930,13 +1961,16 @@ export function RosterBuilder({
                     <input type="checkbox" checked={backups} onChange={(e) => setBackups(e.target.checked)} /> backups
                   </label>
                 </div>
-                {rosterCheck.length > 0 && (
-                  <ul className="mb-2 space-y-0.5 text-[10.5px]" title="L.J.'s roster rules (lib/roster-audit): staff caps beside the field's best quarter, starters' stamina for the era, stamina guys in the pen, a backup at every position">
-                    {rosterCheck.map((l, i) => (
-                      <li key={i} className={l.ok ? "text-muted-foreground" : "font-medium text-red-600 dark:text-red-400"}>{l.ok ? "✓" : "✗"} {l.text}</li>
-                    ))}
-                  </ul>
-                )}
+                {rosterCheck.length > 0 && (() => {
+                  // Passing checks in one row (the full lines on hover), each failing one in full.
+                  const { passed, failed } = auditSummary(rosterCheck);
+                  return (
+                    <ul className="mb-2 space-y-0.5 text-[10.5px]">
+                      {passed && <li className="text-muted-foreground" title={rosterCheck.filter((l) => l.ok).map((l) => `✓ ${l.text}`).join("\n")}>✓ {passed}</li>}
+                      {failed.map((l, i) => <li key={i} className="font-medium text-red-600 dark:text-red-400">✗ {l.text}</li>)}
+                    </ul>
+                  );
+                })()}
                 <div className="mb-2 text-[10.5px] text-muted-foreground">
                   Carrying <span className="font-mono">{summary.hitterCount}</span> hitters ·{" "}
                   <span className="font-mono">{summary.spUsed}</span> SP ·{" "}

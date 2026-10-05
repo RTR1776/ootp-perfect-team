@@ -4,7 +4,7 @@
  * and relievers. Rows are every team, the best quarter by record, each clan
  * with enough entries, and L.J. (lib/field-construction.ts builds them).
  */
-import type { SeriesBuild } from "@/lib/field-construction";
+import { combineClans, type SeriesBuild } from "@/lib/field-construction";
 import type { TierCode } from "@/lib/roster-rules";
 
 const TIERS: TierCode[] = ["P", "D", "G", "S", "B", "I"];
@@ -13,7 +13,8 @@ const f = (n: number | null | undefined) => (n == null || !Number.isFinite(n) ? 
 const pct = (p: number | null) => (p == null ? "" : ` · ${p.toFixed(3).replace(/^0/, "")}`);
 
 export function FieldConstruction({ data, slots }: { data: SeriesBuild; slots: Record<string, number> | null }) {
-  const used = (t: TierCode) => data.groups.some((g) => g.tiers[t]);
+  const groups = combineClans(data.groups);
+  const used = (t: TierCode) => groups.some((g) => g.tiers[t]);
   const tiers = TIERS.filter((t) => (slots ? (slots[t] ?? 0) > 0 || used(t) : used(t)));
   return (
     <div className="mb-2">
@@ -35,7 +36,7 @@ export function FieldConstruction({ data, slots }: { data: SeriesBuild; slots: R
             </tr>
           </thead>
           <tbody>
-            {data.groups.map((g) => (
+            {groups.map((g) => (
               <tr key={g.key} className={g.key === "mine" ? "text-primary" : ""}>
                 <td className="whitespace-nowrap py-0.5 pr-3">
                   {g.label}

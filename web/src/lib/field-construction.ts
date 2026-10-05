@@ -161,6 +161,38 @@ function winPct(teams: TeamBuild[]): number | null {
   return w + l > 0 ? Math.round((w / (w + l)) * 1000) / 1000 : null;
 }
 
+/**
+ * The clan rows as one: L.J., 2026-10-05: "don't need the per GH, JW, HOTL
+ * breakdown, you can combine them since they are typically the top players."
+ * Averages weighted by entries; the label names the clans and their counts.
+ */
+export function combineClans(groups: readonly GroupBuild[]): GroupBuild[] {
+  const clans = groups.filter((g) => g.key.startsWith("clan:"));
+  if (clans.length < 2) return [...groups];
+  const n = clans.reduce((a, g) => a + g.n, 0);
+  const w = (f: (g: GroupBuild) => number | null | undefined) => {
+    let s = 0, d = 0;
+    for (const g of clans) { const v = f(g); if (v != null) { s += v * g.n; d += g.n; } }
+    return d ? Math.round((s / d) * 10) / 10 : 0;
+  };
+  const tiers: TierRoles = {};
+  for (const tier of TIER_ORDER) {
+    if (!clans.some((g) => g.tiers[tier])) continue;
+    tiers[tier] = Object.fromEntries(ROLES.map((r) => [r, w((g) => g.tiers[tier]?.[r] ?? 0)])) as Record<Role, number>;
+  }
+  const hands = Object.fromEntries((["spL", "spR", "batsL", "batsR", "batsS"] as const).map((k) => [k, w((g) => g.hands?.[k])])) as unknown as Hands;
+  let ws = 0, wd = 0;
+  for (const g of clans) if (g.winPct != null) { ws += g.winPct * g.n; wd += g.n; }
+  const merged: GroupBuild = {
+    key: "clans", label: `Clans (${clans.map((g) => g.label).join(", ")})`, n,
+    winPct: wd ? Math.round((ws / wd) * 1000) / 1000 : null, tiers, hands,
+    openerShare: Math.round((clans.reduce((a, g) => a + (g.openerShare ?? 0) * g.n, 0) / n) * 100) / 100,
+  };
+  const at = groups.findIndex((g) => g.key.startsWith("clan:"));
+  const rest = groups.filter((g) => !g.key.startsWith("clan:"));
+  return [...rest.slice(0, at), merged, ...rest.slice(at)];
+}
+
 /** A series' runs (one array of teams per export) summarised for /build. */
 export function summariseSeries(runs: TeamBuild[][]): SeriesBuild {
   runs = runs.filter((teams) => teams.length > 0);
