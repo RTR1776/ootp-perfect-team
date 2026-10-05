@@ -464,3 +464,17 @@ test("Reset goes back to the sheet's lineups, and is no step when already there"
   assert.deepEqual(back.armLocks, s.armLocks);
   assert.deepEqual(apply(moved, edit.resetStaff(SHEET)).armLocks, s.armLocks);
 });
+
+test("a variant boost adds the shop's points to both sides, from the base card", () => {
+  const s = apply(freshState(PEL), edit.pickCard(WINFIELD));
+  const base = s.candidate!.base;
+  const a = edit.boost({ K: 10, EYE: 14 });
+  assert.equal(a.label, "Variant +10 Avoid K, +14 Eye");
+  const once = modelReducer(s, a);
+  for (const side of ["vL", "vR"]) {
+    assert.equal(once.candidate!.face[`K ${side}`], String(Math.round(base[`K ${side}`] + 10)));
+    assert.equal(once.candidate!.face[`EYE ${side}`], String(Math.round(base[`EYE ${side}`] + 14)));
+    assert.equal(once.candidate!.face[`POW ${side}`], s.candidate!.face[`POW ${side}`], "a stat not boosted stays");
+  }
+  assert.equal(modelReducer(once, a), once, "applied twice adds once");
+});

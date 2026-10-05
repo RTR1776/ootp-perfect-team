@@ -31,6 +31,7 @@ import { LineupsPanel } from "./lineups-panel";
 import { StaffPanel } from "./staff-board";
 import { SummaryStrip } from "./summary-strip";
 import { ExportBanner, TeamPanel } from "./team-panel";
+import { CollectionPanel } from "./collection-panel";
 import { useRescore } from "./use-rescore";
 
 /** A card to add or model, owned ones marked (C9). */
@@ -204,6 +205,7 @@ function Model({ cards, parks, years, league }: Props) {
         </div>
         <div className="min-w-0 xl:col-start-1 xl:row-start-2">
           <TeamPanel state={state} league={league} cards={cards} result={res} act={act} told={told} />
+          <div className="mt-4"><CollectionPanel state={state} body={req.body ?? null} act={act} /></div>
         </div>
       </div>
       <datalist id="league-card-parks">
