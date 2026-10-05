@@ -1,4 +1,4 @@
-# Daily Diamond 1990 Onward — Claude pick 2026-10-05-d1990obs, rebuilt from the catalogue's rules by current-rosters (--year 1957 --park Griffith Stadium --park-year 1954 --dh --max 99 --card-year-min 1990 --size 26 --series diamond1990onward --sp 5 --rp 6 --bats 15)
+# Daily Diamond 1990 Onward — Claude pick 2026-10-05-d1990obs, rebuilt from the catalogue's rules by current-rosters (--year 1957 --park Griffith Stadium --park-year 1954 --dh --max 99 --card-year-min 1990 --size 26 --series diamond1990onward --sp 5 --rp 6 --bats 15) · L.J. 10-05: Stieb (VAR) starts, Schultz to the pen
 R:C Darren Daulton #86253
 R:1B Pedro Alvarez #87062
 R:2B Kaelen Culpepper (VAR) #85033
@@ -21,12 +21,12 @@ SP1 Connelly Early #84638
 SP2 J.A. Happ #86352
 SP3 Kyle Freeland (VAR) #86708
 SP4 Payton Tolle #84646
-SP5 Noah Schultz #84626
+SP5 Dave Stieb (VAR) #85911
 CL Tony Fossas (VAR) #83324
 RP1 Jake McGee (VAR) #86789
 RP2 Cla Meredith #85213
 RP3 Andrew Bailey #85192
-RP4 Dave Stieb (VAR) #85911
+RP4 Noah Schultz #84626
 RP5 Manny Banuelos #86564
 BN1 Josh Vitters (VAR) #86419
 BN2 Kevin Alcantara (VAR) #84755
