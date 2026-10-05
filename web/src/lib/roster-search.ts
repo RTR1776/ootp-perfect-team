@@ -117,6 +117,8 @@ export interface SearchRequest {
   minShortstops?: number;
   /** Pen arms with a long man's stamina to carry; 0 turns it off. */
   minLongMen?: number;
+  /** A backup at every fielding position the pool can cover twice. */
+  backups?: boolean;
 }
 export interface SearchBest { slots: FillResult; score: number; moves: number; from: string }
 export interface SearchMessage {
@@ -186,7 +188,7 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
     const r = optimizeRoster(slots, d.pool, d.rules, d.shape, {
       objective: obj.objective, slotValue: obj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
       pairMoves: { aTop: cfg.aTop, bCheapest: cfg.bCheapest, rank: obj.rank }, maxPasses: cfg.maxPasses,
-      candidateLimit: cfg.candidateLimit, keep: locks, minCatchers: d.minCatchers, minShortstops: d.minShortstops ?? 0, minLongMen: d.minLongMen ?? 0,
+      candidateLimit: cfg.candidateLimit, keep: locks, minCatchers: d.minCatchers, minShortstops: d.minShortstops ?? 0, minLongMen: d.minLongMen ?? 0, backups: d.backups ?? false,
     });
     // Only boards that pass every rule compete.
     if (r.legal) {
