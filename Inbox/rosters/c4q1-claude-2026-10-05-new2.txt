@@ -1,0 +1,36 @@
+# Thursday CWhit's Cap Challenge 5 — Claude pick 2026-10-05-new2, rebuilt from the catalogue's rules by current-rosters (--year 1979 --park Louisville Slugger Field --park-year 2026 --dh --min 90 --max 100 --cap 2444 --size 26 --series c4q1 --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Josh Vitters (VAR) #86419
+R:2B Bryce Rainer #84732
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Ethan Holliday (VAR) #84744
+R:LF Alex Gordon #86698
+R:CF Carlos Beltran #87066
+R:RF Mike Greenwell #86909
+R:DH Hideki Matsui #87042
+L:C Roy Campanella (VAR) #82762
+L:1B Josh Vitters (VAR) #86419
+L:2B Luis Pena #84733
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Barry Larkin #86264
+L:LF Alex Gordon #86698
+L:CF Carlos Beltran #87066
+L:RF Chick Stahl #86583
+L:DH Hideki Matsui #87042
+SP1 Cliff Lee (VAR) #85693
+SP2 Larry Jackson #86646
+SP3 Sam Jones #86070
+SP4 Steve Carlton (VAR) #85109
+SP5 Kyle Freeland (VAR) #86708
+CL Andrew Bailey #85192
+RP1 Hugh Daily #85227
+RP2 Noah Schultz #84626
+RP3 Tommy John #86604
+RP4 Mark Langston #86956
+RP5 Howie Pollet #83900
+RP6 John Habyan #83315
+BN1 Ryan Howard #86285
+BN2 Chick Stahl #86583
+BN3 Luis Pena #84733
+BN4 Barry Larkin #86264
+BN5 Roy Campanella (VAR) #82762

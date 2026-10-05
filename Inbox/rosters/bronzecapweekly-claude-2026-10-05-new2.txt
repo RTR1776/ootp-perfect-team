@@ -1,0 +1,36 @@
+# Saturday Bronze Cap — Claude pick 2026-10-05-new2, rebuilt from the catalogue's rules by current-rosters (--year 2016 --dh --min 40 --max 69 --cap 1386 --size 26 --series bronzecapweekly --sp 5 --rp 7 --bats 14)
+R:C Thayron Liranzo (VAR) #85135
+R:1B Stan Hack #86458
+R:2B Jhonny Level (VAR) #84765
+R:3B Chris Sabo #87059
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Deion Sanders #86962
+R:RF Edward Florentino (VAR) #84777
+R:DH George Sisler (VAR) #87002
+L:C Thayron Liranzo (VAR) #85135
+L:1B Matt Davidson (VAR) #84666
+L:2B Jhonny Level (VAR) #84765
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Steve Pearce (VAR) #86366
+L:CF Deion Sanders #86962
+L:RF Sammy Sosa #85691
+L:DH Pete Incaviglia #86943
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Tanner McDougal (VAR) #85032
+SP4 Justin Verlander #87014
+SP5 Tin Can Kincannon #86073
+CL Todd Jones (VAR) #86434
+RP1 Randy Choate #87026
+RP2 Reed Garrett #84825
+RP3 Gerardo Carrillo #86540
+RP4 Bob Gibson #86658
+RP5 Steve Farr #86924
+RP6 R.T. Walker #86952
+BN1 Matt Davidson (VAR) #84666
+BN2 Pete Incaviglia #86943
+BN3 Darrel Chaney #82846
+BN4 Buck Rodgers #84312
+BN5 Sammy Sosa #85691

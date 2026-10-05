@@ -1,0 +1,35 @@
+# Monday Wonky Historical Slots — Claude pick 2026-10-05-new2, rebuilt from the catalogue's rules by current-rosters (--year 2009 --park Coors Field --park-year 2026 --min 40 --max 99 --card-year-min 1800 --card-year-max 1949 --slots D13,S7,B6 --size 26 --series wonkyslots --sp 5 --rp 7 --bats 14)
+R:C Mack Eggleston #86977
+R:1B Rudy York (VAR) #86429
+R:2B Larry Doby #84878
+R:3B Honus Wagner #85540
+R:SS Luke Appling #82759
+R:LF Al Simmons #85942
+R:CF Shoeless Joe Jackson #86372
+R:RF Chick Stahl #86583
+L:C Mack Eggleston #86977
+L:1B Rudy York (VAR) #86429
+L:2B Larry Doby #84878
+L:3B Dave Brain (VAR) #85934
+L:SS Honus Wagner #85540
+L:LF Al Simmons #85942
+L:CF Shoeless Joe Jackson #86372
+L:RF Chick Stahl #86583
+SP1 Cy Young #86996
+SP2 Sam Jones #86070
+SP3 Carl Hubbell #86893
+SP4 Dizzy Dean #86473
+SP5 Dutch Leonard #85704
+CL Jakie May (VAR) #85286
+RP1 Nick Altrock #87049
+RP2 Dan Bankhead #84884
+RP3 Fritz Ostermueller #86357
+RP4 Cool Papa Bell #86981
+RP5 Hubert Lockhart #87082
+RP6 Clay Bryant #84265
+BN1 Duke Snider #85225
+BN2 Tom Brown #86767
+BN3 Dave Brain (VAR) #85934
+BN4 Biz Mackey #86894
+BN5 Pat Patterson #87080
+BN6 Earl Webb #85477
