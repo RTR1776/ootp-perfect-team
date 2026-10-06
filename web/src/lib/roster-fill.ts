@@ -63,6 +63,11 @@ export interface FitMaps {
  * So: at most MAX_SP starters, MAX_RP in the pen, MAX_ARMS in all; arms past
  * the caps become bats. The pen's stamina guys are enforced by the optimiser
  * (minLongMen). League rosters don't use this.
+ *
+ * L.J., 2026-10-06 — deadball: "In 1919, you don't need that many pitchers -
+ * 4 man rotation, 4 or 5 in the bullpen, thats it". The deadball row is a
+ * ceiling, observed exports included: a borrowed field's 5 starters had come
+ * out as 5 SP / 6 RP for Tuesday Dead Silver Walking.
  */
 export const MAX_SP = 5;
 export const MAX_RP = 7;
@@ -74,7 +79,7 @@ export function eraStaff(envYear: number | null | undefined): { sp: number; rp: 
   if (envYear >= 1980) return { sp: 5, rp: envYear >= 1995 ? 7 : 6, band: "1980s–2000s" };
   if (envYear >= 1960) return { sp: 5, rp: envYear >= 1970 ? 6 : 5, band: "1960s–70s" };
   if (envYear >= 1920) return { sp: 4, rp: envYear >= 1940 ? 5 : 4, band: "1920s–50s" };
-  return { sp: 4, rp: 3, band: "deadball" };
+  return { sp: 4, rp: envYear >= 1910 ? 5 : 4, band: "deadball" };
 }
 
 /**
@@ -101,6 +106,11 @@ export function rosterShape(
     const bats = clamp(Math.round(meta.avgBats ?? size - meta.avgSp - (meta.avgRp ?? 0)), lineupSize, 22);
     const sp0 = clamp(Math.round(meta.avgSp), 1, 9);
     const rp0 = clamp(size - bats - sp0, 1, 12);
+    if (era.band.startsWith("deadball")) {
+      // A deadball staff never outgrows the era row; the arms it sheds bat.
+      const sp = Math.min(sp0, era.sp), rp = Math.min(rp0, era.rp);
+      return { bats: clamp(size - sp - rp, lineupSize, 22), sp, rp, source: "observed", band: era.band };
+    }
     return { ...capStaff(bats, sp0, rp0), source: "observed", band: era.band };
   }
   const c = capStaff(clamp(size - era.sp - era.rp, lineupSize, 22), era.sp, era.rp);

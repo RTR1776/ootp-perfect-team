@@ -9,7 +9,8 @@ test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest
   assert.deepEqual([eraStaff(1984).sp, eraStaff(1984).rp], [5, 6]);
   assert.deepEqual([eraStaff(1968).sp, eraStaff(1968).rp], [5, 5]);
   assert.deepEqual([eraStaff(1935).sp, eraStaff(1935).rp], [4, 4]);
-  assert.deepEqual([eraStaff(1907).sp, eraStaff(1907).rp], [4, 3]);
+  assert.deepEqual([eraStaff(1907).sp, eraStaff(1907).rp], [4, 4]);
+  assert.deepEqual([eraStaff(1919).sp, eraStaff(1919).rp], [4, 5], "L.J. 10-06: 1919 is a 4-man rotation and 4 or 5 in the pen");
   for (const y of [1907, 1935, 1968, 1984, 2006, 2024]) assert.ok(eraStaff(y).sp <= 5 && eraStaff(y).rp <= 7 && eraStaff(y).sp + eraStaff(y).rp <= 12, `5 SP, 7 RP, 12 arms at most (${y})`);
   const cap = rosterShape(1935, 8, 26, null);
   assert.deepEqual([cap.bats, cap.sp, cap.rp, cap.source], [18, 4, 4, "era"]);
@@ -23,6 +24,8 @@ test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest
   assert.deepEqual([six.bats, six.sp, six.rp], [14, 5, 7], "a 6th starter goes to the pen as a long man");
   const deadball = rosterShape(1910, 8, 26, { avgSp: 4, avgRp: 3, avgBats: 19 });
   assert.deepEqual([deadball.bats, deadball.sp, deadball.rp], [19, 4, 3], "small staffs are left alone");
+  const deadSilver = rosterShape(1919, 8, 26, { avgSp: 5, avgRp: 2.5, avgBats: 15.2 });
+  assert.deepEqual([deadSilver.bats, deadSilver.sp, deadSilver.rp], [17, 4, 5], "a deadball field's 5 SP / 6 RP comes out 4 / 5 / 17 (Dead Silver Walking, 10-06)");
   assert.equal(rosterShape(1935, 8, 22, null).bats, 14, "roster size other than 26");
   const modernCards = rosterShape(1957, 9, 26, null, 1990);
   assert.deepEqual([modernCards.bats, modernCards.sp, modernCards.rp], [15, 5, 6], "1957 RE with 1990-on cards staffs like the 1990s");
