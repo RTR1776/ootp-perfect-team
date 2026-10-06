@@ -45,7 +45,7 @@ const TIERS = ["P", "D", "G", "S", "B", "I"];
 
 export function eventRosterArgs(t: CatalogueEvent, opts: { seriesStale: boolean }): RosterArgs {
   const rx = (t.restrictions ?? {}) as {
-    slots?: Record<string, number> | null; teamCap?: number | null; variantCap?: number | null; variantsAllowed?: boolean | null;
+    slots?: Record<string, number> | null; teamCap?: number | null; capFloor?: number | null; variantCap?: number | null; variantsAllowed?: boolean | null;
     cardTypes?: string[] | null; cards?: number | null; noLimitedEdition?: boolean | null; notes?: string[] | null; valueWindowFrom?: string;
   };
   const args: string[] = [], problems: string[] = [], notes: string[] = [];
@@ -82,6 +82,7 @@ export function eventRosterArgs(t: CatalogueEvent, opts: { seriesStale: boolean 
     if (parts.length) args.push("--slots", parts.join(","));
   }
   if (rx.teamCap != null) args.push("--cap", String(rx.teamCap));
+  if (rx.teamCap != null && rx.capFloor != null) args.push("--cap-floor", String(rx.capFloor));
   if (rx.variantsAllowed === false) args.push("--variant-cap", "0");
   else if (rx.variantCap != null) args.push("--variant-cap", String(rx.variantCap));
   if (rx.noLimitedEdition) args.push("--no-le");

@@ -18,7 +18,7 @@
  * roster. That is a Lagrangian relaxation, not an optimiser: it finds a good
  * complete roster, not the best one (Stage 3 in Docs/APP_IMPROVEMENT_PLAN.md).
  */
-import { cardEligibility, rosterSize, samePlayer, slotCapacityIssues, tierCode, type RosterCard, type RosterRules } from "./roster-rules";
+import { capValue, cardEligibility, rosterSize, samePlayer, slotCapacityIssues, tierCode, type RosterCard, type RosterRules } from "./roster-rules";
 
 export const HIT_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
 
@@ -244,7 +244,7 @@ function fillPass(pool: readonly FillCard[], rules: RosterRules, shape: FillShap
     if (samePlayer(members)) return false; // one card per player
     if (members.filter((m) => !m.isPitcher).length > shape.bats) return false;
     if (ids.size > size) return false;
-    if (rx?.teamCap != null && members.reduce((n, m) => n + (m.val ?? 0), 0) > rx.teamCap) return false;
+    if (rx?.teamCap != null && members.reduce((n, m) => n + capValue(m.val, rx), 0) > rx.teamCap) return false;
     if (members.filter((m) => m.variant).length > variantLimit) return false;
     if (rx?.slots) {
       const tiers: Record<string, number> = {};

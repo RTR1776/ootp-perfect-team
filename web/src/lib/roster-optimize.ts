@@ -16,7 +16,7 @@
  * because the greedy fill is one of its starting points.
  */
 
-import { cardEligibility, rosterSize, samePlayer, slotCapacityIssues, tierCode, type RosterRules } from "./roster-rules";
+import { capValue, cardEligibility, rosterSize, samePlayer, slotCapacityIssues, tierCode, type RosterRules } from "./roster-rules";
 import { LONG_MAN_STAMINA } from "./roster-audit";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { isComplete, type FillCard, type FillResult, type FillShape } from "./roster-fill";
@@ -197,7 +197,7 @@ function legal(
     if (long < minLongMen) return false;
   }
   if (members.filter((m) => !m.isPitcher).length > shape.bats) return false;
-  if (rx?.teamCap != null && members.reduce((n, m) => n + (m.val ?? 0), 0) > rx.teamCap) return false;
+  if (rx?.teamCap != null && members.reduce((n, m) => n + capValue(m.val, rx), 0) > rx.teamCap) return false;
   if (members.filter((m) => m.variant).length > variantLimit) return false;
   if (rx?.slots) {
     const tiers: Record<string, number> = {};
