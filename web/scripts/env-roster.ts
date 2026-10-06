@@ -447,6 +447,8 @@ async function main() {
     for (const c of pool.filter((x) => SHOW.some((n) => x.name.toLowerCase().includes(n))).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {
       const r = fits.runsR.get(c.cardId), l = fits.runsL.get(c.cardId);
       console.log(`  ${c.name.padEnd(22)} ${String(c.val).padStart(3)} ${c.isPitcher ? "P" : "B"} ${c.bats ?? "-"}  ${c.isPitcher ? (r ?? 0).toFixed(1) : `vR ${(r ?? 0).toFixed(1)}  vL ${(l ?? 0).toFixed(1)}`}`);
+      const o = observed?.get(c.cardId) as { runs: number; n: number; model?: number | null } | undefined;
+      if (o) console.log(`  ${"".padEnd(22)}     observed ${o.runs.toFixed(1)} over ${Math.round(o.n)} ${c.isPitcher ? "BF" : "PA"}${o.model != null ? ` · base card's model ${o.model.toFixed(1)}` : ""} · observed weight ${Math.round(100 * o.n / (o.n + OBS_K))}% (K ${OBS_K})`);
     }
   }
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
