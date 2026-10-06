@@ -146,21 +146,3 @@ test("a locked bat the board has no slot for is released, not left holding a ros
   assert.ok(!onBoard(slots).has(weakC.cardId));
   assert.ok(isComplete(slots, shape), "eight starters, not seven and an empty spot");
 });
-
-test("a per-card cap floor (\"1822 Cap (70/Card)\") counts a cheap card at the floor", async () => {
-  const { capValue } = await import("./roster-rules");
-  assert.equal(capValue(45, { capFloor: 70 }), 70);
-  assert.equal(capValue(88, { capFloor: 70 }), 88);
-  assert.equal(capValue(45, null), 45);
-  const p = pool(), shape = shapeFor();
-  const cheap = p.filter((c) => (c.val ?? 0) < 70).length;
-  assert.ok(cheap > 0, "the synthetic pool has cards under 70");
-  const r = rules({ restrictions: { cards: 26, teamCap: 26 * 72, capFloor: 70 } });
-  const res = fillRoster(p, r, shape, fitMaps(p));
-  const ids = new Set(Object.values(res.slots));
-  const used = [...ids].reduce((n, id) => n + capValue(p.find((c) => c.cardId === id)!.val, { capFloor: 70 }), 0);
-  assert.ok(used <= 26 * 72, `cap counted with the floor: ${used} <= ${26 * 72}`);
-  const v = validateRoster(toSlots(res.slots, shape.lineupPos), p, r);
-  assert.equal(v.errors.filter((e) => e.code === "team-cap").length, 0);
-  assert.equal(v.counts.value, used, "validateRoster counts the cap the same way");
-});

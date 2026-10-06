@@ -37,8 +37,6 @@ export interface CatalogueEdit {
   slots?: Record<string, number>;
   /** The cap on the roster's total card value, restrictions.teamCap; null clears it. */
   teamCap?: number | null;
-  /** "1822 Cap (70/Card)": the least a card counts against the cap, restrictions.capFloor; null clears it. */
-  capFloor?: number | null;
   /** At most this many variants, restrictions.variantCap; null clears it. */
   variantCap?: number | null;
   /** "No LE": true bars Limited Edition cards (restrictions.noLimitedEdition), false lifts the bar. */
@@ -76,7 +74,7 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
   // A format date on its own is bookkeeping, not a new format: the rules, their
   // source (textFrom) and the kept previous format stay as they are.
   const onlyDate = e.formatSince !== undefined
-    && [e.envYear, e.stadium, e.dh, e.value, e.cardYears, e.drop, e.cardTypes, e.slots, e.teamCap, e.capFloor, e.variantCap, e.noLimitedEdition, e.text].every((v) => v === undefined);
+    && [e.envYear, e.stadium, e.dh, e.value, e.cardYears, e.drop, e.cardTypes, e.slots, e.teamCap, e.variantCap, e.noLimitedEdition, e.text].every((v) => v === undefined);
   if (onlyDate) {
     const r: Record<string, unknown> = { ...(row.restrictions ?? {}) };
     applyFormatSince(r, e);
@@ -93,8 +91,6 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
   if (e.slots) next.slots = e.slots;
   if (e.teamCap === null) delete next.teamCap;
   else if (e.teamCap !== undefined) next.teamCap = e.teamCap;
-  if (e.capFloor === null) delete next.capFloor;
-  else if (e.capFloor !== undefined) next.capFloor = e.capFloor;
   if (e.variantCap === null) delete next.variantCap;
   else if (e.variantCap !== undefined) { next.variantCap = e.variantCap; delete next.variantsAllowed; }
   if (e.noLimitedEdition === true) next.noLimitedEdition = true;

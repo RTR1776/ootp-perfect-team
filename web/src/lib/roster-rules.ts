@@ -30,11 +30,6 @@ export const TIER_NAME: Record<TierCode, string> = {
   I: "Iron", B: "Bronze", S: "Silver", G: "Gold", D: "Diamond", P: "Perfect",
 };
 
-/** What a card counts against the team cap: its value, raised to the event's per-card floor ("70/Card"). */
-export function capValue(val: number | null | undefined, rx: { capFloor?: number | null } | null | undefined): number {
-  return Math.max(val ?? 0, rx?.capFloor ?? 0);
-}
-
 export interface RosterRules {
   /** Event name — read only to recognise "Open" / "& Friends" (no value window by design). */
   name?: string | null;
@@ -47,11 +42,6 @@ export interface RosterRules {
   restrictions: {
     slots?: Record<string, number> | null;
     teamCap?: number | null;
-    /**
-     * "1822 Cap (70/Card)" (PTCS 7 Championship Open, L.J.'s screen 2026-10-06):
-     * every card counts at least this much against teamCap, so a 45 costs 70.
-     */
-    capFloor?: number | null;
     variantCap?: number | null;
     variantsAllowed?: boolean | null;
     /** "No LE" in the rules line: Limited Edition cards may not enter. */
@@ -327,7 +317,7 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
     const c = byId.get(id)!;
     const eligible = cardEligibility(c, rules);
     errors.push(...eligible.errors); incomplete.push(...eligible.incomplete);
-    value += capValue(c.val, rules.restrictions);
+    value += c.val ?? 0;
     if (s.useVariant) variants++;
     if (c.val != null) { const tier = tierCode(c.val); tiers[tier] = (tiers[tier] ?? 0) + 1; }
   }

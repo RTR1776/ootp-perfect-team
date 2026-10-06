@@ -19,7 +19,7 @@ import {
   HIT_POS, fillOnce, fillRoster, fitMaps, isComplete, rosterShape, type FillCard, type FillShape,
 } from "@/lib/roster-fill";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
-import { capValue, cardEligibility } from "@/lib/roster-rules";
+import { cardEligibility } from "@/lib/roster-rules";
 import { LJ_FLOOR, describePosFloor, parsePosFloor, posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT } from "@/lib/roster-objective";
@@ -58,8 +58,6 @@ const DH = flag("dh");
 const MIN = num("min");
 const MAX = num("max");
 const CAP = num("cap");
-/** --cap-floor 70: "1822 Cap (70/Card)" — each card counts at least this much against --cap. */
-const CAP_FLOOR = num("cap-floor");
 const SIZE = num("size", 26)!;
 const NAME = val("name", "ad-hoc event")!;
 const VARIANT_CAP = num("variant-cap");
@@ -235,7 +233,7 @@ async function main() {
   const rules: RosterRules = {
     name: NAME, dh: DH, ratingsMin: MIN, ratingsMax: MAX,
     cardYearMin: YEAR_MIN, cardYearMax: YEAR_MAX, isDraft: false,
-    restrictions: { teamCap: CAP, capFloor: CAP_FLOOR, cards: SIZE, variantCap: VARIANT_CAP, variantsAllowed: VARIANT_CAP !== 0, slots: SLOTS, noLimitedEdition: flag("no-le") },
+    restrictions: { teamCap: CAP, cards: SIZE, variantCap: VARIANT_CAP, variantsAllowed: VARIANT_CAP !== 0, slots: SLOTS, noLimitedEdition: flag("no-le") },
   };
 
   /* -------------------------------- the environment ------------------------ */
@@ -606,8 +604,7 @@ async function main() {
   const rostered = [...new Set(Object.values(slots))].map((id) => poolById.get(id)!).filter(Boolean);
   const totalVal = rostered.reduce((n, c) => n + (c.val ?? 0), 0);
   const lhbStarters = lineupPos.filter((p) => { const c = poolById.get(slots[`R:${p}`]); return c && batsLeftOn(c.bats, "R"); }).length;
-  const capUsed = rostered.reduce((n, c) => n + capValue(c.val, { capFloor: CAP_FLOOR }), 0);
-  console.log(`\n${rostered.length} players · value ${totalVal}${CAP ? ` · cap ${capUsed}${CAP_FLOOR ? ` (${CAP_FLOOR}/card floor)` : ""} / ${CAP} (${CAP - capUsed} spare)` : ""} · λ ${lambda.toFixed(3)} · ${rostered.filter((c) => c.variant).length} variants`);
+  console.log(`\n${rostered.length} players · value ${totalVal}${CAP ? ` / ${CAP} (${CAP - totalVal} spare)` : ""} · λ ${lambda.toFixed(3)} · ${rostered.filter((c) => c.variant).length} variants`);
   console.log(`vs RHP lineup gets the friendly park side in ${lhbStarters} of ${lineupPos.length} spots`);
   const bats2 = rostered.filter((c) => !c.isPitcher);
   console.log(`\n--- order inputs (rostered bats) ---`);
