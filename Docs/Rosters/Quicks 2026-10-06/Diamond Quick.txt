@@ -1,0 +1,119 @@
+
+=== Diamond Quick ===
+PT default (2010) RE (neutral park) · DH on · value 40–99 · cap none · 26 players
+R/G 4.46  AVG 0.243  OBP 0.316  SLG 0.401  K% 22.6  HR/PA 3.08%  preset Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.032 runs · steal break-even 80.9% (0 out) / 77.8% (1 out)
+
+pool: 3747 eligible owned cards — 2076 bats (694L / 248S / 1134R), 1671 arms
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 2428 of 3747 pool cards have innings on record (median 216 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.1  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.8
+                          RHB: Power +5.1  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.8
+                         arms: pHR +1.7  Stuff +1.6  pBABIP +1.0  Control +0.8
+
+optimiser: 9 λ starts hill-climbed; best 331.7 runs vs 288.0 greedy (+43.7), 27 moves from λ 1.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +37.2  park:L DEF 112/112 +0.6  #86637
+R:1B    Pedro Alvarez               81  L  2013   +37.4  park:L DEF  96/ 96 +2.0  #87062
+R:2B    Kaelen Culpepper (VAR)      89  R  2026   +12.3  park:R DEF 130/130 +2.1  #85033
+R:3B    Arjun Nimmala (VAR)         94  R  2026   +13.7  park:R DEF 128/128 +4.0  #84745
+R:SS    Ethan Holliday (VAR)        95  L  2026   +23.9  park:L DEF  93/ 93 -1.6  #84744
+R:LF    Mike Greenwell              99  L  1988   +36.2  park:L DEF 125/125 +1.9  #86909
+R:CF    Carlos Beltran              99  S  2004   +38.7  park:L DEF 108/108 -0.2  #87066
+R:RF    Bo Jackson                  88  R  1989   +28.0  park:R DEF 123/123 +1.7  #86966
+R:DH    Kal Daniels                 82  L  1987   +27.0  park:L  #84163
+
+--- lineup vs LHP ---
+L:C     Josh Gibson                 84  R  1946   +10.8  park:R DEF  69/ 75 -0.5  #86898
+L:1B    Josh Vitters (VAR)          95  R  2012   +31.7  park:R DEF  99/ 99 +2.3  #86419
+L:2B    Kaelen Culpepper (VAR)      89  R  2026   +19.5  park:R DEF 130/130 +2.1  #85033
+L:3B    Chris Sabo                  66  R  1990   +31.7  park:R DEF  77/ 77 -1.5  #87059
+L:SS    Arjun Nimmala (VAR)         94  R  2026   +18.1  park:R DEF 116/128 +1.0  #84745
+L:LF    Al Simmons                  99  R  1930   +31.3  park:R DEF  90/ 90 -0.3  #85942
+L:CF    Carlos Beltran              99  S  2004   +22.6  park:R DEF 108/108 -0.2  #87066
+L:RF    Bo Jackson                  88  R  1989   +23.8  park:R DEF 123/123 +1.7  #86966
+L:DH    Willie Mays                 98  R  1959   +28.7  park:R  #86634
+
+--- batting order vs RHP --- (5.77 runs/game; The Book's order 5.76)
+  1. Mike Greenwell LF
+  2. Carlos Beltran CF
+  3. Ed Bailey (VAR) C
+  4. Pedro Alvarez 1B
+  5. Kal Daniels DH
+  6. Bo Jackson RF
+  7. Ethan Holliday (VAR) SS
+  8. Arjun Nimmala (VAR) 3B
+  9. Kaelen Culpepper (VAR) 2B
+
+--- batting order vs LHP --- (5.59 runs/game; The Book's order 5.59)
+  1. Willie Mays DH
+  2. Chris Sabo 3B
+  3. Carlos Beltran CF
+  4. Al Simmons LF
+  5. Josh Vitters (VAR) 1B
+  6. Arjun Nimmala (VAR) SS
+  7. Bo Jackson RF
+  8. Josh Gibson C
+  9. Kaelen Culpepper (VAR) 2B
+
+--- rotation ---
+SP1     Larry Jackson               92  R  1959   +11.6   SP STM  92  #86646
+SP2     Sam Jones                   92  R  1921   +10.4   SP STM  82  #86070
+SP3     Jim Kaat (VAR)              87  L  1967   +10.1   SP STM  78  #85114
+SP4     Cy Young                    99  R  1900    +9.9   SP STM 109  #86996
+SP5     Steve Carlton (VAR)         96  L  1969    +9.4   SP STM  86  #85109
+
+--- bullpen ---
+CL      Tony Fossas (VAR)           99  L  1995   +15.9   RP STM  13  #83324
+RP1     Jake McGee (VAR)            99  L  2012   +12.4   RP STM  12  #86789
+RP2     Joe Sambito                 98  L  1980   +10.4   RP STM  24  #84075
+RP3     Gregg Olson (VAR)           88  R  1989    +9.8   CL STM  21  #86946
+RP4     Cla Meredith                99  R  2006    +9.2   RP STM  20  #85213
+RP5     J.A. Happ                   87  L  2015    +9.0   SP STM  62  #86352
+RP6     Connelly Early              96  L  2026    +8.8   SP STM  75  #84638
+
+--- bench ---
+BN1     Al Simmons                  99  R  1930   +15.8  park:R  #85942
+BN2     Josh Vitters (VAR)          95  R  2012   +14.0  park:R  #86419
+BN3     Willie Mays                 98  R  1959   +12.9  park:R  #86634
+BN4     Josh Gibson                 84  R  1946    +4.2  park:R  #86898
+BN5     Chris Sabo                  66  R  1990    -0.8  park:R  #87059
+
+26 players · value 2398 · λ 1.000 · 10 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Carlos Beltran         S EYE 172 (124/188)  POW 180 (151/190)  K 132  BABIP  92  GAP 123  SPE 109
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Mike Greenwell         L EYE 159 (44/202)  POW 101 (71/116)  K 183  BABIP 111  GAP 131  SPE  60
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Kal Daniels            L EYE 164 (134/174)  POW 119 (38/150)  K  82  BABIP 116  GAP  93  SPE  67
+  Ethan Holliday         L EYE 164 (151/168)  POW 139 (117/147)  K  72  BABIP 114  GAP 103  SPE  51
+  Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
+  Josh Vitters           R EYE  71 (84/66)  POW 103 (117/98)  K 131  BABIP 138  GAP 144  SPE  55
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Willie Mays            R EYE 129 (174/114)  POW 141 (158/135)  K 114  BABIP  98  GAP 138  SPE 118
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Larry Jackson 92, Sam Jones 82, Jim Kaat 78, Cy Young 109, Steve Carlton 86 (era floor 50)
+  ✓ stamina guys in the pen (45+): J.A. Happ 62, Connelly Early 75
+  ✓ C  backup: Ed Bailey 112, Josh Gibson 69
+  ✓ 1B backup: Pedro Alvarez 96, Arjun Nimmala 105, Josh Gibson 75, Josh Vitters 99
+  ✓ 2B backup: Arjun Nimmala 126
+  ✓ 3B backup: Pedro Alvarez 75, Kaelen Culpepper 122, Arjun Nimmala 128, Josh Vitters 86, Chris Sabo 77
+  ✓ SS backup: Ethan Holliday 93, Kaelen Culpepper 117, Arjun Nimmala 116
+  ✓ LF backup: Arjun Nimmala 84, Bo Jackson 116, Mike Greenwell 125, Kal Daniels 60, Josh Vitters 72, Al Simmons 90
+  ✓ CF backup: Arjun Nimmala 60, Bo Jackson 103, Al Simmons 63, Willie Mays 107
+  ✓ RF backup: Arjun Nimmala 75, Mike Greenwell 117
+(19 of 26 have a live ask in the last shop snapshot)
+objective: 331.7 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 14 bats) 1266 · rotation 466 · bullpen 666 · bench-only 0

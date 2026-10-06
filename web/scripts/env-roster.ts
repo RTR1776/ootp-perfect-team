@@ -73,6 +73,12 @@ const POOL_CSV = val("pool") ?? null;
  * score difference against the free run IS the price of the conviction.
  */
 const ASSUME_VARIANT = (val("assume-variant") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
+/**
+ * --universe: score every card in the catalogue as owned, base forms only, for
+ * the ceiling a field can reach in an event (Quick tiers, L.J. 2026-10-06:
+ * "put together the 3 strongest quicks I could play"). Never for a save.
+ */
+const UNIVERSE = flag("universe");
 /** --assume-owned id[,id]: base cards he has bought but not yet uploaded, scored as owned. Never for a save. */
 const ASSUME_OWNED = (val("assume-owned") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
@@ -290,6 +296,12 @@ async function main() {
     console.log(`assumed owned ${id} ${byId.get(id)!.name} ${byId.get(id)!.cardValue}: bought, not yet in the collection upload`);
   }
   const ownedIds = [...new Set([...owned.map((o) => o.cardId!), ...ASSUME_OWNED.filter((id) => byId.has(id))])];
+  if (UNIVERSE) {
+    ownedIds.splice(0, ownedIds.length, ...universe.map((c) => c.cardId));
+    for (const c of universe) baseSet.add(c.cardId);
+    variants.clear();
+    console.log(`--universe: all ${universe.length} catalogue cards scored as owned, base forms only`);
+  }
   const prices = shop
     ? new Map((await db.select({ cardId: cardSnapshots.cardId, ask: cardSnapshots.sellOrderLow })
         .from(cardSnapshots).where(eq(cardSnapshots.uploadId, shop.id))).map((p) => [p.cardId, p.ask]))
