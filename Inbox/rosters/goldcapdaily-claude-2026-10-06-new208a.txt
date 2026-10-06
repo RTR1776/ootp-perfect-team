@@ -1,0 +1,36 @@
+# Daily Gold Cap — Claude pick 2026-10-06-new208a, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Jacobs Field --park-year 1999 --dh --min 40 --max 89 --cap 1780 --size 26 --series goldcapdaily --sp 5 --rp 7 --bats 14)
+R:C Mack Eggleston #86977
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Hank Blalock #86433
+R:SS Francisco Lindor #87053
+R:LF Josue De Paula (VAR) #84729
+R:CF Willie McGee (VAR) #85753
+R:RF Bo Jackson #86966
+R:DH Kal Daniels #84163
+L:C Mack Eggleston #86977
+L:1B Steve Pearce (VAR) #86366
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Francisco Lindor #87053
+L:LF Willie McGee (VAR) #85753
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Josue De Paula (VAR) #84729
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Jordan Montgomery #86354
+SP4 Fritz Ostermueller #86357
+SP5 James McDonald (VAR) #86384
+CL Edwin Diaz #86422
+RP1 Randy Choate #87026
+RP2 Todd Jones (VAR) #86434
+RP3 Mike Marshall #84720
+RP4 Roger Mason #87020
+RP5 Reed Garrett #84825
+RP6 R.T. Walker #86952
+BN1 Chris Sabo #87059
+BN2 Jerome Walton #86945
+BN3 Jeff Francoeur (VAR) #86300
+BN4 Steve Pearce (VAR) #86366
+BN5 Kevin Brown #85824

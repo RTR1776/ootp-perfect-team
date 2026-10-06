@@ -1,0 +1,36 @@
+# Daily Live Diamond — Claude pick 2026-10-06-new208a, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Rate Field --park-year 2026 --dh --min 40 --max 99 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series livediamonddaily --sp 5 --rp 7 --bats 14)
+R:C William Contreras #81935
+R:1B Freddie Freeman #81783
+R:2B Otto Lopez #82108
+R:3B Kevin McGonigle #85007
+R:SS Ceddanne Rafaela #82608
+R:LF Jake McCarthy #81809
+R:CF Corbin Carroll #81849
+R:RF Jackson Chourio #81934
+R:DH Ben Rice #82572
+L:C William Contreras #81935
+L:1B Freddie Freeman #81783
+L:2B Otto Lopez #82108
+L:3B Kevin McGonigle #85007
+L:SS Ceddanne Rafaela #82608
+L:LF Jackson Chourio #81934
+L:CF Corbin Carroll #81849
+L:RF Ronald Acuna Jr. #82148
+L:DH Yandy Diaz #82538
+SP1 Logan Webb #81732
+SP2 Zack Wheeler #82068
+SP3 Cade Cavalli #82035
+SP4 Payton Tolle #82612
+SP5 Walbert Urena #85015
+CL Adrian Morejon #81760
+RP1 Tanner Scott #81792
+RP2 Edgardo Henriquez #81769
+RP3 Alex Vesia #81791
+RP4 Matt Brash #82247
+RP5 Ben Brown #82003
+RP6 Sonny Gray #82621
+BN1 Ronald Acuna Jr. #82148
+BN2 Yandy Diaz #82538
+BN3 Kyle Schwarber #82055
+BN4 Carter Jensen #82374
+BN5 Max Muncy #81780
