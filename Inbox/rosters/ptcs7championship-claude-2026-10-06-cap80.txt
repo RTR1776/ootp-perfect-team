@@ -1,0 +1,36 @@
+# PTCS 7 Championship - Cap — Claude pick 2026-10-06-cap80, rebuilt from the catalogue's rules by current-rosters (--year 1970 --park Dodger Stadium --park-year 1971 --dh --min 80 --max 103 --cap 2342 --variant-cap 11 --size 26 --series PTCS 7 Championship --sp 5 --rp 6 --bats 15)
+R:C Mike Piazza (VAR) #86463
+R:1B Pedro Alvarez #87062
+R:2B Leodalis De Vries #84724
+R:3B Scott Rolen #86405
+R:SS Ernie Banks #86621
+R:LF Hank Aaron #86655
+R:CF Bo Jackson #86966
+R:RF Juan Soto #87013
+R:DH Hideki Matsui #87042
+L:C Mike Piazza (VAR) #86463
+L:1B Hank Aaron #86655
+L:2B Leodalis De Vries #84724
+L:3B Scott Rolen #86405
+L:SS Ernie Banks #86621
+L:LF Juan Soto #87013
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Hideki Matsui #87042
+SP1 Bret Saberhagen #86915
+SP2 Cy Young (VAR) #86572
+SP3 Larry Jackson #86646
+SP4 Sam Jones #86070
+SP5 Jim Kaat (VAR) #85114
+CL Tony Watson (VAR) #85457
+RP1 Dave Righetti #85870
+RP2 Raisel Iglesias #83322
+RP3 Javier Lopez #86408
+RP4 Luis Arroyo (VAR) #85489
+RP5 Norm Charlton (VAR) #85763
+BN1 Jeff Francoeur (VAR) #86300
+BN2 Hanley Ramirez #86807
+BN3 Bill Mueller (VAR) #86332
+BN4 Jon Nunnally #86407
+BN5 Josh Gibson #86898
+BN6 Kal Daniels #84163
