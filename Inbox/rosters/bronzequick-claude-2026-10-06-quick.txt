@@ -1,0 +1,36 @@
+# Bronze Quick — Claude pick 2026-10-06 quick, env-roster (--year 2010 --dh --min 40 --max 69 --variant-cap 10 --sp 5 --rp 7 --bats 14 --starts 8 --candidate-limit 40)
+R:C Tim McCarver #85833
+R:1B Edward Florentino (VAR) #84777
+R:2B Hank Blalock #86433
+R:3B Chris Sabo #87059
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Billy Southworth #86379
+R:RF Deion Sanders #86962
+R:DH Wes Covington #86651
+L:C Thayron Liranzo (VAR) #85135
+L:1B Scott Spiezio #85702
+L:2B Joe Dugan (VAR) #86765
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Steve Pearce (VAR) #86366
+L:CF Jett Williams #84763
+L:RF Deion Sanders #86962
+L:DH Ed Morgan (VAR) #85943
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Tanner McDougal (VAR) #85032
+SP4 Bob Miller #84715
+SP5 Corey Kluber (VAR) #87008
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Satchel Paige #84839
+RP3 Caden Scarborough #84762
+RP4 Justin Bruihl #84971
+RP5 Billy Wagner #85778
+RP6 Grant Wolfram #82628
+BN1 Joe Dugan (VAR) #86765
+BN2 Ed Morgan (VAR) #85943
+BN3 Thayron Liranzo (VAR) #85135
+BN4 Scott Spiezio #85702
+BN5 Jett Williams #84763
