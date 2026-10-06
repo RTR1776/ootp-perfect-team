@@ -107,8 +107,9 @@ export interface BuilderCard {
 /**
  * What the page resolved about the event, so the client can score the pool
  * the way env-roster does. `observed` is [cardId, runs on the model's scale,
- * PA-or-BF, the base card's model runs] per card with tournament play on
- * record. The last one lets an owned variant keep its boost (env-fit).
+ * PA-or-BF, the base card's model runs, this event's own runs, its own
+ * PA-or-BF] per card with tournament play on record. The model lets an owned
+ * variant keep its boost; the own line is blended on top (OBS_K_OWN, env-fit).
  */
 export interface BuilderEnv {
   rates: EraRates;
@@ -118,7 +119,7 @@ export interface BuilderEnv {
   lhbShare: number;
   /** Run-environment year, for the era correction (calibration.ts ERA_SLOPES). */
   eraYear?: number | null;
-  observed: Array<[number, number, number, (number | null)?]>;
+  observed: Array<[number, number, number, (number | null)?, (number | null)?, (number | null)?]>;
 }
 
 export interface UpgradeCard {
@@ -622,7 +623,7 @@ export function RosterBuilder({
   const fits = useMemo(() => env
     ? envFitMaps(formPool, {
         era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear,
-        observed: new Map(env.observed.map(([id, runs, n, model]) => [id, { runs, n, model }])),
+        observed: new Map(env.observed.map(([id, runs, n, model, ownRuns, ownN]) => [id, { runs, n, model, own: ownRuns != null && ownN ? { runs: ownRuns, n: ownN } : null }])),
       })
     : fitMaps(formPool), [formPool, env]);
   const { fitR } = fits;

@@ -320,9 +320,9 @@ export default async function BuildPage({
       // The reference (the base card's model, env-fit's 0.7 R / 0.3 L read) lets an
       // owned variant keep its boost; a base card blends exactly as before.
       const observed = await loadObservedRuns(pool.map((c) => c.cardId), both, bothHands(base), [], { series: full.series, ratingsMax: full.ratingsMax });
-      env = { rates: eraRow.rates, park, lhpShare, lhbShare, eraYear: envYear ?? 2010, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n, o.model]) };
+      env = { rates: eraRow.rates, park, lhpShare, lhbShare, eraYear: envYear ?? 2010, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n, o.model, o.own?.runs ?? null, o.own?.n ?? null]) };
       {
-        const ns = pool.map((c) => observed.get(c.cardId)?.n ?? 0).filter((n) => n > 0).sort((a, b) => a - b);
+        const ns = pool.map((c) => { const o = observed.get(c.cardId); return (o?.n ?? 0) + (o?.own?.n ?? 0); }).filter((n) => n > 0).sort((a, b) => a - b);
         const band = eraBand(envYear ?? 2010);
         confidence = dataConfidence({
           seriesFiles: meta?.files ?? 0, seriesTeams: meta?.avgTeams ?? null,

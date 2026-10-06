@@ -26,6 +26,7 @@ import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEF
 import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
 import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
+import { OBS_K_OWN } from "@/lib/analytics/calibration";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
@@ -426,7 +427,7 @@ async function main() {
    * the target environment (no observed, no floor - it is only the zero
    * point) before the pool is scored with the blend.
    */
-  let observed: Map<number, { runs: number; n: number }> | undefined;
+  let observed: Map<number, { runs: number; n: number; model?: number | null; own?: { runs: number; n: number } | null }> | undefined;
   if (OBS_K > 0) {
     const all = universe.map((c) => ({
       cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole,
@@ -436,7 +437,7 @@ async function main() {
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
     // `both` is already env-fit's 0.7 R / 0.3 L read, so it is also the reference that lets a variant keep its boost.
     observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both, OBS_EXCLUDE, { series: SERIES, ratingsMax: MAX });
-    const n = [...observed.values()];
+    const n = [...observed.values()].map((x) => ({ n: x.n + (x.own?.n ?? 0) }));
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
   const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
@@ -447,8 +448,10 @@ async function main() {
     for (const c of pool.filter((x) => SHOW.some((n) => x.name.toLowerCase().includes(n))).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {
       const r = fits.runsR.get(c.cardId), l = fits.runsL.get(c.cardId);
       console.log(`  ${c.name.padEnd(22)} ${String(c.val).padStart(3)} ${c.isPitcher ? "P" : "B"} ${c.bats ?? "-"}  ${c.isPitcher ? (r ?? 0).toFixed(1) : `vR ${(r ?? 0).toFixed(1)}  vL ${(l ?? 0).toFixed(1)}`}`);
-      const o = observed?.get(c.cardId) as { runs: number; n: number; model?: number | null } | undefined;
-      if (o) console.log(`  ${"".padEnd(22)}     observed ${o.runs.toFixed(1)} over ${Math.round(o.n)} ${c.isPitcher ? "BF" : "PA"}${o.model != null ? ` · base card's model ${o.model.toFixed(1)}` : ""} · observed weight ${Math.round(100 * o.n / (o.n + OBS_K))}% (K ${OBS_K})`);
+      const o = observed?.get(c.cardId) as { runs: number; n: number; model?: number | null; own?: { runs: number; n: number } | null } | undefined;
+      const u = c.isPitcher ? "BF" : "PA";
+      if (o) console.log(`  ${"".padEnd(22)}     elsewhere ${o.n > 0 ? `${o.runs.toFixed(1)} over ${Math.round(o.n)} ${u}, weight ${Math.round(100 * o.n / (o.n + OBS_K))}% (K ${OBS_K})` : "none"}${o.model != null ? ` · base card's model ${o.model.toFixed(1)}` : ""}`);
+      if (o?.own) console.log(`  ${"".padEnd(22)}     this event ${o.own.runs.toFixed(1)} over ${Math.round(o.own.n)} ${u}, weight ${Math.round(100 * o.own.n / (o.own.n + OBS_K_OWN))}% on top (K ${OBS_K_OWN})`);
     }
   }
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);

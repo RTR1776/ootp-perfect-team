@@ -27,7 +27,7 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
+import { CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, OBS_K_OWN, powerCurveRuns } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -110,7 +110,7 @@ export interface EnvFitOptions {
    * the level blend dropped ~90% of a Level 5 variant's +8/+9 boost
    * (found 2026-09-26). Without `model` the level blend applies, as before.
    */
-  observed?: Map<number, { runs: number; n: number; model?: number | null }>;
+  observed?: Map<number, { runs: number; n: number; model?: number | null; own?: { runs: number; n: number } | null }>;
   observedK?: number;
   /**
    * Put the model's runs on the observed scale (default true).
@@ -246,13 +246,15 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
     if (r != null) r += eraFix(c, "R");
     if (l != null) l += eraFix(c, "L");
     const ob = o.observed?.get(c.cardId);
-    if (ob && ob.n > 0 && r != null && l != null) {
+    if (ob && (ob.n > 0 || (ob.own?.n ?? 0) > 0) && r != null && l != null) {
       // Blend on the both-hands read, then move both boards by the same amount.
       // Against the base card's model when given (a variant keeps its boost),
       // else against this form's own: (n·obs + K·both)/(n+K) − both.
       const both = 0.7 * r + 0.3 * l;
       const ref = ob.model != null && Number.isFinite(ob.model) ? ob.model : both;
-      const shift = (ob.n / (ob.n + K)) * (ob.runs - ref);
+      let shift = ob.n > 0 ? (ob.n / (ob.n + K)) * (ob.runs - ref) : 0;
+      // Then the event's own play, on top of everything else (OBS_K_OWN).
+      if (ob.own && ob.own.n > 0) shift += (ob.own.n / (ob.own.n + OBS_K_OWN)) * (ob.own.runs - (ref + shift));
       r += shift; l += shift;
     }
     if (r != null) runsR.set(c.cardId, r);

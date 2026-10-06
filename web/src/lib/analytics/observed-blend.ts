@@ -80,6 +80,12 @@ export interface ObservedRuns {
    * a reference: env-fit then blends the level, the pre-2026-09-26 behaviour.
    */
   model: number | null;
+  /**
+   * The card's line in the event's OWN series, on the same scale, when the
+   * caller named the event. `runs`/`n` then pool the OTHER series only, and
+   * env-fit blends this on top with OBS_K_OWN (calibration.ts).
+   */
+  own?: { runs: number; n: number } | null;
 }
 
 export { OBS_K_DEFAULT } from "./calibration";
@@ -232,13 +238,18 @@ export function observedRunsFrom(
     return side && side.den > 0 ? side.num / side.den : null;
   };
   // Pool each card: sum of (level + deviation) * weight, over sum of weight.
+  // The event's own series is kept apart (ObservedRuns.own).
   const acc = new Map<number, { num: number; den: number; series: Set<string> }>();
+  const ownAcc = new Map<number, { num: number; den: number; series: Set<string> }>();
+  const ownSeries = event?.series ?? null;
   for (const l of lines) {
     const series = str(l.series), cardId = num(l.card_id), isP = !!l.is_pitcher;
     const b = base.get(series);
     if (!b) continue;
-    if (floor != null) { const st = book.strength.get(series); if (st != null && st < floor) continue; }
-    const a = acc.get(cardId) ?? { num: 0, den: 0, series: new Set<string>() };
+    const isOwn = ownSeries != null && series === ownSeries;
+    if (!isOwn && floor != null) { const st = book.strength.get(series); if (st != null && st < floor) continue; }
+    const into = isOwn ? ownAcc : acc;
+    const a = into.get(cardId) ?? { num: 0, den: 0, series: new Set<string>() };
     const M = levelOf(series, isP);
     if (M == null) continue;
     if (isP) {
@@ -255,12 +266,15 @@ export function observedRunsFrom(
       a.den += pa;
     }
     a.series.add(series);
-    acc.set(cardId, a);
+    into.set(cardId, a);
   }
-  for (const [id, a] of acc) {
-    if (a.den <= 0) continue;
+  for (const id of new Set([...acc.keys(), ...ownAcc.keys()])) {
+    const a = acc.get(id), o = ownAcc.get(id);
+    const n = a && a.den > 0 ? a.den : 0;
+    const own = o && o.den > 0 ? { runs: (o.num / o.den) * 700, n: o.den } : null;
+    if (n <= 0 && !own) continue;
     const m = reference?.(id);
-    out.set(id, { runs: (a.num / a.den) * 700, n: a.den, series: a.series.size, model: m != null && Number.isFinite(m) ? m : null });
+    out.set(id, { runs: n > 0 ? (a!.num / a!.den) * 700 : 0, n, series: a?.series.size ?? 0, model: m != null && Number.isFinite(m) ? m : null, own });
   }
   return out;
 }

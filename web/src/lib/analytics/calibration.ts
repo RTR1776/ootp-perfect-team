@@ -21,6 +21,23 @@ export function calibrationSlope(kind: "hit" | "pit"): number {
 
 /** Runs above league average, put on the observed scale. */
 export const OBS_K_DEFAULT = 5000;
+/**
+ * The event's OWN play gets its own weight on top of the all-events blend
+ * (L.J., 2026-10-06: "the RE, the stadium and ... how others are building and
+ * the cards they are playing in that particular tourney are so key").
+ *
+ * MEASURED 2026-10-06 over observed_card_stats: for each (card, event) pair,
+ * the card's runs above that event's average against its runs above average
+ * in every OTHER event, less binomial sampling noise. What is left is play
+ * specific to the event (park, era, the field's own cards). With >=2,000 PA
+ * in the event and >=5,000 elsewhere (2,165 bat / 2,008 arm pairs) its SD is
+ * 6.0 runs/700 for bats and 4.1 for arms, against 7.9 / 5.2 for the card
+ * itself; smaller samples read higher (8.8 / 7.1 at 150 / 500), the excess
+ * being noise that the binomial term misses, so the large-sample figure is
+ * used. Sampling noise over that variance puts the crossover at ~2,250 PA /
+ * ~1,870 BF; 2,500 is the rounded, conservative K for both.
+ */
+export const OBS_K_OWN = 2500;
 
 /**
  * What each rating returned in play, per era band: runs per 700 PA per +10
