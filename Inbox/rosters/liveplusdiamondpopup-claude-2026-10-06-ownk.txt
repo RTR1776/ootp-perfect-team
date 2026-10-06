@@ -1,0 +1,36 @@
+# Live-Plus Diamond Pop-up — Claude pick 2026-10-06 ownk, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Fenway Park --park-year 2026 --dh --min 40 --max 99 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveplusdiamondpopup --sp 5 --rp 7 --bats 14)
+R:C Eduardo Tait #84743
+R:1B Arjun Nimmala (VAR) #84745
+R:2B Colt Emerson (VAR) #85116
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Ethan Holliday (VAR) #84744
+R:LF Josue De Paula (VAR) #84729
+R:CF Max Clark (VAR) #84725
+R:RF Zyhir Hope #84739
+R:DH JJ Wetherholt (VAR) #84633
+L:C William Contreras #81935
+L:1B Sal Stewart #84649
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Aidan Miller #85117
+L:LF Ryan Waldschmidt (VAR) #84737
+L:CF Kevin Alcantara (VAR) #84755
+L:RF Josue De Paula (VAR) #84729
+L:DH Ethan Holliday (VAR) #84744
+SP1 Connelly Early #84638
+SP2 Payton Tolle #84646
+SP3 Noah Schultz #84626
+SP4 Trey Yesavage (VAR) #84648
+SP5 Seth Hernandez (VAR) #84742
+CL Adrian Morejon #81760
+RP1 Jack Wenninger #85125
+RP2 Jarlin Susana #84627
+RP3 Edgardo Henriquez #81769
+RP4 Thomas White #84726
+RP5 Yohan Ramirez #81910
+RP6 David Bednar #82583
+BN1 Aidan Miller #85117
+BN2 Ryan Waldschmidt (VAR) #84737
+BN3 Sal Stewart #84649
+BN4 Kevin Alcantara (VAR) #84755
+BN5 William Contreras #81935

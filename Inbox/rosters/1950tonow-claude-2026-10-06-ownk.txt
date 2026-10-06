@@ -1,0 +1,36 @@
+# Wednesday 1950 to Now — Claude pick 2026-10-06 ownk, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Globe Life Field --park-year 2026 --dh --min 40 --max 105 --card-year-min 1950 --card-year-max 2026 --card-types 7,8 --size 26 --series 1950tonow --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Adam Kennedy #84172
+R:3B Hanley Ramirez #86807
+R:SS Francisco Lindor #87053
+R:LF Lonnie Smith #86721
+R:CF Hank Thompson #86668
+R:RF Richard Hidalgo #86707
+R:DH Kal Daniels #84163
+L:C Ivan Rodriguez #85348
+L:1B Joe Adcock #84203
+L:2B Brandon Lowe (VAR) #83746
+L:3B Randy Ready #86921
+L:SS Francisco Lindor #87053
+L:LF Lonnie Smith #86721
+L:CF Richard Hidalgo #86707
+L:RF Andrew McCutchen #85664
+L:DH Hanley Ramirez #86807
+SP1 Larry Jackson #86646
+SP2 Kyle Freeland (VAR) #86708
+SP3 CC Sabathia #86350
+SP4 J.A. Happ #86352
+SP5 Jordan Montgomery #86354
+CL Robb Nen #83906
+RP1 Daniel Palencia (VAR) #84613
+RP2 Jake McGee (VAR) #86789
+RP3 Joe Sambito #84075
+RP4 Tony Watson (VAR) #85457
+RP5 Aaron Heilman #86324
+RP6 Mark Langston #86956
+BN1 Andrew McCutchen #85664
+BN2 Randy Ready #86921
+BN3 Ivan Rodriguez #85348
+BN4 Brandon Lowe (VAR) #83746
+BN5 Joe Adcock #84203
