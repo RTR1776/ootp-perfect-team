@@ -450,7 +450,9 @@ async function main() {
    * Bench bats are counted at a tenth — they are insurance, not production.
    */
   const mustIds = new Set(
-    MUST.map((n) => pool.find((c) => c.name.toLowerCase() === n.toLowerCase())?.cardId).filter((x): x is number => x != null),
+    // "#84648" pins a card id, for a name that matches more than one owned card (a Live base and an FLF variant).
+    MUST.map((n) => pool.find((c) => (/^#\d+$/.test(n) ? c.cardId === Number(n.slice(1)) : c.name.toLowerCase() === n.toLowerCase()))?.cardId)
+      .filter((x): x is number => x != null),
   );
   if (MUST.length) console.log(`must carry: ${MUST.join(", ")} -> ${mustIds.size} matched`);
 
