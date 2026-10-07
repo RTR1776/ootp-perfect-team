@@ -1,0 +1,35 @@
+# Saturday Diamond Variety — Claude pick 2026-10-06-new208b, rebuilt from the catalogue's rules by current-rosters (--year 1952 --park Tiger Stadium --park-year 1958 --min 40 --max 99 --card-year-min 1910 --card-year-max 1959 --size 26 --series diamondvariety --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Rudy York (VAR) #86429
+R:2B Eddie Collins #82751
+R:3B Hank Thompson #86668
+R:SS Luke Appling #82759
+R:LF Mickey Mantle #86635
+R:CF Shoeless Joe Jackson #86372
+R:RF Ty Cobb #86986
+L:C Mack Eggleston #86977
+L:1B Rudy York (VAR) #86429
+L:2B Larry Doby #84878
+L:3B Joe Dugan (VAR) #86765
+L:SS Pythias Russ #87083
+L:LF Al Simmons #85942
+L:CF Willie Mays #86634
+L:RF Ty Cobb #86986
+SP1 Sam Jones #86070
+SP2 Larry Jackson #86646
+SP3 Luther Farrell #86900
+SP4 Dutch Leonard #85704
+SP5 Carl Hubbell #86893
+CL Joe Beggs #86762
+RP1 Howie Pollet #83900
+RP2 Dizzy Trout #85781
+RP3 Babe Ruth #86439
+RP4 Count Leblanc #86978
+RP5 Sam Streeter #84538
+RP6 Rube Marquard #86891
+BN1 Al Simmons #85942
+BN2 Mack Eggleston #86977
+BN3 Willie Mays #86634
+BN4 Pythias Russ #87083
+BN5 Joe Dugan (VAR) #86765
+BN6 Larry Doby #84878

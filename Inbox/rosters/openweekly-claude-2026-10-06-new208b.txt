@@ -1,0 +1,36 @@
+# Sunday Open Main Event — Claude pick 2026-10-06-new208b, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Truist Park --park-year 2026 --dh --size 26 --series openweekly --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Leodalis De Vries #84724
+R:3B George Brett #87025
+R:SS Ernie Banks #86621
+R:LF Mike Greenwell #86909
+R:CF Carlos Beltran #87066
+R:RF Juan Soto #87013
+R:DH Hideki Matsui #87042
+L:C Mike Piazza (VAR) #86463
+L:1B Hank Aaron #86655
+L:2B Bret Boone #86701
+L:3B George Brett #87025
+L:SS Ernie Banks #86621
+L:LF Heinie Manush #86370
+L:CF Mel Ott #86272
+L:RF Juan Soto #87013
+L:DH Hideki Matsui #87042
+SP1 Cy Young (VAR) #86572
+SP2 Bret Saberhagen #86915
+SP3 Dave Stieb #86958
+SP4 Harvey Haddix #86623
+SP5 CC Sabathia #86350
+CL Willie Hernandez #86914
+RP1 Tony Fossas (VAR) #83324
+RP2 Zack Britton #86426
+RP3 Robb Nen #83906
+RP4 Orel Hershiser #83135
+RP5 Jake McGee (VAR) #86789
+RP6 Rich Gossage #85046
+BN1 Mel Ott #86272
+BN2 Heinie Manush #86370
+BN3 Mike Piazza (VAR) #86463
+BN4 Hank Aaron #86655
+BN5 Bret Boone #86701
