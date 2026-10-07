@@ -48,7 +48,6 @@ Dates are the dump's UTC start dates, so a late-evening event can show a day lat
 
 Most wanted, beyond simply not losing data:
 - **Diamond 1990 Onward** has only runs 24 and 25. Its model check (10-05) needs more runs, but 10-05 to 10-07 runs aren't in the dump. Grab any on screen.
-- **Deadball** run 28 is already filed.
 - **Splendid Silver 28**: the 537 format dates from run 27, so run 28 is the second of the new format.
 - **Danksville 28 and NEL Slots 18**: the second runs of the formats changed 09-25/26.
 - **CC5 run 21**: the last run of the old Cap Challenge format, which completes its series.
