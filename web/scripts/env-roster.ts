@@ -368,14 +368,15 @@ async function main() {
   if (built?.rpWeight != null && RP_WEIGHT_FLAG == null) RP_WEIGHT = built.rpWeight;
   if (built) console.log(`staff weights from ${SERIES}'s exports: SP ${SP_WEIGHT}, RP ${RP_WEIGHT} (a lineup slot = 1)`);
   if (SERIES && !meta) console.log(`!! no exports on record for series ${SERIES} — shape and handedness fall back to the era table`);
-  const shapeMeta = (num("bats") != null || num("sp") != null || num("rp") != null)
+  const shapeGiven = num("bats") != null || num("sp") != null || num("rp") != null;
+  const shapeMeta = shapeGiven
     ? { avgBats: num("bats"), avgSp: num("sp"), avgRp: num("rp") }
     : meta ? { avgBats: meta.avgBats, avgSp: meta.avgSp, avgRp: meta.avgRp } : null;
   const LHP_SHARE = LHP_SHARE_FLAG ?? meta?.lhpBfShare ?? LHP_SHARE_DEFAULT;
   const LHB_SHARE = LHB_SHARE_FLAG ?? meta?.lhbPaShare ?? 0.35;
   if (LHB_SHARE_FLAG != null || LHP_SHARE_FLAG != null) console.log(`field hands set by flag: ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats`);
   if (meta) console.log(`field (${SERIES}, ${meta.files} exports): ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats · ${meta.avgBats} bats / ${meta.avgSp} SP / ${meta.avgRp} RP per team`);
-  const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any, YEAR_MIN);
+  const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any, YEAR_MIN, shapeGiven);
   const shape: FillShape = {
     lineupPos, bats: shp.bats,
     spKeys: Array.from({ length: shp.sp }, (_, i) => `SP${i + 1}`),
