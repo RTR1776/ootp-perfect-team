@@ -1,0 +1,35 @@
+# Daily Golden Age — Claude pick 2026-10-07-pre1930, rebuilt from the catalogue's rules by current-rosters (--year 1925 --park Hamtramck Stadium --park-year 1930 --min 40 --max 89 --card-year-min 1800 --card-year-max 1929 --size 26 --series goldenage --sp 4 --rp 5 --bats 17)
+R:C Mack Eggleston #86977
+R:1B Jake Daubert #83740
+R:2B Jack Burdock #86067
+R:3B Dave Brain (VAR) #85934
+R:SS Pythias Russ #87083
+R:LF Chick Hafey #85939
+R:CF Shoeless Joe Jackson #86372
+R:RF Willie Keeler #85878
+L:C Mack Eggleston #86977
+L:1B Shoeless Joe Jackson #86372
+L:2B Jack Burdock #86067
+L:3B Joe Dugan (VAR) #86765
+L:SS Pythias Russ #87083
+L:LF Bob Fothergill (VAR) #84796
+L:CF Roy Thomas #86784
+L:RF Chick Hafey #85939
+SP1 Carl Hubbell #86893
+SP2 Luther Farrell #86900
+SP3 Count Leblanc #86978
+SP4 Nick Altrock #87049
+CL Rube Marquard #86891
+RP1 Jakie May (VAR) #85286
+RP2 Hod Eller #83320
+RP3 Hubert Lockhart #87082
+RP4 Dave Brown #84506
+BN1 Billy Southworth #86379
+BN2 Bob Fothergill (VAR) #84796
+BN3 Roy Thomas #86784
+BN4 Ben Taylor #87163
+BN5 Biz Mackey #86894
+BN6 Tom Brown #86767
+BN7 Elmer Smith #84706
+BN8 Joe Judge #84194
+BN9 Joe Dugan (VAR) #86765
