@@ -1,0 +1,36 @@
+# Daily Bronze PTCS 3 Replay Slots — Claude pick 2026-10-07 two, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Coors Field --park-year 2000 --dh --min 40 --max 69 --slots B18,I8 --variant-cap 13 --size 26 --series bronzeptcs3 --sp 5 --rp 7 --bats 14)
+R:C Thayron Liranzo (VAR) #85135
+R:1B Edward Florentino (VAR) #84777
+R:2B Jhonny Level (VAR) #84765
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Billy Southworth #86379
+R:RF Deion Sanders #86962
+R:DH Wes Covington #86651
+L:C Thayron Liranzo (VAR) #85135
+L:1B Matt Davidson (VAR) #84666
+L:2B Jhonny Level (VAR) #84765
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Steve Pearce (VAR) #86366
+L:CF Deion Sanders #86962
+L:RF Andruw Jones (VAR) #86321
+L:DH Dave Harris #83649
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Corey Kluber (VAR) #87008
+SP4 Tanner McDougal (VAR) #85032
+SP5 Jake Bloss (VAR) #84779
+CL Edwin Diaz #86422
+RP1 Adam Cimber (VAR) #84271
+RP2 Satchel Paige #84839
+RP3 Randy Choate #87026
+RP4 Mike Marshall #84720
+RP5 Todd Jones (VAR) #86434
+RP6 Hector Rondon #83078
+BN1 Andruw Jones (VAR) #86321
+BN2 Rick Wilkins #86392
+BN3 Matt Davidson (VAR) #84666
+BN4 Dave Harris #83649
+BN5 Chris Sabo #87059

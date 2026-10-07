@@ -9,7 +9,8 @@ test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest
   assert.deepEqual([eraStaff(1984).sp, eraStaff(1984).rp], [5, 6]);
   assert.deepEqual([eraStaff(1968).sp, eraStaff(1968).rp], [5, 5]);
   assert.deepEqual([eraStaff(1935).sp, eraStaff(1935).rp], [4, 4]);
-  assert.deepEqual([eraStaff(1907).sp, eraStaff(1907).rp], [4, 3]);
+  assert.deepEqual([eraStaff(1907).sp, eraStaff(1907).rp], [4, 5], "L.J. 10-07: pre-1930 is 4 SP / 5 RP");
+  assert.deepEqual([eraStaff(1920).sp, eraStaff(1920).rp], [4, 5]);
   for (const y of [1907, 1935, 1968, 1984, 2006, 2024]) assert.ok(eraStaff(y).sp <= 5 && eraStaff(y).rp <= 7 && eraStaff(y).sp + eraStaff(y).rp <= 12, `5 SP, 7 RP, 12 arms at most (${y})`);
   const cap = rosterShape(1935, 8, 26, null);
   assert.deepEqual([cap.bats, cap.sp, cap.rp, cap.source], [18, 4, 4, "era"]);
@@ -21,8 +22,12 @@ test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest
   assert.deepEqual([explicit.bats, explicit.sp, explicit.rp], [14, 5, 7], "--sp 5 --rp 8 comes out 5 SP / 7 RP / 14 bats");
   const six = rosterShape(2010, 9, 26, { avgSp: 6, avgRp: 6, avgBats: 14 });
   assert.deepEqual([six.bats, six.sp, six.rp], [14, 5, 7], "a 6th starter goes to the pen as a long man");
-  const deadball = rosterShape(1910, 8, 26, { avgSp: 4, avgRp: 3, avgBats: 19 });
-  assert.deepEqual([deadball.bats, deadball.sp, deadball.rp], [19, 4, 3], "small staffs are left alone");
+  const deadball = rosterShape(1910, 8, 26, { avgSp: 4, avgRp: 3, avgBats: 19 }, null, true);
+  assert.deepEqual([deadball.bats, deadball.sp, deadball.rp], [19, 4, 3], "a shape given by hand is left alone, even before 1930");
+  const wedDeadball = rosterShape(1920, 8, 26, { avgSp: 5.6, avgRp: 1.8, avgBats: 15.2 }, 1800);
+  assert.deepEqual([wedDeadball.bats, wedDeadball.sp, wedDeadball.rp, wedDeadball.source], [17, 4, 5, "era"], "before 1930 the exports' SP count is ignored (every card is an SP): 4 SP / 5 RP");
+  const lateCards = rosterShape(1920, 8, 26, { avgSp: 5, avgRp: 6, avgBats: 15 }, 1950);
+  assert.equal(lateCards.source, "observed", "a 1920 RE with 1950-on cards is not pre-1930");
   assert.equal(rosterShape(1935, 8, 22, null).bats, 14, "roster size other than 26");
   const modernCards = rosterShape(1957, 9, 26, null, 1990);
   assert.deepEqual([modernCards.bats, modernCards.sp, modernCards.rp], [15, 5, 6], "1957 RE with 1990-on cards staffs like the 1990s");

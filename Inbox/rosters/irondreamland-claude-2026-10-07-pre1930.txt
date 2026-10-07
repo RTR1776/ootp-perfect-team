@@ -1,0 +1,35 @@
+# Daily Iron Dreamland — Claude pick 2026-10-07-pre1930, rebuilt from the catalogue's rules by current-rosters (--year 1907 --park Swampoodle Grounds --park-year 1886 --max 59 --size 26 --series irondreamland --sp 4 --rp 5 --bats 17) — L.J. stamina swap: Fedde (93) starts over Sears (70)
+R:C Ted Easterly #84686
+R:1B Broderick Perkins #86460
+R:2B Nap Lajoie #86581
+R:3B Jim Tabor #85905
+R:SS Kid Elberfeld (VAR) #86368
+R:LF Milt Thompson #86927
+R:CF Lou Brock #84315
+R:RF Bob Bowman #86803
+L:C Cal McVey (VAR) #83567
+L:1B Matt Davidson (VAR) #84666
+L:2B Dan Uggla #86599
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Freddy Galvis (VAR) #85743
+L:LF Andruw Jones (VAR) #86321
+L:CF Dwayne Hosey #86801
+L:RF Dexter Fowler #85725
+SP1 James McDonald (VAR) #86384
+SP2 Marco Estrada #87046
+SP3 Justin Verlander #87014
+SP4 Erick Fedde #82481
+CL Todd Jones (VAR) #86434
+RP1 Grant Anderson #81920
+RP2 Tyler Kinley #82155
+RP3 Mike Marshall #84720
+RP4 JP Sears #81762
+BN1 George Sisler (VAR) #87002
+BN2 Todd Walker #87045
+BN3 Matt Davidson (VAR) #84666
+BN4 Dwayne Hosey #86801
+BN5 Dexter Fowler #85725
+BN6 Dan Uggla #86599
+BN7 Freddy Galvis (VAR) #85743
+BN8 Cal McVey (VAR) #83567
+BN9 Andruw Jones (VAR) #86321

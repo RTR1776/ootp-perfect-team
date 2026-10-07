@@ -63,7 +63,15 @@ export interface FitMaps {
  * So: at most MAX_SP starters, MAX_RP in the pen, MAX_ARMS in all; arms past
  * the caps become bats. The pen's stamina guys are enforced by the optimiser
  * (minLongMen). League rosters don't use this.
+ *
+ * L.J., 2026-10-07 — pre-1930 run environments, firm: "For Deadball, we don't
+ * need 5 SP or 6 RP, should be 4 SP and probably 5 RP - it is 1920", then "make
+ * it the rule for pre-1930 events". 4 SP / 5 RP before 1930, and the exports
+ * don't override it: in those sets nearly every pitcher card carries an SP role,
+ * so a field's SP count (Wednesday Deadball read 5.6 SP / 1.8 RP) says nothing
+ * about how many men start. An explicit --sp/--rp/--bats still wins.
  */
+export const PRE_1930 = 1930;
 export const MAX_SP = 5;
 export const MAX_RP = 7;
 export const MAX_ARMS = 12;
@@ -73,8 +81,8 @@ export function eraStaff(envYear: number | null | undefined): { sp: number; rp: 
   if (envYear >= 2010) return { sp: 5, rp: 7, band: "2010–present" };
   if (envYear >= 1980) return { sp: 5, rp: envYear >= 1995 ? 7 : 6, band: "1980s–2000s" };
   if (envYear >= 1960) return { sp: 5, rp: envYear >= 1970 ? 6 : 5, band: "1960s–70s" };
-  if (envYear >= 1920) return { sp: 4, rp: envYear >= 1940 ? 5 : 4, band: "1920s–50s" };
-  return { sp: 4, rp: 3, band: "deadball" };
+  if (envYear >= PRE_1930) return { sp: 4, rp: envYear >= 1940 ? 5 : 4, band: "1930s–50s" };
+  return { sp: 4, rp: 5, band: "pre-1930 (L.J. 10-07)" };
 }
 
 /**
@@ -90,13 +98,17 @@ export function rosterShape(
   total: number | null,
   meta: { avgSp: number | null; avgRp: number | null; avgBats: number | null } | null | undefined,
   cardYearMin?: number | null,
+  /** The shape was given by hand (--sp/--rp/--bats): it wins even before 1930. */
+  explicit = false,
 ): { bats: number; sp: number; rp: number; source: "observed" | "era"; band: string } {
   const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
   const size = total ?? 26;
   const later = envYear != null && cardYearMin != null && cardYearMin > envYear;
   const era0 = eraStaff(later ? cardYearMin : envYear);
   const era = later ? { ...era0, band: `${era0.band}, cards ${cardYearMin} on` } : era0;
-  if (meta?.avgSp != null && (meta.avgBats != null || meta.avgRp != null)) {
+  const eraYear = later ? cardYearMin : envYear;
+  const pre1930 = eraYear != null && eraYear < PRE_1930;
+  if (meta?.avgSp != null && (meta.avgBats != null || meta.avgRp != null) && (explicit || !pre1930)) {
     // --sp 4 --rp 4 alone is a complete shape: the bats are what is left.
     const bats = clamp(Math.round(meta.avgBats ?? size - meta.avgSp - (meta.avgRp ?? 0)), lineupSize, 22);
     const sp0 = clamp(Math.round(meta.avgSp), 1, 9);

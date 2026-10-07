@@ -1,0 +1,36 @@
+# Live-Plus Diamond Pop-up — Claude pick 2026-10-07 rodriguez, env-roster on collection 211 (--year 2010 --park Fenway Park --park-year 2026 --dh --min 40 --max 99 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveplusdiamondpopup --sp 5 --rp 7 --bats 14 --optimize --starts 12 --role-trust 0.25 --assume-owned 84734)
+R:C Rainiel Rodriguez #84734
+R:1B Ethan Holliday (VAR) #84744
+R:2B Colt Emerson (VAR) #85116
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF JJ Wetherholt (VAR) #84633
+R:CF Max Clark (VAR) #84725
+R:RF Josue De Paula (VAR) #84729
+R:DH Bryce Rainer #84732
+L:C Rainiel Rodriguez #84734
+L:1B Ethan Holliday (VAR) #84744
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Aidan Miller #85117
+L:LF Ryan Waldschmidt (VAR) #84737
+L:CF Luis Pena #84733
+L:RF Kevin Alcantara (VAR) #84755
+L:DH Josue De Paula (VAR) #84729
+SP1 Connelly Early #84638
+SP2 Payton Tolle #84646
+SP3 Noah Schultz #84626
+SP4 Trey Yesavage (VAR) #84648
+SP5 Seth Hernandez (VAR) #84742
+CL Jack Wenninger #85125
+RP1 Adrian Morejon #81760
+RP2 Thomas White #84726
+RP3 Edgardo Henriquez #81769
+RP4 Jarlin Susana #84627
+RP5 David Bednar #82583
+RP6 Yohan Ramirez #81910
+BN1 Aidan Miller #85117
+BN2 Luis Pena #84733
+BN3 Ryan Waldschmidt (VAR) #84737
+BN4 Kevin Alcantara (VAR) #84755
+BN5 Eduardo Tait #84743
