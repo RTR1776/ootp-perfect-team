@@ -30,7 +30,7 @@ RP4 Randy Choate #87026
 RP5 Billy Wagner #85778
 RP6 Roy Halladay #86705
 BN1 Alfonso Soriano #86754
-BN2 Andruw Jones (VAR) #86321
-BN3 Jett Williams #84763
-BN4 Scott Spiezio #85702
-BN5 Dillon Dingler #82406
+BN2 Jett Williams #84763
+BN3 Scott Spiezio #85702
+BN4 Dillon Dingler #82406
+BN5 Andruw Jones (VAR) #86321

@@ -1,0 +1,35 @@
+# Daily Early Years Cap — Claude pick 2026-10-08 new, rebuilt from the catalogue's rules by current-rosters (--year 1888 --min 40 --max 105 --card-year-min 1800 --card-year-max 1939 --cap 1500 --size 26 --series earlyyearscap --sp 4 --rp 5 --bats 17)
+R:C Ted Easterly #84686
+R:1B Nap Lajoie #86581
+R:2B Pop Lloyd #86896
+R:3B Kid Elberfeld (VAR) #86368
+R:SS Luke Appling #82759
+R:LF Tom Brown #86767
+R:CF Maurice Archdeacon #85665
+R:RF Jack Tobin #86772
+L:C Cal McVey (VAR) #83567
+L:1B Scoops Carey (VAR) #82851
+L:2B Pop Lloyd #86896
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Luke Appling #82759
+L:LF Tom Brown #86767
+L:CF Maurice Archdeacon #85665
+L:RF Jack Tobin #86772
+SP1 Cy Young (VAR) #86572
+SP2 Eddie Plank #86890
+SP3 Dizzy Dean #86473
+SP4 Jakie May (VAR) #85286
+CL Tin Can Kincannon #86073
+RP1 Bert Gallia (VAR) #82783
+RP2 Bob Harris #84217
+RP3 Fred Frankhouse #82934
+RP4 Bob Barr #82968
+BN1 George Sisler (VAR) #87002
+BN2 Scoops Carey (VAR) #82851
+BN3 Bill Everitt #82866
+BN4 Mel Almada #85275
+BN5 Charlie Eden #82834
+BN6 Al Burch #84328
+BN7 Walt French #86960
+BN8 Greasy Neale #87142
+BN9 Cal McVey (VAR) #83567
