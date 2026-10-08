@@ -113,6 +113,18 @@ const MIN_LONG = num("min-long", 2)!;
 /** A backup at every fielding position (L.J. 2026-10-04); --no-backups turns it off. */
 const BACKUPS = !flag("no-backups");
 /**
+ * --seed <load file>: hill-climb from this roster too (a saved roster's load
+ * file: "R:C Name #id" / "SP1 Name #id" / "BN1 Name #id" lines). When new cards
+ * arrive the best roster is usually the saved one plus a swap or two, so one
+ * climb from it finds what a dozen λ starts from scratch do, in a fraction of
+ * the time (L.J. 10-08: "how can we more quickly update rosters when cards
+ * come out"). Cards no longer in the pool are dropped and the board refilled
+ * around the rest. Pair it with a small --starts as a cross-check.
+ */
+const SEED = val("seed") ?? null;
+/** The λ a seeded start reports (it was not filled at any λ). */
+const SEED_LAMBDA = -1;
+/**
  * --candidate-limit N: prune each slot to its N best candidates by runs
  * before hill-climbing (what /build does with 30, so the search finishes in
  * seconds in the browser). Unset = the full pool, as before.
@@ -472,6 +484,31 @@ async function main() {
   });
   void defAt;
 
+  /**
+   * The --seed roster as a hill-climb start: its own slots when every card is
+   * still in the pool and every slot of this shape is filled, else a fill that
+   * must carry the seed's surviving cards (the climb then sorts out where they
+   * go). Null, with the reason printed, when neither gives a complete board.
+   */
+  function seedStart(path: string): Record<string, number> | null {
+    const lines = readFileSync(path, "utf8").split("\n").map((l) => /^(\S+)\s.*#(\d+)\s*$/.exec(l.trim())).filter((m): m is RegExpExecArray => m != null && !m[1]!.startsWith("#"));
+    const inPool = new Set(pool.map((c) => c.cardId));
+    const kept = lines.filter((m) => inPool.has(Number(m[2])));
+    const gone = lines.length - kept.length;
+    const direct = Object.fromEntries(kept.map((m) => [m[1]!, Number(m[2])]));
+    if (!gone && isComplete(direct, shape)) { console.log(`seed: ${path.split("/").pop()} as is (${new Set(Object.values(direct)).size} cards)`); return direct; }
+    const must = new Set(kept.map((m) => Number(m[2])));
+    for (const lam of [0, 0.5, 1, 2, 4, 8]) {
+      const r = fillOnce(pool, rules, shape, fits, lam, must);
+      if (isComplete(r, shape)) {
+        console.log(`seed: ${path.split("/").pop()} refilled at λ ${lam} (${gone} card${gone === 1 ? "" : "s"} no longer in the pool; shape ${isComplete(direct, shape) ? "matches" : "differs"})`);
+        return r;
+      }
+    }
+    console.log(`!! seed: ${path.split("/").pop()} could not be completed for this shape; λ starts only`);
+    return null;
+  }
+
   let { slots, lambda } = fillRoster(pool, rules, shape, fits);
   const greedyScore = objective(slots);
   if (OPTIMIZE) {
@@ -481,18 +518,24 @@ async function main() {
     // starts is the lever when a run has to fit a time budget.
     const N_STARTS = num("starts", 64)!;
     for (let i = 0; i <= N_STARTS; i++) {
-      const lam = (i / N_STARTS) * 8;
+      const lam = N_STARTS > 0 ? (i / N_STARTS) * 8 : 0;
       const r = fillOnce(pool, rules, shape, fits, lam);
       if (!isComplete(r, shape)) continue;
       starts.set([...new Set(Object.values(r))].sort((a, b) => a - b).join(","), { slots: r, lambda: lam });
     }
+    if (SEED) {
+      const seed = seedStart(SEED);
+      if (seed) starts.set("seed", { slots: seed, lambda: SEED_LAMBDA });
+    }
 
     let best = { slots, score: greedyScore, from: lambda, moves: 0 };
+    let seedScore: number | null = null;
     for (const [, st] of COMPARE_ONLY ? [] : starts) {
       const r = optimizeRoster(st.slots, pool, rules, shape, {
         objective, slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
         candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
       });
+      if (st.lambda === SEED_LAMBDA) seedScore = r.score;
       if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }
     let deepBoard: Record<string, number> | null = null;
@@ -510,7 +553,7 @@ async function main() {
         console.log(`compare-search: /build ${mode === "quick" ? "Optimise" : "Search longer"} ${b ? objective(b.slots).toFixed(1) : "none"} runs (from ${b?.from ?? "-"}) in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
       }
     }
-    console.log(`\noptimiser: ${starts.size} λ starts hill-climbed; best ${best.score.toFixed(1)} runs vs ${greedyScore.toFixed(1)} greedy (+${(best.score - greedyScore).toFixed(1)}), ${best.moves} moves from λ ${best.from.toFixed(2)}`);
+    console.log(`\noptimiser: ${starts.size} ${starts.has("seed") ? "starts (λ + seed)" : "λ starts"} hill-climbed; best ${best.score.toFixed(1)} runs vs ${greedyScore.toFixed(1)} greedy (+${(best.score - greedyScore).toFixed(1)}), ${best.moves} moves from ${best.from === SEED_LAMBDA ? "the seed" : `λ ${best.from.toFixed(2)}`}${seedScore != null && best.from !== SEED_LAMBDA ? ` (the seed's climb: ${seedScore.toFixed(1)})` : ""}`);
     slots = best.slots; lambda = best.from;
     if (deepBoard) {
       // Which cards /build's Search longer board has that the CLI's doesn't, and back.
@@ -598,7 +641,7 @@ async function main() {
   const rostered = [...new Set(Object.values(slots))].map((id) => poolById.get(id)!).filter(Boolean);
   const totalVal = rostered.reduce((n, c) => n + (c.val ?? 0), 0);
   const lhbStarters = lineupPos.filter((p) => { const c = poolById.get(slots[`R:${p}`]); return c && batsLeftOn(c.bats, "R"); }).length;
-  console.log(`\n${rostered.length} players · value ${totalVal}${CAP ? ` / ${CAP} (${CAP - totalVal} spare)` : ""} · λ ${lambda.toFixed(3)} · ${rostered.filter((c) => c.variant).length} variants`);
+  console.log(`\n${rostered.length} players · value ${totalVal}${CAP ? ` / ${CAP} (${CAP - totalVal} spare)` : ""} · ${lambda === SEED_LAMBDA ? "from seed" : `λ ${lambda.toFixed(3)}`} · ${rostered.filter((c) => c.variant).length} variants`);
   console.log(`vs RHP lineup gets the friendly park side in ${lhbStarters} of ${lineupPos.length} spots`);
   const bats2 = rostered.filter((c) => !c.isPitcher);
   console.log(`\n--- order inputs (rostered bats) ---`);
