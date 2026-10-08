@@ -1,0 +1,36 @@
+# PTCS 7 Championship - Cap — Claude pick 2026-10-08 pujols arms: arms ×1.5 search (--sp-weight 1.5 --rp-weight 0.465), re-optimised on default weights with --must: 359.9 vs 359.6 default build; collection 215 (--year 1970 --park Dodger Stadium --park-year 1971 --dh --min 80 --max 103 --cap 2342 --variant-cap 11 --size 26 --sp 5 --rp 6 --bats 15)
+R:C Mike Piazza (VAR) #86463
+R:1B Pedro Alvarez #87062
+R:2B Leodalis De Vries #84724
+R:3B George Brett #87025
+R:SS Ernie Banks #86621
+R:LF Mike Greenwell #86909
+R:CF Bo Jackson #86966
+R:RF Juan Soto #87013
+R:DH Albert Pujols #87149
+L:C Mike Piazza (VAR) #86463
+L:1B Albert Pujols #87149
+L:2B Leodalis De Vries #84724
+L:3B George Brett #87025
+L:SS Ernie Banks #86621
+L:LF Juan Soto #87013
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Hanley Ramirez #86807
+SP1 Bret Saberhagen #86915
+SP2 Cy Young (VAR) #86572
+SP3 Sam Jones #86070
+SP4 Larry Jackson #86646
+SP5 Jim Kaat (VAR) #85114
+CL Tony Watson (VAR) #85457
+RP1 Dave Righetti #85870
+RP2 Luis Arroyo (VAR) #85489
+RP3 Raisel Iglesias #83322
+RP4 Javier Lopez #86408
+RP5 Yennier Cano #82647
+BN1 Kal Daniels #84163
+BN2 Owen Wilson #86591
+BN3 Hanley Ramirez #86807
+BN4 Adam Kennedy #84172
+BN5 Josh Gibson #86898
+BN6 Jeff Francoeur (VAR) #86300

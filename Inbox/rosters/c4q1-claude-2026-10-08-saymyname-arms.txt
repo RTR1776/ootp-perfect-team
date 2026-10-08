@@ -1,0 +1,36 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-10-08 saymyname arms: found with --sp-weight 1.5 --rp-weight 0.465, re-optimised on the default weights with --must (261.6 vs 256.5 for roster 392); collection 213 (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --obs-exclude c4q1 --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Hanley Ramirez #86807
+R:LF Mike Greenwell #86909
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Hideki Matsui #87042
+L:C Mike Zunino #86431
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Hanley Ramirez #86807
+L:LF Mike Greenwell #86909
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Hideki Matsui #87042
+SP1 Larry Jackson #86646
+SP2 Jim Kaat (VAR) #85114
+SP3 Jakie May (VAR) #85286
+SP4 James McDonald (VAR) #86384
+SP5 Fritz Ostermueller #86357
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 Bob Gibson #86658
+RP4 Steve Farr #86924
+RP5 Ron Robinson #86778
+RP6 R.T. Walker #86952
+BN1 George Sisler (VAR) #87002
+BN2 Chris Sabo #87059
+BN3 John Leary #84297
+BN4 Mike Zunino #86431
+BN5 Charlie Eden #82834

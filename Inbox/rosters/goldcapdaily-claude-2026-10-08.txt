@@ -1,0 +1,36 @@
+# Daily Gold Cap — Claude pick 2026-10-08, env-roster on collection 215, 16 starts: 226.4 (saved 359: 216.8; arms ×1.5 roster re-scored: 220.3) (--year 1999 --park Jacobs Field --park-year 1999 --dh --min 40 --max 89 --cap 1780 --size 26 --series goldcapdaily --sp 5 --rp 7 --bats 14)
+R:C Mack Eggleston #86977
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Hank Blalock #86433
+R:SS Francisco Lindor #87053
+R:LF Kal Daniels #84163
+R:CF Bo Jackson #86966
+R:RF Curtis Granderson #86596
+R:DH Carlos Delgado #86998
+L:C Mike Zunino #86431
+L:1B Matt Davidson (VAR) #84666
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Francisco Lindor #87053
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Mack Eggleston #86977
+L:DH Steve Pearce (VAR) #86366
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Jakie May (VAR) #85286
+SP4 Fritz Ostermueller #86357
+SP5 James McDonald (VAR) #86384
+CL Edwin Diaz #86422
+RP1 Bruce Ruffin #86777
+RP2 Randy Choate #87026
+RP3 Todd Jones (VAR) #86434
+RP4 Reed Garrett #84825
+RP5 Tin Can Kincannon #86073
+RP6 R.T. Walker #86952
+BN1 Charlie Eden #82834
+BN2 Chris Sabo #87059
+BN3 Matt Davidson (VAR) #84666
+BN4 Mike Zunino #86431
+BN5 Steve Pearce (VAR) #86366

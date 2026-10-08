@@ -1,0 +1,36 @@
+# Daily Live Silver — Claude pick 2026-10-08 new, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Yankee Stadium --park-year 2026 --dh --min 40 --max 79 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series livesilverdaily --sp 5 --rp 7 --bats 14)
+R:C Carter Jensen #82374
+R:1B Vladimir Guerrero Jr. #82507
+R:2B Ketel Marte #81850
+R:3B Jose Ramirez #82444
+R:SS Gunnar Henderson #82642
+R:LF Mickey Moniak #81818
+R:CF Julio Rodriguez #82242
+R:RF Wilyer Abreu #82607
+R:DH Dominic Canzone #82232
+L:C Carter Jensen #82374
+L:1B Vladimir Guerrero Jr. #82507
+L:2B Ketel Marte #81850
+L:3B Jose Ramirez #82444
+L:SS Jeremy Pena #82170
+L:LF Teoscar Hernandez #81782
+L:CF Julio Rodriguez #82242
+L:RF Wilyer Abreu #82607
+L:DH Javier Sanoja #82099
+SP1 Andrew Alvarez #85566
+SP2 George Kirby #82252
+SP3 Landen Roupp #81730
+SP4 Joe Boyle #82540
+SP5 Patrick Sandoval #82615
+CL Sam Hentges #81727
+RP1 Gregory Santos #85611
+RP2 Juan Morillo #81833
+RP3 Gregory Soto #81914
+RP4 Justin Bruihl #84971
+RP5 Carmen Mlodzinski #81911
+RP6 Joe Musgrove #81764
+BN1 Teoscar Hernandez #81782
+BN2 Javier Sanoja #82099
+BN3 Adley Rutschman #82641
+BN4 Jeremy Pena #82170
+BN5 Michael Busch #81988
