@@ -1,0 +1,36 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-10-08-saymyname3, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --obs-exclude c4q1 --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Will Clark #86913
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Pedro Alvarez #87062
+R:SS Arjun Nimmala (VAR) #84745
+R:LF Mike Greenwell #86909
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Hideki Matsui #87042
+L:C Mike Zunino #86431
+L:1B Will Clark #86913
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Arjun Nimmala (VAR) #84745
+L:LF Mike Greenwell #86909
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Hideki Matsui #87042
+SP1 Larry Jackson #86646
+SP2 James McDonald (VAR) #86384
+SP3 Fritz Ostermueller #86357
+SP4 Kyson Witherspoon (VAR) #84774
+SP5 Bruce Hurst #86361
+CL Randy Choate #87026
+RP1 Mike Marshall #84720
+RP2 Todd Jones (VAR) #86434
+RP3 Bob Gibson #86658
+RP4 R.T. Walker #86952
+RP5 Jerry Augustine #86424
+RP6 Dwight Bernard #84216
+BN1 Stan Hack #86458
+BN2 Tsung-Che Cheng (VAR) #84612
+BN3 George Sisler (VAR) #87002
+BN4 Chris Sabo #87059
+BN5 Mike Zunino #86431
