@@ -1,0 +1,35 @@
+# Daily Silver Slots — Claude pick 2026-10-08 fri, rebuilt from the catalogue's rules by current-rosters (--year 1977 --park Riverfront Stadium --park-year 1978 --min 40 --max 79 --slots S16,B5,I5 --size 26 --series silverslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Darrell Porter #85896
+R:1B Lee Thomas (VAR) #86145
+R:2B Hank Blalock #86433
+R:3B Corey Koskie (VAR) #86449
+R:SS Dave Brain (VAR) #85934
+R:LF Willie McGee (VAR) #85753
+R:CF Bryce Harper #86905
+R:RF Andy Van Slyke #86936
+L:C Mike Zunino #86431
+L:1B Steve Pearce (VAR) #86366
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Andruw Jones (VAR) #86321
+L:CF Willie McGee (VAR) #85753
+L:RF Woodie Held #85505
+SP1 Jordan Montgomery #86354
+SP2 Fritz Ostermueller #86357
+SP3 Jakie May (VAR) #85286
+SP4 James McDonald (VAR) #86384
+SP5 Jacob deGrom #86675
+CL Edwin Diaz #86422
+RP1 Chad Bradford #86341
+RP2 Bruce Ruffin #86777
+RP3 Nick Altrock #87049
+RP4 Randy Choate #87026
+RP5 Mike Marshall #84720
+RP6 Todd Jones (VAR) #86434
+BN1 Randy Ready #86921
+BN2 Steve Pearce (VAR) #86366
+BN3 Chris Sabo #87059
+BN4 Woodie Held #85505
+BN5 Mike Zunino #86431
+BN6 Andruw Jones (VAR) #86321

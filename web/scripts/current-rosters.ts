@@ -25,7 +25,7 @@
  * when new cards come out they are easily put in various tourney rosters where
  * they belong"): rebuild only the events where a card he got since that
  * event's saved roster would start, by Card Fit's one-swap test (the same
- * numbers /cards shows) and adds at least --min-gain runs (default 1), plus
+ * numbers /cards shows) and adds at least --min-gain runs (default 3), plus
  * current events with no saved roster. A rebuild
  * that comes out with the same cards as the saved roster is left out of the
  * manifest, so the Mac saves only rosters that change.
@@ -78,7 +78,8 @@ const OUT = val("out");
  */
 const ADD: Record<string, unknown>[] = val("add") ? JSON.parse(readFileSync(val("add")!, "utf8")) : [];
 /** --new-cards: the least a new card's one swap must add (runs) for its event to be rebuilt. */
-const MIN_GAIN = Number(val("min-gain", "1"));
+// 3, not 1 (L.J. 10-08): a one-swap gain under 3 runs is inside the optimiser's ±3 run-to-run noise.
+const MIN_GAIN = Number(val("min-gain", "3"));
 /**
  * --tag: names the batch's load files, manifest and saved rosters ("Claude pick
  * <tag>"). Default the Chicago day; give a second batch the same day its own
@@ -92,7 +93,15 @@ const TAG = val("tag") ?? chicagoDay(new Date())!;
  * 2026-09-30; until then every build here was 5 / 7 / 14). --sp / --rp /
  * --bats override it for the whole batch.
  */
-const BUILD = ["--optimize", "--starts", val("starts") ?? "16", "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
+/**
+ * Every build with a saved roster for its event is seeded from it (env-roster
+ * --seed): one hill-climb from the saved board plus the new cards. So
+ * --new-cards needs only a couple of λ starts as a cross-check (default 1, which
+ * is λ 0 and λ 8), and a rebuild can never score below the saved roster.
+ * --no-seed builds from scratch as before.
+ */
+const SEED = !flag("no-seed");
+const BUILD = ["--optimize", "--starts", val("starts") ?? (flag("new-cards") && SEED ? "1" : "16"), "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
   // Cards bought but not yet uploaded (env-roster --assume-owned); a roster carrying one saves only after the upload.
   ...(val("assume-owned") ? ["--assume-owned", val("assume-owned")!] : [])];
 
@@ -127,10 +136,17 @@ async function newestSaved() {
     const o = by.get(r.t);
     if (!o || r.at > o.at || (r.at.getTime() === o.at.getTime() && r.id > o.id)) by.set(r.t, r);
   }
-  const slots = await db.select({ rosterId: rosterSlots.rosterId, cardId: rosterSlots.cardId, v: rosterSlots.useVariant }).from(rosterSlots);
+  const slots = await db.select({ rosterId: rosterSlots.rosterId, cardId: rosterSlots.cardId, v: rosterSlots.useVariant, slot: rosterSlots.slot, hand: rosterSlots.versusHand })
+    .from(rosterSlots).orderBy(rosterSlots.id);
   const cardsOf = new Map<number, Set<string>>();
-  for (const s of slots) { let c = cardsOf.get(s.rosterId); if (!c) cardsOf.set(s.rosterId, (c = new Set())); c.add(`${s.cardId}${s.v ? "v" : ""}`); }
-  return new Map([...by].map(([t, r]) => [t, { name: r.name, collection: savedCollectionId(r.notes), cards: cardsOf.get(r.id) ?? new Set<string>() }]));
+  /** The roster as env-roster --seed lines: "R:C … #id", "SP1 … #id", "BN1 … #id". */
+  const seedOf = new Map<number, string[]>();
+  for (const s of slots) {
+    let c = cardsOf.get(s.rosterId); if (!c) cardsOf.set(s.rosterId, (c = new Set())); c.add(`${s.cardId}${s.v ? "v" : ""}`);
+    let l = seedOf.get(s.rosterId); if (!l) seedOf.set(s.rosterId, (l = []));
+    l.push(`${s.hand === "L" || s.hand === "R" ? `${s.hand}:` : ""}${s.slot} #${s.cardId}`);
+  }
+  return new Map([...by].map(([t, r]) => [t, { id: r.id, name: r.name, collection: savedCollectionId(r.notes), cards: cardsOf.get(r.id) ?? new Set<string>(), seed: seedOf.get(r.id) ?? [] }]));
 }
 
 /**
@@ -246,7 +262,10 @@ async function main() {
   let next = 0;
   const run = (job: Job) => new Promise<void>((resolve) => {
     const out = join(OUT, `${job.id}.txt`);
-    const child = spawn(process.execPath, ["--import", "tsx", "scripts/env-roster.ts", ...job.args, ...BUILD], { env: process.env });
+    const prior = SEED ? savedNow.get(job.id) : undefined;
+    const seed = prior?.seed.length ? join(OUT, `${job.id}-seed.txt`) : null;
+    if (seed) writeFileSync(seed, `# seed: saved roster ${prior!.id} "${prior!.name}"\n${prior!.seed.join("\n")}\n`);
+    const child = spawn(process.execPath, ["--import", "tsx", "scripts/env-roster.ts", ...job.args, ...BUILD, ...(seed ? ["--seed", seed] : [])], { env: process.env });
     let text = "";
     child.stdout.on("data", (d) => { text += d; });
     child.stderr.on("data", (d) => { text += d; });
