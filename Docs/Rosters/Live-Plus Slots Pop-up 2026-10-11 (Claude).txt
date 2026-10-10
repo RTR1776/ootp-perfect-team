@@ -1,0 +1,121 @@
+
+=== Live-Plus Slots Pop-up ===
+PT default RE @ 2026 Petco Park · DH on · value —–— · cap none · 26 players
+R/G 4.27  AVG 0.236  OBP 0.310  SLG 0.392  K% 22.6  HR/PA 3.11%  preset Moderate Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.019 runs · steal break-even 80.5% (0 out) / 77.4% (1 out)
+park: all-LHB lineup 4.28 R/G vs all-RHB 4.27 — 0.01 R/G swing toward LEFT-handed bats
+
+pool: 1516 eligible owned cards — 727 bats (265L / 85S / 377R), 789 arms
+!! no exports on record for series liveplusslotspopup — shape and handedness fall back to the era table
+shape: 14 bats / 5 SP / 7 RP (no env year — modern default) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 1358 of 1516 pool cards have innings on record (median 284 PA/BF); K = 5000
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +5.2  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.7
+                          RHB: Power +5.2  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.7
+                         arms: pHR +1.7  Stuff +1.5  pBABIP +0.9  Control +0.8
+
+optimiser: 12 λ starts hill-climbed; best 192.8 runs vs 169.7 greedy (+23.2), 20 moves from λ 2.00
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Rainiel Rodriguez           97  R  2026   +10.9  park:R DEF  81/ 81 -0.2  #84734
+R:1B    Edward Florentino (VAR)     63  L  2026    +9.1  park:L DEF  91/ 91 +1.4  #84777
+R:2B    Leodalis De Vries          102  S  2026   +29.4  park:L DEF 130/130 +2.1  #84724
+R:3B    Arjun Nimmala (VAR)         94  R  2026   +14.5  park:R DEF 128/128 +4.0  #84745
+R:SS    Roch Cholowsky             101  R  2026   +13.8  park:R DEF 119/119 +1.4  #86249
+R:LF    Josue De Paula (VAR)        87  L  2026   +19.7  park:L DEF  71/ 71 -1.6  #84729
+R:CF    Walker Jenkins             101  L  2026   +21.6  park:L DEF 114/127 +0.0  #84735
+R:RF    Zyhir Hope                  86  L  2026   +12.1  park:L DEF 105/105 +0.5  #84739
+R:DH    Ethan Holliday (VAR)        95  L  2026   +24.1  park:L  #84744
+
+--- lineup vs LHP ---
+L:C     Rainiel Rodriguez           97  R  2026    +7.5  park:R DEF  81/ 81 -0.2  #84734
+L:1B    Arjun Nimmala (VAR)         94  R  2026   +18.8  park:R DEF 105/128 +2.9  #84745
+L:2B    Leodalis De Vries          102  S  2026   +23.5  park:R DEF 130/130 +2.1  #84724
+L:3B    Kaelen Culpepper (VAR)      89  R  2026   +14.2  park:R DEF 122/130 +3.3  #85033
+L:SS    Roch Cholowsky             101  R  2026   +22.5  park:R DEF 119/119 +1.4  #86249
+L:LF    Josue De Paula (VAR)        87  L  2026   +10.5  park:L DEF  71/ 71 -1.6  #84729
+L:CF    Walker Jenkins             101  L  2026    +7.0  park:L DEF 114/127 +0.0  #84735
+L:RF    Kevin Alcantara (VAR)       76  R  2026    +8.9  park:R DEF 115/122 +1.2  #84755
+L:DH    Ethan Holliday (VAR)        95  L  2026    +7.1  park:L  #84744
+
+--- batting order vs RHP --- (4.86 runs/game; The Book's order 4.85)
+  1. Walker Jenkins CF
+  2. Ethan Holliday (VAR) DH
+  3. Josue De Paula (VAR) LF
+  4. Leodalis De Vries 2B
+  5. Roch Cholowsky SS
+  6. Arjun Nimmala (VAR) 3B
+  7. Rainiel Rodriguez C
+  8. Zyhir Hope RF
+  9. Edward Florentino (VAR) 1B
+
+--- batting order vs LHP --- (4.73 runs/game; The Book's order 4.73)
+  1. Leodalis De Vries 2B
+  2. Roch Cholowsky SS
+  3. Kaelen Culpepper (VAR) 3B
+  4. Arjun Nimmala (VAR) 1B
+  5. Josue De Paula (VAR) LF
+  6. Rainiel Rodriguez C
+  7. Kevin Alcantara (VAR) RF
+  8. Ethan Holliday (VAR) DH
+  9. Walker Jenkins CF
+
+--- rotation ---
+SP1     Kade Anderson              102  L  2026   +13.4   SP STM  72  #85138
+SP2     Connelly Early              96  L  2026    +8.8   SP STM  75  #84638
+SP3     Payton Tolle                99  L  2026    +8.4   SP STM  70  #84646
+SP4     Robby Snelling              81  R  2026    +5.7   SP STM  63  #85119
+SP5     Seth Hernandez (VAR)        84  R  2026    +5.6   SP STM  64  #84742
+
+--- bullpen ---
+CL      Jack Wenninger              79  L  2026    +6.4   RP STM  48  #85125
+RP1     Sam Hentges                 78  L  2026    +3.6   RP STM  15  #81727
+RP2     Didier Fuentes              79  R  2026    +3.4   SP STM  58  #84770
+RP3     Justin Bruihl               69  L  2026    +2.6   RP STM  18  #84971
+RP4     Danny Young                 55  L  2026    -4.2   RP STM  14  #86514
+RP5     Sam Moll                    56  L  2026    -4.5   RP STM  14  #81968
+RP6     Taylor Rogers               54  L  2026    -4.5   RP STM  16  #82349
+
+--- bench ---
+BN1     Kaelen Culpepper (VAR)      89  R  2026    +7.0  park:R  #85033
+BN2     Randal Grichuk              59  R  2026   -12.4  park:R  #82569
+BN3     Jhonny Level (VAR)          64  S  2026    +2.1  park:L  #84765
+BN4     Kevin Alcantara (VAR)       76  R  2026    -2.0  park:R  #84755
+BN5     Joe Mack                    52  L  2026   -20.2  park:L  #85615
+
+26 players · value 2098 · λ 2.000 · 8 variants
+vs RHP lineup gets the friendly park side in 6 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Leodalis De Vries      S EYE 145 (144/145)  POW 118 (115/120)  K 127  BABIP 152  GAP 152  SPE  91
+  Ethan Holliday         L EYE 164 (151/168)  POW 139 (117/147)  K  72  BABIP 114  GAP 103  SPE  51
+  Walker Jenkins         L EYE 162 (149/166)  POW  96 (84/100)  K 132  BABIP 139  GAP 129  SPE  85
+  Josue De Paula         L EYE 134 (110/143)  POW 148 (126/156)  K  91  BABIP 102  GAP 106  SPE  59
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Roch Cholowsky         R EYE 142 (137/144)  POW 122 (133/118)  K 109  BABIP 128  GAP 112  SPE  59
+  Zyhir Hope             L EYE 110 (117/108)  POW 127 (92/140)  K  73  BABIP 114  GAP  88  SPE  93
+  Rainiel Rodriguez      R EYE 146 (141/148)  POW 135 (128/138)  K  85  BABIP 102  GAP  99  SPE  35
+  Edward Florentino      L EYE 134 (99/148)  POW 106 (79/119)  K  60  BABIP  89  GAP  88  SPE  43
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  Jhonny Level           S EYE  68 (62/70)  POW 100 (87/104)  K  97  BABIP  98  GAP 109  SPE  36
+  Kevin Alcantara        R EYE  99 (106/97)  POW 120 (138/113)  K  69  BABIP 106  GAP  82  SPE  94
+  Randal Grichuk         R EYE  56 (58/56)  POW  93 (93/93)  K  80  BABIP  78  GAP 115  SPE  47
+  Joe Mack               L EYE  66 (65/67)  POW  89 (86/91)  K  63  BABIP  68  GAP  63  SPE  21
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Kade Anderson 72, Connelly Early 75, Payton Tolle 70, Robby Snelling 63, Seth Hernandez 64 (era floor 50)
+  ✓ stamina guys in the pen (45+): Jack Wenninger 48, Didier Fuentes 58
+  ✓ C  backup: Joe Mack 69
+  ✓ 1B backup: Edward Florentino 91, Arjun Nimmala 105
+  ✓ 2B backup: Arjun Nimmala 126, Kaelen Culpepper 130, Jhonny Level 107
+  ✓ 3B backup: Arjun Nimmala 128, Leodalis De Vries 116, Kaelen Culpepper 122
+  ✓ SS backup: Arjun Nimmala 116, Leodalis De Vries 115, Ethan Holliday 93, Kaelen Culpepper 117, Jhonny Level 94
+  ✓ LF backup: Edward Florentino 74, Walker Jenkins 127, Arjun Nimmala 84, Zyhir Hope 99, Kevin Alcantara 122, Randal Grichuk 68
+  ✓ CF backup: Kevin Alcantara 108
+  ✓ RF backup: Walker Jenkins 117, Arjun Nimmala 75, Zyhir Hope 105, Kevin Alcantara 115
+(21 of 26 have a live ask in the last shop snapshot)
+objective: 192.8 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
+points: lineup(both boards, 11 bats) 991 · rotation 462 · bullpen 470 · bench-only 175
