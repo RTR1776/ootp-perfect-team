@@ -204,6 +204,8 @@ const SLOTS: Record<string, number> | null = (() => {
 const LHP_SHARE_FLAG = num("lhp-share");
 /** --lhb-share: share of the field's PA taken by left-handed bats, for an event with no exports (default: the series' own, else 0.35). */
 const LHB_SHARE_FLAG = num("lhb-share");
+/** --pitch-lhb: share of a pitcher's batters who hit left, for blending his vL/vR lines (default 0.45). */
+const PITCH_LHB = num("pitch-lhb");
 /**
  * --rp-weight / --sp-weight: a reliever's / starter's batters faced as a
  * multiple of a lineup slot's PA (roster-objective). With --series they
@@ -443,7 +445,7 @@ async function main() {
     const n = [...observed.values()];
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
   GLOVE = NO_GLOVE_SCALE ? 1 : gloveScale(scoringRates);
   console.log(`gloves ×${GLOVE.toFixed(2)}: balls in play in this environment against the fit's archive (fielding.ts gloveScale)${NO_GLOVE_SCALE ? " — off (--no-glove-scale)" : ""}`);
   if (SHOW.length) {

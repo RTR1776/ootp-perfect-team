@@ -50,6 +50,13 @@ export interface EnvFitOptions {
   /** Share of opposing bats that hit left, used for the park a pitcher works in. */
   leagueLhbShare?: number;
   /**
+   * Share of a pitcher's batters who hit left, for blending his vL and vR
+   * lines. 0.45 (the league's) unless an event's field is known to lean one
+   * way, e.g. the PTCS 7 Championship's right-handed builds at 1971 Dodger
+   * Stadium (L.J. 2026-10-10).
+   */
+  pitchLhbShare?: number;
+  /**
    * The event's run-environment year. When given, a bat's calibrated model
    * runs are moved by what play in that era band returned per rating point
    * above the model's own line (calibration.ts ERA_SLOPES: BABIP two to
@@ -195,7 +202,8 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
        */
       const role = -roleRuns(c.role, c.ratings["Stamina"]) * (o.roleTrust ?? 1);
       // A starter faces both hands; the vs-LHP board is the pure-left read.
-      const blend = 0.45 * rL + 0.55 * rR;
+      const pl = o.pitchLhbShare ?? 0.45;
+      const blend = pl * rL + (1 - pl) * rR;
       /**
        * A PITCHER'S SPLIT IS MOSTLY NOISE, and acting on a small one is worse
        * than not acting. Checked against 3.3M league plate appearances with the
