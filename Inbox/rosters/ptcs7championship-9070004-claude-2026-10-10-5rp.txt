@@ -1,0 +1,36 @@
+# PTCS 7 Championship: 5 SP / 5 RP / 16 bats, SP 1.45, RP 0.41, pitchers vs 30% LHB, collection 223
+R:C Tim McCarver #85833
+R:1B Pedro Alvarez #87062
+R:2B Brandon Lowe (VAR) #83746
+R:3B Chris Sabo #87059
+R:SS Jhonny Level (VAR) #84765
+R:LF Kal Daniels #84163
+R:CF Lee Thomas (VAR) #86145
+R:RF Deion Sanders #86962
+R:DH Carlos Delgado #86998
+L:C Mike Zunino #86431
+L:1B Matt Davidson (VAR) #84666
+L:2B Steve Sax #87007
+L:3B Chris Sabo #87059
+L:SS Jhonny Level (VAR) #84765
+L:LF Brandon Lowe (VAR) #83746
+L:CF Lee Thomas (VAR) #86145
+L:RF Deion Sanders #86962
+L:DH Pete Incaviglia #86943
+SP1 Raisel Iglesias #83322
+SP2 Jake Peavy #82683
+SP3 Jakie May (VAR) #85286
+SP4 Fritz Ostermueller #86357
+SP5 James McDonald (VAR) #86384
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Tin Can Kincannon #86073
+RP3 Joe Saunders #86383
+RP4 R.T. Walker #86952
+BN1 George Sisler (VAR) #87002
+BN2 Steve Sax #87007
+BN3 Matt Davidson (VAR) #84666
+BN4 Mike Zunino #86431
+BN5 Stan Hack #86458
+BN6 Pete Incaviglia #86943
+BN7 Leo Durocher (VAR) #83909
