@@ -1,0 +1,36 @@
+# PTCS 7 Championship, SP 1.45 / RP 0.41 (near-era field weights), collection 223
+R:C Mack Eggleston #86977
+R:1B Shoeless Joe Jackson #86372
+R:2B Randy Ready #86921
+R:3B Pedro Alvarez #87062
+R:SS Arjun Nimmala (VAR) #84745
+R:LF Alex Gordon #86698
+R:CF Bo Jackson #86966
+R:RF Adolis Garcia #87022
+R:DH Kal Daniels #84163
+L:C Mack Eggleston #86977
+L:1B Shoeless Joe Jackson #86372
+L:2B Randy Ready #86921
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Javier Baez (VAR) #86417
+L:LF Alex Gordon #86698
+L:CF Bo Jackson #86966
+L:RF Adolis Garcia #87022
+L:DH Pete Incaviglia #86943
+SP1 Larry Jackson #86646
+SP2 Jim Kaat (VAR) #85114
+SP3 Sam Jones #86070
+SP4 J.A. Happ #86352
+SP5 James McDonald (VAR) #86384
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 Tin Can Kincannon #86073
+RP4 Steve Farr #86924
+RP5 R.T. Walker #86952
+BN1 George Sisler (VAR) #87002
+BN2 Javier Baez (VAR) #86417
+BN3 Stan Hack #86458
+BN4 Pete Incaviglia #86943
+BN5 Nap Lajoie #86581
+BN6 Buck Rodgers #84312
