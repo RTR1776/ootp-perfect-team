@@ -75,6 +75,12 @@ const POOL_CSV = val("pool") ?? null;
 const ASSUME_VARIANT = (val("assume-variant") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
 /** --assume-owned id[,id]: base cards he has bought but not yet uploaded, scored as owned. Never for a save. */
 const ASSUME_OWNED = (val("assume-owned") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
+/**
+ * --pool-ids id[,id]: score and arrange exactly these cards, owned or not (a
+ * drafted roster: L.J.'s PTCS 7 Championship PD drafts, 2026-10-10). Replaces
+ * the collection; each card plays as its base copy.
+ */
+const POOL_IDS = (val("pool-ids") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 /** --show "Name,Name": print the model's runs for these owned cards in this event, whether or not they make the roster. */
 const SHOW = (val("show") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
@@ -305,7 +311,12 @@ async function main() {
     baseSet.add(id);
     console.log(`assumed owned ${id} ${byId.get(id)!.name} ${byId.get(id)!.cardValue}: bought, not yet in the collection upload`);
   }
-  const ownedIds = [...new Set([...owned.map((o) => o.cardId!), ...ASSUME_OWNED.filter((id) => byId.has(id))])];
+  if (POOL_IDS.length) {
+    baseSet.clear(); variants.clear();
+    for (const id of POOL_IDS) if (byId.has(id)) baseSet.add(id); else console.log(`!! --pool-ids ${id}: no such card`);
+    console.log(`pool: exactly ${baseSet.size} listed cards (--pool-ids), base copies`);
+  }
+  const ownedIds = POOL_IDS.length ? [...baseSet] : [...new Set([...owned.map((o) => o.cardId!), ...ASSUME_OWNED.filter((id) => byId.has(id))])];
   const prices = shop
     ? new Map((await db.select({ cardId: cardSnapshots.cardId, ask: cardSnapshots.sellOrderLow })
         .from(cardSnapshots).where(eq(cardSnapshots.uploadId, shop.id))).map((p) => [p.cardId, p.ask]))
