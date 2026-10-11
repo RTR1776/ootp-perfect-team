@@ -36,7 +36,7 @@ import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { readFileSync } from "node:fs";
 import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-order";
-import { calibrationSlope } from "@/lib/analytics/calibration";
+import { teamWeights, calibrationSlope } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
 import { auditRoster, orderStaff } from "../src/lib/roster-audit";
 import type { SeriesBuild } from "@/lib/field-construction";
@@ -459,6 +459,12 @@ async function main() {
   const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
   GLOVE = NO_GLOVE_SCALE ? 1 : gloveScale(scoringRates);
   console.log(`gloves ×${GLOVE.toFixed(2)}: balls in play in this environment against the fit's archive (fielding.ts gloveScale)${NO_GLOVE_SCALE ? " — off (--no-glove-scale)" : ""}`);
+  // Team weights (calibration.ts TEAM_WEIGHTS): a glove run and a pitching run against a bat run, by era.
+  if (!argv.includes("--no-team-weights")) {
+    const tw = teamWeights(YEAR ?? 2010);
+    GLOVE *= tw.def; SP_WEIGHT *= tw.pit; RP_WEIGHT *= tw.pit;
+    console.log(`team weights (${YEAR ?? 2010} band): gloves ×${tw.def}, pitching ×${tw.pit} against a bat run → glove ×${GLOVE.toFixed(2)}, SP ${SP_WEIGHT.toFixed(2)}, RP ${RP_WEIGHT.toFixed(2)} (--no-team-weights to turn off)`);
+  }
   if (SHOW.length) {
     console.log("--- shown ---   (runs/700 PA or BF in this event; pitchers: one number)");
     for (const c of pool.filter((x) => SHOW.some((n) => x.name.toLowerCase().includes(n))).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {

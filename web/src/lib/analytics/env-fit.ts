@@ -27,7 +27,7 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { armEraSpread, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
+import { armEraSpread, armRatingFix, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -239,8 +239,9 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
   const ppR = o.calibrate !== false && o.eraYear != null ? eraCorrectionPerPoint(o.eraYear, lineOf(envRight)) : null;
   const ppL = o.calibrate !== false && o.eraYear != null ? eraCorrectionPerPoint(o.eraYear, lineOf(envLeft)) : null;
   const eraFix = (c: EnvFitInput, board: "R" | "L"): number => {
+    if (c.isPitcher) return o.calibrate === false ? 0 : armRatingFix(o.eraYear, c.ratings);
     const pp = board === "R" ? ppR : ppL;
-    if (!pp || c.isPitcher) return 0;
+    if (!pp) return 0;
     let d = 0;
     for (const r of Object.keys(pp)) {
       const v = c.ratings[`${ERA_SPLIT_KEY[r]} v${board}`] ?? c.ratings[r];

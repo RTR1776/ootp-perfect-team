@@ -56,8 +56,10 @@ export interface FitCtx {
   dh: boolean;
   /** Share of the field's pitching that is left-handed: the vs-LHP board's weight. */
   lhp: number;
-  /** fielding.ts gloveScale for the event's run environment. */
+  /** fielding.ts gloveScale for the event's run environment, times the era's glove team weight. */
   glove: number;
+  /** The era's pitching team weight against a bat run (calibration.ts teamWeights); 1 when absent. */
+  pit?: number;
 }
 
 /** An arm's role as the roster reads it: the card's own, else by stamina. */
@@ -212,7 +214,7 @@ export function fitIn(t: ScoredForm, team: Team, pool: readonly ScoredForm[], ct
       // It takes the weakest arm's place in that role (the staff's size is the roster's own).
       const weakest = staff.length ? staff.reduce((a, b) => (b.runsR < a.runsR ? b : a)) : null;
       const delta = weakest ? t.runsR - weakest.runsR : t.runsR;
-      const w = role === "SP" ? 1 : RP_WEIGHT_DEFAULT;
+      const w = (role === "SP" ? 1 : RP_WEIGHT_DEFAULT) * (ctx.pit ?? 1);
       if (delta * w >= GAIN_FLOOR) {
         gain = delta * w;
         swaps.push({ board: "staff", spot: role, out: weakest ? outOf(weakest) : null, delta });
@@ -238,7 +240,7 @@ export function fitIn(t: ScoredForm, team: Team, pool: readonly ScoredForm[], ct
   }
 
   // The spot shown: the biggest weighted swap; else where it plays now; else where it ranks best.
-  const weight = (s: Swap) => s.delta * (s.board === "staff" ? (s.spot === "SP" ? 1 : RP_WEIGHT_DEFAULT) : s.board === "R" ? 1 - ctx.lhp : ctx.lhp);
+  const weight = (s: Swap) => s.delta * (s.board === "staff" ? (s.spot === "SP" ? 1 : RP_WEIGHT_DEFAULT) * (ctx.pit ?? 1) : s.board === "R" ? 1 - ctx.lhp : ctx.lhp);
   const top = swaps.slice().sort((a, b) => weight(b) - weight(a))[0];
   const ranked = spots.map((spot) => {
     const value = spotValue(t, spot, ctx)!;

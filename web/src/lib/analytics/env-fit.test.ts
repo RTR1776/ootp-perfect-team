@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { envFitMaps } from "./env-fit";
-import { armEraSpread, eraBand, eraCorrectionPerPoint, powerCurveRuns } from "./calibration";
+import { armEraSpread, armRatingFix, eraBand, eraCorrectionPerPoint, powerCurveRuns } from "./calibration";
 import { FIELDING_CALIBRATION, FIELDING_FIT, fieldingRuns } from "./fielding";
 import { eraTable } from "./tournament-env";
 
@@ -21,7 +21,10 @@ test("the era correction pays BABIP what play returned, leaves an average card a
   assert.ok(gain(1) > 2, `BABIP card gains ${gain(1)}`);
   assert.ok(gain(1) > gain(2), "BABIP is the under-priced rating in 1961-76 play");
   assert.ok(Math.abs(gain(3)) < 1e-9, "an average card is the zero");
-  assert.ok(Math.abs(fixed.runsR.get(4)! - armEraSpread(1975) * plain.runsR.get(4)!) < 1e-9, "arms get the era spread, nothing else");
+  assert.ok(Math.abs(fixed.runsR.get(4)! - (armEraSpread(1975) * plain.runsR.get(4)! + armRatingFix(1975, pool[3].ratings))) < 1e-9, "arms get the era spread and the rating fix, nothing else");
+  assert.ok(armRatingFix(1975, pool[3].ratings) > 0, "a 120 Stuff / 120 pHR arm gains in 1975");
+  assert.equal(armRatingFix(1975, { Stuff: 92, pHR: 100 }), 0, "an average arm is the zero");
+  assert.equal(armRatingFix(null, pool[3].ratings), 0);
   assert.equal(armEraSpread(1975), 1.5);
   assert.equal(armEraSpread(1985), 1.3);
   assert.equal(armEraSpread(2010), 1);
@@ -82,4 +85,14 @@ test("glove runs carry the per-position calibration, and first base is left alon
   assert.ok(Math.abs(fieldingRuns("CF", cf.mean + 20) - raw * FIELDING_CALIBRATION.CF) < 1e-9);
   assert.equal(FIELDING_CALIBRATION["1B"], 1);
   assert.equal(fieldingRuns("CF", cf.mean), 0, "the field mean is still the zero");
+});
+
+test("team weights: gloves and pitching against a bat run, by era", async () => {
+  const { teamWeights } = await import("./calibration");
+  assert.deepEqual(teamWeights(1970), { def: 3, pit: 2.5 });
+  assert.deepEqual(teamWeights(1985), { def: 3, pit: 2 });
+  assert.deepEqual(teamWeights(2000), { def: 1.5, pit: 1.5 });
+  assert.deepEqual(teamWeights(2010), { def: 3, pit: 2.5 });
+  assert.deepEqual(teamWeights(1920), { def: 2, pit: 2 });
+  assert.deepEqual(teamWeights(null), teamWeights(2010));
 });
