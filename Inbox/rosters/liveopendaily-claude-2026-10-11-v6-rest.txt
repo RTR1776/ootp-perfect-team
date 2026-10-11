@@ -1,0 +1,36 @@
+# Daily Live Open — Claude pick 2026-10-11-v6 rest, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park American Family Field --park-year 2026 --dh --min 40 --max 100 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveopendaily --sp 5 --rp 7 --bats 14)
+R:C Gabriel Moreno #81848
+R:1B Freddie Freeman #81783
+R:2B Brice Turang #81931
+R:3B Kevin McGonigle #85007
+R:SS Bobby Witt Jr. #82379
+R:LF Jake McCarthy #81809
+R:CF Pete Crow-Armstrong #81990
+R:RF Corbin Carroll #81849
+R:DH Yordan Alvarez #82178
+L:C Gabriel Moreno #81848
+L:1B Miguel Vargas #82471
+L:2B Brice Turang #81931
+L:3B Javier Sanoja #82099
+L:SS Bobby Witt Jr. #82379
+L:LF Jake McCarthy #81809
+L:CF Pete Crow-Armstrong #81990
+L:RF Corbin Carroll #81849
+L:DH Yordan Alvarez #82178
+SP1 Jacob Misiorowski #81947
+SP2 Max Fried #82587
+SP3 Cam Schlittler #82580
+SP4 Dylan Cease #82518
+SP5 Tarik Skubal #82424
+CL Louie Varland #82511
+RP1 Calvin Faucher #82119
+RP2 Jesus Luzardo #82066
+RP3 Drew Rasmussen #82550
+RP4 Yoshinobu Yamamoto #81798
+RP5 Parker Messick #82451
+RP6 Adrian Morejon #81760
+BN1 Daulton Varsho #82504
+BN2 Miguel Vargas #82471
+BN3 Javier Sanoja #82099
+BN4 Miguel Rojas #81775
+BN5 Carter Jensen #82374
