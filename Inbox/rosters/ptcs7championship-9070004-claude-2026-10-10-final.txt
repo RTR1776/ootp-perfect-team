@@ -1,0 +1,36 @@
+# PTCS 7 Championship FINAL: 5 SP / 5 RP / 16 bats, SP 1.45, RP 0.41, pitchers vs 30% LHB, floors 60 / SS 85 / CF 90 / 2B 85 / RF 75, collection 224
+R:C Josh Gibson #86898
+R:1B Pedro Alvarez #87062
+R:2B Randy Ready #86921
+R:3B Chris Sabo #87059
+R:SS Zack Cozart #86109
+R:LF Mike Greenwell (VAR) #86930
+R:CF Willie McGee (VAR) #85753
+R:RF Lee Thomas (VAR) #86145
+R:DH Kal Daniels #84163
+L:C Josh Gibson #86898
+L:1B Lee Thomas (VAR) #86145
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Zack Cozart #86109
+L:LF Mike Greenwell (VAR) #86930
+L:CF Willie McGee (VAR) #85753
+L:RF Dave Henderson #86926
+L:DH Steve Sax #87007
+SP1 Raisel Iglesias #83322
+SP2 Jake Peavy #82683
+SP3 Jakie May (VAR) #85286
+SP4 Fritz Ostermueller #86357
+SP5 James McDonald (VAR) #86384
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Tin Can Kincannon #86073
+RP3 Brian Wolfe #86975
+RP4 R.T. Walker #86952
+BN1 George Sisler (VAR) #87002
+BN2 Charlie Eden #82834
+BN3 Steve Sax #87007
+BN4 Javier Baez (VAR) #86417
+BN5 Dave Henderson #86926
+BN6 Buck Rodgers #84312
+BN7 Stan Hack #86458

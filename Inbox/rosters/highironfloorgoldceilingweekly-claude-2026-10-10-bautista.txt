@@ -1,0 +1,36 @@
+# Sunday Silver and Gold Cap — Claude pick 2026-10-10 bautista, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Atlanta Fulton County Stadium --park-year 1977 --dh --min 70 --max 89 --cap 2026 --variant-cap 13 --size 26 --series highironfloorgoldceilingweekly --sp 5 --rp 7 --bats 14)
+R:C Pythias Russ #87083
+R:1B Lee Thomas (VAR) #86145
+R:2B Matt Carpenter #86771
+R:3B Pedro Alvarez #87062
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Mike Greenwell (VAR) #86930
+R:CF Bo Jackson #86966
+R:RF Curtis Granderson #86596
+R:DH Kal Daniels #84163
+L:C Mike Zunino #86431
+L:1B Allen Craig #87139
+L:2B Randy Ready #86921
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Pythias Russ #87083
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Frank Howard #85311
+SP1 J.A. Happ #86352
+SP2 Raisel Iglesias #83322
+SP3 Jakie May (VAR) #85286
+SP4 Jordan Montgomery #86354
+SP5 Nick Altrock #87049
+CL Chad Bradford #86341
+RP1 Bruce Ruffin #86777
+RP2 Rudy May #85288
+RP3 Brad Clontz #85920
+RP4 Alex Claudio (VAR) #86447
+RP5 Chris Sale #83244
+RP6 John Axford #84038
+BN1 Randy Ready #86921
+BN2 Allen Craig #87139
+BN3 Frank Howard #85311
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino #86431

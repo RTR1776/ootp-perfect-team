@@ -1,0 +1,36 @@
+# PTCS 7 Championship FINAL: 5 SP / 5 RP / 16 bats, SP 1.45, RP 0.41, pitchers vs 30% LHB, floors 60 / SS 85 / CF 90 / 2B 85 / RF 75, collection 224
+R:C Rick Wilkins #86392
+R:1B Edward Florentino (VAR) #84777
+R:2B Nap Lajoie #86581
+R:3B Kyle Seager #86261
+R:SS Jhonny Level (VAR) #84765
+R:LF Jack Tobin #86772
+R:CF Carlos Beltran #86298
+R:RF Dwayne Hosey #86801
+R:DH George Sisler (VAR) #87002
+L:C Rick Wilkins #86392
+L:1B Edward Florentino (VAR) #84777
+L:2B Jhonny Level (VAR) #84765
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Alcides Escobar #87153
+L:LF Dwayne Hosey #86801
+L:CF Carlos Beltran #86298
+L:RF Dave Henderson #86926
+L:DH Pete Incaviglia #86943
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Corey Kluber (VAR) #87008
+SP4 Roy Halladay #86705
+SP5 Justin Verlander #87014
+CL Todd Jones (VAR) #86434
+RP1 Randy Choate #87026
+RP2 Tin Can Kincannon #86073
+RP3 Brian Wolfe #86975
+RP4 R.T. Walker #86952
+BN1 Pete Incaviglia #86943
+BN2 Alcides Escobar #87153
+BN3 Kid Elberfeld (VAR) #86368
+BN4 Dave Henderson #86926
+BN5 Greasy Neale #87142
+BN6 Jay Johnstone #86373
+BN7 Buck Rodgers #84312

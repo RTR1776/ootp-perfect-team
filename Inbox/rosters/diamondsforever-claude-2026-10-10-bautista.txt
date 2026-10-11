@@ -1,0 +1,36 @@
+# Daily Diamonds are Forever — Claude pick 2026-10-10 bautista, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park Dell Diamond --park-year 2026 --dh --min 40 --max 99 --size 26 --series diamondsforever --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Ethan Holliday (VAR) #84744
+R:LF Mike Greenwell #86909
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Kal Daniels #84163
+L:C Thurman Munson #82714
+L:1B Josh Vitters (VAR) #86419
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Barry Larkin #86264
+L:LF Al Simmons #85942
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Willie Mays #86634
+SP1 Ryan Sloan #84731
+SP2 Larry Jackson #86646
+SP3 Sam Jones #86070
+SP4 Jim Kaat (VAR) #85114
+SP5 Steve Carlton (VAR) #85109
+CL Tony Fossas (VAR) #83324
+RP1 Jake McGee (VAR) #86789
+RP2 Troy Percival (VAR) #85371
+RP3 Joe Sambito #84075
+RP4 Tyler Matzek #87056
+RP5 Kyle Freeland (VAR) #86708
+RP6 Connelly Early #84638
+BN1 Al Simmons #85942
+BN2 Josh Vitters (VAR) #86419
+BN3 Willie Mays #86634
+BN4 Thurman Munson #82714
+BN5 Barry Larkin #86264

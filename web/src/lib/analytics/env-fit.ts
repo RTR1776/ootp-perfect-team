@@ -27,7 +27,7 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
+import { armEraSpread, armRatingFix, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -49,6 +49,13 @@ export interface EnvFitOptions {
   defWeight?: number;
   /** Share of opposing bats that hit left, used for the park a pitcher works in. */
   leagueLhbShare?: number;
+  /**
+   * Share of a pitcher's batters who hit left, for blending his vL and vR
+   * lines. 0.45 (the league's) unless an event's field is known to lean one
+   * way, e.g. the PTCS 7 Championship's right-handed builds at 1971 Dodger
+   * Stadium (L.J. 2026-10-10).
+   */
+  pitchLhbShare?: number;
   /**
    * The event's run-environment year. When given, a bat's calibrated model
    * runs are moved by what play in that era band returned per rating point
@@ -195,7 +202,8 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
        */
       const role = -roleRuns(c.role, c.ratings["Stamina"]) * (o.roleTrust ?? 1);
       // A starter faces both hands; the vs-LHP board is the pure-left read.
-      const blend = 0.45 * rL + 0.55 * rR;
+      const pl = o.pitchLhbShare ?? 0.45;
+      const blend = pl * rL + (1 - pl) * rR;
       /**
        * A PITCHER'S SPLIT IS MOSTLY NOISE, and acting on a small one is worse
        * than not acting. Checked against 3.3M league plate appearances with the
@@ -224,14 +232,16 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
   const runsR = new Map<number, number>(), runsL = new Map<number, number>();
   const K = o.observedK ?? OBS_K_DEFAULT;
   const slopeHit = o.calibrate === false ? 1 : calibrationSlope("hit");
-  const slopePit = o.calibrate === false ? 1 : calibrationSlope("pit");
+  // Arms spread wider in mid-century environments than the 2010-frame slope allows (calibration.ts ARM_ERA_SPREAD).
+  const slopePit = o.calibrate === false ? 1 : calibrationSlope("pit") * armEraSpread(o.eraYear);
   // Era correction for bats: per rating point, per board, from the model's own calibrated line here.
   const lineOf = (env: Env) => Object.fromEntries(marginalRatings(env, "hit").map((v) => [v.rating, v.runs * slopeHit]));
   const ppR = o.calibrate !== false && o.eraYear != null ? eraCorrectionPerPoint(o.eraYear, lineOf(envRight)) : null;
   const ppL = o.calibrate !== false && o.eraYear != null ? eraCorrectionPerPoint(o.eraYear, lineOf(envLeft)) : null;
   const eraFix = (c: EnvFitInput, board: "R" | "L"): number => {
+    if (c.isPitcher) return o.calibrate === false ? 0 : armRatingFix(o.eraYear, c.ratings);
     const pp = board === "R" ? ppR : ppL;
-    if (!pp || c.isPitcher) return 0;
+    if (!pp) return 0;
     let d = 0;
     for (const r of Object.keys(pp)) {
       const v = c.ratings[`${ERA_SPLIT_KEY[r]} v${board}`] ?? c.ratings[r];

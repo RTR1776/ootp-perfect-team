@@ -1,0 +1,36 @@
+# PTCS 7 Championship: 5 SP / 5 RP / 16 bats, SP 1.45, RP 0.41, pitchers vs 30% LHB, collection 223
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Randy Ready #86921
+R:3B Pedro Alvarez #87062
+R:SS Arjun Nimmala (VAR) #84745
+R:LF Curtis Granderson #86596
+R:CF Bo Jackson #86966
+R:RF Adolis Garcia #87022
+R:DH Kal Daniels #84163
+L:C Bob Boone #87032
+L:1B Matt Carpenter #86771
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Arjun Nimmala (VAR) #84745
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Adolis Garcia #87022
+L:DH Steve Sax #87007
+SP1 Larry Jackson #86646
+SP2 Sam Jones #86070
+SP3 Jim Kaat (VAR) #85114
+SP4 Carl Hubbell #86893
+SP5 James McDonald (VAR) #86384
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Tin Can Kincannon #86073
+RP3 Brian Wolfe #86975
+RP4 R.T. Walker #86952
+BN1 Chris Sabo #87059
+BN2 George Sisler (VAR) #87002
+BN3 Steve Sax #87007
+BN4 Javier Baez (VAR) #86417
+BN5 Rick Wilkins #86392
+BN6 Tsung-Che Cheng (VAR) #84612
+BN7 Charlie Eden #82834

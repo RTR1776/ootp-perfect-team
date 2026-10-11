@@ -20,7 +20,105 @@ export function calibrationSlope(kind: "hit" | "pit"): number {
 }
 
 /** Runs above league average, put on the observed scale. */
-export const OBS_K_DEFAULT = 5000;
+/*
+ * 2026-10-11: effectively off (was 5000). Tested three ways against tournament
+ * results with a card's play in OTHER event types blended in: PTCS 7
+ * Championship bats 0.279 ratings-only vs 0.272 at K=5000; Championship teams
+ * 0.396 vs 0.376; 3,580 team-events in 42 exports, win% 0.375 vs 0.371 (and
+ * worse at every smaller K). Ratings scored in the event's own environment
+ * beat the track record, so the blend is kept only as a negligible tie-break.
+ */
+export const OBS_K_DEFAULT = 1_000_000;
+
+/**
+ * Arms' spread by run-environment era, on top of the calibration slope.
+ *
+ * The pitcher slope above was fitted in the PT default frame (2010, neutral
+ * park) and applied everywhere. Checked 2026-10-11 with the production scorer
+ * in each series' own environment (66 archived series + the six PTCS 7
+ * Championship brackets, cards with 50+ BF, FIP-based runs above the field):
+ * observed runs per modelled run were 1.60 in 1946–76 environments and 1.31
+ * in 1977–93, against 0.92 in the default. Two-fold by series, those two bands
+ * held (1.49 / 1.74 and 1.28 / 1.34); every other band flipped sign between
+ * folds, so they stay at 1. With this rule the held-out slope went 1.26 → 1.08
+ * and 1.10 → 0.96, Pearson r rose in both folds, and the
+ * Championship (never used to fit it) went 1.41 → 0.94. The 10-05 Daily
+ * Diamond 1990 Onward check (1957 RE) had found 1.47.
+ */
+export const ARM_ERA_SPREAD: { from: number; to: number; factor: number }[] = [
+  { from: 1946, to: 1976, factor: 1.5 },
+  { from: 1977, to: 1993, factor: 1.3 },
+];
+
+/**
+ * TEAM WEIGHTS (TOURNAMENTS) — what a modelled run of glove and of pitching is
+ * worth in tournament wins, against a modelled run of bat (= 1).
+ *
+ * L.J. 2026-10-11: league play is normalised and tournaments are not — two
+ * models. These are fitted on tournaments only (scripts/model-v2: teams.mts →
+ * tourfit.py): 3,580 team-events in 42 exports (36 cap events + the six PTCS 7
+ * Championship brackets; 1946–76, 1994–2009 and 2010+ environments), each
+ * team's offence / defence / pitching scored on the production model in the
+ * event's own environment, centred within the event, against win%.
+ *
+ * Tournament win% is mostly luck: 17% of its variance is skill, so the best any
+ * model can do is a correlation of about 0.41. Equal weights reach 0.375; one
+ * pooled 2 / 2 reaches 0.380 out of sample (5-fold by event), and per-era
+ * weights did not beat it held out (they fit noise), so one weight for every
+ * era. The league seasons, which wanted ~3 / 2.5, are not used here.
+ */
+export const TEAM_WEIGHTS: { from: number; to: number; def: number; pit: number }[] = [
+  { from: 0, to: 9999, def: 2, pit: 2 },
+];
+
+/** Glove and pitching weights against a bat run (= 1) for a run-environment year; the 2010 band with no year. */
+export function teamWeights(year: number | null | undefined): { def: number; pit: number } {
+  const y = year ?? 2010;
+  const b = TEAM_WEIGHTS.find((w) => y >= w.from && y <= w.to) ?? TEAM_WEIGHTS[TEAM_WEIGHTS.length - 1];
+  return { def: b.def, pit: b.pit };
+}
+
+/**
+ * Arm ratings the calibrated model still under-prices, by era band: runs per
+ * 700 BF to ADD per +10 rating above the centre (where an average arm sits,
+ * so the correction moves good arms against bad ones, not the arms' level).
+ *
+ * Measured 2026-10-11 (scripts/model-v2/ratings.py) on the archive with the
+ * production scorer in each series' own environment: observed runs above the
+ * field (FIP-based) regressed jointly on the model and every rating, two-fold
+ * by series. Kept only where both halves agreed in sign and size; applied at
+ * 0.75 of the pooled miss. pHR is short in every band; Stuff before 1977.
+ * pBABIP reads as over-priced against FIP, but FIP leaves balls in play out by
+ * construction, so that reading is an artefact and pBABIP is left alone.
+ */
+export const ARM_RATING_FIX: { from: number; to: number; runs: Record<string, number> }[] = [
+  { from: 0, to: 1945, runs: { Stuff: 0.53 } },
+  { from: 1946, to: 1976, runs: { Stuff: 0.45, pHR: 0.38 } },
+  { from: 1977, to: 1993, runs: { pHR: 0.38 } },
+  { from: 1994, to: 2009, runs: { pHR: 0.68 } },
+  { from: 2010, to: 9999, runs: { pHR: 0.53 } },
+];
+/** Where ARM_RATING_FIX is zero: the BF-weighted mean of each rating across the archive. */
+export const ARM_RATING_CENTER: Record<string, number> = { Stuff: 92, pHR: 100 };
+
+/** Runs per 700 BF to add to an arm for its ratings in this era (0 with no year). */
+export function armRatingFix(year: number | null | undefined, ratings: Record<string, number>): number {
+  if (year == null) return 0;
+  const b = ARM_RATING_FIX.find((x) => year >= x.from && year <= x.to);
+  if (!b) return 0;
+  let d = 0;
+  for (const [k, perTen] of Object.entries(b.runs)) {
+    const v = ratings[k];
+    if (v != null && Number.isFinite(v)) d += (perTen * (v - (ARM_RATING_CENTER[k] ?? 100))) / 10;
+  }
+  return d;
+}
+
+/** The arms' spread multiplier for a run-environment year (1 outside the bands, or with no year). */
+export function armEraSpread(year: number | null | undefined): number {
+  if (year == null) return 1;
+  return ARM_ERA_SPREAD.find((b) => year >= b.from && year <= b.to)?.factor ?? 1;
+}
 
 /**
  * What each rating returned in play, per era band: runs per 700 PA per +10
@@ -37,7 +135,8 @@ export const ERA_SLOPES: { band: string; from: number; to: number; series: numbe
   { band: "Integration", series: 6, from: 1946, to: 1960, runs: { Power: 2.84, Eye: 0.96, "Avoid Ks": 1.18, BABIP: 3.24, Gap: 0.83 } },
   { band: "Expansion", series: 5, from: 1961, to: 1976, runs: { Power: 2.13, Eye: 0.61, "Avoid Ks": 1.37, BABIP: 2.05, Gap: 0.32 } },
   { band: "Free Agency", series: 8, from: 1977, to: 1993, runs: { Power: 2.38, Eye: 0.72, "Avoid Ks": 1.21, BABIP: 2.77, Gap: 0.81 } },
-  { band: "Steroid", series: 8, from: 1994, to: 2009, runs: { Power: 2.18, Eye: 0.67, "Avoid Ks": 0.48, BABIP: 1.24, Gap: 0.60 } },
+  // Steroid band raised 2026-10-11 (scripts/model-v2/ratings.py, 1,448 bat lines, both halves agreeing; 0.75 of the measured miss): Power +0.53, Avoid Ks +0.23, BABIP +0.23.
+  { band: "Steroid", series: 8, from: 1994, to: 2009, runs: { Power: 2.71, Eye: 0.67, "Avoid Ks": 0.71, BABIP: 1.47, Gap: 0.60 } },
   { band: "Modern", series: 23, from: 2010, to: 9999, runs: { Power: 2.53, Eye: 0.58, "Avoid Ks": 1.44, BABIP: 2.02, Gap: 0.63 } },
 ];
 

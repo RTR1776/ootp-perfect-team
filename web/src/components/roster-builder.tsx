@@ -40,14 +40,14 @@ import { BACKUP_PENALTY, backupPositions, longMenShort, missingBackups } from "@
 import { auditRoster, auditSummary, orderStaff } from "@/lib/roster-audit";
 import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
 import { hitterRates } from "@/lib/analytics/card-value";
-import { calibrationSlope } from "@/lib/analytics/calibration";
+import { calibrationSlope, teamWeights } from "@/lib/analytics/calibration";
 import { bestOrder, obp, orderEnv, paLine, pitcherLine, shrink, slg } from "@/lib/batting-order";
 import type { Confidence } from "@/lib/data-confidence";
 import type { EraRates } from "@/lib/analytics/run-env";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
 import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/lib/analytics/projections";
-import { rosterObjective, LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
+import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
 import { searchCard, toPlainFits, type SearchBest, type SearchMessage, type SearchRequest } from "@/lib/roster-search";
 import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { date, ip, signed, stamp } from "@/lib/format";
@@ -500,8 +500,10 @@ export function RosterBuilder({
      flip it — the toggle is disabled when the base is not owned). */
   const preferVariant = defaultToVariant(tournament);
   const lhpShare = env?.lhpShare ?? LHP_SHARE_DEFAULT;
-  /* Gloves are worth more where more balls are put in play (fielding.ts gloveScale). */
-  const glove = env ? gloveScale(env.rates) : 1;
+  /* Gloves are worth more where more balls are put in play (fielding.ts gloveScale), and a glove run and a
+     pitching run buy more run differential than a bat run (calibration.ts teamWeights, by era). */
+  const teamW = teamWeights(env?.eraYear ?? tournament?.envYear ?? 2010);
+  const glove = (env ? gloveScale(env.rates) : 1) * teamW.def;
   const envs = useMemo(() => (env ? projectionEnvs(env.rates, env.park, env.lhbShare) : null), [env]);
   const formPool = useMemo(() => basePool.map(c => {
     const verifiedVar = c.variantOwned && hasVariantSplitRatings(c.variantRatings, c.isPitcher);
@@ -946,8 +948,8 @@ export function RosterBuilder({
   /* What a starter and a reliever face here, as multiples of a lineup slot's
      PA, measured off this series' exports; the objective's defaults (1.0 and
      0.31) when there are none. */
-  const spWeight = meta?.construction?.spWeight ?? undefined;
-  const rpWeight = meta?.construction?.rpWeight ?? undefined;
+  const spWeight = (meta?.construction?.spWeight ?? 1) * teamW.pit;
+  const rpWeight = (meta?.construction?.rpWeight ?? RP_WEIGHT_DEFAULT) * teamW.pit;
   const objective = useMemo(() => envFits
     ? rosterObjective(formPool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove })
     : null, [envFits, formPool, fillShape, lhpShare, spWeight, rpWeight, glove]);

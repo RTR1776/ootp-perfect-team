@@ -36,7 +36,7 @@ import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { readFileSync } from "node:fs";
 import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-order";
-import { calibrationSlope } from "@/lib/analytics/calibration";
+import { teamWeights, calibrationSlope } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
 import { auditRoster, orderStaff } from "../src/lib/roster-audit";
 import type { SeriesBuild } from "@/lib/field-construction";
@@ -75,6 +75,12 @@ const POOL_CSV = val("pool") ?? null;
 const ASSUME_VARIANT = (val("assume-variant") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
 /** --assume-owned id[,id]: base cards he has bought but not yet uploaded, scored as owned. Never for a save. */
 const ASSUME_OWNED = (val("assume-owned") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
+/**
+ * --pool-ids id[,id]: score and arrange exactly these cards, owned or not (a
+ * drafted roster: L.J.'s PTCS 7 Championship PD drafts, 2026-10-10). Replaces
+ * the collection; each card plays as its base copy.
+ */
+const POOL_IDS = (val("pool-ids") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
 const MUST = (val("must") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 /** --show "Name,Name": print the model's runs for these owned cards in this event, whether or not they make the roster. */
 const SHOW = (val("show") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
@@ -204,6 +210,8 @@ const SLOTS: Record<string, number> | null = (() => {
 const LHP_SHARE_FLAG = num("lhp-share");
 /** --lhb-share: share of the field's PA taken by left-handed bats, for an event with no exports (default: the series' own, else 0.35). */
 const LHB_SHARE_FLAG = num("lhb-share");
+/** --pitch-lhb: share of a pitcher's batters who hit left, for blending his vL/vR lines (default 0.45). */
+const PITCH_LHB = num("pitch-lhb");
 /**
  * --rp-weight / --sp-weight: a reliever's / starter's batters faced as a
  * multiple of a lineup slot's PA (roster-objective). With --series they
@@ -303,7 +311,12 @@ async function main() {
     baseSet.add(id);
     console.log(`assumed owned ${id} ${byId.get(id)!.name} ${byId.get(id)!.cardValue}: bought, not yet in the collection upload`);
   }
-  const ownedIds = [...new Set([...owned.map((o) => o.cardId!), ...ASSUME_OWNED.filter((id) => byId.has(id))])];
+  if (POOL_IDS.length) {
+    baseSet.clear(); variants.clear();
+    for (const id of POOL_IDS) if (byId.has(id)) baseSet.add(id); else console.log(`!! --pool-ids ${id}: no such card`);
+    console.log(`pool: exactly ${baseSet.size} listed cards (--pool-ids), base copies`);
+  }
+  const ownedIds = POOL_IDS.length ? [...baseSet] : [...new Set([...owned.map((o) => o.cardId!), ...ASSUME_OWNED.filter((id) => byId.has(id))])];
   const prices = shop
     ? new Map((await db.select({ cardId: cardSnapshots.cardId, ask: cardSnapshots.sellOrderLow })
         .from(cardSnapshots).where(eq(cardSnapshots.uploadId, shop.id))).map((p) => [p.cardId, p.ask]))
@@ -443,9 +456,15 @@ async function main() {
     const n = [...observed.values()];
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
   GLOVE = NO_GLOVE_SCALE ? 1 : gloveScale(scoringRates);
   console.log(`gloves ×${GLOVE.toFixed(2)}: balls in play in this environment against the fit's archive (fielding.ts gloveScale)${NO_GLOVE_SCALE ? " — off (--no-glove-scale)" : ""}`);
+  // Team weights (calibration.ts TEAM_WEIGHTS): a glove run and a pitching run against a bat run, by era.
+  if (!argv.includes("--no-team-weights")) {
+    const tw = teamWeights(YEAR ?? 2010);
+    GLOVE *= tw.def; SP_WEIGHT *= tw.pit; RP_WEIGHT *= tw.pit;
+    console.log(`team weights (${YEAR ?? 2010} band): gloves ×${tw.def}, pitching ×${tw.pit} against a bat run → glove ×${GLOVE.toFixed(2)}, SP ${SP_WEIGHT.toFixed(2)}, RP ${RP_WEIGHT.toFixed(2)} (--no-team-weights to turn off)`);
+  }
   if (SHOW.length) {
     console.log("--- shown ---   (runs/700 PA or BF in this event; pitchers: one number)");
     for (const c of pool.filter((x) => SHOW.some((n) => x.name.toLowerCase().includes(n))).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {

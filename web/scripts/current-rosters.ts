@@ -103,7 +103,9 @@ const TAG = val("tag") ?? chicagoDay(new Date())!;
 const SEED = !flag("no-seed");
 const BUILD = ["--optimize", "--starts", val("starts") ?? (flag("new-cards") && SEED ? "1" : "16"), "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
   // Cards bought but not yet uploaded (env-roster --assume-owned); a roster carrying one saves only after the upload.
-  ...(val("assume-owned") ? ["--assume-owned", val("assume-owned")!] : [])];
+  ...(val("assume-owned") ? ["--assume-owned", val("assume-owned")!] : []),
+  // --extra "…": more env-roster flags for every build (L.J.'s floors: --extra "--min-pos 60,SS:85,CF:90,2B:85,RF:75").
+  ...(val("extra") ? val("extra")!.split(/\s+/).filter(Boolean) : [])];
 
 /** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
 function lastRuns(): { at: Map<number, number>; newest: number } {

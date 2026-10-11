@@ -1,0 +1,36 @@
+# PTCS 7 Championship FINAL: 5 SP / 5 RP / 16 bats, SP 1.45, RP 0.41, pitchers vs 30% LHB, floors 60 / SS 85 / CF 90 / 2B 85 / RF 75, collection 224
+R:C Mike Piazza (VAR) #86463
+R:1B Albert Pujols #87149
+R:2B Leodalis De Vries #84724
+R:3B George Brett #87025
+R:SS Ernie Banks #86621
+R:LF Hank Aaron #86655
+R:CF Carlos Beltran #87066
+R:RF Juan Soto #87013
+R:DH Hideki Matsui #87042
+L:C Mike Piazza (VAR) #86463
+L:1B Albert Pujols #87149
+L:2B Leodalis De Vries #84724
+L:3B George Brett #87025
+L:SS Ernie Banks #86621
+L:LF Hank Aaron #86655
+L:CF Carlos Beltran #87066
+L:RF Juan Soto #87013
+L:DH Hideki Matsui #87042
+SP1 Bret Saberhagen #86915
+SP2 Cy Young (VAR) #86572
+SP3 Bruce Hurst #86361
+SP4 James McDonald (VAR) #86384
+SP5 Tin Can Kincannon #86073
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 R.T. Walker #86952
+RP4 Joe Saunders #86383
+BN1 George Sisler (VAR) #87002
+BN2 Stan Hack #86458
+BN3 Javier Baez (VAR) #86417
+BN4 Tsung-Che Cheng (VAR) #84612
+BN5 Vladimir Guerrero #86474
+BN6 Buck Rodgers #84312
+BN7 Jerome Walton #86945

@@ -1,0 +1,36 @@
+# PTCS 7 Championship: 5 SP / 5 RP / 16 bats, SP 1.45, RP 0.41, pitchers vs 30% LHB, collection 223
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Hank Blalock #86433
+R:3B Chris Sabo #87059
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Bryce Harper #86905
+R:RF Edward Florentino (VAR) #84777
+R:DH Wes Covington #86651
+L:C Bob Boone #87032
+L:1B Matt Carpenter #86771
+L:2B Steve Sax #87007
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Andruw Jones (VAR) #86321
+L:CF Sammy Sosa #85691
+L:RF Bryce Harper #86905
+L:DH Steve Pearce (VAR) #86366
+SP1 Fritz Ostermueller #86357
+SP2 Jakie May (VAR) #85286
+SP3 James McDonald (VAR) #86384
+SP4 Corey Kluber (VAR) #87008
+SP5 Tanner McDougal (VAR) #85032
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Joe Saunders #86383
+RP3 Brian Wolfe #86975
+RP4 R.T. Walker #86952
+BN1 Steve Sax #87007
+BN2 Andruw Jones (VAR) #86321
+BN3 Buck Rodgers #84312
+BN4 Leo Durocher (VAR) #83909
+BN5 Charlie Eden #82834
+BN6 Darrel Chaney #82846
+BN7 Sammy Sosa #85691

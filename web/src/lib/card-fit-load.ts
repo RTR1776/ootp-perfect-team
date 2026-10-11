@@ -23,6 +23,7 @@ import { envFitMaps, type EnvFitInput } from "@/lib/analytics/env-fit";
 import { bothHands, loadObservedBook, observedRunsFrom, type ObservedBook, type ObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraFor, eraTable, parkFor } from "@/lib/analytics/tournament-env";
 import { gloveScale } from "@/lib/analytics/fielding";
+import { teamWeights } from "@/lib/analytics/calibration";
 import { formRatings } from "@/lib/card-forms";
 import { CARD_TYPE_SHORT } from "@/lib/card-sets";
 import { armRole, bestTeam, FIELD_POS, fitIn, savedTeam, type Fit, type FitCtx, type ScoredForm } from "@/lib/card-fit";
@@ -278,7 +279,8 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
         role: inp.isPitcher ? armRole(c.pitcherRole, inp.ratings["Stamina"]) : null, runsR: r, runsL: l, pos, val: c.cardValue,
       });
     }
-    const ctx: FitCtx = { dh: t.dh === true, lhp, glove: gloveScale(era.rates) };
+    const tw = teamWeights(envYear ?? 2010);
+    const ctx: FitCtx = { dh: t.dh === true, lhp, glove: gloveScale(era.rates) * tw.def, pit: tw.pit };
     const pool = [...legal].map((id) => forms.get(id)).filter((f): f is ScoredForm => !!f);
     const mine = [
       ...pool.filter((f) => owned.base.has(f.cardId)),
