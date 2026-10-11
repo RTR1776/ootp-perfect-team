@@ -1,0 +1,35 @@
+# Friday Nightmare Cap — Claude pick 2026-10-11-v3-02b, rebuilt from the catalogue's rules by current-rosters (--year 1971 --park County Stadium --park-year 1970 --min 65 --max 79 --cap 1805 --variant-cap 6 --no-le --size 26 --series nightmarecap --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Sean Casey #87031
+R:2B Mark Grudzielanek #87000
+R:3B Aiva Arquette (VAR) #84768
+R:SS Jeremy Pena #87154
+R:LF Brian Jordan #86965
+R:CF Deion Sanders #86962
+R:RF Roberto Clemente #86723
+L:C Bob Boone #87032
+L:1B Scott Spiezio #85702
+L:2B Mark Grudzielanek #87000
+L:3B Aiva Arquette (VAR) #84768
+L:SS Jeremy Pena #87154
+L:LF Brian Jordan #86965
+L:CF Deion Sanders #86962
+L:RF Roberto Clemente #86723
+SP1 Jordan Montgomery #86354
+SP2 Dave Bush (VAR) #86812
+SP3 Bob Walk #86971
+SP4 Jakie May (VAR) #85286
+SP5 Andy McGaffigan (VAR) #86948
+CL Cool Papa Bell #86981
+RP1 Christy Mathewson #86706
+RP2 Eddie Plank #86886
+RP3 Larry Sherry #86622
+RP4 Tanner McDougal (VAR) #85032
+RP5 Eddie Dixon #87157
+RP6 Bill Lee #87019
+BN1 Wes Covington #86651
+BN2 Tom Brown #86767
+BN3 Scott Spiezio #85702
+BN4 Alfonso Soriano #86754
+BN5 Thayron Liranzo (VAR) #85135
+BN6 Pat Patterson #87080

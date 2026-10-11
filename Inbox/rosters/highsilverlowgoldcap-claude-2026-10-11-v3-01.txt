@@ -1,0 +1,36 @@
+# Daily Low Gold Cap — Claude pick 2026-10-11-v3-01, rebuilt from the catalogue's rules by current-rosters (--year 2007 --park Shea Stadium --park-year 2008 --dh --min 40 --max 84 --cap 1610 --size 26 --obs-exclude highsilverlowgoldcap --sp 5 --rp 7 --bats 14)
+R:C Josh Gibson #86898
+R:1B Matt Carpenter #86771
+R:2B Marcus Semien #86744
+R:3B Aiva Arquette (VAR) #84768
+R:SS Jeremy Pena #87154
+R:LF Brian Jordan #86965
+R:CF Deion Sanders #86962
+R:RF Jeff Francoeur (VAR) #86300
+R:DH Pedro Alvarez #87062
+L:C Josh Gibson #86898
+L:1B Matt Carpenter #86771
+L:2B Marcus Semien #86744
+L:3B Aiva Arquette (VAR) #84768
+L:SS Jeremy Pena #87154
+L:LF Brian Jordan #86965
+L:CF Deion Sanders #86962
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Pete Incaviglia #86943
+SP1 Nick Altrock #87049
+SP2 Jerry Koosman #86995
+SP3 Jordan Montgomery #86354
+SP4 Bob Walk #86971
+SP5 Fritz Ostermueller #86357
+CL James McDonald (VAR) #86384
+RP1 Randy Choate #87026
+RP2 Tin Can Kincannon #86073
+RP3 Lefty Grove #87168
+RP4 R.T. Walker #86952
+RP5 Todd Jones (VAR) #86434
+RP6 Don August (VAR) #86423
+BN1 Tsung-Che Cheng (VAR) #84612
+BN2 Pete Incaviglia #86943
+BN3 Jerome Walton #86945
+BN4 Buck Rodgers #84312
+BN5 Charlie Eden #82834
