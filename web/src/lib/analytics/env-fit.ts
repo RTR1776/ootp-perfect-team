@@ -21,13 +21,13 @@
  */
 
 import {
-  applyPark, blendPark, linearWeights, type EraRates, type ParkFactors,
+  applyPark, blendPark, linearWeights, runsPerPa, type EraRates, type ParkFactors,
 } from "@/lib/analytics/run-env";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { armEraSpread, armRatingFix, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
+import { armEraSpread, armRatingFix, PARK_HAND_TRUST, SPEED_CENTER, SPEED_RUNS_PER_POINT, STAMINA_CENTER, STAMINA_RUNS_PER_POINT, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -146,6 +146,12 @@ export interface EnvFitOptions {
    */
   runsOnly?: boolean;
   /**
+   * Tournament-only terms fitted on tournament team results (calibration.ts):
+   * Speed for bats and the staff-stamina share for arms. Off by default so the
+   * league tools, whose own model takes these runs as an input, are unchanged.
+   */
+  tournamentTerms?: boolean;
+  /**
    * NOTE for cap formats: env-roster's --rp-weight (a reliever's innings as a
    * fraction of a starter's) defaults to 0.5. The exports say 0.31 in Gold
    * Floor Cap and 0.24 across all 12,019 team-events with 10+ games played:
@@ -249,12 +255,32 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
     }
     return d + powerCurveRuns(o.eraYear, c.ratings[`Power v${board}`] ?? c.ratings.Power);
   };
+  // The park's hand offset against the field's mixed park, on one set of run weights (calibration.ts PARK_HAND_TRUST).
+  const handOff = { L: 0, R: 0 };
+  if (o.park && o.calibrate !== false) {
+    const share = o.leagueLhbShare ?? 0.35;
+    const w = linearWeights(applyPark(o.era, blendPark(o.park, share)));
+    const at = (s: number) => runsPerPa(applyPark(o.era, blendPark(o.park!, s)), w);
+    const mix = at(share);
+    handOff.L = PARK_HAND_TRUST * (at(1) - mix) * 700;
+    handOff.R = PARK_HAND_TRUST * (at(0) - mix) * 700;
+  }
+  const extra = (c: EnvFitInput, board: "R" | "L"): number => {
+    if (o.calibrate === false) return 0;
+    if (c.isPitcher) {
+      const st = c.ratings["Stamina"];
+      return o.tournamentTerms && st != null ? STAMINA_RUNS_PER_POINT * (st - STAMINA_CENTER) : 0;
+    }
+    const sp = c.ratings["Speed"];
+    return (batsLeftOn(c.bats, board) ? handOff.L : handOff.R)
+      + (o.tournamentTerms && sp != null ? SPEED_RUNS_PER_POINT * (sp - SPEED_CENTER) : 0);
+  };
   for (const c of pool) {
     let r = runsOf(c, "R"), l = runsOf(c, "L");
     const slope = c.isPitcher ? slopePit : slopeHit;
     if (slope !== 1) { if (r != null) r *= slope; if (l != null) l *= slope; }
-    if (r != null) r += eraFix(c, "R");
-    if (l != null) l += eraFix(c, "L");
+    if (r != null) r += eraFix(c, "R") + extra(c, "R");
+    if (l != null) l += eraFix(c, "L") + extra(c, "L");
     const ob = o.observed?.get(c.cardId);
     if (ob && ob.n > 0 && r != null && l != null) {
       // Blend on the both-hands read, then move both boards by the same amount.

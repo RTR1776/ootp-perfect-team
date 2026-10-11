@@ -1,0 +1,36 @@
+# Daily Late Silver — Claude pick 2026-10-11-v2-01, rebuilt from the catalogue's rules by current-rosters (--year 1992 --park Oriole Park at Camden Yards --park-year 1992 --dh --min 40 --max 79 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series latesilver --sp 5 --rp 6 --bats 15)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Jose Oquendo #85738
+R:3B Aiva Arquette (VAR) #84768
+R:SS Jeremy Pena #87154
+R:LF Willie McGee (VAR) #85753
+R:CF Andy Van Slyke #86936
+R:RF Roberto Clemente #86723
+R:DH Carlos Delgado #86998
+L:C Mike Zunino #86431
+L:1B Cecil Fielder #86764
+L:2B Randy Ready #86921
+L:3B Aiva Arquette (VAR) #84768
+L:SS Jeremy Pena #87154
+L:LF Brian Jordan #86965
+L:CF Willie McGee (VAR) #85753
+L:RF Roberto Clemente #86723
+L:DH Chris Sabo #87059
+SP1 Nick Altrock #87049
+SP2 Jordan Montgomery #86354
+SP3 Jacob deGrom #86675
+SP4 Bob Walk #86971
+SP5 Andy McGaffigan (VAR) #86948
+CL Alex Claudio (VAR) #86447
+RP1 Jack Wenninger #85125
+RP2 Chad Bradford #86341
+RP3 Eric O'Flaherty #86776
+RP4 Dennis Cook (VAR) #83261
+RP5 Brian Anderson #87070
+BN1 Chris Sabo #87059
+BN2 Brian Jordan #86965
+BN3 Mike Zunino #86431
+BN4 Randy Ready #86921
+BN5 Cecil Fielder #86764
+BN6 Mike Greenwell (VAR) #86930

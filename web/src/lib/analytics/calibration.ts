@@ -114,6 +114,51 @@ export function armRatingFix(year: number | null | undefined, ratings: Record<st
   return d;
 }
 
+/**
+ * PARK HAND OFFSET (2026-10-11). env-fit scores each bat against an average bat
+ * OF ITS OWN SIDE in the park (each side's environment carries its own league
+ * baseline, and the linear weights are rescaled to the era's scoring), so a
+ * park that suppresses lefties and helps righties moved neither: at 1971 Dodger
+ * Stadium an average left bat is −11.4 runs per 700 PA and a right bat +6.1
+ * against the field's mixed park, and the model saw none of it. L.J.'s PTCS 7
+ * Championship rosters ran +20 points of left-handed PA over the median team
+ * while the deepest teams ran −7 and Liam −16.
+ *
+ * Measured on the archive (scripts/model-v2/check1.py, 10,013 bat lines in 56
+ * series with a park): observed runs above the field rose 0.44 per run of that
+ * offset (two-fold by series 0.53 / 0.37; the most lopsided parks 0.40; the
+ * Championship 0.37), with held-out correlation up in both halves. This is the
+ * share of the offset that is added back.
+ */
+export const PARK_HAND_TRUST = 0.44;
+
+/**
+ * SPEED (2026-10-11). The card model prices Avoid K, BABIP, Gap, Power and Eye;
+ * Speed, Stealing and Baserunning are in no curve. Over 3,580 tournament
+ * team-events, runs scored per game beyond the model's offence rose 0.059 per
+ * sd (8.3 points) of the lineup's PA-weighted Speed, positive in all five
+ * held-out folds (scripts/model-v2/check23.py). For one bat that is ~1.2 runs
+ * per 700 PA per +10 Speed; applied at 0.75, from the archive's PA-weighted
+ * mean of 65. Stealing and Baserunning added nothing once Speed was in.
+ */
+export const SPEED_RUNS_PER_POINT = 0.09;
+export const SPEED_CENTER = 65;
+
+/**
+ * STAFF STAMINA (2026-10-11). Runs allowed per game beyond the model's pitching
+ * and defence fell 0.127 per sd (8 points) of the staff's BF-weighted Stamina,
+ * every held-out fold between −0.137 and −0.114 (3,580 tournament team-events).
+ * Card by card a high-stamina arm is NOT better per batter (−0.69 runs per +10
+ * against runs allowed), so this is a staff effect — starters who go deep keep
+ * the weakest arms out of the game — priced as each arm's share of it: a run of
+ * team stamina is ~2.5 runs a season, divided over the staff's weights, ≈ 0.25
+ * per stamina point; applied at half, from the archive's BF-weighted mean of 71.
+ * Observed starter share of BF looked far stronger but is partly a result
+ * (starters who are hit come out), so it is not used.
+ */
+export const STAMINA_RUNS_PER_POINT = 0.12;
+export const STAMINA_CENTER = 71;
+
 /** The arms' spread multiplier for a run-environment year (1 outside the bands, or with no year). */
 export function armEraSpread(year: number | null | undefined): number {
   if (year == null) return 1;

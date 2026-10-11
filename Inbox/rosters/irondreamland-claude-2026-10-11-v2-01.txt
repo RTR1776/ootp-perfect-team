@@ -1,0 +1,35 @@
+# Daily Iron Dreamland — Claude pick 2026-10-11-v2-01, rebuilt from the catalogue's rules by current-rosters (--year 1907 --park Swampoodle Grounds --park-year 1886 --max 59 --size 26 --series irondreamland --sp 4 --rp 5 --bats 17)
+R:C Ted Easterly #84686
+R:1B Jeimer Candelario #85742
+R:2B Nap Lajoie #86581
+R:3B Brooks Robinson #85023
+R:SS Ozzie Smith #86972
+R:LF Milt Thompson #86927
+R:CF Austin Jackson #84808
+R:RF Ken Berry #85449
+L:C Cal McVey (VAR) #83567
+L:1B Jeimer Candelario #85742
+L:2B Freddy Galvis (VAR) #85743
+L:3B Kid Elberfeld (VAR) #86368
+L:SS Ozzie Smith #86972
+L:LF Dwayne Hosey #86801
+L:CF Milt Thompson #86927
+L:RF Ken Berry #85449
+SP1 Lefty Grove #87168
+SP2 James McDonald (VAR) #86384
+SP3 Marco Estrada #87046
+SP4 Justin Verlander #87014
+CL Al Holland (VAR) #86232
+RP1 Tyler Kinley #82155
+RP2 Seranthony Dominguez #82483
+RP3 Ossie Orwoll (VAR) #86967
+RP4 Javier Assad #84917
+BN1 George Sisler (VAR) #87002
+BN2 Todd Walker #87045
+BN3 Tom Herr #85708
+BN4 Bob Bowman #86803
+BN5 Broderick Perkins #86460
+BN6 Kid Elberfeld (VAR) #86368
+BN7 Dwayne Hosey #86801
+BN8 Freddy Galvis (VAR) #85743
+BN9 Cal McVey (VAR) #83567

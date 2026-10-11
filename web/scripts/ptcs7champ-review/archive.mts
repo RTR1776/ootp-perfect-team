@@ -19,7 +19,7 @@ for (const s of series) {
     const R = fits.runsR.get(r.card_id), L = fits.runsL.get(r.card_id); if (R == null || L == null) continue;
     const pos = r.position as string; const rt = r.ratings as Record<string, number>;
     const fr = !r.is_pitcher && rt[`Pos Rating ${pos}`] ? fieldingRuns(pos, rt[`Pos Rating ${pos}`]) : null;
-    out.push({ s, champ: s in champ, year: t.env_year, max: t.ratings_max, p: r.is_pitcher, pa: r.pa, ip: r.ip, bf: r.counters.BF ?? 0, woba: r.woba, fip: r.fip, zr: r.counters.ZR ?? 0, R, L, pos, fr, val: r.card_value, rt: r.is_pitcher ? { Stuff: rt.Stuff, Control: rt.Control, pHR: rt.pHR, pBABIP: rt.pBABIP } : { "Avoid Ks": rt["Avoid Ks"], BABIP: rt.BABIP, Gap: rt.Gap, Power: rt.Power, Eye: rt.Eye } });
+    out.push({ s, champ: s in champ, year: t.env_year, max: t.ratings_max, p: r.is_pitcher, pa: r.pa, ip: r.ip, bf: r.counters.BF ?? 0, woba: r.woba, fip: r.fip, zr: r.counters.ZR ?? 0, ra: r.counters.Ra ?? null, er: r.counters.ER ?? null, sb: r.counters.SB ?? 0, cs: r.counters.CS ?? 0, R, L, pos, fr, val: r.card_value, bats: r.bats, park: park.row ? { avgL: park.row.avgL, avgR: park.row.avgR, hrL: park.row.hrL, hrR: park.row.hrR } : null, rt: r.is_pitcher ? { Stuff: rt.Stuff, Control: rt.Control, pHR: rt.pHR, pBABIP: rt.pBABIP, Stamina: rt.Stamina } : { "Avoid Ks": rt["Avoid Ks"], BABIP: rt.BABIP, Gap: rt.Gap, Power: rt.Power, Eye: rt.Eye, Speed: rt.Speed, Stealing: rt.Stealing, Baserunning: rt.Baserunning } });
   }
   console.log(s, t.env_year, t.stadium, rows.length);
 }

@@ -91,3 +91,27 @@ test("tournament team weights: gloves and pitching against a bat run", async () 
   const { teamWeights } = await import("./calibration");
   for (const y of [1920, 1970, 1985, 2000, 2010, null]) assert.deepEqual(teamWeights(y), { def: 2, pit: 2 });
 });
+
+test("park hand offset: a lefty loses and a righty gains where the park suppresses lefties, and nothing without a park", () => {
+  const era = eraTable["1970"] ?? eraTable["0"];
+  const lefty = { ...bat(21, {}), bats: "L" }, righty = { ...bat(22, {}), bats: "R" };
+  const park = { team: null, avgL: 0.862, avgR: 1.025, hrL: 0.932, hrR: 1.009, d2: 1, d3: 1 };
+  const withPark = envFitMaps([lefty, righty], { era: era.rates, park });
+  const noPark = envFitMaps([lefty, righty], { era: era.rates, park: null });
+  const gap = (f: typeof withPark) => f.runsR.get(22)! - f.runsR.get(21)!;
+  assert.ok(gap(withPark) - gap(noPark) > 3, `the righty gains on the lefty at a lefty-suppressing park (${(gap(withPark) - gap(noPark)).toFixed(1)})`);
+  const rawPark = envFitMaps([lefty, righty], { era: era.rates, park, calibrate: false });
+  const rawNone = envFitMaps([lefty, righty], { era: era.rates, park: null, calibrate: false });
+  assert.ok(Math.abs(gap(rawPark) - gap(rawNone)) < (gap(withPark) - gap(noPark)) / 2, "calibrate:false does not add the offset");
+});
+
+test("tournament terms: Speed for bats and staff stamina for arms, only when asked", async () => {
+  const { SPEED_RUNS_PER_POINT, SPEED_CENTER, STAMINA_RUNS_PER_POINT, STAMINA_CENTER } = await import("./calibration");
+  const era = eraTable["2010"] ?? eraTable["0"];
+  const fast = { ...bat(31, {}), ratings: { ...bat(31, {}).ratings, Speed: SPEED_CENTER + 20 } };
+  const arm = { cardId: 32, isPitcher: true, bats: null, role: "SP", ratings: { Stuff: 100, Control: 100, pHR: 100, pBABIP: 100, "Stuff vL": 100, "Control vL": 100, "pHR vL": 100, "pBABIP vL": 100, "Stuff vR": 100, "Control vR": 100, "pHR vR": 100, "pBABIP vR": 100, Stamina: STAMINA_CENTER + 30 } };
+  const on = envFitMaps([fast, arm], { era: era.rates, park: null, tournamentTerms: true });
+  const off = envFitMaps([fast, arm], { era: era.rates, park: null });
+  assert.ok(Math.abs(on.runsR.get(31)! - off.runsR.get(31)! - 20 * SPEED_RUNS_PER_POINT) < 1e-9);
+  assert.ok(Math.abs(on.runsR.get(32)! - off.runsR.get(32)! - 30 * STAMINA_RUNS_PER_POINT) < 1e-9);
+});

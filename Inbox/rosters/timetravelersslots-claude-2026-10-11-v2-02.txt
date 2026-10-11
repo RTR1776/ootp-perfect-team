@@ -1,0 +1,36 @@
+# Dr. Dynastic's Daily Time Travelers Slots — Claude pick 2026-10-11-v2-02, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Busch Stadium --park-year 1968 --dh --card-types 1 --card-year-min 2026 --card-year-max 2026 --slots P8,D8,G4,S4,B2 --size 26 --series timetravelersslots --sp 4 --rp 7 --bats 15)
+R:C Gabriel Moreno #81848
+R:1B Rafael Devers #81721
+R:2B Nico Hoerner #81989
+R:3B Alex Bregman #81993
+R:SS Bobby Witt Jr. #82379
+R:LF Jake McCarthy #81809
+R:CF Pete Crow-Armstrong #81990
+R:RF Jackson Chourio #81934
+R:DH Yordan Alvarez #82178
+L:C Gabriel Moreno #81848
+L:1B Miguel Vargas #82471
+L:2B Nico Hoerner #81989
+L:3B Josh Jung #82201
+L:SS Bobby Witt Jr. #82379
+L:LF Jake McCarthy #81809
+L:CF Pete Crow-Armstrong #81990
+L:RF Jackson Chourio #81934
+L:DH Yordan Alvarez #82178
+SP1 Jacob Misiorowski #81947
+SP2 Cam Schlittler #82580
+SP3 Tarik Skubal #82424
+SP4 Dylan Cease #82518
+CL Adrian Morejon #81760
+RP1 Calvin Faucher #82119
+RP2 Dylan Lee #82154
+RP3 David Bednar #82583
+RP4 Edgardo Henriquez #81769
+RP5 Tanner Scott #81792
+RP6 Tyler Rogers #82512
+BN1 Miguel Vargas #82471
+BN2 Josh Jung #82201
+BN3 Wilyer Abreu #82607
+BN4 Jackson Merrill #81749
+BN5 Jung-hoo Lee #81713
+BN6 Brandon Nimmo #82210

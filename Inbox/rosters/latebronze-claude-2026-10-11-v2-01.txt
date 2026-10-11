@@ -1,0 +1,36 @@
+# Daily Late Bronze — Claude pick 2026-10-11-v2-01, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Dodger Stadium --park-year 2003 --dh --min 40 --max 69 --size 26 --series latebronze --sp 5 --rp 7 --bats 14)
+R:C Tim McCarver #85833
+R:1B Robinson Cano #87166
+R:2B Mark Grudzielanek #87000
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Bill Buckner (VAR) #85858
+R:CF Billy Southworth #86379
+R:RF Deion Sanders #86962
+R:DH Wes Covington #86651
+L:C Gabby Hartnett #86254
+L:1B Robinson Cano #87166
+L:2B Mark Grudzielanek #87000
+L:3B Dave Brain (VAR) #85934
+L:SS Jefferson Rojas #84751
+L:LF Steve Pearce (VAR) #86366
+L:CF Byron Buxton (VAR) #85821
+L:RF Deion Sanders #86962
+L:DH Chris Sabo #87059
+SP1 James McDonald (VAR) #86384
+SP2 Fritz Ostermueller #86357
+SP3 Bob Miller #84715
+SP4 Tanner McDougal (VAR) #85032
+SP5 Kyson Witherspoon (VAR) #84774
+CL Edwin Diaz #86422
+RP1 Randy Choate #87026
+RP2 Adam Cimber (VAR) #84271
+RP3 Paul Assenmacher #86944
+RP4 Don Robinson (VAR) #86773
+RP5 Satchel Paige #84839
+RP6 Caden Scarborough #84762
+BN1 Steve Pearce (VAR) #86366
+BN2 Chris Sabo #87059
+BN3 Byron Buxton (VAR) #85821
+BN4 Gabby Hartnett #86254
+BN5 Jefferson Rojas #84751

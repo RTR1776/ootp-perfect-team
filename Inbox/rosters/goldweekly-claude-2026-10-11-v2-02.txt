@@ -1,0 +1,36 @@
+# Thursday Night Gold Rush — Claude pick 2026-10-11-v2-02, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park Great American Ballpark --park-year 2026 --dh --min 40 --max 89 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series goldweekly --sp 5 --rp 7 --bats 14)
+R:C Eduardo Tait #84743
+R:1B Pedro Alvarez #87062
+R:2B Marcus Semien #86744
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Jeremy Pena #87154
+R:LF Curtis Granderson #86596
+R:CF Bo Jackson #86966
+R:RF Andy Van Slyke #86936
+R:DH Kal Daniels #84163
+L:C Pythias Russ #87083
+L:1B Ernie Banks (VAR) #85494
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Bernie Williams #87147
+SP1 Danny Jackson #87052
+SP2 J.A. Happ #86352
+SP3 Justin Verlander #87064
+SP4 Dave Stieb (VAR) #85911
+SP5 Hagen Smith #84629
+CL Gregg Olson (VAR) #86946
+RP1 Troy Percival (VAR) #85371
+RP2 Damaso Marte (VAR) #86703
+RP3 Javier Lopez #86408
+RP4 Joe Beggs #86762
+RP5 Tony Watson (VAR) #85457
+RP6 Dave Righetti #85870
+BN1 Chris Sabo #87059
+BN2 Bernie Williams #87147
+BN3 Pythias Russ #87083
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Ernie Banks (VAR) #85494

@@ -1,0 +1,36 @@
+# Daily Silver Snapshots — Claude pick 2026-10-11-v2-02, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Three Rivers Stadium --park-year 1986 --dh --max 79 --card-types 7 --size 26 --series silversnapshots --sp 5 --rp 7 --bats 14)
+R:C Victor Martinez #83705
+R:1B Allen Craig #87139
+R:2B Mark Grudzielanek #87000
+R:3B Corey Koskie (VAR) #86449
+R:SS Jose Oquendo #85738
+R:LF Mike Greenwell (VAR) #86930
+R:CF Steve Finley #85400
+R:RF Brian Jordan #86965
+R:DH Carlos Delgado #86998
+L:C Ivan Rodriguez #85348
+L:1B Allen Craig #87139
+L:2B Mark Grudzielanek #87000
+L:3B Dave Brain (VAR) #85934
+L:SS Jose Oquendo #85738
+L:LF Shane Mack #85534
+L:CF Byron Buxton (VAR) #85821
+L:RF Brian Jordan #86965
+L:DH Ed Morgan (VAR) #85943
+SP1 Nick Altrock #87049
+SP2 Jordan Montgomery #86354
+SP3 Andy McGaffigan (VAR) #86948
+SP4 Jakie May (VAR) #85286
+SP5 Zack Wheeler #86314
+CL Alex Claudio (VAR) #86447
+RP1 Dennis Cook (VAR) #83261
+RP2 Mark Littell (VAR) #83263
+RP3 Michael King (VAR) #83248
+RP4 Jason Motte #86788
+RP5 Rudy May #85288
+RP6 Jonathan Loaisiga #83258
+BN1 Ivan Rodriguez #85348
+BN2 Dave Brain (VAR) #85934
+BN3 Byron Buxton (VAR) #85821
+BN4 Shane Mack #85534
+BN5 Ed Morgan (VAR) #85943
