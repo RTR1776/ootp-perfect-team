@@ -21868,6 +21868,187 @@
     }
    ]
   },
+  "ptcs7champbronze": {
+   "files": 1,
+   "teams": 106,
+   "spWeight": 1.44,
+   "rpWeight": 0.35,
+   "openers": {
+    "teams": 0,
+    "winPct": null,
+    "othersWinPct": 0.492
+   },
+   "groups": [
+    {
+     "key": "all",
+     "label": "Every team",
+     "n": 106,
+     "winPct": 0.492,
+     "tiers": {
+      "B": {
+       "bats": 3.5,
+       "bench": 0,
+       "sp": 2.9,
+       "rp": 0.2
+      },
+      "I": {
+       "bats": 8.8,
+       "bench": 2.3,
+       "sp": 2.1,
+       "rp": 5.1
+      }
+     },
+     "hands": {
+      "spL": 2.2,
+      "spR": 2.8,
+      "batsL": 1.9,
+      "batsR": 8.6,
+      "batsS": 1.8
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "top",
+     "label": "Best quarter by record",
+     "n": 27,
+     "winPct": 0.584,
+     "tiers": {
+      "B": {
+       "bats": 3.8,
+       "bench": 0,
+       "sp": 3.1,
+       "rp": 0.3
+      },
+      "I": {
+       "bats": 9.4,
+       "bench": 2,
+       "sp": 1.9,
+       "rp": 5.5
+      }
+     },
+     "hands": {
+      "spL": 2.3,
+      "spR": 2.7,
+      "batsL": 2.1,
+      "batsR": 9.3,
+      "batsS": 1.7
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:HOTL",
+     "label": "HotL",
+     "n": 12,
+     "winPct": 0.535,
+     "tiers": {
+      "B": {
+       "bats": 4.4,
+       "bench": 0,
+       "sp": 3.7,
+       "rp": 0.1
+      },
+      "I": {
+       "bats": 8.2,
+       "bench": 2.4,
+       "sp": 1.3,
+       "rp": 5.6
+      }
+     },
+     "hands": {
+      "spL": 2.8,
+      "spR": 2.3,
+      "batsL": 1.2,
+      "batsR": 9.8,
+      "batsS": 1.6
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:JW",
+     "label": "JW",
+     "n": 9,
+     "winPct": 0.496,
+     "tiers": {
+      "B": {
+       "bats": 3.7,
+       "bench": 0,
+       "sp": 2.9,
+       "rp": 0.1
+      },
+      "I": {
+       "bats": 9.7,
+       "bench": 2.3,
+       "sp": 2.1,
+       "rp": 4.7
+      }
+     },
+     "hands": {
+      "spL": 2,
+      "spR": 3,
+      "batsL": 1,
+      "batsR": 10.6,
+      "batsS": 1.8
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "clan:GH",
+     "label": "GH",
+     "n": 7,
+     "winPct": 0.557,
+     "tiers": {
+      "B": {
+       "bats": 3.7,
+       "bench": 0,
+       "sp": 3.3,
+       "rp": 0.1
+      },
+      "I": {
+       "bats": 8.3,
+       "bench": 2.1,
+       "sp": 1.7,
+       "rp": 5.6
+      }
+     },
+     "hands": {
+      "spL": 1.9,
+      "spR": 3.1,
+      "batsL": 1.7,
+      "batsR": 8.7,
+      "batsS": 1.6
+     },
+     "openerShare": 0
+    },
+    {
+     "key": "mine",
+     "label": "You",
+     "n": 1,
+     "winPct": 0.167,
+     "tiers": {
+      "B": {
+       "bats": 4,
+       "bench": 0,
+       "sp": 3,
+       "rp": 0
+      },
+      "I": {
+       "bats": 9,
+       "bench": 3,
+       "sp": 2,
+       "rp": 5
+      }
+     },
+     "hands": {
+      "spL": 1,
+      "spR": 4,
+      "batsL": 5,
+      "batsR": 5,
+      "batsS": 3
+     },
+     "openerShare": 0
+    }
+   ]
+  },
   "ptcs7champcap": {
    "files": 1,
    "teams": 120,
