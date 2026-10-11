@@ -1,0 +1,36 @@
+# Daily Iron & Friends OOTP Era Slots — Claude pick 2026-10-10-bautista f, rebuilt from the catalogue's rules by current-rosters (--year 1999 --dh --card-year-min 1999 --card-year-max 2026 --slots P1,D1,G1,S1,B1,I21 --size 26 --series ironandfriends --sp 5 --rp 7 --bats 14)
+R:C Joe Mack #85615
+R:1B Shawn Green #87028
+R:2B Hank Blalock #86433
+R:3B Pedro Alvarez #87062
+R:SS Freddy Galvis (VAR) #85743
+R:LF Ty Wigginton #86086
+R:CF Carlos Beltran #87066
+R:RF Jose Bautista #87073
+R:DH Jay Bruce #86409
+L:C Sam Huff #85265
+L:1B Shawn Green #87028
+L:2B Freddy Galvis (VAR) #85743
+L:3B Pedro Alvarez #87062
+L:SS Javier Baez (VAR) #86417
+L:LF Andruw Jones (VAR) #86321
+L:CF Carlos Beltran #87066
+L:RF Jose Bautista #87073
+L:DH Matt Davidson (VAR) #84666
+SP1 Jordan Montgomery #86354
+SP2 James McDonald (VAR) #86384
+SP3 Justin Verlander #87014
+SP4 Dallas Braden #86293
+SP5 Elmer Rodriguez #85563
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Hector Rondon #83078
+RP3 Hector Carrasco #83082
+RP4 Reed Garrett #84825
+RP5 Kendry Rojas #85561
+RP6 Marco Estrada #87046
+BN1 Matt Davidson (VAR) #84666
+BN2 Andruw Jones (VAR) #86321
+BN3 Javier Baez (VAR) #86417
+BN4 Austin Jackson #84808
+BN5 Sam Huff #85265

@@ -1,0 +1,35 @@
+# Sunday Open Slots — Claude pick 2026-10-10 bautista, rebuilt from the catalogue's rules by current-rosters (--year 1969 --park Shea Stadium --park-year 1964 --slots P8,D6,G4,S3,B3,I2 --size 26 --series openslotsweekly --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Albert Pujols #87149
+R:2B Leodalis De Vries #84724
+R:3B George Brett #87025
+R:SS Ernie Banks #86621
+R:LF Mike Greenwell #86909
+R:CF Jose Bautista #87073
+R:RF Juan Soto #87013
+L:C Mike Piazza (VAR) #86463
+L:1B Albert Pujols #87149
+L:2B Leodalis De Vries #84724
+L:3B George Brett #87025
+L:SS Ernie Banks #86621
+L:LF Juan Soto #87013
+L:CF Bo Jackson #86966
+L:RF Jose Bautista #87073
+SP1 Bret Saberhagen #86915
+SP2 Ryan Sloan #84731
+SP3 Larry Jackson #86646
+SP4 Sam Jones #86070
+SP5 Jim Kaat (VAR) #85114
+CL Tony Fossas (VAR) #83324
+RP1 Troy Percival (VAR) #85371
+RP2 Chad Bradford #86341
+RP3 Jack Wenninger #85125
+RP4 Jordan Montgomery #86354
+RP5 Randy Choate #87026
+RP6 James McDonald (VAR) #86384
+BN1 Mike Piazza (VAR) #86463
+BN2 Pedro Alvarez #87062
+BN3 Wes Covington #86651
+BN4 Paul Waner #86999
+BN5 Marco Scutaro (VAR) #86394
+BN6 Bo Jackson #86966

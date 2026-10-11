@@ -1,0 +1,35 @@
+# Daily Diamond Cap — Claude pick 2026-10-10 bautista, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Jarry Park --park-year 1976 --min 40 --max 99 --cap 1788 --size 26 --series diamondcapdaily --sp 5 --rp 5 --bats 16)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Ethan Holliday (VAR) #84744
+R:LF Mike Greenwell #86909
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+L:C Mike Zunino #86431
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Ethan Holliday (VAR) #84744
+L:LF Mike Greenwell #86909
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+SP1 Ryan Sloan #84731
+SP2 Larry Jackson #86646
+SP3 Sam Jones #86070
+SP4 Jim Kaat (VAR) #85114
+SP5 James McDonald (VAR) #86384
+CL Randy Choate #87026
+RP1 Mike Marshall #84720
+RP2 Todd Jones (VAR) #86434
+RP3 R.T. Walker #86952
+RP4 Wyatt Mills #85632
+BN1 Jerome Walton #86945
+BN2 George Sisler (VAR) #87002
+BN3 John Leary #84297
+BN4 Tsung-Che Cheng (VAR) #84612
+BN5 Mike Zunino #86431
+BN6 Chris Sabo #87059
+BN7 George Pinkney #83410
+BN8 Charlie Eden #82834

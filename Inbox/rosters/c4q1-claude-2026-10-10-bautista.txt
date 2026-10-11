@@ -1,0 +1,36 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-10-10 bautista, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --obs-exclude c4q1 --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Jackie Robinson #84013
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Bo Jackson #86966
+R:CF Carlos Beltran #87066
+R:RF Jose Bautista #87073
+R:DH Hideki Matsui #87042
+L:C Mike Zunino #86431
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Jackie Robinson #84013
+L:3B Chris Sabo #87059
+L:SS Kaelen Culpepper (VAR) #85033
+L:LF Bo Jackson #86966
+L:CF Carlos Beltran #87066
+L:RF Jose Bautista #87073
+L:DH Hideki Matsui #87042
+SP1 Larry Jackson #86646
+SP2 Jim Kaat (VAR) #85114
+SP3 James McDonald (VAR) #86384
+SP4 Fritz Ostermueller #86357
+SP5 Tin Can Kincannon #86073
+CL Paul Assenmacher #86944
+RP1 Randy Choate #87026
+RP2 Todd Jones (VAR) #86434
+RP3 R.T. Walker #86952
+RP4 Jerry Augustine (VAR) #86424
+RP5 Dwight Bernard #84216
+RP6 Daniel Norris #82952
+BN1 George Sisler (VAR) #87002
+BN2 Chris Sabo #87059
+BN3 Mike Zunino #86431
+BN4 Jerome Walton #86945
+BN5 Charlie Eden #82834

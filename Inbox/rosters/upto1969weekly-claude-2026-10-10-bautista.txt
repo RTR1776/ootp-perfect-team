@@ -1,0 +1,35 @@
+# Tuesday Dead Silver Walking — Claude pick 2026-10-10 bautista, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Washington Park --park-year 1911 --min 40 --max 79 --card-year-min 1871 --card-year-max 1920 --size 26 --series upto1969weekly --sp 4 --rp 5 --bats 17)
+R:C Ted Easterly #84686
+R:1B Joe Judge #84194
+R:2B Nap Lajoie #86581
+R:3B Joe Dugan (VAR) #86765
+R:SS Dave Brain (VAR) #85934
+R:LF Tom Brown #86767
+R:CF Pop Corkhill #86582
+R:RF Jack Tobin #86772
+L:C Wilbert Robinson #84182
+L:1B Joe Judge #84194
+L:2B Joe Dugan (VAR) #86765
+L:3B Bill Keister #86454
+L:SS Dave Brain (VAR) #85934
+L:LF Tom Brown #86767
+L:CF Tillie Walker #86597
+L:RF Willie Keeler #85878
+SP1 Nick Altrock #87049
+SP2 Sherry Smith #87030
+SP3 Phil Douglas #83311
+SP4 Pretzels Getzien #85139
+CL Eddie Plank #86886
+RP1 Frank Foreman (VAR) #84049
+RP2 Joe McGinnity #84052
+RP3 Frank Killen #82675
+RP4 Mordecai Brown #82677
+BN1 Kid Elberfeld (VAR) #86368
+BN2 Willie Keeler #85878
+BN3 Tillie Walker #86597
+BN4 Emmet Heidrick #84794
+BN5 Dick Hoblitzel (VAR) #83655
+BN6 Aleck Smith #86448
+BN7 Branch Rickey #85018
+BN8 Bill Keister #86454
+BN9 Wilbert Robinson #84182

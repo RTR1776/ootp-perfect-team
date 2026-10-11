@@ -1,0 +1,36 @@
+# Daily Silver Only Cap — Claude pick 2026-10-10 bautista, rebuilt from the catalogue's rules by current-rosters (--year 1998 --park Heinsohn Ballpark --park-year 2026 --dh --min 70 --max 79 --cap 1888 --variant-cap 11 --size 26 --series silveronlycapdaily --sp 5 --rp 7 --bats 14)
+R:C Darrell Porter #85896
+R:1B Matt Carpenter #86771
+R:2B Randy Ready #86921
+R:3B Corey Koskie (VAR) #86449
+R:SS Aiva Arquette (VAR) #84768
+R:LF Gus Bell #85785
+R:CF Duke Snider #85225
+R:RF Bryce Harper #86905
+R:DH Jeffrey Leonard #87060
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86771
+L:2B Randy Ready #86921
+L:3B Aiva Arquette (VAR) #84768
+L:SS Kevin Mitchell #86733
+L:LF Allen Craig #87139
+L:CF Nick Swisher (VAR) #85784
+L:RF Mitch Webster #85448
+L:DH Jeffrey Leonard #87060
+SP1 Jakie May (VAR) #85286
+SP2 Jordan Montgomery #86354
+SP3 Nick Altrock #87049
+SP4 Dan Bankhead #84884
+SP5 Doug Davis #86802
+CL Bruce Ruffin #86777
+RP1 Alex Claudio (VAR) #86447
+RP2 Chris Sale #83244
+RP3 Bruce Sutter #86709
+RP4 Bryan Hudson #84964
+RP5 Bob Gibson #85499
+RP6 John Axford #84038
+BN1 Allen Craig #87139
+BN2 Nick Swisher (VAR) #85784
+BN3 Mitch Webster #85448
+BN4 Kevin Mitchell #86733
+BN5 Mike Zunino #86431
