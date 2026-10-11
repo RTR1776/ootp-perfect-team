@@ -1,0 +1,36 @@
+# Tuesday Sporer's Sandlot — Claude pick 2026-10-11-v2-02, rebuilt from the catalogue's rules by current-rosters (--year 1992 --park SkyDome --park-year 1992 --dh --min 40 --max 89 --card-year-min 1980 --card-year-max 2025 --card-types 2,3,4,5,6,7,8,9,10 --variant-cap 12 --size 26 --series sandlot --sp 5 --rp 7 --bats 14)
+R:C Charles Johnson #86365
+R:1B Pedro Alvarez #87062
+R:2B Marcus Semien #86744
+R:3B Eric Chavez #86295
+R:SS Jeremy Pena #87154
+R:LF Kal Daniels #84163
+R:CF Willie McGee (VAR) #85753
+R:RF Bo Jackson #86966
+R:DH Danny Tartabull (VAR) #85776
+L:C Mike Zunino #86431
+L:1B Dale Murphy #86270
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Willie McGee (VAR) #85753
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Danny Tartabull (VAR) #85776
+SP1 Jered Weaver #87169
+SP2 Dave Stieb (VAR) #85911
+SP3 Justin Verlander #87064
+SP4 Danny Jackson #87052
+SP5 J.A. Happ #86352
+CL Troy Percival (VAR) #85371
+RP1 Gregg Olson (VAR) #86946
+RP2 Javier Lopez #86408
+RP3 Tony Watson (VAR) #85457
+RP4 Alex Claudio (VAR) #86447
+RP5 Dave Righetti #85870
+RP6 Raisel Iglesias #83322
+BN1 Mike Zunino #86431
+BN2 Jeff Francoeur (VAR) #86300
+BN3 Randy Ready #86921
+BN4 Dale Murphy #86270
+BN5 Chris Sabo #87059

@@ -1,0 +1,36 @@
+# Monday Up And At Them Bronze — Claude pick 2026-10-11-v2-02, rebuilt from the catalogue's rules by current-rosters (--year 1979 --park Olympic Stadium --park-year 1977 --dh --min 40 --max 69 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series bronzeweekly --sp 5 --rp 7 --bats 14)
+R:C Tim McCarver #85833
+R:1B Robinson Cano #87166
+R:2B Mark Grudzielanek #87000
+R:3B Hank Blalock #86433
+R:SS Dave Brain (VAR) #85934
+R:LF Joc Pederson #87143
+R:CF Kevin Kiermaier #86291
+R:RF Deion Sanders #86962
+R:DH Wes Covington #86651
+L:C Gabby Hartnett #86254
+L:1B Robinson Cano #87166
+L:2B Mark Grudzielanek #87000
+L:3B Dave Brain (VAR) #85934
+L:SS Jefferson Rojas #84751
+L:LF Steve Pearce (VAR) #86366
+L:CF Byron Buxton (VAR) #85821
+L:RF Deion Sanders #86962
+L:DH Chris Sabo #87059
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Corey Kluber (VAR) #87008
+SP4 Bruce Hurst #86361
+SP5 Brandon Beachy #86684
+CL Randy Choate #87026
+RP1 Will Smith #87132
+RP2 Edwin Diaz #86422
+RP3 Larry Sherry #86622
+RP4 Adam Cimber (VAR) #84271
+RP5 Red Howard #87156
+RP6 Eddie Dixon #87157
+BN1 Steve Pearce (VAR) #86366
+BN2 Chris Sabo #87059
+BN3 Jefferson Rojas #84751
+BN4 Gabby Hartnett #86254
+BN5 Byron Buxton (VAR) #85821

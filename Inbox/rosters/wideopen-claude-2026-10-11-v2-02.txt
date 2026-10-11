@@ -1,0 +1,36 @@
+# Daily Wide Open — Claude pick 2026-10-11-v2-02, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Sutter Health Park --park-year 2026 --dh --min 40 --max 105 --size 26 --series wideopen --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Albert Pujols #87149
+R:2B Leodalis De Vries #84724
+R:3B Ernie Banks #86621
+R:SS Corey Seager #87173
+R:LF Richard Hidalgo #86707
+R:CF Carlos Beltran #87066
+R:RF Jose Bautista #87073
+R:DH George Brett #87025
+L:C Mike Piazza (VAR) #86463
+L:1B Albert Pujols #87149
+L:2B Bret Boone #86701
+L:3B Ernie Banks #86621
+L:SS Corey Seager #87173
+L:LF Hank Aaron #86655
+L:CF Carlos Beltran #87066
+L:RF Juan Soto #87013
+L:DH Hideki Matsui #87042
+SP1 Cy Young (VAR) #86572
+SP2 Orel Hershiser #83135
+SP3 Eddie Plank #86890
+SP4 Bret Saberhagen #86915
+SP5 Kade Anderson #85138
+CL Willie Hernandez #86914
+RP1 Zack Britton #86426
+RP2 Rich Gossage #85046
+RP3 Robb Nen #83906
+RP4 Craig Kimbrel #85467
+RP5 Dave Stieb #86958
+RP6 CC Sabathia #86350
+BN1 Juan Soto #87013
+BN2 Hank Aaron #86655
+BN3 Hideki Matsui #87042
+BN4 Mike Piazza (VAR) #86463
+BN5 Bret Boone #86701

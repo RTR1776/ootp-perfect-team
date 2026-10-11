@@ -1,0 +1,36 @@
+# Saturday Bronze Cap — Claude pick 2026-10-11-v2-02, rebuilt from the catalogue's rules by current-rosters (--year 2016 --dh --min 40 --max 69 --cap 1386 --size 26 --series bronzecapweekly --sp 5 --rp 7 --bats 14)
+R:C Nick Fortes #82532
+R:1B Nap Lajoie #86581
+R:2B Jefferson Rojas #84751
+R:3B Chris Sabo #87059
+R:SS Dave Brain (VAR) #85934
+R:LF Steve Pearce (VAR) #86366
+R:CF Deion Sanders #86962
+R:RF Vladimir Guerrero #86474
+R:DH George Sisler (VAR) #87002
+L:C Nick Fortes #82532
+L:1B Steve Pearce (VAR) #86366
+L:2B Jefferson Rojas #84751
+L:3B Chris Sabo #87059
+L:SS Dave Brain (VAR) #85934
+L:LF Deion Sanders #86962
+L:CF Dave Henderson #86926
+L:RF Vladimir Guerrero #86474
+L:DH Pete Incaviglia #86943
+SP1 James McDonald (VAR) #86384
+SP2 Fritz Ostermueller #86357
+SP3 Tanner McDougal (VAR) #85032
+SP4 Bob Miller #84715
+SP5 Kyson Witherspoon (VAR) #84774
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 Juan Mejia #81806
+RP4 Tin Can Kincannon #86073
+RP5 Bob Gibson #86658
+RP6 R.T. Walker #86952
+BN1 Leo Durocher (VAR) #83909
+BN2 Charlie Eden #82834
+BN3 Dave Henderson #86926
+BN4 Pete Incaviglia #86943
+BN5 Buck Rodgers #84312

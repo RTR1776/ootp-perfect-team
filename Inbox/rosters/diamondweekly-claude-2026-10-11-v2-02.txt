@@ -1,0 +1,36 @@
+# Wednesday Ice to See You — Claude pick 2026-10-11-v2-02, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 1977 --dh --min 90 --max 99 --size 26 --series diamondweekly --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Matt Carpenter #86763
+R:2B Colt Emerson (VAR) #85116
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Shawon Dunston #86947
+R:LF Mike Greenwell #86909
+R:CF Carlos Beltran #87066
+R:RF Andruw Jones #86326
+R:DH Adolis Garcia #87022
+L:C Thurman Munson #82714
+L:1B Josh Vitters (VAR) #86419
+L:2B Arjun Nimmala (VAR) #84745
+L:3B Mike Schmidt #86286
+L:SS Shawon Dunston #86947
+L:LF Al Simmons #85942
+L:CF Carlos Beltran #87066
+L:RF Andruw Jones #86326
+L:DH Willie Mays #86634
+SP1 Ryan Sloan #84731
+SP2 Kyle Freeland (VAR) #86708
+SP3 Mark Langston #86956
+SP4 Thomas White #84726
+SP5 Milt Pappas #86654
+CL Tyler Matzek #87056
+RP1 Jake McGee (VAR) #86789
+RP2 Jonny Venters #86079
+RP3 Devin Williams #83851
+RP4 Tony Fossas (VAR) #83324
+RP5 Babe Ruth #86439
+RP6 Liam Doyle #84730
+BN1 Al Simmons #85942
+BN2 Willie Mays #86634
+BN3 Josh Vitters (VAR) #86419
+BN4 Thurman Munson #82714
+BN5 Mike Schmidt #86286
