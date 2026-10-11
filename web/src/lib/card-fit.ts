@@ -60,6 +60,24 @@ export interface FitCtx {
   glove: number;
   /** The era's pitching team weight against a bat run (calibration.ts teamWeights); 1 when absent. */
   pit?: number;
+  /**
+   * The series' measured starter / reliever weights (field-construction) and the
+   * field's staff size they were measured at, as the builder prices arms
+   * (roster-objective): each arm's weight is scaled by field count / the
+   * roster's own count. Absent, a starter counts 1 and a reliever RP_WEIGHT_DEFAULT.
+   */
+  spWeight?: number | null;
+  rpWeight?: number | null;
+  fieldSp?: number | null;
+  fieldRp?: number | null;
+}
+
+/** An arm's weight in this event, as the roster objective prices it, for a staff of `n` in that role. */
+export function armWeight(role: "SP" | "RP", n: number, ctx: FitCtx): number {
+  const base = role === "SP" ? ctx.spWeight ?? 1 : ctx.rpWeight ?? RP_WEIGHT_DEFAULT;
+  const field = role === "SP" ? ctx.fieldSp : ctx.fieldRp;
+  const share = field != null && field > 0 && n > 0 ? field / n : 1;
+  return base * share * (ctx.pit ?? 1);
 }
 
 /** An arm's role as the roster reads it: the card's own, else by stamina. */
@@ -214,7 +232,7 @@ export function fitIn(t: ScoredForm, team: Team, pool: readonly ScoredForm[], ct
       // It takes the weakest arm's place in that role (the staff's size is the roster's own).
       const weakest = staff.length ? staff.reduce((a, b) => (b.runsR < a.runsR ? b : a)) : null;
       const delta = weakest ? t.runsR - weakest.runsR : t.runsR;
-      const w = (role === "SP" ? 1 : RP_WEIGHT_DEFAULT) * (ctx.pit ?? 1);
+      const w = armWeight(role, staff.length, ctx);
       if (delta * w >= GAIN_FLOOR) {
         gain = delta * w;
         swaps.push({ board: "staff", spot: role, out: weakest ? outOf(weakest) : null, delta });
@@ -240,7 +258,7 @@ export function fitIn(t: ScoredForm, team: Team, pool: readonly ScoredForm[], ct
   }
 
   // The spot shown: the biggest weighted swap; else where it plays now; else where it ranks best.
-  const weight = (s: Swap) => s.delta * (s.board === "staff" ? (s.spot === "SP" ? 1 : RP_WEIGHT_DEFAULT) * (ctx.pit ?? 1) : s.board === "R" ? 1 - ctx.lhp : ctx.lhp);
+  const weight = (s: Swap) => s.delta * (s.board === "staff" ? armWeight(s.spot as "SP" | "RP", team[s.spot as "SP" | "RP"].length, ctx) : s.board === "R" ? 1 - ctx.lhp : ctx.lhp);
   const top = swaps.slice().sort((a, b) => weight(b) - weight(a))[0];
   const ranked = spots.map((spot) => {
     const value = spotValue(t, spot, ctx)!;

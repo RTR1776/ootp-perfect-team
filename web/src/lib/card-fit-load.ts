@@ -32,6 +32,8 @@ import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { cardEligibility, parseCardTypeRule, type RosterRules } from "@/lib/roster-rules";
 import { exportsPredate } from "@/lib/set-evidence-server";
+import { staffPerTeam, type SeriesBuild } from "@/lib/field-construction";
+import fieldConstruction from "@/data/field-construction.json";
 
 const ROLE_TRUST = 0.25;
 const WOBA_SCALE = 1.25;
@@ -280,7 +282,14 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
       });
     }
     const tw = teamWeights(envYear ?? 2010);
-    const ctx: FitCtx = { dh: t.dh === true, lhp, glove: gloveScale(era.rates) * tw.def, pit: tw.pit };
+    // Arms priced as the builder prices them: the series' measured weights, split over the staff carried.
+    const built = t.series && !staleSeries.has(t.id) ? (fieldConstruction as { series: Record<string, SeriesBuild> }).series[t.series] : undefined;
+    const staff = staffPerTeam(built);
+    const ctx: FitCtx = {
+      dh: t.dh === true, lhp, glove: gloveScale(era.rates) * tw.def, pit: tw.pit,
+      spWeight: built?.spWeight ?? null, rpWeight: built?.rpWeight ?? null,
+      fieldSp: built?.spWeight != null ? staff?.sp ?? null : null, fieldRp: built?.rpWeight != null ? staff?.rp ?? null : null,
+    };
     const pool = [...legal].map((id) => forms.get(id)).filter((f): f is ScoredForm => !!f);
     const mine = [
       ...pool.filter((f) => owned.base.has(f.cardId)),
