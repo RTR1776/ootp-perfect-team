@@ -1,0 +1,36 @@
+# Live-Plus Slots Pop-up (Sun 10-11 18:59) — Claude pick 2026-10-11 v6, env-roster on the newest collection (--year 2010 --park Petco Park --park-year 2026 --dh --min 40 --max 105 --card-year-min 2026 --card-year-max 2026 --slots P4,D5,G5,S4,B3,I5 --size 26 --optimize --starts 16 --role-trust 0.25 --min-pos 60,SS:85,CF:90,2B:85,RF:75): 235.4. Not in the catalogue, so not saved to /build.
+R:C Eduardo Tait #84743
+R:1B Arjun Nimmala (VAR) #84745
+R:2B Leodalis De Vries #84724
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Roch Cholowsky #86249
+R:LF Kevin Alcantara (VAR) #84755
+R:CF Walker Jenkins #84735
+R:RF Max Clark (VAR) #84725
+R:DH Josue De Paula (VAR) #84729
+L:C Eduardo Tait #84743
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Leodalis De Vries #84724
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Roch Cholowsky #86249
+L:LF Kevin Alcantara (VAR) #84755
+L:CF Walker Jenkins #84735
+L:RF Max Clark (VAR) #84725
+L:DH Josue De Paula (VAR) #84729
+SP1 Kade Anderson #85138
+SP2 Ryan Sloan #84731
+SP3 Thomas White #84726
+SP4 Liam Doyle #84730
+SP5 Hagen Smith #84629
+CL Seth Hernandez (VAR) #84742
+RP1 Jack Wenninger #85125
+RP2 Travis Sykora (VAR) #85120
+RP3 Jaxon Wiggins #85127
+RP4 Tanner McDougal (VAR) #85032
+RP5 Kyson Witherspoon (VAR) #84774
+RP6 Caden Scarborough #84762
+BN1 Tsung-Che Cheng (VAR) #84612
+BN2 Hao-Yu Lee #85230
+BN3 Randal Grichuk #82569
+BN4 Abraham Toro #82361
+BN5 Braxton Fulford #81816
