@@ -1,0 +1,126 @@
+
+=== Sunday Open Slots ===
+1969 RE @ 1964 Shea Stadium · DH off · value —–— · cap none · 26 players
+R/G 4.16  AVG 0.249  OBP 0.321  SLG 0.373  K% 15.2  HR/PA 2.20%  preset Traditional
+sac bunt (1st & 2nd, 0 out) +0.043 runs · steal break-even 78.7% (0 out) / 75.5% (1 out)
+park: all-LHB lineup 4.14 R/G vs all-RHB 4.18 — 0.03 R/G swing toward RIGHT-handed bats
+assumed owned 87173 Corey Seager 103: bought, not yet in the collection upload
+
+pool: 3934 eligible owned cards — 2175 bats (735L / 258S / 1182R), 1759 arms
+staff weights from openslotsweekly's exports: SP 1.58, RP 0.37 (a lineup slot = 1)
+field (openslotsweekly, 1 exports): 42% of batters faced thrown left-handed · 38% of PA by left-handed bats · 13.6 bats / 6 SP / 4.3 RP per team
+shape: 14 bats / 5 SP / 7 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 2551 of 3934 pool cards have innings on record (median 256 PA/BF); K = 5000
+gloves ×0.97: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+
++10 rating, runs/700 PA — LHB: Power +3.4  Avoid Ks +1.9  BABIP +1.9  Eye +1.4  Gap +0.8
+                          RHB: Power +3.8  Avoid Ks +1.9  BABIP +1.8  Eye +1.4  Gap +0.8
+                         arms: pHR +1.2  pBABIP +1.1  Control +1.0  Stuff +1.0
+seed: 546-seed.txt as is (26 cards)
+
+optimiser: 10 starts (λ + seed) hill-climbed; best 397.9 runs vs 293.7 greedy (+104.3), 1 moves from the seed
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +31.5  park:L DEF 112/112 +0.7  #86637
+R:1B    Albert Pujols              102  R  2011   +40.4  park:R DEF  91/ 91 +1.7  #87149
+R:2B    Leodalis De Vries          102  S  2026   +27.2  park:L DEF 130/130 +2.5  #84724
+R:3B    George Brett               103  L  1985   +47.0  park:L DEF  88/ 88 -0.4  #87025
+R:SS    Corey Seager               103  L  2023   +39.1  park:L DEF 119/119 +1.6  #87173
+R:LF    Mike Greenwell              99  L  1988   +34.0  park:L DEF 125/125 +2.3  #86909
+R:CF    Bo Jackson                  88  R  1989   +26.4  park:R DEF 103/123 -0.6  #86966
+R:RF    Jose Bautista              100  R  2015   +42.7  park:R DEF 111/111 +1.1  #87073
+
+--- lineup vs LHP ---
+L:C     Mike Piazza (VAR)          101  R  1995   +39.9  park:R DEF  69/ 69 -0.6  #86463
+L:1B    Albert Pujols              102  R  2011   +51.4  park:R DEF  91/ 91 +1.7  #87149
+L:2B    Leodalis De Vries          102  S  2026   +22.3  park:R DEF 130/130 +2.5  #84724
+L:3B    George Brett               103  L  1985   +30.5  park:L DEF  88/ 88 -0.4  #87025
+L:SS    Corey Seager               103  L  2023   +28.7  park:L DEF 119/119 +1.6  #87173
+L:LF    Hank Aaron                 102  R  1959   +40.0  park:R DEF  85/ 87 -0.8  #86655
+L:CF    Bo Jackson                  88  R  1989   +25.5  park:R DEF 103/123 -0.6  #86966
+L:RF    Jose Bautista              100  R  2015   +29.0  park:R DEF 111/111 +1.1  #87073
+
+--- batting order vs RHP --- (5.04 runs/game; The Book's order 5.02)
+  1. Mike Greenwell LF
+  2. George Brett 3B
+  3. Jose Bautista RF
+  4. Albert Pujols 1B
+  5. Corey Seager SS
+  6. Leodalis De Vries 2B
+  7. Ed Bailey (VAR) C
+  8. Bo Jackson CF
+  9. Pitcher
+
+--- batting order vs LHP --- (4.95 runs/game; The Book's order 4.93)
+  1. George Brett 3B
+  2. Jose Bautista RF
+  3. Corey Seager SS
+  4. Albert Pujols 1B
+  5. Hank Aaron LF
+  6. Leodalis De Vries 2B
+  7. Bo Jackson CF
+  8. Mike Piazza (VAR) C
+  9. Pitcher
+
+--- rotation ---
+SP1     Bret Saberhagen            102  R  1989   +14.8   SP STM 106  #86915
+SP2     Ryan Sloan                  98  R  2026   +10.8   SP STM  69  #84731
+SP3     Larry Jackson               92  R  1959   +10.5   SP STM  92  #86646
+SP4     Sam Jones                   92  R  1921    +9.6   SP STM  82  #86070
+SP5     Jim Kaat (VAR)              87  L  1967    +9.2   SP STM  78  #85114
+
+--- bullpen ---
+CL      Tony Fossas (VAR)           99  L  1995   +14.6   RP STM  13  #83324
+RP1     Troy Percival (VAR)         87  R  2007   +10.4   RP STM  19  #85371
+RP2     Chad Bradford               74  R  2006    +5.0   RP STM  11  #86341
+RP3     Jack Wenninger              79  L  2026    +4.1   RP STM  48  #85125
+RP4     Jordan Montgomery           77  L  2023    +3.8   SP STM  87  #86354
+RP5     Randy Choate                45  L  2013    +0.8   RP STM   6  #87026
+RP6     James McDonald (VAR)        55  L  2010    +0.5   SP STM  59  #86384
+
+--- bench ---
+BN1     Paul Waner                  61  L  1943    +7.3  park:L  #86999
+BN2     Pedro Alvarez               81  L  2013   +28.8  park:L  #87062
+BN3     Marco Scutaro (VAR)         69  R  2012    +4.4  park:R  #86394
+BN4     Hank Aaron                 102  R  1959   +26.8  park:R  #86655
+BN5     Billy Southworth            68  L  1926    +3.0  park:L  #86379
+BN6     Mike Piazza (VAR)          101  R  1995   +30.3  park:R  #86463
+
+26 players · value 2263 · from seed · 7 variants
+vs RHP lineup gets the friendly park side in 5 of 8 spots
+
+--- order inputs (rostered bats) ---
+  George Brett           L EYE 213 (158/232)  POW 184 (161/192)  K 137  BABIP 156  GAP 135  SPE  69
+  Jose Bautista          R EYE 227 (196/238)  POW 212 (188/220)  K 116  BABIP  99  GAP 106  SPE  37
+  Albert Pujols          R EYE 165 (154/168)  POW 182 (210/173)  K 150  BABIP 138  GAP 183  SPE  52
+  Corey Seager           L EYE 147 (123/155)  POW 184 (155/193)  K 128  BABIP 134  GAP 156  SPE  41
+  Mike Greenwell         L EYE 159 (44/202)  POW 101 (71/116)  K 183  BABIP 111  GAP 131  SPE  60
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Mike Piazza            R EYE 111 (84/124)  POW 187 (226/172)  K 106  BABIP 155  GAP  67  SPE  39
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Leodalis De Vries      S EYE 145 (144/145)  POW 118 (115/120)  K 127  BABIP 152  GAP 152  SPE  91
+  Hank Aaron             R EYE  97 (111/94)  POW 181 (210/172)  K 134  BABIP 136  GAP 123  SPE  69
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Paul Waner             L EYE 159 (146/163)  POW  27 (1/33)  K 193  BABIP 122  GAP  93  SPE  22
+  Marco Scutaro          R EYE  51 (34/57)  POW  40 (37/42)  K 221  BABIP 142  GAP 118  SPE  53
+  Billy Southworth       L EYE  51 (5/61)  POW  96 (81/102)  K 201  BABIP  76  GAP  84  SPE  69
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (29 teams): 5.0 SP / 6.3 RP / 13.9 bats
+  ✓ starters' stamina Bret Saberhagen 106, Ryan Sloan 69, Larry Jackson 92, Sam Jones 82, Jim Kaat 78 (era floor 60)
+  ✓ stamina guys in the pen (45+): Jack Wenninger 48, Jordan Montgomery 87, James McDonald 59
+  ✓ C  backup: Ed Bailey 112, Mike Piazza 69
+  ✓ 1B backup: George Brett 88, Hank Aaron 75, Pedro Alvarez 96
+  ✓ 2B backup: Marco Scutaro 98
+  ✓ 3B backup: Leodalis De Vries 116, Jose Bautista 85, Pedro Alvarez 75, Marco Scutaro 87
+  ✓ SS backup: Leodalis De Vries 115
+  ✓ LF backup: Mike Greenwell 125, Bo Jackson 116, Hank Aaron 85, Paul Waner 60, Billy Southworth 107
+  ✓ CF backup: Billy Southworth 93
+  ✓ RF backup: Mike Greenwell 117, Bo Jackson 123, Hank Aaron 87, Billy Southworth 93
+(17 of 26 have a live ask in the last shop snapshot)
+objective: 397.9 weighted runs (bats 58/42 R/L, SP 1.58, RP 0.37, bench 0.1)
+points: lineup(both boards, 10 bats) 997 · rotation 471 · bullpen 516 · bench-only 279
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Troy Percival            pBABIP 196 (fitted 50–175)
