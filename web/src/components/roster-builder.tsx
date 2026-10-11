@@ -948,8 +948,8 @@ export function RosterBuilder({
   /* What a starter and a reliever face here, as multiples of a lineup slot's
      PA, measured off this series' exports; the objective's defaults (1.0 and
      0.31) when there are none. */
-  const spWeight = (meta?.construction?.spWeight ?? 1) * teamW.pit;
-  const rpWeight = (meta?.construction?.rpWeight ?? RP_WEIGHT_DEFAULT) * teamW.pit;
+  const spWeight = (meta?.construction?.spWeight ?? 1) * teamW.sp;
+  const rpWeight = (meta?.construction?.rpWeight ?? RP_WEIGHT_DEFAULT) * teamW.rp;
   /* The field's staff size those weights were measured at: the rotation's and
      the pen's innings are split over the arms this roster carries. */
   const fieldStaff = staffPerTeam(meta?.construction);

@@ -89,7 +89,7 @@ test("glove runs carry the per-position calibration, and first base is left alon
 
 test("tournament team weights: gloves and pitching against a bat run", async () => {
   const { teamWeights } = await import("./calibration");
-  for (const y of [1920, 1970, 1985, 2000, 2010, null]) assert.deepEqual(teamWeights(y), { def: 2, pit: 2 });
+  for (const y of [1920, 1970, 1985, 2000, 2010, null]) assert.deepEqual(teamWeights(y), { def: 2, pit: 2, sp: 1.5, rp: 2 });
 });
 
 test("park hand offset: a lefty loses and a righty gains where the park suppresses lefties, and nothing without a park", () => {

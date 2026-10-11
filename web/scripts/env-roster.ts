@@ -470,8 +470,8 @@ async function main() {
   // Team weights (calibration.ts TEAM_WEIGHTS): a glove run and a pitching run against a bat run, by era.
   if (!argv.includes("--no-team-weights")) {
     const tw = teamWeights(YEAR ?? 2010);
-    GLOVE *= tw.def; SP_WEIGHT *= tw.pit; RP_WEIGHT *= tw.pit;
-    console.log(`team weights (${YEAR ?? 2010} band): gloves ×${tw.def}, pitching ×${tw.pit} against a bat run → glove ×${GLOVE.toFixed(2)}, SP ${SP_WEIGHT.toFixed(2)}, RP ${RP_WEIGHT.toFixed(2)} (--no-team-weights to turn off)`);
+    GLOVE *= tw.def; SP_WEIGHT *= tw.sp; RP_WEIGHT *= tw.rp;
+    console.log(`team weights (${YEAR ?? 2010} band): gloves ×${tw.def}, starters ×${tw.sp}, pen ×${tw.rp} against a bat run → glove ×${GLOVE.toFixed(2)}, SP ${SP_WEIGHT.toFixed(2)}, RP ${RP_WEIGHT.toFixed(2)} (--no-team-weights to turn off)`);
   }
   if (FIELD_SP != null || FIELD_RP != null) {
     const sp = shape.spKeys.length, rp = shape.rpKeys.length;

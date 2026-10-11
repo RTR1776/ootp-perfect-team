@@ -286,7 +286,7 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
     const built = t.series && !staleSeries.has(t.id) ? (fieldConstruction as { series: Record<string, SeriesBuild> }).series[t.series] : undefined;
     const staff = staffPerTeam(built);
     const ctx: FitCtx = {
-      dh: t.dh === true, lhp, glove: gloveScale(era.rates) * tw.def, pit: tw.pit,
+      dh: t.dh === true, lhp, glove: gloveScale(era.rates) * tw.def, pit: tw.pit, pitSp: tw.sp, pitRp: tw.rp,
       spWeight: built?.spWeight ?? null, rpWeight: built?.rpWeight ?? null,
       fieldSp: built?.spWeight != null ? staff?.sp ?? null : null, fieldRp: built?.rpWeight != null ? staff?.rp ?? null : null,
     };

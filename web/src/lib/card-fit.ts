@@ -60,6 +60,9 @@ export interface FitCtx {
   glove: number;
   /** The era's pitching team weight against a bat run (calibration.ts teamWeights); 1 when absent. */
   pit?: number;
+  /** The starters' / pen's own team weights (teamWeights sp / rp); `pit` when absent. */
+  pitSp?: number;
+  pitRp?: number;
   /**
    * The series' measured starter / reliever weights (field-construction) and the
    * field's staff size they were measured at, as the builder prices arms
@@ -77,7 +80,7 @@ export function armWeight(role: "SP" | "RP", n: number, ctx: FitCtx): number {
   const base = role === "SP" ? ctx.spWeight ?? 1 : ctx.rpWeight ?? RP_WEIGHT_DEFAULT;
   const field = role === "SP" ? ctx.fieldSp : ctx.fieldRp;
   const share = field != null && field > 0 && n > 0 ? field / n : 1;
-  return base * share * (ctx.pit ?? 1);
+  return base * share * ((role === "SP" ? ctx.pitSp : ctx.pitRp) ?? ctx.pit ?? 1);
 }
 
 /** An arm's role as the roster reads it: the card's own, else by stamina. */
