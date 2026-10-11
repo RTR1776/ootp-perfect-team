@@ -1,0 +1,36 @@
+# Daily Bronze 1910-59 — Claude pick 2026-10-11-v6 rest, rebuilt from the catalogue's rules by current-rosters (--year 1959 --park Seals Stadium --park-year 1959 --dh --min 40 --max 69 --card-year-min 1910 --card-year-max 1959 --size 26 --series bronze10to50 --sp 5 --rp 6 --bats 15)
+R:C Ed Bailey #86616
+R:1B Honus Wagner #86712
+R:2B Pat Patterson #87080
+R:3B Joe Dugan (VAR) #86765
+R:SS Sam Bankhead #87160
+R:LF Bob Allison (VAR) #86610
+R:CF Billy Southworth #86379
+R:RF Braggo Roth #83677
+R:DH Jack Tobin #86772
+L:C Gabby Hartnett #86254
+L:1B Jackie Robinson (VAR) #84390
+L:2B Pat Patterson #87080
+L:3B Honus Wagner #86712
+L:SS Sam Bankhead #87160
+L:LF Ed Morgan (VAR) #85943
+L:CF Joe DiMaggio #85062
+L:RF Beauty McGowan #82903
+L:DH Joe Dugan (VAR) #86765
+SP1 Fritz Ostermueller #86357
+SP2 Christy Mathewson #86706
+SP3 Cool Papa Bell #86981
+SP4 Eddie Plank #86886
+SP5 Red Lucas #86781
+CL Satchel Paige #84839
+RP1 Larry Sherry #86622
+RP2 Eddie Dixon #87157
+RP3 Sherry Smith #87030
+RP4 Red Howard #87156
+RP5 Mickey Haefner #85717
+BN1 Ed Morgan (VAR) #85943
+BN2 Gabby Hartnett #86254
+BN3 Beauty McGowan #82903
+BN4 Jackie Robinson (VAR) #84390
+BN5 Joe DiMaggio #85062
+BN6 Billy Martin #87027
