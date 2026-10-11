@@ -1,27 +1,27 @@
 {
   "fittedAt": "2026-10-11",
   "source": "league split exports, weeks 2026-06-28, 2026-08-16, 2026-08-23, 2026-08-30, 2026-09-06, 2026-09-13, 2026-09-20, 2026-09-27, 2026-10-04, 2026-10-11 (theme weeks: 2026-08-23 = 1959, 2026-09-20 = 1989); card-board lines with 1500+ PA",
-  "lines": 299,
-  "pa": 6988119,
+  "lines": 308,
+  "pa": 7392413,
   "coef": {
-    "intercept": 0.0155,
-    "app": 0.4409,
-    "K": 14.6612,
-    "BA": 7.4705,
-    "GAP": 3.0304,
-    "POW": 4.1756,
-    "EYE": 11.0045
+    "intercept": 0.02,
+    "app": 0.4396,
+    "K": 14.7031,
+    "BA": 8.0247,
+    "GAP": 3.0604,
+    "POW": 4.135,
+    "EYE": 10.939
   },
   "coefNote": "Rating terms are per unit of ln(rating) minus the league's PA-weighted mean ln(rating) on that board, each multiplied by the week's environment price (the app's +10 value of that rating there over the PT default; 1 in an ordinary week).",
-  "shrink": 0.5962,
+  "shrink": 0.5958,
   "validation": {
-    "byCard": 0.933,
-    "byWeek": 0.852,
-    "shrinkOnlyByCard": 0.837,
-    "shrinkOnlyByWeek": 0.768,
+    "byCard": 0.93,
+    "byWeek": 0.857,
+    "shrinkOnlyByCard": 0.836,
+    "shrinkOnlyByWeek": 0.772,
     "eachWeek": {
       "2026-06-28": {
-        "r": 0.851,
+        "r": 0.85,
         "shrinkOnly": 0.748,
         "lines": 58,
         "themed": false,
@@ -35,7 +35,7 @@
         "envYear": 2010
       },
       "2026-08-23": {
-        "r": 0.716,
+        "r": 0.715,
         "shrinkOnly": 0.719,
         "lines": 77,
         "themed": true,
@@ -63,30 +63,30 @@
         "envYear": 2010
       },
       "2026-09-20": {
-        "r": 0.817,
+        "r": 0.815,
         "shrinkOnly": 0.768,
         "lines": 190,
         "themed": true,
         "envYear": 1989
       },
       "2026-09-27": {
-        "r": 0.848,
+        "r": 0.849,
         "shrinkOnly": 0.763,
         "lines": 195,
         "themed": false,
         "envYear": 2010
       },
       "2026-10-04": {
-        "r": 0.871,
+        "r": 0.872,
         "shrinkOnly": 0.766,
         "lines": 187,
         "themed": false,
         "envYear": 2010
       },
       "2026-10-11": {
-        "r": 0.84,
-        "shrinkOnly": 0.741,
-        "lines": 120,
+        "r": 0.883,
+        "shrinkOnly": 0.784,
+        "lines": 172,
         "themed": false,
         "envYear": 2010
       }
@@ -95,31 +95,33 @@
   "reference": {
     "HD|vL": {
       "week": "2026-10-11",
-      "pa": 169337,
+      "pa": 244596,
       "leagues": [
+        "HD451",
         "HD452",
         "HD453"
       ],
-      "app": 27.2361,
-      "lK": 0.9538,
-      "lBA": 0.9839,
-      "lGAP": 0.7736,
-      "lPOW": 0.9416,
-      "lEYE": 0.9766
+      "app": 27.5239,
+      "lK": 0.9454,
+      "lBA": 0.9811,
+      "lGAP": 0.7758,
+      "lPOW": 0.9563,
+      "lEYE": 0.9755
     },
     "HD|vR": {
       "week": "2026-10-11",
-      "pa": 203974,
+      "pa": 314113,
       "leagues": [
+        "HD451",
         "HD452",
         "HD453"
       ],
-      "app": 27.7126,
-      "lK": 0.9482,
-      "lBA": 0.9394,
-      "lGAP": 0.8346,
-      "lPOW": 0.9896,
-      "lEYE": 0.9512
+      "app": 27.8623,
+      "lK": 0.9494,
+      "lBA": 0.9399,
+      "lGAP": 0.8347,
+      "lPOW": 0.9913,
+      "lEYE": 0.9455
     },
     "LD|vL": {
       "week": "2026-09-06",
@@ -148,36 +150,36 @@
       "lEYE": 0.8322
     },
     "PEL|vL": {
-      "week": "2026-10-04",
-      "pa": 106082,
+      "week": "2026-10-11",
+      "pa": 105187,
       "leagues": [
         "PEL"
       ],
-      "app": 29.7595,
-      "lK": 0.9552,
-      "lBA": 1.0093,
-      "lGAP": 0.7941,
-      "lPOW": 0.9817,
-      "lEYE": 1.0211
+      "app": 33.647,
+      "lK": 0.9543,
+      "lBA": 1.0071,
+      "lGAP": 0.7865,
+      "lPOW": 1.0732,
+      "lEYE": 1.067
     },
     "PEL|vR": {
-      "week": "2026-10-04",
-      "pa": 117029,
+      "week": "2026-10-11",
+      "pa": 118252,
       "leagues": [
         "PEL"
       ],
-      "app": 28.4133,
-      "lK": 0.96,
-      "lBA": 0.9468,
-      "lGAP": 0.8449,
-      "lPOW": 0.9986,
-      "lEYE": 0.9643
+      "app": 33.3078,
+      "lK": 0.9634,
+      "lBA": 0.9657,
+      "lGAP": 0.8682,
+      "lPOW": 1.0911,
+      "lEYE": 1.0355
     }
   },
   "lhpShare": {
-    "HD": 0.454,
+    "HD": 0.438,
     "LD": 0.424,
-    "PEL": 0.475
+    "PEL": 0.471
   },
   "ratingRange": {
     "K": [
@@ -186,7 +188,7 @@
     ],
     "BA": [
       25.0,
-      198.0
+      213.0
     ],
     "GAP": [
       17.0,
