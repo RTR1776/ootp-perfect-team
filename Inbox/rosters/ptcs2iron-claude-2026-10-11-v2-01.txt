@@ -1,0 +1,35 @@
+# Daily PTCS 2 Iron Replay — Claude pick 2026-10-11-v2-01, rebuilt from the catalogue's rules by current-rosters (--year 1969 --park Shea Stadium --park-year 1964 --min 40 --max 59 --card-types 2,7,8,9 --size 26 --series ptcs2iron --sp 5 --rp 5 --bats 16)
+R:C Rick Wilkins #86392
+R:1B Shawn Green #87028
+R:2B Nap Lajoie #86581
+R:3B Connie Day #86982
+R:SS Ozzie Smith #86972
+R:LF Ken Berry #85449
+R:CF Milt Thompson #86927
+R:RF Jason Heyward #84784
+L:C Charlie O'Brien #86925
+L:1B Matt Davidson (VAR) #84666
+L:2B Freddy Galvis (VAR) #85743
+L:3B Connie Day #86982
+L:SS Ozzie Smith #86972
+L:LF Andruw Jones (VAR) #86321
+L:CF Dave Henderson #86926
+L:RF Ken Berry #85449
+SP1 James McDonald (VAR) #86384
+SP2 Patricio Scantlebury #85828
+SP3 Bullet Campbell #87084
+SP4 Bob Romby #85827
+SP5 Tin Can Kincannon #86073
+CL Randy Choate #87026
+RP1 Mike Marshall #84720
+RP2 Pat Perry #86916
+RP3 Hector Carrasco #83082
+RP4 Harry Coveleski (VAR) #83059
+BN1 Broderick Perkins #86460
+BN2 Todd Walker #87045
+BN3 Freddy Galvis (VAR) #85743
+BN4 Daryl Spencer (VAR) #86620
+BN5 Matt Davidson (VAR) #84666
+BN6 Dave Henderson #86926
+BN7 Charlie O'Brien #86925
+BN8 Andruw Jones (VAR) #86321
