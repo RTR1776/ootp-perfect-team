@@ -46,6 +46,24 @@ export function fieldingRuns(pos: string, rating: number | null | undefined, pa 
   return (rating - f.mean) * f.slope * FIT.runsPerZR * (FIELDING_CALIBRATION[pos] ?? 1) * (pa / 700);
 }
 
+/**
+ * LEAGUE play prices gloves differently (L.J. 10-11: "everything gets
+ * normalized in league"). Measured with gloveslope.mts: zone runs per 600 PA
+ * against the card's own position rating, in 15 league seasons (7.5M PA) and
+ * in the tournament exports, as a multiple of fieldingRuns. The infield plays
+ * the same in both (SS 1.04 league / 1.00 tournaments, 2B 1.05 / 0.88), but
+ * the outfield corners and centre barely register in league: CF 0.23, RF 0.44
+ * (tournaments 1.37, 1.22). Catchers are priced by leagueCatcherRuns (framing).
+ */
+export const LEAGUE_FIELDING_CALIBRATION: Record<string, number> = {
+  C: 1, "1B": 0.99, "2B": 1.05, "3B": 0.81, SS: 1.04, LF: 0.91, CF: 0.23, RF: 0.44,
+};
+
+/** fieldingRuns as league play pays them (LEAGUE_FIELDING_CALIBRATION). */
+export function leagueFieldingRuns(pos: string, rating: number | null | undefined, pa = 700): number {
+  return fieldingRuns(pos, rating, pa) * (LEAGUE_FIELDING_CALIBRATION[pos] ?? 1);
+}
+
 /** Runs per rating point at a position, per 700 PA. */
 export function fieldingRunsPerPoint(pos: string): number {
   const f = FIT.positions[pos];

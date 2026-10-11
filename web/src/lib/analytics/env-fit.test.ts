@@ -115,3 +115,10 @@ test("tournament terms: Speed for bats and staff stamina for arms, only when ask
   assert.ok(Math.abs(on.runsR.get(31)! - off.runsR.get(31)! - 20 * SPEED_RUNS_PER_POINT) < 1e-9);
   assert.ok(Math.abs(on.runsR.get(32)! - off.runsR.get(32)! - 30 * STAMINA_RUNS_PER_POINT) < 1e-9);
 });
+
+test("league play pays outfield gloves far less than tournaments; the infield the same", async () => {
+  const { leagueFieldingRuns, LEAGUE_FIELDING_CALIBRATION } = await import("./fielding");
+  assert.ok(Math.abs(leagueFieldingRuns("CF", 150) - fieldingRuns("CF", 150) * LEAGUE_FIELDING_CALIBRATION.CF) < 1e-9);
+  assert.ok(LEAGUE_FIELDING_CALIBRATION.CF < 0.5 && LEAGUE_FIELDING_CALIBRATION.RF < 0.5);
+  assert.ok(Math.abs(LEAGUE_FIELDING_CALIBRATION.SS - 1) < 0.1);
+});

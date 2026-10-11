@@ -25,6 +25,8 @@ import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-en
 import { HIT_POS } from "@/lib/roster-fill";
 import { readFileSync } from "node:fs";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
+import { leagueFieldingRuns } from "@/lib/analytics/fielding";
+import { leagueCatcherRuns } from "@/lib/analytics/league-lineup";
 import { resolveLeagueScope } from "@/lib/league-scope";
 import { fitEraYear } from "@/lib/analytics/league-era";
 
@@ -376,7 +378,15 @@ async function main() {
   const DEF_RUNS: Record<string, number> = Object.fromEntries(
     Object.entries({ C: 8, SS: 8, CF: 7, "2B": 6, "3B": 5, RF: 3, LF: 3, "1B": 2, DH: 0 })
       .map(([k, x]) => [k, x * DEFW]));
-  const defRuns = (c: any, p: string) => p === "DH" ? 0 : (DEF_RUNS[p] ?? 3) * ((posOf(c, p) - 80) / 40);
+  /* Measured league glove runs (fielding.ts leagueFieldingRuns, 10-11): the outfield barely registers in
+     league play (CF 0.23, RF 0.44 of the tournament price); catchers by framing (leagueCatcherRuns). The
+     spectrum above is the fallback for a rating the fit has no position for. */
+  const defRuns = (c: any, p: string) => {
+    if (p === "DH") return 0;
+    if (p === "C") { const cr = leagueCatcherRuns(c.ratings); if (cr != null) return DEFW * cr; }
+    const g = leagueFieldingRuns(p, posOf(c, p));
+    return g !== 0 || !(posOf(c, p) > 0) ? DEFW * g : (DEF_RUNS[p] ?? 3) * ((posOf(c, p) - 80) / 40);
+  };
   const at = (c: any, p: string) => canPlay(c, p) ? v(c) + defRuns(c, p) : -1e6;
   const cands = bats.slice(0, 60);
   const lineup: Record<string, any> = {};
