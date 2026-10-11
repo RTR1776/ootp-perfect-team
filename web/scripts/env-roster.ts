@@ -39,7 +39,7 @@ import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-
 import { teamWeights, calibrationSlope } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
 import { auditRoster, orderStaff } from "../src/lib/roster-audit";
-import type { SeriesBuild } from "@/lib/field-construction";
+import { staffPerTeam, type SeriesBuild } from "@/lib/field-construction";
 import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
 import { loadSetEvidence } from "@/lib/set-evidence-server";
@@ -226,6 +226,9 @@ const SP_WEIGHT_FLAG = num("sp-weight");
 let RP_WEIGHT = RP_WEIGHT_FLAG ?? RP_WEIGHT_DEFAULT;
 let SP_WEIGHT = SP_WEIGHT_FLAG ?? 1;
 const BENCH_WEIGHT = num("bench-weight", BENCH_WEIGHT_DEFAULT)!;
+/** The field's starters / relievers per team (set from --series exports); null leaves each arm at the measured weight. */
+let FIELD_SP: number | null = null;
+let FIELD_RP: number | null = null;
 /**
  * --series slug: read the field off its exports (series_meta) — the staff
  * shape teams actually run, the share of innings thrown left-handed (the
@@ -392,6 +395,11 @@ async function main() {
   if (built?.spWeight != null && SP_WEIGHT_FLAG == null) SP_WEIGHT = built.spWeight;
   if (built?.rpWeight != null && RP_WEIGHT_FLAG == null) RP_WEIGHT = built.rpWeight;
   if (built) console.log(`staff weights from ${SERIES}'s exports: SP ${SP_WEIGHT}, RP ${RP_WEIGHT} (a lineup slot = 1)`);
+  /* The field's staff size the weights were measured at: the rotation's and the
+     pen's innings are fixed, so they are split over the arms this roster carries. */
+  const fieldStaff = built ? staffPerTeam(built) : null;
+  FIELD_SP = SP_WEIGHT_FLAG == null && built?.spWeight != null ? fieldStaff?.sp ?? null : null;
+  FIELD_RP = RP_WEIGHT_FLAG == null && built?.rpWeight != null ? fieldStaff?.rp ?? null : null;
   if (SERIES && !meta) console.log(`!! no exports on record for series ${SERIES} — shape and handedness fall back to the era table`);
   const shapeGiven = num("bats") != null || num("sp") != null || num("rp") != null;
   const shapeMeta = shapeGiven
@@ -465,6 +473,10 @@ async function main() {
     GLOVE *= tw.def; SP_WEIGHT *= tw.pit; RP_WEIGHT *= tw.pit;
     console.log(`team weights (${YEAR ?? 2010} band): gloves ×${tw.def}, pitching ×${tw.pit} against a bat run → glove ×${GLOVE.toFixed(2)}, SP ${SP_WEIGHT.toFixed(2)}, RP ${RP_WEIGHT.toFixed(2)} (--no-team-weights to turn off)`);
   }
+  if (FIELD_SP != null || FIELD_RP != null) {
+    const sp = shape.spKeys.length, rp = shape.rpKeys.length;
+    console.log(`staff innings split over the arms carried: the field runs ${FIELD_SP?.toFixed(1) ?? "?"} SP / ${FIELD_RP?.toFixed(1) ?? "?"} RP → per SP ×${FIELD_SP ? (FIELD_SP / sp).toFixed(2) : "1"} (${sp} carried), per RP ×${FIELD_RP ? (FIELD_RP / rp).toFixed(2) : "1"} (${rp} carried)`);
+  }
   if (SHOW.length) {
     console.log("--- shown ---   (runs/700 PA or BF in this event; pitchers: one number)");
     for (const c of pool.filter((x) => SHOW.some((n) => x.name.toLowerCase().includes(n))).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {
@@ -499,7 +511,7 @@ async function main() {
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
   const { objective, rank, defAt, slotValue } = rosterObjective(pool, {
-    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, gloveScale: GLOVE, mustIds,
+    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, mustIds,
   });
   void defAt;
 
@@ -565,7 +577,7 @@ async function main() {
         const t0 = Date.now();
         let done: SearchBest | null = null;
         runSearch({ mode, board: slots, pool, rules, shape, fits: toPlainFits(fits), runsR: [...fits.runsR], runsL: [...fits.runsL],
-          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, gloveScale: GLOVE, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS },
+          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS },
           (m) => { if (m.type === "done") done = m.best; }, () => Date.now());
         const b = done as SearchBest | null;
         if (mode === "deep" && b) deepBoard = b.slots;

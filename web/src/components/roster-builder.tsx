@@ -18,7 +18,7 @@
  * staff slot.
  */
 
-import type { SeriesBuild } from "@/lib/field-construction";
+import { staffPerTeam, type SeriesBuild } from "@/lib/field-construction";
 import { FieldConstruction } from "@/components/field-construction";
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { Info, Loader2, Redo2, Undo2, X } from "lucide-react";
@@ -950,9 +950,14 @@ export function RosterBuilder({
      0.31) when there are none. */
   const spWeight = (meta?.construction?.spWeight ?? 1) * teamW.pit;
   const rpWeight = (meta?.construction?.rpWeight ?? RP_WEIGHT_DEFAULT) * teamW.pit;
+  /* The field's staff size those weights were measured at: the rotation's and
+     the pen's innings are split over the arms this roster carries. */
+  const fieldStaff = staffPerTeam(meta?.construction);
+  const fieldSp = meta?.construction?.spWeight != null ? fieldStaff?.sp ?? null : null;
+  const fieldRp = meta?.construction?.rpWeight != null ? fieldStaff?.rp ?? null : null;
   const objective = useMemo(() => envFits
-    ? rosterObjective(formPool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, gloveScale: glove })
-    : null, [envFits, formPool, fillShape, lhpShare, spWeight, rpWeight, glove]);
+    ? rosterObjective(formPool as FillCard[], { shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove })
+    : null, [envFits, formPool, fillShape, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, glove]);
   const boardRuns = (source: Record<SlotKey, number | null>): number | null => {
     if (!objective) return null;
     const complete: Record<string, number> = {};
@@ -1139,7 +1144,7 @@ export function RosterBuilder({
     try {
       out = await startSearch({
         mode, board: current, pool: searchPool, rules: tournament as RosterRules, shape: fillShape, fits: toPlainFits(fits),
-        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, gloveScale: glove,
+        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove,
         locks: keep, minCatchers: twoCatchers ? 2 : 0, minShortstops: twoShortstops ? 2 : 0, minLongMen: twoLong ? 2 : 0, backups,
       }, runTid);
     } finally {

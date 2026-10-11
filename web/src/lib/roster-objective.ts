@@ -14,6 +14,12 @@
  * Starters count in full, relief arms at RP_WEIGHT (0.31: a relief arm faces
  * 0.31 of a starter's batters in the archive), bench bats at a tenth.
  *
+ * The staff's innings are fixed, not per arm: a series' weights are measured
+ * per starter / reliever at the field's own staff size (fieldSp / fieldRp), so
+ * a roster carrying more relievers than the field splits the same bullpen
+ * innings more ways (L.J. 10-11: "spending too much in bullpen"). Without the
+ * field's counts each arm keeps the measured weight, as before.
+ *
  * Every number the objective adds is a run on the same calibrated scale
  * (env-fit `calibrate`), which is what makes a bat-for-glove trade honest.
  */
@@ -39,6 +45,14 @@ export interface ObjectiveOptions {
    * games a team) a starter faced 55 batters to a lineup slot's 45 PA (1.22).
    */
   spWeight?: number;
+  /**
+   * The field's starters / relievers per team, the staff size spWeight and
+   * rpWeight were measured at (field-construction staffPerTeam). Given, each
+   * slot's weight is scaled by field count / this roster's count, so the
+   * rotation's and the pen's total innings stay what the field throws.
+   */
+  fieldSp?: number | null;
+  fieldRp?: number | null;
   /** Glove runs × this: the environment's balls in play against the fit's archive (fielding.ts gloveScale). */
   gloveScale?: number;
   /** Cards the roster must carry; a missing one costs 1000 runs. */
@@ -64,10 +78,11 @@ export interface RosterObjective {
 export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions): RosterObjective {
   const byId = new Map(pool.map((c) => [c.cardId, c]));
   const lhp = o.lhpShare ?? LHP_SHARE_DEFAULT;
-  const rpW = o.rpWeight ?? RP_WEIGHT_DEFAULT;
-  const bnW = o.benchWeight ?? BENCH_WEIGHT_DEFAULT;
-  const spW = o.spWeight ?? 1;
   const { shape, runsR, runsL } = o;
+  const share = (field: number | null | undefined, ours: number) => (field != null && field > 0 && ours > 0 ? field / ours : 1);
+  const rpW = (o.rpWeight ?? RP_WEIGHT_DEFAULT) * share(o.fieldRp, shape.rpKeys.length);
+  const bnW = o.benchWeight ?? BENCH_WEIGHT_DEFAULT;
+  const spW = (o.spWeight ?? 1) * share(o.fieldSp, shape.spKeys.length);
 
   const defAt = (cardId: number, pos: string): number => {
     if (!FIELD_POS.test(pos)) return 0;

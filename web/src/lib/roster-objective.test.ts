@@ -32,3 +32,16 @@ test("a must-carry card missing from the board costs 1000 runs", () => {
   assert.ok(o.objective({ "R:DH": 1, "L:DH": 1 }) < -900);
   assert.ok(o.objective({ "R:DH": 2, "L:DH": 2 }) > 0);
 });
+
+test("the pen's innings are fixed: more relievers than the field splits the same weight more ways", () => {
+  const pool = [card(1, true), card(2, true), card(3, true), card(4, true)];
+  const runs = new Map([[1, 10], [2, 10], [3, 10], [4, 10]]);
+  const pen = (n: number): FillShape => ({ lineupPos: [], spKeys: ["SP1"], rpKeys: Array.from({ length: n }, (_, i) => `RP${i + 1}`), benchKeys: [], bats: 0 });
+  const board = (n: number) => Object.fromEntries([["SP1", 1], ...Array.from({ length: n }, (_, i) => [`RP${i + 1}`, i + 1])]);
+  const score = (n: number, field: number | null) => rosterObjective(pool, { shape: pen(n), runsR: runs, runsL: runs, rpWeight: 0.4, spWeight: 1.5, fieldSp: 1, fieldRp: field }).objective(board(n));
+  // Measured at a 2-reliever field: 2 or 4 relievers of the same quality are worth the same pen.
+  assert.ok(Math.abs(score(2, 2) - score(4, 2)) < 1e-9);
+  assert.ok(Math.abs(score(2, 2) - (1.5 * 10 + 2 * 0.4 * 10)) < 1e-9);
+  // Without the field's count each arm keeps the measured weight (the old behaviour).
+  assert.ok(Math.abs(score(4, null) - (1.5 * 10 + 4 * 0.4 * 10)) < 1e-9);
+});
