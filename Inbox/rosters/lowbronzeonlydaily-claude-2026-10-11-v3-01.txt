@@ -1,0 +1,35 @@
+# Daily Low Bronze Only — Claude pick 2026-10-11-v3-01, rebuilt from the catalogue's rules by current-rosters (--year 1955 --park Ebbets Field --park-year 1955 --min 60 --max 64 --variant-cap 12 --size 26 --series lowbronzeonlydaily --sp 5 --rp 7 --bats 14)
+R:C Damon Berryhill #86976
+R:1B Bill Buckner (VAR) #85858
+R:2B Willie Randolph #86933
+R:3B Kyle Seager #86261
+R:SS Jhonny Level (VAR) #84765
+R:LF Willie Wilson #86906
+R:CF Byron Buxton (VAR) #85821
+R:RF Jim Edmonds #86991
+L:C Tony Pena Sr. #86282
+L:1B Mark Bellhorn #85739
+L:2B Willie Randolph #86933
+L:3B Jett Williams #84763
+L:SS Jhonny Level (VAR) #84765
+L:LF Ian Desmond #86213
+L:CF Byron Buxton (VAR) #85821
+L:RF Joe Carter #85917
+SP1 Fritz Ostermueller #86357
+SP2 Bruce Hurst #86361
+SP3 Corey Kluber (VAR) #87008
+SP4 Sherry Smith #87030
+SP5 Kyson Witherspoon (VAR) #84774
+CL Caden Scarborough #84762
+RP1 Red Howard #87156
+RP2 Roy Halladay #86705
+RP3 Chuck Finley (VAR) #85338
+RP4 Mickey Haefner #85717
+RP5 Pretzels Getzien #85139
+RP6 Jack Kralick #85509
+BN1 Barry Larkin #83767
+BN2 Jett Williams #84763
+BN3 Ian Desmond #86213
+BN4 Mark Bellhorn #85739
+BN5 Joe Carter #85917
+BN6 Tony Pena Sr. #86282

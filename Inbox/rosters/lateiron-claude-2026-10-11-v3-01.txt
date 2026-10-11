@@ -1,0 +1,36 @@
+# Daily Late Iron — Claude pick 2026-10-11-v3-01, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Chase Field --park-year 2026 --dh --min 40 --max 59 --size 26 --series lateiron --sp 5 --rp 7 --bats 14)
+R:C Rick Wilkins #86392
+R:1B Shawn Green #87028
+R:2B Nap Lajoie #86581
+R:3B Jim Tabor #85905
+R:SS Ozzie Smith #86972
+R:LF Milt Thompson #86927
+R:CF Carlos Beltran #86298
+R:RF Vladimir Guerrero #86474
+R:DH George Sisler (VAR) #87002
+L:C Charlie O'Brien #86925
+L:1B Jackie Robinson (VAR) #84390
+L:2B Freddy Galvis (VAR) #85743
+L:3B Jim Tabor #85905
+L:SS Ozzie Smith #86972
+L:LF Ken Berry #85449
+L:CF Carlos Beltran #86298
+L:RF Vladimir Guerrero #86474
+L:DH Daryl Spencer (VAR) #86620
+SP1 James McDonald (VAR) #86384
+SP2 Justin Verlander #87014
+SP3 Patricio Scantlebury #85828
+SP4 Tin Can Kincannon #86073
+SP5 Lefty Grove #87168
+CL Mike Marshall #84720
+RP1 Randy Choate #87026
+RP2 Todd Jones (VAR) #86434
+RP3 Bullet Campbell #87084
+RP4 Harry Coveleski (VAR) #83059
+RP5 Tim Keefe #84240
+RP6 Tom Seaver #85142
+BN1 Freddy Galvis (VAR) #85743
+BN2 Ken Berry #85449
+BN3 Daryl Spencer (VAR) #86620
+BN4 Jackie Robinson (VAR) #84390
+BN5 Charlie O'Brien #86925
