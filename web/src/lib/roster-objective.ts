@@ -14,6 +14,12 @@
  * Starters count in full, relief arms at RP_WEIGHT (0.31: a relief arm faces
  * 0.31 of a starter's batters in the archive), bench bats at a tenth.
  *
+ * The staff's innings are fixed, not per arm: a series' weights are measured
+ * per starter / reliever at the field's own staff size (fieldSp / fieldRp), so
+ * a roster carrying more relievers than the field splits the same bullpen
+ * innings more ways (L.J. 10-11: "spending too much in bullpen"). Without the
+ * field's counts each arm keeps the measured weight, as before.
+ *
  * Every number the objective adds is a run on the same calibrated scale
  * (env-fit `calibrate`), which is what makes a bat-for-glove trade honest.
  */
@@ -22,6 +28,37 @@ import type { FillCard, FillResult, FillShape } from "@/lib/roster-fill";
 
 export const RP_WEIGHT_DEFAULT = 0.31;
 export const BENCH_WEIGHT_DEFAULT = 0.1;
+/**
+ * A bench's PA are fixed too: across the tournament exports (penshare.mts,
+ * 10-11) the bats who came off the bench took 0.33 of one lineup slot's PA a
+ * team in all, 2.3 bats at 0.144 each. A bench bat counts at most
+ * BENCH_WEIGHT_DEFAULT and at most its share of that total, so a seven-bat
+ * bench is not credited with twice the PA a bench gets.
+ */
+export const BENCH_SLOTS = 0.33;
+/**
+ * Who throws the pen's innings: each reliever's share of the pen's batters
+ * faced, best card first, by relievers who pitched (penshare.mts over the
+ * tournament exports, 10-11; 127-1,442 teams a row). The tilt to the best arm
+ * is mild: a five-man pen runs 0.27 to 0.15.
+ */
+export const PEN_SHARE: Record<number, number[]> = {
+  3: [0.44, 0.30, 0.25],
+  4: [0.33, 0.26, 0.22, 0.19],
+  5: [0.27, 0.21, 0.20, 0.17, 0.15],
+  6: [0.21, 0.18, 0.17, 0.16, 0.15, 0.13],
+  7: [0.17, 0.16, 0.15, 0.15, 0.14, 0.13, 0.10],
+  8: [0.15, 0.14, 0.14, 0.13, 0.12, 0.12, 0.11, 0.09],
+  9: [0.13, 0.11, 0.11, 0.11, 0.11, 0.10, 0.10, 0.10, 0.08],
+};
+/** The pen's slots (CL first) as multiples of an average reliever's weight: mean 1. */
+export function penTilt(n: number): number[] {
+  if (n <= 0) return [];
+  const row = PEN_SHARE[Math.min(Math.max(n, 3), 9)];
+  const raw = n < 3 ? Array(n).fill(1) : Array.from({ length: n }, (_, i) => row[Math.min(i, row.length - 1)]);
+  const mean = raw.reduce((a, b) => a + b, 0) / n;
+  return raw.map((x) => x / mean);
+}
 export const LHP_SHARE_DEFAULT = 0.3;
 const FIELD_POS = /^(C|1B|2B|3B|SS|LF|CF|RF)$/;
 
@@ -39,6 +76,14 @@ export interface ObjectiveOptions {
    * games a team) a starter faced 55 batters to a lineup slot's 45 PA (1.22).
    */
   spWeight?: number;
+  /**
+   * The field's starters / relievers per team, the staff size spWeight and
+   * rpWeight were measured at (field-construction staffPerTeam). Given, each
+   * slot's weight is scaled by field count / this roster's count, so the
+   * rotation's and the pen's total innings stay what the field throws.
+   */
+  fieldSp?: number | null;
+  fieldRp?: number | null;
   /** Glove runs × this: the environment's balls in play against the fit's archive (fielding.ts gloveScale). */
   gloveScale?: number;
   /** Cards the roster must carry; a missing one costs 1000 runs. */
@@ -64,10 +109,12 @@ export interface RosterObjective {
 export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions): RosterObjective {
   const byId = new Map(pool.map((c) => [c.cardId, c]));
   const lhp = o.lhpShare ?? LHP_SHARE_DEFAULT;
-  const rpW = o.rpWeight ?? RP_WEIGHT_DEFAULT;
-  const bnW = o.benchWeight ?? BENCH_WEIGHT_DEFAULT;
-  const spW = o.spWeight ?? 1;
   const { shape, runsR, runsL } = o;
+  const share = (field: number | null | undefined, ours: number) => (field != null && field > 0 && ours > 0 ? field / ours : 1);
+  const rpW = (o.rpWeight ?? RP_WEIGHT_DEFAULT) * share(o.fieldRp, shape.rpKeys.length);
+  const bnW = Math.min(o.benchWeight ?? BENCH_WEIGHT_DEFAULT, shape.benchKeys.length > 0 ? BENCH_SLOTS / shape.benchKeys.length : Infinity);
+  const tilt = new Map(penTilt(shape.rpKeys.length).map((w, i) => [shape.rpKeys[i], w]));
+  const spW = (o.spWeight ?? 1) * share(o.fieldSp, shape.spKeys.length);
 
   const defAt = (cardId: number, pos: string): number => {
     if (!FIELD_POS.test(pos)) return 0;
@@ -82,7 +129,7 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     if (key.startsWith("R:")) return (1 - lhp) * ((runsR.get(id) ?? 0) + defAt(id, key.slice(2)));
     if (key.startsWith("L:")) return lhp * ((runsL.get(id) ?? 0) + defAt(id, key.slice(2)));
     if (spSet.has(key)) return spW * (runsR.get(id) ?? 0);
-    if (rpSet.has(key)) return rpW * (runsR.get(id) ?? 0);
+    if (rpSet.has(key)) return rpW * (tilt.get(key) ?? 1) * (runsR.get(id) ?? 0);
     if (bnSet.has(key)) return bnW * (runsR.get(id) ?? 0);
     return 0;
   };

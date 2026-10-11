@@ -120,14 +120,16 @@ for (const u of units) {
   }
   const blend = (id: number, model: number, K: number) => { const o = obs?.get(id); return o && o.n > 0 ? (o.n * o.runs + K * model) / (o.n + K) : model; };
   const teams = new Map<string, any>();
-  const T = (org: string) => { let t = teams.get(org); if (!t) { t = { unit: u.id, kind: u.kind, year: u.year, org, G: 0, W: 0, L: 0, R: 0, RA: 0, off: 0, def: 0, pit: 0, zr: 0, wraa: 0, pa: 0, bf: 0, bfSP: 0, lhbPA: 0, lhpBF: 0, tr: {} as Record<string, number> }; teams.set(org, t); } return t; };
+  const T = (org: string) => { let t = teams.get(org); if (!t) { t = { unit: u.id, kind: u.kind, year: u.year, org, G: 0, W: 0, L: 0, R: 0, RA: 0, off: 0, def: 0, pit: 0, pitSP: 0, pitRP: 0, nSP: 0, nRP: 0, zr: 0, wraa: 0, pa: 0, bf: 0, bfSP: 0, lhbPA: 0, lhpBF: 0, tr: {} as Record<string, number> }; teams.set(org, t); } return t; };
   const addTr = (t: any, k: string, v: number | undefined, w: number) => { if (v == null || !Number.isFinite(v)) return; t.tr[k] = (t.tr[k] ?? 0) + v * w; t.tr[k + "#w"] = (t.tr[k + "#w"] ?? 0) + w; };
   for (const s of stints) {
     const c = card.get(s.cid!)!; const r = c.ratings as Record<string, number>; const t = T(s.org);
     const R = fits.runsR.get(s.cid!), L = fits.runsL.get(s.cid!);
     if (s.isPitcher) {
       const b = s.stats.BF ?? 0; t.G += s.stats.GS_p ?? 0; t.W += s.stats.W ?? 0; t.L += s.stats.L ?? 0; t.RA += s.stats.Ra ?? 0; t.bf += b;
-      if (R != null) { t.pit += (b * R) / 700; if (obs) for (const K of OBS_KS) t[`pit${K}`] = (t[`pit${K}`] ?? 0) + (b * blend(s.cid!, R, K)) / 700; }
+      const starter = (s.stats.G_p ?? 0) > 0 ? (s.stats.GS_p ?? 0) >= 1 && (s.stats.GS_p ?? 0) >= 0.5 * (s.stats.G_p ?? 0) : s.pos === "SP";
+      if (b > 0) { if (starter) t.nSP++; else t.nRP++; }
+      if (R != null) { t.pit += (b * R) / 700; if (starter) t.pitSP += (b * R) / 700; else t.pitRP += (b * R) / 700; if (obs) for (const K of OBS_KS) t[`pit${K}`] = (t[`pit${K}`] ?? 0) + (b * blend(s.cid!, R, K)) / 700; }
       if ((s.stats.GS_p ?? 0) > 0) t.bfSP += b;
       if (c.throws === "L") t.lhpBF += b;
       for (const k of ["Stuff", "Control", "pHR", "pBABIP", "Stamina"]) addTr(t, `arm ${k}`, r[k], b);
@@ -147,7 +149,7 @@ for (const u of units) {
     tr["starter BF share"] = t.bfSP / t.bf; tr["LHB share"] = t.lhbPA / t.pa; tr["LHP share"] = t.lhpBF / t.bf;
     const ob: Record<string, number> = {};
     if (obs) for (const K of OBS_KS) { ob[`off${K}`] = (t[`off${K}`] ?? 0) / t.G; ob[`pit${K}`] = (t[`pit${K}`] ?? 0) / t.G; }
-    out.push({ unit: t.unit, kind: t.kind, year: t.year, org: t.org, G: t.G, W: t.W, L: t.L, R: t.R, RA: t.RA, off: t.off / t.G, def: t.def / t.G, pit: t.pit / t.G, zr: t.zr / t.G, wraa: t.wraa / t.G, tr, ob });
+    out.push({ unit: t.unit, kind: t.kind, year: t.year, org: t.org, G: t.G, W: t.W, L: t.L, R: t.R, RA: t.RA, off: t.off / t.G, def: t.def / t.G, pit: t.pit / t.G, pitSP: t.pitSP / t.G, pitRP: t.pitRP / t.G, nSP: t.nSP, nRP: t.nRP, zr: t.zr / t.G, wraa: t.wraa / t.G, tr, ob });
   }
   console.log(`${u.id.padEnd(34)} ${u.year} ${u.stadium ?? "neutral"}  teams ${[...teams.values()].filter((t) => t.G >= 5).length}`);
 }

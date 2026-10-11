@@ -1,0 +1,36 @@
+# Daily Open Slots — Claude pick 2026-10-11-v6 rest, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Metrodome --park-year 1990 --dh --slots P6,D4,G4,S4,B4,I4 --size 26 --series openslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Mike Piazza (VAR) #86463
+R:1B Albert Pujols #87149
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Ernie Banks #86621
+R:LF Deion Sanders #86962
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH George Brett #87025
+L:C Mike Piazza (VAR) #86463
+L:1B Albert Pujols #87149
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Ernie Banks #86621
+L:LF Bo Jackson #86966
+L:CF Carlos Beltran #87066
+L:RF Jeff Francoeur (VAR) #86300
+L:DH George Brett #87025
+SP1 Cy Young (VAR) #86572
+SP2 Bret Saberhagen #86915
+SP3 Catfish Hunter #86878
+SP4 Jered Weaver #87169
+SP5 Kyle Freeland (VAR) #86708
+CL Nick Altrock #87049
+RP1 Jordan Montgomery #86354
+RP2 Bob Walk #86971
+RP3 Fritz Ostermueller #86357
+RP4 Jacob deGrom #86675
+RP5 Bruce Hurst #86361
+RP6 Christy Mathewson #86706
+BN1 Javier Baez (VAR) #86417
+BN2 Jeff Francoeur (VAR) #86300
+BN3 Broderick Perkins #86460
+BN4 George Sisler (VAR) #87002
+BN5 Rick Wilkins #86392

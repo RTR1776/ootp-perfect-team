@@ -66,16 +66,22 @@ export const ARM_ERA_SPREAD: { from: number; to: number; factor: number }[] = [
  * pooled 2 / 2 reaches 0.380 out of sample (5-fold by event), and per-era
  * weights did not beat it held out (they fit noise), so one weight for every
  * era. The league seasons, which wanted ~3 / 2.5, are not used here.
+ *
+ * Starters and the pen split (10-11, penfit.py on the same team-events with the
+ * pitching runs split by role): every one of five held-out fits picked a
+ * starter weight of 1–1.5 and a pen weight of 2.5–4, with no loss against 2 / 2
+ * out of sample, and the field's best quarter spends fewer Perfect / Diamond
+ * cards on starters than we did. L.J. chose starters 1.5, the pen left at 2.
  */
-export const TEAM_WEIGHTS: { from: number; to: number; def: number; pit: number }[] = [
-  { from: 0, to: 9999, def: 2, pit: 2 },
+export const TEAM_WEIGHTS: { from: number; to: number; def: number; pit: number; sp: number; rp: number }[] = [
+  { from: 0, to: 9999, def: 2, pit: 2, sp: 1.5, rp: 2 },
 ];
 
 /** Glove and pitching weights against a bat run (= 1) for a run-environment year; the 2010 band with no year. */
-export function teamWeights(year: number | null | undefined): { def: number; pit: number } {
+export function teamWeights(year: number | null | undefined): { def: number; pit: number; sp: number; rp: number } {
   const y = year ?? 2010;
   const b = TEAM_WEIGHTS.find((w) => y >= w.from && y <= w.to) ?? TEAM_WEIGHTS[TEAM_WEIGHTS.length - 1];
-  return { def: b.def, pit: b.pit };
+  return { def: b.def, pit: b.pit, sp: b.sp, rp: b.rp };
 }
 
 /**

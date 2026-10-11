@@ -76,6 +76,19 @@ export interface SeriesBuild {
   groups: GroupBuild[];
 }
 
+/**
+ * Starters and relievers per team across the field (the "Every team" group),
+ * the staff size a series' spWeight / rpWeight were measured at. Null without
+ * exports.
+ */
+export function staffPerTeam(b: SeriesBuild | null | undefined): { sp: number; rp: number } | null {
+  const all = b?.groups.find((g) => g.key === "all");
+  if (!all) return null;
+  let sp = 0, rp = 0;
+  for (const t of Object.values(all.tiers)) { sp += t?.sp ?? 0; rp += t?.rp ?? 0; }
+  return sp > 0 || rp > 0 ? { sp, rp } : null;
+}
+
 /** A bat under this share of a full-time slot's PA was a bench bat. */
 const BENCH_SHARE = 0.25;
 const CLAN_LABEL: Record<string, string> = { HOTL: "HotL" };

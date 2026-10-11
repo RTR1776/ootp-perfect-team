@@ -93,3 +93,11 @@ test("a saved roster's lineups are read per hand, and a variant slot resolves to
   assert.equal(team.L["1B"]?.variant, true);
   assert.equal(team.R["1B"], undefined);
 });
+
+test("Card Fit prices an arm as the builder does: the series' weight split over the staff carried", async () => {
+  const { armWeight } = await import("./card-fit");
+  const ctx = { dh: true, lhp: 0.3, glove: 1, pit: 2, spWeight: 1.5, rpWeight: 0.4, fieldSp: 5, fieldRp: 6 };
+  assert.ok(Math.abs(armWeight("SP", 5, ctx) - 1.5 * 2) < 1e-9);
+  assert.ok(Math.abs(armWeight("RP", 8, ctx) - 0.4 * (6 / 8) * 2) < 1e-9);
+  assert.ok(Math.abs(armWeight("RP", 7, { dh: true, lhp: 0.3, glove: 1 }) - 0.31) < 1e-9, "no series: the old defaults");
+});

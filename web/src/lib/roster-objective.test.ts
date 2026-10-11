@@ -32,3 +32,30 @@ test("a must-carry card missing from the board costs 1000 runs", () => {
   assert.ok(o.objective({ "R:DH": 1, "L:DH": 1 }) < -900);
   assert.ok(o.objective({ "R:DH": 2, "L:DH": 2 }) > 0);
 });
+
+test("the pen's innings are fixed: more relievers than the field splits the same weight more ways", () => {
+  const pool = [card(1, true), card(2, true), card(3, true), card(4, true)];
+  const runs = new Map([[1, 10], [2, 10], [3, 10], [4, 10]]);
+  const pen = (n: number): FillShape => ({ lineupPos: [], spKeys: ["SP1"], rpKeys: Array.from({ length: n }, (_, i) => `RP${i + 1}`), benchKeys: [], bats: 0 });
+  const board = (n: number) => Object.fromEntries([["SP1", 1], ...Array.from({ length: n }, (_, i) => [`RP${i + 1}`, i + 1])]);
+  const score = (n: number, field: number | null) => rosterObjective(pool, { shape: pen(n), runsR: runs, runsL: runs, rpWeight: 0.4, spWeight: 1.5, fieldSp: 1, fieldRp: field }).objective(board(n));
+  // Measured at a 2-reliever field: 2 or 4 relievers of the same quality are worth the same pen.
+  assert.ok(Math.abs(score(2, 2) - score(4, 2)) < 1e-9);
+  assert.ok(Math.abs(score(2, 2) - (1.5 * 10 + 2 * 0.4 * 10)) < 1e-9);
+  // Without the field's count each arm keeps the measured weight (the old behaviour).
+  assert.ok(Math.abs(score(4, null) - (1.5 * 10 + 4 * 0.4 * 10)) < 1e-9);
+});
+
+test("the pen tilts mildly to its best arm (CL first) and a big bench shares the bench's PA", async () => {
+  const { penTilt, BENCH_SLOTS } = await import("./roster-objective");
+  const t5 = penTilt(5);
+  assert.ok(Math.abs(t5.reduce((a, b) => a + b, 0) - 5) < 1e-9, "mean 1");
+  assert.ok(t5[0] > t5[4] && t5[0] < 1.5, `mild tilt ${t5.map((x) => x.toFixed(2))}`);
+  assert.deepEqual(penTilt(2), [1, 1]);
+  const pool = [card(1, false), card(2, false), card(3, false), card(4, false), card(5, false), card(6, false), card(7, false)];
+  const runs = new Map(pool.map((c) => [c.cardId, 10]));
+  const bench = (n: number): FillShape => ({ lineupPos: [], spKeys: [], rpKeys: [], benchKeys: Array.from({ length: n }, (_, i) => `BN${i + 1}`), bats: n });
+  const score = (n: number) => rosterObjective(pool, { shape: bench(n), runsR: runs, runsL: runs, benchWeight: 0.1 }).objective(Object.fromEntries(Array.from({ length: n }, (_, i) => [`BN${i + 1}`, i + 1])));
+  assert.ok(Math.abs(score(2) - 2 * 0.1 * 10) < 1e-9, "a small bench keeps 0.1 a bat");
+  assert.ok(Math.abs(score(7) - BENCH_SLOTS * 10) < 1e-9, "seven bats share the bench's 0.33 slots");
+});
