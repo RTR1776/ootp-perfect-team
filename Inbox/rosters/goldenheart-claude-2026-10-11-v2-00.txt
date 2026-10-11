@@ -1,0 +1,36 @@
+# Daily Golden Heart — Claude pick 2026-10-11-v2-00, rebuilt from the catalogue's rules by current-rosters (--year 1956 --park Crosley Field --park-year 1958 --dh --min 40 --max 89 --card-year-min 1930 --card-year-max 1989 --size 26 --series goldenheart --sp 5 --rp 7 --bats 14)
+R:C Josh Gibson #86898
+R:1B Rudy York (VAR) #86429
+R:2B Dickie Thon #86238
+R:3B Hank Thompson #86668
+R:SS Ernie Banks (VAR) #85494
+R:LF Eric Davis #86974
+R:CF Bo Jackson #86966
+R:RF Andy Van Slyke #86936
+R:DH Kal Daniels #84163
+L:C Josh Gibson #86898
+L:1B Jimmie Foxx #84011
+L:2B Dickie Thon #86238
+L:3B Randy Ready #86921
+L:SS Ernie Banks (VAR) #85494
+L:LF Willie McGee (VAR) #85753
+L:CF Dale Murphy #86270
+L:RF Bo Jackson #86966
+L:DH Rudy York (VAR) #86429
+SP1 Danny Jackson #87052
+SP2 Nolan Ryan #85926
+SP3 Bob Feller #85650
+SP4 Dizzy Dean #86473
+SP5 Jim Kaat (VAR) #85114
+CL Joe Beggs #86762
+RP1 Gregg Olson (VAR) #86946
+RP2 Luis Arroyo (VAR) #85489
+RP3 Dave Righetti #85870
+RP4 Al Worthington #85948
+RP5 Tom Burgmeier #85208
+RP6 Jerry Koosman #86995
+BN1 Willie McGee (VAR) #85753
+BN2 Darrell Porter #85896
+BN3 Jimmie Foxx #84011
+BN4 Randy Ready #86921
+BN5 Dale Murphy #86270

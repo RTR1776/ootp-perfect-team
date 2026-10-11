@@ -1,0 +1,35 @@
+# Daily Goldfather II — Claude pick 2026-10-11-v2-00, rebuilt from the catalogue's rules by current-rosters (--year 1974 --park Yankee Stadium --park-year 1971 --min 40 --max 89 --size 26 --series goldfather --sp 5 --rp 7 --bats 14)
+R:C Eduardo Tait #84743
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Eric Chavez #86295
+R:SS Jeremy Pena #87154
+R:LF Kal Daniels #84163
+R:CF Bo Jackson #86966
+R:RF Andy Van Slyke #86936
+L:C Pythias Russ #87083
+L:1B Dale Murphy #86270
+L:2B Randy Ready #86921
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Jeremy Pena #87154
+L:LF Curtis Granderson #86596
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+SP1 Jered Weaver #87169
+SP2 Justin Verlander #87064
+SP3 Dave Stieb (VAR) #85911
+SP4 Nolan Ryan #85926
+SP5 Kevin Millwood (VAR) #86337
+CL Troy Percival (VAR) #85371
+RP1 Gregg Olson (VAR) #86946
+RP2 Joe Beggs #86762
+RP3 Tony Watson (VAR) #85457
+RP4 Javier Lopez #86408
+RP5 Luis Arroyo (VAR) #85489
+RP6 Jack Wenninger #85125
+BN1 Pythias Russ #87083
+BN2 Josue De Paula (VAR) #84729
+BN3 Randy Ready #86921
+BN4 Dale Murphy #86270
+BN5 Jeff Francoeur (VAR) #86300
+BN6 Curtis Granderson #86596

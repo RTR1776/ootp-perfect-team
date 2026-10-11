@@ -1,0 +1,35 @@
+# Daily Dank — Claude pick 2026-10-11-v2-00, rebuilt from the catalogue's rules by current-rosters (--year 1945 --park Comiskey Park --park-year 1945 --min 40 --max 49 --variant-cap 13 --size 26 --series dankdaily --sp 4 --rp 5 --bats 17)
+R:C Kevin Brown #85824
+R:1B Stan Hack #86458
+R:2B Javier Baez (VAR) #86417
+R:3B Brooks Robinson #85023
+R:SS Sam Bankhead #87160
+R:LF Dwayne Hosey #86801
+R:CF Austin Jackson #84808
+R:RF Vladimir Guerrero #86474
+L:C Nick Fortes #82532
+L:1B Mark Trumbo #85200
+L:2B Javier Baez (VAR) #86417
+L:3B Brooks Robinson #85023
+L:SS Sam Bankhead #87160
+L:LF Dwayne Hosey #86801
+L:CF Vladimir Guerrero #86474
+L:RF Sammy Sosa #85691
+SP1 Lefty Grove #87168
+SP2 Marco Estrada #87046
+SP3 Thomas Pannone #86884
+SP4 Nate Robertson #87130
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Al Holland (VAR) #86232
+RP3 Joe Saunders #86383
+RP4 Tin Can Kincannon #86073
+BN1 Jeff Kent #86299
+BN2 Billy Bryan (VAR) #85849
+BN3 Jonathan Lucroy (VAR) #85349
+BN4 George Sisler (VAR) #87002
+BN5 Billy Martin #87027
+BN6 Mark Trumbo #85200
+BN7 Nick Fortes #82532
+BN8 Tim Beckham #85313
+BN9 Sammy Sosa #85691

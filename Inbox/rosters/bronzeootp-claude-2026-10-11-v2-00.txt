@@ -1,0 +1,36 @@
+# Daily Bronze OOTP Era — Claude pick 2026-10-11-v2-00, rebuilt from the catalogue's rules by current-rosters (--year 2009 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 69 --card-year-min 1999 --card-year-max 2026 --size 26 --series bronzeootp --sp 5 --rp 7 --bats 14)
+R:C Thayron Liranzo (VAR) #85135
+R:1B Edward Florentino (VAR) #84777
+R:2B Mark Grudzielanek #87000
+R:3B Hank Blalock #86433
+R:SS Jhonny Level (VAR) #84765
+R:LF Joc Pederson #87143
+R:CF Kevin Kiermaier #86291
+R:RF Armando Rios #86799
+R:DH Jack Cust #86804
+L:C Thayron Liranzo (VAR) #85135
+L:1B Steve Pearce (VAR) #86366
+L:2B Mark Grudzielanek #87000
+L:3B Jefferson Rojas #84751
+L:SS Jhonny Level (VAR) #84765
+L:LF Andruw Jones (VAR) #86321
+L:CF Byron Buxton (VAR) #85821
+L:RF Armando Rios #86799
+L:DH Jack Cust #86804
+SP1 James McDonald (VAR) #86384
+SP2 Tanner McDougal (VAR) #85032
+SP3 Corey Kluber (VAR) #87008
+SP4 Brandon Beachy #86684
+SP5 Kyson Witherspoon (VAR) #84774
+CL Randy Choate #87026
+RP1 Edwin Diaz #86422
+RP2 Adam Cimber (VAR) #84271
+RP3 Justin Bruihl #84971
+RP4 Will Smith #87132
+RP5 Caden Scarborough #84762
+RP6 Russ Ortiz #86305
+BN1 Steve Pearce (VAR) #86366
+BN2 Jimmy Crooks (VAR) #84772
+BN3 Jefferson Rojas #84751
+BN4 Byron Buxton (VAR) #85821
+BN5 Andruw Jones (VAR) #86321
