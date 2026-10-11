@@ -16,3 +16,11 @@ Six brackets (Bronze, Silver, Gold, Diamond, Open, Cap; PD Daily/Weekly not in),
 2. Gloves ×~1.8 overall, more at C/CF/SS (per-position multipliers on fielding.ts); then the planned refit on total defensive runs (ZR + ARM + FRM).
 3. Bats: trim the era BABIP slope for 1961–76 and Avoid Ks; add a little Gap.
 4. One event, one environment: check each against `model-validate` / `residual-multi` across all series before it goes in.
+
+## Done 2026-10-11: fixes 1 and 2, checked on the archive
+Archive check (`web/scripts/ptcs7champ-review/archive.mts` + `archive.py`, run from `web/`): the production scorer in each series' own environment, 66 archived series (9.5k bat lines, 8.0k arm lines with 50+ PA/BF) plus the six Championship brackets.
+- **Before:** bats 0.93 (fine). Arms 1.17 overall, but by era 1946–76 1.60, 1977–93 1.31, 2010/default 0.92 — the pitcher calibration was fitted in the 2010 frame. Gloves (with gloveScale) 1.41 overall, flat by era, by position C 1.81, 1B 1.07, 2B 1.45, 3B 1.35, SS 1.85, LF 1.40, CF 1.91, RF 1.41.
+- **Two-fold by series:** the glove factors and the two mid-century arm bands held in both halves; other arm bands flipped, so they stay at 1.
+- **Changed:** `calibration.ts` ARM_ERA_SPREAD (×1.5 for 1946–76 environments, ×1.3 for 1977–93) applied in env-fit to pitchers; `fielding.ts` FIELDING_CALIBRATION (C 1.61, 1B 1.0, 2B 1.29, 3B 1.20, SS 1.64, LF 1.24, CF 1.69, RF 1.25 = slope × 0.887 runs/ZR).
+- **After:** arms 1.01 archive / 0.94 Championship; gloves 1.05 archive (target 1.13 in ZR units) / 1.20 Championship; every position 1.02–1.18. Tests 276/276.
+- **Not done:** catcher framing (FRM is not in the archive's counters); era bands ≤1945 and 1994+ for arms; fix 3 (BABIP/Avoid K/Gap). League tools use the same glove runs: vs RHP the league model now plays Banks 3B, Brett DH, Matsui sits.

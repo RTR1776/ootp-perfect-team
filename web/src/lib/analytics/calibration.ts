@@ -23,6 +23,32 @@ export function calibrationSlope(kind: "hit" | "pit"): number {
 export const OBS_K_DEFAULT = 5000;
 
 /**
+ * Arms' spread by run-environment era, on top of the calibration slope.
+ *
+ * The pitcher slope above was fitted in the PT default frame (2010, neutral
+ * park) and applied everywhere. Checked 2026-10-11 with the production scorer
+ * in each series' own environment (66 archived series + the six PTCS 7
+ * Championship brackets, cards with 50+ BF, FIP-based runs above the field):
+ * observed runs per modelled run were 1.60 in 1946–76 environments and 1.31
+ * in 1977–93, against 0.92 in the default. Two-fold by series, those two bands
+ * held (1.49 / 1.74 and 1.28 / 1.34); every other band flipped sign between
+ * folds, so they stay at 1. With this rule the held-out slope went 1.26 → 1.08
+ * and 1.10 → 0.96, Pearson r rose in both folds, and the
+ * Championship (never used to fit it) went 1.41 → 0.94. The 10-05 Daily
+ * Diamond 1990 Onward check (1957 RE) had found 1.47.
+ */
+export const ARM_ERA_SPREAD: { from: number; to: number; factor: number }[] = [
+  { from: 1946, to: 1976, factor: 1.5 },
+  { from: 1977, to: 1993, factor: 1.3 },
+];
+
+/** The arms' spread multiplier for a run-environment year (1 outside the bands, or with no year). */
+export function armEraSpread(year: number | null | undefined): number {
+  if (year == null) return 1;
+  return ARM_ERA_SPREAD.find((b) => year >= b.from && year <= b.to)?.factor ?? 1;
+}
+
+/**
  * What each rating returned in play, per era band: runs per 700 PA per +10
  * rating, within series (series fixed effects), from `pnpm era:slopes` on
  * 57 series / 13.4M PA, 2026-09-19. The calibrated model pays a single

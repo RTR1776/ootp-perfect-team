@@ -27,7 +27,7 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
+import { armEraSpread, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -232,7 +232,8 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
   const runsR = new Map<number, number>(), runsL = new Map<number, number>();
   const K = o.observedK ?? OBS_K_DEFAULT;
   const slopeHit = o.calibrate === false ? 1 : calibrationSlope("hit");
-  const slopePit = o.calibrate === false ? 1 : calibrationSlope("pit");
+  // Arms spread wider in mid-century environments than the 2010-frame slope allows (calibration.ts ARM_ERA_SPREAD).
+  const slopePit = o.calibrate === false ? 1 : calibrationSlope("pit") * armEraSpread(o.eraYear);
   // Era correction for bats: per rating point, per board, from the model's own calibrated line here.
   const lineOf = (env: Env) => Object.fromEntries(marginalRatings(env, "hit").map((v) => [v.rating, v.runs * slopeHit]));
   const ppR = o.calibrate !== false && o.eraYear != null ? eraCorrectionPerPoint(o.eraYear, lineOf(envRight)) : null;
