@@ -1,0 +1,36 @@
+# Sunday Silver and Gold Cap — Claude pick 2026-10-11 sun, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Atlanta Fulton County Stadium --park-year 1977 --dh --min 70 --max 89 --cap 2026 --variant-cap 13 --size 26 --series highironfloorgoldceilingweekly --sp 5 --rp 7 --bats 14)
+R:C Darrell Porter #85896
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Corey Koskie (VAR) #86449
+R:SS Francisco Lindor #87053
+R:LF Lee Thomas (VAR) #86145
+R:CF Willie McGee (VAR) #85753
+R:RF Bo Jackson #86966
+R:DH Kal Daniels #84163
+L:C Mike Zunino #86431
+L:1B Allen Craig #87139
+L:2B Randy Ready #86921
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Francisco Lindor #87053
+L:LF Willie McGee (VAR) #85753
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Jeffrey Leonard #87060
+SP1 J.A. Happ #86352
+SP2 Jim Kaat (VAR) #85114
+SP3 Raisel Iglesias #83322
+SP4 Jakie May (VAR) #85286
+SP5 Jordan Montgomery #86354
+CL Chad Bradford #86341
+RP1 Javier Lopez #86408
+RP2 Bruce Ruffin #86777
+RP3 Rudy May #85288
+RP4 Alex Claudio (VAR) #86447
+RP5 Chris Sale #83244
+RP6 John Axford #84038
+BN1 Jeffrey Leonard #87060
+BN2 Randy Ready #86921
+BN3 Allen Craig #87139
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino #86431
