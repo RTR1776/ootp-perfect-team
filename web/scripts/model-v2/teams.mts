@@ -27,6 +27,8 @@ import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { parseLeagueExport, type LeagueStint } from "@/lib/ingest/league";
 import { scanForJimBeaters } from "@/lib/ingest/jim";
 import { fitEraYear } from "@/lib/analytics/league-era";
+import { loadObservedBook, observedRunsFrom } from "@/lib/analytics/observed-blend";
+const OBS_KS = [20000, 5000, 1500, 500, 150];
 
 const OUT = process.env.MV2_DIR ?? "/tmp/mv2";
 mkdirSync(OUT, { recursive: true });
@@ -108,21 +110,30 @@ for (const u of units) {
   const pool = ids.map((id) => { const c = card.get(id)!; return { cardId: id, isPitcher: !!c.isPitcher, bats: c.bats, ratings: c.ratings as Record<string, number>, role: c.pitcherRole }; });
   const fits = envFitMaps(pool, { era: era.row.rates, park, eraYear: u.year, roleTrust: 0.25, leagueLhbShare: lhb, pitchLhbShare: lhb });
   const gs = gloveScale(era.row.rates);
+  // Track record from OTHER event types only (this unit's own series excluded), tournaments only.
+  let obs: Map<number, { runs: number; n: number }> | null = null;
+  if (u.kind === "tour" && process.env.MV2_OBS) {
+    const series = u.id.startsWith("ptcs7champ") ? u.id : u.id.replace(/_\d+$/, "");
+    const exclude = u.id.startsWith("ptcs7champ") ? Object.keys(CHAMP).map((b) => `ptcs7champ${b}`) : [series];
+    const both = (id: number) => { const r = fits.runsR.get(id), l = fits.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };
+    obs = observedRunsFrom(await loadObservedBook(ids, exclude), both);
+  }
+  const blend = (id: number, model: number, K: number) => { const o = obs?.get(id); return o && o.n > 0 ? (o.n * o.runs + K * model) / (o.n + K) : model; };
   const teams = new Map<string, any>();
-  const T = (org: string) => { let t = teams.get(org); if (!t) { t = { unit: u.id, kind: u.kind, year: u.year, org, G: 0, R: 0, RA: 0, off: 0, def: 0, pit: 0, zr: 0, wraa: 0, pa: 0, bf: 0, bfSP: 0, lhbPA: 0, lhpBF: 0, tr: {} as Record<string, number> }; teams.set(org, t); } return t; };
+  const T = (org: string) => { let t = teams.get(org); if (!t) { t = { unit: u.id, kind: u.kind, year: u.year, org, G: 0, W: 0, L: 0, R: 0, RA: 0, off: 0, def: 0, pit: 0, zr: 0, wraa: 0, pa: 0, bf: 0, bfSP: 0, lhbPA: 0, lhpBF: 0, tr: {} as Record<string, number> }; teams.set(org, t); } return t; };
   const addTr = (t: any, k: string, v: number | undefined, w: number) => { if (v == null || !Number.isFinite(v)) return; t.tr[k] = (t.tr[k] ?? 0) + v * w; t.tr[k + "#w"] = (t.tr[k + "#w"] ?? 0) + w; };
   for (const s of stints) {
     const c = card.get(s.cid!)!; const r = c.ratings as Record<string, number>; const t = T(s.org);
     const R = fits.runsR.get(s.cid!), L = fits.runsL.get(s.cid!);
     if (s.isPitcher) {
-      const b = s.stats.BF ?? 0; t.G += s.stats.GS_p ?? 0; t.RA += s.stats.Ra ?? 0; t.bf += b;
-      if (R != null) t.pit += (b * R) / 700;
+      const b = s.stats.BF ?? 0; t.G += s.stats.GS_p ?? 0; t.W += s.stats.W ?? 0; t.L += s.stats.L ?? 0; t.RA += s.stats.Ra ?? 0; t.bf += b;
+      if (R != null) { t.pit += (b * R) / 700; if (obs) for (const K of OBS_KS) t[`pit${K}`] = (t[`pit${K}`] ?? 0) + (b * blend(s.cid!, R, K)) / 700; }
       if ((s.stats.GS_p ?? 0) > 0) t.bfSP += b;
       if (c.throws === "L") t.lhpBF += b;
       for (const k of ["Stuff", "Control", "pHR", "pBABIP", "Stamina"]) addTr(t, `arm ${k}`, r[k], b);
     } else {
       const p = s.stats.PA ?? 0; t.R += s.stats.R ?? 0; t.pa += p; t.zr += s.stats.ZR ?? 0; t.wraa += s.stats.wRAA ?? 0;
-      if (R != null && L != null) t.off += (p * ((1 - lhp) * R + lhp * L)) / 700;
+      if (R != null && L != null) { const m = (1 - lhp) * R + lhp * L; t.off += (p * m) / 700; if (obs) for (const K of OBS_KS) t[`off${K}`] = (t[`off${K}`] ?? 0) + (p * blend(s.cid!, m, K)) / 700; }
       const rating = r[`Pos Rating ${s.pos}`];
       if (rating) t.def += (p * fieldingRuns(s.pos, rating) * gs) / 700;
       t.lhbPA += p * (c.bats === "L" ? 1 : c.bats === "S" ? 0.5 : 0);
@@ -134,7 +145,9 @@ for (const u of units) {
     const tr: Record<string, number> = {};
     for (const k of Object.keys(t.tr)) if (!k.endsWith("#w")) tr[k] = t.tr[k] / t.tr[k + "#w"];
     tr["starter BF share"] = t.bfSP / t.bf; tr["LHB share"] = t.lhbPA / t.pa; tr["LHP share"] = t.lhpBF / t.bf;
-    out.push({ unit: t.unit, kind: t.kind, year: t.year, org: t.org, G: t.G, R: t.R, RA: t.RA, off: t.off / t.G, def: t.def / t.G, pit: t.pit / t.G, zr: t.zr / t.G, wraa: t.wraa / t.G, tr });
+    const ob: Record<string, number> = {};
+    if (obs) for (const K of OBS_KS) { ob[`off${K}`] = (t[`off${K}`] ?? 0) / t.G; ob[`pit${K}`] = (t[`pit${K}`] ?? 0) / t.G; }
+    out.push({ unit: t.unit, kind: t.kind, year: t.year, org: t.org, G: t.G, W: t.W, L: t.L, R: t.R, RA: t.RA, off: t.off / t.G, def: t.def / t.G, pit: t.pit / t.G, zr: t.zr / t.G, wraa: t.wraa / t.G, tr, ob });
   }
   console.log(`${u.id.padEnd(34)} ${u.year} ${u.stadium ?? "neutral"}  teams ${[...teams.values()].filter((t) => t.G >= 5).length}`);
 }

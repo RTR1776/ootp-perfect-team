@@ -55,14 +55,14 @@ test("observed play moves a variant by the base card's deviation, not back to th
 
   // Base card: with or without the reference, the same shift as the old level blend.
   const old = (obs.n * obs.runs + 5000 * model) / (obs.n + 5000);
-  const b1 = envFitMaps([base], { era: era.rates, park: null, observed: new Map([[10, obs]]) });
-  const b2 = envFitMaps([base], { era: era.rates, park: null, observed: new Map([[10, { ...obs, model }]]) });
+  const b1 = envFitMaps([base], { era: era.rates, park: null, observedK: 5000, observed: new Map([[10, obs]]) });
+  const b2 = envFitMaps([base], { era: era.rates, park: null, observedK: 5000, observed: new Map([[10, { ...obs, model }]]) });
   assert.ok(Math.abs(both(b1) - old) < 1e-9 && Math.abs(both(b2) - old) < 1e-9, "base card unchanged");
 
   // Variant: its own model plus the base card's +4, weighted. The level blend kept only (1 - w) of the boost.
-  const v = envFitMaps([variant], { era: era.rates, park: null, observed: new Map([[10, { ...obs, model }]]) });
+  const v = envFitMaps([variant], { era: era.rates, park: null, observedK: 5000, observed: new Map([[10, { ...obs, model }]]) });
   assert.ok(Math.abs(both(v) - (model + boost + w * 4)) < 1e-9, "variant keeps its boost");
-  const vOld = envFitMaps([variant], { era: era.rates, park: null, observed: new Map([[10, obs]]) });
+  const vOld = envFitMaps([variant], { era: era.rates, park: null, observedK: 5000, observed: new Map([[10, obs]]) });
   assert.ok(Math.abs(both(vOld) - (model + (1 - w) * boost + w * 4)) < 1e-9, "without the reference, the level blend (the old behaviour)");
 });
 
@@ -87,12 +87,7 @@ test("glove runs carry the per-position calibration, and first base is left alon
   assert.equal(fieldingRuns("CF", cf.mean), 0, "the field mean is still the zero");
 });
 
-test("team weights: gloves and pitching against a bat run, by era", async () => {
+test("tournament team weights: gloves and pitching against a bat run", async () => {
   const { teamWeights } = await import("./calibration");
-  assert.deepEqual(teamWeights(1970), { def: 3, pit: 2.5 });
-  assert.deepEqual(teamWeights(1985), { def: 3, pit: 2 });
-  assert.deepEqual(teamWeights(2000), { def: 1.5, pit: 1.5 });
-  assert.deepEqual(teamWeights(2010), { def: 3, pit: 2.5 });
-  assert.deepEqual(teamWeights(1920), { def: 2, pit: 2 });
-  assert.deepEqual(teamWeights(null), teamWeights(2010));
+  for (const y of [1920, 1970, 1985, 2000, 2010, null]) assert.deepEqual(teamWeights(y), { def: 2, pit: 2 });
 });

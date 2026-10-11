@@ -20,7 +20,15 @@ export function calibrationSlope(kind: "hit" | "pit"): number {
 }
 
 /** Runs above league average, put on the observed scale. */
-export const OBS_K_DEFAULT = 5000;
+/*
+ * 2026-10-11: effectively off (was 5000). Tested three ways against tournament
+ * results with a card's play in OTHER event types blended in: PTCS 7
+ * Championship bats 0.279 ratings-only vs 0.272 at K=5000; Championship teams
+ * 0.396 vs 0.376; 3,580 team-events in 42 exports, win% 0.375 vs 0.371 (and
+ * worse at every smaller K). Ratings scored in the event's own environment
+ * beat the track record, so the blend is kept only as a negligible tie-break.
+ */
+export const OBS_K_DEFAULT = 1_000_000;
 
 /**
  * Arms' spread by run-environment era, on top of the calibration slope.
@@ -43,36 +51,24 @@ export const ARM_ERA_SPREAD: { from: number; to: number; factor: number }[] = [
 ];
 
 /**
- * TEAM WEIGHTS — what a modelled run of glove and of pitching is worth in run
- * differential, against a modelled run of bat (= 1), by run-environment era.
+ * TEAM WEIGHTS (TOURNAMENTS) — what a modelled run of glove and of pitching is
+ * worth in tournament wins, against a modelled run of bat (= 1).
  *
- * Fitted 2026-10-11 (scripts/model-v2: teams.mts → fit.py) on 4,793 team rows:
- * 1,213 league seasons (HD/PEL/LD, ~160 games each; 1952, 1959, 1989 theme
- * weeks and the 2010-13 default) and 3,580 tournament team-events (36 cap
- * exports + the six PTCS 7 Championship brackets). Each team's offence,
- * defence and pitching were scored on the production model in the event's own
- * environment (arm era spread and glove calibration already in), centred
- * within the event, and compared with run differential per game.
+ * L.J. 2026-10-11: league play is normalised and tournaments are not — two
+ * models. These are fitted on tournaments only (scripts/model-v2: teams.mts →
+ * tourfit.py): 3,580 team-events in 42 exports (36 cap events + the six PTCS 7
+ * Championship brackets; 1946–76, 1994–2009 and 2010+ environments), each
+ * team's offence / defence / pitching scored on the production model in the
+ * event's own environment, centred within the event, against win%.
  *
- * Pooled, a model run of pitching bought 2.4–3.1× a model run of bat and a
- * glove run 3–4× (bootstrap 90%: pitching 2.5–3.8, glove 3.3–4.5). The glove
- * effect runs entirely through fielding actually made: with observed ZR in the
- * tournament fit the model-glove term goes to −0.02. Cross-validated — fit on
- * league seasons, scored on tournaments and back, and 5-fold by event — the
- * three weights beat equal weights everywhere (5-fold 0.474 → 0.503; tournament
- * → league 0.546 → 0.569). Per-band values come from a grid scored directly on
- * each band's league and tournament rows (no fitting, so each cell is out of
- * sample); 1994–2009 has tournament rows only and wants much less. Before
- * 1946 has no team data and takes a middle value. Roster traits (stamina,
- * speed, handedness) did not transfer between league and tournament and are
- * not used.
+ * Tournament win% is mostly luck: 17% of its variance is skill, so the best any
+ * model can do is a correlation of about 0.41. Equal weights reach 0.375; one
+ * pooled 2 / 2 reaches 0.380 out of sample (5-fold by event), and per-era
+ * weights did not beat it held out (they fit noise), so one weight for every
+ * era. The league seasons, which wanted ~3 / 2.5, are not used here.
  */
 export const TEAM_WEIGHTS: { from: number; to: number; def: number; pit: number }[] = [
-  { from: 0, to: 1945, def: 2, pit: 2 },
-  { from: 1946, to: 1976, def: 3, pit: 2.5 },
-  { from: 1977, to: 1993, def: 3, pit: 2 },
-  { from: 1994, to: 2009, def: 1.5, pit: 1.5 },
-  { from: 2010, to: 9999, def: 3, pit: 2.5 },
+  { from: 0, to: 9999, def: 2, pit: 2 },
 ];
 
 /** Glove and pitching weights against a bat run (= 1) for a run-environment year; the 2010 band with no year. */
