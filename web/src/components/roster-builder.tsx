@@ -623,7 +623,7 @@ export function RosterBuilder({
      percentile. Without one (no era row at all) the rating composite. */
   const fits = useMemo(() => env
     ? envFitMaps(formPool, {
-        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear,
+        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear, tournamentTerms: true,
         observed: new Map(env.observed.map(([id, runs, n, model]) => [id, { runs, n, model }])),
       })
     : fitMaps(formPool), [formPool, env]);

@@ -449,14 +449,14 @@ async function main() {
       cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole,
       ratings: (c.ratings ?? {}) as Record<string, number>,
     }));
-    const base = envFitMaps(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
+    const base = envFitMaps(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
     // `both` is already env-fit's 0.7 R / 0.3 L read, so it is also the reference that lets a variant keep its boost.
     observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both, OBS_EXCLUDE, { series: SERIES, ratingsMax: MAX });
     const n = [...observed.values()];
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
   GLOVE = NO_GLOVE_SCALE ? 1 : gloveScale(scoringRates);
   console.log(`gloves ×${GLOVE.toFixed(2)}: balls in play in this environment against the fit's archive (fielding.ts gloveScale)${NO_GLOVE_SCALE ? " — off (--no-glove-scale)" : ""}`);
   // Team weights (calibration.ts TEAM_WEIGHTS): a glove run and a pitching run against a bat run, by era.

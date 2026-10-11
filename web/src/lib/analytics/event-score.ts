@@ -79,7 +79,7 @@ export async function computeEventScores(ev: EventRef | null): Promise<{ rows: P
   }).from(cards);
   const fits = envFitMaps(
     universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.role, ratings: (c.ratings ?? {}) as Record<string, number> })),
-    { era: era.rates, park: park.row, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: eraYear ?? PT_DEFAULT_ENV_YEAR },
+    { era: era.rates, park: park.row, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: eraYear ?? PT_DEFAULT_ENV_YEAR, tournamentTerms: true },
   );
   const both = (id: number) => {
     const r = fits.runsR.get(id), l = fits.runsL.get(id);

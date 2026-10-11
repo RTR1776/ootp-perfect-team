@@ -246,7 +246,7 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
     const parkPick = parkFor(t.stadium);
     const meta = t.series && !staleSeries.has(t.id) ? metaBy.get(t.series) ?? null : null;
     const lhp = meta?.lhpBfShare ?? LHP_SHARE_DEFAULT, lhb = meta?.lhbPaShare ?? 0.35;
-    const opts = { era: era.rates, park: parkPick.row, roleTrust: ROLE_TRUST, leagueLhbShare: lhb, eraYear: envYear ?? 2010, runsOnly: true };
+    const opts = { era: era.rates, park: parkPick.row, roleTrust: ROLE_TRUST, leagueLhbShare: lhb, eraYear: envYear ?? 2010, runsOnly: true, tournamentTerms: true };
 
     const base = envFitMaps(allInputs, opts);
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };

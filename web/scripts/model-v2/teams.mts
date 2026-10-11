@@ -108,7 +108,7 @@ for (const u of units) {
   }
   const lhp = bf ? bfL / bf : 0.3, lhb = pa ? paL / pa : 0.35;
   const pool = ids.map((id) => { const c = card.get(id)!; return { cardId: id, isPitcher: !!c.isPitcher, bats: c.bats, ratings: c.ratings as Record<string, number>, role: c.pitcherRole }; });
-  const fits = envFitMaps(pool, { era: era.row.rates, park, eraYear: u.year, roleTrust: 0.25, leagueLhbShare: lhb, pitchLhbShare: lhb });
+  const fits = envFitMaps(pool, { era: era.row.rates, park, eraYear: u.year, roleTrust: 0.25, leagueLhbShare: lhb, pitchLhbShare: lhb, tournamentTerms: u.kind === "tour" });
   const gs = gloveScale(era.row.rates);
   // Track record from OTHER event types only (this unit's own series excluded), tournaments only.
   let obs: Map<number, { runs: number; n: number }> | null = null;
