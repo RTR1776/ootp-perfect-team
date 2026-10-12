@@ -36,3 +36,7 @@ Proposed fix (not applied; L.J. to decide): score BABIP on each board as overall
 - With Jordan, Zunino and Pena banned the best roster scores 417.3 against 428.5 (−11.2 for all three). Replacements: Cespedes (VAR) LF and Rainiel Rodriguez C vs LHP, Aidan Miller SS vs LHP, Nimmala SS vs RHP, Tartabull DH vs RHP.
 - With the BABIP shrink, Jordan's lead over Waldschmidt vs LHP falls from 5.4 to about 1–3 runs before gloves.
 - The field's 63% LHP share is this event's own (3 exports, 178 teams). L.J., 10-12: keep it.
+
+## Applied 2026-10-12 (L.J.: "apply the BABIP fix and rebuild")
+
+`SPLIT_TRUST = { BABIP: 0.6 }` in `web/src/lib/analytics/card-value.ts` (`trustedSplit`), read by `ratingOf` (the curves) and env-fit's era correction. Set at 0.6, the league's direct read, not the 0.7 first proposed: the tournament archive (8,991 card-series with 100+ PA, observed wOBA against the model blended by each series' own LHP share, within series) improves steadily as the trust falls — r 0.6280 at 1.0, 0.6319 at 0.7, 0.6331 at 0.55, 0.6352 at 0 — and most for cards with a 30+ point BABIP split (0.5636 → 0.5796 at 0.55). The archive sees only totals, so it is the weaker test of a split; it says "at least this much". Unit tests 282/282 before and after.
