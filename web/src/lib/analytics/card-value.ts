@@ -110,8 +110,27 @@ const SPLIT_OF: Record<string, { vL: string; vR: string }> = {
 
 export type Split = "all" | "vL" | "vR";
 
+/**
+ * How much of a split rating's distance from the card's overall rating plays
+ * (2026-10-12, Docs/Split Ratings 2026-10-12.md: league split exports, 6.7M PA).
+ * Split ratings predict each split far better than overall ones, and Power,
+ * Eye, Avoid K and Gap splits pay in full; a split BABIP's distance from the
+ * overall pays only 0.6–0.8 of an overall point, so it is shrunk toward it.
+ * Tournament archive (8,991 card-series, observed wOBA against the hand-blended
+ * model): within-series r 0.628 at 1.0, 0.633 at 0.6, 0.635 at 0; cards with a
+ * 30+ point BABIP split 0.564 → 0.579. Set at the league's direct read, 0.6.
+ */
+export const SPLIT_TRUST: Record<string, number> = { BABIP: 0.6 };
+
+/** A split rating as it plays: the overall plus SPLIT_TRUST of the gap (the split itself when the rating has no entry). */
+export function trustedSplit(key: string, overall: number | null | undefined, split: number | null | undefined): number | null | undefined {
+  const t = SPLIT_TRUST[key];
+  if (t == null || split == null || overall == null || !(overall > 0)) return split;
+  return overall + t * (split - overall);
+}
+
 export const ratingOf = (r: Record<string, number>, key: string, split: Split): number | null => {
-  const v = split === "all" ? r[key] : r[SPLIT_OF[key]?.[split] ?? key] ?? r[key];
+  const v = split === "all" ? r[key] : SPLIT_OF[key]?.[split] && r[SPLIT_OF[key][split]] != null ? trustedSplit(key, r[key], r[SPLIT_OF[key][split]]) : r[key];
   return typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null;
 };
 

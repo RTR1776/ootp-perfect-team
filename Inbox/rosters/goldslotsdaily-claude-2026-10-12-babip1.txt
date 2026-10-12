@@ -1,0 +1,36 @@
+# Daily Gold Slots — Claude pick 2026-10-12-babip1, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Connie Mack Stadium --park-year 1968 --dh --min 40 --max 89 --slots G12,S8,B6 --variant-cap 13 --size 26 --series goldslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Pythias Russ #87083
+R:1B Aiva Arquette (VAR) #84768
+R:2B Carson Williams (VAR) #84635
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Jeremy Pena #87154
+R:LF Bo Jackson #86966
+R:CF Willie McGee (VAR) #85753
+R:RF Andy Van Slyke #86936
+R:DH Pedro Alvarez #87062
+L:C Pythias Russ #87083
+L:1B Aiva Arquette (VAR) #84768
+L:2B Carson Williams (VAR) #84635
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Jeremy Pena #87154
+L:LF Bo Jackson #86966
+L:CF Willie McGee (VAR) #85753
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Chris Sabo #87059
+SP1 Justin Verlander #87064
+SP2 Bob Feller #85650
+SP3 Jered Weaver #87169
+SP4 Nolan Ryan #85926
+SP5 Dizzy Dean #86473
+CL Count Leblanc #86978
+RP1 Nick Altrock #87049
+RP2 Jacob deGrom #86675
+RP3 Jordan Montgomery #86354
+RP4 Jack Wenninger #85125
+RP5 Fritz Ostermueller #86357
+RP6 Bruce Hurst #86361
+BN1 Chris Sabo #87059
+BN2 Jack Tobin #86772
+BN3 Bill Buckner (VAR) #85858
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Tim McCarver #85833

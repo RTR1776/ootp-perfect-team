@@ -1,0 +1,36 @@
+# Daily Live Open — Claude pick 2026-10-12-babip2, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park American Family Field --park-year 2026 --dh --min 40 --max 100 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveopendaily --sp 5 --rp 7 --bats 14)
+R:C Gabriel Moreno #81848
+R:1B Oneil Cruz #81904
+R:2B Geraldo Perdomo #81846
+R:3B Fernando Tatis Jr. #81753
+R:SS Bobby Witt Jr. #82379
+R:LF Garrett Mitchell #81930
+R:CF Pete Crow-Armstrong #81990
+R:RF Corbin Carroll #81849
+R:DH Jake McCarthy #81809
+L:C Gabriel Moreno #81848
+L:1B Oneil Cruz #81904
+L:2B Geraldo Perdomo #81846
+L:3B Fernando Tatis Jr. #81753
+L:SS Bobby Witt Jr. #82379
+L:LF Corbin Carroll #81849
+L:CF Pete Crow-Armstrong #81990
+L:RF Byron Buxton #82344
+L:DH Jackson Chourio #81934
+SP1 Jacob Misiorowski #81947
+SP2 Max Fried #82587
+SP3 Cam Schlittler #82580
+SP4 Dylan Cease #82518
+SP5 Tarik Skubal #82424
+CL Louie Varland #82511
+RP1 Calvin Faucher #82119
+RP2 Jesus Luzardo #82066
+RP3 Drew Rasmussen #82550
+RP4 Yoshinobu Yamamoto #81798
+RP5 Parker Messick #82451
+RP6 Adrian Morejon #81760
+BN1 Shohei Ohtani #81776
+BN2 Jackson Chourio #81934
+BN3 Carter Jensen #82374
+BN4 Byron Buxton #82344
+BN5 Miguel Rojas #81775

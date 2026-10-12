@@ -24,7 +24,7 @@ import {
   applyPark, blendPark, linearWeights, runsPerPa, type EraRates, type ParkFactors,
 } from "@/lib/analytics/run-env";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
-import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, type Env } from "@/lib/analytics/card-value";
+import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, trustedSplit, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
 import { armEraSpread, armRatingFix, PARK_HAND_TRUST, SPEED_CENTER, SPEED_RUNS_PER_POINT, STAMINA_CENTER, STAMINA_RUNS_PER_POINT, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
@@ -250,7 +250,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
     if (!pp) return 0;
     let d = 0;
     for (const r of Object.keys(pp)) {
-      const v = c.ratings[`${ERA_SPLIT_KEY[r]} v${board}`] ?? c.ratings[r];
+      const v = trustedSplit(r, c.ratings[r], c.ratings[`${ERA_SPLIT_KEY[r]} v${board}`]) ?? c.ratings[r];
       if (v != null) d += pp[r] * (v - ERA_AVERAGE_RATING);
     }
     return d + powerCurveRuns(o.eraYear, c.ratings[`Power v${board}`] ?? c.ratings.Power);

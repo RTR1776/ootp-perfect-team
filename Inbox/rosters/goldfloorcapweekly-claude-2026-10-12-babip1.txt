@@ -1,0 +1,36 @@
+# Monday Now We're into the Dregs — Claude pick 2026-10-12-babip1, rebuilt from the catalogue's rules by current-rosters (--year 1994 --park Dodger Stadium --park-year 1996 --dh --min 50 --max 64 --cap 1468 --size 26 --obs-exclude goldfloorcapweekly --sp 5 --rp 6 --bats 15)
+R:C Rick Wilkins #86392
+R:1B Shawn Green #87028
+R:2B Freddy Galvis (VAR) #85743
+R:3B Jhonny Level (VAR) #84765
+R:SS Ozzie Smith #86972
+R:LF Mike Trout (VAR) #84793
+R:CF Byron Buxton (VAR) #85821
+R:RF Jett Williams #84763
+R:DH Ty Wigginton #86086
+L:C Sam Huff #85265
+L:1B Jackie Robinson (VAR) #84390
+L:2B Freddy Galvis (VAR) #85743
+L:3B Jhonny Level (VAR) #84765
+L:SS Ozzie Smith #86972
+L:LF Jett Williams #84763
+L:CF Byron Buxton (VAR) #85821
+L:RF Dave Henderson #86926
+L:DH Fritz Maisel (VAR) #86774
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Bruce Hurst #86361
+SP4 Sherry Smith #87030
+SP5 Justin Verlander #87014
+CL Mike Marshall #84720
+RP1 Chuck Finley (VAR) #85338
+RP2 Patricio Scantlebury #85828
+RP3 Orel Hershiser #86811
+RP4 Don August (VAR) #86423
+RP5 Isidro Fabre (VAR) #84401
+BN1 Nap Lajoie #86581
+BN2 Dave Henderson #86926
+BN3 Derek Dietrich (VAR) #85318
+BN4 Fritz Maisel (VAR) #86774
+BN5 Jackie Robinson (VAR) #84390
+BN6 Sam Huff #85265
