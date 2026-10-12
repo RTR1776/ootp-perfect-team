@@ -2,9 +2,9 @@
   "period": "PTCS 7",
   "day": 28,
   "periodDays": 28,
-  "dumpReach": "2026-10-05",
-  "dumpFile": "pt27_tournaments_competitve_dump_20261005.csv",
-  "writtenOn": "2026-10-07",
+  "dumpReach": "2026-10-12",
+  "dumpFile": "pt27_tournaments_competitve_dump_20261012.csv",
+  "writtenOn": "2026-10-12",
   "projected": {
     "Bronze": 110,
     "Silver": 109,
