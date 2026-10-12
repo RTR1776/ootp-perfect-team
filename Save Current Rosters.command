@@ -6,7 +6,7 @@
 # It reads the newest manifest in Inbox/rosters (current-<tag>.tsv: event id,
 # load file, event name) and saves each roster to /build as "Claude pick
 # <tag>": current-2026-09-29-late.tsv saves as "Claude pick 2026-09-29 late".
-# The earlier picks stay under their own names.
+# Each save replaces that event's earlier Claude picks, so /build keeps one.
 #
 # It checks every roster against its event's rules first, then asks once.
 # Only a typed "y" writes, and only the rosters that pass. Safe to run twice.

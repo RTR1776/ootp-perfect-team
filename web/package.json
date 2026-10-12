@@ -75,6 +75,7 @@
     "import:collection": "node --env-file=.env.local --import tsx scripts/import-collection.ts",
     "roster:corrected": "node --env-file=.env.local --import tsx scripts/roster-corrected.ts",
     "roster:save": "node --env-file=.env.local --import tsx scripts/roster-save.ts",
+    "roster:prune": "node --env-file=.env.local --import tsx scripts/roster-prune.ts",
     "catalogue:set": "node --env-file=.env.local --import tsx scripts/catalogue-set.ts",
     "rules:audit": "node --env-file=.env.local --import tsx scripts/set-rule-evidence.ts",
     "fit:arms": "node --env-file=.env.local --import tsx scripts/fit-arm-slope.ts",
