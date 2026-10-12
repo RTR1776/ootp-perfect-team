@@ -16,7 +16,7 @@ cd "$(dirname "$0")/web" || exit 1
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
 printf '\033[1m Loading tournament dumps…\033[0m\n'
-node --env-file=.env.local --import tsx scripts/load-dumps.ts --period "PTCS 7" "$@"
+node --env-file=.env.local --import tsx scripts/load-dumps.ts --period "PTCS 8" "$@"
 STATUS=$?
 
 if [ $STATUS -ne 0 ]; then

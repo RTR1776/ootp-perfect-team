@@ -14,7 +14,7 @@ import { join } from "node:path";
 import { projectCutoffs, readCwhitTargets, type StoredLines } from "@/lib/ptcs-projection";
 import { todayInChicago } from "@/lib/ptcs-progress";
 
-const PERIOD = { name: "PTCS 7", start: "2026-09-07", end: "2026-10-04" };
+const PERIOD = { name: "PTCS 8", start: "2026-10-05", end: "2026-11-01" };
 const argv = process.argv.slice(2);
 const raw = (() => { const i = argv.indexOf("--day"); return i >= 0 ? argv[i + 1] : undefined; })();
 if (argv.includes("--day") && !/^\d+$/.test(raw ?? "")) { console.error(`--day takes a whole number of days, got ${raw === undefined ? "nothing" : JSON.stringify(raw)}`); process.exit(1); }
