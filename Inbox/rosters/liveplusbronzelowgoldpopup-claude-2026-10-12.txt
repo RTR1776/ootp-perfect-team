@@ -1,0 +1,36 @@
+# Live-Plus Bronze Floor-Low Gold Ceiling Pop-up — Claude pick 2026-10-12, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park American Family Field --park-year 2026 --dh --min 60 --max 84 --card-year-min 2026 --card-year-max 2026 --cap 1800 --size 26 --series liveplusbronzelowgoldpopup --sp 5 --rp 7 --bats 14)
+R:C Eduardo Tait #84743
+R:1B Edward Florentino (VAR) #84777
+R:2B Jefferson Rojas #84751
+R:3B Aiva Arquette (VAR) #84768
+R:SS Jhonny Level (VAR) #84765
+R:LF Jonny Farmelo #84747
+R:CF Roldy Brito #84776
+R:RF Kevin Alcantara (VAR) #84755
+R:DH Joshua Baez #86598
+L:C Eduardo Tait #84743
+L:1B Thayron Liranzo (VAR) #85135
+L:2B Jefferson Rojas #84751
+L:3B Aiva Arquette (VAR) #84768
+L:SS Jhonny Level (VAR) #84765
+L:LF Kevin Alcantara (VAR) #84755
+L:CF Roldy Brito #84776
+L:RF Joshua Baez #86598
+L:DH Jett Williams #84763
+SP1 Seth Hernandez (VAR) #84742
+SP2 Travis Sykora (VAR) #85120
+SP3 Jaxon Wiggins #85127
+SP4 Parker Messick (VAR) #84645
+SP5 Tanner McDougal (VAR) #85032
+CL Jack Wenninger #85125
+RP1 Kyson Witherspoon (VAR) #84774
+RP2 Caden Scarborough #84762
+RP3 Christian Oppor #85134
+RP4 Jake Bloss (VAR) #84779
+RP5 David Peterson #82094
+RP6 Kai-Wei Teng #84973
+BN1 Romy Gonzalez #82598
+BN2 Jett Williams #84763
+BN3 Daylen Lile #82018
+BN4 Thayron Liranzo (VAR) #85135
+BN5 Trea Turner #82056
