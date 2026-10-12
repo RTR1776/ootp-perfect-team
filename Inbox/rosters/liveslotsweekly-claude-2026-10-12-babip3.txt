@@ -1,0 +1,36 @@
+# Friday Night Live Slots — Claude pick 2026-10-12-babip3, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 2026 --dh --min 40 --max 105 --card-types 1 --card-year-min 2026 --card-year-max 2026 --slots P8,D5,G4,S3,B3,I3 --size 26 --obs-exclude liveslotsweekly --sp 5 --rp 7 --bats 14)
+R:C Carter Jensen #82374
+R:1B Oneil Cruz #81904
+R:2B Geraldo Perdomo #81846
+R:3B Fernando Tatis Jr. #81753
+R:SS Bobby Witt Jr. #82379
+R:LF Corbin Carroll #81849
+R:CF Michael Harris II #82146
+R:RF Pete Crow-Armstrong #81990
+R:DH Jake McCarthy #81809
+L:C Carter Jensen #82374
+L:1B Oneil Cruz #81904
+L:2B Geraldo Perdomo #81846
+L:3B Fernando Tatis Jr. #81753
+L:SS Bobby Witt Jr. #82379
+L:LF Corbin Carroll #81849
+L:CF Michael Harris II #82146
+L:RF Pete Crow-Armstrong #81990
+L:DH Jake McCarthy #81809
+SP1 Jacob Misiorowski #81947
+SP2 Cam Schlittler #82580
+SP3 Max Fried #82587
+SP4 Dylan Cease #82518
+SP5 Tarik Skubal #82424
+CL Louie Varland #82511
+RP1 Calvin Faucher #82119
+RP2 Adrian Morejon #81760
+RP3 Logan Webb #81732
+RP4 Carmen Mlodzinski #81911
+RP5 Sam Hentges #81727
+RP6 David Peterson #82094
+BN1 Hao-Yu Lee #85230
+BN2 Randal Grichuk #82569
+BN3 Daylen Lile #82018
+BN4 Ke'Bryan Hayes #81956
+BN5 Dillon Dingler #82406

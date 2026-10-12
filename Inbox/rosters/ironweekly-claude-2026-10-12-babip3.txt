@@ -1,0 +1,36 @@
+# Saturday Iron Warriors — Claude pick 2026-10-12-babip3, rebuilt from the catalogue's rules by current-rosters (--year 1991 --park Cleveland Stadium --park-year 1991 --dh --min 40 --max 59 --size 26 --obs-exclude ironweekly --sp 5 --rp 6 --bats 15)
+R:C Rick Wilkins #86392
+R:1B Nap Lajoie #86581
+R:2B Javier Baez (VAR) #86417
+R:3B Jim Tabor #85905
+R:SS Ozzie Smith #86972
+R:LF Milt Thompson #86927
+R:CF Carlos Beltran #86298
+R:RF Vladimir Guerrero #86474
+R:DH George Sisler (VAR) #87002
+L:C Sam Huff #85265
+L:1B Jackie Robinson (VAR) #84390
+L:2B Javier Baez (VAR) #86417
+L:3B Brooks Robinson #85023
+L:SS Ozzie Smith #86972
+L:LF Ken Berry #85449
+L:CF Carlos Beltran #86298
+L:RF Vladimir Guerrero #86474
+L:DH Pete Incaviglia #86943
+SP1 James McDonald (VAR) #86384
+SP2 Justin Verlander #87014
+SP3 Lefty Grove #87168
+SP4 Harry Coveleski (VAR) #83059
+SP5 Bullet Campbell #87084
+CL Mike Marshall #84720
+RP1 Randy Choate #87026
+RP2 Pat Perry #86916
+RP3 Tom Seaver #85142
+RP4 Dallas Braden #86293
+RP5 Patricio Scantlebury #85828
+BN1 Broderick Perkins #86460
+BN2 Ken Berry #85449
+BN3 Brooks Robinson #85023
+BN4 Jackie Robinson (VAR) #84390
+BN5 Pete Incaviglia #86943
+BN6 Sam Huff #85265
