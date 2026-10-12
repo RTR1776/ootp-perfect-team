@@ -25,9 +25,9 @@ if (!process.env.DATABASE_URL && existsSync(ENV_LOCAL)) {
   }
 }
 
-import { and, desc, eq, inArray, sql } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import { db } from "../src/db/client";
-import { cards, cardSnapshots, collectionCards, rosters, seriesMeta, tournaments, uploads } from "../src/db/schema";
+import { cards, cardSnapshots, collectionCards, seriesMeta, tournaments, uploads } from "../src/db/schema";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "../src/lib/card-forms";
 import { fillRoster, fitMaps, HIT_POS, hitterRaw, pitcherRaw, rosterShape, type FillCard, type FillShape } from "../src/lib/roster-fill";
 import { cardEligibility, rosterSize, validateRoster, type RosterRules, type RosterSlot } from "../src/lib/roster-rules";
@@ -198,12 +198,13 @@ async function main() {
     // ---- save
     if (SAVE) {
       const name = `${t.name} · auto ${TODAY}`;
-      const existing = await db.select({ id: rosters.id }).from(rosters).where(and(eq(rosters.tournamentId, t.id), eq(rosters.name, name)));
-      if (existing.length) await db.delete(rosters).where(inArray(rosters.id, existing.map((e) => e.id)));
       const notes = JSON.stringify({ version: 1, status: v.ready ? "ready" : "draft", source: "scripts/champ-rosters.ts", collectionUploadId: latest.id, lambda, checkedAt: new Date().toISOString(), validation: v });
       const payload = JSON.stringify(rosterSlotsOut.map((s) => ({ card_id: s.cardId, slot: s.slot, versus_hand: s.versusHand, lineup_order: s.lineupOrder, use_variant: s.useVariant })));
       const saved = await db.execute(sql`
-        with saved as (
+        with gone as (
+          -- One pick per event, as roster:save: this replaces the earlier ones.
+          delete from rosters where tournament_id=${t.id} and (name=${name} or name like 'Claude pick%' or name like '% · auto %') returning id
+        ), saved as (
           insert into rosters(name,tournament_id,notes) values(${name},${t.id},${notes}) returning id
         ), inserted as (
           insert into roster_slots(roster_id,card_id,slot,versus_hand,lineup_order,use_variant)

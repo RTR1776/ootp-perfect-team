@@ -11,6 +11,9 @@
  * match the card table case-insensitively; the higher value wins a tie.
  * "Name #12345" pins the exact card, for a name the collection holds more
  * than once. --dry validates and prints without saving.
+ *
+ * The save replaces the event's earlier Claude picks, so /build lists one;
+ * --keep saves alongside them (an alternate to compare).
  */
 import { readFileSync } from "node:fs";
 import { desc, eq, sql } from "drizzle-orm";
@@ -70,9 +73,15 @@ async function main() {
   if (argv.includes("--dry")) { console.log("dry run: nothing saved"); process.exit(0); }
   const notes = JSON.stringify({ version: 1, status: v.ready ? "ready" : "draft", collectionUploadId: latest?.id, checkedAt: new Date().toISOString(), validation: v, via: "roster:save", file: FILE });
   const json = JSON.stringify(slots.map((s) => ({ card_id: s.cardId, slot: s.slot, versus_hand: s.versusHand, lineup_order: s.lineupOrder, use_variant: s.useVariant })));
-  if (argv.includes("--replace")) await db.execute(sql`delete from rosters where tournament_id = ${TID} and name = ${NAME}`);
+  // One Claude pick per event (L.J., 10-12: "not five or six old rosters for
+  // every tourney"): the save replaces the event's earlier picks and anything
+  // under the same name, in the same statement, so a failed save keeps the old
+  // one. His own named saves stay. --keep saves alongside them instead.
+  const keep = argv.includes("--keep");
   const saved = (await db.execute(sql`
-    with saved as (insert into rosters(name, tournament_id, notes) values (${NAME}, ${TID}, ${notes}) returning id),
+    with gone as (
+      delete from rosters where ${keep ? sql`false` : sql`true`} and tournament_id = ${TID} and (name = ${NAME} or name like 'Claude pick%' or name like '% · auto %') returning id),
+    saved as (insert into rosters(name, tournament_id, notes) values (${NAME}, ${TID}, ${notes}) returning id),
     inserted as (
       insert into roster_slots(roster_id, card_id, slot, versus_hand, lineup_order, use_variant)
       select saved.id, s.card_id, s.slot, s.versus_hand, s.lineup_order, s.use_variant
