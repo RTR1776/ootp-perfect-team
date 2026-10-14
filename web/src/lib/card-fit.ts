@@ -21,7 +21,7 @@
  *
  * Pure; lib/card-fit-load.ts scores the cards.
  */
-import { fieldingRuns } from "@/lib/analytics/fielding";
+import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { LJ_FLOOR, posFloorAt } from "@/lib/pos-floor";
 import { RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
 
@@ -49,10 +49,14 @@ export interface ScoredForm {
   runsL: number;
   /** Position ratings of this form. */
   pos: Partial<Record<FieldPos, number>>;
+  /** Catcher framing rating (fielding.ts framingRuns), when it has one. */
+  frame?: number;
   val: number | null;
 }
 
 export interface FitCtx {
+  /** The event's run-environment year: framing pays by era (fielding.ts framingRate). */
+  eraYear?: number | null;
   dh: boolean;
   /** Share of the field's pitching that is left-handed: the vs-LHP board's weight. */
   lhp: number;
@@ -97,7 +101,7 @@ export function batAt(f: ScoredForm, spot: LineupSpot, board: Board, ctx: FitCtx
   if (spot === "DH") return ctx.dh ? runs : null;
   const rating = f.pos[spot];
   if (rating == null || rating <= 0 || rating < posFloorAt(LJ_FLOOR, spot)) return null;
-  return runs + ctx.glove * fieldingRuns(spot, rating);
+  return runs + ctx.glove * fieldingRuns(spot, rating) + (spot === "C" ? framingRuns(f.frame, ctx.eraYear) : 0);
 }
 
 /** The both-hands value at a spot, the read a spot's ranking uses; null where it can't play. */

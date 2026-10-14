@@ -276,9 +276,10 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
       const c = byId.get(Math.abs(inp.cardId))!;
       const pos: ScoredForm["pos"] = {};
       if (!inp.isPitcher) for (const p of FIELD_POS) { const v = inp.ratings[`Pos Rating ${p}`]; if (v != null && v > 0) pos[p] = v; }
+      const frame = inp.isPitcher ? undefined : inp.ratings.CatcherFrame;
       forms.set(inp.cardId, {
         id: inp.cardId, cardId: c.cardId, name: c.name, variant: inp.cardId < 0, isPitcher: inp.isPitcher,
-        role: inp.isPitcher ? armRole(c.pitcherRole, inp.ratings["Stamina"]) : null, runsR: r, runsL: l, pos, val: c.cardValue,
+        role: inp.isPitcher ? armRole(c.pitcherRole, inp.ratings["Stamina"]) : null, runsR: r, runsL: l, pos, ...(frame != null ? { frame } : {}), val: c.cardValue,
       });
     }
     const tw = teamWeights(envYear ?? 2010);
@@ -286,6 +287,7 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
     const built = t.series && !staleSeries.has(t.id) ? (fieldConstruction as { series: Record<string, SeriesBuild> }).series[t.series] : undefined;
     const staff = staffPerTeam(built);
     const ctx: FitCtx = {
+      eraYear: envYear ?? 2010,
       dh: t.dh === true, lhp, glove: gloveScale(era.rates) * tw.def, pit: tw.pit, pitSp: tw.sp, pitRp: tw.rp,
       spWeight: built?.spWeight ?? null, rpWeight: built?.rpWeight ?? null,
       fieldSp: built?.spWeight != null ? staff?.sp ?? null : null, fieldRp: built?.rpWeight != null ? staff?.rp ?? null : null,

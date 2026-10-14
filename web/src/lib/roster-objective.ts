@@ -23,7 +23,7 @@
  * Every number the objective adds is a run on the same calibrated scale
  * (env-fit `calibrate`), which is what makes a bat-for-glove trade honest.
  */
-import { fieldingRuns } from "@/lib/analytics/fielding";
+import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import type { FillCard, FillResult, FillShape } from "@/lib/roster-fill";
 
 export const RP_WEIGHT_DEFAULT = 0.31;
@@ -63,6 +63,8 @@ export const LHP_SHARE_DEFAULT = 0.3;
 const FIELD_POS = /^(C|1B|2B|3B|SS|LF|CF|RF)$/;
 
 export interface ObjectiveOptions {
+  /** The event's run-environment year: framing pays by era (fielding.ts framingRate). */
+  eraYear?: number | null;
   shape: FillShape;
   runsR: Map<number, number>;
   runsL: Map<number, number>;
@@ -120,7 +122,8 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     if (!FIELD_POS.test(pos)) return 0;
     const c = byId.get(cardId);
     if (!c || c.isPitcher) return 0;
-    return (o.gloveScale ?? 1) * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`] ?? 0);
+    // Framing is not in ZR, so it is not scaled with balls in play (fielding.ts TOURNEY_FRAMING).
+    return (o.gloveScale ?? 1) * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`] ?? 0) + (pos === "C" ? framingRuns(c.ratings.CatcherFrame, o.eraYear) : 0);
   };
 
   const spSet = new Set(shape.spKeys), rpSet = new Set(shape.rpKeys), bnSet = new Set(shape.benchKeys);

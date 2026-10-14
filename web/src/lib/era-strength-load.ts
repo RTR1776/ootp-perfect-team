@@ -141,7 +141,7 @@ export async function loadEraStrength(): Promise<EraStrengthData> {
       return {
         id: c.cardId, name: c.name, val: c.cardValue, year: c.year, set: c.cardType, le: c.cardSubType === "LE",
         released: c.releasedOn ?? null, role, owned: isVariant || base.has(c.cardId), variant: isVariant,
-        runs: xs, pos, ask: market.get(c.cardId)?.ask ?? null, last10: market.get(c.cardId)?.last10 ?? null,
+        runs: xs, pos, ...(!isP && ratings.CatcherFrame > 0 ? { frame: ratings.CatcherFrame } : {}), ask: market.get(c.cardId)?.ask ?? null, last10: market.get(c.cardId)?.last10 ?? null,
       };
     };
     const b = card(c.cardId, r, false);

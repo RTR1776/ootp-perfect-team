@@ -21,7 +21,7 @@ import {
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { cardEligibility } from "@/lib/roster-rules";
 import { LJ_FLOOR, describePosFloor, parsePosFloor, posFloorAt, type PosFloor } from "@/lib/pos-floor";
-import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
+import { fieldingRuns, framingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT } from "@/lib/roster-objective";
 import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
@@ -511,7 +511,7 @@ async function main() {
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
   const { objective, rank, defAt, slotValue } = rosterObjective(pool, {
-    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, mustIds,
+    eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, mustIds,
   });
   void defAt;
 
@@ -623,7 +623,7 @@ async function main() {
       if (pos && pos !== "DH" && !pos.startsWith("BN")) {
         const here = c.ratings[`Pos Rating ${pos}`] ?? 0;
         const best = Math.max(...HIT_POS.map((p) => c.ratings[`Pos Rating ${p}`] ?? 0));
-        const dr = GLOVE * fieldingRuns(pos, here);
+        const dr = GLOVE * fieldingRuns(pos, here) + (pos === "C" ? framingRuns(c.ratings.CatcherFrame, ERA_YEAR) : 0);
         def = ` DEF ${String(Math.round(here)).padStart(3)}/${String(Math.round(best)).padStart(3)} ${(dr >= 0 ? "+" : "") + dr.toFixed(1)}${here < best * 0.6 ? " <-- out of position" : ""}${here < posFloorAt(MIN_POS, pos) ? " <-- under floor" : ""}`;
       }
     }
