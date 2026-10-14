@@ -46,6 +46,40 @@ export function fieldingRuns(pos: string, rating: number | null | undefined, pa 
   return (rating - f.mean) * f.slope * FIT.runsPerZR * (FIELDING_CALIBRATION[pos] ?? 1) * (pa / 700);
 }
 
+/**
+ * CATCHER FRAMING in tournaments (2026-10-14, Docs/Model Audit 2026-10-14.md).
+ * ZR does not count framing, so the glove above sees about a tenth of it.
+ * Measured on 42 tournament exports (3,394 catcher stints, 324k innings), the
+ * export's FRM plus the running game (a steal +0.20, a runner thrown out
+ * −0.42), within each export: per 1,000 innings 0.2365·CatcherFrame +
+ * 0.0104·Arm + 0.0351·Abil (halves 0.232 / 0.244 on Frame). Arm and ability
+ * add little beyond ZR, so only Frame is priced here, on top of the C glove.
+ * League play has its own, larger measure (league-lineup.ts leagueCatcherRuns).
+ *
+ * BY ERA (cwhit: the game files carry an era modifier for framing). Within
+ * each export, per Frame point per 1,000 innings: 1946–1976 0.116 ± 0.004
+ * (1,051 stints), 1977–2009 0.281 ± 0.010 (885), 2010+ 0.297 ± 0.013 (861).
+ * Blocking (ZR and passed balls per CatcherAbil point) is flat across the
+ * three. Before 1946 there are 22 stints on file, too few: those events take
+ * the 1946–1976 rate until the full archive measures them.
+ */
+export const TOURNEY_FRAMING = {
+  mean: 84.7,
+  bands: [{ to: 1976, runsPer1000Inn: 0.116 }, { to: 2009, runsPer1000Inn: 0.281 }, { to: 9999, runsPer1000Inn: 0.297 }],
+} as const;
+
+/** Framing runs per Frame point per 1,000 innings for an event's run-environment year (PT default 2010). */
+export function framingRate(year: number | null | undefined): number {
+  const y = year ?? 2010;
+  return (TOURNEY_FRAMING.bands.find((b) => y <= b.to) ?? TOURNEY_FRAMING.bands[TOURNEY_FRAMING.bands.length - 1]).runsPer1000Inn;
+}
+
+/** Framing runs over the average tournament catcher, per `pa` (700 PA ≈ 1,400 innings). Zero without a framing rating. */
+export function framingRuns(frame: number | null | undefined, year?: number | null, pa = 700): number {
+  if (frame == null || !Number.isFinite(frame) || frame <= 0) return 0;
+  return framingRate(year) * (frame - TOURNEY_FRAMING.mean) * 1.4 * (pa / 700);
+}
+
 /** Runs per rating point at a position, per 700 PA. */
 export function fieldingRunsPerPoint(pos: string): number {
   const f = FIT.positions[pos];

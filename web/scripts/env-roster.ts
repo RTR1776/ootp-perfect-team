@@ -21,7 +21,7 @@ import {
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { cardEligibility } from "@/lib/roster-rules";
 import { LJ_FLOOR, describePosFloor, parsePosFloor, posFloorAt, type PosFloor } from "@/lib/pos-floor";
-import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
+import { fieldingRuns, framingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT } from "@/lib/roster-objective";
 import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
@@ -511,7 +511,7 @@ async function main() {
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
   const { objective, rank, defAt, slotValue } = rosterObjective(pool, {
-    shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, mustIds,
+    eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, mustIds,
   });
   void defAt;
 
@@ -526,8 +526,17 @@ async function main() {
     const inPool = new Set(pool.map((c) => c.cardId));
     const kept = lines.filter((m) => inPool.has(Number(m[2])));
     const gone = lines.length - kept.length;
+    // A Live card's ratings move: a seed slot the card can no longer play
+    // (Tatis Jr. lost 3B in the 10-14 update) would start the climb from an
+    // illegal board it cannot leave. Refill around it instead, keeping the card.
+    const byIdSeed = new Map(pool.map((c) => [c.cardId, c]));
+    const misplaced = kept.filter((m) => {
+      const pos = m[1]!.includes(":") ? m[1]!.split(":")[1] : m[1]!;
+      return HIT_POS.includes(pos as (typeof HIT_POS)[number]) && (byIdSeed.get(Number(m[2]))?.ratings[`Pos Rating ${pos}`] ?? 0) <= 0;
+    }).length;
     const direct = Object.fromEntries(kept.map((m) => [m[1]!, Number(m[2])]));
-    if (!gone && isComplete(direct, shape)) { console.log(`seed: ${path.split("/").pop()} as is (${new Set(Object.values(direct)).size} cards)`); return direct; }
+    if (!gone && !misplaced && isComplete(direct, shape)) { console.log(`seed: ${path.split("/").pop()} as is (${new Set(Object.values(direct)).size} cards)`); return direct; }
+    if (misplaced) console.log(`seed: ${misplaced} slot${misplaced === 1 ? "" : "s"} now held by a card that can no longer play there (a ratings update); refilling`);
     const must = new Set(kept.map((m) => Number(m[2])));
     for (const lam of [0, 0.5, 1, 2, 4, 8]) {
       const r = fillOnce(pool, rules, shape, fits, lam, must);
@@ -623,7 +632,7 @@ async function main() {
       if (pos && pos !== "DH" && !pos.startsWith("BN")) {
         const here = c.ratings[`Pos Rating ${pos}`] ?? 0;
         const best = Math.max(...HIT_POS.map((p) => c.ratings[`Pos Rating ${p}`] ?? 0));
-        const dr = GLOVE * fieldingRuns(pos, here);
+        const dr = GLOVE * fieldingRuns(pos, here) + (pos === "C" ? framingRuns(c.ratings.CatcherFrame, ERA_YEAR) : 0);
         def = ` DEF ${String(Math.round(here)).padStart(3)}/${String(Math.round(best)).padStart(3)} ${(dr >= 0 ? "+" : "") + dr.toFixed(1)}${here < best * 0.6 ? " <-- out of position" : ""}${here < posFloorAt(MIN_POS, pos) ? " <-- under floor" : ""}`;
       }
     }

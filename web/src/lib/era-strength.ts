@@ -17,7 +17,7 @@
  *
  * Everything here is pure; lib/era-strength-load.ts scores the cards.
  */
-import { fieldingRuns } from "@/lib/analytics/fielding";
+import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { LJ_FLOOR, posFloorAt } from "@/lib/pos-floor";
 import { RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
 
@@ -80,6 +80,8 @@ export interface EraCard {
   runs: number[];
   /** Position ratings at or above L.J.'s floor. */
   pos: Partial<Record<FieldPos, number>>;
+  /** Catcher framing rating (fielding.ts framingRuns), when it has one. */
+  frame?: number;
   /** The shop list's lowest ask and last-10 average; null when not listed. */
   ask: number | null;
   last10: number | null;
@@ -99,7 +101,8 @@ export function valueAt(c: EraCard, spot: Spot, glove: readonly number[]): numbe
   if (spot === "DH") return c.runs;
   const rating = c.pos[spot];
   if (rating == null || rating <= 0 || rating < posFloorAt(LJ_FLOOR, spot)) return null;
-  return c.runs.map((r, e) => r + (glove[e] ?? 1) * fieldingRuns(spot, rating));
+  // Framing pays by era (fielding.ts framingRate): read at each era's middle year.
+  return c.runs.map((r, e) => r + (glove[e] ?? 1) * fieldingRuns(spot, rating) + (spot === "C" ? framingRuns(c.frame, ERAS[e]?.years[1]) : 0));
 }
 
 export const mean = (xs: readonly number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : 0);

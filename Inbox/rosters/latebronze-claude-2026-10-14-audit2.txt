@@ -1,0 +1,36 @@
+# Daily Late Bronze — Claude pick 2026-10-14-audit2, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Dodger Stadium --park-year 2003 --dh --min 40 --max 69 --size 26 --series latebronze --sp 5 --rp 7 --bats 14)
+R:C Ernie Whitt #86941
+R:1B Bill Buckner (VAR) #85858
+R:2B Mark Grudzielanek #87000
+R:3B Hank Blalock #86433
+R:SS Ozzie Smith #86972
+R:LF Billy Southworth #86379
+R:CF Deion Sanders #86962
+R:RF Eric Byrnes #87195
+R:DH Jack Tobin #86772
+L:C Tony Pena Sr. #86282
+L:1B Steve Pearce (VAR) #86366
+L:2B Mark Grudzielanek #87000
+L:3B Dave Brain (VAR) #85934
+L:SS Ozzie Smith #86972
+L:LF Deion Sanders #86962
+L:CF Byron Buxton (VAR) #85821
+L:RF Eric Byrnes #87195
+L:DH Chris Sabo #87059
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Bob Miller #84715
+SP4 Hal Woodeshick #83148
+SP5 Bruce Hurst #86361
+CL Mike Marshall #84720
+RP1 Satchel Paige #84839
+RP2 Edwin Diaz #86422
+RP3 Chuck Finley (VAR) #85338
+RP4 Tanner McDougal (VAR) #85032
+RP5 Cool Papa Bell #86981
+RP6 Don Robinson (VAR) #86773
+BN1 Dave Brain (VAR) #85934
+BN2 Steve Pearce (VAR) #86366
+BN3 Chris Sabo #87059
+BN4 Byron Buxton (VAR) #85821
+BN5 Tony Pena Sr. #86282

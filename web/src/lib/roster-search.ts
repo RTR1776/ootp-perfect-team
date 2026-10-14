@@ -93,6 +93,8 @@ export function searchCard(c: FillCard): FillCard {
 }
 
 export interface SearchRequest {
+  /** The event's run-environment year, for framing (fielding.ts framingRate). */
+  eraYear?: number | null;
   mode: "quick" | "deep";
   /** Quick mode: no climb starts after this many ms (the first always runs). Default QUICK.budgetMs. */
   budgetMs?: number;
@@ -177,7 +179,7 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
   const locks = new Set(d.locks);
   const starts = searchStarts(d);
   const obj = rosterObjective(d.pool, {
-    shape: d.shape, runsR: new Map(d.runsR), runsL: new Map(d.runsL), lhpShare: d.lhpShare,
+    eraYear: d.eraYear, shape: d.shape, runsR: new Map(d.runsR), runsL: new Map(d.runsL), lhpShare: d.lhpShare,
     spWeight: d.spWeight, rpWeight: d.rpWeight, fieldSp: d.fieldSp, fieldRp: d.fieldRp, gloveScale: d.gloveScale,
     mustIds: locks.size ? locks : undefined,
   });

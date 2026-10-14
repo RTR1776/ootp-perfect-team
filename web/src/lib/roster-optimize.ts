@@ -406,6 +406,11 @@ export function optimizeRoster(
       const w = rows.map((k) => hitters.map((id) => weight(k, id)));
       const a = maxAssignment(w);
       if (!a) return from;
+      // An assignment can still hold an ineligible pairing (weight −∞) when the
+      // board's bats cannot cover every position; legal() does not check
+      // positions and the objective prices a 0 glove as average, so refuse it
+      // here (2026-10-14: ten rebuilds put a 0-rated glove at 3B, 1B or RF).
+      if (rows.some((_, i) => !Number.isFinite(w[i][a[i]]))) return from;
       rows.forEach((k, i) => { t[k] = hitters[a[i]]; });
     }
     return t;
