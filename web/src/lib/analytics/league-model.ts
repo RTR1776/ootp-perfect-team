@@ -92,10 +92,23 @@ export function envPrices(rates: EraRates): BoardRatings {
 }
 
 /**
+ * PLATOON beyond the split ratings (2026-10-14, Docs/Model Audit 2026-10-14.md):
+ * league split exports, 6.7M PA, each board fitted on its own split ratings
+ * with week × split fixed effects. At equal ratings a lefty bat does +1.82 ±
+ * 0.46 runs per 700 PA against right-handers and −1.58 ± 0.49 against
+ * left-handers; a switch hitter +1.95 / −1.05. Runs per 700 PA on that board.
+ */
+export const LEAGUE_PLATOON: Record<string, Record<Board, number>> = {
+  L: { vR: 1.82, vL: -1.58 },
+  S: { vR: 1.95, vL: -1.05 },
+};
+
+/**
  * Runs per 700 PA above the league's average hitter on this board.
  * `app` is env-fit's calibrated runs for the card on the same board and environment.
+ * `bats` adds the platoon term above (none for a right-handed bat or when unknown).
  */
-export function leagueHitRuns(app: number, r: BoardRatings, family: LeagueFamily, board: Board, prices?: BoardRatings): number {
+export function leagueHitRuns(app: number, r: BoardRatings, family: LeagueFamily, board: Board, prices?: BoardRatings, bats?: string | null): number {
   const ref = LEAGUE_MODEL.reference[`${family}|${board}`] ?? LEAGUE_MODEL.reference[`HD|${board}`];
   const c = LEAGUE_MODEL.coef;
   let v = c.intercept + c.app * (app - ref.app);
@@ -103,7 +116,7 @@ export function leagueHitRuns(app: number, r: BoardRatings, family: LeagueFamily
     const mean = ref[`l${k}` as keyof Reference] as number;
     v += c[k] * (Math.log(r[k] / 50) - mean) * (prices?.[k] ?? 1);
   }
-  return v;
+  return v + (bats ? LEAGUE_PLATOON[bats]?.[board] ?? 0 : 0);
 }
 
 /** Ratings outside what the fit saw, for a warning beside the number. */

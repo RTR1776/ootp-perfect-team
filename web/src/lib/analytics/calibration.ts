@@ -96,13 +96,19 @@ export function teamWeights(year: number | null | undefined): { def: number; pit
  * 0.75 of the pooled miss. pHR is short in every band; Stuff before 1977.
  * pBABIP reads as over-priced against FIP, but FIP leaves balls in play out by
  * construction, so that reading is an artefact and pBABIP is left alone.
+ *
+ * Raised 2026-10-14 (Docs/Model Audit 2026-10-14.md): with these in, the
+ * archive still read pHR short by ~0.3 per +10 in every band from 1946 on and
+ * Stuff short by ~0.3 in 1946–2009, on runs allowed and on FIP alike (Control
+ * and pBABIP disagreed between the two, so they stay). +0.3 each: within-series
+ * r against runs allowed 0.529 → 0.546 (1946–2009), 0.324 → 0.336 (2010+).
  */
 export const ARM_RATING_FIX: { from: number; to: number; runs: Record<string, number> }[] = [
   { from: 0, to: 1945, runs: { Stuff: 0.53 } },
-  { from: 1946, to: 1976, runs: { Stuff: 0.45, pHR: 0.38 } },
-  { from: 1977, to: 1993, runs: { pHR: 0.38 } },
-  { from: 1994, to: 2009, runs: { pHR: 0.68 } },
-  { from: 2010, to: 9999, runs: { pHR: 0.53 } },
+  { from: 1946, to: 1976, runs: { Stuff: 0.75, pHR: 0.68 } },
+  { from: 1977, to: 1993, runs: { Stuff: 0.3, pHR: 0.68 } },
+  { from: 1994, to: 2009, runs: { Stuff: 0.3, pHR: 0.98 } },
+  { from: 2010, to: 9999, runs: { pHR: 0.83 } },
 ];
 /** Where ARM_RATING_FIX is zero: the BF-weighted mean of each rating across the archive. */
 export const ARM_RATING_CENTER: Record<string, number> = { Stuff: 92, pHR: 100 };

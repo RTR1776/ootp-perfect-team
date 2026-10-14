@@ -33,3 +33,14 @@ Model fit today: bats r 0.657 within series (slope 0.92); arms r 0.478 (slope 0.
 3. Platoon term (#5).
 4. Re-run the team-level test on the full archive from the Mac (stealing, framing, stamina at team level).
 Then one full rebuild.
+
+## Applied 2026-10-14 (L.J.: "proceed and fix all observed issues")
+
+| # | Change | Where |
+|---|---|---|
+| 1 | **Framing**, tournament model, by era: 0.116 (≤1976), 0.281 (1977–2009), 0.297 (2010+) runs per Frame point per 1,000 innings, centred on 84.7, added to the C slot unscaled by balls in play. cwhit: the game files carry an era modifier — confirmed (blocking is flat across eras). Before 1946: 22 stints on file, uses the ≤1976 rate until measured. The league model already had framing (league-lineup.ts leagueCatcherRuns, 0.35/1,000 inn) — my 10-14 Martin/Munson table double-counted it; the verdict stood. | `fielding.ts` framingRuns; roster-objective, roster-search, /build, Card Fit, era strength, env-roster |
+| 2 | **Reliever bonus — not applied.** On FIP it is zero (−0.7 ± 0.5); the +3.3 on runs allowed is inherited-runner accounting, as env-fit's roleTrust note says. | — |
+| 3 | **pHR +0.3 per +10 from 1946 on, Stuff +0.3 per +10 1946–2009**, on top of the 10-11 fix (both targets agree; Control and pBABIP disagree, left). r vs runs allowed 0.529 → 0.546 (1946–2009), 0.324 → 0.336 (2010+). | `calibration.ts` ARM_RATING_FIX |
+| 5 | **Platoon**, league model: lefty bat +1.82 vR / −1.58 vL, switch +1.95 / −1.05 runs per 700 PA. Not added to the tournament model: the archive can't separate it from platoon usage. | `league-model.ts` LEAGUE_PLATOON |
+| 4, 6 | Not changed: stamina per batter is offset on purpose by the staff stamina term; a C/SS/2B bat penalty is constant per slot and cannot change a pick. | — |
+| 7, 8 | Deferred until the full archive: team stealing, LE cards. | — |

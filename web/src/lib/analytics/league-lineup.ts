@@ -92,7 +92,7 @@ export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFam
       const br = boardRatings(h.ratings, b);
       const app = (b === "vL" ? fits.runsL : fits.runsR).get(h.id);
       if (!br || app == null) continue;
-      out[b] = leagueHitRuns(app, br, opts.family, b, prices);
+      out[b] = leagueHitRuns(app, br, opts.family, b, prices, h.bats);
       const off = outsideFit(br);
       if (off.length) warnings.push(`${h.label} ${b}: ${off.join(", ")} is outside the league fit (extrapolated)`);
     }
