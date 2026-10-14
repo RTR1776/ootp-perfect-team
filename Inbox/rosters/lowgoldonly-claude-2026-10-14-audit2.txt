@@ -1,0 +1,36 @@
+# Daily Low Gold Only — Claude pick 2026-10-14-audit2, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Fenway Park --park-year 2026 --dh --min 80 --max 84 --variant-cap 8 --size 26 --series lowgoldonly --sp 5 --rp 7 --bats 14)
+R:C Jeferson Quero (VAR) #84764
+R:1B Pedro Alvarez #87062
+R:2B Marcus Semien #86744
+R:3B Hanley Ramirez #86807
+R:SS Tommy Edman #86340
+R:LF Carl Crawford #85310
+R:CF Ken Griffey Jr. #85774
+R:RF Branch Russell #87172
+R:DH Kal Daniels #84163
+L:C Jeferson Quero (VAR) #84764
+L:1B Josh Gibson #86898
+L:2B Tommy Edman #86340
+L:3B Branch Russell #87172
+L:SS Ernie Banks (VAR) #85494
+L:LF Reggie Sanders #85359
+L:CF Chris B. Young #87146
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Hanley Ramirez #86807
+SP1 Jerry Koosman #86995
+SP2 John Lackey #87075
+SP3 Raisel Iglesias #83322
+SP4 Seth Hernandez (VAR) #84742
+SP5 Michael Wacha #87076
+CL Luis Arroyo (VAR) #85489
+RP1 Damaso Marte (VAR) #86703
+RP2 Matt Garza #86294
+RP3 Javier Lopez #86408
+RP4 Aaron Sanchez #86728
+RP5 Rube Marquard #86891
+RP6 Ricky Romero (VAR) #86430
+BN1 Jeff Francoeur (VAR) #86300
+BN2 Ernie Banks (VAR) #85494
+BN3 Reggie Sanders #85359
+BN4 Josh Gibson #86898
+BN5 Chris B. Young #87146

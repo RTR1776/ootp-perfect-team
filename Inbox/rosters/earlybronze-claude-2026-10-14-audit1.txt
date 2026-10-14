@@ -1,0 +1,35 @@
+# Daily Early Bronze — Claude pick 2026-10-14-audit1, rebuilt from the catalogue's rules by current-rosters (--year 1942 --park Wrigley Field --park-year 1945 --max 69 --variant-cap 0 --size 26 --series earlybronze --sp 5 --rp 6 --bats 15)
+R:C Ernie Whitt #86941
+R:1B Shawn Green #87028
+R:2B Mark Grudzielanek #87000
+R:3B Hank Blalock #86433
+R:SS Jefferson Rojas #84751
+R:LF Deion Sanders #86962
+R:CF Kevin Kiermaier #86291
+R:RF Eric Byrnes #87195
+L:C Gabby Hartnett #86254
+L:1B Steve Pearce #86366
+L:2B Mark Grudzielanek #87000
+L:3B Chris Sabo #87059
+L:SS Jefferson Rojas #84751
+L:LF Deion Sanders #86962
+L:CF Byron Buxton #85821
+L:RF Eric Byrnes #87195
+SP1 Sherry Smith #87030
+SP2 Fritz Ostermueller #86357
+SP3 Christy Mathewson #86706
+SP4 Bruce Hurst #86361
+SP5 Cool Papa Bell #86981
+CL Red Lucas #86781
+RP1 Jose Lima #84852
+RP2 Eddie Plank #86886
+RP3 Bill Lee #87019
+RP4 Eddie Dixon #87157
+RP5 Grover Cleveland Alexander #86477
+BN1 Joc Pederson #87143
+BN2 Chris Sabo #87059
+BN3 Bo Jackson #84710
+BN4 Dave Brain #85934
+BN5 Gabby Hartnett #86254
+BN6 Byron Buxton #85821
+BN7 Steve Pearce #86366

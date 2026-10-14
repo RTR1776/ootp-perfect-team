@@ -526,8 +526,17 @@ async function main() {
     const inPool = new Set(pool.map((c) => c.cardId));
     const kept = lines.filter((m) => inPool.has(Number(m[2])));
     const gone = lines.length - kept.length;
+    // A Live card's ratings move: a seed slot the card can no longer play
+    // (Tatis Jr. lost 3B in the 10-14 update) would start the climb from an
+    // illegal board it cannot leave. Refill around it instead, keeping the card.
+    const byIdSeed = new Map(pool.map((c) => [c.cardId, c]));
+    const misplaced = kept.filter((m) => {
+      const pos = m[1]!.includes(":") ? m[1]!.split(":")[1] : m[1]!;
+      return HIT_POS.includes(pos as (typeof HIT_POS)[number]) && (byIdSeed.get(Number(m[2]))?.ratings[`Pos Rating ${pos}`] ?? 0) <= 0;
+    }).length;
     const direct = Object.fromEntries(kept.map((m) => [m[1]!, Number(m[2])]));
-    if (!gone && isComplete(direct, shape)) { console.log(`seed: ${path.split("/").pop()} as is (${new Set(Object.values(direct)).size} cards)`); return direct; }
+    if (!gone && !misplaced && isComplete(direct, shape)) { console.log(`seed: ${path.split("/").pop()} as is (${new Set(Object.values(direct)).size} cards)`); return direct; }
+    if (misplaced) console.log(`seed: ${misplaced} slot${misplaced === 1 ? "" : "s"} now held by a card that can no longer play there (a ratings update); refilling`);
     const must = new Set(kept.map((m) => Number(m[2])));
     for (const lam of [0, 0.5, 1, 2, 4, 8]) {
       const r = fillOnce(pool, rules, shape, fits, lam, must);

@@ -1,0 +1,35 @@
+# Daily Roaring Silvers — Claude pick 2026-10-14-audit2, rebuilt from the catalogue's rules by current-rosters (--year 1927 --park Yankee Stadium --park-year 1927 --max 79 --card-year-min 1800 --card-year-max 1929 --size 26 --series roaringsilvers --sp 4 --rp 5 --bats 17)
+R:C Biz Mackey #86894
+R:1B Dick Hoblitzel (VAR) #83655
+R:2B Nap Lajoie #86581
+R:3B Honus Wagner #86712
+R:SS Dave Brain (VAR) #85934
+R:LF Tillie Walker #86597
+R:CF Billy Southworth #86379
+R:RF Pop Corkhill #86582
+L:C Biz Mackey #86894
+L:1B Honus Wagner #86712
+L:2B Bill Dahlen #83725
+L:3B Joe Dugan (VAR) #86765
+L:SS Dave Brain (VAR) #85934
+L:LF Cocaina Garcia #86954
+L:CF Tillie Walker #86597
+L:RF Pop Corkhill #86582
+SP1 Sherry Smith #87030
+SP2 Nick Altrock #87049
+SP3 Christy Mathewson #86706
+SP4 Hubert Lockhart #87082
+CL Grover Cleveland Alexander #86477
+RP1 Red Lucas #86781
+RP2 Eddie Plank #86886
+RP3 Jakie May (VAR) #85286
+RP4 Cool Papa Bell #86981
+BN1 Halley Harding #86979
+BN2 Tex Erwin #82910
+BN3 Jack Tobin #86772
+BN4 Cocaina Garcia #86954
+BN5 Joe Dugan (VAR) #86765
+BN6 Paul Easterling #84683
+BN7 Tom Brown #86767
+BN8 Willie Keeler #85878
+BN9 Bill Dahlen #83725
