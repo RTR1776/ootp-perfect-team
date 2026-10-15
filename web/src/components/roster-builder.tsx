@@ -25,6 +25,7 @@ import { Info, Loader2, Redo2, Undo2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { mergeFilter, rosterFilter } from "@/lib/ootp-filter";
 import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
 import { cn } from "@/lib/utils";
@@ -1491,6 +1492,54 @@ export function RosterBuilder({
     toast({ message: "Exported the .txt lineup card and the .csv; both are in your Downloads folder." });
   };
 
+  /* OOTP saved filter ------------------------------------------------ */
+  /** Every card on the board as one Manage Cards filter (lib/ootp-filter), merged into OOTP's
+      tables/pt_all_ptcards_filters. Chrome/Edge write the file back in place; other browsers
+      pick it with a file input and get the merged copy in Downloads. */
+  const filterInput = useRef<HTMLInputElement>(null);
+  const filterName = () => (rosterName.trim() || tournament?.name || "Roster");
+  const filterIds = () => [...new Set(Object.values(slots).filter((x): x is number => x != null))];
+  const filterSaid = (r: { replaced: boolean; kept: number }, n: number, where: string) =>
+    `${r.replaced ? "Replaced" : "Added"} filter “${filterName()}” (${n} cards; your other ${r.kept} filter${r.kept === 1 ? "" : "s"} kept)${where}`;
+  const exportFilter = async () => {
+    const ids = filterIds();
+    if (!ids.length) return;
+    type Picker = (o: object) => Promise<Array<{ getFile(): Promise<File>; createWritable(): Promise<{ write(d: BufferSource): Promise<void>; close(): Promise<void> }>; requestPermission?(o: object): Promise<string> }>>;
+    const pick = (window as unknown as { showOpenFilePicker?: Picker }).showOpenFilePicker;
+    if (!pick) { filterInput.current?.click(); return; }
+    try {
+      const [h] = await pick({ id: "ootp-tables", multiple: false });
+      const file = await h.getFile();
+      if (file.name !== "pt_all_ptcards_filters") throw new Error(`That's “${file.name}”; pick pt_all_ptcards_filters in OOTP Baseball 27/tables.`);
+      const r = mergeFilter(new Uint8Array(await file.arrayBuffer()), rosterFilter(filterName(), ids));
+      if (h.requestPermission && (await h.requestPermission({ mode: "readwrite" })) !== "granted") throw new Error("Write permission was not given, so nothing changed.");
+      const w = await h.createWritable();
+      await w.write(r.bytes as BufferSource);
+      await w.close();
+      toast({ message: `${filterSaid(r, ids.length, " — written straight into OOTP's tables folder.")} Restart OOTP if it was open, then pick the filter in Manage Cards.` });
+    } catch (e) {
+      if ((e as Error).name === "AbortError") return;
+      toast({ message: `OOTP filter not written: ${(e as Error).message}` });
+    }
+  };
+  const onFilterFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    try {
+      const ids = filterIds();
+      const r = mergeFilter(new Uint8Array(await file.arrayBuffer()), rosterFilter(filterName(), ids));
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([r.bytes as BlobPart], { type: "application/octet-stream" }));
+      a.download = "pt_all_ptcards_filters";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast({ message: `${filterSaid(r, ids.length, ".")} Move the downloaded pt_all_ptcards_filters into OOTP Baseball 27/tables (replace), with OOTP closed.` });
+    } catch (err) {
+      toast({ message: `OOTP filter not written: ${(err as Error).message}` });
+    }
+  };
+
   /* summary ---------------------------------------------------------- */
   /** The roster check every board shows (lib/roster-audit), the same one env-roster prints. */
   const rosterCheck = useMemo(() => {
@@ -2060,6 +2109,11 @@ export function RosterBuilder({
                 <Button size="sm" variant="outline" className="mt-2 w-full" onClick={exportLineup} disabled={summary.filled === 0}>
                   Export lineup (.txt + .csv)
                 </Button>
+                <Button size="sm" variant="outline" className="mt-2 w-full" onClick={exportFilter} disabled={summary.filled === 0}
+                  title="Writes this roster as one saved filter in OOTP's Manage Cards (Card ID = each card, OR-joined). Pick OOTP Baseball 27/tables/pt_all_ptcards_filters; your other filters are kept.">
+                  Send to OOTP as a card filter
+                </Button>
+                <input ref={filterInput} type="file" className="hidden" onChange={onFilterFile} />
                 {savedRosters.length > 0 && (
                   <div className="mt-2 flex flex-col gap-1">
                     {savedRosters.map((r) => (
