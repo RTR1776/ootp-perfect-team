@@ -1,0 +1,36 @@
+# Thursday Splendid Silver Only Spectacular — Claude pick 2026-10-14, rebuilt from the catalogue's rules by current-rosters (--year 1989 --park Candlestick Park --park-year 1979 --dh --min 70 --max 79 --size 26 --obs-exclude silverweekly --sp 5 --rp 6 --bats 15)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Aiva Arquette (VAR) #84768
+R:3B Corey Koskie (VAR) #86449
+R:SS Jeremy Pena #87154
+R:LF Willie McGee (VAR) #85753
+R:CF Andy Van Slyke #86936
+R:RF Roberto Clemente #86723
+R:DH Carlos Delgado #86998
+L:C Mike Zunino #86431
+L:1B Allen Craig #87139
+L:2B Randy Ready #86921
+L:3B Aiva Arquette (VAR) #84768
+L:SS Jeremy Pena #87154
+L:LF Brian Jordan #86965
+L:CF Willie McGee (VAR) #85753
+L:RF Roberto Clemente #86723
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 Jordan Montgomery #86354
+SP3 Bill Ricks #87162
+SP4 Jacob deGrom #86675
+SP5 Bob Walk #86971
+CL Jack Wenninger #85125
+RP1 Jakie May (VAR) #85286
+RP2 Zack Wheeler #86314
+RP3 Dean Stone #86164
+RP4 Brian Anderson #87070
+RP5 Dave Bush (VAR) #86812
+BN1 Ryan Braun #87222
+BN2 Allen Craig #87139
+BN3 Mike Zunino #86431
+BN4 Randy Ready #86921
+BN5 Mike Greenwell (VAR) #86930
+BN6 Brian Jordan #86965
