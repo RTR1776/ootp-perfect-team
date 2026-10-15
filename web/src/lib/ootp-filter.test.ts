@@ -41,3 +41,9 @@ test("an empty or missing file starts a fresh one; junk is refused", () => {
   assert.equal(parseFilterFile(mergeFilter(new Uint8Array(), rosterFilter("X", [7])).bytes).filters.length, 1);
   assert.throws(() => parseFilterFile(new TextEncoder().encode("POS,Name,B,T\n")));
 });
+
+test("a name outside latin1 (emoji) still round-trips", () => {
+  const f = rosterFilter("Splendid ⚾ 🔥", [1, 2]);
+  const back = parseFilterFile(serializeFilterFile({ version: 0, filters: [f] }));
+  assert.equal(back.filters[0].criteria.length, 2);
+});

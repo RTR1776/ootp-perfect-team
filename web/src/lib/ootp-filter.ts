@@ -72,7 +72,7 @@ export function parseFilterFile(bytes: Uint8Array): FilterFile {
 
 export function serializeFilterFile(file: FilterFile): Uint8Array {
   let size = 5;
-  for (const f of file.filters) size += 1 + 4 + f.name.length + 4 + f.criteria.length * CRIT_BYTES;
+  for (const f of file.filters) size += 1 + 4 + latin1(f.name).length + 4 + f.criteria.length * CRIT_BYTES;
   const out = new Uint8Array(size);
   const dv = new DataView(out.buffer);
   let p = 0;
