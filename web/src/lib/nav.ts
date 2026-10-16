@@ -1,5 +1,5 @@
 import {
-  CandlestickChart, FlaskConical, Gauge, Globe, Hammer, Hourglass, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
+  CandlestickChart, Crosshair, FlaskConical, Gauge, Globe, Hammer, Hourglass, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
   type LucideIcon,
 } from "lucide-react";
 
@@ -29,6 +29,7 @@ export const NAV: NavGroup[] = [
   {
     label: "Scout",
     items: [
+      { href: "/needs", label: "Needs", icon: Crosshair, hint: "Where your cards are weakest by tier and spot, and what to buy at what price" },
       { href: "/cards", label: "Cards", icon: Search, hint: "New cards and where each one fits for you; any card's projection and play" },
       { href: "/played", label: "Played", icon: ListOrdered, hint: "Every card with tournament play, ranked by runs" },
       { href: "/market", label: "Market", icon: CandlestickChart, hint: "Prices, value per PP and movers" },
