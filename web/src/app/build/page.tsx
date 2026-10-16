@@ -522,6 +522,8 @@ const KEEP_RATINGS = [
   "Speed", "Stealing", "Baserunning", "Stamina",
   "Pos Rating C", "Pos Rating 1B", "Pos Rating 2B", "Pos Rating 3B",
   "Pos Rating SS", "Pos Rating LF", "Pos Rating CF", "Pos Rating RF",
+  // Catcher framing is priced by the optimiser (roster-objective framingRuns) and the Field view's Def.
+  "CatcherFrame",
 ];
 
 function trimRatings(r: Record<string, number>): Record<string, number> {
