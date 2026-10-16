@@ -44,6 +44,7 @@ import type { SetEvidence } from "@/lib/set-evidence";
 const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"];
 import { cardEligibility, tierCode, tierFitsSlots, type RosterSlot } from "@/lib/roster-rules";
 import { newSince, savedCollectionId, type NewCard } from "@/lib/saved-roster-freshness";
+import { cardIdOf, formIdForSlot, isTwoWayForm, twoWayForm, withTwoWayForms } from "@/lib/two-way";
 import {
   RosterBuilder,
   type BuilderCard,
@@ -297,7 +298,13 @@ export default async function BuildPage({
           proj: projFor(isP, c.bats, r),
           obs: bySeries.get(c.cardId) ?? null,
         };
-      }).filter(c => cardEligibility(c, tournament!).errors.length === 0);
+      }).filter(c => cardEligibility(c, tournament!).errors.length === 0)
+      // Two-way cards (lib/two-way) also enter in the role they aren't listed in.
+      .flatMap((c) => {
+        const f = twoWayForm(c);
+        return f ? [c, { ...f, pos: f.isPitcher ? "P" : "DH", proj: projFor(f.isPitcher, c.bats, c.ratings), obs: null }] : [c];
+      });
+    const cardsOnly = pool.filter((c) => !isTwoWayForm(c.cardId));
 
     /* ------- the scorer's level, and the upgrade board -------
        The same scorer as env-roster: runs per 700 PA in this event's run
@@ -315,26 +322,31 @@ export default async function BuildPage({
         pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
         title: cards.title, firstSeenAt: cards.firstSeenAt, cardSubType: cards.cardSubType,
       }).from(cards);
-      const base = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
+      const base = envFitMaps(withTwoWayForms(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }))), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
       const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
       // The reference (the base card's model, env-fit's 0.7 R / 0.3 L read) lets an
       // owned variant keep its boost; a base card blends exactly as before.
       const observed = await loadObservedRuns(pool.map((c) => c.cardId), both, bothHands(base), [], { series: full.series, ratingsMax: full.ratingsMax });
       env = { rates: eraRow.rates, park, lhpShare, lhbShare, eraYear: envYear ?? 2010, observed: [...observed.entries()].map(([id, o]) => [id, o.runs, o.n, o.model]) };
       {
-        const ns = pool.map((c) => observed.get(c.cardId)?.n ?? 0).filter((n) => n > 0).sort((a, b) => a - b);
+        const ns = cardsOnly.map((c) => observed.get(c.cardId)?.n ?? 0).filter((n) => n > 0).sort((a, b) => a - b);
         const band = eraBand(envYear ?? 2010);
         confidence = dataConfidence({
           seriesFiles: meta?.files ?? 0, seriesTeams: meta?.avgTeams ?? null,
-          poolSize: pool.length, poolWithPlay: ns.length, poolMedianN: ns.length ? ns[Math.floor(ns.length / 2)] : 0,
+          poolSize: cardsOnly.length, poolWithPlay: ns.length, poolMedianN: ns.length ? ns[Math.floor(ns.length / 2)] : 0,
           eraBand: band ? { band: band.band, series: band.series } : null,
           envYearKnown: envYear != null, parkOnFile: park != null, staleSince: tournament.staleSeriesSince ?? null,
         });
       }
 
       const ownedSet = new Set(ownedIds);
-      const scored = universe
-        .filter((c) => !ownedSet.has(c.cardId) && isLegal(c.cardValue, c.year))
+      // The upgrade board prices a two-way card in both roles (lib/two-way).
+      const universe2 = universe.flatMap((c) => {
+        const f = twoWayForm({ ...c, isPitcher: c.isPitcher ?? false, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> });
+        return f ? [c, { ...c, cardId: f.cardId, isPitcher: f.isPitcher, pitcherRole: null, position: f.isPitcher ? "P" : "DH" }] : [c];
+      });
+      const scored = universe2
+        .filter((c) => !ownedSet.has(cardIdOf(c.cardId)) && isLegal(c.cardValue, c.year))
         .map((c) => ({ c, runs: c.isPitcher ? base.runsR.get(c.cardId) : both(c.cardId) }))
         .filter((x): x is { c: (typeof universe)[number]; runs: number } => x.runs != null)
         .filter(({ c }) => cardEligibility({ cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher ?? false, role: c.pitcherRole, cardType: c.cardType, le: c.cardSubType === "LE", ratings: (c.ratings ?? {}) as Record<string, number>, baseOwned: false, variantOwned: false }, tournament!).errors.length === 0);
@@ -380,8 +392,8 @@ export default async function BuildPage({
         const fullById = new Map(cardRows.map((c) => [c.cardId, (c.ratings ?? {}) as Record<string, number>]));
         const baseRun = (c: (typeof pool)[number]) => (c.isPitcher ? base.runsR.get(c.cardId) : both(c.cardId)) ?? -99;
         const cands = [
-          ...pool.filter((c) => c.baseOwned && !c.variantOwned && !c.isPitcher).sort((a, b) => baseRun(b) - baseRun(a)).slice(0, 30),
-          ...pool.filter((c) => c.baseOwned && !c.variantOwned && c.isPitcher).sort((a, b) => baseRun(b) - baseRun(a)).slice(0, 20),
+          ...cardsOnly.filter((c) => c.baseOwned && !c.variantOwned && !c.isPitcher).sort((a, b) => baseRun(b) - baseRun(a)).slice(0, 30),
+          ...cardsOnly.filter((c) => c.baseOwned && !c.variantOwned && c.isPitcher).sort((a, b) => baseRun(b) - baseRun(a)).slice(0, 20),
         ];
         const bump = (r: Record<string, number>, isP: boolean) => {
           const o = { ...r };
@@ -416,10 +428,10 @@ export default async function BuildPage({
         const prices = await db
           .select({ cardId: cardSnapshots.cardId, last10: cardSnapshots.last10, ask: cardSnapshots.sellOrderLow, last10Variant: cardSnapshots.last10Variant })
           .from(cardSnapshots)
-          .where(and(eq(cardSnapshots.uploadId, latestShop.id), inArray(cardSnapshots.cardId, upgrades.map((u) => u.cardId))));
+          .where(and(eq(cardSnapshots.uploadId, latestShop.id), inArray(cardSnapshots.cardId, upgrades.map((u) => cardIdOf(u.cardId)))));
         const priceBy = new Map(prices.map((p) => [p.cardId, p]));
         for (const u of upgrades) {
-          const p = priceBy.get(u.cardId);
+          const p = priceBy.get(cardIdOf(u.cardId));
           u.last10 = (u.variant ? p?.last10Variant : p?.last10) ?? null;
           u.ask = u.variant ? null : p?.ask ?? null;
         }
@@ -457,10 +469,11 @@ export default async function BuildPage({
       const fresh = new Map(older.map((u) => {
         const rows = thenRows.filter((r) => r.uploadId === u.id && r.cardId != null);
         const then = { base: new Set(rows.filter((r) => !r.isVariant).map((r) => r.cardId!)), variant: new Set(rows.filter((r) => r.isVariant).map((r) => r.cardId!)) };
-        return [u.id, { builtOn: chicagoDay(u.date), newCards: newSince(pool, then, variantsAllowed) }];
+        return [u.id, { builtOn: chicagoDay(u.date), newCards: newSince(cardsOnly, then, variantsAllowed) }];
       }));
       // The newest "Claude pick" is the recommended roster: /build opens on it
       // unless his own board here is newer (L.J. 10-05: "make it the default").
+      const poolById = new Map(pool.map((c) => [c.cardId, c]));
       const recommended = savedList.find((r) => /^claude pick/i.test(r.name))?.id ?? null;
       savedRosters = savedList.map((r) => {
         const f = fresh.get(savedOn.get(r.id) ?? -1);
@@ -471,7 +484,8 @@ export default async function BuildPage({
           ...(r.id === recommended ? { recommended: true } : {}),
           slots: slotRows
             .filter((s) => s.rosterId === r.id)
-            .map((s) => ({ cardId: s.cardId, slot: s.slot, versusHand: s.versusHand, lineupOrder: s.lineupOrder, useVariant: s.useVariant })),
+            // A saved slot holds the card id: a two-way card's arm (or bat) slot is its other form.
+            .map((s) => ({ cardId: formIdForSlot(s.cardId, s.slot, (id) => poolById.get(id)), slot: s.slot, versusHand: s.versusHand, lineupOrder: s.lineupOrder, useVariant: s.useVariant })),
           ...(f ? { builtOn: f.builtOn, newCards: f.newCards } : {}),
         };
       });

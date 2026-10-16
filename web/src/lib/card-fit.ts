@@ -144,10 +144,12 @@ export function bestTeam(owned: readonly ScoredForm[], ctx: FitCtx): Team {
       if (best) { used.add(best.cardId); team[board][spot] = best; }
     }
   }
+  // A two-way card (lib/two-way) already in a lineup isn't on the staff too.
+  const batting = new Set([...Object.values(team.R), ...Object.values(team.L)].map((f) => f!.cardId));
   for (const role of ["SP", "RP"] as const) {
     const byCard = new Map<number, ScoredForm>();
     for (const f of owned) {
-      if (!f.isPitcher || f.role !== role) continue;
+      if (!f.isPitcher || f.role !== role || batting.has(f.cardId)) continue;
       const had = byCard.get(f.cardId);
       if (!had || f.runsR > had.runsR) byCard.set(f.cardId, f);
     }
