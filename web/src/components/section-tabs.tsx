@@ -2,7 +2,7 @@
 
 /**
  * Tabs across the pages one sidebar entry covers (L.J., 2026-10-16: fold the
- * overlapping pages together): League, Cards, Needs, Environments. Each tab is
+ * overlapping pages together): PTCS, League, Cards, Needs, Environments. Each tab is
  * its own page, so links and the back button keep working.
  */
 
@@ -13,6 +13,10 @@ import { cn } from "@/lib/utils";
 export interface SectionTab { href: string; label: string; hint: string }
 
 const SECTIONS = {
+  ptcs: [
+    { href: "/ptcs", label: "PTCS", hint: "This period's categories, pace and result entry" },
+    { href: "/qualifying", label: "PTMS · PTWC", hint: "Championship finishes, league seasons and PT Live, added up for PTMS 3 and PTWC 2" },
+  ],
   league: [
     { href: "/league-card", label: "My team", hint: "Lineups and staff on the league model, this week's numbers, and what a card would add" },
     { href: "/league", label: "Card lines", hint: "Every card's league line, the meta at each spot, and where your cards sit" },
