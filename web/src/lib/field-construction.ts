@@ -89,6 +89,21 @@ export function staffPerTeam(b: SeriesBuild | null | undefined): { sp: number; r
   return sp > 0 || rp > 0 ? { sp, rp } : null;
 }
 
+/**
+ * The staff the field's best quarter carries (bats with the bench), the shape
+ * a roster is built to (L.J., 2026-10-16: "see what the top teams are doing in
+ * terms of bullpen size … and match that"). Null without enough teams, and
+ * then the caller falls back to series_meta's averages or the era table.
+ */
+export const TOP_SHAPE_MIN_TEAMS = 20;
+export function topShape(b: SeriesBuild | null | undefined): { avgSp: number; avgRp: number; avgBats: number; n: number } | null {
+  const top = b?.groups.find((g) => g.key === "top");
+  if (!top || top.n < TOP_SHAPE_MIN_TEAMS) return null;
+  let sp = 0, rp = 0, bats = 0;
+  for (const t of Object.values(top.tiers)) { sp += t?.sp ?? 0; rp += t?.rp ?? 0; bats += (t?.bats ?? 0) + (t?.bench ?? 0); }
+  return sp > 0 && rp > 0 ? { avgSp: sp, avgRp: rp, avgBats: bats, n: top.n } : null;
+}
+
 /** A bat under this share of a full-time slot's PA was a bench bat. */
 const BENCH_SHARE = 0.25;
 const CLAN_LABEL: Record<string, string> = { HOTL: "HotL" };

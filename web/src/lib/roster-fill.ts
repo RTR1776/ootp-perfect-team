@@ -75,6 +75,8 @@ export const PRE_1930 = 1930;
 export const MAX_SP = 5;
 export const MAX_RP = 7;
 export const MAX_ARMS = 12;
+/** The most relievers before 1980 (L.J., 2026-10-16, Goldfather II's 1974: "At most 6, probably just five"). */
+export const PEN_CAP_PRE_1980 = 6;
 
 export function eraStaff(envYear: number | null | undefined): { sp: number; rp: number; band: string } {
   if (envYear == null) return { sp: 5, rp: 7, band: "no env year — modern default" };
@@ -108,12 +110,28 @@ export function rosterShape(
   const era = later ? { ...era0, band: `${era0.band}, cards ${cardYearMin} on` } : era0;
   const eraYear = later ? cardYearMin : envYear;
   const pre1930 = eraYear != null && eraYear < PRE_1930;
-  if (meta?.avgSp != null && (meta.avgBats != null || meta.avgRp != null) && (explicit || !pre1930)) {
+  if (explicit && meta?.avgSp != null && (meta.avgBats != null || meta.avgRp != null)) {
     // --sp 4 --rp 4 alone is a complete shape: the bats are what is left.
     const bats = clamp(Math.round(meta.avgBats ?? size - meta.avgSp - (meta.avgRp ?? 0)), lineupSize, 22);
     const sp0 = clamp(Math.round(meta.avgSp), 1, 9);
     const rp0 = clamp(size - bats - sp0, 1, 12);
     return { ...capStaff(bats, sp0, rp0), source: "observed", band: era.band };
+  }
+  /*
+   * The field's own staff (L.J., 2026-10-16: "see what the top teams are doing
+   * in terms of bullpen size … and match that"): its rotation and pen as
+   * counted, each rounded, and the spots left over BAT. It used to be the
+   * other way round — bats rounded, the pen whatever was left — so a spare
+   * spot always went to the pen and nearly every event came out 5 / 7 / 14
+   * whatever its era (Goldfather II, 1974: 7 relievers, six of them long men,
+   * where its best quarter carries 4.9 SP / 6.6 RP). Before 1980 the pen is
+   * held to PEN_CAP_PRE_1980 (L.J.: "1974. At most 6, probably just five").
+   */
+  if (meta?.avgSp != null && meta.avgRp != null && !pre1930) {
+    const sp = clamp(Math.round(meta.avgSp), 3, MAX_SP);
+    const cap = eraYear != null && eraYear < 1980 ? PEN_CAP_PRE_1980 : MAX_RP;
+    const rp = clamp(Math.round(meta.avgRp), 3, Math.min(cap, MAX_ARMS - sp));
+    return { bats: clamp(size - sp - rp, lineupSize, 22), sp, rp, source: "observed", band: era.band };
   }
   const c = capStaff(clamp(size - era.sp - era.rp, lineupSize, 22), era.sp, era.rp);
   return { ...c, source: "era", band: era.band };
