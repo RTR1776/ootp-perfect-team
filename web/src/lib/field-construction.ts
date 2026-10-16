@@ -92,13 +92,17 @@ export function staffPerTeam(b: SeriesBuild | null | undefined): { sp: number; r
 /**
  * The staff the field's best quarter carries (bats with the bench), the shape
  * a roster is built to (L.J., 2026-10-16: "see what the top teams are doing in
- * terms of bullpen size … and match that"). Null without enough teams, and
- * then the caller falls back to series_meta's averages or the era table.
+ * terms of bullpen size … and match that"). With too few teams in the best
+ * quarter, the whole field's; null when even that is thin, and then the caller
+ * falls back to series_meta's averages or the era table. (series_meta counts
+ * arms by card role, so an SP card in the pen reads as a starter: Silver Only
+ * Cap 5 RP there against 6.8 counted here.)
  */
 export const TOP_SHAPE_MIN_TEAMS = 20;
 export function topShape(b: SeriesBuild | null | undefined): { avgSp: number; avgRp: number; avgBats: number; n: number } | null {
-  const top = b?.groups.find((g) => g.key === "top");
-  if (!top || top.n < TOP_SHAPE_MIN_TEAMS) return null;
+  const pick = (key: string) => b?.groups.find((g) => g.key === key && g.n >= TOP_SHAPE_MIN_TEAMS);
+  const top = pick("top") ?? pick("all");
+  if (!top) return null;
   let sp = 0, rp = 0, bats = 0;
   for (const t of Object.values(top.tiers)) { sp += t?.sp ?? 0; rp += t?.rp ?? 0; bats += (t?.bats ?? 0) + (t?.bench ?? 0); }
   return sp > 0 && rp > 0 ? { avgSp: sp, avgRp: rp, avgBats: bats, n: top.n } : null;
