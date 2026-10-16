@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ladderPoints, leaguePoints, leagueTierOf, nextMilestone, placeByRecord, PTWC_CATEGORIES, standingOf } from "./qualifying";
+import { ladderPoints, leagueBand, leaguePoints, leagueTierOf, nextMilestone, placeByRecord, PTWC_CATEGORIES, standingOf } from "./qualifying";
 
 test("ladder points follow the PTCS/PTMS table", () => {
   assert.equal(ladderPoints("1st"), 300);
@@ -20,6 +20,16 @@ test("league tiers and points", () => {
   assert.equal(leaguePoints("Low Diamond", 3), 25);
   assert.equal(leaguePoints("High Gold", 9), 0);
   assert.equal(leaguePoints("Low Gold", 5), 0);
+});
+
+test("league outcomes score by their band", () => {
+  const pts = (tier: Parameters<typeof leaguePoints>[0], band: string) => leaguePoints(tier, leagueBand(band)!.place);
+  assert.equal(pts("Low Diamond", "1st"), 50);
+  assert.equal(pts("High Diamond", "9th-16th"), 20);
+  assert.equal(pts("High Diamond", "17th-last"), 10);
+  assert.equal(pts("Perfect", "17th-last"), 35);
+  assert.equal(pts("High Gold", "9th-16th"), 0);
+  assert.equal(leagueBand("nope"), null);
 });
 
 test("Cap and Live stay out of the PTWC weekly points; PD berths are their own standing", () => {

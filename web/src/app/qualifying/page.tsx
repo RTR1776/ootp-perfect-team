@@ -16,9 +16,9 @@ import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/page-header";
 import { SectionTabs } from "@/components/section-tabs";
 import { StatTile } from "@/components/stat-tile";
-import { FinishEntry, LeagueEntry, LiveEntry, RemoveEntry } from "@/components/qualifying-entry";
+import { EventTotalEntry, FinishEntry, LeagueEntry, LiveEntry, RemoveEntry } from "@/components/qualifying-entry";
 import { cn } from "@/lib/utils";
-import { BERTHS, LADDER_POINTS, LIVE_DIVISOR, PTMS_FEEDS, PTWC_CATEGORIES, SCHEDULE } from "@/lib/qualifying";
+import { BERTHS, LADDER_POINTS, LEAGUE_BANDS, LIVE_DIVISOR, PTMS_FEEDS, PTWC_CATEGORIES, SCHEDULE } from "@/lib/qualifying";
 import { loadQualifying, type EventFinishes } from "@/lib/qualifying-load";
 
 export const dynamic = "force-dynamic";
@@ -49,7 +49,7 @@ export default async function QualifyingPage() {
 
       <div className="grid gap-3 sm:grid-cols-3">
         <StatTile label="PTMS 3 · Nov 21" value={<>{q.ptms3.tournament} <span className="text-muted-foreground">·</span> {q.ptms3.draft}</>}
-          sub="tournament · PD points from PTCS 6–8; top 128 of either goes" />
+          sub={<>tournament · PD points from PTCS 6–8; top 128 of either goes{q.ptms3.unsplit > 0 && <> · +{q.ptms3.unsplit} not split by bracket</>}</>} />
         <StatTile label="PTWC 2 · Feb 20–21" value={n1(ptwc2.total)} sub="points so far, every source below" />
         <StatTile label="Next" value={next?.name ?? "—"} sub={next ? `${md(next.on)} · in ${daysTo(q.today, next.on)} days · ${next.note}` : "season over"} />
       </div>
@@ -60,11 +60,12 @@ export default async function QualifyingPage() {
           <tbody className="[&_td]:py-1.5">
             <Line label="Weekly leaderboard" value={ptwc2.weekly}
               note={<>Tournament and PD points from Aug 4{q.weekly.through ? ` to ${md(q.weekly.through)}` : ""}: {PTWC_CATEGORIES.map((c) => `${c} ${q.weekly.byCategory[c] ?? 0}`).join(" · ")}</>} />
-            <Line label="PTCS 6–11 finishes" value={ptwc2.ptcs} note={`${q.ptcs.reduce((a, e) => a + e.rows.length, 0)} brackets entered`} />
+            <Line label="PTCS 6–11 finishes" value={ptwc2.ptcs} note={q.ptcs.filter((e) => e.rows.length).map((e) => `${e.event} ${e.tournament + e.draft + e.unsplit}`).join(" · ") || "none entered"} />
             <Line label="PTMS 3–4 finishes" value={ptwc2.ptms} note={q.ptms.some((e) => e.rows.length) ? "" : "none yet"} />
             <Line label="League play" value={ptwc2.league}
               note={`${counted} week${counted === 1 ? "" : "s"} counted${missing.length ? `; ${missing.length} need a place (${missing.map((w) => md(w.week)).join(", ")})` : ""}`} />
-            <Line label={`PT Live ÷ ${LIVE_DIVISOR}`} value={ptwc2.live} note={q.live.raw != null ? `${q.live.raw.toLocaleString()} leaderboard points on ${q.live.on ? md(q.live.on) : "?"}` : "not entered"} />
+            <Line label={`PT Live ÷ ${LIVE_DIVISOR}`} value={ptwc2.live}
+              note={q.live.months.map((m) => `${m.label} ${m.raw != null ? m.raw.toLocaleString() : "—"}`).join(" · ")} />
             <tr className="border-t border-border font-semibold"><td>Total</td><td className="text-right font-mono">{n1(ptwc2.total)}</td><td /></tr>
           </tbody>
         </table>
@@ -84,8 +85,11 @@ export default async function QualifyingPage() {
             <tbody>{shown.map((e) => <FinishRow key={e.event} e={e} on={SCHEDULE.find((m) => m.name === e.event)?.on ?? null} />)}</tbody>
           </table>
         </div>
-        <div className="mt-3"><FinishEntry events={[...q.ptcs, ...q.ptms].map((e) => e.event)} berths={BERTHS} placements={[...LADDER_POINTS]} defaultEvent={defaultEvent} /></div>
-        <p className="mt-2 text-xs text-muted-foreground">A bracket you lost in round 1 of 128 is 65th-128th (1 pt), round 2 33rd-64th, round 3 17th-32nd, round 4 9th-16th. Saving a bracket again replaces it.</p>
+        <div className="mt-3 flex flex-col gap-2">
+          <FinishEntry events={[...q.ptcs, ...q.ptms].map((e) => e.event)} berths={BERTHS} placements={[...LADDER_POINTS]} defaultEvent={defaultEvent} />
+          <EventTotalEntry events={[...q.ptcs, ...q.ptms].map((e) => e.event)} />
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">A bracket you lost in round 1 of 128 is 65th-128th (1 pt), round 2 33rd-64th, round 3 17th-32nd, round 4 9th-16th. Saving a bracket again replaces it. Only know an event&apos;s total? Save it as a total: it counts for PTWC 2, but not toward either PTMS standing until it&apos;s split by bracket.</p>
       </Card>
 
       <Card className="p-4">
@@ -104,7 +108,7 @@ export default async function QualifyingPage() {
                   <td className="py-1.5 pr-3 font-sans">{md(w.week)}</td>
                   <td className="py-1.5 pr-3">{w.league}</td>
                   <td className="py-1.5 pr-3 text-right">{w.record ?? "—"}</td>
-                  <td className="py-1.5 pr-3 text-right">{w.place != null ? `${w.place}${w.of ? ` / ${w.of}` : ""}` : "—"}</td>
+                  <td className="py-1.5 pr-3 text-right">{w.outcome ? <span className="font-sans text-xs">{w.outcome}</span> : w.place != null ? `${w.place}${w.of ? ` / ${w.of}` : ""}` : "—"}</td>
                   <td className="py-1.5 pr-3 text-right">{w.inProgress ? "—" : w.points}</td>
                   <td className={cn("py-1.5 font-sans text-xs", w.source === "none" && !w.inProgress ? "text-warning" : "text-muted-foreground")}>
                     {w.inProgress ? "in progress" : w.source === "entered" ? <>entered{w.entryId != null && <RemoveEntry id={w.entryId} label={`the ${md(w.week)} place`} />}</>
@@ -115,7 +119,7 @@ export default async function QualifyingPage() {
             </tbody>
           </table>
         </div>
-        <div className="mt-3"><LeagueEntry weeks={q.league.weeks.filter((w) => !w.inProgress).map((w) => ({ week: w.week, league: w.league }))} /></div>
+        <div className="mt-3"><LeagueEntry weeks={q.league.weeks.filter((w) => !w.inProgress).map((w) => ({ week: w.week, league: w.league }))} bands={[...LEAGUE_BANDS]} /></div>
         <p className="mt-2 text-xs text-muted-foreground">
           Points by tier: Perfect 200 / 150 / 100 / 75 / 50 / 35 (1st, 2nd, 3rd-4th, 5th-8th, 9th-16th, 17th-last) · High Diamond 100 / 75 / 50 / 35 / 20 / 10 · Low Diamond 50 / 35 / 25 / 20 / 10 / 5 · High Gold 35 / 20 / 10 / 5 · Low Gold 20 / 10 / 5.
         </p>
@@ -123,8 +127,18 @@ export default async function QualifyingPage() {
 
       <Card className="p-4">
         <h2 className="mb-2 text-sm font-semibold">PT Live</h2>
-        <p className="mb-2 text-xs text-muted-foreground">Your PT Live leaderboard points as the game shows them; PTWC 2 counts them ÷ {LIVE_DIVISOR} from Aug 24 to the end of the World Series.</p>
-        <LiveEntry current={q.live.raw} />
+        <p className="mb-2 text-xs text-muted-foreground">PTWC 2 counts PT Live leaderboard points ÷ {LIVE_DIVISOR} from Aug 24 to the end of the World Series, so enter them month by month (the season total includes months that went to PTWC 1).</p>
+        <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+          {q.live.months.map((m) => (
+            <span key={m.month} className="whitespace-nowrap">
+              <span className="text-muted-foreground">{m.label}</span>{" "}
+              <span className="font-mono">{m.raw != null ? m.raw.toLocaleString() : "—"}</span>
+              {m.entryId != null && <RemoveEntry id={m.entryId} label={`${m.label} Live points`} />}
+            </span>
+          ))}
+          <span className="whitespace-nowrap font-medium">= {q.live.raw.toLocaleString()} ÷ {LIVE_DIVISOR} = {n1(q.live.points)}</span>
+        </div>
+        <LiveEntry months={q.live.months.map((m) => ({ month: m.month, label: m.label, raw: m.raw }))} />
       </Card>
     </div>
   );
@@ -148,7 +162,7 @@ function FinishRow({ e, on }: { e: EventFinishes; on: string | null }) {
         {e.rows.length === 0 ? <span className="text-muted-foreground">none entered</span>
           : e.rows.map((r) => (
             <span key={r.id} className="mr-2 inline-flex items-center whitespace-nowrap">
-              {r.berth} {r.placement} <span className="ml-1 text-positive">+{r.points}</span>
+              {r.standing === "unsplit" ? "total, brackets not split" : `${r.berth} ${r.placement}`} <span className="ml-1 text-positive">+{r.points}</span>
               <RemoveEntry id={r.id} label={`${e.event} ${r.berth}`} />
             </span>
           ))}

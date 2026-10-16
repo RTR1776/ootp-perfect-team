@@ -1,9 +1,10 @@
 /**
  * Where L.J. stands for PTMS 3 and PTWC 2 (lib/qualifying holds the rules).
  *
- * - PTCS and PTMS finishes, league places he enters and his PT Live
- *   leaderboard points are rows of `ptcs_finishes` (standing tournament |
- *   perfect_draft for finishes, "league" and "live" for the other two).
+ * - PTCS and PTMS finishes, league seasons he enters and his PT Live
+ *   points by month are rows of `ptcs_finishes` (standing tournament |
+ *   perfect_draft for finishes, "unsplit" for an event total whose brackets
+ *   aren't known, "league" and "live" for the other two).
  * - Weekly leaderboard points are the PTCS periods' own day-by-day totals
  *   (lib/period-ledger, as /ptcs reads them) inside the PTWC window, without
  *   Cap and Live.
@@ -19,7 +20,7 @@ import { isMyOrg } from "@/lib/my-team";
 import { loadPeriodLedger } from "@/lib/period-ledger";
 import { todayInChicago } from "@/lib/ptcs-progress";
 import {
-  LIVE_DIVISOR, PTMS_FEEDS, PTWC2, PTWC_CATEGORIES, leaguePoints, leagueTierOf, nextMilestone, placeByRecord,
+  LIVE_DIVISOR, LIVE_MONTHS, PTMS_FEEDS, PTWC2, PTWC_CATEGORIES, leagueBand, leaguePoints, leagueTierOf, nextMilestone, placeByRecord,
   type LeagueTier, type Milestone,
 } from "@/lib/qualifying";
 
@@ -38,6 +39,8 @@ export interface EventFinishes {
   rows: LadderRow[];
   tournament: number;
   draft: number;
+  /** An event total entered without its brackets: counts for the PTWC, in neither PTMS standing. */
+  unsplit: number;
 }
 
 export interface LeagueWeekRow {
@@ -46,6 +49,8 @@ export interface LeagueWeekRow {
   league: string;
   tier: LeagueTier | null;
   place: number | null;
+  /** How an entered season ended ("Missed playoffs"), when entered that way. */
+  outcome: string | null;
   of: number | null;
   record: string | null;
   points: number;
@@ -60,10 +65,10 @@ export interface QualifyingData {
   next: Milestone | null;
   ptcs: EventFinishes[];
   ptms: EventFinishes[];
-  ptms3: { tournament: number; draft: number };
+  ptms3: { tournament: number; draft: number; unsplit: number };
   weekly: { byCategory: Record<string, number>; total: number; through: string | null };
   league: { weeks: LeagueWeekRow[]; total: number };
-  live: { raw: number | null; on: string | null; points: number; entryId: number | null };
+  live: { months: { month: string; label: string; raw: number | null; entryId: number | null }[]; raw: number; points: number };
   ptwc2: { weekly: number; ptcs: number; ptms: number; league: number; live: number; total: number };
 }
 
@@ -73,7 +78,7 @@ function byEvent(names: readonly string[], rows: readonly LadderRow[]): EventFin
   return names.map((event) => {
     const mine = rows.filter((r) => r.event === event);
     const sum = (s: string) => mine.filter((r) => r.standing === s).reduce((a, r) => a + r.points, 0);
-    return { event, rows: mine, tournament: sum("tournament"), draft: sum("perfect_draft") };
+    return { event, rows: mine, tournament: sum("tournament"), draft: sum("perfect_draft"), unsplit: sum("unsplit") };
   });
 }
 
@@ -87,11 +92,13 @@ export async function loadQualifying(): Promise<QualifyingData> {
   const rows: LadderRow[] = entries.map((e) => ({
     id: e.id, event: e.event, on: e.occurredOn, berth: e.berth, standing: e.standing, placement: e.placement, points: e.points,
   }));
-  const finishes = rows.filter((r) => r.standing === "tournament" || r.standing === "perfect_draft");
+  const finishes = rows.filter((r) => r.standing === "tournament" || r.standing === "perfect_draft" || r.standing === "unsplit");
   const ptcs = byEvent(PTWC2.ptcs, finishes);
   const ptms = byEvent(PTWC2.ptms, finishes);
   const feeds3 = ptcs.filter((e) => PTMS_FEEDS["PTMS 3"].includes(e.event));
-  const ptms3 = { tournament: feeds3.reduce((a, e) => a + e.tournament, 0), draft: feeds3.reduce((a, e) => a + e.draft, 0) };
+  const ptms3 = {
+    tournament: feeds3.reduce((a, e) => a + e.tournament, 0), draft: feeds3.reduce((a, e) => a + e.draft, 0), unsplit: feeds3.reduce((a, e) => a + e.unsplit, 0),
+  };
 
   // Weekly leaderboard points: every PTCS period's days inside the window.
   const { from, to } = PTWC2.weekly;
@@ -148,20 +155,29 @@ export async function loadQualifying(): Promise<QualifyingData> {
     const tier = leagueTierOf(league);
     const record = rec ? `${rec.w}-${rec.l}` : null;
     if (e) {
-      const place = Number(e.placement);
-      return { week, league, tier, place: Number.isFinite(place) ? place : null, of: rec?.of ?? null, record, points: e.points, source: "entered", inProgress: false, entryId: e.id };
+      const band = leagueBand(e.placement), place = Number(e.placement);
+      return {
+        week, league, tier, place: band ? null : Number.isFinite(place) ? place : null, outcome: band?.label ?? null,
+        of: rec?.of ?? null, record, points: e.points, source: "entered", inProgress: false, entryId: e.id,
+      };
     }
     const place = rec?.place ?? null;
     const points = !inProgress && place != null && tier ? leaguePoints(tier, place) : 0;
-    return { week, league, tier, place, of: rec?.of ?? null, record, points, source: place != null ? "record" : "none", inProgress, entryId: null };
+    return { week, league, tier, place, outcome: null, of: rec?.of ?? null, record, points, source: place != null ? "record" : "none", inProgress, entryId: null };
   });
   const leagueTotal = leagueWeeks.reduce((a, w) => a + w.points, 0);
 
-  const liveRow = rows.find((r) => r.standing === "live") ?? null;
-  const live = { raw: liveRow?.points ?? null, on: liveRow?.on ?? null, points: liveRow ? Math.round((liveRow.points / LIVE_DIVISOR) * 10) / 10 : 0, entryId: liveRow?.id ?? null };
+  // PT Live, month by month (rows are newest first, so the first per month is the current one).
+  const liveMonths = LIVE_MONTHS.map(({ month, label }) => {
+    const r = rows.find((x) => x.standing === "live" && x.berth === month);
+    return { month, label, raw: r?.points ?? null, entryId: r?.id ?? null };
+  });
+  const liveRaw = liveMonths.reduce((a, m) => a + (m.raw ?? 0), 0);
+  const live = { months: liveMonths, raw: liveRaw, points: Math.round((liveRaw / LIVE_DIVISOR) * 10) / 10 };
 
-  const ptcsTotal = ptcs.reduce((a, e) => a + e.tournament + e.draft, 0);
-  const ptmsTotal = ptms.reduce((a, e) => a + e.tournament + e.draft, 0);
+  const eventTotal = (e: EventFinishes) => e.tournament + e.draft + e.unsplit;
+  const ptcsTotal = ptcs.reduce((a, e) => a + eventTotal(e), 0);
+  const ptmsTotal = ptms.reduce((a, e) => a + eventTotal(e), 0);
   return {
     today, next: nextMilestone(today), ptcs, ptms, ptms3,
     weekly: { byCategory, total: weeklyTotal, through },
