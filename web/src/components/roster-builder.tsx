@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { mergeFilter, rosterFilter } from "@/lib/ootp-filter";
 import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
+import { cardIdOf } from "@/lib/two-way";
 import { cn } from "@/lib/utils";
 import { CARD_TYPE_NAME, CARD_TYPE_SHORT, confirmedNotes, describeRules, parseCardTypeRule, rosterSize, validateRoster, type RosterRules, type RosterSlot, type RuleIssue } from "@/lib/roster-rules";
 import { isPageCheck } from "@/lib/roster-input";
@@ -1375,7 +1376,8 @@ export function RosterBuilder({
     const payload = {
       tournamentId: tournament.id,
       name,
-      slots: serializeSlots(),
+      // A two-way card's other-role form is saved as the card itself (lib/two-way).
+      slots: serializeSlots().map((x) => ({ ...x, cardId: cardIdOf(x.cardId) })),
       requireReady: validation?.ready ?? false,
       checks: (validation?.incomplete ?? []).filter((i) => isPageCheck(i.code)),
     };
@@ -1498,7 +1500,7 @@ export function RosterBuilder({
       pick it with a file input and get the merged copy in Downloads. */
   const filterInput = useRef<HTMLInputElement>(null);
   const filterName = () => (rosterName.trim() || tournament?.name || "Roster");
-  const filterIds = () => [...new Set(Object.values(slots).filter((x): x is number => x != null))];
+  const filterIds = () => [...new Set(Object.values(slots).filter((x): x is number => x != null).map(cardIdOf))];
   const filterSaid = (r: { replaced: boolean; kept: number }, n: number, where: string) =>
     `${r.replaced ? "Replaced" : "Added"} filter “${filterName()}” (${n} cards; your other ${r.kept} filter${r.kept === 1 ? "" : "s"} kept)${where}`;
   const exportFilter = async () => {

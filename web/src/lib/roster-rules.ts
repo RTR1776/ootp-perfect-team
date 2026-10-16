@@ -18,6 +18,7 @@
  */
 import { CARD_TYPE_NAME, cardTypeNames } from "@/lib/card-sets";
 import { evidenceLine, evidenceRule, liveAbsent, setsNarrow, yearSpan, yearsNarrow, type SetEvidence } from "@/lib/set-evidence";
+import { canHit, canPitch, isArmSlot } from "@/lib/two-way";
 
 export { CARD_TYPES, CARD_TYPE_NAME, CARD_TYPE_SHORT, cardTypeNames, cardTypeRuleLabel } from "@/lib/card-sets";
 
@@ -273,11 +274,17 @@ export function rosterSize(rules: RosterRules): number | null {
   return rules.isDraft ? null : 26;
 }
 
+/**
+ * A two-way card (lib/two-way) also fits the role it is not listed in: a
+ * hitter card with real pitching splits can start or relieve, a pitcher card
+ * with a real bat can DH, sit on the bench or play a position it rates.
+ */
 export function fitsPosition(card: RosterCard, slot: string): boolean {
-  if (/^SP[1-9]\d*$/.test(slot)) return card.isPitcher && (card.role === "SP" || card.role == null);
-  if (/^RP[1-9]\d*$/.test(slot) || slot === "CL") return card.isPitcher;
-  if (/^BN[1-9]\d*$/.test(slot) || slot === "DH") return !card.isPitcher;
-  return (FIELD_POSITIONS as readonly string[]).includes(slot) && !card.isPitcher && (card.ratings[`Pos Rating ${slot}`] ?? 0) > 0;
+  const arm = card.isPitcher || canPitch(card.ratings), bat = !card.isPitcher || canHit(card.ratings);
+  if (/^SP[1-9]\d*$/.test(slot)) return arm && (!card.isPitcher || card.role === "SP" || card.role == null);
+  if (/^RP[1-9]\d*$/.test(slot) || slot === "CL") return arm;
+  if (/^BN[1-9]\d*$/.test(slot) || slot === "DH") return bat;
+  return (FIELD_POSITIONS as readonly string[]).includes(slot) && bat && (card.ratings[`Pos Rating ${slot}`] ?? 0) > 0;
 }
 
 /* -------------------------------------------------------------- the roster */
@@ -287,6 +294,7 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
   const byId = new Map(cards.map(c => [c.cardId, c]));
   const unique = new Map<number, RosterSlot>();
   const occupied = new Set<string>(), assignments = new Set<string>();
+  const roleOf = new Map<number, boolean>();
   const issue = (code: string, message: string, cardId?: number) => errors.push({ code, message, ...(cardId == null ? {} : { cardId }) });
   for (const s of slots) {
     const c = byId.get(s.cardId);
@@ -298,7 +306,13 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
     const key = `${hand}:${s.slot}`;
     if (occupied.has(key)) issue("duplicate-slot", `${key} is assigned more than once.`);
     occupied.add(key);
-    const group = c.isPitcher ? "staff" : /^BN/.test(s.slot) ? "R" : hand;
+    const staff = isArmSlot(s.slot);
+    const group = staff ? "staff" : /^BN/.test(s.slot) ? "R" : hand;
+    // A two-way card is used one way per roster (lib/two-way: one card in an
+    // arm slot and a lineup slot at once is not modelled).
+    const other = roleOf.get(s.cardId);
+    if (other != null && other !== staff) issue("two-way-both", `${c.name} is on the staff and in the lineup: use a two-way card one way.`, c.cardId);
+    roleOf.set(s.cardId, staff);
     const assignment = `${group}:${s.cardId}`;
     if (assignments.has(assignment)) issue("duplicate-player", `${c.name} occupies more than one slot in the same lineup or staff.`, c.cardId);
     assignments.add(assignment);
@@ -338,7 +352,7 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
       if (!occupied.has(`${hand}:${pos}`)) issue("empty-position", `Fill ${pos} vs ${hand}HP.`);
     }
   }
-  if (![...unique.keys()].some(id => byId.get(id)?.isPitcher)) issue("no-pitchers", "Add a pitching staff.");
+  if (![...roleOf.values()].some(Boolean)) issue("no-pitchers", "Add a pitching staff.");
   return { ready: errors.length === 0 && incomplete.length === 0, errors, incomplete,
     counts: { players: unique.size, target, value, variants, tiers } };
 }

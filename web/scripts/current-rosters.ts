@@ -331,8 +331,10 @@ async function toLoadFile(text: string, job: Job, uploadId: number): Promise<str
     const isVar = /\(VAR\)$/.test(rawName);
     const name = rawName.replace(/\s*\(VAR\)$/, "");
     const pitcher = /^(SP|RP|CL)/.test(key);
+    // A two-way card (lib/two-way) playing the role it isn't listed in.
+    const twoWay = / two-way \((pitching|hitting)\)/.test(l);
     let hits = universe.filter((c) => c.name.toLowerCase() === name.toLowerCase() && c.value === Number(value) && c.year === Number(year)
-      && (isVar ? vars.has(c.cardId) : base.has(c.cardId) || vars.has(c.cardId)) && (key.startsWith("BN") || (c.isPitcher ?? false) === pitcher));
+      && (isVar ? vars.has(c.cardId) : base.has(c.cardId) || vars.has(c.cardId)) && (key.startsWith("BN") || (c.isPitcher ?? false) === pitcher || twoWay));
     // Two owned cards can share name, value and year (a Live card and a Future Legend, 10-05 Payton Tolle):
     // env-roster ends each row with the card's id, which settles it.
     const pinned = /\s#(\d+)\s*$/.exec(l);

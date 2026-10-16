@@ -43,6 +43,7 @@ import { staffPerTeam, type SeriesBuild } from "@/lib/field-construction";
 import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
 import { loadSetEvidence } from "@/lib/set-evidence-server";
+import { cardIdOf, formIdForSlot, isTwoWayForm, twoWayForm } from "@/lib/two-way";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -377,6 +378,12 @@ async function main() {
     console.log(`banned ${before - pool.length}: ${BAN.join(", ")}`);
   }
   if (CARD_TYPES.size) console.log(`card sets: ${cardTypeNames([...CARD_TYPES])} only`);
+  // Two-way cards (lib/two-way): each also enters in the role it isn't listed in.
+  {
+    const forms = pool.map((c) => { const f = twoWayForm(c); return f ? { ...f, pos: f.isPitcher ? "P" : "DH" } : null; }).filter((f): f is P => f != null);
+    pool.push(...forms);
+    if (forms.length) console.log(`two-way: ${forms.length} card${forms.length === 1 ? "" : "s"} also in the other role — ${forms.map((f) => `${f.name} as ${f.isPitcher ? "arm" : "bat"}`).join(", ")}`);
+  }
   const bats = pool.filter((c) => !c.isPitcher);
   console.log(`\npool: ${pool.length} eligible owned cards — ${bats.length} bats (${bats.filter((c) => c.bats === "L").length}L / ${bats.filter((c) => c.bats === "S").length}S / ${bats.filter((c) => c.bats === "R").length}R), ${pool.length - bats.length} arms`);
 
@@ -523,13 +530,14 @@ async function main() {
    */
   function seedStart(path: string): Record<string, number> | null {
     const lines = readFileSync(path, "utf8").split("\n").map((l) => /^(\S+)\s.*#(\d+)\s*$/.exec(l.trim())).filter((m): m is RegExpExecArray => m != null && !m[1]!.startsWith("#"));
-    const inPool = new Set(pool.map((c) => c.cardId));
-    const kept = lines.filter((m) => inPool.has(Number(m[2])));
+    const byIdSeed = new Map(pool.map((c) => [c.cardId, c]));
+    // A saved slot holds the card id; a two-way card's arm (or bat) slot means its other form.
+    for (const m of lines) m[2] = String(formIdForSlot(Number(m[2]), m[1]!, (id) => byIdSeed.get(id)));
+    const kept = lines.filter((m) => byIdSeed.has(Number(m[2])));
     const gone = lines.length - kept.length;
     // A Live card's ratings move: a seed slot the card can no longer play
     // (Tatis Jr. lost 3B in the 10-14 update) would start the climb from an
     // illegal board it cannot leave. Refill around it instead, keeping the card.
-    const byIdSeed = new Map(pool.map((c) => [c.cardId, c]));
     const misplaced = kept.filter((m) => {
       const pos = m[1]!.includes(":") ? m[1]!.split(":")[1] : m[1]!;
       return HIT_POS.includes(pos as (typeof HIT_POS)[number]) && (byIdSeed.get(Number(m[2]))?.ratings[`Pos Rating ${pos}`] ?? 0) <= 0;
@@ -641,7 +649,8 @@ async function main() {
     const arm = c.isPitcher
       ? ` ${String(c.role ?? "").padEnd(2)} STM ${String(Math.round(c.ratings["Stamina"] ?? 0)).padStart(3)}`
       : "";
-    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}  ${side}${def}${arm}  #${c.cardId}`;
+    const twoWay = isTwoWayForm(c.cardId) ? ` two-way (${c.isPitcher ? "pitching" : "hitting"})` : "";
+    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}  ${side}${def}${arm}${twoWay}  #${cardIdOf(c.cardId)}`;
   };
 
   console.log(`\n--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)`);
@@ -699,7 +708,7 @@ async function main() {
     console.log("\n--- roster check ---");
     for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
   }
-  const spend = rostered.filter((c) => (prices.get(c.cardId) ?? 0) > 0).length;
+  const spend = rostered.filter((c) => (prices.get(cardIdOf(c.cardId)) ?? 0) > 0).length;
   if (spend) console.log(`(${spend} of ${rostered.length} have a live ask in the last shop snapshot)`);
   console.log(`objective: ${objective(slots).toFixed(1)} weighted runs (bats ${Math.round((1-LHP_SHARE)*100)}/${Math.round(LHP_SHARE*100)} R/L, SP ${SP_WEIGHT}, RP ${RP_WEIGHT}, bench ${BENCH_WEIGHT})`);
   const group = (keys: string[]) => keys.map((k) => poolById.get(slots[k])).filter(Boolean).reduce((n, c) => n + (c!.val ?? 0), 0);

@@ -6,7 +6,9 @@
  */
 
 const BASE = "https://yenhspu3f9odyl6a.public.blob.vercel-storage.com";
+import { cardIdOf } from "@/lib/two-way";
+
 
 export function cardArtUrl(cardId: number): string {
-  return `${BASE}/cards/${cardId}.webp`;
+  return `${BASE}/cards/${cardIdOf(cardId)}.webp`;
 }

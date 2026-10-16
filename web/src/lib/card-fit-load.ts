@@ -28,6 +28,7 @@ import { formRatings } from "@/lib/card-forms";
 import { CARD_TYPE_SHORT } from "@/lib/card-sets";
 import { armRole, bestTeam, FIELD_POS, fitIn, savedTeam, type Fit, type FitCtx, type ScoredForm } from "@/lib/card-fit";
 import { eventGroupOf } from "@/lib/event-groups";
+import { cardIdOf, formIdForSlot, isTwoWayForm, twoWayForm, twoWayId } from "@/lib/two-way";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { cardEligibility, parseCardTypeRule, type RosterRules } from "@/lib/roster-rules";
@@ -267,19 +268,21 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
     const obs = new Map<number, ObservedRuns>();
     for (const id of want) { const c = byId.get(id); if (!c) continue; inputs.push(inputOf(c)); const o = observed.get(id); if (o) obs.set(id, o); }
     for (const id of variantForms) { const c = byId.get(id)!; inputs.push(inputOf(c, variantRatings.get(id), -id)); const o = observed.get(id); if (o) obs.set(-id, o); }
+    // Two-way cards (lib/two-way): each form also in the role it isn't listed in (no observed line).
+    for (const inp of [...inputs]) { const f = twoWayForm(inp); if (f) inputs.push(f); }
     const fits = envFitMaps(inputs, { ...opts, observed: obs });
 
     const forms = new Map<number, ScoredForm>();
     for (const inp of inputs) {
       const r = fits.runsR.get(inp.cardId), l = fits.runsL.get(inp.cardId);
       if (r == null || l == null) continue;
-      const c = byId.get(Math.abs(inp.cardId))!;
+      const c = byId.get(cardIdOf(inp.cardId))!;
       const pos: ScoredForm["pos"] = {};
       if (!inp.isPitcher) for (const p of FIELD_POS) { const v = inp.ratings[`Pos Rating ${p}`]; if (v != null && v > 0) pos[p] = v; }
       const frame = inp.isPitcher ? undefined : inp.ratings.CatcherFrame;
       forms.set(inp.cardId, {
         id: inp.cardId, cardId: c.cardId, name: c.name, variant: inp.cardId < 0, isPitcher: inp.isPitcher,
-        role: inp.isPitcher ? armRole(c.pitcherRole, inp.ratings["Stamina"]) : null, runsR: r, runsL: l, pos, ...(frame != null ? { frame } : {}), val: c.cardValue,
+        role: inp.isPitcher ? armRole(isTwoWayForm(inp.cardId) ? null : c.pitcherRole, inp.ratings["Stamina"]) : null, runsR: r, runsL: l, pos, ...(frame != null ? { frame } : {}), val: c.cardValue,
       });
     }
     const tw = teamWeights(envYear ?? 2010);
@@ -292,13 +295,18 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
       spWeight: built?.spWeight ?? null, rpWeight: built?.rpWeight ?? null,
       fieldSp: built?.spWeight != null ? staff?.sp ?? null : null, fieldRp: built?.rpWeight != null ? staff?.rp ?? null : null,
     };
-    const pool = [...legal].map((id) => forms.get(id)).filter((f): f is ScoredForm => !!f);
+    const pool = [...legal].flatMap((id) => [forms.get(id), forms.get(twoWayId(id))]).filter((f): f is ScoredForm => !!f);
     const mine = [
       ...pool.filter((f) => owned.base.has(f.cardId)),
-      ...[...variantForms].filter((id) => legal.has(id)).map((id) => forms.get(-id)).filter((f): f is ScoredForm => !!f),
+      ...[...variantForms].filter((id) => legal.has(id)).flatMap((id) => [forms.get(-id), forms.get(-twoWayId(id))]).filter((f): f is ScoredForm => !!f),
     ];
+    // A saved slot holds the card id: the variant's form when saved as one, and a two-way card's other form in the other role.
+    const slotForm = (s: (typeof slots)[number]) => {
+      const sign = s.useVariant && variantRatings.has(s.cardId) ? -1 : 1;
+      return sign * formIdForSlot(s.cardId, s.slot, (id) => forms.get(sign * id));
+    };
     const team = roster
-      ? savedTeam(slots.map((s) => ({ formId: s.useVariant && variantRatings.has(s.cardId) ? -s.cardId : s.cardId, slot: s.slot, versusHand: s.versusHand })), forms)
+      ? savedTeam(slots.map((s) => ({ formId: slotForm(s), slot: s.slot, versusHand: s.versusHand })), forms)
       : bestTeam(mine, ctx);
 
     // With no saved roster, his best team is built from his cards, so a card he owns is in it by
@@ -307,10 +315,15 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
     const teamFor = (id: number) => (!roster && inTeam(id) ? bestTeam(mine.filter((f) => f.cardId !== id), ctx) : team);
     for (const id of targets) {
       if (!legal.has(id)) continue;
-      const f = (variantForms.has(id) ? forms.get(-id) : null) ?? forms.get(id);
-      if (!f) continue;
-      const fit = fitIn(f, teamFor(id), pool, ctx);
-      if (!fit) continue;
+      // A two-way card is placed in whichever role it helps more (lib/two-way).
+      const placed = [id, twoWayId(id)]
+        .map((fid) => (variantForms.has(id) ? forms.get(-fid) : null) ?? forms.get(fid))
+        .filter((g): g is ScoredForm => !!g)
+        .map((g) => ({ f: g, fit: fitIn(g, teamFor(id), pool, ctx) }))
+        .filter((x): x is { f: ScoredForm; fit: Fit } => x.fit != null)
+        .sort((a, b) => b.fit.gain - a.fit.gain || (a.fit.rank - 1) / a.fit.of - (b.fit.rank - 1) / b.fit.of)[0];
+      if (!placed) continue;
+      const { f, fit } = placed;
       const outVal = fit.swaps.slice().sort((a, b) => b.delta - a.delta)[0]?.out?.val ?? null;
       rowsBy.get(id)!.push(round({
         ...fit, eventId: t.id, variant: f.variant, played: t.series && meta ? playedIn(book, id, t.series) : null,
