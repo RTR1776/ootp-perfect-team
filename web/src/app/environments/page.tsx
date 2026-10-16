@@ -8,6 +8,7 @@
  * event's rule set, which is still the fastest way to read the whole schedule.
  */
 
+import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { tournaments } from "@/db/schema";
 import { EnvSimilarity, type TournamentEnv } from "@/components/env-similarity";
@@ -23,7 +24,8 @@ const TTL_MS = 10 * 60 * 1000;
 
 async function tournamentEnvs(): Promise<TournamentEnv[]> {
   if (cache && Date.now() - cache.at < TTL_MS) return cache.rows;
-  const list = await db.select().from(tournaments);
+  // Current events only: a retired one (an old Championship, a renamed daily) can't be entered.
+  const list = await db.select().from(tournaments).where(eq(tournaments.retired, false));
   const rows: TournamentEnv[] = [];
   for (const t of list) {
     const era = eraFor(t.envYear);

@@ -53,6 +53,8 @@ interface Props {
   dupNames: Set<string>;
   onPeek: (e: React.MouseEvent<HTMLElement>, c: BuilderCard) => void;
   clearPeek: () => void;
+  /** Buttons at the end of the toolbar (the builder's exports). */
+  toolbar?: React.ReactNode;
 }
 
 /** Where each position sits on the diamond, in % of the field box (left, top). */
@@ -226,6 +228,7 @@ export function FieldView(p: Props) {
         <span className="text-xs text-muted-foreground">
           {filled}/{p.lineupPos.length} filled · lineup <span className="font-mono text-foreground">{signed(boardTotal)}</span>
         </span>
+        {p.toolbar && <div className="ml-auto flex items-center gap-1.5">{p.toolbar}</div>}
       </div>
 
       <div className="grid gap-3 lg:grid-cols-[minmax(240px,300px)_minmax(0,1fr)]">

@@ -44,18 +44,25 @@ export function BuyBox(p: ShopInput & { onOpenShop: () => void }) {
     </div>
   );
 
+  // Folded to one line by default so the board stays near the top; the best add is in the line.
+  const top = best[0];
   return (
-    <div className="rounded-lg border border-border p-3 text-xs">
-      <div className="mb-1.5 flex items-baseline justify-between gap-2">
-        <span className="text-sm font-semibold">Recommended buys</span>
-        <button className="text-[11px] text-muted-foreground underline-offset-2 hover:underline" onClick={p.onOpenShop}>full shop →</button>
-      </div>
+    <details className="group rounded-lg border border-border p-3 text-xs">
+      <summary className="flex cursor-pointer list-none items-baseline justify-between gap-2 [&::-webkit-details-marker]:hidden">
+        <span className="min-w-0 truncate">
+          <span className="text-sm font-semibold"><span className="inline-block text-muted-foreground transition-transform group-open:rotate-90">›</span> Recommended buys</span>
+          {top && <span className="ml-2 text-muted-foreground">best add {top.u.name} {top.u.pos} <span className="font-mono text-positive">+{top.gain.toFixed(1)}</span> · {pts(top.price)}</span>}
+        </span>
+        <button className="shrink-0 text-[11px] text-muted-foreground underline-offset-2 hover:underline" onClick={(e) => { e.preventDefault(); p.onOpenShop(); }}>full shop →</button>
+      </summary>
+      <div className="mt-1.5">
       <div className="grid gap-3 sm:grid-cols-3">
         {col("Biggest adds", "Most runs added to the roster on the page, any price", best)}
         {col("Best value", "Most runs per PP among buys worth half a run or more", value)}
         {col("Variant upgrades", "Variants of cards you play; ratings estimated at the typical bump, priced at the variant's last-10", variants)}
       </div>
       <p className="mt-1.5 text-[10.5px] text-muted-foreground">Runs per 700 added to this board (one-card swap) · price is the lowest ask, else last-10 · hover a name for where it plays.</p>
-    </div>
+      </div>
+    </details>
   );
 }
