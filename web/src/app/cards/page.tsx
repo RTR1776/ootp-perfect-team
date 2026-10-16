@@ -28,6 +28,7 @@ import { eraFor, eraTable, parkFor } from "@/lib/analytics/tournament-env";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { blendRuns, loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
 import { PageHeader } from "@/components/page-header";
+import { SectionTabs } from "@/components/section-tabs";
 import { CircleDot, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -138,6 +139,7 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
+      <SectionTabs section="cards" />
       <PageHeader
         eyebrow="Scout"
         title="Cards"

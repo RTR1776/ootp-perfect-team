@@ -187,6 +187,19 @@ const composite = (
   return percentileMap(raw);
 };
 
+/**
+ * How far observed play moves a card's two boards (both by the same amount).
+ * Blended on the both-hands read, against the base card's model when given
+ * (a variant keeps its boost), else against this form's own:
+ * (n·obs + K·both)/(n+K) − both.
+ */
+export function observedShift(r: number, l: number, ob: { runs: number; n: number; model?: number | null }, K = OBS_K_DEFAULT): number {
+  if (!(ob.n > 0)) return 0;
+  const both = 0.7 * r + 0.3 * l;
+  const ref = ob.model != null && Number.isFinite(ob.model) ? ob.model : both;
+  return (ob.n / (ob.n + K)) * (ob.runs - ref);
+}
+
 export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvFits {
   const defWeight = o.defWeight ?? 0.17;
   const envLeft = solveSide(o.era, o.park, 1);
@@ -282,15 +295,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
     if (r != null) r += eraFix(c, "R") + extra(c, "R");
     if (l != null) l += eraFix(c, "L") + extra(c, "L");
     const ob = o.observed?.get(c.cardId);
-    if (ob && ob.n > 0 && r != null && l != null) {
-      // Blend on the both-hands read, then move both boards by the same amount.
-      // Against the base card's model when given (a variant keeps its boost),
-      // else against this form's own: (n·obs + K·both)/(n+K) − both.
-      const both = 0.7 * r + 0.3 * l;
-      const ref = ob.model != null && Number.isFinite(ob.model) ? ob.model : both;
-      const shift = (ob.n / (ob.n + K)) * (ob.runs - ref);
-      r += shift; l += shift;
-    }
+    if (ob && r != null && l != null) { const shift = observedShift(r, l, ob, K); r += shift; l += shift; }
     if (r != null) runsR.set(c.cardId, r);
     if (l != null) runsL.set(c.cardId, l);
   }

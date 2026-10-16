@@ -15,6 +15,7 @@ import { EnvSimilarity, type TournamentEnv } from "@/components/env-similarity";
 import { EnvironmentsCatalog } from "@/components/environments-catalog";
 import { eraFor, parkFor, solveFor, vectorOf } from "@/lib/analytics/tournament-env";
 import { PageHeader } from "@/components/page-header";
+import { SectionTabs } from "@/components/section-tabs";
 
 export const dynamic = "force-dynamic";
 
@@ -54,6 +55,7 @@ export default async function EnvironmentsPage() {
   const rows = await tournamentEnvs();
   return (
     <div className="flex flex-col gap-4">
+      <SectionTabs section="environments" />
       <PageHeader
         eyebrow="Environment"
         title="Environments"

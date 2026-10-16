@@ -22,6 +22,7 @@ import { CardName } from "@/components/card-name";
 import { EventPicker, NO_EVENT_ID, type PickerGroup } from "@/components/event-picker";
 import { FilterBar } from "@/components/filter-bar";
 import { PageHeader } from "@/components/page-header";
+import { SectionTabs } from "@/components/section-tabs";
 import { RulesStrip } from "@/components/rules-strip";
 import { Section } from "@/components/section";
 import { SetFilter } from "@/components/set-filter";
@@ -308,7 +309,8 @@ export function PlayedBoard({ lines, k, collectionDate, groups, event, eventPara
 
   return (
     <div className="flex flex-col gap-4">
-      <PageHeader title="Played" description="Who has actually produced, by value window and position." />
+      <SectionTabs section="cards" />
+      <PageHeader eyebrow="Scout · Cards" title="Leaderboard" description="Who has actually produced, by value window and position." />
 
       <div className="flex flex-col gap-1.5">
         <EventPicker

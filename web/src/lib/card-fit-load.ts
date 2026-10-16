@@ -19,7 +19,7 @@
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, importBatches, rosters, rosterSlots, seriesMeta, tournaments, uploads } from "@/db/schema";
-import { envFitMaps, type EnvFitInput } from "@/lib/analytics/env-fit";
+import { envFitMaps, observedShift, type EnvFitInput } from "@/lib/analytics/env-fit";
 import { bothHands, loadObservedBook, observedRunsFrom, type ObservedBook, type ObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraFor, eraTable, parkFor } from "@/lib/analytics/tournament-env";
 import { gloveScale } from "@/lib/analytics/fielding";
@@ -250,6 +250,29 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
     const meta = t.series && !staleSeries.has(t.id) ? metaBy.get(t.series) ?? null : null;
     const lhp = meta?.lhpBfShare ?? LHP_SHARE_DEFAULT, lhb = meta?.lhbPaShare ?? 0.35;
     const opts = { era: era.rates, park: parkPick.row, roleTrust: ROLE_TRUST, leagueLhbShare: lhb, eraYear: envYear ?? 2010, runsOnly: true, tournamentTerms: true };
+    const roster = newest.get(t.id);
+    const slots = roster ? slotRows.filter((s) => s.rosterId === roster.id) : [];
+
+    const tags: string[] = [];
+    const types = rx?.cardTypes?.map(parseCardTypeRule);
+    if (types?.length && types.every((x) => x)) tags.push((types.flat() as number[]).map((c) => CARD_TYPE_SHORT[c] ?? c).join("+"));
+    if (t.cardYearMin != null || t.cardYearMax != null) tags.push(`cards ${range(t.cardYearMin, t.cardYearMax)}`);
+    if (rx?.teamCap != null) tags.push(`cap ${rx.teamCap}`);
+    if (rx?.slots) tags.push("slots");
+    if (rx?.variantsAllowed === false || rx?.variantCap === 0) tags.push("no variants");
+    else if (rx?.variantCap != null) tags.push(`variants ≤${rx.variantCap}`);
+    if (rx?.noLimitedEdition) tags.push("no LE");
+    const rosterValue = roster ? [...new Set(slots.map((s) => s.cardId))].reduce((sum, id) => sum + (byId.get(id)?.cardValue ?? 0), 0) : null;
+    outEvents.push({
+      id: t.id, name: t.name, group: eventGroupOf(t)!, tier: fitTier(t), window: rx?.slots && t.ratingsMax == null ? "slots" : range(t.ratingsMin, t.ratingsMax),
+      env: `${envYear ?? "PT default"}${envYear ? " RE" : ""} · ${t.stadium ?? "no park listed"}`, rules: tags, dh: t.dh === true, lhp: Math.round(lhp * 100) / 100,
+      team: roster ? { kind: "saved", name: roster.name } : { kind: "best" },
+      cap: rx?.teamCap != null ? { cap: rx.teamCap, spare: rosterValue == null ? null : rx.teamCap - rosterValue } : null,
+    });
+
+    // Scoring an event is most of the cost (about 0.1 s each): none where no target is legal.
+    const legal = new Set(universe.filter((c) => legalCard(c, rules)).map((c) => c.cardId));
+    if (!targets.some((id) => legal.has(id))) continue;
 
     const base = envFitMaps(allInputs, opts);
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };
@@ -257,12 +280,9 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
 
     // The forms read with play blended in: every legal base card, his legal variants, the targets and his saved roster.
     const variantsOk = rx?.variantsAllowed !== false && rx?.variantCap !== 0;
-    const legal = new Set(universe.filter((c) => legalCard(c, rules)).map((c) => c.cardId));
     const want = new Set<number>(legal);
     const variantForms = new Set<number>();
     if (variantsOk) for (const id of variantRatings.keys()) if (legal.has(id)) variantForms.add(id);
-    const roster = newest.get(t.id);
-    const slots = roster ? slotRows.filter((s) => s.rosterId === roster.id) : [];
     for (const s of slots) { if (s.useVariant && variantRatings.has(s.cardId)) variantForms.add(s.cardId); else want.add(s.cardId); }
     const inputs: EnvFitInput[] = [];
     const obs = new Map<number, ObservedRuns>();
@@ -270,12 +290,23 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
     for (const id of variantForms) { const c = byId.get(id)!; inputs.push(inputOf(c, variantRatings.get(id), -id)); const o = observed.get(id); if (o) obs.set(-id, o); }
     // Two-way cards (lib/two-way): each form also in the role it isn't listed in (no observed line).
     for (const inp of [...inputs]) { const f = twoWayForm(inp); if (f) inputs.push(f); }
-    const fits = envFitMaps(inputs, { ...opts, observed: obs });
+    // A base card reads as the catalogue pass read it, with its play blended in; only variants
+    // and two-way forms need scoring again.
+    const rescored = envFitMaps(inputs.filter((inp) => inp.cardId < 0 || isTwoWayForm(inp.cardId)), { ...opts, observed: obs });
+    const runsOf = (id: number): [number, number] | null => {
+      const m = id < 0 || isTwoWayForm(id) ? rescored : base;
+      const r = m.runsR.get(id), l = m.runsL.get(id);
+      if (r == null || l == null) return null;
+      const o = m === base ? obs.get(id) : undefined;
+      const shift = o ? observedShift(r, l, o) : 0;
+      return [r + shift, l + shift];
+    };
 
     const forms = new Map<number, ScoredForm>();
     for (const inp of inputs) {
-      const r = fits.runsR.get(inp.cardId), l = fits.runsL.get(inp.cardId);
-      if (r == null || l == null) continue;
+      const runs = runsOf(inp.cardId);
+      if (!runs) continue;
+      const [r, l] = runs;
       const c = byId.get(cardIdOf(inp.cardId))!;
       const pos: ScoredForm["pos"] = {};
       if (!inp.isPitcher) for (const p of FIELD_POS) { const v = inp.ratings[`Pos Rating ${p}`]; if (v != null && v > 0) pos[p] = v; }
@@ -331,22 +362,6 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
       }));
     }
 
-    const tags: string[] = [];
-    const types = rx?.cardTypes?.map(parseCardTypeRule);
-    if (types?.length && types.every((x) => x)) tags.push((types.flat() as number[]).map((c) => CARD_TYPE_SHORT[c] ?? c).join("+"));
-    if (t.cardYearMin != null || t.cardYearMax != null) tags.push(`cards ${range(t.cardYearMin, t.cardYearMax)}`);
-    if (rx?.teamCap != null) tags.push(`cap ${rx.teamCap}`);
-    if (rx?.slots) tags.push("slots");
-    if (rx?.variantsAllowed === false || rx?.variantCap === 0) tags.push("no variants");
-    else if (rx?.variantCap != null) tags.push(`variants ≤${rx.variantCap}`);
-    if (rx?.noLimitedEdition) tags.push("no LE");
-    const rosterValue = roster ? [...new Set(slots.map((s) => s.cardId))].reduce((sum, id) => sum + (byId.get(id)?.cardValue ?? 0), 0) : null;
-    outEvents.push({
-      id: t.id, name: t.name, group: eventGroupOf(t)!, tier: fitTier(t), window: rx?.slots && t.ratingsMax == null ? "slots" : range(t.ratingsMin, t.ratingsMax),
-      env: `${envYear ?? "PT default"}${envYear ? " RE" : ""} · ${t.stadium ?? "no park listed"}`, rules: tags, dh: ctx.dh, lhp: Math.round(lhp * 100) / 100,
-      team: roster ? { kind: "saved", name: roster.name } : { kind: "best" },
-      cap: rx?.teamCap != null ? { cap: rx.teamCap, spare: rosterValue == null ? null : rx.teamCap - rosterValue } : null,
-    });
   }
 
   const price = new Map(snaps.map((s) => [s.cardId, s]));

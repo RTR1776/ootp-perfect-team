@@ -1,5 +1,5 @@
 import {
-  CandlestickChart, Crosshair, Gauge, Hammer, Hourglass, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
+  CandlestickChart, Crosshair, Hammer, LayoutGrid, Medal, Search, Trophy, Upload, Wind,
   type LucideIcon,
 } from "lucide-react";
 
@@ -24,18 +24,16 @@ export const NAV: NavGroup[] = [
     label: "Play",
     items: [
       { href: "/build", label: "Build", icon: Hammer, hint: "Roster for an event, scored in its era and park" },
-      { href: "/draft", label: "Draft Board", icon: LayoutGrid, hint: "Best available by position, gloves priced in" },
       { href: "/ptcs", label: "PTCS", icon: Medal, hint: "Qualifying points, pace and berth lines" },
+      { href: "/draft", label: "Draft Board", icon: LayoutGrid, hint: "Live drafts: best available by position, gloves priced in" },
     ],
   },
   {
     label: "Scout",
     items: [
-      { href: "/needs", label: "Needs", icon: Crosshair, hint: "Where your cards are weakest by tier and spot, and what to buy at what price" },
-      { href: "/cards", label: "Cards", icon: Search, hint: "New cards and where each one fits for you; any card's projection and play" },
-      { href: "/played", label: "Played", icon: ListOrdered, hint: "Every card with tournament play, ranked by runs" },
-      { href: "/market", label: "Market", icon: CandlestickChart, hint: "Prices, value per PP and movers" },
-      { href: "/eras", label: "Era Strength", icon: Hourglass, hint: "Your cards against the best in five eras, and what to buy" },
+      { href: "/needs", label: "Needs", icon: Crosshair, hint: "Where your cards are weakest by tier and spot, and what to buy at what price", also: ["/eras"] },
+      { href: "/cards", label: "Cards", icon: Search, hint: "New cards and where each one fits for you; any card's projection, play and the leaderboard", also: ["/played"] },
+      { href: "/market", label: "Market", icon: CandlestickChart, hint: "Prices, value per PP, movers and sell candidates" },
     ],
   },
   {
@@ -48,8 +46,7 @@ export const NAV: NavGroup[] = [
   {
     label: "Environment",
     items: [
-      { href: "/runenv", label: "Run Environment", icon: Gauge, hint: "Era + park: which ratings pay" },
-      { href: "/environments", label: "Environments", icon: Wind, hint: "How each tournament plays" },
+      { href: "/environments", label: "Environments", icon: Wind, hint: "How each tournament plays; pick an era and a park to see which ratings pay", also: ["/runenv"] },
     ],
   },
   {

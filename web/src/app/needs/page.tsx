@@ -10,6 +10,7 @@ import { db } from "@/db/client";
 import { importBatches } from "@/db/schema";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
+import { SectionTabs } from "@/components/section-tabs";
 import { NeedsBoard } from "@/components/needs-board";
 import { latestSources, loadEraStrength } from "@/lib/era-strength-load";
 import { loadNeeds } from "@/lib/needs-load";
@@ -29,11 +30,12 @@ export default async function NeedsPage() {
   const data = await unstable_cache(() => loadNeeds(era), ["needs", "v1", ...key], { revalidate: 3600, tags: ["needs"] })();
   return (
     <div className="flex flex-col gap-4">
+      <SectionTabs section="needs" />
       <PageHeader
         eyebrow="Scout"
         title="Needs"
         description="Where your cards are weakest, tier by tier and spot by spot, and what to buy at what price."
-        about={`Gaps are Era Strength's: your best card at each spot against the best legal card in the tier, each card once, over five eras in a neutral park. Tiers are ordered by how much you play them this PTCS period. Prices are the shop list's ask, bid and last-10 over the last two weeks. Collection ${data.collectionDate ?? "?"} · shop ${data.shopDate ?? "?"}.`}
+        about={`Gaps are the By era tab's: your best card at each spot against the best legal card in the tier, each card once, over five eras in a neutral park. Tiers are ordered by how much you play them this PTCS period. Prices are the shop list's ask, bid and last-10 over the last two weeks. Collection ${data.collectionDate ?? "?"} · shop ${data.shopDate ?? "?"}.`}
       />
       <NeedsBoard data={data} />
     </div>
