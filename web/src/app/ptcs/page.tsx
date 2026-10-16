@@ -15,9 +15,9 @@
  */
 
 import Link from "next/link";
-import { and, asc, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { dailyTotals, myResults, periods, results, uploads } from "@/db/schema";
+import { myResults, periods, uploads } from "@/db/schema";
 import type { DumpStandings } from "@/lib/analytics/dumps";
 import LADDER from "@/data/ptcs-ladder.json";
 import STORED_LINES from "@/data/ptcs-lines.json";
@@ -30,10 +30,11 @@ import { daysAgo, range } from "@/lib/format";
 import { CATEGORIES } from "@/lib/ingest/constants";
 import {
   FORECAST_MIN_DAYS, NOT_PLAYING_FROM_DAY, SAFE_MARGIN,
-  lastDataIndex, periodCalendar, standings, todayInChicago, verdictLabel, type StandingRow, type Verdict,
+  lastDataIndex, standings, todayInChicago, verdictLabel, type StandingRow, type Verdict,
 } from "@/lib/ptcs-progress";
-import { dumpEvent, mergeDays, type LedgerEvent } from "@/lib/result-ledger";
+import { loadPeriodLedger } from "@/lib/period-ledger";
 import { PageHeader } from "@/components/page-header";
+import { SectionTabs } from "@/components/section-tabs";
 import { StatTile } from "@/components/stat-tile";
 
 export const dynamic = "force-dynamic";
@@ -77,22 +78,6 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
       />
     );
   }
-
-  const rows = await db
-    .select()
-    .from(dailyTotals)
-    .where(eq(dailyTotals.periodId, period.id))
-    .orderBy(asc(dailyTotals.occurredOn));
-  // The per-event ledger for this period - what result entry writes.
-  const ledger = await db
-    .select()
-    .from(results)
-    .where(eq(results.periodId, period.id))
-    .orderBy(desc(results.occurredOn), desc(results.id));
-  const events: LedgerEvent[] = ledger.map((r) => ({
-    eventId: r.eventId, name: r.name, occurredOn: r.occurredOn, categories: r.categories,
-    points: r.points, fieldSize: r.fieldSize, placement: r.placement, eliminated: r.eliminated,
-  }));
 
   // Latest community-dump standings, one per source (tournaments / drafts).
   const dumpUploads = await db
@@ -144,19 +129,9 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
   const totalPoints = myRows.reduce((s, r) => s + r.points, 0);
   const wins = myRows.filter((r) => r.finish === 1).length;
   const recent = myRows.slice(0, 14);
-  const dumpEvents = myRows
-    .filter((r) => r.categories !== "")
-    .map(dumpEvent)
-    .filter((e) => period.startsOn <= e.occurredOn && e.occurredOn <= period.endsOn);
-
-  const { today, dates, totalDays, elapsed, daysLeft, finished } = periodCalendar(period.startsOn, period.endsOn);
-  // One source per day for the imported tracker; logged events and the dump's
-  // never-logged ones count together, each event once.
-  const days = mergeDays(
-    dates, CATEGORIES,
-    rows.map((r) => ({ occurredOn: r.occurredOn, category: r.category, points: r.points, note: r.note })),
-    [...events, ...dumpEvents],
-  );
+  // The period day by day, every source merged (lib/period-ledger; /qualifying reads the same).
+  const { events, calendar, days } = await loadPeriodLedger(period, myRows);
+  const { today, dates, totalDays, elapsed, daysLeft, finished } = calendar;
   const byDate = new Map(days.map((d) => [d.date, d]));
   const conflicts = days.filter((d) => d.conflict);
   const loggedDays = days.filter((d) => d.source === "results").length;
@@ -208,6 +183,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
 
   return (
     <div className="flex flex-col gap-4">
+      <SectionTabs section="ptcs" />
       <PageHeader
         eyebrow="PTCS qualifying"
         title={period.name}
@@ -563,7 +539,10 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
         )}
 
         <section>
-          <h3 className="mb-1 text-sm font-semibold">The championship ladder — PTCS → PTMS → PTWC</h3>
+          <h3 className="mb-1 text-sm font-semibold">The championship ladder — PTCS 1–5</h3>
+          <p className="mb-1 text-xs text-muted-foreground">
+            PTCS 6 on, with PTMS 3 and PTWC 2, is on the <Link href="/qualifying" className="underline">PTMS · PTWC</Link> tab.
+          </p>
           <p className="mb-4 text-xs text-muted-foreground">
             Cumulative: <span className="font-mono">{cumT}</span> tournament ·{" "}
             <span className="font-mono">{cumD}</span> perfect-draft points. Top 128 of each standing

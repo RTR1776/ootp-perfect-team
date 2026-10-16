@@ -312,13 +312,19 @@ export const dailyTotals = pgTable(
   ],
 );
 
-/** Championship-ladder finishes — a separate scoring system from the above. */
+/**
+ * Championship-ladder finishes — a separate scoring system from the above —
+ * and the other PTWC inputs entered on /qualifying (lib/qualifying-load):
+ * standing "league" is a league season's final place (event "League",
+ * berth = the league, occurred_on = the week's Sunday, placement = the place),
+ * standing "live" is the PT Live leaderboard total (points = raw points).
+ */
 export const ptcsFinishes = pgTable("ptcs_finishes", {
   id: serial("id").primaryKey(),
-  event: text("event").notNull(), // "PTCS 5"
+  event: text("event").notNull(), // "PTCS 5" | "PTMS 3" | "League" | "PT Live"
   occurredOn: date("occurred_on"),
-  berth: text("berth"), // which category berth was played
-  standing: text("standing").notNull(), // tournament | perfect_draft
+  berth: text("berth"), // which category berth was played; the league for a league row
+  standing: text("standing").notNull(), // tournament | perfect_draft | league | live
   placement: text("placement").notNull(),
   points: integer("points").notNull(),
 });
