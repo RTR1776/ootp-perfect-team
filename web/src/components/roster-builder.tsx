@@ -1548,8 +1548,8 @@ export function RosterBuilder({
     const top = meta?.construction?.groups.find((g) => g.key === "top");
     const sum = (k: "sp" | "rp" | "bats" | "bench") => top ? Object.values(top.tiers).reduce((n, t) => n + ((t as Record<string, number>)[k] ?? 0), 0) : 0;
     const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
-    return auditRoster({ slots: filled, cards: byId as unknown as Map<number, { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }>, lineupPos, envYear: tournament?.envYear, posFloor: LJ_FLOOR, field });
-  }, [slots, byId, lineupPos, tournament?.envYear, meta]);
+    return auditRoster({ slots: filled, cards: byId as unknown as Map<number, { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }>, lineupPos, envYear: tournament?.envYear, posFloor: LJ_FLOOR, field, runs: envFits ? { R: envFits.runsR, L: envFits.runsL } : null });
+  }, [slots, byId, lineupPos, tournament?.envYear, meta, envFits]);
 
   const summary = useMemo(() => {
     const lineupIds = lineupPos.map((p) => slots[`R:${p}`]).filter((v): v is number => v != null);

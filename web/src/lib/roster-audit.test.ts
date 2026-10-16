@@ -43,3 +43,16 @@ test("the passing checks collapse to one row, the failing ones stay whole", () =
   const cf = auditSummary([{ ok: true, text: "", short: "C backup" }, { ok: false, text: "CF backup: NONE", short: "CF backup" }]);
   assert.equal(cf.passed, "C backup", "a missing backup somewhere: name the ones that pass");
 });
+
+test("a clear platoon bat on his weak side is a platoon hole; a bat good both ways is not", () => {
+  const bats = [
+    { cardId: 1, name: "Bailey", isPitcher: false, ratings: { "Pos Rating C": 112 } },
+    { cardId: 2, name: "Matsui", isPitcher: false, ratings: {} },
+  ];
+  const R = new Map([[1, 32.3], [2, 33.3]]), L = new Map([[1, -26.8], [2, 57.6]]);
+  const lines = auditRoster({ slots: { "R:C": 1, "L:C": 1, "R:DH": 2, "L:DH": 2 }, cards: new Map(bats.map((c) => [c.cardId, c])), lineupPos: ["C", "DH"], envYear: 2010, posFloor: LJ_FLOOR, runs: { R, L } });
+  const p = lines.find((l) => l.short === "platoons")!;
+  assert.equal(p.ok, false);
+  assert.match(p.text, /Bailey C vs LHP/);
+  assert.doesNotMatch(p.text, /Matsui/);
+});

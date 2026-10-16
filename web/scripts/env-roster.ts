@@ -114,7 +114,7 @@ const COMPARE_ONLY = flag("compare-only");
 const MIN_CATCHERS = num("min-catchers", 2)!;
 /** Shortstops the optimiser must carry: a backup SS (L.J. 2026-10-04); --min-ss 0 turns it off. */
 const MIN_SS = num("min-ss", 2)!;
-/** Long men (pen arms with stamina ≥ 45) the optimiser must carry (L.J. 2026-10-04); --min-long 0 turns it off. */
+/** Long men (pen arms with stamina ≥ LONG_MAN_STAMINA, 60) the optimiser must carry (L.J. 2026-10-04); --min-long 0 turns it off. */
 const MIN_LONG = num("min-long", 2)!;
 /** A backup at every fielding position (L.J. 2026-10-04); --no-backups turns it off. */
 const BACKUPS = !flag("no-backups");
@@ -697,7 +697,7 @@ async function main() {
     const sum = (k: string) => top ? Object.values(top.tiers as Record<string, Record<string, number>>).reduce((n, t) => n + (t[k] ?? 0), 0) : 0;
     const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
     console.log("\n--- roster check ---");
-    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
+    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, runs: { R: fits.runsR, L: fits.runsL } })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
   }
   const spend = rostered.filter((c) => (prices.get(c.cardId) ?? 0) > 0).length;
   if (spend) console.log(`(${spend} of ${rostered.length} have a live ask in the last shop snapshot)`);

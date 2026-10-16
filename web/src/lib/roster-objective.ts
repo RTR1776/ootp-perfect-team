@@ -60,6 +60,21 @@ export function penTilt(n: number): number[] {
   return raw.map((x) => x / mean);
 }
 export const LHP_SHARE_DEFAULT = 0.3;
+/**
+ * A clear platoon bat never starts on his weak side (L.J. 10-16, after Ed
+ * Bailey caught every game against lefties at -26.8 with Buck Rodgers, -34, as
+ * the only other catcher). "Clear" is a bat below PLATOON_WEAK runs per 700 PA
+ * on that board AND at least PLATOON_GAP better on the other; a bat good both
+ * ways (Matsui, Bautista) is never touched. The penalty is a fixed cost, not
+ * board-weighted, so the optimiser pays real cap for the other side of the
+ * platoon rather than live with the hole.
+ */
+export const PLATOON_WEAK = -10;
+export const PLATOON_GAP = 25;
+export const PLATOON_PENALTY = 50;
+export function platoonHole(onBoard: number | undefined, otherBoard: number | undefined): boolean {
+  return onBoard != null && otherBoard != null && onBoard < PLATOON_WEAK && otherBoard - onBoard >= PLATOON_GAP;
+}
 const FIELD_POS = /^(C|1B|2B|3B|SS|LF|CF|RF)$/;
 
 export interface ObjectiveOptions {
@@ -129,8 +144,8 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
   const spSet = new Set(shape.spKeys), rpSet = new Set(shape.rpKeys), bnSet = new Set(shape.benchKeys);
   const otherKeys = [...shape.spKeys, ...shape.rpKeys, ...shape.benchKeys];
   const slotValue = (key: string, id: number): number => {
-    if (key.startsWith("R:")) return (1 - lhp) * ((runsR.get(id) ?? 0) + defAt(id, key.slice(2)));
-    if (key.startsWith("L:")) return lhp * ((runsL.get(id) ?? 0) + defAt(id, key.slice(2)));
+    if (key.startsWith("R:")) return (1 - lhp) * ((runsR.get(id) ?? 0) + defAt(id, key.slice(2))) - (platoonHole(runsR.get(id), runsL.get(id)) ? PLATOON_PENALTY : 0);
+    if (key.startsWith("L:")) return lhp * ((runsL.get(id) ?? 0) + defAt(id, key.slice(2))) - (platoonHole(runsL.get(id), runsR.get(id)) ? PLATOON_PENALTY : 0);
     if (spSet.has(key)) return spW * (runsR.get(id) ?? 0);
     if (rpSet.has(key)) return rpW * (tilt.get(key) ?? 1) * (runsR.get(id) ?? 0);
     if (bnSet.has(key)) return bnW * (runsR.get(id) ?? 0);

@@ -14,6 +14,7 @@
  */
 import { MAX_ARMS, MAX_RP, MAX_SP } from "./roster-fill";
 import { posFloorAt, type PosFloor } from "./pos-floor";
+import { platoonHole } from "./roster-objective";
 
 export interface AuditCard { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }
 export interface FieldShape { sp: number; rp: number; bats: number; label: string }
@@ -43,7 +44,8 @@ export function starterStaminaFloor(envYear: number | null | undefined): number 
   if (envYear >= 1920) return 70;
   return 80;
 }
-export const LONG_MAN_STAMINA = 45;
+/** A long man: a pen arm who can go multiple innings. L.J. 10-16: "at least two to three bullpen have 60 plus Stam types" (was 45). */
+export const LONG_MAN_STAMINA = 60;
 
 export function auditRoster(o: {
   slots: Record<string, number>;
@@ -52,6 +54,8 @@ export function auditRoster(o: {
   envYear: number | null | undefined;
   posFloor: PosFloor | null | undefined;
   field?: FieldShape | null;
+  /** Each bat's runs per 700 PA by board; given, the check names any clear platoon bat starting on his weak side. */
+  runs?: { R: ReadonlyMap<number, number>; L: ReadonlyMap<number, number> } | null;
 }): AuditLine[] {
   const out: AuditLine[] = [];
   const get = (id: number | undefined) => (id == null ? undefined : o.cards.get(id));
@@ -71,6 +75,17 @@ export function auditRoster(o: {
   out.push({ ok: short.length === 0, text: `starters' stamina ${sp.map((c) => `${c.name} ${c.ratings.Stamina ?? "?"}`).join(", ")} (era floor ${floor})${short.length ? ` — SHORT: ${short.map((c) => c.name).join(", ")}` : ""}${close.length ? ` — just under: ${close.map((c) => c.name).join(", ")}` : ""}`, short: "starters' stamina" });
   const long = rp.filter((c) => (c.ratings.Stamina ?? 0) >= LONG_MAN_STAMINA);
   out.push({ ok: long.length >= 2, text: long.length ? `stamina guys in the pen (${LONG_MAN_STAMINA}+): ${long.map((c) => `${c.name} ${c.ratings.Stamina}`).join(", ")}${long.length < 2 ? " — need 2" : ""}` : `no long man: every reliever under stamina ${LONG_MAN_STAMINA}`, short: `${long.length} long men` });
+
+  if (o.runs) {
+    const { R, L } = o.runs;
+    const holes: string[] = [];
+    for (const pos of o.lineupPos) {
+      const r = o.slots[`R:${pos}`], l = o.slots[`L:${pos}`];
+      if (r != null && platoonHole(R.get(r), L.get(r))) holes.push(`${get(r)?.name ?? r} ${pos} vs RHP (${R.get(r)!.toFixed(1)})`);
+      if (l != null && platoonHole(L.get(l), R.get(l))) holes.push(`${get(l)?.name ?? l} ${pos} vs LHP (${L.get(l)!.toFixed(1)})`);
+    }
+    out.push({ ok: holes.length === 0, text: holes.length ? `platoon hole: ${holes.join(", ")} — needs the other side of the platoon` : "platoons: no clear platoon bat starts on his weak side", short: "platoons" });
+  }
 
   for (const pos of o.lineupPos) {
     if (pos === "DH") continue;

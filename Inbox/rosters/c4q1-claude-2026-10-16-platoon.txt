@@ -1,0 +1,36 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-10-16 platoon: seeded from L.J.'s 10-15 roster (Cliff Lee SP2), --sp-weight 1.3 --rp-weight 0.40 (field: rotation-heavy deep teams, c4q1_22), platoon rule + 60-stamina long men (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --obs-exclude c4q1 --sp 5 --rp 7 --bats 14)
+R:C Thurman Munson #82714
+R:1B Pedro Alvarez #87062
+R:2B Arjun Nimmala (VAR) #84745
+R:3B Jose Bautista #87073
+R:SS Jeremy Pena #87154
+R:LF Eric Davis (VAR) #86974
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Hideki Matsui #87042
+L:C Thurman Munson #82714
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Javier Baez (VAR) #86417
+L:3B Jose Bautista #87073
+L:SS Jeremy Pena #87154
+L:LF Eric Davis (VAR) #86974
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Hideki Matsui #87042
+SP1 Jack Coombs #85937
+SP2 Cliff Lee (VAR) #85693
+SP3 Fritz Ostermueller #86357
+SP4 James McDonald (VAR) #86384
+SP5 Bruce Hurst #86361
+CL Mike Marshall #84720
+RP1 Chuck Finley (VAR) #85338
+RP2 Randy Choate #87026
+RP3 Justin Verlander #87014
+RP4 Tin Can Kincannon #86073
+RP5 Todd Jones (VAR) #86434
+RP6 R.T. Walker #86952
+BN1 George Sisler (VAR) #87002
+BN2 Javier Baez (VAR) #86417
+BN3 Jay Johnstone #86373
+BN4 Charlie Eden #82834
+BN5 Buck Rodgers #84312
