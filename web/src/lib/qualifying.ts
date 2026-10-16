@@ -66,8 +66,32 @@ export function leaguePoints(tier: LeagueTier, place: number): number {
   return LEAGUE_TABLE[tier].find(([last]) => place <= last)![1];
 }
 
+/**
+ * How a league season ends, as the team history screen shows it: the table's
+ * places are a 16-team playoff bracket, so a season is entered by its outcome.
+ * `place` is the band's last place, for leaguePoints.
+ */
+export const LEAGUE_BANDS: readonly { band: string; label: string; place: number }[] = [
+  { band: "1st", label: "Won the league", place: 1 },
+  { band: "2nd", label: "Lost the final", place: 2 },
+  { band: "3rd-4th", label: "Lost in the semis", place: 4 },
+  { band: "5th-8th", label: "Lost in the quarters", place: 8 },
+  { band: "9th-16th", label: "Made playoffs, out first round", place: 16 },
+  { band: "17th-last", label: "Missed playoffs", place: 17 },
+];
+
+export const leagueBand = (band: string) => LEAGUE_BANDS.find((b) => b.band === band) ?? null;
+
 /** PT Live leaderboard points count at 1/50. */
 export const LIVE_DIVISOR = 50;
+
+/** PTWC 2 takes PT Live points from Aug 24 to the end of the World Series, entered month by month. */
+export const LIVE_MONTHS: readonly { month: string; label: string }[] = [
+  { month: "2026-08", label: "Aug 24–31" },
+  { month: "2026-09", label: "September" },
+  { month: "2026-10", label: "October" },
+  { month: "2026-11", label: "November, to the World Series" },
+];
 
 export interface Milestone { name: string; on: string; note: string }
 

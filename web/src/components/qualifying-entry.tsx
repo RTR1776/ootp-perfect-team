@@ -1,6 +1,6 @@
 "use client";
 
-/** The small forms on /qualifying: a PTCS or PTMS finish, a league place, PT Live points. */
+/** The small forms on /qualifying: a PTCS or PTMS finish or total, a league season, PT Live points by month. */
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -45,32 +45,52 @@ export function FinishEntry({ events, berths, placements, defaultEvent }: { even
   );
 }
 
-export function LeagueEntry({ weeks }: { weeks: { week: string; league: string }[] }) {
+export function EventTotalEntry({ events }: { events: string[] }) {
+  const { busy, msg, send } = useSend();
+  const [event, setEvent] = useState(events[0]);
+  const [points, setPoints] = useState("");
+  return (
+    <div className="flex flex-wrap items-center gap-2 text-xs">
+      <select aria-label="Event" className={SELECT} value={event} onChange={(e) => setEvent(e.target.value)}>{events.map((e) => <option key={e}>{e}</option>)}</select>
+      <Input aria-label="Event total" inputMode="numeric" className="h-8 w-24 text-xs" placeholder="total pts" value={points} onChange={(e) => setPoints(e.target.value.replace(/\D/g, ""))} />
+      <Button size="sm" variant="outline" disabled={busy || !points} onClick={async () => { if (await send({ method: "POST", body: JSON.stringify({ kind: "total", event, points: Number(points) }) })) setPoints(""); }}>Save total</Button>
+      {msg && <span className="text-negative">{msg}</span>}
+    </div>
+  );
+}
+
+export function LeagueEntry({ weeks, bands }: { weeks: { week: string; league: string }[]; bands: { band: string; label: string }[] }) {
   const { busy, msg, send } = useSend();
   const [week, setWeek] = useState(weeks[weeks.length - 1]?.week ?? "");
   const [league, setLeague] = useState(weeks[weeks.length - 1]?.league ?? "");
-  const [place, setPlace] = useState("");
-  const pick = (w: string) => { setWeek(w); const l = weeks.find((x) => x.week === w)?.league; if (l && l !== "?") setLeague(l); };
+  const [band, setBand] = useState(bands[bands.length - 1].band);
+  const pick = (w: string) => { setWeek(w); const l = weeks.find((x) => x.week === w)?.league; setLeague(l && l !== "?" ? l : ""); };
   return (
     <div className="flex flex-wrap items-center gap-2 text-xs">
       <select aria-label="Week" className={SELECT} value={week} onChange={(e) => pick(e.target.value)}>
         {weeks.map((w) => <option key={w.week} value={w.week}>week of {w.week.slice(5)}</option>)}
       </select>
       <Input aria-label="League" className="h-8 w-24 text-xs" placeholder="HD452" value={league} onChange={(e) => setLeague(e.target.value)} />
-      <Input aria-label="Final place" inputMode="numeric" className="h-8 w-20 text-xs" placeholder="place" value={place} onChange={(e) => setPlace(e.target.value.replace(/\D/g, ""))} />
-      <Button size="sm" disabled={busy || !place || !league} onClick={async () => { if (await send({ method: "POST", body: JSON.stringify({ kind: "league", week, league, place: Number(place) }) })) setPlace(""); }}>Save place</Button>
+      <select aria-label="How the season ended" className={SELECT} value={band} onChange={(e) => setBand(e.target.value)}>
+        {bands.map((b) => <option key={b.band} value={b.band}>{b.label}</option>)}
+      </select>
+      <Button size="sm" disabled={busy || !league} onClick={() => send({ method: "POST", body: JSON.stringify({ kind: "league", week, league, band }) })}>Save season</Button>
       {msg && <span className="text-negative">{msg}</span>}
     </div>
   );
 }
 
-export function LiveEntry({ current }: { current: number | null }) {
+export function LiveEntry({ months }: { months: { month: string; label: string; raw: number | null }[] }) {
   const { busy, msg, send } = useSend();
-  const [points, setPoints] = useState(current != null ? String(current) : "");
+  const [month, setMonth] = useState(months.find((m) => m.raw == null)?.month ?? months[months.length - 1].month);
+  const [points, setPoints] = useState("");
   return (
     <div className="flex flex-wrap items-center gap-2 text-xs">
+      <select aria-label="Month" className={SELECT} value={month} onChange={(e) => setMonth(e.target.value)}>
+        {months.map((m) => <option key={m.month} value={m.month}>{m.label}</option>)}
+      </select>
       <Input aria-label="PT Live points" inputMode="numeric" className="h-8 w-28 text-xs" placeholder="Live points" value={points} onChange={(e) => setPoints(e.target.value.replace(/\D/g, ""))} />
-      <Button size="sm" disabled={busy || !points} onClick={() => send({ method: "POST", body: JSON.stringify({ kind: "live", points: Number(points) }) })}>Save</Button>
+      <Button size="sm" disabled={busy || !points} onClick={async () => { if (await send({ method: "POST", body: JSON.stringify({ kind: "live", month, points: Number(points) }) })) setPoints(""); }}>Save</Button>
       {msg && <span className="text-negative">{msg}</span>}
     </div>
   );
