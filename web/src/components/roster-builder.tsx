@@ -55,7 +55,7 @@ import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { date, ip, signed, stamp } from "@/lib/format";
 import {
   EMPTY_BOARD, NO_ADJ, benchKeysOf, boardContent, boardDiff, boardKey, boardReducer, clampCount, diffText, droppedNote,
-  parseSaved, restoreBoard, rpKeysOf, runsText, savedRosterBoard, slotKeys, spKeysOf, toSaved,
+  parseSaved, placeCard, restoreBoard, rpKeysOf, runsText, savedRosterBoard, slotKeys, spKeysOf, toSaved,
   type BoardAction, type BoardDiff, type Counts, type Slots,
 } from "@/lib/build-board";
 import { useUndoable, useUndoKeys } from "@/lib/use-undoable";
@@ -236,6 +236,8 @@ const FIELD_SPOTS = new Set(["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"]);
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 const slotLabel = (k: SlotKey) => k.replace("R:", "vs RHP ").replace("L:", "vs LHP ");
+/** A per-team average to one decimal ("5.9", not 5.8999999999999995). */
+const one = (v: number | null | undefined) => (v == null ? "?" : String(Math.round(v * 10) / 10));
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 
@@ -548,7 +550,7 @@ export function RosterBuilder({
   }, [formPool]);
   const shopUpgrades = useMemo(() => (sets.length ? upgrades.filter((u) => inSets(sets, u.cardType)) : upgrades), [upgrades, sets]);
   const [selected, setSelected] = useState<SlotKey | null>(null);
-  const [view, setView] = useState<View>("HIT");
+  const [view, setView] = useState<View>("FIELD");
   const [search, setSearch] = useState("");
   const [posFilter, setPosFilter] = useState<string>("ALL");
   const [sortBy, setSortBy] = useState<string>("proj");
@@ -736,6 +738,26 @@ export function RosterBuilder({
       label: cardId == null ? `Take ${was != null ? nameOf(was) : "the card"} off ${slotLabel(slot)}` : `Put ${nameOf(cardId)} at ${slotLabel(slot)}`,
     });
     if (cardId != null) setSelected(null);
+  };
+
+  /** The Field view's click: a hitter at a position on one or both lineups, as one step. */
+  const placeBat = (cardId: number, pos: string, hands: Array<"R" | "L">) => {
+    const c = byId.get(cardId);
+    if (!c) return;
+    const next: Slots = { ...slots };
+    for (const h of hands) placeCard(next, `${h}:${pos}`, cardId);
+    act({ type: "set", next: { slots: next }, label: `Put ${c.name} at ${pos}${hands.length === 1 ? ` vs ${hands[0]}HP` : ""}` });
+    setSelected(null);
+  };
+  /** The Field view's click on an arm: the selected staff slot, else the first open one of its role. */
+  const placeArm = (cardId: number, role: "SP" | "RP") => {
+    const c = byId.get(cardId);
+    if (!c) return;
+    const keys = role === "SP" ? spKeys : rpKeys;
+    const target = selected && staffKeys.includes(selected) ? selected : keys.find((k) => slots[k] == null) ?? null;
+    if (!target) { toast({ message: `No open ${role === "SP" ? "rotation" : "bullpen"} slot: click one in the roster panel, then the card.` }); return; }
+    if (!posEligible(c, target)) { toast({ message: `${c.name} can't fill ${slotLabel(target)}.` }); return; }
+    assign(target, cardId);
   };
 
   /* table rows ------------------------------------------------------ */
@@ -1735,14 +1757,14 @@ export function RosterBuilder({
           )}
 
           {meta && (
-            <div className="rounded-lg border border-border p-3">
-              <div className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="text-sm font-semibold">How teams build here</span>
+            <details className="group rounded-lg border border-border p-3">
+              <summary className="flex cursor-pointer list-none flex-wrap items-baseline gap-x-3 gap-y-1 [&::-webkit-details-marker]:hidden">
+                <span className="text-sm font-semibold"><span className="inline-block text-muted-foreground transition-transform group-open:rotate-90">›</span> How teams build here</span>
                 <span className="text-xs text-muted-foreground">
                   {meta.files} runs archived · ~{meta.avgTeams ?? "?"} teams/run ·
-                  per team: {meta.avgSp ?? "?"} SP · {meta.avgRp ?? "?"} RP · {meta.avgBats ?? "?"} hitters
+                  per team: {one(meta.avgSp)} SP · {one(meta.avgRp)} RP · {one(meta.avgBats)} hitters
                 </span>
-              </div>
+              </summary>
               {meta.construction && meta.construction.groups.length > 0 && (
                 <FieldConstruction data={meta.construction} slots={(tournament?.restrictions?.slots as Record<string, number> | null | undefined) ?? null} />
               )}
@@ -1781,7 +1803,7 @@ export function RosterBuilder({
                   </div>
                 ))}
               </div>
-            </div>
+            </details>
           )}
 
           <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
@@ -1846,13 +1868,19 @@ export function RosterBuilder({
                   runsR={envFits?.runsR ?? null}
                   runsL={envFits?.runsL ?? null}
                   lhpShare={lhpShare}
-                  onPick={(slot, pos) => {
-                    setSelected(slot);
-                    setView("HIT");
-                    setPosFilter(pos === "DH" ? "ALL" : pos);
-                    setSortBy("runs");
-                    toast({ message: `Picking for ${slotLabel(slot)}: sorted by bat + glove at ${pos}. Click a card to place it.` });
-                  }}
+                  glove={glove}
+                  eraYear={env?.eraYear ?? tournament?.envYear ?? null}
+                  spKeys={spKeys}
+                  rpKeys={rpKeys}
+                  selected={selected}
+                  onSelect={setSelected}
+                  placeBat={placeBat}
+                  placeArm={placeArm}
+                  startDrag={startDrag}
+                  dropOnSlot={dropOnSlot}
+                  dupNames={dupNames}
+                  onPeek={peekPool}
+                  clearPeek={() => setPeek(null)}
                 />
               ) : view !== "UPG" ? (
                 <div className="overflow-x-auto rounded-lg border border-border">
