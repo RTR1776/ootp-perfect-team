@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV, isActive } from "@/lib/nav";
+import { NAV, itemActive } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { Brand } from "@/components/shell/brand";
 
@@ -14,8 +14,8 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
       {NAV.map((group) => (
         <div key={group.label} className="flex flex-col gap-0.5">
           <div className="label-eyebrow px-3 pb-1.5">{group.label}</div>
-          {group.items.map(({ href, label, icon: Icon, hint }) => {
-            const active = isActive(pathname, href);
+          {group.items.map(({ href, label, icon: Icon, hint, also }) => {
+            const active = itemActive(pathname, { href, also });
             return (
               <Link
                 key={href}

@@ -33,7 +33,7 @@ export default async function ErasPage({ searchParams }: { searchParams: Promise
     latestSources(),
   ]);
   if (!collection) {
-    return <EmptyState icon="market" title="Era Strength" description="Your cards against the best in five eras, and the buys that close the gaps." hint={<>It needs your collection: drop the collection export on Upload.</>} />;
+    return <EmptyState icon="market" title="By era" description="Your cards against the best in five eras, and the buys that close the gaps." hint={<>It needs your collection: drop the collection export on Upload.</>} />;
   }
   const key = ["eras", "v2", String(batch?.id ?? 0), String(collection.id), String(shop?.id ?? 0)];
   const data = await unstable_cache(loadEraStrength, key, { revalidate: 3600, tags: ["eras"] })();

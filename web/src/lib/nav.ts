@@ -1,5 +1,5 @@
 import {
-  CandlestickChart, FlaskConical, Gauge, Globe, Hammer, Hourglass, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
+  CandlestickChart, Crosshair, Hammer, LayoutGrid, Medal, Search, Trophy, Upload, Wind,
   type LucideIcon,
 } from "lucide-react";
 
@@ -9,6 +9,8 @@ export interface NavItem {
   icon: LucideIcon;
   /** One line for the tooltip and the mobile drawer. */
   hint: string;
+  /** Other pages that sit under this entry (its tabs). */
+  also?: string[];
 }
 
 export interface NavGroup {
@@ -22,32 +24,29 @@ export const NAV: NavGroup[] = [
     label: "Play",
     items: [
       { href: "/build", label: "Build", icon: Hammer, hint: "Roster for an event, scored in its era and park" },
-      { href: "/draft", label: "Draft Board", icon: LayoutGrid, hint: "Best available by position, gloves priced in" },
       { href: "/ptcs", label: "PTCS", icon: Medal, hint: "Qualifying points, pace and berth lines" },
+      { href: "/draft", label: "Draft Board", icon: LayoutGrid, hint: "Live drafts: best available by position, gloves priced in" },
     ],
   },
   {
     label: "Scout",
     items: [
-      { href: "/cards", label: "Cards", icon: Search, hint: "New cards and where each one fits for you; any card's projection and play" },
-      { href: "/played", label: "Played", icon: ListOrdered, hint: "Every card with tournament play, ranked by runs" },
-      { href: "/market", label: "Market", icon: CandlestickChart, hint: "Prices, value per PP and movers" },
-      { href: "/eras", label: "Era Strength", icon: Hourglass, hint: "Your cards against the best in five eras, and what to buy" },
+      { href: "/needs", label: "Needs", icon: Crosshair, hint: "Where your cards are weakest by tier and spot, and what to buy at what price", also: ["/eras"] },
+      { href: "/cards", label: "Cards", icon: Search, hint: "New cards and where each one fits for you; any card's projection, play and the leaderboard", also: ["/played"] },
+      { href: "/market", label: "Market", icon: CandlestickChart, hint: "Prices, value per PP, movers and sell candidates" },
     ],
   },
   {
     label: "League",
     items: [
-      { href: "/league", label: "League", icon: Trophy, hint: "Card lines from the league exports" },
-      { href: "/meta", label: "League Meta", icon: Globe, hint: "How the league's teams are built" },
-      { href: "/league-card", label: "Card Model", icon: FlaskConical, hint: "What a card would add to your league lineups and staff" },
+      // One entry, three tabs (L.J. 10-16): My team (lineups, this week), Card lines, Meta.
+      { href: "/league-card", label: "League", icon: Trophy, hint: "Your league lineups and staff, this week's numbers, card lines and the meta", also: ["/league", "/meta"] },
     ],
   },
   {
     label: "Environment",
     items: [
-      { href: "/runenv", label: "Run Environment", icon: Gauge, hint: "Era + park: which ratings pay" },
-      { href: "/environments", label: "Environments", icon: Wind, hint: "How each tournament plays" },
+      { href: "/environments", label: "Environments", icon: Wind, hint: "How each tournament plays; pick an era and a park to see which ratings pay", also: ["/runenv"] },
     ],
   },
   {
@@ -59,5 +58,9 @@ export const NAV: NavGroup[] = [
 export const isActive = (pathname: string, href: string) =>
   pathname === href || pathname.startsWith(`${href}/`);
 
+/** The entry a page belongs to: its own, or the one whose tabs include it. */
+export const itemActive = (pathname: string, item: Pick<NavItem, "href" | "also">) =>
+  isActive(pathname, item.href) || (item.also ?? []).some((h) => isActive(pathname, h));
+
 export const currentItem = (pathname: string) =>
-  NAV.flatMap((g) => g.items).find((i) => isActive(pathname, i.href));
+  NAV.flatMap((g) => g.items).find((i) => itemActive(pathname, i));

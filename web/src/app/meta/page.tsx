@@ -29,6 +29,7 @@ import { latestCompleteSnapshots } from "@/lib/league-snapshots";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
+import { LeagueTabs } from "@/components/league-tabs";
 
 export const dynamic = "force-dynamic";
 
@@ -267,6 +268,7 @@ export default async function MetaPage({
 
   return (
     <div className="flex flex-col gap-4">
+      <LeagueTabs />
       <PageHeader
         eyebrow="League"
         title="League Meta"

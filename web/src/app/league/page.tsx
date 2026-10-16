@@ -23,6 +23,7 @@ import { leagueTier } from "@/lib/analytics/league";
 import { hitterLines, metaSummary, pitcherLines, withRegression, type BoardStint } from "@/lib/analytics/league-board";
 import { isMyOrg } from "@/lib/my-team";
 import { LeagueBoard } from "@/components/league-board";
+import { LeagueTabs } from "@/components/league-tabs";
 import { EmptyState } from "@/components/empty-state";
 
 export const dynamic = "force-dynamic";
@@ -94,10 +95,13 @@ export default async function LeaguePage({ searchParams }: { searchParams: Promi
   const myLeague = [...new Set(mineStints.map((s) => s.league))];
 
   return (
+    <div className="flex flex-col gap-4">
+    <LeagueTabs />
     <LeagueBoard
       hitters={hit} pitchers={pit} mineHitters={mineHit} minePitchers={minePit} meta={meta}
       filters={{ week, scope, split }} weeks={weeks} leagues={leagues}
       scopeInfo={{ snapshots: chosen.map((s) => ({ league: s.league, capturedOn: s.capturedOn, teams: s.teams })), nWeeks, myLeague }}
     />
+    </div>
   );
 }

@@ -38,7 +38,8 @@ export interface ExplorerProps {
 }
 
 export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAsOf }: ExplorerProps) {
-  const first = berths[0];
+  // The coming championship's first berth, else the first current event.
+  const first = berths[0] ?? events[0];
   const [spec, setSpec] = React.useState<EnvSpec>({
     year: first?.year ?? null,
     park: first?.park ?? null,
@@ -206,14 +207,14 @@ export function RunEnvExplorer({ berths, events, championshipLabel, pool, poolAs
       <Shortlist pool={pool} asOf={poolAsOf} s={solved} filters={filters} />
 
       {/* ---------------------------- the berths -------------------------- */}
-      <BerthGrid
+      {berths.length > 0 && <BerthGrid
         rows={berths}
         lhbShare={spec.lhbShare}
         activeKey={activeKey}
         onPick={pick}
         title={championshipLabel}
-        blurb="Five berths, five environments. The buy column is the top two hitting levers solved for that event — it is not the same list twice."
-      />
+        blurb="One environment per berth. The buy column is the top two hitting levers solved for that event — it is not the same list twice."
+      />}
 
       {/* ----------------------------- the chart -------------------------- */}
       <Card>

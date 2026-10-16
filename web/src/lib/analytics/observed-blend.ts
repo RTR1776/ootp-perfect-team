@@ -211,57 +211,91 @@ export function observedRunsFrom(
   event?: { series?: string | null; ratingsMax?: number | null },
 ): Map<number, ObservedRuns> {
   const out = new Map<number, ObservedRuns>();
-  const { lines, base, played } = book;
   const floor = event ? fieldFloor(book, event) : null;
-  if (!lines.length) return out;
+  if (!book.lines.length) return out;
+  const c = compiled(book);
   // The level of each field on the model's scale: PA-weighted (BF for arms)
   // mean of the model's runs over every card that played the series.
-  const level = new Map<string, { h: { num: number; den: number }; p: { num: number; den: number } }>();
-  for (const r of played) {
-    const m = modelRuns(num(r.card_id));
+  const n = c.series.length;
+  const num_ = new Float64Array(2 * n), den = new Float64Array(2 * n);
+  const { card: pc, side: ps, w: pw } = c.played;
+  for (let i = 0; i < pc.length; i++) {
+    const m = modelRuns(pc[i]);
     if (m == null || !Number.isFinite(m)) continue;
-    const w = r.is_pitcher ? num(r.bf) : num(r.pa);
-    if (!(w > 0)) continue;
-    const l = level.get(str(r.series)) ?? { h: { num: 0, den: 0 }, p: { num: 0, den: 0 } };
-    const side = r.is_pitcher ? l.p : l.h;
-    side.num += m * w; side.den += w;
-    level.set(str(r.series), l);
+    num_[ps[i]] += m * pw[i]; den[ps[i]] += pw[i];
   }
-  const levelOf = (series: string, isPitcher: boolean): number | null => {
-    const l = level.get(series); const side = isPitcher ? l?.p : l?.h;
-    return side && side.den > 0 ? side.num / side.den : null;
-  };
   // Pool each card: sum of (level + deviation) * weight, over sum of weight.
-  const acc = new Map<number, { num: number; den: number; series: Set<string> }>();
-  for (const l of lines) {
-    const series = str(l.series), cardId = num(l.card_id), isP = !!l.is_pitcher;
-    const b = base.get(series);
-    if (!b) continue;
-    if (floor != null) { const st = book.strength.get(series); if (st != null && st < floor) continue; }
-    const a = acc.get(cardId) ?? { num: 0, den: 0, series: new Set<string>() };
-    const M = levelOf(series, isP);
-    if (M == null) continue;
-    if (isP) {
-      const bf = num(l.bf);
-      if (!(bf > 0) || l.fip == null || !(b.fip > 0)) continue;
-      // FIP is runs per 9 IP; over the card's own IP; saved = negative allowed.
-      const runsSaved = -((num(l.fip) - b.fip) / 9) * num(l.ip);
-      a.num += runsSaved + (M / 700) * bf;   // deviation + the field's level, both in runs over the line
-      a.den += bf;
-    } else {
-      const pa = num(l.pa);
-      if (!(pa > 0) || l.woba == null || !(b.woba > 0)) continue;
-      a.num += ((num(l.woba) - b.woba) / WOBA_SCALE) * pa + (M / 700) * pa;
-      a.den += pa;
-    }
-    a.series.add(series);
-    acc.set(cardId, a);
+  const acc = new Map<number, { num: number; den: number; series: Set<number> }>();
+  const { card, side, dev, w } = c.lines;
+  for (let i = 0; i < card.length; i++) {
+    const k = side[i], s = k >> 1;
+    if (floor != null) { const st = c.strength[s]; if (!Number.isNaN(st) && st < floor) continue; }
+    if (!(den[k] > 0)) continue;
+    const M = num_[k] / den[k];
+    const a = acc.get(card[i]) ?? { num: 0, den: 0, series: new Set<number>() };
+    a.num += dev[i] + (M / 700) * w[i];   // deviation + the field's level, both in runs over the line
+    a.den += w[i];
+    a.series.add(s);
+    acc.set(card[i], a);
   }
   for (const [id, a] of acc) {
     if (a.den <= 0) continue;
     const m = reference?.(id);
     out.set(id, { runs: (a.num / a.den) * 700, n: a.den, series: a.series.size, model: m != null && Number.isFinite(m) ? m : null });
   }
+  return out;
+}
+
+/**
+ * A book's lines with everything that doesn't depend on the run environment
+ * worked out once: Card Fit reads the same book in ~90 environments a load.
+ * Lines that can never count (no series baseline, no PA or BF, no wOBA or FIP)
+ * are dropped here, exactly as the reader would skip them. A slot `side` is
+ * series index × 2 + 1 for arms.
+ */
+interface CompiledBook {
+  series: string[];
+  strength: Float64Array;
+  played: { card: Int32Array; side: Int32Array; w: Float64Array };
+  lines: { card: Int32Array; side: Int32Array; dev: Float64Array; w: Float64Array };
+}
+const compiledBooks = new WeakMap<ObservedBook, CompiledBook>();
+function compiled(book: ObservedBook): CompiledBook {
+  const hit = compiledBooks.get(book);
+  if (hit) return hit;
+  const index = new Map<string, number>();
+  const idx = (series: string) => { let i = index.get(series); if (i == null) { i = index.size; index.set(series, i); } return i; };
+  const pCard: number[] = [], pSide: number[] = [], pW: number[] = [];
+  for (const r of book.played) {
+    const w = r.is_pitcher ? num(r.bf) : num(r.pa);
+    if (!(w > 0)) continue;
+    pCard.push(num(r.card_id)); pSide.push(idx(str(r.series)) * 2 + (r.is_pitcher ? 1 : 0)); pW.push(w);
+  }
+  const lCard: number[] = [], lSide: number[] = [], lDev: number[] = [], lW: number[] = [];
+  for (const l of book.lines) {
+    const series = str(l.series), b = book.base.get(series);
+    if (!b) continue;
+    let dev: number, w: number;
+    if (l.is_pitcher) {
+      const bf = num(l.bf);
+      if (!(bf > 0) || l.fip == null || !(b.fip > 0)) continue;
+      // FIP is runs per 9 IP; over the card's own IP; saved = negative allowed.
+      dev = -((num(l.fip) - b.fip) / 9) * num(l.ip); w = bf;
+    } else {
+      const pa = num(l.pa);
+      if (!(pa > 0) || l.woba == null || !(b.woba > 0)) continue;
+      dev = ((num(l.woba) - b.woba) / WOBA_SCALE) * pa; w = pa;
+    }
+    lCard.push(num(l.card_id)); lSide.push(idx(series) * 2 + (l.is_pitcher ? 1 : 0)); lDev.push(dev); lW.push(w);
+  }
+  const series = [...index.keys()];
+  const out: CompiledBook = {
+    series,
+    strength: Float64Array.from(series, (s) => book.strength.get(s) ?? NaN),
+    played: { card: Int32Array.from(pCard), side: Int32Array.from(pSide), w: Float64Array.from(pW) },
+    lines: { card: Int32Array.from(lCard), side: Int32Array.from(lSide), dev: Float64Array.from(lDev), w: Float64Array.from(lW) },
+  };
+  compiledBooks.set(book, out);
   return out;
 }
 

@@ -12,6 +12,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { CardName } from "@/components/card-name";
 import { PageHeader } from "@/components/page-header";
+import { SectionTabs } from "@/components/section-tabs";
 import { Section } from "@/components/section";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { Segmented } from "@/components/ui/segmented";
@@ -208,7 +209,8 @@ export function EraStrengthBoard({ data, initialTier, initialRank }: { data: Era
 
   return (
     <div className="flex flex-col gap-4">
-      <PageHeader title="Era Strength" description="Your cards against the best in five eras, and the buys that close the gaps." about={about} />
+      <SectionTabs section="needs" />
+      <PageHeader eyebrow="Scout · Needs" title="By era" description="Your cards against the best in five eras, and the buys that close the gaps." about={about} />
 
       <div className="flex flex-wrap items-center gap-2">
         <Segmented aria-label="Tier" size="md" options={ERA_TIERS.map((t) => ({ value: t.key, label: t.label }))} value={tier} onChange={(t) => go(t, rank)} />

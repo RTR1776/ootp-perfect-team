@@ -59,6 +59,7 @@ import {
   type BoardAction, type BoardDiff, type Counts, type Slots,
 } from "@/lib/build-board";
 import { useUndoable, useUndoKeys } from "@/lib/use-undoable";
+import { BUILT_IN_PRESETS, activePresetName, deletePreset, loadPresets, rememberActive, savePreset, type BuildPreset } from "@/lib/build-presets";
 import { FieldView } from "@/components/build/field-view";
 import { BuyBox } from "@/components/build/buy-box";
 import { CardList } from "@/components/build/card-list";
@@ -489,6 +490,20 @@ export function RosterBuilder({
   const [twoShortstops, setTwoShortstops] = useState(true);
   const [twoLong, setTwoLong] = useState(true);
   const [backups, setBackups] = useState(true);
+  /* Presets (lib/build-presets): the toggles above, a glove lean and a pen size, under a name. */
+  const [defense, setDefense] = useState(1);
+  const [presets, setPresets] = useState<BuildPreset[]>(() => [...BUILT_IN_PRESETS]);
+  const [presetName, setPresetName] = useState("Standard");
+  /* eslint-disable react-hooks/set-state-in-effect -- browser-only settings, read once after hydration (the server can't see localStorage) */
+  useEffect(() => {
+    // Browser-only: the saved presets and the last one used (its toggles and glove lean, not its pen).
+    const list = loadPresets();
+    const p = list.find((x) => x.name === activePresetName()) ?? list[0];
+    setPresets(list);
+    setPresetName(p.name);
+    setTwoCatchers(p.twoCatchers); setTwoShortstops(p.twoShortstops); setTwoLong(p.twoLong); setBackups(p.backups); setDefense(p.defense);
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
   const toggleIn = (set: Set<number>, id: number) => { const n = new Set(set); if (n.has(id)) n.delete(id); else n.add(id); return n; };
   const toggleLock = (id: number) => { setLocks((s) => toggleIn(s, id)); setBans((s) => { const n = new Set(s); n.delete(id); return n; }); };
   const toggleBan = (id: number) => { setBans((s) => toggleIn(s, id)); setLocks((s) => { const n = new Set(s); n.delete(id); return n; }); };
@@ -507,7 +522,7 @@ export function RosterBuilder({
   /* Gloves are worth more where more balls are put in play (fielding.ts gloveScale), and a glove run and a
      pitching run buy more run differential than a bat run (calibration.ts teamWeights, by era). */
   const teamW = teamWeights(env?.eraYear ?? tournament?.envYear ?? 2010);
-  const glove = (env ? gloveScale(env.rates) : 1) * teamW.def;
+  const glove = (env ? gloveScale(env.rates) : 1) * teamW.def * defense;
   const envs = useMemo(() => (env ? projectionEnvs(env.rates, env.park, env.lhbShare) : null), [env]);
   const formPool = useMemo(() => basePool.map(c => {
     const verifiedVar = c.variantOwned && hasVariantSplitRatings(c.variantRatings, c.isPitcher);
@@ -600,6 +615,25 @@ export function RosterBuilder({
   };
   const bump = (k: "bench" | "sp" | "rp", d: number) =>
     changeCounts({ ...shape, [k]: shape[k] + d }, `${k === "bench" ? "Bench" : k === "sp" ? "Starters" : "Relievers"} ${shape[k]} → ${clampCount(k, shape[k] + d)}`);
+
+  /** Apply a preset: its toggles and glove lean, and its pen (the event's own, or a set size) as one board step. */
+  const applyPreset = (p: BuildPreset) => {
+    setPresetName(p.name);
+    rememberActive(p.name);
+    setTwoCatchers(p.twoCatchers); setTwoShortstops(p.twoShortstops); setTwoLong(p.twoLong); setBackups(p.backups); setDefense(p.defense);
+    const rp = p.pen === "field" ? baseline.rp : p.pen;
+    if (rp !== shape.rp) changeCounts({ ...shape, rp, bench: shape.bench + (shape.rp - rp) }, `Preset ${p.name}: ${rp} relievers`);
+    toast({ message: `Preset “${p.name}”: ${[p.twoCatchers && "2 C", p.twoShortstops && "2 SS", p.twoLong && "2 long", p.backups && "backups"].filter(Boolean).join(" · ") || "no roster checks"} · gloves ×${p.defense} · pen ${p.pen === "field" ? "as the field" : p.pen}. Optimise to rebuild on it.` });
+  };
+  const saveCurrentPreset = () => {
+    const name = window.prompt("Name this preset (the current toggles, glove lean and pen):", presetName === "Standard" ? "My build" : presetName)?.trim();
+    if (!name) return;
+    const p: BuildPreset = { name, twoCatchers, twoShortstops, twoLong, backups, defense, pen: shape.rp === baseline.rp ? "field" : shape.rp };
+    setPresets(savePreset(p));
+    setPresetName(name);
+    rememberActive(name);
+    toast({ message: `Saved preset “${name}”.` });
+  };
 
   const spKeys = useMemo(() => spKeysOf(shape.sp), [shape.sp]);
   const rpKeys = useMemo(() => rpKeysOf(shape.rp), [shape.rp]);
@@ -1881,6 +1915,12 @@ export function RosterBuilder({
                   dupNames={dupNames}
                   onPeek={peekPool}
                   clearPeek={() => setPeek(null)}
+                  toolbar={
+                    <>
+                      <Button size="sm" variant="outline" className="h-7 text-xs" onClick={exportLineup} disabled={summary.filled === 0} title="The lineup card (.txt) and the roster (.csv), to Downloads">Export</Button>
+                      <Button size="sm" variant="outline" className="h-7 text-xs" onClick={exportFilter} disabled={summary.filled === 0} title="This roster as one saved filter in OOTP's Manage Cards (pick OOTP Baseball 27/tables/pt_all_ptcards_filters)">OOTP filter</Button>
+                    </>
+                  }
                 />
               ) : view !== "UPG" ? (
                 <div className="overflow-x-auto rounded-lg border border-border">
@@ -2024,6 +2064,27 @@ export function RosterBuilder({
                     <p className="mt-1 text-muted-foreground">{validation.counts.players}/{validation.counts.target ?? "?"} players · value {validation.counts.value}{tournament?.restrictions?.teamCap != null ? `/${tournament.restrictions.teamCap}` : ""} · {validation.counts.variants} variants</p>
                   </div>
                 )}
+                <div className="mb-1.5 flex flex-wrap items-center gap-1.5 text-[11px]">
+                  <span className="text-muted-foreground">Preset</span>
+                  <select
+                    value={presetName}
+                    onChange={(e) => { const p = presets.find((x) => x.name === e.target.value); if (p) applyPreset(p); }}
+                    className="h-6 rounded border border-border bg-background px-1 text-[11px]"
+                    title="Roster checks, glove lean and pen size for Optimise, applied together"
+                  >
+                    {presets.map((p) => <option key={p.name} value={p.name}>{p.name}</option>)}
+                  </select>
+                  <button type="button" onClick={saveCurrentPreset} className="rounded border border-border px-1.5 py-0.5 hover:bg-muted" title="Save the current toggles, glove lean and pen as a preset">Save as…</button>
+                  {!BUILT_IN_PRESETS.some((b) => b.name === presetName) && (
+                    <button type="button" onClick={() => { setPresets(deletePreset(presetName)); applyPreset(BUILT_IN_PRESETS[0]); }} className="text-muted-foreground underline" title="Delete this preset">delete</button>
+                  )}
+                  <label className="ml-auto flex items-center gap-1" title="Glove weight against the model's: above 1 leans to defence, below 1 to bats">
+                    gloves ×
+                    <select value={defense} onChange={(e) => setDefense(Number(e.target.value))} className="h-6 rounded border border-border bg-background px-1 text-[11px]">
+                      {[0.6, 0.8, 1, 1.25, 1.5].map((v) => <option key={v} value={v}>{v}</option>)}
+                    </select>
+                  </label>
+                </div>
                 <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] [font-variant-numeric:tabular-nums]">
                   <Counter label="Bench" k="bench" used={shape.bench} tgt={baseline.bench} />
                   <Counter label="SP" k="sp" used={shape.sp} tgt={target.sp} />

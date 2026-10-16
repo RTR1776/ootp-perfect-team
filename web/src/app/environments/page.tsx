@@ -8,12 +8,14 @@
  * event's rule set, which is still the fastest way to read the whole schedule.
  */
 
+import { eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { tournaments } from "@/db/schema";
 import { EnvSimilarity, type TournamentEnv } from "@/components/env-similarity";
 import { EnvironmentsCatalog } from "@/components/environments-catalog";
 import { eraFor, parkFor, solveFor, vectorOf } from "@/lib/analytics/tournament-env";
 import { PageHeader } from "@/components/page-header";
+import { SectionTabs } from "@/components/section-tabs";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +25,8 @@ const TTL_MS = 10 * 60 * 1000;
 
 async function tournamentEnvs(): Promise<TournamentEnv[]> {
   if (cache && Date.now() - cache.at < TTL_MS) return cache.rows;
-  const list = await db.select().from(tournaments);
+  // Current events only: a retired one (an old Championship, a renamed daily) can't be entered.
+  const list = await db.select().from(tournaments).where(eq(tournaments.retired, false));
   const rows: TournamentEnv[] = [];
   for (const t of list) {
     const era = eraFor(t.envYear);
@@ -52,6 +55,7 @@ export default async function EnvironmentsPage() {
   const rows = await tournamentEnvs();
   return (
     <div className="flex flex-col gap-4">
+      <SectionTabs section="environments" />
       <PageHeader
         eyebrow="Environment"
         title="Environments"

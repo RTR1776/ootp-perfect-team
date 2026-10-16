@@ -12,6 +12,7 @@ import { UploadQueue } from "@/components/upload-queue";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/page-header";
 import { freshnessSummary, loadFreshness, loadUploadHistory, type Source } from "@/lib/freshness";
+import { KEEP_DAYS, loadExportsToGrab, type ExportToGrab } from "@/lib/exports-to-grab";
 import * as format from "@/lib/format";
 import { KIND_LABEL, type UploadKind } from "@/lib/upload-rules";
 import { cn } from "@/lib/utils";
@@ -57,7 +58,7 @@ function SourceStatus({ s }: { s: Source }) {
 }
 
 export default async function UploadPage() {
-  const [sources, attempts] = await Promise.all([loadFreshness(), loadUploadHistory()]);
+  const [sources, attempts, grab] = await Promise.all([loadFreshness(), loadUploadHistory(), loadExportsToGrab()]);
   const staleCount = sources.filter((s) => s.stale).length;
   const newestFailed = attempts[0]?.status === "failed";
 
@@ -77,6 +78,8 @@ export default async function UploadPage() {
       />
 
       <UploadQueue />
+
+      <ExportsToGrab grab={grab} />
 
       <Card>
         <CardContent className="pt-4">
@@ -108,5 +111,53 @@ export default async function UploadPage() {
         </details>
       )}
     </div>
+  );
+}
+
+/**
+ * The tournament exports still to file (lib/exports-to-grab): the events he
+ * played whose export no import holds, oldest first because Your Tournaments
+ * drops them as they age. Only logged and dumped events can be listed.
+ */
+function ExportsToGrab({ grab }: { grab: Awaited<ReturnType<typeof loadExportsToGrab>> }) {
+  const live = grab.rows.filter((r) => !r.likelyGone);
+  const gone = grab.rows.filter((r) => r.likelyGone);
+  const row = (r: ExportToGrab) => (
+    <tr key={r.eventId} className={cn("border-t border-border/60", r.likelyGone && "text-muted-foreground")}>
+      <td className="py-1 pr-3 font-mono text-xs">{r.on.slice(5)}</td>
+      <td className="py-1 pr-3">{r.name} <span className="font-mono text-[11px] text-muted-foreground">{r.eventId}</span></td>
+      <td className="py-1 font-mono text-xs">{r.file ?? "?"}</td>
+    </tr>
+  );
+  return (
+    <Card>
+      <CardContent className="pt-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="text-sm font-semibold">Tournament exports to grab</h2>
+          <span className="text-xs text-muted-foreground">
+            last import {grab.lastImportAt ? format.date(grab.lastImportAt) : "never"}
+            {grab.newestImported && <> · newest game in it {grab.newestImported.slice(5)}</>}
+          </span>
+        </div>
+        <p className="mt-1 text-xs text-muted-foreground">
+          {live.length
+            ? <>{live.length} event{live.length === 1 ? "" : "s"} you played {live.length === 1 ? "isn't" : "aren't"} filed yet. Grab them oldest first — Your Tournaments keeps about {KEEP_DAYS} days — then double-click File OOTP Exports.command.</>
+            : "Every event you played in the last week is filed."}
+          {" "}Only events in your logged results or the community dump are listed, so log today&apos;s screenshot to see today&apos;s.
+        </p>
+        {live.length > 0 && (
+          <table className="mt-2 w-full text-sm">
+            <thead><tr className="text-left text-[11px] uppercase tracking-wide text-muted-foreground"><th className="pb-1 font-medium">Played</th><th className="pb-1 font-medium">Event</th><th className="pb-1 font-medium">File it becomes</th></tr></thead>
+            <tbody>{live.map(row)}</tbody>
+          </table>
+        )}
+        {gone.length > 0 && (
+          <details className="mt-2 text-sm">
+            <summary className="cursor-pointer text-xs text-muted-foreground">{gone.length} older than {KEEP_DAYS} days, probably gone from Your Tournaments</summary>
+            <table className="mt-1 w-full"><tbody>{gone.map(row)}</tbody></table>
+          </details>
+        )}
+      </CardContent>
+    </Card>
   );
 }
