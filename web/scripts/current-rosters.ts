@@ -51,6 +51,8 @@ import { loadCardFit } from "@/lib/card-fit-load";
 import { exportsPredate } from "@/lib/set-evidence-server";
 import { chicagoDay } from "@/lib/format";
 import { editCatalogueRules, parseSlots, type CatalogueEdit } from "@/lib/catalogue-edit";
+import fieldConstruction from "../src/data/field-construction.json";
+import { topShape, type SeriesBuild } from "@/lib/field-construction";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -230,7 +232,9 @@ async function main() {
     const r = eventRosterArgs(t, { seriesStale: stale });
     if (r.problems.length) { skipped.push(`${t.id} ${t.name}: ${r.problems.join("; ")}`); continue; }
     const meta = t.series && !stale ? metaBy.get(t.series) ?? null : null;
-    const sh = rosterShape(t.envYear, t.dh === true ? 9 : 8, rosterSize({ restrictions: t.restrictions } as Parameters<typeof rosterSize>[0]) ?? 26, meta, t.cardYearMin);
+    // The field's best quarter sets the staff (field-construction topShape); series_meta's averages when it's thin.
+    const top = t.series && !stale ? topShape((fieldConstruction as { series: Record<string, SeriesBuild> }).series[t.series]) : null;
+    const sh = rosterShape(t.envYear, t.dh === true ? 9 : 8, rosterSize({ restrictions: t.restrictions } as Parameters<typeof rosterSize>[0]) ?? 26, top ?? meta, t.cardYearMin);
     // --rp alone (L.J. 10-11: a five-man pen) keeps the event's rotation and roster size; the freed spots bat.
     const sp = val("sp") ?? String(sh.sp), rp = val("rp") ?? String(sh.rp);
     const bats = val("bats") ?? String(sh.bats + (sh.sp - Number(sp)) + (sh.rp - Number(rp)));

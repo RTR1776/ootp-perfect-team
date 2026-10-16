@@ -1,0 +1,36 @@
+# Daily Gold Slots — Claude pick 2026-10-16-pen2, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Connie Mack Stadium --park-year 1968 --dh --min 40 --max 89 --slots G12,S8,B6 --variant-cap 13 --size 26 --series goldslotsdaily --sp 5 --rp 6 --bats 15)
+R:C Pythias Russ #87083
+R:1B Pedro Alvarez #87062
+R:2B Placido Polanco #87213
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Jeremy Pena #87154
+R:LF Willie McGee (VAR) #85753
+R:CF Bo Jackson #86966
+R:RF Andy Van Slyke #86936
+R:DH Eric Davis (VAR) #86974
+L:C Pythias Russ #87083
+L:1B Steve Pearce (VAR) #86366
+L:2B Brandon Phillips #87202
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Jeremy Pena #87154
+L:LF Eric Davis (VAR) #86974
+L:CF Willie McGee (VAR) #85753
+L:RF Bo Jackson #86966
+L:DH Ryan Braun #87222
+SP1 Justin Verlander #87064
+SP2 Bob Feller #85650
+SP3 Nolan Ryan #85926
+SP4 CC Sabathia #87182
+SP5 Jered Weaver #87169
+CL Dizzy Dean #86473
+RP1 Luther Farrell #86900
+RP2 Nick Altrock #87049
+RP3 Jacob deGrom #86675
+RP4 Jack Wenninger #85125
+RP5 Fritz Ostermueller #86357
+BN1 Ryan Braun #87222
+BN2 Tim McCarver #85833
+BN3 Bill Buckner (VAR) #85858
+BN4 Steve Pearce (VAR) #86366
+BN5 Brandon Phillips #87202
+BN6 Jack Tobin #86772

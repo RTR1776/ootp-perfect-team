@@ -39,7 +39,7 @@ import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-
 import { teamWeights, calibrationSlope } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
 import { auditRoster, orderStaff } from "../src/lib/roster-audit";
-import { staffPerTeam, type SeriesBuild } from "@/lib/field-construction";
+import { staffPerTeam, topShape, type SeriesBuild } from "@/lib/field-construction";
 import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
 import { loadSetEvidence } from "@/lib/set-evidence-server";
@@ -411,7 +411,7 @@ async function main() {
   const shapeGiven = num("bats") != null || num("sp") != null || num("rp") != null;
   const shapeMeta = shapeGiven
     ? { avgBats: num("bats"), avgSp: num("sp"), avgRp: num("rp") }
-    : meta ? { avgBats: meta.avgBats, avgSp: meta.avgSp, avgRp: meta.avgRp } : null;
+    : topShape(built) ?? (meta ? { avgBats: meta.avgBats, avgSp: meta.avgSp, avgRp: meta.avgRp } : null);
   const LHP_SHARE = LHP_SHARE_FLAG ?? meta?.lhpBfShare ?? LHP_SHARE_DEFAULT;
   const LHB_SHARE = LHB_SHARE_FLAG ?? meta?.lhbPaShare ?? 0.35;
   if (LHB_SHARE_FLAG != null || LHP_SHARE_FLAG != null) console.log(`field hands set by flag: ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats`);

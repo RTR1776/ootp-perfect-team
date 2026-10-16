@@ -56,7 +56,7 @@ import {
 } from "@/components/roster-builder";
 import { PageHeader } from "@/components/page-header";
 import fieldConstruction from "@/data/field-construction.json";
-import type { SeriesBuild } from "@/lib/field-construction";
+import { topShape, type SeriesBuild } from "@/lib/field-construction";
 
 export const dynamic = "force-dynamic";
 
@@ -186,9 +186,11 @@ export default async function BuildPage({
         seriesLive = false;
         tournament.staleSeriesSince = formatSince;
       } else if (m) {
+        // The staff shape is the field's best quarter's (field-construction topShape) when there is one.
+        const top = topShape((fieldConstruction as { series: Record<string, SeriesBuild> }).series[full.series]);
         meta = {
-          files: m.files, avgTeams: m.avgTeams, avgSp: m.avgSp, avgRp: m.avgRp,
-          avgBats: m.avgBats, topCards: m.topCards,
+          files: m.files, avgTeams: m.avgTeams, avgSp: top?.avgSp ?? m.avgSp, avgRp: top?.avgRp ?? m.avgRp,
+          avgBats: top?.avgBats ?? m.avgBats, topCards: m.topCards,
           lhpBfShare: m.lhpBfShare ?? null, lhbPaShare: m.lhbPaShare ?? null,
           construction: (fieldConstruction as { series: Record<string, SeriesBuild> }).series[full.series] ?? null,
         };
