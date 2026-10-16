@@ -12,11 +12,9 @@ import { cn } from "@/lib/utils";
 import { CARD_TYPE_SHORT } from "@/lib/card-sets";
 import type { Rank, Spot } from "@/lib/era-strength";
 import type { NeedBuy, NeedSpot, NeedsData, NeedTier } from "@/lib/needs-load";
+import { FieldBackdrop, FIELD_SPOT } from "@/components/diamond";
 
-const SPOT: Partial<Record<Spot, [number, number]>> = {
-  CF: [50, 12], LF: [20, 30], RF: [80, 30], SS: [35, 50], "2B": [65, 50],
-  "3B": [21, 70], "1B": [79, 70], C: [50, 91], DH: [14, 91],
-};
+const SPOT = FIELD_SPOT as Partial<Record<Spot, [number, number]>>;
 const pts = (v: number | null) => (v == null ? "—" : v >= 1_000_000 ? `${(v / 1_000_000).toFixed(1)}M` : v >= 1000 ? `${Math.round(v / 1000)}k` : String(v));
 const signed = (v: number | null) => (v == null ? "—" : `${v >= 0 ? "+" : ""}${v.toFixed(1)}`);
 
@@ -95,11 +93,7 @@ export function NeedsBoard({ data }: { data: NeedsData }) {
         {/* the diamond */}
         <div className="flex flex-col gap-2">
           <div className="relative aspect-[5/4] min-h-[340px] overflow-hidden rounded-lg border border-border bg-[#0f1a12]">
-            <svg aria-hidden viewBox="0 0 100 100" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full">
-              <path d="M50 95 L3 46 Q50 -40 97 46 Z" fill="#1d3a22" stroke="#5b4a2e" strokeWidth="1.2" />
-              <ellipse cx="50" cy="76" rx="21" ry="19" fill="#3b2a17" />
-              <polygon points="50,61 63,75 50,89 37,75" fill="none" stroke="#e8e2d0" strokeOpacity="0.5" strokeWidth="0.5" />
-            </svg>
+            <FieldBackdrop />
             {spots.filter((s) => SPOT[s.spot]).map((s) => {
               const [x, y] = SPOT[s.spot]!;
               return (

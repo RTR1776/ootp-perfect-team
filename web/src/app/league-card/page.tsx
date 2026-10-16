@@ -17,18 +17,22 @@ import { myLeagueArms } from "@/lib/league-arms";
 import { loadHitterUniverse, myLeagueBats } from "@/lib/league-hitters";
 import { newerTeamSheet } from "@/lib/league-team";
 import { PageHeader } from "@/components/page-header";
+import { LeagueTabs } from "@/components/league-tabs";
+import { LeagueWeekCard } from "@/components/league-week-card";
+import { loadLeagueWeek } from "@/lib/league-this-week";
 import { LeagueCardModel } from "@/components/league-card/card-model";
 
 export const dynamic = "force-dynamic";
 
 export default async function LeagueCardPage() {
-  const [shop, mine, mineArms, universe] = await Promise.all([
+  const [shop, mine, mineArms, universe, week] = await Promise.all([
     db.select({ id: cards.cardId, name: cards.name, value: cards.cardValue, year: cards.year, pos: cards.position, isPitcher: cards.isPitcher, role: cards.pitcherRole })
       .from(cards).where(gte(cards.cardValue, 40)).orderBy(desc(cards.cardValue), cards.name),
     myLeagueBats(),
     myLeagueArms(),
     // The newest collection upload, as the scorer reads it: owned cards come first in the search (C9).
     loadHitterUniverse(),
+    loadLeagueWeek(),
   ]);
   const owned = new Map<number, Owned>();
   for (const o of universe.owned) {
@@ -51,12 +55,14 @@ export default async function LeagueCardPage() {
     : { source: null, roster: [], arms, family: "HD" });
   return (
     <div className="mx-auto max-w-6xl space-y-6">
+      <LeagueTabs />
       <PageHeader
         eyebrow="League"
-        title="Card model"
-        description="Your league lineups and pitching staff: keep the team current, lock players in, try a home park, and see what a card would add."
+        title="My team"
+        description="Your league lineups and pitching staff on the league model, this week's numbers, and what a card would add."
         about="Bats are scored on the league model (league play, normalised to the league's own average), gloves at the slot, and the best nine solved per board around your locks. A home park moves your bats at half weight (81 home games). Arms are scored on league play too: FIP-type runs per 9 better than each week's league, with a ratings estimate where the sample is thin; the best five start and the rest pitch in relief. A modelled card is typed off its face. Every change rescores on its own, and Undo (Ctrl+Z or ⌘Z) takes back any edit."
       />
+      {week && <LeagueWeekCard w={week} />}
       <LeagueCardModel cards={options} parks={parks} years={years} league={league} />
     </div>
   );

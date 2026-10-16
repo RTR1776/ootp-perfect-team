@@ -15,6 +15,7 @@ import { BOARD_NAME, edit, lockCount, lockMovesFrom, nameOf, type Board as Board
 import { boardTitle } from "@/lib/league-card-view";
 import { cn } from "@/lib/utils";
 import { Board } from "./board";
+import { LeagueDiamond } from "./league-diamond";
 import { cardWarning, ScoreStatus, staffWarning } from "./bits";
 import type { Lineup, ScoreResult } from "./use-rescore";
 
@@ -81,6 +82,7 @@ export function LineupsPanel({ state, hasExport, result, withCard, pending, stal
             <Link href="/upload" className="font-medium text-primary underline-offset-4 hover:underline">/upload</Link>.
           </p>
         ))}
+      {state.bats.length > 0 && result && <LeagueDiamond now={result.now} lhp={lhp} stale={stale} />}
       {state.bats.length > 0 && (
         <>
           <div className="hidden gap-6 @min-[38rem]:grid @min-[38rem]:grid-cols-2">{BOARDS.map((b) => <div key={b} className="min-w-0">{board(b, true)}</div>)}</div>

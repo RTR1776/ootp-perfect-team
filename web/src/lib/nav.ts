@@ -1,5 +1,5 @@
 import {
-  CandlestickChart, Crosshair, FlaskConical, Gauge, Globe, Hammer, Hourglass, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
+  CandlestickChart, Crosshair, Gauge, Hammer, Hourglass, LayoutGrid, ListOrdered, Medal, Search, Trophy, Upload, Wind,
   type LucideIcon,
 } from "lucide-react";
 
@@ -9,6 +9,8 @@ export interface NavItem {
   icon: LucideIcon;
   /** One line for the tooltip and the mobile drawer. */
   hint: string;
+  /** Other pages that sit under this entry (its tabs). */
+  also?: string[];
 }
 
 export interface NavGroup {
@@ -39,9 +41,8 @@ export const NAV: NavGroup[] = [
   {
     label: "League",
     items: [
-      { href: "/league", label: "League", icon: Trophy, hint: "Card lines from the league exports" },
-      { href: "/meta", label: "League Meta", icon: Globe, hint: "How the league's teams are built" },
-      { href: "/league-card", label: "Card Model", icon: FlaskConical, hint: "What a card would add to your league lineups and staff" },
+      // One entry, three tabs (L.J. 10-16): My team (lineups, this week), Card lines, Meta.
+      { href: "/league-card", label: "League", icon: Trophy, hint: "Your league lineups and staff, this week's numbers, card lines and the meta", also: ["/league", "/meta"] },
     ],
   },
   {
@@ -60,5 +61,9 @@ export const NAV: NavGroup[] = [
 export const isActive = (pathname: string, href: string) =>
   pathname === href || pathname.startsWith(`${href}/`);
 
+/** The entry a page belongs to: its own, or the one whose tabs include it. */
+export const itemActive = (pathname: string, item: Pick<NavItem, "href" | "also">) =>
+  isActive(pathname, item.href) || (item.also ?? []).some((h) => isActive(pathname, h));
+
 export const currentItem = (pathname: string) =>
-  NAV.flatMap((g) => g.items).find((i) => isActive(pathname, i.href));
+  NAV.flatMap((g) => g.items).find((i) => itemActive(pathname, i));

@@ -23,6 +23,7 @@ import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { LJ_FLOOR, posFloorAt } from "@/lib/pos-floor";
 import { TIER_NAME, TIER_ORDER, tierCode, type TierCode } from "@/lib/roster-rules";
 import type { BuilderCard, UpgradeCard } from "@/components/roster-builder";
+import { FieldBackdrop, FIELD_SPOT, surname } from "@/components/diamond";
 
 type Split = "T" | "L" | "R";
 type Measure = "T" | "O" | "D";
@@ -58,15 +59,7 @@ interface Props {
 }
 
 /** Where each position sits on the diamond, in % of the field box (left, top). */
-const SPOT: Record<string, [number, number]> = {
-  CF: [50, 12], LF: [20, 30], RF: [80, 30],
-  SS: [35, 50], "2B": [65, 50],
-  "3B": [21, 70], "1B": [79, 70],
-  C: [50, 91], DH: [14, 91],
-};
-
-/** A surname for a platoon pair: everything after the first name ("Van Slyke", not "Slyke"). */
-const surname = (n: string) => n.split(" ").slice(1).join(" ") || n;
+const SPOT = FIELD_SPOT;
 
 const TIER_BAR: Record<TierCode, string> = {
   P: "bg-tier-perfect", D: "bg-tier-diamond", G: "bg-tier-gold", S: "bg-tier-silver", B: "bg-tier-bronze", I: "bg-tier-iron",
@@ -305,11 +298,7 @@ export function FieldView(p: Props) {
 
         {/* the diamond */}
         <div className="relative aspect-[5/4] min-h-[380px] self-start overflow-hidden rounded-lg border border-border bg-[#0f1a12] dark:bg-[#0c140e]">
-          <svg aria-hidden viewBox="0 0 100 100" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full">
-            <path d="M50 95 L3 46 Q50 -40 97 46 Z" fill="#1d3a22" stroke="#5b4a2e" strokeWidth="1.2" />
-            <ellipse cx="50" cy="76" rx="21" ry="19" fill="#3b2a17" />
-            <polygon points="50,61 63,75 50,89 37,75" fill="none" stroke="#e8e2d0" strokeOpacity="0.5" strokeWidth="0.5" />
-          </svg>
+          <FieldBackdrop />
           {spots.map((s) => {
             const [x, y] = SPOT[s.pos] ?? [50, 50];
             const slot = `${showHand}:${s.pos}`;
