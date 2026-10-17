@@ -1,0 +1,35 @@
+# Saturday Diamond Variety — Claude pick 2026-10-17 backups, rebuilt from the catalogue's rules by current-rosters (--year 1952 --park Tiger Stadium --park-year 1958 --min 40 --max 99 --card-year-min 1910 --card-year-max 1959 --size 26 --series diamondvariety --sp 5 --rp 5 --bats 16)
+R:C Ed Bailey (VAR) #86637
+R:1B Willie McCovey #86609
+R:2B Eddie Collins #82751
+R:3B Hank Thompson #86668
+R:SS Luke Appling #82759
+R:LF Mickey Mantle #86635
+R:CF Willie Mays #86634
+R:RF Branch Russell #87172
+L:C Josh Gibson #86898
+L:1B Rudy York (VAR) #86429
+L:2B Willie Wells #84542
+L:3B Dewey Creacy #86980
+L:SS Pythias Russ #87083
+L:LF Al Simmons #85942
+L:CF Willie Mays #86634
+L:RF Chick Hafey #85939
+SP1 Claude Grier #87086
+SP2 Bob Feller #85650
+SP3 Count Leblanc (VAR) #86978
+SP4 Babe Ruth #86439
+SP5 Milt Pappas #86654
+CL Larry Jackson #86646
+RP1 Joe Beggs #86762
+RP2 Dizzy Dean #86473
+RP3 Sam Jones #86070
+RP4 Johnny Markham #87159
+BN1 Duke Snider #85225
+BN2 Al Simmons #85942
+BN3 Rudy York (VAR) #86429
+BN4 Dewey Creacy #86980
+BN5 Pythias Russ #87083
+BN6 Josh Gibson #86898
+BN7 Chick Hafey #85939
+BN8 Willie Wells #84542

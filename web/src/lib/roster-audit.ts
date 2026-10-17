@@ -9,7 +9,8 @@
  *     series' best quarter actually carried (field-construction.json)
  *   - stamina: every starter can go a starter's distance for the era, and the
  *     pen has a long man
- *   - backups: every fielding position has a second card who can play it at
+ *   - backups: every fielding position has a card off the field (bench, DH or
+ *     the other hand's platoon) who can play it at
  *     L.J.'s floor, so no regular has to play every inning (Banks, 10-04)
  */
 import { MAX_ARMS, MAX_RP, MAX_SP } from "./roster-fill";
@@ -72,14 +73,22 @@ export function auditRoster(o: {
   const long = rp.filter((c) => (c.ratings.Stamina ?? 0) >= LONG_MAN_STAMINA);
   out.push({ ok: long.length >= 2, text: long.length ? `stamina guys in the pen (${LONG_MAN_STAMINA}+): ${long.map((c) => `${c.name} ${c.ratings.Stamina}`).join(", ")}${long.length < 2 ? " — need 2" : ""}` : `no long man: every reliever under stamina ${LONG_MAN_STAMINA}`, short: `${long.length} long men` });
 
-  for (const pos of o.lineupPos) {
-    if (pos === "DH") continue;
+  // A true backup: a hitter who doesn't start in the field against that hand (roster-optimize missingBackups).
+  const fieldPos = o.lineupPos.filter((p) => p !== "DH");
+  const fielding = (hand: "R" | "L") => new Set(fieldPos.map((p) => o.slots[`${hand}:${p}`]).filter((x) => x != null));
+  const inField = { R: fielding("R"), L: fielding("L") };
+  for (const pos of fieldPos) {
     const fl = Math.max(1, posFloorAt(o.posFloor, pos));
     const can = bats.filter((c) => (c.ratings[`Pos Rating ${pos}`] ?? 0) >= fl);
-    const starters = new Set([o.slots[`R:${pos}`], o.slots[`L:${pos}`]].filter((x) => x != null));
-    const backups = can.filter((c) => !starters.has(c.cardId) || starters.size > 1);
-    const ok = can.length >= 2;
-    out.push({ ok, text: `${pos.padEnd(2)} backup: ${ok ? can.filter((c) => !(starters.size === 1 && starters.has(c.cardId))).map((c) => `${c.name} ${c.ratings[`Pos Rating ${pos}`]}`).join(", ") || backups.map((c) => c.name).join(", ") : `NONE — only ${can.map((c) => c.name).join(", ") || "nobody"} can play it (floor ${fl})`}`, short: `${pos} backup` });
+    const bench = (hand: "R" | "L") => can.filter((c) => !inField[hand].has(c.cardId));
+    const r = bench("R"), l = bench("L");
+    const ok = r.length > 0 && l.length > 0;
+    const named = (cs: typeof can) => cs.map((c) => `${c.name} ${c.ratings[`Pos Rating ${pos}`]}`).join(", ");
+    const same = r.length === l.length && r.every((c) => l.includes(c));
+    const text = ok
+      ? same ? named(r) : `vs RHP ${named(r)} · vs LHP ${named(l)}`
+      : `NONE on the bench${r.length ? " vs LHP" : l.length ? " vs RHP" : ""} — ${can.length ? `only ${can.map((c) => c.name).join(", ")}, who start` : "nobody"} (floor ${fl})${r.length ? ` · vs RHP ${named(r)}` : l.length ? ` · vs LHP ${named(l)}` : ""}`;
+    out.push({ ok, text: `${pos.padEnd(2)} backup: ${text}`, short: `${pos} backup` });
   }
   return out;
 }

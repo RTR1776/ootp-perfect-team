@@ -125,10 +125,12 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
     with f as (
       select series, is_pitcher, sum(woba * pa) / nullif(sum(pa), 0) woba, sum(fip * ip) / nullif(sum(ip), 0) fip
       from observed_card_stats group by 1, 2)
-    select o.card_id, o.series, o.is_pitcher, o.instances, o.pa, o.ip, o.woba, o.fip, f.woba field_woba, f.fip field_fip
+    select o.card_id, o.series, o.is_pitcher, max(o.instances) instances, sum(o.pa) pa, sum(o.ip) ip,
+      sum(o.woba * o.pa) / nullif(sum(o.pa), 0) woba, sum(o.fip * o.ip) / nullif(sum(o.ip), 0) fip, f.woba field_woba, f.fip field_fip
     from observed_card_stats o join f on f.series = o.series and f.is_pitcher = o.is_pitcher
     where o.card_id in (${sql.join(ids.map((i) => sql`${i}`), sql`, `)})
-    order by o.card_id, (o.pa + o.ip * 4.3) desc`)) : [];
+    group by o.card_id, o.series, o.is_pitcher, f.woba, f.fip
+    order by o.card_id, (sum(o.pa) + sum(o.ip) * 4.3) desc`)) : [];
   const obsBy = new Map<number, Obs[]>();
   for (const o of obs) obsBy.set(Number(o.card_id), [...(obsBy.get(Number(o.card_id)) ?? []), o]);
 

@@ -20,6 +20,17 @@ test("the audit flags a missing backup SS, a short starter, a crowded pen and no
   assert.ok(bad.some((t) => t.startsWith("SS backup: NONE")), "Banks never rests");
 });
 
+test("a backup has to be off the field against that hand", () => {
+  const cards = [bat(1, "Polanco", { "2B": 100, "3B": 90 }), bat(2, "Culpepper", { "3B": 110, "2B": 100 }), bat(3, "Daniels", { LF: 90 }), bat(4, "Tait", { C: 80 })];
+  const slots: Record<string, number> = { "R:2B": 1, "L:2B": 1, "R:3B": 2, "L:3B": 2, BN1: 3, BN2: 4 };
+  const lines = auditRoster({ slots, cards: new Map(cards.map((c) => [c.cardId, c])), lineupPos: ["2B", "3B"], envYear: 2010, posFloor: LJ_FLOOR });
+  const b2 = lines.find((l) => l.short === "2B backup")!;
+  assert.equal(b2.ok, false, b2.text);
+  assert.ok(b2.text.includes("NONE on the bench"), b2.text);
+  const util = auditRoster({ slots: { ...slots, BN2: 5 }, cards: new Map([...cards, bat(5, "Utility", { "2B": 90, "3B": 90 })].map((c) => [c.cardId, c])), lineupPos: ["2B", "3B"], envYear: 2010, posFloor: LJ_FLOOR });
+  assert.ok(util.filter((l) => / backup$/.test(l.short)).every((l) => l.ok), JSON.stringify(util));
+});
+
 test("older eras ask more of a starter", () => {
   assert.ok(starterStaminaFloor(1910) > starterStaminaFloor(1960));
   assert.ok(starterStaminaFloor(1960) > starterStaminaFloor(2010));

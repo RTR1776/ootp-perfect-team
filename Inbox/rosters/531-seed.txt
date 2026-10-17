@@ -1,4 +1,4 @@
-# seed: saved roster 932 "Claude pick 2026-10-16 pen"
+# seed: saved roster 965 "Claude pick 2026-10-17 newdata"
 R:C #86637
 R:1B #87062
 R:2B #86744
@@ -25,8 +25,8 @@ SP5 #86654
 CL #87049
 RP1 #87064
 RP2 #87052
-RP3 #85650
-RP4 #87182
+RP3 #86978
+RP4 #85650
 RP5 #87162
 BN1 #86634
 BN2 #85942

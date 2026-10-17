@@ -554,12 +554,19 @@ export const seriesMeta = pgTable("series_meta", {
  * tournament series in Archive/Completed. Counters keep the parser's stat
  * keys (b1, b2, HRa, Ka…); woba/fip are precomputed at import so pages never
  * re-derive them.
+ *
+ * A card's variant copies get their own row (is_variant), with the ratings
+ * the copies played with (2026-10-17 audit: a quarter of all play is
+ * variants, which run 4-5 points over the base card on every rating; scored
+ * at the base card's ratings they skewed the calibration). A reader that
+ * wants the card's whole line sums the two rows.
  */
 export const observedCardStats = pgTable(
   "observed_card_stats",
   {
     series: text("series").notNull(),
     cardId: integer("card_id").notNull(),
+    isVariant: boolean("is_variant").notNull().default(false),
     isPitcher: boolean("is_pitcher").notNull(),
     /** How many tournament instances (files) fed this aggregate. */
     instances: integer("instances").notNull(),
@@ -569,8 +576,10 @@ export const observedCardStats = pgTable(
     woba: real("woba"),
     fip: real("fip"),
     counters: jsonb("counters").$type<Record<string, number>>().notNull(),
+    /** The ratings the copies played with, weighted by playing time (they move for Live cards). Null before 10-17. */
+    ratings: jsonb("ratings").$type<Record<string, number>>(),
   },
-  (t) => [primaryKey({ columns: [t.series, t.cardId] }), index("observed_series_idx").on(t.series)],
+  (t) => [primaryKey({ columns: [t.series, t.cardId, t.isVariant] }), index("observed_series_idx").on(t.series)],
 );
 
 /* ------------------------------------------------------------------ */
@@ -625,6 +634,7 @@ export const observedCardStatsStage = pgTable(
       .references(() => importBatches.id, { onDelete: "cascade" }),
     series: text("series").notNull(),
     cardId: integer("card_id").notNull(),
+    isVariant: boolean("is_variant").notNull().default(false),
     isPitcher: boolean("is_pitcher").notNull(),
     instances: integer("instances").notNull(),
     pa: integer("pa").notNull().default(0),
@@ -633,8 +643,9 @@ export const observedCardStatsStage = pgTable(
     woba: real("woba"),
     fip: real("fip"),
     counters: jsonb("counters").$type<Record<string, number>>().notNull(),
+    ratings: jsonb("ratings").$type<Record<string, number>>(),
   },
-  (t) => [primaryKey({ columns: [t.batchId, t.series, t.cardId] })],
+  (t) => [primaryKey({ columns: [t.batchId, t.series, t.cardId, t.isVariant] })],
 );
 
 /**

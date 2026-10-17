@@ -1,7 +1,9 @@
 /**
  * Aggregate L.J.'s per-tournament stat exports (Archive/Completed/*.csv) into
- * observed_card_stats: one row per (series, cardId) with summed counters and
- * precomputed wOBA / FIP.
+ * observed_card_stats: one row per (series, cardId, variant) with summed
+ * counters, precomputed wOBA / FIP, and the ratings the copies played with
+ * (a card's variant copies are their own row since 2026-10-17: they run 4-5
+ * points over the base card, and a quarter of all play is variants).
  *
  * The files are the same 200-column export family as league exports, so the
  * league parser does the row work; the filename supplies the series
@@ -34,7 +36,8 @@ import {
   type SeriesTopCard,
 } from "../src/db/schema";
 import { and, eq, lt, sql } from "drizzle-orm";
-import { parseLeagueExport, looksLikeLeagueExport } from "../src/lib/ingest/league";
+import { collectionVocab, parseLeagueExport, looksLikeLeagueExport } from "../src/lib/ingest/league";
+import { ensureObservedVariantColumns } from "../src/lib/ingest/observed-schema";
 import { wobaOf, fipOf } from "../src/lib/analytics/league";
 import { scanForJimBeaters } from "../src/lib/ingest/jim";
 import { summariseSeries, teamBuilds, type SeriesBuild, type TeamBuild } from "../src/lib/field-construction";
@@ -47,11 +50,12 @@ import { isMyOrg } from "../src/lib/my-team";
 const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 const DIR = join(ROOT, "Archive/Completed");
 /** Bump when the aggregation changes meaning, so batches are comparable. */
-const PARSER_VERSION = "observed/3 (Jim-beater teams dropped, 2026-09-15)";
+const PARSER_VERSION = "observed/4 (variant copies their own row, with the ratings played, 2026-10-17)";
 
 interface Agg {
   series: string;
   cardId: number;
+  isVariant: boolean;
   isPitcher: boolean;
   name: string;
   pos: string;
@@ -60,6 +64,9 @@ interface Agg {
   ip: number;
   war: number;
   counters: Record<string, number>;
+  /** The copies' ratings (collection vocabulary), summed × playing time, and that time. */
+  ratingSum: Record<string, number>;
+  ratingW: number;
 }
 
 /** Per-series usage meta (roster shape + card popularity), built per file. */
@@ -181,11 +188,17 @@ async function main() {
     for (const s of stints) {
       if (s.cid == null) continue;
       if (s.pa <= 0 && s.ip <= 0) continue;
-      const key = `${series} ${s.cid}`;
+      const key = `${series} ${s.cid} ${s.isVariant ? "v" : "b"}`;
       let a = aggs.get(key);
       if (!a) {
-        a = { series, cardId: s.cid, isPitcher: s.isPitcher, name: s.name, pos: s.pos, instances: 0, pa: 0, ip: 0, war: 0, counters: {} };
+        a = { series, cardId: s.cid, isVariant: !!s.isVariant, isPitcher: s.isPitcher, name: s.name, pos: s.pos, instances: 0, pa: 0, ip: 0, war: 0, counters: {}, ratingSum: {}, ratingW: 0 };
         aggs.set(key, a);
+      }
+      // The ratings this copy played with, weighted by its playing time (Live cards' move with updates).
+      const use = s.pa + s.ip * 4.3;
+      if (use > 0) {
+        for (const [k, v] of Object.entries(collectionVocab(s.ratings ?? {}))) a.ratingSum[k] = (a.ratingSum[k] ?? 0) + v * use;
+        a.ratingW += use;
       }
       a.instances += 1;
       a.pa += s.pa;
@@ -221,6 +234,7 @@ async function main() {
     return {
       series: a.series,
       cardId: a.cardId,
+      isVariant: a.isVariant,
       isPitcher: a.isPitcher,
       instances: a.instances,
       pa: Math.round(a.pa),
@@ -229,6 +243,7 @@ async function main() {
       woba: !a.isPitcher && a.pa > 0 ? Math.round(wobaOf([stintLike as never]) * 1000) / 1000 : null,
       fip: a.isPitcher && a.ip > 0 ? Math.round(fipOf([stintLike as never]) * 100) / 100 : null,
       counters: a.counters,
+      ratings: a.ratingW > 0 ? Object.fromEntries(Object.entries(a.ratingSum).map(([k, v]) => [k, Math.round((v / a.ratingW) * 10) / 10])) : null,
     };
   });
 
@@ -241,6 +256,7 @@ async function main() {
    * as it was or as it is now - never empty, never half-built. Rows the new
    * batch no longer carries (a file re-filed under another series) are swept
    * afterwards, and only inside the series in scope. */
+  await ensureObservedVariantColumns();
   await sweepAbandonedBatches();
   const [batch] = await db
     .insert(importBatches)
@@ -268,18 +284,18 @@ async function main() {
       throw new Error(`staged ${staged[0]?.n ?? 0} rows but built ${rows.length} - refusing to publish`);
     }
     await db.execute(sql`
-      INSERT INTO observed_card_stats (series, card_id, is_pitcher, instances, pa, ip, war, woba, fip, counters)
-      SELECT series, card_id, is_pitcher, instances, pa, ip, war, woba, fip, counters
+      INSERT INTO observed_card_stats (series, card_id, is_variant, is_pitcher, instances, pa, ip, war, woba, fip, counters, ratings)
+      SELECT series, card_id, is_variant, is_pitcher, instances, pa, ip, war, woba, fip, counters, ratings
       FROM observed_card_stats_stage
       WHERE batch_id = ${batch.id}
-      ON CONFLICT (series, card_id) DO UPDATE SET
+      ON CONFLICT (series, card_id, is_variant) DO UPDATE SET
         is_pitcher = excluded.is_pitcher, instances = excluded.instances, pa = excluded.pa,
         ip = excluded.ip, war = excluded.war, woba = excluded.woba, fip = excluded.fip,
-        counters = excluded.counters`);
+        counters = excluded.counters, ratings = excluded.ratings`);
     const inScope = sql.join(seriesList.map((s) => sql`${s}`), sql`, `);
     const staleWhere = sql`o.series IN (${inScope}) AND NOT EXISTS (
         SELECT 1 FROM observed_card_stats_stage s
-        WHERE s.batch_id = ${batch.id} AND s.series = o.series AND s.card_id = o.card_id)`;
+        WHERE s.batch_id = ${batch.id} AND s.series = o.series AND s.card_id = o.card_id AND s.is_variant = o.is_variant)`;
     const staleCount = await db.execute(sql`SELECT count(*)::int AS n FROM observed_card_stats o WHERE ${staleWhere}`);
     swept = Number(rowsOf(staleCount)[0]?.n ?? 0);
     if (swept > 0) await db.execute(sql`DELETE FROM observed_card_stats o WHERE ${staleWhere}`);

@@ -8,44 +8,44 @@ card sets: Negro League Star, Historical All-Star, Snapshot, Unsung Heroes, Hard
 two-way: 153 cards also in the other role — Alejandro Oms as arm, Cy Young as bat, John Beckwith as arm, Babe Ruth as bat, Dizzy Trout as bat, Steve Carlton as bat, Pete Donohue as bat, Jose Mendez as bat, Don Newcombe as bat, Bobby Estalella as arm, Smokey Joe Williams as bat, Barney Brown as bat, Frank Grant as arm, Sam Jones as bat, Tubby Scales as arm, Cool Papa Bell as arm, Dan Haren as bat, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Old Hoss Radbourn as bat, Madison Bumgarner as bat, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Jim Kaat as bat, Oliver Marcell as arm, Satchel Paige as bat, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Bill Force as bat, George Weidman as bat, Armando Cabanas as arm, Andy Porter as bat, Quincy Trouppe as arm, Carlos Zambrano as bat, Walter Cannady as arm, Goose Curry as arm, Agustin Parpetti as arm, Ben Taylor as arm, Bobby Witt Jr. as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, Bob Thurman as arm, Judy Johnson as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Simpson as arm, Dan Bankhead as bat, Charlie Comiskey as arm, Johnny Davis as arm, Gid Gardner as arm, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Pop Corkhill as arm, Willie Pope as bat, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Red Lucas as bat, Dick Redding as bat, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Don Robinson as bat, Henry McHenry as bat, Larry Sherry as bat, Jack Coombs as bat, Matt Davidson as arm, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Isidro Fabre as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Cal McVey as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Bill Gatewood as bat, Claude Hendrix as bat, Frank Duncan as arm, Lefty Tyler as bat, Fred Goldsmith as bat, Esteban Montalvo as arm, Bob Romby as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Earl Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Jim Maloney as bat, Charlie Eden as arm
 
 pool: 2002 eligible owned cards — 1227 bats (404L / 144S / 679R), 775 arms
-staff weights from diamondslotsdaily's exports: SP 1.56, RP 0.43 (a lineup slot = 1)
-field (diamondslotsdaily, 37 exports): 40% of batters faced thrown left-handed · 35% of PA by left-handed bats · 12.7 bats / 5.2 SP / 4.2 RP per team
+staff weights from diamondslotsdaily's exports: SP 1.53, RP 0.43 (a lineup slot = 1)
+field (diamondslotsdaily, 40 exports): 40% of batters faced thrown left-handed · 35% of PA by left-handed bats · 12.7 bats / 5.2 SP / 4.3 RP per team
 shape: 15 bats / 5 SP / 6 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 1619 of 2002 pool cards have innings on record (median 429 PA/BF); K = 1000000
+observed play: 1650 of 2002 pool cards have innings on record (median 495 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 2.34, RP 0.86 (--no-team-weights to turn off)
-staff innings split over the arms carried: the field runs 4.5 SP / 5.2 RP → per SP ×0.90 (5 carried), per RP ×0.87 (6 carried)
+team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 2.29, RP 0.86 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.4 SP / 5.2 RP → per SP ×0.88 (5 carried), per RP ×0.87 (6 carried)
 
 +10 rating, runs/700 PA — LHB: Power +5.6  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.7
                           RHB: Power +5.8  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.7
                          arms: pHR +1.9  Stuff +1.6  pBABIP +1.0  Control +0.9
 seed: 531-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 456.6 runs vs 399.8 greedy (+56.8), 1 moves from the seed
+optimiser: 18 starts (λ + seed) hill-climbed; best 450.8 runs vs 394.5 greedy (+56.3), 1 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ed Bailey (VAR)             97  L  1956   +31.9  park:L DEF 112/112 +10.8  #86637
-R:1B    Pedro Alvarez               81  L  2013   +32.8  park:L DEF  96/ 96 +3.9  #87062
-R:2B    Marcus Semien               84  R  2021   +18.0  park:R DEF 121/121 +2.5  #86744
-R:3B    Honus Wagner                99  R  1903   +12.9  park:R DEF 114/114 +6.0  #85540
-R:SS    Trea Turner (VAR)           98  R  2023   +17.5  park:R DEF 106/106 -0.3  #82923
-R:LF    Jacoby Ellsbury             98  L  2011   +24.1  park:L DEF 136/136 +6.5  #86726
-R:CF    Carlos Beltran              99  S  2004   +42.7  park:L DEF 108/108 -0.8  #87066
-R:RF    Bo Jackson                  88  R  1989   +35.5  park:R DEF 123/123 +4.4  #86966
-R:DH    Eric Davis (VAR)            85  R  1989   +28.5  park:R  #86974
+R:C     Ed Bailey (VAR)             97  L  1956   +31.8  park:L DEF 112/112 +10.8  #86637
+R:1B    Pedro Alvarez               81  L  2013   +32.6  park:L DEF  96/ 96 +3.9  #87062
+R:2B    Marcus Semien               84  R  2021   +17.8  park:R DEF 121/121 +2.5  #86744
+R:3B    Honus Wagner                99  R  1903   +12.8  park:R DEF 114/114 +6.0  #85540
+R:SS    Trea Turner (VAR)           98  R  2023   +17.4  park:R DEF 106/106 -0.3  #82923
+R:LF    Jacoby Ellsbury             98  L  2011   +23.9  park:L DEF 136/136 +6.5  #86726
+R:CF    Carlos Beltran              99  S  2004   +42.5  park:L DEF 108/108 -0.8  #87066
+R:RF    Bo Jackson                  88  R  1989   +34.9  park:R DEF 123/123 +4.4  #86966
+R:DH    Eric Davis (VAR)            85  R  1989   +28.3  park:R  #86974
 
 --- lineup vs LHP ---
-L:C     Mike Zunino                 75  R  2021    +7.5  park:R DEF  77/ 77 +13.6  #86431
+L:C     Mike Zunino                 75  R  2021    +7.6  park:R DEF  77/ 77 +13.6  #86431
 L:1B    Honus Wagner                99  R  1903   +14.3  park:R DEF  89/114 +2.5  #85540
-L:2B    Brandon Phillips            64  R  2007   +21.4  park:R DEF 130/130 +5.4  #87202
-L:3B    Chris Sabo                  66  R  1990   +31.9  park:R DEF  77/ 77 -3.6  #87059
-L:SS    Trea Turner (VAR)           98  R  2023   +15.1  park:R DEF 106/106 -0.3  #82923
-L:LF    Al Simmons                  99  R  1930   +30.6  park:R DEF  90/ 90 -0.9  #85942
-L:CF    Carlos Beltran              99  S  2004   +28.0  park:R DEF 108/108 -0.8  #87066
-L:RF    Bo Jackson                  88  R  1989   +30.0  park:R DEF 123/123 +4.4  #86966
-L:DH    Willie Mays                 98  R  1959   +36.6  park:R  #86634
+L:2B    Brandon Phillips            64  R  2007   +21.3  park:R DEF 130/130 +5.4  #87202
+L:3B    Chris Sabo                  66  R  1990   +31.8  park:R DEF  77/ 77 -3.6  #87059
+L:SS    Trea Turner (VAR)           98  R  2023   +15.0  park:R DEF 106/106 -0.3  #82923
+L:LF    Al Simmons                  99  R  1930   +30.5  park:R DEF  90/ 90 -0.9  #85942
+L:CF    Carlos Beltran              99  S  2004   +27.7  park:R DEF 108/108 -0.8  #87066
+L:RF    Bo Jackson                  88  R  1989   +29.4  park:R DEF 123/123 +4.4  #86966
+L:DH    Willie Mays                 98  R  1959   +36.4  park:R  #86634
 
---- batting order vs RHP --- (5.95 runs/game; The Book's order 5.95)
+--- batting order vs RHP --- (5.93 runs/game; The Book's order 5.92)
   1. Carlos Beltran CF
   2. Ed Bailey (VAR) C
   3. Pedro Alvarez 1B
@@ -56,7 +56,7 @@ L:DH    Willie Mays                 98  R  1959   +36.6  park:R  #86634
   8. Jacoby Ellsbury LF
   9. Honus Wagner 3B
 
---- batting order vs LHP --- (5.69 runs/game; The Book's order 5.68)
+--- batting order vs LHP --- (5.67 runs/game; The Book's order 5.66)
   1. Willie Mays DH
   2. Carlos Beltran CF
   3. Bo Jackson RF
@@ -68,27 +68,27 @@ L:DH    Willie Mays                 98  R  1959   +36.6  park:R  #86634
   9. Mike Zunino C
 
 --- rotation ---
-SP1     Babe Ruth                   97  L  1916   +15.1   SP STM 104  #86439
-SP2     Kyle Freeland (VAR)         91  L  2018   +13.8   SP STM  80  #86708
-SP3     Mark Langston               91  R  1989   +13.8   SP STM  86  #86956
-SP4     Tommy John                  92  R  1979   +13.5   SP STM  90  #86604
-SP5     Milt Pappas                 96  R  1959   +13.5   SP STM  79  #86654
+SP1     Babe Ruth                   97  L  1916   +15.2   SP STM 104  #86439
+SP2     Kyle Freeland (VAR)         91  L  2018   +14.1   SP STM  80  #86708
+SP3     Mark Langston               91  R  1989   +14.0   SP STM  86  #86956
+SP4     Tommy John                  92  R  1979   +13.7   SP STM  90  #86604
+SP5     Milt Pappas                 96  R  1959   +13.6   SP STM  79  #86654
 
 --- bullpen ---
-CL      Nick Altrock                76  S  1906   +11.8   SP STM  90  #87049
-RP1     Justin Verlander            87  R  2013   +11.2   SP STM  98  #87064
-RP2     Danny Jackson               88  R  1985   +11.1   SP STM  86  #87052
-RP3     Bob Feller                  88  R  1939   +11.1   SP STM 111  #85650
-RP4     Count Leblanc (VAR)         89  R  1921   +11.0   SP STM  93  #86978
-RP5     Bill Ricks                  79  R  1944    +8.0   SP STM  86  #87162
+CL      Nick Altrock                76  S  1906   +12.0   SP STM  90  #87049
+RP1     Justin Verlander            87  R  2013   +11.3   SP STM  98  #87064
+RP2     Danny Jackson               88  R  1985   +11.2   SP STM  86  #87052
+RP3     Count Leblanc (VAR)         89  R  1921   +11.1   SP STM  93  #86978
+RP4     Bob Feller                  88  R  1939   +11.1   SP STM 111  #85650
+RP5     Bill Ricks                  79  R  1944    +8.1   SP STM  86  #87162
 
 --- bench ---
-BN1     Willie Mays                 98  R  1959   +20.0  park:R  #86634
-BN2     Al Simmons                  99  R  1930   +16.1  park:R  #85942
-BN3     Chris Sabo                  66  R  1990    +2.8  park:R  #87059
-BN4     Mike Zunino                 75  R  2021   -27.7  park:R  #86431
-BN5     Brandon Phillips            64  R  2007    -6.3  park:R  #87202
-BN6     Bill Buckner (VAR)          64  L  1974    +5.7  park:L  #85858
+BN1     Willie Mays                 98  R  1959   +19.9  park:R  #86634
+BN2     Al Simmons                  99  R  1930   +16.0  park:R  #85942
+BN3     Chris Sabo                  66  R  1990    +2.7  park:R  #87059
+BN4     Mike Zunino                 75  R  2021   -27.6  park:R  #86431
+BN5     Brandon Phillips            64  R  2007    -6.4  park:R  #87202
+BN6     Bill Buckner (VAR)          64  L  1974    +5.6  park:L  #85858
 
 26 players · value 2269 · from seed · 6 variants
 vs RHP lineup gets the friendly park side in 4 of 9 spots
@@ -112,9 +112,9 @@ vs RHP lineup gets the friendly park side in 4 of 9 spots
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (563 teams): 5.0 SP / 6.0 RP / 14.1 bats
+  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (624 teams): 5.0 SP / 6.3 RP / 14.1 bats
   ✓ starters' stamina Babe Ruth 104, Kyle Freeland 80, Mark Langston 86, Tommy John 90, Milt Pappas 79 (era floor 50)
-  ✓ stamina guys in the pen (45+): Nick Altrock 90, Justin Verlander 98, Danny Jackson 86, Bob Feller 111, Count Leblanc 93, Bill Ricks 86
+  ✓ stamina guys in the pen (45+): Nick Altrock 90, Justin Verlander 98, Danny Jackson 86, Count Leblanc 93, Bob Feller 111, Bill Ricks 86
   ✓ C  backup: Ed Bailey 112, Mike Zunino 77
   ✓ 1B backup: Pedro Alvarez 96, Honus Wagner 89, Bill Buckner 83
   ✓ 2B backup: Marcus Semien 121, Brandon Phillips 130
@@ -124,5 +124,5 @@ LEGAL — every rule check passes
   ✓ CF backup: Jacoby Ellsbury 123, Bo Jackson 103, Willie Mays 107
   ✓ RF backup: Honus Wagner 104
 (19 of 26 have a live ask in the last shop snapshot)
-objective: 456.6 weighted runs (bats 60/40 R/L, SP 2.34, RP 0.86, bench 0.1)
+objective: 450.8 weighted runs (bats 60/40 R/L, SP 2.295, RP 0.86, bench 0.1)
 points: lineup(both boards, 14 bats) 1231 · rotation 467 · bullpen 507 · bench-only 64

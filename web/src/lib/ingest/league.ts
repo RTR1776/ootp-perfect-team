@@ -170,6 +170,18 @@ const RATING_COLS: Array<[key: string, col: string]> = [
 ];
 
 /**
+ * A stint's ratings in the collection export's vocabulary ("K vL", "BA vL",
+ * "PBABIP vL", "IF RNG", "STM"…), the form card-forms formRatings reads: the
+ * tournament archive stores each copy's ratings this way, so a variant line
+ * can be scored at the ratings it played with.
+ */
+export function collectionVocab(r: Readonly<Record<string, number>>): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const [key, col] of RATING_COLS) if (r[key] != null && Number.isFinite(r[key])) out[col] = r[key];
+  return out;
+}
+
+/**
  * Pitcher Control, which shares its name with hitter Contact, found by its
  * place in the pitching block: the first column of that name after its Stuff
  * column. The 200-column view has only the pitching one; the 338-column view

@@ -43,6 +43,7 @@ import { db } from "@/db/client";
 import { cards } from "@/db/schema";
 import { eraTable } from "@/lib/analytics/tournament-env";
 import { envFitMaps } from "@/lib/analytics/env-fit";
+import { formRatings } from "@/lib/card-forms";
 import { wobaOf, fipOf } from "@/lib/analytics/league";
 import { tierCode } from "@/lib/roster-rules";
 
@@ -81,7 +82,7 @@ async function main() {
   const era = eraTable["0"] ?? eraTable["2010"];
   const universe = await db.select({
     cardId: cards.cardId, name: cards.name, cardValue: cards.cardValue, isPitcher: cards.isPitcher,
-    bats: cards.bats, pitcherRole: cards.pitcherRole, releasedOn: cards.releasedOn, ratings: cards.ratings,
+    bats: cards.bats, pitcherRole: cards.pitcherRole, releasedOn: cards.releasedOn, ratings: cards.ratings, position: cards.position,
   }).from(cards);
   // The frame every consumer of the model shares: PT default engine, neutral
   // park, relief role at the trusted quarter. Calibration OFF here, or the
@@ -90,11 +91,34 @@ async function main() {
     cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole,
     ratings: (c.ratings ?? {}) as Record<string, number>,
   })), { era: era.rates, park: null, roleTrust: 0.25, calibrate: false });
-  const model = (id: number) => { const r = fits.runsR.get(id), l = fits.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
   const byId = new Map(universe.map((c) => [c.cardId, c]));
 
   const lines = asRows(await db.execute(sql`
-    select series, card_id, is_pitcher, pa, ip, woba, fip, (counters->>'BF')::float bf from observed_card_stats`));
+    select series, card_id, is_variant, ratings, is_pitcher, pa, ip, woba, fip, (counters->>'BF')::float bf from observed_card_stats`));
+  /*
+   * A variant line is scored at the ratings its copies played with (2026-10-17
+   * audit: variants are a quarter of all play and run 4-5 points over the base
+   * card; scored at the base card's ratings they read as the model missing).
+   * One form per card: its most-played variant line's ratings over the base
+   * card's (card-forms formRatings). Lines from before the variant split have
+   * no is_variant and score as the base card, as before.
+   */
+  const variantOf = new Map<number, { ratings: Record<string, number>; use: number }>();
+  for (const l of lines) {
+    if (!l.is_variant || !l.ratings) continue;
+    const id = n(l.card_id), use = n(l.pa) + n(l.ip) * 4.3, cur = variantOf.get(id);
+    if (!cur || use > cur.use) variantOf.set(id, { ratings: l.ratings as Record<string, number>, use });
+  }
+  const vfits = envFitMaps([...variantOf].flatMap(([id, v]) => {
+    const c = byId.get(id);
+    return c ? [{ cardId: -id, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: formRatings((c.ratings ?? {}) as Record<string, number>, v.ratings, c.position) }] : [];
+  }), { era: era.rates, park: null, roleTrust: 0.25, calibrate: false });
+  const model = (id: number, variant = false) => {
+    const m = variant && variantOf.has(id) ? vfits : fits, k = variant && variantOf.has(id) ? -id : id;
+    const r = m.runsR.get(k), l = m.runsL.get(k);
+    return r == null || l == null ? null : 0.7 * r + 0.3 * l;
+  };
+  console.log(`variant lines: ${lines.filter((l) => l.is_variant).length} (${variantOf.size} cards scored at their variant ratings)`);
   const sums = asRows(await db.execute(sql`
     select series, is_pitcher, e.key k, sum((e.value)::float) v
     from observed_card_stats, jsonb_each_text(counters) e group by 1, 2, 3`));
@@ -111,7 +135,7 @@ async function main() {
   for (const [s, c] of cnt) base.set(s, { woba: wobaOf([stintLike(c.h, 0, c.pa) as never]), fip: fipOf([stintLike(c.p, c.ip, 0) as never]) });
   const level = new Map<string, { h: { num: number; den: number }; p: { num: number; den: number } }>();
   for (const l of lines) {
-    const m = model(n(l.card_id)); if (m == null) continue;
+    const m = model(n(l.card_id), !!l.is_variant); if (m == null) continue;
     const w = l.is_pitcher ? n(l.bf) : n(l.pa); if (!(w > 0)) continue;
     const e = level.get(String(l.series)) ?? { h: { num: 0, den: 0 }, p: { num: 0, den: 0 } };
     const side = l.is_pitcher ? e.p : e.h; side.num += m * w; side.den += w; level.set(String(l.series), e);
@@ -127,7 +151,7 @@ async function main() {
     for (const l of lines) {
       if (!!l.is_pitcher !== isP) continue;
       const id = n(l.card_id), c = byId.get(id), series = String(l.series);
-      const m = model(id), b = base.get(series), lv = level.get(series);
+      const m = model(id, !!l.is_variant), b = base.get(series), lv = level.get(series);
       if (!c || m == null || !b || !lv) continue;
       const side = isP ? lv.p : lv.h; if (!(side.den > 0)) continue;
       let y: number, w: number;
