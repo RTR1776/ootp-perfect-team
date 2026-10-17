@@ -1,0 +1,35 @@
+# Daily Diamond Cap — Claude pick 2026-10-17-beggs sweep, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Jarry Park --park-year 1976 --min 40 --max 99 --cap 1788 --size 26 --series diamondcapdaily --sp 5 --rp 5 --bats 16)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Shawon Dunston #86947
+R:LF Jacoby Ellsbury #86726
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+L:C Ed Bailey (VAR) #86637
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Brandon Phillips #87202
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Shawon Dunston #86947
+L:LF Jacoby Ellsbury #86726
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+SP1 Claude Grier #87086
+SP2 Cy Young #86996
+SP3 Mark Langston #86956
+SP4 Justin Verlander #87064
+SP5 Bob Feller #85650
+CL James McDonald (VAR) #86384
+RP1 Randy Choate #87026
+RP2 Todd Jones (VAR) #86434
+RP3 Lefty Grove #87168
+RP4 R.T. Walker #86952
+BN1 Brandon Phillips #87202
+BN2 Alfredo Amezaga #87188
+BN3 Chuck Cottier #85503
+BN4 Charlie Eden #82834
+BN5 George Pinkney #83410
+BN6 Darrel Chaney #82846
+BN7 John Leary #84297
+BN8 Tyler Heineman #82502
