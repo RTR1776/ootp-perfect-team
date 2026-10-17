@@ -15,6 +15,10 @@ L.J. 10-17: re-run the model audit on the new data (the archive took 61 import b
    - (b) The same in residual form (`a17-blend2.py`). This allows a runs-allowed track record for arms.
    - (c) Team level (`a17-teams.mts`, the `teams.mts` harness, tournaments only): 3,580 team-events in the 42 exports on disk, with the current archive as the track record (own series excluded).
 4. **Team-level checks of candidate changes** on the same 3,580 team-events (`a17-teamtest.py`).
+5. **Fielding components vs the composite Pos Rating** (L.J.'s question, added during the run). Tested twice:
+   - On the archive: ZR per 700 PA.
+   - On the 42 exports: per 1,000 innings fielded, with each copy's own ratings, ARM runs and double plays turned.
+   - Same rule as above, plus a 2-fold-by-export out-of-sample comparison.
 
 **What could not be re-run, plainly:**
 - **Held-out time.** `observed_card_stats` holds one line per series × card summed over all the series' files, with no dates. The per-file staged lines are swept after publish, and batch records keep only file names. A "train before 10-09, test after" split is therefore impossible; held-out series is used instead.
@@ -67,6 +71,7 @@ By era band (production read, terms off; r / slope):
 | 13 | Deadball speed | ≤1920 environments: +0.79 ± 0.17 runs/700 PA per +10 Speed in wOBA beyond the model; 5 of 6 series positive | **Under-powered:** 6 series | **NEW** | The Speed term is flat across eras |
 | 14 | Stealing | Stolen-base runs +0.08 per +10 Stealing/Speed (+0.26 per sd); team +0.93 win% per sd (t 2.9) | Card level 5/5; team: same 42 exports | Held (no new team data) | Speed term only |
 | 15 | Framing by era | Same 42 exports: 0.118 / 0.282 / 0.298 per Frame point per 1,000 inn. The one **PT-default-RE** series (High Iron Floor Gold Ceiling, 6 exports, 575 stints) reads **0.42**; each export 0.40–0.44 | Reproduction; default RE is one event | Held; default RE new | TOURNEY_FRAMING uses 0.297 for default-RE events |
+| 16 | Fielding components (range / error / arm / DP) against the composite Pos Rating | On total defensive runs, out of sample the components beat the composite by **≤ +0.006 r** (LF/RF +0.004, CF −0.006, 2B/SS +0.003…+0.006, 3B −0.003, 1B −0.011). Play's weights are close to the game's own composite, except at 3B (arm > error > range) | 42 exports, 9,748 stints, 1.57M innings, 2-fold by export × 5 seeds; see the section below | **NEW** (L.J.'s question) | Composite only; it holds |
 
 **Not problems:**
 - Power, Eye, Gap and Avoid K are priced right overall (play vs model per +10: 2.39 / 2.43, 0.71 / 0.74, 0.81 / 0.76, 1.05 / 1.03).
@@ -84,6 +89,39 @@ By era band (production read, terms off; r / slope):
 | FIELDING_CALIBRATION | C 1.61, 1B 1.0, 2B 1.29, 3B 1.20, SS 1.64, LF 1.24, CF 1.69, RF 1.25 | Implied (ZR, 100+ PA): C 1.94 ± 0.07, 1B 1.02, 2B 1.33, 3B 1.32, SS 1.85 ± 0.10, LF 1.43, CF 1.83, RF 1.33 | At card level, C yes (4.6 SE); SS, LF, 3B ~2 SE; the rest no. At team level, raising to these factors lowers win% r 0.3901 → 0.3896, worse in 40/40. | **Hold the factors.** The team weight def 2 was fitted with them and already prices the gap. |
 | SPLIT_TRUST BABIP 0.6 | 0.6 | Archive best fit: righties 0.62 ± 0.27, switch 0.54 ± 0.33. Lefties −1.6: a lefty with a big split is platooned onto the RHP side, so the field-hand blend is wrong for him. Pooled −0.36. | No for R and S; lefties confounded | **Holds.** The league split exports are the clean test (not re-run; no new league data). |
 | roleTrust 0.25 | 0.25 | Best trust on FIP 0.34 ± 0.09 (bands 0.18–0.76); on RA 2.2, which is inherited-runner accounting | No (FIP) | **Holds** |
+
+## Defence components: range, error, arm, DP (L.J.: "range is most important, then error")
+
+`fieldingRuns` prices a fielder by the composite `Pos Rating <pos>` only. The question is whether the components (IF Range / Error / Arm / TDP, OF Range / Error / Arm) carry information beyond the composite. Scripts: `a17-defcomp.py` (archive), `a17-defexp.py` and `a17-defdp.py` (exports).
+
+**What each defence counter counts:**
+- **Errors are inside ZR.** In the exports, a fielder's errors correlate 0.79 with routine zone balls he did not convert, and ZR is built from zone balls made vs expected. So ZR − errors would double-count.
+- **ZR does not count outfield arm runs** (the export's ARM column) or **double plays turned** (DP_1).
+- The archive keeps only ZR and E, per PA. A card that DHs piles up PA without fielding, so errors per PA mostly measure time in the field.
+- **The clean test is therefore the 42 exports:** each copy's own ratings (variants included), per 1,000 innings fielded (IP_1), on the total target: ZR for 1B and 3B, ZR + ARM for outfielders, ZR + v × DP for 2B/SS.
+
+**Out of sample, the components do not beat the composite on total defensive runs** (2-fold by export × 5 seeds):
+
+| Group | Stints | Composite r | Components − composite, held out | Play's weights (range = 1): range / error / arm / DP | The game's composite (range = 1) |
+|---|---|---|---|---|---|
+| 1B | 1,174 | 0.295 | −0.011 (better 3/10) | 1 / 0.57 / 0.21 / 0.18 | 1 / 1.00 / 0.45 / 0.48 (R² 0.71: the 1B rating holds more than these four) |
+| 2B/SS, ZR + 0.2 × DP | 3,193 | 0.436 | +0.003 (7/10) | 1 / 0.32 / 0.34 / 0.55 | 1 / 0.46 / 0.19 / 0.39 |
+| 3B | 1,248 | 0.362 | −0.003 (4/10) | 1 / 1.95 / 2.75 / 0.03 | 1 / 1.10 / 1.58 / 0.30 |
+| LF/RF, ZR + ARM | 2,546 | 0.341 | +0.004 (7/10) | 1 / −0.04 / 0.24 / — | 1 / 0.17 / 0.30 |
+| CF, ZR + ARM | 1,587 | 0.274 | −0.006 (2/10) | 1 / 0.06 / 0.25 / — | 1 / 0.09 / 0.14 |
+
+- **2B/SS and the DP value:** the 2B/SS row holds for any DP value from 0.1 to 0.4 runs per participation (+0.003 to +0.010). On ZR alone, which ignores DP, the components gain +0.015.
+- **Tests that look like gains but are not:** the archive test (ZR per 700 PA, 70 series) shows component gains of +0.03 to +0.06 in the outfield and +0.03 at 2B/SS, with Arm and DP "beyond the composite" at |t| 4–12. Those come from the composite paying for arm and DP, which ZR cannot see. Once ARM runs or DP are added, the gain disappears.
+- **Error rating beyond the composite:**
+  - It predicts **errors per chance** everywhere (t 3.6–9.9, 5/5).
+  - It also predicts **more chances** at 3B: range lowers chances per inning (t −3.8) and error raises them (t +6.2), presumably because the sure-handed corner takes more balls.
+  - In the outfield its run value is near zero; on ZR + ARM in LF/RF it even reads −0.19 per +10 (t −3.7, 5/5).
+- **L.J.'s ordering holds where it can be measured:**
+  - At 2B/SS: range ≫ error ≈ arm.
+  - At 1B: range > error.
+  - In the outfield: range ≫ arm, error ≈ 0.
+  - **Not at 3B**, where play pays arm and error more than range, as the game's own 3B composite already does.
+- **Proposed change: none.** The composite is the better or equal predictor held out. What would help is the data: keep IP_1, TC, DP_1 and ARM in the archive (proposal 6).
 
 ## The observed-play blend, re-tested
 
@@ -147,9 +185,10 @@ Bats blended at K 10,000 against off, over 40 half-samples of exports: median �
 4. **Test the pen weight (TEAM_WEIGHTS rp) at 2.5–3** on the Mac's full exports.
    - **Expected:** win% r +0.002 at rp 3 (34/40 half-samples here); 10-11's held-out fits also chose 2.5–4.
    - **Status:** under-powered on 42 exports. Do not shrink relievers' card spread (#9) on its own.
-5. **No change** to ARM_RATING_FIX, ARM_ERA_SPREAD, FIELDING_CALIBRATION, SPLIT_TRUST BABIP 0.6, roleTrust 0.25 or the framing bands. Each holds within noise, or the card-level gap is already priced at team level (gloves).
+5. **No change** to ARM_RATING_FIX, ARM_ERA_SPREAD, FIELDING_CALIBRATION, SPLIT_TRUST BABIP 0.6, roleTrust 0.25, the framing bands, or the composite Pos Rating as the glove. Each holds within noise, or the card-level gap is already priced at team level (gloves). Fielding components do not beat the composite held out (#16).
 6. **Archive hygiene:**
    - Keep FRM in the importer; proposed 10-14, still not done.
+   - Keep the fielding counters IP_1, TC, DP_1 and ARM. Defence can then be measured per inning on the whole archive rather than per PA on 42 exports.
    - Keep per-file, dated card lines, so held-out-time tests and own-series blend tests become possible.
 
 **Watch list (under-powered or contradicted; do not act yet):**
