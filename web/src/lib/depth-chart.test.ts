@@ -27,3 +27,16 @@ test("utility men come off the bench, a glove sub appears where the bench glove 
   assert.deepEqual(d.pinchHit[0], "Bench OF");
   assert.ok(d.pinchRun[0].startsWith("Bench OF"));
 });
+
+test("the DH backs a position up on rest days but is never the late-inning glove", () => {
+  const cards = [bat(1, "Starter CF", { CF: 80 }), bat(2, "DH", { CF: 120 }), bat(3, "Bench C", { C: 90 })];
+  const byId = new Map(cards.map((c) => [c.cardId, c]));
+  const d = depthChart({
+    slots: { "R:CF": 1, "R:DH": 2, BN1: 3 }, cards: byId, lineupPos: ["CF", "DH"], hand: "R",
+    bat: () => 0, glove: (pos, c) => ((c.ratings[`Pos Rating ${pos}`] ?? 0) - 100) * 0.2, floor: () => 60,
+  });
+  const cf = d.rows.find((r) => r.pos === "CF")!;
+  assert.deepEqual(cf.utility.map((u) => u.name), ["DH"]);
+  assert.equal(cf.defSub, null, "moving the DH out mid-game gives up the DH");
+  assert.deepEqual(d.pinchHit, ["Bench C"]);
+});
