@@ -4,121 +4,123 @@
 R/G 5.16  AVG 0.293  OBP 0.353  SLG 0.395  K% 4.9  HR/PA 0.81%  preset Moderate Small Ball
 sac bunt (1st & 2nd, 0 out) +0.071 runs · steal break-even 79.1% (0 out) / 75.7% (1 out)
 park: all-LHB lineup 5.17 R/G vs all-RHB 5.15 — 0.02 R/G swing toward LEFT-handed bats
+two-way: 94 cards also in the other role — Old Hoss Radbourn as bat, Mack Eggleston as arm, Luther Farrell as bat, Oliver Marcell as arm, Walter Johnson as bat, Jules Thomas as arm, Bill Force as bat, George Weidman as bat, Armando Cabanas as arm, Agustin Parpetti as arm, Ben Taylor as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Rap Dixon as arm, Pete Hill as arm, Judy Johnson as arm, Kid Nichols as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Cocaina Garcia as arm, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Hurley McNair as arm, Harry Staley as bat, Frank Foreman as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Willis Flournoy as bat, Dink Mothell as arm, Curry Foley as arm, Eggie Hensley as bat, Jimmie Lyons as arm, Jack Taylor as bat, Pop Corkhill as arm, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Blondie Purcell as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Grover Cleveland Alexander as bat, Luther Farrell as bat, Pud Galvin as bat, Jack Coombs as bat, Ossie Orwoll as bat, Eddie Douglass as arm, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Cal McVey as arm, Tom Vickery as bat, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Fred Goldsmith as bat, Esteban Montalvo as arm, Bullet Campbell as bat, Jack Chesbro as bat, George Mitchell as bat, Judy Gans as arm, Phenomenal Smith as bat, Bill Hoffer as bat, Frank Dwyer as bat, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
 
-pool: 484 eligible owned cards — 320 bats (101L / 30S / 189R), 164 arms
+pool: 586 eligible owned cards — 383 bats (118L / 35S / 230R), 203 arms
 !! no exports on record for series goldenage — shape and handedness fall back to the era table
-shape: 18 bats / 4 SP / 4 RP (1920s–50s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
-observed play: 437 of 484 pool cards have innings on record (median 304 PA/BF); K = 5000
+shape: 17 bats / 4 SP / 5 RP (pre-1930 (L.J. 10-07)) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 458 of 586 pool cards have innings on record (median 299 PA/BF); K = 1000000
 gloves ×1.23: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1925 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×2.46, SP 1.50, RP 0.62 (--no-team-weights to turn off)
 
 +10 rating, runs/700 PA — LHB: BABIP +2.7  Eye +1.5  Power +1.4  Gap +1.2  Avoid Ks +0.7
                           RHB: BABIP +2.7  Eye +1.5  Power +1.3  Gap +1.2  Avoid Ks +0.7
                          arms: pBABIP +1.6  Control +1.0  pHR +0.5  Stuff +0.4
+seed: 9100166-seed.txt as is (26 cards)
 
-optimiser: 9 λ starts hill-climbed; best 35.6 runs vs 18.4 greedy (+17.1), 15 moves from λ 1.00
+optimiser: 6 starts (λ + seed) hill-climbed; best 89.8 runs vs 58.6 greedy (+31.2), 8 moves from λ 0.00 (the seed's climb: 89.8)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Mack Eggleston              88  R  1927    +5.4  park:R DEF  73/ 98 -0.6
-R:1B    Shoeless Joe Jackson        88  L  1915   +15.5  park:L DEF  73/ 88 -0.6
-R:2B    Jack Burdock                87  R  1883    -3.6  park:R DEF 127/127 +2.6
-R:3B    Dave Brain (VAR)            68  R  1907    -6.6  park:R DEF  99/ 99 +1.3
-R:SS    Halley Harding              71  S  1926    -9.7  park:L DEF  70/ 70 -6.3
-R:LF    Chick Hafey                 89  R  1928    +4.0  park:R DEF  83/ 83 -1.2
-R:CF    Billy Southworth            68  L  1926    +0.2  park:L DEF  93/107 -1.4
-R:RF    Willie Keeler               77  L  1894    +5.2  park:L DEF  86/ 86 -1.3
+R:C     Mack Eggleston              88  R  1927    -3.2  park:R DEF  73/ 98 -4.9  #86977
+R:1B    Shoeless Joe Jackson        88  L  1915    +8.3  park:L DEF  73/ 88 -1.1  #86372
+R:2B    Jack Burdock                87  R  1883    -3.8  park:R DEF 127/127 +6.8  #86067
+R:3B    Dave Brain (VAR)            68  R  1907    -1.8  park:R DEF  99/ 99 +3.1  #85934
+R:SS    Pythias Russ                89  R  1927    +2.8  park:R DEF 112/112 +2.9  #87083
+R:LF    Chick Hafey                 89  R  1928   +10.1  park:R DEF  83/ 83 -3.0  #85939
+R:CF    Pop Corkhill                71  L  1887    -7.1  park:L DEF 133/147 +4.7  #86582
+R:RF    Branch Russell              83  L  1927   +10.2  park:L DEF 106/106 +2.1  #87172
 
 --- lineup vs LHP ---
-L:C     Mack Eggleston              88  R  1927    +8.1  park:R DEF  73/ 98 -0.6
-L:1B    Shoeless Joe Jackson        88  L  1915    +5.9  park:L DEF  73/ 88 -0.6
-L:2B    Jack Burdock                87  R  1883    +1.5  park:R DEF 127/127 +2.6
-L:3B    Joe Dugan (VAR)             65  R  1920    +8.2  park:R DEF  63/ 70 -4.6
-L:SS    Dave Brain (VAR)            68  R  1907    -6.7  park:R DEF  93/ 99 -2.3
-L:LF    Bob Fothergill (VAR)        86  R  1927   +10.5  park:R DEF  74/ 74 -2.1
-L:CF    Roy Thomas                  82  L  1903    +2.3  park:L DEF 112/112 -0.1
-L:RF    Chick Hafey                 89  R  1928    +4.4  park:R DEF  81/ 83 -1.8
+L:C     Mack Eggleston              88  R  1927    -0.6  park:R DEF  73/ 98 -4.9  #86977
+L:1B    Shoeless Joe Jackson        88  L  1915    +2.9  park:L DEF  73/ 88 -1.1  #86372
+L:2B    Jack Burdock                87  R  1883    +0.3  park:R DEF 127/127 +6.8  #86067
+L:3B    Honus Wagner                68  R  1913    -1.8  park:R DEF 108/108 +6.7  #86712
+L:SS    Pythias Russ                89  R  1927    +8.1  park:R DEF 112/112 +2.9  #87083
+L:LF    Tillie Walker               78  R  1914    +0.1  park:R DEF 117/117 +5.2  #86597
+L:CF    Roy Thomas                  82  L  1903    -0.1  park:L DEF 112/112 -0.2  #86784
+L:RF    Chick Hafey                 89  R  1928   +12.8  park:R DEF  81/ 83 -4.5  #85939
 
---- batting order vs RHP --- (4.52 runs/game; The Book's order 4.52)
-  1. Halley Harding SS
-  2. Mack Eggleston C
-  3. Shoeless Joe Jackson 1B
-  4. Chick Hafey LF
-  5. Willie Keeler RF
+--- batting order vs RHP --- (4.55 runs/game; The Book's order 4.54)
+  1. Mack Eggleston C
+  2. Branch Russell RF
+  3. Pythias Russ SS
+  4. Shoeless Joe Jackson 1B
+  5. Chick Hafey LF
   6. Jack Burdock 2B
-  7. Billy Southworth CF
-  8. Dave Brain (VAR) 3B
+  7. Dave Brain (VAR) 3B
+  8. Pop Corkhill CF
   9. Pitcher
 
---- batting order vs LHP --- (4.61 runs/game; The Book's order 4.60)
+--- batting order vs LHP --- (4.58 runs/game; The Book's order 4.58)
   1. Roy Thomas CF
-  2. Mack Eggleston C
-  3. Chick Hafey RF
-  4. Joe Dugan (VAR) 3B
-  5. Bob Fothergill (VAR) LF
+  2. Tillie Walker LF
+  3. Mack Eggleston C
+  4. Chick Hafey RF
+  5. Pythias Russ SS
   6. Shoeless Joe Jackson 1B
   7. Jack Burdock 2B
-  8. Dave Brain (VAR) SS
+  8. Honus Wagner 3B
   9. Pitcher
 
 --- rotation ---
-SP1     Carl Hubbell                86  R  1928    +7.8   SP STM  81
-SP2     Count Leblanc               89  R  1921    +6.5   SP STM  93
-SP3     Luther Farrell              87  L  1927    +5.7   SP STM 104
-SP4     Rube Marquard               84  S  1916    +5.0   SP STM  82
+SP1     Old Hoss Radbourn (VAR)     89  R  1884    +9.9   SP STM 128  #82687
+SP2     Count Leblanc (VAR)         89  R  1921    +8.5   SP STM  93  #86978
+SP3     Sherry Smith                62  R  1916    +7.3   SP STM 118  #87030
+SP4     Rube Marquard               84  S  1916    +6.6   SP STM  82  #86891
 
 --- bullpen ---
-CL      Jakie May (VAR)             72  R  1927    +4.7   SP STM  69
-RP1     Hod Eller                   86  R  1919    +3.2   SP STM  76
-RP2     Hubert Lockhart             75  L  1923    +3.0   SP STM  86
-RP3     Nick Altrock                76  S  1906    +2.2   SP STM  90
+CL      Carl Hubbell                86  R  1928    +6.5   SP STM  81  #86893
+RP1     Luther Farrell              87  L  1927    +5.0   SP STM 104  #86900
+RP2     Hubert Lockhart             75  L  1923    +4.4   SP STM  86  #87082
+RP3     Christy Mathewson           65  R  1914    +4.3   SP STM 102  #86706
+RP4     Grover Cleveland Alexander  66  R  1927    +3.3   SP STM  89  #86477
 
 --- bench ---
-BN1     Joe Judge                   74  L  1920    -0.4  park:L
-BN2     Bob Fothergill (VAR)        86  R  1927    -1.1  park:R
-BN3     Tom Brown                   66  L  1891    -2.9  park:L
-BN4     Roy Thomas                  82  L  1903    -3.3  park:L
-BN5     Cocaina Garcia              77  L  1927    -4.5  park:L
-BN6     Biz Mackey                  74  S  1924    -4.8  park:L
-BN7     Jack Tobin                  61  L  1920    -5.3  park:L
-BN8     Elmer Smith                 88  L  1920    -0.4  park:L
-BN9     Jake Daubert                86  L  1916    +4.1  park:L
-BN10    Joe Dugan (VAR)             65  R  1920    -9.7  park:R
+BN1     Ben Taylor (VAR)            83  L  1922    -1.4  park:L  #87163
+BN2     Roy Thomas                  82  L  1903    -9.8  park:L  #86784
+BN3     Tillie Walker               78  R  1914    -9.2  park:R  #86597
+BN4     Tom Brown                   66  L  1891    +0.6  park:L  #86767
+BN5     Jake Daubert (VAR)          86  L  1916    +6.4  park:L  #83740
+BN6     Tony Lazzeri                89  R  1927    -6.5  park:R  #83832
+BN7     Cocaina Garcia              77  L  1927    -2.8  park:L  #86954
+BN8     Willie Keeler               77  L  1894    -1.9  park:L  #85878
+BN9     Honus Wagner                68  R  1913   -21.5  park:R  #86712
 
-26 players · value 2050 · λ 1.000 · 4 variants
-vs RHP lineup gets the friendly park side in 4 of 8 spots
+26 players · value 2072 · λ 0.000 · 5 variants
+vs RHP lineup gets the friendly park side in 3 of 8 spots
 
 --- order inputs (rostered bats) ---
-  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
-  Mack Eggleston         R EYE 105 (109/104)  POW  88 (91/88)  K  95  BABIP 130  GAP  67  SPE  37
-  Willie Keeler          L EYE  41 (31/45)  POW  53 (43/57)  K 205  BABIP 139  GAP  84  SPE  83
-  Jake Daubert           L EYE  77 (44/85)  POW  77 (14/87)  K 103  BABIP 131  GAP  63  SPE  70
+  Branch Russell         L EYE 128 (120/131)  POW  96 (88/99)  K 119  BABIP 124  GAP  96  SPE  73
   Chick Hafey            R EYE  64 (73/61)  POW 131 (140/128)  K  91  BABIP 124  GAP 154  SPE  79
-  Billy Southworth       L EYE  51 (5/61)  POW  96 (81/102)  K 201  BABIP  76  GAP  84  SPE  69
-  Elmer Smith            L EYE 100 (100/100)  POW  93 (70/101)  K  82  BABIP  84  GAP 125  SPE  48
-  Joe Judge              L EYE 107 (115/105)  POW  63 (33/69)  K  93  BABIP 109  GAP 118  SPE  71
-  Bob Fothergill         R EYE  70 (79/66)  POW  79 (104/70)  K 117  BABIP 146  GAP 108  SPE  60
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Jake Daubert           L EYE  83 (49/92)  POW  82 (17/94)  K 111  BABIP 141  GAP  69  SPE  70
+  Pythias Russ           R EYE  75 (81/73)  POW  96 (103/95)  K 113  BABIP 117  GAP 136  SPE 101
   Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
-  Roy Thomas             L EYE 204 (210/202)  POW  30 (60/10)  K 120  BABIP 151  GAP  65  SPE  68
-  Jack Burdock           R EYE  65 (60/67)  POW  90 (97/88)  K  90  BABIP 126  GAP 115  SPE  72
-  Cocaina Garcia         L EYE  29 (27/30)  POW 107 (105/108)  K 113  BABIP 130  GAP  71  SPE  41
-  Biz Mackey             S EYE  58 (55/59)  POW  76 (75/77)  K 110  BABIP 119  GAP 119  SPE  63
-  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Ben Taylor             L EYE  88 (86/89)  POW  49 (46/50)  K 151  BABIP 158  GAP 151  SPE  36
   Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
-  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
-  Halley Harding         S EYE 114 (104/118)  POW  21 (20/22)  K 125  BABIP 162  GAP  68  SPE 108
+  Willie Keeler          L EYE  41 (31/45)  POW  53 (43/57)  K 205  BABIP 139  GAP  84  SPE  83
+  Cocaina Garcia         L EYE  29 (27/30)  POW 107 (105/108)  K 113  BABIP 130  GAP  71  SPE  41
+  Mack Eggleston         R EYE 105 (109/104)  POW  88 (91/88)  K  95  BABIP 130  GAP  67  SPE  37
+  Jack Burdock           R EYE  65 (60/67)  POW  90 (97/88)  K  90  BABIP 126  GAP 115  SPE  72
+  Tony Lazzeri           R EYE  92 (76/97)  POW 104 (78/116)  K  49  BABIP  96  GAP  71  SPE  67
+  Pop Corkhill           L EYE  41 (32/45)  POW  75 (66/78)  K 220  BABIP  93  GAP  75  SPE  74
+  Tillie Walker          R EYE  97 (158/84)  POW  81 (84/80)  K  62  BABIP 117  GAP 119  SPE  78
+  Roy Thomas             L EYE 204 (210/202)  POW  30 (60/10)  K 120  BABIP 151  GAP  65  SPE  68
+  Honus Wagner           R EYE  81 (51/89)  POW  69 (113/46)  K 109  BABIP  97  GAP  90  SPE  71
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 4 SP / 4 RP / 18 bats (caps: 5 SP, 7 RP, 12 arms)
-  ✓ starters' stamina Carl Hubbell 81, Count Leblanc 93, Luther Farrell 104, Rube Marquard 82 (era floor 70)
-  ✓ stamina guys in the pen (45+): Jakie May 69, Hod Eller 76, Hubert Lockhart 86, Nick Altrock 90
-  ✓ C  backup: Biz Mackey 71
-  ✓ 1B backup: Joe Judge 75, Biz Mackey 69, Jake Daubert 63
-  ✓ 2B backup: Joe Dugan 70
-  ✓ 3B backup: Dave Brain 99, Joe Dugan 63
-  ✓ SS backup: Halley Harding 70, Dave Brain 93
-  ✓ LF backup: Shoeless Joe Jackson 88, Billy Southworth 107, Chick Hafey 83, Bob Fothergill 74, Tom Brown 68, Cocaina Garcia 90, Jack Tobin 77, Elmer Smith 75
-  ✓ CF backup: Shoeless Joe Jackson 66, Billy Southworth 93, Roy Thomas 112
-  ✓ RF backup: Mack Eggleston 98, Shoeless Joe Jackson 83, Billy Southworth 93, Chick Hafey 81, Willie Keeler 86, Tom Brown 63, Cocaina Garcia 87, Jack Tobin 73, Elmer Smith 63
-(23 of 26 have a live ask in the last shop snapshot)
-objective: 35.6 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
-points: lineup(both boards, 11 bats) 869 · rotation 346 · bullpen 309 · bench-only 526
+  ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Old Hoss Radbourn 128, Count Leblanc 93, Sherry Smith 118, Rube Marquard 82 (era floor 70)
+  ✓ stamina guys in the pen (45+): Carl Hubbell 81, Luther Farrell 104, Hubert Lockhart 86, Christy Mathewson 102, Grover Cleveland Alexander 89
+  ✓ C  backup: Pythias Russ 86
+  ✓ 1B backup: Pop Corkhill 66, Honus Wagner 86, Ben Taylor 88, Jake Daubert 68
+  ✓ 2B backup: Tony Lazzeri 109
+  ✓ 3B backup: Dave Brain 99, Branch Russell 71, Honus Wagner 108, Tony Lazzeri 96
+  ✓ SS backup: Dave Brain 93, Honus Wagner 99, Tony Lazzeri 94
+  ✓ LF backup: Shoeless Joe Jackson 88, Pop Corkhill 147, Chick Hafey 83, Tillie Walker 117, Tom Brown 68, Cocaina Garcia 90
+  ✓ CF backup: Pop Corkhill 133, Roy Thomas 112, Tillie Walker 97
+  ✓ RF backup: Mack Eggleston 98, Shoeless Joe Jackson 83, Pop Corkhill 145, Chick Hafey 81, Branch Russell 106, Cocaina Garcia 87, Willie Keeler 86
+(26 of 26 have a live ask in the last shop snapshot)
+objective: 89.8 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 11 bats) 891 · rotation 324 · bullpen 379 · bench-only 478
