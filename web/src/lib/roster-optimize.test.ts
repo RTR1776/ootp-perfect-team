@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { maxAssignment } from "./assign";
-import { optimizeRoster } from "./roster-optimize";
+import { backupPositions, missingBackups, optimizeRoster } from "./roster-optimize";
 import { rosterObjective } from "./roster-objective";
 import type { FillCard, FillShape } from "./roster-fill";
 import type { RosterRules } from "./roster-rules";
@@ -148,6 +148,17 @@ test("backups puts a second centre fielder on the roster, and leaves positions t
   const b = optimizeRoster(start, pool, three, sh, { objective: obj.objective, backups: true });
   assert.ok(Object.values(b.slots).includes(4), JSON.stringify(b.slots));
   assert.deepEqual(b.missingBackups, [], "SS has one man in the pool, so it is not asked for");
+});
+
+test("two starters who can both play 2B are not each other's backup; a bench utility man is", () => {
+  const pool = [hitter(1, { "2B": 90 }), hitter(2, { "3B": 90, "2B": 70 }), hitter(3, { LF: 90 }), hitter(4, { "2B": 60, "3B": 60 })];
+  const byId = new Map(pool.map((c) => [c.cardId, c]));
+  const positions = backupPositions(pool, rules);
+  const starters = { "R:2B": 1, "R:3B": 2, "L:2B": 1, "L:3B": 2 };
+  assert.deepEqual(missingBackups({ ...starters, BN1: 3 }, byId, positions), ["2B vR", "3B vR", "2B vL", "3B vL"]);
+  assert.deepEqual(missingBackups({ ...starters, BN1: 4 }, byId, positions), [], "one utility card covers both spots");
+  // The other hand's platoon starter backs up this hand: 4 starts 2B vs LHP only.
+  assert.deepEqual(missingBackups({ "R:2B": 1, "R:3B": 2, "L:2B": 4, "L:3B": 2, BN1: 3 }, byId, positions), ["3B vL"]);
 });
 
 test("a pen with no long men climbs to two, a swap at a time", () => {

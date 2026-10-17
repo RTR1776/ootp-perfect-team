@@ -39,6 +39,7 @@ import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-
 import { teamWeights, calibrationSlope } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
 import { auditRoster, orderStaff } from "../src/lib/roster-audit";
+import { DEF_SUB_RUNS, depthChart, type DepthCard } from "../src/lib/depth-chart";
 import { staffPerTeam, topShape, type SeriesBuild } from "@/lib/field-construction";
 import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
@@ -113,8 +114,12 @@ const COMPARE_SEARCH = flag("compare-search") || flag("compare-only");
 const COMPARE_ONLY = flag("compare-only");
 /** Catchers the optimiser must carry. L.J. always carries two, and /build defaults to it; --min-catchers 0 turns it off. */
 const MIN_CATCHERS = num("min-catchers", 2)!;
-/** Shortstops the optimiser must carry: a backup SS (L.J. 2026-10-04); --min-ss 0 turns it off. */
-const MIN_SS = num("min-ss", 2)!;
+/**
+ * Shortstops the optimiser must carry (L.J. 2026-10-04: a backup SS). Off by default since 10-17: the
+ * backups check now asks for a true backup at every position, SS included, and a utility card can be
+ * it (L.J.: "I know we have two SS ... I don't want to be that restrictive"). --min-ss 2 turns it on.
+ */
+const MIN_SS = num("min-ss", 0)!;
 /** Long men (pen arms with stamina ≥ 45) the optimiser must carry (L.J. 2026-10-04); --min-long 0 turns it off. */
 const MIN_LONG = num("min-long", 2)!;
 /** A backup at every fielding position (L.J. 2026-10-04); --no-backups turns it off. */
@@ -686,6 +691,19 @@ async function main() {
   for (const k of shape.rpKeys) console.log(row(k, "R"));
   console.log(`\n--- bench ---`);
   for (const k of shape.benchKeys) console.log(row(k, "R"));
+  /* The game's depth chart (lib/depth-chart): utility men and a defensive sub per position, pinch hitters and runners. */
+  for (const hand of ["R", "L"] as const) {
+    const nm = (c: { cardId: number; name: string }) => `${c.name}${poolById.get(c.cardId)?.variant ? " (VAR)" : ""}`;
+    const dc = depthChart({
+      slots, cards: poolById as unknown as ReadonlyMap<number, DepthCard>, lineupPos, hand, name: nm,
+      bat: (id) => (hand === "R" ? fits.runsR : fits.runsL).get(id) ?? 0,
+      glove: (pos, c) => GLOVE * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`]) + (pos === "C" ? framingRuns(c.ratings.CatcherFrame, ERA_YEAR) : 0),
+      floor: (pos) => posFloorAt(MIN_POS, pos),
+    });
+    console.log(`\n--- depth chart vs ${hand}HP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is ${DEF_SUB_RUNS}+ runs a season better)`);
+    for (const r of dc.rows) console.log(`  ${r.pos.padEnd(3)} ${(r.starter ?? "-").padEnd(26)} U1 ${(r.utility[0] ? `${r.utility[0].name} ${r.utility[0].rating}` : "NONE").padEnd(28)} U2 ${(r.utility[1] ? `${r.utility[1].name} ${r.utility[1].rating}` : "-").padEnd(28)}${r.defSub ? ` def sub ${r.defSub.name} (+${r.defSub.runs})` : ""}`);
+    console.log(`  pinch hitters: ${dc.pinchHit.join(", ") || "-"} · pinch runners: ${dc.pinchRun.join(", ") || "-"}`);
+  }
 
   const rostered = [...new Set(Object.values(slots))].map((id) => poolById.get(id)!).filter(Boolean);
   const totalVal = rostered.reduce((n, c) => n + (c.val ?? 0), 0);

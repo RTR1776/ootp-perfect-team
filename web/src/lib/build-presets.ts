@@ -24,10 +24,10 @@ export interface BuildPreset {
 }
 
 export const BUILT_IN_PRESETS: readonly BuildPreset[] = [
-  { name: "Standard", twoCatchers: true, twoShortstops: true, twoLong: true, backups: true, defense: 1, pen: "field" },
-  { name: "Gloves first", twoCatchers: true, twoShortstops: true, twoLong: true, backups: true, defense: 1.25, pen: "field" },
+  { name: "Standard", twoCatchers: true, twoShortstops: false, twoLong: true, backups: true, defense: 1, pen: "field" },
+  { name: "Gloves first", twoCatchers: true, twoShortstops: false, twoLong: true, backups: true, defense: 1.25, pen: "field" },
   { name: "Bats first", twoCatchers: true, twoShortstops: true, twoLong: true, backups: false, defense: 0.8, pen: "field" },
-  { name: "Short pen (5)", twoCatchers: true, twoShortstops: true, twoLong: true, backups: true, defense: 1, pen: 5 },
+  { name: "Short pen (5)", twoCatchers: true, twoShortstops: false, twoLong: true, backups: true, defense: 1, pen: 5 },
 ];
 
 const KEY = "build:presets";

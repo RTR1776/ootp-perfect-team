@@ -487,7 +487,8 @@ export function RosterBuilder({
   };
   /* L.J. always carries two catchers; Optimise honours it unless unticked. */
   const [twoCatchers, setTwoCatchers] = useState(true);
-  const [twoShortstops, setTwoShortstops] = useState(true);
+  // Off by default since 10-17: the backups check asks for a true SS backup (a utility card counts).
+  const [twoShortstops, setTwoShortstops] = useState(false);
   const [twoLong, setTwoLong] = useState(true);
   const [backups, setBackups] = useState(true);
   /* Presets (lib/build-presets): the toggles above, a glove lean and a pen size, under a name. */

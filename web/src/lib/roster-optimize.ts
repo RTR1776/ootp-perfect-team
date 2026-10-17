@@ -94,12 +94,13 @@ export interface OptimizeOptions {
    */
   minLongMen?: number;
   /**
-   * A backup at every fielding position: two rostered hitters at or above the
-   * position floor, wherever the pool has two. L.J., 2026-10-04: "you have to
-   * know ... backups, etc." Monday Bronze came out of the search 10-05 with
-   * Deion Sanders the only CF. Scored as a penalty (BACKUP_PENALTY a missing
-   * position) rather than a legality rule, so a board missing two backups can
-   * still climb to one missing none a swap at a time.
+   * A true backup at every fielding position, against each hand: a hitter who
+   * doesn't start in the field on that board (missingBackups), wherever the
+   * pool has two who can play it. L.J., 2026-10-04: "you have to know ...
+   * backups, etc."; 2026-10-17: "a ton of backup outfield, but not infield".
+   * Scored as a penalty (BACKUP_PENALTY a missing position and hand) rather
+   * than a legality rule, so a board missing backups can still climb to one
+   * missing none a swap at a time.
    */
   backups?: boolean;
   pairMoves?: {
@@ -120,7 +121,7 @@ export interface OptimizeResult {
   /** Whether the start and the result pass every rule the search enforces. */
   startLegal: boolean;
   legal: boolean;
-  /** Positions still without a backup when `backups` was asked for (the pool had two who could play it). */
+  /** Positions and hands ("2B vR") still without a bench backup when `backups` was asked for (the pool had two who could play it). */
   missingBackups: string[];
 }
 
@@ -147,11 +148,29 @@ export function longMenShort(slots: FillResult, byId: ReadonlyMap<number, FillCa
   return Math.max(0, want - long);
 }
 
-/** Of `positions`, those the board carries fewer than two hitters for. */
+/**
+ * Of `positions`, those a board can't cover from its bench, as "2B vR" / "2B vL".
+ *
+ * A backup is a hitter who doesn't start in the field against that hand, rated
+ * at or above the floor there: the bench, the other hand's platoon starters,
+ * or the DH (he moves out and a bench bat takes the DH). Two starters who can
+ * each play 2B are not each other's backup: resting one moves the other off
+ * his own spot (L.J., 2026-10-17: Goldfather II had five bench outfielders and
+ * Polanco's backup was the 3B, whose backup was the catcher). One utility card
+ * covers every spot he can play, which is what makes those cards worth a
+ * bench seat.
+ */
 export function missingBackups(slots: FillResult, byId: ReadonlyMap<number, FillCard>, positions: readonly BackupPosition[]): string[] {
   if (!positions.length) return [];
   const hitters = [...new Set(Object.values(slots))].map((id) => byId.get(id)).filter((c): c is FillCard => c != null && !c.isPitcher);
-  return positions.filter((b) => hitters.filter((c) => (c.ratings[`Pos Rating ${b.pos}`] ?? 0) >= b.floor).length < 2).map((b) => b.pos);
+  const out: string[] = [];
+  for (const hand of ["R", "L"] as const) {
+    const fielding = new Set(FIELD_POS.map((p) => slots[`${hand}:${p}`]).filter((id) => id != null));
+    for (const b of positions) {
+      if (!hitters.some((c) => !fielding.has(c.cardId) && (c.ratings[`Pos Rating ${b.pos}`] ?? 0) >= b.floor)) out.push(`${b.pos} v${hand}`);
+    }
+  }
+  return out;
 }
 
 /**
