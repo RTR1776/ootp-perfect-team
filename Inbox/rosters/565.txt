@@ -16,135 +16,133 @@ team weights (1968 band): gloves ×2, starters ×1.5, pen ×2 against a bat run 
 +10 rating, runs/700 PA — LHB: Power +3.6  Avoid Ks +2.0  BABIP +2.0  Eye +1.3  Gap +0.7
                           RHB: Power +3.5  Avoid Ks +2.0  BABIP +1.9  Eye +1.2  Gap +0.7
                          arms: pHR +1.2  pBABIP +1.1  Stuff +1.0  Control +0.9
+must carry: #86762 -> 1 matched
 seed: 565-seed.txt as is (26 cards)
 
-optimiser: 2 starts (λ + seed) hill-climbed; best 307.3 runs vs 161.7 greedy (+145.6), 3 moves from the seed
+optimiser: 16 starts (λ + seed) hill-climbed; best 313.9 runs vs -838.3 greedy (+1152.2), 47 moves from λ 0.50 (the seed's climb: -692.7)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ed Bailey (VAR)             97  L  1956   +28.3  park:L DEF 112/112 +5.8  #86637
+R:C     Bob Boone                   73  R  1986    -6.0  park:R DEF 137/137 +10.3  #87032
 R:1B    Pedro Alvarez               81  L  2013   +29.2  park:L DEF  96/ 96 +4.7  #87062
-R:2B    Kaelen Culpepper (VAR)      89  R  2026   +11.1  park:R DEF 130/130 +6.6  #85033
+R:2B    Placido Polanco             77  R  2007   +10.2  park:R DEF 141/141 +10.9  #87213
 R:3B    Arjun Nimmala (VAR)         94  R  2026   +14.3  park:R DEF 128/128 +11.6  #84745
-R:SS    Shawon Dunston              95  R  1985   +12.1  park:R DEF 117/117 +4.6  #86947
-R:LF    Jacoby Ellsbury             98  L  2011   +22.7  park:L DEF 136/136 +7.9  #86726
+R:SS    Jeremy Pena                 79  R  2022    +9.5  park:R DEF 116/116 +4.1  #87154
+R:LF    Eric Davis (VAR)            85  R  1989   +25.8  park:R DEF  92/ 92 -0.7  #86974
 R:CF    Carlos Beltran              99  S  2004   +37.2  park:L DEF 108/108 -0.9  #87066
 R:RF    Bo Jackson                  88  R  1989   +32.0  park:R DEF 123/123 +5.3  #86966
 
 --- lineup vs LHP ---
-L:C     Ed Bailey (VAR)             97  L  1956   -24.5  park:L DEF 112/112 +5.8  #86637
+L:C     Bob Boone                   73  R  1986    -4.4  park:R DEF 137/137 +10.3  #87032
 L:1B    Arjun Nimmala (VAR)         94  R  2026   +17.4  park:R DEF 105/128 +7.0  #84745
-L:2B    Brandon Phillips            64  R  2007   +16.2  park:R DEF 130/130 +6.6  #87202
-L:3B    Kaelen Culpepper (VAR)      89  R  2026   +17.1  park:R DEF 122/130 +9.8  #85033
-L:SS    Shawon Dunston              95  R  1985   +14.7  park:R DEF 117/117 +4.6  #86947
-L:LF    Jacoby Ellsbury             98  L  2011    +5.4  park:L DEF 136/136 +7.9  #86726
+L:2B    Placido Polanco             77  R  2007    +5.6  park:R DEF 141/141 +10.9  #87213
+L:3B    Chris Sabo                  66  R  1990   +25.4  park:R DEF  77/ 77 -4.4  #87059
+L:SS    Jeremy Pena                 79  R  2022   +15.8  park:R DEF 116/116 +4.1  #87154
+L:LF    Eric Davis (VAR)            85  R  1989   +16.1  park:R DEF  92/ 92 -0.7  #86974
 L:CF    Carlos Beltran              99  S  2004   +22.4  park:R DEF 108/108 -0.9  #87066
 L:RF    Bo Jackson                  88  R  1989   +27.9  park:R DEF 123/123 +5.3  #86966
 
---- batting order vs RHP --- (4.43 runs/game; The Book's order 4.42)
-  1. Kaelen Culpepper (VAR) 2B
-  2. Carlos Beltran CF
-  3. Ed Bailey (VAR) C
-  4. Pedro Alvarez 1B
-  5. Jacoby Ellsbury LF
+--- batting order vs RHP --- (4.24 runs/game; The Book's order 4.23)
+  1. Bob Boone C
+  2. Eric Davis (VAR) LF
+  3. Pedro Alvarez 1B
+  4. Carlos Beltran CF
+  5. Placido Polanco 2B
   6. Arjun Nimmala (VAR) 3B
-  7. Shawon Dunston SS
-  8. Bo Jackson RF
+  7. Bo Jackson RF
+  8. Jeremy Pena SS
   9. Pitcher
 
---- batting order vs LHP --- (3.93 runs/game; The Book's order 3.92)
-  1. Kaelen Culpepper (VAR) 3B
-  2. Carlos Beltran CF
+--- batting order vs LHP --- (4.06 runs/game; The Book's order 4.05)
+  1. Bob Boone C
+  2. Eric Davis (VAR) LF
   3. Bo Jackson RF
-  4. Arjun Nimmala (VAR) 1B
-  5. Shawon Dunston SS
-  6. Jacoby Ellsbury LF
-  7. Brandon Phillips 2B
-  8. Ed Bailey (VAR) C
+  4. Chris Sabo 3B
+  5. Carlos Beltran CF
+  6. Arjun Nimmala (VAR) 1B
+  7. Jeremy Pena SS
+  8. Placido Polanco 2B
   9. Pitcher
 
 --- rotation ---
 SP1     Claude Grier                99  L  1926   +18.5   SP STM  92  #87086
-SP2     Cy Young                    99  R  1900   +18.0   SP STM 109  #86996
-SP3     Mark Langston               91  R  1989   +17.9   SP STM  86  #86956
+SP2     Mark Langston               91  R  1989   +17.9   SP STM  86  #86956
+SP3     Count Leblanc (VAR)         89  R  1921   +16.3   SP STM  93  #86978
 SP4     Justin Verlander            87  R  2013   +16.0   SP STM  98  #87064
 SP5     Bob Feller                  88  R  1939   +15.9   SP STM 111  #85650
 
 --- bullpen ---
-CL      James McDonald (VAR)        55  L  2010    +2.6   SP STM  59  #86384
-RP1     Randy Choate                45  L  2013    -5.4   RP STM   6  #87026
-RP2     Todd Jones (VAR)            43  L  2000    -9.3   CL STM  17  #86434
-RP3     Lefty Grove                 48  L  1940    -9.3   SP STM  77  #87168
+CL      Joe Beggs (VAR)             89  R  1940   +14.5   RP STM  46  #86762
+RP1     Fritz Ostermueller          64  L  1944    +5.3   SP STM  98  #86357
+RP2     James McDonald (VAR)        55  L  2010    +2.6   SP STM  59  #86384
+RP3     Randy Choate                45  L  2013    -5.4   RP STM   6  #87026
 RP4     R.T. Walker                 40  R  1947   -15.4   RP STM  69  #86952
 
 --- bench ---
-BN1     Brandon Phillips            64  R  2007    -7.9  park:R  #87202
-BN2     Alfredo Amezaga             44  S  2007   -14.0  park:L  #87188
-BN3     Chuck Cottier               43  R  1961   -32.1  park:R  #85503
-BN4     Charlie Eden                40  L  1885   -29.5  park:L  #82834
-BN5     George Pinkney              40  R  1886   -30.1  park:R  #83410
-BN6     Darrel Chaney               40  S  1976   -31.3  park:L  #82846
-BN7     John Leary                  40  R  1914   -31.4  park:R  #84297
-BN8     Tyler Heineman              41  S  2026   -32.6  park:L  #82502
+BN1     Javier Baez (VAR)           49  R  2021    -4.9  park:R  #86417
+BN2     Charlie Eden                40  L  1885   -29.5  park:L  #82834
+BN3     Tsung-Che Cheng (VAR)       44  L  2026   -10.3  park:L  #84612
+BN4     Alfredo Amezaga             44  S  2007   -14.0  park:L  #87188
+BN5     Buck Rodgers (VAR)          42  S  1962   -20.8  park:L  #84312
+BN6     Chris Sabo                  66  R  1990    -2.0  park:R  #87059
+BN7     George Pinkney              40  R  1886   -30.1  park:R  #83410
+BN8     Darrel Chaney               40  S  1976   -31.3  park:L  #82846
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Ed Bailey (VAR)            U1 Tyler Heineman 76            U2 -                           
+  C   Bob Boone                  U1 Buck Rodgers (VAR) 68        U2 -                           
   1B  Pedro Alvarez              U1 Alfredo Amezaga 78           U2 -                           
-  2B  Kaelen Culpepper (VAR)     U1 Brandon Phillips 130         U2 Chuck Cottier 117           
-  3B  Arjun Nimmala (VAR)        U1 Alfredo Amezaga 66           U2 Chuck Cottier 80            
-  SS  Shawon Dunston             U1 Chuck Cottier 90             U2 -                           
-  LF  Jacoby Ellsbury            U1 Alfredo Amezaga 110          U2 -                           
+  2B  Placido Polanco            U1 Javier Baez (VAR) 102        U2 -                           
+  3B  Arjun Nimmala (VAR)        U1 Chris Sabo 77                U2 Alfredo Amezaga 66          
+  SS  Jeremy Pena                U1 Javier Baez (VAR) 88         U2 -                           
+  LF  Eric Davis (VAR)           U1 Alfredo Amezaga 110          U2 -                            def sub Alfredo Amezaga (+3.5)
   CF  Carlos Beltran             U1 Alfredo Amezaga 95           U2 -                           
   RF  Bo Jackson                 U1 Alfredo Amezaga 116          U2 -                           
-  pinch hitters: Brandon Phillips, Alfredo Amezaga, Charlie Eden, George Pinkney · pinch runners: Brandon Phillips (SPE 92), Alfredo Amezaga (SPE 83), Chuck Cottier (SPE 83)
+  pinch hitters: Chris Sabo, Javier Baez (VAR), Tsung-Che Cheng (VAR), Alfredo Amezaga · pinch runners: Javier Baez (VAR) (SPE 97), Alfredo Amezaga (SPE 83), Tsung-Che Cheng (VAR) (SPE 82)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Ed Bailey (VAR)            U1 Tyler Heineman 76            U2 -                           
+  C   Bob Boone                  U1 Buck Rodgers (VAR) 68        U2 -                           
   1B  Arjun Nimmala (VAR)        U1 Pedro Alvarez 96             U2 Alfredo Amezaga 78          
-  2B  Brandon Phillips           U1 Chuck Cottier 117            U2 -                           
-  3B  Kaelen Culpepper (VAR)     U1 Pedro Alvarez 75             U2 Chuck Cottier 80            
-  SS  Shawon Dunston             U1 Chuck Cottier 90             U2 -                           
-  LF  Jacoby Ellsbury            U1 Alfredo Amezaga 110          U2 -                           
+  2B  Placido Polanco            U1 Javier Baez (VAR) 102        U2 -                           
+  3B  Chris Sabo                 U1 Pedro Alvarez 75             U2 Alfredo Amezaga 66          
+  SS  Jeremy Pena                U1 Javier Baez (VAR) 88         U2 -                           
+  LF  Eric Davis (VAR)           U1 Alfredo Amezaga 110          U2 -                            def sub Alfredo Amezaga (+3.5)
   CF  Carlos Beltran             U1 Alfredo Amezaga 95           U2 -                           
   RF  Bo Jackson                 U1 Alfredo Amezaga 116          U2 -                           
-  pinch hitters: Pedro Alvarez, George Pinkney, Charlie Eden, Tyler Heineman · pinch runners: Alfredo Amezaga (SPE 83), Chuck Cottier (SPE 83), Tyler Heineman (SPE 75)
+  pinch hitters: Javier Baez (VAR), Tsung-Che Cheng (VAR), Pedro Alvarez, George Pinkney · pinch runners: Javier Baez (VAR) (SPE 97), Alfredo Amezaga (SPE 83), Tsung-Che Cheng (VAR) (SPE 82)
 
-26 players · value 1788 / 1788 (0 spare) · from seed · 5 variants
-vs RHP lineup gets the friendly park side in 4 of 8 spots
+26 players · value 1788 / 1788 (0 spare) · λ 0.500 · 8 variants
+vs RHP lineup gets the friendly park side in 2 of 8 spots
 
 --- order inputs (rostered bats) ---
   Carlos Beltran         S EYE 172 (124/188)  POW 180 (151/190)  K 132  BABIP  92  GAP 123  SPE 109
   Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
   Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
-  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
-  Jacoby Ellsbury        L EYE  88 (78/91)  POW 115 (75/133)  K 116  BABIP 128  GAP 111  SPE 119
+  Eric Davis             R EYE 163 (188/154)  POW 187 (170/193)  K  67  BABIP 105  GAP  70  SPE 107
   Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
-  Shawon Dunston         R EYE  71 (74/70)  POW  90 (93/90)  K 123  BABIP 144  GAP 141  SPE 108
-  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
-  Brandon Phillips       R EYE  47 (58/44)  POW 110 (160/96)  K  95  BABIP  94  GAP  76  SPE  92
+  Placido Polanco        R EYE  69 (43/75)  POW  62 (72/58)  K 220  BABIP 144  GAP  95  SPE  67
+  Jeremy Pena            R EYE  59 (65/56)  POW 130 (134/128)  K  81  BABIP 136  GAP  80  SPE 111
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
+  Bob Boone              R EYE  94 (109/90)  POW  61 (58/62)  K 165  BABIP 103  GAP  66  SPE  33
+  Tsung-Che Cheng        L EYE 135 (117/141)  POW  49 (29/55)  K  88  BABIP  92  GAP  38  SPE  82
   Alfredo Amezaga        S EYE  82 (10/94)  POW  33 (1/40)  K 109  BABIP  78  GAP  85  SPE  83
+  Buck Rodgers           S EYE  66 (59/68)  POW  48 (49/48)  K 106  BABIP  64  GAP 113  SPE  56
   Charlie Eden           L EYE  68 (68/69)  POW  18 (18/19)  K  83  BABIP  73  GAP  89  SPE  71
   George Pinkney         R EYE  87 (89/87)  POW  18 (19/18)  K  95  BABIP  64  GAP  70  SPE  72
   Darrel Chaney          S EYE  75 (92/69)  POW  19 (11/22)  K  78  BABIP  71  GAP  75  SPE  57
-  John Leary             R EYE  26 (15/30)  POW  28 (24/30)  K  84  BABIP  75  GAP  92  SPE  62
-  Chuck Cottier          R EYE  64 (53/67)  POW  22 (1/29)  K  71  BABIP  63  GAP  69  SPE  83
-  Tyler Heineman         S EYE  64 (64/65)  POW  46 (54/44)  K  83  BABIP  48  GAP  54  SPE  75
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 5 RP / 16 bats (caps: 5 SP, 7 RP, 12 arms)
-  ✓ starters' stamina Claude Grier 92, Cy Young 109, Mark Langston 86, Justin Verlander 98, Bob Feller 111 (era floor 60)
-  ✓ stamina guys in the pen (45+): James McDonald 59, Lefty Grove 77, R.T. Walker 69
-  ✓ C  backup: Tyler Heineman 76
+  ✓ starters' stamina Claude Grier 92, Mark Langston 86, Count Leblanc 93, Justin Verlander 98, Bob Feller 111 (era floor 60)
+  ✓ stamina guys in the pen (45+): Joe Beggs 46, Fritz Ostermueller 98, James McDonald 59, R.T. Walker 69
+  ✓ C  backup: Buck Rodgers 68
   ✓ 1B backup: vs RHP Alfredo Amezaga 78 · vs LHP Pedro Alvarez 96, Alfredo Amezaga 78
-  ✓ 2B backup: vs RHP Brandon Phillips 130, Chuck Cottier 117 · vs LHP Chuck Cottier 117
-  ✓ 3B backup: vs RHP Alfredo Amezaga 66, Chuck Cottier 80 · vs LHP Pedro Alvarez 75, Alfredo Amezaga 66, Chuck Cottier 80
-  ✓ SS backup: Chuck Cottier 90
+  ✓ 2B backup: Javier Baez 102
+  ✓ 3B backup: vs RHP Chris Sabo 77, Alfredo Amezaga 66 · vs LHP Pedro Alvarez 75, Alfredo Amezaga 66
+  ✓ SS backup: Javier Baez 88
   ✓ LF backup: Alfredo Amezaga 110
   ✓ CF backup: Alfredo Amezaga 95
   ✓ RF backup: Alfredo Amezaga 116
 (21 of 26 have a live ask in the last shop snapshot)
-objective: 307.3 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
-points: lineup(both boards, 9 bats) 805 · rotation 464 · bullpen 231 · bench-only 288
-
-!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
-   Todd Jones               pBABIP 37 (fitted 50–175)
+objective: 313.9 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 9 bats) 742 · rotation 454 · bullpen 293 · bench-only 299

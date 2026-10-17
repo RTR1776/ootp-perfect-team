@@ -18,9 +18,10 @@ staff innings split over the arms carried: the field runs 4.7 SP / 6.7 RP → pe
 +10 rating, runs/700 PA — LHB: Power +5.1  Avoid Ks +2.7  BABIP +2.2  Eye +1.5  Gap +0.9
                           RHB: Power +4.8  Avoid Ks +2.7  BABIP +2.2  Eye +1.5  Gap +0.9
                          arms: pHR +1.7  Stuff +1.3  pBABIP +1.3  Control +1.1
+must carry: #86762 -> 1 matched
 seed: 563-seed.txt as is (26 cards)
 
-optimiser: 2 starts (λ + seed) hill-climbed; best 306.7 runs vs 184.3 greedy (+122.4), 2 moves from the seed
+optimiser: 15 starts (λ + seed) hill-climbed; best 308.6 runs vs -815.7 greedy (+1124.3), 3 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Mike Zunino                 75  R  2021   -16.8  park:R DEF  77/ 77 +12.7  #86431
@@ -36,13 +37,13 @@ R:DH    Rudy York (VAR)             88  R  1943   +20.3  park:R  #86429
 --- lineup vs LHP ---
 L:C     Mike Zunino                 75  R  2021   +16.6  park:R DEF  77/ 77 +12.7  #86431
 L:1B    Rudy York (VAR)             88  R  1943   +26.4  park:R DEF  71/ 71 -1.3  #86429
-L:2B    Kaelen Culpepper (VAR)      89  R  2026   +19.0  park:R DEF 130/130 +6.2  #85033
-L:3B    Aiva Arquette (VAR)         71  R  2026    +8.5  park:R DEF 113/113 +6.5  #84768
+L:2B    Marcus Semien               84  R  2021    +5.1  park:R DEF 121/121 +2.9  #86744
+L:3B    Kaelen Culpepper (VAR)      89  R  2026   +19.0  park:R DEF 122/130 +9.1  #85033
 L:SS    Jeremy Pena                 79  R  2022   +17.7  park:R DEF 116/116 +3.9  #87154
 L:LF    Eric Davis (VAR)            85  R  1989   +23.4  park:R DEF  92/ 92 -0.6  #86974
 L:CF    Bo Jackson                  88  R  1989   +32.6  park:R DEF 103/123 -1.8  #86966
 L:RF    Curtis Granderson           87  L  2011   +19.1  park:L DEF 117/117 +3.8  #86596
-L:DH    Marcus Semien               84  R  2021    +5.1  park:R  #86744
+L:DH    Pete Incaviglia             46  R  1986    +0.8  park:R  #86943
 
 --- batting order vs RHP --- (6.00 runs/game; The Book's order 5.98)
   1. Curtis Granderson RF
@@ -55,16 +56,16 @@ L:DH    Marcus Semien               84  R  2021    +5.1  park:R  #86744
   8. Jeremy Pena SS
   9. Mike Zunino C
 
---- batting order vs LHP --- (5.88 runs/game; The Book's order 5.87)
+--- batting order vs LHP --- (5.81 runs/game; The Book's order 5.81)
   1. Eric Davis (VAR) LF
   2. Bo Jackson CF
   3. Rudy York (VAR) 1B
-  4. Mike Zunino C
-  5. Kaelen Culpepper (VAR) 2B
+  4. Kaelen Culpepper (VAR) 3B
+  5. Jeremy Pena SS
   6. Curtis Granderson RF
-  7. Aiva Arquette (VAR) 3B
-  8. Jeremy Pena SS
-  9. Marcus Semien DH
+  7. Mike Zunino C
+  8. Marcus Semien 2B
+  9. Pete Incaviglia DH
 
 --- rotation ---
 SP1     Count Leblanc (VAR)         89  R  1921   +14.5   SP STM  93  #86978
@@ -74,7 +75,7 @@ SP4     Bob Feller                  88  R  1939   +12.1   SP STM 111  #85650
 SP5     CC Sabathia                 82  L  2007   +11.6   SP STM  85  #87182
 
 --- bullpen ---
-CL      Fritz Ostermueller          64  L  1944    +6.3   SP STM  98  #86357
+CL      Joe Beggs (VAR)             89  R  1940   +14.5   RP STM  46  #86762
 RP1     James McDonald (VAR)        55  L  2010    +4.0   SP STM  59  #86384
 RP2     John Bale                   59  L  2007    +0.9   RP STM  33  #87234
 RP3     Randy Choate                45  L  2013    -2.7   RP STM   6  #87026
@@ -83,35 +84,35 @@ RP5     Todd Jones (VAR)            43  L  2000    -9.6   CL STM  17  #86434
 RP6     R.T. Walker                 40  R  1947   -11.4   RP STM  69  #86952
 
 --- bench ---
-BN1     Aiva Arquette (VAR)         71  R  2026    +8.2  park:R  #84768
-BN2     Vladimir Guerrero           48  R  1997    -5.6  park:R  #86474
-BN3     Rickey Henderson (VAR)      46  R  2000   -10.0  park:R  #85362
+BN1     Vladimir Guerrero           48  R  1997    -5.6  park:R  #86474
+BN2     Rickey Henderson (VAR)      46  R  2000   -10.0  park:R  #85362
+BN3     Pete Incaviglia             46  R  1986   -14.9  park:R  #86943
 BN4     Buck Rodgers (VAR)          42  S  1962   -19.8  park:L  #84312
-BN5     Tsung-Che Cheng (VAR)       44  L  2026   -10.8  park:L  #84612
+BN5     Chuck Cottier               43  R  1961   -29.8  park:R  #85503
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Mike Zunino                U1 Buck Rodgers (VAR) 68        U2 -                           
   1B  Pedro Alvarez              U1 NONE                         U2 -                           
-  2B  Marcus Semien              U1 Aiva Arquette (VAR) 112      U2 -                           
-  3B  Kaelen Culpepper (VAR)     U1 Aiva Arquette (VAR) 113      U2 -                           
-  SS  Jeremy Pena                U1 Aiva Arquette (VAR) 100      U2 -                           
+  2B  Marcus Semien              U1 Chuck Cottier 117            U2 -                           
+  3B  Kaelen Culpepper (VAR)     U1 Chuck Cottier 80             U2 -                           
+  SS  Jeremy Pena                U1 Chuck Cottier 90             U2 -                           
   LF  Eric Davis (VAR)           U1 Rickey Henderson (VAR) 75    U2 -                           
   CF  Bo Jackson                 U1 Vladimir Guerrero 94         U2 -                           
   RF  Curtis Granderson          U1 Vladimir Guerrero 117        U2 -                           
-  pinch hitters: Aiva Arquette (VAR), Vladimir Guerrero, Rickey Henderson (VAR), Tsung-Che Cheng (VAR) · pinch runners: Vladimir Guerrero (SPE 109), Rickey Henderson (VAR) (SPE 87), Tsung-Che Cheng (VAR) (SPE 82)
+  pinch hitters: Vladimir Guerrero, Rickey Henderson (VAR), Pete Incaviglia, Buck Rodgers (VAR) · pinch runners: Vladimir Guerrero (SPE 109), Rickey Henderson (VAR) (SPE 87), Chuck Cottier (SPE 83)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Mike Zunino                U1 Buck Rodgers (VAR) 68        U2 -                           
   1B  Rudy York (VAR)            U1 Pedro Alvarez 96             U2 -                            def sub Pedro Alvarez (+5.8)
-  2B  Kaelen Culpepper (VAR)     U1 NONE                         U2 -                           
-  3B  Aiva Arquette (VAR)        U1 Pedro Alvarez 75             U2 -                           
-  SS  Jeremy Pena                U1 NONE                         U2 -                           
+  2B  Marcus Semien              U1 Chuck Cottier 117            U2 -                           
+  3B  Kaelen Culpepper (VAR)     U1 Pedro Alvarez 75             U2 Chuck Cottier 80            
+  SS  Jeremy Pena                U1 Chuck Cottier 90             U2 -                           
   LF  Eric Davis (VAR)           U1 Rickey Henderson (VAR) 75    U2 -                           
   CF  Bo Jackson                 U1 Vladimir Guerrero 94         U2 -                           
   RF  Curtis Granderson          U1 Vladimir Guerrero 117        U2 -                           
-  pinch hitters: Vladimir Guerrero, Pedro Alvarez, Tsung-Che Cheng (VAR), Rickey Henderson (VAR) · pinch runners: Vladimir Guerrero (SPE 109), Rickey Henderson (VAR) (SPE 87), Tsung-Che Cheng (VAR) (SPE 82)
+  pinch hitters: Vladimir Guerrero, Pedro Alvarez, Rickey Henderson (VAR), Buck Rodgers (VAR) · pinch runners: Vladimir Guerrero (SPE 109), Rickey Henderson (VAR) (SPE 87), Chuck Cottier (SPE 83)
 
-26 players · value 1780 / 1780 (0 spare) · from seed · 10 variants
+26 players · value 1779 / 1780 (1 spare) · from seed · 9 variants
 vs RHP lineup gets the friendly park side in 2 of 9 spots
 
 --- order inputs (rostered bats) ---
@@ -123,29 +124,29 @@ vs RHP lineup gets the friendly park side in 2 of 9 spots
   Curtis Granderson      L EYE 160 (94/184)  POW 145 (158/141)  K  78  BABIP  91  GAP  98  SPE 106
   Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
   Jeremy Pena            R EYE  59 (65/56)  POW 130 (134/128)  K  81  BABIP 136  GAP  80  SPE 111
-  Aiva Arquette          R EYE  78 (98/70)  POW 118 (104/124)  K  95  BABIP 103  GAP 117  SPE  78
   Vladimir Guerrero      R EYE  62 (68/61)  POW  80 (89/77)  K 101  BABIP  83  GAP 108  SPE 109
   Rickey Henderson       R EYE 172 (202/161)  POW  49 (7/60)  K  98  BABIP  67  GAP  64  SPE  87
-  Tsung-Che Cheng        L EYE 135 (117/141)  POW  49 (29/55)  K  88  BABIP  92  GAP  38  SPE  82
+  Pete Incaviglia        R EYE  84 (100/79)  POW 116 (137/110)  K  37  BABIP  84  GAP  62  SPE  47
   Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
   Buck Rodgers           S EYE  66 (59/68)  POW  48 (49/48)  K 106  BABIP  64  GAP 113  SPE  56
+  Chuck Cottier          R EYE  64 (53/67)  POW  22 (1/29)  K  71  BABIP  63  GAP  69  SPE  83
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (46 teams): 4.9 SP / 7.2 RP / 14.3 bats
   ✓ starters' stamina Count Leblanc 93, Justin Verlander 98, Nick Altrock 90, Bob Feller 111, CC Sabathia 85 (era floor 50)
-  ✓ stamina guys in the pen (45+): Fritz Ostermueller 98, James McDonald 59, Tin Can Kincannon 74, R.T. Walker 69
+  ✓ stamina guys in the pen (45+): Joe Beggs 46, James McDonald 59, Tin Can Kincannon 74, R.T. Walker 69
   ✓ C  backup: Buck Rodgers 68
   ✓ 1B backup: vs RHP Rudy York 71 · vs LHP Pedro Alvarez 96
-  ✓ 2B backup: vs RHP Aiva Arquette 112 · vs LHP Marcus Semien 121
-  ✓ 3B backup: vs RHP Aiva Arquette 113 · vs LHP Pedro Alvarez 75
-  ✓ SS backup: vs RHP Aiva Arquette 100 · vs LHP Marcus Semien 90
+  ✓ 2B backup: Chuck Cottier 117
+  ✓ 3B backup: vs RHP Chuck Cottier 80 · vs LHP Pedro Alvarez 75, Chuck Cottier 80
+  ✓ SS backup: Chuck Cottier 90
   ✓ LF backup: Rickey Henderson 75
   ✓ CF backup: Vladimir Guerrero 94
   ✓ RF backup: Vladimir Guerrero 117
-(25 of 26 have a live ask in the last shop snapshot)
-objective: 306.7 weighted runs (bats 58/42 R/L, SP 1.845, RP 0.88, bench 0.1)
-points: lineup(both boards, 10 bats) 827 · rotation 422 · bullpen 351 · bench-only 180
+(23 of 26 have a live ask in the last shop snapshot)
+objective: 308.6 weighted runs (bats 58/42 R/L, SP 1.845, RP 0.88, bench 0.1)
+points: lineup(both boards, 10 bats) 802 · rotation 422 · bullpen 376 · bench-only 179
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    John Bale                pBABIP 14 (fitted 50–175)
