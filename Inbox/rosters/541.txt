@@ -18,9 +18,9 @@ staff innings split over the arms carried: the field runs 4.6 SP / 4.1 RP → pe
 +10 rating, runs/700 PA — LHB: Power +3.7  BABIP +1.9  Eye +1.5  Avoid Ks +1.4  Gap +0.8
                           RHB: Power +3.3  BABIP +2.0  Eye +1.5  Avoid Ks +1.4  Gap +0.8
                          arms: pHR +1.2  pBABIP +1.2  Control +1.1  Stuff +0.7
-seed: 541-seed.txt refilled at λ 0 (0 cards no longer in the pool; shape differs)
+seed: 541-seed.txt as is (26 cards)
 
-optimiser: 14 starts (λ + seed) hill-climbed; best 329.6 runs vs 295.9 greedy (+33.7), 28 moves from λ 3.00 (the seed's climb: 329.6)
+optimiser: 14 starts (λ + seed) hill-climbed; best 329.1 runs vs 295.9 greedy (+33.2), 10 moves from λ 0.00 (the seed's climb: 329.1)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Ed Bailey (VAR)             97  L  1956   +30.8  park:L DEF 112/112 +6.0  #86637
@@ -79,16 +79,38 @@ RP3     Sam Jones                   92  R  1921   +10.4   SP STM  82  #86070
 RP4     Johnny Markham              87  R  1942   +10.3   RP STM  69  #87159
 
 --- bench ---
-BN1     Chick Hafey                 89  R  1928   +14.6  park:R  #85939
+BN1     Duke Snider                 73  L  1949    -0.1  park:L  #85225
 BN2     Al Simmons                  99  R  1930   +14.1  park:R  #85942
 BN3     Rudy York (VAR)             88  R  1943   +14.0  park:R  #86429
-BN4     Shoeless Joe Jackson        88  L  1915   +12.7  park:L  #86372
-BN5     Dewey Creacy                94  R  1926    +6.0  park:R  #86980
-BN6     Pythias Russ                89  R  1927    +5.3  park:R  #87083
-BN7     Josh Gibson                 84  R  1946    +2.6  park:R  #86898
+BN4     Dewey Creacy                94  R  1926    +6.0  park:R  #86980
+BN5     Pythias Russ                89  R  1927    +5.3  park:R  #87083
+BN6     Josh Gibson                 84  R  1946    +2.6  park:R  #86898
+BN7     Chick Hafey                 89  R  1928   +14.6  park:R  #85939
 BN8     Willie Wells                91  R  1938   -14.7  park:R  #84542
 
-26 players · value 2375 · λ 3.000 · 3 variants
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Ed Bailey (VAR)            U1 Pythias Russ 86              U2 Josh Gibson 69              
+  1B  Willie McCovey             U1 Rudy York (VAR) 71           U2 Josh Gibson 75              
+  2B  Eddie Collins              U1 Willie Wells 116             U2 -                           
+  3B  Hank Thompson              U1 Dewey Creacy 88              U2 -                           
+  SS  Luke Appling               U1 Pythias Russ 112             U2 Willie Wells 105            
+  LF  Mickey Mantle              U1 Al Simmons 90                U2 Chick Hafey 83              
+  CF  Willie Mays                U1 Duke Snider 116              U2 -                           
+  RF  Branch Russell             U1 Chick Hafey 81               U2 -                           
+  pinch hitters: Chick Hafey, Al Simmons, Rudy York (VAR), Dewey Creacy · pinch runners: Pythias Russ (SPE 101), Duke Snider (SPE 94), Chick Hafey (SPE 79)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Josh Gibson                U1 Ed Bailey (VAR) 112          U2 -                            def sub Ed Bailey (VAR) (+10.6)
+  1B  Rudy York (VAR)            U1 Willie McCovey 76            U2 -                           
+  2B  Willie Wells               U1 Eddie Collins 117            U2 Hank Thompson 88            
+  3B  Dewey Creacy               U1 Branch Russell 71            U2 Hank Thompson 92            
+  SS  Pythias Russ               U1 Luke Appling 110             U2 -                           
+  LF  Al Simmons                 U1 Mickey Mantle 123            U2 Hank Thompson 85             def sub Mickey Mantle (+6.9)
+  CF  Willie Mays                U1 Mickey Mantle 103            U2 Duke Snider 116             
+  RF  Chick Hafey                U1 Branch Russell 106           U2 Mickey Mantle 119            def sub Mickey Mantle (+8.7)
+  pinch hitters: Willie McCovey, Branch Russell, Luke Appling, Mickey Mantle · pinch runners: Mickey Mantle (SPE 98), Duke Snider (SPE 94), Hank Thompson (SPE 78)
+
+26 players · value 2360 · λ 0.000 · 3 variants
 vs RHP lineup gets the friendly park side in 6 of 8 spots
 
 --- order inputs (rostered bats) ---
@@ -100,12 +122,12 @@ vs RHP lineup gets the friendly park side in 6 of 8 spots
   Chick Hafey            R EYE  64 (73/61)  POW 131 (140/128)  K  91  BABIP 124  GAP 154  SPE  79
   Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
   Rudy York              R EYE 161 (181/154)  POW 179 (204/170)  K  63  BABIP  74  GAP 124  SPE  66
-  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
   Branch Russell         L EYE 128 (120/131)  POW  96 (88/99)  K 119  BABIP 124  GAP  96  SPE  73
   Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
   Dewey Creacy           R EYE  44 (48/43)  POW 142 (146/141)  K 100  BABIP 102  GAP 127  SPE  63
   Pythias Russ           R EYE  75 (81/73)  POW  96 (103/95)  K 113  BABIP 117  GAP 136  SPE 101
   Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
+  Duke Snider            L EYE  71 (58/75)  POW 107 (69/124)  K  59  BABIP  99  GAP  94  SPE  94
   Eddie Collins          L EYE  91 (89/92)  POW  43 (17/50)  K 164  BABIP 120  GAP  94  SPE  69
   Willie Wells           R EYE  92 (94/92)  POW  78 (88/74)  K 106  BABIP  96  GAP  84  SPE  69
 LEGAL — every rule check passes
@@ -114,14 +136,14 @@ LEGAL — every rule check passes
   ✓ staff 5 SP / 5 RP / 16 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (60 teams): 4.8 SP / 5.3 RP / 16.4 bats
   ✓ starters' stamina Claude Grier 92, Bob Feller 111, Count Leblanc 93, Babe Ruth 104, Milt Pappas 79 (era floor 60)
   ✓ stamina guys in the pen (45+): Larry Jackson 92, Joe Beggs 46, Dizzy Dean 98, Sam Jones 82, Johnny Markham 69
-  ✓ C  backup: Ed Bailey 112, Josh Gibson 69, Pythias Russ 86
-  ✓ 1B backup: Willie McCovey 76, Josh Gibson 75, Rudy York 71, Willie Wells 77, Shoeless Joe Jackson 73
-  ✓ 2B backup: Eddie Collins 117, Hank Thompson 88, Willie Wells 116
-  ✓ 3B backup: Hank Thompson 92, Branch Russell 71, Dewey Creacy 88
-  ✓ SS backup: Luke Appling 110, Pythias Russ 112, Willie Wells 105
-  ✓ LF backup: Hank Thompson 85, Mickey Mantle 123, Willie Wells 71, Chick Hafey 83, Al Simmons 90, Shoeless Joe Jackson 88
-  ✓ CF backup: Mickey Mantle 103
-  ✓ RF backup: Hank Thompson 79, Branch Russell 106, Mickey Mantle 119, Chick Hafey 81, Shoeless Joe Jackson 83
+  ✓ C  backup: vs RHP Josh Gibson 69, Pythias Russ 86 · vs LHP Ed Bailey 112
+  ✓ 1B backup: vs RHP Josh Gibson 75, Rudy York 71, Willie Wells 77 · vs LHP Willie McCovey 76
+  ✓ 2B backup: vs RHP Willie Wells 116 · vs LHP Eddie Collins 117, Hank Thompson 88
+  ✓ 3B backup: vs RHP Dewey Creacy 88 · vs LHP Hank Thompson 92, Branch Russell 71
+  ✓ SS backup: vs RHP Pythias Russ 112, Willie Wells 105 · vs LHP Luke Appling 110
+  ✓ LF backup: vs RHP Willie Wells 71, Chick Hafey 83, Al Simmons 90 · vs LHP Hank Thompson 85, Mickey Mantle 123
+  ✓ CF backup: vs RHP Duke Snider 116 · vs LHP Mickey Mantle 103, Duke Snider 116
+  ✓ RF backup: vs RHP Chick Hafey 81 · vs LHP Hank Thompson 79, Branch Russell 106, Mickey Mantle 119
 (23 of 26 have a live ask in the last shop snapshot)
-objective: 329.6 weighted runs (bats 75/25 R/L, SP 2.73, RP 0.66, bench 0.1)
-points: lineup(both boards, 15 bats) 1370 · rotation 469 · bullpen 448 · bench-only 88
+objective: 329.1 weighted runs (bats 75/25 R/L, SP 2.73, RP 0.66, bench 0.1)
+points: lineup(both boards, 15 bats) 1370 · rotation 469 · bullpen 448 · bench-only 73

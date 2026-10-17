@@ -255,7 +255,18 @@ export default async function BuildPage({
         ).map((r) => ({ ...r, woba: r.woba ?? null, fip: r.fip ?? null }))
       : [];
 
-    const bySeries = new Map(seriesRows.map((r) => [r.cardId, r]));
+    // A card's base and variant copies are separate rows: one line per card here.
+    const bySeries = new Map<number, ObservedLine>();
+    for (const r of seriesRows) {
+      const a = bySeries.get(r.cardId);
+      if (!a) { bySeries.set(r.cardId, r); continue; }
+      const pa = a.pa + r.pa, ip = a.ip + r.ip;
+      bySeries.set(r.cardId, {
+        ...a, pa, ip, war: (a.war ?? 0) + (r.war ?? 0), instances: Math.max(a.instances ?? 0, r.instances ?? 0),
+        woba: pa > 0 ? ((a.woba ?? 0) * a.pa + (r.woba ?? 0) * r.pa) / pa : null,
+        fip: ip > 0 ? ((a.fip ?? 0) * a.ip + (r.fip ?? 0) * r.ip) / ip : null,
+      });
+    }
     // What the field plays here, for the rules strip (a missing set rule shows
     // as "field plays only …"). Skipped when the exports predate the format.
     setEvidence = full.series && seriesLive ? await loadSetEvidence(full.series) : null;

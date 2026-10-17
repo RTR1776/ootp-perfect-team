@@ -61,7 +61,7 @@ async function buildLines(uploadId: number | null): Promise<{ lines: PlayedLine[
   // Every card that has tournament play: totals and the raw pooled line.
   const played = asRows(await db.execute(sql`
     select o.card_id, bool_or(o.is_pitcher) is_pitcher, sum(o.pa)::float pa, sum(o.ip)::float ip,
-           sum(o.instances)::int instances, count(*)::int series,
+           sum(o.instances)::int instances, count(distinct o.series)::int series,
            max(o.series) filter (where o.is_pitcher) _unused
     from observed_card_stats o group by o.card_id`));
   if (!played.length) return { lines: [], collectionDate: null };

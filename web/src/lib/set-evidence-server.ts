@@ -17,9 +17,9 @@ export async function loadSetEvidence(series: string): Promise<SetEvidence | nul
 export async function loadSetEvidenceMany(series: readonly string[]): Promise<Map<string, SetEvidence>> {
   const out = new Map<string, SetEvidence>();
   if (!series.length) return out;
-  // (series, card_id) is the table's key, so each card counts once per series.
+  // Distinct: a card's base and variant copies are two rows, and each card counts once per series.
   const rows = await db
-    .select({ series: observedCardStats.series, cardId: observedCardStats.cardId, cardType: cards.cardType, year: cards.year })
+    .selectDistinct({ series: observedCardStats.series, cardId: observedCardStats.cardId, cardType: cards.cardType, year: cards.year })
     .from(observedCardStats)
     .innerJoin(cards, eq(cards.cardId, observedCardStats.cardId))
     .where(inArray(observedCardStats.series, [...series]));
