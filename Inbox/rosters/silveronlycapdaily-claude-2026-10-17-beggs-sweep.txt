@@ -1,0 +1,36 @@
+# Daily Silver Only Cap — Claude pick 2026-10-17-beggs sweep, rebuilt from the catalogue's rules by current-rosters (--year 1998 --park Heinsohn Ballpark --park-year 2026 --dh --min 70 --max 79 --cap 1888 --variant-cap 11 --size 26 --series silveronlycapdaily --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Jose Oquendo #85738
+R:3B Aiva Arquette (VAR) #84768
+R:SS Jack Wilson #87225
+R:LF Kevin Alcantara (VAR) #84755
+R:CF Brian Jordan #86965
+R:RF Roberto Clemente #86723
+R:DH Bryce Harper #86905
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86771
+L:2B Jose Oquendo #85738
+L:3B Aiva Arquette (VAR) #84768
+L:SS Jack Wilson #87225
+L:LF Kevin Alcantara (VAR) #84755
+L:CF Brian Jordan #86965
+L:RF Roberto Clemente #86723
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 Kelvim Escobar #87207
+SP3 Jordan Montgomery #86354
+SP4 Bob Walk #86971
+SP5 Jakie May (VAR) #85286
+CL Bruce Ruffin #86777
+RP1 Alex Claudio (VAR) #86447
+RP2 Brian Anderson #87070
+RP3 Bob Gibson #85499
+RP4 Chris Sale #83244
+RP5 Juan Cruz #87224
+RP6 Andrew Alvarez #85566
+BN1 Gus Bell #85785
+BN2 Ryan Braun #87222
+BN3 Nick Swisher (VAR) #85784
+BN4 Mike Zunino #86431
+BN5 Casey Candaele #82911
