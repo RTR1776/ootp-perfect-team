@@ -59,4 +59,4 @@ w=[t["G"] for t in T]; sw=sum(w)
 var_obs=sum(t["G"]*t["wpc"]**2 for t in T)/sw
 # binomial noise of a G-game win%: p(1-p)/G, G-weighted average -> 0.25 * N / sum(G)
 var_noise=sum(t["G"]*(t["wp"]*(1-t["wp"]))/t["G"] for t in T)/sw
-print(f"  observed var of win% {var_obs:.4f}, coin-flip noise {var_noise:.4f} -> skill share {1-var_noise/var_obs:.2f}, best possible corr ~{math.sqrt(max(0,1-var_noise/var_obs)):.2f}; we are at 0.375-0.380")
+print(f"  observed var of win% {var_obs:.4f}, coin-flip noise {var_noise:.4f} -> skill share {1-var_noise/var_obs:.2f}, best possible corr ~{math.sqrt(max(0,1-var_noise/var_obs)):.2f}; equal weights read 0.402 on 2026-10-17 (variants as their own form)")

@@ -24,7 +24,8 @@ import { cards } from "@/db/schema";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { eraFor, parkFor, eraTable } from "@/lib/analytics/tournament-env";
 import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
-import { parseLeagueExport, type LeagueStint } from "@/lib/ingest/league";
+import { parseLeagueExport, collectionVocab, type LeagueStint } from "@/lib/ingest/league";
+import { formRatings } from "@/lib/card-forms";
 import { scanForJimBeaters } from "@/lib/ingest/jim";
 import { fitEraYear } from "@/lib/analytics/league-era";
 import { loadObservedBook, observedRunsFrom } from "@/lib/analytics/observed-blend";
@@ -68,8 +69,8 @@ for (const s of snaps) {
   eraOf.set(s.on_, fit ? Number(fit.year) || 2010 : 2010);
 }
 for (const s of snaps) {
-  const rows = (await sql.query(`select cid, name, pos, org, is_pitcher, is_free_agent, val, pa, ip, stats from league_stints where snapshot_id = $1`, [s.id])) as any[];
-  let stints = rows.filter((r) => !r.is_free_agent).map((r) => ({ cid: r.cid, name: r.name, pos: r.pos, org: r.org, isPitcher: r.is_pitcher, pa: r.pa, ip: r.ip, stats: r.stats })) as unknown as LeagueStint[];
+  const rows = (await sql.query(`select cid, name, pos, org, is_pitcher, is_free_agent, is_variant, val, pa, ip, ratings, stats from league_stints where snapshot_id = $1`, [s.id])) as any[];
+  let stints = rows.filter((r) => !r.is_free_agent).map((r) => ({ cid: r.cid, name: r.name, pos: r.pos, org: r.org, isPitcher: r.is_pitcher, isVariant: r.is_variant, pa: r.pa, ip: r.ip, ratings: r.ratings, stats: r.stats })) as unknown as LeagueStint[];
   // Snapshots imported before the parser kept R / Ra / GS: re-read the week's file from disk.
   if (!stints.some((x) => x.isPitcher && x.stats.GS_p != null)) {
     const folder = s.on_ === "2026-06-28" ? "2026-07-06" : s.on_;
@@ -98,7 +99,22 @@ for (const u of units) {
     const bad = new Set(jim.flagged.map((x) => x.org));
     stints = stints.filter((s) => !bad.has(s.org));
   }
-  const ids = [...new Set(stints.map((s) => s.cid!))];
+  /*
+   * Variant copies as their own form (2026-10-17 audit: a quarter of tournament
+   * play is variants, 4-5 points over the base card): id −cid, rated
+   * formRatings(base, the copy's exported ratings). Before this every copy was
+   * scored at the base card's ratings.
+   */
+  const fid = (s: LeagueStint) => (s.isVariant ? -s.cid! : s.cid!);
+  const formRatingsOf = new Map<number, Record<string, number>>();
+  for (const s of stints) {
+    const id = fid(s);
+    if (formRatingsOf.has(id)) continue;
+    const c = card.get(s.cid!)!;
+    const base = c.ratings as Record<string, number>;
+    formRatingsOf.set(id, s.isVariant ? formRatings(base, collectionVocab(s.ratings ?? {}), c.position) : base);
+  }
+  const ids = [...formRatingsOf.keys()];
   // the field's handedness, from playing time
   let bfL = 0, bf = 0, paL = 0, pa = 0;
   for (const s of stints) {
@@ -107,7 +123,7 @@ for (const u of units) {
     else { const p = s.stats.PA ?? 0; pa += p; paL += p * (c.bats === "L" ? 1 : c.bats === "S" ? 0.5 : 0); }
   }
   const lhp = bf ? bfL / bf : 0.3, lhb = pa ? paL / pa : 0.35;
-  const pool = ids.map((id) => { const c = card.get(id)!; return { cardId: id, isPitcher: !!c.isPitcher, bats: c.bats, ratings: c.ratings as Record<string, number>, role: c.pitcherRole }; });
+  const pool = ids.map((id) => { const c = card.get(Math.abs(id))!; return { cardId: id, isPitcher: !!c.isPitcher, bats: c.bats, ratings: formRatingsOf.get(id)!, role: c.pitcherRole }; });
   const fits = envFitMaps(pool, { era: era.row.rates, park, eraYear: u.year, roleTrust: 0.25, leagueLhbShare: lhb, pitchLhbShare: lhb, tournamentTerms: u.kind === "tour" });
   const gs = gloveScale(era.row.rates);
   // Track record from OTHER event types only (this unit's own series excluded), tournaments only.
@@ -116,26 +132,26 @@ for (const u of units) {
     const series = u.id.startsWith("ptcs7champ") ? u.id : u.id.replace(/_\d+$/, "");
     const exclude = u.id.startsWith("ptcs7champ") ? Object.keys(CHAMP).map((b) => `ptcs7champ${b}`) : [series];
     const both = (id: number) => { const r = fits.runsR.get(id), l = fits.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };
-    obs = observedRunsFrom(await loadObservedBook(ids, exclude), both);
+    obs = observedRunsFrom(await loadObservedBook(ids.filter((id) => id > 0), exclude), both);
   }
   const blend = (id: number, model: number, K: number) => { const o = obs?.get(id); return o && o.n > 0 ? (o.n * o.runs + K * model) / (o.n + K) : model; };
   const teams = new Map<string, any>();
   const T = (org: string) => { let t = teams.get(org); if (!t) { t = { unit: u.id, kind: u.kind, year: u.year, org, G: 0, W: 0, L: 0, R: 0, RA: 0, off: 0, def: 0, pit: 0, pitSP: 0, pitRP: 0, nSP: 0, nRP: 0, zr: 0, wraa: 0, pa: 0, bf: 0, bfSP: 0, lhbPA: 0, lhpBF: 0, tr: {} as Record<string, number> }; teams.set(org, t); } return t; };
   const addTr = (t: any, k: string, v: number | undefined, w: number) => { if (v == null || !Number.isFinite(v)) return; t.tr[k] = (t.tr[k] ?? 0) + v * w; t.tr[k + "#w"] = (t.tr[k + "#w"] ?? 0) + w; };
   for (const s of stints) {
-    const c = card.get(s.cid!)!; const r = c.ratings as Record<string, number>; const t = T(s.org);
-    const R = fits.runsR.get(s.cid!), L = fits.runsL.get(s.cid!);
+    const c = card.get(s.cid!)!; const r = formRatingsOf.get(fid(s))!; const t = T(s.org);
+    const R = fits.runsR.get(fid(s)), L = fits.runsL.get(fid(s));
     if (s.isPitcher) {
       const b = s.stats.BF ?? 0; t.G += s.stats.GS_p ?? 0; t.W += s.stats.W ?? 0; t.L += s.stats.L ?? 0; t.RA += s.stats.Ra ?? 0; t.bf += b;
       const starter = (s.stats.G_p ?? 0) > 0 ? (s.stats.GS_p ?? 0) >= 1 && (s.stats.GS_p ?? 0) >= 0.5 * (s.stats.G_p ?? 0) : s.pos === "SP";
       if (b > 0) { if (starter) t.nSP++; else t.nRP++; }
-      if (R != null) { t.pit += (b * R) / 700; if (starter) t.pitSP += (b * R) / 700; else t.pitRP += (b * R) / 700; if (obs) for (const K of OBS_KS) t[`pit${K}`] = (t[`pit${K}`] ?? 0) + (b * blend(s.cid!, R, K)) / 700; }
+      if (R != null) { t.pit += (b * R) / 700; if (starter) t.pitSP += (b * R) / 700; else t.pitRP += (b * R) / 700; if (obs) for (const K of OBS_KS) t[`pit${K}`] = (t[`pit${K}`] ?? 0) + (b * blend(fid(s), R, K)) / 700; }
       if ((s.stats.GS_p ?? 0) > 0) t.bfSP += b;
       if (c.throws === "L") t.lhpBF += b;
       for (const k of ["Stuff", "Control", "pHR", "pBABIP", "Stamina"]) addTr(t, `arm ${k}`, r[k], b);
     } else {
       const p = s.stats.PA ?? 0; t.R += s.stats.R ?? 0; t.pa += p; t.zr += s.stats.ZR ?? 0; t.wraa += s.stats.wRAA ?? 0;
-      if (R != null && L != null) { const m = (1 - lhp) * R + lhp * L; t.off += (p * m) / 700; if (obs) for (const K of OBS_KS) t[`off${K}`] = (t[`off${K}`] ?? 0) + (p * blend(s.cid!, m, K)) / 700; }
+      if (R != null && L != null) { const m = (1 - lhp) * R + lhp * L; t.off += (p * m) / 700; if (obs) for (const K of OBS_KS) t[`off${K}`] = (t[`off${K}`] ?? 0) + (p * blend(fid(s), m, K)) / 700; }
       const rating = r[`Pos Rating ${s.pos}`];
       if (rating) t.def += (p * fieldingRuns(s.pos, rating) * gs) / 700;
       t.lhbPA += p * (c.bats === "L" ? 1 : c.bats === "S" ? 0.5 : 0);
