@@ -1,0 +1,36 @@
+# Daily Bronze Only Curiosities — Claude pick 2026-10-17-beggs sweep, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Minute Maid Park --park-year 2005 --dh --min 60 --max 69 --card-types 3,7,8 --size 26 --series bronzecuriosity --sp 5 --rp 7 --bats 14)
+R:C Frank Grube #86964
+R:1B Bill Buckner (VAR) #85858
+R:2B Mark Grudzielanek #87000
+R:3B Dave Brain (VAR) #85934
+R:SS Khalil Greene #87203
+R:LF Eric Byrnes #87195
+R:CF Deion Sanders #86962
+R:RF Aaron Rowand #87196
+R:DH Joe Dugan (VAR) #86765
+L:C Yadier Molina #86450
+L:1B Scott Spiezio #85702
+L:2B Brandon Phillips #87202
+L:3B Honus Wagner #86712
+L:SS Dave Brain (VAR) #85934
+L:LF Eric Byrnes #87195
+L:CF Deion Sanders #86962
+L:RF Aaron Rowand #87196
+L:DH Joe Dugan (VAR) #86765
+SP1 Bob Miller #84715
+SP2 Hal Woodeshick #83148
+SP3 Brandon Beachy #86684
+SP4 Jack Harshman #83192
+SP5 Red Lucas #86781
+CL Edwin Diaz #86422
+RP1 Don Robinson (VAR) #86773
+RP2 Adam Cimber (VAR) #84271
+RP3 Paul Assenmacher #86944
+RP4 Roy Halladay #86705
+RP5 Mickey Haefner #85717
+RP6 Jose DeLeon #86359
+BN1 Billy Southworth #86379
+BN2 Brandon Phillips #87202
+BN3 Honus Wagner #86712
+BN4 Scott Spiezio #85702
+BN5 Yadier Molina #86450

@@ -5,119 +5,145 @@ R/G 4.42  AVG 0.257  OBP 0.324  SLG 0.391  K% 14.9  HR/PA 2.28%  preset Traditio
 sac bunt (1st & 2nd, 0 out) +0.030 runs · steal break-even 79.4% (0 out) / 76.3% (1 out)
 park: all-LHB lineup 4.55 R/G vs all-RHB 4.35 — 0.20 R/G swing toward LEFT-handed bats
 card sets: Snapshot only
+two-way: 32 cards also in the other role — Kid Nichols as bat, Tommy Bond as bat, Charlie Buffinton as bat, Charlie Comiskey as arm, Jose Oquendo as arm, Dick Donovan as bat, Curry Foley as arm, Pop Corkhill as arm, Jack Scott as bat, Tom Hughes as bat, Blondie Purcell as arm, Jack Harshman as bat, Red Lucas as bat, Levi Meyerle as arm, Pud Galvin as bat, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Art Nehf as bat, Frank Smith as bat, Claude Hendrix as bat, Lefty Tyler as bat, Fred Goldsmith as bat, Jack Chesbro as bat, Jim Tobin as bat, Phenomenal Smith as bat, Bill Hoffer as bat, Cal McVey as arm, Frank Dwyer as bat, Sam Weaver as bat, Al Mays as bat, Jim Maloney as bat
 
-pool: 720 eligible owned cards — 407 bats (138L / 37S / 232R), 313 arms
+pool: 767 eligible owned cards — 443 bats (152L / 38S / 253R), 324 arms
 staff weights from silversnapshots's exports: SP 1.38, RP 0.39 (a lineup slot = 1)
-field (silversnapshots, 6 exports): 34% of batters faced thrown left-handed · 36% of PA by left-handed bats · 14 bats / 5.2 SP / 5.4 RP per team
-shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
-observed play: 701 of 720 pool cards have innings on record (median 446 PA/BF); K = 5000
+field (silversnapshots, 9 exports): 34% of batters faced thrown left-handed · 36% of PA by left-handed bats · 14 bats / 5.2 SP / 5.4 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 719 of 767 pool cards have innings on record (median 521 PA/BF); K = 1000000
 gloves ×0.99: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1987 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.98, SP 2.07, RP 0.78 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.9 SP / 5.9 RP → per SP ×0.98 (5 carried), per RP ×0.84 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +4.2  Avoid Ks +2.0  BABIP +2.0  Eye +1.3  Gap +0.9
                           RHB: Power +3.6  Avoid Ks +2.0  BABIP +2.0  Eye +1.3  Gap +0.9
                          arms: pHR +1.3  pBABIP +1.2  Stuff +1.0  Control +0.9
+seed: 9100165-seed.txt as is (26 cards)
 
-optimiser: 9 λ starts hill-climbed; best 64.0 runs vs 25.9 greedy (+38.0), 22 moves from λ 1.00
+optimiser: 3 starts (λ + seed) hill-climbed; best 115.8 runs vs 108.0 greedy (+7.8), 10 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Victor Martinez             74  S  2005    -9.3  park:L DEF  67/ 67 -0.7
-R:1B    Dan Pasqua                  79  L  1986    +4.0  park:L DEF  75/ 75 -0.2
-R:2B    Jose Ramirez (VAR)          77  S  2019    +0.7  park:L DEF  98/ 98 -2.3
-R:3B    Corey Koskie (VAR)          75  L  2001   +10.1  park:L DEF 114/114 +3.0
-R:SS    Dave Brain (VAR)            68  R  1907    -3.9  park:R DEF  93/ 99 -1.9
-R:LF    Mike Greenwell              77  L  1989   +13.8  park:L DEF  79/ 79 -1.3
-R:CF    Duke Snider                 73  L  1949    +6.4  park:L DEF 116/116 +0.2
-R:RF    Willie Keeler               77  L  1894    +4.8  park:L DEF  86/ 86 -1.0
-R:DH    Gus Bell                    70  L  1955   +12.5  park:L
+R:C     Ed Bailey                   69  L  1959   -16.7  park:L DEF  91/ 91 -0.5  #86616
+R:1B    Derrek Lee                  75  R  2002    +8.2  park:R DEF  86/ 86 +2.3  #87198
+R:2B    Mark Grudzielanek           65  R  2005    -8.6  park:R DEF 139/139 +10.2  #87000
+R:3B    Corey Koskie (VAR)          75  L  2001    +3.5  park:L DEF 114/114 +7.3  #86449
+R:SS    Jose Oquendo                73  S  1988   -11.0  park:L DEF 117/139 +4.6  #85738
+R:LF    Brian Jordan                74  R  1996    +1.4  park:R DEF 146/146 +9.9  #86965
+R:CF    Steve Finley                79  L  1999    +4.9  park:L DEF 122/122 +1.7  #85400
+R:RF    Andruw Jones                79  R  1998    -5.0  park:R DEF 151/151 +11.3  #83826
+R:DH    Carlos Delgado              78  L  2005   +15.8  park:L  #86998
 
 --- lineup vs LHP ---
-L:C     Ivan Rodriguez              76  R  2003    +0.1  park:R DEF  90/ 90 +0.0
-L:1B    Jose Oquendo                73  S  1988    +0.7  park:R DEF  87/139 +1.3
-L:2B    Woodie Held                 79  R  1961    +7.1  park:R DEF  99/ 99 -2.2
-L:3B    Jose Ramirez (VAR)          77  S  2019    -2.2  park:R DEF  91/ 98 +0.0
-L:SS    Dave Brain (VAR)            68  R  1907    -1.9  park:R DEF  93/ 99 -1.9
-L:LF    Gus Bell                    70  L  1955   -10.1  park:L DEF  65/ 65 -2.4
-L:CF    Shane Mack                  78  R  1994    +7.4  park:R DEF 109/120 -0.2
-L:RF    Willie Keeler               77  L  1894    -3.3  park:L DEF  86/ 86 -1.0
-L:DH    Dave Harris                 67  R  1930   +12.2  park:R
+L:C     Ivan Rodriguez              76  R  2003    -4.9  park:R DEF  90/ 90 +0.6  #85348
+L:1B    Derrek Lee                  75  R  2002    +4.7  park:R DEF  86/ 86 +2.3  #87198
+L:2B    Mark Grudzielanek           65  R  2005    -0.8  park:R DEF 139/139 +10.2  #87000
+L:3B    Dave Brain (VAR)            68  R  1907    +1.1  park:R DEF  99/ 99 +2.5  #85934
+L:SS    Jose Oquendo                73  S  1988    +0.3  park:R DEF 117/139 +4.6  #85738
+L:LF    Brian Jordan                74  R  1996   +10.8  park:R DEF 146/146 +9.9  #86965
+L:CF    Steve Finley                79  L  1999    -6.4  park:L DEF 122/122 +1.7  #85400
+L:RF    Andruw Jones                79  R  1998    -5.8  park:R DEF 151/151 +11.3  #83826
+L:DH    Brandon Phillips            64  R  2007   +13.2  park:R  #87202
 
---- batting order vs RHP --- (4.48 runs/game; The Book's order 4.48)
-  1. Mike Greenwell LF
-  2. Corey Koskie (VAR) 3B
-  3. Jose Ramirez (VAR) 2B
-  4. Gus Bell DH
-  5. Willie Keeler RF
-  6. Dan Pasqua 1B
-  7. Duke Snider CF
-  8. Dave Brain (VAR) SS
-  9. Victor Martinez C
+--- batting order vs RHP --- (4.42 runs/game; The Book's order 4.41)
+  1. Jose Oquendo SS
+  2. Derrek Lee 1B
+  3. Corey Koskie (VAR) 3B
+  4. Carlos Delgado DH
+  5. Steve Finley CF
+  6. Ed Bailey C
+  7. Andruw Jones RF
+  8. Brian Jordan LF
+  9. Mark Grudzielanek 2B
 
---- batting order vs LHP --- (4.27 runs/game; The Book's order 4.27)
-  1. Ivan Rodriguez C
-  2. Dave Harris DH
-  3. Woodie Held 2B
-  4. Shane Mack CF
-  5. Jose Oquendo 1B
-  6. Jose Ramirez (VAR) 3B
-  7. Dave Brain (VAR) SS
-  8. Willie Keeler RF
-  9. Gus Bell LF
+--- batting order vs LHP --- (4.34 runs/game; The Book's order 4.34)
+  1. Derrek Lee 1B
+  2. Ivan Rodriguez C
+  3. Brandon Phillips DH
+  4. Dave Brain (VAR) 3B
+  5. Jose Oquendo SS
+  6. Brian Jordan LF
+  7. Steve Finley CF
+  8. Mark Grudzielanek 2B
+  9. Andruw Jones RF
 
 --- rotation ---
-SP1     Jordan Montgomery           77  L  2023    +8.1   SP STM  87
-SP2     Jakie May (VAR)             72  R  1927    +7.3   SP STM  69
-SP3     Chad Billingsley            78  R  2008    +4.3   SP STM  74
-SP4     Nick Altrock                76  S  1906    +3.6   SP STM  90
-SP5     Doug Davis                  73  R  2004    +2.4   SP STM  66
+SP1     Nick Altrock                76  S  1906   +10.9   SP STM  90  #87049
+SP2     Kelvim Escobar              78  S  2007    +9.1   SP STM  76  #87207
+SP3     Jordan Montgomery           77  L  2023    +7.0   SP STM  87  #86354
+SP4     Jakie May (VAR)             72  R  1927    +3.3   SP STM  69  #85286
+SP5     Andy McGaffigan (VAR)       73  R  1986    +2.7   SP STM  55  #86948
 
 --- bullpen ---
-CL      Michael King (VAR)          76  R  2022    +5.4   RP STM  47
-RP1     Rudy May                    74  L  1979    +5.0   RP STM  48
-RP2     Mark Littell (VAR)          77  L  1979    +3.7   RP STM  21
-RP3     Jason Motte                 78  R  2012    +3.4   CL STM  15
-RP4     Dennis Cook (VAR)           76  L  1996    +3.3   RP STM  19
-RP5     Greg McMichael              77  R  1996    +2.8   RP STM  19
-RP6     Jonathan Loaisiga           77  R  2021    +2.6   RP STM  20
+CL      Alex Claudio (VAR)          70  L  2017    +3.1   RP STM  23  #86447
+RP1     Zack Wheeler                79  L  2018    +2.6   SP STM  76  #86314
+RP2     Dennis Cook (VAR)           76  L  1996    +1.4   RP STM  19  #83261
+RP3     Chad Billingsley            78  R  2008    +1.3   SP STM  74  #85222
+RP4     Michael King (VAR)          76  R  2022    +1.2   RP STM  47  #83248
+RP5     Doug Davis                  73  R  2004    +0.2   SP STM  66  #86802
+RP6     Rudy May                    74  L  1979    +0.1   RP STM  48  #85288
 
 --- bench ---
-BN1     Woodie Held                 79  R  1961   -13.0  park:R
-BN2     Shane Mack                  78  R  1994    -7.4  park:R
-BN3     Dave Harris                 67  R  1930   -11.2  park:R
-BN4     Jose Oquendo                73  S  1988   -10.3  park:L
-BN5     Ivan Rodriguez              76  R  2003   -20.6  park:R
+BN1     Pop Corkhill                71  L  1887    -4.5  park:L  #86582
+BN2     Brandon Phillips            64  R  2007   -11.6  park:R  #87202
+BN3     Julio Lugo                  73  R  2005    -6.3  park:R  #85932
+BN4     Dave Brain (VAR)            68  R  1907    -1.9  park:R  #85934
+BN5     Ivan Rodriguez              76  R  2003   -19.6  park:R  #85348
 
-26 players · value 1954 · λ 1.000 · 7 variants
-vs RHP lineup gets the friendly park side in 8 of 9 spots
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Ed Bailey                  U1 Ivan Rodriguez 90            U2 -                           
+  1B  Derrek Lee                 U1 Pop Corkhill 66              U2 -                           
+  2B  Mark Grudzielanek          U1 Brandon Phillips 130         U2 Julio Lugo 98               
+  3B  Corey Koskie (VAR)         U1 Dave Brain (VAR) 99          U2 -                           
+  SS  Jose Oquendo               U1 Dave Brain (VAR) 93          U2 Julio Lugo 85               
+  LF  Brian Jordan               U1 Pop Corkhill 147             U2 -                           
+  CF  Steve Finley               U1 Pop Corkhill 133             U2 -                           
+  RF  Andruw Jones               U1 Pop Corkhill 145             U2 -                           
+  pinch hitters: Dave Brain (VAR), Pop Corkhill, Julio Lugo, Brandon Phillips · pinch runners: Brandon Phillips (SPE 92), Julio Lugo (SPE 83), Pop Corkhill (SPE 74)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Ivan Rodriguez             U1 Ed Bailey 91                 U2 -                           
+  1B  Derrek Lee                 U1 Pop Corkhill 66              U2 -                           
+  2B  Mark Grudzielanek          U1 Julio Lugo 98                U2 -                           
+  3B  Dave Brain (VAR)           U1 Corey Koskie (VAR) 114       U2 -                            def sub Corey Koskie (VAR) (+4.7)
+  SS  Jose Oquendo               U1 Julio Lugo 85                U2 -                           
+  LF  Brian Jordan               U1 Pop Corkhill 147             U2 -                           
+  CF  Steve Finley               U1 Pop Corkhill 133             U2 -                           
+  RF  Andruw Jones               U1 Pop Corkhill 145             U2 -                           
+  pinch hitters: Julio Lugo, Pop Corkhill, Carlos Delgado, Corey Koskie (VAR) · pinch runners: Julio Lugo (SPE 83), Pop Corkhill (SPE 74), Corey Koskie (VAR) (SPE 67)
+
+26 players · value 1921 · from seed · 7 variants
+vs RHP lineup gets the friendly park side in 5 of 9 spots
 
 --- order inputs (rostered bats) ---
-  Mike Greenwell         L EYE 104 (39/128)  POW  77 (39/85)  K 147  BABIP 101  GAP  89  SPE  34
-  Gus Bell               L EYE  72 (61/76)  POW 103 (71/118)  K 105  BABIP  91  GAP  92  SPE  59
+  Carlos Delgado         L EYE 140 (69/169)  POW 136 (120/141)  K  68  BABIP 111  GAP 109  SPE  16
+  Derrek Lee             R EYE 162 (175/157)  POW 118 (120/118)  K  72  BABIP 115  GAP 104  SPE  63
+  Steve Finley           L EYE  74 (61/79)  POW 129 (117/133)  K 107  BABIP  67  GAP 106  SPE 108
   Corey Koskie           L EYE 113 (68/135)  POW 107 (85/119)  K  73  BABIP  86  GAP 108  SPE  67
-  Duke Snider            L EYE  71 (58/75)  POW 107 (69/124)  K  59  BABIP  99  GAP  94  SPE  94
-  Willie Keeler          L EYE  41 (31/45)  POW  53 (43/57)  K 205  BABIP 139  GAP  84  SPE  83
-  Dan Pasqua             L EYE 108 (80/121)  POW 111 (114/110)  K  48  BABIP 115  GAP  74  SPE  10
-  Jose Ramirez           S EYE 111 (99/117)  POW 105 (100/107)  K 142  BABIP  64  GAP 118  SPE  78
+  Brian Jordan           R EYE  60 (84/44)  POW  95 (84/99)  K  88  BABIP 128  GAP 117  SPE 108
   Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
-  Shane Mack             R EYE  87 (94/85)  POW  88 (98/85)  K  96  BABIP 110  GAP  89  SPE  75
-  Victor Martinez        S EYE  80 (87/78)  POW  81 (34/91)  K  94  BABIP  87  GAP  68  SPE   1
+  Pop Corkhill           L EYE  41 (32/45)  POW  75 (66/78)  K 220  BABIP  93  GAP  75  SPE  74
+  Andruw Jones           R EYE 117 (130/113)  POW  87 (84/88)  K  87  BABIP  90  GAP  93  SPE 106
+  Julio Lugo             R EYE  89 (88/90)  POW  48 (40/51)  K 132  BABIP 120  GAP  82  SPE  83
+  Mark Grudzielanek      R EYE  55 (87/33)  POW  63 (55/65)  K  89  BABIP 141  GAP  91  SPE  69
   Jose Oquendo           S EYE 121 (81/138)  POW  50 (90/16)  K 146  BABIP 120  GAP  84  SPE  49
-  Dave Harris            R EYE  90 (115/84)  POW  89 (124/81)  K  65  BABIP  73  GAP 129  SPE  67
-  Woodie Held            R EYE 104 (101/105)  POW  97 (122/92)  K  56  BABIP  99  GAP  84  SPE  29
+  Brandon Phillips       R EYE  47 (58/44)  POW 110 (160/96)  K  95  BABIP  94  GAP  76  SPE  92
+  Ed Bailey              L EYE 149 (103/164)  POW  75 (76/75)  K  94  BABIP  83  GAP  53  SPE   9
   Ivan Rodriguez         R EYE  86 (125/76)  POW  75 (60/80)  K  88  BABIP  86  GAP  86  SPE  56
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (190 teams): 5.0 SP / 6.7 RP / 14.2 bats
-  ✓ starters' stamina Jordan Montgomery 87, Jakie May 69, Chad Billingsley 74, Nick Altrock 90, Doug Davis 66 (era floor 50)
-  ✓ stamina guys in the pen (45+): Michael King 47, Rudy May 48
-  ✓ C  backup: Victor Martinez 67, Ivan Rodriguez 90
-  ✓ 1B backup: Dan Pasqua 75, Jose Oquendo 87
-  ✓ 2B backup: Jose Ramirez 98, Jose Oquendo 139, Woodie Held 99
-  ✓ 3B backup: Dave Brain 99, Jose Ramirez 91, Corey Koskie 114, Jose Oquendo 114, Woodie Held 84
-  ✓ SS backup: Jose Oquendo 117, Woodie Held 82
-  ✓ LF backup: Dan Pasqua 62, Mike Greenwell 79, Gus Bell 65, Jose Oquendo 113, Woodie Held 67, Shane Mack 120
-  ✓ CF backup: Duke Snider 116, Jose Oquendo 94, Shane Mack 109
-  ✓ RF backup: Jose Oquendo 104, Woodie Held 61
-(26 of 26 have a live ask in the last shop snapshot)
-objective: 64.0 weighted runs (bats 66/34 R/L, SP 1.38, RP 0.39, bench 0.1)
-points: lineup(both boards, 14 bats) 1043 · rotation 376 · bullpen 535 · bench-only 0
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (283 teams): 5.0 SP / 6.6 RP / 14.2 bats
+  ✓ starters' stamina Nick Altrock 90, Kelvim Escobar 76, Jordan Montgomery 87, Jakie May 69, Andy McGaffigan 55 (era floor 50)
+  ✓ stamina guys in the pen (45+): Zack Wheeler 76, Chad Billingsley 74, Michael King 47, Doug Davis 66, Rudy May 48
+  ✓ C  backup: vs RHP Ivan Rodriguez 90 · vs LHP Ed Bailey 91
+  ✓ 1B backup: Pop Corkhill 66
+  ✓ 2B backup: Brandon Phillips 130, Julio Lugo 98
+  ✓ 3B backup: vs RHP Dave Brain 99 · vs LHP Corey Koskie 114
+  ✓ SS backup: vs RHP Dave Brain 93, Julio Lugo 85 · vs LHP Julio Lugo 85
+  ✓ LF backup: Pop Corkhill 147
+  ✓ CF backup: Pop Corkhill 133
+  ✓ RF backup: Pop Corkhill 145
+(25 of 26 have a live ask in the last shop snapshot)
+objective: 115.8 weighted runs (bats 66/34 R/L, SP 2.07, RP 0.78, bench 0.1)
+points: lineup(both boards, 12 bats) 875 · rotation 376 · bullpen 526 · bench-only 144

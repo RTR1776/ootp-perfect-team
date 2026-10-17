@@ -1,0 +1,36 @@
+# Daily Late Bronze — Claude pick 2026-10-17-beggs sweep, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Dodger Stadium --park-year 2003 --dh --min 40 --max 69 --size 26 --series latebronze --sp 5 --rp 7 --bats 14)
+R:C Ernie Whitt #86941
+R:1B Bill Buckner (VAR) #85858
+R:2B Brandon Phillips #87202
+R:3B Dave Brain (VAR) #85934
+R:SS Ozzie Smith #86972
+R:LF Billy Southworth #86379
+R:CF Deion Sanders #86962
+R:RF Eric Byrnes #87195
+R:DH Jack Tobin #86772
+L:C Tony Pena Sr. #86282
+L:1B Steve Pearce (VAR) #86366
+L:2B Brandon Phillips #87202
+L:3B Dave Brain (VAR) #85934
+L:SS Ozzie Smith #86972
+L:LF Eric Byrnes #87195
+L:CF Deion Sanders #86962
+L:RF Aaron Rowand #87196
+L:DH Chris Sabo #87059
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Bob Miller #84715
+SP4 Hal Woodeshick #83148
+SP5 Bruce Hurst #86361
+CL John Bale #87234
+RP1 Caden Scarborough (VAR) #84762
+RP2 Mike Marshall #84720
+RP3 Edwin Diaz #86422
+RP4 Satchel Paige #84839
+RP5 Tanner McDougal (VAR) #85032
+RP6 Chuck Finley (VAR) #85338
+BN1 Chris Sabo #87059
+BN2 Tony Pena Sr. #86282
+BN3 Aaron Rowand #87196
+BN4 Jhonny Level (VAR) #84765
+BN5 Steve Pearce (VAR) #86366
