@@ -72,6 +72,11 @@ export const ARM_ERA_SPREAD: { from: number; to: number; factor: number }[] = [
  * starter weight of 1–1.5 and a pen weight of 2.5–4, with no loss against 2 / 2
  * out of sample, and the field's best quarter spends fewer Perfect / Diamond
  * cards on starters than we did. L.J. chose starters 1.5, the pen left at 2.
+ *
+ * Refit 2026-10-17 on the cleaned archive, with variant copies scored as their
+ * own form in the harness (Docs/Model Audit 2026-10-17.md): equal weights rose
+ * to 0.402 and these weights to 0.406, against 0.407 for the held-out choice.
+ * The folds again picked starters 1 and the pen 2–3, inside noise, so no change.
  */
 export const TEAM_WEIGHTS: { from: number; to: number; def: number; pit: number; sp: number; rp: number }[] = [
   { from: 0, to: 9999, def: 2, pit: 2, sp: 1.5, rp: 2 },

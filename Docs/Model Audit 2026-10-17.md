@@ -201,3 +201,29 @@ Bats blended at K 10,000 against off, over 40 half-samples of exports: median �
 - The Diamond & Friends Slots anomaly.
 
 Scripts: `web/scripts/.scratch/a17-*.mts` / `a17*.py` (gitignored; the Python scripts read the panel from that session's scratchpad: edit `S0` to re-run). Outputs: `web/scripts/.scratch/a17-out/`.
+
+## Refit on the clean archive (2026-10-17, evening)
+
+Done after L.J.'s full re-import (batch 446, variant play split across all 89 series) and the new `model:calibrate` (hit slope 0.5243, pit 0.5775).
+
+- **Team harness (`scripts/model-v2/teams.mts`):**
+  - Variant copies are now scored as their own form: id −cid, rated `formRatings(base, the copy's exported ratings)`. League stints read `is_variant` and `ratings` from the database.
+  - Before this, every copy was scored at the base card's ratings.
+- **Win% correlation, equal weights:** 0.386 → **0.402**.
+  - Run diff/G: 0.432 → 0.451. Games played: 0.288 → 0.302.
+  - The ceiling from luck is ~0.41 (17% of win% variance is skill), so the model now reads most of what is readable.
+  - This is the harness measuring correctly. Rosters already scored L.J.'s variants as their own form, so no pick changes from it.
+- **TEAM_WEIGHTS (`tourfit.py`, `penfit.py`, 3,580 team-events in 42 exports):**
+
+  | gloves | SP / RP | win% r (before) | win% r (clean) |
+  |---|---|---|---|
+  | 2 | 1.5 / 2 (production) | 0.3903 | **0.4061** |
+  | 2 | 2 / 2 | 0.3864 | 0.4027 |
+  | 2 | 1.5 / 2.5 | 0.3920 | 0.4075 |
+  | 1.5 | 1 / 2.5 (grid best) | 0.3942 | 0.4092 |
+
+  - 5-fold held out by event: the chosen weights score 0.4066. Production scores 0.4061 on the full set, so it is already at the held-out optimum.
+  - The folds picked starters 1 and pen 2–3, the same as on 10-11.
+  - Per-era glove/pitching bests moved by one grid step at most (1946–76 gloves 2 → 3, 2010+ pitching 2 → 1.5) and still don't beat one pooled weight held out.
+- **Decision: no change to TEAM_WEIGHTS.**
+  - Pen 2.5 is +0.0014, inside noise. Item 4 stands: re-test on the Mac's full export set.

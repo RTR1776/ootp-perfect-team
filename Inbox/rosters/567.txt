@@ -20,14 +20,14 @@ staff innings split over the arms carried: the field runs 4.8 SP / 6.0 RP → pe
                          arms: pBABIP +1.1  pHR +1.0  Control +0.9  Stuff +0.8
 seed: 567-seed.txt as is (26 cards)
 
-optimiser: 17 starts (λ + seed) hill-climbed; best 347.8 runs vs 324.1 greedy (+23.7), 29 moves from λ 1.00 (the seed's climb: 347.8)
+optimiser: 17 starts (λ + seed) hill-climbed; best 347.4 runs vs 324.1 greedy (+23.2), 15 moves from λ 0.00 (the seed's climb: 347.1)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Pythias Russ                89  R  1927    +2.8  park:R DEF  86/112 +0.0  #87083
 R:1B    Pedro Alvarez               81  L  2013   +40.6  park:L DEF  96/ 96 +5.0  #87062
 R:2B    Placido Polanco             77  R  2007    +8.0  park:R DEF 141/141 +11.5  #87213
 R:3B    Kaelen Culpepper (VAR)      89  R  2026    +7.8  park:R DEF 122/130 +10.2  #85033
-R:SS    Jeremy Pena                 79  R  2022    +6.7  park:R DEF 116/116 +4.3  #87154
+R:SS    Francisco Lindor            88  S  2024   +10.1  park:L DEF 110/110 +1.5  #87053
 R:LF    Eric Davis (VAR)            85  R  1989   +22.8  park:R DEF  92/ 92 -0.7  #86974
 R:CF    Bo Jackson                  88  R  1989   +27.7  park:R DEF 103/123 -2.0  #86966
 R:RF    Curtis Granderson           87  L  2011   +16.7  park:L DEF 117/117 +4.2  #86596
@@ -42,15 +42,15 @@ L:LF    Curtis Granderson           87  L  2011   +14.1  park:L DEF 113/117 +3.6
 L:CF    Bo Jackson                  88  R  1989   +19.1  park:R DEF 103/123 -2.0  #86966
 L:RF    Jeff Francoeur (VAR)        81  R  2005   +12.0  park:R DEF 149/149 +11.3  #86300
 
---- batting order vs RHP --- (3.81 runs/game; The Book's order 3.79)
-  1. Kaelen Culpepper (VAR) 3B
-  2. Eric Davis (VAR) LF
-  3. Curtis Granderson RF
+--- batting order vs RHP --- (3.91 runs/game; The Book's order 3.90)
+  1. Eric Davis (VAR) LF
+  2. Curtis Granderson RF
+  3. Francisco Lindor SS
   4. Pedro Alvarez 1B
   5. Placido Polanco 2B
-  6. Bo Jackson CF
-  7. Pythias Russ C
-  8. Jeremy Pena SS
+  6. Kaelen Culpepper (VAR) 3B
+  7. Bo Jackson CF
+  8. Pythias Russ C
   9. Pitcher
 
 --- batting order vs LHP --- (3.63 runs/game; The Book's order 3.63)
@@ -80,27 +80,49 @@ RP4     Nick Altrock                76  S  1906    +9.6   SP STM  90  #87049
 RP5     Dave Stieb (VAR)            89  R  1990    +9.5   SP STM  78  #85911
 
 --- bench ---
-BN1     Kal Daniels                 82  L  1987   +26.8  park:L  #84163
-BN2     Jeff Francoeur (VAR)        81  R  2005    -8.5  park:R  #86300
-BN3     Eduardo Tait                80  L  2026    +6.0  park:L  #84743
-BN4     Josue De Paula (VAR)        87  L  2026   +21.1  park:L  #84729
-BN5     Shoeless Joe Jackson        88  L  1915   +13.5  park:L  #86372
-BN6     Andy Van Slyke              77  L  1988   +14.7  park:L  #86936
-BN7     Zyhir Hope                  86  L  2026   +16.4  park:L  #84739
+BN1     Andy Van Slyke              77  L  1988   +14.7  park:L  #86936
+BN2     Hank Thompson               87  L  1953   +14.1  park:L  #86668
+BN3     Kal Daniels                 82  L  1987   +26.8  park:L  #84163
+BN4     Jeff Francoeur (VAR)        81  R  2005    -8.5  park:R  #86300
+BN5     Eduardo Tait                80  L  2026    +6.0  park:L  #84743
+BN6     Shoeless Joe Jackson        88  L  1915   +13.5  park:L  #86372
+BN7     Jeremy Pena                 79  R  2022    +6.7  park:R  #87154
 
-26 players · value 2205 · λ 1.000 · 7 variants
-vs RHP lineup gets the friendly park side in 2 of 8 spots
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Pythias Russ               U1 Eduardo Tait 79              U2 -                           
+  1B  Pedro Alvarez              U1 Shoeless Joe Jackson 73      U2 -                           
+  2B  Placido Polanco            U1 Hank Thompson 88             U2 -                           
+  3B  Kaelen Culpepper (VAR)     U1 Hank Thompson 92             U2 -                           
+  SS  Francisco Lindor           U1 Jeremy Pena 116              U2 -                           
+  LF  Eric Davis (VAR)           U1 Kal Daniels 60               U2 Shoeless Joe Jackson 88     
+  CF  Bo Jackson                 U1 Andy Van Slyke 99            U2 -                           
+  RF  Curtis Granderson          U1 Andy Van Slyke 125           U2 Shoeless Joe Jackson 83      def sub Jeff Francoeur (VAR) (+7.1)
+  pinch hitters: Kal Daniels, Andy Van Slyke, Hank Thompson, Shoeless Joe Jackson · pinch runners: Jeremy Pena (SPE 111), Andy Van Slyke (SPE 95), Shoeless Joe Jackson (SPE 81)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Pythias Russ               U1 Eduardo Tait 79              U2 -                           
+  1B  Shoeless Joe Jackson       U1 Pedro Alvarez 96             U2 -                            def sub Pedro Alvarez (+5.9)
+  2B  Placido Polanco            U1 Hank Thompson 88             U2 -                           
+  3B  Kaelen Culpepper (VAR)     U1 Hank Thompson 92             U2 Pedro Alvarez 75            
+  SS  Jeremy Pena                U1 Francisco Lindor 110         U2 -                           
+  LF  Curtis Granderson          U1 Eric Davis (VAR) 92          U2 Hank Thompson 85            
+  CF  Bo Jackson                 U1 Andy Van Slyke 99            U2 -                           
+  RF  Jeff Francoeur (VAR)       U1 Hank Thompson 79             U2 Andy Van Slyke 125          
+  pinch hitters: Eric Davis (VAR), Francisco Lindor, Hank Thompson, Eduardo Tait · pinch runners: Eric Davis (VAR) (SPE 107), Andy Van Slyke (SPE 95), Hank Thompson (SPE 78)
+
+26 players · value 2207 · λ 0.000 · 6 variants
+vs RHP lineup gets the friendly park side in 3 of 8 spots
 
 --- order inputs (rostered bats) ---
   Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
   Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
   Kal Daniels            L EYE 164 (134/174)  POW 119 (38/150)  K  82  BABIP 116  GAP  93  SPE  67
   Eric Davis             R EYE 163 (188/154)  POW 187 (170/193)  K  67  BABIP 105  GAP  70  SPE 107
-  Josue De Paula         L EYE 134 (110/143)  POW 148 (126/156)  K  91  BABIP 102  GAP 106  SPE  59
   Curtis Granderson      L EYE 160 (94/184)  POW 145 (158/141)  K  78  BABIP  91  GAP  98  SPE 106
-  Zyhir Hope             L EYE 110 (117/108)  POW 127 (92/140)  K  73  BABIP 114  GAP  88  SPE  93
   Andy Van Slyke         L EYE 106 (77/120)  POW 108 (44/133)  K  64  BABIP 106  GAP  98  SPE  95
+  Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
   Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Francisco Lindor       S EYE 110 (98/115)  POW 126 (138/122)  K  99  BABIP 101  GAP 109  SPE  61
   Placido Polanco        R EYE  69 (43/75)  POW  62 (72/58)  K 220  BABIP 144  GAP  95  SPE  67
   Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
   Jeremy Pena            R EYE  59 (65/56)  POW 130 (134/128)  K  81  BABIP 136  GAP  80  SPE 111
@@ -114,16 +136,16 @@ LEGAL — every rule check passes
   ✓ starters' stamina Justin Verlander 98, Bob Feller 111, Jered Weaver 96, Nolan Ryan 100, Count Leblanc 93 (era floor 60)
   ✓ stamina guys in the pen (45+): CC Sabathia 85, Dizzy Dean 98, Luther Farrell 104, Nick Altrock 90, Dave Stieb 78
   ✓ C  backup: Eduardo Tait 79
-  ✓ 1B backup: Pedro Alvarez 96, Shoeless Joe Jackson 73
-  ✓ 2B backup: Kaelen Culpepper 130
-  ✓ 3B backup: Pedro Alvarez 75, Placido Polanco 104
-  ✓ SS backup: Pythias Russ 112, Kaelen Culpepper 117
-  ✓ LF backup: Bo Jackson 116, Curtis Granderson 113, Eric Davis 92, Shoeless Joe Jackson 88, Kal Daniels 60, Josue De Paula 71, Zyhir Hope 99
+  ✓ 1B backup: vs RHP Shoeless Joe Jackson 73 · vs LHP Pedro Alvarez 96
+  ✓ 2B backup: Hank Thompson 88
+  ✓ 3B backup: vs RHP Hank Thompson 92 · vs LHP Pedro Alvarez 75, Hank Thompson 92
+  ✓ SS backup: vs RHP Jeremy Pena 116 · vs LHP Francisco Lindor 110
+  ✓ LF backup: vs RHP Shoeless Joe Jackson 88, Hank Thompson 85, Kal Daniels 60 · vs LHP Eric Davis 92, Hank Thompson 85, Kal Daniels 60
   ✓ CF backup: Andy Van Slyke 99
-  ✓ RF backup: Bo Jackson 123, Curtis Granderson 117, Shoeless Joe Jackson 83, Jeff Francoeur 149, Andy Van Slyke 125, Zyhir Hope 105
+  ✓ RF backup: vs RHP Shoeless Joe Jackson 83, Jeff Francoeur 149, Andy Van Slyke 125, Hank Thompson 79 · vs LHP Andy Van Slyke 125, Hank Thompson 79
 (21 of 26 have a live ask in the last shop snapshot)
-objective: 347.8 weighted runs (bats 62/38 R/L, SP 2.19, RP 0.82, bench 0.1)
-points: lineup(both boards, 10 bats) 844 · rotation 440 · bullpen 509 · bench-only 412
+objective: 347.4 weighted runs (bats 62/38 R/L, SP 2.19, RP 0.82, bench 0.1)
+points: lineup(both boards, 11 bats) 932 · rotation 440 · bullpen 509 · bench-only 326
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Troy Percival            pBABIP 196 (fitted 50–175)

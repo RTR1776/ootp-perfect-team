@@ -3,8 +3,8 @@
     "id": 541,
     "name": "Saturday Diamond Variety",
     "status": "built",
-    "objective": 329.6,
-    "file": "diamondvariety-claude-2026-10-17-newdata.txt",
+    "objective": 329.1,
+    "file": "diamondvariety-claude-2026-10-17-backups.txt",
     "notes": [
       "shape 5 SP / 5 RP / 16 bats (the series' exports)"
     ],
@@ -41,8 +41,8 @@
     "id": 531,
     "name": "Daily Diamond Jumble Slots",
     "status": "built",
-    "objective": 450.8,
-    "file": "diamondslotsdaily-claude-2026-10-17-newdata.txt",
+    "objective": 449.6,
+    "file": "diamondslotsdaily-claude-2026-10-17-backups.txt",
     "notes": [
       "PT default RE",
       "value window read off the name (name: Diamond)",
@@ -82,8 +82,8 @@
     "id": 567,
     "name": "Daily Goldfather II",
     "status": "built",
-    "objective": 347.8,
-    "file": "goldfather-claude-2026-10-17-newdata.txt",
+    "objective": 347.4,
+    "file": "goldfather-claude-2026-10-17-backups.txt",
     "notes": [
       "shape 5 SP / 6 RP / 15 bats (the series' exports)"
     ],

@@ -21,7 +21,7 @@ staff innings split over the arms carried: the field runs 4.4 SP / 5.2 RP → pe
                          arms: pHR +1.9  Stuff +1.6  pBABIP +1.0  Control +0.9
 seed: 531-seed.txt as is (26 cards)
 
-optimiser: 18 starts (λ + seed) hill-climbed; best 450.8 runs vs 394.5 greedy (+56.3), 1 moves from the seed
+optimiser: 18 starts (λ + seed) hill-climbed; best 449.6 runs vs 394.5 greedy (+55.1), 29 moves from λ 3.50 (the seed's climb: 445.9)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Ed Bailey (VAR)             97  L  1956   +31.8  park:L DEF 112/112 +10.8  #86637
@@ -40,7 +40,7 @@ L:1B    Honus Wagner                99  R  1903   +14.3  park:R DEF  89/114 +2.5
 L:2B    Brandon Phillips            64  R  2007   +21.3  park:R DEF 130/130 +5.4  #87202
 L:3B    Chris Sabo                  66  R  1990   +31.8  park:R DEF  77/ 77 -3.6  #87059
 L:SS    Trea Turner (VAR)           98  R  2023   +15.0  park:R DEF 106/106 -0.3  #82923
-L:LF    Al Simmons                  99  R  1930   +30.5  park:R DEF  90/ 90 -0.9  #85942
+L:LF    Eric Davis (VAR)            85  R  1989   +18.8  park:R DEF  92/ 92 -0.5  #86974
 L:CF    Carlos Beltran              99  S  2004   +27.7  park:R DEF 108/108 -0.8  #87066
 L:RF    Bo Jackson                  88  R  1989   +29.4  park:R DEF 123/123 +4.4  #86966
 L:DH    Willie Mays                 98  R  1959   +36.4  park:R  #86634
@@ -56,16 +56,16 @@ L:DH    Willie Mays                 98  R  1959   +36.4  park:R  #86634
   8. Jacoby Ellsbury LF
   9. Honus Wagner 3B
 
---- batting order vs LHP --- (5.67 runs/game; The Book's order 5.66)
+--- batting order vs LHP --- (5.61 runs/game; The Book's order 5.60)
   1. Willie Mays DH
   2. Carlos Beltran CF
   3. Bo Jackson RF
   4. Chris Sabo 3B
-  5. Al Simmons LF
-  6. Honus Wagner 1B
-  7. Brandon Phillips 2B
+  5. Brandon Phillips 2B
+  6. Eric Davis (VAR) LF
+  7. Mike Zunino C
   8. Trea Turner (VAR) SS
-  9. Mike Zunino C
+  9. Honus Wagner 1B
 
 --- rotation ---
 SP1     Babe Ruth                   97  L  1916   +15.2   SP STM 104  #86439
@@ -75,22 +75,44 @@ SP4     Tommy John                  92  R  1979   +13.7   SP STM  90  #86604
 SP5     Milt Pappas                 96  R  1959   +13.6   SP STM  79  #86654
 
 --- bullpen ---
-CL      Nick Altrock                76  S  1906   +12.0   SP STM  90  #87049
-RP1     Justin Verlander            87  R  2013   +11.3   SP STM  98  #87064
-RP2     Danny Jackson               88  R  1985   +11.2   SP STM  86  #87052
-RP3     Count Leblanc (VAR)         89  R  1921   +11.1   SP STM  93  #86978
-RP4     Bob Feller                  88  R  1939   +11.1   SP STM 111  #85650
-RP5     Bill Ricks                  79  R  1944    +8.1   SP STM  86  #87162
+CL      Claude Grier                99  L  1926   +13.5   SP STM  92  #87086
+RP1     Nick Altrock                76  S  1906   +12.0   SP STM  90  #87049
+RP2     Justin Verlander            87  R  2013   +11.3   SP STM  98  #87064
+RP3     Danny Jackson               88  R  1985   +11.2   SP STM  86  #87052
+RP4     Count Leblanc (VAR)         89  R  1921   +11.1   SP STM  93  #86978
+RP5     Bob Feller                  88  R  1939   +11.1   SP STM 111  #85650
 
 --- bench ---
-BN1     Willie Mays                 98  R  1959   +19.9  park:R  #86634
-BN2     Al Simmons                  99  R  1930   +16.0  park:R  #85942
+BN1     Brandon Phillips            64  R  2007    -6.4  park:R  #87202
+BN2     Lee Thomas (VAR)            77  L  1962    +9.9  park:L  #86145
 BN3     Chris Sabo                  66  R  1990    +2.7  park:R  #87059
-BN4     Mike Zunino                 75  R  2021   -27.6  park:R  #86431
-BN5     Brandon Phillips            64  R  2007    -6.4  park:R  #87202
-BN6     Bill Buckner (VAR)          64  L  1974    +5.6  park:L  #85858
+BN4     Dave Brain (VAR)            68  R  1907    +3.4  park:R  #85934
+BN5     Willie Mays                 98  R  1959   +19.9  park:R  #86634
+BN6     Mike Zunino                 75  R  2021   -27.6  park:R  #86431
 
-26 players · value 2269 · from seed · 6 variants
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Ed Bailey (VAR)            U1 Mike Zunino 77               U2 -                           
+  1B  Pedro Alvarez              U1 Lee Thomas (VAR) 91          U2 -                           
+  2B  Marcus Semien              U1 Brandon Phillips 130         U2 -                           
+  3B  Honus Wagner               U1 Dave Brain (VAR) 99          U2 Chris Sabo 77               
+  SS  Trea Turner (VAR)          U1 Dave Brain (VAR) 93          U2 -                           
+  LF  Jacoby Ellsbury            U1 Lee Thomas (VAR) 93          U2 -                           
+  CF  Carlos Beltran             U1 Willie Mays 107              U2 -                           
+  RF  Bo Jackson                 U1 Lee Thomas (VAR) 86          U2 -                           
+  pinch hitters: Willie Mays, Lee Thomas (VAR), Dave Brain (VAR), Chris Sabo · pinch runners: Willie Mays (SPE 118), Brandon Phillips (SPE 92), Chris Sabo (SPE 74)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Mike Zunino                U1 Ed Bailey (VAR) 112          U2 -                           
+  1B  Honus Wagner               U1 Lee Thomas (VAR) 91          U2 Pedro Alvarez 96            
+  2B  Brandon Phillips           U1 Marcus Semien 121            U2 -                           
+  3B  Chris Sabo                 U1 Dave Brain (VAR) 99          U2 Pedro Alvarez 75             def sub Dave Brain (VAR) (+5.7)
+  SS  Trea Turner (VAR)          U1 Dave Brain (VAR) 93          U2 Marcus Semien 90            
+  LF  Eric Davis (VAR)           U1 Jacoby Ellsbury 136          U2 Lee Thomas (VAR) 93          def sub Jacoby Ellsbury (+7)
+  CF  Carlos Beltran             U1 Jacoby Ellsbury 123          U2 -                           
+  RF  Bo Jackson                 U1 Lee Thomas (VAR) 86          U2 -                           
+  pinch hitters: Jacoby Ellsbury, Dave Brain (VAR), Marcus Semien, Lee Thomas (VAR) · pinch runners: Jacoby Ellsbury (SPE 119), Marcus Semien (SPE 97), Dave Brain (VAR) (SPE 70)
+
+26 players · value 2271 · λ 3.500 · 7 variants
 vs RHP lineup gets the friendly park side in 4 of 9 spots
 
 --- order inputs (rostered bats) ---
@@ -103,9 +125,9 @@ vs RHP lineup gets the friendly park side in 4 of 9 spots
   Willie Mays            R EYE 129 (174/114)  POW 141 (158/135)  K 114  BABIP  98  GAP 138  SPE 118
   Marcus Semien          R EYE 103 (100/105)  POW 153 (133/160)  K  95  BABIP  66  GAP 124  SPE  97
   Trea Turner            R EYE  89 (84/91)  POW 137 (127/140)  K 113  BABIP  95  GAP  86  SPE 120
-  Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
   Honus Wagner           R EYE  79 (72/81)  POW  89 (100/86)  K 165  BABIP 120  GAP 118  SPE  93
-  Bill Buckner           L EYE  56 (45/60)  POW  64 (1/74)  K 204  BABIP 110  GAP 115  SPE  81
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
+  Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
   Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
   Brandon Phillips       R EYE  47 (58/44)  POW 110 (160/96)  K  95  BABIP  94  GAP  76  SPE  92
   Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
@@ -114,15 +136,15 @@ LEGAL — every rule check passes
 --- roster check ---
   ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (624 teams): 5.0 SP / 6.3 RP / 14.1 bats
   ✓ starters' stamina Babe Ruth 104, Kyle Freeland 80, Mark Langston 86, Tommy John 90, Milt Pappas 79 (era floor 50)
-  ✓ stamina guys in the pen (45+): Nick Altrock 90, Justin Verlander 98, Danny Jackson 86, Count Leblanc 93, Bob Feller 111, Bill Ricks 86
-  ✓ C  backup: Ed Bailey 112, Mike Zunino 77
-  ✓ 1B backup: Pedro Alvarez 96, Honus Wagner 89, Bill Buckner 83
-  ✓ 2B backup: Marcus Semien 121, Brandon Phillips 130
-  ✓ 3B backup: Pedro Alvarez 75, Honus Wagner 114, Chris Sabo 77
-  ✓ SS backup: Marcus Semien 90, Honus Wagner 113
-  ✓ LF backup: Jacoby Ellsbury 136, Bo Jackson 116, Eric Davis 92, Al Simmons 90, Bill Buckner 68
-  ✓ CF backup: Jacoby Ellsbury 123, Bo Jackson 103, Willie Mays 107
-  ✓ RF backup: Honus Wagner 104
+  ✓ stamina guys in the pen (45+): Claude Grier 92, Nick Altrock 90, Justin Verlander 98, Danny Jackson 86, Count Leblanc 93, Bob Feller 111
+  ✓ C  backup: vs RHP Mike Zunino 77 · vs LHP Ed Bailey 112
+  ✓ 1B backup: vs RHP Lee Thomas 91 · vs LHP Pedro Alvarez 96, Lee Thomas 91
+  ✓ 2B backup: vs RHP Brandon Phillips 130 · vs LHP Marcus Semien 121
+  ✓ 3B backup: vs RHP Chris Sabo 77, Dave Brain 99 · vs LHP Pedro Alvarez 75, Dave Brain 99
+  ✓ SS backup: vs RHP Dave Brain 93 · vs LHP Marcus Semien 90, Dave Brain 93
+  ✓ LF backup: vs RHP Eric Davis 92, Lee Thomas 93 · vs LHP Jacoby Ellsbury 136, Lee Thomas 93
+  ✓ CF backup: vs RHP Willie Mays 107 · vs LHP Jacoby Ellsbury 123, Willie Mays 107
+  ✓ RF backup: Lee Thomas 86
 (19 of 26 have a live ask in the last shop snapshot)
-objective: 450.8 weighted runs (bats 60/40 R/L, SP 2.295, RP 0.86, bench 0.1)
-points: lineup(both boards, 14 bats) 1231 · rotation 467 · bullpen 507 · bench-only 64
+objective: 449.6 weighted runs (bats 60/40 R/L, SP 2.295, RP 0.86, bench 0.1)
+points: lineup(both boards, 13 bats) 1132 · rotation 467 · bullpen 527 · bench-only 145
