@@ -5,13 +5,13 @@ R/G 4.28  AVG 0.258  OBP 0.325  SLG 0.387  K% 12.5  HR/PA 1.96%  preset Moderate
 sac bunt (1st & 2nd, 0 out) +0.051 runs · steal break-even 79.0% (0 out) / 75.8% (1 out)
 park: all-LHB lineup 4.26 R/G vs all-RHB 4.30 — 0.03 R/G swing toward RIGHT-handed bats
 card sets: Negro League Star, Rookie Sensation, All-Time Legend, Historical All-Star, Future Legend, Snapshot, Unsung Heroes, Hardware Heroes, Veteran Presence only
-two-way: 81 cards also in the other role — Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Don Robinson as bat, Julio Rojo as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Rip Sewell as bat, Kyson Witherspoon as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Matt Davidson as arm, Elden Auker as bat, Earl Wilson as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Isidro Fabre as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
+two-way: 81 cards also in the other role — Don Robinson as bat, Kyson Witherspoon as bat, Ossie Orwoll as bat, Matt Davidson as arm, Isidro Fabre as bat, Cal McVey as arm, Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Rip Sewell as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Earl Wilson as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
 
-pool: 1386 eligible owned cards — 827 bats (262L / 96S / 469R), 559 arms
+pool: 1387 eligible owned cards — 828 bats (262L / 96S / 470R), 559 arms
 staff weights from bronzeweekly's exports: SP 1.4, RP 0.41 (a lineup slot = 1)
 field (bronzeweekly, 3 exports): 38% of batters faced thrown left-handed · 51% of PA by left-handed bats · 14 bats / 5.6 SP / 4.8 RP per team
-shape: 15 bats / 5 SP / 6 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 1289 of 1386 pool cards have innings on record (median 716 PA/BF); K = 1000000
+shape: 15 bats / 5 SP / 6 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1289 of 1387 pool cards have innings on record (median 716 PA/BF); K = 1000000
 gloves ×1.04: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1979 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×2.09, SP 2.10, RP 0.82 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.8 SP / 5.7 RP → per SP ×0.96 (5 carried), per RP ×0.95 (6 carried)
@@ -21,7 +21,7 @@ staff innings split over the arms carried: the field runs 4.8 SP / 5.7 RP → pe
                          arms: pBABIP +1.2  pHR +1.1  Control +0.9  Stuff +0.8
 seed: 536-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 57.9 runs vs 42.3 greedy (+15.6), 30 moves from λ 8.00 (the seed's climb: 57.9)
+optimiser: 4 starts (λ + seed) hill-climbed; best 61.3 runs vs 35.3 greedy (+26.0), 31 moves from λ 4.00 (the seed's climb: 61.3)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Jimmy Crooks (VAR)          68  L  2026   -18.0  park:L DEF 101/101 +8.9  #84772
@@ -40,8 +40,8 @@ L:1B    Steve Pearce (VAR)          69  R  2016   +10.1  park:R DEF  73/ 73 -1.0
 L:2B    Brandon Phillips            64  R  2007   +15.3  park:R DEF 130/130 +7.0  #87202
 L:3B    Dave Brain (VAR)            68  R  1907    +2.4  park:R DEF  99/ 99 +2.7  #85934
 L:SS    Jefferson Rojas             66  R  2026    -3.8  park:R DEF 110/128 +1.5  #84751
-L:LF    Eric Byrnes                 67  R  2007    +0.2  park:R DEF 134/134 +7.9  #87195
-L:CF    Deion Sanders               69  L  1992    +9.6  park:L DEF 120/131 +1.4  #86962
+L:LF    Deion Sanders               69  L  1992    +9.6  park:L DEF 131/131 +7.3  #86962
+L:CF    Byron Buxton (VAR)          64  R  2019    +7.8  park:R DEF 130/130 +3.4  #85821
 L:RF    Aaron Rowand                69  R  2004    +7.2  park:R DEF 134/134 +8.1  #87196
 L:DH    Chris Sabo                  66  R  1990   +23.7  park:R  #87059
 
@@ -56,15 +56,15 @@ L:DH    Chris Sabo                  66  R  1990   +23.7  park:R  #87059
   8. Mark Grudzielanek 2B
   9. Jimmy Crooks (VAR) C
 
---- batting order vs LHP --- (4.51 runs/game; The Book's order 4.51)
+--- batting order vs LHP --- (4.51 runs/game; The Book's order 4.50)
   1. Steve Pearce (VAR) 1B
   2. Chris Sabo DH
   3. Dave Brain (VAR) 3B
   4. Brandon Phillips 2B
   5. Aaron Rowand RF
-  6. Eric Byrnes LF
+  6. Byron Buxton (VAR) CF
   7. Jefferson Rojas SS
-  8. Deion Sanders CF
+  8. Deion Sanders LF
   9. Tony Pena Sr. C
 
 --- rotation ---
@@ -83,50 +83,50 @@ RP4     Red Lucas                   68  L  1927    -1.2   SP STM  93  #86781
 RP5     Bob Miller                  69  R  1963    -1.6   SP STM  62  #84715
 
 --- bench ---
-BN1     Steve Pearce (VAR)          69  R  2016    -3.0  park:R  #86366
-BN2     Chris Sabo                  66  R  1990    -4.3  park:R  #87059
-BN3     Javier Baez (VAR)           49  R  2021    -4.5  park:R  #86417
-BN4     Kevin Kiermaier             67  L  2017    -2.3  park:L  #86291
+BN1     Chris Sabo                  66  R  1990    -4.3  park:R  #87059
+BN2     Steve Pearce (VAR)          69  R  2016    -3.0  park:R  #86366
+BN3     Marco Scutaro (VAR)         69  R  2012    +2.2  park:R  #86394
+BN4     Byron Buxton (VAR)          64  R  2019    -9.0  park:R  #85821
 BN5     Brandon Phillips            64  R  2007   -11.3  park:R  #87202
 BN6     Tony Pena Sr.               62  R  1984   -28.0  park:R  #86282
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Jimmy Crooks (VAR)         U1 Tony Pena Sr. 105            U2 -                           
   1B  Bill Buckner (VAR)         U1 Steve Pearce (VAR) 73        U2 -                           
-  2B  Mark Grudzielanek          U1 Brandon Phillips 130         U2 Javier Baez (VAR) 102       
-  3B  Dave Brain (VAR)           U1 Chris Sabo 77                U2 -                           
-  SS  Jefferson Rojas            U1 Javier Baez (VAR) 88         U2 -                           
-  LF  Eric Byrnes                U1 Steve Pearce (VAR) 67        U2 -                           
-  CF  Deion Sanders              U1 Kevin Kiermaier 128          U2 -                           
-  RF  Aaron Rowand               U1 Kevin Kiermaier 119          U2 -                           
-  pinch hitters: Kevin Kiermaier, Steve Pearce (VAR), Chris Sabo, Javier Baez (VAR) · pinch runners: Kevin Kiermaier (SPE 117), Javier Baez (VAR) (SPE 97), Brandon Phillips (SPE 92)
+  2B  Mark Grudzielanek          U1 Marco Scutaro (VAR) 98       U2 Brandon Phillips 130        
+  3B  Dave Brain (VAR)           U1 Marco Scutaro (VAR) 87       U2 Chris Sabo 77               
+  SS  Jefferson Rojas            U1 Marco Scutaro (VAR) 80       U2 -                           
+  LF  Eric Byrnes                U1 Tom Brown 68                 U2 Steve Pearce (VAR) 67       
+  CF  Deion Sanders              U1 Byron Buxton (VAR) 130       U2 -                           
+  RF  Aaron Rowand               U1 Tom Brown 63                 U2 -                           
+  pinch hitters: Marco Scutaro (VAR), Steve Pearce (VAR), Chris Sabo, Byron Buxton (VAR) · pinch runners: Byron Buxton (VAR) (SPE 122), Brandon Phillips (SPE 92), Chris Sabo (SPE 74)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Tony Pena Sr.              U1 Jimmy Crooks (VAR) 101       U2 -                           
   1B  Steve Pearce (VAR)         U1 Bill Buckner (VAR) 83        U2 -                           
-  2B  Brandon Phillips           U1 Mark Grudzielanek 139        U2 Javier Baez (VAR) 102        def sub Mark Grudzielanek (+3.7)
-  3B  Dave Brain (VAR)           U1 NONE                         U2 -                           
-  SS  Jefferson Rojas            U1 Javier Baez (VAR) 88         U2 -                           
-  LF  Eric Byrnes                U1 Tom Brown 68                 U2 Bill Buckner (VAR) 68       
-  CF  Deion Sanders              U1 Kevin Kiermaier 128          U2 -                           
-  RF  Aaron Rowand               U1 Kevin Kiermaier 119          U2 -                           
-  pinch hitters: Tom Brown, Mark Grudzielanek, Javier Baez (VAR), Bill Buckner (VAR) · pinch runners: Kevin Kiermaier (SPE 117), Tom Brown (SPE 97), Javier Baez (VAR) (SPE 97)
+  2B  Brandon Phillips           U1 Mark Grudzielanek 139        U2 Marco Scutaro (VAR) 98       def sub Mark Grudzielanek (+3.7)
+  3B  Dave Brain (VAR)           U1 Chris Sabo 77                U2 Marco Scutaro (VAR) 87      
+  SS  Jefferson Rojas            U1 Marco Scutaro (VAR) 80       U2 -                           
+  LF  Deion Sanders              U1 Eric Byrnes 134              U2 Tom Brown 68                
+  CF  Byron Buxton (VAR)         U1 Eric Byrnes 122              U2 -                           
+  RF  Aaron Rowand               U1 Eric Byrnes 133              U2 Tom Brown 63                
+  pinch hitters: Eric Byrnes, Tom Brown, Mark Grudzielanek, Marco Scutaro (VAR) · pinch runners: Eric Byrnes (SPE 114), Tom Brown (SPE 97), Bill Buckner (VAR) (SPE 81)
 
-26 players · value 1688 · λ 8.000 · 8 variants
+26 players · value 1705 · λ 4.000 · 9 variants
 vs RHP lineup gets the friendly park side in 4 of 9 spots
 
 --- order inputs (rostered bats) ---
   Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
   Deion Sanders          L EYE  63 (40/67)  POW  85 (112/77)  K  75  BABIP 149  GAP 113  SPE 119
   Bill Buckner           L EYE  56 (45/60)  POW  64 (1/74)  K 204  BABIP 110  GAP 115  SPE  81
+  Marco Scutaro          R EYE  51 (34/57)  POW  40 (37/42)  K 221  BABIP 142  GAP 118  SPE  53
   Aaron Rowand           R EYE  60 (87/41)  POW 103 (114/100)  K  76  BABIP 135  GAP 131  SPE  62
   Eric Byrnes            R EYE  94 (117/88)  POW  90 (131/80)  K 100  BABIP 101  GAP  83  SPE 114
   Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
-  Kevin Kiermaier        L EYE  74 (58/79)  POW  79 (60/85)  K  73  BABIP 117  GAP  72  SPE 117
   Steve Pearce           R EYE 147 (167/140)  POW 106 (142/98)  K 105  BABIP  92  GAP  76  SPE  46
   Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
-  Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
   Mark Grudzielanek      R EYE  55 (87/33)  POW  63 (55/65)  K  89  BABIP 141  GAP  91  SPE  69
+  Byron Buxton           R EYE  67 (72/65)  POW  71 (94/60)  K  83  BABIP  98  GAP 168  SPE 122
   Jefferson Rojas        R EYE  69 (72/68)  POW  82 (88/81)  K 123  BABIP  82  GAP 120  SPE  84
   Brandon Phillips       R EYE  47 (58/44)  POW 110 (160/96)  K  95  BABIP  94  GAP  76  SPE  92
   Jimmy Crooks           L EYE 108 (96/113)  POW  93 (82/96)  K  61  BABIP  73  GAP  81  SPE  43
@@ -139,12 +139,12 @@ LEGAL — every rule check passes
   ✓ stamina guys in the pen (45+): Caden Scarborough 46, Corey Kluber 64, Eddie Plank 81, Cool Papa Bell 86, Red Lucas 93, Bob Miller 62
   ✓ C  backup: vs RHP Tony Pena Sr. 105 · vs LHP Jimmy Crooks 101
   ✓ 1B backup: vs RHP Steve Pearce 73 · vs LHP Bill Buckner 83
-  ✓ 2B backup: vs RHP Brandon Phillips 130, Javier Baez 102 · vs LHP Mark Grudzielanek 139, Javier Baez 102
-  ✓ 3B backup: Chris Sabo 77
-  ✓ SS backup: Javier Baez 88
-  ✓ LF backup: vs RHP Tom Brown 68, Steve Pearce 67 · vs LHP Bill Buckner 68, Tom Brown 68
-  ✓ CF backup: Kevin Kiermaier 128
-  ✓ RF backup: Kevin Kiermaier 119
-(22 of 26 have a live ask in the last shop snapshot)
-objective: 57.9 weighted runs (bats 62/38 R/L, SP 2.0999999999999996, RP 0.82, bench 0.1)
-points: lineup(both boards, 13 bats) 863 · rotation 310 · bullpen 399 · bench-only 116
+  ✓ 2B backup: vs RHP Brandon Phillips 130, Marco Scutaro 98 · vs LHP Mark Grudzielanek 139, Marco Scutaro 98
+  ✓ 3B backup: Chris Sabo 77, Marco Scutaro 87
+  ✓ SS backup: Marco Scutaro 80
+  ✓ LF backup: vs RHP Tom Brown 68, Steve Pearce 67 · vs LHP Bill Buckner 68, Eric Byrnes 134, Tom Brown 68
+  ✓ CF backup: vs RHP Byron Buxton 130 · vs LHP Eric Byrnes 122
+  ✓ RF backup: vs RHP Tom Brown 63 · vs LHP Eric Byrnes 133, Tom Brown 63
+(23 of 26 have a live ask in the last shop snapshot)
+objective: 61.3 weighted runs (bats 62/38 R/L, SP 2.0999999999999996, RP 0.82, bench 0.1)
+points: lineup(both boards, 14 bats) 927 · rotation 310 · bullpen 399 · bench-only 69
