@@ -23,7 +23,7 @@ import { db } from "@/db/client";
 import { cards } from "@/db/schema";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { eraFor, parkFor, eraTable } from "@/lib/analytics/tournament-env";
-import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
+import { fieldingRuns, framingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { parseLeagueExport, collectionVocab, type LeagueStint } from "@/lib/ingest/league";
 import { formRatings } from "@/lib/card-forms";
 import { scanForJimBeaters } from "@/lib/ingest/jim";
@@ -154,6 +154,8 @@ for (const u of units) {
       if (R != null && L != null) { const m = (1 - lhp) * R + lhp * L; t.off += (p * m) / 700; if (obs) for (const K of OBS_KS) t[`off${K}`] = (t[`off${K}`] ?? 0) + (p * blend(fid(s), m, K)) / 700; }
       const rating = r[`Pos Rating ${s.pos}`];
       if (rating) t.def += (p * fieldingRuns(s.pos, rating) * gs) / 700;
+      // Catcher framing, kept apart from the glove so its own weight can be fitted (2026-10-18).
+      if (s.pos === "C") t.frm = (t.frm ?? 0) + (p * framingRuns(r.CatcherFrame, u.year)) / 700;
       t.lhbPA += p * (c.bats === "L" ? 1 : c.bats === "S" ? 0.5 : 0);
       for (const k of ["Speed", "Stealing", "Baserunning", "Avoid Ks", "Power", "Eye", "BABIP", "Gap"]) addTr(t, `bat ${k}`, r[k], p);
     }
@@ -165,7 +167,7 @@ for (const u of units) {
     tr["starter BF share"] = t.bfSP / t.bf; tr["LHB share"] = t.lhbPA / t.pa; tr["LHP share"] = t.lhpBF / t.bf;
     const ob: Record<string, number> = {};
     if (obs) for (const K of OBS_KS) { ob[`off${K}`] = (t[`off${K}`] ?? 0) / t.G; ob[`pit${K}`] = (t[`pit${K}`] ?? 0) / t.G; }
-    out.push({ unit: t.unit, kind: t.kind, year: t.year, org: t.org, G: t.G, W: t.W, L: t.L, R: t.R, RA: t.RA, off: t.off / t.G, def: t.def / t.G, pit: t.pit / t.G, pitSP: t.pitSP / t.G, pitRP: t.pitRP / t.G, nSP: t.nSP, nRP: t.nRP, zr: t.zr / t.G, wraa: t.wraa / t.G, tr, ob });
+    out.push({ unit: t.unit, kind: t.kind, year: t.year, org: t.org, G: t.G, W: t.W, L: t.L, R: t.R, RA: t.RA, off: t.off / t.G, def: t.def / t.G, frm: (t.frm ?? 0) / t.G, pit: t.pit / t.G, pitSP: t.pitSP / t.G, pitRP: t.pitRP / t.G, nSP: t.nSP, nRP: t.nRP, zr: t.zr / t.G, wraa: t.wraa / t.G, tr, ob });
   }
   console.log(`${u.id.padEnd(34)} ${u.year} ${u.stadium ?? "neutral"}  teams ${[...teams.values()].filter((t) => t.G >= 5).length}`);
 }
