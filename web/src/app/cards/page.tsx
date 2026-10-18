@@ -13,13 +13,14 @@
  *   /cards?id=4711&event=569    one card by id: every CardName link lands here
  *                               (a name can match several cards: two Hank Aarons),
  *                               with where it fits in every current event
+ *   /cards/highlights           the same new cards as tiles (its own page)
  *
  * Card Fit scores every card in every current event (about seven seconds), so
- * its results are cached, keyed by everything they read (card-fit-load
- * fitVersion), and stream in under the rest of the page.
+ * its results are cached, keyed by everything they read (lib/card-fit-cache),
+ * and stream in under the rest of the page.
  */
 import { Suspense } from "react";
-import { unstable_cache } from "next/cache";
+import Link from "next/link";
 import { desc, eq, ilike, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, collectionCards, seriesMeta, tournaments, uploads } from "@/db/schema";
@@ -39,23 +40,10 @@ import { TierBadge } from "@/components/tier-badge";
 import { cardArtUrl } from "@/lib/card-art";
 import { isTier } from "@/lib/tiers";
 import { CardFitTable, NewCardsBoard } from "@/components/card-fit";
-import { fitVersion, loadCardFit, newCardIds } from "@/lib/card-fit-load";
+import { cardFit, newCardsFit } from "@/lib/card-fit-cache";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
-/** Bump when Card Fit's scoring changes, so cached results from the old code aren't served. */
-const FIT_CODE = "fit-v2";
-
-const cached = <T,>(fn: () => Promise<T>, key: string[]) => unstable_cache(fn, [FIT_CODE, ...key], { revalidate: 86_400, tags: ["card-fit"] })();
-
-/** The new cards (shop and pulled) with their fit, one cache entry per data version. */
-async function newCardsFit() {
-  const version = await fitVersion();
-  const ids = await cached(newCardIds, ["new-ids", ...version]);
-  const all = [...ids.pulled, ...ids.shop.filter((id) => !ids.pulled.includes(id))];
-  const data = await cached(() => loadCardFit(all), ["new-fit", ...version]);
-  return { pulled: ids.pulled, data };
-}
 
 async function NewCards() {
   const { pulled, data } = await newCardsFit();
@@ -64,13 +52,7 @@ async function NewCards() {
 }
 
 async function FitFor({ id }: { id: number }) {
-  // A new card reads the board's entry; any other is scored on its own.
-  const version = await fitVersion();
-  const ids = await cached(newCardIds, ["new-ids", ...version]);
-  const data = ids.pulled.includes(id) || ids.shop.includes(id)
-    ? (await newCardsFit()).data
-    : await cached(() => loadCardFit([id]), ["card", String(id), ...version]);
-  return <CardFitTable data={data} cardId={id} />;
+  return <CardFitTable data={await cardFit(id)} cardId={id} />;
 }
 
 const fitLoading = (what: string) => (
@@ -176,7 +158,7 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
       )}
       {!single && !missingId && q.length < 2 && (
         <>
-          <p className="text-sm text-muted-foreground">Type at least two letters of a card&rsquo;s name to look one up. Below: the newest cards, and where each would start for you.</p>
+          <p className="text-sm text-muted-foreground">Type at least two letters of a card&rsquo;s name to look one up. Below: the newest cards, and where each would start for you. <Link href="/cards/highlights" className="font-medium text-primary hover:underline">See them as highlights</Link>.</p>
           <Suspense fallback={fitLoading("Placing the new cards in every current event…")}>
             <NewCards />
           </Suspense>
