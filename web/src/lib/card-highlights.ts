@@ -12,6 +12,12 @@
  * a shop list first had them, newest first, so each day's drop shows. The
  * spotlight is the one with the biggest gain.
  *
+ * Card Fit's gain is one swap into his saved roster, which a cap or slot rule
+ * can undo (the full rebuild of Iron & Friends Slots kept its cards where the
+ * swap said Zyhir Hope VAR added 28 runs). So "best", the order and the
+ * spotlight count only events with neither rule; a card's cap and slots
+ * events are still listed, after those, tagged with the rule.
+ *
  * Pure: the page passes the cached Card Fit data in.
  */
 import type { CardFitData, FitCard } from "@/lib/card-fit-load";
@@ -21,8 +27,9 @@ import { isTier, type Tier } from "@/lib/tiers";
 
 /** Low to high, the filter's order. */
 export const HIGHLIGHT_TIERS: readonly Tier[] = ["Iron", "Bronze", "Silver", "Gold", "Diamond", "Perfect"];
-/** How many of a card's events a tile lists. */
-export const TOP_EVENTS = 3;
+/** How many of a card's events a tile lists, and the spotlight. */
+export const TILE_EVENTS = 3;
+export const SPOTLIGHT_EVENTS = 5;
 
 export type TierFilter = Tier | "All";
 
@@ -36,6 +43,8 @@ export interface TopSpot {
   spot: string;
   /** His variant's form is the one placed. */
   variant: boolean;
+  /** The event caps the roster's value or its tiers' slots: one swap may not survive the reshuffle. */
+  rule: "cap" | "slots" | null;
   /** Its rank at the spot among every legal card there. */
   rank: number;
   of: number;
@@ -54,9 +63,9 @@ export interface Highlight {
   starts: number;
   /** Where it's already on his saved roster. */
   on: number;
-  /** The biggest gain over its events; 0 where it starts nowhere. */
+  /** The biggest gain over its events with no cap or slots rule; 0 where it starts in none. */
   best: number;
-  /** The events where it adds the most, best first, at most TOP_EVENTS. */
+  /** The events where it adds the most: no-rule events best first, then cap and slots events; at most SPOTLIGHT_EVENTS (a tile shows TILE_EVENTS). */
   top: TopSpot[];
 }
 
@@ -103,9 +112,12 @@ export function byStrength(a: Highlight, b: Highlight): number {
 export function highlightOf(
   entry: CardFitData["cards"][number],
   eventName: (id: number) => string | undefined,
-  opts: { mine?: boolean; newVariant?: boolean } = {},
+  opts: { mine?: boolean; newVariant?: boolean; ruleOf?: (id: number) => TopSpot["rule"] } = {},
 ): Highlight {
-  const starts = entry.rows.filter((r) => r.status === "start").sort((a, b) => b.gain - a.gain);
+  const ruleOf = opts.ruleOf ?? (() => null);
+  const starts = entry.rows.filter((r) => r.status === "start")
+    .sort((a, b) => Number(ruleOf(a.eventId) != null) - Number(ruleOf(b.eventId) != null) || b.gain - a.gain);
+  const firm = starts.filter((r) => ruleOf(r.eventId) == null);
   return {
     card: entry.card,
     tier: tierOf(entry.card),
@@ -114,17 +126,17 @@ export function highlightOf(
     legal: entry.rows.length,
     starts: starts.length,
     on: entry.rows.filter((r) => r.status === "on").length,
-    best: starts[0]?.gain ?? 0,
-    top: starts.slice(0, TOP_EVENTS).map((r) => ({
+    best: firm[0]?.gain ?? 0,
+    top: starts.slice(0, SPOTLIGHT_EVENTS).map((r) => ({
       eventId: r.eventId, event: shortEvent(eventName(r.eventId) ?? `Event ${r.eventId}`), gain: r.gain,
-      spot: r.spot, variant: r.variant, rank: r.rank, of: r.of,
+      spot: r.spot, variant: r.variant, rank: r.rank, of: r.of, rule: ruleOf(r.eventId),
     })),
   };
 }
 
-/** The spotlight: the biggest gain; ties go to more events started, then the higher value. Null when none starts. */
+/** The spotlight: the biggest gain in a no-rule event; ties go to more events started, then the higher value. Null when none has one. */
 export function pickSpotlight(cards: readonly Highlight[]): Highlight | null {
-  const starting = cards.filter((h) => h.starts > 0);
+  const starting = cards.filter((h) => h.best > 0);
   return starting.length ? [...starting].sort(byStrength)[0] : null;
 }
 
@@ -140,14 +152,32 @@ export function groupByDay(cards: readonly Highlight[]): DayDrop[] {
     });
 }
 
-export function buildHighlights(
-  input: { data: CardFitData; pulled: readonly number[]; variants?: readonly number[] },
-  tier: TierFilter = "All",
-): Highlights {
+export interface HighlightInput {
+  data: CardFitData;
+  /** His new cards and variants (newCardIds pulled). */
+  pulled: readonly number[];
+  /** Of those, the new variants. */
+  variants?: readonly number[];
+}
+
+/** Every new card's highlight, in Card Fit's order. Small enough to hand a client component. */
+export function toHighlights(input: HighlightInput): Highlight[] {
   const names = new Map(input.data.events.map((e) => [e.id, e.name]));
+  const rules = new Map(input.data.events.map((e) => [e.id, ruleOfTags(e.rules ?? [])]));
   const mine = new Set(input.pulled), fresh = new Set(input.variants ?? []);
-  const all = input.data.cards.map((c) =>
-    highlightOf(c, (id) => names.get(id), { mine: mine.has(c.card.id), newVariant: mine.has(c.card.id) && fresh.has(c.card.id) }));
+  return input.data.cards.map((c) =>
+    highlightOf(c, (id) => names.get(id), { mine: mine.has(c.card.id), newVariant: mine.has(c.card.id) && fresh.has(c.card.id), ruleOf: (id) => rules.get(id) ?? null }));
+}
+
+/** Card Fit's rule tags ("slots", "cap 1780", …) to the one that can undo a swap; slots first. */
+export function ruleOfTags(tags: readonly string[]): TopSpot["rule"] {
+  if (tags.includes("slots")) return "slots";
+  if (tags.some((t) => t.startsWith("cap "))) return "cap";
+  return null;
+}
+
+/** The page's parts under a tier filter: the spotlight, his new cards, the shop's by day. */
+export function arrange(all: readonly Highlight[], tier: TierFilter = "All"): Highlights {
   const tiers = HIGHLIGHT_TIERS.map((t) => ({ tier: t, n: all.filter((h) => h.tier === t).length })).filter((x) => x.n > 0);
   const shown = all.filter((h) => tier === "All" || h.tier === tier);
   const spotlight = pickSpotlight(shown);
@@ -161,6 +191,8 @@ export function buildHighlights(
     starting: shown.filter((h) => h.starts > 0).length,
   };
 }
+
+export const buildHighlights = (input: HighlightInput, tier: TierFilter = "All") => arrange(toHighlights(input), tier);
 
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 

@@ -1,7 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { CardFitData, FitCard, FitRow } from "./card-fit-load";
-import { alsoOn, buildHighlights, byStrength, groupByDay, highlightOf, meter, pickSpotlight, priceOf, shortEvent, standing, tierOf, worthOf, type Highlight } from "./card-highlights";
+import {
+  alsoOn, arrange, buildHighlights, byStrength, groupByDay, highlightOf, meter, pickSpotlight, priceOf, shortEvent, SPOTLIGHT_EVENTS, standing,
+  ruleOfTags, TILE_EVENTS, tierOf, toHighlights, worthOf, type Highlight,
+} from "./card-highlights";
 
 const card = (id: number, extra: Partial<FitCard> = {}): FitCard => ({
   id, name: `Card ${id}`, val: 80, tier: null, pos: "SS", role: null, hand: "R", year: 2007, set: 7, le: false,
@@ -21,18 +24,22 @@ const h = (id: number, best: number, starts: number, extra: Partial<Highlight> =
   card: card(id), tier: "Gold", mine: false, newVariant: false, legal: 10, starts, on: 0, best, top: [], ...extra,
 });
 
-test("a card's highlight: starts counted, the best three events by gain, names shortened", () => {
+test("a card's highlight: starts counted, its best events by gain, names shortened", () => {
   const x = highlightOf({
     card: card(1),
-    rows: [row(102, "start", 4), row(101, "start", 12.5, { spot: "DH", variant: true }), row(103, "on"), row(104, "start", 7), row(105, "start", 1), row(106, "bench")],
+    rows: [
+      row(102, "start", 4), row(101, "start", 12.5, { spot: "DH", variant: true }), row(103, "on"), row(104, "start", 7),
+      row(105, "start", 1), row(106, "bench"), row(107, "start", 0.5), row(108, "start", 2),
+    ],
   }, (id) => events.find((e) => e.id === id)?.name);
-  assert.equal(x.legal, 6);
-  assert.equal(x.starts, 4);
+  assert.equal(x.legal, 8);
+  assert.equal(x.starts, 6);
   assert.equal(x.on, 1);
   assert.equal(x.best, 12.5);
-  assert.deepEqual(x.top.map((t) => [t.event, t.gain, t.spot]), [["Gold Slots", 12.5, "DH"], ["Weekly 104", 7, "SS"], ["Weekly 102", 4, "SS"]]);
+  assert.deepEqual(x.top.slice(0, TILE_EVENTS).map((t) => [t.event, t.gain, t.spot]), [["Gold Slots", 12.5, "DH"], ["Weekly 104", 7, "SS"], ["Weekly 102", 4, "SS"]]);
   assert.equal(x.top[0].variant, true);
-  assert.equal(x.top.length, 3, "at most three");
+  assert.equal(x.top.length, SPOTLIGHT_EVENTS, "the spotlight's five at most");
+  assert.deepEqual(x.top.map((t) => t.gain), [12.5, 7, 4, 2, 1]);
   const none = highlightOf({ card: card(2), rows: [row(101, "bench"), row(106, "on")] }, () => undefined);
   assert.equal(none.best, 0);
   assert.deepEqual(none.top, []);
@@ -99,6 +106,14 @@ test("a tier filter narrows every part, the spotlight included, but not the tier
   assert.equal(diamond.max, 0);
 });
 
+test("highlights computed once can be re-arranged under each filter", () => {
+  const all = toHighlights({ data: data([{ card: card(1, { val: 64 }), rows: [row(101, "start", 8)] }, { card: card(2, { val: 95 }), rows: [] }]), pulled: [] });
+  assert.equal(all.length, 2);
+  assert.equal(arrange(all, "Diamond").shown, 1);
+  assert.equal(arrange(all, "Diamond").spotlight, null);
+  assert.equal(arrange(all).spotlight?.card.id, 1);
+});
+
 test("a card that isn't one of his can't be a new variant, and a missing variants list is none", () => {
   const d = data([{ card: card(1), rows: [] }]);
   assert.equal(buildHighlights({ data: d, pulled: [], variants: [1] }).shop[0].cards[0].newVariant, false);
@@ -151,4 +166,18 @@ test("what his new card sells for is the form he got", () => {
 test("event names lose a leading Daily only", () => {
   assert.equal(shortEvent("Daily Gold Slots"), "Gold Slots");
   assert.equal(shortEvent("Friday Daily Grind"), "Friday Daily Grind");
+});
+
+test("cap and slots events are listed after the rest and never set the best gain or the spotlight", () => {
+  const ruleOf = (id: number) => (id === 101 ? "slots" : id === 102 ? "cap" : null);
+  const x = highlightOf({ card: card(1), rows: [row(101, "start", 28), row(102, "start", 12), row(103, "start", 5), row(104, "start", 2)] }, (id) => events.find((e) => e.id === id)?.name, { ruleOf });
+  assert.equal(x.best, 5, "the slots +28 and cap +12 are one swap a rebuild can undo");
+  assert.deepEqual(x.top.map((t) => [t.gain, t.rule]), [[5, null], [2, null], [28, "slots"], [12, "cap"]]);
+  const only = highlightOf({ card: card(2), rows: [row(101, "start", 40)] }, () => undefined, { ruleOf });
+  assert.equal(only.best, 0);
+  assert.equal(only.starts, 1);
+  assert.equal(pickSpotlight([x, only])?.card.id, 1);
+  assert.equal(ruleOfTags(["40–59", "slots", "cap 1780"]), "slots");
+  assert.equal(ruleOfTags(["cap 1610", "no LE"]), "cap");
+  assert.equal(ruleOfTags(["cards 1910–1959"]), null);
 });
