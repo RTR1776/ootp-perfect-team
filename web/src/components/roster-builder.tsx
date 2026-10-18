@@ -1916,6 +1916,7 @@ export function RosterBuilder({
                   dupNames={dupNames}
                   onPeek={peekPool}
                   clearPeek={() => setPeek(null)}
+                  stadium={tournament?.stadium ?? null}
                   toolbar={
                     <>
                       <Button size="sm" variant="outline" className="h-7 text-xs" onClick={exportLineup} disabled={summary.filled === 0} title="The lineup card (.txt) and the roster (.csv), to Downloads">Export</Button>

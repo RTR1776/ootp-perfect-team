@@ -1,0 +1,206 @@
+{
+  "American Family Field": {
+    "2026": {"lf": 344, "lcf": 371, "cf": 400, "rcf": 371, "rf": 345, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 6}, "extra": [[-30, 363], [-15, 382], [15, 383], [30, 355]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=MIL06"}
+  },
+  "Anaheim Stadium": {
+    "1990": {"lf": 333, "lcf": 370, "cf": 404, "rcf": 364, "rf": 333, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 10}, "extra": [[-15, 386], [15, 372]], "note": "Seamheads configuration for 1990.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=ANA01"}
+  },
+  "Atlanta Fulton County Stadium": {
+    "1977": {"lf": 330, "lcf": 385, "cf": 402, "rcf": 385, "rf": 330, "wall": {"lf": 6, "lcf": null, "cf": 6, "rcf": null, "rf": 6}, "note": "Seamheads configuration for 1977 (Atlanta-Fulton County Stadium). New seats and new scoreboard. Foul territory significantly reduced.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=ATL01"}
+  },
+  "Busch Stadium": {
+    "1968": {"lf": 330, "lcf": 386, "cf": 414, "rcf": 386, "rf": 330, "wall": {"lf": 8, "lcf": null, "cf": 8, "rcf": null, "rf": 8}, "note": "Seamheads configuration for 1968 (Busch Memorial Stadium).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=STL09"},
+    "1984": {"lf": 330, "lcf": 383, "cf": 414, "rcf": 383, "rf": 330, "wall": {"lf": 10, "lcf": null, "cf": 10, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1984 (Busch Stadium II).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=STL09"},
+    "2006": {"lf": 336, "lcf": 381, "cf": 400, "rcf": 381, "rf": 335, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 8}, "extra": [[-30, 362], [-15, 396], [15, 396], [30, 362]], "note": "Seamheads configuration for 2006 (Busch Stadium III).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=STL10"},
+    "2026": {"lf": 336, "lcf": 381, "cf": 400, "rcf": 381, "rf": 335, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 8}, "extra": [[-30, 362], [-15, 396], [15, 396], [30, 362]], "note": "Seamheads configuration for 2025 (Busch Stadium III), the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=STL10"}
+  },
+  "Candlestick Park": {
+    "1962": {"lf": 330, "lcf": 365, "cf": 410, "rcf": 375, "rf": 335, "wall": {"lf": 10, "lcf": null, "cf": 10, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1962.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=SFO02"},
+    "1979": {"lf": 335, "lcf": 365, "cf": 410, "rcf": 375, "rf": 330, "wall": {"lf": 12, "lcf": null, "cf": 12, "rcf": null, "rf": 12}, "note": "Seamheads configuration for 1979. Astroturf replaced with grass.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=SFO02"}
+  },
+  "Chase Field": {
+    "2026": {"lf": 328, "lcf": 376, "cf": 407, "rcf": 376, "rf": 335, "wall": {"lf": 8, "lcf": 8, "cf": 25, "rcf": 8, "rf": 8}, "extra": [[-7.5, 412], [7.5, 414]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=PHO01"}
+  },
+  "Citizens Bank Park": {
+    "2026": {"lf": 329, "lcf": 361, "cf": 401, "rcf": 357, "rf": 330, "wall": {"lf": 11, "lcf": 11, "cf": 6, "rcf": 13, "rf": 13}, "extra": [[-15, 385], [-7.5, 409], [7.5, 398], [15, 381]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=PHI13"}
+  },
+  "Cleveland Stadium": {
+    "1952": {"lf": 321, "lcf": 395, "cf": 410, "rcf": 395, "rf": 321, "wall": {"lf": 5, "lcf": null, "cf": 5, "rcf": null, "rf": 5}, "note": "Seamheads configuration for 1952.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CLE07"},
+    "1954": {"lf": 320, "lcf": 395, "cf": 410, "rcf": 395, "rf": 320, "wall": {"lf": 5, "lcf": null, "cf": 5, "rcf": null, "rf": 5}, "note": "Seamheads configuration for 1954.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CLE07"},
+    "1991": {"lf": 320, "lcf": 377, "cf": 400, "rcf": 385, "rf": 320, "wall": {"lf": 8, "lcf": null, "cf": 9, "rcf": null, "rf": 8}, "note": "Seamheads configuration for 1991.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CLE07"}
+  },
+  "Comiskey Park": {
+    "1945": {"lf": 352, "lcf": 382, "cf": 440, "rcf": 382, "rf": 352, "wall": {"lf": 12, "lcf": null, "cf": 15, "rcf": null, "rf": 12}, "note": "Seamheads configuration for 1945 (Comiskey Park I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI10"},
+    "1967": {"lf": 352, "lcf": 365, "cf": 410, "rcf": 365, "rf": 352, "wall": {"lf": 10, "lcf": null, "cf": 5, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1967 (Comiskey Park I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI10"},
+    "1983": {"lf": 341, "lcf": 374, "cf": 401, "rcf": 374, "rf": 341, "wall": {"lf": 10, "lcf": null, "cf": 7, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1983 (Comiskey Park I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI10"}
+  },
+  "Connie Mack Stadium": {
+    "1968": {"lf": 334, "lcf": 405, "cf": 447, "rcf": 393, "rf": 329, "wall": {"lf": 12, "lcf": null, "cf": 8, "rcf": null, "rf": 32}, "note": "Seamheads configuration for 1968.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=PHI11"}
+  },
+  "Coors Field": {
+    "1995": {"lf": 347, "lcf": 390, "cf": 415, "rcf": 375, "rf": 350, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 14}, "extra": [[-7.5, 420], [7.5, 424], [30, 358]], "note": "Seamheads configuration for 1995.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=DEN02"},
+    "1996": {"lf": 347, "lcf": 390, "cf": 415, "rcf": 375, "rf": 350, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 14}, "extra": [[-7.5, 420], [7.5, 424], [30, 358]], "note": "Seamheads configuration for 1996.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=DEN02"},
+    "2000": {"lf": 347, "lcf": 390, "cf": 415, "rcf": 375, "rf": 350, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 17}, "extra": [[-7.5, 420], [7.5, 424], [30, 358]], "note": "Seamheads configuration for 2000.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=DEN02"},
+    "2015": {"lf": 347, "lcf": 390, "cf": 415, "rcf": 375, "rf": 350, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 14, "rf": 14}, "extra": [[-7.5, 420], [7.5, 424], [30, 358]], "note": "Seamheads configuration for 2015.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=DEN02"},
+    "2026": {"lf": 347, "lcf": 390, "cf": 415, "rcf": 375, "rf": 350, "wall": {"lf": 13, "lcf": 8, "cf": 8, "rcf": 16, "rf": 16}, "extra": [[-7.5, 420], [7.5, 424], [30, 358]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=DEN02"}
+  },
+  "County Stadium": {
+    "1970": {"lf": 320, "lcf": 362, "cf": 402, "rcf": 362, "rf": 315, "wall": {"lf": 8, "lcf": null, "cf": 8, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1970.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=MIL05"}
+  },
+  "Crosley Field": {
+    "1936": {"lf": 339, "lcf": 360, "cf": 407, "rcf": 375, "rf": 383, "wall": {"lf": 18, "lcf": null, "cf": 18, "rcf": null, "rf": 8}, "note": "Seamheads configuration for 1936.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CIN07"},
+    "1939": {"lf": 328, "lcf": 380, "cf": 380, "rcf": 383, "rf": 366, "wall": {"lf": 18, "lcf": null, "cf": 18, "rcf": null, "rf": 8}, "note": "Seamheads configuration for 1939. Roofed Upper Deck added to pavilions.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CIN07"},
+    "1949": {"lf": 328, "lcf": 380, "cf": 390, "rcf": 383, "rf": 366, "wall": {"lf": 18, "lcf": null, "cf": 18, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1949.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CIN07"},
+    "1958": {"lf": 328, "lcf": 380, "cf": 387, "rcf": 383, "rf": 366, "wall": {"lf": 12, "lcf": null, "cf": 18, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1958.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CIN07"}
+  },
+  "Daikin Park": {
+    "2026": {"lf": 315, "lcf": 362, "cf": 409, "rcf": 373, "rf": 326, "wall": {"lf": 21, "lcf": 25, "cf": 9, "rcf": 9, "rf": 7}, "extra": [[-30, 335], [-15, 390], [-7.5, 404], [7.5, 409], [15, 397]], "note": "Seamheads configuration for 2025 (Minute Maid Park), the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=HOU03"}
+  },
+  "Dell Diamond": {
+    "2026": {"lf": 335, "lcf": 375, "cf": 400, "rcf": 375, "rf": 325, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 8}, "note": "Lines and centre from MLB.com's ballpark guide; 375 power alleys and the 8-ft wall from MiLB's ballpark profile (which puts the LF line at 330 and the deepest centre at 407).", "source": "https://www.mlb.com/milb/news/featured/visit-dell-diamond-home-of-the-round-rock-express"}
+  },
+  "Dodger Stadium": {
+    "1965": {"lf": 330, "lcf": 380, "cf": 410, "rcf": 380, "rf": 330, "wall": {"lf": 4, "lcf": 10, "cf": 10, "rcf": 10, "rf": 4}, "extra": [[-30, 370], [-15, 390], [15, 390], [30, 370]], "note": "Seamheads configuration for 1965.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=LOS03"},
+    "1971": {"lf": 330, "lcf": 370, "cf": 400, "rcf": 370, "rf": 330, "wall": {"lf": 4, "lcf": 10, "cf": 10, "rcf": 10, "rf": 4}, "extra": [[-30, 360], [-15, 385], [15, 385], [30, 360]], "note": "Seamheads configuration for 1971.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=LOS03"},
+    "1996": {"lf": 330, "lcf": 370, "cf": 400, "rcf": 370, "rf": 330, "wall": {"lf": 4, "lcf": 8, "cf": 8, "rcf": 8, "rf": 4}, "extra": [[-30, 360], [-15, 385], [15, 385], [30, 360]], "note": "Seamheads configuration for 1996.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=LOS03"},
+    "2003": {"lf": 330, "lcf": 375, "cf": 400, "rcf": 375, "rf": 330, "wall": {"lf": 4, "lcf": 8, "cf": 8, "rcf": 8, "rf": 4}, "extra": [[-30, 360], [-15, 385], [15, 385], [30, 360]], "note": "Seamheads configuration for 2003.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=LOS03"},
+    "2026": {"lf": 330, "lcf": 375, "cf": 400, "rcf": 375, "rf": 330, "wall": {"lf": 4, "lcf": 8, "cf": 8, "rcf": 8, "rf": 4}, "extra": [[-30, 360], [-15, 385], [15, 385], [30, 360]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=LOS03"}
+  },
+  "Ebbets Field": {
+    "1920": {"lf": 410, "lcf": 431, "cf": 496, "rcf": 378, "rf": 300, "wall": {"lf": 20, "lcf": 20, "cf": 20, "rcf": 20, "rf": 19}, "extra": [[-30, 408], [7.5, 500], [30, 323]], "note": "Seamheads configuration for 1920. Thru August. Left Field bleachers built in Sept. See 1921 for Sept. Config.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC15"},
+    "1955": {"lf": 348, "lcf": 368, "cf": 384, "rcf": 352, "rf": 297, "wall": {"lf": 10, "lcf": 10, "cf": 10, "rcf": 20, "rf": 38}, "extra": [[-30, 345], [-7.5, 398], [7.5, 390], [30, 315]], "note": "Seamheads configuration for 1955.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC15"}
+  },
+  "Expostition Park III": {
+    "1890": {"lf": 400, "lcf": 475, "cf": 515, "rcf": 439, "rf": 380, "wall": {"lf": 3, "lcf": 10, "cf": 10, "rcf": 20, "rf": 10}, "extra": [[-30, 393], [30, 393]], "note": "Seamheads configuration for 1890 (Exposition Park III).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=PIT05"}
+  },
+  "Fenway Park": {
+    "1912": {"lf": 324, "lcf": null, "cf": 458, "rcf": 407, "rf": 314, "wall": {"lf": 25, "lcf": 18, "cf": 10, "rcf": 4, "rf": 20}, "extra": [[-30, 335], [-7.5, 496], [30, 481]], "note": "Seamheads configuration for 1912.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07"},
+    "1919": {"lf": 324, "lcf": 377, "cf": 458, "rcf": 407, "rf": 314, "wall": {"lf": 25, "lcf": 18, "cf": 10, "rcf": 4, "rf": 4}, "extra": [[-30, 335], [-7.5, 496], [30, 404]], "note": "Seamheads configuration for 1919.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07"},
+    "1937": {"lf": 310, "lcf": 379, "cf": 390, "rcf": null, "rf": 332, "wall": {"lf": 37, "lcf": 18, "cf": 10, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420]], "note": "Seamheads configuration for 1937. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 10], [22.5, 5], [45, 3]]},
+    "1945": {"lf": 310, "lcf": 379, "cf": 390, "rcf": 380, "rf": 302, "wall": {"lf": 37, "lcf": 18, "cf": 9, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420], [15, 380]], "note": "Seamheads configuration for 1945. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 9], [22.5, 5], [45, 3]]},
+    "1946": {"lf": 310, "lcf": 379, "cf": 390, "rcf": 380, "rf": 302, "wall": {"lf": 37, "lcf": 18, "cf": 9, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420], [15, 380]], "note": "Seamheads configuration for 1946. Rooftop Boxes Built. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 9], [22.5, 5], [45, 3]]},
+    "1955": {"lf": 310, "lcf": 379, "cf": 390, "rcf": 380, "rf": 302, "wall": {"lf": 37, "lcf": 18, "cf": 9, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420], [15, 383], [-22.5, 335]], "note": "Seamheads configuration for 1955. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 9], [22.5, 5], [45, 3]]},
+    "1975": {"lf": 310, "lcf": 379, "cf": 390, "rcf": 380, "rf": 302, "wall": {"lf": 37, "lcf": 18, "cf": 9, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420], [15, 383], [-22.5, 335]], "note": "Seamheads configuration for 1975. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 9], [22.5, 5], [45, 3]]},
+    "1984": {"lf": 310, "lcf": 379, "cf": 390, "rcf": 380, "rf": 302, "wall": {"lf": 37, "lcf": 18, "cf": 9, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420], [15, 383], [-22.5, 335]], "note": "Seamheads configuration for 1984. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 9], [22.5, 5], [45, 3]]},
+    "2004": {"lf": 310, "lcf": 379, "cf": 390, "rcf": 380, "rf": 302, "wall": {"lf": 37, "lcf": 18, "cf": 9, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420], [15, 383], [-22.5, 335]], "note": "Seamheads configuration for 2004. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 9], [22.5, 5], [45, 3]]},
+    "2013": {"lf": 310, "lcf": 379, "cf": 390, "rcf": 380, "rf": 302, "wall": {"lf": 37, "lcf": 18, "cf": 9, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420], [15, 383], [-22.5, 335]], "note": "Seamheads configuration for 2013. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 9], [22.5, 5], [45, 3]]},
+    "2026": {"lf": 310, "lcf": 379, "cf": 390, "rcf": 380, "rf": 302, "wall": {"lf": 37, "lcf": 18, "cf": 9, "rcf": 5, "rf": 3}, "extra": [[-7.5, 388], [7.5, 420], [15, 383], [-22.5, 335]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026. The Green Monster (37 ft) runs from the pole to the 379 sign.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BOS07", "at": {"lcf": 15}, "wallPts": [[-45, 37], [-15, 37], [-13, 18], [0, 9], [22.5, 5], [45, 3]]}
+  },
+  "Globe Life Field": {
+    "2026": {"lf": 329, "lcf": 372, "cf": 407, "rcf": 374, "rf": 326, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 8}, "extra": [[-7.5, 410], [7.5, 410]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=ARL03"}
+  },
+  "Great American Ballpark": {
+    "2004": {"lf": 328, "lcf": 366, "cf": 404, "rcf": 366, "rf": 325, "wall": {"lf": 12, "lcf": 12, "cf": 8, "rcf": 8, "rf": 8}, "extra": [[-15, 379], [15, 370]], "note": "Seamheads configuration for 2004.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CIN09"},
+    "2026": {"lf": 328, "lcf": 366, "cf": 404, "rcf": 366, "rf": 325, "wall": {"lf": 12, "lcf": 12, "cf": 8, "rcf": 8, "rf": 8}, "extra": [[-15, 379], [15, 370]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CIN09"}
+  },
+  "Griffith Stadium": {
+    "1914": {"lf": 464, "lcf": 413, "cf": 459, "rcf": 388, "rf": 322, "wall": {"lf": 11, "lcf": 11, "cf": 20, "rcf": 20, "rf": 11}, "extra": [[-30, 421], [30, 374]], "note": "Seamheads configuration for 1914 (National Park). Field Expanded. RF Fence moved back.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=WAS09"},
+    "1954": {"lf": 388, "lcf": 383, "cf": 409, "rcf": 418, "rf": 320, "wall": {"lf": 11, "lcf": 11, "cf": 31, "rcf": 31, "rf": 31}, "extra": [[-30, 383], [30, 372]], "note": "Seamheads configuration for 1954. CF bullpen moved.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=WAS09"}
+  },
+  "Hamtramck Stadium": {
+    "1930": {"lf": 315, "lcf": null, "cf": 515, "rcf": null, "rf": 407, "wall": {"lf": 12, "lcf": 12, "cf": 12, "rcf": 12, "rf": 12}, "note": "Short left (315), deep right (407) and a 515-ft centre field inside a 12-ft corrugated-metal fence; alleys not recorded.", "source": "https://en.wikipedia.org/wiki/Hamtramck_Stadium"}
+  },
+  "Jack Murphy Stadium": {
+    "1984": {"lf": 327, "lcf": 370, "cf": 405, "rcf": 370, "rf": 327, "wall": {"lf": 8, "lcf": null, "cf": 8, "rcf": null, "rf": 8}, "note": "Seamheads configuration for 1984. Seats added in RF and RC.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=SAN01"}
+  },
+  "Jacobs Field": {
+    "1999": {"lf": 325, "lcf": 368, "cf": 405, "rcf": 375, "rf": 325, "wall": {"lf": 19, "lcf": 19, "cf": 8, "rcf": 8, "rf": 14}, "extra": [[-7.5, 410]], "note": "Seamheads configuration for 1999.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CLE08"}
+  },
+  "Jarry Park": {
+    "1976": {"lf": 340, "lcf": 368, "cf": 420, "rcf": 368, "rf": 340, "wall": {"lf": 8, "lcf": null, "cf": 8, "rcf": null, "rf": 8}, "note": "Seamheads configuration for 1976 (Parc Jarry).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=MON01"}
+  },
+  "Kauffman Stadium": {
+    "2026": {"lf": 330, "lcf": 379, "cf": 410, "rcf": 379, "rf": 330, "wall": {"lf": 8.5, "lcf": 8.5, "cf": 10, "rcf": 8.5, "rf": 8.5}, "extra": [[-37.5, 347], [-30, 364], [-11, 405], [11, 405], [30, 364], [37.5, 344]], "note": "2026 configuration: the Royals moved the walls in 8-10 ft (corners 356/353 to 347/344, left and right field 373 to 364, alleys 389 to 379; left- and right-centre 405 and centre 410 unchanged) and lowered them to 8.5 ft, 10 ft in centre. Foul poles 330. The angles of the team's in-between points are estimated.", "source": "https://www.kshb.com/sports/kansas-city-royals-to-move-outfield-fences-in-at-kauffman-stadium-for-2026-season"}
+  },
+  "Kingdome": {
+    "1977": {"lf": 315, "lcf": 375, "cf": 405, "rcf": 375, "rf": 315, "wall": {"lf": 12, "lcf": null, "cf": 12, "rcf": null, "rf": 12}, "note": "Seamheads configuration for 1977.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=SEA02"},
+    "1982": {"lf": 316, "lcf": 357, "cf": 405, "rcf": 357, "rf": 316, "wall": {"lf": 12, "lcf": null, "cf": 12, "rcf": null, "rf": 12}, "note": "Seamheads configuration for 1982.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=SEA02"}
+  },
+  "Marlins Park": {
+    "2017": {"lf": 344, "lcf": 380, "cf": 407, "rcf": 386, "rf": 335, "wall": {"lf": 7, "lcf": 14, "cf": 20, "rcf": 11, "rf": 7}, "extra": [[-30, 358], [-15, 393], [15, 391], [30, 355]], "note": "Seamheads configuration for 2017. Dimensions and fences reduced.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=MIA02"},
+    "2019": {"lf": 344, "lcf": 380, "cf": 407, "rcf": 386, "rf": 335, "wall": {"lf": 7, "lcf": 14, "cf": 20, "rcf": 11, "rf": 7}, "extra": [[-30, 358], [-15, 393], [15, 391], [30, 355]], "note": "Seamheads configuration for 2019.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=MIA02"}
+  },
+  "McAfee Stadium": {
+    "2008": {"lf": 330, "lcf": 362, "cf": 400, "rcf": 362, "rf": 330, "wall": {"lf": 8, "lcf": 15, "cf": 8, "rcf": 15, "rf": 8}, "extra": [[-30, 367], [-15, 388], [15, 388], [30, 367]], "note": "Seamheads configuration for 2008 (McAfee Coliseum).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=OAK01"}
+  },
+  "Metrodome": {
+    "1990": {"lf": 343, "lcf": 385, "cf": 408, "rcf": 367, "rf": 327, "wall": {"lf": 13, "lcf": 13, "cf": 7, "rcf": 23, "rf": 23}, "note": "Seamheads configuration for 1990 (Hubert H. Humphrey Metrodome).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=MIN03"}
+  },
+  "Minute Maid Park": {
+    "2005": {"lf": 315, "lcf": 362, "cf": 436, "rcf": 373, "rf": 326, "wall": {"lf": 21, "lcf": 25, "cf": 9, "rcf": 9, "rf": 7}, "extra": [[-30, 335], [-15, 390], [-7.5, 404], [7.5, 436], [15, 397]], "note": "Seamheads configuration for 2005.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=HOU03"}
+  },
+  "Olympic Stadium": {
+    "1977": {"lf": 325, "lcf": 375, "cf": 404, "rcf": 375, "rf": 325, "wall": {"lf": 12, "lcf": null, "cf": 12, "rcf": null, "rf": 12}, "note": "Seamheads configuration for 1977 (Stade Olympique).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=MON02"},
+    "1984": {"lf": 325, "lcf": 375, "cf": 404, "rcf": 375, "rf": 325, "wall": {"lf": 12, "lcf": null, "cf": 12, "rcf": null, "rf": 12}, "note": "Seamheads configuration for 1984 (Stade Olympique).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=MON02"}
+  },
+  "Oriole Park at Camden Yards": {
+    "1992": {"lf": 333, "lcf": 364, "cf": 400, "rcf": 373, "rf": 318, "wall": {"lf": 7, "lcf": 7, "cf": 7, "rcf": 7, "rf": 25}, "extra": [[-7.5, 410], [7.5, 386]], "note": "Seamheads configuration for 1992.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=BAL12"},
+    "2026": {"lf": 333, "lcf": 374, "cf": 400, "rcf": 373, "rf": 318, "wall": {"lf": 8, "lcf": 7, "cf": 7, "rcf": 7, "rf": 21}, "extra": [[-7.5, 376], [7.5, 386]], "note": "2025-on configuration: the left-field wall, moved back in 2022, came in again for 2025 (deepest points 384/398 to 374/376) and dropped to about 7-8 ft. Rest of the park from Seamheads 2025.", "source": "https://www.mlb.com/orioles/news/orioles-camden-yards-left-field-wall-modifications"}
+  },
+  "Petco Park": {
+    "2026": {"lf": 336, "lcf": 377, "cf": 396, "rcf": 380, "rf": 322, "wall": {"lf": 4, "lcf": 7, "cf": 7, "rcf": 10, "rf": 10}, "extra": [[-30, 357], [-15, 390], [15, 396], [30, 363]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=SAN02"}
+  },
+  "PNC Park": {
+    "2026": {"lf": 325, "lcf": 389, "cf": 399, "rcf": 395, "rf": 320, "wall": {"lf": 6, "lcf": 10, "cf": 10, "rcf": 21, "rf": 21}, "extra": [[-30, 362], [-15, 395], [-7.5, 410], [30, 350]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=PIT08"}
+  },
+  "Rate Field": {
+    "2026": {"lf": 330, "lcf": 372, "cf": 400, "rcf": 372, "rf": 335, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 8}, "extra": [[-30, 352], [30, 352]], "note": "Seamheads configuration for 2025 (Guarantee Rate Park), the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI12"}
+  },
+  "Rio Grande Credit Union Field at Isotopes Park": {
+    "2026": {"lf": 340, "lcf": 383, "cf": 400, "rcf": 404, "rf": 340, "wall": {"lf": null, "lcf": null, "cf": null, "rcf": null, "rf": null}, "extra": [[-8, 428], [8, 428]], "note": "340 lines, 383/404 alleys, 400 to the centre-field bite and 428 on either side of it (Wikipedia; older listings). Wall heights not published.", "source": "https://en.wikipedia.org/wiki/Rio_Grande_Credit_Union_Field_at_Isotopes_Park"}
+  },
+  "Riverfront Stadium": {
+    "1978": {"lf": 330, "lcf": 375, "cf": 404, "rcf": 375, "rf": 330, "wall": {"lf": 12, "lcf": null, "cf": 12, "rcf": null, "rf": 12}, "note": "Seamheads configuration for 1978.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CIN08"}
+  },
+  "Seals Stadium": {
+    "1959": {"lf": 361, "lcf": 364, "cf": 400, "rcf": 397, "rf": 350, "wall": {"lf": 15, "lcf": null, "cf": 31, "rcf": null, "rf": 16}, "note": "Seamheads configuration for 1959.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=SFO01"}
+  },
+  "Shea Stadium": {
+    "1964": {"lf": 341, "lcf": 371, "cf": 410, "rcf": 371, "rf": 341, "wall": {"lf": 16, "lcf": null, "cf": 8, "rcf": null, "rf": 16}, "note": "Seamheads configuration for 1964.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC17"},
+    "1987": {"lf": 338, "lcf": 378, "cf": 410, "rcf": 378, "rf": 338, "wall": {"lf": 8, "lcf": null, "cf": 8, "rcf": null, "rf": 8}, "note": "Seamheads configuration for 1987.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC17"},
+    "2008": {"lf": 338, "lcf": 378, "cf": 410, "rcf": 378, "rf": 338, "wall": {"lf": 8, "lcf": null, "cf": 8, "rcf": null, "rf": 8}, "note": "Seamheads configuration for 2008.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC17"}
+  },
+  "SkyDome": {
+    "1992": {"lf": 328, "lcf": 375, "cf": 400, "rcf": 375, "rf": 328, "wall": {"lf": 10, "lcf": 10, "cf": 10, "rcf": 10, "rf": 10}, "extra": [[-15, 390], [15, 390]], "note": "Seamheads configuration for 1992.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=TOR02"}
+  },
+  "Standard Stadium": {
+    "2025": {"lf": 330, "lcf": 375, "cf": 400, "rcf": 375, "rf": 330, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 8}, "assumed": true, "note": "Assumed: OOTP doesn't publish its neutral park's dimensions, so a conventional 330/375/400/375/330 with 8-ft walls is drawn.", "source": "https://wiki.ootpdevelopments.com/index.php?title=Park_Profile"}
+  },
+  "Sutter Health Park": {
+    "2026": {"lf": 330, "lcf": null, "cf": 403, "rcf": null, "rf": 325, "wall": {"lf": null, "lcf": null, "cf": null, "rcf": null, "rf": null}, "note": "Lines and centre only (park site, MLB.com, Seamheads 2025); alleys and wall heights not published.", "source": "https://sutterhealthpark.com/about-shp"}
+  },
+  "Three Rivers Stadium": {
+    "1979": {"lf": 335, "lcf": 375, "cf": 400, "rcf": 375, "rf": 335, "wall": {"lf": 10, "lcf": null, "cf": 10, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1979.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=PIT07"},
+    "1986": {"lf": 335, "lcf": 375, "cf": 400, "rcf": 375, "rf": 335, "wall": {"lf": 10, "lcf": null, "cf": 10, "rcf": null, "rf": 10}, "note": "Seamheads configuration for 1986.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=PIT07"}
+  },
+  "Tiger Stadium": {
+    "1958": {"lf": 340, "lcf": 392, "cf": 425, "rcf": 375, "rf": 325, "wall": {"lf": 11, "lcf": null, "cf": 9, "rcf": null, "rf": 9}, "extra": [[-30, 352], [-7.5, 430], [30, 336]], "note": "Seamheads configuration for 1958 (Briggs Stadium).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=DET04"}
+  },
+  "Tropicana Field": {
+    "2024": {"lf": 315, "lcf": 370, "cf": 404, "rcf": 360, "rf": 322, "wall": {"lf": 11, "lcf": 11, "cf": 9, "rcf": 11, "rf": 11}, "extra": [[-7.5, 410], [7.5, 404]], "note": "Seamheads configuration for 2024.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=STP01"},
+    "2026": {"lf": 315, "lcf": 370, "cf": 404, "rcf": 360, "rf": 322, "wall": {"lf": 11, "lcf": 11, "cf": 9, "rcf": 11, "rf": 11}, "extra": [[-7.5, 410], [7.5, 404]], "note": "Seamheads configuration, 2024 (the Rays played 2025 at Steinbrenner Field); no change found for the 2026 return.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=STP01"}
+  },
+  "Truist Park": {
+    "2026": {"lf": 335, "lcf": 385, "cf": 400, "rcf": 375, "rf": 325, "wall": {"lf": 6, "lcf": 8, "cf": 8, "rcf": 8, "rf": 16}, "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=ATL03"}
+  },
+  "Washington Park": {
+    "1911": {"lf": 338, "lcf": 415, "cf": 425, "rcf": 349, "rf": 302, "wall": {"lf": 12, "lcf": 12, "cf": 8, "rcf": 20, "rf": 20}, "extra": [[-30, 387], [-7.5, 443], [30, 313]], "note": "Seamheads configuration for 1911 (Washington Park III).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC12"}
+  },
+  "Wrigley Field": {
+    "1932": {"lf": 364, "lcf": 361, "cf": 436, "rcf": 383, "rf": 321, "wall": {"lf": 16, "lcf": 11, "cf": 11, "rcf": 11, "rf": 16}, "extra": [[7.5, 447]], "note": "Seamheads configuration for 1932.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI11"},
+    "1945": {"lf": 355, "lcf": 363, "cf": 400, "rcf": 381, "rf": 353, "wall": {"lf": 16, "lcf": 11, "cf": 11, "rcf": 11, "rf": 16}, "extra": [[-30, 357], [7.5, 407], [30, 363]], "note": "Seamheads configuration for 1945.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI11"},
+    "1977": {"lf": 355, "lcf": 363, "cf": 400, "rcf": 381, "rf": 353, "wall": {"lf": 16, "lcf": 11, "cf": 11, "rcf": 11, "rf": 16}, "extra": [[-30, 357], [7.5, 407], [30, 363]], "note": "Seamheads configuration for 1977.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI11"},
+    "1985": {"lf": 355, "lcf": 363, "cf": 400, "rcf": 381, "rf": 353, "wall": {"lf": 16, "lcf": 11, "cf": 11, "rcf": 11, "rf": 16}, "extra": [[-30, 357], [7.5, 407], [30, 363]], "note": "Seamheads configuration for 1985.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI11"},
+    "1998": {"lf": 355, "lcf": 363, "cf": 400, "rcf": 381, "rf": 353, "wall": {"lf": 16, "lcf": 11, "cf": 11, "rcf": 11, "rf": 16}, "extra": [[-30, 357], [7.5, 407], [30, 363]], "note": "Seamheads configuration for 1998.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI11"},
+    "2026": {"lf": 355, "lcf": 363, "cf": 400, "rcf": 381, "rf": 353, "wall": {"lf": 16, "lcf": 11, "cf": 11, "rcf": 11, "rf": 16}, "extra": [[-30, 357], [7.5, 407], [30, 363]], "note": "Seamheads configuration for 2025, the latest on file; no change found for 2026.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=CHI11"}
+  },
+  "Yankee Stadium": {
+    "1923": {"lf": 255, "lcf": 474, "cf": 487, "rcf": 423, "rf": 255, "wall": {"lf": 4, "lcf": null, "cf": 14, "rcf": null, "rf": 12}, "extra": [[-30, 395], [-7.5, 500], [7.5, 429]], "note": "Seamheads configuration for 1923 (Yankee Stadium I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC16"},
+    "1927": {"lf": 281, "lcf": 461, "cf": 470, "rcf": 417, "rf": 295, "wall": {"lf": 4, "lcf": null, "cf": 14, "rcf": null, "rf": 4}, "extra": [[-30, 395], [-7.5, 490], [7.5, 429]], "note": "Seamheads configuration for 1927 (Yankee Stadium I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC16"},
+    "1952": {"lf": 301, "lcf": 415, "cf": 449, "rcf": 367, "rf": 296, "wall": {"lf": 4, "lcf": null, "cf": 14, "rcf": null, "rf": 4}, "extra": [[-30, 402], [-15, 451], [-7.5, 461], [7.5, 429], [15, 407], [30, 344]], "note": "Seamheads configuration for 1952 (Yankee Stadium I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC16"},
+    "1971": {"lf": 301, "lcf": 415, "cf": 449, "rcf": 367, "rf": 296, "wall": {"lf": 4, "lcf": null, "cf": 14, "rcf": null, "rf": 4}, "extra": [[-30, 402], [-15, 451], [-7.5, 461], [7.5, 429], [15, 407], [30, 344]], "note": "Seamheads configuration for 1971 (Yankee Stadium I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC16"},
+    "1987": {"lf": 312, "lcf": 402, "cf": 410, "rcf": 385, "rf": 310, "wall": {"lf": 8, "lcf": 7, "cf": 7, "rcf": 9, "rf": 10}, "extra": [[-7.5, 411], [30, 353]], "note": "Seamheads configuration for 1987 (Yankee Stadium I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC16"},
+    "2008": {"lf": 318, "lcf": 392, "cf": 408, "rcf": 385, "rf": 314, "wall": {"lf": 8, "lcf": 7, "cf": 7, "rcf": 9, "rf": 10}, "extra": [[-7.5, 399], [30, 353]], "note": "Seamheads configuration for 2008 (Yankee Stadium I).", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC16"},
+    "2026": {"lf": 318, "lcf": 399, "cf": 408, "rcf": 385, "rf": 314, "wall": {"lf": 8, "lcf": 8, "cf": 8, "rcf": 8, "rf": 8}, "extra": [[-30, 375], [-22.5, 382], [22.5, 360], [30, 353]], "note": "Seamheads configuration for 2025 (New Yankee Stadium), the latest on file; no change found for 2026. The posted 399/385 alley signs sit about 15 deg off centre.", "source": "https://www.seamheads.com/ballparks/ballpark.php?parkID=NYC21", "at": {"lcf": 15, "rcf": 15}}
+  }
+}

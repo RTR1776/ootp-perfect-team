@@ -24,6 +24,8 @@ import { LJ_FLOOR, posFloorAt } from "@/lib/pos-floor";
 import { TIER_NAME, TIER_ORDER, tierCode, type TierCode } from "@/lib/roster-rules";
 import type { BuilderCard, UpgradeCard } from "@/components/roster-builder";
 import { FieldBackdrop, FIELD_SPOT, surname } from "@/components/diamond";
+import { ParkBackdrop, ParkBanner } from "@/components/park-backdrop";
+import { parkView } from "@/lib/park-shape";
 
 type Split = "T" | "L" | "R";
 type Measure = "T" | "O" | "D";
@@ -56,6 +58,8 @@ interface Props {
   clearPeek: () => void;
   /** Buttons at the end of the toolbar (the builder's exports). */
   toolbar?: React.ReactNode;
+  /** The event's stadium ("1927 Yankee Stadium"): its real field is drawn when its dimensions are on file. */
+  stadium?: string | null;
 }
 
 /** Where each position sits on the diamond, in % of the field box (left, top). */
@@ -81,6 +85,8 @@ export function FieldView(p: Props) {
   const [detail, setDetail] = React.useState<Set<string>>(new Set());
 
   const runsR = p.runsR, runsL = p.runsL;
+  /** The event's park, drawn behind the lineup; null keeps the generic field. */
+  const park = React.useMemo(() => parkView(p.stadium ?? null), [p.stadium]);
   /** The bat against the chosen hand ("Total": at the field's LHP share). */
   const off = React.useCallback((id: number, s: Split = split): number | null => {
     const r = runsR?.get(id), l = runsL?.get(id);
@@ -296,61 +302,64 @@ export function FieldView(p: Props) {
           })}
         </div>
 
-        {/* the diamond */}
-        <div className="relative aspect-[5/4] min-h-[380px] self-start overflow-hidden rounded-lg border border-border bg-[#0f1a12] dark:bg-[#0c140e]">
-          <FieldBackdrop />
-          {spots.map((s) => {
-            const [x, y] = SPOT[s.pos] ?? [50, 50];
-            const slot = `${showHand}:${s.pos}`;
-            const cur = showHand === "L" ? s.cL : s.cR;
-            const platoon = split === "T" && s.cR && s.cL && s.cR.cardId !== s.cL.cardId;
-            const buy = buyAt.get(s.pos);
-            const sel = p.selected === slot || (split === "T" && p.selected === `L:${s.pos}`);
-            return (
-              <button
-                key={s.pos}
-                type="button"
-                onClick={() => {
-                  p.onSelect(sel ? null : slot);
-                  setOpen(new Set([...open, s.pos]));
-                }}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  const d = e.dataTransfer.getData("text/plain");
-                  // A card from the lists fills every board the split covers; a card moved from a slot moves on its own board.
-                  if (d.startsWith("card:")) for (const h of hands) p.dropOnSlot(`${h}:${s.pos}`, d);
-                  else p.dropOnSlot(slot, d);
-                }}
-                onMouseEnter={(e) => cur && p.onPeek(e, cur)}
-                onMouseLeave={p.clearPeek}
-                style={{ left: `${x}%`, top: `${y}%` }}
-                title={`${s.pos}: click to pick from the ${s.pos} list, or drag a card here`}
-                className={cn(
-                  "absolute flex w-[27%] min-w-[96px] max-w-[176px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md border bg-card/95 text-left shadow-sm transition-colors hover:border-primary",
-                  sel ? "border-primary ring-1 ring-primary" : "border-border",
-                )}
-              >
-                <span className="flex w-9 shrink-0 items-center justify-center bg-muted font-mono text-xs font-bold">{s.pos}</span>
-                <span className="flex min-w-0 flex-1 flex-col px-1.5 py-1">
-                  {cur ? (
-                    <>
-                      <span className="truncate text-xs font-medium">
-                        {platoon ? `${surname(s.cR!.name)} / ${surname(s.cL!.name)}` : cur.name}
-                      </span>
-                      <span className="flex items-baseline justify-between gap-1">
-                        <span className="font-mono text-[10px] text-muted-foreground">{platoon ? "vR / vL" : cur.val ?? ""}</span>
-                        <span className={cn("font-mono text-xs tabular-nums", (s.v ?? 0) >= 0 ? "text-foreground" : "text-negative")}>{s.v != null ? signed(s.v) : "—"}</span>
-                      </span>
-                      {buy && <span className="truncate text-[9.5px] text-muted-foreground">buy {buy.name} {signed(buy.gain)}</span>}
-                    </>
-                  ) : (
-                    <span className="py-1 text-xs text-muted-foreground">empty</span>
+        {/* the event's park, and the diamond on it */}
+        <div className="flex min-w-0 flex-col gap-1.5 self-start">
+          {park && <ParkBanner park={park} />}
+          <div className="relative aspect-[5/4] min-h-[380px] overflow-hidden rounded-lg border border-border bg-[#0f1a12] dark:bg-[#0c140e]">
+            {park ? <ParkBackdrop park={park} /> : <FieldBackdrop />}
+            {spots.map((s) => {
+              const [x, y] = SPOT[s.pos] ?? [50, 50];
+              const slot = `${showHand}:${s.pos}`;
+              const cur = showHand === "L" ? s.cL : s.cR;
+              const platoon = split === "T" && s.cR && s.cL && s.cR.cardId !== s.cL.cardId;
+              const buy = buyAt.get(s.pos);
+              const sel = p.selected === slot || (split === "T" && p.selected === `L:${s.pos}`);
+              return (
+                <button
+                  key={s.pos}
+                  type="button"
+                  onClick={() => {
+                    p.onSelect(sel ? null : slot);
+                    setOpen(new Set([...open, s.pos]));
+                  }}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const d = e.dataTransfer.getData("text/plain");
+                    // A card from the lists fills every board the split covers; a card moved from a slot moves on its own board.
+                    if (d.startsWith("card:")) for (const h of hands) p.dropOnSlot(`${h}:${s.pos}`, d);
+                    else p.dropOnSlot(slot, d);
+                  }}
+                  onMouseEnter={(e) => cur && p.onPeek(e, cur)}
+                  onMouseLeave={p.clearPeek}
+                  style={{ left: `${x}%`, top: `${y}%` }}
+                  title={`${s.pos}: click to pick from the ${s.pos} list, or drag a card here`}
+                  className={cn(
+                    "absolute flex w-[27%] min-w-[96px] max-w-[176px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md border bg-card/95 text-left shadow-sm transition-colors hover:border-primary",
+                    sel ? "border-primary ring-1 ring-primary" : "border-border",
                   )}
-                </span>
-              </button>
-            );
-          })}
+                >
+                  <span className="flex w-9 shrink-0 items-center justify-center bg-muted font-mono text-xs font-bold">{s.pos}</span>
+                  <span className="flex min-w-0 flex-1 flex-col px-1.5 py-1">
+                    {cur ? (
+                      <>
+                        <span className="truncate text-xs font-medium">
+                          {platoon ? `${surname(s.cR!.name)} / ${surname(s.cL!.name)}` : cur.name}
+                        </span>
+                        <span className="flex items-baseline justify-between gap-1">
+                          <span className="font-mono text-[10px] text-muted-foreground">{platoon ? "vR / vL" : cur.val ?? ""}</span>
+                          <span className={cn("font-mono text-xs tabular-nums", (s.v ?? 0) >= 0 ? "text-foreground" : "text-negative")}>{s.v != null ? signed(s.v) : "—"}</span>
+                        </span>
+                        {buy && <span className="truncate text-[9.5px] text-muted-foreground">buy {buy.name} {signed(buy.gain)}</span>}
+                      </>
+                    ) : (
+                      <span className="py-1 text-xs text-muted-foreground">empty</span>
+                    )}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 

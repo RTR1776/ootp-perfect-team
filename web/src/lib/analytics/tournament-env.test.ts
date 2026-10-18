@@ -23,7 +23,9 @@ test("catalogue park spellings resolve to the park the factor table files", () =
   assert.equal(parkFor("2026 Truist Park").name, "Truist Park");
   // neutral by design, and unknown parks stay neutral rather than guessed
   assert.equal(parkFor("2025 Standard Stadium").row, null);
-  assert.equal(parkFor("1890 Exposition Park").row, null);
+  assert.equal(parkFor("1900 Nowhere Field").row, null);
+  // the table files Pittsburgh's 1890 park as "Expostition Park III"
+  assert.equal(parkFor("1890 Exposition Park").name, "Expostition Park III");
 });
 
 test("the CLI's park lookup accepts the same spellings", async () => {
