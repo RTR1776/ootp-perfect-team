@@ -77,7 +77,14 @@ const worth = (rates: EraRates) => {
 const BASE_WORTH = worth((eraTable["0"] ?? eraTable["2010"]).rates);
 const RATING_OF: Record<string, string> = { K: "Avoid Ks", BA: "BABIP", GAP: "Gap", POW: "Power", EYE: "Eye" };
 
+/**
+ * Theme weeks L.J. announced that sit too close to the ordinary 2010-2013 band
+ * for the fit to call: 2007 plays only ~10% more runs than 2010.
+ */
+const KNOWN_THEME: Record<string, number> = { "2026-10-18": 2007 };
+
 async function envOf(week: string): Promise<{ year: number; themed: boolean }> {
+  if (KNOWN_THEME[week]) return { year: KNOWN_THEME[week], themed: true };
   if (!HAS_DB) return { year: 2010, themed: false };
   const fit = await fitEraYear(week).catch(() => null);
   return fit?.themed ? { year: Number(fit.year), themed: true } : { year: 2010, themed: false };
@@ -110,6 +117,9 @@ async function main() {
       if (!jobs.has(key)) jobs.set(key, { week: s.wk, league: s.league, split: s.split, src: "db", snapshotId: Number(s.id) });
     }
   }
+  // The same rule across sources: a mid-season file (League Data/2026-10-08) is dropped once the full week is on file or imported.
+  const kept = new Set(dropSuperseded([...jobs.values()].map((j) => ({ ...j, on: j.week }))).map((j) => `${j.week}|${j.league}|${j.split}`));
+  for (const key of [...jobs.keys()]) if (!kept.has(key)) { console.log(`${key.replaceAll("|", " ")}: superseded by a later capture that week, dropped`); jobs.delete(key); }
   const cards = db ? asRows(await db.execute(sql`select card_id, bats, ratings from cards`)) : [];
   const cardById = new Map(cards.map((c) => [Number(c.card_id), c]));
 
