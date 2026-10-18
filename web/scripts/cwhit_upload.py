@@ -37,13 +37,17 @@ ALIASES = {
     "silveronlycapdaily": "silveronlycap",
     "bagelsschmearevcinnyc": "bagels",
     "lowdiamondonly": "lowdiamondonlydaily",
-    "highironfloorgoldceilingweekly": "silverandgoldcapweekly",
+    # Renamed on his sheet from run 28 (09-27); earlier runs keep the old name.
+    "highironfloorgoldceilingweekly": lambda run: ("silverandgoldcapweekly" if run >= 28 else "highironfloorgoldceilingweekly", run),
+    # The slot became Daily Low Gold Cap on 10-01 (his run 128 on).
+    "highsilverlowgoldcap": lambda run: ("lowgoldcapdaily" if run >= 128 else "highsilverlowgoldcap", run),
     "silverweekly": lambda run: ("silveronlyweekly" if run >= 27 else "silverweekly", run),
     "goldfloorcapweekly": lambda run: ("dregscap" if run >= 28 else "goldfloorcapweekly", run),
     "upto1969weekly": lambda run: ("deadsilverwalking" if run >= 28 else "upto1969weekly", run),
     # His Cap Challenge numbering restarts at 0 for each edition (by date:
-    # CC5 ran Thursdays 09-10 to 10-01 = our runs 17-20).
-    "c4q1": _restart("c4q5", 17),
+    # CC5 ran Thursdays 09-10 to 10-01 = our runs 17-20; CC6, his "cwhitcap6"
+    # (Thursday CWhit's Say My Name Cap), from 10-08 = our run 21).
+    "c4q1": lambda run: _restart("cwhitcap6", 21)(run) if run >= 21 else _restart("c4q5", 17)(run),
     "c4q4": _restart("c4q4", 13),
 }
 # His filename -> newest card year allowed (a check that the file is that event).

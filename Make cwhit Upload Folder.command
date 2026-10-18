@@ -8,7 +8,7 @@
 #
 # His sheet: the newest "DCFCStats App Data Entry" .xlsx in Downloads, Desktop,
 # this folder or Tourney Data. Download a fresh one from his site first for
-# the most up-to-date list (the copy in Tourney Data is from 2026-10-04).
+# the most up-to-date list (the newest copy in Tourney Data is from 2026-10-18).
 #
 # It also clears out the old cwhit folders (DCFC Upload Queue, DCFC READY TO
 # UPLOAD..., DCFC Rejected). Every file in them is a copy of one in
