@@ -6,7 +6,7 @@ Data in:
 - **HD:** all four leagues for the week ending 10-18 (HD450–HD453).
 - **PEL:** last week's (10-11). This week's PEL export is still to come.
 
-Everything below is on the league models refit today. **Re-run when this week's PEL file arrives.**
+Everything below is on the league models refit today. **§7 is the update with this week's PEL file (uploaded 10-19). Where §1–6 and §7 disagree, §7 wins.**
 
 ## 1. Refit
 
@@ -154,3 +154,92 @@ Arms performing best in the league that we don't own: Bumgarner 103 (FIP −0.34
 `pnpm league:panel` → `python3 scripts/league-fit.py` → `pnpm fit:arms`, then:
 - `park-sweep --year 2010 --league HD450 --field PEL`. Drop `--field-on` once PEL's newest week is 10-18.
 - `league-compare --league PEL --year 2010` with the same roster and adds.
+
+## 7. Update with PEL 10-18 (all leagues in)
+
+### Refit
+
+- **Hitter model:** 331 card lines, 8.38M PA. Held out by card r 0.933 and by week 0.854; this week's PEL held out (2007) r 0.844.
+- **Arm model:** 96 base cards. Best league edges: Willie Hernandez +0.48, Wade Davis +0.43, Kirby Yates +0.41, Zack Britton +0.38, **Craig Kimbrel +0.29 (owned, not rostered)**.
+
+### PEL this week
+
+**Pumpkin Smashers – HotL (Rick the Ruler) won the World Series over Mt Etna.** PEL carries two teams under that name; the export merges them (173-152).
+
+Best by runs:
+
+| Team | Record | RD | Pythag W | Note |
+|---|---|---|---|---|
+| Bethlehem | 89-63 | +182 | 97 | |
+| Winnipeg GoJetsGo | 96-66 | +144 | 93 | |
+| False Hustle | 93-69 | +135 | 93 | |
+| Perugia | 86-61 | +132 | 94 | |
+| Gamehendge | 89-73 | +127 | 92 | |
+| Mt Etna | 90-72 | +102 | 91 | Runs allowed 688, 2nd fewest |
+
+**Ratings model of every PEL roster** (2010, neutral park; bats are runs/700 PA, arms are runs saved/700 BF, both weighted by playing time):
+
+| Team | Bats | Arms | Sum | Team ZR |
+|---|---|---|---|---|
+| Portland | 43.5 | 19.0 | 62.5 | |
+| **Mt Etna** | 41.5 | **20.5 (#1)** | 62.0 | +12.4 |
+| Laffy Comedians | | | 61.2 | |
+| Castroville | | | 60.1 | |
+| … | | | | |
+| Pumpkin Smashers | | | 57.9 | |
+| **KC (HD450 roster, same scale)** | **39.5** | **17.9** | **57.5** | **−15.9** |
+
+- KC lands about 9th of 35.
+- Park sweep against this week's PEL field: KC is **+35 runs above the average PEL club**. Bats are +33 and arms +2, so **the staff is only PEL-average**. The 10-11 field read +70; the field got stronger.
+
+**What makes Mt Etna good.** Their core is our core: Utley, Brett, Soto, Seager, Gibson, Aaron; Plank, Viola, Hernandez, Britton, Hershiser, Saberhagen, Haddix. The difference is:
+1. **Variants all over:** Plank, Viola, Beckett, Bunning, Soto, Rolen, Gibson, Munson, A-Rod 101, Beltran, Haddix.
+2. **The 103s:** Yastrzemski, Snider, Bumgarner, plus Andruw Jones in CF (148).
+3. **A pen of four elite relievers:** Hernandez, Yates, Britton, Wade Davis.
+4. **Gloves:** ZR +12.4 against our −15.9.
+
+It's run prevention, not bats. Their bats (41.5) are close to ours (39.5).
+
+### Park (this week's PEL field)
+
+| Park | Edge |
+|---|---|
+| **1919 Sportsman's Park** | **+10.4** |
+| 1971 Yankee Stadium | +10.0 |
+| 1927 Bacharach Park | +9.6 |
+| 2026 PNC Field | +9.3 |
+| 1987 Yankee Stadium | +6.7 |
+
+The pick stays **1919 Sportsman's**.
+
+### Arms on their whole league record (FIP minus league, all weeks)
+
+| Role | Arm | FIP − league | IP |
+|---|---|---|---|
+| SP | Hershiser | −0.21 | 138k |
+| SP | Plank | −0.21 | |
+| SP | Viola | −0.14 | |
+| SP | Cy Young (base card; ours is the VAR) | −0.08 | |
+| SP | Haddix | −0.07 | fading: +0.24 in PEL lately |
+| SP | Kade Anderson | −0.07 | |
+| SP | Lee | −0.05 | |
+| SP | Saberhagen | −0.04 | |
+| SP, not owned | **Bumgarner** | **−0.25** | 8.0k |
+| SP, not owned | Webb | −0.14 | 3.5k |
+| RP | Hernandez | −0.46 | |
+| RP | **Wade Davis** | **−0.44** | 2.0k |
+| RP | Yates (not owned) | −0.41 | |
+| RP | Britton | −0.39 | |
+| RP | **Kimbrel (owned)** | **−0.24** | 10.5k |
+| RP | Nen | −0.11 | |
+| RP | Palencia | −0.02 | |
+
+### What to do for PEL (in order)
+
+1. **Park:** 1919 Sportsman's Park.
+2. **Banks for Wood:** +5.1 runs; SS vs LHP and gloves.
+3. **Kimbrel for Palencia (VAR):** free, about +1.5 runs.
+4. **Bumgarner** via the mission (Beckett or Andruw + Kimbro; both resell): for Haddix, about +4 runs, more in tournaments.
+5. **Wade Davis** (500 CS): for Nen, about +3 runs. Only if the CS isn't converted to PP for the mission.
+6. **Bats:** Andruw Jones (+10.2, CF both sides, plus the glove), Yastrzemski (+10.4) or Duke Snider 103 (+10.8): each about +1.1 W. Cabrera +4.5, Yogi +1.7, Carlos Pena 0.
+7. **Lineups:** unchanged from §4.
