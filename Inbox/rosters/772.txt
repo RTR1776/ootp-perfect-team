@@ -3,13 +3,13 @@
 1999 RE (neutral park) · DH on · value —–— · cap none · 26 players
 R/G 4.91  AVG 0.266  OBP 0.338  SLG 0.422  K% 16.8  HR/PA 2.83%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.038 runs · steal break-even 81.6% (0 out) / 78.6% (1 out)
-two-way: 76 cards also in the other role — CC Sabathia as bat, Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Manny Banuelos as bat, Nolan McLean as bat, Bryce Rainer as arm, Dan Haren as bat, Kaelen Culpepper as arm, Madison Bumgarner as bat, Carson Williams as arm, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Carlos Zambrano as bat, Bobby Witt Jr. as arm, Alec Burleson as arm, Jac Caglianone as arm, Travis Sykora as bat, Justin Turner as arm, JR Ritchie as bat, Kyson Witherspoon as bat, Willi Castro as arm, Matt Davidson as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Brian Anderson as bat, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Jon Garland as bat, Anthony Nunez as bat, Tanner Roark as bat, Tyler Anderson as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
+two-way: 76 cards also in the other role — CC Sabathia as bat, Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Manny Banuelos as bat, Nolan McLean as bat, Bryce Rainer as arm, Dan Haren as bat, Kaelen Culpepper as arm, Madison Bumgarner as bat, Carson Williams as arm, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Carlos Zambrano as bat, Bobby Witt Jr. as arm, Alec Burleson as arm, Jac Caglianone as arm, JR Ritchie as bat, Travis Sykora as bat, Justin Turner as arm, Willi Castro as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Kyson Witherspoon as bat, Matt Davidson as arm, Brian Anderson as bat, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Jon Garland as bat, Anthony Nunez as bat, Tanner Roark as bat, Tyler Anderson as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
 
-pool: 2224 eligible owned cards — 1123 bats (391L / 146S / 586R), 1101 arms
+pool: 2226 eligible owned cards — 1124 bats (392L / 146S / 586R), 1102 arms
 staff weights from ironandfriends's exports: SP 1.18, RP 0.45 (a lineup slot = 1)
 field (ironandfriends, 1 exports): 31% of batters faced thrown left-handed · 36% of PA by left-handed bats · 13.6 bats / 5.1 SP / 6.4 RP per team
-shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 1975 of 2224 pool cards have innings on record (median 681 PA/BF); K = 1000000
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1978 of 2226 pool cards have innings on record (median 694 PA/BF); K = 1000000
 gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1999 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.85, SP 1.77, RP 0.90 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.5 SP / 7.1 RP → per SP ×0.90 (5 carried), per RP ×1.01 (7 carried)
@@ -19,7 +19,7 @@ staff innings split over the arms carried: the field runs 4.5 SP / 7.1 RP → pe
                          arms: pHR +1.6  Stuff +1.3  pBABIP +1.2  Control +1.0
 seed: 772-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 51.2 runs vs -32.2 greedy (+83.4), 0 moves from the seed
+optimiser: 3 starts (λ + seed) hill-climbed; best 54.3 runs vs -33.2 greedy (+87.5), 2 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Ethan Salas                 59  L  2026   -26.2  park:L DEF  98/ 98 +5.7  #87087
@@ -30,7 +30,7 @@ R:SS    Freddy Galvis (VAR)         58  S  2019   -12.1  park:L DEF 113/129 +2.6
 R:LF    Mike Trout (VAR)            51  R  2024    -5.2  park:R DEF  95/ 95 -0.1  #84793
 R:CF    Carlos Beltran              99  S  2004   +44.1  park:L DEF 108/108 -0.9  #87066
 R:RF    Norris Hopper               53  R  2007   -14.5  park:R DEF 131/137 +6.6  #87191
-R:DH    Bill Hall                   59  R  2006    -6.1  park:R  #87200
+R:DH    Dan Uggla                   59  R  2006    -2.7  park:R  #86599
 
 --- lineup vs LHP ---
 L:C     Jake Rogers                 57  R  2026   -19.0  park:R DEF  80/ 80 -1.6  #82407
@@ -43,14 +43,14 @@ L:CF    Carlos Beltran              99  S  2004   +25.8  park:R DEF 108/108 -0.9
 L:RF    Norris Hopper               53  R  2007   -13.6  park:R DEF 131/137 +6.6  #87191
 L:DH    Bill Hall                   59  R  2006    +7.0  park:R  #87200
 
---- batting order vs RHP --- (5.22 runs/game; The Book's order 5.20)
+--- batting order vs RHP --- (5.26 runs/game; The Book's order 5.24)
   1. Norris Hopper RF
   2. Carlos Beltran CF
   3. Shawn Green 1B
   4. Alex Rodriguez 3B
-  5. Javier Baez (VAR) 2B
+  5. Dan Uggla DH
   6. Mike Trout (VAR) LF
-  7. Bill Hall DH
+  7. Javier Baez (VAR) 2B
   8. Freddy Galvis (VAR) SS
   9. Ethan Salas C
 
@@ -82,35 +82,35 @@ RP5     Victor Vodnik               57  R  2026   -10.8   RP STM  19  #81824
 RP6     Reed Garrett                49  R  2024   -11.8   RP STM  25  #84825
 
 --- bench ---
-BN1     Andruw Jones (VAR)          57  R  2011   -12.6  park:R  #86321
-BN2     Jason Heyward               57  L  2018   -14.7  park:L  #84784
-BN3     Alcides Escobar             52  R  2014   -15.1  park:R  #87153
+BN1     Bill Hall                   59  R  2006    -6.1  park:R  #87200
+BN2     Andruw Jones (VAR)          57  R  2011   -12.6  park:R  #86321
+BN3     Dexter Fowler               53  S  2010   -12.6  park:L  #85725
 BN4     Matt Davidson (VAR)         56  R  2018   -17.7  park:R  #84666
 BN5     Jake Rogers                 57  R  2026   -20.1  park:R  #82407
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ethan Salas                U1 Jake Rogers 80               U2 -                           
   1B  Shawn Green                U1 Matt Davidson (VAR) 76       U2 -                           
-  2B  Javier Baez (VAR)          U1 Bill Hall 91                 U2 -                           
+  2B  Javier Baez (VAR)          U1 Bill Hall 91                 U2 Dan Uggla 81                
   3B  Alex Rodriguez             U1 Bill Hall 74                 U2 -                           
-  SS  Freddy Galvis (VAR)        U1 Alcides Escobar 85           U2 -                           
+  SS  Freddy Galvis (VAR)        U1 Bill Hall 74                 U2 -                           
   LF  Mike Trout (VAR)           U1 Andruw Jones (VAR) 103       U2 Bill Hall 67                
-  CF  Carlos Beltran             U1 Jason Heyward 109            U2 -                           
-  RF  Norris Hopper              U1 Jason Heyward 123            U2 Andruw Jones (VAR) 87       
-  pinch hitters: Andruw Jones (VAR), Jason Heyward, Alcides Escobar, Matt Davidson (VAR) · pinch runners: Jason Heyward (SPE 89), Alcides Escobar (SPE 89), Jake Rogers (SPE 49)
+  CF  Carlos Beltran             U1 Dexter Fowler 64             U2 -                           
+  RF  Norris Hopper              U1 Andruw Jones (VAR) 87        U2 Dexter Fowler 76            
+  pinch hitters: Bill Hall, Andruw Jones (VAR), Dexter Fowler, Matt Davidson (VAR) · pinch runners: Dexter Fowler (SPE 101), Bill Hall (SPE 76), Jake Rogers (SPE 49)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Jake Rogers                U1 Ethan Salas 98               U2 -                            def sub Ethan Salas (+7.2)
   1B  Matt Davidson (VAR)        U1 Shawn Green 96               U2 -                            def sub Shawn Green (+4.6)
-  2B  Javier Baez (VAR)          U1 Bill Hall 91                 U2 -                           
+  2B  Javier Baez (VAR)          U1 Bill Hall 91                 U2 Dan Uggla 81                
   3B  Alex Rodriguez             U1 Bill Hall 74                 U2 -                           
-  SS  Freddy Galvis (VAR)        U1 Alcides Escobar 85           U2 -                           
+  SS  Freddy Galvis (VAR)        U1 Bill Hall 74                 U2 -                           
   LF  Andruw Jones (VAR)         U1 Bill Hall 67                 U2 Mike Trout (VAR) 95         
-  CF  Carlos Beltran             U1 Jason Heyward 109            U2 -                           
-  RF  Norris Hopper              U1 Jason Heyward 123            U2 -                           
-  pinch hitters: Alcides Escobar, Shawn Green, Jason Heyward, Ethan Salas · pinch runners: Mike Trout (VAR) (SPE 92), Jason Heyward (SPE 89), Alcides Escobar (SPE 89)
+  CF  Carlos Beltran             U1 Dexter Fowler 64             U2 Mike Trout (VAR) 64         
+  RF  Norris Hopper              U1 Dexter Fowler 76             U2 Shawn Green 61              
+  pinch hitters: Dan Uggla, Shawn Green, Dexter Fowler, Ethan Salas · pinch runners: Dexter Fowler (SPE 101), Mike Trout (VAR) (SPE 92), Dan Uggla (SPE 57)
 
-26 players · value 1577 · from seed · 8 variants
+26 players · value 1580 · from seed · 8 variants
 vs RHP lineup gets the friendly park side in 4 of 9 spots
 
 --- order inputs (rostered bats) ---
@@ -118,13 +118,13 @@ vs RHP lineup gets the friendly park side in 4 of 9 spots
   Carlos Beltran         S EYE 172 (124/188)  POW 180 (151/190)  K 132  BABIP  92  GAP 123  SPE 109
   Shawn Green            L EYE  97 (88/101)  POW 122 (104/128)  K  75  BABIP  70  GAP  69  SPE  38
   Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
+  Dan Uggla              R EYE  87 (88/87)  POW 107 (74/122)  K  66  BABIP  89  GAP  73  SPE  57
   Mike Trout             R EYE 101 (119/96)  POW 105 (13/132)  K  92  BABIP  34  GAP  43  SPE  92
   Bill Hall              R EYE  91 (151/77)  POW 111 (140/102)  K  40  BABIP 103  GAP 100  SPE  76
   Freddy Galvis          S EYE  51 (25/59)  POW  92 (66/100)  K  74  BABIP  96  GAP  77  SPE  35
   Andruw Jones           R EYE 137 (119/143)  POW 130 (117/134)  K  46  BABIP  70  GAP  37  SPE  42
+  Dexter Fowler          S EYE  99 (128/93)  POW  42 (8/50)  K  63  BABIP 102  GAP  96  SPE 101
   Norris Hopper          R EYE  73 (60/78)  POW   1 (1/1)  K 146  BABIP 150  GAP  64  SPE  97
-  Jason Heyward          L EYE  79 (70/82)  POW  51 (45/54)  K 118  BABIP  77  GAP  77  SPE  89
-  Alcides Escobar        R EYE  10 (17/8)  POW  43 (50/41)  K 115  BABIP 125  GAP 128  SPE  89
   Matt Davidson          R EYE 106 (118/103)  POW  93 (122/84)  K  65  BABIP  76  GAP  92  SPE   1
   Jake Rogers            R EYE  82 (86/81)  POW  82 (84/82)  K  57  BABIP  60  GAP  74  SPE  49
   Ethan Salas            L EYE  79 (73/81)  POW  55 (40/60)  K  61  BABIP  54  GAP  72  SPE  45
@@ -136,18 +136,17 @@ LEGAL — every rule check passes
   ✓ stamina guys in the pen (45+): Jeff Francis 75, Dallas Braden 73
   ✓ C  backup: vs RHP Jake Rogers 80 · vs LHP Ethan Salas 98
   ✓ 1B backup: vs RHP Matt Davidson 76 · vs LHP Shawn Green 96
-  ✓ 2B backup: Bill Hall 91
+  ✓ 2B backup: Dan Uggla 81, Bill Hall 91
   ✓ 3B backup: Bill Hall 74
-  ✓ SS backup: Alcides Escobar 85
-  ✓ LF backup: vs RHP Bill Hall 67, Andruw Jones 103 · vs LHP Mike Trout 95, Bill Hall 67
-  ✓ CF backup: Jason Heyward 109
-  ✓ RF backup: vs RHP Andruw Jones 87, Jason Heyward 123 · vs LHP Jason Heyward 123
+  ✓ SS backup: Bill Hall 74
+  ✓ LF backup: vs RHP Andruw Jones 103, Bill Hall 67 · vs LHP Mike Trout 95, Bill Hall 67
+  ✓ CF backup: vs RHP Dexter Fowler 64 · vs LHP Mike Trout 64, Dexter Fowler 64
+  ✓ RF backup: vs RHP Andruw Jones 87, Dexter Fowler 76 · vs LHP Shawn Green 61, Dexter Fowler 76
 (20 of 26 have a live ask in the last shop snapshot)
-objective: 51.2 weighted runs (bats 69/31 R/L, SP 1.77, RP 0.9, bench 0.1)
-points: lineup(both boards, 12 bats) 759 · rotation 346 · bullpen 363 · bench-only 109
+objective: 54.3 weighted runs (bats 69/31 R/L, SP 1.77, RP 0.9, bench 0.1)
+points: lineup(both boards, 13 bats) 818 · rotation 346 · bullpen 363 · bench-only 53
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Alex Rodriguez           Power 256 (fitted 1–228)
    John Bale                pBABIP 14 (fitted 50–175)
    Todd Jones               pBABIP 37 (fitted 50–175)
-   Alcides Escobar          Eye 10 (fitted 24–283)
