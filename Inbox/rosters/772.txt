@@ -3,13 +3,13 @@
 1999 RE (neutral park) · DH on · value —–— · cap none · 26 players
 R/G 4.91  AVG 0.266  OBP 0.338  SLG 0.422  K% 16.8  HR/PA 2.83%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.038 runs · steal break-even 81.6% (0 out) / 78.6% (1 out)
-two-way: 76 cards also in the other role — CC Sabathia as bat, Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Manny Banuelos as bat, Nolan McLean as bat, Bryce Rainer as arm, Dan Haren as bat, Kaelen Culpepper as arm, Madison Bumgarner as bat, Carson Williams as arm, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Carlos Zambrano as bat, Bobby Witt Jr. as arm, Alec Burleson as arm, Jac Caglianone as arm, JR Ritchie as bat, Travis Sykora as bat, Justin Turner as arm, Willi Castro as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Brian Anderson as bat, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Jon Garland as bat, Anthony Nunez as bat, Tanner Roark as bat, Tyler Anderson as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Blaze Alexander as arm, Kyson Witherspoon as bat, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Matt Davidson as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
+two-way: 76 cards also in the other role — CC Sabathia as bat, Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Manny Banuelos as bat, Nolan McLean as bat, Bryce Rainer as arm, Dan Haren as bat, Kaelen Culpepper as arm, Madison Bumgarner as bat, Carson Williams as arm, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Carlos Zambrano as bat, Bobby Witt Jr. as arm, Alec Burleson as arm, Jac Caglianone as arm, Travis Sykora as bat, Justin Turner as arm, JR Ritchie as bat, Kyson Witherspoon as bat, Willi Castro as arm, Matt Davidson as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Brian Anderson as bat, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Jon Garland as bat, Anthony Nunez as bat, Tanner Roark as bat, Tyler Anderson as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
 
-pool: 2221 eligible owned cards — 1120 bats (390L / 146S / 584R), 1101 arms
+pool: 2224 eligible owned cards — 1123 bats (391L / 146S / 586R), 1101 arms
 staff weights from ironandfriends's exports: SP 1.18, RP 0.45 (a lineup slot = 1)
 field (ironandfriends, 1 exports): 31% of batters faced thrown left-handed · 36% of PA by left-handed bats · 13.6 bats / 5.1 SP / 6.4 RP per team
 shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 1974 of 2221 pool cards have innings on record (median 681 PA/BF); K = 1000000
+observed play: 1975 of 2224 pool cards have innings on record (median 681 PA/BF); K = 1000000
 gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1999 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.85, SP 1.77, RP 0.90 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.5 SP / 7.1 RP → per SP ×0.90 (5 carried), per RP ×1.01 (7 carried)
@@ -19,7 +19,7 @@ staff innings split over the arms carried: the field runs 4.5 SP / 7.1 RP → pe
                          arms: pHR +1.6  Stuff +1.3  pBABIP +1.2  Control +1.0
 seed: 772-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 51.2 runs vs -32.1 greedy (+83.3), 7 moves from the seed
+optimiser: 3 starts (λ + seed) hill-climbed; best 51.2 runs vs -32.2 greedy (+83.4), 0 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Ethan Salas                 59  L  2026   -26.2  park:L DEF  98/ 98 +5.7  #87087
@@ -91,10 +91,10 @@ BN5     Jake Rogers                 57  R  2026   -20.1  park:R  #82407
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ethan Salas                U1 Jake Rogers 80               U2 -                           
   1B  Shawn Green                U1 Matt Davidson (VAR) 76       U2 -                           
-  2B  Javier Baez (VAR)          U1 NONE                         U2 -                           
-  3B  Alex Rodriguez             U1 NONE                         U2 -                           
+  2B  Javier Baez (VAR)          U1 Bill Hall 91                 U2 -                           
+  3B  Alex Rodriguez             U1 Bill Hall 74                 U2 -                           
   SS  Freddy Galvis (VAR)        U1 Alcides Escobar 85           U2 -                           
-  LF  Mike Trout (VAR)           U1 Andruw Jones (VAR) 103       U2 -                           
+  LF  Mike Trout (VAR)           U1 Andruw Jones (VAR) 103       U2 Bill Hall 67                
   CF  Carlos Beltran             U1 Jason Heyward 109            U2 -                           
   RF  Norris Hopper              U1 Jason Heyward 123            U2 Andruw Jones (VAR) 87       
   pinch hitters: Andruw Jones (VAR), Jason Heyward, Alcides Escobar, Matt Davidson (VAR) · pinch runners: Jason Heyward (SPE 89), Alcides Escobar (SPE 89), Jake Rogers (SPE 49)
@@ -102,10 +102,10 @@ BN5     Jake Rogers                 57  R  2026   -20.1  park:R  #82407
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Jake Rogers                U1 Ethan Salas 98               U2 -                            def sub Ethan Salas (+7.2)
   1B  Matt Davidson (VAR)        U1 Shawn Green 96               U2 -                            def sub Shawn Green (+4.6)
-  2B  Javier Baez (VAR)          U1 NONE                         U2 -                           
-  3B  Alex Rodriguez             U1 NONE                         U2 -                           
+  2B  Javier Baez (VAR)          U1 Bill Hall 91                 U2 -                           
+  3B  Alex Rodriguez             U1 Bill Hall 74                 U2 -                           
   SS  Freddy Galvis (VAR)        U1 Alcides Escobar 85           U2 -                           
-  LF  Andruw Jones (VAR)         U1 Mike Trout (VAR) 95          U2 -                           
+  LF  Andruw Jones (VAR)         U1 Bill Hall 67                 U2 Mike Trout (VAR) 95         
   CF  Carlos Beltran             U1 Jason Heyward 109            U2 -                           
   RF  Norris Hopper              U1 Jason Heyward 123            U2 -                           
   pinch hitters: Alcides Escobar, Shawn Green, Jason Heyward, Ethan Salas · pinch runners: Mike Trout (VAR) (SPE 92), Jason Heyward (SPE 89), Alcides Escobar (SPE 89)
@@ -142,7 +142,7 @@ LEGAL — every rule check passes
   ✓ LF backup: vs RHP Bill Hall 67, Andruw Jones 103 · vs LHP Mike Trout 95, Bill Hall 67
   ✓ CF backup: Jason Heyward 109
   ✓ RF backup: vs RHP Andruw Jones 87, Jason Heyward 123 · vs LHP Jason Heyward 123
-(23 of 26 have a live ask in the last shop snapshot)
+(20 of 26 have a live ask in the last shop snapshot)
 objective: 51.2 weighted runs (bats 69/31 R/L, SP 1.77, RP 0.9, bench 0.1)
 points: lineup(both boards, 12 bats) 759 · rotation 346 · bullpen 363 · bench-only 109
 
