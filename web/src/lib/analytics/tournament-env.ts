@@ -63,6 +63,8 @@ const PARK_ALIAS: Record<string, string> = {
   "Minute Maid Park": "Daikin Park",
   "Heinsohn Park": "Heinsohn Ballpark",
   "Minue Maid Park": "Minute Maid Park",
+  // The factor table's spelling; until 2026-10-18 Daily Early Years Cap (1890 Exposition Park) ran neutral.
+  "Exposition Park": "Expostition Park III",
 };
 
 /**
