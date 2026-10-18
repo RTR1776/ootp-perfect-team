@@ -171,20 +171,20 @@ async function ownedAt(uploadId: number, clubhouse: (id: number) => boolean): Pr
  * The cards worth a look after a drop: those the newest shop list added
  * (first seen within a week of the newest card on file, as Build's "new"
  * badge), and those he got since the collection before (a pulled card or a
- * new variant).
+ * new variant). `variants` is the pulled cards whose variant is what's new.
  */
-export async function newCardIds(): Promise<{ shop: number[]; pulled: number[] }> {
+export async function newCardIds(): Promise<{ shop: number[]; pulled: number[]; variants: number[] }> {
   const { collection, previous } = await fitSources();
   const universe = await db.select({ cardId: cards.cardId, firstSeenAt: cards.firstSeenAt, title: cards.title }).from(cards);
   const newest = universe.reduce((m, c) => Math.max(m, c.firstSeenAt.getTime()), 0);
   const shop = universe.filter((c) => c.firstSeenAt.getTime() >= newest - 7 * 86_400_000).map((c) => c.cardId);
-  if (!collection || !previous) return { shop, pulled: [] };
+  if (!collection || !previous) return { shop, pulled: [], variants: [] };
   const club = new Set(universe.filter((c) => /clubhouse/i.test(c.title)).map((c) => c.cardId));
   const [now, then] = await Promise.all([ownedAt(collection.id, (id) => club.has(id)), ownedAt(previous.id, (id) => club.has(id))]);
-  const pulled = new Set<number>();
+  const pulled = new Set<number>(), variants: number[] = [];
   for (const id of now.base) if (!then.base.has(id) && !then.variant.has(id)) pulled.add(id);
-  for (const id of now.variant.keys()) if (!then.variant.has(id)) pulled.add(id);
-  return { shop, pulled: [...pulled] };
+  for (const id of now.variant.keys()) if (!then.variant.has(id)) { pulled.add(id); variants.push(id); }
+  return { shop, pulled: [...pulled], variants };
 }
 
 export async function loadCardFit(targetIds: readonly number[]): Promise<CardFitData> {

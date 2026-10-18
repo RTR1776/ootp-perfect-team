@@ -24,6 +24,7 @@ const SECTIONS = {
   ],
   cards: [
     { href: "/cards", label: "Look up · New", hint: "New cards and where each fits for you; any card's projection and play" },
+    { href: "/cards/highlights", label: "Highlights", hint: "The new cards as tiles: what you just got and each day's drop, where each starts and how much it adds" },
     { href: "/played", label: "Leaderboard", hint: "Every card with tournament play, ranked by runs" },
   ],
   needs: [
