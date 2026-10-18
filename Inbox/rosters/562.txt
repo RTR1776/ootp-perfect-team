@@ -8,7 +8,7 @@ two-way: 50 cards also in the other role — Ossie Orwoll as bat, Matt Davidson 
 pool: 1397 eligible owned cards — 747 bats (213L / 87S / 447R), 650 arms
 !! no exports on record for series ironlunch — shape and handedness fall back to the era table
 shape: 16 bats / 5 SP / 5 RP (1960s–70s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 1178 of 1397 pool cards have innings on record (median 168 PA/BF); K = 1000000
+observed play: 1197 of 1397 pool cards have innings on record (median 182 PA/BF); K = 1000000
 gloves ×0.99: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1966 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.99, SP 1.50, RP 0.62 (--no-team-weights to turn off)
 
@@ -17,31 +17,31 @@ team weights (1966 band): gloves ×2, starters ×1.5, pen ×2 against a bat run 
                          arms: pHR +1.3  pBABIP +1.0  Stuff +0.9  Control +0.8
 seed: 562-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best -115.8 runs vs -142.8 greedy (+27.0), 8 moves from λ 0.00 (the seed's climb: -115.8)
+optimiser: 14 starts (λ + seed) hill-climbed; best -117.7 runs vs -144.5 greedy (+26.8), 15 moves from λ 0.50 (the seed's climb: -117.7)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Rick Wilkins                57  L  1996   -13.7  park:L DEF  60/ 60 -6.9  #86392
-R:1B    Shawn Green                 59  L  2004    -6.1  park:L DEF  96/ 96 +4.8  #87028
-R:2B    Nap Lajoie                  50  R  1905    -5.3  park:R DEF 114/114 +0.3  #86581
-R:3B    Connie Day                  50  R  1921   -19.7  park:R DEF 110/124 +6.0  #86982
-R:SS    Ozzie Smith                 59  S  1982   -17.5  park:L DEF 140/140 +15.0  #86972
-R:LF    Norris Hopper               53  R  2007    -6.4  park:R DEF 137/137 +8.1  #87191
-R:CF    Milt Thompson               58  L  1989    -5.9  park:L DEF 114/121 +0.2  #86927
-R:RF    Vladimir Guerrero           48  R  1997    -7.7  park:R DEF 117/117 +4.1  #86474
-R:DH    George Sisler               48  L  1928    -5.0  park:L  #87002
+R:C     Rick Wilkins                57  L  1996   -13.5  park:L DEF  60/ 60 -6.9  #86392
+R:1B    Shawn Green                 59  L  2004    -6.0  park:L DEF  96/ 96 +4.8  #87028
+R:2B    Nap Lajoie                  50  R  1905    -5.1  park:R DEF 114/114 +0.3  #86581
+R:3B    Connie Day                  50  R  1921   -19.6  park:R DEF 110/124 +6.0  #86982
+R:SS    Ozzie Smith                 59  S  1982   -17.4  park:L DEF 140/140 +15.0  #86972
+R:LF    Norris Hopper               53  R  2007    -6.2  park:R DEF 137/137 +8.1  #87191
+R:CF    Milt Thompson               58  L  1989    -5.7  park:L DEF 114/121 +0.2  #86927
+R:RF    Vladimir Guerrero           48  R  1997    -7.6  park:R DEF 117/117 +4.1  #86474
+R:DH    George Sisler               48  L  1928    -4.9  park:L  #87002
 
 --- lineup vs LHP ---
 L:C     Charlie O'Brien             55  R  1989   -19.6  park:R DEF  79/ 79 -2.6  #86925
-L:1B    Jackie Robinson             58  R  1947    -2.6  park:R DEF  74/ 74 -0.7  #84390
-L:2B    Connie Day                  50  R  1921   -17.9  park:R DEF 124/124 +4.3  #86982
-L:3B    Brooks Robinson             49  R  1963   -21.1  park:R DEF 139/139 +15.3  #85023
+L:1B    Jackie Robinson             58  R  1947    -2.4  park:R DEF  74/ 74 -0.7  #84390
+L:2B    Connie Day                  50  R  1921   -17.7  park:R DEF 124/124 +4.3  #86982
+L:3B    Brooks Robinson             49  R  1963   -21.0  park:R DEF 139/139 +15.3  #85023
 L:SS    Ozzie Smith                 59  S  1982   -13.4  park:R DEF 140/140 +15.0  #86972
-L:LF    Norris Hopper               53  R  2007    -1.4  park:R DEF 137/137 +8.1  #87191
-L:CF    Ken Berry                   55  R  1966    -6.5  park:R DEF 115/131 +0.4  #85449
-L:RF    Vladimir Guerrero           48  R  1997    -6.3  park:R DEF 117/117 +4.1  #86474
+L:LF    Norris Hopper               53  R  2007    -1.2  park:R DEF 137/137 +8.1  #87191
+L:CF    Ken Berry                   55  R  1966    -6.4  park:R DEF 115/131 +0.4  #85449
+L:RF    Vladimir Guerrero           48  R  1997    -6.2  park:R DEF 117/117 +4.1  #86474
 L:DH    Bill Hall                   59  R  2006    +2.0  park:R  #87200
 
---- batting order vs RHP --- (3.50 runs/game; The Book's order 3.50)
+--- batting order vs RHP --- (3.50 runs/game; The Book's order 3.49)
   1. Norris Hopper LF
   2. Rick Wilkins C
   3. Shawn Green 1B
@@ -65,40 +65,62 @@ L:DH    Bill Hall                   59  R  2006    +2.0  park:R  #87200
 
 --- rotation ---
 SP1     James McDonald              55  L  2010    -0.9   SP STM  59  #86384
-SP2     Justin Verlander            58  R  2006    -3.9   SP STM  83  #87014
-SP3     Jeff Francis                53  L  2007    -6.9   SP STM  75  #87199
-SP4     Patricio Scantlebury        56  L  1946    -9.0   SP STM  68  #85828
-SP5     Lefty Grove                 48  L  1940    -9.9   SP STM  77  #87168
+SP2     Justin Verlander            58  R  2006    -4.2   SP STM  83  #87014
+SP3     Jeff Francis                53  L  2007    -7.3   SP STM  75  #87199
+SP4     Patricio Scantlebury        56  L  1946    -9.5   SP STM  68  #85828
+SP5     Lefty Grove                 48  L  1940   -10.4   SP STM  77  #87168
 
 --- bullpen ---
-CL      John Bale                   59  L  2007    +0.4   RP STM  33  #87234
-RP1     Mike Marshall               57  R  1973    -0.8   CL STM  74  #84720
-RP2     Randy Choate                45  L  2013    -4.7   RP STM   6  #87026
-RP3     Pat Perry                   58  L  1989    -9.6   RP STM  35  #86916
-RP4     Tin Can Kincannon           45  R  1934   -10.0   SP STM  74  #86073
+CL      John Bale                   59  L  2007    +0.5   RP STM  33  #87234
+RP1     Mike Marshall               57  R  1973    -0.9   CL STM  74  #84720
+RP2     Randy Choate                45  L  2013    -4.6   RP STM   6  #87026
+RP3     Pat Perry                   58  L  1989    -9.8   RP STM  35  #86916
+RP4     Tin Can Kincannon           45  R  1934   -10.6   SP STM  74  #86073
 
 --- bench ---
-BN1     Todd Walker                 55  L  2003    -6.2  park:L  #87045
+BN1     Broderick Perkins           57  L  1980    -5.7  park:L  #86460
 BN2     Bill Hall                   59  R  2006   -11.3  park:R  #87200
-BN3     Broderick Perkins           57  L  1980    -5.9  park:L  #86460
-BN4     Ken Berry                   55  R  1966   -14.5  park:R  #85449
-BN5     Jackie Robinson             58  R  1947   -17.9  park:R  #84390
+BN3     Ken Berry                   55  R  1966   -14.4  park:R  #85449
+BN4     Alcides Escobar             52  R  2014   -11.3  park:R  #87153
+BN5     Jackie Robinson             58  R  1947   -17.8  park:R  #84390
 BN6     Charlie O'Brien             55  R  1989   -25.7  park:R  #86925
-BN7     Brooks Robinson             49  R  1963   -30.3  park:R  #85023
+BN7     Brooks Robinson             49  R  1963   -30.1  park:R  #85023
 
-26 players · value 1404 · λ 0.000 · 0 variants
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Rick Wilkins               U1 Charlie O'Brien 79           U2 -                            def sub Charlie O'Brien (+4.2)
+  1B  Shawn Green                U1 Broderick Perkins 61         U2 Jackie Robinson 74          
+  2B  Nap Lajoie                 U1 Bill Hall 91                 U2 -                           
+  3B  Connie Day                 U1 Brooks Robinson 139          U2 Bill Hall 74                 def sub Brooks Robinson (+9.2)
+  SS  Ozzie Smith                U1 Alcides Escobar 85           U2 -                           
+  LF  Norris Hopper              U1 Ken Berry 131                U2 Bill Hall 67                
+  CF  Milt Thompson              U1 Ken Berry 115                U2 -                           
+  RF  Vladimir Guerrero          U1 Ken Berry 126                U2 -                           
+  pinch hitters: Broderick Perkins, Bill Hall, Alcides Escobar, Ken Berry · pinch runners: Jackie Robinson (SPE 92), Ken Berry (SPE 89), Alcides Escobar (SPE 89)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Charlie O'Brien            U1 Rick Wilkins 60              U2 -                           
+  1B  Jackie Robinson            U1 Nap Lajoie 96                U2 Shawn Green 96               def sub Shawn Green (+5.5)
+  2B  Connie Day                 U1 Bill Hall 91                 U2 Nap Lajoie 114              
+  3B  Brooks Robinson            U1 Bill Hall 74                 U2 -                           
+  SS  Ozzie Smith                U1 Alcides Escobar 85           U2 -                           
+  LF  Norris Hopper              U1 Bill Hall 67                 U2 Milt Thompson 121           
+  CF  Ken Berry                  U1 Milt Thompson 114            U2 -                           
+  RF  Vladimir Guerrero          U1 Milt Thompson 111            U2 -                           
+  pinch hitters: Alcides Escobar, Nap Lajoie, Shawn Green, Milt Thompson · pinch runners: Milt Thompson (SPE 107), Alcides Escobar (SPE 89), Nap Lajoie (SPE 81)
+
+26 players · value 1401 · λ 0.500 · 0 variants
 vs RHP lineup gets the friendly park side in 5 of 9 spots
 
 --- order inputs (rostered bats) ---
   George Sisler          L EYE  64 (52/67)  POW  42 (1/51)  K 160  BABIP 107  GAP  57  SPE  64
   Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
-  Broderick Perkins      L EYE  80 (67/84)  POW  67 (1/77)  K  88  BABIP 102  GAP  94  SPE  52
   Milt Thompson          L EYE  81 (42/90)  POW  33 (23/36)  K  90  BABIP 130  GAP  81  SPE 107
+  Broderick Perkins      L EYE  80 (67/84)  POW  67 (1/77)  K  88  BABIP 102  GAP  94  SPE  52
   Shawn Green            L EYE  97 (88/101)  POW 122 (104/128)  K  75  BABIP  70  GAP  69  SPE  38
-  Todd Walker            L EYE  87 (80/90)  POW  61 (66/59)  K 163  BABIP  96  GAP  97  SPE  28
   Norris Hopper          R EYE  73 (60/78)  POW   1 (1/1)  K 146  BABIP 150  GAP  64  SPE  97
   Vladimir Guerrero      R EYE  62 (68/61)  POW  80 (89/77)  K 101  BABIP  83  GAP 108  SPE 109
   Bill Hall              R EYE  91 (151/77)  POW 111 (140/102)  K  40  BABIP 103  GAP 100  SPE  76
+  Alcides Escobar        R EYE  10 (17/8)  POW  43 (50/41)  K 115  BABIP 125  GAP 128  SPE  89
   Rick Wilkins           L EYE 104 (38/128)  POW  80 (71/83)  K  59  BABIP  88  GAP  78  SPE  34
   Ken Berry              R EYE  72 (89/66)  POW  61 (73/55)  K  96  BABIP  92  GAP  76  SPE  89
   Ozzie Smith            S EYE 113 (104/116)  POW  28 (41/20)  K 167  BABIP  60  GAP  70  SPE 108
@@ -112,19 +134,20 @@ LEGAL — every rule check passes
   ✓ staff 5 SP / 5 RP / 16 bats (caps: 5 SP, 7 RP, 12 arms)
   ✓ starters' stamina James McDonald 59, Justin Verlander 83, Jeff Francis 75, Patricio Scantlebury 68, Lefty Grove 77 (era floor 60) — just under: James McDonald
   ✓ stamina guys in the pen (45+): Mike Marshall 74, Tin Can Kincannon 74
-  ✓ C  backup: Rick Wilkins 60, Charlie O'Brien 79
-  ✓ 1B backup: Shawn Green 96, Nap Lajoie 96, Jackie Robinson 74, Broderick Perkins 61
-  ✓ 2B backup: Nap Lajoie 114, Connie Day 124, Bill Hall 91
-  ✓ 3B backup: Connie Day 110, Brooks Robinson 139, Bill Hall 74
-  ✓ SS backup: Connie Day 108
-  ✓ LF backup: Milt Thompson 121, Ken Berry 131, Bill Hall 67
-  ✓ CF backup: Milt Thompson 114, Vladimir Guerrero 94, Norris Hopper 121, Ken Berry 115
-  ✓ RF backup: Milt Thompson 111, Norris Hopper 131, Ken Berry 126
-(24 of 26 have a live ask in the last shop snapshot)
-objective: -115.8 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
-points: lineup(both boards, 14 bats) 758 · rotation 270 · bullpen 264 · bench-only 112
+  ✓ C  backup: vs RHP Charlie O'Brien 79 · vs LHP Rick Wilkins 60
+  ✓ 1B backup: vs RHP Jackie Robinson 74, Broderick Perkins 61 · vs LHP Shawn Green 96, Nap Lajoie 96, Broderick Perkins 61
+  ✓ 2B backup: vs RHP Bill Hall 91 · vs LHP Nap Lajoie 114, Bill Hall 91
+  ✓ 3B backup: vs RHP Brooks Robinson 139, Bill Hall 74 · vs LHP Bill Hall 74
+  ✓ SS backup: Alcides Escobar 85
+  ✓ LF backup: vs RHP Ken Berry 131, Bill Hall 67 · vs LHP Milt Thompson 121, Bill Hall 67
+  ✓ CF backup: vs RHP Ken Berry 115 · vs LHP Milt Thompson 114
+  ✓ RF backup: vs RHP Ken Berry 126 · vs LHP Milt Thompson 111
+(22 of 26 have a live ask in the last shop snapshot)
+objective: -117.7 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 14 bats) 758 · rotation 270 · bullpen 264 · bench-only 109
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Patricio Scantlebury     pBABIP 45 (fitted 50–175)
    John Bale                pBABIP 14 (fitted 50–175)
    Tin Can Kincannon        pBABIP 36 (fitted 50–175)
+   Alcides Escobar          Eye 10 (fitted 24–283)

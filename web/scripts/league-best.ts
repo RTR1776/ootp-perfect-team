@@ -331,7 +331,19 @@ async function main() {
   const reScore = (c: any, as: "SP" | "RP") =>
     v(c) + asRuns(c, as) - (-roleRuns(c.role, stm(c)));
   const canStart = (c: any) => stm(c) >= 60 || c.role === "SP";
-  const sp = arms.filter(canStart).sort((a, b) => reScore(b, "SP") - reScore(a, "SP")).slice(0, NSP);
+  /**
+   * ONE CARD PER PLAYER (the game's rule). A base card and its variant are two
+   * collection rows here, and a player can have several cards, so picks are
+   * kept distinct by player name: the 10-18 board put both Mike Piazzas behind
+   * the plate and both Cy Youngs on the staff.
+   */
+  const who = (c: any) => String(c.name);
+  const distinct = (xs: any[], n: number, skip = new Set<string>()) => {
+    const out: any[] = [];
+    for (const c of xs) { if (out.length >= n) break; if (skip.has(who(c)) || out.some((o) => who(o) === who(c))) continue; out.push(c); }
+    return out;
+  };
+  const sp = distinct(arms.filter(canStart).sort((a, b) => reScore(b, "SP") - reScore(a, "SP")), NSP);
   const spIds = new Set(sp.map((c) => c.cardId));
   /**
    * A STARTER MAY RELIEVE. The old gate here capped bullpen eligibility at
@@ -344,8 +356,8 @@ async function main() {
    * to 51.7% for teams reaching round 4, with RP count falling the other way.
    */
   const RPMAX = num("rp-max-stamina", 999)!;
-  const rp = arms.filter((c) => !spIds.has(c.cardId) && stm(c) < RPMAX)
-    .sort((a, b) => reScore(b, "RP") - reScore(a, "RP")).slice(0, NRP);
+  const rp = distinct(arms.filter((c) => !spIds.has(c.cardId) && stm(c) < RPMAX)
+    .sort((a, b) => reScore(b, "RP") - reScore(a, "RP")), NRP, new Set(sp.map(who)));
   const staff = [...sp, ...rp];
 
   // starters: scarce positions first, then bench with a backup catcher forced
@@ -380,19 +392,19 @@ async function main() {
   const at = (c: any, p: string) => canPlay(c, p) ? v(c) + defRuns(c, p) : -1e6;
   const cands = bats.slice(0, 60);
   const lineup: Record<string, any> = {};
-  const taken = new Set<number>();
+  const taken = new Set<string>(staff.map(who));
   for (const p of [...slots].sort((a, b) =>
     cands.filter((c) => canPlay(c, a)).length - cands.filter((c) => canPlay(c, b)).length)) {
-    const c = cands.filter((x) => !taken.has(x.cardId) && canPlay(x, p)).sort((x, y) => at(y, p) - at(x, p))[0];
-    if (c) { lineup[p] = c; taken.add(c.cardId); }
+    const c = cands.filter((x) => !taken.has(who(x)) && canPlay(x, p)).sort((x, y) => at(y, p) - at(x, p))[0];
+    if (c) { lineup[p] = c; taken.add(who(c)); }
   }
   for (let pass = 0; pass < 40; pass++) {
     let moved = false;
     for (const p of slots) {                       // single move: bring a bench bat in
       const cur0 = lineup[p]; const base0 = cur0 ? at(cur0, p) : -1e6;
-      const better = cands.filter((c) => !taken.has(c.cardId) && at(c, p) > base0)
+      const better = cands.filter((c) => !taken.has(who(c)) && at(c, p) > base0)
         .sort((x, y) => at(y, p) - at(x, p))[0];
-      if (better) { if (cur0) taken.delete(cur0.cardId); lineup[p] = better; taken.add(better.cardId); moved = true; }
+      if (better) { if (cur0) taken.delete(who(cur0)); lineup[p] = better; taken.add(who(better)); moved = true; }
     }
     for (const a of slots) for (const b of slots) {  // pairwise swap
       if (a === b || !lineup[a] || !lineup[b]) continue;
@@ -404,9 +416,9 @@ async function main() {
   }
   /** A backup catcher has to actually be a catcher — a 1B with an 11 behind
    *  the plate is not one, and the roster is unusable without a second. */
-  const bc = bats.find((c) => !taken.has(c.cardId) && posOf(c, "C") >= 0.6 * bestPos(c) && posOf(c, "C") > 0);
-  if (bc) taken.add(bc.cardId);
-  const bench = [...(bc ? [bc] : []), ...bats.filter((c) => !taken.has(c.cardId)).slice(0, NBAT - 9 - (bc ? 1 : 0))];
+  const bc = bats.find((c) => !taken.has(who(c)) && posOf(c, "C") >= 0.6 * bestPos(c) && posOf(c, "C") > 0);
+  if (bc) taken.add(who(bc));
+  const bench = [...(bc ? [bc] : []), ...distinct(bats, NBAT - 9 - (bc ? 1 : 0), taken)];
 
   console.log(`\n--- ceiling by tier: the best card each tier can offer in ${YEAR} ---`);
   for (const t of ["Perfect", "Diamond", "Gold", "Silver", "Bronze", "Iron"]) {
