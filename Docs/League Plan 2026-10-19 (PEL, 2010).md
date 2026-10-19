@@ -243,3 +243,89 @@ The pick stays **1919 Sportsman's**.
 5. **Wade Davis** (500 CS): for Nen, about +3 runs. Only if the CS isn't converted to PP for the mission.
 6. **Bats:** Andruw Jones (+10.2, CF both sides, plus the glove), Yastrzemski (+10.4) or Duke Snider 103 (+10.8): each about +1.1 W. Cabrera +4.5, Yogi +1.7, Carlos Pena 0.
 7. **Lineups:** unchanged from §4.
+
+## 8. Final pick: the best 26 period (10-19, supersedes §4 and §7)
+
+L.J.: "the best 26 players period — defense might suck, but our ballpark and offense crushes." Shared with friends as the artifact https://claude.ai/artifact/DBPc8NSUuifjVf3b24qwaQ.
+
+The 26 come from his whole collection (collection 262), scored on the league model with gloves ×1. The answer is the same at ×1.5 and with the 1971 Yankee home half included.
+
+**Bats.** I swept 126 other owned bats (value 95+) against the 14. None adds more than +2 runs.
+- Core 12, then Greenwell for Manush and Mays for Hidalgo.
+- On the 12 core, the 13th bat vs RHP is worth: Greenwell +6.5, Manush +4.6, Hidalgo +4.1. Mays adds +2.0 vs LHP.
+
+**vs RHP** (+108.8):
+
+| # | Pos | Player |
+|---|---|---|
+| 1 | DH | Brett |
+| 2 | RF | Soto |
+| 3 | 3B | A-Rod |
+| 4 | 1B | Pujols |
+| 5 | SS | Seager |
+| 6 | CF | Bautista |
+| 7 | 2B | Utley |
+| 8 | LF | Greenwell |
+| 9 | C | Bailey VAR |
+
+Bench: Gibson, Banks, Aaron, Matsui, Mays.
+
+**vs LHP** (+60.7):
+
+| # | Pos | Player |
+|---|---|---|
+| 1 | RF | Soto |
+| 2 | 2B | Utley |
+| 3 | DH | Matsui |
+| 4 | 1B | Pujols |
+| 5 | LF | Aaron |
+| 6 | 3B | A-Rod |
+| 7 | SS | Banks |
+| 8 | CF | Mays |
+| 9 | C | Gibson |
+
+Bench: Bailey, Brett, Seager, Greenwell, Bautista.
+
+**Batting orders:**
+- The orders follow the league-model ranking.
+- The order engine, blending home 1971 Yankee and road, scores them 0.008 and 0.001 R/G off its best.
+- Its own best order bats Pujols 8th vs RHP and A-Rod 9th vs LHP, because it runs on tournament ratings.
+- Scratch: `order2.mts` (`ORD_R` / `ORD_L` score a fixed order).
+
+**Bautista CF (83) vs RHP:**
+- This breaks the CF 90 floor.
+- Locking CF vs RHP costs: Manush −1.7, Hidalgo −2.6, Mays −20.0.
+- Manush in for Mays costs about 3 runs a season in all.
+- Scratch: `cflock.mts`.
+
+**Glove ratings:** Greenwell LF 125, Mays CF 107 (speed 118), Hidalgo CF 114, Manush CF 97, Bautista CF 83 / RF 111, Soto RF 91, Aaron LF 85.
+
+**Staff.** The solver picked these from 170 owned arms, PEL family, at 193 IP per starter and 65 per reliever. Scratch: `beststaff.mts`, `staffplus.mts`.
+- **Rotation:** Plank, Hershiser, Lee VAR, Cy Young VAR, Saberhagen.
+- **Pen:**
+  - Britton CL.
+  - Hernandez setup (fireman).
+  - Kimbrel, Nen.
+  - Viola: long man and 6th starter.
+  - Palencia VAR, Gossage.
+- **Total:** +26.0 runs.
+- The HD staff as used was +15.8, and +23.0 with only its roles re-solved.
+- The solver's pure best is +27.5, with Larry Jackson SP5 and Varland. Both have under 1,000 league IP between them, so I kept the proven arms.
+
+**Vs the HD title team as used:** bats +77.2 → +86.2 and staff +15.8 → +26.0, about +19 runs (2 W) before the park.
+
+**Park:** 1971 Yankee Stadium (+10.0), then 1927 Bacharach (+9.6), then 2026 PNC (+9.3).
+
+**Buys:**
+
+| Card | Gain (runs/season) | Note |
+|---|---|---|
+| Yaz 103 | +9.1 | |
+| Snider 103 | +9.1 | |
+| Andruw 102 | +7.3 | |
+| Bumgarner 103 | +3.2 | SP1; Saberhagen sits |
+| Kirby Yates 101 | +2.5 | |
+| Wade Davis | +2.2 | |
+| Webb | +1.0 | |
+
+Swapping Brett for Yaz is only about +2.8 in league.
