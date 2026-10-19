@@ -8,7 +8,7 @@ two-way: 50 cards also in the other role — Ossie Orwoll as bat, Matt Davidson 
 
 pool: 1397 eligible owned cards — 747 bats (213L / 87S / 447R), 650 arms
 !! no exports on record for series ironcapdaily — shape and handedness fall back to the era table
-shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 1198 of 1397 pool cards have innings on record (median 182 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.50, RP 0.62 (--no-team-weights to turn off)
@@ -18,7 +18,7 @@ team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run 
                          arms: pHR +2.2  Stuff +2.1  pBABIP +1.3  Control +1.0
 seed: 517-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best -105.8 runs vs -137.9 greedy (+32.1), 1 moves from the seed
+optimiser: 13 starts (λ + seed) hill-climbed; best -105.8 runs vs -134.0 greedy (+28.2), 19 moves from λ 6.00 (the seed's climb: -106.7)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Henry Blanco                54  R  1999   -28.5  park:R DEF 103/103 +7.9  #84344
@@ -35,10 +35,10 @@ R:DH    George Sisler (VAR)         48  L  1928    -3.0  park:L  #87002
 L:C     Henry Blanco                54  R  1999   -29.2  park:R DEF 103/103 +7.9  #84344
 L:1B    Nap Lajoie                  50  R  1905   -13.9  park:R DEF  96/114 +3.9  #86581
 L:2B    Javier Baez (VAR)           49  R  2021    -8.7  park:R DEF 102/102 -3.6  #86417
-L:3B    Brooks Robinson             49  R  1963   -19.5  park:R DEF 139/139 +12.4  #85023
+L:3B    Kid Elberfeld (VAR)         47  R  1903   -12.3  park:R DEF  85/ 85 -1.6  #86368
 L:SS    Ozzie Smith                 59  S  1982   -12.8  park:R DEF 140/140 +12.2  #86972
 L:LF    Norris Hopper               53  R  2007    -0.8  park:R DEF 137/137 +6.6  #87191
-L:CF    Dave Henderson              50  R  1989    -4.5  park:R DEF 105/105 -1.3  #86926
+L:CF    Ken Berry                   55  R  1966    -3.1  park:R DEF 115/131 +0.3  #85449
 L:RF    Vladimir Guerrero           48  R  1997    -2.6  park:R DEF 117/117 +3.3  #86474
 L:DH    Gary Sheffield              43  R  1989    -4.6  park:R  #86950
 
@@ -53,14 +53,14 @@ L:DH    Gary Sheffield              43  R  1989    -4.6  park:R  #86950
   8. Milt Thompson CF
   9. Ozzie Smith SS
 
---- batting order vs LHP --- (5.24 runs/game; The Book's order 5.23)
+--- batting order vs LHP --- (5.29 runs/game; The Book's order 5.29)
   1. Norris Hopper LF
-  2. Ozzie Smith SS
-  3. Dave Henderson CF
+  2. Kid Elberfeld (VAR) 3B
+  3. Ken Berry CF
   4. Gary Sheffield DH
   5. Vladimir Guerrero RF
-  6. Nap Lajoie 1B
-  7. Brooks Robinson 3B
+  6. Ozzie Smith SS
+  7. Nap Lajoie 1B
   8. Henry Blanco C
   9. Javier Baez (VAR) 2B
 
@@ -81,35 +81,35 @@ RP5     Bob Gibson (VAR)            44  R  1959   -10.0   SP STM  69  #86658
 RP6     R.T. Walker                 40  R  1947   -13.9   RP STM  69  #86952
 
 --- bench ---
-BN1     Dave Henderson              50  R  1989   -12.9  park:R  #86926
-BN2     Alfredo Amezaga             44  S  2007   -12.7  park:L  #87188
-BN3     Gary Sheffield              43  R  1989   -19.5  park:R  #86950
+BN1     Nico Hoerner                48  R  2021    -8.7  park:R  #85088
+BN2     Ken Berry                   55  R  1966    -9.4  park:R  #85449
+BN3     Jay Johnstone               42  L  1979   -15.5  park:L  #86373
 BN4     Buck Rodgers (VAR)          42  S  1962   -17.4  park:L  #84312
-BN5     Brooks Robinson             49  R  1963   -24.8  park:R  #85023
+BN5     Gary Sheffield              43  R  1989   -19.5  park:R  #86950
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Henry Blanco               U1 Buck Rodgers (VAR) 68        U2 -                           
-  1B  Nap Lajoie                 U1 Alfredo Amezaga 78           U2 -                           
-  2B  Javier Baez (VAR)          U1 Alfredo Amezaga 84           U2 -                           
-  3B  Kid Elberfeld (VAR)        U1 Brooks Robinson 139          U2 Alfredo Amezaga 66           def sub Brooks Robinson (+14)
-  SS  Ozzie Smith                U1 Alfredo Amezaga 64           U2 -                           
-  LF  Norris Hopper              U1 Alfredo Amezaga 110          U2 -                           
-  CF  Milt Thompson              U1 Dave Henderson 105           U2 Alfredo Amezaga 95          
-  RF  Vladimir Guerrero          U1 Alfredo Amezaga 116          U2 Dave Henderson 104          
-  pinch hitters: Alfredo Amezaga, Dave Henderson, Buck Rodgers (VAR), Gary Sheffield · pinch runners: Alfredo Amezaga (SPE 83), Dave Henderson (SPE 69), Gary Sheffield (SPE 58)
+  1B  Nap Lajoie                 U1 Jay Johnstone 64             U2 -                           
+  2B  Javier Baez (VAR)          U1 Nico Hoerner 115             U2 -                            def sub Nico Hoerner (+4.2)
+  3B  Kid Elberfeld (VAR)        U1 Nico Hoerner 77              U2 -                           
+  SS  Ozzie Smith                U1 Nico Hoerner 88              U2 -                           
+  LF  Norris Hopper              U1 Ken Berry 131                U2 Nico Hoerner 80             
+  CF  Milt Thompson              U1 Ken Berry 115                U2 -                           
+  RF  Vladimir Guerrero          U1 Ken Berry 126                U2 -                           
+  pinch hitters: Nico Hoerner, Ken Berry, Jay Johnstone, Buck Rodgers (VAR) · pinch runners: Nico Hoerner (SPE 98), Ken Berry (SPE 89), Gary Sheffield (SPE 58)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Henry Blanco               U1 Buck Rodgers (VAR) 68        U2 -                           
-  1B  Nap Lajoie                 U1 Alfredo Amezaga 78           U2 -                           
-  2B  Javier Baez (VAR)          U1 Alfredo Amezaga 84           U2 -                           
-  3B  Brooks Robinson            U1 Kid Elberfeld (VAR) 85       U2 Alfredo Amezaga 66          
-  SS  Ozzie Smith                U1 Kid Elberfeld (VAR) 83       U2 Alfredo Amezaga 64          
-  LF  Norris Hopper              U1 Milt Thompson 121            U2 Alfredo Amezaga 110         
-  CF  Dave Henderson             U1 Milt Thompson 114            U2 Alfredo Amezaga 95          
-  RF  Vladimir Guerrero          U1 Milt Thompson 111            U2 Alfredo Amezaga 116         
-  pinch hitters: Kid Elberfeld (VAR), Milt Thompson, George Sisler (VAR), Buck Rodgers (VAR) · pinch runners: Milt Thompson (SPE 107), Alfredo Amezaga (SPE 83), Kid Elberfeld (VAR) (SPE 79)
+  1B  Nap Lajoie                 U1 Jay Johnstone 64             U2 -                           
+  2B  Javier Baez (VAR)          U1 Nico Hoerner 115             U2 -                            def sub Nico Hoerner (+4.2)
+  3B  Kid Elberfeld (VAR)        U1 Nico Hoerner 77              U2 -                           
+  SS  Ozzie Smith                U1 Nico Hoerner 88              U2 -                           
+  LF  Norris Hopper              U1 Nico Hoerner 80              U2 Milt Thompson 121           
+  CF  Ken Berry                  U1 Milt Thompson 114            U2 -                           
+  RF  Vladimir Guerrero          U1 Milt Thompson 111            U2 -                           
+  pinch hitters: Nico Hoerner, Milt Thompson, George Sisler (VAR), Buck Rodgers (VAR) · pinch runners: Milt Thompson (SPE 107), Nico Hoerner (SPE 98), George Sisler (VAR) (SPE 64)
 
-26 players · value 1298 / 1300 (2 spare) · from seed · 7 variants
+26 players · value 1300 / 1300 (0 spare) · λ 6.000 · 7 variants
 vs RHP lineup gets the friendly park side in 3 of 9 spots
 
 --- order inputs (rostered bats) ---
@@ -120,12 +120,12 @@ vs RHP lineup gets the friendly park side in 3 of 9 spots
   Milt Thompson          L EYE  81 (42/90)  POW  33 (23/36)  K  90  BABIP 130  GAP  81  SPE 107
   Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
   Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
-  Alfredo Amezaga        S EYE  82 (10/94)  POW  33 (1/40)  K 109  BABIP  78  GAP  85  SPE  83
-  Dave Henderson         R EYE  85 (85/85)  POW  81 (89/78)  K  66  BABIP  88  GAP  75  SPE  69
+  Nico Hoerner           R EYE  70 (110/52)  POW   1 (1/1)  K 115  BABIP 107  GAP  74  SPE  98
+  Ken Berry              R EYE  72 (89/66)  POW  61 (73/55)  K  96  BABIP  92  GAP  76  SPE  89
+  Jay Johnstone          L EYE  84 (66/89)  POW   2 (2/2)  K 101  BABIP  91  GAP  81  SPE  58
   Buck Rodgers           S EYE  66 (59/68)  POW  48 (49/48)  K 106  BABIP  64  GAP 113  SPE  56
   Ozzie Smith            S EYE 113 (104/116)  POW  28 (41/20)  K 167  BABIP  60  GAP  70  SPE 108
   Gary Sheffield         R EYE  69 (66/70)  POW  62 (84/50)  K 126  BABIP  63  GAP  74  SPE  58
-  Brooks Robinson        R EYE  62 (61/63)  POW  58 (88/36)  K  82  BABIP  69  GAP  70  SPE  40
   Henry Blanco           R EYE  82 (85/81)  POW  45 (64/38)  K  93  BABIP  46  GAP  62  SPE  46
 LEGAL — every rule check passes
 
@@ -134,16 +134,16 @@ LEGAL — every rule check passes
   ✓ starters' stamina James McDonald 59, Justin Verlander 83, Patricio Scantlebury 68, Jeff Francis 75, Tin Can Kincannon 74 (era floor 50)
   ✓ stamina guys in the pen (45+): Mike Marshall 74, Bob Gibson 69, R.T. Walker 69
   ✓ C  backup: Buck Rodgers 68
-  ✓ 1B backup: Alfredo Amezaga 78
-  ✓ 2B backup: Alfredo Amezaga 84
-  ✓ 3B backup: vs RHP Brooks Robinson 139, Alfredo Amezaga 66 · vs LHP Kid Elberfeld 85, Alfredo Amezaga 66
-  ✓ SS backup: vs RHP Alfredo Amezaga 64 · vs LHP Kid Elberfeld 83, Alfredo Amezaga 64
-  ✓ LF backup: vs RHP Alfredo Amezaga 110 · vs LHP Milt Thompson 121, Alfredo Amezaga 110
-  ✓ CF backup: vs RHP Dave Henderson 105, Alfredo Amezaga 95 · vs LHP Milt Thompson 114, Alfredo Amezaga 95
-  ✓ RF backup: vs RHP Dave Henderson 104, Alfredo Amezaga 116 · vs LHP Milt Thompson 111, Alfredo Amezaga 116
-(22 of 26 have a live ask in the last shop snapshot)
+  ✓ 1B backup: Jay Johnstone 64
+  ✓ 2B backup: Nico Hoerner 115
+  ✓ 3B backup: Nico Hoerner 77
+  ✓ SS backup: Nico Hoerner 88
+  ✓ LF backup: vs RHP Ken Berry 131, Nico Hoerner 80, Jay Johnstone 70 · vs LHP Milt Thompson 121, Nico Hoerner 80, Jay Johnstone 70
+  ✓ CF backup: vs RHP Ken Berry 115 · vs LHP Milt Thompson 114
+  ✓ RF backup: vs RHP Ken Berry 126 · vs LHP Milt Thompson 111
+(23 of 26 have a live ask in the last shop snapshot)
 objective: -105.8 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
-points: lineup(both boards, 12 bats) 608 · rotation 267 · bullpen 337 · bench-only 86
+points: lineup(both boards, 11 bats) 564 · rotation 267 · bullpen 337 · bench-only 132
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Patricio Scantlebury     pBABIP 45 (fitted 50–175)
