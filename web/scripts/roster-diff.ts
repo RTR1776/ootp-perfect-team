@@ -6,115 +6,75 @@
  *   pnpm roster:diff --roster my.txt --series goldweekly --year 1989 \
  *     --park "Candlestick Park" --park-year 1979 --dh --min 40 --max 89
  *
+ * Takes env-roster's event flags (--slots, --sp/--rp/--bats, --role-trust,
+ * --min-pos, --obs-exclude, --no-team-weights, …) with env-roster's defaults:
+ * pass the same ones the roster was built with.
+ *
  * The roster file is one slot per line, "R:3B Hank Thompson", "L:C Mike
  * Zunino", "SP1 Jim Kaat", "CL Joe Beggs", "RP3 …", "BN2 …". Lines starting
- * with # are ignored. Names match the card table case-insensitively; when
- * you own more than one legal card of that name the higher value wins —
- * pin one with "Name 87" (or "Name (VAR)" for the variant form).
+ * with # are ignored. A line ending "#86429" (env-roster's and current-rosters'
+ * load files) is that card id. Otherwise names match the card table
+ * case-insensitively; when you own more than one legal card of that name the
+ * higher value wins — pin one with "Name 87" (or "Name (VAR)" for the variant
+ * form).
  *
- * Same environment, pool, rules, objective and search as env-roster (and
- * /build's Optimise): calibrated runs per board, the field's handedness,
- * gloves in runs, the glove floor. The search runs one accepted move at a
- * time from YOUR roster so each step's gain is printed in the order the
- * hill-climb takes them, which is steepest-first.
+ * The pool, environment and objective are env-roster's own (lib/event-model),
+ * so "your roster as loaded" is the number env-roster prints as "objective:"
+ * for the same board. The climb is env-roster's too, one pass at a time from
+ * YOUR roster so each step's gain is printed in the order the hill-climb takes
+ * them, which is steepest-first. From an env-roster optimum it finds nothing.
  */
 import { readFileSync } from "node:fs";
-import { desc, eq } from "drizzle-orm";
-import { db } from "@/db/client";
-import { cards, collectionCards, seriesMeta, uploads } from "@/db/schema";
-import { formRatings } from "@/lib/card-forms";
-import { HIT_POS, rosterShape, type FillCard, type FillShape } from "@/lib/roster-fill";
-import { cardEligibility, rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
-import { LJ_FLOOR, parsePosFloor, type PosFloor } from "@/lib/pos-floor";
-import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT } from "@/lib/roster-objective";
-import { envFitMaps } from "@/lib/analytics/env-fit";
-import { bothHands, loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
-import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
-import { optimizeRoster } from "@/lib/roster-optimize";
-import { setRuleGuard } from "@/lib/set-evidence";
-import { loadSetEvidence } from "@/lib/set-evidence-server";
+import { validateRoster, type RosterSlot } from "@/lib/roster-rules";
+import { BACKUP_PENALTY, backupPositions, longMenShort, missingBackups, optimizeRoster } from "@/lib/roster-optimize";
+import { climbOptions, eventModel, eventRules, loadEventPool, readEventFlags, type EventCard } from "@/lib/event-model";
+import { LONG_MAN_STAMINA } from "@/lib/roster-audit";
+import { cardIdOf, formIdForSlot } from "@/lib/two-way";
 
 const argv = process.argv.slice(2);
-const flag = (k: string) => argv.includes(`--${k}`);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const num = (k: string, d: number | null = null) => { const v = val(k); return v == null ? d : Number(v); };
 
 const ROSTER = val("roster");
 if (!ROSTER) { console.error("--roster FILE is required"); process.exit(1); }
-const YEAR = num("year"), PARK = val("park") ?? null, PARK_YEAR = num("park-year"), DH = flag("dh");
-/** The era correction (calibration.ts ERA_SLOPES) is on unless --no-era-correct; PT default reads as 2010. */
-const ERA_YEAR: number | null = argv.includes("--no-era-correct") ? null : (YEAR ?? 2010);
-const MIN = num("min"), MAX = num("max"), CAP = num("cap"), SIZE = num("size", 26)!;
-const SERIES = val("series") ?? null;
-const VARIANT_CAP = num("variant-cap");
-const ROLE_TRUST = num("role-trust", 0.25)!;
-const OBS_K = num("obs-k", OBS_K_DEFAULT)!;
-const MIN_DEF = num("min-def", 0.6)!;
-const MIN_POS: PosFloor = parsePosFloor(val("min-pos")) ?? LJ_FLOOR;
-const CANDIDATE_LIMIT = num("candidate-limit", 120)!;
+const F = readEventFlags(argv);
 const MAX_MOVES = num("max-moves", 30)!;
-/** --card-types 2,6,7: OOTP card_type codes an event limits the pool to (see env-roster). */
-const CARD_TYPES = new Set((val("card-types") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0));
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
 async function main() {
-  const era = eraTable[String(YEAR)] ?? eraTable["0"];
-  const pr = parkRow(PARK, PARK_YEAR);
-  if (PARK && !pr) console.log(`!! no park factors on file for ${PARK_YEAR} ${PARK} — running neutral`);
-  const rules: RosterRules = {
-    name: SERIES ?? "roster", dh: DH, ratingsMin: MIN, ratingsMax: MAX, cardYearMin: num("card-year-min"), cardYearMax: num("card-year-max"),
-    isDraft: false, restrictions: { teamCap: CAP, cards: SIZE, variantCap: VARIANT_CAP, variantsAllowed: VARIANT_CAP !== 0 },
-  };
-
-  /* ---- the pool, exactly as env-roster builds it ---- */
-  // Same guard as env-roster: a narrow field means a set or year rule the flags must repeat.
-  if (SERIES) {
-    const stop = setRuleGuard(SERIES, await loadSetEvidence(SERIES), {
-      cardTypes: CARD_TYPES.size > 0, cardYears: rules.cardYearMin != null || rules.cardYearMax != null, cardYearMax: rules.cardYearMax, anySet: flag("any-set"),
-    });
-    if (stop) { console.error(`\n!! ${stop}`); process.exit(1); }
-  }
-  const [latest] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);
-  if (!latest) throw new Error("no collection upload");
-  const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })
-    .from(collectionCards).where(eq(collectionCards.uploadId, latest.id));
-  const baseSet = new Set(owned.filter((o) => !o.isVariant).map((o) => o.cardId!));
-  const variants = new Map(owned.filter((o) => o.isVariant).map((o) => [o.cardId!, o.ratings]));
-  const universe = await db.select().from(cards);
-  const byId = new Map(universe.map((c) => [c.cardId, c]));
-  type P = FillCard & { pos: string; bats: string | null };
-  const pool: P[] = [];
-  for (const cid of new Set(owned.map((o) => o.cardId!))) {
-    const c = byId.get(cid); if (!c) continue;
-    if (CARD_TYPES.size && !CARD_TYPES.has(Number(c.cardType))) continue;
-    const base = (c.ratings ?? {}) as Record<string, number>;
-    const vr = variants.get(cid) ?? null;
-    const useVariant = VARIANT_CAP !== 0 && vr != null;
-    const card: P = {
-      cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher, role: c.pitcherRole, cardType: c.cardType,
-      ratings: useVariant ? formRatings(base, vr, c.position) : base,
-      baseOwned: baseSet.has(cid), variantOwned: vr != null, variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", bats: c.bats,
-    };
-    if (card.variant && !card.variantOwned) continue;
-    if (cardEligibility(card, rules).errors.length) continue;
-    pool.push(card);
-  }
-
-  /* ---- the field ---- */
-  const [meta] = SERIES ? await db.select().from(seriesMeta).where(eq(seriesMeta.series, SERIES)) : [];
-  const LHP = num("lhp-share") ?? meta?.lhpBfShare ?? LHP_SHARE_DEFAULT;
-  const LHB = meta?.lhbPaShare ?? 0.35;
-  const lineupPos = DH ? [...HIT_POS, "DH"] : [...HIT_POS];
+  const rules = eventRules(F);
+  // The setup's own lines (pool, field, weights) are printed with --verbose.
+  const log = argv.includes("--verbose") ? console.log : () => {};
+  const ev = await loadEventPool(F, rules, log);
+  const { pool } = ev;
 
   /* ---- the roster file ---- */
   const lines = readFileSync(ROSTER!, "utf8").split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith("#"));
+  const fileKeys = lines.map((l) => (/^(\S+)/.exec(l)?.[1] ?? "").toUpperCase());
+  const count = (re: RegExp) => fileKeys.filter((k) => re.test(k)).length;
+  const fileSp = count(/^SP\d+$/), fileRp = count(/^(RP\d+|CL)$/), fileBn = count(/^BN\d+$/);
+  const lineupSize = F.dh ? 9 : 8;
+  // The staff shape is the FILE's when it lists a staff (a name that fails to
+  // match still counts as a slot), else the event's (--sp/--rp/--bats, the series).
+  const shapeOverride = fileSp && fileRp ? { sp: fileSp, rp: fileRp, bats: Math.max(lineupSize + fileBn, F.size - fileSp - fileRp) } : null;
+  const m = await eventModel(F, rules, ev, { log, shapeOverride });
+  const { shape, lineupPos, objective, rank, defAt, fits } = m;
+
   const slots: Record<string, number> = {};
-  const unmatched: string[] = [];
+  const unmatched: string[] = [], ambiguous: string[] = [];
+  const poolById = new Map(pool.map((c) => [c.cardId, c]));
   const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
   for (const l of lines) {
-    const m = /^(\S+)\s+(.+)$/.exec(l); if (!m) continue;
-    const key = m[1].toUpperCase().replace(/^([RL]):/, (_, h) => `${h}:`);
-    let who = m[2].trim();
+    const mm = /^(\S+)\s+(.+)$/.exec(l); if (!mm) continue;
+    const key = mm[1].toUpperCase();
+    let who = mm[2].trim();
+    const idPin = /\s*#(\d+)$/.exec(who);
+    if (idPin) {
+      // A load file's card id; a two-way card's arm (or bat) slot means its other form.
+      const id = formIdForSlot(Number(idPin[1]), key, (x) => poolById.get(x));
+      if (poolById.has(id)) { slots[key] = id; continue; }
+      who = who.slice(0, -idPin[0].length);
+    }
     const wantVar = /\(VAR\)$/i.test(who); who = who.replace(/\s*\(VAR\)$/i, "");
     const valPin = /\s(\d{2,3})$/.exec(who); if (valPin) who = who.slice(0, -valPin[0].length);
     const hits = pool.filter((c) => norm(c.name) === norm(who) && (valPin ? c.val === Number(valPin[1]) : true) && (wantVar ? c.variant : true));
@@ -124,36 +84,22 @@ async function main() {
     // variant shares its base's value and is already the pool's form of it).
     const pick = (fit.length ? fit : hits).sort((a, b) => (b.val ?? 0) - (a.val ?? 0))[0];
     if (!pick) { unmatched.push(l); continue; }
+    const others = (fit.length ? fit : hits).filter((c) => c.cardId !== pick.cardId);
+    if (others.length) ambiguous.push(`${key} ${pick.name}: took the ${pick.val} (#${cardIdOf(pick.cardId)}) over ${others.map((c) => `the ${c.val}${c.variant ? " VAR" : ""} (#${cardIdOf(c.cardId)})`).join(", ")}`);
     slots[key] = pick.cardId;
   }
+  if (ambiguous.length) console.log(`!! more than one card of that name in your legal pool — pin with "Name 87" or "#id":\n   ${ambiguous.join("\n   ")}`);
   if (unmatched.length) console.log(`!! not in your legal pool (check the name, value window, or the collection date): ${unmatched.join(" · ")}`);
 
-  const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, meta ? { avgBats: meta.avgBats, avgSp: meta.avgSp, avgRp: meta.avgRp } : null);
-  // The shape comes from the FILE's slot keys (a name that fails to match
-  // still counts as a slot), else the series' observed shape.
-  const fileKeys = lines.map((l) => (/^(\S+)/.exec(l)?.[1] ?? "").toUpperCase());
-  const sp = fileKeys.filter((k) => /^SP\d+$/.test(k)).length || shp.sp;
-  const rp = fileKeys.filter((k) => /^(RP\d+|CL)$/.test(k)).length || shp.rp;
-  const bn = fileKeys.filter((k) => /^BN\d+$/.test(k)).length;
-  const bats = Math.max(lineupPos.length + bn, SIZE - sp - rp);
-  const shape: FillShape = {
-    lineupPos, bats,
-    spKeys: Array.from({ length: sp }, (_, i) => `SP${i + 1}`),
-    rpKeys: ["CL", ...Array.from({ length: rp - 1 }, (_, i) => `RP${i + 1}`)],
-    benchKeys: Array.from({ length: bats - lineupPos.length }, (_, i) => `BN${i + 1}`),
-  };
   const missing = [...shape.lineupPos.flatMap((p) => [`R:${p}`, `L:${p}`]), ...shape.spKeys, ...shape.rpKeys, ...shape.benchKeys].filter((k) => slots[k] == null);
   if (missing.length) console.log(`!! slots the file did not fill (or whose card is not on record): ${missing.join(", ")} — the best available card is stood in so the rest can be scored`);
-
-  /* ---- score ---- */
-  const all = universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
-  const base = envFitMaps(all, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB, eraYear: ERA_YEAR });
-  const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - LHP) * r + LHP * l; };
-  const observed = OBS_K > 0 ? await loadObservedRuns(pool.map((c) => c.cardId), both, bothHands(base)) : undefined;
-  const fits = envFitMaps(pool, { era: era.rates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB, eraYear: ERA_YEAR });
-  const { objective, rank, defAt } = rosterObjective(pool, { shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP, rpWeight: RP_WEIGHT_DEFAULT, benchWeight: BENCH_WEIGHT_DEFAULT });
-  const poolById = new Map(pool.map((c) => [c.cardId, c]));
-  const nameOf = (id: number | undefined) => { const c = id != null ? poolById.get(id) : undefined; return c ? `${c.name}${c.variant ? " (VAR)" : ""}` : "—"; };
+  // Two cards of one name get their value too, so a swap between them reads as one.
+  const nameCount = new Map<string, number>();
+  for (const c of pool) nameCount.set(`${c.name}|${c.isPitcher}`, (nameCount.get(`${c.name}|${c.isPitcher}`) ?? 0) + 1);
+  const nameOf = (id: number | undefined) => {
+    const c = id != null ? poolById.get(id) : undefined;
+    return c ? `${c.name}${(nameCount.get(`${c.name}|${c.isPitcher}`) ?? 0) > 1 ? ` ${c.val}` : ""}${c.variant ? " (VAR)" : ""}` : "—";
+  };
   const runsAt = (key: string, id: number) => {
     const c = poolById.get(id); if (!c) return null;
     const pos = key.includes(":") ? key.split(":")[1] : "";
@@ -164,7 +110,7 @@ async function main() {
   for (const k of missing) {
     const used = new Set(Object.values(slots));
     const pos = k.includes(":") ? k.split(":")[1] : k;
-    const ok = (c: P) => /^SP\d+$/.test(pos) ? c.isPitcher && c.role === "SP" : /^(RP\d+|CL)$/.test(pos) ? c.isPitcher : !c.isPitcher && (pos === "DH" || /^BN/.test(pos) || (c.ratings[`Pos Rating ${pos}`] ?? 0) >= 70);
+    const ok = (c: EventCard) => /^SP\d+$/.test(pos) ? c.isPitcher && c.role === "SP" : /^(RP\d+|CL)$/.test(pos) ? c.isPitcher : !c.isPitcher && (pos === "DH" || /^BN/.test(pos) || (c.ratings[`Pos Rating ${pos}`] ?? 0) >= 70);
     const best = pool.filter((c) => ok(c) && !used.has(c.cardId)).sort((a, b) => rank(k, b) - rank(k, a))[0];
     if (best) { slots[k] = best.cardId; console.log(`   ${k}: standing in ${best.name}`); }
   }
@@ -173,31 +119,42 @@ async function main() {
     const [a, b] = k.split(":");
     return { cardId, slot: b ?? a, versusHand: b ? a : "both", lineupOrder: b ? lineupPos.indexOf(b) + 1 : null, useVariant: poolById.get(cardId)?.variant ?? false };
   }), pool, rules);
-  console.log(`\n=== ${SERIES ?? "roster"} · ${YEAR ?? "PT default"} RE${pr ? ` @ ${PARK_YEAR} ${PARK}` : ""} · ${DH ? "DH" : "no DH"} · lineups ${Math.round((1 - LHP) * 100)}/${Math.round(LHP * 100)} R/L${meta ? " (field)" : " (default)"} ===`);
+  const pr = m.pr;
+  console.log(`\n=== ${F.series ?? "roster"} · ${F.year ?? "PT default"} RE${pr ? ` @ ${F.parkYear} ${F.park}` : ""} · ${F.dh ? "DH" : "no DH"} · lineups ${Math.round((1 - m.lhpShare) * 100)}/${Math.round(m.lhpShare * 100)} R/L${m.meta ? " (field)" : " (default)"} ===`);
+  console.log(`shape ${shape.bats} bats / ${shape.spKeys.length} SP / ${shape.rpKeys.length} RP${shapeOverride ? " (the file's)" : ""} · weights SP ${m.spWeight.toFixed(2)}, RP ${m.rpWeight.toFixed(2)}, bench ${m.benchWeight}, gloves ×${m.glove.toFixed(2)} (env-roster's; --verbose for the setup)`);
   console.log(`your roster as loaded: ${start.toFixed(1)} runs · ${v.ready ? "legal" : "NOT LEGAL: " + [...v.errors, ...v.incomplete].map((e) => e.message).join(" | ")}`);
+
+  const opts = { ...climbOptions(F, m), maxPasses: 1 };
+  const noBackup = F.backups ? missingBackups(slots, poolById, backupPositions(pool, rules, F.minPos)) : [];
+  const longShort = longMenShort(slots, poolById, F.minLongMen);
+  if (noBackup.length) console.log(`!! no bench backup at ${noBackup.join(", ")} — the search charges ${BACKUP_PENALTY} runs each`);
+  if (longShort) console.log(`!! ${longShort} long man${longShort === 1 ? "" : "en"} short of ${F.minLongMen} (pen arms with stamina ${LONG_MAN_STAMINA}+) — the search charges ${BACKUP_PENALTY} runs each`);
   console.log(`\nweakest slots as they stand (runs on that board, glove included):`);
   const keys = [...lineupPos.flatMap((p) => [`R:${p}`, `L:${p}`]), ...shape.spKeys, ...shape.rpKeys];
   const weak = keys.map((k) => ({ k, r: runsAt(k, slots[k]) ?? 0 })).sort((a, b) => a.r - b.r).slice(0, 6);
   for (const w of weak) console.log(`  ${w.k.padEnd(6)} ${nameOf(slots[w.k]).padEnd(28)} ${f1(w.r)}`);
 
-  /* ---- one accepted move at a time, from your roster ---- */
-  let cur = { ...slots }, score = start, n = 0;
+  /* ---- one pass of env-roster's climb at a time, from your roster ---- */
+  let cur = { ...slots }, n = 0;
   console.log(`\nswaps in the order the search takes them (steepest first) — do the top few and stop:`);
   while (n < MAX_MOVES) {
-    const r = optimizeRoster(cur, pool, rules, shape, {
-      objective, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 8, bCheapest: 10, rank }, candidateLimit: CANDIDATE_LIMIT, maxPasses: 1,
-    });
-    if (r.moves === 0 || r.score <= score + 1e-9) break;
+    const r = optimizeRoster(cur, pool, rules, shape, opts);
+    // From an illegal start (two catchers, long men, the glove floor) any legal board is a step up.
+    if (r.moves === 0 || !r.legal || (r.startLegal && r.score <= r.startScore + 1e-9)) break;
     n++;
+    const before = objective(cur), after = objective(r.slots);
     const changed = Object.keys({ ...cur, ...r.slots }).filter((k) => cur[k] !== r.slots[k]);
-    const before = new Set(Object.values(cur)), after = new Set(Object.values(r.slots));
-    const out = [...before].filter((id) => !after.has(id)).map(nameOf), inn = [...after].filter((id) => !before.has(id)).map(nameOf);
+    const was = new Set(Object.values(cur)), now = new Set(Object.values(r.slots));
+    const out = [...was].filter((id) => !now.has(id)).map(nameOf), inn = [...now].filter((id) => !was.has(id)).map(nameOf);
     const head = out.length || inn.length ? `${out.join(", ") || "—"}  →  ${inn.join(", ") || "—"}` : "re-arrange";
-    console.log(`\n${String(n).padStart(2)}. ${f1(r.score - score)} runs  (${score.toFixed(1)} → ${r.score.toFixed(1)})   ${head}`);
+    // The search also charges a missing backup or long man; a step that only fixes one gains no runs.
+    const fix = Math.abs(r.score - r.startScore - (after - before)) > 0.05 ? `  [search ${f1(r.score - r.startScore)}: fixes a roster check]` : "";
+    console.log(`\n${String(n).padStart(2)}. ${f1(after - before)} runs  (${before.toFixed(1)} → ${after.toFixed(1)})   ${head}${fix}`);
     for (const k of changed) console.log(`      ${k.padEnd(6)} ${nameOf(cur[k])} → ${nameOf(r.slots[k])}`);
-    cur = r.slots; score = r.score;
+    cur = r.slots;
   }
-  console.log(`\nafter ${n} move${n === 1 ? "" : "s"}: ${score.toFixed(1)} runs (${f1(score - start)}); value ${[...new Set(Object.values(cur))].reduce((s, id) => s + (poolById.get(id)?.val ?? 0), 0)}`);
+  const end = objective(cur);
+  console.log(`\nafter ${n} move${n === 1 ? "" : "s"}: ${end.toFixed(1)} runs (${f1(end - start)}); value ${[...new Set(Object.values(cur))].reduce((s, id) => s + (poolById.get(id)?.val ?? 0), 0)}`);
   process.exit(0);
 }
 main().catch((e) => { console.error(e); process.exit(1); });
