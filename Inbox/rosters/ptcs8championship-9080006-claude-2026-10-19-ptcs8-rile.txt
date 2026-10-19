@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Open — Claude pick 2026-10-19-ptcs8 rile, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Messer Street Grounds --park-year 1885 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Johnny Bassler #86476
+R:1B Roger Connor #86577
+R:2B Rogers Hornsby #86436
+R:3B Pop Lloyd #86896
+R:SS Luke Appling #82759
+R:LF Heinie Manush #86370
+R:CF Roy Thomas #86784
+R:RF Cool Papa Bell #85420
+L:C Josh Gibson #86252
+L:1B Roger Connor #86577
+L:2B Rogers Hornsby #86436
+L:3B Arky Vaughan #85021
+L:SS Pop Lloyd #86896
+L:LF Al Simmons #85942
+L:CF Heinie Manush #86370
+L:RF Cool Papa Bell #85420
+SP1 Cy Young (VAR) #86572
+SP2 Ed Rile #87165
+SP3 Eddie Plank #86890
+SP4 Bob Feller #85650
+CL Jack Coombs #85937
+RP1 Claude Grier #87086
+RP2 Satchel Paige #84844
+RP3 Count Leblanc (VAR) #86978
+RP4 Hilton Smith #85864
+BN1 Josh Gibson #86252
+BN2 John McGraw #86438
+BN3 Ben Taylor (VAR) #87163
+BN4 Ty Cobb #86986
+BN5 Arky Vaughan #85021
+BN6 King Kelly #85153
+BN7 Al Simmons #85942
+BN8 Chick Stahl #86583
+BN9 Shoeless Joe Jackson #86372
