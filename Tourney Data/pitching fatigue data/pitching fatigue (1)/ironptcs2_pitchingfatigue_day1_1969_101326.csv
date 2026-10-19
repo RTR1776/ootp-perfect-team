@@ -1,0 +1,831 @@
+POS,Name,ORG,VLvl,STM,VELO,PIT,KN,KC,G,GS,5d,4d,3d,2d,Yest.,SPF%,RPF%
+SP,Vicente Padilla,Nickel Slots And Crock-Pots,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,126,7%,3%
+SP,Vicente Padilla,Ripping OnlyPacks,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,126,7%,3%
+SP,Vicente Padilla,Costa Rica Coconuts,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,124,8%,3%
+SP,Vicente Padilla,Minnesota Charlatans,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,124,8%,3%
+SP,James McDonald,The Black Freighter TBD,5,59,91-93 Mph,4,-,-,1,1,0,0,0,0,123,5%,2%
+SP,Vicente Padilla,Chi City Ballerz,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,123,8%,3%
+SP,Dallas Braden,Michigan Black Bears,0,73,86-88 Mph,6,-,-,1,1,0,0,0,0,120,7%,3%
+SP,Bob Romby,Zzyzz Vowels,0,56,88-90 Mph,4,-,-,1,1,0,0,0,0,120,5%,2%
+SP,Samuel Deduno,Detroit Wookies,0,55,89-91 Mph,3,-,-,1,1,0,0,0,0,119,4%,2%
+SP,Ed Figueroa,Southport Stars,5,85,88-90 Mph,3,-,-,1,1,0,0,0,0,119,7%,3%
+SP,Vicente Padilla,Long Beach Apple Juice,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,119,8%,3%
+CF,Double Duty Radcliffe,Van Nuys Boogie Knights,0,64,86-88 Mph,5,-,-,1,1,0,0,0,0,118,7%,2%
+SP,Vicente Padilla,Borders Scots,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,117,8%,3%
+SP,Vicente Padilla,Harry's Team TTC,5,75,89-91 Mph,6,-,-,1,1,0,0,0,0,116,8%,3%
+SP,Marco Estrada,Frankenthal Palatines,0,68,90-92 Mph,4,-,-,1,1,0,0,0,0,115,8%,4%
+SP,Bob Romby,Vancouver Pilots,0,56,88-90 Mph,4,-,-,1,1,0,0,0,0,115,6%,2%
+SP,James McDonald,Madison Mashers,5,59,91-93 Mph,4,-,-,1,1,0,0,0,0,114,7%,2%
+SP,Ed Figueroa,Moria Balrogs,5,85,88-90 Mph,3,-,-,1,1,0,0,0,0,113,7%,3%
+SP,Bullet Campbell,Lincecame and Conquered,0,75,89-91 Mph,5,-,-,1,1,0,0,0,0,111,8%,3%
+SP,James McDonald,Myrtle Beach MaskMen,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,111,7%,2%
+SP,Bob Romby,Charlotte Aviators - JW,5,56,88-90 Mph,4,-,-,1,1,0,0,0,0,111,6%,2%
+SP,Samuel Deduno,Delmarva Shorebirds_TTC,0,55,89-91 Mph,3,-,-,1,1,0,0,0,0,110,6%,2%
+SP,Samuel Deduno,Steal Or Not to Steal TTC,0,55,89-91 Mph,3,-,-,1,1,0,0,0,0,109,6%,2%
+SP,James McDonald,Charlotte Hellcats GH,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,109,7%,2%
+SP,Earl Wilson,Alexandria SafeZone,0,89,88-90 Mph,3,-,-,1,1,0,0,0,0,109,8%,3%
+SP,James McDonald,Eden Prairie Landsharks,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,108,7%,2%
+SP,James McDonald,Country Clubbers,5,59,91-93 Mph,4,-,-,1,1,0,0,0,0,107,7%,2%
+SP,Bob Klinger,Steady Swing Centurions,5,59,90-92 Mph,3,-,-,1,1,0,0,0,0,106,8%,4%
+SP,James McDonald,Pumpkin Smashers - HotL,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,106,7%,2%
+SP,Bob Romby,Vyrantia Fae,0,56,88-90 Mph,4,-,-,1,1,0,0,0,0,106,7%,2%
+SP,Ice Box Chamberlain,Minneapolis Loons,5,81,90-92 Mph,3,-,-,1,1,0,0,0,0,105,7%,3%
+SP,Nathan Eovaldi,Cy Young Winner Rick Porcello HOTL,0,65,95-97 Mph,5,-,-,1,1,0,0,0,0,105,8%,4%
+SP,Bob Klinger,Tippecanoe Terrors,0,59,90-92 Mph,3,-,-,1,1,0,0,0,0,105,8%,4%
+SP,James McDonald,Alhambra Moors - HotL TTC,5,59,91-93 Mph,4,-,-,1,1,0,0,0,0,103,7%,2%
+SP,James McDonald,Normal Night Terrors - HotL,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,103,7%,2%
+SP,James McDonald,Dodgertown Blue Legends TTC,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,102,7%,2%
+SP,Vicente Padilla,Los Altos Undertakers,5,75,89-91 Mph,6,-,-,1,1,0,0,0,0,102,8%,3%
+SP,Jack Bentley,minggus babbugies,0,79,90-92 Mph,4,-,-,1,1,0,0,0,0,101,8%,3%
+SP,Bob Klinger,Tokyo Shiny Colors,0,59,90-92 Mph,3,-,-,1,1,0,0,0,0,101,8%,4%
+SP,James McDonald,Pittsburgh Diggers-HotL,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,101,7%,2%
+SP,James McDonald,King Street 504s,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,101,7%,2%
+SP,Bullet Campbell,Paso Robles Powerhouse,5,75,89-91 Mph,5,-,-,1,1,0,0,0,0,100,8%,3%
+SP,James McDonald,Granite City Pumpkin Smashers Hot,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,100,7%,2%
+SP,Ted Lyons,Old Factory Shakers,0,80,89-91 Mph,4,56,-,1,1,0,0,0,0,99,8%,3%
+SP,James McDonald,Mos Eisley Smugglers,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,98,7%,2%
+SP,Vicente Padilla,Worcester Boys of Somers,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,98,8%,3%
+SP,Samuel Deduno,Groundball Defenders,0,55,89-91 Mph,3,-,-,1,1,0,0,0,0,96,7%,2%
+SP,Nathan Eovaldi,Kandy Kanes,0,65,95-97 Mph,5,-,-,1,1,0,0,0,0,96,8%,4%
+SP,James McDonald,Three Little Birds,5,59,91-93 Mph,4,-,-,1,1,0,0,0,0,96,7%,2%
+SP,James McDonald,Seattle SuperSonics,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,95,7%,2%
+SP,Vicente Padilla,Minnesota Loons,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,95,8%,3%
+SP,Harry Coveleski,Newport Gull's LE,0,82,87-89 Mph,3,-,-,1,1,0,0,0,0,94,8%,3%
+SP,James McDonald,Chargn Bison - HotL,5,59,91-93 Mph,4,-,-,1,1,0,0,0,0,94,7%,2%
+SP,James McDonald,Golden Valley Gobblers,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,93,7%,2%
+SP,James McDonald,Tuskvale Mammoths,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,92,7%,2%
+SP,Bob Romby,Hawkeye Hellraisers,0,56,88-90 Mph,4,-,-,1,1,0,0,0,0,92,8%,4%
+SP,James McDonald,Winnipeg Brew Jays - HotL,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,91,7%,2%
+SP,James McDonald,Itchycoo Park,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,85,7%,2%
+SP,James McDonald,Desert Sand Dwellers - JW,5,59,91-93 Mph,4,-,-,1,1,0,0,0,0,83,7%,2%
+SP,Dallas Braden,Texas Briskets,0,73,86-88 Mph,6,-,-,1,1,0,0,0,0,82,8%,3%
+SP,Nathan Eovaldi,Borger Busch Slammers,0,65,95-97 Mph,5,-,-,1,1,0,0,0,0,71,8%,4%
+SP,James McDonald,. -,5,59,91-93 Mph,4,-,-,1,1,0,0,0,0,70,8%,4%
+SP,James McDonald,Chicago Gamblers - GH,0,59,91-93 Mph,4,-,-,1,1,0,0,0,0,63,8%,5%
+SP,Nate Robertson,Borger Busch Slammers,0,64,88-90 Mph,5,-,-,1,0,0,0,0,0,63,9%,5%
+SP,Vicente Padilla,Bethlehem Braves,0,75,89-91 Mph,6,-,-,1,1,0,0,0,0,61,8%,9%
+SP,Earl Wilson,Dodgertown Blue Legends TTC,0,89,88-90 Mph,3,-,-,1,0,0,0,0,0,54,9%,22%
+RP,Pat Perry,Chicago Gamblers - GH,5,35,89-91 Mph,2,-,-,1,0,0,0,0,0,52,6%,53%
+RP,Mark Huismann,Golden Valley Gobblers,0,24,89-91 Mph,2,-,-,1,0,0,0,0,0,48,5%,50%
+RP,Reed Garrett,Granite City Pumpkin Smashers Hot,5,25,96-98 Mph,4,-,-,1,0,0,0,0,0,46,5%,52%
+SP,Bob Romby,Dodgertown Blue Legends TTC,0,56,88-90 Mph,4,-,-,1,0,0,0,0,0,45,17%,30%
+RP,Randy Choate,Winnipeg Brew Jays - HotL,0,6,85-87 Mph,2,-,-,1,0,0,0,0,0,41,3%,39%
+CL,Hector Carrasco,Newport Gull's LE,0,20,89-91 Mph,5,-,-,1,0,0,0,0,0,38,6%,58%
+RP,Mike Marshall,King Street 504s,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,36,9%,71%
+RP,Luis Perdomo,. -,5,23,89-91 Mph,4,-,-,1,0,0,0,0,0,36,6%,62%
+CL,Mike Marshall,Pumpkin Smashers - HotL,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,35,9%,72%
+RP,Pat Perry,Chargn Bison - HotL,5,35,89-91 Mph,2,-,-,1,0,0,0,0,0,35,8%,70%
+RP,Rod Beck,Newport Gull's LE,0,17,90-92 Mph,3,-,-,1,0,0,0,0,0,34,6%,61%
+RP,Tom Morgan,Minnesota Loons,0,24,90-92 Mph,3,-,-,1,0,0,0,0,0,34,5%,65%
+RP,Tom Morgan,Charlotte Hellcats GH,5,24,90-92 Mph,3,-,-,1,0,0,0,0,0,34,5%,65%
+CL,Hector Carrasco,Nickel Slots And Crock-Pots,0,20,89-91 Mph,5,-,-,1,0,0,0,0,0,33,6%,65%
+RP,Hector Carrasco,Winnipeg Brew Jays - HotL,5,20,89-91 Mph,5,-,-,1,0,0,0,0,0,33,6%,65%
+CL,Mike Marshall,Desert Sand Dwellers - JW,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,33,9%,74%
+CL,Hal McKain,minggus babbugies,0,25,89-91 Mph,3,-,-,1,0,0,0,0,0,33,5%,67%
+RP,Pat Perry,Vancouver Pilots,0,35,89-91 Mph,2,-,-,1,0,0,0,0,0,33,8%,72%
+RP,Rick Camp,Steal Or Not to Steal TTC,0,43,89-91 Mph,4,-,-,1,0,0,0,0,0,32,46%,69%
+CL,Mike Marshall,Myrtle Beach MaskMen,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,32,9%,74%
+RP,Mike Marshall,Charlotte Hellcats GH,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,32,9%,74%
+RP,Salomon Torres,Vyrantia Fae,0,20,87-89 Mph,5,-,-,1,0,0,0,0,0,32,6%,65%
+CL,Antonio Alfonseca,Southport Stars,5,18,88-90 Mph,6,-,-,1,0,0,0,0,0,31,6%,67%
+CL,Hector Carrasco,Borders Scots,0,20,89-91 Mph,5,-,-,1,0,0,0,0,0,31,6%,67%
+SP,Ice Box Chamberlain,Desert Sand Dwellers - JW,5,81,90-92 Mph,3,-,-,1,0,0,0,0,0,31,31%,72%
+CL,Pat Perry,Lincecame and Conquered,0,35,89-91 Mph,2,-,-,1,0,0,0,0,0,31,8%,74%
+RP,Ed Brandt,Tippecanoe Terrors,5,56,89-91 Mph,3,-,-,1,0,0,0,0,0,30,39%,71%
+RP,Reed Garrett,Chicago Gamblers - GH,5,25,96-98 Mph,4,-,-,1,0,0,0,0,0,30,5%,72%
+RP,Mike Marshall,Tuskvale Mammoths,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,30,9%,76%
+RP,Tom Morgan,Paso Robles Powerhouse,5,24,90-92 Mph,3,-,-,1,0,0,0,0,0,30,5%,70%
+CL,Luis Perdomo,Three Little Birds,5,23,89-91 Mph,4,-,-,1,0,0,0,0,0,30,6%,69%
+RP,Cecil Upshaw,Tokyo Shiny Colors,0,25,89-91 Mph,5,-,-,1,0,0,0,0,0,29,5%,72%
+CL,Antonio Alfonseca,Country Clubbers,5,18,88-90 Mph,6,-,-,1,0,0,0,0,0,28,6%,69%
+RP,Rod Beck,Minnesota Charlatans,0,17,90-92 Mph,3,-,-,1,0,0,0,0,0,28,6%,68%
+RP,Ken Brett,Van Nuys Boogie Knights,0,25,89-91 Mph,3,-,-,1,0,0,0,0,0,28,5%,74%
+RP,Tin Can Kincannon,Kandy Kanes,5,74,90-92 Mph,5,-,107,1,0,0,0,0,0,28,33%,74%
+CL,Mike Marshall,Dodgertown Blue Legends TTC,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,28,9%,78%
+RP,Bob Romby,Madison Mashers,5,56,88-90 Mph,4,-,-,1,0,0,0,0,0,28,40%,73%
+RP,Antonio Alfonseca,Newport Gull's LE,0,18,88-90 Mph,6,-,-,1,0,0,0,0,0,27,6%,71%
+CL,Hector Carrasco,Bethlehem Braves,5,20,89-91 Mph,5,-,-,1,0,0,0,0,0,27,6%,72%
+RP,Hal McKain,Golden Valley Gobblers,0,25,89-91 Mph,3,-,-,1,0,0,0,0,0,27,7%,74%
+CF,Double Duty Radcliffe,Pittsburgh Diggers-HotL,0,64,86-88 Mph,5,-,-,1,0,0,0,0,0,27,37%,74%
+SP,Ramon Arano,Harry's Team TTC,5,74,90-92 Mph,5,-,-,1,0,0,0,0,0,26,34%,76%
+CL,Hector Carrasco,Zzyzz Vowels,0,20,89-91 Mph,5,-,-,1,0,0,0,0,0,26,6%,74%
+CL,Hector Carrasco,Worcester Boys of Somers,0,20,89-91 Mph,5,-,-,1,0,0,0,0,0,26,6%,74%
+RP,Hal McKain,Chicago Gamblers - GH,5,25,89-91 Mph,3,-,-,1,0,0,0,0,0,25,7%,76%
+RP,Tom Morgan,Delmarva Shorebirds_TTC,0,24,90-92 Mph,3,-,-,1,0,0,0,0,0,25,7%,74%
+RP,Pat Perry,Seattle SuperSonics,5,35,89-91 Mph,2,-,-,1,0,0,0,0,0,25,8%,79%
+RP,Fred Goldsmith,Hawkeye Hellraisers,0,93,89-91 Mph,3,-,-,1,0,0,0,0,0,24,33%,78%
+RP,Salomon Torres,Texas Briskets,0,20,87-89 Mph,5,-,-,1,0,0,0,0,0,24,6%,74%
+RP,Rod Beck,Old Factory Shakers,0,17,90-92 Mph,3,-,-,1,0,0,0,0,0,23,6%,76%
+RP,Craig Lefferts,Bethlehem Braves,0,25,89-91 Mph,4,-,-,1,0,0,0,0,0,23,7%,78%
+RP,Mike Marshall,Golden Valley Gobblers,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,23,10%,83%
+RP,Mike Marshall,Itchycoo Park,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,23,10%,83%
+RP,Tom Morgan,Golden Valley Gobblers,0,24,90-92 Mph,3,-,-,1,0,0,0,0,0,23,7%,76%
+CL,Paul Shuey,Old Factory Shakers,0,19,91-93 Mph,4,-,-,1,0,0,0,0,0,23,6%,74%
+RP,Mike Marshall,Madison Mashers,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,22,10%,83%
+RP,Trevor Rosenthal,Tuskvale Mammoths,5,17,97-99 Mph,3,-,-,1,0,0,0,0,0,22,6%,76%
+RP,Rod Beck,Steady Swing Centurions,0,17,90-92 Mph,3,-,-,1,0,0,0,0,0,21,6%,78%
+RP,Tin Can Kincannon,. -,5,74,90-92 Mph,5,-,107,1,0,0,0,0,0,21,36%,81%
+CL,Ken Lehman,. -,5,25,89-91 Mph,3,-,89,1,0,0,0,0,0,21,7%,80%
+CL,Antonio Alfonseca,Groundball Defenders,0,18,88-90 Mph,6,-,-,1,0,0,0,0,0,19,6%,86%
+CL,Antonio Alfonseca,Mos Eisley Smugglers,5,18,88-90 Mph,6,-,-,1,0,0,0,0,0,19,6%,86%
+SP,Dallas Braden,Alhambra Moors - HotL TTC,0,73,86-88 Mph,6,-,-,1,0,0,0,0,0,19,39%,86%
+CL,Hector Rondon,The Black Freighter TBD,5,16,93-95 Mph,3,-,-,1,0,0,0,0,0,19,6%,83%
+RP,Johnny Murphy,Golden Valley Gobblers,0,24,90-92 Mph,3,-,-,1,0,0,0,0,0,18,7%,87%
+RP,Tom Bruno,Delmarva Shorebirds_TTC,5,21,90-92 Mph,2,-,-,1,0,0,0,0,0,17,8%,86%
+RP,Tommy John,Van Nuys Boogie Knights,0,64,88-90 Mph,5,-,-,1,0,0,0,0,0,17,44%,88%
+RP,Vic Sorrell,Seattle SuperSonics,5,78,87-89 Mph,3,-,-,1,0,0,0,0,0,17,39%,90%
+RP,Brian Wolfe,Borger Busch Slammers,0,20,92-94 Mph,3,-,-,1,0,0,0,0,0,17,8%,88%
+RP,Rod Beck,Bethlehem Braves,0,17,90-92 Mph,3,-,-,1,0,0,0,0,0,16,6%,88%
+RP,Randy Choate,Chargn Bison - HotL,5,6,85-87 Mph,2,-,-,1,0,0,0,0,0,16,6%,85%
+CL,Mike Marshall,Zzyzz Vowels,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,16,10%,91%
+CL,Tom Morgan,Minneapolis Loons,5,24,90-92 Mph,3,-,-,1,0,0,0,0,0,15,7%,89%
+RP,Rich Rodriguez,Detroit Wookies,0,20,87-89 Mph,5,-,-,1,0,0,0,0,0,15,8%,88%
+CL,Mike Marshall,Frankenthal Palatines,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,14,10%,91%
+CL,Luis Perdomo,Itchycoo Park,5,23,89-91 Mph,4,-,-,1,0,0,0,0,0,14,7%,91%
+RP,Cecil Upshaw,Bethlehem Braves,0,25,89-91 Mph,5,-,-,1,0,0,0,0,0,14,7%,91%
+RP,Pat Perry,Madison Mashers,5,35,89-91 Mph,2,-,-,1,0,0,0,0,0,13,9%,92%
+RP,Hector Rondon,Bethlehem Braves,0,16,93-95 Mph,3,-,-,1,0,0,0,0,0,13,6%,88%
+RP,Ken Brett,Desert Sand Dwellers - JW,5,25,89-91 Mph,3,-,-,1,0,0,0,0,0,12,7%,93%
+RP,Bartolo Colon,Three Little Birds,0,86,93-95 Mph,6,-,-,1,0,0,0,0,0,12,39%,92%
+RP,Reed Garrett,Pumpkin Smashers - HotL,5,25,96-98 Mph,4,-,-,1,0,0,0,0,0,12,7%,93%
+RP,Mike Marshall,Winnipeg Brew Jays - HotL,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,12,11%,93%
+SP,James McDonald,Alexandria SafeZone,0,59,91-93 Mph,4,-,-,1,0,0,0,0,0,12,49%,93%
+RP,Trevor Rosenthal,Vyrantia Fae,0,17,97-99 Mph,3,-,-,1,0,0,0,0,0,12,9%,90%
+RP,Reed Garrett,Hawkeye Hellraisers,0,25,96-98 Mph,4,-,-,1,0,0,0,0,0,11,7%,93%
+SP,Joe Nuxhall,Detroit Wookies,0,53,90-92 Mph,3,-,-,1,0,0,0,0,0,11,54%,93%
+RP,Cecil Upshaw,Minnesota Charlatans,0,25,89-91 Mph,5,-,-,1,0,0,0,0,0,11,7%,93%
+RP,Mark Huismann,Vyrantia Fae,0,24,89-91 Mph,2,-,-,1,0,0,0,0,0,10,7%,93%
+RP,Luis Perdomo,Bethlehem Braves,0,23,89-91 Mph,4,-,-,1,0,0,0,0,0,10,7%,93%
+RP,Hector Rondon,Worcester Boys of Somers,0,16,93-95 Mph,3,-,-,1,0,0,0,0,0,10,9%,90%
+RP,Rod Beck,Tokyo Shiny Colors,0,17,90-92 Mph,3,-,-,1,0,0,0,0,0,9,9%,95%
+RP,Ramon Arano,Van Nuys Boogie Knights,0,74,90-92 Mph,5,-,-,1,0,0,0,0,0,8,43%,95%
+RP,Mike Marshall,Alhambra Moors - HotL TTC,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,8,11%,95%
+CL,Hector Carrasco,Normal Night Terrors - HotL,5,20,89-91 Mph,5,-,-,1,0,0,0,0,0,7,8%,95%
+CL,Mike Marshall,Groundball Defenders,0,74,89-91 Mph,2,-,-,1,0,0,0,0,0,7,11%,97%
+RP,Luis Perdomo,Cy Young Winner Rick Porcello HOTL,0,23,89-91 Mph,4,-,-,1,0,0,0,0,0,6,9%,96%
+CL,Pat Perry,Kandy Kanes,0,35,89-91 Mph,2,-,-,1,0,0,0,0,0,6,11%,98%
+RP,Pat Perry,Charlotte Aviators - JW,0,35,89-91 Mph,2,-,-,1,0,0,0,0,0,5,11%,98%
+RP,Pat Perry,Granite City Pumpkin Smashers Hot,0,35,89-91 Mph,2,-,-,1,0,0,0,0,0,4,11%,98%
+RP,Bob Romby,Three Little Birds,5,56,88-90 Mph,4,-,-,1,0,0,0,0,0,4,54%,98%
+SP,Samuel Deduno,Kandy Kanes,0,55,89-91 Mph,3,-,-,1,0,0,0,0,0,3,54%,98%
+RP,Cecil Upshaw,Steady Swing Centurions,5,25,89-91 Mph,5,-,-,1,0,0,0,0,0,3,9%,100%
+CL,Hector Carrasco,Costa Rica Coconuts,0,20,89-91 Mph,5,-,-,1,0,0,0,0,0,2,10%,100%
+RP,Mike Stanton,Tippecanoe Terrors,0,21,89-91 Mph,3,-,-,1,0,0,0,0,0,2,10%,98%
+RP,Sarge Connally,Detroit Wookies,5,38,88-90 Mph,3,-,-,1,0,0,0,0,0,1,73%,100%
+SS,Willy Adames,Dodgertown Blue Legends TTC,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Myrtle Beach MaskMen,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Minnesota Loons,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Zzyzz Vowels,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Tokyo Shiny Colors,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Cy Young Winner Rick Porcello HOTL,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Worcester Boys of Somers,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Steal Or Not to Steal TTC,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Newport Gull's LE,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Nickel Slots And Crock-Pots,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,minggus babbugies,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Tippecanoe Terrors,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Delmarva Shorebirds_TTC,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Eden Prairie Landsharks,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Bethlehem Braves,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Ripping OnlyPacks,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Costa Rica Coconuts,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Moria Balrogs,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Minnesota Charlatans,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Chi City Ballerz,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Los Altos Undertakers,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Long Beach Apple Juice,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Golden Valley Gobblers,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Vyrantia Fae,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Alexandria SafeZone,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Borders Scots,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,King Street 504s,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Willy Adames,Old Factory Shakers,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Willy Adames,Mos Eisley Smugglers,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Jesus Alou,Borger Busch Slammers,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jesus Alou,. -,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Jesus Alou,Three Little Birds,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jesus Alou,Itchycoo Park,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Garret Anderson,Newport Gull's LE,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Garret Anderson,Borders Scots,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Luis Aparicio,Detroit Wookies,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Luis Aparicio,Itchycoo Park,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Maurice Archdeacon,Country Clubbers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Maurice Archdeacon,Vyrantia Fae,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Minnesota Loons,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Tokyo Shiny Colors,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Worcester Boys of Somers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Newport Gull's LE,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Ripping OnlyPacks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Minnesota Charlatans,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Steady Swing Centurions,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Borders Scots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jimmy Archer,Hawkeye Hellraisers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Tony Armas,Old Factory Shakers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jimmy Austin,Newport Gull's LE,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jimmy Austin,Tippecanoe Terrors,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Dodgertown Blue Legends TTC,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,The Black Freighter TBD,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Granite City Pumpkin Smashers Hot,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Javier Baez,Madison Mashers,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Chicago Gamblers - GH,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Harry's Team TTC,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Delmarva Shorebirds_TTC,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Javier Baez,Alhambra Moors - HotL TTC,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Eden Prairie Landsharks,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Groundball Defenders,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Desert Sand Dwellers - JW,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Charlotte Hellcats GH,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Three Little Birds,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Kandy Kanes,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Vyrantia Fae,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Paso Robles Powerhouse,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,King Street 504s,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Javier Baez,Itchycoo Park,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Dusty Baker,Van Nuys Boogie Knights,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Steve Balboni,Old Factory Shakers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Sam Bankhead,Lincecame and Conquered,0,20,91-93 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+C,Pepper Bassett,Cy Young Winner Rick Porcello HOTL,0,61,86-88 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+C,Pepper Bassett,Van Nuys Boogie Knights,0,61,86-88 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jose Bautista,Lincecame and Conquered,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jose Bautista,Kandy Kanes,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Jose Bautista,Seattle SuperSonics,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jose Bautista,Winnipeg Brew Jays - HotL,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,David Bell,Michigan Black Bears,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Derek Bell,Newport Gull's LE,0,1,89-91 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andrew Benintendi,Minnesota Loons,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andrew Benintendi,Newport Gull's LE,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andrew Benintendi,Detroit Wookies,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andrew Benintendi,minggus babbugies,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andrew Benintendi,Bethlehem Braves,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andrew Benintendi,Ripping OnlyPacks,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andrew Benintendi,Minnesota Charlatans,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andrew Benintendi,Chi City Ballerz,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Dodgertown Blue Legends TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Myrtle Beach MaskMen,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Ken Berry,Country Clubbers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Harry's Team TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Ken Berry,Tippecanoe Terrors,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Delmarva Shorebirds_TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Texas Briskets,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Eden Prairie Landsharks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,. -,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Ken Berry,Normal Night Terrors - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Pittsburgh Diggers-HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Tuskvale Mammoths,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Moria Balrogs,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Groundball Defenders,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Three Little Birds,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Ken Berry,Los Altos Undertakers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Southport Stars,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Ken Berry,Golden Valley Gobblers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Vyrantia Fae,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Ken Berry,Vancouver Pilots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Paso Robles Powerhouse,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Alexandria SafeZone,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Seattle SuperSonics,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,King Street 504s,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Ken Berry,Old Factory Shakers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Itchycoo Park,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Ken Berry,Frankenthal Palatines,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Ken Berry,Winnipeg Brew Jays - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Minnesota Loons,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Tokyo Shiny Colors,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Cy Young Winner Rick Porcello HOTL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Worcester Boys of Somers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Newport Gull's LE,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Nickel Slots And Crock-Pots,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,minggus babbugies,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Aaron Boone,Tippecanoe Terrors,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Delmarva Shorebirds_TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Bethlehem Braves,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,. -,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Ripping OnlyPacks,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Costa Rica Coconuts,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Moria Balrogs,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Minnesota Charlatans,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Chi City Ballerz,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Los Altos Undertakers,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Long Beach Apple Juice,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Borders Scots,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Hawkeye Hellraisers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Aaron Boone,Mos Eisley Smugglers,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Bill Bradley,Detroit Wookies,5,1,90-92 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Gates Brown,Detroit Wookies,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Gates Brown,Mos Eisley Smugglers,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Dodgertown Blue Legends TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Myrtle Beach MaskMen,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Granite City Pumpkin Smashers Hot,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Minnesota Loons,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Zzyzz Vowels,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Tokyo Shiny Colors,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Madison Mashers,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Chicago Gamblers - GH,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Worcester Boys of Somers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Newport Gull's LE,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Nickel Slots And Crock-Pots,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,minggus babbugies,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Delmarva Shorebirds_TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Texas Briskets,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Alhambra Moors - HotL TTC,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Bethlehem Braves,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Ripping OnlyPacks,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Costa Rica Coconuts,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Groundball Defenders,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Desert Sand Dwellers - JW,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Chi City Ballerz,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Southport Stars,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Lincecame and Conquered,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Long Beach Apple Juice,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Golden Valley Gobblers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Seattle SuperSonics,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,King Street 504s,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Michigan Black Bears,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jay Bruce,Mos Eisley Smugglers,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Myrtle Beach MaskMen,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Zzyzz Vowels,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Steal Or Not to Steal TTC,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Newport Gull's LE,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Jeimer Candelario,Country Clubbers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Eden Prairie Landsharks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Minneapolis Loons,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Moria Balrogs,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Groundball Defenders,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Desert Sand Dwellers - JW,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Charlotte Hellcats GH,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Vyrantia Fae,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Jeimer Candelario,King Street 504s,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jeimer Candelario,Hawkeye Hellraisers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Bernie Carbo,Los Altos Undertakers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Gary Carter,Normal Night Terrors - HotL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Gary Carter,Paso Robles Powerhouse,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Endy Chavez,Newport Gull's LE,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Tsung-Che Cheng,Steal Or Not to Steal TTC,0,1,91-93 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Zip Collins,Newport Gull's LE,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Zip Collins,Steady Swing Centurions,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Dodgertown Blue Legends TTC,0,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Myrtle Beach MaskMen,5,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Cy Young Winner Rick Porcello HOTL,0,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Madison Mashers,5,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Harry's Team TTC,5,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Tippecanoe Terrors,5,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Eden Prairie Landsharks,0,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Minneapolis Loons,0,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Tuskvale Mammoths,5,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Groundball Defenders,0,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Charlotte Hellcats GH,5,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Golden Valley Gobblers,0,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Matt Davidson,Vancouver Pilots,5,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,100%,100%
+1B,Matt Davidson,Winnipeg Brew Jays - HotL,5,9,91-93 Mph,3,-,-,0,0,0,0,0,0,0,100%,100%
+2B,Connie Day,Country Clubbers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Connie Day,Lincecame and Conquered,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Dempsey,Tippecanoe Terrors,0,1,89-91 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Dempsey,Groundball Defenders,0,1,89-91 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Dempsey,Vyrantia Fae,0,1,89-91 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Dempsey,Old Factory Shakers,0,1,89-91 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Derek Dietrich,The Black Freighter TBD,5,1,92-94 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Derek Dietrich,Zzyzz Vowels,0,1,92-94 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+C,Dave Duncan,Southport Stars,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Myrtle Beach MaskMen,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Newport Gull's LE,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Detroit Wookies,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Harry's Team TTC,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Delmarva Shorebirds_TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Minneapolis Loons,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Moria Balrogs,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Long Beach Apple Juice,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Ted Easterly,Seattle SuperSonics,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Kid Elberfeld,The Black Freighter TBD,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Kid Elberfeld,Country Clubbers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Kid Elberfeld,Texas Briskets,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Kid Elberfeld,Vancouver Pilots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Kid Elberfeld,Seattle SuperSonics,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Kid Elberfeld,Itchycoo Park,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Kid Elberfeld,Frankenthal Palatines,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Johnny Evers,. -,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Johnny Evers,Normal Night Terrors - HotL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Johnny Evers,Winnipeg Brew Jays - HotL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Minnesota Loons,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Tokyo Shiny Colors,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Worcester Boys of Somers,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Newport Gull's LE,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Nickel Slots And Crock-Pots,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,minggus babbugies,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Bethlehem Braves,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Ripping OnlyPacks,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Costa Rica Coconuts,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Minnesota Charlatans,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Chi City Ballerz,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Los Altos Undertakers,5,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Long Beach Apple Juice,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Steady Swing Centurions,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Borders Scots,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Wilmer Flores,Hawkeye Hellraisers,0,1,91-93 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Dexter Fowler,Vancouver Pilots,5,1,91-93 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Julio Franco,Harry's Team TTC,0,1,91-93 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Andres Galarraga,Steal Or Not to Steal TTC,0,1,91-93 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Andres Galarraga,Southport Stars,0,1,91-93 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Newport Gull's LE,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Pumpkin Smashers - HotL,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Bethlehem Braves,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Minneapolis Loons,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Charlotte Aviators - JW,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Pittsburgh Diggers-HotL,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Tuskvale Mammoths,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Moria Balrogs,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Groundball Defenders,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Desert Sand Dwellers - JW,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Charlotte Hellcats GH,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Southport Stars,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Freddy Galvis,Lincecame and Conquered,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Freddy Galvis,Steady Swing Centurions,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Freddy Galvis,Old Factory Shakers,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Brian Giles,Detroit Wookies,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Wilbur Good,Michigan Black Bears,0,1,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Wilbur Good,Frankenthal Palatines,0,1,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+C,Yasmani Grandal,The Black Freighter TBD,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Yasmani Grandal,Borger Busch Slammers,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Yasmani Grandal,. -,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Yasmani Grandal,Charlotte Hellcats GH,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Yasmani Grandal,Alexandria SafeZone,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Yasmani Grandal,Winnipeg Brew Jays - HotL,0,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Pumpsie Green,Tippecanoe Terrors,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Pumpsie Green,Tuskvale Mammoths,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Pumpsie Green,Desert Sand Dwellers - JW,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Pumpsie Green,Borders Scots,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Madison Mashers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Chicago Gamblers - GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Borger Busch Slammers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Pumpkin Smashers - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Alhambra Moors - HotL TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Chargn Bison - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Normal Night Terrors - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Charlotte Aviators - JW,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Charlotte Hellcats GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Van Nuys Boogie Knights,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Paso Robles Powerhouse,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Shawn Green,Alexandria SafeZone,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Dodgertown Blue Legends TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,The Black Freighter TBD,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Granite City Pumpkin Smashers Hot,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Chicago Gamblers - GH,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Borger Busch Slammers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Texas Briskets,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Stan Hack,. -,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Pittsburgh Diggers-HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Kandy Kanes,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Seattle SuperSonics,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Stan Hack,Winnipeg Brew Jays - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,The Black Freighter TBD,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Minnesota Loons,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Zzyzz Vowels,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Tokyo Shiny Colors,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Newport Gull's LE,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Nickel Slots And Crock-Pots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Pumpkin Smashers - HotL,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,minggus babbugies,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Bethlehem Braves,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,. -,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Ripping OnlyPacks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Minnesota Charlatans,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Long Beach Apple Juice,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Hansen,Golden Valley Gobblers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Hansen,Vyrantia Fae,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Vancouver Pilots,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Hansen,Steady Swing Centurions,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Hansen,Alexandria SafeZone,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ron Hansen,Hawkeye Hellraisers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Hansen,Winnipeg Brew Jays - HotL,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Buddy Hassett,Old Factory Shakers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Dave Henderson,Kandy Kanes,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Dave Henderson,Itchycoo Park,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Dodgertown Blue Legends TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jason Heyward,Minnesota Loons,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Steal Or Not to Steal TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Nickel Slots And Crock-Pots,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jason Heyward,Detroit Wookies,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Country Clubbers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Pumpkin Smashers - HotL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Harry's Team TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Tippecanoe Terrors,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jason Heyward,Delmarva Shorebirds_TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jason Heyward,Bethlehem Braves,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Minneapolis Loons,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Tuskvale Mammoths,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Moria Balrogs,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Minnesota Charlatans,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Chi City Ballerz,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jason Heyward,Three Little Birds,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Los Altos Undertakers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jason Heyward,Golden Valley Gobblers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Vyrantia Fae,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Vancouver Pilots,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Steady Swing Centurions,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Alexandria SafeZone,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jason Heyward,Hawkeye Hellraisers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jason Heyward,Mos Eisley Smugglers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Jim Hickman,. -,5,1,90-92 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jim Hickman,Tuskvale Mammoths,5,1,90-92 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Jim Hickman,Moria Balrogs,0,1,90-92 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Andy High,Borders Scots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Dodgertown Blue Legends TTC,0,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Myrtle Beach MaskMen,5,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Chicago Gamblers - GH,5,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Steal Or Not to Steal TTC,0,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Nico Hoerner,Detroit Wookies,0,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Country Clubbers,5,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Harry's Team TTC,5,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Delmarva Shorebirds_TTC,0,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,. -,5,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Groundball Defenders,0,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Charlotte Hellcats GH,5,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Southport Stars,5,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Vyrantia Fae,0,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Vancouver Pilots,5,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Old Factory Shakers,0,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nico Hoerner,Frankenthal Palatines,0,1,94-96 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Tony Horton,Delmarva Shorebirds_TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jelly Jackson,Old Factory Shakers,0,64,87-89 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Geoff Jenkins,Steal Or Not to Steal TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Chris Johnson,Dodgertown Blue Legends TTC,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Dodgertown Blue Legends TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Zzyzz Vowels,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,minggus babbugies,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Tippecanoe Terrors,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Delmarva Shorebirds_TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Texas Briskets,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Alhambra Moors - HotL TTC,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Chargn Bison - HotL,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Eden Prairie Landsharks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Minneapolis Loons,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Normal Night Terrors - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Moria Balrogs,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Groundball Defenders,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Desert Sand Dwellers - JW,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Golden Valley Gobblers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Vyrantia Fae,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Andruw Jones,Old Factory Shakers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Brian Jordan,Lincecame and Conquered,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Brian Jordan,Frankenthal Palatines,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Dodgertown Blue Legends TTC,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Myrtle Beach MaskMen,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Zzyzz Vowels,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Madison Mashers,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Chicago Gamblers - GH,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Pumpkin Smashers - HotL,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Texas Briskets,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Alhambra Moors - HotL TTC,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Chargn Bison - HotL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,. -,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Normal Night Terrors - HotL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Pittsburgh Diggers-HotL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Groundball Defenders,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Desert Sand Dwellers - JW,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Van Nuys Boogie Knights,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Southport Stars,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Golden Valley Gobblers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Vancouver Pilots,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Seattle SuperSonics,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Hawkeye Hellraisers,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Michigan Black Bears,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Itchycoo Park,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Frankenthal Palatines,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Nap Lajoie,Winnipeg Brew Jays - HotL,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Mike Lamb,Madison Mashers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Mike Lamb,Alhambra Moors - HotL TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Mike Lamb,Chargn Bison - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Mike Lamb,Charlotte Aviators - JW,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Mike Lamb,Vancouver Pilots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Mark Lemke,Borger Busch Slammers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Cando Lopez,Van Nuys Boogie Knights,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Jonathan Lucroy,Country Clubbers,5,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Jack Marshall,Van Nuys Boogie Knights,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Rick Miller,Minnesota Loons,0,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Rick Miller,Worcester Boys of Somers,0,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Rick Miller,Nickel Slots And Crock-Pots,0,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Rick Miller,Harry's Team TTC,5,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Rick Miller,Bethlehem Braves,0,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Rick Miller,Ripping OnlyPacks,0,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Rick Miller,Costa Rica Coconuts,0,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Rick Miller,Chi City Ballerz,0,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Rick Miller,Long Beach Apple Juice,0,1,87-89 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Doug Mirabelli,Tuskvale Mammoths,5,1,91-93 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Esteban Montalvo,Borger Busch Slammers,0,61,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Esteban Montalvo,minggus babbugies,0,61,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Esteban Montalvo,Chargn Bison - HotL,5,61,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Esteban Montalvo,Charlotte Hellcats GH,0,61,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Esteban Montalvo,Van Nuys Boogie Knights,0,61,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Esteban Montalvo,Alexandria SafeZone,0,61,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Mike Moustakas,Paso Robles Powerhouse,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Charlie O'Brien,minggus babbugies,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Charlie O'Brien,Texas Briskets,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Charlie O'Brien,Lincecame and Conquered,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Charlie O'Brien,Vancouver Pilots,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Charlie O'Brien,Paso Robles Powerhouse,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Don Padgett,Pumpkin Smashers - HotL,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Geraldo Perdomo,Bethlehem Braves,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Geraldo Perdomo,Steady Swing Centurions,5,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Dodgertown Blue Legends TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Broderick Perkins,The Black Freighter TBD,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Granite City Pumpkin Smashers Hot,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Texas Briskets,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Broderick Perkins,Normal Night Terrors - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Pittsburgh Diggers-HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Tuskvale Mammoths,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Desert Sand Dwellers - JW,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Three Little Birds,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Lincecame and Conquered,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Golden Valley Gobblers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Vancouver Pilots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Seattle SuperSonics,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Michigan Black Bears,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Itchycoo Park,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Mos Eisley Smugglers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Broderick Perkins,Winnipeg Brew Jays - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Josh Phegley,Dodgertown Blue Legends TTC,0,1,93-95 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+C,Josh Phegley,Texas Briskets,5,1,93-95 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+C,Josh Phegley,Three Little Birds,0,1,93-95 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Esteban Quiroz,Tippecanoe Terrors,5,1,94-96 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Esteban Quiroz,Charlotte Aviators - JW,5,1,94-96 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Esteban Quiroz,Moria Balrogs,5,1,94-96 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Esteban Quiroz,Los Altos Undertakers,5,1,94-96 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Esteban Quiroz,Mos Eisley Smugglers,5,1,94-96 Mph,2,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Carl Reynolds,Steady Swing Centurions,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Carl Reynolds,Borders Scots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Bip Roberts,Minnesota Loons,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bip Roberts,Tokyo Shiny Colors,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Bip Roberts,Worcester Boys of Somers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Bip Roberts,Tippecanoe Terrors,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Bip Roberts,Bethlehem Braves,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bip Roberts,Ripping OnlyPacks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bip Roberts,Minnesota Charlatans,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Bip Roberts,Chi City Ballerz,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bip Roberts,Long Beach Apple Juice,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Bip Roberts,Vyrantia Fae,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Bip Roberts,Steady Swing Centurions,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bip Roberts,Borders Scots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Gary Roenicke,Tuskvale Mammoths,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Gary Roenicke,Minnesota Charlatans,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Gary Roenicke,Vancouver Pilots,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Buddy Rosar,Lincecame and Conquered,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Buddy Rosar,Frankenthal Palatines,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Eddie Rosario,Steal Or Not to Steal TTC,0,1,93-95 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Deion Sanders,Texas Briskets,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Deion Sanders,Charlotte Aviators - JW,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Deion Sanders,Groundball Defenders,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Deion Sanders,Charlotte Hellcats GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Deion Sanders,Lincecame and Conquered,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Deion Sanders,Michigan Black Bears,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Santo,Harry's Team TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Santo,Normal Night Terrors - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Santo,Charlotte Aviators - JW,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Santo,Three Little Birds,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Santo,King Street 504s,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Santo,Michigan Black Bears,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Ron Santo,Mos Eisley Smugglers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Joe Scott,Detroit Wookies,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Joe Scott,Country Clubbers,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Joe Scott,Moria Balrogs,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Joe Scott,Three Little Birds,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+1B,Joe Scott,Alexandria SafeZone,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Grady Sizemore,Vancouver Pilots,5,1,92-94 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Hal Smith,Chargn Bison - HotL,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Granite City Pumpkin Smashers Hot,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Zzyzz Vowels,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Tokyo Shiny Colors,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Cy Young Winner Rick Porcello HOTL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Chicago Gamblers - GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Worcester Boys of Somers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Borger Busch Slammers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Pumpkin Smashers - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,minggus babbugies,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Texas Briskets,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Alhambra Moors - HotL TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Chargn Bison - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Minneapolis Loons,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Normal Night Terrors - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Ripping OnlyPacks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Costa Rica Coconuts,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Pittsburgh Diggers-HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Tuskvale Mammoths,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Chi City Ballerz,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Charlotte Hellcats GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Three Little Birds,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Van Nuys Boogie Knights,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Southport Stars,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Lincecame and Conquered,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Kandy Kanes,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Steady Swing Centurions,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Paso Robles Powerhouse,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Alexandria SafeZone,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Seattle SuperSonics,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Itchycoo Park,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Frankenthal Palatines,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Ozzie Smith,Winnipeg Brew Jays - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Sammy Sosa,Texas Briskets,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Sammy Sosa,Eden Prairie Landsharks,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Sammy Sosa,Normal Night Terrors - HotL,5,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Daryl Spencer,The Black Freighter TBD,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Daryl Spencer,Winnipeg Brew Jays - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Granite City Pumpkin Smashers Hot,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Tokyo Shiny Colors,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Cy Young Winner Rick Porcello HOTL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Milt Thompson,Madison Mashers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Milt Thompson,Chicago Gamblers - GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Worcester Boys of Somers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Nickel Slots And Crock-Pots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Pumpkin Smashers - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,minggus babbugies,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Alhambra Moors - HotL TTC,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Chargn Bison - HotL,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Minneapolis Loons,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Milt Thompson,Normal Night Terrors - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Costa Rica Coconuts,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Pittsburgh Diggers-HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Chi City Ballerz,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Milt Thompson,Charlotte Hellcats GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Southport Stars,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Milt Thompson,Lincecame and Conquered,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Kandy Kanes,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Steady Swing Centurions,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,Paso Robles Powerhouse,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Milt Thompson,King Street 504s,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Milt Thompson,Winnipeg Brew Jays - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Jim Thorpe,Hawkeye Hellraisers,0,1,90-92 Mph,5,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Brice Turang,Los Altos Undertakers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Brice Turang,Old Factory Shakers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Dodgertown Blue Legends TTC,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,The Black Freighter TBD,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Myrtle Beach MaskMen,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Granite City Pumpkin Smashers Hot,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Zzyzz Vowels,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Cy Young Winner Rick Porcello HOTL,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Madison Mashers,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Chicago Gamblers - GH,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Borger Busch Slammers,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Pumpkin Smashers - HotL,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Texas Briskets,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Alhambra Moors - HotL TTC,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Chargn Bison - HotL,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,. -,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Normal Night Terrors - HotL,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Tuskvale Mammoths,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Desert Sand Dwellers - JW,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Three Little Birds,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Paso Robles Powerhouse,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Seattle SuperSonics,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Hawkeye Hellraisers,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Itchycoo Park,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+CF,Bill Tuttle,Winnipeg Brew Jays - HotL,0,1,89-91 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+C,Dave Valle,Eden Prairie Landsharks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Dave Valle,Los Altos Undertakers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Jonathan Villar,Los Altos Undertakers,5,1,93-95 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+SS,Jose Vizcaino,Alexandria SafeZone,0,1,89-91 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Clyde Vollmer,Cy Young Winner Rick Porcello HOTL,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Clyde Vollmer,Detroit Wookies,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Clyde Vollmer,Minneapolis Loons,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Clyde Vollmer,Kandy Kanes,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+RF,Clyde Vollmer,Old Factory Shakers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Todd Walker,Pittsburgh Diggers-HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+2B,Alan Wiggins,Bethlehem Braves,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Dodgertown Blue Legends TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Granite City Pumpkin Smashers Hot,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Minnesota Loons,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Zzyzz Vowels,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Madison Mashers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Chicago Gamblers - GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Steal Or Not to Steal TTC,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Nickel Slots And Crock-Pots,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Alhambra Moors - HotL TTC,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Chargn Bison - HotL,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Bethlehem Braves,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Ripping OnlyPacks,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Costa Rica Coconuts,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Charlotte Aviators - JW,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Pittsburgh Diggers-HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Tuskvale Mammoths,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Desert Sand Dwellers - JW,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Chi City Ballerz,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Charlotte Hellcats GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Three Little Birds,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Golden Valley Gobblers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Kandy Kanes,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Vancouver Pilots,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Steady Swing Centurions,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,King Street 504s,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Hawkeye Hellraisers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Michigan Black Bears,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Itchycoo Park,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+C,Rick Wilkins,Mos Eisley Smugglers,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Matt Williams,Granite City Pumpkin Smashers Hot,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Matt Williams,Madison Mashers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Matt Williams,Borger Busch Slammers,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Matt Williams,Pumpkin Smashers - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Matt Williams,Normal Night Terrors - HotL,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Matt Williams,Charlotte Hellcats GH,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Matt Williams,Kandy Kanes,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Matt Williams,Itchycoo Park,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Gus Zernial,Charlotte Aviators - JW,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Gus Zernial,Desert Sand Dwellers - JW,5,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+LF,Gus Zernial,Long Beach Apple Juice,0,1,90-92 Mph,1,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Don Zimmer,Van Nuys Boogie Knights,0,1,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
+3B,Don Zimmer,King Street 504s,5,1,90-92 Mph,3,-,-,0,0,0,0,0,0,0,60%,60%
