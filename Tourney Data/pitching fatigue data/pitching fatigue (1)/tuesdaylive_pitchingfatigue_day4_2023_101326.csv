@@ -1,0 +1,878 @@
+POS,Name,ORG,VLvl,STM,VELO,PIT,KN,KC,G,GS,5d,4d,3d,2d,Yest.,SPF%,RPF%
+SP,Jacob deGrom,Idaho Spuds,0,73,98-100 Mph,4,-,-,1,1,0,0,0,0,127,0%,0%
+SP,Chris Sale,Scranton Tacos,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,116,0%,0%
+SP,Cam Schlittler,Terrordome Knights,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,115,0%,0%
+SP,Cam Schlittler,Ocean City Crab Rave,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,108,0%,0%
+SP,Chris Sale,New Haven Corsairs,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,106,0%,0%
+SP,Cam Schlittler,Haverhill Hillies,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,106,0%,0%
+SP,Tarik Skubal,Fairfax Firebirds,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,106,0%,0%
+SP,Tarik Skubal,Boise Potato Mashers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,105,4%,0%
+SP,Chris Sale,Gamehendge Lizards - HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,104,4%,0%
+SP,Tarik Skubal,Preston Port Rats,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,104,4%,0%
+SP,Yoshinobu Yamamoto,Fishhawk Freedom,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,104,4%,0%
+SP,Dylan Cease,Erie Moon Mammoths PCK,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Dylan Cease,Phoenix Mango Slush - HOTL,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Logan Gilbert,MAPO Gorolt,0,82,97-99 Mph,5,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Jesus Luzardo,Doosan Bears,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Jacob Misiorowski,B-Town Nasty Boyz,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Chris Sale,Seoul Heroes,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Cam Schlittler,Bloody Nines,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Cam Schlittler,KR Royal Chanels,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Cam Schlittler,We'll Do It Live,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Cam Schlittler,Roaming Rascals BFF,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Cam Schlittler,Pumpkin Smashers - HotL,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Tarik Skubal,Charlotte Aviators - JW,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,103,4%,0%
+SP,Jesus Luzardo,Rockwall Ballers,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,102,4%,0%
+SP,Cam Schlittler,Temple Texans,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,102,4%,0%
+SP,Cam Schlittler,. Roto,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,102,4%,0%
+SP,Tarik Skubal,San Diego Wombats,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,102,4%,0%
+SP,Tarik Skubal,Powerful Tulips,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,102,4%,0%
+SP,Tarik Skubal,Kokomo Automakers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,102,4%,0%
+SP,Jesus Luzardo,Moncton Mosquitos,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,101,4%,0%
+SP,Chris Sale,Detroit Tigers,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,101,4%,0%
+SP,Cam Schlittler,Paso Robles Powerhouse,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,101,4%,0%
+SP,Tarik Skubal,San Francisco Seals,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,101,4%,0%
+SP,Yoshinobu Yamamoto,Seattle Stealth,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,101,4%,0%
+SP,Chris Sale,Pumpkin Smashers - HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Chris Sale,Guerreros de Oaxaca - JW,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Chris Sale,Minneapolis Millers,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Chris Sale,Puget Sound Giant Pacific Octopi,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Chris Sale,Hyannis Harbor Hawks,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Chris Sale,Cibolo Packsters PCK,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Chris Sale,Arcadia Wyverns,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Cam Schlittler,Washington Border Collies,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Tarik Skubal,Mount Pleasant Mounties,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,100,4%,0%
+SP,Dylan Cease,STMDB EXPOS,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Chris Sale,New Platson Grand Petites HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Cam Schlittler,Spite Store Hoot Owls,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Cam Schlittler,East Side Educators,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Cam Schlittler,Moonsault Collective MCs,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Paul Skenes,Starfleet Redshirts PCK,0,79,98-100 Mph,5,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Tarik Skubal,Queso Cats,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Tarik Skubal,Strathroy Royals,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Tarik Skubal,Waltham River Otters,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Yoshinobu Yamamoto,Salem-Keizer Volcanoes,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,99,4%,0%
+SP,Jesus Luzardo,Berlin Speed Dealers SoM,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Jesus Luzardo,Daegu Pilots,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Jacob Misiorowski,El Vampiro Ankle Biters,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Chris Sale,La Crosse Lumber Puppies,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Chris Sale,Desert Sand Dwellers - JW,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Cam Schlittler,Compton Chronic,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Cam Schlittler,Secaucus Doggies,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Tarik Skubal,Retro Birds TTC,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Bryan Woo,- I GOT YOUR SIX - - IGY6 -,0,81,95-97 Mph,4,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Yoshinobu Yamamoto,NorCal CGE,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,98,4%,0%
+SP,Sean Burke,Iowa Ironmen,0,87,95-97 Mph,4,-,-,1,1,0,0,0,0,97,5%,2%
+SP,Reid Detmers,York Revolution,0,78,94-96 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Drew Rasmussen,Brooklyn Tip-Tops,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Chris Sale,Norman Wild Dogs,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Chris Sale,Erie Seawolves,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Chris Sale,Country Clubbers,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Chris Sale,Rockwall Winguts,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Cam Schlittler,Spring Synthbangers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Cam Schlittler,Portuguese Raging Chickens,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Cam Schlittler,Roselle Rockets,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Paul Skenes,Merrick Mayhem,0,79,98-100 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Paul Skenes,Sunnyvale Bottlekids,0,79,98-100 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Tarik Skubal,Omaha Twisters,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Tarik Skubal,Lynchville Mobster,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Tarik Skubal,Allegheny Foresters,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Yoshinobu Yamamoto,Detroit Tigers,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,97,4%,0%
+SP,Max Fried,Faybik Narwhals,0,73,94-96 Mph,6,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Jesus Luzardo,Anyang 235,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Drew Rasmussen,Lake County Captains,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Chris Sale,Normal Night Terrors - HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Cam Schlittler,Chicago Gamblers - E6,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Cam Schlittler,Topeka SOX,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Cam Schlittler,New Planet Gophers TBD,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Cam Schlittler,Tradewind Tides,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Cam Schlittler,Milwaukee Milkmen,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Cam Schlittler,NoseKerim Astea Kerim,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Paul Skenes,Washington Bishops,0,79,98-100 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Tarik Skubal,Oysters Incognito,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Tarik Skubal,Beaver Dam Beavers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Tarik Skubal,Burlington Bees,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Tarik Skubal,Maranville Bad Bunnies,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Tarik Skubal,Fletcher Froggers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,96,4%,0%
+SP,Dylan Cease,Punxsutawney Deja VU,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Dylan Cease,Kansas City Monarchs,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Jesus Luzardo,Little Rock Grays,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,95,5%,2%
+SP,Jacob Misiorowski,Star City Arrows,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Jacob Misiorowski,Cibao Aguilas,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Drew Rasmussen,Philadelphia Fighting Zs,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Chris Sale,Carlos Chaos Cats,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Chris Sale,Bluff City Blues,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Chris Sale,Ottawa Hammerheads,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Chris Sale,Absolute Units,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Chris Sale,Reno Rhinos,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Cam Schlittler,Cibolo Anklebiters,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Cam Schlittler,Milwaukee Milkmen,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Cam Schlittler,Minnesota Twins,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Cam Schlittler,Taylor Street Lappers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Cam Schlittler,Westborough WooSox,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Cam Schlittler,Colorado Avalanche - JW,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Cam Schlittler,Cudahy Day Drinkers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Tarik Skubal,Calgary Vipers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,95,4%,0%
+SP,Yoshinobu Yamamoto,minggus babbugies,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,95,5%,2%
+SP,Yoshinobu Yamamoto,Montreal Expos TTC,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,95,5%,2%
+SP,Max Fried,Lamigo Monkeys,0,73,94-96 Mph,6,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Jesus Luzardo,Kerrville Antlers,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,94,5%,2%
+SP,Jacob Misiorowski,El Paso Preguntas,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Jacob Misiorowski,City Hospital Doctors,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Drew Rasmussen,New Jersey BC PCK,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Drew Rasmussen,Oslo Nordiques,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Chris Sale,Miami Tamps,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Chris Sale,Chicago Gamblers - GH,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Chris Sale,Breslau Binturongs - HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Cam Schlittler,Evermore Larpsharks,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Cam Schlittler,1st Class Millionaires,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Tarik Skubal,MBQ Warriors,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Bryan Woo,Rochester Red Wings,0,81,95-97 Mph,4,-,-,1,1,0,0,0,0,94,4%,0%
+SP,Hunter Brown,Canadian Exchange Rate,0,73,97-99 Mph,6,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Dylan Cease,Claude City Octopi,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Dylan Cease,Taylor Ham Sandwiches,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Max Fried,Pensacola Swampangels,0,73,94-96 Mph,6,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Parker Messick,Eggplant Parmesan,0,80,93-95 Mph,4,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Drew Rasmussen,Lake County Captains,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Chris Sale,EVC's Quinipacks Only Rippers PCK,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Cam Schlittler,Cherry Grove Lazer Raptors,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Cam Schlittler,China CARP MUSIC,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Cam Schlittler,Chicago Exploding Whales,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Cam Schlittler,Sack of Wet Mice,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Tarik Skubal,Denver Highlanders,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Tarik Skubal,SSG Landers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Tarik Skubal,Mirabel ExNats,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,93,4%,0%
+SP,Dylan Cease,Winona Lake PitVipers,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,92,5%,2%
+SP,Max Fried,Portland Grizzlies,0,73,94-96 Mph,6,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Max Fried,Sandy Bees,0,73,94-96 Mph,6,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Max Fried,Bloomingdale troopers,0,73,94-96 Mph,6,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Jacob Misiorowski,Albion Rhody Rounders,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Drew Rasmussen,Green Dirigibles,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Chris Sale,OBX Waveriders,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,92,5%,2%
+SP,Chris Sale,West Palm Beach Bingo Stars,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,92,5%,2%
+SP,Chris Sale,New Old Yankees TTC,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,92,5%,2%
+SP,Chris Sale,Imatra Pallo-Veikot,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,92,5%,2%
+SP,Cam Schlittler,Whitetop Mountains,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Cam Schlittler,Scottish Claymores,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Cam Schlittler,Columbus Fire Ants,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Cam Schlittler,Krakow Hussars,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,92,4%,0%
+SP,Tarik Skubal,Chihuahua Crickets,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,92,5%,2%
+SP,Tarik Skubal,Sandusky Bullforce,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,92,5%,2%
+SP,Reid Detmers,Los Angeles Dodgers,0,78,94-96 Mph,5,-,-,1,1,0,0,0,0,91,4%,0%
+SP,Max Fried,Beijing Moon,0,73,94-96 Mph,6,-,-,1,1,0,0,0,0,91,4%,0%
+SP,Max Fried,Leavenworth Steins,0,73,94-96 Mph,6,-,-,1,1,0,0,0,0,91,4%,0%
+SP,Drew Rasmussen,Duluth Deviled Lettuce,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,91,4%,0%
+SP,Drew Rasmussen,Atlantis Ancients,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,91,4%,0%
+SP,Chris Sale,Farmville Barnyard,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Chris Sale,Joe Buck Yourself,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Cam Schlittler,Casselberry Storm,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Cam Schlittler,Little Rock Bangers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Tarik Skubal,New Haven Ravens,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Tarik Skubal,Jacksonville Rainstorm,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Tarik Skubal,Tuscaloosa Thunderbirds,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Tarik Skubal,Scranton Stranglers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Tarik Skubal,Pensacola Blue Wahoos,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Tarik Skubal,Henry Murder Hornets,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,91,5%,2%
+SP,Cade Cavalli,Boston Red Stockings,0,75,96-98 Mph,4,-,-,1,1,0,0,0,0,90,4%,0%
+SP,Tyler Glasnow,San Antonio Wembys,0,62,97-99 Mph,4,-,-,1,1,0,0,0,0,90,4%,0%
+SP,Jacob Misiorowski,Lyman Legends,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,90,4%,0%
+SP,Drew Rasmussen,Cleveland Fighting Walleye,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,90,4%,0%
+SP,Drew Rasmussen,Summerglen Seraphs TBD,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,90,4%,0%
+SP,Drew Rasmussen,Montana Cakester,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,90,4%,0%
+SP,Drew Rasmussen,Brentwood Guggenheims SoM,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,90,4%,0%
+SP,Tarik Skubal,Universal Six7s TTC,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,90,5%,2%
+SP,Gavin Williams,Adidas Nylon Pants,0,79,96-98 Mph,5,-,-,1,1,0,0,0,0,90,5%,2%
+SP,Drew Rasmussen,Global Rippers PCK,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,89,4%,0%
+SP,Yoshinobu Yamamoto,Homestead Greys,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,89,5%,2%
+SP,Shohei Ohtani,Mississauga Maple Trees,0,82,97-99 Mph,5,-,-,1,1,0,0,0,0,88,5%,2%
+SP,Chris Sale,Totskoye Nuclear Bears,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,88,5%,2%
+SP,Tarik Skubal,London Tigers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,88,5%,2%
+SP,Parker Messick,Montrose Cobblers,0,80,93-95 Mph,4,-,-,1,1,0,0,0,0,86,5%,2%
+SP,Chris Sale,Huatulco Tacos,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,86,5%,2%
+SP,Chris Sale,Mooresville Devils,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,86,5%,2%
+SP,Cam Schlittler,Charlotte Speedway Rat Finks - HotL,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,86,5%,2%
+SP,Jacob Misiorowski,Miramar Flying Tigers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,0,85,5%,2%
+SP,Drew Rasmussen,Scruffy Nerf Herders,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,85,5%,2%
+SP,Tarik Skubal,San Diego Anchors,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,84,5%,2%
+SP,Chris Sale,Pumpkin Smashers - HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,83,5%,2%
+SP,Chris Sale,Santa Monica Vikings,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,83,5%,2%
+SP,Yoshinobu Yamamoto,Cheswick Saxons,0,86,96-98 Mph,6,-,-,1,1,0,0,0,0,83,5%,2%
+SP,Tarik Skubal,O'block Scoundrels,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,82,5%,2%
+SP,Parker Messick,Fairfield Pine Cones,0,80,93-95 Mph,4,-,-,1,1,0,0,0,0,81,5%,2%
+SP,Cam Schlittler,Delta Variants,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,80,5%,2%
+SP,Tarik Skubal,Magnolia Campfires,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,80,5%,2%
+SP,Jacob deGrom,Angkor Koupreys,0,73,98-100 Mph,4,-,-,1,1,0,0,0,0,79,5%,2%
+SP,Dylan Cease,Madison Mohicans,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,78,5%,2%
+SP,Drew Rasmussen,Anchorage Sky Hawks,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,78,5%,2%
+SP,Parker Messick,bongtana bongtana,0,80,93-95 Mph,4,-,-,1,1,0,0,0,0,77,5%,2%
+SP,Cam Schlittler,Chicago Beans,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,77,5%,2%
+SP,Cam Schlittler,Hawkeye Hellraisers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,77,5%,2%
+SP,Chris Sale,Worcester Boys of Somers,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,76,5%,2%
+SP,Cam Schlittler,Olathe Trailblazers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,76,5%,2%
+SP,Tarik Skubal,Brethren Bobcats,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,76,5%,2%
+SP,Logan Webb,Port Angeles Lefties,0,86,93-95 Mph,5,-,-,1,1,0,0,0,0,75,5%,2%
+SP,Drew Rasmussen,Charlotte Phighters,0,75,97-99 Mph,3,-,-,1,1,0,0,0,0,73,5%,2%
+SP,Chris Sale,Atlantic City Surf - GH,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,72,5%,2%
+SP,Chris Sale,Little Creek Hurricanes PCK,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,72,5%,2%
+SP,Cam Schlittler,Gladstone Athletics,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,70,5%,2%
+SP,Cade Cavalli,Presidential Naptime,0,75,96-98 Mph,4,-,-,1,1,0,0,0,0,68,5%,2%
+SP,Cam Schlittler,Houston Flying Chanclas,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,68,5%,2%
+SP,Tarik Skubal,Charlotte Sundevils,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,66,5%,2%
+SP,Tarik Skubal,Chilliwack Chiefs,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,66,5%,2%
+SP,Jesus Luzardo,RETO Dragons,0,84,96-98 Mph,4,-,-,1,1,0,0,0,0,65,5%,2%
+SP,Cam Schlittler,Mucha Fat Cat Fat Cat,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,65,5%,2%
+SP,Cam Schlittler,Chicago Seals,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,64,5%,2%
+SP,Dylan Cease,Red Dirt Cowboys,0,80,97-99 Mph,4,-,-,1,1,0,0,0,0,63,5%,2%
+SP,Chris Sale,Motor City Kitties - HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,0,63,5%,2%
+SP,Tarik Skubal,The Black Freighter TBD,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,63,5%,2%
+SP,Tarik Skubal,Lachute Laurentides,0,80,99-101 Mph,5,-,-,1,1,0,0,0,0,62,5%,2%
+SP,Nick Martinez,Longview Lumberjacks,0,79,93-95 Mph,6,-,-,1,1,0,0,0,0,61,5%,2%
+SP,Parker Messick,Red Dirt Cowboys,0,80,93-95 Mph,4,-,-,1,0,0,0,0,0,60,5%,2%
+SP,Payton Tolle,Tennessee Tornado Bats,0,77,94-96 Mph,4,-,-,1,1,0,0,0,0,59,5%,2%
+SP,Garrett Crochet,Rockwall Ballers,0,72,97-99 Mph,5,-,-,2,0,0,0,2,0,55,5%,2%
+SP,Paul Skenes,Mount Pleasant Mounties,0,79,98-100 Mph,5,-,-,1,0,0,0,0,0,55,5%,2%
+SP,Brandon Woodruff,RETO Dragons,0,61,96-98 Mph,4,-,-,1,0,0,0,0,0,54,4%,0%
+SP,Cam Schlittler,Denver White Elephants,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,48,6%,11%
+SP,Cam Schlittler,Kotonoha Akanetics,0,79,95-97 Mph,5,-,-,1,1,0,0,0,0,47,6%,13%
+SP,Cristopher Sanchez,Memphis Rivers,0,89,95-97 Mph,3,-,-,1,1,0,0,0,0,45,8%,19%
+SP,Hunter Greene,Erie Moon Mammoths PCK,0,63,98-100 Mph,4,-,-,1,0,0,0,0,0,44,8%,16%
+SP,Dylan Cease,Montreal Expos TTC,0,80,97-99 Mph,4,-,-,1,0,0,0,0,0,42,10%,21%
+SP,Jesus Luzardo,Hawkeye Hellraisers,0,84,96-98 Mph,4,-,-,1,0,0,0,0,0,42,10%,23%
+SP,Paul Skenes,Erie Seawolves,0,79,98-100 Mph,5,-,-,1,0,0,0,0,0,41,10%,24%
+SP,Cam Schlittler,The Black Freighter TBD,0,79,95-97 Mph,5,-,-,2,0,0,0,14,0,40,6%,13%
+SP,Paul Skenes,London Tigers,0,79,98-100 Mph,5,-,-,1,0,0,0,0,0,37,14%,33%
+SP,Blake Snell,Portuguese Raging Chickens,0,56,96-98 Mph,4,-,-,1,0,0,0,0,0,37,14%,27%
+SP,Dylan Cease,Charlotte Speedway Rat Finks - HotL,0,80,97-99 Mph,4,-,-,1,0,0,0,0,0,36,15%,34%
+SP,Garrett Crochet,Detroit Tigers,0,72,97-99 Mph,5,-,-,1,0,0,0,0,0,36,15%,33%
+SP,Jesus Luzardo,El Vampiro Ankle Biters,0,84,96-98 Mph,4,-,-,1,0,0,0,0,0,36,15%,34%
+SP,Yoshinobu Yamamoto,Ottawa Hammerheads,0,86,96-98 Mph,6,-,-,2,0,0,0,27,0,36,6%,9%
+SP,Jacob deGrom,Fletcher Froggers,0,73,98-100 Mph,4,-,-,1,0,0,0,0,0,35,16%,35%
+SP,Drew Rasmussen,Atlantic City Surf - GH,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,35,15%,35%
+SP,Yoshinobu Yamamoto,Miramar Flying Tigers,0,86,96-98 Mph,6,-,-,2,0,0,0,14,0,34,11%,26%
+SP,Logan Gilbert,Eggplant Parmesan,0,82,97-99 Mph,5,-,-,2,0,0,0,17,0,31,12%,28%
+SP,Yoshinobu Yamamoto,Delta Variants,0,86,96-98 Mph,6,-,-,1,0,0,0,0,0,31,20%,45%
+SP,Yoshinobu Yamamoto,Salty Hall Monitors TBD,0,86,96-98 Mph,6,-,-,1,0,0,0,0,0,31,20%,45%
+SP,Drew Rasmussen,Delta Variants,0,75,97-99 Mph,3,-,-,2,0,0,0,18,0,30,12%,26%
+SP,Paul Skenes,Hawkeye Hellraisers,0,79,98-100 Mph,5,-,-,2,0,0,0,9,0,30,16%,37%
+SP,Yoshinobu Yamamoto,London Tigers,0,86,96-98 Mph,6,-,-,2,0,0,0,0,20,30,7%,2%
+SP,Dylan Cease,Montana Cakester,0,80,97-99 Mph,4,-,-,1,0,0,0,0,0,29,21%,47%
+SP,Max Fried,Mississauga Maple Trees,0,73,94-96 Mph,6,-,-,2,0,0,0,0,25,29,6%,2%
+SP,Jesus Luzardo,New Jersey BC PCK,0,84,96-98 Mph,4,-,-,2,0,0,0,24,0,29,11%,26%
+SP,Paul Skenes,Wasteland Outlaws,0,79,98-100 Mph,5,-,-,1,0,0,0,0,0,28,21%,48%
+SP,Dylan Cease,Scottish Claymores,0,80,97-99 Mph,4,-,-,1,0,0,0,0,0,27,23%,51%
+SP,Clay Holmes,Lamigo Monkeys,0,71,95-97 Mph,6,-,-,1,0,0,0,0,0,27,23%,50%
+SP,Jesus Luzardo,New York Jackhammers,0,84,96-98 Mph,4,-,-,2,0,0,0,32,0,27,9%,21%
+SP,Dylan Cease,Gladstone Athletics,0,80,97-99 Mph,4,-,-,1,0,0,0,0,0,26,23%,51%
+SP,Dylan Cease,. Roto,0,80,97-99 Mph,4,-,-,1,0,0,0,0,0,26,23%,51%
+SP,Garrett Crochet,Allegheny Foresters,0,72,97-99 Mph,5,-,-,2,0,0,0,0,11,26,6%,4%
+SP,Max Fried,Atlantic City Surf - GH,0,73,94-96 Mph,6,-,-,1,0,0,0,0,0,26,23%,52%
+SP,Jesus Luzardo,Adidas Nylon Pants,0,84,96-98 Mph,4,-,-,2,0,0,0,26,0,26,12%,28%
+SP,Bryan Woo,Gladstone Athletics,0,81,95-97 Mph,4,-,-,1,0,0,0,0,0,26,23%,51%
+SP,Eury Perez,Jacksonville Cardinals,0,76,96-98 Mph,4,-,-,1,0,0,0,0,0,25,24%,54%
+SP,Drew Rasmussen,Totskoye Nuclear Bears,0,75,97-99 Mph,3,-,-,2,0,0,0,17,0,25,16%,37%
+SP,Paul Skenes,Magnolia Campfires,0,79,98-100 Mph,5,-,-,2,0,0,0,24,0,25,14%,33%
+SP,Yoshinobu Yamamoto,Denver White Elephants,0,86,96-98 Mph,6,-,-,1,0,0,0,0,0,25,24%,55%
+SP,Dylan Cease,Jacksonville Rainstorm,0,80,97-99 Mph,4,-,-,2,0,0,0,27,0,24,13%,30%
+SP,Cristopher Sanchez,Adidas Nylon Pants,0,89,95-97 Mph,3,-,-,2,0,0,0,26,0,24,15%,34%
+SP,Yoshinobu Yamamoto,Albion Rhody Rounders,0,86,96-98 Mph,6,-,-,2,0,0,0,23,0,24,16%,36%
+SP,Dylan Cease,PA Freedom,0,80,97-99 Mph,4,-,-,2,0,0,0,26,0,23,15%,34%
+SP,Reid Detmers,Bluff City Blues,0,78,94-96 Mph,5,-,-,2,0,0,0,21,0,23,17%,39%
+SP,Garrett Crochet,Montrose Cobblers,0,72,97-99 Mph,5,-,-,2,0,0,0,14,0,22,21%,46%
+SP,Jesus Luzardo,Montrose Cobblers,0,84,96-98 Mph,4,-,-,2,0,0,0,0,26,22,7%,2%
+SP,Drew Rasmussen,OBX Waveriders,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,22,26%,59%
+SP,Drew Rasmussen,Brethren Bobcats,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,22,26%,59%
+SP,Tarik Skubal,Mississauga Maple Trees,0,80,99-101 Mph,5,-,-,1,0,0,0,0,0,22,27%,60%
+SP,Tarik Skubal,Taylor Ham Sandwiches,0,80,99-101 Mph,5,-,-,2,0,0,0,35,0,21,12%,28%
+SP,Drew Rasmussen,El Vampiro Ankle Biters,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,20,28%,63%
+SP,Drew Rasmussen,Magnolia Campfires,0,75,97-99 Mph,3,-,-,2,0,0,0,18,0,20,20%,46%
+SP,Yoshinobu Yamamoto,West Palm Beach Bingo Stars,0,86,96-98 Mph,6,-,-,1,0,0,0,0,0,20,28%,64%
+SP,Garrett Crochet,Gladstone Athletics,0,72,97-99 Mph,5,-,-,2,0,0,0,0,23,19,7%,4%
+SP,Garrett Crochet,Lake County Captains,0,72,97-99 Mph,5,-,-,2,0,0,0,0,25,18,7%,4%
+SP,Max Fried,Cibao Aguilas,0,73,94-96 Mph,6,-,-,1,0,0,0,0,0,18,30%,67%
+SP,Drew Rasmussen,Chicago Gamblers - GH,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,18,30%,67%
+SP,Parker Messick,Joe Buck Yourself,0,80,93-95 Mph,4,-,-,1,0,0,0,0,0,17,30%,68%
+SP,Shohei Ohtani,Bluff City Blues,0,82,97-99 Mph,5,-,-,2,0,0,0,29,0,17,19%,43%
+SP,Drew Rasmussen,Evermore Larpsharks,0,75,97-99 Mph,3,-,-,2,0,0,0,0,11,16,8%,17%
+SP,Drew Rasmussen,Country Clubbers,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,15,32%,72%
+SP,Chase Burns,Eggplant Parmesan,0,73,97-99 Mph,5,-,-,2,0,0,0,14,0,14,27%,61%
+SP,Dylan Cease,Magnolia Campfires,0,80,97-99 Mph,4,-,-,2,0,0,0,26,0,14,23%,51%
+SP,Griffin Jax,Sierra Nevada Nuggets,0,60,97-99 Mph,5,-,-,1,0,0,0,0,0,14,37%,73%
+SP,Jesus Luzardo,Merrick Mayhem,0,84,96-98 Mph,4,-,-,1,0,0,0,0,0,14,33%,74%
+SP,Parker Messick,Farmville Barnyard,0,80,93-95 Mph,4,-,-,1,0,0,0,0,0,14,33%,74%
+SP,Parker Messick,Denver Highlanders,0,80,93-95 Mph,4,-,-,2,0,0,0,15,0,13,28%,62%
+SP,Parker Messick,New Haven Ravens,0,80,93-95 Mph,4,-,-,2,0,0,0,36,0,12,20%,45%
+SP,Cam Schlittler,Country Clubbers,0,79,95-97 Mph,5,-,-,2,0,0,0,0,25,12,8%,11%
+SP,Drew Rasmussen,Denver Highlanders,0,75,97-99 Mph,3,-,-,2,0,0,0,4,0,11,34%,76%
+SP,Cam Schlittler,Beaver Dam Beavers,0,79,95-97 Mph,5,-,-,2,0,0,0,31,0,11,23%,52%
+SP,Ranger Suarez,Sierra Nevada Nuggets,0,73,91-93 Mph,5,-,-,2,0,0,0,0,19,11,8%,17%
+SP,Yoshinobu Yamamoto,Waltham River Otters,0,86,96-98 Mph,6,-,-,1,0,0,0,0,0,11,36%,81%
+SP,Jesus Luzardo,Ottawa Hammerheads,0,84,96-98 Mph,4,-,-,1,0,0,0,0,0,10,37%,83%
+SP,Parker Messick,Gladstone Athletics,0,80,93-95 Mph,4,-,-,1,0,0,0,0,0,10,36%,81%
+SP,Drew Rasmussen,London Tigers,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,10,37%,83%
+SP,Drew Rasmussen,West Palm Beach Bingo Stars,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,9,38%,85%
+SP,Paul Skenes,New Haven Ravens,0,79,98-100 Mph,5,-,-,2,0,0,0,0,14,9,10%,24%
+SP,Yoshinobu Yamamoto,Milwaukee Bulletts,0,86,96-98 Mph,6,-,-,2,0,0,0,5,0,9,36%,81%
+SP,Max Fried,Delta Variants,0,73,94-96 Mph,6,-,-,1,0,0,0,0,0,8,38%,85%
+SP,Blake Snell,Erie Moon Mammoths PCK,0,56,96-98 Mph,4,-,-,2,0,0,0,0,1,8,19%,36%
+SP,Drew Rasmussen,New Old Yankees TTC,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,6,39%,89%
+SP,Drew Rasmussen,Rockwall Winguts,0,75,97-99 Mph,3,-,-,1,0,0,0,0,0,6,39%,89%
+SP,Parker Messick,San Diego Wombats,0,80,93-95 Mph,4,-,-,1,0,0,0,0,0,5,41%,91%
+SP,Paul Skenes,Portuguese Raging Chickens,0,79,98-100 Mph,5,-,-,1,0,0,0,0,0,5,41%,93%
+SP,Jesus Luzardo,Allegheny Foresters,0,84,96-98 Mph,4,-,-,1,0,0,0,0,0,3,42%,96%
+SP,Hurston Waldrep,Lamigo Monkeys,0,51,95-97 Mph,3,-,-,1,0,0,0,0,0,1,57%,98%
+SP,Shane Baz,Canadian Exchange Rate,0,84,96-98 Mph,4,-,-,1,1,0,0,0,109,0,17%,6%
+SP,Sean Burke,Sierra Nevada Nuggets,0,87,95-97 Mph,4,-,-,1,0,0,0,35,0,0,44%,81%
+SP,Chase Burns,Longview Lumberjacks,0,73,97-99 Mph,5,-,-,1,1,0,0,0,93,0,17%,7%
+SP,Cade Cavalli,RETO Dragons,0,75,96-98 Mph,4,-,-,1,0,0,0,1,0,0,49%,100%
+SP,Cade Cavalli,Adidas Nylon Pants,0,75,96-98 Mph,4,-,-,2,0,0,0,5,13,0,40%,91%
+SP,Cade Cavalli,Little Rock Grays,0,75,96-98 Mph,4,-,-,1,0,0,0,65,0,0,40%,39%
+SP,Dylan Cease,OBX Waveriders,0,80,97-99 Mph,4,-,-,1,0,0,0,12,0,0,48%,96%
+SP,Dylan Cease,Star City Arrows,0,80,97-99 Mph,4,-,-,1,0,0,0,0,45,0,20%,45%
+SP,Dylan Cease,Farmville Barnyard,0,80,97-99 Mph,4,-,-,1,0,0,0,0,3,0,44%,98%
+SP,Dylan Cease,Erie Seawolves,0,80,97-99 Mph,4,-,-,1,0,0,0,35,0,0,44%,79%
+SP,Dylan Cease,B-Town Nasty Boyz,0,80,97-99 Mph,4,-,-,1,0,0,0,25,0,0,45%,85%
+SP,Dylan Cease,EVC's Quinipacks Only Rippers PCK,0,80,97-99 Mph,4,-,-,1,0,0,0,0,100,0,18%,9%
+SP,Dylan Cease,Mississauga Maple Trees,0,80,97-99 Mph,4,-,-,1,0,0,0,0,27,0,35%,79%
+SP,Dylan Cease,Mount Pleasant Mounties,0,80,97-99 Mph,4,-,-,1,1,0,0,93,0,0,39%,36%
+SP,Dylan Cease,Los Angeles Dodgers,0,80,97-99 Mph,4,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Dylan Cease,Portuguese Raging Chickens,0,80,97-99 Mph,4,-,-,1,0,0,0,0,33,0,33%,74%
+SP,Dylan Cease,Doosan Bears,0,80,97-99 Mph,4,-,-,1,1,0,0,0,105,0,18%,9%
+SP,Dylan Cease,Adidas Nylon Pants,0,80,97-99 Mph,4,-,-,1,1,0,0,0,89,0,18%,9%
+SP,Dylan Cease,Miami Tamps,0,80,97-99 Mph,4,-,-,1,0,0,0,0,38,0,31%,70%
+SP,Dylan Cease,Memphis Rivers,0,80,97-99 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Dylan Cease,San Francisco Seals,0,80,97-99 Mph,4,-,-,1,0,0,0,0,50,0,20%,38%
+SP,Dylan Cease,MBQ Warriors,0,80,97-99 Mph,4,-,-,1,0,0,0,0,41,0,22%,49%
+SP,Dylan Cease,Sunnyvale Bottlekids,0,80,97-99 Mph,4,-,-,1,0,0,0,41,0,0,43%,77%
+SP,Dylan Cease,Faybik Narwhals,0,80,97-99 Mph,4,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Garrett Crochet,Brethren Bobcats,0,72,97-99 Mph,5,-,-,1,0,0,0,0,38,0,31%,70%
+SP,Garrett Crochet,Jacksonville Rainstorm,0,72,97-99 Mph,5,-,-,1,0,0,0,0,31,0,34%,76%
+SP,Garrett Crochet,Philadelphia Fighting Zs,0,72,97-99 Mph,5,-,-,1,0,0,0,0,30,0,34%,76%
+SP,Garrett Crochet,Mount Pleasant Mounties,0,72,97-99 Mph,5,-,-,1,0,0,0,61,0,0,40%,39%
+SP,Garrett Crochet,Scottish Claymores,0,72,97-99 Mph,5,-,-,2,0,0,0,23,11,0,25%,54%
+SP,Garrett Crochet,North American 20 and 30 Somethings,0,72,97-99 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Garrett Crochet,Joe Buck Yourself,0,72,97-99 Mph,5,-,-,1,0,0,0,0,26,0,36%,80%
+SP,Jacob deGrom,Fishhawk Freedom,0,73,98-100 Mph,4,-,-,1,0,0,0,58,0,0,41%,39%
+SP,Jacob deGrom,Rochester Red Wings,0,73,98-100 Mph,4,-,-,1,1,0,0,59,0,0,41%,39%
+SP,Jacob deGrom,Berlin Speed Dealers SoM,0,73,98-100 Mph,4,-,-,1,0,0,0,0,53,0,20%,33%
+SP,Jacob deGrom,Presidential Naptime,0,73,98-100 Mph,4,-,-,1,1,0,0,92,0,0,39%,35%
+SP,Reid Detmers,Tewksbury Minutemen,0,78,94-96 Mph,5,-,-,1,0,0,0,0,52,0,20%,37%
+SP,Reid Detmers,RETO Dragons,0,78,94-96 Mph,5,-,-,2,0,0,0,21,14,0,24%,54%
+SP,Reid Detmers,Merrick Mayhem,0,78,94-96 Mph,5,-,-,1,0,0,0,0,33,0,33%,76%
+SP,Reid Detmers,Angkor Koupreys,0,78,94-96 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Reid Detmers,San Francisco Seals,0,78,94-96 Mph,5,-,-,1,0,0,0,0,14,0,41%,93%
+SP,Reid Detmers,Erie Moon Mammoths PCK,0,78,94-96 Mph,5,-,-,1,0,0,0,0,30,0,34%,78%
+SP,Reid Detmers,Colorado Avalanche - JW,0,78,94-96 Mph,5,-,-,1,0,0,0,0,48,0,20%,41%
+SP,Reid Detmers,MAPO Gorolt,0,78,94-96 Mph,5,-,-,1,0,0,0,0,48,0,20%,41%
+SP,Max Fried,Detroit Tigers,0,73,94-96 Mph,6,-,-,1,1,0,0,0,89,0,17%,7%
+SP,Max Fried,Gamehendge Lizards - HotL,0,73,94-96 Mph,6,-,-,1,0,0,0,24,0,0,45%,87%
+SP,Max Fried,El Paso Preguntas,0,73,94-96 Mph,6,-,-,1,1,0,0,0,96,0,17%,7%
+SP,Max Fried,Lake County Captains,0,73,94-96 Mph,6,-,-,1,0,0,0,0,2,0,45%,100%
+SP,Max Fried,Farmville Barnyard,0,73,94-96 Mph,6,-,-,1,0,0,0,40,0,0,43%,76%
+SP,Max Fried,Beaver Dam Beavers,0,73,94-96 Mph,6,-,-,1,0,0,0,0,45,0,20%,43%
+SP,Max Fried,New York Jackhammers,0,73,94-96 Mph,6,-,-,1,1,0,0,94,0,0,39%,33%
+SP,Max Fried,Fishhawk Freedom,0,73,94-96 Mph,6,-,-,1,0,0,0,30,0,0,44%,83%
+SP,Max Fried,B-Town Nasty Boyz,0,73,94-96 Mph,6,-,-,1,1,0,0,0,110,0,16%,7%
+SP,Max Fried,Scottish Claymores,0,73,94-96 Mph,6,-,-,1,0,0,0,0,35,0,33%,74%
+SP,Max Fried,bongtana bongtana,0,73,94-96 Mph,6,-,-,1,1,0,0,0,91,0,17%,7%
+SP,Max Fried,New Haven Corsairs,0,73,94-96 Mph,6,-,-,1,1,0,0,102,0,0,38%,26%
+SP,Max Fried,Merrick Mayhem,0,73,94-96 Mph,6,-,-,1,0,0,0,0,40,0,22%,50%
+SP,Max Fried,Satellite Beach Manatees,0,73,94-96 Mph,6,-,-,1,1,0,0,0,98,0,17%,7%
+SP,Max Fried,Montrose Cobblers,0,73,94-96 Mph,6,-,-,1,0,0,0,0,24,0,37%,83%
+SP,Max Fried,The Black Freighter TBD,0,73,94-96 Mph,6,-,-,1,0,0,0,25,0,0,45%,87%
+SP,Max Fried,Charlotte Aviators - JW,0,73,94-96 Mph,6,-,-,1,1,0,0,78,0,0,40%,39%
+SP,Max Fried,New Platson Grand Petites HotL,0,73,94-96 Mph,6,-,-,1,0,0,0,0,40,0,22%,50%
+SP,Max Fried,Eggplant Parmesan,0,73,94-96 Mph,6,-,-,1,1,0,0,0,84,0,18%,9%
+SP,Max Fried,Detroit Tigers,0,73,94-96 Mph,6,-,-,1,1,0,0,89,0,0,39%,37%
+SP,Max Fried,Fairfield Pine Cones,0,73,94-96 Mph,6,-,-,1,1,0,0,0,83,0,18%,9%
+SP,Max Fried,Fletcher Froggers,0,73,94-96 Mph,6,-,-,1,0,0,0,0,43,0,20%,46%
+SP,Logan Gilbert,New York Jackhammers,0,82,97-99 Mph,5,-,-,1,0,0,0,49,0,0,42%,72%
+SP,Logan Gilbert,Adidas Nylon Pants,0,82,97-99 Mph,5,-,-,1,0,0,0,0,25,0,36%,81%
+SP,Logan Gilbert,Sierra Nevada Nuggets,0,82,97-99 Mph,5,-,-,1,0,0,0,0,2,0,44%,100%
+SP,Logan Gilbert,Erie Moon Mammoths PCK,0,82,97-99 Mph,5,-,-,1,0,0,0,0,17,0,41%,91%
+SP,Tyler Glasnow,Adidas Nylon Pants,0,62,97-99 Mph,4,-,-,1,0,0,0,0,24,0,41%,82%
+SP,Hunter Greene,RETO Dragons,0,63,98-100 Mph,4,-,-,1,0,0,0,40,0,0,41%,76%
+SP,Jesus Luzardo,Detroit Tigers,0,84,96-98 Mph,4,-,-,1,0,0,0,0,22,0,39%,87%
+SP,Jesus Luzardo,Sandy Bees,0,84,96-98 Mph,4,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Jesus Luzardo,Star City Arrows,0,84,96-98 Mph,4,-,-,1,0,0,0,58,0,0,42%,40%
+SP,Jesus Luzardo,Farmville Barnyard,0,84,96-98 Mph,4,-,-,1,0,0,0,58,0,0,42%,40%
+SP,Jesus Luzardo,Evermore Larpsharks,0,84,96-98 Mph,4,-,-,1,0,0,0,42,0,0,43%,77%
+SP,Jesus Luzardo,Atlantic City Surf - GH,0,84,96-98 Mph,4,-,-,1,0,0,0,59,0,0,42%,40%
+SP,Jesus Luzardo,Mississauga Maple Trees,0,84,96-98 Mph,4,-,-,2,0,0,0,20,25,0,23%,38%
+SP,Jesus Luzardo,Los Angeles Dodgers,0,84,96-98 Mph,4,-,-,1,1,0,0,92,0,0,40%,36%
+SP,Jesus Luzardo,Montana Cakester,0,84,96-98 Mph,4,-,-,1,0,0,0,50,0,0,42%,72%
+SP,Jesus Luzardo,Scottish Claymores,0,84,96-98 Mph,4,-,-,1,1,0,0,97,0,0,40%,34%
+SP,Jesus Luzardo,Gladstone Athletics,0,84,96-98 Mph,4,-,-,2,0,0,0,27,24,0,23%,36%
+SP,Jesus Luzardo,Meaty Oakers,0,84,96-98 Mph,4,-,-,1,0,0,0,25,0,0,45%,87%
+SP,Jesus Luzardo,bongtana bongtana,0,84,96-98 Mph,4,-,-,1,1,0,0,92,0,0,40%,36%
+SP,Jesus Luzardo,Portuguese Raging Chickens,0,84,96-98 Mph,4,-,-,2,0,0,0,13,23,0,23%,51%
+SP,Jesus Luzardo,New Old Yankees TTC,0,84,96-98 Mph,4,-,-,1,0,0,0,16,0,0,47%,94%
+SP,Jesus Luzardo,Brentwood Guggenheims SoM,0,84,96-98 Mph,4,-,-,1,0,0,0,41,0,0,43%,77%
+SP,Jesus Luzardo,Port Angeles Lefties,0,84,96-98 Mph,4,-,-,1,1,0,0,81,0,0,41%,40%
+SP,Jesus Luzardo,Fairfax Firebirds,0,84,96-98 Mph,4,-,-,1,0,0,0,50,0,0,42%,72%
+SP,Jesus Luzardo,Miami Tamps,0,84,96-98 Mph,4,-,-,1,0,0,0,21,0,0,46%,91%
+SP,Jesus Luzardo,San Francisco Seals,0,84,96-98 Mph,4,-,-,1,0,0,0,0,28,0,35%,79%
+SP,Jesus Luzardo,Universal Six7s TTC,0,84,96-98 Mph,4,-,-,1,0,0,0,27,0,0,45%,85%
+SP,Jesus Luzardo,Eggplant Parmesan,0,84,96-98 Mph,4,-,-,1,1,0,0,88,0,0,40%,40%
+SP,Jesus Luzardo,Kansas City Monarchs,0,84,96-98 Mph,4,-,-,1,1,0,0,0,87,0,19%,9%
+SP,Jesus Luzardo,Rockwall Winguts,0,84,96-98 Mph,4,-,-,1,0,0,0,52,0,0,42%,70%
+SP,Jesus Luzardo,Retro Birds TTC,0,84,96-98 Mph,4,-,-,1,0,0,0,25,0,0,45%,87%
+SP,Jesus Luzardo,. Roto,0,84,96-98 Mph,4,-,-,1,0,0,0,29,0,0,44%,85%
+SP,Nolan McLean,Eggplant Parmesan,0,82,95-97 Mph,5,-,-,1,0,0,0,0,29,0,35%,79%
+SP,Parker Messick,Chicago Gamblers - E6,0,80,93-95 Mph,4,-,-,1,0,0,0,0,33,0,33%,74%
+SP,Parker Messick,Lake County Captains,0,80,93-95 Mph,4,-,-,1,0,0,0,0,10,0,42%,94%
+SP,Parker Messick,New York Jackhammers,0,80,93-95 Mph,4,-,-,2,0,0,0,6,15,0,40%,89%
+SP,Parker Messick,Atlantic City Surf - GH,0,80,93-95 Mph,4,-,-,1,0,0,0,0,28,0,35%,79%
+SP,Parker Messick,Adidas Nylon Pants,0,80,93-95 Mph,4,-,-,1,0,0,0,0,30,0,34%,77%
+SP,Parker Messick,Hawkeye Hellraisers,0,80,93-95 Mph,4,-,-,1,0,0,0,2,0,0,50%,100%
+SP,Parker Messick,Magnolia Campfires,0,80,93-95 Mph,4,-,-,1,0,0,0,20,0,0,46%,91%
+SP,Parker Messick,Leavenworth Steins,0,80,93-95 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Portland Grizzlies,0,75,98-100 Mph,4,-,-,1,1,0,0,78,0,0,39%,39%
+SP,Jacob Misiorowski,Bloody Nines,0,75,98-100 Mph,4,-,-,1,1,0,0,101,0,0,38%,28%
+SP,Jacob Misiorowski,Oysters Incognito,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,Queso Cats,0,75,98-100 Mph,4,-,-,1,1,0,0,0,90,0,18%,9%
+SP,Jacob Misiorowski,Whitetop Mountains,0,75,98-100 Mph,4,-,-,1,1,0,0,92,0,0,38%,35%
+SP,Jacob Misiorowski,Casselberry Storm,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Huatulco Tacos,0,75,98-100 Mph,4,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Jacob Misiorowski,San Diego Wombats,0,75,98-100 Mph,4,-,-,1,1,0,0,106,0,0,38%,24%
+SP,Jacob Misiorowski,Punxsutawney Deja VU,0,75,98-100 Mph,4,-,-,1,1,0,0,0,96,0,17%,7%
+SP,Jacob Misiorowski,Pumpkin Smashers - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,103,0,0,38%,26%
+SP,Jacob Misiorowski,Gamehendge Lizards - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,101,0,0,38%,28%
+SP,Jacob Misiorowski,Chicago Gamblers - E6,0,75,98-100 Mph,4,-,-,1,1,0,0,102,0,0,38%,26%
+SP,Jacob Misiorowski,York Revolution,0,75,98-100 Mph,4,-,-,1,1,0,0,97,0,0,38%,30%
+SP,Jacob Misiorowski,Pumpkin Smashers - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,OBX Waveriders,0,75,98-100 Mph,4,-,-,1,1,0,0,97,0,0,38%,30%
+SP,Jacob Misiorowski,Norman Wild Dogs,0,75,98-100 Mph,4,-,-,1,1,0,0,86,0,0,39%,39%
+SP,Jacob Misiorowski,Guerreros de Oaxaca - JW,0,75,98-100 Mph,4,-,-,1,1,0,0,90,0,0,39%,37%
+SP,Jacob Misiorowski,Charlotte Speedway Rat Finks - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,99,0,0,38%,30%
+SP,Jacob Misiorowski,Salem-Keizer Volcanoes,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,Lake County Captains,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,Scranton Tacos,0,75,98-100 Mph,4,-,-,1,1,0,0,117,0,0,32%,15%
+SP,Jacob Misiorowski,Guro Gunslingers,0,75,98-100 Mph,4,-,-,1,1,0,0,101,0,0,38%,28%
+SP,Jacob Misiorowski,Compton Chronic,0,75,98-100 Mph,4,-,-,1,1,0,0,62,0,0,40%,39%
+SP,Jacob Misiorowski,Calgary Vipers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,107,0,16%,7%
+SP,Jacob Misiorowski,New Haven Ravens,0,75,98-100 Mph,4,-,-,1,1,0,0,0,97,0,17%,7%
+SP,Jacob Misiorowski,Chihuahua Crickets,0,75,98-100 Mph,4,-,-,1,1,0,0,0,80,0,18%,9%
+SP,Jacob Misiorowski,Topeka SOX,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Beaver Dam Beavers,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,Totskoye Nuclear Bears,0,75,98-100 Mph,4,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Jacob Misiorowski,Brethren Bobcats,0,75,98-100 Mph,4,-,-,1,1,0,0,0,99,0,17%,7%
+SP,Jacob Misiorowski,Homestead Greys,0,75,98-100 Mph,4,-,-,1,1,0,0,0,86,0,18%,9%
+SP,Jacob Misiorowski,Burlington Bees,0,75,98-100 Mph,4,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Jacob Misiorowski,Summerglen Seraphs TBD,0,75,98-100 Mph,4,-,-,1,1,0,0,89,0,0,39%,37%
+SP,Jacob Misiorowski,Evermore Larpsharks,0,75,98-100 Mph,4,-,-,1,1,0,0,57,0,0,41%,39%
+SP,Jacob Misiorowski,KR Royal Chanels,0,75,98-100 Mph,4,-,-,1,1,0,0,106,0,0,38%,24%
+SP,Jacob Misiorowski,Atlantic City Surf - GH,0,75,98-100 Mph,4,-,-,1,1,0,0,67,0,0,40%,39%
+SP,Jacob Misiorowski,Puget Sound Giant Pacific Octopi,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Little Rock Bangers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Jacob Misiorowski,Carlos Chaos Cats,0,75,98-100 Mph,4,-,-,1,1,0,0,90,0,0,39%,37%
+SP,Jacob Misiorowski,Lachute Laurentides,0,75,98-100 Mph,4,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Jacob Misiorowski,Bluff City Blues,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,La Crosse Lumber Puppies,0,75,98-100 Mph,4,-,-,1,1,0,0,85,0,0,39%,39%
+SP,Jacob Misiorowski,Jacksonville Rainstorm,0,75,98-100 Mph,4,-,-,1,1,0,0,0,88,0,18%,9%
+SP,Jacob Misiorowski,Mississauga Maple Trees,0,75,98-100 Mph,4,-,-,1,1,0,0,0,85,0,18%,9%
+SP,Jacob Misiorowski,Philadelphia Fighting Zs,0,75,98-100 Mph,4,-,-,1,1,0,0,88,0,0,39%,39%
+SP,Jacob Misiorowski,Mount Pleasant Mounties,0,75,98-100 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Jacob Misiorowski,West Palm Beach Bingo Stars,0,75,98-100 Mph,4,-,-,1,1,0,0,129,0,0,26%,11%
+SP,Jacob Misiorowski,O'block Scoundrels,0,75,98-100 Mph,4,-,-,1,1,0,0,0,99,0,17%,7%
+SP,Jacob Misiorowski,Hyannis Harbor Hawks,0,75,98-100 Mph,4,-,-,1,1,0,0,0,102,0,17%,7%
+SP,Jacob Misiorowski,Idaho Spuds,0,75,98-100 Mph,4,-,-,1,1,0,0,117,0,0,32%,15%
+SP,Jacob Misiorowski,Tuscaloosa Thunderbirds,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Starfleet Redshirts PCK,0,75,98-100 Mph,4,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Jacob Misiorowski,Chicago Beans,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Charlotte Sundevils,0,75,98-100 Mph,4,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Jacob Misiorowski,Sandusky Bullforce,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Spring Synthbangers,0,75,98-100 Mph,4,-,-,1,1,0,0,90,0,0,39%,37%
+SP,Jacob Misiorowski,Montreal Expos TTC,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Strathroy Royals,0,75,98-100 Mph,4,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Jacob Misiorowski,Normal Night Terrors - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,101,0,0,38%,28%
+SP,Jacob Misiorowski,Scranton Stranglers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Gladstone Athletics,0,75,98-100 Mph,4,-,-,1,1,0,0,66,0,0,40%,39%
+SP,Jacob Misiorowski,1st Class Millionaires,0,75,98-100 Mph,4,-,-,1,1,0,0,91,0,0,39%,35%
+SP,Jacob Misiorowski,New Jersey BC PCK,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Columbus Fire Ants,0,75,98-100 Mph,4,-,-,1,1,0,0,74,0,0,40%,39%
+SP,Jacob Misiorowski,Meaty Oakers,0,75,98-100 Mph,4,-,-,1,1,0,0,107,0,0,37%,22%
+SP,Jacob Misiorowski,Portuguese Raging Chickens,0,75,98-100 Mph,4,-,-,1,1,0,0,90,0,0,39%,37%
+SP,Jacob Misiorowski,Ocean City Crab Rave,0,75,98-100 Mph,4,-,-,1,1,0,0,100,0,0,38%,28%
+SP,Jacob Misiorowski,Ottawa Hammerheads,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,New Haven Corsairs,0,75,98-100 Mph,4,-,-,1,1,0,0,0,100,0,17%,7%
+SP,Jacob Misiorowski,Cherry Grove Lazer Raptors,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,New Planet Gophers TBD,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Mt Etna Hotter Otters - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,70,0,0,40%,39%
+SP,Jacob Misiorowski,Youngstown Ironmen,0,75,98-100 Mph,4,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Jacob Misiorowski,Motor City Kitties - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,Omaha Twisters,0,75,98-100 Mph,4,-,-,1,1,0,0,0,90,0,18%,9%
+SP,Jacob Misiorowski,Cibolo Anklebiters,0,75,98-100 Mph,4,-,-,1,1,0,0,92,0,0,38%,35%
+SP,Jacob Misiorowski,NorCal CGE,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,London Tigers,0,75,98-100 Mph,4,-,-,1,1,0,0,86,0,0,39%,39%
+SP,Jacob Misiorowski,Spite Store Hoot Owls,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,Milwaukee Milkmen,0,75,98-100 Mph,4,-,-,1,1,0,0,91,0,0,39%,35%
+SP,Jacob Misiorowski,Fairfax Firebirds,0,75,98-100 Mph,4,-,-,1,1,0,0,101,0,0,38%,28%
+SP,Jacob Misiorowski,Milwaukee Bulletts,0,75,98-100 Mph,4,-,-,1,1,0,0,61,0,0,40%,39%
+SP,Jacob Misiorowski,Satellite Beach Manatees,0,75,98-100 Mph,4,-,-,1,1,0,0,91,0,0,39%,35%
+SP,Jacob Misiorowski,Montrose Cobblers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,81,0,18%,9%
+SP,Jacob Misiorowski,Adidas Nylon Pants,0,75,98-100 Mph,4,-,-,1,1,0,0,92,0,0,38%,35%
+SP,Jacob Misiorowski,Reno Raccoons,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,Miami Tamps,0,75,98-100 Mph,4,-,-,1,1,0,0,99,0,0,38%,30%
+SP,Jacob Misiorowski,East Side Educators,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,The Black Freighter TBD,0,75,98-100 Mph,4,-,-,1,1,0,0,82,0,0,39%,39%
+SP,Jacob Misiorowski,San Francisco Seals,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,Tradewind Tides,0,75,98-100 Mph,4,-,-,1,1,0,0,90,0,0,39%,37%
+SP,Jacob Misiorowski,Powerful Tulips,0,75,98-100 Mph,4,-,-,1,1,0,0,105,0,0,38%,24%
+SP,Jacob Misiorowski,Preston Port Rats,0,75,98-100 Mph,4,-,-,1,1,0,0,0,63,0,19%,9%
+SP,Jacob Misiorowski,Mucha Fat Cat Fat Cat,0,75,98-100 Mph,4,-,-,1,1,0,0,91,0,0,39%,35%
+SP,Jacob Misiorowski,Universal Six7s TTC,0,75,98-100 Mph,4,-,-,1,1,0,0,82,0,0,39%,39%
+SP,Jacob Misiorowski,Minnesota Twins,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Taylor Street Lappers,0,75,98-100 Mph,4,-,-,1,1,0,0,101,0,0,38%,28%
+SP,Jacob Misiorowski,PA Freedom,0,75,98-100 Mph,4,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Jacob Misiorowski,Little Creek Hurricanes PCK,0,75,98-100 Mph,4,-,-,1,1,0,0,91,0,0,39%,35%
+SP,Jacob Misiorowski,We'll Do It Live,0,75,98-100 Mph,4,-,-,1,1,0,0,99,0,0,38%,30%
+SP,Jacob Misiorowski,San Diego Anchors,0,75,98-100 Mph,4,-,-,1,1,0,0,86,0,0,39%,39%
+SP,Jacob Misiorowski,Ridgefield Resistance,0,75,98-100 Mph,4,-,-,1,1,0,0,103,0,0,38%,26%
+SP,Jacob Misiorowski,Cibolo Packsters PCK,0,75,98-100 Mph,4,-,-,1,1,0,0,90,0,0,39%,37%
+SP,Jacob Misiorowski,Bloomingdale troopers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,98,0,17%,7%
+SP,Jacob Misiorowski,SSG Landers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,90,0,18%,9%
+SP,Jacob Misiorowski,Mirabel ExNats,0,75,98-100 Mph,4,-,-,1,1,0,0,0,98,0,17%,7%
+SP,Jacob Misiorowski,Milwaukee Milkmen,0,75,98-100 Mph,4,-,-,1,1,0,0,97,0,0,38%,30%
+SP,Jacob Misiorowski,Winona Lake PitVipers,0,75,98-100 Mph,4,-,-,1,1,0,0,91,0,0,39%,35%
+SP,Jacob Misiorowski,Krakow Hussars,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,Lynchville Mobster,0,75,98-100 Mph,4,-,-,1,1,0,0,0,75,0,18%,9%
+SP,Jacob Misiorowski,Kokomo Automakers,0,75,98-100 Mph,4,-,-,1,1,0,0,106,0,0,38%,24%
+SP,Jacob Misiorowski,MBQ Warriors,0,75,98-100 Mph,4,-,-,1,1,0,0,0,89,0,18%,9%
+SP,Jacob Misiorowski,Waltham River Otters,0,75,98-100 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Jacob Misiorowski,Berlin Speed Dealers SoM,0,75,98-100 Mph,4,-,-,1,1,0,0,92,0,0,38%,35%
+SP,Jacob Misiorowski,Delta Variants,0,75,98-100 Mph,4,-,-,1,1,0,0,0,90,0,18%,9%
+SP,Jacob Misiorowski,New Platson Grand Petites HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Jacob Misiorowski,Beijing Moon,0,75,98-100 Mph,4,-,-,1,1,0,0,72,0,0,40%,39%
+SP,Jacob Misiorowski,Roaming Rascals BFF,0,75,98-100 Mph,4,-,-,1,1,0,0,85,0,0,39%,39%
+SP,Jacob Misiorowski,Westborough WooSox,0,75,98-100 Mph,4,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Jacob Misiorowski,Hawkeye Hellraisers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,97,0,17%,7%
+SP,Jacob Misiorowski,Pensacola Blue Wahoos,0,75,98-100 Mph,4,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Jacob Misiorowski,Washington Border Collies,0,75,98-100 Mph,4,-,-,1,1,0,0,93,0,0,38%,35%
+SP,Jacob Misiorowski,Olathe Trailblazers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Jacob Misiorowski,Attica Lockdown,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,Wasteland Outlaws,0,75,98-100 Mph,4,-,-,1,1,0,0,89,0,0,39%,37%
+SP,Jacob Misiorowski,Lake County Captains,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,Roselle Rockets,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Pumpkin Smashers - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,107,0,0,37%,22%
+SP,Jacob Misiorowski,Red Dirt Cowboys,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Chicago Gamblers - GH,0,75,98-100 Mph,4,-,-,1,1,0,0,98,0,0,38%,30%
+SP,Jacob Misiorowski,Pensacola Swampangels,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Claude City Octopi,0,75,98-100 Mph,4,-,-,1,1,0,0,99,0,0,38%,30%
+SP,Jacob Misiorowski,Temple Texans,0,75,98-100 Mph,4,-,-,1,1,0,0,105,0,0,38%,24%
+SP,Jacob Misiorowski,Country Clubbers,0,75,98-100 Mph,4,-,-,1,1,0,0,0,97,0,17%,7%
+SP,Jacob Misiorowski,Reno Rhinos,0,75,98-100 Mph,4,-,-,1,1,0,0,90,0,0,39%,37%
+SP,Jacob Misiorowski,Moria Miners,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,Kansas City Monarchs,0,75,98-100 Mph,4,-,-,1,1,0,0,84,0,0,39%,39%
+SP,Jacob Misiorowski,Little Rock Grays,0,75,98-100 Mph,4,-,-,1,1,0,0,93,0,0,38%,35%
+SP,Jacob Misiorowski,Maranville Bad Bunnies,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Rockwall Winguts,0,75,98-100 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Jacob Misiorowski,Breslau Binturongs - HotL,0,75,98-100 Mph,4,-,-,1,1,0,0,91,0,0,39%,35%
+SP,Jacob Misiorowski,Joe Buck Yourself,0,75,98-100 Mph,4,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Jacob Misiorowski,Seattle Stealth,0,75,98-100 Mph,4,-,-,1,1,0,0,99,0,0,38%,30%
+SP,Jacob Misiorowski,Retro Birds TTC,0,75,98-100 Mph,4,-,-,1,1,0,0,0,101,0,17%,7%
+SP,Jacob Misiorowski,Chilliwack Chiefs,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,Madison Mohicans,0,75,98-100 Mph,4,-,-,1,1,0,0,0,109,0,16%,7%
+SP,Jacob Misiorowski,Allegheny Foresters,0,75,98-100 Mph,4,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Jacob Misiorowski,. Roto,0,75,98-100 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Jacob Misiorowski,Sack of Wet Mice,0,75,98-100 Mph,4,-,-,1,1,0,0,69,0,0,40%,39%
+SP,Jacob Misiorowski,Desert Sand Dwellers - JW,0,75,98-100 Mph,4,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Jacob Misiorowski,NoseKerim Astea Kerim,0,75,98-100 Mph,4,-,-,1,1,0,0,92,0,0,38%,35%
+SP,Jacob Misiorowski,Magnolia Campfires,0,75,98-100 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Jacob Misiorowski,Chicago Seals,0,75,98-100 Mph,4,-,-,1,1,0,0,96,0,0,38%,33%
+SP,Jacob Misiorowski,Taylor Ham Sandwiches,0,75,98-100 Mph,4,-,-,1,1,0,0,76,0,0,39%,39%
+SP,Jacob Misiorowski,Salty Hall Monitors TBD,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Paso Robles Powerhouse,0,75,98-100 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Jacob Misiorowski,Daegu Pilots,0,75,98-100 Mph,4,-,-,1,1,0,0,97,0,0,38%,30%
+SP,Jacob Misiorowski,Colorado Avalanche - JW,0,75,98-100 Mph,4,-,-,1,1,0,0,104,0,0,38%,26%
+SP,Jacob Misiorowski,Denver White Elephants,0,75,98-100 Mph,4,-,-,1,1,0,0,84,0,0,39%,39%
+SP,Jacob Misiorowski,Secaucus Doggies,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Cudahy Day Drinkers,0,75,98-100 Mph,4,-,-,1,1,0,0,94,0,0,38%,33%
+SP,Jacob Misiorowski,Henry Murder Hornets,0,75,98-100 Mph,4,-,-,1,1,0,0,91,0,0,39%,35%
+SP,Shohei Ohtani,Beaver Dam Beavers,0,82,97-99 Mph,5,-,-,1,1,0,0,0,103,0,18%,9%
+SP,Shohei Ohtani,Jacksonville Rainstorm,0,82,97-99 Mph,5,-,-,1,1,0,0,96,0,0,40%,34%
+SP,Shohei Ohtani,Charlotte Sundevils,0,82,97-99 Mph,5,-,-,1,1,0,0,95,0,0,40%,34%
+SP,Shohei Ohtani,Normal Night Terrors - HotL,0,82,97-99 Mph,5,-,-,1,1,0,0,0,101,0,18%,9%
+SP,Shohei Ohtani,Motor City Kitties - HotL,0,82,97-99 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Shohei Ohtani,Minnesota Twins,0,82,97-99 Mph,5,-,-,1,1,0,0,95,0,0,40%,34%
+SP,Shohei Ohtani,We'll Do It Live,0,82,97-99 Mph,5,-,-,1,1,0,0,0,85,0,19%,9%
+SP,Shohei Ohtani,San Diego Anchors,0,82,97-99 Mph,5,-,-,1,1,0,0,0,85,0,19%,9%
+SP,Shohei Ohtani,Delta Variants,0,82,97-99 Mph,5,-,-,1,1,0,0,93,0,0,40%,36%
+SP,Shohei Ohtani,Arcadia Wyverns,0,82,97-99 Mph,5,-,-,1,1,0,0,108,0,0,38%,23%
+SP,Cole Ragans,Eggplant Parmesan,0,70,96-98 Mph,5,-,-,1,0,0,0,0,12,0,43%,93%
+SP,Drew Rasmussen,Cibao Aguilas,0,75,97-99 Mph,3,-,-,1,0,0,0,31,0,0,43%,83%
+SP,Drew Rasmussen,Salem-Keizer Volcanoes,0,75,97-99 Mph,3,-,-,1,1,0,0,0,90,0,18%,9%
+SP,Drew Rasmussen,Kerrville Antlers,0,75,97-99 Mph,3,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Drew Rasmussen,Erie Seawolves,0,75,97-99 Mph,3,-,-,1,0,0,0,0,19,0,39%,89%
+SP,Drew Rasmussen,Fishhawk Freedom,0,75,97-99 Mph,3,-,-,1,1,0,0,58,0,0,40%,39%
+SP,Drew Rasmussen,Carlos Chaos Cats,0,75,97-99 Mph,3,-,-,1,0,0,0,0,36,0,32%,72%
+SP,Drew Rasmussen,Anyang 235,0,75,97-99 Mph,3,-,-,1,1,0,0,95,0,0,38%,33%
+SP,Drew Rasmussen,Montreal Expos TTC,0,75,97-99 Mph,3,-,-,1,1,0,0,0,104,0,17%,7%
+SP,Drew Rasmussen,Ottawa Hammerheads,0,75,97-99 Mph,3,-,-,2,0,0,0,9,36,0,21%,37%
+SP,Drew Rasmussen,Montrose Cobblers,0,75,97-99 Mph,3,-,-,1,1,0,0,90,0,0,39%,37%
+SP,Drew Rasmussen,Adidas Nylon Pants,0,75,97-99 Mph,3,-,-,1,0,0,0,0,25,0,36%,80%
+SP,Drew Rasmussen,STMDB EXPOS,0,75,97-99 Mph,3,-,-,1,1,0,0,0,87,0,18%,9%
+SP,Drew Rasmussen,Sierra Nevada Nuggets,0,75,97-99 Mph,3,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Drew Rasmussen,Powerful Tulips,0,75,97-99 Mph,3,-,-,1,0,0,0,0,20,0,39%,89%
+SP,Drew Rasmussen,City Hospital Doctors,0,75,97-99 Mph,3,-,-,1,1,0,0,75,0,0,39%,39%
+SP,Drew Rasmussen,MBQ Warriors,0,75,97-99 Mph,3,-,-,2,0,0,0,18,13,0,24%,54%
+SP,Drew Rasmussen,Washington Border Collies,0,75,97-99 Mph,3,-,-,1,0,0,0,0,17,0,40%,91%
+SP,Drew Rasmussen,Sunnyvale Bottlekids,0,75,97-99 Mph,3,-,-,1,1,0,0,0,96,0,17%,7%
+SP,Drew Rasmussen,Rockwall Ballers,0,75,97-99 Mph,3,-,-,1,1,0,0,0,86,0,18%,9%
+SP,Drew Rasmussen,Arcadia Wyverns,0,75,97-99 Mph,3,-,-,1,1,0,0,0,99,0,17%,7%
+SP,Drew Rasmussen,Washington Bishops,0,75,97-99 Mph,3,-,-,1,1,0,0,0,61,0,19%,9%
+SP,Drew Rasmussen,Tennessee Tornado Bats,0,75,97-99 Mph,3,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Drew Rasmussen,Taylor Ham Sandwiches,0,75,97-99 Mph,3,-,-,1,1,0,0,0,64,0,19%,9%
+SP,Drew Rasmussen,Salty Hall Monitors TBD,0,75,97-99 Mph,3,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Joe Ryan,Iowa Ironmen,0,75,94-96 Mph,4,-,-,1,1,0,0,0,97,0,17%,7%
+SP,Chris Sale,Portland Grizzlies,0,81,96-98 Mph,4,-,-,1,1,0,0,0,102,0,18%,9%
+SP,Chris Sale,Detroit Tigers,0,81,96-98 Mph,4,-,-,1,1,0,0,97,0,0,39%,32%
+SP,Chris Sale,San Diego Wombats,0,81,96-98 Mph,4,-,-,1,1,0,0,0,105,0,18%,9%
+SP,Chris Sale,El Paso Preguntas,0,81,96-98 Mph,4,-,-,1,1,0,0,99,0,0,39%,32%
+SP,Chris Sale,Lyman Legends,0,81,96-98 Mph,4,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Chris Sale,Charlotte Speedway Rat Finks - HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,102,0,18%,9%
+SP,Chris Sale,Kerrville Antlers,0,81,96-98 Mph,4,-,-,1,1,0,0,99,0,0,39%,32%
+SP,Chris Sale,Guro Gunslingers,0,81,96-98 Mph,4,-,-,1,1,0,0,0,101,0,18%,9%
+SP,Chris Sale,Summerglen Seraphs TBD,0,81,96-98 Mph,4,-,-,1,1,0,0,0,89,0,18%,9%
+SP,Chris Sale,Philadelphia Fighting Zs,0,81,96-98 Mph,4,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Chris Sale,Global Rippers PCK,0,81,96-98 Mph,4,-,-,1,1,0,0,93,0,0,40%,36%
+SP,Chris Sale,minggus babbugies,0,81,96-98 Mph,4,-,-,1,1,0,0,92,0,0,40%,36%
+SP,Chris Sale,Portuguese Raging Chickens,0,81,96-98 Mph,4,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Chris Sale,Omaha Twisters,0,81,96-98 Mph,4,-,-,1,1,0,0,91,0,0,40%,36%
+SP,Chris Sale,The Black Freighter TBD,0,81,96-98 Mph,4,-,-,1,0,0,0,38,0,0,44%,79%
+SP,Chris Sale,San Francisco Seals,0,81,96-98 Mph,4,-,-,1,1,0,0,0,71,0,19%,9%
+SP,Chris Sale,Camjaveratyn O-Forge,0,81,96-98 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Chris Sale,Oslo Nordiques,0,81,96-98 Mph,4,-,-,1,1,0,0,0,87,0,19%,9%
+SP,Chris Sale,We'll Do It Live,0,81,96-98 Mph,4,-,-,1,0,0,0,25,0,0,46%,85%
+SP,Chris Sale,Ridgefield Resistance,0,81,96-98 Mph,4,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Chris Sale,Winona Lake PitVipers,0,81,96-98 Mph,4,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Chris Sale,Charlotte Aviators - JW,0,81,96-98 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Chris Sale,Erie Moon Mammoths PCK,0,81,96-98 Mph,4,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Chris Sale,Roaming Rascals BFF,0,81,96-98 Mph,4,-,-,1,0,0,0,41,0,0,43%,77%
+SP,Chris Sale,Haverhill Hillies,0,81,96-98 Mph,4,-,-,1,1,0,0,0,102,0,18%,9%
+SP,Chris Sale,North American 20 and 30 Somethings,0,81,96-98 Mph,4,-,-,1,1,0,0,98,0,0,39%,32%
+SP,Chris Sale,Pumpkin Smashers - HotL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,103,0,18%,9%
+SP,Chris Sale,Claude City Octopi,0,81,96-98 Mph,4,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Chris Sale,Moria Miners,0,81,96-98 Mph,4,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Chris Sale,Seattle Stealth,0,81,96-98 Mph,4,-,-,1,1,0,0,0,102,0,18%,9%
+SP,Chris Sale,Cibao Aguilas,0,81,96-98 Mph,4,-,-,1,1,0,0,71,0,0,41%,40%
+SP,Chris Sale,Allegheny Foresters,0,81,96-98 Mph,4,-,-,1,0,0,0,0,32,0,33%,74%
+SP,Chris Sale,NoseKerim Astea Kerim,0,81,96-98 Mph,4,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Chris Sale,Albion Rhody Rounders,0,81,96-98 Mph,4,-,-,1,0,0,0,50,0,0,42%,70%
+SP,Chris Sale,Taylor Ham Sandwiches,0,81,96-98 Mph,4,-,-,1,0,0,0,0,53,0,20%,34%
+SP,Chris Sale,Phoenix Mango Slush - HOTL,0,81,96-98 Mph,4,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Chris Sale,Anchorage Sky Hawks,0,81,96-98 Mph,4,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Chris Sale,Colorado Avalanche - JW,0,81,96-98 Mph,4,-,-,1,1,0,0,0,98,0,18%,9%
+SP,Chris Sale,Fletcher Froggers,0,81,96-98 Mph,4,-,-,1,1,0,0,0,84,0,19%,9%
+SP,Cristopher Sanchez,York Revolution,0,89,95-97 Mph,3,-,-,1,1,0,0,0,104,0,19%,9%
+SP,Cristopher Sanchez,Little Rock Grays,0,89,95-97 Mph,3,-,-,1,1,0,0,0,97,0,19%,9%
+SP,Cristopher Sanchez,Cibao Aguilas,0,89,95-97 Mph,3,-,-,1,0,0,0,10,0,0,49%,98%
+SP,Cristopher Sanchez,MAPO Gorolt,0,89,95-97 Mph,3,-,-,1,1,0,0,107,0,0,39%,26%
+SP,Cam Schlittler,Oysters Incognito,0,79,95-97 Mph,5,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Cam Schlittler,Tewksbury Minutemen,0,79,95-97 Mph,5,-,-,1,1,0,0,0,90,0,18%,9%
+SP,Cam Schlittler,Cleveland Fighting Walleye,0,79,95-97 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Cam Schlittler,Norman Wild Dogs,0,79,95-97 Mph,5,-,-,1,1,0,0,0,84,0,18%,9%
+SP,Cam Schlittler,Lake County Captains,0,79,95-97 Mph,5,-,-,1,1,0,0,0,102,0,18%,9%
+SP,Cam Schlittler,Star City Arrows,0,79,95-97 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Cam Schlittler,Farmville Barnyard,0,79,95-97 Mph,5,-,-,1,1,0,0,0,97,0,18%,9%
+SP,Cam Schlittler,Duluth Deviled Lettuce,0,79,95-97 Mph,5,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Cam Schlittler,Burlington Bees,0,79,95-97 Mph,5,-,-,1,1,0,0,0,64,0,19%,9%
+SP,Cam Schlittler,Atlantis Ancients,0,79,95-97 Mph,5,-,-,1,1,0,0,0,77,0,19%,9%
+SP,Cam Schlittler,Minneapolis Millers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Cam Schlittler,B-Town Nasty Boyz,0,79,95-97 Mph,5,-,-,1,0,0,0,0,37,0,31%,72%
+SP,Cam Schlittler,Miramar Flying Tigers,0,79,95-97 Mph,5,-,-,1,0,0,0,0,41,0,22%,50%
+SP,Cam Schlittler,Scruffy Nerf Herders,0,79,95-97 Mph,5,-,-,1,1,0,0,91,0,0,39%,37%
+SP,Cam Schlittler,Mount Pleasant Mounties,0,79,95-97 Mph,5,-,-,1,0,0,0,2,0,0,49%,100%
+SP,Cam Schlittler,Montana Cakester,0,79,95-97 Mph,5,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Cam Schlittler,Green Dirigibles,0,79,95-97 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Cam Schlittler,Global Rippers PCK,0,79,95-97 Mph,5,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Cam Schlittler,Mooresville Devils,0,79,95-97 Mph,5,-,-,1,1,0,0,0,104,0,18%,9%
+SP,Cam Schlittler,New Jersey BC PCK,0,79,95-97 Mph,5,-,-,1,1,0,0,0,89,0,18%,9%
+SP,Cam Schlittler,Cheswick Saxons,0,79,95-97 Mph,5,-,-,1,1,0,0,0,103,0,18%,9%
+SP,Cam Schlittler,Brentwood Guggenheims SoM,0,79,95-97 Mph,5,-,-,1,1,0,0,96,0,0,39%,33%
+SP,Cam Schlittler,Port Angeles Lefties,0,79,95-97 Mph,5,-,-,1,1,0,0,0,90,0,18%,9%
+SP,Cam Schlittler,London Tigers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,88,0,18%,9%
+SP,Cam Schlittler,Absolute Units,0,79,95-97 Mph,5,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Cam Schlittler,Doosan Bears,0,79,95-97 Mph,5,-,-,1,1,0,0,63,0,0,41%,41%
+SP,Cam Schlittler,Angkor Koupreys,0,79,95-97 Mph,5,-,-,1,1,0,0,91,0,0,39%,37%
+SP,Cam Schlittler,Charlotte Phighters,0,79,95-97 Mph,5,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Cam Schlittler,Fairfax Firebirds,0,79,95-97 Mph,5,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Cam Schlittler,STMDB EXPOS,0,79,95-97 Mph,5,-,-,1,1,0,0,95,0,0,39%,33%
+SP,Cam Schlittler,Powerful Tulips,0,79,95-97 Mph,5,-,-,1,1,0,0,0,114,0,15%,7%
+SP,Cam Schlittler,Oslo Nordiques,0,79,95-97 Mph,5,-,-,1,1,0,0,66,0,0,41%,41%
+SP,Cam Schlittler,Brooklyn Tip-Tops,0,79,95-97 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Cam Schlittler,Kokomo Automakers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,75,0,19%,9%
+SP,Cam Schlittler,Boise Potato Mashers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Cam Schlittler,Berlin Speed Dealers SoM,0,79,95-97 Mph,5,-,-,1,1,0,0,0,83,0,18%,9%
+SP,Cam Schlittler,Beijing Moon,0,79,95-97 Mph,5,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Cam Schlittler,Faybik Narwhals,0,79,95-97 Mph,5,-,-,1,1,0,0,83,0,0,40%,41%
+SP,Cam Schlittler,Worcester Boys of Somers,0,79,95-97 Mph,5,-,-,1,1,0,0,0,89,0,18%,9%
+SP,Cam Schlittler,Imatra Pallo-Veikot,0,79,95-97 Mph,5,-,-,1,1,0,0,0,61,0,19%,9%
+SP,Cam Schlittler,- I GOT YOUR SIX - - IGY6 -,0,79,95-97 Mph,5,-,-,1,1,0,0,0,98,0,18%,9%
+SP,Cam Schlittler,Reno Rhinos,0,79,95-97 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Cam Schlittler,Retro Birds TTC,0,79,95-97 Mph,5,-,-,1,1,0,0,95,0,0,39%,33%
+SP,Cam Schlittler,Tennessee Tornado Bats,0,79,95-97 Mph,5,-,-,1,1,0,0,97,0,0,39%,33%
+SP,Cam Schlittler,Moncton Mosquitos,0,79,95-97 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Cam Schlittler,Fairfield Pine Cones,0,79,95-97 Mph,5,-,-,1,1,0,0,89,0,0,39%,39%
+SP,Cam Schlittler,Allegheny Foresters,0,79,95-97 Mph,5,-,-,1,1,0,0,0,97,0,18%,9%
+SP,Cam Schlittler,Magnolia Campfires,0,79,95-97 Mph,5,-,-,2,0,0,0,27,14,0,24%,52%
+SP,Cam Schlittler,Daegu Pilots,0,79,95-97 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Paul Skenes,Tewksbury Minutemen,0,79,98-100 Mph,5,-,-,1,1,0,0,84,0,0,40%,41%
+SP,Paul Skenes,Brethren Bobcats,0,79,98-100 Mph,5,-,-,1,0,0,0,26,0,0,45%,87%
+SP,Paul Skenes,Fishhawk Freedom,0,79,98-100 Mph,5,-,-,1,1,0,0,0,109,0,17%,7%
+SP,Paul Skenes,Miramar Flying Tigers,0,79,98-100 Mph,5,-,-,1,1,0,0,0,103,0,18%,9%
+SP,Paul Skenes,Jacksonville Cardinals,0,79,98-100 Mph,5,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Paul Skenes,Idaho Spuds,0,79,98-100 Mph,5,-,-,1,1,0,0,0,105,0,18%,9%
+SP,Paul Skenes,Anyang 235,0,79,98-100 Mph,5,-,-,1,1,0,0,0,72,0,19%,9%
+SP,Paul Skenes,RETO Dragons,0,79,98-100 Mph,5,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Paul Skenes,Preston Port Rats,0,79,98-100 Mph,5,-,-,1,0,0,0,8,0,0,48%,98%
+SP,Paul Skenes,Erie Moon Mammoths PCK,0,79,98-100 Mph,5,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Paul Skenes,San Antonio Wembys,0,79,98-100 Mph,5,-,-,1,1,0,0,0,72,0,19%,9%
+SP,Paul Skenes,Allegheny Foresters,0,79,98-100 Mph,5,-,-,1,0,0,0,0,29,0,34%,78%
+SP,Tarik Skubal,Whitetop Mountains,0,80,99-101 Mph,5,-,-,1,1,0,0,0,74,0,19%,9%
+SP,Tarik Skubal,Casselberry Storm,0,80,99-101 Mph,5,-,-,1,1,0,0,0,98,0,18%,9%
+SP,Tarik Skubal,Huatulco Tacos,0,80,99-101 Mph,5,-,-,1,1,0,0,0,103,0,18%,9%
+SP,Tarik Skubal,Sandy Bees,0,80,99-101 Mph,5,-,-,1,1,0,0,92,0,0,40%,36%
+SP,Tarik Skubal,Chicago Gamblers - E6,0,80,99-101 Mph,5,-,-,1,1,0,0,0,101,0,18%,9%
+SP,Tarik Skubal,OBX Waveriders,0,80,99-101 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Tarik Skubal,Cleveland Fighting Walleye,0,80,99-101 Mph,5,-,-,1,1,0,0,98,0,0,39%,32%
+SP,Tarik Skubal,Compton Chronic,0,80,99-101 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Tarik Skubal,Farmville Barnyard,0,80,99-101 Mph,5,-,-,1,1,0,0,75,0,0,41%,40%
+SP,Tarik Skubal,Topeka SOX,0,80,99-101 Mph,5,-,-,1,1,0,0,0,98,0,18%,9%
+SP,Tarik Skubal,Totskoye Nuclear Bears,0,80,99-101 Mph,5,-,-,1,1,0,0,0,97,0,18%,9%
+SP,Tarik Skubal,Duluth Deviled Lettuce,0,80,99-101 Mph,5,-,-,1,1,0,0,92,0,0,40%,36%
+SP,Tarik Skubal,Erie Seawolves,0,80,99-101 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Tarik Skubal,Evermore Larpsharks,0,80,99-101 Mph,5,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Tarik Skubal,KR Royal Chanels,0,80,99-101 Mph,5,-,-,1,1,0,0,0,79,0,19%,9%
+SP,Tarik Skubal,Atlantis Ancients,0,80,99-101 Mph,5,-,-,1,1,0,0,91,0,0,40%,36%
+SP,Tarik Skubal,Minneapolis Millers,0,80,99-101 Mph,5,-,-,1,1,0,0,90,0,0,40%,38%
+SP,Tarik Skubal,Puget Sound Giant Pacific Octopi,0,80,99-101 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Tarik Skubal,Carlos Chaos Cats,0,80,99-101 Mph,5,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Tarik Skubal,Miramar Flying Tigers,0,80,99-101 Mph,5,-,-,1,1,0,0,107,0,0,38%,23%
+SP,Tarik Skubal,Scruffy Nerf Herders,0,80,99-101 Mph,5,-,-,1,1,0,0,0,87,0,18%,9%
+SP,Tarik Skubal,Jacksonville Cardinals,0,80,99-101 Mph,5,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Tarik Skubal,West Palm Beach Bingo Stars,0,80,99-101 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Tarik Skubal,Montana Cakester,0,80,99-101 Mph,5,-,-,1,1,0,0,100,0,0,39%,30%
+SP,Tarik Skubal,Green Dirigibles,0,80,99-101 Mph,5,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Tarik Skubal,minggus babbugies,0,80,99-101 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Tarik Skubal,Houston Flying Chanclas,0,80,99-101 Mph,5,-,-,1,1,0,0,0,102,0,18%,9%
+SP,Tarik Skubal,RETO Dragons,0,80,99-101 Mph,5,-,-,1,1,0,0,75,0,0,41%,40%
+SP,Tarik Skubal,Scottish Claymores,0,80,99-101 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Tarik Skubal,Gladstone Athletics,0,80,99-101 Mph,5,-,-,1,1,0,0,0,64,0,19%,9%
+SP,Tarik Skubal,1st Class Millionaires,0,80,99-101 Mph,5,-,-,1,1,0,0,0,101,0,18%,9%
+SP,Tarik Skubal,Mooresville Devils,0,80,99-101 Mph,5,-,-,1,1,0,0,101,0,0,39%,30%
+SP,Tarik Skubal,Columbus Fire Ants,0,80,99-101 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Tarik Skubal,El Vampiro Ankle Biters,0,80,99-101 Mph,5,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Tarik Skubal,Meaty Oakers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,101,0,18%,9%
+SP,Tarik Skubal,Ocean City Crab Rave,0,80,99-101 Mph,5,-,-,1,1,0,0,0,85,0,18%,9%
+SP,Tarik Skubal,Ottawa Hammerheads,0,80,99-101 Mph,5,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Tarik Skubal,New Old Yankees TTC,0,80,99-101 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Tarik Skubal,New Planet Gophers TBD,0,80,99-101 Mph,5,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Tarik Skubal,Merrick Mayhem,0,80,99-101 Mph,5,-,-,1,1,0,0,95,0,0,39%,34%
+SP,Tarik Skubal,Youngstown Ironmen,0,80,99-101 Mph,5,-,-,1,1,0,0,0,76,0,19%,9%
+SP,Tarik Skubal,Cibolo Anklebiters,0,80,99-101 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Tarik Skubal,Brentwood Guggenheims SoM,0,80,99-101 Mph,5,-,-,1,1,0,0,0,90,0,18%,9%
+SP,Tarik Skubal,NorCal CGE,0,80,99-101 Mph,5,-,-,1,1,0,0,0,79,0,19%,9%
+SP,Tarik Skubal,Spite Store Hoot Owls,0,80,99-101 Mph,5,-,-,1,1,0,0,0,97,0,18%,9%
+SP,Tarik Skubal,Milwaukee Milkmen,0,80,99-101 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Tarik Skubal,Absolute Units,0,80,99-101 Mph,5,-,-,1,1,0,0,100,0,0,39%,30%
+SP,Tarik Skubal,Lamigo Monkeys,0,80,99-101 Mph,5,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Tarik Skubal,Charlotte Phighters,0,80,99-101 Mph,5,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Tarik Skubal,Milwaukee Bulletts,0,80,99-101 Mph,5,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Tarik Skubal,Reno Raccoons,0,80,99-101 Mph,5,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Tarik Skubal,Miami Tamps,0,80,99-101 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Tarik Skubal,East Side Educators,0,80,99-101 Mph,5,-,-,1,1,0,0,0,101,0,18%,9%
+SP,Tarik Skubal,Memphis Rivers,0,80,99-101 Mph,5,-,-,1,1,0,0,99,0,0,39%,30%
+SP,Tarik Skubal,Santa Monica Vikings,0,80,99-101 Mph,5,-,-,1,1,0,0,0,97,0,18%,9%
+SP,Tarik Skubal,Sierra Nevada Nuggets,0,80,99-101 Mph,5,-,-,1,1,0,0,97,0,0,39%,32%
+SP,Tarik Skubal,Tradewind Tides,0,80,99-101 Mph,5,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Tarik Skubal,Mucha Fat Cat Fat Cat,0,80,99-101 Mph,5,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Tarik Skubal,Camjaveratyn O-Forge,0,80,99-101 Mph,5,-,-,1,0,0,0,0,27,0,35%,79%
+SP,Tarik Skubal,Taylor Street Lappers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,55,0,20%,32%
+SP,Tarik Skubal,Little Creek Hurricanes PCK,0,80,99-101 Mph,5,-,-,1,1,0,0,0,61,0,19%,9%
+SP,Tarik Skubal,Seoul Heroes,0,80,99-101 Mph,5,-,-,1,1,0,0,107,0,0,38%,23%
+SP,Tarik Skubal,Brooklyn Tip-Tops,0,80,99-101 Mph,5,-,-,1,1,0,0,95,0,0,39%,34%
+SP,Tarik Skubal,We'll Do It Live,0,80,99-101 Mph,5,-,-,1,0,0,0,17,0,0,47%,94%
+SP,Tarik Skubal,China CARP MUSIC,0,80,99-101 Mph,5,-,-,1,1,0,0,77,0,0,40%,40%
+SP,Tarik Skubal,Cibolo Packsters PCK,0,80,99-101 Mph,5,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Tarik Skubal,Bloomingdale troopers,0,80,99-101 Mph,5,-,-,1,1,0,0,91,0,0,40%,36%
+SP,Tarik Skubal,City Hospital Doctors,0,80,99-101 Mph,5,-,-,1,1,0,0,0,57,0,20%,30%
+SP,Tarik Skubal,Milwaukee Milkmen,0,80,99-101 Mph,5,-,-,1,1,0,0,0,97,0,18%,9%
+SP,Tarik Skubal,Krakow Hussars,0,80,99-101 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Tarik Skubal,Moonsault Collective MCs,0,80,99-101 Mph,5,-,-,1,1,0,0,0,66,0,19%,9%
+SP,Tarik Skubal,Roaming Rascals BFF,0,80,99-101 Mph,5,-,-,2,0,0,0,4,55,0,20%,9%
+SP,Tarik Skubal,Westborough WooSox,0,80,99-101 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Tarik Skubal,Haverhill Hillies,0,80,99-101 Mph,5,-,-,1,1,0,0,99,0,0,39%,30%
+SP,Tarik Skubal,Washington Border Collies,0,80,99-101 Mph,5,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Tarik Skubal,Attica Lockdown,0,80,99-101 Mph,5,-,-,1,1,0,0,0,99,0,18%,9%
+SP,Tarik Skubal,Sunnyvale Bottlekids,0,80,99-101 Mph,5,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Tarik Skubal,Wasteland Outlaws,0,80,99-101 Mph,5,-,-,1,1,0,0,0,88,0,18%,9%
+SP,Tarik Skubal,Lake County Captains,0,80,99-101 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Tarik Skubal,North American 20 and 30 Somethings,0,80,99-101 Mph,5,-,-,1,0,0,0,8,0,0,49%,96%
+SP,Tarik Skubal,Roselle Rockets,0,80,99-101 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Tarik Skubal,Red Dirt Cowboys,0,80,99-101 Mph,5,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Tarik Skubal,Worcester Boys of Somers,0,80,99-101 Mph,5,-,-,1,1,0,0,93,0,0,39%,36%
+SP,Tarik Skubal,Rockwall Ballers,0,80,99-101 Mph,5,-,-,1,1,0,0,102,0,0,39%,28%
+SP,Tarik Skubal,Temple Texans,0,80,99-101 Mph,5,-,-,1,1,0,0,0,105,0,18%,9%
+SP,Tarik Skubal,Imatra Pallo-Veikot,0,80,99-101 Mph,5,-,-,1,1,0,0,98,0,0,39%,32%
+SP,Tarik Skubal,- I GOT YOUR SIX - - IGY6 -,0,80,99-101 Mph,5,-,-,1,1,0,0,100,0,0,39%,30%
+SP,Tarik Skubal,Chicago Exploding Whales,0,80,99-101 Mph,5,-,-,1,1,0,0,0,93,0,18%,9%
+SP,Tarik Skubal,Washington Bishops,0,80,99-101 Mph,5,-,-,1,1,0,0,99,0,0,39%,30%
+SP,Tarik Skubal,Kotonoha Akanetics,0,80,99-101 Mph,5,-,-,1,1,0,0,0,94,0,18%,9%
+SP,Tarik Skubal,Moncton Mosquitos,0,80,99-101 Mph,5,-,-,1,1,0,0,98,0,0,39%,32%
+SP,Tarik Skubal,Sack of Wet Mice,0,80,99-101 Mph,5,-,-,1,1,0,0,0,62,0,19%,9%
+SP,Tarik Skubal,Chicago Seals,0,80,99-101 Mph,5,-,-,1,1,0,0,0,96,0,18%,9%
+SP,Tarik Skubal,Albion Rhody Rounders,0,80,99-101 Mph,5,-,-,1,1,0,0,0,118,0,14%,6%
+SP,Tarik Skubal,Anchorage Sky Hawks,0,80,99-101 Mph,5,-,-,1,1,0,0,69,0,0,41%,40%
+SP,Tarik Skubal,Denver White Elephants,0,80,99-101 Mph,5,-,-,1,1,0,0,0,87,0,18%,9%
+SP,Tarik Skubal,Secaucus Doggies,0,80,99-101 Mph,5,-,-,1,1,0,0,0,91,0,18%,9%
+SP,Tarik Skubal,Cudahy Day Drinkers,0,80,99-101 Mph,5,-,-,1,1,0,0,0,100,0,18%,9%
+SP,Blake Snell,Lake County Captains,0,56,96-98 Mph,4,-,-,1,0,0,0,5,0,0,53%,100%
+SP,Blake Snell,Miramar Flying Tigers,0,56,96-98 Mph,4,-,-,1,0,0,0,0,10,0,51%,95%
+SP,Blake Snell,RETO Dragons,0,56,96-98 Mph,4,-,-,1,0,0,0,0,37,0,37%,70%
+SP,Blake Snell,Boston Red Stockings,0,56,96-98 Mph,4,-,-,1,1,0,0,74,0,0,37%,41%
+SP,Blake Snell,- I GOT YOUR SIX - - IGY6 -,0,56,96-98 Mph,4,-,-,1,0,0,0,44,0,0,40%,75%
+SP,Blake Snell,MAPO Gorolt,0,56,96-98 Mph,4,-,-,1,1,0,0,0,86,0,16%,7%
+SP,Michael Soroka,Iowa Ironmen,0,70,94-96 Mph,4,-,-,1,1,0,0,92,0,0,39%,35%
+SP,Michael Soroka,Doosan Bears,0,70,94-96 Mph,4,-,-,1,0,0,0,0,31,0,35%,76%
+SP,Michael Soroka,Sierra Nevada Nuggets,0,70,94-96 Mph,4,-,-,1,0,0,0,0,15,0,42%,91%
+SP,Payton Tolle,Rochester Red Wings,0,77,94-96 Mph,4,-,-,1,1,0,0,0,95,0,18%,9%
+SP,Payton Tolle,RETO Dragons,0,77,94-96 Mph,4,-,-,1,0,0,0,15,0,0,47%,96%
+SP,Payton Tolle,New Jersey BC PCK,0,77,94-96 Mph,4,-,-,1,0,0,0,0,38,0,32%,72%
+SP,Payton Tolle,Adidas Nylon Pants,0,77,94-96 Mph,4,-,-,1,0,0,0,0,22,0,39%,89%
+SP,Payton Tolle,Boston Red Stockings,0,77,94-96 Mph,4,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Payton Tolle,Presidential Naptime,0,77,94-96 Mph,4,-,-,1,1,0,0,0,77,0,18%,9%
+SP,Logan Webb,Longview Lumberjacks,0,86,93-95 Mph,5,-,-,1,1,0,0,69,0,0,41%,40%
+SP,Logan Webb,Canadian Exchange Rate,0,86,93-95 Mph,5,-,-,1,1,0,0,58,0,0,42%,40%
+SP,Zack Wheeler,Tewksbury Minutemen,0,80,96-98 Mph,5,-,-,1,0,0,0,19,0,0,46%,91%
+SP,Gavin Williams,Sierra Nevada Nuggets,0,79,96-98 Mph,5,-,-,1,0,0,0,0,5,0,44%,98%
+SP,Bryan Woo,China CARP MUSIC,0,81,95-97 Mph,4,-,-,1,1,0,0,0,92,0,18%,9%
+SP,Bryan Woo,Lake County Captains,0,81,95-97 Mph,4,-,-,1,0,0,0,0,13,0,42%,94%
+SP,Brandon Woodruff,New York Jackhammers,0,61,96-98 Mph,4,-,-,1,1,0,0,0,81,0,18%,9%
+SP,Brandon Woodruff,- I GOT YOUR SIX - - IGY6 -,0,61,96-98 Mph,4,-,-,1,0,0,0,16,0,0,47%,93%
+SP,Yoshinobu Yamamoto,Cibao Aguilas,0,86,96-98 Mph,6,-,-,1,0,0,0,7,0,0,49%,98%
+SP,Yoshinobu Yamamoto,Queso Cats,0,86,96-98 Mph,6,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Yoshinobu Yamamoto,OBX Waveriders,0,86,96-98 Mph,6,-,-,1,0,0,0,8,0,0,49%,98%
+SP,Yoshinobu Yamamoto,Scranton Tacos,0,86,96-98 Mph,6,-,-,1,1,0,0,0,98,0,19%,9%
+SP,Yoshinobu Yamamoto,Totskoye Nuclear Bears,0,86,96-98 Mph,6,-,-,1,0,0,0,8,0,0,49%,98%
+SP,Yoshinobu Yamamoto,Erie Seawolves,0,86,96-98 Mph,6,-,-,1,0,0,0,14,0,0,48%,96%
+SP,Yoshinobu Yamamoto,Atlantic City Surf - GH,0,86,96-98 Mph,6,-,-,1,1,0,0,0,73,0,20%,9%
+SP,Yoshinobu Yamamoto,Carlos Chaos Cats,0,86,96-98 Mph,6,-,-,1,0,0,0,7,0,0,49%,98%
+SP,Yoshinobu Yamamoto,Bluff City Blues,0,86,96-98 Mph,6,-,-,1,1,0,0,98,0,0,39%,32%
+SP,Yoshinobu Yamamoto,Mississauga Maple Trees,0,86,96-98 Mph,6,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Yoshinobu Yamamoto,Spring Synthbangers,0,86,96-98 Mph,6,-,-,1,1,0,0,0,97,0,19%,9%
+SP,Yoshinobu Yamamoto,Meaty Oakers,0,86,96-98 Mph,6,-,-,1,0,0,0,0,34,0,33%,74%
+SP,Yoshinobu Yamamoto,Cherry Grove Lazer Raptors,0,86,96-98 Mph,6,-,-,1,1,0,0,0,92,0,19%,9%
+SP,Yoshinobu Yamamoto,Merrick Mayhem,0,86,96-98 Mph,6,-,-,1,1,0,0,0,68,0,20%,9%
+SP,Yoshinobu Yamamoto,Miami Tamps,0,86,96-98 Mph,6,-,-,1,0,0,0,37,0,0,44%,81%
+SP,Yoshinobu Yamamoto,Powerful Tulips,0,86,96-98 Mph,6,-,-,1,0,0,0,0,5,0,43%,98%
+SP,Yoshinobu Yamamoto,PA Freedom,0,86,96-98 Mph,6,-,-,1,1,0,0,72,0,0,41%,40%
+SP,Yoshinobu Yamamoto,MBQ Warriors,0,86,96-98 Mph,6,-,-,2,0,0,0,15,13,0,25%,57%
+SP,Yoshinobu Yamamoto,Washington Border Collies,0,86,96-98 Mph,6,-,-,1,0,0,0,0,63,0,20%,9%
+SP,Yoshinobu Yamamoto,Chicago Gamblers - GH,0,86,96-98 Mph,6,-,-,1,1,0,0,0,94,0,19%,9%
+SP,Yoshinobu Yamamoto,Country Clubbers,0,86,96-98 Mph,6,-,-,1,0,0,0,33,0,0,44%,83%
+SP,Yoshinobu Yamamoto,Moria Miners,0,86,96-98 Mph,6,-,-,1,0,0,0,0,39,0,31%,70%
+SP,Yoshinobu Yamamoto,San Antonio Wembys,0,86,96-98 Mph,6,-,-,1,1,0,0,96,0,0,39%,34%
+SP,Yoshinobu Yamamoto,. Roto,0,86,96-98 Mph,6,-,-,2,0,0,0,1,15,0,40%,91%
+SP,Yoshinobu Yamamoto,Magnolia Campfires,0,86,96-98 Mph,6,-,-,1,0,0,0,19,0,0,47%,94%
+SP,Yoshinobu Yamamoto,Taylor Ham Sandwiches,0,86,96-98 Mph,6,-,-,1,0,0,0,42,0,0,43%,77%
+SP,Yoshinobu Yamamoto,Leavenworth Steins,0,86,96-98 Mph,6,-,-,1,1,0,0,96,0,0,39%,34%
