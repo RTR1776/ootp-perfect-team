@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Silver — Claude pick 2026-10-19-ptcs8, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Hilltop Park --park-year 1905 --max 79 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Biz Mackey #86894
+R:1B Joe Judge #84194
+R:2B Nap Lajoie #86581
+R:3B Joe Dugan (VAR) #86765
+R:SS Sam Bankhead #87160
+R:LF Tom Brown #86767
+R:CF Pop Corkhill #86582
+R:RF Willie Keeler #85878
+L:C Biz Mackey #86894
+L:1B Joe Judge #84194
+L:2B Pat Patterson #87080
+L:3B Joe Dugan (VAR) #86765
+L:SS Sam Bankhead #87160
+L:LF Ed Morgan (VAR) #85943
+L:CF Tillie Walker #86597
+L:RF Willie Keeler #85878
+SP1 Sherry Smith #87030
+SP2 Hubert Lockhart #87082
+SP3 Christy Mathewson #86706
+SP4 Nick Altrock #87049
+CL Fritz Ostermueller #86357
+RP1 Grover Cleveland Alexander #86477
+RP2 Luther Farrell #86899
+RP3 Bill Ricks #87162
+RP4 Lefty Grove #87168
+BN1 Clyde Sukeforth #85017
+BN2 Paul Waner #86999
+BN3 Ed Morgan (VAR) #85943
+BN4 Pat Patterson #87080
+BN5 Tillie Walker #86597
+BN6 Halley Harding #86979
+BN7 Jack Tobin #86772
+BN8 Cocaina Garcia #86954
+BN9 Honus Wagner #86712

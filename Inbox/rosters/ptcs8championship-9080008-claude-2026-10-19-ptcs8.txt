@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Cap — Claude pick 2026-10-19-ptcs8, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Columbia Park --park-year 1906 --card-year-max 1945 --slots P4,D4,G4,S4,B4,I6 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Johnny Bassler #86476
+R:1B Ben Taylor (VAR) #87163
+R:2B Rogers Hornsby #86436
+R:3B Pop Lloyd #86896
+R:SS Luke Appling #82759
+R:LF Heinie Manush #86370
+R:CF Roy Thomas #86784
+R:RF Cool Papa Bell #85420
+L:C Johnny Bassler #86476
+L:1B Ben Taylor (VAR) #87163
+L:2B Rogers Hornsby #86436
+L:3B Pop Lloyd #86896
+L:SS Luke Appling #82759
+L:LF Heinie Manush #86370
+L:CF Roy Thomas #86784
+L:RF Cool Papa Bell #85420
+SP1 Cy Young #86996
+SP2 Bob Feller #85650
+SP3 Count Leblanc (VAR) #86978
+SP4 Old Hoss Radbourn (VAR) #82687
+CL Sherry Smith #87030
+RP1 Hubert Lockhart #87082
+RP2 Fritz Ostermueller #86357
+RP3 Nick Altrock #87049
+RP4 Christy Mathewson #86706
+BN1 George Sisler (VAR) #87002
+BN2 Tom Brown #86767
+BN3 Nap Lajoie #86581
+BN4 Ted Easterly #84686
+BN5 Stan Hack #86458
+BN6 Maurice Archdeacon #85665
+BN7 Halley Harding #86979
+BN8 Connie Day #86982
+BN9 Tillie Walker #86597

@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Gold — Claude pick 2026-10-19-ptcs8, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Hartford Ball Club Grounds --park-year 1876 --max 89 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Biz Mackey #86894
+R:1B Ben Taylor (VAR) #87163
+R:2B Jack Burdock #86067
+R:3B Ray Dandridge #84875
+R:SS Pythias Russ #87083
+R:LF Shoeless Joe Jackson #86372
+R:CF Roy Thomas #86784
+R:RF Branch Russell #87172
+L:C Pythias Russ #87083
+L:1B Ben Taylor (VAR) #87163
+L:2B Jack Burdock #86067
+L:3B Joe Dugan (VAR) #86765
+L:SS Ossie Bluege #84170
+L:LF Ed Morgan (VAR) #85943
+L:CF Roy Thomas #86784
+L:RF Branch Russell #87172
+SP1 Bob Feller #85650
+SP2 Count Leblanc (VAR) #86978
+SP3 Old Hoss Radbourn (VAR) #82687
+SP4 Dizzy Dean #86473
+CL Rube Marquard #86891
+RP1 Carl Hubbell #86893
+RP2 Luther Farrell #86900
+RP3 Sherry Smith #87030
+RP4 Tiny Bonham (VAR) #85428
+BN1 Paul Waner #86999
+BN2 Mack Eggleston #86977
+BN3 Ed Morgan (VAR) #85943
+BN4 Pop Corkhill #86582
+BN5 Joe Dugan (VAR) #86765
+BN6 Ossie Bluege #84170
+BN7 Jack Tobin #86772
+BN8 Tom Brown #86767
+BN9 Halley Harding #86979
