@@ -16,7 +16,8 @@ import {
   OFFENSE_KEYS, STRATEGY_KEYS, distance, eraFor, parkFor, solveFor, spreads, vectorOf,
 } from "../src/lib/analytics/tournament-env";
 
-const WANT = ["Bronze", "Silver", "Gold", "Diamond", "Cap"];
+const CHAMP = process.env.CHAMP ?? "PTCS 6 Championship";
+const WANT = process.env.WANT?.split(",") ?? ["Bronze", "Silver", "Gold", "Diamond", "Cap"];
 
 async function main() {
   const all = await db.select().from(tournaments);
@@ -31,8 +32,8 @@ async function main() {
   const aggRows = (Array.isArray(agg) ? agg : (agg as any).rows) as any[];
   const aggBy = new Map(aggRows.map((r) => [r.series, r]));
 
-  const champ = all.filter((t) => t.series === "PTCS 6 Championship");
-  const cands = all.filter((t) => t.series !== "PTCS 6 Championship" && !t.isDraft);
+  const champ = all.filter((t) => t.series === CHAMP);
+  const cands = all.filter((t) => !/Championship/.test(t.series ?? "") && !t.isDraft);
 
   const envOf = (t: typeof all[number]) => {
     const e = eraFor(t.envYear); if (!e) return null;
