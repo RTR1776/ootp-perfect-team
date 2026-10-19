@@ -1,0 +1,147 @@
+{
+ "series": "PTCS 8 Championship",
+ "playedOn": "2026-11-07",
+ "capturedOn": "2026-10-19",
+ "source": "PTCS 8 championship format announcement (L.J.'s screenshot, 2026-10-19)",
+ "note": "All Best of 9, Max Rebirth Era (1945) = cards from 1945 or earlier (L.J.), 1919 RE, DH off, variants on, except Live (DH on, Live cards, no variants, Low Diamond 40-94). The announcement names no tier ranges or caps for Iron..Diamond: entered as tier ceilings (Cards <= TIER) with no floor and no cap \u2014 CONFIRM with L.J. Open has no value rule. Cap is a slots event (P4 D4 G4 S4 B4 I6). Park factors per the announcement; 1905 Hilltop Park added to park-factors.json.",
+ "events": [
+  {
+   "category": "Iron",
+   "name": "PTCS 8 Championship - Iron",
+   "firstSimEt": "11:00",
+   "text": "Best of 9, DH off, 1919 RE, Variants on, Max Rebirth Era (1945), 1880 Agricultural County Fair Ground, Cards <= IRON",
+   "rules": {
+    "yearMax": 1945,
+    "variantsAllowed": true,
+    "dh": false,
+    "reYear": 1919,
+    "bestOf": 9,
+    "valueMax": 59,
+    "park": "1880 Agricultural County Fair Ground"
+   }
+  },
+  {
+   "category": "Bronze",
+   "name": "PTCS 8 Championship - Bronze",
+   "firstSimEt": "11:30",
+   "text": "Best of 9, DH off, 1919 RE, Variants on, Max Rebirth Era (1945), 1903 South Side Park, Cards <= BRONZE",
+   "rules": {
+    "yearMax": 1945,
+    "variantsAllowed": true,
+    "dh": false,
+    "reYear": 1919,
+    "bestOf": 9,
+    "valueMax": 69
+   }
+  },
+  {
+   "category": "Silver",
+   "name": "PTCS 8 Championship - Silver",
+   "firstSimEt": "11:00",
+   "text": "Best of 9, DH off, 1919 RE, Variants on, Max Rebirth Era (1945), 1905 Hilltop Park, Cards <= SILVER",
+   "rules": {
+    "yearMax": 1945,
+    "variantsAllowed": true,
+    "dh": false,
+    "reYear": 1919,
+    "bestOf": 9,
+    "valueMax": 79
+   }
+  },
+  {
+   "category": "Gold",
+   "name": "PTCS 8 Championship - Gold",
+   "firstSimEt": "11:00",
+   "text": "Best of 9, DH off, 1919 RE, Variants on, Max Rebirth Era (1945), 1876 Hartford Ball Club Grounds, Cards <= GOLD",
+   "rules": {
+    "yearMax": 1945,
+    "variantsAllowed": true,
+    "dh": false,
+    "reYear": 1919,
+    "bestOf": 9,
+    "valueMax": 89
+   }
+  },
+  {
+   "category": "Diamond",
+   "name": "PTCS 8 Championship - Diamond",
+   "firstSimEt": "11:30",
+   "text": "Best of 9, DH off, 1919 RE, Variants on, Max Rebirth Era (1945), 1920 Ebbets Field, Cards <= DIAMOND",
+   "rules": {
+    "yearMax": 1945,
+    "variantsAllowed": true,
+    "dh": false,
+    "reYear": 1919,
+    "bestOf": 9,
+    "valueMax": 99
+   }
+  },
+  {
+   "category": "Open",
+   "name": "PTCS 8 Championship - Open",
+   "firstSimEt": "11:50",
+   "text": "Best of 9, DH off, 1919 RE, Variants on, Max Rebirth Era (1945), 1885 Messer Street Grounds",
+   "rules": {
+    "yearMax": 1945,
+    "variantsAllowed": true,
+    "dh": false,
+    "reYear": 1919,
+    "bestOf": 9
+   }
+  },
+  {
+   "category": "Live",
+   "name": "PTCS 8 Championship - Live",
+   "firstSimEt": "11:00",
+   "text": "Best of 9, DH on, 1919 RE, 1878 South Street Park, Low Diamond, Live cards only, no variants",
+   "rules": {
+    "cardTypes": [
+     "Live"
+    ],
+    "valueMin": 40,
+    "valueMax": 94,
+    "variantsAllowed": false,
+    "dh": true,
+    "reYear": 1919,
+    "bestOf": 9
+   }
+  },
+  {
+   "category": "Cap",
+   "name": "PTCS 8 Championship - Cap",
+   "firstSimEt": "11:30",
+   "text": "Best of 9, DH off, 1919 RE, Variants on, Max Rebirth Era (1945), 1906 Columbia Park, Slots: P4, D4, G4, S4, B4, I6",
+   "rules": {
+    "yearMax": 1945,
+    "variantsAllowed": true,
+    "dh": false,
+    "reYear": 1919,
+    "bestOf": 9,
+    "slots": {
+     "P": 4,
+     "D": 4,
+     "G": 4,
+     "S": 4,
+     "B": 4,
+     "I": 6
+    }
+   }
+  },
+  {
+   "category": "PD Daily",
+   "name": "PTCS 8 Championship - PD Daily",
+   "firstSimEt": "11:00",
+   "isDraft": true,
+   "draftFormat": "Orderly PD",
+   "text": "Best of 9, DH off, 1919 RE, 1913 Forbes Field, Orderly PD"
+  },
+  {
+   "category": "PD Weekly",
+   "name": "PTCS 8 Championship - PD Weekly",
+   "firstSimEt": "11:30",
+   "isDraft": true,
+   "draftFormat": "Modified Perfectly Iron PD",
+   "text": "Best of 9, DH off, 1919 RE, 1914 Griffith Stadium, Modified Perfectly Iron PD"
+  }
+ ]
+}
