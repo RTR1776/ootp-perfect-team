@@ -4,13 +4,13 @@ PT default (2010) RE @ 2026 PNC Park · DH on · value 40–105 · cap none · 2
 R/G 4.46  AVG 0.246  OBP 0.318  SLG 0.398  K% 22.6  HR/PA 2.84%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.030 runs · steal break-even 80.8% (0 out) / 77.6% (1 out)
 park: all-LHB lineup 4.51 R/G vs all-RHB 4.44 — 0.06 R/G swing toward LEFT-handed bats
-two-way: 62 cards also in the other role — Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Nolan McLean as bat, Bryce Rainer as arm, Kaelen Culpepper as arm, Carson Williams as arm, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Alec Burleson as arm, Jac Caglianone as arm, Travis Sykora as bat, JR Ritchie as bat, Kyson Witherspoon as bat, Willi Castro as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Anthony Nunez as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
+two-way: 62 cards also in the other role — Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Nolan McLean as bat, Bryce Rainer as arm, Kaelen Culpepper as arm, Carson Williams as arm, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Alec Burleson as arm, Jac Caglianone as arm, JR Ritchie as bat, Travis Sykora as bat, Willi Castro as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Kyson Witherspoon as bat, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Anthony Nunez as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
 
-pool: 1582 eligible owned cards — 746 bats (270L / 87S / 389R), 836 arms
+pool: 1583 eligible owned cards — 746 bats (270L / 87S / 389R), 837 arms
 staff weights from liveplus's exports: SP 1.25, RP 0.39 (a lineup slot = 1)
 field (liveplus, 11 exports): 44% of batters faced thrown left-handed · 55% of PA by left-handed bats · 13.2 bats / 5.1 SP / 6.6 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 802 of 1582 pool cards have innings on record (median 98 PA/BF); K = 1000000
+observed play: 803 of 1583 pool cards have innings on record (median 98 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.88, RP 0.78 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.6 SP / 7.1 RP → per SP ×0.92 (5 carried), per RP ×1.01 (7 carried)
@@ -20,7 +20,7 @@ staff innings split over the arms carried: the field runs 4.6 SP / 7.1 RP → pe
                          arms: Stuff +1.6  pHR +1.6  pBABIP +1.0  Control +0.9
 seed: 9100186-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 335.1 runs vs 324.4 greedy (+10.7), 6 moves from λ 0.00 (the seed's climb: 334.6)
+optimiser: 16 starts (λ + seed) hill-climbed; best 335.1 runs vs 324.4 greedy (+10.7), 28 moves from λ 1.50 (the seed's climb: 335.1)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Rainiel Rodriguez           97  R  2026    +9.2  park:R DEF  81/ 81 +0.3  #84734
@@ -83,11 +83,11 @@ RP5     Jacob Misiorowski          100  R  2026    +7.1   SP STM  75  #81947
 RP6     Calvin Faucher              85  R  2026    +7.0   RP STM  17  #82119
 
 --- bench ---
-BN1     Colt Emerson (VAR)          98  L  2026   +13.4  park:L  #85116
-BN2     Aidan Miller                98  R  2026   +11.4  park:R  #85117
-BN3     Cody Bellinger             100  L  2026    +7.9  park:L  #86289
+BN1     Aidan Miller                98  R  2026   +11.4  park:R  #85117
+BN2     Thayron Liranzo (VAR)       65  S  2026   -12.1  park:L  #85135
+BN3     Colt Emerson (VAR)          98  L  2026   +13.4  park:L  #85116
 BN4     Kevin Alcantara (VAR)       76  R  2026    -0.0  park:R  #84755
-BN5     Thayron Liranzo (VAR)       65  S  2026   -12.1  park:L  #85135
+BN5     Cody Bellinger             100  L  2026    +7.9  park:L  #86289
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Rainiel Rodriguez          U1 Thayron Liranzo (VAR) 67     U2 -                           
@@ -111,7 +111,7 @@ BN5     Thayron Liranzo (VAR)       65  S  2026   -12.1  park:L  #85135
   RF  Cody Bellinger             U1 Max Clark (VAR) 129          U2 Zyhir Hope (VAR) 112        
   pinch hitters: Josue De Paula (VAR), Colt Emerson (VAR), Max Clark (VAR), Zyhir Hope (VAR) · pinch runners: Max Clark (VAR) (SPE 112), Zyhir Hope (VAR) (SPE 93), Colt Emerson (VAR) (SPE 81)
 
-26 players · value 2452 · λ 0.000 · 10 variants
+26 players · value 2452 · λ 1.500 · 10 variants
 vs RHP lineup gets the friendly park side in 5 of 9 spots
 
 --- order inputs (rostered bats) ---
@@ -143,7 +143,7 @@ LEGAL — every rule check passes
   ✓ LF backup: vs RHP Josue De Paula 71, Cody Bellinger 139, Kevin Alcantara 122 · vs LHP Zyhir Hope 106, Max Clark 129, Josue De Paula 71
   ✓ CF backup: vs RHP Cody Bellinger 127, Kevin Alcantara 108 · vs LHP Max Clark 114
   ✓ RF backup: vs RHP Cody Bellinger 134, Kevin Alcantara 115 · vs LHP Zyhir Hope 112, Max Clark 129
-(24 of 26 have a live ask in the last shop snapshot)
+(23 of 26 have a live ask in the last shop snapshot)
 objective: 335.1 weighted runs (bats 56/44 R/L, SP 1.875, RP 0.78, bench 0.1)
 points: lineup(both boards, 12 bats) 1129 · rotation 490 · bullpen 670 · bench-only 163
 
