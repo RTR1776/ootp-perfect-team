@@ -8,8 +8,8 @@ two-way: 50 cards also in the other role — Ossie Orwoll as bat, Matt Davidson 
 
 pool: 1397 eligible owned cards — 747 bats (213L / 87S / 447R), 650 arms
 !! no exports on record for series ironcapdaily — shape and handedness fall back to the era table
-shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 1178 of 1397 pool cards have innings on record (median 168 PA/BF); K = 1000000
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 1198 of 1397 pool cards have innings on record (median 182 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.50, RP 0.62 (--no-team-weights to turn off)
 
@@ -18,31 +18,31 @@ team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run 
                          arms: pHR +2.2  Stuff +2.1  pBABIP +1.3  Control +1.0
 seed: 517-seed.txt as is (26 cards)
 
-optimiser: 2 starts (λ + seed) hill-climbed; best -106.2 runs vs -136.2 greedy (+30.0), 3 moves from the seed
+optimiser: 3 starts (λ + seed) hill-climbed; best -105.8 runs vs -137.9 greedy (+32.1), 1 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Henry Blanco                54  R  1999   -28.8  park:R DEF 103/103 +7.9  #84344
-R:1B    Nap Lajoie                  50  R  1905    -1.9  park:R DEF  96/114 +3.9  #86581
-R:2B    Javier Baez (VAR)           49  R  2021    -3.8  park:R DEF 102/102 -3.6  #86417
-R:3B    Kid Elberfeld (VAR)         47  R  1903    -7.8  park:R DEF  85/ 85 -1.6  #86368
-R:SS    Ozzie Smith                 59  S  1982   -18.6  park:L DEF 140/140 +12.2  #86972
-R:LF    Norris Hopper               53  R  2007    +0.4  park:R DEF 137/137 +6.6  #87191
-R:CF    Milt Thompson               58  L  1989    -3.8  park:L DEF 114/121 +0.2  #86927
-R:RF    Vladimir Guerrero           48  R  1997    -1.5  park:R DEF 117/117 +3.3  #86474
-R:DH    George Sisler (VAR)         48  L  1928    -3.3  park:L  #87002
+R:C     Henry Blanco                54  R  1999   -28.5  park:R DEF 103/103 +7.9  #84344
+R:1B    Nap Lajoie                  50  R  1905    -1.7  park:R DEF  96/114 +3.9  #86581
+R:2B    Javier Baez (VAR)           49  R  2021    -3.7  park:R DEF 102/102 -3.6  #86417
+R:3B    Kid Elberfeld (VAR)         47  R  1903    -7.3  park:R DEF  85/ 85 -1.6  #86368
+R:SS    Ozzie Smith                 59  S  1982   -18.4  park:L DEF 140/140 +12.2  #86972
+R:LF    Norris Hopper               53  R  2007    +0.9  park:R DEF 137/137 +6.6  #87191
+R:CF    Milt Thompson               58  L  1989    -3.4  park:L DEF 114/121 +0.2  #86927
+R:RF    Vladimir Guerrero           48  R  1997    -1.4  park:R DEF 117/117 +3.3  #86474
+R:DH    George Sisler (VAR)         48  L  1928    -3.0  park:L  #87002
 
 --- lineup vs LHP ---
-L:C     Henry Blanco                54  R  1999   -29.3  park:R DEF 103/103 +7.9  #84344
-L:1B    Nap Lajoie                  50  R  1905   -14.1  park:R DEF  96/114 +3.9  #86581
-L:2B    Javier Baez (VAR)           49  R  2021    -8.8  park:R DEF 102/102 -3.6  #86417
-L:3B    Brooks Robinson             49  R  1963   -19.6  park:R DEF 139/139 +12.4  #85023
-L:SS    Ozzie Smith                 59  S  1982   -12.9  park:R DEF 140/140 +12.2  #86972
-L:LF    Norris Hopper               53  R  2007    -1.1  park:R DEF 137/137 +6.6  #87191
-L:CF    Dave Henderson              50  R  1989    -4.7  park:R DEF 105/105 -1.3  #86926
-L:RF    Vladimir Guerrero           48  R  1997    -2.7  park:R DEF 117/117 +3.3  #86474
-L:DH    Gary Sheffield              43  R  1989    -4.7  park:R  #86950
+L:C     Henry Blanco                54  R  1999   -29.2  park:R DEF 103/103 +7.9  #84344
+L:1B    Nap Lajoie                  50  R  1905   -13.9  park:R DEF  96/114 +3.9  #86581
+L:2B    Javier Baez (VAR)           49  R  2021    -8.7  park:R DEF 102/102 -3.6  #86417
+L:3B    Brooks Robinson             49  R  1963   -19.5  park:R DEF 139/139 +12.4  #85023
+L:SS    Ozzie Smith                 59  S  1982   -12.8  park:R DEF 140/140 +12.2  #86972
+L:LF    Norris Hopper               53  R  2007    -0.8  park:R DEF 137/137 +6.6  #87191
+L:CF    Dave Henderson              50  R  1989    -4.5  park:R DEF 105/105 -1.3  #86926
+L:RF    Vladimir Guerrero           48  R  1997    -2.6  park:R DEF 117/117 +3.3  #86474
+L:DH    Gary Sheffield              43  R  1989    -4.6  park:R  #86950
 
---- batting order vs RHP --- (4.98 runs/game; The Book's order 4.97)
+--- batting order vs RHP --- (4.97 runs/game; The Book's order 4.96)
   1. Norris Hopper LF
   2. Kid Elberfeld (VAR) 3B
   3. Vladimir Guerrero RF
@@ -53,7 +53,7 @@ L:DH    Gary Sheffield              43  R  1989    -4.7  park:R  #86950
   8. Milt Thompson CF
   9. Ozzie Smith SS
 
---- batting order vs LHP --- (5.25 runs/game; The Book's order 5.25)
+--- batting order vs LHP --- (5.24 runs/game; The Book's order 5.23)
   1. Norris Hopper LF
   2. Ozzie Smith SS
   3. Dave Henderson CF
@@ -65,29 +65,51 @@ L:DH    Gary Sheffield              43  R  1989    -4.7  park:R  #86950
   9. Javier Baez (VAR) 2B
 
 --- rotation ---
-SP1     James McDonald (VAR)        55  L  2010    +5.5   SP STM  59  #86384
-SP2     Justin Verlander            58  R  2006    -4.2   SP STM  83  #87014
-SP3     Patricio Scantlebury        56  L  1946    -6.5   SP STM  68  #85828
-SP4     Jeff Francis                53  L  2007    -7.2   SP STM  75  #87199
-SP5     Tin Can Kincannon           45  R  1934    -9.2   SP STM  74  #86073
+SP1     James McDonald (VAR)        55  L  2010    +5.7   SP STM  59  #86384
+SP2     Justin Verlander            58  R  2006    -4.5   SP STM  83  #87014
+SP3     Patricio Scantlebury        56  L  1946    -7.0   SP STM  68  #85828
+SP4     Jeff Francis                53  L  2007    -7.5   SP STM  75  #87199
+SP5     Tin Can Kincannon           45  R  1934    -9.7   SP STM  74  #86073
 
 --- bullpen ---
-CL      John Bale                   59  L  2007    +2.5   RP STM  33  #87234
-RP1     Mike Marshall               57  R  1973    +0.7   CL STM  74  #84720
-RP2     Randy Choate                45  L  2013    -2.6   RP STM   6  #87026
+CL      John Bale                   59  L  2007    +2.7   RP STM  33  #87234
+RP1     Mike Marshall               57  R  1973    +0.6   CL STM  74  #84720
+RP2     Randy Choate                45  L  2013    -2.5   RP STM   6  #87026
 RP3     Todd Jones (VAR)            43  L  2000    -8.5   CL STM  17  #86434
-RP4     Reed Garrett                49  R  2024    -9.8   RP STM  25  #84825
-RP5     Bob Gibson                  44  R  1959   -11.1   SP STM  69  #86658
-RP6     R.T. Walker                 40  R  1947   -13.0   RP STM  69  #86952
+RP4     Reed Garrett                49  R  2024   -10.0   RP STM  25  #84825
+RP5     Bob Gibson (VAR)            44  R  1959   -10.0   SP STM  69  #86658
+RP6     R.T. Walker                 40  R  1947   -13.9   RP STM  69  #86952
 
 --- bench ---
-BN1     Dave Henderson              50  R  1989   -13.0  park:R  #86926
-BN2     Stan Hack                   46  L  1944   -11.5  park:L  #86458
-BN3     Gary Sheffield              43  R  1989   -19.8  park:R  #86950
-BN4     Buck Rodgers                42  S  1962   -22.2  park:L  #84312
-BN5     Brooks Robinson             49  R  1963   -25.1  park:R  #85023
+BN1     Dave Henderson              50  R  1989   -12.9  park:R  #86926
+BN2     Alfredo Amezaga             44  S  2007   -12.7  park:L  #87188
+BN3     Gary Sheffield              43  R  1989   -19.5  park:R  #86950
+BN4     Buck Rodgers (VAR)          42  S  1962   -17.4  park:L  #84312
+BN5     Brooks Robinson             49  R  1963   -24.8  park:R  #85023
 
-26 players · value 1300 / 1300 (0 spare) · from seed · 5 variants
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Henry Blanco               U1 Buck Rodgers (VAR) 68        U2 -                           
+  1B  Nap Lajoie                 U1 Alfredo Amezaga 78           U2 -                           
+  2B  Javier Baez (VAR)          U1 Alfredo Amezaga 84           U2 -                           
+  3B  Kid Elberfeld (VAR)        U1 Brooks Robinson 139          U2 Alfredo Amezaga 66           def sub Brooks Robinson (+14)
+  SS  Ozzie Smith                U1 Alfredo Amezaga 64           U2 -                           
+  LF  Norris Hopper              U1 Alfredo Amezaga 110          U2 -                           
+  CF  Milt Thompson              U1 Dave Henderson 105           U2 Alfredo Amezaga 95          
+  RF  Vladimir Guerrero          U1 Alfredo Amezaga 116          U2 Dave Henderson 104          
+  pinch hitters: Alfredo Amezaga, Dave Henderson, Buck Rodgers (VAR), Gary Sheffield · pinch runners: Alfredo Amezaga (SPE 83), Dave Henderson (SPE 69), Gary Sheffield (SPE 58)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Henry Blanco               U1 Buck Rodgers (VAR) 68        U2 -                           
+  1B  Nap Lajoie                 U1 Alfredo Amezaga 78           U2 -                           
+  2B  Javier Baez (VAR)          U1 Alfredo Amezaga 84           U2 -                           
+  3B  Brooks Robinson            U1 Kid Elberfeld (VAR) 85       U2 Alfredo Amezaga 66          
+  SS  Ozzie Smith                U1 Kid Elberfeld (VAR) 83       U2 Alfredo Amezaga 64          
+  LF  Norris Hopper              U1 Milt Thompson 121            U2 Alfredo Amezaga 110         
+  CF  Dave Henderson             U1 Milt Thompson 114            U2 Alfredo Amezaga 95          
+  RF  Vladimir Guerrero          U1 Milt Thompson 111            U2 Alfredo Amezaga 116         
+  pinch hitters: Kid Elberfeld (VAR), Milt Thompson, George Sisler (VAR), Buck Rodgers (VAR) · pinch runners: Milt Thompson (SPE 107), Alfredo Amezaga (SPE 83), Kid Elberfeld (VAR) (SPE 79)
+
+26 players · value 1298 / 1300 (2 spare) · from seed · 7 variants
 vs RHP lineup gets the friendly park side in 3 of 9 spots
 
 --- order inputs (rostered bats) ---
@@ -95,14 +117,14 @@ vs RHP lineup gets the friendly park side in 3 of 9 spots
   Vladimir Guerrero      R EYE  62 (68/61)  POW  80 (89/77)  K 101  BABIP  83  GAP 108  SPE 109
   Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
   George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
-  Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
   Milt Thompson          L EYE  81 (42/90)  POW  33 (23/36)  K  90  BABIP 130  GAP  81  SPE 107
+  Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
   Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
-  Stan Hack              L EYE 128 (144/123)  POW  38 (1/46)  K 183  BABIP  81  GAP  61  SPE  47
+  Alfredo Amezaga        S EYE  82 (10/94)  POW  33 (1/40)  K 109  BABIP  78  GAP  85  SPE  83
   Dave Henderson         R EYE  85 (85/85)  POW  81 (89/78)  K  66  BABIP  88  GAP  75  SPE  69
+  Buck Rodgers           S EYE  66 (59/68)  POW  48 (49/48)  K 106  BABIP  64  GAP 113  SPE  56
   Ozzie Smith            S EYE 113 (104/116)  POW  28 (41/20)  K 167  BABIP  60  GAP  70  SPE 108
   Gary Sheffield         R EYE  69 (66/70)  POW  62 (84/50)  K 126  BABIP  63  GAP  74  SPE  58
-  Buck Rodgers           S EYE  60 (54/62)  POW  43 (44/43)  K  98  BABIP  58  GAP 105  SPE  56
   Brooks Robinson        R EYE  62 (61/63)  POW  58 (88/36)  K  82  BABIP  69  GAP  70  SPE  40
   Henry Blanco           R EYE  82 (85/81)  POW  45 (64/38)  K  93  BABIP  46  GAP  62  SPE  46
 LEGAL — every rule check passes
@@ -111,21 +133,21 @@ LEGAL — every rule check passes
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
   ✓ starters' stamina James McDonald 59, Justin Verlander 83, Patricio Scantlebury 68, Jeff Francis 75, Tin Can Kincannon 74 (era floor 50)
   ✓ stamina guys in the pen (45+): Mike Marshall 74, Bob Gibson 69, R.T. Walker 69
-  ✓ C  backup: Buck Rodgers 63
-  ✓ 1B backup: Stan Hack 77
-  ✓ 2B backup: Nap Lajoie 114
-  ✓ 3B backup: Kid Elberfeld 85, Brooks Robinson 139
-  ✓ SS backup: Javier Baez 88
-  ✓ LF backup: Milt Thompson 121
-  ✓ CF backup: Norris Hopper 121, Milt Thompson 114, Vladimir Guerrero 94, Dave Henderson 105
-  ✓ RF backup: Norris Hopper 131, Milt Thompson 111, Dave Henderson 104
-(24 of 26 have a live ask in the last shop snapshot)
-objective: -106.2 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
-points: lineup(both boards, 12 bats) 608 · rotation 267 · bullpen 337 · bench-only 88
+  ✓ C  backup: Buck Rodgers 68
+  ✓ 1B backup: Alfredo Amezaga 78
+  ✓ 2B backup: Alfredo Amezaga 84
+  ✓ 3B backup: vs RHP Brooks Robinson 139, Alfredo Amezaga 66 · vs LHP Kid Elberfeld 85, Alfredo Amezaga 66
+  ✓ SS backup: vs RHP Alfredo Amezaga 64 · vs LHP Kid Elberfeld 83, Alfredo Amezaga 64
+  ✓ LF backup: vs RHP Alfredo Amezaga 110 · vs LHP Milt Thompson 121, Alfredo Amezaga 110
+  ✓ CF backup: vs RHP Dave Henderson 105, Alfredo Amezaga 95 · vs LHP Milt Thompson 114, Alfredo Amezaga 95
+  ✓ RF backup: vs RHP Dave Henderson 104, Alfredo Amezaga 116 · vs LHP Milt Thompson 111, Alfredo Amezaga 116
+(22 of 26 have a live ask in the last shop snapshot)
+objective: -105.8 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 12 bats) 608 · rotation 267 · bullpen 337 · bench-only 86
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Patricio Scantlebury     pBABIP 45 (fitted 50–175)
    Tin Can Kincannon        pBABIP 36 (fitted 50–175)
    John Bale                pBABIP 14 (fitted 50–175)
    Todd Jones               pBABIP 37 (fitted 50–175)
-   Bob Gibson               pBABIP 44 (fitted 50–175)
+   Bob Gibson               pBABIP 46 (fitted 50–175)
