@@ -1,0 +1,36 @@
+# Daily Gold Cap — Claude pick 2026-10-20 goldcap, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Jacobs Field --park-year 1999 --dh --min 40 --max 89 --cap 1780 --size 26 --series goldcapdaily --sp 5 --rp 7 --bats 14)
+R:C Mike Zunino #86431
+R:1B Pedro Alvarez #87062
+R:2B Marcus Semien #86744
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Jeremy Pena #87154
+R:LF Eric Davis (VAR) #86974
+R:CF Bo Jackson #86966
+R:RF Curtis Granderson #86596
+R:DH Carlos Pena #87183
+L:C Mike Zunino #86431
+L:1B Carlos Pena #87183
+L:2B Marcus Semien #86744
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Jeremy Pena #87154
+L:LF Eric Davis (VAR) #86974
+L:CF Bo Jackson #86966
+L:RF Curtis Granderson #86596
+L:DH Pete Incaviglia #86943
+SP1 Count Leblanc (VAR) #86978
+SP2 Justin Verlander #87064
+SP3 Nick Altrock #87049
+SP4 Bob Feller #85650
+SP5 CC Sabathia #87182
+CL Joe Beggs (VAR) #86762
+RP1 James McDonald (VAR) #86384
+RP2 John Bale #87234
+RP3 Randy Choate #87026
+RP4 Tin Can Kincannon #86073
+RP5 Todd Jones (VAR) #86434
+RP6 R.T. Walker #86952
+BN1 Vladimir Guerrero #86474
+BN2 Rickey Henderson (VAR) #85362
+BN3 Pete Incaviglia #86943
+BN4 Buck Rodgers (VAR) #84312
+BN5 Chuck Cottier #85503
