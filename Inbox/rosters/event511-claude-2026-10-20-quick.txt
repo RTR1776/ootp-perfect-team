@@ -1,0 +1,36 @@
+# Low Gold Quick — Claude pick 2026-10-20 quick, rebuilt from the catalogue's rules by current-rosters (--year 1999 --dh --min 40 --max 84 --card-types 3,7,8 --size 26 --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Tommy Edman #86340
+R:3B Corey Koskie (VAR) #86449
+R:SS Jeremy Pena #87154
+R:LF Brian Jordan #86965
+R:CF Steve Finley #85400
+R:RF Jeff Francoeur (VAR) #86300
+R:DH Kal Daniels #84163
+L:C Bob Boone #87032
+L:1B Matt Carpenter #86771
+L:2B Brandon Phillips #87202
+L:3B Tommy Edman #86340
+L:SS Jeremy Pena #87154
+L:LF Brian Jordan #86965
+L:CF Chris B. Young #87146
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 Kelvim Escobar #87207
+SP3 Jerry Koosman #86995
+SP4 Jacob deGrom #86675
+SP5 Jordan Montgomery #86354
+CL Damaso Marte (VAR) #86703
+RP1 John Lackey #87075
+RP2 Raisel Iglesias #83322
+RP3 Javier Lopez #86408
+RP4 Michael Wacha #87076
+RP5 Matt Garza #86294
+RP6 Rube Marquard #86891
+BN1 Brandon Phillips #87202
+BN2 Chris B. Young #87146
+BN3 Jose Oquendo #85738
+BN4 Charles Johnson #86365
+BN5 Ryan Braun #87222

@@ -1,0 +1,36 @@
+# Low Iron Quick — Claude pick 2026-10-20 quick, rebuilt from the catalogue's rules by current-rosters (--year 2010 --dh --max 49 --variant-cap 10 --size 26 --sp 5 --rp 7 --bats 14)
+R:C Buddy Rosar #86461
+R:1B Stan Hack #86458
+R:2B Javier Baez (VAR) #86417
+R:3B Brooks Robinson #85023
+R:SS Sam Bankhead #87160
+R:LF Alfredo Amezaga #87188
+R:CF Austin Jackson #84808
+R:RF Vladimir Guerrero #86474
+R:DH George Sisler (VAR) #87002
+L:C Buddy Rosar #86461
+L:1B Jeff Kent #86299
+L:2B Javier Baez (VAR) #86417
+L:3B Brooks Robinson #85023
+L:SS Sam Bankhead #87160
+L:LF Dwayne Hosey #86801
+L:CF Austin Jackson #84808
+L:RF Vladimir Guerrero #86474
+L:DH Pete Incaviglia #86943
+SP1 Bob Gibson (VAR) #86658
+SP2 Tin Can Kincannon #86073
+SP3 Lefty Grove #87168
+SP4 Mark Langston #85840
+SP5 John Danks #86065
+CL Randy Choate #87026
+RP1 Todd Jones (VAR) #86434
+RP2 Reed Garrett #84825
+RP3 R.T. Walker #86952
+RP4 Mike Garcia #86664
+RP5 Alec Gamboa #86045
+RP6 Jerry Augustine (VAR) #86424
+BN1 Dwayne Hosey #86801
+BN2 Buck Rodgers (VAR) #84312
+BN3 Jeff Kent #86299
+BN4 Pete Incaviglia #86943
+BN5 Kid Elberfeld (VAR) #86368

@@ -1,0 +1,36 @@
+# Silver Quick — Claude pick 2026-10-20 quick, rebuilt from the catalogue's rules by current-rosters (--year 2010 --dh --min 40 --max 79 --variant-cap 10 --size 26 --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Placido Polanco #87213
+R:3B Aiva Arquette (VAR) #84768
+R:SS Jeremy Pena #87154
+R:LF Brian Jordan #86965
+R:CF Willie McGee (VAR) #85753
+R:RF Roberto Clemente #86723
+R:DH Andy Van Slyke #86936
+L:C Mike Zunino #86431
+L:1B Aiva Arquette (VAR) #84768
+L:2B Brandon Phillips #87202
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Brian Jordan #86965
+L:CF Willie McGee (VAR) #85753
+L:RF Roberto Clemente #86723
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 Kelvim Escobar #87207
+SP3 Jacob deGrom #86675
+SP4 Bill Ricks #87162
+SP5 Jordan Montgomery #86354
+CL Fritz Ostermueller #86357
+RP1 Bob Walk #86971
+RP2 James McDonald (VAR) #86384
+RP3 Bruce Ruffin #86777
+RP4 Jakie May (VAR) #85286
+RP5 Jack Wenninger #85125
+RP6 Dean Stone #86164
+BN1 Chris Sabo #87059
+BN2 Ryan Braun #87222
+BN3 Angel Genao #84740
+BN4 Brandon Phillips #87202
+BN5 Mike Zunino #86431
