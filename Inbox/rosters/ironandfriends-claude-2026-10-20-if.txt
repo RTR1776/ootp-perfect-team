@@ -1,0 +1,36 @@
+# Daily Iron & Friends OOTP Era Slots — Claude pick 2026-10-20 if, rebuilt from the catalogue's rules by current-rosters (--year 1999 --dh --card-year-min 1999 --card-year-max 2026 --slots P1,D1,G1,S1,B1,I21 --size 26 --series ironandfriends --sp 5 --rp 7 --bats 14)
+R:C Ethan Salas #87087
+R:1B Shawn Green #87028
+R:2B Javier Baez (VAR) #86417
+R:3B Alex Rodriguez #87219
+R:SS Freddy Galvis (VAR) #85743
+R:LF Mike Trout (VAR) #84793
+R:CF Carlos Beltran #87066
+R:RF Eric Byrnes #87195
+R:DH Bill Hall #87200
+L:C Jake Rogers #82407
+L:1B Matt Davidson (VAR) #84666
+L:2B Javier Baez (VAR) #86417
+L:3B Alex Rodriguez #87219
+L:SS Freddy Galvis (VAR) #85743
+L:LF Andruw Jones (VAR) #86321
+L:CF Carlos Beltran #87066
+L:RF Eric Byrnes #87195
+L:DH Bill Hall #87200
+SP1 Jered Weaver #87169
+SP2 Kelvim Escobar #87207
+SP3 James McDonald (VAR) #86384
+SP4 Justin Verlander #87014
+SP5 Jeff Francis #87199
+CL John Bale #87234
+RP1 Randy Choate #87026
+RP2 Todd Jones (VAR) #86434
+RP3 Dallas Braden #86293
+RP4 Victor Vodnik #81824
+RP5 Reed Garrett #84825
+RP6 Griffin Canning #81741
+BN1 Alcides Escobar #87153
+BN2 Andruw Jones (VAR) #86321
+BN3 Will Venable (VAR) #84351
+BN4 Matt Davidson (VAR) #84666
+BN5 Jake Rogers #82407
