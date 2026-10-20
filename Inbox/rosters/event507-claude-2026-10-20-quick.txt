@@ -1,0 +1,36 @@
+# Gold Quick — Claude pick 2026-10-20 quick, rebuilt from the catalogue's rules by current-rosters (--year 2010 --dh --min 40 --max 89 --variant-cap 10 --size 26 --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Pedro Alvarez #87062
+R:2B Marcus Semien #86744
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Jeremy Pena #87154
+R:LF Eric Davis (VAR) #86974
+R:CF Bo Jackson #86966
+R:RF Zyhir Hope (VAR) #84739
+R:DH Carlos Pena #87183
+L:C Pythias Russ #87083
+L:1B Carlos Pena #87183
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Eric Davis (VAR) #86974
+L:CF Bo Jackson #86966
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Count Leblanc (VAR) #86978
+SP2 Nick Altrock #87049
+SP3 Justin Verlander #87064
+SP4 Bob Feller #85650
+SP5 Danny Jackson #87052
+CL Johnny Markham (VAR) #87159
+RP1 Joe Beggs (VAR) #86762
+RP2 CC Sabathia #87182
+RP3 Jered Weaver #87169
+RP4 Dizzy Dean #86473
+RP5 Luther Farrell #86900
+RP6 Kelvim Escobar #87207
+BN1 Hank Thompson #86668
+BN2 Pythias Russ #87083
+BN3 Chris Sabo #87059
+BN4 Ryan Braun #87222
+BN5 Jeff Francoeur (VAR) #86300

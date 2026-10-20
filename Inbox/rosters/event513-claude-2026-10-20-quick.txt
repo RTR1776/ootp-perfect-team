@@ -1,0 +1,36 @@
+# Open Slot Quick — Claude pick 2026-10-20 quick, rebuilt from the catalogue's rules by current-rosters (--year 2010 --dh --slots P2,D3,G4,S5,B6,I6 --size 26 --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Alex Rodriguez #87219
+R:SS Jeremy Pena #87154
+R:LF Deion Sanders #86962
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Albert Pujols #87149
+L:C Mike Zunino #86431
+L:1B Albert Pujols #87149
+L:2B Brandon Phillips #87202
+L:3B Alex Rodriguez #87219
+L:SS Jeremy Pena #87154
+L:LF Kaelen Culpepper (VAR) #85033
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Chris Sabo #87059
+SP1 Babe Ruth #86439
+SP2 Count Leblanc (VAR) #86978
+SP3 Nick Altrock #87049
+SP4 Kelvim Escobar #87207
+SP5 Jacob deGrom #86675
+CL Fritz Ostermueller #86357
+RP1 James McDonald (VAR) #86384
+RP2 Caden Scarborough (VAR) #84762
+RP3 John Bale #87234
+RP4 Mike Marshall #84720
+RP5 Bob Miller #84715
+RP6 Randy Choate #87026
+BN1 Javier Baez (VAR) #86417
+BN2 Chris Sabo #87059
+BN3 Brandon Phillips #87202
+BN4 Milt Thompson #86927
+BN5 Mike Zunino #86431
