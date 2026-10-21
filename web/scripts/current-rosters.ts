@@ -35,7 +35,7 @@
  *   node --env-file=.env.local --import tsx scripts/current-rosters.ts --out /tmp/rosters [--jobs 4] [--only 521,532] [--skip 549] [--patch rules.json] [--tag 2026-09-29-late] [--all] [--quicks]
  */
 import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -43,6 +43,7 @@ import { cards, collectionCards, rosterSlots, rosters, seriesMeta, tournaments, 
 import { rosterShape } from "@/lib/roster-fill";
 import { rosterSize } from "@/lib/roster-rules";
 import { parseDump } from "@/lib/analytics/dumps";
+import { newestDumpFile } from "@/lib/analytics/dump-files";
 import { eventGroupOf } from "@/lib/event-groups";
 import { eventRosterArgs } from "@/lib/event-roster-args";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
@@ -112,7 +113,7 @@ const BUILD = ["--optimize", "--starts", val("starts") ?? (flag("new-cards") && 
 /** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
 function lastRuns(): { at: Map<number, number>; newest: number } {
   const dir = join(ROOT, "Tourney Data");
-  const f = readdirSync(dir).filter((x) => /^pt27_tournaments_.*\.csv$/.test(x)).sort().at(-1);
+  const f = newestDumpFile(dir, "tournaments");
   if (!f) throw new Error(`no tournaments dump in ${dir}`);
   const d = parseDump(readFileSync(join(dir, f), "utf8"));
   if (!d) throw new Error(`could not read ${f}`);

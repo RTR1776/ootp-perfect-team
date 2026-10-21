@@ -43,6 +43,7 @@ import { scanForJimBeaters } from "../src/lib/ingest/jim";
 import { summariseSeries, teamBuilds, type SeriesBuild, type TeamBuild } from "../src/lib/field-construction";
 import { tournaments } from "../src/db/schema";
 import { parseDump } from "../src/lib/analytics/dumps";
+import { newestDumpFile } from "../src/lib/analytics/dump-files";
 import { chicagoDay } from "../src/lib/format";
 import { formatSplitSeries } from "../src/lib/format-split";
 import { isMyOrg } from "../src/lib/my-team";
@@ -123,7 +124,7 @@ async function main() {
   }
   const runStart = new Map<number, number>();
   const dumpDir = join(ROOT, "Tourney Data");
-  const dumpFile = existsSync(dumpDir) ? readdirSync(dumpDir).filter((x) => /^pt27_tournaments_.*\.csv$/.test(x)).sort().at(-1) : undefined;
+  const dumpFile = existsSync(dumpDir) ? newestDumpFile(dumpDir, "tournaments") : undefined;
   if (dumpFile) for (const e of parseDump(readFileSync(join(dumpDir, dumpFile), "utf8"))?.events ?? []) runStart.set(Number(e.id), e.start);
   const runOnOf = (slug: string, run: number): string | null => {
     const s = split.get(slug);
@@ -248,6 +249,21 @@ async function main() {
   });
 
   const seriesList = [...new Set(rows.map((r) => r.series))];
+  /*
+   * Each slug in this import owns its own series AND every "<slug>-pre…" one.
+   * Sweeping only the series the new rows land in left two kinds of stale
+   * data: a slug whose runs had all moved to -pre kept its old-format rows
+   * under the current name (Low Gold Cap, 161,614 PA of the old 75-84 cap
+   * format), and a -pre series whose format date later moved was never
+   * cleared. Series in scope with no new rows are emptied.
+   */
+  const slugs = [...new Set(seriesList.map((x) => x.replace(/-pre\d{8}$/, "")))];
+  const priorSeries = !slugs.length ? [] : rowsOf(await db.execute(sql`
+    SELECT DISTINCT series FROM observed_card_stats
+    WHERE series IN (${sql.join(slugs.map((x) => sql`${x}`), sql`, `)})
+       OR ${sql.join(slugs.map((x) => sql`starts_with(series, ${x + "-pre"})`), sql` OR `)}`)).map((r) => String((r as { series: string }).series));
+  const emptied = priorSeries.filter((x) => !seriesList.includes(x));
+  const sweepList = [...seriesList, ...emptied];
 
   /* ---------------- stage, then publish ----------------
    * observed_card_stats is untouched until every row of this batch is staged.
@@ -292,7 +308,7 @@ async function main() {
         is_pitcher = excluded.is_pitcher, instances = excluded.instances, pa = excluded.pa,
         ip = excluded.ip, war = excluded.war, woba = excluded.woba, fip = excluded.fip,
         counters = excluded.counters, ratings = excluded.ratings`);
-    const inScope = sql.join(seriesList.map((s) => sql`${s}`), sql`, `);
+    const inScope = sql.join(sweepList.map((s) => sql`${s}`), sql`, `);
     const staleWhere = sql`o.series IN (${inScope}) AND NOT EXISTS (
         SELECT 1 FROM observed_card_stats_stage s
         WHERE s.batch_id = ${batch.id} AND s.series = o.series AND s.card_id = o.card_id AND s.is_variant = o.is_variant)`;
@@ -345,6 +361,10 @@ async function main() {
         topCards: sql`excluded.top_cards`, updatedAt: sql`now()`,
       },
     });
+  }
+  if (emptied.length) {
+    await db.execute(sql`DELETE FROM series_meta WHERE series IN (${sql.join(emptied.map((x) => sql`${x}`), sql`, `)})`);
+    console.log(`emptied ${emptied.length} stale series (no runs left under them): ${emptied.join(", ")}`);
   }
   /**
    * How each field is handed, off the same rows just published: the share of

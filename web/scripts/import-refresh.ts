@@ -23,13 +23,14 @@
  * "Orderly"), not a name, and their pool is a per-round sequence rather than a
  * roster-wide window.
  */
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { sql } from "drizzle-orm";
 import { db } from "../src/db/client";
 import { parks, tournaments } from "../src/db/schema";
 import { parseRestrictions, tierWindowFromName } from "../src/lib/ingest/restrictions";
 import { keepHandRules } from "../src/lib/catalogue-edit";
+import { newestDumpFile } from "../src/lib/analytics/dump-files";
 
 const DRY = process.argv.includes("--dry");
 const squash = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
@@ -53,9 +54,8 @@ interface Entry { old: string; new: string | null; text: string; note?: string; 
 function fieldSizes(): Map<number, number> {
   const out = new Map<number, number>();
   const dir = join(ROOT, "Tourney Data");
-  for (const kind of ["tournaments", "drafts"]) {
-    const files = readdirSync(dir).filter((f) => f.startsWith(`pt27_${kind}_`) && f.endsWith(".csv")).sort();
-    const newest = files.pop();
+  for (const kind of ["tournaments", "drafts"] as const) {
+    const newest = newestDumpFile(dir, kind);
     if (!newest) continue;
     const lines = readFileSync(join(dir, newest), "utf8").split(/\r?\n/).slice(2);
     for (const line of lines) {

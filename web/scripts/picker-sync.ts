@@ -29,7 +29,11 @@ const argv = process.argv.slice(2);
 const DRY = argv.includes("--dry");
 const val = (k: string, d: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const REFRESHED_SINCE = val("refreshed-since", "2026-09-15");
-const PLAYED_SINCE = val("played-since", "2026-08-20");
+// An ended series stays pickable only while its last exports can still be on
+// disk unfiled; two weeks covers the game's 7-day export window with room.
+const PLAYED_SINCE = val("played-since", new Date(Date.now() - 14 * 86400e3).toISOString().slice(0, 10));
+/** Quick and EF events (Q-…, EF-…, PD-Q…, PD-EF…): never exported, so never filed. catalogue:sync added them from the Quick dump on 10-19. */
+const NOT_FILED = /^(PD-)?(EF|Q)\b/i;
 const CMD = join(process.cwd(), "..", "File OOTP Exports.command");
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 
@@ -104,7 +108,7 @@ async function main() {
       group: groupOf(r.name, r.is_draft),
       played: r.played,
     }))
-    .filter((r) => r.slug)
+    .filter((r) => r.slug && !NOT_FILED.test(r.name.replace(/ \(ended\)$/, "")))
     .sort((a, b) => a.group.localeCompare(b.group) || a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 
   const kept = rows.filter((r) => oldBySlug.has(r.slug));
