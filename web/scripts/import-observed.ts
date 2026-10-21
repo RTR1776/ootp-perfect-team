@@ -258,7 +258,7 @@ async function main() {
    * cleared. Series in scope with no new rows are emptied.
    */
   const slugs = [...new Set(seriesList.map((x) => x.replace(/-pre\d{8}$/, "")))];
-  const priorSeries = rowsOf(await db.execute(sql`
+  const priorSeries = !slugs.length ? [] : rowsOf(await db.execute(sql`
     SELECT DISTINCT series FROM observed_card_stats
     WHERE series IN (${sql.join(slugs.map((x) => sql`${x}`), sql`, `)})
        OR ${sql.join(slugs.map((x) => sql`starts_with(series, ${x + "-pre"})`), sql` OR `)}`)).map((r) => String((r as { series: string }).series));
