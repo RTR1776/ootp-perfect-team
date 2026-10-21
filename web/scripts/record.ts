@@ -15,7 +15,8 @@
  *
  * "weekly" = title starts with a weekday; everything else is a daily.
  */
-import { readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
+import { newestDumpFile } from "../src/lib/analytics/dump-files";
 import { join } from "node:path";
 
 const argv = process.argv.slice(2);
@@ -30,7 +31,7 @@ const TO = val("to") ? Date.parse(val("to")!) / 1000 : Infinity;
 
 const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 const DIR = join(ROOT, "Tourney Data");
-const dump = readdirSync(DIR).filter((f) => /^pt27_tournaments_.*\.csv$/i.test(f)).sort().at(-1);
+const dump = newestDumpFile(DIR, "tournaments");
 if (!dump) throw new Error(`no tournaments dump in ${DIR}`);
 const lines = readFileSync(join(DIR, dump), "utf8").split(/\r?\n/).filter((l) => l.trim());
 const rows = lines.slice(2).map((l) => l.split(","));

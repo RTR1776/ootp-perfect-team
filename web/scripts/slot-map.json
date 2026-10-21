@@ -268,7 +268,7 @@
  "140": "wideopen",
  "141": "openslotsdaily",
  "142": "bronzeweekly",
- "143": "livelowdiamondweekly",
+ "143": "wonkyslots",
  "144": "goldfloorcapweekly",
  "145": "upto1969weekly",
  "146": "liveweekly",
@@ -367,5 +367,7 @@
  "260": "aroundhornatnight",
  "261": "aroundhornbeforebed",
  "262": "saturdayaroundhornafterdar",
+ "263": "wednesdayaroundgold",
+ "264": "thursdaymodifiedperfectlyiron",
  "199": "diamond1990onward"
 }

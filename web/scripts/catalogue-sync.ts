@@ -25,12 +25,13 @@
  *   pnpm catalogue:sync [--dry]
  */
 import { dumpPredatesFormat } from "../src/lib/catalogue-edit";
-import { readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { parseDump } from "@/lib/analytics/dumps";
+import { newestDumpFile } from "@/lib/analytics/dump-files";
 import { parseRestrictions } from "@/lib/ingest/restrictions";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -41,10 +42,9 @@ const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const slugOf = (s: string) => s.toLowerCase().replace(/\b(daily|the|with|and|of|to|a|for)\b/g, "").replace(/[^a-z0-9]/g, "");
 
 async function main() {
-  const files = readdirSync(DUMPS).filter((f) => /^pt27_(tournaments|drafts)_.*\.csv$/.test(f)).sort();
-  const newest = (kind: string) => files.filter((f) => f.startsWith(`pt27_${kind}_`)).at(-1);
+  const newest = (kind: "tournaments" | "drafts") => newestDumpFile(DUMPS, kind);
   const slots = new Map<number, { title: string; start: number; field: number; runs: number; draft: boolean }>();
-  for (const kind of ["tournaments", "drafts"]) {
+  for (const kind of ["tournaments", "drafts"] as const) {
     const f = newest(kind); if (!f) continue;
     const d = parseDump(readFileSync(join(DUMPS, f), "utf8")); if (!d) continue;
     for (const e of d.events) {
