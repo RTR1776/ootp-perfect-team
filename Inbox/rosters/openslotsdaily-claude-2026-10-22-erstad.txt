@@ -1,0 +1,36 @@
+# Daily Open Slots — Claude pick 2026-10-22 erstad, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Metrodome --park-year 1990 --dh --slots P6,D4,G4,S4,B4,I4 --size 26 --series openslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Thurman Munson #82714
+R:1B Pedro Alvarez #87062
+R:2B Chase Utley #87068
+R:3B Alex Rodriguez #87219
+R:SS Ernie Banks #86621
+R:LF Darin Erstad #87242
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Albert Pujols #87149
+L:C Thurman Munson #82714
+L:1B Albert Pujols #87149
+L:2B Chase Utley #87068
+L:3B Alex Rodriguez #87219
+L:SS Ernie Banks #86621
+L:LF Darin Erstad #87242
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Chris Sabo #87059
+SP1 Cy Young (VAR) #86572
+SP2 Orel Hershiser #83135
+SP3 Mark Langston #86956
+SP4 Count Leblanc (VAR) #86978
+SP5 Claude Grier #87086
+CL Nick Altrock #87049
+RP1 Kelvim Escobar #87207
+RP2 Jordan Montgomery #86354
+RP3 Jacob deGrom #86675
+RP4 Fritz Ostermueller #86357
+RP5 James McDonald (VAR) #86384
+RP6 Caden Scarborough (VAR) #84762
+BN1 Deion Sanders #86962
+BN2 Javier Baez (VAR) #86417
+BN3 Chris Sabo #87059
+BN4 George Sisler (VAR) #87002
+BN5 Rick Wilkins #86392
