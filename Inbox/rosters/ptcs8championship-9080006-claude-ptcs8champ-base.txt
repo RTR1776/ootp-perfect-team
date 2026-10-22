@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Open — Claude pick ptcs8champ base, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Messer Street Grounds --park-year 1885 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Johnny Bassler #86476
+R:1B Roger Connor #86577
+R:2B Rogers Hornsby #86436
+R:3B Pop Lloyd #86896
+R:SS Luke Appling #82759
+R:LF Heinie Manush #86370
+R:CF Roy Thomas #86784
+R:RF Cool Papa Bell #85420
+L:C Josh Gibson #86252
+L:1B Roger Connor #86577
+L:2B Rogers Hornsby #86436
+L:3B Pop Lloyd #86896
+L:SS Pythias Russ (VAR) #87083
+L:LF Al Simmons #85942
+L:CF Heinie Manush #86370
+L:RF Cool Papa Bell #85420
+SP1 Cy Young (VAR) #86572
+SP2 Ed Rile #87165
+SP3 Eddie Plank #86890
+SP4 Bob Feller #85650
+CL Sam Streeter #87231
+RP1 Jack Coombs #85937
+RP2 Claude Grier #87086
+RP3 Satchel Paige #84844
+RP4 Count Leblanc (VAR) #86978
+BN1 Lefty O'Doul #85941
+BN2 John McGraw #86438
+BN3 Ben Taylor (VAR) #87163
+BN4 Shoeless Joe Jackson #86372
+BN5 Ty Cobb #86986
+BN6 King Kelly #85153
+BN7 Pythias Russ (VAR) #87083
+BN8 Al Simmons #85942
+BN9 Josh Gibson #86252

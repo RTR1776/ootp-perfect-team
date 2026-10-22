@@ -1,0 +1,148 @@
+
+=== PTCS 8 Championship - Cap ===
+1919 RE @ 1906 Columbia Park · DH off · value —–— · cap none · 26 players
+R/G 4.89  AVG 0.291  OBP 0.347  SLG 0.380  K% 7.3  HR/PA 0.69%  preset Moderate Small Ball
+sac bunt (1st & 2nd, 0 out) +0.084 runs · steal break-even 78.1% (0 out) / 74.2% (1 out)
+park: all-LHB lineup 5.07 R/G vs all-RHB 4.79 — 0.28 R/G swing toward LEFT-handed bats
+two-way: 158 cards also in the other role — Quincy Trouppe as arm, Ben Taylor as arm, Rap Dixon as arm, Kid Nichols as bat, Frank Foreman as bat, Roosevelt Davis as bat, Phil Cockrell as bat, Ossie Orwoll as bat, Isidro Fabre as bat, Cal McVey as arm, Eddie Plank as bat, Ed Rile as arm, Hilton Smith as bat, Cool Papa Bell as arm, Jack Coombs as bat, Lazaro Salazar as arm, Alejandro Oms as arm, Cy Young as bat, John Beckwith as arm, Babe Ruth as bat, Dizzy Trout as bat, Pete Donohue as bat, Jose Mendez as bat, Don Newcombe as bat, Smokey Joe Williams as bat, Barney Brown as bat, Hugh Daily as bat, Frank Grant as arm, Sam Jones as bat, Tubby Scales as arm, Cool Papa Bell as arm, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Old Hoss Radbourn as bat, Dizzy Dean as bat, Mack Eggleston as arm, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Bill Force as bat, Sam Streeter as bat, George Weidman as bat, Armando Cabanas as arm, Andy Porter as bat, Walter Cannady as arm, Agustin Parpetti as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, Judy Johnson as arm, Johnny Lindell as arm, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Bill Byrd as bat, Willis Flournoy as bat, Dink Mothell as arm, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Jack Taylor as bat, Pop Corkhill as arm, Jack Scott as bat, Tom Hughes as bat, Blondie Purcell as arm, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Rip Sewell as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Esteban Montalvo as arm, Red Ruffing as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
+
+pool: 1006 eligible owned cards — 634 bats (203L / 57S / 374R), 372 arms
+!! no exports on record for series PTCS 8 Championship — shape and handedness fall back to the era table
+shape: 17 bats / 4 SP / 5 RP (pre-1930 (L.J. 10-07)) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 846 of 1006 pool cards have innings on record (median 1970 PA/BF); K = 1000000
+gloves ×1.21: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1919 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×2.41, SP 1.50, RP 0.62 (--no-team-weights to turn off)
+
++10 rating, runs/700 PA — LHB: BABIP +2.7  Power +1.3  Eye +1.3  Gap +1.1  Avoid Ks +1.0
+                          RHB: BABIP +2.6  Eye +1.3  Gap +1.1  Power +1.0  Avoid Ks +1.0
+                         arms: pBABIP +1.6  Control +0.9  Stuff +0.5  pHR +0.4
+seed: 9080008-seed.txt as is (26 cards)
+
+optimiser: 15 starts (λ + seed) hill-climbed; best 304.0 runs vs 262.8 greedy (+41.2), 4 moves from the seed
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Johnny Bassler              93  L  1924   +18.3  park:L DEF 125/125 +7.9  #86476
+R:1B    Ben Taylor (VAR)            83  L  1922   +22.0  park:L DEF  88/ 88 +3.4  #87163
+R:2B    Rogers Hornsby             101  R  1921   +25.4  park:R DEF 126/126 +6.2  #86436
+R:3B    Pop Lloyd                  101  L  1924   +37.2  park:L DEF 119/128 +10.8  #86896
+R:SS    Luke Appling                92  R  1936   +24.9  park:R DEF 110/110 +1.8  #82759
+R:LF    Heinie Manush              102  L  1928   +34.8  park:L DEF 115/115 +4.7  #86370
+R:CF    Roy Thomas                  82  L  1903   +21.0  park:L DEF 112/112 -0.2  #86784
+R:RF    Chick Stahl                 93  L  1899   +12.7  park:L DEF 126/129 +7.3  #86583
+
+--- lineup vs LHP ---
+L:C     Johnny Bassler              93  L  1924   -12.1  park:L DEF 125/125 +7.9  #86476
+L:1B    Ben Taylor (VAR)            83  L  1922   +20.2  park:L DEF  88/ 88 +3.4  #87163
+L:2B    Rogers Hornsby             101  R  1921   +28.8  park:R DEF 126/126 +6.2  #86436
+L:3B    Pop Lloyd                  101  L  1924   +25.3  park:L DEF 119/128 +10.8  #86896
+L:SS    Luke Appling                92  R  1936   +14.2  park:R DEF 110/110 +1.8  #82759
+L:LF    Heinie Manush              102  L  1928   +22.8  park:L DEF 115/115 +4.7  #86370
+L:CF    Roy Thomas                  82  L  1903   +12.7  park:L DEF 112/112 -0.2  #86784
+L:RF    Chick Stahl                 93  L  1899   +11.9  park:L DEF 126/129 +7.3  #86583
+
+--- batting order vs RHP --- (4.73 runs/game; The Book's order 4.71)
+  1. Roy Thomas CF
+  2. Luke Appling SS
+  3. Johnny Bassler C
+  4. Pop Lloyd 3B
+  5. Heinie Manush LF
+  6. Ben Taylor (VAR) 1B
+  7. Chick Stahl RF
+  8. Rogers Hornsby 2B
+  9. Pitcher
+
+--- batting order vs LHP --- (4.48 runs/game; The Book's order 4.46)
+  1. Roy Thomas CF
+  2. Luke Appling SS
+  3. Rogers Hornsby 2B
+  4. Pop Lloyd 3B
+  5. Ben Taylor (VAR) 1B
+  6. Heinie Manush LF
+  7. Johnny Bassler C
+  8. Chick Stahl RF
+  9. Pitcher
+
+--- rotation ---
+SP1     Ed Rile                    102  L  1927   +15.6      STM 110 two-way (pitching)  #87165
+SP2     Cy Young                    99  R  1900   +14.6   SP STM 109  #86996
+SP3     Bob Feller                  88  R  1939   +10.1   SP STM 111  #85650
+SP4     Sam Streeter                85  R  1933    +9.9   SP STM 102  #87231
+
+--- bullpen ---
+CL      Sherry Smith                62  R  1916    +5.5   SP STM 118  #87030
+RP1     Hubert Lockhart             75  L  1923    +4.3   SP STM  86  #87082
+RP2     Fritz Ostermueller          64  L  1944    +3.6   SP STM  98  #86357
+RP3     Nick Altrock                76  S  1906    +2.4   SP STM  90  #87049
+RP4     Lefty Grove                 48  L  1940    +0.5   SP STM  77  #87168
+
+--- bench ---
+BN1     Maurice Archdeacon          45  L  1924    -6.9  park:L  #85665
+BN2     Stan Hack                   46  L  1944    -7.3  park:L  #86458
+BN3     Nap Lajoie                  50  R  1905    -3.0  park:R  #86581
+BN4     Paul Waner                  61  L  1943   +16.0  park:L  #86999
+BN5     Tom Brown                   66  L  1891   +18.2  park:L  #86767
+BN6     George Sisler (VAR)         48  L  1928    +4.4  park:L  #87002
+BN7     Kid Elberfeld (VAR)         47  R  1903    -7.8  park:R  #86368
+BN8     Con Daily (VAR)             71  L  1891    +2.2  park:L  #86590
+BN9     Halley Harding              71  S  1926   +20.5  park:L  #86979
+
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Johnny Bassler             U1 Con Daily (VAR) 82           U2 -                           
+  1B  Ben Taylor (VAR)           U1 Con Daily (VAR) 83           U2 Nap Lajoie 96               
+  2B  Rogers Hornsby             U1 Nap Lajoie 114               U2 -                           
+  3B  Pop Lloyd                  U1 Kid Elberfeld (VAR) 85       U2 -                           
+  SS  Luke Appling               U1 Halley Harding 70            U2 Kid Elberfeld (VAR) 83      
+  LF  Heinie Manush              U1 Tom Brown 68                 U2 Paul Waner 60               
+  CF  Roy Thomas                 U1 Maurice Archdeacon 65        U2 -                           
+  RF  Chick Stahl                U1 Tom Brown 63                 U2 Paul Waner 60               
+  pinch hitters: Halley Harding, Tom Brown, Paul Waner, George Sisler (VAR) · pinch runners: Maurice Archdeacon (SPE 112), Halley Harding (SPE 108), Tom Brown (SPE 97)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Johnny Bassler             U1 Con Daily (VAR) 82           U2 -                           
+  1B  Ben Taylor (VAR)           U1 Con Daily (VAR) 83           U2 Nap Lajoie 96               
+  2B  Rogers Hornsby             U1 Nap Lajoie 114               U2 -                           
+  3B  Pop Lloyd                  U1 Kid Elberfeld (VAR) 85       U2 -                           
+  SS  Luke Appling               U1 Halley Harding 70            U2 Kid Elberfeld (VAR) 83      
+  LF  Heinie Manush              U1 Tom Brown 68                 U2 Maurice Archdeacon 85       
+  CF  Roy Thomas                 U1 Maurice Archdeacon 65        U2 -                           
+  RF  Chick Stahl                U1 Tom Brown 63                 U2 Maurice Archdeacon 81       
+  pinch hitters: Halley Harding, Tom Brown, Maurice Archdeacon, Kid Elberfeld (VAR) · pinch runners: Maurice Archdeacon (SPE 112), Halley Harding (SPE 108), Tom Brown (SPE 97)
+
+26 players · value 1951 · from seed · 4 variants
+vs RHP lineup gets the friendly park side in 6 of 8 spots
+
+--- order inputs (rostered bats) ---
+  Pop Lloyd              L EYE 128 (115/132)  POW  72 (60/77)  K 168  BABIP 162  GAP 126  SPE 104
+  Heinie Manush          L EYE  92 (75/98)  POW 105 (122/100)  K 224  BABIP 150  GAP 140  SPE  69
+  Rogers Hornsby         R EYE 106 (115/104)  POW 129 (67/155)  K 102  BABIP 150  GAP 141  SPE 102
+  Luke Appling           R EYE 165 (174/162)  POW  53 (10/62)  K 154  BABIP 154  GAP  82  SPE  64
+  Ben Taylor             L EYE  88 (86/89)  POW  49 (46/50)  K 151  BABIP 158  GAP 151  SPE  36
+  Roy Thomas             L EYE 204 (210/202)  POW  30 (60/10)  K 120  BABIP 151  GAP  65  SPE  68
+  Halley Harding         S EYE 114 (104/118)  POW  21 (20/22)  K 125  BABIP 162  GAP  68  SPE 108
+  Johnny Bassler         L EYE 149 (140/152)  POW  25 (1/32)  K 217  BABIP 113  GAP  95  SPE  36
+  Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
+  Paul Waner             L EYE 159 (146/163)  POW  27 (1/33)  K 193  BABIP 122  GAP  93  SPE  22
+  Chick Stahl            L EYE 112 (90/122)  POW  86 (92/85)  K 149  BABIP 116  GAP 105  SPE  80
+  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
+  Con Daily              L EYE  63 (49/67)  POW   1 (1/1)  K 119  BABIP 126  GAP 111  SPE  48
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Maurice Archdeacon     L EYE 113 (115/113)  POW   1 (1/1)  K  45  BABIP 126  GAP  63  SPE 112
+  Stan Hack              L EYE 128 (144/123)  POW  38 (1/46)  K 183  BABIP  81  GAP  61  SPE  47
+  Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Ed Rile 110, Cy Young 109, Bob Feller 111, Sam Streeter 102 (era floor 80)
+  ✓ stamina guys in the pen (45+): Sherry Smith 118, Hubert Lockhart 86, Fritz Ostermueller 98, Nick Altrock 90, Lefty Grove 77
+  ✓ C  backup: Con Daily 82
+  ✓ 1B backup: Stan Hack 77, Nap Lajoie 96, Con Daily 83
+  ✓ 2B backup: Nap Lajoie 114
+  ✓ 3B backup: Kid Elberfeld 85
+  ✓ SS backup: Kid Elberfeld 83, Halley Harding 70
+  ✓ LF backup: Maurice Archdeacon 85, Paul Waner 60, Tom Brown 68
+  ✓ CF backup: Maurice Archdeacon 65
+  ✓ RF backup: Maurice Archdeacon 81, Paul Waner 60, Tom Brown 63, Con Daily 62
+(20 of 26 have a live ask in the last shop snapshot)
+objective: 304.0 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 8 bats) 747 · rotation 374 · bullpen 325 · bench-only 505

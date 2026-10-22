@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Silver — Claude pick ptcs8champ base, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Hilltop Park --park-year 1903 --max 79 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Biz Mackey #86894
+R:1B Con Daily (VAR) #86590
+R:2B Nap Lajoie #86581
+R:3B Joe Dugan (VAR) #86765
+R:SS Halley Harding #86979
+R:LF Tom Brown #86767
+R:CF Pop Corkhill #86582
+R:RF Jack Tobin #86772
+L:C Biz Mackey #86894
+L:1B Charlie Hickman #86420
+L:2B Joe Dugan (VAR) #86765
+L:3B Ray Dandridge #87264
+L:SS Halley Harding #86979
+L:LF Ed Morgan (VAR) #85943
+L:CF Tillie Walker #86597
+L:RF Willie Keeler #85878
+SP1 Sherry Smith #87030
+SP2 Hubert Lockhart #87082
+SP3 Christy Mathewson #86706
+SP4 Nick Altrock #87049
+CL Fritz Ostermueller #86357
+RP1 Bill Ricks #87162
+RP2 Luther Farrell #86899
+RP3 Grover Cleveland Alexander #86477
+RP4 Cool Papa Bell #86981
+BN1 Tillie Walker #86597
+BN2 Pat Patterson #87080
+BN3 Clyde Sukeforth #85017
+BN4 Paul Waner #86999
+BN5 Charlie Hickman #86420
+BN6 Earl Webb #85477
+BN7 Ed Morgan (VAR) #85943
+BN8 Ray Dandridge #87264
+BN9 Willie Keeler #85878
