@@ -1,0 +1,35 @@
+# Saturday Diamond Variety — Claude pick 2026-10-22 newcards, rebuilt from the catalogue's rules by current-rosters (--year 1952 --park Tiger Stadium --park-year 1958 --min 40 --max 99 --card-year-min 1910 --card-year-max 1959 --size 26 --series diamondvariety --sp 5 --rp 5 --bats 16)
+R:C Ed Bailey (VAR) #86637
+R:1B Roy Cullenbine #86775
+R:2B Frankie Frisch #85721
+R:3B Hank Thompson #86668
+R:SS Pythias Russ (VAR) #87083
+R:LF Mickey Mantle #86635
+R:CF Willie Mays #86634
+R:RF Branch Russell #87172
+L:C Josh Gibson #86898
+L:1B Rudy York (VAR) #86429
+L:2B Frankie Frisch #85721
+L:3B Dewey Creacy #86980
+L:SS Pythias Russ (VAR) #87083
+L:LF Al Simmons #85942
+L:CF Willie Mays #86634
+L:RF Chick Hafey #85939
+SP1 Claude Grier #87086
+SP2 Count Leblanc (VAR) #86978
+SP3 Bob Feller #85650
+SP4 Babe Ruth #86439
+SP5 Milt Pappas #86654
+CL Joe Beggs (VAR) #86762
+RP1 Johnny Markham (VAR) #87159
+RP2 Larry Jackson #86646
+RP3 Dizzy Dean #86473
+RP4 Sam Jones #86070
+BN1 Willie Bobo #87164
+BN2 Chick Hafey #85939
+BN3 Al Simmons #85942
+BN4 Rudy York (VAR) #86429
+BN5 Dewey Creacy #86980
+BN6 Willie McCovey #86609
+BN7 Josh Gibson #86898
+BN8 Luke Appling #82759

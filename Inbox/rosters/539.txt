@@ -4,7 +4,149 @@
 R/G 4.58  AVG 0.261  OBP 0.330  SLG 0.400  K% 15.1  HR/PA 2.30%  preset Balanced
 sac bunt (1st & 2nd, 0 out) +0.013 runs · steal break-even 80.1% (0 out) / 76.9% (1 out)
 park: all-LHB lineup 4.44 R/G vs all-RHB 4.66 — 0.22 R/G swing toward RIGHT-handed bats
+card sets: Negro League Star, Rookie Sensation, All-Time Legend, Historical All-Star, Future Legend, Snapshot, Unsung Heroes, Hardware Heroes, Veteran Presence only
+two-way: 13 cards also in the other role — Justin Turner as arm, Don Robinson as bat, Matt Davidson as arm, Madison Bumgarner as bat, Carlos Zambrano as bat, Bobby Witt Jr. as arm, Jose Oquendo as arm, Brian Anderson as bat, Jon Garland as bat, Tanner Roark as bat, Tyler Anderson as bat, Isiah Kiner-Falefa as arm, Ichiro Suzuki as arm
 
-!! The field in sandlot has played no Live card in 307 cards, so the event very likely bars Live cards.
-Pass --card-types 2,3,4,5,6,7,8,9,10 (every set but Live).
-Or pass --any-set to build from every set and year anyway.
+pool: 905 eligible owned cards — 526 bats (167L / 99S / 260R), 379 arms
+staff weights from sandlot's exports: SP 1.41, RP 0.36 (a lineup slot = 1)
+field (sandlot, 3 exports): 33% of batters faced thrown left-handed · 36% of PA by left-handed bats · 13.7 bats / 5.5 SP / 5.1 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 851 of 905 pool cards have innings on record (median 804 PA/BF); K = 1000000
+gloves ×0.98: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1992 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.96, SP 2.11, RP 0.72 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.9 SP / 5.8 RP → per SP ×0.98 (5 carried), per RP ×0.83 (7 carried)
+
++10 rating, runs/700 PA — LHB: Power +3.3  BABIP +2.1  Avoid Ks +2.1  Eye +1.3  Gap +0.9
+                          RHB: Power +4.2  Avoid Ks +2.1  BABIP +2.0  Eye +1.3  Gap +0.9
+                         arms: pHR +1.3  pBABIP +1.2  Stuff +1.1  Control +1.0
+seed: 539-seed.txt as is (26 cards)
+
+optimiser: 3 starts (λ + seed) hill-climbed; best 374.9 runs vs 353.6 greedy (+21.2), 34 moves from λ 8.00 (the seed's climb: 374.9)
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Bob Boone                   73  R  1986    -8.9  park:R DEF 137/137 +17.9  #87032
+R:1B    Pedro Alvarez               81  L  2013   +21.2  park:L DEF  96/ 96 +4.7  #87062
+R:2B    Brian Roberts               87  S  2005   +18.2  park:L DEF 124/124 +4.2  #87216
+R:3B    Placido Polanco             77  R  2007   +10.8  park:R DEF 104/141 +4.1  #87213
+R:SS    Jeremy Pena                 79  R  2022   +11.5  park:R DEF 116/116 +4.1  #87154
+R:LF    Eric Davis (VAR)            85  R  1989   +29.2  park:R DEF  92/ 92 -0.7  #86974
+R:CF    Darin Erstad                89  L  2000   +23.6  park:L DEF 138/148 +4.7  #87242
+R:RF    Bo Jackson                  88  R  1989   +35.3  park:R DEF 123/123 +5.3  #86966
+R:DH    Carlos Pena                 89  L  2007   +18.0  park:L  #87183
+
+--- lineup vs LHP ---
+L:C     Mike Zunino                 75  R  2021   +15.6  park:R DEF  77/ 77 +12.6  #86431
+L:1B    Carlos Pena                 89  L  2007   +11.7  park:L DEF  78/ 78 +0.3  #87183
+L:2B    Brian Roberts               87  S  2005    +9.8  park:R DEF 124/124 +4.2  #87216
+L:3B    Chris Sabo                  66  R  1990   +27.2  park:R DEF  77/ 77 -4.4  #87059
+L:SS    Jeremy Pena                 79  R  2022   +20.3  park:R DEF 116/116 +4.1  #87154
+L:LF    Bo Jackson                  88  R  1989   +35.1  park:R DEF 116/123 +4.0  #86966
+L:CF    Darin Erstad                89  L  2000   +19.5  park:L DEF 138/148 +4.7  #87242
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +32.6  park:R DEF 149/149 +10.8  #86300
+L:DH    Ryan Braun                  74  R  2007   +45.8  park:R  #87222
+
+--- batting order vs RHP --- (5.27 runs/game; The Book's order 5.27)
+  1. Carlos Pena DH
+  2. Eric Davis (VAR) LF
+  3. Pedro Alvarez 1B
+  4. Bo Jackson RF
+  5. Darin Erstad CF
+  6. Brian Roberts 2B
+  7. Placido Polanco 3B
+  8. Jeremy Pena SS
+  9. Bob Boone C
+
+--- batting order vs LHP --- (5.42 runs/game; The Book's order 5.42)
+  1. Ryan Braun DH
+  2. Chris Sabo 3B
+  3. Bo Jackson LF
+  4. Jeff Francoeur (VAR) RF
+  5. Jeremy Pena SS
+  6. Carlos Pena 1B
+  7. Mike Zunino C
+  8. Brian Roberts 2B
+  9. Darin Erstad CF
+
+--- rotation ---
+SP1     Jered Weaver                89  R  2011   +12.9   SP STM  96  #87169
+SP2     Justin Verlander            87  R  2013   +12.8   SP STM  98  #87064
+SP3     CC Sabathia                 82  L  2007   +11.9   SP STM  85  #87182
+SP4     Nolan Ryan                  87  R  1989   +10.7   SP STM 100  #85926
+SP5     Danny Jackson               88  R  1985   +10.2   SP STM  86  #87052
+
+--- bullpen ---
+CL      Troy Percival (VAR)         87  R  2007    +9.8   RP STM  19  #85371
+RP1     Dave Stieb (VAR)            89  R  1990    +9.8   SP STM  78  #85911
+RP2     Kelvim Escobar              78  S  2007    +9.3   SP STM  76  #87207
+RP3     Kevin Millwood (VAR)        89  R  1999    +8.4   SP STM  81  #86337
+RP4     Gregg Olson (VAR)           88  R  1989    +8.2   CL STM  21  #86946
+RP5     J.A. Happ                   87  L  2015    +7.7   SP STM  62  #86352
+RP6     Raisel Iglesias             80  R  2015    +7.0   SP STM  69  #83322
+
+--- bench ---
+BN1     Ryan Braun                  74  R  2007    -0.6  park:R  #87222
+BN2     Chris Sabo                  66  R  1990    -3.0  park:R  #87059
+BN3     Jeff Francoeur (VAR)        81  R  2005    -3.5  park:R  #86300
+BN4     Tony Phillips               88  S  1993    -5.0  park:L  #83845
+BN5     Mike Zunino                 75  R  2021   -31.3  park:R  #86431
+
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Bob Boone                  U1 Mike Zunino 77               U2 -                           
+  1B  Pedro Alvarez              U1 Carlos Pena 78               U2 -                           
+  2B  Brian Roberts              U1 Tony Phillips 99             U2 -                           
+  3B  Placido Polanco            U1 Chris Sabo 77                U2 Tony Phillips 80            
+  SS  Jeremy Pena                U1 Tony Phillips 79             U2 -                           
+  LF  Eric Davis (VAR)           U1 Tony Phillips 110            U2 -                            def sub Tony Phillips (+3.5)
+  CF  Darin Erstad               U1 Tony Phillips 91             U2 -                           
+  RF  Bo Jackson                 U1 Jeff Francoeur (VAR) 149     U2 Tony Phillips 101            def sub Jeff Francoeur (VAR) (+5.5)
+  pinch hitters: Ryan Braun, Chris Sabo, Jeff Francoeur (VAR), Tony Phillips · pinch runners: Ryan Braun (SPE 80), Chris Sabo (SPE 74), Jeff Francoeur (VAR) (SPE 68)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Mike Zunino                U1 Bob Boone 137                U2 -                            def sub Bob Boone (+5.3)
+  1B  Carlos Pena                U1 Pedro Alvarez 96             U2 -                            def sub Pedro Alvarez (+4.4)
+  2B  Brian Roberts              U1 Placido Polanco 141          U2 Tony Phillips 99             def sub Placido Polanco (+6.7)
+  3B  Chris Sabo                 U1 Placido Polanco 104          U2 Tony Phillips 80             def sub Placido Polanco (+8.5)
+  SS  Jeremy Pena                U1 Tony Phillips 79             U2 -                           
+  LF  Bo Jackson                 U1 Eric Davis (VAR) 92          U2 Tony Phillips 110           
+  CF  Darin Erstad               U1 Eric Davis (VAR) 64          U2 Tony Phillips 91            
+  RF  Jeff Francoeur (VAR)       U1 Tony Phillips 101            U2 -                           
+  pinch hitters: Eric Davis (VAR), Placido Polanco, Bob Boone, Tony Phillips · pinch runners: Eric Davis (VAR) (SPE 107), Placido Polanco (SPE 67), Tony Phillips (SPE 67)
+
+26 players · value 2163 · λ 8.000 · 6 variants
+vs RHP lineup gets the friendly park side in 4 of 9 spots
+
+--- order inputs (rostered bats) ---
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Eric Davis             R EYE 163 (188/154)  POW 187 (170/193)  K  67  BABIP 105  GAP  70  SPE 107
+  Darin Erstad           L EYE 110 (66/130)  POW  96 (120/90)  K 124  BABIP 155  GAP 111  SPE 118
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Brian Roberts          S EYE 127 (120/130)  POW  84 (73/88)  K 111  BABIP 139  GAP 162  SPE  89
+  Carlos Pena            L EYE 200 (171/210)  POW 223 (209/228)  K  56  BABIP  88  GAP  72  SPE  15
+  Jeremy Pena            R EYE  59 (65/56)  POW 130 (134/128)  K  81  BABIP 136  GAP  80  SPE 111
+  Placido Polanco        R EYE  69 (43/75)  POW  62 (72/58)  K 220  BABIP 144  GAP  95  SPE  67
+  Ryan Braun             R EYE  82 (147/63)  POW 158 (200/144)  K  62  BABIP 106  GAP  93  SPE  80
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
+  Tony Phillips          S EYE 144 (142/145)  POW  50 (37/55)  K  80  BABIP 128  GAP  73  SPE  67
+  Bob Boone              R EYE  94 (109/90)  POW  61 (58/62)  K 165  BABIP 103  GAP  66  SPE  33
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (91 teams): 5.2 SP / 6.7 RP / 14.9 bats
+  ✓ starters' stamina Jered Weaver 96, Justin Verlander 98, CC Sabathia 85, Nolan Ryan 100, Danny Jackson 86 (era floor 50)
+  ✓ stamina guys in the pen (45+): Dave Stieb 78, Kelvim Escobar 76, Kevin Millwood 81, J.A. Happ 62, Raisel Iglesias 69
+  ✓ C  backup: vs RHP Mike Zunino 77 · vs LHP Bob Boone 137
+  ✓ 1B backup: vs RHP Carlos Pena 78 · vs LHP Pedro Alvarez 96
+  ✓ 2B backup: vs RHP Tony Phillips 99 · vs LHP Placido Polanco 141, Tony Phillips 99
+  ✓ 3B backup: vs RHP Chris Sabo 77, Tony Phillips 80 · vs LHP Pedro Alvarez 75, Placido Polanco 104, Tony Phillips 80
+  ✓ SS backup: Tony Phillips 79
+  ✓ LF backup: vs RHP Tony Phillips 110 · vs LHP Eric Davis 92, Tony Phillips 110
+  ✓ CF backup: vs RHP Tony Phillips 91 · vs LHP Eric Davis 64, Tony Phillips 91
+  ✓ RF backup: vs RHP Jeff Francoeur 149, Tony Phillips 101 · vs LHP Tony Phillips 101
+(19 of 26 have a live ask in the last shop snapshot)
+objective: 374.9 weighted runs (bats 67/33 R/L, SP 2.1149999999999998, RP 0.72, bench 0.1)
+points: lineup(both boards, 13 bats) 1044 · rotation 433 · bullpen 598 · bench-only 88
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Troy Percival            pBABIP 196 (fitted 50–175)

@@ -3,13 +3,13 @@
 1999 RE (neutral park) · DH on · value —–— · cap none · 26 players
 R/G 4.91  AVG 0.266  OBP 0.338  SLG 0.422  K% 16.8  HR/PA 2.83%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.038 runs · steal break-even 81.6% (0 out) / 78.6% (1 out)
-two-way: 76 cards also in the other role — CC Sabathia as bat, Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Manny Banuelos as bat, Nolan McLean as bat, Bryce Rainer as arm, Dan Haren as bat, Kaelen Culpepper as arm, Madison Bumgarner as bat, Carson Williams as arm, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Carlos Zambrano as bat, Bobby Witt Jr. as arm, Alec Burleson as arm, Jac Caglianone as arm, JR Ritchie as bat, Travis Sykora as bat, Justin Turner as arm, Willi Castro as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Kyson Witherspoon as bat, Matt Davidson as arm, Brian Anderson as bat, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Jon Garland as bat, Anthony Nunez as bat, Tanner Roark as bat, Tyler Anderson as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
+two-way: 76 cards also in the other role — Kaelen Culpepper as arm, Carson Williams as arm, Travis Sykora as bat, Justin Turner as arm, Kyson Witherspoon as bat, Matt Davidson as arm, CC Sabathia as bat, Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Manny Banuelos as bat, Nolan McLean as bat, Bryce Rainer as arm, Dan Haren as bat, Madison Bumgarner as bat, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Carlos Zambrano as bat, Bobby Witt Jr. as arm, Alec Burleson as arm, Jac Caglianone as arm, JR Ritchie as bat, Willi Castro as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Brian Anderson as bat, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Jon Garland as bat, Anthony Nunez as bat, Tanner Roark as bat, Tyler Anderson as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
 
-pool: 2226 eligible owned cards — 1124 bats (392L / 146S / 586R), 1102 arms
+pool: 2231 eligible owned cards — 1127 bats (393L / 147S / 587R), 1104 arms
 staff weights from ironandfriends's exports: SP 1.18, RP 0.45 (a lineup slot = 1)
 field (ironandfriends, 1 exports): 31% of batters faced thrown left-handed · 36% of PA by left-handed bats · 13.6 bats / 5.1 SP / 6.4 RP per team
 shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
-observed play: 1978 of 2226 pool cards have innings on record (median 694 PA/BF); K = 1000000
+observed play: 2015 of 2231 pool cards have innings on record (median 681 PA/BF); K = 1000000
 gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1999 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.85, SP 1.77, RP 0.90 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.5 SP / 7.1 RP → per SP ×0.90 (5 carried), per RP ×1.01 (7 carried)
@@ -19,33 +19,33 @@ staff innings split over the arms carried: the field runs 4.5 SP / 7.1 RP → pe
                          arms: pHR +1.6  Stuff +1.3  pBABIP +1.2  Control +1.0
 seed: 772-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 54.3 runs vs -33.2 greedy (+87.5), 2 moves from the seed
+optimiser: 3 starts (λ + seed) hill-climbed; best 58.0 runs vs -36.7 greedy (+94.7), 2 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ethan Salas                 59  L  2026   -26.2  park:L DEF  98/ 98 +5.7  #87087
-R:1B    Shawn Green                 59  L  2004    -0.3  park:L DEF  96/ 96 +4.4  #87028
-R:2B    Javier Baez (VAR)           49  R  2021    -1.4  park:R DEF 102/102 -4.1  #86417
-R:3B    Alex Rodriguez             102  R  2007   +83.5  park:R DEF 123/123 +9.4  #87219
-R:SS    Freddy Galvis (VAR)         58  S  2019   -12.1  park:L DEF 113/129 +2.6  #85743
+R:C     Ethan Salas                 59  L  2026   -26.3  park:L DEF  98/ 98 +5.7  #87087
+R:1B    Shawn Green                 59  L  2004    -0.5  park:L DEF  96/ 96 +4.4  #87028
+R:2B    Javier Baez (VAR)           49  R  2021    -1.5  park:R DEF 102/102 -4.1  #86417
+R:3B    Alex Rodriguez             102  R  2007   +82.9  park:R DEF 123/123 +9.4  #87219
+R:SS    Freddy Galvis (VAR)         58  S  2019   -12.2  park:L DEF 113/129 +2.6  #85743
 R:LF    Mike Trout (VAR)            51  R  2024    -5.2  park:R DEF  95/ 95 -0.1  #84793
-R:CF    Carlos Beltran              99  S  2004   +44.1  park:L DEF 108/108 -0.9  #87066
-R:RF    Norris Hopper               53  R  2007   -14.5  park:R DEF 131/137 +6.6  #87191
-R:DH    Dan Uggla                   59  R  2006    -2.7  park:R  #86599
+R:CF    Carlos Beltran              99  S  2004   +43.8  park:L DEF 108/108 -0.9  #87066
+R:RF    Eric Byrnes                 67  R  2007    +1.8  park:R DEF 133/134 +7.0  #87195
+R:DH    Dan Uggla                   59  R  2006    -2.8  park:R  #86599
 
 --- lineup vs LHP ---
-L:C     Jake Rogers                 57  R  2026   -19.0  park:R DEF  80/ 80 -1.6  #82407
-L:1B    Matt Davidson (VAR)         56  R  2018    -1.1  park:R DEF  76/ 76 -0.2  #84666
-L:2B    Javier Baez (VAR)           49  R  2021    -5.3  park:R DEF 102/102 -4.1  #86417
-L:3B    Alex Rodriguez             102  R  2007   +33.7  park:R DEF 123/123 +9.4  #87219
-L:SS    Freddy Galvis (VAR)         58  S  2019   -16.3  park:R DEF 113/129 +2.6  #85743
-L:LF    Andruw Jones (VAR)          57  R  2011    -1.1  park:R DEF 103/103 +1.4  #86321
-L:CF    Carlos Beltran              99  S  2004   +25.8  park:R DEF 108/108 -0.9  #87066
-L:RF    Norris Hopper               53  R  2007   -13.6  park:R DEF 131/137 +6.6  #87191
-L:DH    Bill Hall                   59  R  2006    +7.0  park:R  #87200
+L:C     Jake Rogers                 57  R  2026   -19.1  park:R DEF  80/ 80 -1.6  #82407
+L:1B    Matt Davidson (VAR)         56  R  2018    -1.2  park:R DEF  76/ 76 -0.2  #84666
+L:2B    Javier Baez (VAR)           49  R  2021    -5.4  park:R DEF 102/102 -4.1  #86417
+L:3B    Alex Rodriguez             102  R  2007   +33.5  park:R DEF 123/123 +9.4  #87219
+L:SS    Freddy Galvis (VAR)         58  S  2019   -16.5  park:R DEF 113/129 +2.6  #85743
+L:LF    Andruw Jones (VAR)          57  R  2011    -1.2  park:R DEF 103/103 +1.4  #86321
+L:CF    Carlos Beltran              99  S  2004   +25.6  park:R DEF 108/108 -0.9  #87066
+L:RF    Eric Byrnes                 67  R  2007    +9.1  park:R DEF 133/134 +7.0  #87195
+L:DH    Bill Hall                   59  R  2006    +6.9  park:R  #87200
 
---- batting order vs RHP --- (5.26 runs/game; The Book's order 5.24)
-  1. Norris Hopper RF
-  2. Carlos Beltran CF
+--- batting order vs RHP --- (5.29 runs/game; The Book's order 5.28)
+  1. Carlos Beltran CF
+  2. Eric Byrnes RF
   3. Shawn Green 1B
   4. Alex Rodriguez 3B
   5. Dan Uggla DH
@@ -54,12 +54,12 @@ L:DH    Bill Hall                   59  R  2006    +7.0  park:R  #87200
   8. Freddy Galvis (VAR) SS
   9. Ethan Salas C
 
---- batting order vs LHP --- (4.98 runs/game; The Book's order 4.98)
+--- batting order vs LHP --- (5.04 runs/game; The Book's order 5.04)
   1. Alex Rodriguez 3B
-  2. Bill Hall DH
-  3. Matt Davidson (VAR) 1B
+  2. Eric Byrnes RF
+  3. Bill Hall DH
   4. Carlos Beltran CF
-  5. Norris Hopper RF
+  5. Matt Davidson (VAR) 1B
   6. Andruw Jones (VAR) LF
   7. Freddy Galvis (VAR) SS
   8. Jake Rogers C
@@ -67,26 +67,26 @@ L:DH    Bill Hall                   59  R  2006    +7.0  park:R  #87200
 
 --- rotation ---
 SP1     Jered Weaver                89  R  2011   +11.5   SP STM  96  #87169
-SP2     Kelvim Escobar              78  S  2007    +9.9   SP STM  76  #87207
+SP2     Kelvim Escobar              78  S  2007   +10.0   SP STM  76  #87207
 SP3     James McDonald (VAR)        55  L  2010    +4.2   SP STM  59  #86384
-SP4     Tanner McDougal (VAR)       66  R  2026    -1.2   SP STM  62  #85032
-SP5     Justin Verlander            58  R  2006    -3.4   SP STM  83  #87014
+SP4     Justin Verlander            58  R  2006    -3.4   SP STM  83  #87014
+SP5     Jeff Francis                53  L  2007    -6.5   SP STM  75  #87199
 
 --- bullpen ---
 CL      John Bale                   59  L  2007    +0.9   RP STM  33  #87234
 RP1     Randy Choate                45  L  2013    -2.7   RP STM   6  #87026
-RP2     Jeff Francis                53  L  2007    -6.5   SP STM  75  #87199
-RP3     Todd Jones (VAR)            43  L  2000    -9.4   CL STM  17  #86434
-RP4     Dallas Braden               57  L  2010   -10.8   SP STM  73  #86293
-RP5     Victor Vodnik               57  R  2026   -10.8   RP STM  19  #81824
-RP6     Reed Garrett                49  R  2024   -11.8   RP STM  25  #84825
+RP2     Todd Jones (VAR)            43  L  2000    -9.5   CL STM  17  #86434
+RP3     Dallas Braden               57  L  2010   -10.8   SP STM  73  #86293
+RP4     Victor Vodnik               57  R  2026   -10.9   RP STM  19  #81824
+RP5     Reed Garrett                49  R  2024   -11.8   RP STM  25  #84825
+RP6     Griffin Canning             55  R  2026   -12.2   RP STM  85  #81741
 
 --- bench ---
 BN1     Bill Hall                   59  R  2006    -6.1  park:R  #87200
 BN2     Andruw Jones (VAR)          57  R  2011   -12.6  park:R  #86321
-BN3     Dexter Fowler               53  S  2010   -12.6  park:L  #85725
-BN4     Matt Davidson (VAR)         56  R  2018   -17.7  park:R  #84666
-BN5     Jake Rogers                 57  R  2026   -20.1  park:R  #82407
+BN3     Dexter Fowler               53  S  2010   -12.8  park:L  #85725
+BN4     Matt Davidson (VAR)         56  R  2018   -17.8  park:R  #84666
+BN5     Jake Rogers                 57  R  2026   -20.2  park:R  #82407
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ethan Salas                U1 Jake Rogers 80               U2 -                           
@@ -96,7 +96,7 @@ BN5     Jake Rogers                 57  R  2026   -20.1  park:R  #82407
   SS  Freddy Galvis (VAR)        U1 Bill Hall 74                 U2 -                           
   LF  Mike Trout (VAR)           U1 Andruw Jones (VAR) 103       U2 Bill Hall 67                
   CF  Carlos Beltran             U1 Dexter Fowler 64             U2 -                           
-  RF  Norris Hopper              U1 Andruw Jones (VAR) 87        U2 Dexter Fowler 76            
+  RF  Eric Byrnes                U1 Andruw Jones (VAR) 87        U2 Dexter Fowler 76            
   pinch hitters: Bill Hall, Andruw Jones (VAR), Dexter Fowler, Matt Davidson (VAR) · pinch runners: Dexter Fowler (SPE 101), Bill Hall (SPE 76), Jake Rogers (SPE 49)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
@@ -107,15 +107,16 @@ BN5     Jake Rogers                 57  R  2026   -20.1  park:R  #82407
   SS  Freddy Galvis (VAR)        U1 Bill Hall 74                 U2 -                           
   LF  Andruw Jones (VAR)         U1 Bill Hall 67                 U2 Mike Trout (VAR) 95         
   CF  Carlos Beltran             U1 Dexter Fowler 64             U2 Mike Trout (VAR) 64         
-  RF  Norris Hopper              U1 Dexter Fowler 76             U2 Shawn Green 61              
+  RF  Eric Byrnes                U1 Dexter Fowler 76             U2 Shawn Green 61              
   pinch hitters: Dan Uggla, Shawn Green, Dexter Fowler, Ethan Salas · pinch runners: Dexter Fowler (SPE 101), Mike Trout (VAR) (SPE 92), Dan Uggla (SPE 57)
 
-26 players · value 1580 · from seed · 8 variants
+26 players · value 1583 · from seed · 7 variants
 vs RHP lineup gets the friendly park side in 4 of 9 spots
 
 --- order inputs (rostered bats) ---
   Alex Rodriguez         R EYE 172 (250/146)  POW 256 (162/288)  K 106  BABIP 120  GAP  79  SPE  83
   Carlos Beltran         S EYE 172 (124/188)  POW 180 (151/190)  K 132  BABIP  92  GAP 123  SPE 109
+  Eric Byrnes            R EYE  94 (117/88)  POW  90 (131/80)  K 100  BABIP 101  GAP  83  SPE 114
   Shawn Green            L EYE  97 (88/101)  POW 122 (104/128)  K  75  BABIP  70  GAP  69  SPE  38
   Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
   Dan Uggla              R EYE  87 (88/87)  POW 107 (74/122)  K  66  BABIP  89  GAP  73  SPE  57
@@ -124,7 +125,6 @@ vs RHP lineup gets the friendly park side in 4 of 9 spots
   Freddy Galvis          S EYE  51 (25/59)  POW  92 (66/100)  K  74  BABIP  96  GAP  77  SPE  35
   Andruw Jones           R EYE 137 (119/143)  POW 130 (117/134)  K  46  BABIP  70  GAP  37  SPE  42
   Dexter Fowler          S EYE  99 (128/93)  POW  42 (8/50)  K  63  BABIP 102  GAP  96  SPE 101
-  Norris Hopper          R EYE  73 (60/78)  POW   1 (1/1)  K 146  BABIP 150  GAP  64  SPE  97
   Matt Davidson          R EYE 106 (118/103)  POW  93 (122/84)  K  65  BABIP  76  GAP  92  SPE   1
   Jake Rogers            R EYE  82 (86/81)  POW  82 (84/82)  K  57  BABIP  60  GAP  74  SPE  49
   Ethan Salas            L EYE  79 (73/81)  POW  55 (40/60)  K  61  BABIP  54  GAP  72  SPE  45
@@ -132,8 +132,8 @@ LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (8 teams): 4.6 SP / 7.4 RP / 14.2 bats
-  ✓ starters' stamina Jered Weaver 96, Kelvim Escobar 76, James McDonald 59, Tanner McDougal 62, Justin Verlander 83 (era floor 50)
-  ✓ stamina guys in the pen (45+): Jeff Francis 75, Dallas Braden 73
+  ✓ starters' stamina Jered Weaver 96, Kelvim Escobar 76, James McDonald 59, Justin Verlander 83, Jeff Francis 75 (era floor 50)
+  ✓ stamina guys in the pen (45+): Dallas Braden 73, Griffin Canning 85
   ✓ C  backup: vs RHP Jake Rogers 80 · vs LHP Ethan Salas 98
   ✓ 1B backup: vs RHP Matt Davidson 76 · vs LHP Shawn Green 96
   ✓ 2B backup: Dan Uggla 81, Bill Hall 91
@@ -142,9 +142,9 @@ LEGAL — every rule check passes
   ✓ LF backup: vs RHP Andruw Jones 103, Bill Hall 67 · vs LHP Mike Trout 95, Bill Hall 67
   ✓ CF backup: vs RHP Dexter Fowler 64 · vs LHP Mike Trout 64, Dexter Fowler 64
   ✓ RF backup: vs RHP Andruw Jones 87, Dexter Fowler 76 · vs LHP Shawn Green 61, Dexter Fowler 76
-(20 of 26 have a live ask in the last shop snapshot)
-objective: 54.3 weighted runs (bats 69/31 R/L, SP 1.77, RP 0.9, bench 0.1)
-points: lineup(both boards, 13 bats) 818 · rotation 346 · bullpen 363 · bench-only 53
+(21 of 26 have a live ask in the last shop snapshot)
+objective: 58.0 weighted runs (bats 69/31 R/L, SP 1.77, RP 0.9, bench 0.1)
+points: lineup(both boards, 13 bats) 832 · rotation 333 · bullpen 365 · bench-only 53
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Alex Rodriguez           Power 256 (fitted 1–228)

@@ -1,0 +1,36 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-10-22 erstad, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --series c4q1 --sp 5 --rp 7 --bats 14)
+R:C Thurman Munson #82714
+R:1B Pedro Alvarez #87062
+R:2B Placido Polanco #87213
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Jeremy Pena #87154
+R:LF Bo Jackson #86966
+R:CF Carlos Beltran #87066
+R:RF Jose Bautista #87073
+R:DH Eric Davis (VAR) #86974
+L:C Thurman Munson #82714
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Placido Polanco #87213
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Bo Jackson #86966
+L:CF Carlos Beltran #87066
+L:RF Jose Bautista #87073
+L:DH Eric Davis (VAR) #86974
+SP1 Jack Coombs #85937
+SP2 Mark Langston #86956
+SP3 Nick Altrock #87049
+SP4 Fritz Ostermueller #86357
+SP5 James McDonald (VAR) #86384
+CL Bruce Ruffin #86777
+RP1 John Bale #87234
+RP2 Mike Marshall #84720
+RP3 Randy Choate #87026
+RP4 Bob Gibson (VAR) #86658
+RP5 Todd Jones (VAR) #86434
+RP6 R.T. Walker #86952
+BN1 Buck Rodgers (VAR) #84312
+BN2 Charlie Eden #82834
+BN3 Jay Johnstone #86373
+BN4 Chris Sabo #87059
+BN5 Coot Veal #85090

@@ -4,13 +4,13 @@
 R/G 4.40  AVG 0.225  OBP 0.278  SLG 0.304  K% 10.1  HR/PA 0.61%  preset Small Ball
 sac bunt (1st & 2nd, 0 out) +0.202 runs · steal break-even 72.8% (0 out) / 68.7% (1 out)
 park: all-LHB lineup 4.40 R/G vs all-RHB 4.40 — 0.00 R/G swing toward RIGHT-handed bats
-two-way: 140 cards also in the other role — Eddie Plank as bat, Hilton Smith as bat, Cool Papa Bell as arm, Jack Coombs as bat, Lazaro Salazar as arm, Alejandro Oms as arm, Cy Young as bat, John Beckwith as arm, Babe Ruth as bat, Pete Donohue as bat, Jose Mendez as bat, Smokey Joe Williams as bat, Barney Brown as bat, Hugh Daily as bat, Frank Grant as arm, Sam Jones as bat, Tubby Scales as arm, Cool Papa Bell as arm, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Old Hoss Radbourn as bat, Dizzy Dean as bat, Mack Eggleston as arm, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Bill Force as bat, George Weidman as bat, Armando Cabanas as arm, Andy Porter as bat, Walter Cannady as arm, Agustin Parpetti as arm, Ben Taylor as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Rap Dixon as arm, Kid Nichols as bat, Bullet Rogan as arm, Pete Hill as arm, Frank Foreman as bat, Roosevelt Davis as bat, Judy Johnson as arm, Phil Cockrell as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Ossie Orwoll as bat, Cocaina Garcia as arm, Isidro Fabre as bat, Joe Strong as bat, Charlie Buffinton as bat, Cal McVey as arm, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Bill Byrd as bat, Willis Flournoy as bat, Dink Mothell as arm, Curry Foley as arm, Eggie Hensley as bat, Jimmie Lyons as arm, Jack Taylor as bat, Pop Corkhill as arm, Jack Scott as bat, Tom Hughes as bat, Blondie Purcell as arm, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Grover Cleveland Alexander as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Esteban Montalvo as arm, Pepper Bassett as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Judy Gans as arm, Phenomenal Smith as bat, Bill Hoffer as bat, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
+two-way: 142 cards also in the other role — Old Hoss Radbourn as bat, Bill Force as bat, Ben Taylor as arm, Rap Dixon as arm, Kid Nichols as bat, Frank Foreman as bat, Roosevelt Davis as bat, Phil Cockrell as bat, Ossie Orwoll as bat, Isidro Fabre as bat, Cal McVey as arm, Eddie Plank as bat, Ed Rile as arm, Hilton Smith as bat, Cool Papa Bell as arm, Jack Coombs as bat, Lazaro Salazar as arm, Alejandro Oms as arm, Cy Young as bat, John Beckwith as arm, Babe Ruth as bat, Pete Donohue as bat, Jose Mendez as bat, Smokey Joe Williams as bat, Barney Brown as bat, Hugh Daily as bat, Frank Grant as arm, Sam Jones as bat, Tubby Scales as arm, Cool Papa Bell as arm, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Dizzy Dean as bat, Mack Eggleston as arm, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Sam Streeter as bat, George Weidman as bat, Armando Cabanas as arm, Andy Porter as bat, Walter Cannady as arm, Agustin Parpetti as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Bullet Rogan as arm, Pete Hill as arm, Judy Johnson as arm, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Bill Byrd as bat, Willis Flournoy as bat, Dink Mothell as arm, Curry Foley as arm, Eggie Hensley as bat, Jimmie Lyons as arm, Jack Taylor as bat, Pop Corkhill as arm, Jack Scott as bat, Tom Hughes as bat, Blondie Purcell as arm, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Grover Cleveland Alexander as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Esteban Montalvo as arm, Pepper Bassett as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Judy Gans as arm, Phenomenal Smith as bat, Bill Hoffer as bat, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
 
-pool: 875 eligible owned cards — 557 bats (179L / 52S / 326R), 318 arms
+pool: 883 eligible owned cards — 563 bats (181L / 53S / 329R), 320 arms
 staff weights from earlyyearscap's exports: SP 3.12, RP 0.23 (a lineup slot = 1)
 field (earlyyearscap, 1 exports): 18% of batters faced thrown left-handed · 46% of PA by left-handed bats · 14.4 bats / 3.7 SP / 1.7 RP per team
-shape: 17 bats / 4 SP / 5 RP (pre-1930 (L.J. 10-07)) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 730 of 875 pool cards have innings on record (median 1115 PA/BF); K = 1000000
+shape: 17 bats / 4 SP / 5 RP (pre-1930 (L.J. 10-07)) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 738 of 883 pool cards have innings on record (median 1146 PA/BF); K = 1000000
 gloves ×1.17: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1888 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×2.33, SP 4.68, RP 0.46 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 2.8 SP / 2.6 RP → per SP ×0.70 (4 carried), per RP ×0.52 (5 carried)
@@ -20,97 +20,97 @@ staff innings split over the arms carried: the field runs 2.8 SP / 2.6 RP → pe
                          arms: pBABIP +0.9  Control +0.5  Stuff +0.5  pHR +0.3
 seed: 9100138-seed.txt as is (26 cards)
 
-optimiser: 13 starts (λ + seed) hill-climbed; best 148.2 runs vs -32.9 greedy (+181.1), 34 moves from λ 2.00 (the seed's climb: 114.9)
+optimiser: 2 starts (λ + seed) hill-climbed; best 162.3 runs vs -39.8 greedy (+202.1), 2 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Frank Grube                 60  R  1932   -14.3  park:R DEF  91/ 91 +1.7  #86964
-R:1B    Nap Lajoie                  50  R  1905    -3.0  park:R DEF  96/114 +5.6  #86581
-R:2B    Rogers Hornsby             101  R  1921   +24.8  park:R DEF 126/126 +6.0  #86436
-R:3B    Joe Dugan (VAR)             65  R  1920    +7.7  park:R DEF  63/ 70 -10.4  #86765
+R:C     Frank Grube                 60  R  1932   -14.4  park:R DEF  91/ 91 +1.7  #86964
+R:1B    Nap Lajoie                  50  R  1905    -3.1  park:R DEF  96/114 +5.6  #86581
+R:2B    Rogers Hornsby             101  R  1921   +24.7  park:R DEF 126/126 +6.0  #86436
+R:3B    Ray Dandridge               47  R  1935   -15.9  park:R DEF 119/119 +10.4  #87264
 R:SS    Pop Lloyd                  101  L  1924   +34.7  park:L DEF 114/128 +3.8  #86896
-R:LF    Tom Brown                   66  L  1891   +16.1  park:L DEF  68/ 68 -6.3  #86767
-R:CF    Roy Thomas                  82  L  1903   +19.6  park:L DEF 112/112 -0.2  #86784
-R:RF    Maurice Archdeacon          45  L  1924    -8.5  park:L DEF  81/ 85 -4.3  #85665
+R:LF    Tom Brown                   66  L  1891   +16.0  park:L DEF  68/ 68 -6.3  #86767
+R:CF    Roy Thomas                  82  L  1903   +19.5  park:L DEF 112/112 -0.2  #86784
+R:RF    Maurice Archdeacon          45  L  1924    -8.6  park:L DEF  81/ 85 -4.3  #85665
 
 --- lineup vs LHP ---
-L:C     Frank Grube                 60  R  1932   -16.4  park:R DEF  91/ 91 +1.7  #86964
-L:1B    Nap Lajoie                  50  R  1905   -22.4  park:R DEF  96/114 +5.6  #86581
+L:C     Frank Grube                 60  R  1932   -16.5  park:R DEF  91/ 91 +1.7  #86964
+L:1B    Nap Lajoie                  50  R  1905   -22.5  park:R DEF  96/114 +5.6  #86581
 L:2B    Rogers Hornsby             101  R  1921   +27.9  park:R DEF 126/126 +6.0  #86436
-L:3B    Joe Dugan (VAR)             65  R  1920   +21.4  park:R DEF  63/ 70 -10.4  #86765
+L:3B    Ray Dandridge               47  R  1935    -5.5  park:R DEF 119/119 +10.4  #87264
 L:SS    Pop Lloyd                  101  L  1924   +22.3  park:L DEF 114/128 +3.8  #86896
-L:LF    Tom Brown                   66  L  1891    +7.5  park:L DEF  68/ 68 -6.3  #86767
+L:LF    Tom Brown                   66  L  1891    +7.4  park:L DEF  68/ 68 -6.3  #86767
 L:CF    Roy Thomas                  82  L  1903   +10.4  park:L DEF 112/112 -0.2  #86784
-L:RF    Maurice Archdeacon          45  L  1924    -3.3  park:L DEF  81/ 85 -4.3  #85665
+L:RF    Maurice Archdeacon          45  L  1924    -3.4  park:L DEF  81/ 85 -4.3  #85665
 
---- batting order vs RHP --- (2.55 runs/game; The Book's order 2.55)
+--- batting order vs RHP --- (2.50 runs/game; The Book's order 2.50)
   1. Roy Thomas CF
   2. Frank Grube C
   3. Rogers Hornsby 2B
   4. Pop Lloyd SS
   5. Tom Brown LF
-  6. Joe Dugan (VAR) 3B
-  7. Nap Lajoie 1B
+  6. Nap Lajoie 1B
+  7. Ray Dandridge 3B
   8. Maurice Archdeacon RF
   9. Pitcher
 
---- batting order vs LHP --- (2.50 runs/game; The Book's order 2.49)
+--- batting order vs LHP --- (2.45 runs/game; The Book's order 2.45)
   1. Roy Thomas CF
   2. Frank Grube C
-  3. Joe Dugan (VAR) 3B
+  3. Tom Brown LF
   4. Rogers Hornsby 2B
   5. Pop Lloyd SS
-  6. Tom Brown LF
-  7. Maurice Archdeacon RF
+  6. Maurice Archdeacon RF
+  7. Ray Dandridge 3B
   8. Nap Lajoie 1B
   9. Pitcher
 
 --- rotation ---
 SP1     Cy Young (VAR)             102  R  1895   +13.9   SP STM 114  #86572
-SP2     Bob Feller                  88  R  1939    +9.8   SP STM 111  #85650
-SP3     Sherry Smith                62  R  1916    +2.9   SP STM 118  #87030
-SP4     Luther Farrell              66  L  1928    +2.6   SP STM  92  #86899
+SP2     Bob Feller                  88  R  1939    +9.6   SP STM 111  #85650
+SP3     Sam Streeter                85  R  1933    +8.1   SP STM 102  #87231
+SP4     Sherry Smith                62  R  1916    +2.8   SP STM 118  #87030
 
 --- bullpen ---
-CL      Tin Can Kincannon           45  R  1934    -4.0   SP STM  74  #86073
-RP1     Togie Pittinger             45  L  1904    -6.1   SP STM  90  #82949
+CL      Tin Can Kincannon           45  R  1934    -4.1   SP STM  74  #86073
+RP1     Togie Pittinger             45  L  1904    -6.2   SP STM  90  #82949
 RP2     Al Mays                     44  R  1886    -6.5   SP STM  87  #82937
 RP3     Rube Schauer                42  R  1915    -7.4   RP STM  49  #86555
-RP4     Bob Barr                    41  R  1886    -7.4   SP STM  89  #82968
+RP4     Bob Barr                    41  R  1886    -7.5   SP STM  89  #82968
 
 --- bench ---
-BN1     Al Burch                    41  L  1906   -26.1  park:L  #84328
-BN2     Greasy Neale                42  L  1919   -15.9  park:L  #87142
-BN3     Bill Everitt                42  L  1898   -21.5  park:L  #82866
-BN4     Cal McVey (VAR)             47  R  1879   -22.5  park:R  #83567
+BN1     Al Burch                    41  L  1906   -26.2  park:L  #84328
+BN2     Greasy Neale                42  L  1919   -16.0  park:L  #87142
+BN3     Bill Everitt                42  L  1898   -21.6  park:L  #82866
+BN4     Cal McVey (VAR)             47  R  1879   -22.6  park:R  #83567
 BN5     Mel Almada                  43  L  1937   -23.0  park:L  #85275
 BN6     Connie Day                  50  R  1921   -23.0  park:R  #86982
-BN7     Walt French                 44  L  1927   -10.6  park:L  #86960
-BN8     Vince DiMaggio              46  R  1937   -31.7  park:R  #84352
-BN9     Charlie Eden                40  L  1885   -26.0  park:L  #82834
+BN7     Walt French                 44  L  1927   -10.7  park:L  #86960
+BN8     Fred Odwell                 44  L  1907   -22.4  park:L  #82868
+BN9     Charlie Eden                40  L  1885   -26.1  park:L  #82834
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Frank Grube                U1 Cal McVey (VAR) 61           U2 -                           
   1B  Nap Lajoie                 U1 Cal McVey (VAR) 60           U2 -                           
   2B  Rogers Hornsby             U1 Connie Day 124               U2 -                           
-  3B  Joe Dugan (VAR)            U1 Connie Day 110               U2 -                            def sub Connie Day (+17.5)
+  3B  Ray Dandridge              U1 Connie Day 110               U2 -                           
   SS  Pop Lloyd                  U1 Connie Day 108               U2 -                           
   LF  Tom Brown                  U1 Walt French 78               U2 Greasy Neale 80              def sub Mel Almada (+7.4)
-  CF  Roy Thomas                 U1 Vince DiMaggio 100           U2 -                           
-  RF  Maurice Archdeacon         U1 Greasy Neale 75              U2 Mel Almada 101               def sub Mel Almada (+5)
-  pinch hitters: Walt French, Greasy Neale, Bill Everitt, Cal McVey (VAR) · pinch runners: Walt French (SPE 77), Greasy Neale (SPE 76), Bill Everitt (SPE 73)
+  CF  Roy Thomas                 U1 Mel Almada 84                U2 Cal McVey (VAR) 70          
+  RF  Maurice Archdeacon         U1 Walt French 74               U2 Greasy Neale 75              def sub Mel Almada (+5)
+  pinch hitters: Walt French, Greasy Neale, Bill Everitt, Fred Odwell · pinch runners: Fred Odwell (SPE 90), Walt French (SPE 77), Greasy Neale (SPE 76)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Frank Grube                U1 Cal McVey (VAR) 61           U2 -                           
   1B  Nap Lajoie                 U1 Cal McVey (VAR) 60           U2 -                           
   2B  Rogers Hornsby             U1 Connie Day 124               U2 -                           
-  3B  Joe Dugan (VAR)            U1 Connie Day 110               U2 -                            def sub Connie Day (+17.5)
+  3B  Ray Dandridge              U1 Connie Day 110               U2 -                           
   SS  Pop Lloyd                  U1 Connie Day 108               U2 -                           
-  LF  Tom Brown                  U1 Greasy Neale 80              U2 Mel Almada 100               def sub Mel Almada (+7.4)
-  CF  Roy Thomas                 U1 Vince DiMaggio 100           U2 -                           
+  LF  Tom Brown                  U1 Greasy Neale 80              U2 Fred Odwell 68               def sub Mel Almada (+7.4)
+  CF  Roy Thomas                 U1 Cal McVey (VAR) 70           U2 Mel Almada 84               
   RF  Maurice Archdeacon         U1 Cal McVey (VAR) 85           U2 Greasy Neale 75              def sub Mel Almada (+5)
-  pinch hitters: Cal McVey (VAR), Greasy Neale, Connie Day, Bill Everitt · pinch runners: Walt French (SPE 77), Greasy Neale (SPE 76), Bill Everitt (SPE 73)
+  pinch hitters: Cal McVey (VAR), Greasy Neale, Connie Day, Bill Everitt · pinch runners: Fred Odwell (SPE 90), Walt French (SPE 77), Greasy Neale (SPE 76)
 
-26 players · value 1500 / 1500 (0 spare) · λ 2.000 · 3 variants
+26 players · value 1499 / 1500 (1 spare) · from seed · 2 variants
 vs RHP lineup gets the friendly park side in 4 of 8 spots
 
 --- order inputs (rostered bats) ---
@@ -118,36 +118,36 @@ vs RHP lineup gets the friendly park side in 4 of 8 spots
   Rogers Hornsby         R EYE 106 (115/104)  POW 129 (67/155)  K 102  BABIP 150  GAP 141  SPE 102
   Roy Thomas             L EYE 204 (210/202)  POW  30 (60/10)  K 120  BABIP 151  GAP  65  SPE  68
   Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
-  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
   Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
   Maurice Archdeacon     L EYE 113 (115/113)  POW   1 (1/1)  K  45  BABIP 126  GAP  63  SPE 112
   Walt French            L EYE  62 (42/66)  POW   1 (1/1)  K 117  BABIP  97  GAP  68  SPE  77
   Frank Grube            R EYE 131 (156/122)  POW   1 (1/1)  K 145  BABIP  78  GAP  81  SPE  49
+  Ray Dandridge          R EYE  39 (45/37)  POW  16 (19/16)  K  94  BABIP 101  GAP 117  SPE  94
   Greasy Neale           L EYE  84 (89/83)  POW  14 (24/11)  K  91  BABIP  96  GAP  65  SPE  76
   Bill Everitt           L EYE  77 (76/78)  POW  27 (26/28)  K  88  BABIP  89  GAP  50  SPE  73
+  Fred Odwell            L EYE  79 (70/82)  POW  17 (14/18)  K  80  BABIP  83  GAP  60  SPE  90
   Cal McVey              R EYE  65 (67/65)  POW  11 (11/11)  K 125  BABIP  80  GAP  81  SPE  67
   Mel Almada             L EYE  67 (48/72)  POW  28 (7/33)  K 119  BABIP  72  GAP  62  SPE  63
   Connie Day             R EYE  77 (80/77)  POW  40 (43/39)  K 144  BABIP  64  GAP  81  SPE  70
   Charlie Eden           L EYE  68 (68/69)  POW  18 (18/19)  K  83  BABIP  73  GAP  89  SPE  71
   Al Burch               L EYE  83 (65/89)  POW  19 (11/22)  K  75  BABIP  83  GAP  29  SPE  69
-  Vince DiMaggio         R EYE  64 (61/65)  POW  83 (78/85)  K  58  BABIP  63  GAP  62  SPE  70
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (8 teams): 3.0 SP / 3.4 RP / 15.7 bats
-  ✓ starters' stamina Cy Young 114, Bob Feller 111, Sherry Smith 118, Luther Farrell 92 (era floor 80)
+  ✓ starters' stamina Cy Young 114, Bob Feller 111, Sam Streeter 102, Sherry Smith 118 (era floor 80)
   ✓ stamina guys in the pen (45+): Tin Can Kincannon 74, Togie Pittinger 90, Al Mays 87, Rube Schauer 49, Bob Barr 89
   ✓ C  backup: Cal McVey 61
   ✓ 1B backup: Cal McVey 60
   ✓ 2B backup: Connie Day 124
   ✓ 3B backup: Connie Day 110
   ✓ SS backup: Connie Day 108
-  ✓ LF backup: Al Burch 80, Greasy Neale 80, Mel Almada 100, Walt French 78
-  ✓ CF backup: Vince DiMaggio 100
-  ✓ RF backup: Al Burch 80, Greasy Neale 75, Cal McVey 85, Mel Almada 101
-(26 of 26 have a live ask in the last shop snapshot)
-objective: 148.2 weighted runs (bats 82/18 R/L, SP 4.68, RP 0.46, bench 0.1)
-points: lineup(both boards, 8 bats) 570 · rotation 318 · bullpen 217 · bench-only 395
+  ✓ LF backup: Al Burch 80, Greasy Neale 80, Mel Almada 100, Walt French 78, Fred Odwell 68
+  ✓ CF backup: Cal McVey 70, Mel Almada 84
+  ✓ RF backup: Al Burch 80, Greasy Neale 75, Cal McVey 85, Mel Almada 101, Walt French 74, Fred Odwell 60
+(25 of 26 have a live ask in the last shop snapshot)
+objective: 162.3 weighted runs (bats 82/18 R/L, SP 4.68, RP 0.46, bench 0.1)
+points: lineup(both boards, 8 bats) 552 · rotation 337 · bullpen 217 · bench-only 393
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Tin Can Kincannon        pBABIP 36 (fitted 50–175)

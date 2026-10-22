@@ -1,0 +1,35 @@
+# Daily Diamond Up to 1969 — Claude pick 2026-10-22 newcards, rebuilt from the catalogue's rules by current-rosters (--year 2009 --park Coors Field --park-year 1996 --max 99 --card-year-min 1800 --card-year-max 1969 --size 26 --series diamondupto1969 --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Rudy York (VAR) #86429
+R:2B Jack Burdock #86067
+R:3B Honus Wagner #85540
+R:SS Pythias Russ (VAR) #87083
+R:LF Chick Hafey #85939
+R:CF Willie Mays #86634
+R:RF Mickey Mantle #86635
+L:C Pythias Russ (VAR) #87083
+L:1B Rudy York (VAR) #86429
+L:2B Jack Burdock #86067
+L:3B Honus Wagner #85540
+L:SS Ernie Banks (VAR) #85494
+L:LF Al Simmons #85942
+L:CF Willie Mays #86634
+L:RF Chick Hafey #85939
+SP1 Claude Grier #87086
+SP2 Babe Ruth #86439
+SP3 Cy Young #86996
+SP4 Count Leblanc (VAR) #86978
+SP5 Milt Pappas #86654
+CL Joe Beggs (VAR) #86762
+RP1 Johnny Markham (VAR) #87159
+RP2 Bob Feller #85650
+RP3 Steve Carlton (VAR) #85109
+RP4 Larry Jackson #86646
+RP5 Dizzy Dean #86473
+RP6 Sam Jones #86070
+BN1 Al Simmons #85942
+BN2 Hank Thompson #86668
+BN3 Ernie Banks (VAR) #85494
+BN4 Ken Boyer #85518
+BN5 Josh Gibson #86898
+BN6 Willie Bobo #87164

@@ -1,0 +1,36 @@
+# Tuesday Sporer's Sandlot — Claude pick 2026-10-22 newcards, rebuilt from the catalogue's rules by current-rosters (--year 1992 --park SkyDome --park-year 1992 --dh --min 40 --max 89 --card-year-min 1980 --card-year-max 2025 --card-types 2,3,4,5,6,7,8,9,10 --variant-cap 12 --size 26 --series sandlot --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Pedro Alvarez #87062
+R:2B Brian Roberts #87216
+R:3B Placido Polanco #87213
+R:SS Jeremy Pena #87154
+R:LF Eric Davis (VAR) #86974
+R:CF Darin Erstad #87242
+R:RF Bo Jackson #86966
+R:DH Carlos Pena #87183
+L:C Mike Zunino #86431
+L:1B Carlos Pena #87183
+L:2B Brian Roberts #87216
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Bo Jackson #86966
+L:CF Darin Erstad #87242
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Jered Weaver #87169
+SP2 Justin Verlander #87064
+SP3 CC Sabathia #87182
+SP4 Nolan Ryan #85926
+SP5 Danny Jackson #87052
+CL Troy Percival (VAR) #85371
+RP1 Dave Stieb (VAR) #85911
+RP2 Kelvim Escobar #87207
+RP3 Kevin Millwood (VAR) #86337
+RP4 Gregg Olson (VAR) #86946
+RP5 J.A. Happ #86352
+RP6 Raisel Iglesias #83322
+BN1 Ryan Braun #87222
+BN2 Chris Sabo #87059
+BN3 Jeff Francoeur (VAR) #86300
+BN4 Tony Phillips #83845
+BN5 Mike Zunino #86431

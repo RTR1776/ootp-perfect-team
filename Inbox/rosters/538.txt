@@ -4,15 +4,15 @@ PT default (2010) RE @ 1977 Atlanta Fulton County Stadium · DH on · value 70�
 R/G 4.97  AVG 0.254  OBP 0.326  SLG 0.429  K% 22.6  HR/PA 3.65%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.072 runs · steal break-even 82.1% (0 out) / 79.1% (1 out)
 park: all-LHB lineup 4.93 R/G vs all-RHB 5.00 — 0.07 R/G swing toward RIGHT-handed bats
-two-way: 103 cards also in the other role — Oscar Charleston as arm, Kaelen Culpepper as arm, Old Hoss Radbourn as bat, Madison Bumgarner as bat, Dizzy Dean as bat, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Jim Kaat as bat, Oliver Marcell as arm, Satchel Paige as bat, Carson Williams as arm, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Carson Benge as arm, Ray Brown as bat, Bryce Eldridge as arm, Bill Force as bat, George Weidman as bat, Joshua Baez as arm, Armando Cabanas as arm, Andy Porter as bat, River Ryan as bat, Quincy Trouppe as arm, Carlos Zambrano as bat, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Agustin Parpetti as arm, Ben Taylor as arm, Bobby Witt Jr. as arm, Alec Burleson as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Jac Caglianone as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, JR Ritchie as bat, Bob Thurman as arm, Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Travis Sykora as bat, Justin Turner as arm, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Cocaina Garcia as arm, Blake Mitchell as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Matt Wallner as arm, Frank Foreman as bat, Harry Simpson as arm, Johnny Davis as arm, Dan Bankhead as bat, Roosevelt Davis as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Phil Cockrell as bat, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat
+two-way: 104 cards also in the other role — Kaelen Culpepper as arm, Old Hoss Radbourn as bat, Jim Kaat as bat, Carson Williams as arm, Bill Force as bat, Quincy Trouppe as arm, Ben Taylor as arm, Rap Dixon as arm, Kid Nichols as bat, Travis Sykora as bat, Justin Turner as arm, Frank Foreman as bat, Johnny Davis as arm, Roosevelt Davis as bat, Phil Cockrell as bat, Oscar Charleston as arm, Madison Bumgarner as bat, Dizzy Dean as bat, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Carson Benge as arm, Ray Brown as bat, Bryce Eldridge as arm, Sam Streeter as bat, George Weidman as bat, Joshua Baez as arm, Armando Cabanas as arm, Andy Porter as bat, River Ryan as bat, Carlos Zambrano as bat, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Agustin Parpetti as arm, Bobby Witt Jr. as arm, Alec Burleson as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Jac Caglianone as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, JR Ritchie as bat, Bob Thurman as arm, Judy Johnson as arm, Johnny Lindell as arm, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Cocaina Garcia as arm, Blake Mitchell as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Matt Wallner as arm, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat
 
-pool: 1312 eligible owned cards — 745 bats (256L / 90S / 399R), 567 arms
-staff weights from highironfloorgoldceilingweekly's exports: SP 1.24, RP 0.43 (a lineup slot = 1)
-field (highironfloorgoldceilingweekly, 3 exports): 39% of batters faced thrown left-handed · 41% of PA by left-handed bats · 13.2 bats / 5.4 SP / 6.4 RP per team
+pool: 1318 eligible owned cards — 749 bats (257L / 91S / 401R), 569 arms
+staff weights from highironfloorgoldceilingweekly's exports: SP 1.24, RP 0.42 (a lineup slot = 1)
+field (highironfloorgoldceilingweekly, 4 exports): 39% of batters faced thrown left-handed · 41% of PA by left-handed bats · 13.3 bats / 5.5 SP / 6.3 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
-observed play: 1205 of 1312 pool cards have innings on record (median 3847 PA/BF); K = 1000000
+observed play: 1212 of 1318 pool cards have innings on record (median 3984 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.86, RP 0.86 (--no-team-weights to turn off)
+team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.86, RP 0.84 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.8 SP / 6.9 RP → per SP ×0.96 (5 carried), per RP ×0.99 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +6.0  Avoid Ks +3.6  BABIP +1.9  Eye +1.2  Gap +0.8
@@ -20,31 +20,31 @@ staff innings split over the arms carried: the field runs 4.8 SP / 6.9 RP → pe
                          arms: pHR +2.0  Stuff +1.8  pBABIP +1.1  Control +0.9
 seed: 538-seed.txt as is (26 cards)
 
-optimiser: 2 starts (λ + seed) hill-climbed; best 347.0 runs vs 278.5 greedy (+68.5), 0 moves from the seed
+optimiser: 2 starts (λ + seed) hill-climbed; best 344.8 runs vs 277.4 greedy (+67.4), 0 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Bob Boone                   73  R  1986    -5.7  park:R DEF 137/137 +17.8  #87032
-R:1B    Pedro Alvarez               81  L  2013   +34.6  park:L DEF  96/ 96 +3.9  #87062
+R:C     Bob Boone                   73  R  1986    -5.8  park:R DEF 137/137 +17.8  #87032
+R:1B    Pedro Alvarez               81  L  2013   +34.3  park:L DEF  96/ 96 +3.9  #87062
 R:2B    Placido Polanco             77  R  2007    +8.9  park:R DEF 141/141 +9.0  #87213
-R:3B    Aiva Arquette (VAR)         71  R  2026    +8.0  park:R DEF 113/113 +5.7  #84768
-R:SS    Jeremy Pena                 79  R  2022   +11.9  park:R DEF 116/116 +3.4  #87154
-R:LF    Eric Davis (VAR)            85  R  1989   +29.0  park:R DEF  92/ 92 -0.5  #86974
-R:CF    Bo Jackson                  88  R  1989   +35.1  park:R DEF 103/123 -1.6  #86966
-R:RF    Andy Van Slyke              77  L  1988   +12.1  park:L DEF 125/125 +4.7  #86936
-R:DH    Marcus Semien               84  R  2021   +18.7  park:R  #86744
+R:3B    Aiva Arquette (VAR)         71  R  2026    +7.9  park:R DEF 113/113 +5.7  #84768
+R:SS    Jeremy Pena                 79  R  2022   +11.7  park:R DEF 116/116 +3.4  #87154
+R:LF    Eric Davis (VAR)            85  R  1989   +28.9  park:R DEF  92/ 92 -0.5  #86974
+R:CF    Bo Jackson                  88  R  1989   +34.6  park:R DEF 103/123 -1.6  #86966
+R:RF    Andy Van Slyke              77  L  1988   +12.0  park:L DEF 125/125 +4.7  #86936
+R:DH    Marcus Semien               84  R  2021   +18.5  park:R  #86744
 
 --- lineup vs LHP ---
 L:C     Mike Zunino                 75  R  2021    +7.8  park:R DEF  77/ 77 +13.6  #86431
-L:1B    Allen Craig                 74  R  2011   +13.4  park:R DEF  91/ 91 +2.9  #87139
+L:1B    Allen Craig                 74  R  2011   +13.2  park:R DEF  91/ 91 +2.9  #87139
 L:2B    Placido Polanco             77  R  2007    +3.8  park:R DEF 141/141 +9.0  #87213
-L:3B    Aiva Arquette (VAR)         71  R  2026    +9.5  park:R DEF 113/113 +5.7  #84768
-L:SS    Jeremy Pena                 79  R  2022   +19.7  park:R DEF 116/116 +3.4  #87154
-L:LF    Eric Davis (VAR)            85  R  1989   +19.2  park:R DEF  92/ 92 -0.5  #86974
-L:CF    Bo Jackson                  88  R  1989   +29.0  park:R DEF 103/123 -1.6  #86966
-L:RF    Jeff Francoeur (VAR)        81  R  2005   +28.2  park:R DEF 149/149 +8.9  #86300
-L:DH    Ryan Braun                  74  R  2007   +42.7  park:R  #87222
+L:3B    Aiva Arquette (VAR)         71  R  2026    +9.3  park:R DEF 113/113 +5.7  #84768
+L:SS    Jeremy Pena                 79  R  2022   +19.5  park:R DEF 116/116 +3.4  #87154
+L:LF    Eric Davis (VAR)            85  R  1989   +19.1  park:R DEF  92/ 92 -0.5  #86974
+L:CF    Bo Jackson                  88  R  1989   +28.6  park:R DEF 103/123 -1.6  #86966
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +28.1  park:R DEF 149/149 +8.9  #86300
+L:DH    Ryan Braun                  74  R  2007   +42.4  park:R  #87222
 
---- batting order vs RHP --- (5.76 runs/game; The Book's order 5.75)
+--- batting order vs RHP --- (5.74 runs/game; The Book's order 5.73)
   1. Placido Polanco 2B
   2. Eric Davis (VAR) LF
   3. Pedro Alvarez 1B
@@ -55,7 +55,7 @@ L:DH    Ryan Braun                  74  R  2007   +42.7  park:R  #87222
   8. Jeremy Pena SS
   9. Bob Boone C
 
---- batting order vs LHP --- (5.77 runs/game; The Book's order 5.77)
+--- batting order vs LHP --- (5.75 runs/game; The Book's order 5.75)
   1. Eric Davis (VAR) LF
   2. Ryan Braun DH
   3. Bo Jackson CF
@@ -68,7 +68,7 @@ L:DH    Ryan Braun                  74  R  2007   +42.7  park:R  #87222
 
 --- rotation ---
 SP1     Count Leblanc (VAR)         89  R  1921   +14.1   SP STM  93  #86978
-SP2     Justin Verlander            87  R  2013   +12.2   SP STM  98  #87064
+SP2     Justin Verlander            87  R  2013   +12.3   SP STM  98  #87064
 SP3     Nick Altrock                76  S  1906   +12.1   SP STM  90  #87049
 SP4     CC Sabathia                 82  L  2007   +11.7   SP STM  85  #87182
 SP5     Kelvim Escobar              78  S  2007   +10.7   SP STM  76  #87207
@@ -84,9 +84,9 @@ RP6     Alex Claudio (VAR)          70  L  2017    +2.1   RP STM  23  #86447
 
 --- bench ---
 BN1     Pop Corkhill                71  L  1887    -2.1  park:L  #86582
-BN2     Allen Craig                 74  R  2011    -0.3  park:R  #87139
+BN2     Allen Craig                 74  R  2011    -0.5  park:R  #87139
 BN3     Ryan Braun                  74  R  2007    -0.8  park:R  #87222
-BN4     Jeff Francoeur (VAR)        81  R  2005    -3.4  park:R  #86300
+BN4     Jeff Francoeur (VAR)        81  R  2005    -3.5  park:R  #86300
 BN5     Mike Zunino                 75  R  2021   -27.2  park:R  #86431
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
@@ -132,7 +132,7 @@ vs RHP lineup gets the friendly park side in 2 of 9 spots
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (86 teams): 5.0 SP / 7.3 RP / 14.0 bats
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (115 teams): 5.0 SP / 7.3 RP / 14.1 bats
   ✓ starters' stamina Count Leblanc 93, Justin Verlander 98, Nick Altrock 90, CC Sabathia 85, Kelvim Escobar 76 (era floor 50)
   ✓ stamina guys in the pen (45+): Jerry Koosman 85, Jacob deGrom 73, Jordan Montgomery 87, Bob Walk 82, Bruce Ruffin 51, Jakie May 69
   ✓ C  backup: vs RHP Mike Zunino 77 · vs LHP Bob Boone 137
@@ -143,6 +143,6 @@ LEGAL — every rule check passes
   ✓ LF backup: vs RHP Allen Craig 73, Pop Corkhill 147 · vs LHP Pop Corkhill 147
   ✓ CF backup: vs RHP Pop Corkhill 133 · vs LHP Andy Van Slyke 99, Pop Corkhill 133
   ✓ RF backup: vs RHP Allen Craig 64, Jeff Francoeur 149, Pop Corkhill 145 · vs LHP Andy Van Slyke 125, Pop Corkhill 145
-(19 of 26 have a live ask in the last shop snapshot)
-objective: 347.0 weighted runs (bats 61/39 R/L, SP 1.8599999999999999, RP 0.86, bench 0.1)
+(20 of 26 have a live ask in the last shop snapshot)
+objective: 344.8 weighted runs (bats 61/39 R/L, SP 1.8599999999999999, RP 0.84, bench 0.1)
 points: lineup(both boards, 13 bats) 1019 · rotation 412 · bullpen 524 · bench-only 71

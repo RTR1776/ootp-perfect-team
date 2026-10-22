@@ -4,144 +4,144 @@
 R/G 5.36  AVG 0.281  OBP 0.351  SLG 0.453  K% 18.0  HR/PA 2.93%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.086 runs · steal break-even 83.0% (0 out) / 80.0% (1 out)
 park: all-LHB lineup 5.29 R/G vs all-RHB 5.41 — 0.12 R/G swing toward RIGHT-handed bats
-two-way: 160 cards also in the other role — Alejandro Oms as arm, Cy Young as bat, John Beckwith as arm, Babe Ruth as bat, Dizzy Trout as bat, Pete Donohue as bat, Jose Mendez as bat, Don Newcombe as bat, Bobby Estalella as arm, Smokey Joe Williams as bat, Barney Brown as bat, Hugh Daily as bat, Frank Grant as arm, Sam Jones as bat, Tubby Scales as arm, Cool Papa Bell as arm, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Old Hoss Radbourn as bat, Dizzy Dean as bat, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Bill Force as bat, George Weidman as bat, Armando Cabanas as arm, Andy Porter as bat, Quincy Trouppe as arm, Walter Cannady as arm, Goose Curry as arm, Agustin Parpetti as arm, Ben Taylor as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, Bob Thurman as arm, Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Frank Foreman as bat, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Rip Sewell as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Isidro Fabre as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
+two-way: 161 cards also in the other role — Old Hoss Radbourn as bat, Bill Force as bat, Quincy Trouppe as arm, Ben Taylor as arm, Rap Dixon as arm, Kid Nichols as bat, Frank Foreman as bat, Roosevelt Davis as bat, Phil Cockrell as bat, Ossie Orwoll as bat, Isidro Fabre as bat, Cal McVey as arm, Alejandro Oms as arm, Cy Young as bat, John Beckwith as arm, Babe Ruth as bat, Dizzy Trout as bat, Pete Donohue as bat, Jose Mendez as bat, Don Newcombe as bat, Bobby Estalella as arm, Smokey Joe Williams as bat, Barney Brown as bat, Hugh Daily as bat, Frank Grant as arm, Sam Jones as bat, Tubby Scales as arm, Cool Papa Bell as arm, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Dizzy Dean as bat, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Sam Streeter as bat, George Weidman as bat, Armando Cabanas as arm, Andy Porter as bat, Walter Cannady as arm, Goose Curry as arm, Agustin Parpetti as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, Bob Thurman as arm, Judy Johnson as arm, Johnny Lindell as arm, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Bill Byrd as bat, Willis Flournoy as bat, Dink Mothell as arm, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Jack Scott as bat, Tom Hughes as bat, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Rip Sewell as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
 
-pool: 1057 eligible owned cards — 663 bats (213L / 56S / 394R), 394 arms
+pool: 1065 eligible owned cards — 669 bats (214L / 57S / 398R), 396 arms
 staff weights from wonkyslots's exports: SP 1.24, RP 0.47 (a lineup slot = 1)
-field (wonkyslots, 3 exports): 33% of batters faced thrown left-handed · 45% of PA by left-handed bats · 13.6 bats / 7.2 SP / 5 RP per team
-shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 794 of 1057 pool cards have innings on record (median 478 PA/BF); K = 1000000
+field (wonkyslots, 4 exports): 34% of batters faced thrown left-handed · 46% of PA by left-handed bats · 13.6 bats / 7.2 SP / 4.9 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
+observed play: 804 of 1065 pool cards have innings on record (median 455 PA/BF); K = 1000000
 gloves ×0.91: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (2009 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.81, SP 1.86, RP 0.94 (--no-team-weights to turn off)
-staff innings split over the arms carried: the field runs 4.9 SP / 7.2 RP → per SP ×0.98 (5 carried), per RP ×1.03 (7 carried)
+staff innings split over the arms carried: the field runs 4.9 SP / 7.3 RP → per SP ×0.98 (5 carried), per RP ×1.04 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +4.8  Avoid Ks +3.1  BABIP +2.4  Eye +1.4  Gap +1.1
                           RHB: Power +5.0  Avoid Ks +3.2  BABIP +2.5  Eye +1.4  Gap +1.1
                          arms: pHR +1.6  Stuff +1.6  pBABIP +1.4  Control +1.1
 seed: 544-seed.txt as is (26 cards)
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 287.5 runs vs 254.5 greedy (+33.0), 4 moves from the seed
+optimiser: 3 starts (λ + seed) hill-climbed; best 306.2 runs vs 259.7 greedy (+46.5), 6 moves from the seed
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Pythias Russ                89  R  1927    +8.7  park:R DEF  86/112 +0.6  #87083
-R:1B    Rudy York (VAR)             88  R  1943   +21.1  park:R DEF  71/ 71 -1.3  #86429
-R:2B    Jack Burdock                87  R  1883    +1.8  park:R DEF 127/127 +5.0  #86067
-R:3B    Dave Brain (VAR)            68  R  1907    +6.5  park:R DEF  99/ 99 +2.3  #85934
-R:SS    Honus Wagner                99  R  1903    +9.6  park:R DEF 113/114 +2.6  #85540
-R:LF    Al Simmons                  99  R  1930   +14.5  park:R DEF  90/ 90 -1.0  #85942
-R:CF    Walt Wilmot                 94  S  1890    +7.3  park:L DEF 121/130 +1.4  #85724
-R:RF    Chick Hafey                 89  R  1928   +15.3  park:R DEF  81/ 83 -3.3  #85939
+R:C     Pythias Russ (VAR)          89  R  1927   +14.1  park:R DEF  92/120 +3.5  #87083
+R:1B    Rudy York (VAR)             88  R  1943   +21.0  park:R DEF  71/ 71 -1.3  #86429
+R:2B    Frankie Frisch              94  S  1927    -0.9  park:L DEF 139/139 +9.3  #85721
+R:3B    Dave Brain (VAR)            68  R  1907    +6.4  park:R DEF  99/ 99 +2.3  #85934
+R:SS    Honus Wagner                99  R  1903    +9.3  park:R DEF 113/114 +2.6  #85540
+R:LF    Al Simmons                  99  R  1930   +14.2  park:R DEF  90/ 90 -1.0  #85942
+R:CF    Duke Snider                 73  L  1949    +5.1  park:L DEF 116/116 +0.5  #85225
+R:RF    Chick Hafey                 89  R  1928   +15.2  park:R DEF  81/ 83 -3.3  #85939
 
 --- lineup vs LHP ---
-L:C     Pythias Russ                89  R  1927   +13.2  park:R DEF  86/112 +0.6  #87083
-L:1B    Rudy York (VAR)             88  R  1943   +28.8  park:R DEF  71/ 71 -1.3  #86429
-L:2B    Jack Burdock                87  R  1883    +4.5  park:R DEF 127/127 +5.0  #86067
-L:3B    Dave Brain (VAR)            68  R  1907    +9.3  park:R DEF  99/ 99 +2.3  #85934
-L:SS    Honus Wagner                99  R  1903   +10.8  park:R DEF 113/114 +2.6  #85540
-L:LF    Al Simmons                  99  R  1930   +25.4  park:R DEF  90/ 90 -1.0  #85942
-L:CF    Walt Wilmot                 94  S  1890    +6.6  park:R DEF 121/130 +1.4  #85724
-L:RF    Chick Hafey                 89  R  1928   +19.4  park:R DEF  81/ 83 -3.3  #85939
+L:C     Pythias Russ (VAR)          89  R  1927   +18.8  park:R DEF  92/120 +3.5  #87083
+L:1B    Rudy York (VAR)             88  R  1943   +28.7  park:R DEF  71/ 71 -1.3  #86429
+L:2B    Frankie Frisch              94  S  1927    -1.0  park:R DEF 139/139 +9.3  #85721
+L:3B    Dave Brain (VAR)            68  R  1907    +9.1  park:R DEF  99/ 99 +2.3  #85934
+L:SS    Honus Wagner                99  R  1903   +10.5  park:R DEF 113/114 +2.6  #85540
+L:LF    Al Simmons                  99  R  1930   +25.1  park:R DEF  90/ 90 -1.0  #85942
+L:CF    Tillie Walker               78  R  1914    +3.7  park:R DEF  97/117 -2.8  #86597
+L:RF    Chick Hafey                 89  R  1928   +19.2  park:R DEF  81/ 83 -3.3  #85939
 
---- batting order vs RHP --- (5.18 runs/game; The Book's order 5.18)
+--- batting order vs RHP --- (5.20 runs/game; The Book's order 5.20)
   1. Honus Wagner SS
   2. Rudy York (VAR) 1B
-  3. Pythias Russ C
+  3. Pythias Russ (VAR) C
   4. Al Simmons LF
   5. Chick Hafey RF
-  6. Walt Wilmot CF
-  7. Jack Burdock 2B
-  8. Dave Brain (VAR) 3B
+  6. Frankie Frisch 2B
+  7. Dave Brain (VAR) 3B
+  8. Duke Snider CF
   9. Pitcher
 
---- batting order vs LHP --- (5.44 runs/game; The Book's order 5.43)
-  1. Walt Wilmot CF
+--- batting order vs LHP --- (5.48 runs/game; The Book's order 5.46)
+  1. Tillie Walker CF
   2. Rudy York (VAR) 1B
-  3. Pythias Russ C
+  3. Pythias Russ (VAR) C
   4. Al Simmons LF
   5. Honus Wagner SS
-  6. Chick Hafey RF
-  7. Jack Burdock 2B
+  6. Frankie Frisch 2B
+  7. Chick Hafey RF
   8. Dave Brain (VAR) 3B
   9. Pitcher
 
 --- rotation ---
 SP1     Claude Grier                99  L  1926   +16.1   SP STM  92  #87086
-SP2     Babe Ruth                   97  L  1916   +15.8   SP STM 104  #86439
-SP3     Cy Young                    99  R  1900   +15.0   SP STM 109  #86996
+SP2     Babe Ruth                   97  L  1916   +15.9   SP STM 104  #86439
+SP3     Cy Young                    99  R  1900   +15.1   SP STM 109  #86996
 SP4     Count Leblanc (VAR)         89  R  1921   +15.0   SP STM  93  #86978
-SP5     Bob Feller                  88  R  1939   +13.1   SP STM 111  #85650
+SP5     Bob Feller                  88  R  1939   +13.0   SP STM 111  #85650
 
 --- bullpen ---
-CL      Joe Beggs (VAR)             89  R  1940   +14.4   RP STM  46  #86762
-RP1     Nick Altrock                76  S  1906   +11.7   SP STM  90  #87049
-RP2     Bill Ricks                  79  R  1944    +7.6   SP STM  86  #87162
-RP3     Fritz Ostermueller          64  L  1944    +6.4   SP STM  98  #86357
-RP4     Jakie May (VAR)             72  R  1927    +4.1   SP STM  69  #85286
-RP5     Dan Bankhead                74  R  1946    +1.3   SP STM  74  #84884
-RP6     Johnny Niggeling            78  R  1944    +0.9   SP STM  94  #85730
+CL      Johnny Markham (VAR)        87  R  1942   +14.7   RP STM  69  #87159
+RP1     Joe Beggs (VAR)             89  R  1940   +14.4   RP STM  46  #86762
+RP2     Nick Altrock                76  S  1906   +11.7   SP STM  90  #87049
+RP3     Bill Ricks                  79  R  1944    +7.6   SP STM  86  #87162
+RP4     Fritz Ostermueller          64  L  1944    +6.4   SP STM  98  #86357
+RP5     Jakie May (VAR)             72  R  1927    +4.1   SP STM  69  #85286
+RP6     Dan Bankhead                74  R  1946    +1.3   SP STM  74  #84884
 
 --- bench ---
-BN1     Biz Mackey                  74  S  1924    -2.3  park:L  #86894
-BN2     Billy Southworth            68  L  1926    -2.5  park:L  #86379
-BN3     Bill Dahlen                 77  R  1892    -7.5  park:R  #83725
-BN4     Pat Patterson               67  S  1935    -0.1  park:L  #87080
-BN5     Tom Brown                   66  L  1891    +2.6  park:L  #86767
-BN6     Luther Farrell              66  L  1928    +3.2  park:L two-way (hitting)  #86899
+BN1     Tom Brown                   66  L  1891    +2.4  park:L  #86767
+BN2     Pat Patterson               67  S  1935    -0.2  park:L  #87080
+BN3     Joe Dugan (VAR)             65  R  1920    -1.8  park:R  #86765
+BN4     Tillie Walker               78  R  1914    -4.0  park:R  #86597
+BN5     Luther Farrell              66  L  1928    +3.0  park:L two-way (hitting)  #86899
+BN6     Biz Mackey                  74  S  1924    -2.5  park:L  #86894
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Pythias Russ               U1 Biz Mackey 71                U2 -                           
+  C   Pythias Russ (VAR)         U1 Biz Mackey 71                U2 -                           
   1B  Rudy York (VAR)            U1 Biz Mackey 69                U2 -                           
-  2B  Jack Burdock               U1 Pat Patterson 85             U2 Bill Dahlen 103             
-  3B  Dave Brain (VAR)           U1 Pat Patterson 84             U2 Bill Dahlen 89              
-  SS  Honus Wagner               U1 Bill Dahlen 86               U2 -                           
-  LF  Al Simmons                 U1 Billy Southworth 107         U2 Tom Brown 68                 def sub Billy Southworth (+3)
-  CF  Walt Wilmot                U1 Billy Southworth 93          U2 -                           
-  RF  Chick Hafey                U1 Billy Southworth 93          U2 -                           
-  pinch hitters: Luther Farrell, Tom Brown, Pat Patterson, Biz Mackey · pinch runners: Tom Brown (SPE 97), Bill Dahlen (SPE 95), Pat Patterson (SPE 74)
+  2B  Frankie Frisch             U1 Pat Patterson 85             U2 Joe Dugan (VAR) 70          
+  3B  Dave Brain (VAR)           U1 Pat Patterson 84             U2 Joe Dugan (VAR) 63          
+  SS  Honus Wagner               U1 Pat Patterson 72             U2 -                           
+  LF  Al Simmons                 U1 Tillie Walker 117            U2 Tom Brown 68                 def sub Tillie Walker (+4.8)
+  CF  Duke Snider                U1 Tillie Walker 97             U2 -                           
+  RF  Chick Hafey                U1 Tom Brown 63                 U2 -                           
+  pinch hitters: Luther Farrell, Tom Brown, Pat Patterson, Joe Dugan (VAR) · pinch runners: Tom Brown (SPE 97), Tillie Walker (SPE 78), Pat Patterson (SPE 74)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Pythias Russ               U1 Biz Mackey 71                U2 -                           
+  C   Pythias Russ (VAR)         U1 Biz Mackey 71                U2 -                           
   1B  Rudy York (VAR)            U1 Biz Mackey 69                U2 -                           
-  2B  Jack Burdock               U1 Bill Dahlen 103              U2 Pat Patterson 85            
-  3B  Dave Brain (VAR)           U1 Pat Patterson 84             U2 Bill Dahlen 89              
-  SS  Honus Wagner               U1 Bill Dahlen 86               U2 -                           
-  LF  Al Simmons                 U1 Tom Brown 68                 U2 Billy Southworth 107         def sub Billy Southworth (+3)
-  CF  Walt Wilmot                U1 Billy Southworth 93          U2 -                           
-  RF  Chick Hafey                U1 Billy Southworth 93          U2 -                           
-  pinch hitters: Pat Patterson, Biz Mackey, Tom Brown, Luther Farrell · pinch runners: Tom Brown (SPE 97), Bill Dahlen (SPE 95), Pat Patterson (SPE 74)
+  2B  Frankie Frisch             U1 Joe Dugan (VAR) 70           U2 Pat Patterson 85            
+  3B  Dave Brain (VAR)           U1 Joe Dugan (VAR) 63           U2 Pat Patterson 84            
+  SS  Honus Wagner               U1 Pat Patterson 72             U2 -                           
+  LF  Al Simmons                 U1 Tom Brown 68                 U2 -                           
+  CF  Tillie Walker              U1 Duke Snider 116              U2 -                            def sub Duke Snider (+3.3)
+  RF  Chick Hafey                U1 Tom Brown 63                 U2 -                           
+  pinch hitters: Joe Dugan (VAR), Pat Patterson, Biz Mackey, Tom Brown · pinch runners: Tom Brown (SPE 97), Duke Snider (SPE 94), Pat Patterson (SPE 74)
 
-26 players · value 2135 · from seed · 5 variants
-vs RHP lineup gets the friendly park side in 1 of 8 spots
+26 players · value 2128 · from seed · 8 variants
+vs RHP lineup gets the friendly park side in 2 of 8 spots
 
 --- order inputs (rostered bats) ---
   Rudy York              R EYE 161 (181/154)  POW 179 (204/170)  K  63  BABIP  74  GAP 124  SPE  66
   Chick Hafey            R EYE  64 (73/61)  POW 131 (140/128)  K  91  BABIP 124  GAP 154  SPE  79
   Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
+  Pythias Russ           R EYE  82 (88/80)  POW 104 (111/103)  K 123  BABIP 127  GAP 147  SPE 101
   Honus Wagner           R EYE  79 (72/81)  POW  89 (100/86)  K 165  BABIP 120  GAP 118  SPE  93
-  Pythias Russ           R EYE  75 (81/73)  POW  96 (103/95)  K 113  BABIP 117  GAP 136  SPE 101
-  Walt Wilmot            S EYE  82 (88/81)  POW 109 (105/111)  K 109  BABIP  97  GAP  81  SPE 106
   Dave Brain             R EYE  59 (63/57)  POW 131 (130/131)  K  90  BABIP  87  GAP 109  SPE  70
+  Duke Snider            L EYE  71 (58/75)  POW 107 (69/124)  K  59  BABIP  99  GAP  94  SPE  94
   Luther Farrell         L EYE 117 (103/122)  POW 116 (101/121)  K  76  BABIP 106  GAP  42  SPE  44
   Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
-  Jack Burdock           R EYE  65 (60/67)  POW  90 (97/88)  K  90  BABIP 126  GAP 115  SPE  72
   Pat Patterson          S EYE  51 (50/52)  POW  86 (83/88)  K 112  BABIP 114  GAP 114  SPE  74
+  Frankie Frisch         S EYE  59 (75/48)  POW  82 (71/86)  K 208  BABIP 102  GAP  93  SPE 108
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
   Biz Mackey             S EYE  58 (55/59)  POW  76 (75/77)  K 110  BABIP 119  GAP 119  SPE  63
-  Billy Southworth       L EYE  51 (5/61)  POW  96 (81/102)  K 201  BABIP  76  GAP  84  SPE  69
-  Bill Dahlen            R EYE  69 (69/70)  POW  77 (78/77)  K  85  BABIP  86  GAP  89  SPE  95
+  Tillie Walker          R EYE  97 (158/84)  POW  81 (84/80)  K  62  BABIP 117  GAP 119  SPE  78
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (82 teams): 5.2 SP / 7.5 RP / 14.7 bats
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (110 teams): 5.3 SP / 7.6 RP / 14.6 bats
   ✓ starters' stamina Claude Grier 92, Babe Ruth 104, Cy Young 109, Count Leblanc 93, Bob Feller 111 (era floor 50)
-  ✓ stamina guys in the pen (45+): Joe Beggs 46, Nick Altrock 90, Bill Ricks 86, Fritz Ostermueller 98, Jakie May 69, Dan Bankhead 74, Johnny Niggeling 94
+  ✓ stamina guys in the pen (45+): Johnny Markham 69, Joe Beggs 46, Nick Altrock 90, Bill Ricks 86, Fritz Ostermueller 98, Jakie May 69, Dan Bankhead 74
   ✓ C  backup: Biz Mackey 71
   ✓ 1B backup: Biz Mackey 69
-  ✓ 2B backup: Bill Dahlen 103, Pat Patterson 85
-  ✓ 3B backup: Bill Dahlen 89, Pat Patterson 84
-  ✓ SS backup: Bill Dahlen 86
-  ✓ LF backup: Billy Southworth 107, Tom Brown 68
-  ✓ CF backup: Billy Southworth 93
-  ✓ RF backup: Billy Southworth 93
-(25 of 26 have a live ask in the last shop snapshot)
-objective: 287.5 weighted runs (bats 67/33 R/L, SP 1.8599999999999999, RP 0.94, bench 0.1)
-points: lineup(both boards, 8 bats) 713 · rotation 472 · bullpen 532 · bench-only 418
+  ✓ 2B backup: Pat Patterson 85, Joe Dugan 70
+  ✓ 3B backup: Pat Patterson 84, Joe Dugan 63
+  ✓ SS backup: Pat Patterson 72
+  ✓ LF backup: vs RHP Tillie Walker 117, Tom Brown 68 · vs LHP Tom Brown 68
+  ✓ CF backup: vs RHP Tillie Walker 97 · vs LHP Duke Snider 116
+  ✓ RF backup: Tom Brown 63
+(21 of 26 have a live ask in the last shop snapshot)
+objective: 306.2 weighted runs (bats 66/34 R/L, SP 1.8599999999999999, RP 0.94, bench 0.1)
+points: lineup(both boards, 9 bats) 777 · rotation 472 · bullpen 541 · bench-only 338

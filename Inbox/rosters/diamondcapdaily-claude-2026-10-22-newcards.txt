@@ -1,0 +1,35 @@
+# Daily Diamond Cap — Claude pick 2026-10-22 newcards, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Jarry Park --park-year 1976 --min 40 --max 99 --cap 1788 --size 26 --series diamondcapdaily --sp 5 --rp 5 --bats 16)
+R:C Bob Boone #87032
+R:1B Pedro Alvarez #87062
+R:2B Placido Polanco #87213
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Jeremy Pena #87154
+R:LF Darin Erstad #87242
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+L:C Bob Boone #87032
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Placido Polanco #87213
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Darin Erstad #87242
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+SP1 Claude Grier #87086
+SP2 Mark Langston #86956
+SP3 Count Leblanc (VAR) #86978
+SP4 Justin Verlander #87064
+SP5 Bob Feller #85650
+CL Nolan Ryan #85926
+RP1 Fritz Ostermueller #86357
+RP2 James McDonald (VAR) #86384
+RP3 Randy Choate #87026
+RP4 R.T. Walker #86952
+BN1 George Sisler (VAR) #87002
+BN2 Charlie Eden #82834
+BN3 George Pinkney #83410
+BN4 Alfredo Amezaga #87188
+BN5 Buck Rodgers (VAR) #84312
+BN6 Chris Sabo #87059
+BN7 Greasy Neale #87142
+BN8 Jim Maloney #85498

@@ -1,0 +1,35 @@
+# Daily Early Years Cap — Claude pick 2026-10-22 newcards, rebuilt from the catalogue's rules by current-rosters (--year 1888 --park Expostition Park III --park-year 1890 --min 40 --max 105 --card-year-min 1800 --card-year-max 1939 --cap 1500 --size 26 --series earlyyearscap --sp 4 --rp 5 --bats 17)
+R:C Frank Grube #86964
+R:1B Nap Lajoie #86581
+R:2B Rogers Hornsby #86436
+R:3B Ray Dandridge #87264
+R:SS Pop Lloyd #86896
+R:LF Tom Brown #86767
+R:CF Roy Thomas #86784
+R:RF Maurice Archdeacon #85665
+L:C Frank Grube #86964
+L:1B Nap Lajoie #86581
+L:2B Rogers Hornsby #86436
+L:3B Ray Dandridge #87264
+L:SS Pop Lloyd #86896
+L:LF Tom Brown #86767
+L:CF Roy Thomas #86784
+L:RF Maurice Archdeacon #85665
+SP1 Cy Young (VAR) #86572
+SP2 Bob Feller #85650
+SP3 Sam Streeter #87231
+SP4 Sherry Smith #87030
+CL Tin Can Kincannon #86073
+RP1 Togie Pittinger #82949
+RP2 Al Mays #82937
+RP3 Rube Schauer #86555
+RP4 Bob Barr #82968
+BN1 Al Burch #84328
+BN2 Greasy Neale #87142
+BN3 Bill Everitt #82866
+BN4 Cal McVey (VAR) #83567
+BN5 Mel Almada #85275
+BN6 Connie Day #86982
+BN7 Walt French #86960
+BN8 Fred Odwell #82868
+BN9 Charlie Eden #82834
