@@ -1,0 +1,36 @@
+# Daily Silver & Friends Slots — Claude pick 2026-10-23 b, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Daikin Park --park-year 2026 --dh --slots P1,D1,G1,S21,B1,I1 --variant-cap 13 --size 26 --series silverfriendsslots --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Placido Polanco #87213
+R:3B Aiva Arquette (VAR) #84768
+R:SS Jeremy Pena #87154
+R:LF Willie McGee (VAR) #85753
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Albert Pujols #87149
+L:C Mike Zunino #86431
+L:1B Albert Pujols #87149
+L:2B Brandon Phillips #87202
+L:3B Aiva Arquette (VAR) #84768
+L:SS Jeremy Pena #87154
+L:LF Willie McGee (VAR) #85753
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 Kelvim Escobar #87207
+SP3 Jacob deGrom #86675
+SP4 Bill Ricks #87162
+SP5 Jordan Montgomery #86354
+CL Fritz Ostermueller #86357
+RP1 Bob Walk #86971
+RP2 Bruce Ruffin #86777
+RP3 James McDonald (VAR) #86384
+RP4 Jakie May (VAR) #85286
+RP5 Jack Wenninger #85125
+RP6 Mickey Lolich #87279
+BN1 Lee Thomas (VAR) #86145
+BN2 Angel Genao #84740
+BN3 Ryan Braun #87222
+BN4 Brandon Phillips #87202
+BN5 Mike Zunino #86431

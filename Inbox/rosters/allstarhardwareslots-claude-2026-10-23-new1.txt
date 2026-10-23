@@ -1,0 +1,36 @@
+# Daily All-Star Hardware Slots — Claude pick 2026-10-23-new1, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park McAfee Stadium --park-year 2008 --dh --card-types 5,9 --slots P8,D6,G3,S3,B3,I3 --size 26 --series allstarhardwareslots --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Chase Utley #87068
+R:3B Ernie Banks #86621
+R:SS Corey Seager #87173
+R:LF Darin Erstad #87242
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH George Brett #87025
+L:C Mike Zunino #86431
+L:1B George Brett #87025
+L:2B Chase Utley #87068
+L:3B Ernie Banks #86621
+L:SS Corey Seager #87173
+L:LF Darin Erstad #87242
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Chris Sabo #87059
+SP1 Madison Bumgarner #87024
+SP2 Orel Hershiser #83135
+SP3 Bret Saberhagen #86915
+SP4 Harvey Haddix #86623
+SP5 Tommy John #86604
+CL Joe Beggs (VAR) #86762
+RP1 Steve Carlton (VAR) #85109
+RP2 Justin Verlander #87064
+RP3 Bob Walk #86971
+RP4 Mike Marshall #84720
+RP5 Chuck Finley (VAR) #85338
+RP6 Russ Ortiz #86305
+BN1 Andy Van Slyke #86936
+BN2 Mike Zunino #86431
+BN3 Ty Wigginton #86086
+BN4 Brice Turang (VAR) #82852
+BN5 Chris Sabo #87059
