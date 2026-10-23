@@ -1,0 +1,36 @@
+# Monday Now We're into the Dregs — Claude pick 2026-10-23-new2, rebuilt from the catalogue's rules by current-rosters (--year 1994 --park Dodger Stadium --park-year 1996 --dh --min 50 --max 64 --cap 1468 --size 26 --series goldfloorcapweekly --sp 5 --rp 7 --bats 14)
+R:C Tony Pena Sr. #86282
+R:1B Nap Lajoie #86581
+R:2B Brandon Phillips #87202
+R:3B Chris Taylor #87243
+R:SS Khalil Greene #87203
+R:LF Mike Trout (VAR) #84793
+R:CF Byron Buxton (VAR) #85821
+R:RF Ken Berry #85449
+R:DH Bill Hall #87200
+L:C Tony Pena Sr. #86282
+L:1B Matt Davidson (VAR) #84666
+L:2B Brandon Phillips #87202
+L:3B Chris Taylor #87243
+L:SS Khalil Greene #87203
+L:LF Ken Berry #85449
+L:CF Byron Buxton (VAR) #85821
+L:RF Dave Henderson #86926
+L:DH Bill Hall #87200
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Bruce Hurst #86361
+SP4 Chuck Finley (VAR) #85338
+SP5 Justin Verlander #87014
+CL John Bale #87234
+RP1 Mike Marshall #84720
+RP2 Jeff Francis #87199
+RP3 Patricio Scantlebury #85828
+RP4 Bullet Campbell #87084
+RP5 Orel Hershiser #86811
+RP6 Don August (VAR) #86423
+BN1 Dave Henderson #86926
+BN2 Brian Jordan #86963
+BN3 Jared Oliva #84916
+BN4 Matt Davidson (VAR) #84666
+BN5 Sam Huff #85265

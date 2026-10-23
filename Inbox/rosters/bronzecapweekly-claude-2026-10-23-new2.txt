@@ -1,0 +1,36 @@
+# Saturday Bronze Cap — Claude pick 2026-10-23-new2, rebuilt from the catalogue's rules by current-rosters (--year 2016 --dh --min 40 --max 69 --cap 1386 --size 26 --series bronzecapweekly --sp 5 --rp 7 --bats 14)
+R:C Tony Pena Sr. #86282
+R:1B Nap Lajoie #86581
+R:2B Brandon Phillips #87202
+R:3B Dave Brain (VAR) #85934
+R:SS Sam Bankhead #87160
+R:LF Norris Hopper #87191
+R:CF Deion Sanders #86962
+R:RF Eric Byrnes #87195
+R:DH Chris Sabo #87059
+L:C Tony Pena Sr. #86282
+L:1B Nap Lajoie #86581
+L:2B Brandon Phillips #87202
+L:3B Dave Brain (VAR) #85934
+L:SS Sam Bankhead #87160
+L:LF Norris Hopper #87191
+L:CF Deion Sanders #86962
+L:RF Eric Byrnes #87195
+L:DH Chris Sabo #87059
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Mickey Lolich #87279
+SP4 Bruce Hurst #86361
+SP5 Chuck Finley (VAR) #85338
+CL John Bale #87234
+RP1 Randy Choate #87026
+RP2 Bob Gibson (VAR) #86658
+RP3 Tin Can Kincannon #86073
+RP4 Todd Jones (VAR) #86434
+RP5 R.T. Walker #86952
+RP6 Jerry Augustine (VAR) #86424
+BN1 Jay Johnstone #86373
+BN2 Alfredo Amezaga #87188
+BN3 Buck Rodgers (VAR) #84312
+BN4 Charlie Eden #82834
+BN5 George Pinkney #83410
