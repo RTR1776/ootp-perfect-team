@@ -1,27 +1,27 @@
 {
   "fittedAt": "2026-10-25",
   "source": "league split exports, weeks 2026-06-28, 2026-08-16, 2026-08-23, 2026-08-30, 2026-09-06, 2026-09-13, 2026-09-20, 2026-09-27, 2026-10-04, 2026-10-11, 2026-10-18, 2026-10-25 (theme weeks: 2026-08-23 = 1959, 2026-09-20 = 1989, 2026-10-18 = 2007); card-board lines with 1500+ PA",
-  "lines": 339,
-  "pa": 9149059,
+  "lines": 342,
+  "pa": 9337350,
   "coef": {
-    "intercept": 0.0257,
-    "app": 0.3955,
-    "K": 15.3546,
-    "BA": 9.2793,
-    "GAP": 3.6438,
-    "POW": 4.6433,
-    "EYE": 10.8853
+    "intercept": 0.0268,
+    "app": 0.3897,
+    "K": 15.5467,
+    "BA": 9.3693,
+    "GAP": 3.7519,
+    "POW": 4.7457,
+    "EYE": 10.9069
   },
   "coefNote": "Rating terms are per unit of ln(rating) minus the league's PA-weighted mean ln(rating) on that board, each multiplied by the week's environment price (the app's +10 value of that rating there over the PT default; 1 in an ordinary week).",
-  "shrink": 0.568,
+  "shrink": 0.5647,
   "validation": {
-    "byCard": 0.935,
-    "byWeek": 0.855,
-    "shrinkOnlyByCard": 0.828,
+    "byCard": 0.932,
+    "byWeek": 0.857,
+    "shrinkOnlyByCard": 0.822,
     "shrinkOnlyByWeek": 0.758,
     "eachWeek": {
       "2026-06-28": {
-        "r": 0.847,
+        "r": 0.846,
         "shrinkOnly": 0.748,
         "lines": 58,
         "themed": false,
@@ -49,14 +49,14 @@
         "envYear": 2010
       },
       "2026-09-06": {
-        "r": 0.876,
+        "r": 0.875,
         "shrinkOnly": 0.797,
         "lines": 193,
         "themed": false,
         "envYear": 2010
       },
       "2026-09-13": {
-        "r": 0.847,
+        "r": 0.846,
         "shrinkOnly": 0.778,
         "lines": 172,
         "themed": false,
@@ -70,7 +70,7 @@
         "envYear": 1989
       },
       "2026-09-27": {
-        "r": 0.846,
+        "r": 0.845,
         "shrinkOnly": 0.762,
         "lines": 195,
         "themed": false,
@@ -84,23 +84,23 @@
         "envYear": 2010
       },
       "2026-10-11": {
-        "r": 0.889,
+        "r": 0.89,
         "shrinkOnly": 0.784,
         "lines": 172,
         "themed": false,
         "envYear": 2010
       },
       "2026-10-18": {
-        "r": 0.847,
+        "r": 0.85,
         "shrinkOnly": 0.67,
         "lines": 184,
         "themed": true,
         "envYear": 2007
       },
       "2026-10-25": {
-        "r": 0.883,
-        "shrinkOnly": 0.789,
-        "lines": 143,
+        "r": 0.894,
+        "shrinkOnly": 0.785,
+        "lines": 159,
         "themed": false,
         "envYear": 2010
       }
@@ -109,33 +109,35 @@
   "reference": {
     "HD|vL": {
       "week": "2026-10-25",
-      "pa": 244055,
+      "pa": 322578,
       "leagues": [
         "HD450",
+        "HD451",
         "HD452",
         "HD453"
       ],
-      "app": 30.6014,
-      "lK": 0.9488,
-      "lBA": 0.9849,
-      "lGAP": 0.7698,
-      "lPOW": 1.0207,
-      "lEYE": 1.0154
+      "app": 30.9746,
+      "lK": 0.9484,
+      "lBA": 0.9867,
+      "lGAP": 0.7722,
+      "lPOW": 1.0302,
+      "lEYE": 1.0185
     },
     "HD|vR": {
       "week": "2026-10-25",
-      "pa": 310401,
+      "pa": 418720,
       "leagues": [
         "HD450",
+        "HD451",
         "HD452",
         "HD453"
       ],
-      "app": 31.9358,
-      "lK": 0.9561,
-      "lBA": 0.9598,
-      "lGAP": 0.8672,
-      "lPOW": 1.0571,
-      "lEYE": 1.0041
+      "app": 32.3186,
+      "lK": 0.9595,
+      "lBA": 0.9606,
+      "lGAP": 0.8704,
+      "lPOW": 1.0651,
+      "lEYE": 1.0105
     },
     "LD|vL": {
       "week": "2026-09-06",
@@ -191,7 +193,7 @@
     }
   },
   "lhpShare": {
-    "HD": 0.44,
+    "HD": 0.435,
     "LD": 0.424,
     "PEL": 0.447
   },
