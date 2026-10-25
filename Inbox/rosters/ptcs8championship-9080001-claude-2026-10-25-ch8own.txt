@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Iron — Claude pick 2026-10-25-ch8own, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Agricultural County Fair Ground --park-year 1880 --max 59 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Ted Easterly #84686
+R:1B Stan Hack #86458
+R:2B Nap Lajoie #86581
+R:3B Ray Dandridge #87264
+R:SS Sam Bankhead #87160
+R:LF Maurice Archdeacon #85665
+R:CF Mel Almada #85275
+R:RF Walt French #86960
+L:C Lou Criger #83413
+L:1B Scoops Carey (VAR) #82851
+L:2B Connie Day #86982
+L:3B Ray Dandridge #87264
+L:SS Sam Bankhead #87160
+L:LF Maurice Archdeacon #85665
+L:CF Jimmy Walsh #84331
+L:RF Cal McVey (VAR) #83567
+SP1 Lefty Grove #87168
+SP2 Bullet Campbell #87084
+SP3 Fred Goldsmith #83067
+SP4 Ossie Orwoll (VAR) #86967
+CL Harry Coveleski (VAR) #83059
+RP1 Elden Auker #86769
+RP2 Tim Keefe #84240
+RP3 Ice Box Chamberlain (VAR) #83049
+RP4 Larry French #83045
+BN1 George Sisler (VAR) #87002
+BN2 Jimmy Walsh #84331
+BN3 Greasy Neale #87142
+BN4 Scoops Carey (VAR) #82851
+BN5 Sam Rice #85069
+BN6 Cal McVey (VAR) #83567
+BN7 Connie Day #86982
+BN8 Lou Criger #83413
+BN9 Kid Elberfeld (VAR) #86368

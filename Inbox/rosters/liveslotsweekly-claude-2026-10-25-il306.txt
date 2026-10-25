@@ -1,0 +1,36 @@
+# Friday Night Live Slots — Claude pick 2026-10-25-il306, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 2026 --dh --min 40 --max 105 --card-types 1 --card-year-min 2026 --card-year-max 2026 --slots P8,D5,G4,S3,B3,I3 --size 26 --series liveslotsweekly --sp 4 --rp 7 --bats 15)
+R:C Patrick Bailey #81719
+R:1B Freddie Freeman #81783
+R:2B Nico Hoerner #81989
+R:3B Javier Sanoja #82099
+R:SS Bobby Witt Jr. #82379
+R:LF Jake McCarthy #81809
+R:CF Pete Crow-Armstrong #81990
+R:RF Corbin Carroll #81849
+R:DH Oneil Cruz #81904
+L:C Patrick Bailey #81719
+L:1B Freddie Freeman #81783
+L:2B Nico Hoerner #81989
+L:3B Javier Sanoja #82099
+L:SS Bobby Witt Jr. #82379
+L:LF Jake McCarthy #81809
+L:CF Pete Crow-Armstrong #81990
+L:RF Corbin Carroll #81849
+L:DH Oneil Cruz #81904
+SP1 Jacob Misiorowski #81947
+SP2 Max Fried #82587
+SP3 Cam Schlittler #82580
+SP4 Dylan Cease #82518
+CL Louie Varland #82511
+RP1 Calvin Faucher #82119
+RP2 Tarik Skubal #82424
+RP3 Adrian Morejon #81760
+RP4 Tyler Rogers #82512
+RP5 Edgardo Henriquez #81769
+RP6 Logan Webb #81732
+BN1 Hao-Yu Lee #85230
+BN2 Randal Grichuk #82569
+BN3 Daylen Lile #82018
+BN4 Zach McKinstry #82401
+BN5 Kody Clemens #82332
+BN6 Dillon Dingler #82406

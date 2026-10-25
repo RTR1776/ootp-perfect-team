@@ -1,0 +1,36 @@
+# Daily Live Gold — Claude pick 2026-10-25-il306, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Citizens Bank Park --park-year 2026 --dh --min 40 --max 89 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series livegolddaily --sp 5 --rp 7 --bats 14)
+R:C Patrick Bailey #81719
+R:1B Luis Garcia Jr. #82026
+R:2B Nico Hoerner #81989
+R:3B Sam Antonacci #85231
+R:SS Geraldo Perdomo #81846
+R:LF Jake McCarthy #81809
+R:CF Ceddanne Rafaela #82608
+R:RF Corbin Carroll #81849
+R:DH Carson Benge #85009
+L:C Patrick Bailey #81719
+L:1B Luis Garcia Jr. #82026
+L:2B Nico Hoerner #81989
+L:3B Javier Sanoja #82099
+L:SS Geraldo Perdomo #81846
+L:LF Jake McCarthy #81809
+L:CF Ceddanne Rafaela #82608
+L:RF Corbin Carroll #81849
+L:DH Otto Lopez #82108
+SP1 Walbert Urena #85015
+SP2 Clay Holmes #82095
+SP3 Landen Roupp #81730
+SP4 Andrew Alvarez #85566
+SP5 Andre Pallante #81888
+CL Calvin Faucher #82119
+RP1 Tyler Rogers #82512
+RP2 Edgardo Henriquez #81769
+RP3 Sam Hentges #81727
+RP4 Ben Brown #82003
+RP5 Yohan Ramirez #81910
+RP6 Carmen Mlodzinski #81911
+BN1 Carter Jensen #82374
+BN2 Michael Harris II #82146
+BN3 Jac Caglianone #82370
+BN4 Javier Sanoja #82099
+BN5 Otto Lopez #82108

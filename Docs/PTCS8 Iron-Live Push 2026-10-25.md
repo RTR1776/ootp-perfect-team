@@ -55,3 +55,43 @@ The 71st-percentile record is mostly bad luck in Bo7 brackets over 14 entries. O
 - **Daily Late Iron:** saved as 1134 on collection 306 (10-25).
 - The other Iron events were rebuilt in the buy test; Live events were last built on collection 293.
 - After the Live Perfect sales, rebuild Live on 306 before entering.
+
+## Update: rosters on collection 306, and the Championship cards (2026-10-25, later)
+
+**Saved, "Claude pick 2026-10-25 c306":**
+
+| Iron | Roster |
+|---|---|
+| Dank | 1135 |
+| Iron Cap | 1136 |
+| Dreamland | 1137 |
+| Iron Lunch | 1138 |
+| Strikes Back | 1139 |
+| PTCS 2 Iron Replay | 1147 |
+| Danksville | 1148 |
+| Iron Warriors | 1150 |
+| Iron & Friends | 1152 |
+| Late Iron | 1134 (earlier) |
+
+| Live | Roster |
+|---|---|
+| Live Bronze | 1140 |
+| Live Diamond | 1141 |
+| Live Gold | 1142 |
+| Live Iron | 1143 |
+| Live Open | 1144 |
+| Live Plus | 1145 |
+| Live Silver | 1146 |
+| Friday Night Live Slots | 1149 |
+| Tuesday Live | 1151 |
+
+- **Iron & Friends (1152)** is built without Adames, who was bought after collection 306. With him at 2B vs RHP it scores 59.7 against 57.6. Swap him in by hand, or rebuild after the next collection upload.
+- **Iron Dreamland (1137):**
+  - The 1907 environment sets a starter stamina floor of 80.
+  - The build (and the saved 10-24 pick) started Ossie Orwoll VAR at 56. Fixed by hand: Mikolas (84) to SP4, Orwoll to the pen.
+  - Lefty Grove (77) is still just under the floor at SP1.
+
+**PTCS 8 Championship (deadball):** Pete Coscarart (#86148, 46, LE ask 15k) and Myril Hoag (#86088, 46, Clubhouse, no ask) make **none** of the seven pre-1946 brackets: Iron, Bronze, Silver, Gold, Diamond, Open and Cap.
+- Both were in the pool via `--assume-owned`. Every objective came out identical.
+- Even the Iron bracket's RF (Walt French −9.5, Cal McVey VAR −18.3) and 2B (Lajoie, Connie Day) beat them.
+- Today's Championship builds on 306 are in `Inbox/rosters/*-2026-10-25-ch8own.txt`. They are not saved; rebuild before 11-07.

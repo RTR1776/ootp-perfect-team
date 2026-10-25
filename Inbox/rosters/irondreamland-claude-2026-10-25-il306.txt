@@ -1,0 +1,35 @@
+# Daily Iron Dreamland — Claude pick 2026-10-25-il306, rebuilt from the catalogue's rules by current-rosters (--year 1907 --park Swampoodle Grounds --park-year 1886 --max 59 --size 26 --series irondreamland --sp 4 --rp 5 --bats 17) · stamina fix: Mikolas (84) to SP4, Orwoll (56) to the pen (1907 floor 80)
+R:C Ted Easterly #84686
+R:1B Nap Lajoie #86581
+R:2B Nico Hoerner #85088
+R:3B Chris Taylor #87243
+R:SS Ozzie Smith #86972
+R:LF Norris Hopper #87191
+R:CF Milt Thompson #86927
+R:RF Vladimir Guerrero #86474
+L:C Cal McVey (VAR) #83567
+L:1B Jackie Robinson (VAR) #84390
+L:2B Freddy Galvis (VAR) #85743
+L:3B Ray Dandridge #87264
+L:SS Ozzie Smith #86972
+L:LF Norris Hopper #87191
+L:CF Milt Thompson #86927
+L:RF Ken Berry #85449
+SP1 Lefty Grove #87168
+SP2 Justin Verlander #87014
+SP3 Fred Goldsmith #83067
+SP4 Miles Mikolas #82034
+CL Erick Fedde #82481
+RP1 Ossie Orwoll (VAR) #86967
+RP2 Javier Assad #84917
+RP3 Jeff Francis #87199
+RP4 Griffin Canning #81741
+BN1 Broderick Perkins #86460
+BN2 Austin Jackson #84808
+BN3 Bob Bowman (VAR) #86803
+BN4 George Sisler (VAR) #87002
+BN5 Ken Berry #85449
+BN6 Ray Dandridge #87264
+BN7 Jackie Robinson (VAR) #84390
+BN8 Freddy Galvis (VAR) #85743
+BN9 Cal McVey (VAR) #83567
