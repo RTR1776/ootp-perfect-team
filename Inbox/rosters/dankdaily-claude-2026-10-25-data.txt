@@ -1,0 +1,35 @@
+# Daily Dank — Claude pick 2026-10-25 data, rebuilt from the catalogue's rules by current-rosters (--year 1945 --park Comiskey Park --park-year 1945 --min 40 --max 49 --variant-cap 13 --size 26 --series dankdaily --sp 5 --rp 5 --bats 16) · stamina fix: John Danks (77) to SP5, Nate Robertson (64) to the pen (1945 floor 70)
+R:C Buck Rodgers (VAR) #84312
+R:1B Stan Hack #86458
+R:2B Javier Baez (VAR) #86417
+R:3B Wally Backman #86903
+R:SS Sam Bankhead #87160
+R:LF Dwayne Hosey #86801
+R:CF Alfredo Amezaga #87188
+R:RF Vladimir Guerrero #86474
+L:C Jim Hegan (VAR) #85834
+L:1B Todd Helton #86888
+L:2B Javier Baez (VAR) #86417
+L:3B Brooks Robinson #85023
+L:SS Sam Bankhead #87160
+L:LF Dwayne Hosey #86801
+L:CF Vladimir Guerrero #86474
+L:RF Sammy Sosa (VAR) #85691
+SP1 Lefty Grove #87168
+SP2 Marco Estrada #87046
+SP3 Thomas Pannone #86884
+SP4 Joe Saunders #86383
+SP5 John Danks #86065
+CL Tin Can Kincannon #86073
+RP1 Mark Langston #85840
+RP2 Al Holland (VAR) #86232
+RP3 Nate Robertson #87130
+RP4 R.T. Walker #86952
+BN1 Tsung-Che Cheng (VAR) #84612
+BN2 Billy Bryan (VAR) #85849
+BN3 George Sisler (VAR) #87002
+BN4 Todd Helton #86888
+BN5 Billy Martin #87027
+BN6 Sammy Sosa (VAR) #85691
+BN7 Brooks Robinson #85023
+BN8 Jim Hegan (VAR) #85834

@@ -95,3 +95,18 @@ The 71st-percentile record is mostly bad luck in Bo7 brackets over 14 entries. O
 - Both were in the pool via `--assume-owned`. Every objective came out identical.
 - Even the Iron bracket's RF (Walt French −9.5, Cal McVey VAR −18.3) and 2B (Lajoie, Connie Day) beat them.
 - Today's Championship builds on 306 are in `Inbox/rosters/*-2026-10-25-ch8own.txt`. They are not saved; rebuild before 11-07.
+
+## Update: new tourney data (Mac import 10-25, 17:00)
+
+**What came in:** 13 series imported and the model recalibrated (hitter slope 0.515 → 0.516, r 0.612 → 0.616). No new competitive dump, so the standing and the cutoff lines are unchanged.
+
+**Push events affected:** Dank (its first export) and Iron Warriors (2 exports). Both rebuilt and saved as "Claude pick 2026-10-25 data".
+
+- **Daily Dank → 1153** (replaces 1135).
+  - The export shows a field of 15.2 bats / 5.2 SP / 3.9 RP that faces 56% left-handed pitching. That is one export; read it lightly.
+  - The build adds a fifth starter and R.T. Walker in the pen, and drops Jordan Danks (VAR) from the bench.
+  - Stamina fix by hand: John Danks (77) to SP5, Nate Robertson (64) to the pen; the 1945 floor is 70.
+  - Marco Estrada (68) is still just under the floor, as in 1135.
+- **Saturday Iron Warriors → 1154** (replaces 1150). The field carries 6 relievers, so Pat Perry comes in and Javier Baez (VAR)'s bench spot goes. All checks pass.
+
+The other 11 imported series (Low Bronze Only, Open Slots, Bronze Cap, Diamond Variety, Silver Snapshots, Bronze OOTP, C4Q1, Bronze PTCS 3, Silver & Friends, NeL Slots, Diamond 1990 Onward) feed categories already safe. Not rebuilt.
