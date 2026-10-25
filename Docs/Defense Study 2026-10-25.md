@@ -102,3 +102,57 @@ Very little is published.
 - **Minimums:** American Circuit's essays give league minimums: SS Range 65+, CF Range 65+, 2B Range and Turn DP 55+. That is opinion, with no data behind it.
 - **Out of position:** a former developer's forum post says tournament cards carry no experience at new positions. https://forums.ootpdevelopments.com/showthread.php?t=313446
 - **Caveat:** the forums blocked direct reads and Reddit was blocked, so the forum items above come from search summaries.
+
+## 8. Tested on wins, and wired in (2026-10-25, later)
+
+**Harness:**
+- `scripts/model-v2/teams.mts` with `MV2_TOURDIR=Archive/Completed MV2_NO_LEAGUE=1`.
+- 54,273 team-events in 685 exports. 8 exports lacked a catalogue series and were skipped.
+- The harness now parses one export at a time; the whole archive at once ran out of memory.
+- Each team row carries `dpos`: per position, the rating gap to the export's field, the part below −20, the part above +15, and production's glove runs.
+
+**Scorer:** `scripts/model-v2/gloves.py`. Each structure is fitted on half the exports and scored by win% r on the other half, over 20 random halvings, so 40 half-samples.
+
+| Structure | Held-out win% r | vs production | Better in |
+|---|---|---|---|
+| M0 production glove (refit weight) | 0.3693 | — | — |
+| M1 study per-position prices | 0.3707 | +0.0015 | 40/40 |
+| M2 8 free per-position slopes | 0.3707 | +0.0015 | 40/40 |
+| M3 + 8 terms below −20 | 0.3708 | +0.0016 | 40/40 |
+| M4 + 8 terms above +15 | 0.3709 | +0.0016 | 39/40 |
+| M6 production + the study's shape | 0.3691 | −0.0001 | 5/40 |
+| **M7 wired** (study, level-neutral, C at old price) | **0.3707** | **+0.0014** | **40/40** |
+
+**What held:**
+- **Per-position prices.**
+  - The study's prices, measured on runs allowed rather than wins, do as well as a free fit to the wins.
+  - Held C at its old price, the wired version beats study-priced C in 40/40.
+  - On wins, the C rating adds nothing beyond framing: the free coefficient is −0.10, 10–90% range −0.21 to −0.02.
+- **Shape:** didn't hold. The cliff and flattening terms add +0.0001 at best, so the glove stays linear.
+- **PTCS 7 Championship** (671 teams, weights fitted on everything else): 0.4025 production vs 0.4024 wired, a tie.
+
+**Wired** (`fielding.ts` TOURNEY_FIELDING_CALIBRATION): C 1.61, 1B 0.77, 2B 1.83, 3B 0.86, SS 2.10, LF 2.22, CF 3.38, RF 1.41.
+- These replace C 1.61, 1B 1.0, 2B 1.29, 3B 1.20, SS 1.64, LF 1.24, CF 1.69, RF 1.25.
+- **Level-neutral:** the study prices × 0.5597, the ratio of the win weights on the two price sets. The average glove counts as much as before; only the split between positions moves.
+- **Per +10 points, with the ×2 team weight:**
+  - CF 1.9 → 3.9
+  - LF 2.0 → 3.5
+  - SS 4.5 → 5.8
+  - 2B 4.0 → 5.7
+  - RF 2.2 → 2.4
+  - 3B 3.2 → 2.3
+  - 1B 2.5 → 1.9
+- **Tournament tools only:** /build, /draft, Card Fit, era strength, roster-objective and env-roster. The league lineup (`league-lineup.ts`) now calls `leagueFieldingRuns`, which keeps the old factors.
+
+**Open (not wired):**
+- **Overall glove level.** On this harness wins weight production's glove composite at 1.36 bat runs per glove run, against the ×2 in TEAM_WEIGHTS.
+- **Pitching weights.** Starters read 1.24 (production 1.5) and relievers 2.3 (production 2).
+- These came from 42 exports on 10-11/10-17. A joint TEAM_WEIGHTS refit on the 685-export harness is the next test.
+
+**Effect on this Sunday's rosters** (rebuilt with the new prices, `current-rosters --only 546,547 --all --tag 2026-10-25-glove`):
+- **Open Slots (1132):** unchanged.
+- **Open Main Event:** changes from saved 1124. The candidate is `Inbox/rosters/openweekly-claude-2026-10-25-glove.txt`; it is **not saved**, pending L.J.
+  - vs RHP: Hidalgo (LF 124) plays LF over Soto (LF 87). Soto's bat is +4.8 better, but LF is now priced higher.
+  - vs LHP: Banks plays SS (133) over Seager (119), Brett plays 3B (88), and Beltran plays CF over Mays.
+  - Cards: Hidalgo and Nimmala VAR in, Mays and Hornsby out.
+- **Every other saved tournament roster was built on the old prices.** A rebuild (`current-rosters --all`) would move some of them the same way.

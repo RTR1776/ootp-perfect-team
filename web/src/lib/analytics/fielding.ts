@@ -40,10 +40,44 @@ export const FIELDING_CALIBRATION: Record<string, number> = {
   C: 1.61, "1B": 1.0, "2B": 1.29, "3B": 1.2, SS: 1.64, LF: 1.24, CF: 1.69, RF: 1.25,
 };
 
-export function fieldingRuns(pos: string, rating: number | null | undefined, pa = 700): number {
+/**
+ * TOURNAMENT glove prices by position (2026-10-25, Docs/Defense Study
+ * 2026-10-25.md §8), replacing FIELDING_CALIBRATION in the tournament tools.
+ *
+ * Measured on 701 archived tournament exports: team runs allowed per 1,400
+ * innings regressed on each position's innings-weighted rating, FIP outcomes
+ * held, within each export (14,678 team-events). Runs per rating point:
+ * C .217, 1B .172, 2B .506, 3B .205, SS .519, LF .315, CF .344, RF .218.
+ * Those prices are rescaled level-neutral (× 0.5597, the ratio of the
+ * weights wins put on them and on the old prices), so the average glove
+ * counts as much as before and only the split between positions moves.
+ *
+ * Tested on wins (scripts/model-v2/teams.mts over the archive + gloves.py,
+ * 54,273 team-events, 685 exports): held-out win% r 0.3693 → 0.3707,
+ * better in 40/40 half-samples; a free per-position fit does no better.
+ * C stays at 1.61: on wins the C rating adds nothing beyond framing, and C
+ * at the study's price is worse in 40/40. The PTCS 7 Championship brackets
+ * read a tie (0.4025 → 0.4024, 671 teams). Shape terms (a cliff below −20
+ * at C/LF, flattening at 1B/2B/3B) did not help on wins (+0.0001): linear.
+ */
+export const TOURNEY_FIELDING_CALIBRATION: Record<string, number> = {
+  C: 1.61, "1B": 0.77, "2B": 1.83, "3B": 0.86, SS: 2.1, LF: 2.22, CF: 3.38, RF: 1.41,
+};
+
+function gloveRuns(cal: Record<string, number>, pos: string, rating: number | null | undefined, pa: number): number {
   const f = FIT.positions[pos];
   if (!f || rating == null || !Number.isFinite(rating) || rating <= 0) return 0;
-  return (rating - f.mean) * f.slope * FIT.runsPerZR * (FIELDING_CALIBRATION[pos] ?? 1) * (pa / 700);
+  return (rating - f.mean) * f.slope * FIT.runsPerZR * (cal[pos] ?? 1) * (pa / 700);
+}
+
+/** Glove runs in a tournament (TOURNEY_FIELDING_CALIBRATION). */
+export function fieldingRuns(pos: string, rating: number | null | undefined, pa = 700): number {
+  return gloveRuns(TOURNEY_FIELDING_CALIBRATION, pos, rating, pa);
+}
+
+/** Glove runs in league play: the league model was fitted on FIELDING_CALIBRATION and keeps it. */
+export function leagueFieldingRuns(pos: string, rating: number | null | undefined, pa = 700): number {
+  return gloveRuns(FIELDING_CALIBRATION, pos, rating, pa);
 }
 
 /**
@@ -83,7 +117,7 @@ export function framingRuns(frame: number | null | undefined, year?: number | nu
 /** Runs per rating point at a position, per 700 PA. */
 export function fieldingRunsPerPoint(pos: string): number {
   const f = FIT.positions[pos];
-  return f ? f.slope * FIT.runsPerZR * (FIELDING_CALIBRATION[pos] ?? 1) : 0;
+  return f ? f.slope * FIT.runsPerZR * (TOURNEY_FIELDING_CALIBRATION[pos] ?? 1) : 0;
 }
 
 /** Balls in play (not home runs) per PA the fit's archive averaged, PA-weighted over 70 series. */

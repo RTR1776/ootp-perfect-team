@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { envFitMaps } from "./env-fit";
 import { armEraSpread, armRatingFix, eraBand, eraCorrectionPerPoint, powerCurveRuns } from "./calibration";
-import { FIELDING_CALIBRATION, FIELDING_FIT, fieldingRuns } from "./fielding";
+import { FIELDING_CALIBRATION, FIELDING_FIT, TOURNEY_FIELDING_CALIBRATION, fieldingRuns, leagueFieldingRuns } from "./fielding";
 import { eraTable } from "./tournament-env";
 
 const bat = (id: number, over: Record<string, number>) => {
@@ -79,11 +79,13 @@ test("Power's log curve: more for big power, less for none, nothing in deadball 
   assert.ok(lin(1) - lin(3) > powerCurveRuns(2010, 220) - 1e-9, "the curve adds to what the era line already pays");
 });
 
-test("glove runs carry the per-position calibration, and first base is left alone", () => {
+test("glove runs carry the per-position calibration: tournament prices in fieldingRuns, the old ones in league play", () => {
   const cf = FIELDING_FIT.positions.CF;
   const raw = (cf.mean + 20 - cf.mean) * cf.slope * FIELDING_FIT.runsPerZR;
-  assert.ok(Math.abs(fieldingRuns("CF", cf.mean + 20) - raw * FIELDING_CALIBRATION.CF) < 1e-9);
+  assert.ok(Math.abs(fieldingRuns("CF", cf.mean + 20) - raw * TOURNEY_FIELDING_CALIBRATION.CF) < 1e-9);
+  assert.ok(Math.abs(leagueFieldingRuns("CF", cf.mean + 20) - raw * FIELDING_CALIBRATION.CF) < 1e-9);
   assert.equal(FIELDING_CALIBRATION["1B"], 1);
+  assert.equal(TOURNEY_FIELDING_CALIBRATION.C, FIELDING_CALIBRATION.C, "catcher keeps its price: framing carries it");
   assert.equal(fieldingRuns("CF", cf.mean), 0, "the field mean is still the zero");
 });
 

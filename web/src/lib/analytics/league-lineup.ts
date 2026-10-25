@@ -21,7 +21,7 @@
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { eraFor, eraTable, type ParkRow } from "@/lib/analytics/tournament-env";
 import { solveEnv } from "@/lib/analytics/run-env";
-import { fieldingRuns } from "@/lib/analytics/fielding";
+import { leagueFieldingRuns } from "@/lib/analytics/fielding";
 import { maxAssignment } from "@/lib/assign";
 import { LJ_FLOOR, posFloorAt } from "@/lib/pos-floor";
 import {
@@ -106,7 +106,7 @@ export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFam
     const r = byId.get(id)!.ratings;
     const pr = r[`Pos Rating ${slot}`] ?? 0;
     if (!(pr > 0) || (!locked && pr < posFloorAt(LJ_FLOOR, slot))) return -Infinity;
-    const glove = (slot === "C" ? leagueCatcherRuns(r) : null) ?? fieldingRuns(slot, pr);
+    const glove = (slot === "C" ? leagueCatcherRuns(r) : null) ?? leagueFieldingRuns(slot, pr);
     return bat + defScale * glove;
   };
   const solve = (ids: number[], b: Board, locks: Locks = {}): Lineup | null => {
