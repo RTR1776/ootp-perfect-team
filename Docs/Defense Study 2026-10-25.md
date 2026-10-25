@@ -151,7 +151,7 @@ Very little is published.
 
 **Effect on this Sunday's rosters** (rebuilt with the new prices, `current-rosters --only 546,547 --all --tag 2026-10-25-glove`):
 - **Open Slots (1132):** unchanged.
-- **Open Main Event:** changes from saved 1124. The candidate is `Inbox/rosters/openweekly-claude-2026-10-25-glove.txt`; it is **not saved**, pending L.J.
+- **Open Main Event:** changes from saved 1124. The build is `Inbox/rosters/openweekly-claude-2026-10-25-glove.txt`, **saved as 1133** "Claude pick 2026-10-25 glove" (L.J. OK, 10-25); it replaces 1124.
   - vs RHP: Hidalgo (LF 124) plays LF over Soto (LF 87). Soto's bat is +4.8 better, but LF is now priced higher.
   - vs LHP: Banks plays SS (133) over Seager (119), Brett plays 3B (88), and Beltran plays CF over Mays.
   - Cards: Hidalgo and Nimmala VAR in, Mays and Hornsby out.
