@@ -44,11 +44,13 @@ ALIASES = {
     "silverweekly": lambda run: ("silveronlyweekly" if run >= 27 else "silverweekly", run),
     "goldfloorcapweekly": lambda run: ("dregscap" if run >= 28 else "goldfloorcapweekly", run),
     "upto1969weekly": lambda run: ("deadsilverwalking" if run >= 28 else "upto1969weekly", run),
-    # His Cap Challenge numbering restarts at 0 for each edition (by date:
-    # CC5 ran Thursdays 09-10 to 10-01 = our runs 17-20; CC6, his "cwhitcap6"
-    # (Thursday CWhit's Say My Name Cap), from 10-08 = our run 21).
-    "c4q1": lambda run: _restart("cwhitcap6", 21)(run) if run >= 21 else _restart("c4q5", 17)(run),
-    "c4q4": _restart("c4q4", 13),
+    # His Cap Challenge numbering restarts at 0 for each edition. Our run is
+    # the event id's suffix (dump 10-19: 1870014-17 CC4 08-13..09-03,
+    # 1870018-21 CC5 09-10..10-01, 1870022 Say My Name 10-08), so CC4 = our
+    # runs 14-17, CC5 = 18-21, CC6 (his "cwhitcap6") from 22. Fixed 10-24:
+    # each start was one run early, which sent the 10-15 run as his 10-22.
+    "c4q1": lambda run: _restart("cwhitcap6", 22)(run) if run >= 22 else _restart("c4q5", 18)(run),
+    "c4q4": _restart("c4q4", 14),
 }
 # His filename -> newest card year allowed (a check that the file is that event).
 MAX_CARD_YEAR = {"deadsilverwalking": 1919}
