@@ -52,6 +52,12 @@ This is the recurring work. Every day or two he pastes a **screenshot of tournam
 
 Bracket exits map to placements: Rd1 out of a 128 = 65th–128th, Rd2 = 33rd–64th, Rd3 = 17th–32nd, QF = 5th–8th, semi = 3rd/4th.
 
+**Leaderboard payouts (Clubhouse Stars), from `Docs/Rules/PT 27 Road to the Perfect Team World Championship.pdf`, the official rules; read it for anything about PTCS, PTMS or PTWC:**
+- **Weekly**, per category: 1st 100, 2nd 75, 3rd–4th 50, 5th–10th 35, 11th–20th 20. Nothing below 20th.
+- **Per PTCS period**, per category: 1st 300, 2nd 200, 3rd–4th 100, 5th–10th 70, 11th–20th 40, 21st–50th 20.
+- **Tiebreakers:** points, then fewer entries, combined places, best place, account name.
+- **Where he stands:** `scripts/week-board.ts` rebuilds any week (or `--period`) from the dumps, with his rank, the CS he'd be paid and the payout lines.
+
 **A tournament can feed 2–3 categories at once** (e.g. `Dia,Cp` = Diamond + Cap). Award the full points to *each*. This is the single most important mechanic in the whole game.
 
 **Always check for duplicate tournament IDs** before adding — he re-sends overlapping screenshots and has explicitly asked you to check. IDs increment by 1 each day per event (Daily Live All Night 2260142 → 2260143).
