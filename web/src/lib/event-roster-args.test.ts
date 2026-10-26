@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { eventRosterArgs, type CatalogueEvent } from "./event-roster-args";
+import { eventRosterArgs, eventShape, type CatalogueEvent } from "./event-roster-args";
 
 const base: CatalogueEvent = {
   id: 1, name: "Test", envYear: null, stadium: null, dh: true, ratingsMin: null, ratingsMax: null,
@@ -50,4 +50,14 @@ test("a rule the flags can't carry stops the event: unknown DH, an unreadable se
   assert.ok(eventRosterArgs({ ...base, dh: null }, { seriesStale: false }).problems.includes("DH rule not on file"));
   assert.ok(eventRosterArgs({ ...base, restrictions: { cardTypes: ["Mystery Set"] } }, { seriesStale: false }).problems.some((p) => p.startsWith("card-set rule")));
   assert.ok(eventRosterArgs({ ...base, isDraft: true }, { seriesStale: false }).problems.includes("a draft"));
+});
+
+test("the staff shape: the era table before 1930, L.J.'s own where he set one, and --rp alone keeps the rotation", () => {
+  const deadball = { ...base, envYear: 1919, dh: false };
+  const era = eventShape(deadball, { seriesStale: false, meta: null });
+  assert.deepEqual(era.args, ["--sp", "4", "--rp", "5", "--bats", "17"]);
+  assert.match(era.note, /era table/);
+  assert.match(eventShape({ ...deadball, id: 549 }, { seriesStale: false, meta: null }).note, /L\.J\.'s own shape/);
+  const pen = eventShape(deadball, { seriesStale: false, meta: null, over: { rp: "4" } });
+  assert.deepEqual(pen.args, ["--sp", "4", "--rp", "4", "--bats", "18"]);
 });

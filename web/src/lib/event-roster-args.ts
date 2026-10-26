@@ -16,7 +16,10 @@
  * rather than build it to the wrong rules.
  */
 import { parkFor } from "@/lib/analytics/tournament-env";
-import { parseCardTypeRule } from "@/lib/roster-rules";
+import { rosterShape } from "@/lib/roster-fill";
+import { parseCardTypeRule, rosterSize } from "@/lib/roster-rules";
+import { topShape, type SeriesBuild } from "@/lib/field-construction";
+import fieldConstruction from "@/data/field-construction.json";
 
 export interface CatalogueEvent {
   id: number;
@@ -94,4 +97,34 @@ export function eventRosterArgs(t: CatalogueEvent, opts: { seriesStale: boolean 
   // A set rule on file answers the field's set guard; so does a card-year window.
   args.push("--name", t.name);
   return { args, problems, notes };
+}
+
+/**
+ * L.J.'s position floors for every Claude pick (10-10: SS 85, CF 90, 2B 85,
+ * RF 75, 60 elsewhere), as env-roster --min-pos.
+ */
+export const LJ_FLOORS = "60,SS:85,CF:90,2B:85,RF:75";
+/** The flags every Claude pick builds with besides the event's own: the optimiser, relief role trust 0.25, his floors. */
+export const CLAUDE_PICK_FLAGS = ["--optimize", "--role-trust", "0.25", "--min-pos", LJ_FLOORS] as const;
+/** Events L.J. built to his own shape: always built to it (Tuesday Dead Silver Walking: 4 SP / 5 RP). */
+export const OWN_SHAPE: Record<number, { sp: number; rp: number }> = { 549: { sp: 4, rp: 5 } };
+
+/**
+ * The staff shape an event's roster is built to, as /build sizes it
+ * (roster-fill rosterShape): the field's best quarter (field-construction
+ * topShape), else the series' averages, else the era table; L.J.'s own shape
+ * where he set one. `over` (--sp / --rp / --bats) wins; --rp alone keeps the
+ * rotation and roster size, and the freed spots bat.
+ */
+export function eventShape(
+  t: CatalogueEvent,
+  opts: { seriesStale: boolean; meta: { avgSp: number | null; avgRp: number | null; avgBats: number | null } | null; over?: { sp?: string; rp?: string; bats?: string } },
+): { args: string[]; note: string } {
+  const top = t.series && !opts.seriesStale ? topShape((fieldConstruction as { series: Record<string, SeriesBuild> }).series[t.series]) : null;
+  const sh = rosterShape(t.envYear, t.dh === true ? 9 : 8, rosterSize({ restrictions: t.restrictions } as Parameters<typeof rosterSize>[0]) ?? 26, top ?? opts.meta, t.cardYearMin);
+  const own = OWN_SHAPE[t.id], over = opts.over ?? {};
+  const sp = over.sp ?? String(own?.sp ?? sh.sp), rp = over.rp ?? String(own?.rp ?? sh.rp);
+  const bats = over.bats ?? String(sh.bats + (sh.sp - Number(sp)) + (sh.rp - Number(rp)));
+  const why = over.sp || over.rp ? "--sp/--rp" : own ? "L.J.'s own shape" : sh.source === "observed" ? "the series' exports" : `era table, ${sh.band}`;
+  return { args: ["--sp", sp, "--rp", rp, "--bats", bats], note: `shape ${sp} SP / ${rp} RP / ${bats} bats (${why})` };
 }
