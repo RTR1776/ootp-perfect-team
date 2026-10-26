@@ -147,7 +147,14 @@ for (const h of ["R", "L"] as const) if (orders[h].length) console.log(`**vs ${h
 const owned = new Set((await sql`select abs(card_id) as id from collection_cards where upload_id = ${coll.id}`).map((r) => Number(r.id)));
 const onRoster = new Set(ids);
 const dir = "../Archive/Completed";
-const files = t.series ? readdirSync(dir).filter((x) => x.startsWith(`${t.series}_`) && x.endsWith(".csv")) : [];
+const lo = t.ratings_min ?? 0, hi = t.ratings_max ?? 999;
+/** An export from the series' old format (Dregs was Gold Floor Cap 80–105 until run 28) is left out: under 90% of its cards in today's value window. */
+const inWindow = (f: string) => {
+  const rows = readFileSync(`${dir}/${f}`, "utf8").replace(/^﻿/, "").split("\n").map((l) => l.split(","));
+  const iVal = rows[0].indexOf("VAL"), vals = rows.slice(1).filter((r) => r.length >= rows[0].length).map((r) => Number(r[iVal]));
+  return vals.length > 0 && vals.filter((v) => v >= lo && v <= hi).length / vals.length >= 0.9;
+};
+const files = t.series ? readdirSync(dir).filter((x) => x.startsWith(`${t.series}_`) && x.endsWith(".csv")).filter(inWindow) : [];
 if (files.length) {
   const use = new Map<number, { n: number; name: string; val: number; var: number }>();
   let topTeams = 0;
@@ -174,7 +181,6 @@ if (files.length) {
   console.log(`**Cards the top quarter of teams play that we don't** (${files.length} exports, ${topTeams} top teams):\n`);
   for (const [id, u] of list) console.log(`- ${u.name} ${u.val}: on ${Math.round(100 * u.n / topTeams)}% of top teams${u.var ? ` (${Math.round(100 * u.var / u.n)}% as variants)` : ""} — ${owned.has(id) ? "owned" : "not owned"}`);
 } else {
-  const lo = t.ratings_min ?? 0, hi = t.ratings_max ?? 999;
   const pop = await sql`select o.card_id, c.name, c.card_value, sum(o.instances)::int n from observed_card_stats o join cards c on c.card_id = o.card_id where c.card_value between ${lo} and ${hi} group by 1, 2, 3 order by n desc limit 40`;
   const list = pop.filter((p) => !onRoster.has(Number(p.card_id))).slice(0, 12);
   console.log(`**No exports of this series on file.** Most-used cards in observed play inside the value window (${lo}–${hi}) that we don't carry:\n`);
