@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { envFitMaps } from "./env-fit";
 import { armEraSpread, armRatingFix, eraBand, eraCorrectionPerPoint, powerCurveRuns } from "./calibration";
-import { FIELDING_CALIBRATION, FIELDING_FIT, TOURNEY_FIELDING_CALIBRATION, fieldingRuns, leagueFieldingRuns } from "./fielding";
+import { FIELDING_CALIBRATION, FIELDING_FIT, LEAGUE_FIELDING_CALIBRATION, TOURNEY_FIELDING_CALIBRATION, fieldingRuns, leagueFieldingRuns } from "./fielding";
 import { eraTable } from "./tournament-env";
 
 const bat = (id: number, over: Record<string, number>) => {
@@ -83,7 +83,9 @@ test("glove runs carry the per-position calibration: tournament prices in fieldi
   const cf = FIELDING_FIT.positions.CF;
   const raw = (cf.mean + 20 - cf.mean) * cf.slope * FIELDING_FIT.runsPerZR;
   assert.ok(Math.abs(fieldingRuns("CF", cf.mean + 20) - raw * TOURNEY_FIELDING_CALIBRATION.CF) < 1e-9);
-  assert.ok(Math.abs(leagueFieldingRuns("CF", cf.mean + 20) - raw * FIELDING_CALIBRATION.CF) < 1e-9);
+  assert.ok(Math.abs(leagueFieldingRuns("CF", cf.mean + 20) - raw * LEAGUE_FIELDING_CALIBRATION.CF) < 1e-9);
+  assert.equal(LEAGUE_FIELDING_CALIBRATION.CF, 2 * FIELDING_CALIBRATION.CF, "league CF is doubled (held out 38/40 on runs allowed)");
+  assert.equal(LEAGUE_FIELDING_CALIBRATION.SS, FIELDING_CALIBRATION.SS, "every other league spot keeps the old price");
   assert.equal(FIELDING_CALIBRATION["1B"], 1);
   assert.equal(TOURNEY_FIELDING_CALIBRATION.C, FIELDING_CALIBRATION.C, "catcher keeps its price: framing carries it");
   assert.equal(fieldingRuns("CF", cf.mean), 0, "the field mean is still the zero");

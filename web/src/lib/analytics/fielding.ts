@@ -75,9 +75,21 @@ export function fieldingRuns(pos: string, rating: number | null | undefined, pa 
   return gloveRuns(TOURNEY_FIELDING_CALIBRATION, pos, rating, pa);
 }
 
-/** Glove runs in league play: the league model was fitted on FIELDING_CALIBRATION and keeps it. */
+/**
+ * LEAGUE glove prices (2026-10-25, Docs/League Plan 2026-10-25 §11): FIELDING_CALIBRATION
+ * with center field doubled. League team-weeks (scripts/defense-study/league-def.mts,
+ * league-test.py), runs allowed with FIP parts held, within each league-week:
+ * CF fits at ~6x today's price (0.59 runs per point, ± 0.19), every other spot at or
+ * under it. Held out over 40 half-samples, a FIXED CF x2 beats today's prices on runs
+ * allowed in 38/40 and on wins in 31/40 (the best multiplier on wins; x3–x6 gain more
+ * on runs allowed but fade on wins), while a freely fitted CF or 8 free prices don't
+ * hold. CF x2 = 3.38, the same factor as TOURNEY_FIELDING_CALIBRATION.
+ */
+export const LEAGUE_FIELDING_CALIBRATION: Record<string, number> = { ...FIELDING_CALIBRATION, CF: 3.38 };
+
+/** Glove runs in league play (LEAGUE_FIELDING_CALIBRATION). */
 export function leagueFieldingRuns(pos: string, rating: number | null | undefined, pa = 700): number {
-  return gloveRuns(FIELDING_CALIBRATION, pos, rating, pa);
+  return gloveRuns(LEAGUE_FIELDING_CALIBRATION, pos, rating, pa);
 }
 
 /**
