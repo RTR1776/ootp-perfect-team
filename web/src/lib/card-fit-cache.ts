@@ -13,7 +13,7 @@ import { unstable_cache } from "next/cache";
 import { fitVersion, loadCardFit, newCardIds, type CardFitData } from "@/lib/card-fit-load";
 
 /** Bump when Card Fit's scoring changes, so cached results from the old code aren't served. */
-const FIT_CODE = "fit-v3"; // v3 2026-10-25: tournament glove prices by position (fielding.ts)
+const FIT_CODE = "fit-v4"; // v4 2026-10-25: model review — era team weights + framing weight, pBABIP fix (glove repricing reverted)
 /** Bump when newCardIds' result changes shape (v2: `variants`). */
 const IDS_CODE = "new-ids-v2";
 

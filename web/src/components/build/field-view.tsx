@@ -42,6 +42,8 @@ interface Props {
   lhpShare: number;
   /** The optimiser's glove weight (gloveScale × the era's team weight). */
   glove: number;
+  /** Catcher framing's team weight (calibration.ts teamWeights `frm`); 1 when absent. */
+  framing?: number;
   eraYear: number | null;
   spKeys: string[];
   rpKeys: string[];
@@ -95,8 +97,8 @@ export function FieldView(p: Props) {
   }, [runsR, runsL, p.lhpShare, split]);
   const def = React.useCallback((c: BuilderCard, pos: string): number => {
     if (pos === "DH") return 0;
-    return p.glove * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`] ?? 0) + (pos === "C" ? framingRuns(c.ratings.CatcherFrame, p.eraYear) : 0);
-  }, [p.glove, p.eraYear]);
+    return p.glove * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`] ?? 0) + (pos === "C" ? (p.framing ?? 1) * framingRuns(c.ratings.CatcherFrame, p.eraYear) : 0);
+  }, [p.glove, p.framing, p.eraYear]);
   const plays = (c: BuilderCard, pos: string) => {
     if (c.isPitcher) return false;
     if (pos === "DH") return true;

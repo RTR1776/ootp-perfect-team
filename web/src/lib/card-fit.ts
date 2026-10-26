@@ -62,6 +62,8 @@ export interface FitCtx {
   lhp: number;
   /** fielding.ts gloveScale for the event's run environment, times the era's glove team weight. */
   glove: number;
+  /** Catcher framing's team weight (calibration.ts teamWeights `frm`); 1 when absent. */
+  frm?: number;
   /** The era's pitching team weight against a bat run (calibration.ts teamWeights); 1 when absent. */
   pit?: number;
   /** The starters' / pen's own team weights (teamWeights sp / rp); `pit` when absent. */
@@ -101,7 +103,7 @@ export function batAt(f: ScoredForm, spot: LineupSpot, board: Board, ctx: FitCtx
   if (spot === "DH") return ctx.dh ? runs : null;
   const rating = f.pos[spot];
   if (rating == null || rating <= 0 || rating < posFloorAt(LJ_FLOOR, spot)) return null;
-  return runs + ctx.glove * fieldingRuns(spot, rating) + (spot === "C" ? framingRuns(f.frame, ctx.eraYear) : 0);
+  return runs + ctx.glove * fieldingRuns(spot, rating) + (spot === "C" ? (ctx.frm ?? 1) * framingRuns(f.frame, ctx.eraYear) : 0);
 }
 
 /** The both-hands value at a spot, the read a spot's ranking uses; null where it can't play. */

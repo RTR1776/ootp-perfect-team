@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { envFitMaps } from "./env-fit";
 import { armEraSpread, armRatingFix, eraBand, eraCorrectionPerPoint, powerCurveRuns } from "./calibration";
-import { FIELDING_CALIBRATION, FIELDING_FIT, LEAGUE_FIELDING_CALIBRATION, TOURNEY_FIELDING_CALIBRATION, fieldingRuns, leagueFieldingRuns } from "./fielding";
+import { FIELDING_CALIBRATION, FIELDING_FIT, LEAGUE_FIELDING_CALIBRATION, fieldingRuns, leagueFieldingRuns } from "./fielding";
 import { eraTable } from "./tournament-env";
 
 const bat = (id: number, over: Record<string, number>) => {
@@ -82,18 +82,20 @@ test("Power's log curve: more for big power, less for none, nothing in deadball 
 test("glove runs carry the per-position calibration: tournament prices in fieldingRuns, the old ones in league play", () => {
   const cf = FIELDING_FIT.positions.CF;
   const raw = (cf.mean + 20 - cf.mean) * cf.slope * FIELDING_FIT.runsPerZR;
-  assert.ok(Math.abs(fieldingRuns("CF", cf.mean + 20) - raw * TOURNEY_FIELDING_CALIBRATION.CF) < 1e-9);
+  assert.ok(Math.abs(fieldingRuns("CF", cf.mean + 20) - raw * FIELDING_CALIBRATION.CF) < 1e-9, "tournaments price gloves on FIELDING_CALIBRATION");
   assert.ok(Math.abs(leagueFieldingRuns("CF", cf.mean + 20) - raw * LEAGUE_FIELDING_CALIBRATION.CF) < 1e-9);
   assert.equal(LEAGUE_FIELDING_CALIBRATION.CF, 2 * FIELDING_CALIBRATION.CF, "league CF is doubled (held out 38/40 on runs allowed)");
-  assert.equal(LEAGUE_FIELDING_CALIBRATION.SS, FIELDING_CALIBRATION.SS, "every other league spot keeps the old price");
+  assert.ok(Math.abs(LEAGUE_FIELDING_CALIBRATION.SS - 0.7 * FIELDING_CALIBRATION.SS) < 1e-9, "every other league spot at 0.7 of the old price (league compression)");
   assert.equal(FIELDING_CALIBRATION["1B"], 1);
-  assert.equal(TOURNEY_FIELDING_CALIBRATION.C, FIELDING_CALIBRATION.C, "catcher keeps its price: framing carries it");
   assert.equal(fieldingRuns("CF", cf.mean), 0, "the field mean is still the zero");
 });
 
 test("tournament team weights: gloves and pitching against a bat run", async () => {
   const { teamWeights } = await import("./calibration");
-  for (const y of [1920, 1970, 1985, 2000, 2010, null]) assert.deepEqual(teamWeights(y), { def: 2, pit: 2, sp: 1.5, rp: 2 });
+  const prod = { def: 2, frm: 1, pit: 2, sp: 1.5, rp: 2 };
+  for (const y of [1920, 1970, 2010, 2024, null]) assert.deepEqual(teamWeights(y), prod, `production holds in ${y}`);
+  assert.deepEqual(teamWeights(1985), { def: 1.25, frm: 0.5, pit: 2, sp: 1, rp: 3 }, "1977–93: gloves and starters down, pen up (held out 40/40)");
+  assert.deepEqual(teamWeights(2000), { def: 1.25, frm: 0.5, pit: 2, sp: 1, rp: 2.5 }, "1994–2009 (held out 38/40)");
 });
 
 test("park hand offset: a lefty loses and a righty gains where the park suppresses lefties, and nothing without a park", () => {

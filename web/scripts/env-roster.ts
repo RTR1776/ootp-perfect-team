@@ -227,6 +227,8 @@ const PITCH_LHB = num("pitch-lhb");
 /** --no-glove-scale: price gloves at the archive average whatever the era's balls in play. */
 const NO_GLOVE_SCALE = flag("no-glove-scale");
 let GLOVE = 1;
+/** Catcher framing's team weight (calibration.ts teamWeights `frm`); 1 with --no-team-weights. */
+let FRAMING = 1;
 const RP_WEIGHT_FLAG = num("rp-weight");
 const SP_WEIGHT_FLAG = num("sp-weight");
 let RP_WEIGHT = RP_WEIGHT_FLAG ?? RP_WEIGHT_DEFAULT;
@@ -482,8 +484,8 @@ async function main() {
   // Team weights (calibration.ts TEAM_WEIGHTS): a glove run and a pitching run against a bat run, by era.
   if (!argv.includes("--no-team-weights")) {
     const tw = teamWeights(YEAR ?? 2010);
-    GLOVE *= tw.def; SP_WEIGHT *= tw.sp; RP_WEIGHT *= tw.rp;
-    console.log(`team weights (${YEAR ?? 2010} band): gloves ×${tw.def}, starters ×${tw.sp}, pen ×${tw.rp} against a bat run → glove ×${GLOVE.toFixed(2)}, SP ${SP_WEIGHT.toFixed(2)}, RP ${RP_WEIGHT.toFixed(2)} (--no-team-weights to turn off)`);
+    GLOVE *= tw.def; SP_WEIGHT *= tw.sp; RP_WEIGHT *= tw.rp; FRAMING = tw.frm;
+    console.log(`team weights (${YEAR ?? 2010} band): gloves ×${tw.def}, framing ×${tw.frm}, starters ×${tw.sp}, pen ×${tw.rp} against a bat run → glove ×${GLOVE.toFixed(2)}, SP ${SP_WEIGHT.toFixed(2)}, RP ${RP_WEIGHT.toFixed(2)} (--no-team-weights to turn off)`);
   }
   if (FIELD_SP != null || FIELD_RP != null) {
     const sp = shape.spKeys.length, rp = shape.rpKeys.length;
@@ -523,7 +525,7 @@ async function main() {
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
   const { objective, rank, defAt, slotValue } = rosterObjective(pool, {
-    eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, mustIds,
+    eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, mustIds,
   });
   void defAt;
 
@@ -599,7 +601,7 @@ async function main() {
         const t0 = Date.now();
         let done: SearchBest | null = null;
         runSearch({ mode, board: slots, pool, rules, shape, fits: toPlainFits(fits), runsR: [...fits.runsR], runsL: [...fits.runsL],
-          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS },
+          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS },
           (m) => { if (m.type === "done") done = m.best; }, () => Date.now());
         const b = done as SearchBest | null;
         if (mode === "deep" && b) deepBoard = b.slots;
@@ -645,7 +647,7 @@ async function main() {
       if (pos && pos !== "DH" && !pos.startsWith("BN")) {
         const here = c.ratings[`Pos Rating ${pos}`] ?? 0;
         const best = Math.max(...HIT_POS.map((p) => c.ratings[`Pos Rating ${p}`] ?? 0));
-        const dr = GLOVE * fieldingRuns(pos, here) + (pos === "C" ? framingRuns(c.ratings.CatcherFrame, ERA_YEAR) : 0);
+        const dr = GLOVE * fieldingRuns(pos, here) + (pos === "C" ? FRAMING * framingRuns(c.ratings.CatcherFrame, ERA_YEAR) : 0);
         def = ` DEF ${String(Math.round(here)).padStart(3)}/${String(Math.round(best)).padStart(3)} ${(dr >= 0 ? "+" : "") + dr.toFixed(1)}${here < best * 0.6 ? " <-- out of position" : ""}${here < posFloorAt(MIN_POS, pos) ? " <-- under floor" : ""}`;
       }
     }
@@ -697,7 +699,7 @@ async function main() {
     const dc = depthChart({
       slots, cards: poolById as unknown as ReadonlyMap<number, DepthCard>, lineupPos, hand, name: nm,
       bat: (id) => (hand === "R" ? fits.runsR : fits.runsL).get(id) ?? 0,
-      glove: (pos, c) => GLOVE * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`]) + (pos === "C" ? framingRuns(c.ratings.CatcherFrame, ERA_YEAR) : 0),
+      glove: (pos, c) => GLOVE * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`]) + (pos === "C" ? FRAMING * framingRuns(c.ratings.CatcherFrame, ERA_YEAR) : 0),
       floor: (pos) => posFloorAt(MIN_POS, pos),
     });
     console.log(`\n--- depth chart vs ${hand}HP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is ${DEF_SUB_RUNS}+ runs a season better)`);

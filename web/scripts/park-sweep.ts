@@ -46,6 +46,13 @@
  * match on a case-insensitive substring; --add takes an optional @PA
  * ("Fred McGriff@600", default 600) because a card with no PA carries no
  * weight in a PA-weighted sum.
+ *
+ * PARKS (2026-10-25): only the parks L.J. can pick (src/data/league-parks.json)
+ * are swept by default; --all-parks sweeps the whole factor table, --parks a
+ * list. Every run printed is on the LEAGUE scale: the
+ * app's tournament-scale runs × the league model's shrink (league-model.json,
+ * 0.565 — league play returns about that share of a tournament-scale edge).
+ * --tourney-scale prints the app's runs instead.
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -55,6 +62,8 @@ import { mergeCopyRatings } from "@/lib/ingest/collection";
 import { resolveLeagueScope } from "@/lib/league-scope";
 import { fitEraYear } from "@/lib/analytics/league-era";
 import { isMyOrg } from "@/lib/my-team";
+import LEAGUE_PARKS from "@/data/league-parks.json";
+import LEAGUE_MODEL from "@/data/league-model.json";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -73,7 +82,9 @@ const FIELD_ARG = val("field")?.split(",") ?? null;
 const FIELD_ON_ARG = val("field-on") ?? null;
 let LEAGUE = "", ON = "", TEAM = "", FIELD: string[] = [];
 const TOP = num("top", 20), MINPA = num("min-pa", 50);
-const ONLY = val("parks");                  // comma-separated "Name@Year" shortlist
+const ONLY = val("parks") ?? (argv.includes("--all-parks") ? undefined : (LEAGUE_PARKS as { parks: string[] }).parks.join(","));  // "Name@Year" list; default: the parks L.J. can pick
+/** League runs per app (tournament-scale) run: the league model's shrink. */
+const SCALE = argv.includes("--tourney-scale") ? 1 : Number((LEAGUE_MODEL as { shrink?: number }).shrink ?? 1);
 const ADD = (val("add") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 const DROP = (val("drop") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
 const ADD_PA = num("add-pa", 600);
@@ -203,6 +214,7 @@ function main() {
     };
 
     const baseMe = scoreOf(mine, null, 1), baseFld = scoreOf(field, null, nTeams);
+    for (const x of [baseMe, baseFld]) { x.total *= SCALE; x.bats *= SCALE; x.arms *= SCALE; }
     const base = { me: baseMe.total, fld: baseFld.total };
     console.log(`\n=== ${TEAM} · ${LEAGUE} ${ON} · run environment ${YEAR} ===`);
     console.log(`field: ${nTeams} teams from ${FIELD.join("/")}  ·  ${mine.length} own cards (${mine.filter((r)=>r.is_variant).length} variants, read from the export not the base card)`);
@@ -221,20 +233,21 @@ function main() {
         const label = `${nm}@${yr}`;
         if (want && !want.has(label) && !want.has(nm)) continue;
         const me = scoreOf(mine, p, 1);
-        const dMe = me.total - base.me;
-        const dF = scoreOf(field, p, nTeams).total - base.fld;
+        const meT = me.total * SCALE, meB = me.bats * SCALE, meA = me.arms * SCALE;
+        const dMe = meT - base.me;
+        const dF = scoreOf(field, p, nTeams).total * SCALE - base.fld;
         out.push({ label: `${yr} ${nm}`, p, edge: 0.5 * (dMe - dF), dMe: 0.5 * dMe, dF: 0.5 * dF,
-                   dBats: 0.5 * (me.bats - baseMe.bats), dArms: 0.5 * (me.arms - baseMe.arms) });
+                   dBats: 0.5 * (meB - baseMe.bats), dArms: 0.5 * (meA - baseMe.arms) });
       }
     }
     out.sort((a, b) => b.edge - a.edge);
     const hdr = `${"park".padEnd(30)} ${"AvgL".padStart(5)} ${"AvgR".padStart(5)} ${"HRL".padStart(5)} ${"HRR".padStart(5)} ${"2B".padStart(5)} ${"3B".padStart(5)} ${"bats".padStart(6)} ${"arms".padStart(6)} ${"you".padStart(7)} ${"field".padStart(7)} ${"edge".padStart(7)}`;
-    console.log(`\nTop ${TOP} — runs over 81 home games vs the field in the same park (~10 runs = 1 win)`);
+    console.log(`\n${ONLY === (LEAGUE_PARKS as { parks: string[] }).parks.join(",") ? `L.J.'s ${out.length} available parks (league-parks.json, ${(LEAGUE_PARKS as { asOf: string }).asOf}; --all-parks for every park)` : `Top ${TOP}`} — runs over 81 home games vs the field in the same park, ${SCALE === 1 ? "app (tournament) scale" : `league scale (×${SCALE.toFixed(3)})`} (~10 runs = 1 win)`);
     console.log(`bats/arms split "you" into the lineup's half and the staff's half, both vs neutral.`);
     console.log(hdr);
     const line = (o: any) => console.log(`${o.label.slice(0,30).padEnd(30)} ${o.p.avgL.toFixed(3).padStart(5)} ${o.p.avgR.toFixed(3).padStart(5)} ${o.p.hrL.toFixed(3).padStart(5)} ${o.p.hrR.toFixed(3).padStart(5)} ${o.p.d2.toFixed(3).padStart(5)} ${o.p.d3.toFixed(3).padStart(5)} ${f1(o.dBats).padStart(6)} ${f1(o.dArms).padStart(6)} ${f1(o.dMe).padStart(7)} ${f1(o.dF).padStart(7)} ${f1(o.edge).padStart(7)}`);
     out.slice(0, TOP).forEach(line);
-    console.log(`\nBottom 5`); out.slice(-5).forEach(line);
+    if (out.length > TOP + 5) { console.log(`\nBottom 5`); out.slice(-5).forEach(line); }
     process.exit(0);
   })();
 }

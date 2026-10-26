@@ -156,3 +156,22 @@ Very little is published.
   - vs LHP: Banks plays SS (133) over Seager (119), Brett plays 3B (88), and Beltran plays CF over Mays.
   - Cards: Hidalgo and Nimmala VAR in, Mays and Hornsby out.
 - **Every other saved tournament roster was built on the old prices.** A rebuild (`current-rosters --all`) would move some of them the same way.
+
+## 9. Correction (10-25 night): the §8 wiring is reverted
+
+The 40/40 in §8 compared the harness's own glove runs (M0: PA-weighted from fixed position means, so a team's plate appearances per game leak in) with the study prices on centred rating gaps (M1).
+
+With both on centred gaps (`scripts/model-review/glove-clean.py`):
+
+| Band | New prices, held out |
+|---|---|
+| All | −0.0002 (better in 8/40) |
+| ≤1945 | −0.0014 (3/40) |
+| 1977–93 | −0.0011 (3/40) |
+| 1946–76 | +0.0004 (33/40) |
+| 2010+ | +0.0003 (33/40) |
+
+- **Reverted:** `fieldingRuns` prices tournaments on FIELDING_CALIBRATION again.
+- **Still stand:** the measurements in §1–6 (ZR undercounts 30%, no out-of-position penalty, the cost table). What doesn't hold is re-weighting positions in the win model.
+- **The Open Main Event's 1133** (Hidalgo LF vs RHP) came from the reverted prices; the batch rebuild re-decides it.
+- **League CF ×2** stands: its test centres ratings within each league-week, so it never had the leak (Docs/Model Review 2026-10-25.md).

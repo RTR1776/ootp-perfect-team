@@ -1,0 +1,22 @@
+{
+  "source": "L.J.'s three park-picker screenshots, all levels (Docs/Rosters/Perfect League Park Pick 2026-09-21.md); he says the required level doesn't matter",
+  "asOf": "2026-09-21",
+  "note": "The parks a league team can choose. park-sweep sweeps these by default; --all-parks sweeps the whole factor table. Add parks here when the list grows.",
+  "parks": [
+    "Yankee Stadium@1987",
+    "Yankee Stadium@1952",
+    "Three Rivers Stadium@1986",
+    "Washington Park@1911",
+    "Polar Park@2026",
+    "Comiskey Park@1945",
+    "Astrodome@1980",
+    "Forbes Field@1940",
+    "Oriole Park at Camden Yards@2026",
+    "Hinchliffe Stadium@1936",
+    "Polo Grounds@1949",
+    "League Park@1905",
+    "Wrigley Field@1985",
+    "Sportsmans Park@1927",
+    "Oriole Park at Camden Yards@1992"
+  ]
+}

@@ -120,6 +120,16 @@ function analyze(e: EraRates): Analysis {
   };
 }
 
+/**
+ * Parks are applied at their stated strength. Checked 2026-10-25 (Docs/Model
+ * Review 2026-10-25.md §1): a FIELD's observed rates move with the park by
+ * much less than the factor (BABIP 0.27, HR 0.44 of it over 67 series), but
+ * fields adapt to their park (HR-suppressing arms in homer parks, the hands
+ * they play), and scoring cards on factors shrunk to that strength predicted
+ * wins worse in every era band (archive harness, 0/40 against this). What a
+ * card does in a park is the stated factor; the left/right share is still
+ * discounted where it is added back (calibration.ts PARK_HAND_TRUST).
+ */
 export const applyPark = (e: EraRates, f: ParkFactors): EraRates =>
   ({ ...e, BABIP: e.BABIP * f.avg, HR: e.HR * f.hr, B2: e.B2 * f.d2, B3: e.B3 * f.d3 });
 

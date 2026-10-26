@@ -322,7 +322,7 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
     const staff = staffPerTeam(built);
     const ctx: FitCtx = {
       eraYear: envYear ?? 2010,
-      dh: t.dh === true, lhp, glove: gloveScale(era.rates) * tw.def, pit: tw.pit, pitSp: tw.sp, pitRp: tw.rp,
+      dh: t.dh === true, lhp, glove: gloveScale(era.rates) * tw.def, frm: tw.frm, pit: tw.pit, pitSp: tw.sp, pitRp: tw.rp,
       spWeight: built?.spWeight ?? null, rpWeight: built?.rpWeight ?? null,
       fieldSp: built?.spWeight != null ? staff?.sp ?? null : null, fieldRp: built?.rpWeight != null ? staff?.rp ?? null : null,
     };

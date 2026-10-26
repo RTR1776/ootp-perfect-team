@@ -1015,8 +1015,8 @@ export function RosterBuilder({
   const fieldSp = meta?.construction?.spWeight != null ? fieldStaff?.sp ?? null : null;
   const fieldRp = meta?.construction?.rpWeight != null ? fieldStaff?.rp ?? null : null;
   const objective = useMemo(() => envFits
-    ? rosterObjective(formPool as FillCard[], { eraYear: env?.eraYear ?? tournament?.envYear ?? 2010, shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove })
-    : null, [envFits, formPool, fillShape, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, glove]);
+    ? rosterObjective(formPool as FillCard[], { eraYear: env?.eraYear ?? tournament?.envYear ?? 2010, shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm })
+    : null, [envFits, formPool, fillShape, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, glove, teamW.frm]);
   const boardRuns = (source: Record<SlotKey, number | null>): number | null => {
     if (!objective) return null;
     const complete: Record<string, number> = {};
@@ -1204,7 +1204,7 @@ export function RosterBuilder({
       out = await startSearch({
         mode, board: current, pool: searchPool, rules: tournament as RosterRules, shape: fillShape, fits: toPlainFits(fits),
         eraYear: env?.eraYear ?? tournament?.envYear ?? 2010,
-        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove,
+        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm,
         locks: keep, minCatchers: twoCatchers ? 2 : 0, minShortstops: twoShortstops ? 2 : 0, minLongMen: twoLong ? 2 : 0, backups,
       }, runTid);
     } finally {
@@ -1904,6 +1904,7 @@ export function RosterBuilder({
                   runsL={envFits?.runsL ?? null}
                   lhpShare={lhpShare}
                   glove={glove}
+                  framing={teamW.frm}
                   eraYear={env?.eraYear ?? tournament?.envYear ?? null}
                   spKeys={spKeys}
                   rpKeys={rpKeys}

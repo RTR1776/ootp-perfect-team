@@ -115,6 +115,8 @@ export interface SearchRequest {
   fieldSp?: number | null;
   fieldRp?: number | null;
   gloveScale?: number;
+  /** Catcher framing × this (calibration.ts teamWeights `frm`). */
+  framingWeight?: number;
   /** Locked cards the pool holds: every board must carry them (1000 runs off each one missing). */
   locks: number[];
   minCatchers: number;
@@ -180,7 +182,7 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
   const starts = searchStarts(d);
   const obj = rosterObjective(d.pool, {
     eraYear: d.eraYear, shape: d.shape, runsR: new Map(d.runsR), runsL: new Map(d.runsL), lhpShare: d.lhpShare,
-    spWeight: d.spWeight, rpWeight: d.rpWeight, fieldSp: d.fieldSp, fieldRp: d.fieldRp, gloveScale: d.gloveScale,
+    spWeight: d.spWeight, rpWeight: d.rpWeight, fieldSp: d.fieldSp, fieldRp: d.fieldRp, gloveScale: d.gloveScale, framingWeight: d.framingWeight,
     mustIds: locks.size ? locks : undefined,
   });
   const plan = quick ? QUICK : DEEP;

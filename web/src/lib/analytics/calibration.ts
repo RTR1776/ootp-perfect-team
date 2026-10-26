@@ -77,16 +77,33 @@ export const ARM_ERA_SPREAD: { from: number; to: number; factor: number }[] = [
  * own form in the harness (Docs/Model Audit 2026-10-17.md): equal weights rose
  * to 0.402 and these weights to 0.406, against 0.407 for the held-out choice.
  * The folds again picked starters 1 and the pen 2–3, inside noise, so no change.
+ *
+ * BY ERA, 2026-10-25 (Docs/Model Review 2026-10-25.md §2): the archive harness
+ * (685 exports, 54,273 team-events; scripts/model-review/teamweights-oldprices.py)
+ * with the gloves on centred rating gaps at FIELDING_CALIBRATION prices and
+ * framing as its own term. Weights (glove / framing / starters / pen) chosen by
+ * grid on half the exports, scored on the other half, 40 half-samples per band
+ * against the production 2 / 1 / 1.5 / 2:
+ *   1977–93: 1.25 / 0.5 / 1.0 / 3.0, +0.0046 held out, better in 40/40
+ *   1994–2009: 1.25 / 0.5 / 1.0 / 2.5, +0.0022, 38/40
+ *   ≤1945 (5/40), 1946–76 (18/40) and 2010+ (31/40): production holds.
+ * End to end with the pBABIP fix (scripts/model-review/endtoend.py): +0.0015
+ * overall, better in 40/40; 1977–93 +0.0076, 1994–2009 +0.0034.
+ * `frm` weights catcher framing (fielding.ts framingRuns), which was added at 1
+ * outside the glove's weight; it stays 1 where production holds.
  */
-export const TEAM_WEIGHTS: { from: number; to: number; def: number; pit: number; sp: number; rp: number }[] = [
-  { from: 0, to: 9999, def: 2, pit: 2, sp: 1.5, rp: 2 },
+export const TEAM_WEIGHTS: { from: number; to: number; def: number; frm: number; pit: number; sp: number; rp: number }[] = [
+  { from: 0, to: 1976, def: 2, frm: 1, pit: 2, sp: 1.5, rp: 2 },
+  { from: 1977, to: 1993, def: 1.25, frm: 0.5, pit: 2, sp: 1, rp: 3 },
+  { from: 1994, to: 2009, def: 1.25, frm: 0.5, pit: 2, sp: 1, rp: 2.5 },
+  { from: 2010, to: 9999, def: 2, frm: 1, pit: 2, sp: 1.5, rp: 2 },
 ];
 
-/** Glove and pitching weights against a bat run (= 1) for a run-environment year; the 2010 band with no year. */
-export function teamWeights(year: number | null | undefined): { def: number; pit: number; sp: number; rp: number } {
+/** Glove, framing and pitching weights against a bat run (= 1) for a run-environment year; the 2010 band with no year. */
+export function teamWeights(year: number | null | undefined): { def: number; frm: number; pit: number; sp: number; rp: number } {
   const y = year ?? 2010;
   const b = TEAM_WEIGHTS.find((w) => y >= w.from && y <= w.to) ?? TEAM_WEIGHTS[TEAM_WEIGHTS.length - 1];
-  return { def: b.def, pit: b.pit, sp: b.sp, rp: b.rp };
+  return { def: b.def, frm: b.frm, pit: b.pit, sp: b.sp, rp: b.rp };
 }
 
 /**
@@ -107,16 +124,25 @@ export function teamWeights(year: number | null | undefined): { def: number; pit
  * Stuff short by ~0.3 in 1946–2009, on runs allowed and on FIP alike (Control
  * and pBABIP disagreed between the two, so they stay). +0.3 each: within-series
  * r against runs allowed 0.529 → 0.546 (1946–2009), 0.324 → 0.336 (2010+).
+ *
+ * pBABIP, 2026-10-25 (Docs/Model Review 2026-10-25.md §3): at team level,
+ * residual win% after the production score rose with the staff's BF-weighted
+ * pBABIP (archive harness, 54,273 team-events). As a correction it held out in
+ * 1946–76 (36/40, ≈ +0.33 runs per 700 BF per +10) and 1977–93 (37/40, ≈ +0.74),
+ * not before 1946 (23/40), in 1994–2009 (26/40) or from 2010 (20/40); applied at
+ * 0.75 like the rest, in those two bands only. The FIP and card-level checks
+ * above could not see it: FIP leaves balls in play out, and the pBABIP curve
+ * was never refit (the export has no hits-allowed counter).
  */
 export const ARM_RATING_FIX: { from: number; to: number; runs: Record<string, number> }[] = [
   { from: 0, to: 1945, runs: { Stuff: 0.53 } },
-  { from: 1946, to: 1976, runs: { Stuff: 0.75, pHR: 0.68 } },
-  { from: 1977, to: 1993, runs: { Stuff: 0.3, pHR: 0.68 } },
+  { from: 1946, to: 1976, runs: { Stuff: 0.75, pHR: 0.68, pBABIP: 0.25 } },
+  { from: 1977, to: 1993, runs: { Stuff: 0.3, pHR: 0.68, pBABIP: 0.55 } },
   { from: 1994, to: 2009, runs: { Stuff: 0.3, pHR: 0.98 } },
   { from: 2010, to: 9999, runs: { pHR: 0.83 } },
 ];
-/** Where ARM_RATING_FIX is zero: the BF-weighted mean of each rating across the archive. */
-export const ARM_RATING_CENTER: Record<string, number> = { Stuff: 92, pHR: 100 };
+/** Where ARM_RATING_FIX is zero: the BF-weighted mean of each rating across the archive (pBABIP 102.5, rounded). */
+export const ARM_RATING_CENTER: Record<string, number> = { Stuff: 92, pHR: 100, pBABIP: 100 };
 
 /** Runs per 700 BF to add to an arm for its ratings in this era (0 with no year). */
 export function armRatingFix(year: number | null | undefined, ratings: Record<string, number>): number {
@@ -146,6 +172,10 @@ export function armRatingFix(year: number | null | undefined, ratings: Record<st
  * offset (two-fold by series 0.53 / 0.37; the most lopsided parks 0.40; the
  * Championship 0.37), with held-out correlation up in both halves. This is the
  * share of the offset that is added back.
+ *
+ * Re-checked 2026-10-25 (Docs/Model Review 2026-10-25.md §1): shrinking the
+ * park factors themselves (with this at 1) predicted wins worse in every era
+ * band, so the stated factors and this 0.44 stay.
  */
 export const PARK_HAND_TRUST = 0.44;
 
