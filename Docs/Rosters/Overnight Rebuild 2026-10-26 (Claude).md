@@ -1,8 +1,8 @@
 # Overnight roster rebuild, 2026-10-26 (Claude)
 
-**60 current tournament events rebuilt and saved** as "Claude pick 2026-10-26 review" (each replaced that event's earlier Claude pick on /build).
+**60 current tournament events rebuilt; 59 saved** as "Claude pick 2026-10-26 review" (each replaced that event's earlier Claude pick on /build).
 - 52 changed cards; 8 kept their 26 (re-slotted at most).
-- Iron Cap (1136) needed no change.
+- Daily Iron Cap's rebuild matched its 10-25 pick (1136), which stays.
 - The other current events kept their saved picks: no card change, no rule break, and their environments price as before.
 
 ## Why
@@ -21,6 +21,14 @@
    - **Starter stamina.** A starter short of the era's floor (Dank's Robertson 64 vs 70, Dreamland's Orwoll 56 vs 80) now swaps automatically with the cheapest pen arm that clears it.
    - **Shape.** Tuesday Dead Silver Walking is always built to L.J.'s 4 SP / 5 RP.
 5. **Negro Leagues Slots** needs the card-year override (1800–2026) for the builder's set check; built and saved as 1213.
+
+## Adames (#83584): checked after the batch
+The batch passed Banks as sold but not Adames as bought (he came after collection 306). Re-checked with him owned (`--bought 83584`):
+- Card Fit starts him in no current event at +1 run or more.
+- A full Iron & Friends build (772) leaves him out. It scores 27.9 runs, within noise of tonight's pick (whose own climb reached 27.8), so #1173 stays.
+- The 10-25 call (start him at 2B vs RHP) came before the model review cut the glove weight in 1994–2009 events. The build with him in the pool plays Phillips (2B 130) and Seager (SS 119) instead.
+
+**Until a new collection upload:** collection 306 still lists Banks and lacks Adames. Pass `--sold 86621 --bought 83584` with any card-change run. /build also reads ownership from the newest upload, so it still offers Banks.
 
 ## League (not saved in the app)
 Without Banks, Seager plays SS against both hands: vs LHP lineup +63.6 → +53.8, about −0.4 W a week. **Keep De Vries: he is now the backup SS.** Park stays 1987 Yankee. League Plan 2026-10-25 §12.

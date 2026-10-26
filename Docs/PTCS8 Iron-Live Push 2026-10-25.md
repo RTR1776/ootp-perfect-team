@@ -86,6 +86,7 @@ The 71st-percentile record is mostly bad luck in Bo7 brackets over 14 entries. O
 | Tuesday Live | 1151 |
 
 - **Iron & Friends (1152)** is built without Adames, who was bought after collection 306. With him at 2B vs RHP it scores 59.7 against 57.6. Swap him in by hand, or rebuild after the next collection upload.
+  - **10-26: no longer holds.** Rebuilt with him owned on the post-review model and L.J.'s floors, Iron & Friends leaves him out, and Card Fit starts him in no current event. Keep tonight's pick (#1173). Docs/Rosters/Overnight Rebuild 2026-10-26 (Claude).md.
 - **Iron Dreamland (1137):**
   - The 1907 environment sets a starter stamina floor of 80.
   - The build (and the saved 10-24 pick) started Ossie Orwoll VAR at 56. Fixed by hand: Mikolas (84) to SP4, Orwoll to the pen.
