@@ -35,6 +35,10 @@ const SECTIONS = {
     { href: "/environments", label: "Events", hint: "How each tournament plays, and which are alike" },
     { href: "/runenv", label: "Era + park", hint: "Pick an era and a park: which ratings pay" },
   ],
+  draft: [
+    { href: "/draft/live", label: "Live draft", hint: "Each pick: what to take, with the rounds still to come priced in (5L Deadball, 6L Power Play)" },
+    { href: "/draft", label: "Board", hint: "Every legal card for any event, one column per position" },
+  ],
 } satisfies Record<string, SectionTab[]>;
 
 /** Named by key: a server page can't read this client module's objects. */
