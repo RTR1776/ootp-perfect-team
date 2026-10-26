@@ -21,7 +21,9 @@
  * MV2_NO_LEAGUE=1 skips the league seasons. Each team row also carries `dpos`:
  * per position, PA per game ÷ 700 times the rating's gap to the unit's
  * PA-weighted field mean (lin), the part of that gap below −20 (lo) and above
- * +15 (hi), and production's glove runs (prod), all × gloveScale.
+ * +15 (hi), and production's glove runs (prod), all × gloveScale. `dsub` carries
+ * the error and range sub-ratings the same way (PA per game ÷ 700 times the gap
+ * to the unit's field mean, infield or outfield by position, no gloveScale).
  */
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
 import { inArray } from "drizzle-orm";
@@ -155,6 +157,12 @@ for (const u of units) {
   { const acc = new Map<string, [number, number]>();
     for (const s of stints) { if (s.isPitcher) continue; const rt = formRatingsOf.get(fid(s))![`Pos Rating ${s.pos}`]; const p = s.stats.PA ?? 0; if (!rt || !p) continue; const a = acc.get(s.pos) ?? [0, 0]; a[0] += p * rt; a[1] += p; acc.set(s.pos, a); }
     for (const [k, [a, b]] of acc) fieldPos.set(k, a / b); }
+  // The fielding sub-ratings behind the position rating (2026-10-27 error test): error and range, infield or outfield by position.
+  const SUB: Record<string, [string, string]> = { "1B": ["Infield Error", "Infield Range"], "2B": ["Infield Error", "Infield Range"], "3B": ["Infield Error", "Infield Range"], SS: ["Infield Error", "Infield Range"], LF: ["OF Error", "OF Range"], CF: ["OF Error", "OF Range"], RF: ["OF Error", "OF Range"] };
+  const fieldSub = new Map<string, [number, number]>();
+  { const acc = new Map<string, [number, number, number]>();
+    for (const s of stints) { if (s.isPitcher || !SUB[s.pos]) continue; const r = formRatingsOf.get(fid(s))!; const e = r[SUB[s.pos][0]], g = r[SUB[s.pos][1]], p = s.stats.PA ?? 0; if (!(e > 0) || !(g > 0) || !p) continue; const a = acc.get(s.pos) ?? [0, 0, 0]; a[0] += p * e; a[1] += p * g; a[2] += p; acc.set(s.pos, a); }
+    for (const [k, [e, g, n]] of acc) fieldSub.set(k, [e / n, g / n]); }
   const teams = new Map<string, any>();
   const T = (org: string) => { let t = teams.get(org); if (!t) { t = { unit: u.id, kind: u.kind, year: u.year, org, G: 0, W: 0, L: 0, R: 0, RA: 0, off: 0, def: 0, pit: 0, pitSP: 0, pitRP: 0, nSP: 0, nRP: 0, zr: 0, wraa: 0, pa: 0, bf: 0, bfSP: 0, lhbPA: 0, lhpBF: 0, tr: {} as Record<string, number> }; teams.set(org, t); } return t; };
   const addTr = (t: any, k: string, v: number | undefined, w: number) => { if (v == null || !Number.isFinite(v)) return; t.tr[k] = (t.tr[k] ?? 0) + v * w; t.tr[k + "#w"] = (t.tr[k + "#w"] ?? 0) + w; };
@@ -178,6 +186,11 @@ for (const u of units) {
         const rel = rating - fieldPos.get(s.pos)!, d = (t.dpos ??= {})[s.pos] ??= { lin: 0, lo: 0, hi: 0, prod: 0 };
         d.lin += (p * rel * gs) / 700; d.lo += (p * Math.min(rel + 20, 0) * gs) / 700; d.hi += (p * Math.max(rel - 15, 0) * gs) / 700; d.prod += (p * fieldingRuns(s.pos, rating) * gs) / 700;
       }
+      const sub = SUB[s.pos], fs = fieldSub.get(s.pos);
+      if (sub && fs && r[sub[0]] > 0 && r[sub[1]] > 0) {
+        const d = (t.dsub ??= {})[s.pos] ??= { err: 0, rng: 0 };
+        d.err += (p * (r[sub[0]] - fs[0])) / 700; d.rng += (p * (r[sub[1]] - fs[1])) / 700;
+      }
       // Catcher framing, kept apart from the glove so its own weight can be fitted (2026-10-18).
       if (s.pos === "C") t.frm = (t.frm ?? 0) + (p * framingRuns(r.CatcherFrame, u.year)) / 700;
       t.lhbPA += p * (c.bats === "L" ? 1 : c.bats === "S" ? 0.5 : 0);
@@ -191,7 +204,7 @@ for (const u of units) {
     tr["starter BF share"] = t.bfSP / t.bf; tr["LHB share"] = t.lhbPA / t.pa; tr["LHP share"] = t.lhpBF / t.bf;
     const ob: Record<string, number> = {};
     if (obs) for (const K of OBS_KS) { ob[`off${K}`] = (t[`off${K}`] ?? 0) / t.G; ob[`pit${K}`] = (t[`pit${K}`] ?? 0) / t.G; }
-    out.push({ unit: t.unit, kind: t.kind, year: t.year, org: t.org, G: t.G, W: t.W, L: t.L, R: t.R, RA: t.RA, off: t.off / t.G, def: t.def / t.G, frm: (t.frm ?? 0) / t.G, pit: t.pit / t.G, pitSP: t.pitSP / t.G, pitRP: t.pitRP / t.G, nSP: t.nSP, nRP: t.nRP, zr: t.zr / t.G, wraa: t.wraa / t.G, tr, ob, dpos: Object.fromEntries(Object.entries(t.dpos ?? {}).map(([k, v]: [string, any]) => [k, { lin: v.lin / t.G, lo: v.lo / t.G, hi: v.hi / t.G, prod: v.prod / t.G }])) });
+    out.push({ unit: t.unit, kind: t.kind, year: t.year, org: t.org, G: t.G, W: t.W, L: t.L, R: t.R, RA: t.RA, off: t.off / t.G, def: t.def / t.G, frm: (t.frm ?? 0) / t.G, pit: t.pit / t.G, pitSP: t.pitSP / t.G, pitRP: t.pitRP / t.G, nSP: t.nSP, nRP: t.nRP, zr: t.zr / t.G, wraa: t.wraa / t.G, tr, ob, dpos: Object.fromEntries(Object.entries(t.dpos ?? {}).map(([k, v]: [string, any]) => [k, { lin: v.lin / t.G, lo: v.lo / t.G, hi: v.hi / t.G, prod: v.prod / t.G }])), dsub: Object.fromEntries(Object.entries(t.dsub ?? {}).map(([k, v]: [string, any]) => [k, { err: v.err / t.G, rng: v.rng / t.G }])) });
   }
   console.log(`${u.id.padEnd(34)} ${u.year} ${u.stadium ?? "neutral"}  teams ${[...teams.values()].filter((t) => t.G >= 5).length}`);
 }

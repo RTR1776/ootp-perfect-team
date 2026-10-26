@@ -92,3 +92,15 @@ L.J. (max effort): "take a comprehensive look at our data modeling for both leag
 - **Events in 1977–2009 environments** shift toward bats and bullpen, and away from gloves, catcher framing and starter spend.
 - **1946–93 events** value high-pBABIP arms a little more.
 - **Everything else** (2010 PT default dailies, deadball, the Championship) prices as it did before 10-25. That includes the glove prices: the Open Main Event's Hidalgo-in-LF build (1133) came from the reverted prices, so it is rebuilt with everything else.
+
+### 5. Fielding error ratings by era (2026-10-27): no change
+**Question (L.J., with OOTP 27's `Data/OOTP game files/totalmods.csv`):** the game's era modifiers put errors at 1.9× in pre-1946 seasons (SS ×1.99, CF ×1.63 in 1919), against about 1.1× after 2010. Are error ratings worth more in deadball events than the position rating already gives them?
+
+**Test:** `scripts/model-review/errtest.py`, on the harness rebuilt with each team's error and range sub-rating gaps (`dsub` in teams.mts). Baseline is the final production score. 59,327 team-events, 40 export half-samples.
+- No version of the error term beats the baseline overall, nor in any era band.
+- Tried: unscaled, × the year's error modifier, × (modifier − 1).
+- Before 1946 they are better in 21–24 of 40 half-samples, i.e. noise. Fitted coefficients flip sign between halves. Range (the control) adds nothing either.
+
+**Reading:** the position rating already carries what the error rating is worth, in every era. The game's error multiplier makes errors more common for everyone in the field, but it does not make one team's sure hands worth more than the position rating says. Nothing wired.
+
+**Next use of the file:** the running-game columns (attempt rate, success) and stamina columns (starters, relievers) for the steal and pitch-count settings, per event era.
