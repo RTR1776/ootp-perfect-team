@@ -11,7 +11,8 @@ import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
 import { canSpawnBuilds, confirmBuy, confirmCommand } from "@/lib/upgrade-confirm-server";
 
 export const runtime = "nodejs";
-export const maxDuration = 300;
+// Vercel answers at once (it can't spawn the CLI); the Mac's dev server has no limit.
+export const maxDuration = 60;
 
 const ids = (v: unknown): number[] | null =>
   Array.isArray(v) && v.length <= 20 && v.every((x) => Number.isSafeInteger(x) && x > 0) ? (v as number[]) : null;
