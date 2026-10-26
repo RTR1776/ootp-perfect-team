@@ -1,0 +1,36 @@
+# Daily Iron Cap — Claude pick 2026-10-26 four, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Rio Grande Credit Union Field at Isotopes Park --park-year 2026 --dh --min 40 --max 59 --cap 1300 --variant-cap 14 --size 26 --series ironcapdaily --sp 5 --rp 7 --bats 14)
+R:C Henry Blanco #84344
+R:1B Nap Lajoie #86581
+R:2B Nico Hoerner #85088
+R:3B Chris Taylor #87243
+R:SS Ozzie Smith #86972
+R:LF Norris Hopper #87191
+R:CF Milt Thompson #86927
+R:RF Vladimir Guerrero #86474
+R:DH Bob Bowman (VAR) #86803
+L:C Henry Blanco #84344
+L:1B Nap Lajoie #86581
+L:2B Nico Hoerner #85088
+L:3B Chris Taylor #87243
+L:SS Ozzie Smith #86972
+L:LF Sammy Sosa (VAR) #85691
+L:CF Norris Hopper #87191
+L:RF Vladimir Guerrero #86474
+L:DH Gary Sheffield #86950
+SP1 James McDonald (VAR) #86384
+SP2 Justin Verlander #87014
+SP3 Bob Gibson (VAR) #86658
+SP4 Patricio Scantlebury #85828
+SP5 Jeff Francis #87199
+CL John Bale #87234
+RP1 Mike Marshall #84720
+RP2 Randy Choate #87026
+RP3 Todd Jones (VAR) #86434
+RP4 Tin Can Kincannon #86073
+RP5 Reed Garrett #84825
+RP6 R.T. Walker #86952
+BN1 George Pinkney #83410
+BN2 Alfredo Amezaga #87188
+BN3 Buck Rodgers (VAR) #84312
+BN4 Gary Sheffield #86950
+BN5 Sammy Sosa (VAR) #85691

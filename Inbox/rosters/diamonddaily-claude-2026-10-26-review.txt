@@ -1,0 +1,36 @@
+# Daily Diamond — Claude pick 2026-10-26 review, rebuilt from the catalogue's rules by current-rosters (--year 1985 --park Kingdome --park-year 1982 --dh --min 40 --max 99 --size 26 --series diamonddaily --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Brian Roberts #87216
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Pythias Russ (VAR) #87083
+R:LF Darin Erstad #87242
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Eric Davis (VAR) #86974
+L:C Thurman Munson #82714
+L:1B Josh Vitters (VAR) #86419
+L:2B Brian Roberts #87216
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Pythias Russ (VAR) #87083
+L:LF Darin Erstad #87242
+L:CF Willie Mays #86634
+L:RF Bo Jackson #86966
+L:DH Ryan Braun #87222
+SP1 Cy Young #86996
+SP2 Catfish Hunter #86878
+SP3 Count Leblanc (VAR) #86978
+SP4 Mark Langston #86956
+SP5 Kyle Freeland (VAR) #86708
+CL Joe Beggs (VAR) #86762
+RP1 Babe Ruth #86439
+RP2 Jered Weaver #87169
+RP3 Milt Pappas #86654
+RP4 Claude Grier #87086
+RP5 Johnny Markham (VAR) #87159
+RP6 Al Leiter (VAR) #85796
+BN1 Willie Mays #86634
+BN2 Josh Vitters (VAR) #86419
+BN3 Thurman Munson #82714
+BN4 Ryan Braun #87222
+BN5 Branch Russell #87172
