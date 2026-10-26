@@ -89,6 +89,11 @@ const SHOW = (val("show") ?? "").split(",").map((x) => x.trim().toLowerCase()).f
 /** Cards to exclude outright — for testing whether a headline card earns its points. */
 const BAN = (val("ban") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
 /**
+ * --sold id[,id]: cards he has sold since the collection upload (L.J. 10-26, Banks): out of
+ * the pool by id, base and variant copies alike, until an upload without them lands.
+ */
+const SOLD = new Set((val("sold") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0));
+/**
  * --no-le: the event's rules line says "No LE" (Friday Nightmare Cap from
  * 2026-10-02). Limited Edition cards (card_sub_type "LE") stay out of the pool.
  *
@@ -383,6 +388,11 @@ async function main() {
     const before = pool.length;
     for (let i = pool.length - 1; i >= 0; i--) if (BAN.includes(pool[i].name.toLowerCase())) pool.splice(i, 1);
     console.log(`banned ${before - pool.length}: ${BAN.join(", ")}`);
+  }
+  if (SOLD.size) {
+    const gone = pool.filter((c) => SOLD.has(Math.abs(c.cardId)));
+    for (let i = pool.length - 1; i >= 0; i--) if (SOLD.has(Math.abs(pool[i].cardId))) pool.splice(i, 1);
+    console.log(`sold (--sold, not in the pool even if the collection upload still lists it): ${gone.map((c) => `${c.name} ${c.val} #${Math.abs(c.cardId)}`).join(", ") || "none of these were in this event's pool"}`);
   }
   if (CARD_TYPES.size) console.log(`card sets: ${cardTypeNames([...CARD_TYPES])} only`);
   // Two-way cards (lib/two-way): each also enters in the role it isn't listed in.

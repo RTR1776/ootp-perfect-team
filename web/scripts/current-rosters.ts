@@ -33,6 +33,18 @@
  *   node --env-file=.env.local --import tsx scripts/current-rosters.ts --list
  *   node --env-file=.env.local --import tsx scripts/current-rosters.ts --new-cards --out /tmp/rosters [--jobs 5]
  *   node --env-file=.env.local --import tsx scripts/current-rosters.ts --out /tmp/rosters [--jobs 4] [--only 521,532] [--skip 549] [--patch rules.json] [--tag 2026-09-29-late] [--all] [--quicks]
+ *
+ * CARD CHANGES, the quick path (L.J. 10-26: "make sure we have a quickish way to update
+ * rosters when cards change, typically 10 or less at a time"):
+ *   node --env-file=.env.local --import tsx scripts/current-rosters.ts --changes --sold 86621 --bought 87236 --out /tmp/rosters --save
+ * --changes rebuilds only the current events that need it: a saved roster holding a card
+ * he no longer has (--sold ids, or any card the newest collection upload lacks), or an
+ * event where a gained card would start (--bought ids, or cards new in the collection;
+ * Card Fit's one-swap test, --min-gain runs). Each build starts from the event's saved
+ * roster, so it is quick. --bought cards count as owned until an upload lists them
+ * (env-roster --assume-owned); --sold cards are out of every pool (env-roster --sold).
+ * --save writes each legal build to /build as "Claude pick <tag>" (roster:save), so the
+ * whole update is one command. Docs/New Cards Workflow.md has the steps.
  */
 import { spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -83,6 +95,13 @@ const ADD: Record<string, unknown>[] = val("add") ? JSON.parse(readFileSync(val(
 /** --new-cards: the least a new card's one swap must add (runs) for its event to be rebuilt. */
 // 3, not 1 (L.J. 10-08): a one-swap gain under 3 runs is inside the optimiser's ±3 run-to-run noise.
 const MIN_GAIN = Number(val("min-gain", "3"));
+/** --sold / --bought: card ids sold or bought since the newest collection upload (see the header). */
+const ids = (k: string) => (val(k) ?? "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0);
+const SOLD = new Set(ids("sold"));
+const BOUGHT = [...new Set([...ids("bought"), ...ids("assume-owned")])];
+/** --changes: --new-cards plus the events whose saved roster holds a card no longer owned. */
+const CHANGES = flag("changes");
+const TRIAGE = CHANGES || flag("new-cards");
 /**
  * --tag: names the batch's load files, manifest and saved rosters ("Claude pick
  * <tag>"). Default the Chicago day; give a second batch the same day its own
@@ -104,9 +123,11 @@ const TAG = val("tag") ?? chicagoDay(new Date())!;
  * --no-seed builds from scratch as before.
  */
 const SEED = !flag("no-seed");
-const BUILD = ["--optimize", "--starts", val("starts") ?? (flag("new-cards") && SEED ? "1" : "16"), "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
-  // Cards bought but not yet uploaded (env-roster --assume-owned); a roster carrying one saves only after the upload.
-  ...(val("assume-owned") ? ["--assume-owned", val("assume-owned")!] : []),
+const BUILD = ["--optimize", "--starts", val("starts") ?? (TRIAGE && SEED ? "1" : "16"), "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
+  // Cards bought but not yet uploaded (env-roster --assume-owned); load files and --save take them as owned too.
+  ...(BOUGHT.length ? ["--assume-owned", BOUGHT.join(",")] : []),
+  // Cards sold since the upload (env-roster --sold): out of every pool.
+  ...(SOLD.size ? ["--sold", [...SOLD].join(",")] : []),
   // --extra "…": more env-roster flags for every build (L.J.'s floors: --extra "--min-pos 60,SS:85,CF:90,2B:85,RF:75").
   ...(val("extra") ? val("extra")!.split(/\s+/).filter(Boolean) : [])];
 
@@ -159,7 +180,7 @@ async function newestSaved() {
  * owned now that its saved roster's collection lacked (as Build's "N new cards
  * fit" chip counts them), then Card Fit's test: status "start" in that event.
  */
-async function newCardEvents(events: { id: number; restrictions: unknown }[], latest: number, saved: Awaited<ReturnType<typeof newestSaved>>) {
+async function newCardEvents(events: { id: number; restrictions: unknown }[], latest: number, saved: Awaited<ReturnType<typeof newestSaved>>, extra: readonly number[] = []) {
   const universe = await db.select({ cardId: cards.cardId, title: cards.title, name: cards.name }).from(cards);
   const clubIds = new Set(universe.filter((c) => /clubhouse/i.test(c.title)).map((c) => c.cardId));
   const club = (id: number) => clubIds.has(id);
@@ -172,10 +193,10 @@ async function newCardEvents(events: { id: number; restrictions: unknown }[], la
     const s = saved.get(t.id);
     if (!s) { perEvent.set(t.id, "no saved roster"); continue; }
     if (s.collection == null) { perEvent.set(t.id, "saved roster has no collection"); continue; }
-    if (s.collection === latest) { perEvent.set(t.id, []); continue; }
+    if (s.collection === latest) { perEvent.set(t.id, [...extra]); continue; }
     if (!thenBy.has(s.collection)) thenBy.set(s.collection, await ownedForms(s.collection, club));
     const rx = t.restrictions as { variantsAllowed?: boolean; variantCap?: number } | null;
-    perEvent.set(t.id, newSince(pool, thenBy.get(s.collection)!, rx?.variantsAllowed !== false && rx?.variantCap !== 0).map((n) => n.cardId));
+    perEvent.set(t.id, [...new Set([...newSince(pool, thenBy.get(s.collection)!, rx?.variantsAllowed !== false && rx?.variantCap !== 0).map((n) => n.cardId), ...extra])]);
   }
   const targets = [...new Set([...perEvent.values()].flatMap((v) => (Array.isArray(v) ? v : [])))];
   console.log(`--new-cards: ${targets.length} card${targets.length === 1 ? "" : "s"} new to at least one event's saved roster; placing them with Card Fit…`);
@@ -190,6 +211,23 @@ async function newCardEvents(events: { id: number; restrictions: unknown }[], la
   }
   const why = new Map<number, string | null>();
   for (const [id, v] of perEvent) why.set(id, typeof v === "string" ? v : starts.has(id) ? `new: ${starts.get(id)!.join(", ")}` : null);
+  if (CHANGES) {
+    // A saved roster holding a card he no longer has: sold (--sold), or missing from the newest upload and not just bought.
+    for (const t of events) {
+      const s = saved.get(t.id);
+      if (!s) continue;
+      const lost = [...s.cards].filter((k) => {
+        const id = Number(k.replace(/v$/, "")), v = k.endsWith("v");
+        if (SOLD.has(id)) return true;
+        if (BOUGHT.includes(id)) return false;
+        return v ? !now.variant.has(id) : !(now.base.has(id) || now.variant.has(id));
+      });
+      if (!lost.length) continue;
+      const names = lost.map((k) => `${nameOf.get(Number(k.replace(/v$/, ""))) ?? k}${k.endsWith("v") ? " (VAR)" : ""}`);
+      const prior = why.get(t.id);
+      why.set(t.id, `${prior ? `${prior}; ` : ""}gone: ${names.join(", ")}`);
+    }
+  }
   return why;
 }
 
@@ -220,7 +258,7 @@ async function main() {
     return last != null && (runs.newest - last) / 86400 <= DAYS;
   }).sort((a, b) => a.name.localeCompare(b.name));
 
-  const why = flag("new-cards") ? await newCardEvents(current, latest.id, savedNow) : null;
+  const why = TRIAGE ? await newCardEvents(current, latest.id, savedNow, BOUGHT) : null;
   const metaBy = new Map((await db.select().from(seriesMeta)).map((m) => [m.series, m]));
   const jobs: Job[] = [], skipped: string[] = [];
   let noNew = 0;
@@ -243,7 +281,7 @@ async function main() {
     r.notes.push(`shape ${sp} SP / ${rp} RP / ${bats} bats (${val("sp") || val("rp") ? "--sp/--rp" : sh.source === "observed" ? "the series' exports" : `era table, ${sh.band}`})`);
     jobs.push({ id: t.id, name: t.name, slug: (t.series ?? `event${t.id}`).replace(/[^a-z0-9]/gi, "").toLowerCase(), args: r.args, notes: r.notes, why: why?.get(t.id) ?? undefined });
   }
-  if (why) console.log(`--new-cards: ${noNew} current event${noNew === 1 ? "" : "s"} where no new card starts (or adds ${MIN_GAIN}+ runs) are left as saved.`);
+  if (why) console.log(`--${CHANGES ? "changes" : "new-cards"}: ${noNew} current event${noNew === 1 ? "" : "s"} left as saved (no gained card starts or adds ${MIN_GAIN}+ runs${CHANGES ? ", and no card on the saved roster is gone" : ""}).`);
 
   // Events that share a series (a championship's ten) get their id in the file name.
   const bySlug = new Map<string, number>();
@@ -305,6 +343,19 @@ async function main() {
   console.log(`\n${built.length} of ${jobs.length} built and legal; manifest ${manifest}`);
   for (const r of results.filter((x) => x.status === "same cards as the saved roster")) console.log(`  UNCHANGED ${r.job.id} ${r.job.name}: the rebuild keeps the saved roster's cards`);
   for (const r of results.filter((x) => !x.file && x.status !== "same cards as the saved roster")) console.log(`  NOT BUILT ${r.job.id} ${r.job.name}: ${r.status}`);
+  if (flag("save") && built.length) {
+    // The same save the Mac's Save Current Rosters.command does, as "Claude pick <tag>"; it replaces each event's earlier Claude pick.
+    const name = `Claude pick ${TAG.replace(/-([a-z]+)$/, " $1")}`;
+    console.log(`\nsaving ${built.length} as "${name}"${BOUGHT.length ? ` (bought, not yet uploaded: ${BOUGHT.join(", ")})` : ""}`);
+    for (const r of built) {
+      const out = await new Promise<string>((resolve) => {
+        const child = spawn(process.execPath, ["--import", "tsx", "scripts/roster-save.ts", "--file", join(ROOT, "Inbox/rosters", r.file!), "--tournament", String(r.job.id), "--name", name, ...(BOUGHT.length ? ["--assume-owned", BOUGHT.join(",")] : [])], { env: process.env });
+        let t = ""; child.stdout.on("data", (d) => { t += d; }); child.stderr.on("data", (d) => { t += d; });
+        child.on("close", () => resolve(t.trim().split("\n").at(-1) ?? ""));
+      });
+      console.log(`  ${r.job.id} ${r.job.name}: ${out.replace(/ — \/build.*/, "")}`);
+    }
+  }
   process.exit(0);
 }
 
@@ -326,7 +377,9 @@ async function toLoadFile(text: string, job: Job, uploadId: number): Promise<str
   const club = new Set(universe.filter((c) => /clubhouse/i.test(c.title)).map((c) => c.cardId));
   const base = new Set(owned.filter((o) => !o.isVariant && o.cardId != null).map((o) => o.cardId!));
   for (const id of impliedBaseCopies(owned, (i) => club.has(i))) base.add(id);
-  const vars = new Set(owned.filter((o) => o.isVariant && o.cardId != null).map((o) => o.cardId!));
+  for (const id of BOUGHT) base.add(id);
+  for (const id of SOLD) base.delete(id);
+  const vars = new Set(owned.filter((o) => o.isVariant && o.cardId != null && !SOLD.has(o.cardId)).map((o) => o.cardId!));
   const re = /^(R:\w+|L:\w+|SP\d|CL|RP\d+|BN\d+)\s+(.+?)\s{2,}(\d+)\s+([LRS])\s+(\d{4})\s+([+-]?\d+\.\d)/;
   const lines: string[] = [], bench: string[] = [], sps: { runs: number; pin: string }[] = [], rps: { runs: number; pin: string }[] = [];
   for (const l of text.split(/\r?\n/)) {

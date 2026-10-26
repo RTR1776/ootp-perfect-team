@@ -39,6 +39,8 @@ async function main() {
   // an upload filed before the importer added those rows itself.
   const clubhouse = new Set(universe.filter((c) => /clubhouse/i.test(c.title)).map((c) => c.cardId));
   const base = new Set([...owned.filter((c) => !c.isVariant).map((c) => c.cardId), ...impliedBaseCopies(owned, (id) => clubhouse.has(id))]);
+  // --assume-owned id[,id]: cards bought since the upload (current-rosters --bought --save).
+  for (const id of (process.argv.includes("--assume-owned") ? process.argv[process.argv.indexOf("--assume-owned") + 1] ?? "" : "").split(",").map((x) => Number(x.trim())).filter((n) => n > 0)) base.add(id);
   const variants = new Set(owned.filter((c) => c.isVariant).map((c) => c.cardId));
   const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
   const lineupPos = t.dh ? [...HIT_POS, "DH"] : [...HIT_POS];

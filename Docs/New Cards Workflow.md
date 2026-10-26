@@ -24,6 +24,29 @@ L.J., 2026-09-29: new cards come in batches (a release, pulls, variants), and he
    - Since 09-30 these match Claude's full builds (below), so there's no need to ask Claude.
    - Claude's batch rebuild (below) is still there for doing many events at once.
 
+## Card changes, the quick path (10-26): sold, bought, or a new upload
+
+L.J., 10-26: "make sure we have a quickish way to update rosters when card changes, they will typically be 10 or less at a time".
+
+**One command** rebuilds and saves only the events that need it:
+
+    node --env-file=.env.local --import tsx scripts/current-rosters.ts --changes --sold 86621 --bought 87236,87185 --out /tmp/rosters --save
+
+It rebuilds a current event when:
+- **A card is gone.** Its saved roster holds a card he no longer has: one passed with `--sold`, or any card the newest collection upload lacks (found on its own).
+- **A gained card would start.** Card Fit's one-swap test, `--min-gain` runs (default 3), for a card passed with `--bought`, or for any card new in the collection since that event's saved roster.
+
+How it works:
+- Each build starts from the event's saved roster plus one λ start, so ten changes take minutes, not the hours of a full rebuild.
+- `--bought` cards count as owned until a collection upload lists them, and `--save` saves them too.
+- `--sold` cards are out of every pool, even while the upload still lists them.
+- `--save` writes each legal build as "Claude pick <tag>" and replaces the event's earlier Claude pick. Without it, the batch is a manifest for `Save Current Rosters.command`.
+- `--list` in place of `--out … --save` shows which events would rebuild and why ("gone: Ernie Banks", "new: Ernie Clement SS +16.0"), without building.
+
+**On the Mac:** double-click `Update Rosters For Card Changes.command`. It asks for the sold and bought card ids, shows the list, and builds and saves on a typed y.
+
+**League** is not part of this. After a change to the league 26, re-run `league-compare`; see the newest League Plan.
+
 ## The fast path: rebuild only where a new card starts (`--new-cards`)
 
 L.J., 2026-09-30, after the Sabo LE: "we need to make sure we have a system in place so that when new cards come out they are easily put in various tourney rosters where they belong … needs to be efficient."
