@@ -37,13 +37,18 @@ Pitches per start (and innings per start) for starters on top-quarter teams, aga
 
 | Era | Stamina under 70 | 70–89 | 90+ |
 |---|---|---|---|
-| 1945 and earlier (the whole PTCS 8 Championship) | 115 | 120 | 125 |
+| 1945 and earlier (the whole PTCS 8 Championship) | 120 | 140 | **150–170** (L.J.; see below) |
 | 1946–76 | 110 | 115 | 120 |
 | 1977–93 | 105 | 115 | 120 |
 | 1994 and later | 100 | 105 | 110 |
 
 - **Not tested causally:** winning teams' starters go deeper partly because they pitch well. Treat this as a norm, not a proven win.
 - **Era stamina modifier:** SPStam does not line up with observed depth (0.99 / 0.89 / 0.87 / 1.02 / 0.95 by band). Deadball starters go deepest regardless.
+- **Deadball correction (L.J.: "they can pitch 170 PC if they have 90 plus stam easy"):**
+  - The averages above are capped by the field's own settings, so they show settings, not limits.
+  - Deadball-era starters with stamina 90+ (1,633 pitcher-events) average 121 pitches a start; the top 10% 134+, the top 1% 146+.
+  - Those going longest (125–155 a start) pitch 8.8–9.3 innings with ERA 2.67–2.68, against 2.74 at 110–125.
+  - Going long costs nothing per inning, so the cap for 90+ stamina should be high enough to let them finish (150–170). The 70–89 cap of 140 is a guess from the same pattern; untested.
 - **League (2010):** L.J.'s 115 / 110 caps sit above the modern norm, which is fine for a cap.
 
 ## Current events by era
