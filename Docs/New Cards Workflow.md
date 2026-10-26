@@ -43,6 +43,8 @@ How it works:
 - `--save` writes each legal build as "Claude pick <tag>" and replaces the event's earlier Claude pick. Without it, the batch is a manifest for `Save Current Rosters.command`.
 - `--list` in place of `--out … --save` shows which events would rebuild and why ("gone: Ernie Banks", "new: Ernie Clement SS +16.0"), without building.
 
+- Every build uses L.J.'s position floors (SS 85, CF 90, 2B 85, RF 75, 60 elsewhere) and builds Tuesday Dead Silver Walking to his 4 SP / 5 RP. Both are defaults in `current-rosters` since 10-26; `--extra "--min-pos …"` overrides the floors.
+
 **On the Mac:** double-click `Update Rosters For Card Changes.command`. It asks for the sold and bought card ids, shows the list, and builds and saves on a typed y.
 
 **League** is not part of this. After a change to the league 26, re-run `league-compare`; see the newest League Plan.

@@ -123,13 +123,24 @@ const TAG = val("tag") ?? chicagoDay(new Date())!;
  * --no-seed builds from scratch as before.
  */
 const SEED = !flag("no-seed");
+/**
+ * L.J.'s position floors for every build (10-10: SS 85, CF 90, 2B 85, RF 75, 60 elsewhere; every
+ * full rebuild since has used them). They were passed by hand through --extra, and a 10-25 batch
+ * ran without them; now they're the default. --extra "--min-pos …" replaces them, --no-floors
+ * drops back to env-roster's own 60 everywhere.
+ */
+const LJ_FLOORS = "60,SS:85,CF:90,2B:85,RF:75";
+const EXTRA = val("extra") ? val("extra")!.split(/\s+/).filter(Boolean) : [];
+const FLOORS = flag("no-floors") || EXTRA.includes("--min-pos") ? [] : ["--min-pos", LJ_FLOORS];
+/** Events L.J. built to his own shape: always built to it (Tuesday Dead Silver Walking: 4 SP / 5 RP). --sp/--rp override. */
+const OWN_SHAPE: Record<number, { sp: number; rp: number }> = { 549: { sp: 4, rp: 5 } };
 const BUILD = ["--optimize", "--starts", val("starts") ?? (TRIAGE && SEED ? "1" : "16"), "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
   // Cards bought but not yet uploaded (env-roster --assume-owned); load files and --save take them as owned too.
   ...(BOUGHT.length ? ["--assume-owned", BOUGHT.join(",")] : []),
   // Cards sold since the upload (env-roster --sold): out of every pool.
   ...(SOLD.size ? ["--sold", [...SOLD].join(",")] : []),
-  // --extra "…": more env-roster flags for every build (L.J.'s floors: --extra "--min-pos 60,SS:85,CF:90,2B:85,RF:75").
-  ...(val("extra") ? val("extra")!.split(/\s+/).filter(Boolean) : [])];
+  // --extra "…": more env-roster flags for every build; L.J.'s floors are added unless it names --min-pos.
+  ...FLOORS, ...EXTRA];
 
 /** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
 function lastRuns(): { at: Map<number, number>; newest: number } {
@@ -275,10 +286,11 @@ async function main() {
     const top = t.series && !stale ? topShape((fieldConstruction as { series: Record<string, SeriesBuild> }).series[t.series]) : null;
     const sh = rosterShape(t.envYear, t.dh === true ? 9 : 8, rosterSize({ restrictions: t.restrictions } as Parameters<typeof rosterSize>[0]) ?? 26, top ?? meta, t.cardYearMin);
     // --rp alone (L.J. 10-11: a five-man pen) keeps the event's rotation and roster size; the freed spots bat.
-    const sp = val("sp") ?? String(sh.sp), rp = val("rp") ?? String(sh.rp);
+    const own = OWN_SHAPE[t.id];
+    const sp = val("sp") ?? String(own?.sp ?? sh.sp), rp = val("rp") ?? String(own?.rp ?? sh.rp);
     const bats = val("bats") ?? String(sh.bats + (sh.sp - Number(sp)) + (sh.rp - Number(rp)));
     r.args.push("--sp", sp, "--rp", rp, "--bats", bats);
-    r.notes.push(`shape ${sp} SP / ${rp} RP / ${bats} bats (${val("sp") || val("rp") ? "--sp/--rp" : sh.source === "observed" ? "the series' exports" : `era table, ${sh.band}`})`);
+    r.notes.push(`shape ${sp} SP / ${rp} RP / ${bats} bats (${val("sp") || val("rp") ? "--sp/--rp" : own ? "L.J.'s own shape" : sh.source === "observed" ? "the series' exports" : `era table, ${sh.band}`})`);
     jobs.push({ id: t.id, name: t.name, slug: (t.series ?? `event${t.id}`).replace(/[^a-z0-9]/gi, "").toLowerCase(), args: r.args, notes: r.notes, why: why?.get(t.id) ?? undefined });
   }
   if (why) console.log(`--${CHANGES ? "changes" : "new-cards"}: ${noNew} current event${noNew === 1 ? "" : "s"} left as saved (no gained card starts or adds ${MIN_GAIN}+ runs${CHANGES ? ", and no card on the saved roster is gone" : ""}).`);
