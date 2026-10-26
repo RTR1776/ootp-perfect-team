@@ -19,6 +19,7 @@ import { cardEligibility, type RosterRules } from "@/lib/roster-rules";
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { DraftBoard, type DraftCard, type DraftColumn, type DraftEvent } from "@/components/draft/draft-board";
 import { PageHeader } from "@/components/page-header";
+import { SectionTabs } from "@/components/section-tabs";
 
 export const dynamic = "force-dynamic";
 
@@ -116,6 +117,7 @@ export default async function DraftPage({ searchParams }: { searchParams: Promis
 
   return (
     <div className="flex flex-col gap-4">
+      <SectionTabs section="draft" />
       <PageHeader
         eyebrow="Play"
         title="Draft Board"

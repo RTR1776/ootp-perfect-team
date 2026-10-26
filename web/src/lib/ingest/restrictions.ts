@@ -369,18 +369,22 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
  * word. Keyed by the slug the exports are filed under.
  */
 export const DRAFT_EVENTS: Record<string, DraftFormat> = {
-  // 21 cards drawn from Silver, Bronze and Iron. Per-round order not yet known.
+  // 21 cards: 17 Bronze, 3 Iron, 1 Silver, positions free (175 full teams in
+  // runs 222-225). Round order not on file. The rounds the live draft helper
+  // uses: lib/draft/formats.ts.
   "5ldeadball": {
     rounds: null, totalRounds: 21,
-    note: "Silver / Bronze / Iron pool, 21 cards; round order unknown",
+    note: "17 Bronze, 3 Iron, 1 Silver, positions free; round order unknown (lib/draft/formats.ts)",
   },
-  // Around the horn: a round per position, tiers running Gold down to Iron.
-  // Known to open on a Bronze catcher round and to end with a thin Silver
-  // round and a Gold one. Middle rounds UNVERIFIED.
+  // 26 rounds, the Bronze ones locked to a position: 2 C, one each at 1B/DH,
+  // 2B, 3B, SS, LF, CF and RF, 5 SP, 5 RP; then 3 Iron bats (never a C) and 2
+  // Silver and 2 Gold of any position. Exact on all 304 full teams in runs
+  // 222-225. An earlier note has it opening on a Bronze catcher round; the
+  // rest of the order is not on file. lib/draft/formats.ts has the rounds.
   "6lpowerplay": {
     rounds: [{ tier: "Bronze", position: "C" }],
-    note: "around the horn, Gold->Iron, one position per round; opens Bronze C, " +
-          "ends with a thin Silver round then Gold; middle rounds unverified",
+    note: "Bronze rounds by position (2 C, 1B/DH, 2B, 3B, SS, LF, CF, RF, 5 SP, 5 RP), " +
+          "3 Iron bats, 2 Silver, 2 Gold; opens Bronze C; order otherwise unverified (lib/draft/formats.ts)",
   },
 };
 
