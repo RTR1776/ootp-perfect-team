@@ -52,20 +52,16 @@ import { join } from "node:path";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, collectionCards, rosterSlots, rosters, seriesMeta, tournaments, uploads } from "@/db/schema";
-import { rosterShape } from "@/lib/roster-fill";
-import { rosterSize } from "@/lib/roster-rules";
 import { parseDump } from "@/lib/analytics/dumps";
 import { newestDumpFile } from "@/lib/analytics/dump-files";
 import { eventGroupOf } from "@/lib/event-groups";
-import { eventRosterArgs } from "@/lib/event-roster-args";
+import { eventRosterArgs, eventShape, LJ_FLOORS } from "@/lib/event-roster-args";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { newSince, savedCollectionId, type OwnedForms } from "@/lib/saved-roster-freshness";
 import { loadCardFit } from "@/lib/card-fit-load";
 import { exportsPredate } from "@/lib/set-evidence-server";
 import { chicagoDay } from "@/lib/format";
 import { editCatalogueRules, parseSlots, type CatalogueEdit } from "@/lib/catalogue-edit";
-import fieldConstruction from "../src/data/field-construction.json";
-import { topShape, type SeriesBuild } from "@/lib/field-construction";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -129,11 +125,8 @@ const SEED = !flag("no-seed");
  * ran without them; now they're the default. --extra "--min-pos …" replaces them, --no-floors
  * drops back to env-roster's own 60 everywhere.
  */
-const LJ_FLOORS = "60,SS:85,CF:90,2B:85,RF:75";
 const EXTRA = val("extra") ? val("extra")!.split(/\s+/).filter(Boolean) : [];
 const FLOORS = flag("no-floors") || EXTRA.includes("--min-pos") ? [] : ["--min-pos", LJ_FLOORS];
-/** Events L.J. built to his own shape: always built to it (Tuesday Dead Silver Walking: 4 SP / 5 RP). --sp/--rp override. */
-const OWN_SHAPE: Record<number, { sp: number; rp: number }> = { 549: { sp: 4, rp: 5 } };
 const BUILD = ["--optimize", "--starts", val("starts") ?? (TRIAGE && SEED ? "1" : "16"), "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
   // Cards bought but not yet uploaded (env-roster --assume-owned); load files and --save take them as owned too.
   ...(BOUGHT.length ? ["--assume-owned", BOUGHT.join(",")] : []),
@@ -283,14 +276,10 @@ async function main() {
     if (r.problems.length) { skipped.push(`${t.id} ${t.name}: ${r.problems.join("; ")}`); continue; }
     const meta = t.series && !stale ? metaBy.get(t.series) ?? null : null;
     // The field's best quarter sets the staff (field-construction topShape); series_meta's averages when it's thin.
-    const top = t.series && !stale ? topShape((fieldConstruction as { series: Record<string, SeriesBuild> }).series[t.series]) : null;
-    const sh = rosterShape(t.envYear, t.dh === true ? 9 : 8, rosterSize({ restrictions: t.restrictions } as Parameters<typeof rosterSize>[0]) ?? 26, top ?? meta, t.cardYearMin);
     // --rp alone (L.J. 10-11: a five-man pen) keeps the event's rotation and roster size; the freed spots bat.
-    const own = OWN_SHAPE[t.id];
-    const sp = val("sp") ?? String(own?.sp ?? sh.sp), rp = val("rp") ?? String(own?.rp ?? sh.rp);
-    const bats = val("bats") ?? String(sh.bats + (sh.sp - Number(sp)) + (sh.rp - Number(rp)));
-    r.args.push("--sp", sp, "--rp", rp, "--bats", bats);
-    r.notes.push(`shape ${sp} SP / ${rp} RP / ${bats} bats (${val("sp") || val("rp") ? "--sp/--rp" : own ? "L.J.'s own shape" : sh.source === "observed" ? "the series' exports" : `era table, ${sh.band}`})`);
+    const shape = eventShape(t, { seriesStale: stale, meta, over: { sp: val("sp"), rp: val("rp"), bats: val("bats") } });
+    r.args.push(...shape.args);
+    r.notes.push(shape.note);
     jobs.push({ id: t.id, name: t.name, slug: (t.series ?? `event${t.id}`).replace(/[^a-z0-9]/gi, "").toLowerCase(), args: r.args, notes: r.notes, why: why?.get(t.id) ?? undefined });
   }
   if (why) console.log(`--${CHANGES ? "changes" : "new-cards"}: ${noNew} current event${noNew === 1 ? "" : "s"} left as saved (no gained card starts or adds ${MIN_GAIN}+ runs${CHANGES ? ", and no card on the saved roster is gone" : ""}).`);

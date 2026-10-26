@@ -55,10 +55,21 @@ function TeamCell({ r, e }: { r: FitRow; e: FitEvent }) {
         <span><Signed v={r.gain} colour className="font-semibold" /> <span className="text-xs text-muted-foreground">runs</span></span>
         <span className="text-xs">{r.swaps.map(swapText).join(" · ")}</span>
         {cap && <span className="text-[11px]">{cap}</span>}
+        {r.room && r.room.cost != null && r.room.cost > 0 && (
+          <span className="text-[11px] text-muted-foreground">{signed(r.room.gross)} less {r.room.cost.toFixed(1)} to make room: {r.room.note}</span>
+        )}
       </span>
     );
   }
   if (r.status === "on") return <span className="text-xs text-primary" title={against}>on your roster · {r.on.join(", ")}</span>;
+  // A swap the slots or cap leave no room for (card-fit Room).
+  if (r.room) {
+    return (
+      <span className="text-xs text-muted-foreground" title={against}>
+        {signed(r.room.gross)} in one swap, but {r.room.cost == null ? "no single move makes room for it" : <>room costs {r.room.cost.toFixed(1)} ({r.room.note})</>}
+      </span>
+    );
+  }
   return (
     <span className="text-xs text-muted-foreground" title={against}>
       {r.short ? <>your {r.short.name} is {signed(-r.short.delta)} better</> : "doesn't start"}

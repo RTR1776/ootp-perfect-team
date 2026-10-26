@@ -128,3 +128,27 @@ export function defaultToVariant(rules: { restrictions?: { variantsAllowed?: boo
   const rx = rules?.restrictions;
   return rx?.variantsAllowed !== false && rx?.variantCap == null;
 }
+
+/**
+ * The variant boost, measured on L.J.'s 287 owned variants against their base
+ * cards (2026-10-27, scripts/.scratch/varboost2): every split rating's median
+ * ratio is ×1.08 (Stuff 1.081, Contact 1.083, pHR 1.080, pBABIP 1.082, BABIP
+ * 1.082, Gap 1.083, Eye 1.080, Avoid K 1.082, Power 1.081); a quarter sit
+ * near ×1.04. env-roster --assume-variant scales the same splits.
+ */
+export const VARIANT_BOOST = 1.08;
+const SPLIT_EXPORT_KEY = /^(STU|CON|HRA|PBABIP|BA|GAP|POW|EYE|K) v[LR]$/;
+
+/**
+ * A variant he doesn't own yet, read off the base card: each split rating ×
+ * VARIANT_BOOST, Contact and the overalls carried along as formRatings does
+ * for an owned one. Positions and catcher ratings stay the base card's (as
+ * env-roster --assume-variant leaves them), so a glove's gain is not counted.
+ */
+export function assumedVariantRatings(base: Record<string, number>): Record<string, number> {
+  const exported: Record<string, number> = {};
+  for (const [from, to] of Object.entries(RATING_KEYS)) {
+    if (SPLIT_EXPORT_KEY.test(from) && Number.isFinite(base[to])) exported[from] = Math.round(base[to] * VARIANT_BOOST);
+  }
+  return formRatings(base, exported);
+}

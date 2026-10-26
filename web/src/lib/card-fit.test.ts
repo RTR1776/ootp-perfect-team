@@ -101,3 +101,80 @@ test("Card Fit prices an arm as the builder does: the series' weight split over 
   assert.ok(Math.abs(armWeight("RP", 8, ctx) - 0.4 * (6 / 8) * 2) < 1e-9);
   assert.ok(Math.abs(armWeight("RP", 7, { dh: true, lhp: 0.3, glove: 1 }) - 0.31) < 1e-9, "no series: the old defaults");
 });
+
+/*
+ * PTCS 8 Championship Cap (2026-10-27): Card Fit put Webster McDonald (90) in
+ * for Luther Farrell (66) at +13.9, but the Diamond and Perfect slots were full,
+ * and full builds with him owned kept the roster as it was. In small: slots
+ * P1 D1 S1 B2, a 102 and a 99 already in the rotation.
+ */
+const valued = (f: ScoredForm, val: number): ScoredForm => ({ ...f, val });
+const capCase = (spareRuns: number, extraBench: ScoredForm[] = []) => {
+  const rile = valued(arm("Rile", "SP", 9), 102), young = valued(arm("Young", "SP", 8), 99), farrell = valued(arm("Farrell", "SP", 2), 66);
+  const cf = valued(bat("Speaker", 5, 5, { CF: 80 }), 68), backup = valued(bat("Backup", 1, 1, { CF: 70 }), 61);
+  const spare = valued(arm("Spare", "SP", spareRuns), 75);
+  const team = { R: { CF: cf }, L: { CF: cf }, SP: [rile, young, farrell], RP: [] };
+  const onRoster = [rile, young, farrell, cf, backup, ...extraBench];
+  const room = {
+    slots: { P: 1, D: 1 + extraBench.length, S: 1, B: 2 }, cap: null,
+    roster: new Map(onRoster.map((f) => [f.cardId, { val: f.val!, name: f.name }])),
+    spares: [...onRoster, spare],
+  };
+  return { team, room, mcdonald: valued(arm("McDonald", "SP", 6), 90) };
+};
+const noDh = { ...ctx, dh: false };
+
+test("Cap: one swap reads a start, but with the Diamond and Perfect slots full the card doesn't start", () => {
+  const { team, room, mcdonald } = capCase(3);
+  assert.equal(fitIn(mcdonald, team, [], noDh)!.gain, 4, "the old one-swap read: +4 over Farrell");
+  const fit = fitIn(mcdonald, team, [], noDh, room)!;
+  assert.equal(fit.status, "bench");
+  assert.equal(fit.gain, 0);
+  assert.equal(fit.room?.gross, 4);
+  // Room for a third Diamond-or-better card means Young (99) giving way: to the 75 (8 → 3) or to Farrell (8 → 2).
+  assert.equal(fit.room?.cost, 5);
+  assert.match(fit.room!.note, /^Young \(99\) out for Spare \(75\)/);
+});
+
+test("Cap: room that costs less than the swap adds is paid out of the gain", () => {
+  const { team, room, mcdonald } = capCase(5);
+  const fit = fitIn(mcdonald, team, [], noDh, room)!;
+  assert.equal(fit.status, "start");
+  assert.ok(Math.abs(fit.gain - 1) < 1e-9, "4 over Farrell, less 3 for Young → the 75");
+  assert.equal(fit.swaps[0].out?.name, "Farrell");
+});
+
+test("Cap: a Diamond card on the bench goes off the roster for free", () => {
+  const benchDiamond = valued(bat("Bench Diamond", 0, 0, { CF: 70 }), 92);
+  const { team, room, mcdonald } = capCase(3, [benchDiamond]);
+  // One more D slot for the bench card: the saved roster holds as it is.
+  const fit = fitIn(mcdonald, team, [], noDh, room)!;
+  assert.equal(fit.status, "start");
+  assert.equal(fit.gain, 4);
+  assert.equal(fit.room?.cost, 0);
+  assert.match(fit.room!.note, /off the roster/);
+});
+
+test("a value cap: the swap is paid for by a bench card's value, else it can't start", () => {
+  const ss = valued(bat("Short", 2, 2, { SS: 80 }), 60), dh = valued(bat("Dee", 3, 3, {}), 65);
+  const pricey = valued(bat("Pricey", 9, 9, { SS: 80 }), 95), cheap = valued(bat("Cheap", 0, 0, {}), 40);
+  const team = { R: { SS: ss, DH: dh }, L: { SS: ss, DH: dh }, SP: [], RP: [] };
+  const roster = (bench: ScoredForm) => new Map([ss, dh, bench].map((f) => [f.cardId, { val: f.val!, name: f.name }]));
+  const benchStar = valued(bat("Bench Star", 0, 0, {}), 80);
+  // 60 + 65 + 80 = 205 under a 225 cap; Pricey (95) in leaves Short idle, and only the 80 off the roster brings it back under.
+  const ok = fitIn(pricey, team, [], ctx, { slots: null, cap: 225, roster: roster(benchStar), spares: [ss, dh, benchStar, cheap] })!;
+  assert.equal(ok.status, "start");
+  assert.ok(Math.abs(ok.gain - 7) < 1e-9);
+  assert.match(ok.room!.note, /Bench Star off the roster/);
+  // 60 + 65 + 40 = 165 under a 170 cap: no bench card is worth the 95, and Dee (65) giving way to Cheap (40) still leaves 195.
+  const no = fitIn(pricey, team, [], ctx, { slots: null, cap: 170, roster: roster(cheap), spares: [ss, dh, cheap] })!;
+  assert.equal(no.status, "bench");
+  assert.equal(no.room?.cost, null);
+});
+
+test("without slots or a cap the room changes nothing", () => {
+  const { team, room, mcdonald } = capCase(3);
+  const fit = fitIn(mcdonald, team, [], noDh, { ...room, slots: null })!;
+  assert.equal(fit.gain, 4);
+  assert.equal(fit.room, null);
+});
