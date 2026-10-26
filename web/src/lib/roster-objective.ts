@@ -12,7 +12,10 @@
  * are weighted by how much of the field's pitching is left-handed — measured
  * per series (series_meta.lhp_bf_share) and 0.30 when nothing is on record.
  * Starters count in full, relief arms at RP_WEIGHT (0.31: a relief arm faces
- * 0.31 of a starter's batters in the archive), bench bats at a tenth.
+ * 0.31 of a starter's batters in the archive), bench bats at a tenth. The
+ * rotation tilts to SP1 by each slot's measured share of the starts
+ * (ROTATION_SHARE), and with no DH a two-way starter's bat counts for his
+ * plate appearances (STARTER_PA_SHARE).
  *
  * The staff's innings are fixed, not per arm: a series' weights are measured
  * per starter / reliever at the field's own staff size (fieldSp / fieldRp), so
@@ -25,6 +28,7 @@
  */
 import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import type { FillCard, FillResult, FillShape } from "@/lib/roster-fill";
+import { otherFormId } from "@/lib/two-way";
 
 export const RP_WEIGHT_DEFAULT = 0.31;
 export const BENCH_WEIGHT_DEFAULT = 0.1;
@@ -59,6 +63,39 @@ export function penTilt(n: number): number[] {
   const mean = raw.reduce((a, b) => a + b, 0) / n;
   return raw.map((x) => x / mean);
 }
+/**
+ * Who makes the starts: each rotation slot's share of a team's starts, SP1
+ * first, by how many starters a team used (teams with 15+ starts in the
+ * 309 cap/slot and control exports of the 2026-10-24 backtest; 5,983 teams
+ * used five). The rotation carries across a bracket's series, but a team
+ * that goes out early never reaches SP5, so SP5 makes 0.16 of the starts to
+ * SP1's 0.23. Rows sum to 1.
+ */
+export const ROTATION_SHARE: Record<number, number[]> = {
+  3: [0.399, 0.363, 0.238],
+  4: [0.278, 0.262, 0.245, 0.214],
+  5: [0.233, 0.218, 0.203, 0.189, 0.158],
+  6: [0.229, 0.216, 0.199, 0.184, 0.122, 0.05],
+};
+/** The rotation's slots (SP1 first) as multiples of an average starter's weight: mean 1. Equal outside 3-6. */
+export function rotationTilt(n: number): number[] {
+  const row = ROTATION_SHARE[n];
+  if (!row) return Array(Math.max(n, 0)).fill(1);
+  const sum = row.reduce((a, b) => a + b, 0);
+  return row.map((x) => (x * n) / sum);
+}
+/**
+ * A two-way starter's bat with no DH (L.J. 10-24, Ed Rile in Sunday Open
+ * Slots). Without a DH the starter bats in his starts: 2.90 PA a start
+ * against 4.35 for a lineup slot a game (the 74 no-DH exports of the
+ * backtest), so over a season a starter bats for that share of a lineup slot
+ * times his share of the starts. Everyone else's starter hits like a
+ * pitcher, -61.9 runs per 700 PA in the same exports, so that is what the
+ * two-way bat is credited over. Pinch hitters and relievers take the rest of
+ * the pitcher's spot, the same on every roster, so it is left out.
+ */
+export const STARTER_PA_SHARE = 2.9 / 4.35;
+export const PITCHER_BAT_RUNS = -61.9;
 export const LHP_SHARE_DEFAULT = 0.3;
 const FIELD_POS = /^(C|1B|2B|3B|SS|LF|CF|RF)$/;
 
@@ -116,7 +153,17 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
   const rpW = (o.rpWeight ?? RP_WEIGHT_DEFAULT) * share(o.fieldRp, shape.rpKeys.length);
   const bnW = Math.min(o.benchWeight ?? BENCH_WEIGHT_DEFAULT, shape.benchKeys.length > 0 ? BENCH_SLOTS / shape.benchKeys.length : Infinity);
   const tilt = new Map(penTilt(shape.rpKeys.length).map((w, i) => [shape.rpKeys[i], w]));
+  const spTilt = new Map(rotationTilt(shape.spKeys.length).map((w, i) => [shape.spKeys[i], w]));
   const spW = (o.spWeight ?? 1) * share(o.fieldSp, shape.spKeys.length);
+  const noDh = !shape.lineupPos.includes("DH");
+  /** What a two-way starter's bat adds over a pitcher's in his starts (0 with a DH, or for a pitcher with no bat form). */
+  const starterBat = (key: string, id: number): number => {
+    if (!noDh) return 0;
+    const bat = otherFormId(id), r = runsR.get(bat), l = runsL.get(bat);
+    if (r == null || l == null || byId.get(bat)?.isPitcher !== false) return 0;
+    const starts = (spTilt.get(key) ?? 1) / Math.max(shape.spKeys.length, 1);
+    return starts * STARTER_PA_SHARE * ((1 - lhp) * (r - PITCHER_BAT_RUNS) + lhp * (l - PITCHER_BAT_RUNS));
+  };
 
   const defAt = (cardId: number, pos: string): number => {
     if (!FIELD_POS.test(pos)) return 0;
@@ -131,7 +178,7 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
   const slotValue = (key: string, id: number): number => {
     if (key.startsWith("R:")) return (1 - lhp) * ((runsR.get(id) ?? 0) + defAt(id, key.slice(2)));
     if (key.startsWith("L:")) return lhp * ((runsL.get(id) ?? 0) + defAt(id, key.slice(2)));
-    if (spSet.has(key)) return spW * (runsR.get(id) ?? 0);
+    if (spSet.has(key)) return spW * (spTilt.get(key) ?? 1) * (runsR.get(id) ?? 0) + starterBat(key, id);
     if (rpSet.has(key)) return rpW * (tilt.get(key) ?? 1) * (runsR.get(id) ?? 0);
     if (bnSet.has(key)) return bnW * (runsR.get(id) ?? 0);
     return 0;

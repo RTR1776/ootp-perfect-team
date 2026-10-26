@@ -62,7 +62,7 @@ async function withRetry<T>(fn: () => Promise<T>, attempts = 4): Promise<T> {
 
 function usage(msg?: string): never {
   if (msg) console.error(`error: ${msg}\n`);
-  console.error('usage: pnpm import:league <folder|file...> [--on YYYY-MM-DD] [--dry]');
+  console.error('usage: pnpm import:league <folder|file...> [--on YYYY-MM-DD] [--env YYYY] [--dry]');
   process.exit(msg ? 1 : 0);
 }
 
@@ -94,7 +94,16 @@ async function main() {
   const onFlag = onIdx >= 0 ? argv[onIdx + 1] : undefined;
   if (onIdx >= 0 && (!onFlag || !DATE_RE.test(onFlag))) usage("--on wants YYYY-MM-DD");
 
-  const paths = argv.filter((a, i) => !a.startsWith("--") && !(onIdx >= 0 && i === onIdx + 1));
+  /* Theme weeks run a different run environment; untagged they would pool with
+     the 2010 weeks and fit one environment's rates on another's. */
+  const envIdx = argv.indexOf("--env");
+  const envFlag = envIdx >= 0 ? argv[envIdx + 1] : undefined;
+  if (envIdx >= 0 && !/^\d{4}$/.test(envFlag ?? "")) usage("--env wants a 4-digit year, e.g. --env 1989");
+  const envYear = envFlag ? Number(envFlag) : 2010;
+
+  const paths = argv.filter(
+    (a, i) => !a.startsWith("--") && !(onIdx >= 0 && i === onIdx + 1) && !(envIdx >= 0 && i === envIdx + 1),
+  );
   const files = collect(paths);
 
   /* Parse everything before writing anything: a folder with one bad file
@@ -113,7 +122,7 @@ async function main() {
   });
 
   for (const { file, parsed, capturedOn } of jobs) {
-    const label = `${parsed.league} ${parsed.split} ${capturedOn}`;
+    const label = `${parsed.league} ${parsed.split} ${capturedOn}${envYear === 2010 ? "" : ` env ${envYear}`}`;
     const s = parsed.stats;
     const summary = `${s.rows} rows · ${s.teams} teams · ${s.uniqueCids} cards · ${s.freeAgentRows} FA · ${s.clanTeams} clan teams`;
     /* Loud, but not fatal: the file is still worth having, it just must not be
@@ -137,6 +146,7 @@ async function main() {
       split: parsed.split,
       ...s,
       capturedOn,
+      envYear,
       capturedOnWasSupplied: true,
       source: "import-league",
     } as unknown as Record<string, unknown>;
@@ -157,6 +167,7 @@ async function main() {
         league: parsed.league!,
         split: parsed.split,
         capturedOn,
+        envYear,
         teams: s.teams,
         rows: parsed.stints.length,
       }).returning();

@@ -28,6 +28,10 @@ import { linearWeights, NEUTRAL_PARK } from "@/lib/analytics/run-env";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
+const envArg = argv.indexOf("--env");
+/** Theme weeks run a different run environment; pooling them with 2010 fits
+ *  one environment's rates on another's. Default to the league norm. */
+const ENV = envArg >= 0 ? Number(argv[envArg + 1]) : 2010;
 const MIN = Number((() => { const i = argv.indexOf("--min"); return i >= 0 ? argv[i + 1] : "120"; })());
 const wmean = (v: number[], w: number[]) => v.reduce((a, b, i) => a + b * w[i], 0) / w.reduce((a, b) => a + b, 0);
 function corr(x: number[], y: number[], w: number[]) {
@@ -56,6 +60,7 @@ async function main() {
       from league_stints st
       join league_snapshots ls on ls.id = st.snapshot_id
       where ls.split in ('vL','vR') and st.cid is not null
+        and ls.env_year = ${ENV}
     ),
     ok as (select * from stint where w > 0 and num is not null),
     cell as (

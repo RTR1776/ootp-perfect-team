@@ -386,6 +386,13 @@ export const leagueSnapshots = pgTable(
     split: text("split").notNull().default("all"), // all | vL | vR
     /** Which week of play the export covers — supplied on upload, defaults to today. */
     capturedOn: date("captured_on").notNull(),
+    /**
+     * Run environment the season was played in. Leagues default to 2010; a
+     * THEME WEEK overrides it (HD451 ran 1989 the week of 2026-09-20). Anything
+     * that pools weeks — split:check, meta percentiles, curve work — must filter
+     * on this or it fits one environment's rates on another's.
+     */
+    envYear: integer("env_year").notNull().default(2010),
     teams: integer("teams").notNull().default(0),
     rows: integer("rows").notNull().default(0),
   },

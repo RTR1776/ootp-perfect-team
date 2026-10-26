@@ -57,6 +57,12 @@ export function isTwoWayForm(id: number): boolean {
   return Math.abs(id) >= TWO_WAY_OFFSET;
 }
 
+/** The pool id of a card's other-role form (either way round, variants keep their sign); it may not be in the pool. */
+export function otherFormId(id: number): number {
+  const a = Math.abs(id), s = id < 0 ? -1 : 1;
+  return s * (a >= TWO_WAY_OFFSET ? a - TWO_WAY_OFFSET : a + TWO_WAY_OFFSET);
+}
+
 /**
  * A hitter card that can pitch: real pitching splits, pBABIP included. A
  * plain bat reads 1 on all of them; a handful of position players carry

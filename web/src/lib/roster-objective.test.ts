@@ -59,3 +59,35 @@ test("the pen tilts mildly to its best arm (CL first) and a big bench shares the
   assert.ok(Math.abs(score(2) - 2 * 0.1 * 10) < 1e-9, "a small bench keeps 0.1 a bat");
   assert.ok(Math.abs(score(7) - BENCH_SLOTS * 10) < 1e-9, "seven bats share the bench's 0.33 slots");
 });
+
+test("the rotation tilts to SP1 by its share of the starts, mean 1", async () => {
+  const { rotationTilt, ROTATION_SHARE } = await import("./roster-objective");
+  for (const n of [3, 4, 5, 6]) assert.ok(Math.abs(ROTATION_SHARE[n].reduce((a, b) => a + b, 0) - 1) < 0.002, `row ${n} sums to 1`);
+  const t5 = rotationTilt(5);
+  assert.ok(Math.abs(t5.reduce((a, b) => a + b, 0) - 5) < 1e-9, "mean 1");
+  assert.ok(t5[0] > t5[4], "SP1 over SP5");
+  assert.deepEqual(rotationTilt(2), [1, 1]);
+  // The same five arms are worth more with the best one at SP1.
+  const pool = [1, 2, 3, 4, 5].map((i) => card(i, true));
+  const runs = new Map([[1, 30], [2, 10], [3, 10], [4, 10], [5, 10]]);
+  const rot: FillShape = { lineupPos: ["DH"], spKeys: ["SP1", "SP2", "SP3", "SP4", "SP5"], rpKeys: [], benchKeys: [], bats: 0 };
+  const o = rosterObjective(pool, { shape: rot, runsR: runs, runsL: runs });
+  const best = o.objective({ SP1: 1, SP2: 2, SP3: 3, SP4: 4, SP5: 5 }), worst = o.objective({ SP1: 5, SP2: 2, SP3: 3, SP4: 4, SP5: 1 });
+  assert.ok(best > worst, `${best} vs ${worst}`);
+  assert.ok(Math.abs(o.objective({ SP1: 2, SP2: 3, SP3: 4, SP4: 5, SP5: 2 }) - 50) < 1e-9, "equal arms keep the old total");
+});
+
+test("with no DH a two-way starter's bat counts for his share of the starts; with a DH it does not", async () => {
+  const { twoWayId } = await import("./two-way");
+  const { STARTER_PA_SHARE, PITCHER_BAT_RUNS } = await import("./roster-objective");
+  const bat = card(7, false), arm = { ...card(twoWayId(7), true), role: null };
+  const plain = card(8, true);
+  const pool = [bat, arm, plain];
+  const runsR = new Map([[7, 20], [twoWayId(7), 10], [8, 10]]), runsL = new Map([[7, 10], [twoWayId(7), 10], [8, 10]]);
+  const sp = (dh: boolean): FillShape => ({ lineupPos: dh ? ["DH"] : ["SS"], spKeys: ["SP1"], rpKeys: [], benchKeys: [], bats: 0 });
+  const noDh = rosterObjective(pool, { shape: sp(false), runsR, runsL, lhpShare: 0.3 });
+  const credit = STARTER_PA_SHARE * (0.7 * (20 - PITCHER_BAT_RUNS) + 0.3 * (10 - PITCHER_BAT_RUNS));
+  assert.ok(Math.abs(noDh.slotValue("SP1", twoWayId(7)) - (10 + credit)) < 1e-9);
+  assert.equal(noDh.slotValue("SP1", 8), 10, "a pitcher with no bat form gets nothing");
+  assert.equal(rosterObjective(pool, { shape: sp(true), runsR, runsL, lhpShare: 0.3 }).slotValue("SP1", twoWayId(7)), 10, "a DH bats for him");
+});

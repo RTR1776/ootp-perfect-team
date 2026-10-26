@@ -21,6 +21,10 @@ const argv = process.argv.slice(2);
 const val = (k: string, d: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
 const TEAM = val("team", "Kansas City Torrent"), LEAGUE = val("league", "HD453"), ON = val("on", "2026-09-13");
 const MIN = Number(val("min", "400"));
+/** Theme weeks (1989 etc.) are a different run environment — a card's value
+ *  relative to its league moves with the environment, so they are not part of
+ *  a decline trend unless asked for. */
+const ENV = Number(val("env", "2010"));
 
 async function main() {
   const roster = asRows<any>(await db.execute(sql`
@@ -36,7 +40,7 @@ async function main() {
              case when st.is_pitcher then (st.stats->>'BF')::numeric else st.pa::numeric end as w,
              case when st.is_pitcher then (st.stats->>'ER')::numeric else (st.stats->>'wRAA')::numeric end as num
       from league_stints st join league_snapshots ls on ls.id = st.snapshot_id
-      where ls.split = 'all'
+      where ls.split = 'all' and ls.env_year = ${ENV}
     ),
     ok as (select * from wk where w > 0 and num is not null),
     lgm as (select wk, is_pitcher, sum(num)/sum(w) as mean from ok group by 1,2)
