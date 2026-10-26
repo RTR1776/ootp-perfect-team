@@ -4,7 +4,10 @@
  *   pnpm league:compare --roster "Leodalis De Vries,Heinie Manush,…" \
  *     --add "Jose Canseco#86912" \
  *     --add "Kevin Mitchell VAR#86911=K vL:139,BA vL:97,GAP vL:141,POW vL:250,EYE vL:212,K vR:98,BA vR:125,GAP vR:150,POW vR:190,EYE vR:172" \
- *     [--league PEL] [--year 2010] [--def-scale 1] [--no-dh]
+ *     [--league PEL] [--year 2010] [--def-scale 1] [--no-dh] [--park "1987 Yankee Stadium"]
+ *
+ * --park: the home park ("YEAR Name", as the catalogue writes it), at half
+ *   weight for the 81 home games; neutral without it.
  *
  * --roster: the hitters on the team, by name. Each resolves to the copy in
  *   the newest collection upload: the highest value, and the variant when both
@@ -29,6 +32,7 @@
 import { candidateHitter, loadHitterUniverse, normName, resolveRoster } from "@/lib/league-hitters";
 import { leagueFamily, LEAGUE_MODEL } from "@/lib/analytics/league-model";
 import { leagueLineups, type Lineup } from "@/lib/analytics/league-lineup";
+import { parkFor } from "@/lib/analytics/tournament-env";
 
 const argv = process.argv.slice(2);
 const val = (k: string, d?: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : d; };
@@ -39,6 +43,7 @@ const FAMILY = leagueFamily(val("league", "PEL")!);
 const YEAR = Number(val("year", "2010"));
 const DEF_SCALE = Number(val("def-scale", "1"));
 const DH = !argv.includes("--no-dh");
+const PARK = val("park") ? parkFor(val("park")!) : null;
 const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
 async function main() {
@@ -63,11 +68,12 @@ async function main() {
     return h;
   });
 
-  const m = leagueLineups(hitters, { family: FAMILY, year: YEAR, defScale: DEF_SCALE, dh: DH });
+  const m = leagueLineups(hitters, { family: FAMILY, year: YEAR, defScale: DEF_SCALE, dh: DH, park: PARK?.row ?? null });
   warn.push(...m.warnings);
+  if (PARK && !PARK.row) warn.push(`--park "${val("park")}": ${PARK.label}`);
 
   console.log(`League model (${LEAGUE_MODEL.fittedAt}, ${LEAGUE_MODEL.source}).`);
-  console.log(`${FAMILY} · run environment ${YEAR === 2010 ? "PT default (2010)" : YEAR} · rating prices ${Object.entries(m.prices).map(([k, v]) => `${k} ${v.toFixed(2)}`).join(" ")} · vs-LHP share ${(m.lhp * 100).toFixed(0)}% · R/G ${m.rg.toFixed(2)}, ${m.rpw.toFixed(1)} runs per win · gloves ×${DEF_SCALE}`);
+  console.log(`${FAMILY} · run environment ${YEAR === 2010 ? "PT default (2010)" : YEAR} · rating prices ${Object.entries(m.prices).map(([k, v]) => `${k} ${v.toFixed(2)}`).join(" ")} · vs-LHP share ${(m.lhp * 100).toFixed(0)}% · R/G ${m.rg.toFixed(2)}, ${m.rpw.toFixed(1)} runs per win · gloves ×${DEF_SCALE} · home park ${PARK?.row ? `${PARK.label} (half weight)` : "neutral"}`);
   for (const w of warn) console.log(`  !! ${w}`);
   console.log(`\nbats on the league model (runs per 700 PA above the league's average bat on that board):`);
   for (const h of hitters) {
