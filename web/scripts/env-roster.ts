@@ -38,7 +38,7 @@ import { readFileSync } from "node:fs";
 import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-order";
 import { teamWeights, calibrationSlope } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
-import { auditRoster, orderStaff } from "../src/lib/roster-audit";
+import { auditRoster, orderStaff, starterStaminaFloor, STAMINA_SLACK } from "../src/lib/roster-audit";
 import { DEF_SUB_RUNS, depthChart, type DepthCard } from "../src/lib/depth-chart";
 import { staffPerTeam, topShape, type SeriesBuild } from "@/lib/field-construction";
 import { setRuleGuard } from "@/lib/set-evidence";
@@ -648,6 +648,32 @@ async function main() {
       console.log(only(deep, cli) === "-" && only(cli, deep) === "-"
         ? "compare-search: Search longer picks the same 26 cards as the CLI"
         : `compare-search: Search longer differs - /build only: ${only(deep, cli)}; CLI only: ${only(cli, deep)}`);
+    }
+  }
+  /*
+   * A starter short of the era's stamina floor (more than STAMINA_SLACK under it — what the
+   * roster check marks ✗) swaps with the pen arm that clears it at the least cost to the
+   * objective: the fix made by hand on 10-25/26 (Iron Dreamland's Orwoll 56, Dank's Robertson 64).
+   * Only with a pen arm eligible to start (SP or no role, as the optimiser's SP slots) that clears it.
+   */
+  {
+    const short = starterStaminaFloor(YEAR) - STAMINA_SLACK;
+    const byId = new Map(pool.map((c) => [c.cardId, c]));
+    const st = (id: number | undefined) => (id == null ? 0 : byId.get(id)?.ratings["Stamina"] ?? 0);
+    const keys = Object.keys(slots);
+    for (const k of keys.filter((x) => /^SP\d+$/.test(x))) {
+      if (st(slots[k]) >= short) continue;
+      let pick: string | null = null, pickScore = -Infinity;
+      for (const r of keys.filter((x) => /^(RP\d+|CL)$/.test(x))) {
+        const c = byId.get(slots[r]!);
+        if (!c || st(slots[r]) < short || !(c.role === "SP" || c.role == null)) continue;
+        const sc = objective({ ...slots, [k]: slots[r], [r]: slots[k] });
+        if (sc > pickScore) { pickScore = sc; pick = r; }
+      }
+      if (!pick) { console.log(`stamina: ${byId.get(slots[k]!)?.name} (${st(slots[k])}) is under the era floor and no pen arm that can start clears it`); continue; }
+      const out = slots[k]!, into = slots[pick]!;
+      slots = { ...slots, [k]: into, [pick]: out };
+      console.log(`stamina repair: ${byId.get(into)?.name} (${st(into)}) to the rotation, ${byId.get(out)?.name} (${st(out)}) to the pen — era floor ${starterStaminaFloor(YEAR)}; objective ${pickScore.toFixed(1)}`);
     }
   }
   // Rotation and pen best-first: the game starts SP1 most and closes with CL.
