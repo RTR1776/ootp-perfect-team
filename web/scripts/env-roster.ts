@@ -555,13 +555,29 @@ async function main() {
     // A Live card's ratings move: a seed slot the card can no longer play
     // (Tatis Jr. lost 3B in the 10-14 update) would start the climb from an
     // illegal board it cannot leave. Refill around it instead, keeping the card.
+    // The same for a slot under the position floor (--min-pos) when some card in
+    // the pool clears it (10-26: seeded climbs kept SS 81 / 2B 79 / CF 64 under
+    // L.J.'s 85 / 85 / 90, since the climb only checks the floor on cards moving
+    // in). Where no card clears it (no SS 85 among Live Iron cards), the seed's
+    // best available stays.
+    const floorMet = new Map<string, boolean>();
+    const clears = (pos: string) => {
+      if (!floorMet.has(pos)) floorMet.set(pos, pool.some((c) => !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= Math.max(1, posFloorAt(MIN_POS, pos))));
+      return floorMet.get(pos)!;
+    };
+    const underFloor = kept.filter((m) => {
+      const pos = m[1]!.includes(":") ? m[1]!.split(":")[1] : m[1]!;
+      if (!HIT_POS.includes(pos as (typeof HIT_POS)[number])) return false;
+      const r = byIdSeed.get(Number(m[2]))?.ratings[`Pos Rating ${pos}`] ?? 0;
+      return r > 0 && r < posFloorAt(MIN_POS, pos) && clears(pos);
+    }).length;
     const misplaced = kept.filter((m) => {
       const pos = m[1]!.includes(":") ? m[1]!.split(":")[1] : m[1]!;
       return HIT_POS.includes(pos as (typeof HIT_POS)[number]) && (byIdSeed.get(Number(m[2]))?.ratings[`Pos Rating ${pos}`] ?? 0) <= 0;
-    }).length;
+    }).length + underFloor;
     const direct = Object.fromEntries(kept.map((m) => [m[1]!, Number(m[2])]));
     if (!gone && !misplaced && isComplete(direct, shape)) { console.log(`seed: ${path.split("/").pop()} as is (${new Set(Object.values(direct)).size} cards)`); return direct; }
-    if (misplaced) console.log(`seed: ${misplaced} slot${misplaced === 1 ? "" : "s"} now held by a card that can no longer play there (a ratings update); refilling`);
+    if (misplaced) console.log(`seed: ${misplaced} slot${misplaced === 1 ? "" : "s"} held by a card that can no longer play there or sits under the position floor (${underFloor} under the floor); refilling`);
     const must = new Set(kept.map((m) => Number(m[2])));
     for (const lam of [0, 0.5, 1, 2, 4, 8]) {
       const r = fillOnce(pool, rules, shape, fits, lam, must);
@@ -569,6 +585,10 @@ async function main() {
         console.log(`seed: ${path.split("/").pop()} refilled at λ ${lam} (${gone} card${gone === 1 ? "" : "s"} no longer in the pool; shape ${isComplete(direct, shape) ? "matches" : "differs"})`);
         return r;
       }
+    }
+    if (!gone && isComplete(direct, shape)) {
+      console.log(`seed: ${path.split("/").pop()} could not be refilled around its under-floor slots; kept as is`);
+      return direct;
     }
     console.log(`!! seed: ${path.split("/").pop()} could not be completed for this shape; λ starts only`);
     return null;
