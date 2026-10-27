@@ -173,3 +173,19 @@ test("a pen with no long men climbs to two, a swap at a time", () => {
   const pen = [r.slots.CL, r.slots.RP1, r.slots.RP2];
   assert.ok(pen.includes(6) && pen.includes(7), JSON.stringify(r.slots));
 });
+
+test("with the cap full, an upgrade is paid for by a near-equal cheaper card, not the slot's cheapest", () => {
+  // Dregs 10-27: Sam Huff caught over Tony Pena Sr. because the +11 for Pena could only be
+  // paid by dropping some slot to a 50. Here 1B can go from H1 to H2 (+20 runs, +10 value)
+  // only if 3B goes from H3 to H4 (-1 run, -10 value); H5, the cheapest 3B, costs 40 runs.
+  const two: FillShape = { lineupPos: ["1B", "3B"], spKeys: [], rpKeys: [], benchKeys: [], bats: 2 };
+  const capped: RosterRules = { ...rules, restrictions: { cards: 2, teamCap: 130 } };
+  const at = (id: number, pos: Record<string, number>, val: number) => ({ ...hitter(id, pos), val });
+  const pool = [at(1, { "1B": 90 }, 60), at(2, { "1B": 90 }, 70), at(3, { "3B": 90 }, 70), at(4, { "3B": 90 }, 60), at(5, { "3B": 90 }, 50)];
+  const runs = new Map([[1, 0], [2, 20], [3, 10], [4, 9], [5, -30]]);
+  const obj = rosterObjective(pool, { shape: two, runsR: runs, runsL: runs });
+  const start = { "R:1B": 1, "R:3B": 3, "L:1B": 1, "L:3B": 3 };
+  const r = optimizeRoster(start, pool, capped, two, { objective: obj.objective, slotValue: obj.slotValue, pairMoves: { aTop: 2, bCheapest: 1, rank: obj.rank } });
+  assert.equal(r.legal, true);
+  assert.deepEqual([r.slots["R:1B"], r.slots["R:3B"]], [2, 4], JSON.stringify(r.slots));
+});

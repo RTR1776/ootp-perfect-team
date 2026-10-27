@@ -99,11 +99,28 @@ export const TEAM_WEIGHTS: { from: number; to: number; def: number; frm: number;
   { from: 2010, to: 9999, def: 2, frm: 1, pit: 2, sp: 1.5, rp: 2 },
 ];
 
+/**
+ * The pen's weight in a cap or slots event (L.J. 10-27: "Cap always sacrifices bullpen ... Same
+ * thing for slots"). The win harness can't tell pen weights apart from 1.5 to 3 there: held-out
+ * r with win% is .410 / .412 / .413 / .412 at 1.5 / 2 / 2.5 / 3 on 57 cap exports (4,509 teams),
+ * and the 205 slots exports are as flat. But the roster those weights buy is not: in Dregs
+ * (1994, cap 1468) the 2.5 roster gave up 10.1 runs if the true weight was 1.3, while the 1.85
+ * roster gave up 2.7 at most under any of the three. Its pen came out at 53.7 a card, what the
+ * winning Dregs teams spend (53.6, against our 57.3 at 2.5). So capped events take the weight
+ * that holds up under all three, never above the era's own.
+ */
+export const CAPPED_PEN_WEIGHT = 1.85;
+
+/** A cap or slots event: value is rationed, so the pen weight drops to CAPPED_PEN_WEIGHT. */
+export function rationedEvent(rx: { teamCap?: number | null; slots?: Record<string, number> | null } | null | undefined): boolean {
+  return rx?.teamCap != null || (rx?.slots != null && Object.keys(rx.slots).length > 0);
+}
+
 /** Glove, framing and pitching weights against a bat run (= 1) for a run-environment year; the 2010 band with no year. */
-export function teamWeights(year: number | null | undefined): { def: number; frm: number; pit: number; sp: number; rp: number } {
+export function teamWeights(year: number | null | undefined, o: { rationed?: boolean } = {}): { def: number; frm: number; pit: number; sp: number; rp: number } {
   const y = year ?? 2010;
   const b = TEAM_WEIGHTS.find((w) => y >= w.from && y <= w.to) ?? TEAM_WEIGHTS[TEAM_WEIGHTS.length - 1];
-  return { def: b.def, frm: b.frm, pit: b.pit, sp: b.sp, rp: b.rp };
+  return { def: b.def, frm: b.frm, pit: b.pit, sp: b.sp, rp: o.rationed ? Math.min(b.rp, CAPPED_PEN_WEIGHT) : b.rp };
 }
 
 /**

@@ -84,7 +84,7 @@ const slash = (e: Entry, split: "vR" | "vL") => {
   if (c.is_pitcher) {
     const L = pitcherRates(r, era.rates, "vL"), R = pitcherRates(r, era.rates, "vR");
     if (!L || !R) return null;
-    const mix = Object.fromEntries(Object.keys(L).map((k) => [k, 0.35 * (L as any)[k] + 0.65 * (R as any)[k]])) as typeof L;
+    const mix = Object.fromEntries(Object.keys(L).map((k) => [k, 0.35 * (L as any)[k] + 0.65 * (R as any)[k]])) as unknown as typeof L;
     return rateLine(park ? applyPark(mix, blendPark(park, 0.35)) : mix, era.rg);
   }
   const h = hitterRates(r, era.rates, split);

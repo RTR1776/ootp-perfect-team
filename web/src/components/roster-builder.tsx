@@ -42,7 +42,7 @@ import { BACKUP_PENALTY, backupPositions, longMenShort, missingBackups } from "@
 import { auditRoster, auditSummary, orderStaff } from "@/lib/roster-audit";
 import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
 import { hitterRates } from "@/lib/analytics/card-value";
-import { calibrationSlope, teamWeights } from "@/lib/analytics/calibration";
+import { calibrationSlope, rationedEvent, teamWeights } from "@/lib/analytics/calibration";
 import { bestOrder, obp, orderEnv, paLine, pitcherLine, shrink, slg } from "@/lib/batting-order";
 import type { Confidence } from "@/lib/data-confidence";
 import type { EraRates } from "@/lib/analytics/run-env";
@@ -522,7 +522,7 @@ export function RosterBuilder({
   const lhpShare = env?.lhpShare ?? LHP_SHARE_DEFAULT;
   /* Gloves are worth more where more balls are put in play (fielding.ts gloveScale), and a glove run and a
      pitching run buy more run differential than a bat run (calibration.ts teamWeights, by era). */
-  const teamW = teamWeights(env?.eraYear ?? tournament?.envYear ?? 2010);
+  const teamW = teamWeights(env?.eraYear ?? tournament?.envYear ?? 2010, { rationed: rationedEvent(tournament?.restrictions as { teamCap?: number | null; slots?: Record<string, number> | null } | null) });
   const glove = (env ? gloveScale(env.rates) : 1) * teamW.def * defense;
   const envs = useMemo(() => (env ? projectionEnvs(env.rates, env.park, env.lhbShare) : null), [env]);
   const formPool = useMemo(() => basePool.map(c => {
