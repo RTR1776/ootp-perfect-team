@@ -1,0 +1,36 @@
+# Live-Plus Gold Pop-up — Claude pick 2026-10-27 engine, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 2026 --dh --min 40 --max 89 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveplusgoldpopup --sp 5 --rp 7 --bats 14)
+R:C Jeferson Quero (VAR) #84764
+R:1B Josue Briceno (VAR) #85129
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Aiva Arquette (VAR) #84768
+R:SS Carson Williams (VAR) #84635
+R:LF Eduardo Quintero #84741
+R:CF Sebastian Walcott #85136
+R:RF Zyhir Hope (VAR) #84739
+R:DH Josue De Paula (VAR) #84729
+L:C Jeferson Quero (VAR) #84764
+L:1B Charlie Condon #85123
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Aiva Arquette (VAR) #84768
+L:SS Carson Williams (VAR) #84635
+L:LF Kevin Alcantara (VAR) #84755
+L:CF Sebastian Walcott #85136
+L:RF Joshua Baez #86598
+L:DH Josue De Paula (VAR) #84729
+SP1 Hagen Smith #84629
+SP2 Seth Hernandez (VAR) #84742
+SP3 Travis Sykora (VAR) #85120
+SP4 Jaxon Wiggins #85127
+SP5 Robby Snelling #85119
+CL Calvin Faucher #82119
+RP1 Jack Wenninger #85125
+RP2 Luis De Leon (VAR) #84758
+RP3 George Klassen (VAR) #84753
+RP4 Caden Scarborough (VAR) #84762
+RP5 Tyler Rogers #82512
+RP6 Elmer Rodriguez #84749
+BN1 Eduardo Tait #84743
+BN2 Angel Genao #84740
+BN3 Kevin Alcantara (VAR) #84755
+BN4 Joshua Baez #86598
+BN5 Charlie Condon #85123

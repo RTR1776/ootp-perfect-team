@@ -1,0 +1,36 @@
+# Daily Bronze PTCS 3 Replay Slots — Claude pick 2026-10-27 engine, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Coors Field --park-year 2000 --dh --min 40 --max 69 --slots B18,I8 --variant-cap 13 --size 26 --series bronzeptcs3 --sp 5 --rp 7 --bats 14)
+R:C Ernie Whitt #86941
+R:1B Steve Pearce (VAR) #86366
+R:2B Brandon Phillips #87202
+R:3B Chris Sabo #87059
+R:SS Dave Brain (VAR) #85934
+R:LF Eric Byrnes #87195
+R:CF Deion Sanders #86962
+R:RF Aaron Rowand #87196
+R:DH Bob Allison (VAR) #86610
+L:C Gabby Hartnett #86254
+L:1B Steve Pearce (VAR) #86366
+L:2B Brandon Phillips #87202
+L:3B Dave Brain (VAR) #85934
+L:SS Ernie Clement #87244
+L:LF Eric Byrnes #87195
+L:CF Deion Sanders #86962
+L:RF Aaron Rowand #87196
+L:DH Chris Sabo #87059
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Mickey Lolich #87279
+SP4 Livan Hernandez #87261
+SP5 Bob Miller #84715
+CL Caden Scarborough (VAR) #84762
+RP1 John Bale #87234
+RP2 Edwin Diaz #86422
+RP3 Bruce Hurst #86361
+RP4 Mike Marshall #84720
+RP5 Randy Choate #87026
+RP6 Justin Verlander #87014
+BN1 Shawn Green #87028
+BN2 Javier Baez (VAR) #86417
+BN3 Ernie Clement #87244
+BN4 Vladimir Guerrero #86474
+BN5 Gabby Hartnett #86254
