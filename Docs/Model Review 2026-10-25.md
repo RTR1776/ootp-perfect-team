@@ -104,3 +104,31 @@ L.J. (max effort): "take a comprehensive look at our data modeling for both leag
 **Reading:** the position rating already carries what the error rating is worth, in every era. The game's error multiplier makes errors more common for everyone in the field, but it does not make one team's sure hands worth more than the position rating says. Nothing wired.
 
 **Next use of the file:** the running-game columns (attempt rate, success) and stamina columns (starters, relievers) for the steal and pitch-count settings, per event era.
+
+### 6. Home runs off extreme-Control arms (2026-10-29): not wired
+**Question (L.J., after the Duggleby drop, with the Bronze Kluber):** do arms with extreme Control get credited with more than they deliver?
+
+**Walks are fine.** The Control curve is log-log with curvature, fitted over Control 22–201, so it already flattens. Against observed walks per batter faced (each series' own rate, base cards):
+
+| Control | BF | Observed | Curve | Straight line |
+|---|---|---|---|---|
+| 140–159 | 1.7M | 0.72 | 0.73 | 0.68 |
+| 160–179 | 348k | 0.60 | 0.62 | 0.51 |
+| 200+ | 115k | 0.47 | 0.53 | 0.31 |
+
+**Home runs.** At the same pHR (80–109), arms with Control 160+ allow 1.14× the series HR per ball in play against a pHR curve of 1.02; Control under 120 is 1.03 vs 1.02. Low Stuff alone (under 60, normal Control) allows *fewer* (0.94 vs 1.01). Per batter faced the gap looks bigger (1.27 vs 1.03), but about half of that is these arms' extra balls in play (+11%), which the model already carries.
+
+**Held out:**
+- **Card level** (`hr-control-export.mts` → `hr-control-cards.py`; observed_card_stats, every archived export; 26,846 base card-series; HR ~ Poisson, k fitted on half the series, 40 half-samples):
+  - Pooled hinge at Control 140: HR per BIP ×1.025 per +10 over 140, better in 36/40. At 160: ×1.041, 36/40. At 120: 16/40.
+  - By band (hinge 140): deadball 0/40 (k ≈ 0), 1921–45 24/40, 1946–76 29/40, 1977–93 29/40, 1994–2009 23/40, 2010+ 13/40.
+- **Team wins** (`teams.mts` traits `arm conH140`, `conH160`, ×era HR, low-Stuff only → `hr-control-teams.py`; the 42 exports in the cloud container, 3,580 team-events): no version holds (3/40 to 20/40). Those exports hold no 1977–93 event and one pre-1946, so the bands where the card-level signal sits are untested at team level.
+
+**Reading:** a real but small effect, pooled just under the bar, concentrated in 1946–93. In deadball it is zero, so the Duggleby and Bronze Championship builds stand. Nothing wired.
+
+**To settle 1977–93 on the Mac:**
+
+    cd web && MV2_TOURDIR=Archive/Completed MV2_NO_LEAGUE=1 MV2_DIR=/tmp/mv2 node --import tsx scripts/model-v2/teams.mts
+    python3 -I scripts/model-review/hr-control-teams.py /tmp/mv2/teams.json
+
+Wire it only if a band passes 37/40 on wins there.

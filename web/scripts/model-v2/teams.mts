@@ -177,6 +177,12 @@ for (const u of units) {
       if ((s.stats.GS_p ?? 0) > 0) t.bfSP += b;
       if (c.throws === "L") t.lhpBF += b;
       for (const k of ["Stuff", "Control", "pHR", "pBABIP", "Stamina"]) addTr(t, `arm ${k}`, r[k], b);
+      // Control hinge for the high-Control HR test (2026-10-29, scripts/model-review/hr-control-teams.py): Control over 140 / 160 per 10, and that × the era's HR per BIP.
+      { const con = 0.45 * (r["Control vL"] ?? r.Control) + 0.55 * (r["Control vR"] ?? r.Control), stu = 0.45 * (r["Stuff vL"] ?? r.Stuff) + 0.55 * (r["Stuff vR"] ?? r.Stuff);
+        if (Number.isFinite(con)) {
+          for (const H of [140, 160]) { const x = Math.max(0, con - H) / 10; addTr(t, `arm conH${H}`, x, b); addTr(t, `arm conH${H}hr`, x * era.row.rates.HR * 100, b); }
+          addTr(t, "arm conH140lowstu", stu < 80 ? Math.max(0, con - 140) / 10 : 0, b);
+        } }
     } else {
       const p = s.stats.PA ?? 0; t.R += s.stats.R ?? 0; t.pa += p; t.zr += s.stats.ZR ?? 0; t.wraa += s.stats.wRAA ?? 0;
       if (R != null && L != null) { const m = (1 - lhp) * R + lhp * L; t.off += (p * m) / 700; if (obs) for (const K of OBS_KS) t[`off${K}`] = (t[`off${K}`] ?? 0) + (p * blend(fid(s), m, K)) / 700; }
