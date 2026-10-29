@@ -1,0 +1,36 @@
+# Daily Late Iron — Claude pick 2026-10-28 jeffs, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Chase Field --park-year 2026 --dh --min 40 --max 59 --size 26 --series lateiron --sp 5 --rp 7 --bats 14)
+R:C Joe Torre #85482
+R:1B Shawn Green #87028
+R:2B Nap Lajoie #86581
+R:3B Chris Taylor #87243
+R:SS Ozzie Smith #86972
+R:LF Norris Hopper #87191
+R:CF Milt Thompson #86927
+R:RF Vladimir Guerrero #86474
+R:DH George Sisler (VAR) #87002
+L:C Henry Blanco #84344
+L:1B Jackie Robinson (VAR) #84390
+L:2B Nap Lajoie #86581
+L:3B Chris Taylor #87243
+L:SS Ozzie Smith #86972
+L:LF Norris Hopper #87191
+L:CF Ken Berry #85449
+L:RF Vladimir Guerrero #86474
+L:DH Bill Hall #87200
+SP1 James McDonald (VAR) #86384
+SP2 Big Jeff Pfeffer #87340
+SP3 Justin Verlander #87014
+SP4 Jeff Francis #87199
+SP5 Bob Gibson (VAR) #86658
+CL John Bale #87234
+RP1 Mike Marshall #84720
+RP2 Randy Choate #87026
+RP3 Patricio Scantlebury #85828
+RP4 Wilson Alvarez (VAR) #83868
+RP5 Max Scherzer #87263
+RP6 Hector Carrasco (VAR) #83082
+BN1 Bill Hall #87200
+BN2 Ken Berry #85449
+BN3 Javier Baez (VAR) #86417
+BN4 Jackie Robinson (VAR) #84390
+BN5 Henry Blanco #84344
