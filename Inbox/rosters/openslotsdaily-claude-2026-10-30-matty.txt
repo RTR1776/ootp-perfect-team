@@ -1,0 +1,36 @@
+# Daily Open Slots — Claude pick 2026-10-30 matty, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Metrodome --park-year 1990 --dh --slots P6,D4,G4,S4,B4,I4 --size 26 --series openslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Chase Utley #87068
+R:3B George Brett #87025
+R:SS Corey Seager #87173
+R:LF Curtis Granderson #86595
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Albert Pujols #87149
+L:C Mike Zunino #86431
+L:1B Albert Pujols #87149
+L:2B Chase Utley #87068
+L:3B George Brett #87025
+L:SS Corey Seager #87173
+L:LF Bo Jackson #86966
+L:CF Carlos Beltran #87066
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Madison Bumgarner #87024
+SP2 Christy Mathewson #86697
+SP3 Don Larsen #87240
+SP4 Count Leblanc (VAR) #86978
+SP5 Nick Altrock #87049
+CL Jeff Pfeffer #87350
+RP1 Mickey Lolich #87279
+RP2 Fritz Ostermueller #86357
+RP3 Livan Hernandez #87261
+RP4 Bill Duggleby #87335
+RP5 James McDonald (VAR) #86384
+RP6 Big Jeff Pfeffer #87340
+BN1 Ryan Braun #87222
+BN2 Chris Taylor #87243
+BN3 Jeff Francoeur (VAR) #86300
+BN4 George Sisler (VAR) #87002
+BN5 Mike Zunino #86431
