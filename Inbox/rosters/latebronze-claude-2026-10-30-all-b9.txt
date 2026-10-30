@@ -29,8 +29,8 @@ RP3 Bob Miller #84715
 RP4 Edwin Diaz #86422
 RP5 Hal Woodeshick #83148
 RP6 Satchel Paige #84839
-BN1 Chris Sabo #87059
+BN1 Aaron Rowand #87196
 BN2 Dave Brain (VAR) #85934
-BN3 Aaron Rowand #87196
+BN3 Chris Sabo #87059
 BN4 Brandon Phillips #87202
 BN5 Tony Pena Sr. #86282
