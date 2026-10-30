@@ -1,0 +1,35 @@
+# Daily Silver Slots — Claude pick 2026-10-30-all-b1, rebuilt from the catalogue's rules by current-rosters (--year 1977 --park Riverfront Stadium --park-year 1978 --min 40 --max 79 --slots S16,B5,I5 --size 26 --series silverslotsdaily --sp 5 --rp 6 --bats 15)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Placido Polanco #87213
+R:3B Ernie Clement #87244
+R:SS Jeremy Pena #87154
+R:LF Willie McGee (VAR) #85753
+R:CF Deion Sanders #86962
+R:RF Andy Van Slyke #86936
+L:C Mike Zunino #86431
+L:1B Ernie Clement #87244
+L:2B Placido Polanco #87213
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Willie McGee (VAR) #85753
+L:CF Deion Sanders #86962
+L:RF Alex Rios #87214
+SP1 Nick Altrock #87049
+SP2 Orlando Hernandez #87239
+SP3 Jeff Pfeffer #87350
+SP4 Kelvim Escobar #87207
+SP5 Bill Ricks #87162
+CL Bob Walk #86971
+RP1 Gene Conley #87276
+RP2 Jordan Montgomery #86354
+RP3 Mickey Lolich #87279
+RP4 Fritz Ostermueller #86357
+RP5 James McDonald (VAR) #86384
+BN1 Chris Taylor #87243
+BN2 Chris Sabo #87059
+BN3 Alex Rios #87214
+BN4 Javier Baez (VAR) #86417
+BN5 Broderick Perkins #86460
+BN6 George Sisler (VAR) #87002
+BN7 Mike Zunino #86431
