@@ -335,8 +335,26 @@ export function optimizeRoster(
   const upgrades = pm
     ? new Map(keys.map((k) => [k, [...(cands.get(k) ?? [])].sort((a, b) => pm.rank(k, b) - pm.rank(k, a)).slice(0, pm.aTop)]))
     : null;
+  /*
+   * Downgrades: the cheapest cards, and also the slot's value/rank frontier, the cards no
+   * other card beats on both price and rank. With the cap full, an upgrade can only be paid
+   * for by a cheaper card elsewhere, and the useful one is a few points cheaper and nearly as
+   * good (a 64 for a 60), not the slot's 50s. Cheapest-only left Dregs (cap 1468, 0 spare)
+   * catching Sam Huff (−27 runs vs RHP) over Tony Pena Sr. (−17), an 11-point upgrade no
+   * single 50 could pay for (L.J. 10-27: "Sam Huff at C v R ... makes no sense"). A card off
+   * the frontier is never the better payment: one cheaper and better-ranked exists. Only the
+   * frontier, not every value level: a 45-point window (Low Gold Cap 40–84) at two a level
+   * ran past 14 minutes.
+   */
   const downgrades = pm
-    ? new Map(keys.map((k) => [k, [...(cands.get(k) ?? [])].sort((a, b) => (a.val ?? 0) - (b.val ?? 0)).slice(0, pm.bCheapest)]))
+    ? new Map(keys.map((k) => {
+        const list = cands.get(k) ?? [];
+        const byPrice = [...list].sort((a, b) => (a.val ?? 0) - (b.val ?? 0) || pm.rank(k, b) - pm.rank(k, a));
+        const frontier: FillCard[] = [];
+        let best = -Infinity;
+        for (const c of byPrice) { const r = pm.rank(k, c); if (r > best) { frontier.push(c); best = r; } }
+        return [k, [...new Map([...byPrice.slice(0, pm.bCheapest), ...frontier].map((c) => [c.cardId, c])).values()]];
+      }))
     : null;
 
   /**

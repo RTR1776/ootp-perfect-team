@@ -1,0 +1,35 @@
+R:C Tony Pena Sr. #86282
+R:1B Nap Lajoie #86581
+R:2B Brandon Phillips #87202
+R:3B Bill Hall #87200
+R:SS Khalil Greene #87203
+R:LF Mike Trout (VAR) #84793
+R:CF Byron Buxton (VAR) #85821
+R:RF Jett Williams #84763
+R:DH Jonny Gomes #87258
+L:C Tony Pena Sr. #86282
+L:1B Jackie Robinson (VAR) #84390
+L:2B Brandon Phillips #87202
+L:3B Bill Hall #87200
+L:SS Khalil Greene #87203
+L:LF Jett Williams #84763
+L:CF Byron Buxton (VAR) #85821
+L:RF Jonny Gomes #87258
+L:DH Jim Thorpe #86961
+SP1 Fritz Ostermueller #86357
+SP2 James McDonald (VAR) #86384
+SP3 Bruce Hurst #86361
+SP4 Chuck Finley (VAR) #85338
+SP5 Justin Verlander #87014
+CL John Bale #87234
+RP1 Mike Marshall #84720
+RP2 Jeff Francis #87199
+RP3 Don August (VAR) #86423
+RP4 Don Schwall #85480
+RP5 John Maine #86301
+BN1 Dave Henderson #86926
+BN2 Jim Thorpe #86961
+BN3 Jackie Robinson (VAR) #84390
+BN4 Derek Dietrich (VAR) #85318
+BN5 Doug Mirabelli #85733
+BN6 Connie Day #86982

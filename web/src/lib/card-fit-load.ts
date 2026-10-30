@@ -23,7 +23,7 @@ import { envFitMaps, observedShift, type EnvFitInput } from "@/lib/analytics/env
 import { bothHands, loadObservedBook, observedRunsFrom, type ObservedBook, type ObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraFor, eraTable, parkFor } from "@/lib/analytics/tournament-env";
 import { gloveScale } from "@/lib/analytics/fielding";
-import { teamWeights } from "@/lib/analytics/calibration";
+import { rationedEvent, teamWeights } from "@/lib/analytics/calibration";
 import { assumedVariantRatings, formRatings } from "@/lib/card-forms";
 import { CARD_TYPE_SHORT } from "@/lib/card-sets";
 import { armRole, bestTeam, FIELD_POS, fitIn, savedTeam, type Fit, type FitCtx, type Room, type ScoredForm } from "@/lib/card-fit";
@@ -347,7 +347,7 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
       role: inp.isPitcher ? armRole(isTwoWayForm(inp.cardId) ? null : c.pitcherRole, inp.ratings["Stamina"]) : null, runsR: r, runsL: l, pos, ...(frame != null ? { frame } : {}), val: c.cardValue,
     });
   }
-  const tw = teamWeights(envYear ?? 2010);
+  const tw = teamWeights(envYear ?? 2010, { rationed: rationedEvent(t.restrictions as { teamCap?: number | null; slots?: Record<string, number> | null } | null) });
   // Arms priced as the builder prices them: the series' measured weights, split over the staff carried.
   const built = t.series && !w.staleSeries.has(t.id) ? (fieldConstruction as { series: Record<string, SeriesBuild> }).series[t.series] : undefined;
   const staff = staffPerTeam(built);

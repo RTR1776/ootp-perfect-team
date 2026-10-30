@@ -36,7 +36,7 @@ import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { readFileSync } from "node:fs";
 import { bestOrder, orderEnv, paLine, pitcherLine, shrink } from "@/lib/batting-order";
-import { teamWeights, calibrationSlope } from "@/lib/analytics/calibration";
+import { teamWeights, calibrationSlope, rationedEvent } from "@/lib/analytics/calibration";
 import fieldConstruction from "../src/data/field-construction.json";
 import { auditRoster, orderStaff, starterStaminaFloor, STAMINA_SLACK } from "../src/lib/roster-audit";
 import { DEF_SUB_RUNS, depthChart, type DepthCard } from "../src/lib/depth-chart";
@@ -139,6 +139,8 @@ const BACKUPS = !flag("no-backups");
  * around the rest. Pair it with a small --starts as a cross-check.
  */
 const SEED = val("seed") ?? null;
+/** --score <load file>: print this roster's objective, slot by slot, and stop. */
+const SCORE = val("score") ?? null;
 /** The λ a seeded start reports (it was not filled at any λ). */
 const SEED_LAMBDA = -1;
 /**
@@ -493,7 +495,7 @@ async function main() {
   console.log(`gloves ×${GLOVE.toFixed(2)}: balls in play in this environment against the fit's archive (fielding.ts gloveScale)${NO_GLOVE_SCALE ? " — off (--no-glove-scale)" : ""}`);
   // Team weights (calibration.ts TEAM_WEIGHTS): a glove run and a pitching run against a bat run, by era.
   if (!argv.includes("--no-team-weights")) {
-    const tw = teamWeights(YEAR ?? 2010);
+    const tw = teamWeights(YEAR ?? 2010, { rationed: rationedEvent({ teamCap: CAP, slots: SLOTS }) });
     GLOVE *= tw.def; SP_WEIGHT *= tw.sp; RP_WEIGHT *= tw.rp; FRAMING = tw.frm;
     console.log(`team weights (${YEAR ?? 2010} band): gloves ×${tw.def}, framing ×${tw.frm}, starters ×${tw.sp}, pen ×${tw.rp} against a bat run → glove ×${GLOVE.toFixed(2)}, SP ${SP_WEIGHT.toFixed(2)}, RP ${RP_WEIGHT.toFixed(2)} (--no-team-weights to turn off)`);
   }
@@ -592,6 +594,23 @@ async function main() {
     }
     console.log(`!! seed: ${path.split("/").pop()} could not be completed for this shape; λ starts only`);
     return null;
+  }
+
+  /*
+   * --score <load file>: score this roster on the objective, slot by slot, and stop — no fill,
+   * no climb. The check that the optimiser is searching well (L.J. 10-27, Dregs: "make sure this
+   * optimizer is actually working"): a hand-built roster that scores above its best means the
+   * search is stuck; one that scores below it means the objective prefers its pick.
+   */
+  if (SCORE) {
+    const s = seedStart(SCORE);
+    if (!s) process.exit(1);
+    const nameOf = (id: number) => pool.find((c) => c.cardId === id)?.name ?? String(id);
+    const valOf = (id: number) => pool.find((c) => c.cardId === id)?.val ?? 0;
+    for (const [k, id] of Object.entries(s)) console.log(`  ${k.padEnd(6)} ${nameOf(id).padEnd(26)} ${String(valOf(id)).padStart(3)}  ${slotValue(k, id).toFixed(2)}`);
+    const value = [...new Set(Object.values(s))].reduce((a, id) => a + valOf(id), 0);
+    console.log(`score: ${objective(s).toFixed(1)} weighted runs · value ${value} of ${CAP ?? "-"}`);
+    process.exit(0);
   }
 
   let { slots, lambda } = fillRoster(pool, rules, shape, fits);
@@ -771,7 +790,7 @@ async function main() {
   const totalVal = rostered.reduce((n, c) => n + (c.val ?? 0), 0);
   const lhbStarters = lineupPos.filter((p) => { const c = poolById.get(slots[`R:${p}`]); return c && batsLeftOn(c.bats, "R"); }).length;
   console.log(`\n${rostered.length} players · value ${totalVal}${CAP ? ` / ${CAP} (${CAP - totalVal} spare)` : ""} · ${lambda === SEED_LAMBDA ? "from seed" : `λ ${lambda.toFixed(3)}`} · ${rostered.filter((c) => c.variant).length} variants`);
-  console.log(`vs RHP lineup gets the friendly park side in ${lhbStarters} of ${lineupPos.length} spots`);
+  console.log(`vs RHP lineup: ${lhbStarters} of ${lineupPos.length} bat from the left side (the platoon edge)${pr ? `; this park favours ${solveEnv(era.rates, era.rg, blendPark(pr, 1)).RG > solveEnv(era.rates, era.rg, blendPark(pr, 0)).RG ? "left" : "right"}-handed bats` : ""}`);
   const bats2 = rostered.filter((c) => !c.isPitcher);
   console.log(`\n--- order inputs (rostered bats) ---`);
   for (const c of bats2.sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {

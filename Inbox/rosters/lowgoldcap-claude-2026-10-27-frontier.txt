@@ -1,0 +1,35 @@
+R:C Mike Zunino #86431
+R:1B Pedro Alvarez #87062
+R:2B Brandon Phillips #87202
+R:3B Chris Sabo #87059
+R:SS Jeremy Pena #87154
+R:LF Alfonso Soriano #86745
+R:CF Deion Sanders #86962
+R:RF Jeff Francoeur (VAR) #86300
+R:DH Ryan Braun #87222
+L:C Mike Zunino #86431
+L:1B Pedro Alvarez #87062
+L:2B Brandon Phillips #87202
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Alfonso Soriano #86745
+L:CF Deion Sanders #86962
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 CC Sabathia #87182
+SP3 Kelvim Escobar #87207
+SP4 Jordan Montgomery #86354
+SP5 Bob Gibson (VAR) #86658
+CL Fritz Ostermueller #86357
+RP1 James McDonald (VAR) #86384
+RP2 Caden Scarborough (VAR) #84762
+RP3 John Bale #87234
+RP4 Randy Choate #87026
+RP5 Todd Jones (VAR) #86434
+RP6 R.T. Walker #86952
+BN1 Jim Maloney #85498
+BN2 Ed Gremminger #84308
+BN3 Buck Rodgers (VAR) #84312
+BN4 Alfredo Amezaga #87188
+BN5 Chuck Cottier #85503
