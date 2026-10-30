@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Cap — Claude pick 2026-10-31 grimm, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Columbia Park --park-year 1906 --card-year-max 1945 --slots P4,D4,G4,S4,B4,I6 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Johnny Bassler #86476
+R:1B Ben Taylor (VAR) #87163
+R:2B Pop Lloyd #86896
+R:3B Honus Wagner #85540
+R:SS Pythias Russ (VAR) #87083
+R:LF Ed Delahanty #87371
+R:CF Roy Thomas #86784
+R:RF Charlie Blackwell #87268
+L:C Bill Killefer #87346
+L:1B Ben Taylor (VAR) #87163
+L:2B Pop Lloyd #86896
+L:3B Honus Wagner #85540
+L:SS Pythias Russ (VAR) #87083
+L:LF Ed Delahanty #87371
+L:CF Roy Thomas #86784
+L:RF Charlie Blackwell #87268
+SP1 Christy Mathewson #86697
+SP2 Ed Rile #87165
+SP3 Cy Young #86996
+SP4 Jack Stivetts #87357
+CL Jeff Pfeffer #87350
+RP1 Jack Pfiester #87351
+RP2 Bill Duggleby #87335
+RP3 Sherry Smith #87030
+RP4 Big Jeff Pfeffer #87340
+BN1 Billy Southworth (VAR) #86379
+BN2 Jack Glasscock #87352
+BN3 Kid Elberfeld (VAR) #86368
+BN4 Stan Hack #86458
+BN5 Nap Lajoie #86581
+BN6 George Sisler (VAR) #87002
+BN7 Maurice Archdeacon #85665
+BN8 Bill Killefer #87346
+BN9 Halley Harding #86979
