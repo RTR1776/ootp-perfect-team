@@ -21,6 +21,7 @@ import { LONG_MAN_STAMINA } from "./roster-audit";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { isComplete, type FillCard, type FillResult, type FillShape } from "./roster-fill";
 import { maxAssignment } from "./assign";
+import { dualUseOk, unitOf } from "./two-way";
 
 /** Which of the three groups a slot belongs to — a card may hold one of each. */
 export type SlotGroup = "R" | "L" | "P";
@@ -130,14 +131,45 @@ export const BACKUP_PENALTY = 25;
 const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
 export interface BackupPosition { pos: string; floor: number; can: FillCard[] }
 
-/** The fielding positions this pool can cover twice (owned, eligible hitters at or above the floor). */
+const usable = (c: FillCard, rules: RosterRules) => (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length;
+
+/**
+ * The glove a backup needs in a cap event: 60, not the starter's floor.
+ * L.J., 2026-10-31 (Early Years Cap held three 46-47 bench cards only because
+ * a backup had to clear SS 85 / CF 90 / 2B 85): "you generally want to find a
+ * low value backup IF and backup OF that covers multiple positions". Measured
+ * the same day over 1,770 teams in 11 cap series (Tourney Data/Cap Exports):
+ * the best quarter carries a backup C, an IF utility man and an OF utility man
+ * more often than the rest, each at a median of +1 over the floor value, rated
+ * 60+ at the spots they cover. A backup plays a game or two; the cap he would
+ * cost to clear a starter's floor buys a starter.
+ */
+export const CAP_BACKUP_FLOOR = 60;
+
+/** The glove floor a backup at `pos` must clear: the starter's floor, capped at CAP_BACKUP_FLOOR in a cap or slots event. */
+export function backupFloorAt(rules: RosterRules, posFloor: PosFloor | undefined, pos: string): number {
+  const f = Math.max(1, posFloorAt(posFloor, pos));
+  // A slots event (Championship Cap: P4 D4 G4 S4 B4 I6) rations cards the same way: a backup
+  // built to a starter's floor takes a better tier's slot.
+  const rationed = rules.restrictions?.teamCap != null || rules.restrictions?.slots != null;
+  return rationed ? Math.min(f, CAP_BACKUP_FLOOR) : f;
+}
+
+/** The fielding positions this pool can cover twice (owned, eligible hitters at or above the backup floor). */
 export function backupPositions(pool: readonly FillCard[], rules: RosterRules, posFloor?: PosFloor): BackupPosition[] {
   return FIELD_POS.map((pos) => {
-    const floor = Math.max(1, posFloorAt(posFloor, pos));
-    const can = pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= floor
-      && (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length);
+    const floor = backupFloorAt(rules, posFloor, pos);
+    const can = pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= floor && usable(c, rules));
     return { pos, floor, can };
   }).filter((b) => new Set(b.can.map((c) => c.cardId)).size >= 2);
+}
+
+/** In a cap event, the value of the cheapest card the pool can field: the floor. Null without a team cap. */
+export function capFloorValue(pool: readonly FillCard[], rules: RosterRules): number | null {
+  if (rules.restrictions?.teamCap == null) return null;
+  let min = Infinity;
+  for (const c of pool) if (c.val != null && usable(c, rules) && c.val < min) min = c.val;
+  return Number.isFinite(min) ? min : null;
 }
 
 /** How many long men (pen arms at LONG_MAN_STAMINA+) the board is short of `want`. */
@@ -195,11 +227,16 @@ function legal(
     seen[g].add(id);
   }
   const ids = new Set(Object.values(slots));
-  if (ids.size > size || ids.size < minPlayers) return false;
-
   const members = [...ids].map((id) => byId.get(id)).filter((c): c is FillCard => c != null);
   if (members.length !== ids.size) return false;
-  if (samePlayer(members)) return false; // one card per player
+  // A two-way card in both roles is one card on the roster (two-way unitOf): roster size,
+  // value, variants and tier slots count it once.
+  const unitMap = new Map<number, FillCard>();
+  for (const m of members) if (!unitMap.has(unitOf(m.cardId))) unitMap.set(unitOf(m.cardId), m);
+  const units = [...unitMap.values()];
+  if (units.length > size || units.length < minPlayers) return false;
+  if (units.length !== members.length && !dualUseOk(slots)) return false;
+  if (samePlayer(units)) return false; // one card per player
   // The copy on the board must be one L.J. owns. candidatesFor already keeps
   // unowned forms out of every move; this stops one that was on the STARTING
   // board (a saved roster naming the base copy of a variant-only card) from
@@ -216,11 +253,11 @@ function legal(
     if (long < minLongMen) return false;
   }
   if (members.filter((m) => !m.isPitcher).length > shape.bats) return false;
-  if (rx?.teamCap != null && members.reduce((n, m) => n + (m.val ?? 0), 0) > rx.teamCap) return false;
-  if (members.filter((m) => m.variant).length > variantLimit) return false;
+  if (rx?.teamCap != null && units.reduce((n, m) => n + (m.val ?? 0), 0) > rx.teamCap) return false;
+  if (units.filter((m) => m.variant).length > variantLimit) return false;
   if (rx?.slots) {
     const tiers: Record<string, number> = {};
-    for (const m of members) if (m.val != null) { const t = tierCode(m.val); tiers[t] = (tiers[t] ?? 0) + 1; }
+    for (const m of units) if (m.val != null) { const t = tierCode(m.val); tiers[t] = (tiers[t] ?? 0) + 1; }
     if (slotCapacityIssues(tiers, rx.slots).length) return false;
   }
   return true;
@@ -315,7 +352,7 @@ export function optimizeRoster(
   // drop him off the roster entirely — the objective gives an unused roster
   // spot no value, but the game wants all 26 (Negro Leagues Slots
   // 2026-09-26: 25 players, "this event needs 26").
-  const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start)).size);
+  const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start).map(unitOf)).size);
   const minC = o.minCatchers ?? 0;
   const cFloor = Math.max(1, posFloorAt(o.posFloor, "C"));
   const minSS = o.minShortstops ?? 0;

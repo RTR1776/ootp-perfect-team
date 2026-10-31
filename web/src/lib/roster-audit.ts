@@ -53,6 +53,8 @@ export function auditRoster(o: {
   envYear: number | null | undefined;
   posFloor: PosFloor | null | undefined;
   field?: FieldShape | null;
+  /** Cap events: the glove a backup needs, when lower than the starter's floor (roster-optimize CAP_BACKUP_FLOOR). */
+  backupFloorCap?: number | null;
 }): AuditLine[] {
   const out: AuditLine[] = [];
   const get = (id: number | undefined) => (id == null ? undefined : o.cards.get(id));
@@ -78,7 +80,7 @@ export function auditRoster(o: {
   const fielding = (hand: "R" | "L") => new Set(fieldPos.map((p) => o.slots[`${hand}:${p}`]).filter((x) => x != null));
   const inField = { R: fielding("R"), L: fielding("L") };
   for (const pos of fieldPos) {
-    const fl = Math.max(1, posFloorAt(o.posFloor, pos));
+    const fl = Math.min(Math.max(1, posFloorAt(o.posFloor, pos)), o.backupFloorCap ?? Infinity);
     const can = bats.filter((c) => (c.ratings[`Pos Rating ${pos}`] ?? 0) >= fl);
     const bench = (hand: "R" | "L") => can.filter((c) => !inField[hand].has(c.cardId));
     const r = bench("R"), l = bench("L");

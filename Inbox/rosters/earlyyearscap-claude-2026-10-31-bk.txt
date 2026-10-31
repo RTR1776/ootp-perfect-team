@@ -1,0 +1,35 @@
+# Daily Early Years Cap — Claude pick 2026-10-31-bk (cap backups at a 60 glove), env-roster seeded from 1561, 213.8 vs 197.2
+R:C Bill Killefer #87346
+R:1B Nap Lajoie #86581
+R:2B Rogers Hornsby #86436
+R:3B Ray Dandridge #87264
+R:SS Pop Lloyd #86896
+R:LF Ed Delahanty #87371
+R:CF Roy Thomas #86784
+R:RF Maurice Archdeacon #85665
+L:C Bill Killefer #87346
+L:1B Nap Lajoie #86581
+L:2B Rogers Hornsby #86436
+L:3B Ray Dandridge #87264
+L:SS Pop Lloyd #86896
+L:LF Ed Delahanty #87371
+L:CF Roy Thomas #86784
+L:RF Maurice Archdeacon #85665
+SP1 Christy Mathewson #86697
+SP2 Bob Feller #85650
+SP3 Big Jeff Pfeffer #87340
+SP4 Luther Farrell #86899
+CL Tin Can Kincannon #86073
+RP1 Al Mays #82937
+RP2 Bob Barr #82968
+RP3 Rube Schauer #86555
+RP4 George Hunter #84295
+BN1 Red Killefer #87339
+BN2 Leo Durocher (VAR) #83909
+BN3 Greasy Neale #87142
+BN4 Bill Everitt #82866
+BN5 Charlie Eden #82834
+BN6 Count Sensenderfer #87322
+BN7 Kid Elberfeld (VAR) #86368
+BN8 Jay Faatz #84324
+BN9 Bruno Block #82830

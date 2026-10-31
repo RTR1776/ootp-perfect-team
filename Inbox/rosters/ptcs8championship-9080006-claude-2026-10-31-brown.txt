@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Open — Claude pick 2026-10-31 brown, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Messer Street Grounds --park-year 1885 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Johnny Bassler #86476
+R:1B Roger Connor #86577
+R:2B Rogers Hornsby #86436
+R:3B Pop Lloyd #86896
+R:SS Luke Appling #82759
+R:LF Ed Delahanty #87371
+R:CF Heinie Manush #86370
+R:RF Charlie Blackwell #87268
+L:C Josh Gibson #86252
+L:1B Roger Connor #86577
+L:2B Rogers Hornsby #86436
+L:3B Pop Lloyd #86896
+L:SS Pythias Russ (VAR) #87083
+L:LF Ed Delahanty #87371
+L:CF Heinie Manush #86370
+L:RF Cool Papa Bell #85420
+SP1 Christy Mathewson #86697
+SP2 Ed Rile #87165
+SP3 Hilton Smith #85864
+SP4 Luther Farrell #86900
+CL Mordecai Brown #87370
+RP1 Cy Young (VAR) #86572
+RP2 Bob Feller #85650
+RP3 Eddie Plank #86890
+RP4 Claude Grier #87086
+BN1 Ben Taylor (VAR) #87163
+BN2 Roy Thomas #86784
+BN3 Ty Cobb #86986
+BN4 John McGraw #86438
+BN5 Sam Wise #87354
+BN6 Josh Gibson #86252
+BN7 Cool Papa Bell #85420
+BN8 Pythias Russ (VAR) #87083
+BN9 Jesse Burkett #87367
