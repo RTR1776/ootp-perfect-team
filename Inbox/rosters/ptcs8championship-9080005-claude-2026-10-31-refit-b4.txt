@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Diamond — Claude pick 2026-10-31-refit-b4, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Ebbets Field --park-year 1920 --max 99 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Johnny Bassler #86476
+R:1B Ben Taylor (VAR) #87163
+R:2B Sam Wise #87354
+R:3B Honus Wagner #85540
+R:SS Luke Appling #82759
+R:LF Jesse Burkett #87367
+R:CF Roy Thomas #86784
+R:RF Charlie Blackwell #87268
+L:C Pythias Russ (VAR) #87083
+L:1B Ben Taylor (VAR) #87163
+L:2B Frankie Frisch #85721
+L:3B Honus Wagner #85540
+L:SS Luke Appling #82759
+L:LF Al Simmons #85942
+L:CF Roy Thomas #86784
+L:RF Chick Stahl #86583
+SP1 Old Hoss Radbourn (VAR) #82687
+SP2 Jack Stivetts #87357
+SP3 Luther Farrell #86900
+SP4 Babe Ruth #86439
+CL Cy Young #86996
+RP1 Bob Feller #85650
+RP2 Claude Grier #87086
+RP3 Sam Streeter #87231
+RP4 Jeff Pfeffer #87350
+BN1 Shoeless Joe Jackson #86372
+BN2 George Gore #87326
+BN3 Branch Russell #87172
+BN4 Chick Stahl #86583
+BN5 Pythias Russ (VAR) #87083
+BN6 Halley Harding #86979
+BN7 Al Simmons #85942
+BN8 Ty Cobb #86986
+BN9 Frankie Frisch #85721

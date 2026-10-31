@@ -1,0 +1,36 @@
+# Daily Silver Only Cap — Claude pick 2026-10-31-refit2-b12, rebuilt from the catalogue's rules by current-rosters (--year 1998 --park Heinsohn Ballpark --park-year 2026 --dh --min 70 --max 79 --cap 1888 --variant-cap 11 --size 26 --series silveronlycapdaily --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Randy Ready #86921
+R:3B Aiva Arquette (VAR) #84768
+R:SS Jeremy Pena #87154
+R:LF Brian Jordan #86965
+R:CF Marquis Grissom #87237
+R:RF Bryce Harper #86905
+R:DH Ryan Braun #87222
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86771
+L:2B Randy Ready #86921
+L:3B Aiva Arquette (VAR) #84768
+L:SS Jeremy Pena #87154
+L:LF Brian Jordan #86965
+L:CF Marquis Grissom #87237
+L:RF Mitch Webster #85448
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 Bob Walk #86971
+SP3 Jeff Pfeffer #87350
+SP4 Jakie May (VAR) #85286
+SP5 Felix Hernandez #87204
+CL Bruce Ruffin #86777
+RP1 Doug Davis #86802
+RP2 Bob Gibson #85499
+RP3 Alex Claudio (VAR) #86447
+RP4 Kid Madden #87348
+RP5 Mark Hendrickson #87274
+RP6 Chris Sale #83244
+BN1 Gus Bell #85785
+BN2 Mike Zunino #86431
+BN3 Nick Swisher (VAR) #85784
+BN4 Mitch Webster #85448
+BN5 Casey Candaele #82911

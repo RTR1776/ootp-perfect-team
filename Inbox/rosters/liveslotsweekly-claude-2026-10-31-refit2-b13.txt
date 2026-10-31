@@ -1,0 +1,36 @@
+# Friday Night Live Slots — Claude pick 2026-10-31-refit2-b13, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 2026 --dh --min 40 --max 105 --card-types 1 --card-year-min 2026 --card-year-max 2026 --slots P8,D5,G4,S3,B3,I3 --size 26 --series liveslotsweekly --sp 4 --rp 7 --bats 15)
+R:C Gabriel Moreno #81848
+R:1B Luis Garcia Jr. #82026
+R:2B Tommy Edman #81772
+R:3B Kevin McGonigle #85007
+R:SS Bobby Witt Jr. #82379
+R:LF Jake McCarthy #81809
+R:CF Pete Crow-Armstrong #81990
+R:RF Corbin Carroll #81849
+R:DH Oneil Cruz #81904
+L:C Gabriel Moreno #81848
+L:1B Luis Garcia Jr. #82026
+L:2B Tommy Edman #81772
+L:3B Kevin McGonigle #85007
+L:SS Bobby Witt Jr. #82379
+L:LF Jake McCarthy #81809
+L:CF Pete Crow-Armstrong #81990
+L:RF Corbin Carroll #81849
+L:DH Oneil Cruz #81904
+SP1 Max Fried #82587
+SP2 Dylan Cease #82518
+SP3 Cam Schlittler #82580
+SP4 Tarik Skubal #82424
+CL Calvin Faucher #82119
+RP1 Louie Varland #82511
+RP2 Logan Webb #81732
+RP3 Carmen Mlodzinski #81911
+RP4 Tyler Rogers #82512
+RP5 Ben Brown #82003
+RP6 David Peterson #82094
+BN1 Kody Clemens #82332
+BN2 Kyle Isbel #82375
+BN3 Zach McKinstry #82401
+BN4 Daylen Lile #82018
+BN5 Miguel Rojas #81775
+BN6 Braxton Fulford #81816

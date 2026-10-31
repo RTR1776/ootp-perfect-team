@@ -1,123 +1,140 @@
-# OOTP Perfect Team — Optimizer & Draft Assistant
+# OOTP Perfect Team Command Center
 
-Personal analytics webapp for OOTP 27 Perfect Team: lineup optimization by
-tournament context, new-card modeling, tourney meta tracking, and a live
-draft assistant. Everything runs locally; no server, no accounts.
+A personal analytics app and toolkit for **OOTP Baseball 27 Perfect Team**. It
+scores every card in the game for a given tournament's run environment and
+park, builds and optimises tournament rosters, tracks PTCS qualifying, models
+league play, and helps during Perfect Drafts.
 
-**Start with [RUNBOOK.md](RUNBOOK.md)** — the weekly flow as it actually runs
-(the three `.command` files, the scripts they call, the defaults and the
-validation scripts). The "weekly refresh runbook" section below predates it
-and describes the Python `engine` path, which has not been on the weekly path
-since 2026-09-07. `Docs/PLAN.md` is the original design; `Docs/PROGRESS.md`
-and `Docs/HANDOFF - read me first.md` are history. Dated roster write-ups live
-in `Docs/Rosters/`; finished trackers and one-off reports in `Docs/Archive/`.
+It is built around one player's collection and workflow (the Kansas City
+Torrent, `RTR1776`), but the model, the optimiser and the import pipeline are
+general.
 
-## Quick start
+## What it does
+
+| Area | Pages and tools |
+|---|---|
+| **Cards** | `/cards`: search the whole card table; **Card Fit** places a new card in every current event against your saved roster, with the runs it adds and whom it replaces |
+| **Rosters** | `/build`: build a legal roster for any catalogued tournament (cap, slots, card years, variant limits, DH, park), then **Optimise** or **Search longer**. Roster rules (at most 5 SP and 7 RP, 2 long men, backups at C and SS, a 4-man rotation before 1970) are enforced |
+| **Run environments** | `/runenv`, `/environments`, `/eras`: what each era and park does to every rating |
+| **Tournaments** | `/meta`, `/played`, `/market`: what the field plays, how each card has actually performed, and shop prices |
+| **Qualifying** | `/ptcs`, `/qualifying`: log results from the Your Tournaments screen, see category totals against projected cutoffs, and the Clubhouse Stars leaderboards |
+| **League** | `/league`, `/league-card`: league lineups and staff from league play, what a card adds, and "from your collection" scans |
+| **Drafts** | `/draft`: a by-position board and a live draft helper that ranks each pack by what your finished team is worth |
+| **Upgrades** | `/upgrades`: variant scans and cards you don't own, priced against the shop |
+| **Data** | `/upload`: drop shop lists, collection exports and league exports from any machine |
+
+## How a card is valued
+
+1. **Ratings → rates.** Each rating maps to a component rate through curves
+   fitted on observed tournament play (`web/src/data/curves.json`,
+   `pnpm curve:refit`). Power and Eye drive offense, Contact barely does;
+   pitcher Control beats Stuff.
+2. **Environment.** The rates are set in the event's era profile and park and
+   read on that environment's linear weights, per board (vs RHP and vs LHP,
+   with each side of the park).
+3. **Calibration.** Within a tournament field the curves overstate the spread,
+   so runs are scaled to what play actually returns (`pnpm model:calibrate`,
+   refit every time new exports are filed).
+4. **Roster objective.** Gloves in runs at the slot, catcher framing, the two
+   lineups weighted by the field's measured left-handed pitching, starters and
+   relievers weighted by the innings the field's own staffs throw, then a
+   hill-climb under every roster rule (`web/src/lib/roster-objective.ts`,
+   `roster-optimize.ts`).
+
+League play uses its own fitted models (`web/src/data/league-*.json`), since a
+162-game league compresses talent differently from a tournament.
+
+## Stack
+
+- **App:** Next.js 16 (App Router) + TypeScript in `web/`, deployed on Vercel.
+  Read `web/AGENTS.md` before changing it: this Next.js version differs from
+  older docs.
+- **Database:** Postgres (Neon in production, any Postgres locally) through
+  Drizzle ORM. Schema in `web/src/db/schema.ts`.
+- **Card art:** Vercel Blob.
+- **Scripts:** TypeScript run with `tsx` (`web/scripts/`), plus macOS
+  double-click `.command` files in the project root for the weekly data loop.
+- **Legacy:** `engine/` is the original Python pipeline (July 2026). It is no
+  longer on the data path.
+
+## Getting started
 
 ```bash
-# refresh all derived data from the exports in this repo (~9s)
-.venv/bin/python -m engine build
-
-# run the app
-cd web && pnpm dev        # -> http://localhost:3000
+cd web
+pnpm install
+cp .env.example .env.local      # then fill it in (see below)
+pnpm db:push                    # create the tables
+pnpm dev                        # http://localhost:3000
 ```
 
-## The weekly refresh runbook
+`web/.env.local` needs:
 
-1. **Collection changed** (bought/sold cards, new releases): in OOTP, export
-   your collection view (ideally with `CID` and `Tier` columns visible) and
-   replace `Roster Templates/KC Torrent Current Cards.csv`.
-2. **League season ended**: export each league's stats (all/vL/vR) into
-   `League Data/<YYYY-MM-DD>/` — one folder per week, named for the week the
-   season covers — then load them:
-
-   ```bash
-   cd web && pnpm import:league "../League Data/2026-09-06"   # --dry first to eyeball
-   ```
-
-   League and split are read from the filename (`ld404_vL.csv` → LD404 / vL;
-   OOTP's own `ld404vR_statistics_….csv` works too), and the date comes from
-   the folder name. Re-running replaces that week's snapshot rather than
-   stacking a duplicate. The `.venv` engine reads the same folders and applies
-   the same newest-complete-per-league rule, so both stay in step.
-3. **After every tourney**: either run the watcher while OOTP is open —
-
-   ```bash
-   .venv/bin/python -m engine watch --label diamondslotsdaily
-   ```
-
-   (first run creates `engine/config/watcher.json`; set `watchDir` to your
-   OOTP save folder containing `online_data/`; the OOTP view must be saved as
-   "Export") — or drop the export into `Tourney Stats/` named
-   `<type>_<id>.csv` and run `.venv/bin/python -m engine ingest`.
-4. **New tournaments announced**: add rows to
-   `data-src/OOTP26 Historic Tourney_Draft List.xlsx`, then
-   `.venv/bin/python -m engine config`. A tier **refresh post** goes into
-   `Tourney Data/refresh-2026-09.json` (keyed by slot) and
-   `web/scripts/slot-map.json`, then `cd web && pnpm import:refresh --dry`,
-   `pnpm import:refresh`, `pnpm retire`, `pnpm coverage`.
-5. **PTCS results**: paste the Your Tournaments rows into **/ptcs → Log
-   results** (preview, then log), or from a terminal
-   `pnpm results:log --as-of 2026-09-07 rows.txt` (`--dry` to preview,
-   `--delete <eventId>` to undo one). Rows are keyed by the event id in
-   parentheses, so re-pasting an overlapping screen is a no-op. A new period:
-   `pnpm period:new "PTCS 8" <start> <end> --targets-from "PTCS 7"`. The
-   PTCS6 Tracker.xlsx / Dashboard.html (in `Docs/Archive/PTCS6/`) are the
-   frozen PTCS 6 record.
-6. Run `.venv/bin/python -m engine build` and reload the app.
-
-## Engine CLI
-
-| command | does |
+| Variable | What it is |
 |---|---|
-| `config` | xlsx → `engine/config/tournaments.json` + `web/public/data/contexts.json` (era RE baselines per context) |
-| `ingest [files…]` | archive tourney exports → `tourneys.json` aggregates |
-| `match` | resolve CIDs for the collection export (fingerprint matcher) |
-| `curves` | refit empirical rating→outcome curves from league data |
-| `projections` | rebuild `projections.json` + `team.json` from the merged pool |
-| `calibrate` | fit projections vs observed; write `evidence` blends + calibration report |
-| `watch --label L` | watch OOTP export folder; archive + ingest automatically |
-| `build` | all of the above in order |
+| `DATABASE_URL` | A Postgres connection string. Neon URLs use the serverless driver; anything else uses node-postgres. |
+| `AUTH_SECRET` | At least 32 random characters for signing the session cookie (`openssl rand -base64 32`). |
+| `APP_PASSWORD` | The single login password. Use a long random one if the app is on the public web. |
+| `BLOB_READ_WRITE_TOKEN` | Only for uploading card art (kept in `web/.env.blob`). |
 
-## How the numbers work (one paragraph, 2026-09-17)
+The app is single-user: every page and API route sits behind one password and
+a signed, httpOnly session cookie (`web/src/proxy.ts`, `web/src/lib/auth.ts`).
 
-Card ratings → component rates via **curves fitted on observed tournament
-play** (`web/src/data/curves.json`, 51 series normalised to their own field,
-`pnpm curve:refit`) → an era's rate profile and a park (`card-value.ts`,
-`run-env.ts`) → runs per 700 PA on that environment's linear weights, read
-per board (vL / vR ratings, the batter's side of the park) → **calibrated**
-to what play returns (`pnpm model:calibrate`: within a field the curves
-overstate the spread by half, so runs are scaled 0.51 / 0.48) → **blended**
-with the card's own tournament play by precision (K = 5,000 PA;
-`observed-blend.ts`) → the roster objective adds defence in runs at the slot
-(`fielding.ts`), weights the two lineups by the field's measured pitcher
-handedness (`series_meta`), and hill-climbs under every rule and the glove
-floor (`roster-objective.ts`, `roster-optimize.ts`). `projections.ts` reads
-the same model back as a wOBA / FIP line in the event's environment for
-display. The Python `engine/` paragraph this replaces described the July
-pipeline, which is no longer on the path.
+Checks before a commit:
 
-## Repo map
+```bash
+cd web
+pnpm typecheck
+pnpm lint
+pnpm test
+```
 
-| path | what |
+## The data loop
+
+[RUNBOOK.md](RUNBOOK.md) has the full table. In short:
+
+| When | Run |
 |---|---|
-| `engine/` | Python package (CLI above); config in `engine/config/` |
-| `web/` | Next.js app (Explorer / Roster / Lineup / Draft / Tournaments / Card Lab) |
-| `web/public/data/` | generated JSON artifacts the app reads |
-| `data-src/` | source-of-truth inputs (tourney/draft rules xlsx) |
-| `League Data/<YYYY-MM-DD>/` | league stats exports, one folder per week (calibration backbone). Readers resolve the newest COMPLETE export per league+split across weeks, so a league not exported this week keeps its last good one and a truncated export is skipped. `Most recent League Season/` still overrides it if you recreate that folder. |
-| `Tourney Stats/`, `Tourney Stats examples/` | per-tourney exports archive |
-| `Roster Templates/` | collection export + binary `.tr` templates (never parsed) |
-| `data-store/` | generated intermediates (git-ignored) |
-| `pnpm imports` | (web/) what the background importer did: every publish attempt with files, hash, rows and outcome; a failed batch never touched the live table |
-| `reference/cwhit/` | cwhit's boards transcribed from screenshots, one set per date, read by `pnpm cwhit:compare` |
-| `reference/r-watcher/` | original R watcher (replaced by `engine watch`) |
-| `MLB Batting Year-by-Year Averages.xls` | RE source, 1871–2026 (**actually HTML** — `pd.read_html`) |
-| `ballparks.csv` | 236-park factor DB |
+| A tournament ends | **File OOTP Exports.command**, or leave **Watch Tourney Stats.command** running while exporting. Files the export under its event id, imports it and refits the model on quit. |
+| Monday's community dump posts | **Load Tourney Dumps.command** |
+| Cards bought, sold or released | Drop the shop list and collection export on `/upload`, or `pnpm import:cards` |
+| A league week ends | `pnpm import:league "../League Data/YYYY-MM-DD"` |
+| Results screen | Paste rows into `/ptcs`, or `pnpm results:log --as-of DATE rows.txt` |
+| After any of the above | **Push to GitHub.command** (pulls, commits the Mac's data files, pushes; Vercel redeploys) |
 
-## Environment
+## Useful scripts
 
-- Python: use the repo venv (`.venv/bin/python`) — system python is
-  PEP-668-locked and lacks lxml. Recreate with
-  `python3 -m venv .venv && .venv/bin/pip install pandas lxml openpyxl`.
-- Web: `pnpm` (Next 16 — **read `web/AGENTS.md` before writing code there**).
+All run from `web/` (most need `DATABASE_URL`).
+
+| Script | What it does |
+|---|---|
+| `scripts/current-rosters.ts --changes --save` | Rebuild and save only the current events a card change affects (new card starts, or a saved card is gone) |
+| `scripts/current-rosters.ts --all --only ID,… --save` | Full re-search of named events |
+| `pnpm env:roster` (`scripts/env-roster.ts`) | Build one roster from flags: `--year`, `--park`, `--dh`, value window, cap, slots, `--pool-ids` for a drafted pool |
+| `pnpm roster:diff` | Score a roster you have and list the best swaps |
+| `pnpm roster:save` | Save a load file to `/build` as a named roster |
+| `scripts/ptcs-standing.ts` | PTCS category totals, cutoff lines and what each category needs per day |
+| `pnpm league:compare` | What a card adds to your league lineups |
+| `pnpm park:sweep` | Rank home parks for the league |
+| `pnpm model:calibrate` | Refit the model against observed play |
+
+## Repository layout
+
+```
+web/                 Next.js app, scripts, model data (src/data/*.json)
+Docs/                Handoffs, studies, plans, roster write-ups (Docs/Rosters/)
+Tourney Data/        Community dumps, PTCS result screens, clubhouse prices
+League Data/         League exports, one folder per week
+Inbox/rosters/       Roster load files and manifests from batch rebuilds
+reference/           Reference material used by the model
+engine/              Legacy Python pipeline
+*.command            macOS double-click scripts for the data loop
+```
+
+For background, start with `Docs/HANDOFF - read me first.md` (scoring rules
+and how the project is worked on), then the newest `Docs/Handoff <date>.md`.
+`Docs/OOTP ENGINE DECODED.md` explains how ratings become outcomes.
+
+## Not affiliated
+
+This is a fan-made tool. OOTP Baseball and Perfect Team are trademarks of Out
+of the Park Developments. Card data and screenshots come from the game.

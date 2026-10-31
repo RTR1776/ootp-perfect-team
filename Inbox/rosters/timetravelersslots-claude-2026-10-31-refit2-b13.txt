@@ -1,0 +1,36 @@
+# Dr. Dynastic's Daily Time Travelers Slots — Claude pick 2026-10-31-refit2-b13, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Busch Stadium --park-year 1968 --dh --card-types 1 --card-year-min 2026 --card-year-max 2026 --slots P8,D8,G4,S4,B2 --size 26 --series timetravelersslots --sp 4 --rp 5 --bats 17)
+R:C Gabriel Moreno #81848
+R:1B Jake Bauers #81932
+R:2B Tommy Edman #81772
+R:3B Kevin McGonigle #85007
+R:SS Bobby Witt Jr. #82379
+R:LF Jake McCarthy #81809
+R:CF Pete Crow-Armstrong #81990
+R:RF Corbin Carroll #81849
+R:DH Oneil Cruz #81904
+L:C Gabriel Moreno #81848
+L:1B Jake Bauers #81932
+L:2B Tommy Edman #81772
+L:3B Javier Sanoja #82099
+L:SS Bobby Witt Jr. #82379
+L:LF Jackson Chourio #81934
+L:CF Pete Crow-Armstrong #81990
+L:RF Corbin Carroll #81849
+L:DH Oneil Cruz #81904
+SP1 Dylan Cease #82518
+SP2 Cam Schlittler #82580
+SP3 Yoshinobu Yamamoto #81798
+SP4 Tarik Skubal #82424
+CL Mason Miller #81761
+RP1 Calvin Faucher #82119
+RP2 Logan Webb #81732
+RP3 Blake Snell #81796
+RP4 Payton Tolle #82612
+BN1 Garrett Mitchell #81930
+BN2 Jackson Chourio #81934
+BN3 Carter Jensen #82374
+BN4 Michael Harris II #82146
+BN5 Miguel Rojas #81775
+BN6 Cole Carrigg #86057
+BN7 Kody Clemens #82332
+BN8 Javier Sanoja #82099

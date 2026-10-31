@@ -1,0 +1,35 @@
+# Wednesday Night of the Living Deadball — Claude pick 2026-10-31-refit2-b17, rebuilt from the catalogue's rules by current-rosters (--year 1920 --park Fenway Park --park-year 1919 --min 40 --max 105 --card-year-min 1800 --card-year-max 1920 --size 26 --series deadballweekly --sp 4 --rp 5 --bats 17)
+R:C King Kelly #85153
+R:1B Roger Connor #86577
+R:2B Jack Burdock #86067
+R:3B Ed Williamson #87297
+R:SS Honus Wagner #85540
+R:LF Ed Delahanty #87371
+R:CF Roy Thomas #86784
+R:RF Chicken Wolf #87327
+L:C Jack Meyers #87358
+L:1B Roger Connor #86577
+L:2B Nap Lajoie #83847
+L:3B Ed Williamson #87297
+L:SS Roger Peckinpaugh #87360
+L:LF Ed Delahanty #87371
+L:CF Tillie Walker #86597
+L:RF King Kelly #85153
+SP1 Christy Mathewson #86697
+SP2 Cy Young (VAR) #86572
+SP3 Old Hoss Radbourn (VAR) #82687
+SP4 Eddie Plank #86890
+CL Jack Coombs #85937
+RP1 Jeff Pfeffer #87350
+RP2 Jack Stivetts #87357
+RP3 Jack Pfiester #87351
+RP4 Hugh Daily #85227
+BN1 Jesse Burkett #87367
+BN2 John McGraw #86438
+BN3 Shoeless Joe Jackson #86372
+BN4 Joe Dugan (VAR) #86765
+BN5 Hank Gowdy #87246
+BN6 Jack Meyers #87358
+BN7 Tillie Walker #86597
+BN8 Nap Lajoie #83847
+BN9 Roger Peckinpaugh #87360
