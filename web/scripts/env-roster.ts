@@ -29,7 +29,8 @@ import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend"
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
-import { optimizeRoster } from "@/lib/roster-optimize";
+import { capWaivedBackups, optimizeRoster } from "@/lib/roster-optimize";
+import { capLedger, isLeak } from "@/lib/cap-ledger";
 import { runSearch, toPlainFits, type SearchBest } from "@/lib/roster-search";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
 import { matchEligible, readEligible } from "@/lib/ingest/eligible-pool";
@@ -805,7 +806,27 @@ async function main() {
     const sum = (k: string) => top ? Object.values(top.tiers as Record<string, Record<string, number>>).reduce((n, t) => n + (t[k] ?? 0), 0) : 0;
     const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
     console.log("\n--- roster check ---");
-    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
+    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, waived: capWaivedBackups(pool, rules, MIN_POS) })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
+  }
+  {
+    // The cap ledger (lib/cap-ledger, L.J. 10-31): what each card's cap buys over a floor card.
+    const lg = capLedger({ slots, pool, rules, objective, posFloor: MIN_POS, minCatchers: MIN_CATCHERS });
+    if (lg) {
+      const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
+      const short = (k: string[]) => [...new Set(k.map((x) => x.replace(/^[RL]:/, "")))].join("/");
+      const paid = lg.rows.filter((r) => r.above > 0);
+      console.log(`\n--- cap ledger --- (floor value ${lg.floorValue}; runs = what he adds over the best unrostered floor card in his slots)`);
+      console.log(`  ${"slot".padEnd(9)} ${"card".padEnd(24)} ${"val".padStart(3)} ${"+cap".padStart(4)} ${"runs".padStart(6)} ${"/pt".padStart(5)}  floor sub / why`);
+      for (const r of paid) {
+        const flag = isLeak(r, lg.avgPerPoint) ? "  ◂ LEAK" : "";
+        console.log(`  ${short(r.slots).padEnd(9)} ${r.name.slice(0, 24).padEnd(24)} ${String(r.val).padStart(3)} ${String(r.above).padStart(4)} ${(r.runs == null ? "-" : f1(r.runs)).padStart(6)} ${(r.perPoint == null ? "-" : r.perPoint.toFixed(2)).padStart(5)}  ${r.sub ?? "no floor card fits"}${r.why.length ? ` · ${r.why.join(", ")}` : ""}${flag}`);
+      }
+      const atFloor = lg.rows.length - paid.length;
+      const pts = paid.reduce((n, r) => n + r.above, 0);
+      console.log(`  ${pts} cap points above the floor on ${paid.length} cards (${atFloor} at the floor) · ${lg.avgPerPoint == null ? "-" : lg.avgPerPoint.toFixed(2)} runs per point on average`);
+      const leaks = paid.filter((r) => isLeak(r, lg.avgPerPoint));
+      if (leaks.length) console.log(`  leaks (under half the average, no rule behind them): ${leaks.map((r) => `${r.name} ${r.above} pts`).join(", ")}`);
+    }
   }
   const spend = rostered.filter((c) => (prices.get(cardIdOf(c.cardId)) ?? 0) > 0).length;
   if (spend) console.log(`(${spend} of ${rostered.length} have a live ask in the last shop snapshot)`);

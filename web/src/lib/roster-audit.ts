@@ -53,6 +53,8 @@ export function auditRoster(o: {
   envYear: number | null | undefined;
   posFloor: PosFloor | null | undefined;
   field?: FieldShape | null;
+  /** Cap events: positions whose backup is waived because no floor-value card plays them (roster-optimize capWaivedBackups). */
+  waived?: readonly string[];
 }): AuditLine[] {
   const out: AuditLine[] = [];
   const get = (id: number | undefined) => (id == null ? undefined : o.cards.get(id));
@@ -82,10 +84,14 @@ export function auditRoster(o: {
     const can = bats.filter((c) => (c.ratings[`Pos Rating ${pos}`] ?? 0) >= fl);
     const bench = (hand: "R" | "L") => can.filter((c) => !inField[hand].has(c.cardId));
     const r = bench("R"), l = bench("L");
-    const ok = r.length > 0 && l.length > 0;
+    const covered = r.length > 0 && l.length > 0;
+    const waived = !covered && (o.waived ?? []).includes(pos);
+    const ok = covered || waived;
     const named = (cs: typeof can) => cs.map((c) => `${c.name} ${c.ratings[`Pos Rating ${pos}`]}`).join(", ");
     const same = r.length === l.length && r.every((c) => l.includes(c));
-    const text = ok
+    const text = waived
+      ? `waived — cap event, no floor-value card plays ${pos} (floor ${fl})`
+      : ok
       ? same ? named(r) : `vs RHP ${named(r)} · vs LHP ${named(l)}`
       : `NONE on the bench${r.length ? " vs LHP" : l.length ? " vs RHP" : ""} — ${can.length ? `only ${can.map((c) => c.name).join(", ")}, who start` : "nobody"} (floor ${fl})${r.length ? ` · vs RHP ${named(r)}` : l.length ? ` · vs LHP ${named(l)}` : ""}`;
     out.push({ ok, text: `${pos.padEnd(2)} backup: ${text}`, short: `${pos} backup` });

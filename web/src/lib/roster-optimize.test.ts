@@ -1,7 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { maxAssignment } from "./assign";
-import { backupPositions, missingBackups, optimizeRoster } from "./roster-optimize";
+import { backupPositions, capCatchers, capWaivedBackups, missingBackups, optimizeRoster } from "./roster-optimize";
+import { capLedger } from "./cap-ledger";
 import { rosterObjective } from "./roster-objective";
 import type { FillCard, FillShape } from "./roster-fill";
 import type { RosterRules } from "./roster-rules";
@@ -188,4 +189,35 @@ test("with the cap full, an upgrade is paid for by a near-equal cheaper card, no
   const r = optimizeRoster(start, pool, capped, two, { objective: obj.objective, slotValue: obj.slotValue, pairMoves: { aTop: 2, bCheapest: 1, rank: obj.rank } });
   assert.equal(r.legal, true);
   assert.deepEqual([r.slots["R:1B"], r.slots["R:3B"]], [2, 4], JSON.stringify(r.slots));
+});
+
+test("cap events ask for a backup only where a floor-value card plays the position (L.J. 10-31)", () => {
+  const v = (c: FillCard, val: number): FillCard => ({ ...c, val });
+  // 2B: two cards play it, but the cheapest (40) card that does is the 47. SS: a 40 plays it.
+  const pool = [v(hitter(1, { "2B": 90 }), 90), v(hitter(2, { "2B": 90 }), 47), v(hitter(3, { SS: 90 }), 80), v(hitter(4, { SS: 90 }), 40), v(hitter(5, { C: 70 }), 60), v(hitter(6, { C: 70 }), 45), v(hitter(7, { LF: 60 }), 40)];
+  const capped: RosterRules = { ...rules, restrictions: { cards: 6, teamCap: 400 } };
+  assert.deepEqual(backupPositions(pool, rules).map((b) => b.pos), ["C", "2B", "SS"], "no cap: every position the pool covers twice");
+  assert.deepEqual(backupPositions(pool, capped).map((b) => b.pos), ["SS"], "cap: only SS has a floor card");
+  assert.ok(capWaivedBackups(pool, capped).includes("2B") && capWaivedBackups(pool, capped).includes("C"));
+  assert.deepEqual(capWaivedBackups(pool, rules), [], "no cap, nothing waived");
+  assert.equal(capCatchers(pool, capped, 2), 1, "no 40 catcher: one catcher is enough");
+  assert.equal(capCatchers(pool, rules, 2), 2);
+  assert.equal(capCatchers([...pool, v(hitter(8, { C: 70 }), 40)], capped, 2), 2, "a 40 catcher: two again");
+});
+
+test("the cap ledger prices each card against the best floor card that can take his slots", () => {
+  const v = (c: FillCard, val: number): FillCard => ({ ...c, val });
+  const sh: FillShape = { lineupPos: ["SS"], spKeys: [], rpKeys: [], benchKeys: ["BN1"], bats: 2 };
+  const pool = [v(hitter(1, { SS: 90 }), 90), v(hitter(2, { SS: 90 }), 40), v(hitter(3, { SS: 90 }), 40), v(hitter(4, {}), 48)];
+  const runs = new Map([[1, 20], [2, 5], [3, 2], [4, 3]]);
+  const capped: RosterRules = { ...rules, restrictions: { cards: 2, teamCap: 200 } };
+  const obj = rosterObjective(pool as never, { shape: sh, runsR: runs, runsL: runs });
+  const lg = capLedger({ slots: { "R:SS": 1, "L:SS": 1, BN1: 4 }, pool, rules: capped, objective: obj.objective });
+  assert.ok(lg);
+  assert.equal(lg.floorValue, 40);
+  const ss = lg.rows.find((r) => r.cardId === 1)!, bn = lg.rows.find((r) => r.cardId === 4)!;
+  assert.equal(ss.above, 50);
+  assert.equal(ss.sub, "H2", "the best floor SS replaces him");
+  assert.ok(ss.runs! > 0 && bn.above === 8);
+  assert.equal(capLedger({ slots: { "R:SS": 1, "L:SS": 1, BN1: 4 }, pool, rules, objective: obj.objective }), null, "no cap, no ledger");
 });

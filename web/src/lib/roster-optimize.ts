@@ -130,14 +130,55 @@ export const BACKUP_PENALTY = 25;
 const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
 export interface BackupPosition { pos: string; floor: number; can: FillCard[] }
 
-/** The fielding positions this pool can cover twice (owned, eligible hitters at or above the floor). */
+const usable = (c: FillCard, rules: RosterRules) => (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length;
+
+/**
+ * In a cap event, the value of the cheapest card the pool can field: the floor.
+ * Null when the event has no team cap.
+ */
+export function capFloorValue(pool: readonly FillCard[], rules: RosterRules): number | null {
+  if (rules.restrictions?.teamCap == null) return null;
+  let min = Infinity;
+  for (const c of pool) if (c.val != null && usable(c, rules) && c.val < min) min = c.val;
+  return Number.isFinite(min) ? min : null;
+}
+
+/**
+ * Whether a cap event waives a backup at `pos`: no floor-value card in the pool
+ * plays it at the floor. L.J., 2026-10-31 (Early Years Cap, three 46-47 bench
+ * cards bought only as backups): "backups only if a floor card covers it". A
+ * backup that costs cap above the floor competes with the starters for it, and
+ * the bench is barely played.
+ */
+const floorCovers = (pool: readonly FillCard[], rules: RosterRules, floorValue: number, rating: string, floor: number) =>
+  pool.some((c) => !c.isPitcher && c.val != null && c.val <= floorValue && (c.ratings[rating] ?? 0) >= floor && usable(c, rules));
+
+/**
+ * The fielding positions this pool can cover twice (owned, eligible hitters at or above the floor).
+ * In a cap event, only those a floor-value card can back up (capWaivedBackups lists the rest).
+ */
 export function backupPositions(pool: readonly FillCard[], rules: RosterRules, posFloor?: PosFloor): BackupPosition[] {
+  const fv = capFloorValue(pool, rules);
   return FIELD_POS.map((pos) => {
     const floor = Math.max(1, posFloorAt(posFloor, pos));
-    const can = pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= floor
-      && (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length);
+    const can = pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= floor && usable(c, rules));
     return { pos, floor, can };
-  }).filter((b) => new Set(b.can.map((c) => c.cardId)).size >= 2);
+  }).filter((b) => new Set(b.can.map((c) => c.cardId)).size >= 2)
+    .filter((b) => fv == null || floorCovers(pool, rules, fv, `Pos Rating ${b.pos}`, b.floor));
+}
+
+/** The positions a cap event waives the backup at (no floor-value card plays them), for the roster check. */
+export function capWaivedBackups(pool: readonly FillCard[], rules: RosterRules, posFloor?: PosFloor): string[] {
+  const fv = capFloorValue(pool, rules);
+  if (fv == null) return [];
+  return FIELD_POS.filter((pos) => !floorCovers(pool, rules, fv, `Pos Rating ${pos}`, Math.max(1, posFloorAt(posFloor, pos))));
+}
+
+/** The catcher count a cap event asks for: the second catcher only if a floor-value card catches. */
+export function capCatchers(pool: readonly FillCard[], rules: RosterRules, want: number, posFloor?: PosFloor): number {
+  const fv = capFloorValue(pool, rules);
+  if (fv == null || want <= 1) return want;
+  return floorCovers(pool, rules, fv, "Pos Rating C", Math.max(1, posFloorAt(posFloor, "C"))) ? want : 1;
 }
 
 /** How many long men (pen arms at LONG_MAN_STAMINA+) the board is short of `want`. */
@@ -316,7 +357,8 @@ export function optimizeRoster(
   // spot no value, but the game wants all 26 (Negro Leagues Slots
   // 2026-09-26: 25 players, "this event needs 26").
   const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start)).size);
-  const minC = o.minCatchers ?? 0;
+  // A cap event carries the second catcher only when a floor-value card can be him (capCatchers).
+  const minC = capCatchers(pool, rules, o.minCatchers ?? 0, o.posFloor);
   const cFloor = Math.max(1, posFloorAt(o.posFloor, "C"));
   const minSS = o.minShortstops ?? 0;
   const ssFloor = Math.max(1, posFloorAt(o.posFloor, "SS"));
