@@ -11,7 +11,7 @@
  *
  * --compare also prints what the old league-composite fit would have picked.
  */
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, uploads } from "@/db/schema";
 import { formRatings } from "@/lib/card-forms";
@@ -493,6 +493,38 @@ async function main() {
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
   const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
+  /*
+   * The field's average card (L.J. 10-31: "is it avg card in env as in cards others play?").
+   * The runs columns are against the era's league-average line; this is the usage-weighted
+   * average of the cards actually played in this series (observed_card_stats), scored the same
+   * way, so each row can also say how far it is over what he will face. Display only.
+   */
+  let fieldAvg: { batR: number; batL: number; arm: number; n: number } | null = null;
+  if (SERIES) {
+    const res: any = await db.execute(sql`
+      select o.card_id, o.is_variant, o.is_pitcher, o.pa, o.ip, o.ratings vr, c.ratings, c.bats, c.pitcher_role, c.position
+      from observed_card_stats o join cards c on c.card_id = o.card_id
+      where o.series = ${SERIES} and (o.pa > 0 or o.ip > 0)`);
+    const rows: any[] = Array.isArray(res) ? res : res.rows ?? [];
+    if (rows.length) {
+      const fp = rows.filter((r: any) => r.ratings).map((r: any) => ({
+        cardId: r.is_variant ? -Number(r.card_id) : Number(r.card_id), isPitcher: !!r.is_pitcher, bats: r.bats,
+        role: r.is_pitcher ? r.pitcher_role : r.position,
+        ratings: r.is_variant ? formRatings(r.ratings, r.vr, r.position) : r.ratings,
+      }));
+      const ff = envFitMaps(fp as any, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
+      let bw = 0, br = 0, bl = 0, aw = 0, av = 0;
+      for (const r of rows) {
+        const id = r.is_variant ? -Number(r.card_id) : Number(r.card_id);
+        if (r.is_pitcher) { const w = Number(r.ip) * 4.3, v = ff.runsR.get(id); if (v != null && w > 0) { aw += w; av += w * v; } }
+        else { const w = Number(r.pa), vr = ff.runsR.get(id), vl = ff.runsL.get(id); if (vr != null && vl != null && w > 0) { bw += w; br += w * vr; bl += w * vl; } }
+      }
+      if (bw > 0 && aw > 0) {
+        fieldAvg = { batR: br / bw, batL: bl / bw, arm: av / aw, n: rows.length };
+        console.log(`field's average card here (${rows.length} cards played in ${SERIES}, weighted by PA/BF): bat ${fieldAvg.batR >= 0 ? "+" : ""}${fieldAvg.batR.toFixed(1)} vs RHP / ${fieldAvg.batL >= 0 ? "+" : ""}${fieldAvg.batL.toFixed(1)} vs LHP, arm ${fieldAvg.arm >= 0 ? "+" : ""}${fieldAvg.arm.toFixed(1)} — "fld" on each row is runs over that`);
+      }
+    }
+  }
   GLOVE = NO_GLOVE_SCALE ? 1 : gloveScale(scoringRates);
   console.log(`gloves ×${GLOVE.toFixed(2)}: balls in play in this environment against the fit's archive (fielding.ts gloveScale)${NO_GLOVE_SCALE ? " — off (--no-glove-scale)" : ""}`);
   // Team weights (calibration.ts TEAM_WEIGHTS): a glove run and a pitching run against a bat run, by era.
@@ -741,6 +773,18 @@ async function main() {
             if (!h) continue;
             seed[nk] = h.cardId;
           }
+          // Over the cap or a tier's slots (Rile's 102 onto a full 1500): trade the dearest bench bats
+          // down to the cheapest unrostered bats that fit until it does; the climb takes it from there.
+          for (let tries = 0; tries < 8 && !fitsRules(seed); tries++) {
+            const units = new Set(Object.values(seed).map(unitOf));
+            const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat))
+              .sort((a, b) => (byIdD.get(seed[b]!)?.val ?? 0) - (byIdD.get(seed[a]!)?.val ?? 0))[0];
+            if (!benchKey) break;
+            const cheap = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
+              .sort((a, b) => (a.val ?? 0) - (b.val ?? 0) || dobj.slotValue(benchKey, b.cardId) - dobj.slotValue(benchKey, a.cardId))[0];
+            if (!cheap || (cheap.val ?? 0) >= (byIdD.get(seed[benchKey]!)?.val ?? 0)) break;
+            seed[benchKey] = cheap.cardId;
+          }
           const r = optimizeRoster(seed, pool, rules, dshape, {
             objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
             candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
@@ -831,7 +875,9 @@ async function main() {
       ? ` ${String(c.role ?? "").padEnd(2)} STM ${String(Math.round(c.ratings["Stamina"] ?? 0)).padStart(3)}`
       : "";
     const twoWay = isTwoWayForm(c.cardId) ? ` two-way (${c.isPitcher ? "pitching" : "hitting"})` : "";
-    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}  ${side}${def}${arm}${twoWay}  #${cardIdOf(c.cardId)}`;
+    const base = fieldAvg == null || runs == null ? null : c.isPitcher ? fieldAvg.arm : board === "L" ? fieldAvg.batL : fieldAvg.batR;
+    const fld = base == null ? "" : ` fld ${f1(runs! - base).padStart(5)}`;
+    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}${fld}  ${side}${def}${arm}${twoWay}  #${cardIdOf(c.cardId)}`;
   };
 
   console.log(`\n--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)`);

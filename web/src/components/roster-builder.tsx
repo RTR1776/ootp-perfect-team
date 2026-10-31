@@ -28,7 +28,8 @@ import { Button } from "@/components/ui/button";
 import { mergeFilter, rosterFilter } from "@/lib/ootp-filter";
 import { Input } from "@/components/ui/input";
 import { cardArtUrl } from "@/lib/card-art";
-import { cardIdOf } from "@/lib/two-way";
+import { cardIdOf, otherFormId, unitOf } from "@/lib/two-way";
+import { capLedger, isLeak } from "@/lib/cap-ledger";
 import { cn } from "@/lib/utils";
 import { CARD_TYPE_NAME, CARD_TYPE_SHORT, confirmedNotes, describeRules, parseCardTypeRule, rosterSize, validateRoster, type RosterRules, type RosterSlot, type RuleIssue } from "@/lib/roster-rules";
 import { isPageCheck } from "@/lib/roster-input";
@@ -38,7 +39,7 @@ import { SetFilter } from "@/components/set-filter";
 import { dismissToast, toast, type ToastInput } from "@/components/ui/toast";
 import { fillRoster, fitMaps, HIT_POS, rosterShape, type FillCard, type FillResult, type FillShape } from "@/lib/roster-fill";
 import { LJ_FLOOR } from "@/lib/pos-floor";
-import { BACKUP_PENALTY, backupPositions, longMenShort, missingBackups } from "@/lib/roster-optimize";
+import { BACKUP_PENALTY, CAP_BACKUP_FLOOR, backupPositions, longMenShort, missingBackups } from "@/lib/roster-optimize";
 import { auditRoster, auditSummary, orderStaff } from "@/lib/roster-audit";
 import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
 import { hitterRates } from "@/lib/analytics/card-value";
@@ -1607,8 +1608,36 @@ export function RosterBuilder({
     const top = meta?.construction?.groups.find((g) => g.key === "top");
     const sum = (k: "sp" | "rp" | "bats" | "bench") => top ? Object.values(top.tiers).reduce((n, t) => n + ((t as Record<string, number>)[k] ?? 0), 0) : 0;
     const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
-    return auditRoster({ slots: filled, cards: byId as unknown as Map<number, { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }>, lineupPos, envYear: tournament?.envYear, posFloor: LJ_FLOOR, field });
-  }, [slots, byId, lineupPos, tournament?.envYear, meta]);
+    // Cap and slots events judge a backup at a 60 glove (roster-optimize CAP_BACKUP_FLOOR), as the search does.
+    const rx = tournament?.restrictions as { teamCap?: number | null; slots?: Record<string, number> | null } | null | undefined;
+    const backupFloorCap = rx?.teamCap != null || rx?.slots != null ? CAP_BACKUP_FLOOR : null;
+    return auditRoster({ slots: filled, cards: byId as unknown as Map<number, { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }>, lineupPos, envYear: tournament?.envYear, posFloor: LJ_FLOOR, field, backupFloorCap });
+  }, [slots, byId, lineupPos, tournament?.envYear, tournament?.restrictions, meta]);
+
+  /** Two-way cards holding both roles on this board (lib/two-way dualUseOk): one roster spot, two jobs. */
+  const twoWayDuals = useMemo(() => {
+    const keysOf = new Map<number, string[]>();
+    for (const [k, v] of Object.entries(slots)) if (v != null) { const a = keysOf.get(v); if (a) a.push(k); else keysOf.set(v, [k]); }
+    const out: { name: string; roles: string }[] = [];
+    const seen = new Set<number>();
+    for (const [id, keys] of keysOf) {
+      const other = keysOf.get(otherFormId(id));
+      if (!other || seen.has(unitOf(id))) continue;
+      seen.add(unitOf(id));
+      const all = [...keys, ...other].map((k) => k.replace(/^[RL]:/, "")).filter((k, i, a) => a.indexOf(k) === i);
+      out.push({ name: byId.get(id)?.name ?? String(cardIdOf(id)), roles: all.join(" + ") });
+    }
+    return out;
+  }, [slots, byId]);
+
+  /** The cap ledger (lib/cap-ledger) on a cap event: what each card's cap buys over a floor card. */
+  const capView = useMemo(() => {
+    const cap = (tournament?.restrictions as { teamCap?: number | null } | null | undefined)?.teamCap;
+    if (cap == null || !objective || !tournament) return null;
+    const filled = Object.fromEntries(Object.entries(slots).filter((e): e is [string, number] => e[1] != null));
+    if (Object.keys(filled).length < 20) return null;
+    return capLedger({ slots: filled, pool: formPool as FillCard[], rules: tournament as RosterRules, objective: objective.objective, posFloor: LJ_FLOOR, minCatchers: twoCatchers ? 2 : 0 });
+  }, [slots, objective, tournament, formPool, twoCatchers]);
 
   const summary = useMemo(() => {
     const lineupIds = lineupPos.map((p) => slots[`R:${p}`]).filter((v): v is number => v != null);
@@ -1654,7 +1683,8 @@ export function RosterBuilder({
       runs: boardRuns(slots),
       projWoba, projFip, woba, fip, defAvg,
       hitterCount: hitterIds.size, spUsed, rpUsed,
-      roster: hitterIds.size + spUsed + rpUsed,
+      // A two-way card in both roles is one player (two-way unitOf).
+      roster: new Set(slotOrder.map((k) => slots[k]).filter((v): v is number => v != null).map(unitOf)).size,
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slots, byId, slotOrder, spKeys, rpKeys, lineupPos, objective]);
@@ -1813,9 +1843,10 @@ export function RosterBuilder({
                       {meta.topCards
                         .filter((c) => (kind === "arms") === c.isPitcher)
                         .slice(0, 8)
-                        .map((c) => (
+                        .map((c, i) => (
                           <span
-                            key={c.cardId}
+                            // A card played as both its base and its variant is listed twice (observed is_variant rows).
+                            key={`${c.cardId}:${i}`}
                             className="cursor-default whitespace-nowrap"
                             onMouseEnter={(e) => {
                               const mine = byId.get(c.cardId);
@@ -2124,6 +2155,42 @@ export function RosterBuilder({
                     </ul>
                   );
                 })()}
+                {twoWayDuals.length > 0 && (
+                  <ul className="mb-2 space-y-0.5 text-[10.5px]">
+                    {twoWayDuals.map((d) => (
+                      <li key={d.name} className="font-medium text-sky-700 dark:text-sky-300" title="A two-way card in both roles counts once: one roster spot, one card value, one tier slot. On his start days the best bench card plays his position.">
+                        ⇄ {d.name}: {d.roles} — one roster spot
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {capView && (
+                  <details className="mb-2 rounded border border-border/60 px-2 py-1 text-[10.5px]">
+                    <summary className="cursor-pointer select-none text-muted-foreground">
+                      Cap ledger · {capView.rows.reduce((n, r) => n + r.above, 0)} pts over the {capView.floorValue} floor · {capView.avgPerPoint == null ? "—" : capView.avgPerPoint.toFixed(2)} runs/pt
+                      {capView.rows.some((r) => isLeak(r, capView.avgPerPoint)) && <span className="ml-1 font-medium text-amber-600 dark:text-amber-400">· {capView.rows.filter((r) => isLeak(r, capView.avgPerPoint)).length} leak{capView.rows.filter((r) => isLeak(r, capView.avgPerPoint)).length === 1 ? "" : "s"}</span>}
+                    </summary>
+                    <table className="mt-1 w-full table-fixed [font-variant-numeric:tabular-nums]">
+                      <thead className="text-muted-foreground">
+                        <tr><th className="w-[46%] text-left font-normal">card</th><th className="w-[11%] px-1 text-right font-normal">+cap</th><th className="w-[14%] px-1 text-right font-normal">runs</th><th className="w-[12%] px-1 text-right font-normal">/pt</th><th className="w-[17%] pl-1 text-left font-normal">why</th></tr>
+                      </thead>
+                      <tbody>
+                        {capView.rows.filter((r) => r.above > 0).map((r) => {
+                          const leak = isLeak(r, capView.avgPerPoint);
+                          return (
+                            <tr key={r.cardId} className={leak ? "text-amber-700 dark:text-amber-300" : ""} title={r.sub ? `vs the best floor card in his slots: ${r.sub}` : "no floor-value card can play his slots"}>
+                              <td className="truncate pr-1" title={r.name}>{r.name} <span className="text-muted-foreground">{r.slots.map((k) => k.replace(/^[RL]:/, "")).filter((k, i, a) => a.indexOf(k) === i).join("/")}</span></td>
+                              <td className="px-1 text-right font-mono">{r.above}</td>
+                              <td className="px-1 text-right font-mono">{r.runs == null ? "—" : r.runs.toFixed(1)}</td>
+                              <td className="px-1 text-right font-mono">{r.perPoint == null ? "—" : r.perPoint.toFixed(2)}</td>
+                              <td className="truncate pl-1" title={leak ? "under half the roster's runs per cap point, with no rule behind him" : r.why.join(", ")}>{leak ? "leak" : r.why.join(", ")}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </details>
+                )}
                 <div className="mb-2 text-[10.5px] text-muted-foreground">
                   Carrying <span className="font-mono">{summary.hitterCount}</span> hitters ·{" "}
                   <span className="font-mono">{summary.spUsed}</span> SP ·{" "}

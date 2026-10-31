@@ -4,127 +4,157 @@ PT default (2010) RE @ 2026 Chase Field · DH on · value 40–59 · cap none ·
 R/G 4.48  AVG 0.246  OBP 0.319  SLG 0.399  K% 22.6  HR/PA 2.80%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.031 runs · steal break-even 80.9% (0 out) / 77.7% (1 out)
 park: all-LHB lineup 4.37 R/G vs all-RHB 4.54 — 0.16 R/G swing toward RIGHT-handed bats
-two-way: 50 cards also in the other role — Ossie Orwoll as bat, Matt Davidson as arm, Isidro Fabre as bat, Cal McVey as arm, Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Kaelen Culpepper as arm, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Joshua Baez as arm, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Judy Gans as arm, Enrique Hernandez as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Mitch Farris as bat, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Luke Williams as arm, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
+two-way: 45 cards also in the other role — Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Matt Davidson as arm, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Isidro Fabre as bat, Zach Agnos as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
 
-pool: 1397 eligible owned cards — 747 bats (213L / 87S / 447R), 650 arms
-!! no exports on record for series lateiron — shape and handedness fall back to the era table
+pool: 1219 eligible owned cards — 661 bats (179L / 82S / 400R), 558 arms
+staff weights from lateiron's exports: SP 1.18, RP 0.49 (a lineup slot = 1)
+field (lateiron, 5 exports): 38% of batters faced thrown left-handed · 35% of PA by left-handed bats · 13.4 bats / 5.2 SP / 6.4 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 1178 of 1397 pool cards have innings on record (median 168 PA/BF); K = 1000000
+observed play: 1136 of 1219 pool cards have innings on record (median 365 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.50, RP 0.62 (--no-team-weights to turn off)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.77, RP 0.98 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.8 SP / 6.9 RP → per SP ×0.96 (5 carried), per RP ×0.99 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +4.5  Avoid Ks +3.2  BABIP +1.8  Eye +1.1  Gap +0.9
                           RHB: Power +4.8  Avoid Ks +3.4  BABIP +1.8  Eye +1.2  Gap +0.9
                          arms: Stuff +1.6  pHR +1.5  pBABIP +1.0  Control +0.9
 seed: 516-seed.txt as is (26 cards)
+seed: scores -75.4 before the climb
 
-optimiser: 3 starts (λ + seed) hill-climbed; best -118.1 runs vs -135.6 greedy (+17.5), 10 moves from λ 0.00 (the seed's climb: -118.1)
+optimiser: 10 starts (λ + seed) hill-climbed; best -75.4 runs vs -94.9 greedy (+19.5), 11 moves from λ 0.00 (the seed's climb: -75.4)
+dual: from Big Jeff Pfeffer in both roles: Big Jeff Pfeffer in both, -76.1 runs
+dual: from Bullet Campbell in both roles: Big Jeff Pfeffer in both, -76.1 runs
+dual: from Earl Wilson in both roles: Big Jeff Pfeffer in both, -76.1 runs
+dual: from Lefty Grove in both roles: Big Jeff Pfeffer in both, -76.1 runs
+dual: no two-way card in both roles beats -75.4 runs (best Big Jeff Pfeffer -76.1)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Joe Torre                   57  R  1961   -21.1  park:R DEF  90/ 90 -2.7  #85482
-R:1B    Shawn Green                 59  L  2004    -6.0  park:L DEF  96/ 96 +3.9  #87028
+R:1B    Shawn Green                 59  L  2004    -5.9  park:L DEF  96/ 96 +3.9  #87028
 R:2B    Nap Lajoie                  50  R  1905    -6.4  park:R DEF 114/114 +0.3  #86581
-R:3B    Jim Tabor                   54  R  1939    -6.0  park:R DEF  69/ 69 -5.7  #85905
-R:SS    Ozzie Smith                 59  S  1982   -21.4  park:L DEF 140/140 +12.2  #86972
-R:LF    Norris Hopper               53  R  2007    -8.5  park:R DEF 137/137 +6.6  #87191
-R:CF    Milt Thompson               58  L  1989    -7.6  park:L DEF 114/121 +0.2  #86927
-R:RF    Vladimir Guerrero           48  R  1997    -6.2  park:R DEF 117/117 +3.3  #86474
-R:DH    George Sisler (VAR)         48  L  1928    -3.2  park:L  #87002
+R:3B    Chris Taylor                59  R  2018    -7.3  park:R DEF  97/112 +1.6  #87243
+R:SS    Ozzie Smith                 59  S  1982   -21.6  park:L DEF 140/140 +12.2  #86972
+R:LF    Norris Hopper               53  R  2007    -8.7  park:R DEF 137/137 +6.6  #87191
+R:CF    Milt Thompson               58  L  1989    -7.8  park:L DEF 114/121 +0.2  #86927
+R:RF    Vladimir Guerrero           48  R  1997    -6.5  park:R DEF 117/117 +3.3  #86474
+R:DH    Javier Baez (VAR)           49  R  2021    -6.1  park:R  #86417
 
 --- lineup vs LHP ---
-L:C     Henry Blanco                54  R  1999   -29.8  park:R DEF 103/103 +7.9  #84344
-L:1B    Nap Lajoie                  50  R  1905   -16.1  park:R DEF  96/114 +3.9  #86581
-L:2B    Freddy Galvis (VAR)         58  S  2019   -15.4  park:R DEF 129/129 +5.1  #85743
-L:3B    Bill Hall                   59  R  2006    -0.3  park:R DEF  74/ 91 -4.4  #87200
-L:SS    Ozzie Smith                 59  S  1982   -15.0  park:R DEF 140/140 +12.2  #86972
-L:LF    Norris Hopper               53  R  2007    -4.9  park:R DEF 137/137 +6.6  #87191
-L:CF    Ken Berry                   55  R  1966    -6.1  park:R DEF 115/131 +0.3  #85449
-L:RF    Vladimir Guerrero           48  R  1997    -5.6  park:R DEF 117/117 +3.3  #86474
-L:DH    Jackie Robinson (VAR)       58  R  1947    -0.1  park:R  #84390
+L:C     Henry Blanco                54  R  1999   -29.9  park:R DEF 103/103 +7.9  #84344
+L:1B    Jackie Robinson (VAR)       58  R  1947    +4.7  park:R DEF  80/ 80 +0.7  #84390
+L:2B    Chris Taylor                59  R  2018    -8.8  park:R DEF 112/112 -0.4  #87243
+L:3B    Bill Hall                   59  R  2006    -0.1  park:R DEF  74/ 91 -4.4  #87200
+L:SS    Ozzie Smith                 59  S  1982   -15.2  park:R DEF 140/140 +12.2  #86972
+L:LF    Norris Hopper               53  R  2007    -5.0  park:R DEF 137/137 +6.6  #87191
+L:CF    Ken Berry                   55  R  1966    -6.2  park:R DEF 115/131 +0.3  #85449
+L:RF    Vladimir Guerrero           48  R  1997    -5.9  park:R DEF 117/117 +3.3  #86474
+L:DH    Daryl Spencer (VAR)         57  R  1959    -2.6  park:R  #86620
 
---- batting order vs RHP --- (3.95 runs/game; The Book's order 3.95)
+--- batting order vs RHP --- (3.84 runs/game; The Book's order 3.83)
   1. Norris Hopper LF
-  2. George Sisler (VAR) DH
-  3. Shawn Green 1B
-  4. Jim Tabor 3B
-  5. Nap Lajoie 2B
-  6. Vladimir Guerrero RF
-  7. Joe Torre C
-  8. Milt Thompson CF
+  2. Shawn Green 1B
+  3. Vladimir Guerrero RF
+  4. Nap Lajoie 2B
+  5. Milt Thompson CF
+  6. Javier Baez (VAR) DH
+  7. Chris Taylor 3B
+  8. Joe Torre C
   9. Ozzie Smith SS
 
---- batting order vs LHP --- (3.98 runs/game; The Book's order 3.97)
+--- batting order vs LHP --- (4.10 runs/game; The Book's order 4.09)
   1. Bill Hall 3B
-  2. Ozzie Smith SS
-  3. Ken Berry CF
-  4. Jackie Robinson (VAR) DH
+  2. Chris Taylor 2B
+  3. Daryl Spencer (VAR) DH
+  4. Jackie Robinson (VAR) 1B
   5. Norris Hopper LF
-  6. Vladimir Guerrero RF
-  7. Freddy Galvis (VAR) 2B
-  8. Nap Lajoie 1B
+  6. Ken Berry CF
+  7. Vladimir Guerrero RF
+  8. Ozzie Smith SS
   9. Henry Blanco C
 
 --- rotation ---
-SP1     James McDonald (VAR)        55  L  2010    +4.1   SP STM  59  #86384
-SP2     Justin Verlander            58  R  2006    -3.0   SP STM  83  #87014
-SP3     Jeff Francis                53  L  2007    -5.4   SP STM  75  #87199
-SP4     Patricio Scantlebury        56  L  1946    -5.7   SP STM  68  #85828
-SP5     Tin Can Kincannon           45  R  1934    -7.5   SP STM  74  #86073
+SP1     James McDonald (VAR)        55  L  2010    +3.6   SP STM  59  #86384
+SP2     Big Jeff Pfeffer            59  R  1906    +2.3   SP STM  98  #87340
+SP3     Justin Verlander            58  R  2006    -1.1   SP STM  83  #87014
+SP4     Bob Gibson (VAR)            44  R  1959    -2.2   SP STM  69  #86658
+SP5     Patricio Scantlebury        56  L  1946    -2.3   SP STM  68  #85828
 
 --- bullpen ---
-CL      John Bale                   59  L  2007    +1.1   RP STM  33  #87234
-RP1     Mike Marshall               57  R  1973    +0.4   CL STM  74  #84720
-RP2     Randy Choate                45  L  2013    -3.4   RP STM   6  #87026
-RP3     Todd Jones (VAR)            43  L  2000    -8.2   CL STM  17  #86434
-RP4     Joe Krakauskas              57  L  1938    -8.5   SP STM  67  #85829
-RP5     Bullet Campbell             56  R  1926    -8.7   SP STM  75  #87084
-RP6     Pat Perry                   58  L  1989    -8.8   RP STM  35  #86916
+CL      Mike Marshall               57  R  1973    +1.0   CL STM  74  #84720
+RP1     John Bale                   59  L  2007    +0.1   RP STM  33  #87234
+RP2     Jeff Francis                53  L  2007    -3.3   SP STM  75  #87199
+RP3     Randy Choate                45  L  2013    -3.4   RP STM   6  #87026
+RP4     Ernie Koob                  53  L  1916    -3.5   SP STM  73  #87332
+RP5     Wilson Alvarez (VAR)        59  L  1994    -3.9   SP STM  77  #83868
+RP6     Tin Can Kincannon           45  R  1934    -4.1   SP STM  74  #86073
 
 --- bench ---
-BN1     Bill Hall                   59  R  2006   -12.1  park:R  #87200
+BN1     Jackie Robinson (VAR)       58  R  1947   -13.8  park:R  #84390
 BN2     Ken Berry                   55  R  1966   -15.2  park:R  #85449
-BN3     Freddy Galvis (VAR)         58  S  2019   -16.5  park:L  #85743
-BN4     Jackie Robinson (VAR)       58  R  1947   -17.4  park:R  #84390
-BN5     Henry Blanco                54  R  1999   -34.5  park:R  #84344
+BN3     Henry Blanco                54  R  1999   -34.6  park:R  #84344
+BN4     Bill Hall                   59  R  2006   -11.9  park:R  #87200
+BN5     Daryl Spencer (VAR)         57  R  1959   -16.1  park:R  #86620
 
-26 players · value 1412 · λ 0.000 · 5 variants
-vs RHP lineup gets the friendly park side in 4 of 9 spots
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Joe Torre                  U1 Henry Blanco 103             U2 -                            def sub Henry Blanco (+10.7)
+  1B  Shawn Green                U1 Jackie Robinson (VAR) 80     U2 -                           
+  2B  Nap Lajoie                 U1 Javier Baez (VAR) 102        U2 Bill Hall 91                
+  3B  Chris Taylor               U1 Bill Hall 74                 U2 Daryl Spencer (VAR) 61      
+  SS  Ozzie Smith                U1 Javier Baez (VAR) 88         U2 -                           
+  LF  Norris Hopper              U1 Ken Berry 131                U2 Bill Hall 67                
+  CF  Milt Thompson              U1 Ken Berry 115                U2 -                           
+  RF  Vladimir Guerrero          U1 Ken Berry 126                U2 -                           
+  pinch hitters: Bill Hall, Jackie Robinson (VAR), Ken Berry, Daryl Spencer (VAR) · pinch runners: Jackie Robinson (VAR) (SPE 92), Ken Berry (SPE 89), Bill Hall (SPE 76)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Henry Blanco               U1 Joe Torre 90                 U2 -                           
+  1B  Jackie Robinson (VAR)      U1 Nap Lajoie 96                U2 Shawn Green 96               def sub Shawn Green (+3.2)
+  2B  Chris Taylor               U1 Javier Baez (VAR) 102        U2 Nap Lajoie 114              
+  3B  Bill Hall                  U1 Daryl Spencer (VAR) 61       U2 -                           
+  SS  Ozzie Smith                U1 Javier Baez (VAR) 88         U2 -                           
+  LF  Norris Hopper              U1 Milt Thompson 121            U2 -                           
+  CF  Ken Berry                  U1 Milt Thompson 114            U2 -                           
+  RF  Vladimir Guerrero          U1 Milt Thompson 111            U2 -                           
+  pinch hitters: Javier Baez (VAR), Nap Lajoie, Shawn Green, Milt Thompson · pinch runners: Milt Thompson (SPE 107), Javier Baez (VAR) (SPE 97), Nap Lajoie (SPE 81)
+
+26 players · value 1418 · λ 0.000 · 6 variants
+vs RHP lineup: 3 of 9 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
-  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
-  Jim Tabor              R EYE  60 (68/55)  POW 108 (88/117)  K  92  BABIP  72  GAP  82  SPE  66
   Shawn Green            L EYE  97 (88/101)  POW 122 (104/128)  K  75  BABIP  70  GAP  69  SPE  38
-  Vladimir Guerrero      R EYE  62 (68/61)  POW  80 (89/77)  K 101  BABIP  83  GAP 108  SPE 109
+  Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
   Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Vladimir Guerrero      R EYE  62 (68/61)  POW  80 (89/77)  K 101  BABIP  83  GAP 108  SPE 109
+  Chris Taylor           R EYE  99 (140/91)  POW  73 (84/69)  K  60  BABIP 115  GAP 122  SPE  87
   Milt Thompson          L EYE  81 (42/90)  POW  33 (23/36)  K  90  BABIP 130  GAP  81  SPE 107
   Norris Hopper          R EYE  73 (60/78)  POW   1 (1/1)  K 146  BABIP 150  GAP  64  SPE  97
   Bill Hall              R EYE  91 (151/77)  POW 111 (140/102)  K  40  BABIP 103  GAP 100  SPE  76
+  Jackie Robinson        R EYE  78 (97/71)  POW  68 (101/43)  K 124  BABIP  87  GAP  83  SPE  92
   Ken Berry              R EYE  72 (89/66)  POW  61 (73/55)  K  96  BABIP  92  GAP  76  SPE  89
-  Freddy Galvis          S EYE  51 (25/59)  POW  92 (66/100)  K  74  BABIP  96  GAP  77  SPE  35
-  Jackie Robinson        R EYE  73 (91/67)  POW  64 (95/40)  K 117  BABIP  82  GAP  78  SPE  92
+  Daryl Spencer          R EYE 107 (124/102)  POW  70 (110/43)  K 108  BABIP  80  GAP  66  SPE  73
   Joe Torre              R EYE  54 (28/61)  POW  66 (24/74)  K  71  BABIP  75  GAP  83  SPE  45
   Ozzie Smith            S EYE 113 (104/116)  POW  28 (41/20)  K 167  BABIP  60  GAP  70  SPE 108
   Henry Blanco           R EYE  82 (85/81)  POW  45 (64/38)  K  93  BABIP  46  GAP  62  SPE  46
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
-  ✓ starters' stamina James McDonald 59, Justin Verlander 83, Jeff Francis 75, Patricio Scantlebury 68, Tin Can Kincannon 74 (era floor 50)
-  ✓ stamina guys in the pen (45+): Mike Marshall 74, Joe Krakauskas 67, Bullet Campbell 75
-  ✓ C  backup: Joe Torre 90, Henry Blanco 103
-  ✓ 1B backup: Shawn Green 96, Nap Lajoie 96, Jackie Robinson 76
-  ✓ 2B backup: Nap Lajoie 114, Freddy Galvis 129, Bill Hall 91
-  ✓ 3B backup: Jim Tabor 69, Bill Hall 74
-  ✓ SS backup: Freddy Galvis 113
-  ✓ LF backup: Milt Thompson 121, Ken Berry 131, Bill Hall 67
-  ✓ CF backup: Milt Thompson 114, Vladimir Guerrero 94, Norris Hopper 121, Ken Berry 115
-  ✓ RF backup: Milt Thompson 111, Norris Hopper 131, Ken Berry 126
-(23 of 26 have a live ask in the last shop snapshot)
-objective: -118.1 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
-points: lineup(both boards, 14 bats) 770 · rotation 267 · bullpen 375 · bench-only 0
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (158 teams): 4.9 SP / 7.1 RP / 13.8 bats
+  ✓ starters' stamina James McDonald 59, Big Jeff Pfeffer 98, Justin Verlander 83, Bob Gibson 69, Patricio Scantlebury 68 (era floor 50)
+  ✓ stamina guys in the pen (45+): Mike Marshall 74, Jeff Francis 75, Ernie Koob 73, Wilson Alvarez 77, Tin Can Kincannon 74
+  ✓ C  backup: vs RHP Henry Blanco 103 · vs LHP Joe Torre 90
+  ✓ 1B backup: vs RHP Jackie Robinson 80 · vs LHP Shawn Green 96, Nap Lajoie 96
+  ✓ 2B backup: vs RHP Javier Baez 102, Bill Hall 91 · vs LHP Nap Lajoie 114, Javier Baez 102
+  ✓ 3B backup: vs RHP Bill Hall 74, Daryl Spencer 61 · vs LHP Daryl Spencer 61
+  ✓ SS backup: Javier Baez 88
+  ✓ LF backup: vs RHP Ken Berry 131, Bill Hall 67 · vs LHP Milt Thompson 121
+  ✓ CF backup: vs RHP Ken Berry 115 · vs LHP Milt Thompson 114
+  ✓ RF backup: vs RHP Ken Berry 126 · vs LHP Milt Thompson 111
+(18 of 26 have a live ask in the last shop snapshot)
+objective: -75.4 weighted runs (bats 62/38 R/L, SP 1.77, RP 0.98, bench 0.1)
+points: lineup(both boards, 14 bats) 775 · rotation 272 · bullpen 371 · bench-only 0
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Bob Gibson               pBABIP 49 (fitted 50–175)
    Patricio Scantlebury     pBABIP 45 (fitted 50–175)
-   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
    John Bale                pBABIP 14 (fitted 50–175)
-   Todd Jones               pBABIP 37 (fitted 50–175)
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
