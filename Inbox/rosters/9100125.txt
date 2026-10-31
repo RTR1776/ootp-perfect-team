@@ -4,145 +4,170 @@
 R/G 4.97  AVG 0.267  OBP 0.340  SLG 0.422  K% 16.7  HR/PA 2.81%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.039 runs · steal break-even 81.6% (0 out) / 78.6% (1 out)
 park: all-LHB lineup 4.97 R/G vs all-RHB 4.97 — 0.00 R/G swing toward RIGHT-handed bats
-two-way: 59 cards also in the other role — Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Travis Sykora as bat, Justin Turner as arm, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Cocaina Garcia as arm, Blake Mitchell as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Matt Wallner as arm, Frank Foreman as bat, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Johnny Davis as arm, Gid Gardner as arm, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat
+two-way: 58 cards also in the other role — Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Travis Sykora as bat, Justin Turner as arm, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Cocaina Garcia as arm, Blake Mitchell as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Frank Foreman as bat, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Johnny Davis as arm, Gid Gardner as arm, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat
 
-pool: 753 eligible owned cards — 438 bats (151L / 56S / 231R), 315 arms
+pool: 735 eligible owned cards — 431 bats (145L / 57S / 229R), 304 arms
 staff weights from silveronlycapdaily's exports: SP 1.41, RP 0.47 (a lineup slot = 1)
 field (silveronlycapdaily, 2 exports): 46% of batters faced thrown left-handed · 46% of PA by left-handed bats · 12.9 bats / 5.2 SP / 5.2 RP per team
 shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 692 of 753 pool cards have innings on record (median 2844 PA/BF); K = 1000000
+observed play: 673 of 735 pool cards have innings on record (median 3295 PA/BF); K = 1000000
 gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (1998 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.85, SP 2.11, RP 0.94 (--no-team-weights to turn off)
+team weights (1998 band): gloves ×1.25, framing ×0.5, starters ×1, pen ×1.85 against a bat run → glove ×1.16, SP 1.41, RP 0.87 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.4 SP / 5.9 RP → per SP ×0.88 (5 carried), per RP ×0.84 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +4.7  Avoid Ks +2.6  BABIP +2.2  Eye +1.5  Gap +0.9
                           RHB: Power +4.7  Avoid Ks +2.6  BABIP +2.2  Eye +1.5  Gap +0.9
                          arms: pHR +1.6  Stuff +1.3  pBABIP +1.3  Control +1.1
-seed: 9100125-seed.txt refilled at λ 0 (0 cards no longer in the pool; shape differs)
+seed: 9100125-seed.txt as is (26 cards)
+seed: scores 136.3 before the climb
 
-optimiser: 2 starts (λ + seed) hill-climbed; best 186.9 runs vs 89.8 greedy (+97.2), 11 moves from the seed
+optimiser: 10 starts (λ + seed) hill-climbed; best 136.5 runs vs 65.9 greedy (+70.6), 28 moves from λ 4.50 (the seed's climb: 136.3)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Bob Boone                   73  R  1986   -10.8  park:R DEF 137/137 +17.7  #87032
-R:1B    Matt Carpenter              74  L  2015   +13.9  park:L DEF 102/102 +5.8  #86771
-R:2B    Jose Oquendo                73  S  1988   -13.0  park:L DEF 139/139 +9.5  #85738
-R:3B    Aiva Arquette (VAR)         71  R  2026    +8.2  park:R DEF 113/113 +6.5  #84768
-R:SS    Jack Wilson                 71  R  2004    -3.3  park:R DEF 122/122 +6.4  #87225
-R:LF    Kevin Alcantara (VAR)       76  R  2026    +3.8  park:R DEF 122/122 +4.8  #84755
-R:CF    Brian Jordan                74  R  1996    +2.9  park:R DEF 133/146 +3.6  #86965
-R:RF    Roberto Clemente            73  R  1962    +2.0  park:R DEF 143/143 +9.0  #86723
-R:DH    Bryce Harper                74  L  2013   +10.8  park:L  #86905
+R:C     Bob Boone                   73  R  1986   -10.9  park:R DEF 137/137 +9.4  #87032
+R:1B    Matt Carpenter              74  L  2015   +13.8  park:L DEF 102/102 +3.7  #86771
+R:2B    Randy Ready                 77  R  1987    -0.1  park:R DEF 115/115 +0.4  #86921
+R:3B    Aiva Arquette (VAR)         71  R  2026    +8.0  park:R DEF 113/113 +4.1  #84768
+R:SS    Jeremy Pena                 79  R  2022   +11.3  park:R DEF 116/116 +2.4  #87154
+R:LF    Brian Jordan                74  R  1996    +2.5  park:R DEF 146/146 +5.8  #86965
+R:CF    Marquis Grissom             73  R  1996    +1.3  park:R DEF 122/122 +1.0  #87237
+R:RF    Bryce Harper                74  L  2013   +10.6  park:L DEF 117/117 +2.4  #86905
+R:DH    Ryan Braun                  74  R  2007    +5.2  park:R  #87222
 
 --- lineup vs LHP ---
-L:C     Mike Zunino                 75  R  2021   +17.7  park:R DEF  77/ 77 +12.7  #86431
-L:1B    Matt Carpenter              74  L  2015    +3.0  park:L DEF 102/102 +5.8  #86771
-L:2B    Jose Oquendo                73  S  1988    -0.5  park:R DEF 139/139 +9.5  #85738
-L:3B    Aiva Arquette (VAR)         71  R  2026    +8.4  park:R DEF 113/113 +6.5  #84768
-L:SS    Jack Wilson                 71  R  2004    +5.7  park:R DEF 122/122 +6.4  #87225
-L:LF    Kevin Alcantara (VAR)       76  R  2026   +14.0  park:R DEF 122/122 +4.8  #84755
-L:CF    Brian Jordan                74  R  1996    +6.9  park:R DEF 133/146 +3.6  #86965
-L:RF    Roberto Clemente            73  R  1962    -0.6  park:R DEF 143/143 +9.0  #86723
-L:DH    Ryan Braun                  74  R  2007   +43.0  park:R  #87222
+L:C     Mike Zunino                 75  R  2021   +17.8  park:R DEF  77/ 77 +6.2  #86431
+L:1B    Allen Craig                 74  R  2011   +15.0  park:R DEF  91/ 91 +2.1  #87139
+L:2B    Randy Ready                 77  R  1987    +9.1  park:R DEF 115/115 +0.4  #86921
+L:3B    Aiva Arquette (VAR)         71  R  2026    +8.2  park:R DEF 113/113 +4.1  #84768
+L:SS    Jeremy Pena                 79  R  2022   +17.5  park:R DEF 116/116 +2.4  #87154
+L:LF    Brian Jordan                74  R  1996    +6.5  park:R DEF 146/146 +5.8  #86965
+L:CF    Marquis Grissom             73  R  1996   +10.8  park:R DEF 122/122 +1.0  #87237
+L:RF    Mitch Webster               72  S  1986    +4.5  park:R DEF 117/117 +2.4  #85448
+L:DH    Ryan Braun                  74  R  2007   +42.8  park:R  #87222
 
---- batting order vs RHP --- (5.02 runs/game; The Book's order 5.02)
-  1. Jose Oquendo 2B
-  2. Matt Carpenter 1B
-  3. Bryce Harper DH
-  4. Aiva Arquette (VAR) 3B
-  5. Jack Wilson SS
-  6. Bob Boone C
-  7. Brian Jordan CF
-  8. Roberto Clemente RF
-  9. Kevin Alcantara (VAR) LF
+--- batting order vs RHP --- (5.07 runs/game; The Book's order 5.06)
+  1. Matt Carpenter 1B
+  2. Bryce Harper RF
+  3. Aiva Arquette (VAR) 3B
+  4. Jeremy Pena SS
+  5. Randy Ready 2B
+  6. Marquis Grissom CF
+  7. Ryan Braun DH
+  8. Brian Jordan LF
+  9. Bob Boone C
 
---- batting order vs LHP --- (5.42 runs/game; The Book's order 5.42)
-  1. Ryan Braun DH
-  2. Kevin Alcantara (VAR) LF
+--- batting order vs LHP --- (5.56 runs/game; The Book's order 5.55)
+  1. Randy Ready 2B
+  2. Ryan Braun DH
   3. Mike Zunino C
-  4. Aiva Arquette (VAR) 3B
-  5. Jack Wilson SS
-  6. Jose Oquendo 2B
-  7. Brian Jordan CF
-  8. Roberto Clemente RF
-  9. Matt Carpenter 1B
+  4. Allen Craig 1B
+  5. Jeremy Pena SS
+  6. Aiva Arquette (VAR) 3B
+  7. Marquis Grissom CF
+  8. Mitch Webster RF
+  9. Brian Jordan LF
 
 --- rotation ---
-SP1     Nick Altrock                76  S  1906   +12.4   SP STM  90  #87049
-SP2     Kelvim Escobar              78  S  2007    +9.9   SP STM  76  #87207
-SP3     Jordan Montgomery           77  L  2023    +7.4   SP STM  87  #86354
-SP4     Bob Walk                    73  R  1988    +6.4   SP STM  82  #86971
-SP5     Jakie May (VAR)             72  R  1927    +3.9   SP STM  69  #85286
+SP1     Nick Altrock                76  S  1906    +9.9   SP STM  90  #87049
+SP2     Bob Walk                    73  R  1988    +5.1   SP STM  82  #86971
+SP3     Jakie May (VAR)             72  R  1927    +2.9   SP STM  69  #85286
+SP4     Felix Hernandez             72  R  2007    +1.7   SP STM  77  #87204
+SP5     Bob Gibson                  70  R  1961    +1.5   SP STM  77  #85499
 
 --- bullpen ---
-CL      Bruce Ruffin                71  S  1993    +3.7   RP STM  51  #86777
-RP1     Alex Claudio (VAR)          70  L  2017    +3.2   RP STM  23  #86447
-RP2     Brian Anderson              72  S  2001    +2.1   RP STM  66  #87070
-RP3     Bob Gibson                  70  R  1961    -0.5   SP STM  77  #85499
-RP4     Chris Sale                  70  L  2010    -2.0   RP STM  49  #83244
-RP5     Juan Cruz                   70  R  2004    -3.6   RP STM  34  #87224
-RP6     Andrew Alvarez              70  L  2026    -4.2   SP STM  74  #85566
+CL      Bruce Ruffin                71  S  1993    +2.9   RP STM  51  #86777
+RP1     Diamond M. Pipkins          72  L  1942    +1.0   SP STM  69  #87324
+RP2     Alex Claudio (VAR)          70  L  2017    +0.2   RP STM  23  #86447
+RP3     Kid Madden                  70  L  1888    -0.3   SP STM 101  #87348
+RP4     Joe Nuxhall                 71  L  1955    -2.0   SP STM  84  #86642
+RP5     Mark Hendrickson            70  L  2006    -2.0   SP STM  79  #87274
+RP6     Chris Sale                  70  L  2010    -2.4   RP STM  49  #83244
 
 --- bench ---
-BN1     Gus Bell                    70  L  1955    +5.3  park:L  #85785
-BN2     Ryan Braun                  74  R  2007    +5.2  park:R  #87222
-BN3     Nick Swisher (VAR)          70  S  2006    -6.3  park:L  #85784
-BN4     Mike Zunino                 75  R  2021   -16.5  park:R  #86431
-BN5     Casey Candaele              71  S  1990   -20.1  park:L  #82911
+BN1     Gus Bell                    70  L  1955    +5.1  park:L  #85785
+BN2     Mitch Webster               72  S  1986    -2.8  park:L  #85448
+BN3     Halley Harding              71  S  1926    -5.1  park:L  #86979
+BN4     Allen Craig                 74  R  2011    +1.9  park:R  #87139
+BN5     Mike Zunino                 75  R  2021   -16.4  park:R  #86431
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Bob Boone                  U1 Mike Zunino 77               U2 -                           
-  1B  Matt Carpenter             U1 Nick Swisher (VAR) 85        U2 -                           
-  2B  Jose Oquendo               U1 Casey Candaele 104           U2 -                           
-  3B  Aiva Arquette (VAR)        U1 Casey Candaele 98            U2 -                           
-  SS  Jack Wilson                U1 Casey Candaele 91            U2 -                           
-  LF  Kevin Alcantara (VAR)      U1 Gus Bell 65                  U2 Nick Swisher (VAR) 105      
-  CF  Brian Jordan               U1 NONE                         U2 -                           
-  RF  Roberto Clemente           U1 Nick Swisher (VAR) 91        U2 Casey Candaele 90           
-  pinch hitters: Gus Bell, Ryan Braun, Nick Swisher (VAR), Mike Zunino · pinch runners: Casey Candaele (SPE 82), Ryan Braun (SPE 80), Gus Bell (SPE 59)
+  1B  Matt Carpenter             U1 Allen Craig 91               U2 -                           
+  2B  Randy Ready                U1 NONE                         U2 -                           
+  3B  Aiva Arquette (VAR)        U1 Allen Craig 62               U2 -                           
+  SS  Jeremy Pena                U1 NONE                         U2 -                           
+  LF  Brian Jordan               U1 Gus Bell 65                  U2 Allen Craig 73              
+  CF  Marquis Grissom            U1 Mitch Webster 97             U2 -                           
+  RF  Bryce Harper               U1 Mitch Webster 117            U2 -                           
+  pinch hitters: Gus Bell, Allen Craig, Mitch Webster, Halley Harding · pinch runners: Halley Harding (SPE 108), Mitch Webster (SPE 98), Allen Craig (SPE 60)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Mike Zunino                U1 Bob Boone 137                U2 -                            def sub Bob Boone (+5)
-  1B  Matt Carpenter             U1 Nick Swisher (VAR) 85        U2 -                           
-  2B  Jose Oquendo               U1 Casey Candaele 104           U2 -                           
-  3B  Aiva Arquette (VAR)        U1 Casey Candaele 98            U2 -                           
-  SS  Jack Wilson                U1 Casey Candaele 91            U2 -                           
-  LF  Kevin Alcantara (VAR)      U1 Nick Swisher (VAR) 105       U2 Casey Candaele 101          
-  CF  Brian Jordan               U1 Bryce Harper 93              U2 -                           
-  RF  Roberto Clemente           U1 Nick Swisher (VAR) 91        U2 Casey Candaele 90           
-  pinch hitters: Nick Swisher (VAR), Casey Candaele, Bob Boone, Gus Bell · pinch runners: Casey Candaele (SPE 82), Bryce Harper (SPE 81), Gus Bell (SPE 59)
+  C   Mike Zunino                U1 Bob Boone 137                U2 -                            def sub Bob Boone (+3.2)
+  1B  Allen Craig                U1 Matt Carpenter 102           U2 -                           
+  2B  Randy Ready                U1 NONE                         U2 -                           
+  3B  Aiva Arquette (VAR)        U1 Matt Carpenter 74            U2 -                           
+  SS  Jeremy Pena                U1 NONE                         U2 -                           
+  LF  Brian Jordan               U1 Bryce Harper 110             U2 Gus Bell 65                 
+  CF  Marquis Grissom            U1 Bryce Harper 93              U2 -                           
+  RF  Mitch Webster              U1 Bryce Harper 117             U2 -                           
+  pinch hitters: Matt Carpenter, Halley Harding, Bob Boone, Gus Bell · pinch runners: Halley Harding (SPE 108), Bryce Harper (SPE 81), Gus Bell (SPE 59)
 
-26 players · value 1888 / 1888 (0 spare) · from seed · 5 variants
-vs RHP lineup gets the friendly park side in 3 of 9 spots
+26 players · value 1888 / 1888 (0 spare) · λ 4.500 · 3 variants
+vs RHP lineup: 2 of 9 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
   Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  Jeremy Pena            R EYE  59 (65/56)  POW 130 (134/128)  K  81  BABIP 136  GAP  80  SPE 111
   Bryce Harper           L EYE 153 (170/148)  POW 103 (41/127)  K  82  BABIP  81  GAP  93  SPE  81
   Aiva Arquette          R EYE  78 (98/70)  POW 118 (104/124)  K  95  BABIP 103  GAP 117  SPE  78
-  Gus Bell               L EYE  72 (61/76)  POW 103 (71/118)  K 105  BABIP  91  GAP  92  SPE  59
   Ryan Braun             R EYE  82 (147/63)  POW 158 (200/144)  K  62  BABIP 106  GAP  93  SPE  80
-  Kevin Alcantara        R EYE  99 (106/97)  POW 120 (138/113)  K  69  BABIP 106  GAP  82  SPE  94
+  Gus Bell               L EYE  72 (61/76)  POW 103 (71/118)  K 105  BABIP  91  GAP  92  SPE  59
   Brian Jordan           R EYE  60 (84/44)  POW  95 (84/99)  K  88  BABIP 128  GAP 117  SPE 108
-  Roberto Clemente       R EYE  66 (60/69)  POW  67 (61/70)  K  94  BABIP 160  GAP 110  SPE  96
-  Jack Wilson            R EYE  50 (73/37)  POW  71 (112/55)  K 150  BABIP 124  GAP 138  SPE  84
-  Nick Swisher           S EYE 158 (155/159)  POW 109 (100/113)  K  67  BABIP  73  GAP  68  SPE  26
+  Allen Craig            R EYE  82 (66/87)  POW 129 (154/121)  K  76  BABIP  96  GAP  89  SPE  60
+  Marquis Grissom        R EYE  44 (28/50)  POW  91 (122/84)  K 121  BABIP 134  GAP  89  SPE  96
+  Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
+  Mitch Webster          S EYE 107 (60/129)  POW  60 (79/48)  K 103  BABIP 124  GAP 115  SPE  98
+  Halley Harding         S EYE 114 (104/118)  POW  21 (20/22)  K 125  BABIP 162  GAP  68  SPE 108
   Bob Boone              R EYE  94 (109/90)  POW  61 (58/62)  K 165  BABIP 103  GAP  66  SPE  33
-  Jose Oquendo           S EYE 121 (81/138)  POW  50 (90/16)  K 146  BABIP 120  GAP  84  SPE  49
   Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
-  Casey Candaele         S EYE  82 (81/83)  POW  47 (65/39)  K  83  BABIP  90  GAP  73  SPE  82
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (32 teams): 4.9 SP / 6.6 RP / 13.6 bats
-  ✓ starters' stamina Nick Altrock 90, Kelvim Escobar 76, Jordan Montgomery 87, Bob Walk 82, Jakie May 69 (era floor 50)
-  ✓ stamina guys in the pen (45+): Bruce Ruffin 51, Brian Anderson 66, Bob Gibson 77, Chris Sale 49, Andrew Alvarez 74
+  ✓ starters' stamina Nick Altrock 90, Bob Walk 82, Jakie May 69, Felix Hernandez 77, Bob Gibson 77 (era floor 50)
+  ✓ stamina guys in the pen (45+): Bruce Ruffin 51, Diamond M. Pipkins 69, Kid Madden 101, Joe Nuxhall 84, Mark Hendrickson 79, Chris Sale 49
   ✓ C  backup: vs RHP Mike Zunino 77 · vs LHP Bob Boone 137
-  ✓ 1B backup: Nick Swisher 85
-  ✓ 2B backup: Casey Candaele 104
-  ✓ 3B backup: Casey Candaele 98
-  ✓ SS backup: Casey Candaele 91
-  ✓ LF backup: Bryce Harper 110, Gus Bell 65, Nick Swisher 105, Casey Candaele 101
-  ✓ CF backup: Bryce Harper 93
-  ✓ RF backup: Bryce Harper 117, Nick Swisher 91, Casey Candaele 90
-(23 of 26 have a live ask in the last shop snapshot)
-objective: 186.9 weighted runs (bats 54/46 R/L, SP 2.1149999999999998, RP 0.94, bench 0.1)
-points: lineup(both boards, 11 bats) 808 · rotation 376 · bullpen 493 · bench-only 211
+  ✓ 1B backup: vs RHP Allen Craig 91 · vs LHP Matt Carpenter 102
+  ✓ 2B backup: vs RHP Allen Craig 62 · vs LHP Matt Carpenter 80
+  ✓ 3B backup: vs RHP Allen Craig 62 · vs LHP Matt Carpenter 74
+  ✓ SS backup: Halley Harding 70
+  ✓ LF backup: vs RHP Allen Craig 73, Mitch Webster 113, Gus Bell 65 · vs LHP Bryce Harper 110, Gus Bell 65
+  ✓ CF backup: vs RHP Mitch Webster 97 · vs LHP Bryce Harper 93
+  ✓ RF backup: vs RHP Allen Craig 64, Mitch Webster 117 · vs LHP Bryce Harper 117
+
+--- cap ledger --- (floor value 70; runs = what he adds over the best unrostered floor card in his slots)
+  slot      card                     val +cap   runs   /pt  floor sub / why
+  SS        Jeremy Pena               79    9  +46.7  5.19  Wally Gerber
+  2B        Randy Ready               77    7  +27.8  3.98  Bob Fisher
+  SP1       Nick Altrock              76    6  +22.2  3.71  Freddy Peralta
+  C/BN5     Mike Zunino               75    5  +22.3  4.45  Kyle Teel
+  DH        Ryan Braun                74    4  +28.5  7.11  Nick Swisher
+  LF        Brian Jordan              74    4  +15.1  3.78  Nick Swisher
+  1B        Matt Carpenter            74    4  +11.9  2.96  Sean Casey · backup 2B/3B
+  RF        Bryce Harper              74    4  +11.0  2.75  Nick Swisher
+  1B/BN4    Allen Craig               74    4  +10.4  2.61  Nick Swisher · backup 2B/3B
+  CF        Marquis Grissom           73    3  +22.5  7.50  Daulton Varsho
+  SP2       Bob Walk                  73    3  +14.4  4.79  Freddy Peralta
+  C         Bob Boone                 73    3  +11.8  3.95  Kyle Teel
+  SP3       Jakie May                 72    2  +10.6  5.29  Freddy Peralta
+  SP4       Felix Hernandez           72    2   +8.4  4.21  Freddy Peralta
+  RF/BN2    Mitch Webster             72    2   +6.4  3.20  Nick Swisher
+  RP1       Diamond M. Pipkins        72    2   +4.3  2.14  Juan Cruz
+  3B        Aiva Arquette             71    1  +25.4 25.42  Fred Hartman
+  CL        Bruce Ruffin              71    1   +6.1  6.15  Juan Cruz
+  RP4       Joe Nuxhall               71    1   +1.6  1.60  Juan Cruz
+  BN3       Halley Harding            71    1   +0.1  0.09  Nick Swisher · backup SS
+  68 cap points above the floor on 20 cards (6 at the floor) · 4.52 runs per point on average
+(19 of 26 have a live ask in the last shop snapshot)
+objective: 136.5 weighted runs (bats 54/46 R/L, SP 1.41, RP 0.8694999999999999, bench 0.1)
+points: lineup(both boards, 12 bats) 890 · rotation 363 · bullpen 494 · bench-only 141
