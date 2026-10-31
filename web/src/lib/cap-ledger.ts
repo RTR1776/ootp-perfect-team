@@ -87,12 +87,17 @@ export function capLedger(o: {
       : keys.some((k) => k === "CL" || /^RP\d+$/.test(k)) ? "pen"
       : keys.some((k) => /^[RL]:/.test(k)) ? "lineup" : "bench";
     let best = -Infinity, bestCard: FillCard | null = null, bestSlots: FillResult | null = null;
-    for (const f of floorCards) {
-      if (!keys.every((k) => fits(f, k, o.posFloor))) continue;
-      const s = { ...o.slots };
-      for (const k of keys) s[k] = f.cardId;
-      const sc = o.objective(s);
-      if (sc > best) { best = sc; bestCard = f; bestSlots = s; }
+    // A starter's floor first; where no floor card clears it (SS 85 at the floor value is rare),
+    // any floor card who can stand there at all: the objective prices the glove he brings.
+    for (const floor of [o.posFloor, 1] as const) {
+      for (const f of floorCards) {
+        if (!keys.every((k) => fits(f, k, floor))) continue;
+        const s = { ...o.slots };
+        for (const k of keys) s[k] = f.cardId;
+        const sc = o.objective(s);
+        if (sc > best) { best = sc; bestCard = f; bestSlots = s; }
+      }
+      if (bestCard) break;
     }
     const above = (c.val ?? fv) - fv;
     const runs = bestCard ? base - best : null;
@@ -114,4 +119,4 @@ export function capLedger(o: {
 
 /** A leak: cap spent above the floor that buys under half the roster's average runs per point, with no rule behind it. */
 export const isLeak = (r: LedgerRow, avg: number | null): boolean =>
-  r.above >= 3 && r.why.length === 0 && avg != null && (r.runs == null || r.runs < 0.5 * avg * r.above);
+  r.above >= 3 && r.why.length === 0 && avg != null && r.runs != null && r.runs < 0.5 * avg * r.above;
