@@ -133,52 +133,39 @@ export interface BackupPosition { pos: string; floor: number; can: FillCard[] }
 const usable = (c: FillCard, rules: RosterRules) => (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length;
 
 /**
- * In a cap event, the value of the cheapest card the pool can field: the floor.
- * Null when the event has no team cap.
+ * The glove a backup needs in a cap event: 60, not the starter's floor.
+ * L.J., 2026-10-31 (Early Years Cap held three 46-47 bench cards only because
+ * a backup had to clear SS 85 / CF 90 / 2B 85): "you generally want to find a
+ * low value backup IF and backup OF that covers multiple positions". Measured
+ * the same day over 1,770 teams in 11 cap series (Tourney Data/Cap Exports):
+ * the best quarter carries a backup C, an IF utility man and an OF utility man
+ * more often than the rest, each at a median of +1 over the floor value, rated
+ * 60+ at the spots they cover. A backup plays a game or two; the cap he would
+ * cost to clear a starter's floor buys a starter.
  */
+export const CAP_BACKUP_FLOOR = 60;
+
+/** The glove floor a backup at `pos` must clear: the starter's floor, capped at CAP_BACKUP_FLOOR in a cap event. */
+export function backupFloorAt(rules: RosterRules, posFloor: PosFloor | undefined, pos: string): number {
+  const f = Math.max(1, posFloorAt(posFloor, pos));
+  return rules.restrictions?.teamCap != null ? Math.min(f, CAP_BACKUP_FLOOR) : f;
+}
+
+/** The fielding positions this pool can cover twice (owned, eligible hitters at or above the backup floor). */
+export function backupPositions(pool: readonly FillCard[], rules: RosterRules, posFloor?: PosFloor): BackupPosition[] {
+  return FIELD_POS.map((pos) => {
+    const floor = backupFloorAt(rules, posFloor, pos);
+    const can = pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= floor && usable(c, rules));
+    return { pos, floor, can };
+  }).filter((b) => new Set(b.can.map((c) => c.cardId)).size >= 2);
+}
+
+/** In a cap event, the value of the cheapest card the pool can field: the floor. Null without a team cap. */
 export function capFloorValue(pool: readonly FillCard[], rules: RosterRules): number | null {
   if (rules.restrictions?.teamCap == null) return null;
   let min = Infinity;
   for (const c of pool) if (c.val != null && usable(c, rules) && c.val < min) min = c.val;
   return Number.isFinite(min) ? min : null;
-}
-
-/**
- * Whether a cap event waives a backup at `pos`: no floor-value card in the pool
- * plays it at the floor. L.J., 2026-10-31 (Early Years Cap, three 46-47 bench
- * cards bought only as backups): "backups only if a floor card covers it". A
- * backup that costs cap above the floor competes with the starters for it, and
- * the bench is barely played.
- */
-const floorCovers = (pool: readonly FillCard[], rules: RosterRules, floorValue: number, rating: string, floor: number) =>
-  pool.some((c) => !c.isPitcher && c.val != null && c.val <= floorValue && (c.ratings[rating] ?? 0) >= floor && usable(c, rules));
-
-/**
- * The fielding positions this pool can cover twice (owned, eligible hitters at or above the floor).
- * In a cap event, only those a floor-value card can back up (capWaivedBackups lists the rest).
- */
-export function backupPositions(pool: readonly FillCard[], rules: RosterRules, posFloor?: PosFloor): BackupPosition[] {
-  const fv = capFloorValue(pool, rules);
-  return FIELD_POS.map((pos) => {
-    const floor = Math.max(1, posFloorAt(posFloor, pos));
-    const can = pool.filter((c) => !c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= floor && usable(c, rules));
-    return { pos, floor, can };
-  }).filter((b) => new Set(b.can.map((c) => c.cardId)).size >= 2)
-    .filter((b) => fv == null || floorCovers(pool, rules, fv, `Pos Rating ${b.pos}`, b.floor));
-}
-
-/** The positions a cap event waives the backup at (no floor-value card plays them), for the roster check. */
-export function capWaivedBackups(pool: readonly FillCard[], rules: RosterRules, posFloor?: PosFloor): string[] {
-  const fv = capFloorValue(pool, rules);
-  if (fv == null) return [];
-  return FIELD_POS.filter((pos) => !floorCovers(pool, rules, fv, `Pos Rating ${pos}`, Math.max(1, posFloorAt(posFloor, pos))));
-}
-
-/** The catcher count a cap event asks for: the second catcher only if a floor-value card catches. */
-export function capCatchers(pool: readonly FillCard[], rules: RosterRules, want: number, posFloor?: PosFloor): number {
-  const fv = capFloorValue(pool, rules);
-  if (fv == null || want <= 1) return want;
-  return floorCovers(pool, rules, fv, "Pos Rating C", Math.max(1, posFloorAt(posFloor, "C"))) ? want : 1;
 }
 
 /** How many long men (pen arms at LONG_MAN_STAMINA+) the board is short of `want`. */
@@ -357,8 +344,7 @@ export function optimizeRoster(
   // spot no value, but the game wants all 26 (Negro Leagues Slots
   // 2026-09-26: 25 players, "this event needs 26").
   const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start)).size);
-  // A cap event carries the second catcher only when a floor-value card can be him (capCatchers).
-  const minC = capCatchers(pool, rules, o.minCatchers ?? 0, o.posFloor);
+  const minC = o.minCatchers ?? 0;
   const cFloor = Math.max(1, posFloorAt(o.posFloor, "C"));
   const minSS = o.minShortstops ?? 0;
   const ssFloor = Math.max(1, posFloorAt(o.posFloor, "SS"));

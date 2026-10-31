@@ -29,7 +29,7 @@ import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend"
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
-import { capWaivedBackups, optimizeRoster } from "@/lib/roster-optimize";
+import { CAP_BACKUP_FLOOR, optimizeRoster } from "@/lib/roster-optimize";
 import { capLedger, isLeak } from "@/lib/cap-ledger";
 import { runSearch, toPlainFits, type SearchBest } from "@/lib/roster-search";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
@@ -806,7 +806,7 @@ async function main() {
     const sum = (k: string) => top ? Object.values(top.tiers as Record<string, Record<string, number>>).reduce((n, t) => n + (t[k] ?? 0), 0) : 0;
     const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
     console.log("\n--- roster check ---");
-    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, waived: capWaivedBackups(pool, rules, MIN_POS) })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
+    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, backupFloorCap: CAP != null ? CAP_BACKUP_FLOOR : null })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
   }
   {
     // The cap ledger (lib/cap-ledger, L.J. 10-31): what each card's cap buys over a floor card.

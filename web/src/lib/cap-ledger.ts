@@ -15,7 +15,7 @@
 import type { FillCard, FillResult } from "./roster-fill";
 import type { RosterRules } from "./roster-rules";
 import { posFloorAt, type PosFloor } from "./pos-floor";
-import { backupPositions, capCatchers, capFloorValue, missingBackups } from "./roster-optimize";
+import { backupPositions, capFloorValue, missingBackups } from "./roster-optimize";
 import { cardEligibility } from "./roster-rules";
 
 export interface LedgerRow {
@@ -72,7 +72,7 @@ export function capLedger(o: {
   const base = o.objective(o.slots);
   const backupPos = backupPositions(o.pool, o.rules, o.posFloor);
   const missingNow = new Set(missingBackups(o.slots, byId, backupPos));
-  const wantC = capCatchers(o.pool, o.rules, o.minCatchers ?? 0, o.posFloor);
+  const wantC = o.minCatchers ?? 0;
   const cFloor = Math.max(1, posFloorAt(o.posFloor, "C"));
   const catchers = (s: FillResult) => [...new Set(Object.values(s))].filter((id) => {
     const c = byId.get(id); return c && !c.isPitcher && (c.ratings["Pos Rating C"] ?? 0) >= cFloor;
