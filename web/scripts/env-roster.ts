@@ -45,7 +45,8 @@ import { staffPerTeam, topShape, type SeriesBuild } from "@/lib/field-constructi
 import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
 import { loadSetEvidence } from "@/lib/set-evidence-server";
-import { cardIdOf, formIdForSlot, isTwoWayForm, twoWayForm } from "@/lib/two-way";
+import { cardIdOf, formIdForSlot, isTwoWayForm, otherFormId, twoWayForm, unitOf } from "@/lib/two-way";
+import { slotCapacityIssues, tierCode } from "@/lib/roster-rules";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -437,7 +438,7 @@ async function main() {
   if (LHB_SHARE_FLAG != null || LHP_SHARE_FLAG != null) console.log(`field hands set by flag: ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats`);
   if (meta) console.log(`field (${SERIES}, ${meta.files} exports): ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats · ${meta.avgBats} bats / ${meta.avgSp} SP / ${meta.avgRp} RP per team`);
   const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any, YEAR_MIN, shapeGiven);
-  const shape: FillShape = {
+  let shape: FillShape = {
     lineupPos, bats: shp.bats,
     spKeys: Array.from({ length: shp.sp }, (_, i) => `SP${i + 1}`),
     rpKeys: ["CL", ...Array.from({ length: shp.rp - 1 }, (_, i) => `RP${i + 1}`)],
@@ -537,9 +538,10 @@ async function main() {
    * Until 2026-09-16 the optimiser priced gloves at zero and gated them only
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
-  const { objective, rank, defAt, slotValue } = rosterObjective(pool, {
+  const objectiveOpts = {
     eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, mustIds,
-  });
+  };
+  let { objective, rank, defAt, slotValue } = rosterObjective(pool, objectiveOpts);
   void defAt;
 
   /**
@@ -685,6 +687,75 @@ async function main() {
     }
     console.log(`\noptimiser: ${starts.size} ${starts.has("seed") ? "starts (λ + seed)" : "λ starts"} hill-climbed; best ${best.score.toFixed(1)} runs vs ${greedyScore.toFixed(1)} greedy (+${(best.score - greedyScore).toFixed(1)}), ${best.moves} moves from ${best.from === SEED_LAMBDA ? "the seed" : `λ ${best.from.toFixed(2)}`}${seedScore != null && best.from !== SEED_LAMBDA ? ` (the seed's climb: ${seedScore.toFixed(1)})` : ""}`);
     slots = best.slots; lambda = best.from;
+    /*
+     * The dual phase (L.J. 2026-10-31: Ed Rile, "crushing bat at 1B and full on SP"; 35 of the
+     * 36 PTCS 7 Championship Open teams carrying him used him both ways). A two-way card in both
+     * roles is one roster spot (two-way unitOf), which frees a spot the shape has no slot for.
+     * Add one bench slot, seed a board with each of the best two-way cards in both roles (his arm
+     * in the rotation's weakest slot, his bat on the roster), climb, and keep the best board when
+     * it beats the one above. --no-dual skips it; --dual-try N sets how many cards (default 4).
+     */
+    if (!flag("no-dual") && !COMPARE_ONLY) {
+      const ids = new Set(pool.map((c) => c.cardId));
+      const byIdD = new Map(pool.map((c) => [c.cardId, c]));
+      const bats = pool.filter((c) => !c.isPitcher && ids.has(otherFormId(c.cardId)) && byIdD.get(otherFormId(c.cardId))?.isPitcher
+        && (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length);
+      if (bats.length && shape.spKeys.length) {
+        const dshape: FillShape = { ...shape, benchKeys: [...shape.benchKeys, `BN${shape.benchKeys.length + 1}`] };
+        const dobj = rosterObjective(pool, { ...objectiveOpts, shape: dshape });
+        const worth = (bat: number) => SP_WEIGHT * (fits.runsR.get(otherFormId(bat)) ?? -99) + Math.max(0, fits.runsR.get(bat) ?? 0);
+        const tryN = num("dual-try", 4)!;
+        const cands = [...bats].sort((a, b) => worth(b.cardId) - worth(a.cardId)).slice(0, tryN);
+        const unitVal = (sl: Record<string, number>) => {
+          const seen = new Map<number, number>();
+          for (const id of Object.values(sl)) seen.set(unitOf(id), byIdD.get(id)?.val ?? 0);
+          return seen;
+        };
+        const fitsRules = (sl: Record<string, number>) => {
+          const u = unitVal(sl);
+          if (CAP != null && [...u.values()].reduce((a, b) => a + b, 0) > CAP) return false;
+          if (SLOTS) {
+            const tiers: Record<string, number> = {};
+            for (const v of u.values()) { const t = tierCode(v); tiers[t] = (tiers[t] ?? 0) + 1; }
+            if (slotCapacityIssues(tiers, SLOTS).length) return false;
+          }
+          return true;
+        };
+        let dbest: { slots: Record<string, number>; score: number; who: string } | null = null;
+        const nk = dshape.benchKeys[dshape.benchKeys.length - 1]!;
+        for (const c of cands) {
+          const bat = c.cardId, arm = otherFormId(bat);
+          const seed: Record<string, number> = { ...slots };
+          const on = new Set(Object.values(seed));
+          if (!on.has(arm)) {
+            const k = shape.spKeys.reduce((w, x) => (dobj.slotValue(x, seed[x]!) < dobj.slotValue(w, seed[w]!) ? x : w));
+            seed[k] = arm;
+          }
+          if (!on.has(bat)) seed[nk] = bat;
+          else {
+            // His bat is already on the roster: the freed spot takes the best unrostered bat that fits the rules.
+            const units = new Set(Object.values(seed).map(unitOf));
+            const fill = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
+              .sort((a, b) => dobj.slotValue(nk, b.cardId) - dobj.slotValue(nk, a.cardId) || (a.val ?? 0) - (b.val ?? 0));
+            const h = fill.find((x) => fitsRules({ ...seed, [nk]: x.cardId }));
+            if (!h) continue;
+            seed[nk] = h.cardId;
+          }
+          const r = optimizeRoster(seed, pool, rules, dshape, {
+            objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
+            candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
+          });
+          const dual = Object.values(r.slots).some((id) => Object.values(r.slots).includes(otherFormId(id)));
+          console.log(`dual: ${c.name} in both roles ${r.legal && dual ? `${r.score.toFixed(1)} runs` : r.legal ? `climbed out of both roles (${r.score.toFixed(1)})` : "no legal board"}`);
+          if (r.legal && dual && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who: c.name };
+        }
+        if (dbest && dbest.score > best.score + 0.5) {
+          console.log(`dual: ${dbest.who} in both roles beats the board above, ${dbest.score.toFixed(1)} vs ${best.score.toFixed(1)} runs: taken`);
+          slots = dbest.slots; shape = dshape;
+          ({ objective, rank, defAt, slotValue } = dobj);
+        } else console.log(`dual: no two-way card in both roles beats ${best.score.toFixed(1)} runs${dbest ? ` (best ${dbest.who} ${dbest.score.toFixed(1)})` : ""}`);
+      }
+    }
     if (deepBoard) {
       // Which cards /build's Search longer board has that the CLI's doesn't, and back.
       const nameOf = (id: number) => pool.find((c) => c.cardId === id)?.name ?? String(id);
@@ -809,9 +880,10 @@ async function main() {
   }
 
   const rostered = [...new Set(Object.values(slots))].map((id) => poolById.get(id)!).filter(Boolean);
-  const totalVal = rostered.reduce((n, c) => n + (c.val ?? 0), 0);
+  // A two-way card in both roles is one card (two-way unitOf): its value counts once.
+  const totalVal = [...new Map(rostered.map((c) => [unitOf(c.cardId), c.val ?? 0])).values()].reduce((n, x) => n + x, 0);
   const lhbStarters = lineupPos.filter((p) => { const c = poolById.get(slots[`R:${p}`]); return c && batsLeftOn(c.bats, "R"); }).length;
-  console.log(`\n${rostered.length} players · value ${totalVal}${CAP ? ` / ${CAP} (${CAP - totalVal} spare)` : ""} · ${lambda === SEED_LAMBDA ? "from seed" : `λ ${lambda.toFixed(3)}`} · ${rostered.filter((c) => c.variant).length} variants`);
+  console.log(`\n${new Set(rostered.map((c) => unitOf(c.cardId))).size} players · value ${totalVal}${CAP ? ` / ${CAP} (${CAP - totalVal} spare)` : ""} · ${lambda === SEED_LAMBDA ? "from seed" : `λ ${lambda.toFixed(3)}`} · ${rostered.filter((c) => c.variant).length} variants`);
   console.log(`vs RHP lineup: ${lhbStarters} of ${lineupPos.length} bat from the left side (the platoon edge)${pr ? `; this park favours ${solveEnv(era.rates, era.rg, blendPark(pr, 1)).RG > solveEnv(era.rates, era.rg, blendPark(pr, 0)).RG ? "left" : "right"}-handed bats` : ""}`);
   const bats2 = rostered.filter((c) => !c.isPitcher);
   console.log(`\n--- order inputs (rostered bats) ---`);
