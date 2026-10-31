@@ -21,6 +21,7 @@ import { LONG_MAN_STAMINA } from "./roster-audit";
 import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { isComplete, type FillCard, type FillResult, type FillShape } from "./roster-fill";
 import { maxAssignment } from "./assign";
+import { dualUseOk, unitOf } from "./two-way";
 
 /** Which of the three groups a slot belongs to — a card may hold one of each. */
 export type SlotGroup = "R" | "L" | "P";
@@ -226,11 +227,16 @@ function legal(
     seen[g].add(id);
   }
   const ids = new Set(Object.values(slots));
-  if (ids.size > size || ids.size < minPlayers) return false;
-
   const members = [...ids].map((id) => byId.get(id)).filter((c): c is FillCard => c != null);
   if (members.length !== ids.size) return false;
-  if (samePlayer(members)) return false; // one card per player
+  // A two-way card in both roles is one card on the roster (two-way unitOf): roster size,
+  // value, variants and tier slots count it once.
+  const unitMap = new Map<number, FillCard>();
+  for (const m of members) if (!unitMap.has(unitOf(m.cardId))) unitMap.set(unitOf(m.cardId), m);
+  const units = [...unitMap.values()];
+  if (units.length > size || units.length < minPlayers) return false;
+  if (units.length !== members.length && !dualUseOk(slots)) return false;
+  if (samePlayer(units)) return false; // one card per player
   // The copy on the board must be one L.J. owns. candidatesFor already keeps
   // unowned forms out of every move; this stops one that was on the STARTING
   // board (a saved roster naming the base copy of a variant-only card) from
@@ -247,11 +253,11 @@ function legal(
     if (long < minLongMen) return false;
   }
   if (members.filter((m) => !m.isPitcher).length > shape.bats) return false;
-  if (rx?.teamCap != null && members.reduce((n, m) => n + (m.val ?? 0), 0) > rx.teamCap) return false;
-  if (members.filter((m) => m.variant).length > variantLimit) return false;
+  if (rx?.teamCap != null && units.reduce((n, m) => n + (m.val ?? 0), 0) > rx.teamCap) return false;
+  if (units.filter((m) => m.variant).length > variantLimit) return false;
   if (rx?.slots) {
     const tiers: Record<string, number> = {};
-    for (const m of members) if (m.val != null) { const t = tierCode(m.val); tiers[t] = (tiers[t] ?? 0) + 1; }
+    for (const m of units) if (m.val != null) { const t = tierCode(m.val); tiers[t] = (tiers[t] ?? 0) + 1; }
     if (slotCapacityIssues(tiers, rx.slots).length) return false;
   }
   return true;
@@ -346,7 +352,7 @@ export function optimizeRoster(
   // drop him off the roster entirely — the objective gives an unused roster
   // spot no value, but the game wants all 26 (Negro Leagues Slots
   // 2026-09-26: 25 players, "this event needs 26").
-  const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start)).size);
+  const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start).map(unitOf)).size);
   const minC = o.minCatchers ?? 0;
   const cFloor = Math.max(1, posFloorAt(o.posFloor, "C"));
   const minSS = o.minShortstops ?? 0;

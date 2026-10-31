@@ -18,8 +18,10 @@
  * any card. Anything that leaves the builder — a saved slot, a load file, a
  * price or art lookup, an OOTP filter — goes back through `cardIdOf`.
  *
- * Not modelled: one card filling an arm slot AND a lineup slot at once
- * (Ohtani pitching and DHing on the same roster spot).
+ * One card in both roles (2026-10-31): a card and its form count as one roster
+ * unit (`unitOf`) for size, value, variants and tier slots, within the limits
+ * of `dualUseOk`. env-roster's dual phase searches it; roster-objective prices
+ * the starter's field days lost to his starts.
  *
  * "Pos Rating P" does not say who can pitch: Sam Bankhead's SS card has P 163
  * and Stuff 38, Ohtani P 72 and Stuff 119. So the gate is the ratings
@@ -47,6 +49,33 @@ const BAT_KEYS = ["Power", "Eye", "Avoid Ks", "BABIP", "Gap"] as const;
 export function cardIdOf(id: number): number {
   const a = Math.abs(id);
   return a >= TWO_WAY_OFFSET ? a - TWO_WAY_OFFSET : a;
+}
+
+/** The roster unit an id belongs to: a card and its other-role form are one card on the roster (sign kept, so a variant stays its own unit). */
+export function unitOf(id: number): number {
+  const a = Math.abs(id), s = id < 0 ? -1 : 1;
+  return s * (a >= TWO_WAY_OFFSET ? a - TWO_WAY_OFFSET : a);
+}
+
+/**
+ * Whether a board uses a two-way card in both roles in a way the game plays.
+ * L.J., 2026-10-31: Ed Rile "crushing bat at 1B and full on SP"; in the PTCS 7
+ * Championship Open 35 of the 36 teams carrying him did both (about 4.2 PA a
+ * game and a rotation turn). A starter can hold a lineup or bench spot; a
+ * reliever only a bench spot (a fielder is not brought in to relieve).
+ */
+export function dualUseOk(slots: Record<string, number>): boolean {
+  const keysOf = new Map<number, string[]>();
+  for (const [k, id] of Object.entries(slots)) { const a = keysOf.get(id); if (a) a.push(k); else keysOf.set(id, [k]); }
+  for (const [id, keys] of keysOf) {
+    const other = keysOf.get(otherFormId(id));
+    if (!other) continue;
+    const all = [...keys, ...other];
+    const reliever = all.some((k) => k === "CL" || /^RP\d/.test(k));
+    const lineup = all.some((k) => /^[RL]:/.test(k));
+    if (reliever && lineup) return false;
+  }
+  return true;
 }
 
 export function twoWayId(cardId: number): number {

@@ -186,6 +186,32 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     return 0;
   };
 
+  /**
+   * A starter who also holds a lineup spot (two-way dualUseOk; Ed Rile at 1B and in the
+   * rotation, L.J. 10-31) is off his position on the days he starts: the best bench card
+   * plays it then. His bat on those days is the pitcher's bat (starterBat, no DH). The
+   * lineup slot counted him every game, so take back his starts' share of it over the sub.
+   */
+  const dualCorrection = (r: FillResult): number => {
+    let out = 0;
+    const bench = shape.benchKeys.map((k) => r[k]).filter((x): x is number => x != null);
+    for (const k of shape.spKeys) {
+      const arm = r[k];
+      if (arm == null) continue;
+      const bat = otherFormId(arm);
+      const starts = (spTilt.get(k) ?? 1) / Math.max(shape.spKeys.length, 1);
+      for (const h of ["R", "L"] as const) for (const p of shape.lineupPos) {
+        const key = `${h}:${p}`;
+        if (r[key] !== bat) continue;
+        let sub = -Infinity;
+        for (const b of bench) if (b !== bat) sub = Math.max(sub, slotValue(key, b));
+        if (!Number.isFinite(sub)) sub = 0;
+        out -= starts * (slotValue(key, bat) - sub);
+      }
+    }
+    return out;
+  };
+
   const objective = (r: FillResult): number => {
     let total = 0;
     if (o.mustIds?.size) {
@@ -198,7 +224,7 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
       if (b != null) total += slotValue(`L:${p}`, b);
     }
     for (const k of otherKeys) { const c = r[k]; if (c != null) total += slotValue(k, c); }
-    return total;
+    return total + dualCorrection(r);
   };
 
   const rank = (key: string, c: FillCard): number => {

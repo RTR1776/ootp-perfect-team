@@ -17,6 +17,7 @@ import type { RosterRules } from "./roster-rules";
 import { posFloorAt, type PosFloor } from "./pos-floor";
 import { backupPositions, capFloorValue, missingBackups } from "./roster-optimize";
 import { cardEligibility } from "./roster-rules";
+import { unitOf } from "./two-way";
 
 export interface LedgerRow {
   cardId: number;
@@ -79,10 +80,14 @@ export function capLedger(o: {
   }).length;
 
   const rows: LedgerRow[] = [];
+  const doneUnits = new Set<number>();
   for (const id of onRoster) {
     const c = byId.get(id);
     if (!c) continue;
-    const keys = Object.entries(o.slots).filter(([, v]) => v === id).map(([k]) => k);
+    // A two-way card in both roles is one card: one row, every slot either form holds.
+    if (doneUnits.has(unitOf(id))) continue;
+    doneUnits.add(unitOf(id));
+    const keys = Object.entries(o.slots).filter(([, v]) => unitOf(v) === unitOf(id)).map(([k]) => k);
     const role: LedgerRow["role"] = keys.some((k) => /^SP\d+$/.test(k)) ? "SP"
       : keys.some((k) => k === "CL" || /^RP\d+$/.test(k)) ? "pen"
       : keys.some((k) => /^[RL]:/.test(k)) ? "lineup" : "bench";
@@ -93,7 +98,7 @@ export function capLedger(o: {
       for (const f of floorCards) {
         if (!keys.every((k) => fits(f, k, floor))) continue;
         const s = { ...o.slots };
-        for (const k of keys) s[k] = f.cardId;
+          for (const k of keys) s[k] = f.cardId;
         const sc = o.objective(s);
         if (sc > best) { best = sc; bestCard = f; bestSlots = s; }
       }
@@ -103,7 +108,7 @@ export function capLedger(o: {
     const runs = bestCard ? base - best : null;
     const why: string[] = [];
     // The rules a floor card in his place would break (with no floor card for his slots, any card would).
-    const swapped = bestSlots ?? Object.fromEntries(Object.entries(o.slots).filter(([, v]) => v !== id));
+    const swapped = bestSlots ?? Object.fromEntries(Object.entries(o.slots).filter(([, v]) => unitOf(v) !== unitOf(id)));
     const lost = missingBackups(swapped, byId, backupPos).filter((m) => !missingNow.has(m)).map((m) => m.split(" ")[0]!);
     if (lost.length) why.push(`backup ${[...new Set(lost)].join("/")}`);
     if (wantC >= 2 && catchers(swapped) < wantC && catchers(o.slots) >= wantC) why.push("2nd C");

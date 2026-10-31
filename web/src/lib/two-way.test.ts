@@ -48,7 +48,7 @@ const rules: RosterRules = { dh: true, ratingsMin: 40, ratingsMax: 105, cardYear
 const card = (cardId: number, isPitcher: boolean, ratings: Record<string, number>, role: string | null = null): RosterCard =>
   ({ cardId, name: `Card ${cardId}`, val: 80, year: 2000, isPitcher, role, cardType: 7, baseOwned: true, variantOwned: false, ratings });
 
-test("the rules take a two-way card in either role, not both at once", () => {
+test("the rules take a two-way card in either role, or both as a starter (L.J. 10-31, Ed Rile)", () => {
   const sho = card(1, false, ohtani), bat = card(2, false, cruz), babe = card(3, true, ruth, "SP"), arm = card(4, true, weakBat, "SP");
   assert.equal(fitsPosition(sho, "SP1"), true);
   assert.equal(fitsPosition(sho, "CL"), true);
@@ -68,7 +68,43 @@ test("the rules take a two-way card in either role, not both at once", () => {
   const ok = validateRoster(slots, cards, rules);
   assert.deepEqual(ok.errors, [], "Ohtani at SP1 is legal");
 
-  // The same card at DH too: one way per roster.
+  // The same card at DH too: a starter may (one roster spot, counted once).
   const both = slots.map((s) => (s.slot === "DH" && s.versusHand === "R" ? { ...s, cardId: 24 } : s));
-  assert.ok(validateRoster(both, cards, rules).errors.some((e) => e.code === "two-way-both"));
+  assert.ok(!validateRoster(both, cards, rules).errors.some((e) => e.code === "two-way-both"));
+  // A reliever who also starts in the lineup: not a thing the game plays.
+  const relief = slots.map((s) => (s.slot === "SP1" ? { ...s, cardId: 29 } : s.slot === "CL" ? { ...s, cardId: 24 } : s))
+    .map((s) => (s.slot === "DH" && s.versusHand === "R" ? { ...s, cardId: 24 } : s));
+  assert.ok(validateRoster(relief, cards, rules).errors.some((e) => e.code === "two-way-both"));
+});
+
+test("one card in both roles: a starter with a lineup or bench spot, a reliever with a bench spot only", async () => {
+  const { dualUseOk, unitOf, twoWayId } = await import("./two-way");
+  const rile = 87165, arm = twoWayId(rile);
+  assert.equal(unitOf(arm), rile);
+  assert.equal(unitOf(-arm), -rile, "a variant stays its own unit");
+  assert.equal(dualUseOk({ SP1: arm, "R:1B": rile, "L:1B": rile }), true, "Rile: SP and 1B");
+  assert.equal(dualUseOk({ SP1: arm, BN3: rile }), true);
+  assert.equal(dualUseOk({ RP2: arm, BN3: rile }), true, "a reliever off the bench");
+  assert.equal(dualUseOk({ CL: arm, "R:CF": rile }), false, "a reliever who starts in the field");
+});
+
+test("the objective takes back a two-way starter's field days on his starts", async () => {
+  const { rosterObjective } = await import("./roster-objective");
+  const { twoWayId } = await import("./two-way");
+  const sh = { lineupPos: ["1B"], spKeys: ["SP1", "SP2", "SP3", "SP4"], rpKeys: [], benchKeys: ["BN1"], bats: 2 };
+  const x = 1, xArm = twoWayId(1), sub = 2;
+  const pool = [
+    { cardId: x, name: "X", val: 100, year: 1927, isPitcher: false, role: null, ratings: { "Pos Rating 1B": 100 }, baseOwned: true, variantOwned: false, variant: false },
+    { cardId: xArm, name: "X", val: 100, year: 1927, isPitcher: true, role: "SP", ratings: { Stamina: 110 }, baseOwned: true, variantOwned: false, variant: false },
+    { cardId: sub, name: "S", val: 40, year: 1927, isPitcher: false, role: null, ratings: { "Pos Rating 1B": 100 }, baseOwned: true, variantOwned: false, variant: false },
+    ...[3, 4, 5, 6].map((id) => ({ cardId: id, name: `P${id}`, val: 40, year: 1927, isPitcher: true, role: "SP", ratings: { Stamina: 100 }, baseOwned: true, variantOwned: false, variant: false })),
+  ];
+  const runs = new Map<number, number>([[x, 40], [sub, 0], [xArm, 10], [3, 0], [4, 0], [5, 0], [6, 0]]);
+  const o = rosterObjective(pool as never, { shape: sh, runsR: runs, runsL: runs, lhpShare: 0 });
+  const single = { "R:1B": x, "L:1B": x, BN1: sub, SP1: 3, SP2: 4, SP3: 5, SP4: 6 };
+  const dual = { ...single, SP4: xArm };
+  const gain = o.objective(dual) - o.objective(single);
+  // His arm adds its slot value; his 1B days drop by a start in four (40 over the sub's 0, x 1/4 at the SP4 tilt).
+  const armOnly = o.slotValue("SP4", xArm) - o.slotValue("SP4", 6);
+  assert.ok(gain < armOnly && gain > armOnly - 40 * 0.5, `gain ${gain} vs arm ${armOnly}`);
 });

@@ -18,7 +18,7 @@
  */
 import { CARD_TYPE_NAME, cardTypeNames } from "@/lib/card-sets";
 import { evidenceLine, evidenceRule, liveAbsent, setsNarrow, yearSpan, yearsNarrow, type SetEvidence } from "@/lib/set-evidence";
-import { canHit, canPitch, isArmSlot } from "@/lib/two-way";
+import { canHit, canPitch, isArmSlot, unitOf } from "@/lib/two-way";
 
 export { CARD_TYPES, CARD_TYPE_NAME, CARD_TYPE_SHORT, cardTypeNames, cardTypeRuleLabel } from "@/lib/card-sets";
 
@@ -293,8 +293,10 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
   const errors: RuleIssue[] = [], incomplete: RuleIssue[] = [];
   const byId = new Map(cards.map(c => [c.cardId, c]));
   const unique = new Map<number, RosterSlot>();
+  const unitCard = new Map<number, RosterCard>();
   const occupied = new Set<string>(), assignments = new Set<string>();
-  const roleOf = new Map<number, boolean>();
+  const roleOf = new Map<number, { relief: boolean; lineup: boolean }>();
+  let anyStaff = false;
   const issue = (code: string, message: string, cardId?: number) => errors.push({ code, message, ...(cardId == null ? {} : { cardId }) });
   for (const s of slots) {
     const c = byId.get(s.cardId);
@@ -308,27 +310,32 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
     occupied.add(key);
     const staff = isArmSlot(s.slot);
     const group = staff ? "staff" : /^BN/.test(s.slot) ? "R" : hand;
-    // A two-way card is used one way per roster (lib/two-way: one card in an
-    // arm slot and a lineup slot at once is not modelled).
-    const other = roleOf.get(s.cardId);
-    if (other != null && other !== staff) issue("two-way-both", `${c.name} is on the staff and in the lineup: use a two-way card one way.`, c.cardId);
-    roleOf.set(s.cardId, staff);
+    // A two-way card may hold both roles (lib/two-way dualUseOk, L.J. 10-31: Ed Rile at 1B and
+    // in the rotation): a starter with a lineup or bench spot, a reliever with a bench spot only.
+    if (staff) anyStaff = true;
+    const roles = roleOf.get(unitOf(s.cardId)) ?? { relief: false, lineup: false };
+    if (staff && !/^SP/.test(s.slot)) roles.relief = true;
+    if (isLineup) roles.lineup = true;
+    if (roles.relief && roles.lineup) issue("two-way-both", `${c.name} relieves and starts in the lineup: a reliever can only double as a bench bat.`, c.cardId);
+    roleOf.set(unitOf(s.cardId), roles);
     const assignment = `${group}:${s.cardId}`;
     if (assignments.has(assignment)) issue("duplicate-player", `${c.name} occupies more than one slot in the same lineup or staff.`, c.cardId);
     assignments.add(assignment);
     if (!fitsPosition(c, s.slot)) issue("position", `${c.name} cannot fill ${s.slot}.`, c.cardId);
     if (s.slot === "DH" && rules.dh === false) issue("dh-off", "This tournament does not use a DH.");
     if (s.useVariant ? !c.variantOwned : !c.baseOwned) issue("not-owned", `${c.name}: selected ${s.useVariant ? "variant" : "base"} copy is not owned in the latest collection.`, c.cardId);
-    const previous = unique.get(c.cardId);
+    // A two-way card in both roles is one player (two-way unitOf).
+    const previous = unique.get(unitOf(c.cardId));
     if (previous && previous.useVariant !== s.useVariant) issue("mixed-form", `${c.name} must use the same card form in both lineups.`, c.cardId);
-    unique.set(c.cardId, s);
+    unique.set(unitOf(c.cardId), s);
+    if (!unitCard.has(unitOf(c.cardId))) unitCard.set(unitOf(c.cardId), c);
   }
-  const twin = samePlayer([...unique.keys()].map((id) => byId.get(id)!));
-  if (twin) issue("same-player", `${byId.get(twin.cardId)!.name} is on the roster twice: the game allows one card per player.`, twin.cardId);
+  const twin = samePlayer([...unitCard.values()]);
+  if (twin) issue("same-player", `${(twin as RosterCard).name ?? twin.cardId} is on the roster twice: the game allows one card per player.`, twin.cardId);
   let value = 0, variants = 0;
   const tiers: Record<string, number> = {};
   for (const [id, s] of unique) {
-    const c = byId.get(id)!;
+    const c = unitCard.get(id)!;
     const eligible = cardEligibility(c, rules);
     errors.push(...eligible.errors); incomplete.push(...eligible.incomplete);
     value += c.val ?? 0;
@@ -352,7 +359,7 @@ export function validateRoster(slots: RosterSlot[], cards: RosterCard[], rules: 
       if (!occupied.has(`${hand}:${pos}`)) issue("empty-position", `Fill ${pos} vs ${hand}HP.`);
     }
   }
-  if (![...roleOf.values()].some(Boolean)) issue("no-pitchers", "Add a pitching staff.");
+  if (!anyStaff) issue("no-pitchers", "Add a pitching staff.");
   return { ready: errors.length === 0 && incomplete.length === 0, errors, incomplete,
     counts: { players: unique.size, target, value, variants, tiers } };
 }
