@@ -1,0 +1,35 @@
+# Daily Bagels and Schmear with EVCinNYC — Claude pick 2026-10-31-refit2-b1, rebuilt from the catalogue's rules by current-rosters (--year 1935 --park Ebbets Field --park-year 1955 --min 40 --max 105 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series bagelsschmearevcinnyc --sp 4 --rp 4 --bats 18)
+R:C Ed Bailey (VAR) #86637
+R:1B George Brett #87025
+R:2B Chase Utley #87068
+R:3B Jose Bautista #87073
+R:SS Corey Seager #87173
+R:LF Carl Yastrzemski #87129
+R:CF Andruw Jones #87057
+R:RF Curtis Granderson #86595
+L:C Mike Piazza (VAR) #86463
+L:1B Albert Pujols #87149
+L:2B Chase Utley #87068
+L:3B Ed Williamson #87297
+L:SS Corey Seager #87173
+L:LF Carl Yastrzemski #87129
+L:CF Andruw Jones #87057
+L:RF Hank Aaron #86655
+SP1 Christy Mathewson #86697
+SP2 Madison Bumgarner #87024
+SP3 Cy Young (VAR) #86572
+SP4 Ed Rile #87165
+CL Bret Saberhagen #86915
+RP1 Harvey Haddix #86623
+RP2 Josh Beckett #87058
+RP3 Orel Hershiser #83135
+BN1 Ed Delahanty #87371
+BN2 Albert Pujols #87149
+BN3 Bo Jackson #86966
+BN4 Mike Piazza (VAR) #86463
+BN5 Hank Aaron #86655
+BN6 Rogers Hornsby #86436
+BN7 Carlos Beltran #87066
+BN8 Juan Soto #87013
+BN9 Reggie Jackson #87238
+BN10 Ed Williamson #87297
