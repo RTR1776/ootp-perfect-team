@@ -5,148 +5,154 @@ R/G 4.02  AVG 0.227  OBP 0.301  SLG 0.380  K% 22.6  HR/PA 2.98%  preset Balanced
 sac bunt (1st & 2nd, 0 out) -0.002 runs · steal break-even 80.1% (0 out) / 77.2% (1 out)
 park: all-LHB lineup 4.09 R/G vs all-RHB 3.98 — 0.11 R/G swing toward LEFT-handed bats
 card sets: Historical All-Star, Hardware Heroes only
-two-way: 12 cards also in the other role — Camilo Pascual as bat, Dizzy Trout as bat, Steve Carlton as bat, Dan Haren as bat, Old Hoss Radbourn as bat, Jim Kaat as bat, Walter Johnson as bat, Carlos Zambrano as bat, Frank Killen as bat, Larry Sherry as bat, Jack Coombs as bat, Tom Vickery as bat
+two-way: 15 cards also in the other role — Madison Bumgarner as bat, Christy Mathewson as bat, Camilo Pascual as bat, Dizzy Trout as bat, Steve Carlton as bat, Don Larsen as bat, Dan Haren as bat, Old Hoss Radbourn as bat, Jim Kaat as bat, Walter Johnson as bat, Carlos Zambrano as bat, Frank Killen as bat, Larry Sherry as bat, Jack Coombs as bat, Tom Vickery as bat
 
-pool: 457 eligible owned cards — 309 bats (90L / 41S / 178R), 148 arms
-staff weights from allstarhardwareslots's exports: SP 1.32, RP 0.4 (a lineup slot = 1)
-field (allstarhardwareslots, 5 exports): 37% of batters faced thrown left-handed · 37% of PA by left-handed bats · 13.1 bats / 5.8 SP / 5.5 RP per team
+pool: 483 eligible owned cards — 323 bats (97L / 43S / 183R), 160 arms
+staff weights from allstarhardwareslots's exports: SP 1.3, RP 0.39 (a lineup slot = 1)
+field (allstarhardwareslots, 7 exports): 36% of batters faced thrown left-handed · 40% of PA by left-handed bats · 13.3 bats / 5.9 SP / 5.5 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 421 of 457 pool cards have innings on record (median 3324 PA/BF); K = 1000000
+observed play: 444 of 483 pool cards have innings on record (median 3554 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.98, RP 0.80 (--no-team-weights to turn off)
-staff innings split over the arms carried: the field runs 4.9 SP / 6.3 RP → per SP ×0.98 (5 carried), per RP ×0.90 (7 carried)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×1.85 against a bat run → glove ×1.62, SP 1.95, RP 0.72 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.9 SP / 6.4 RP → per SP ×0.98 (5 carried), per RP ×0.91 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +5.2  Avoid Ks +3.0  BABIP +1.5  Eye +1.1  Gap +0.7
                           RHB: Power +4.8  Avoid Ks +2.9  BABIP +1.5  Eye +1.1  Gap +0.8
                          arms: pHR +1.6  Stuff +1.4  pBABIP +0.9  Control +0.8
 seed: 9100139-seed.txt as is (26 cards)
+seed: scores 560.6 before the climb
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 587.9 runs vs 528.8 greedy (+59.1), 34 moves from λ 8.00 (the seed's climb: 581.2)
+optimiser: 13 starts (λ + seed) hill-climbed; best 560.6 runs vs 501.9 greedy (+58.7), 38 moves from λ 3.50 (the seed's climb: 560.6)
+dual: from Madison Bumgarner in both roles: Dizzy Trout in both, 560.6 runs
+dual: from Christy Mathewson in both roles: Dizzy Trout in both, 560.6 runs
+dual: from Don Larsen in both roles: Dizzy Trout in both, 560.6 runs
+dual: from Dizzy Trout in both roles: Dizzy Trout in both, 560.6 runs
+dual: no two-way card in both roles beats 560.6 runs (best Dizzy Trout 560.6)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ed Bailey (VAR)             97  L  1956   +34.7  park:L DEF 112/112 +10.8  #86637
-R:1B    George Brett               103  L  1985   +58.5  park:L DEF  88/ 88 +2.3  #87025
-R:2B    Chase Utley                102  L  2009   +39.2  park:L DEF 139/139 +8.4  #87068
-R:3B    Alex Rodriguez             102  R  2007   +78.8  park:R DEF 123/123 +8.3  #87219
-R:SS    Corey Seager               103  L  2023   +49.8  park:L DEF 119/119 +4.5  #87173
-R:LF    Jacoby Ellsbury             98  L  2011   +24.9  park:L DEF 136/136 +6.5  #86726
-R:CF    Carlos Beltran              99  S  2004   +45.2  park:L DEF 108/108 -0.8  #87066
-R:RF    Bo Jackson                  88  R  1989   +33.7  park:R DEF 123/123 +4.4  #86966
-R:DH    Juan Soto                  102  L  2024   +44.8  park:L  #87013
+R:C     Ed Bailey (VAR)             97  L  1956   +34.4  park:L DEF 112/112 +10.8  #86637
+R:1B    Pedro Alvarez               81  L  2013   +36.2  park:L DEF  96/ 96 +3.9  #87062
+R:2B    Chase Utley                102  L  2009   +38.8  park:L DEF 139/139 +8.4  #87068
+R:3B    George Brett               103  L  1985   +58.0  park:L DEF  88/ 88 -0.8  #87025
+R:SS    Corey Seager               103  L  2023   +49.3  park:L DEF 119/119 +4.5  #87173
+R:LF    Carl Yastrzemski           103  L  1967   +57.5  park:L DEF 149/149 +8.6  #87129
+R:CF    Carlos Beltran              99  S  2004   +44.6  park:L DEF 108/108 -0.8  #87066
+R:RF    Bo Jackson                  88  R  1989   +32.9  park:R DEF 123/123 +4.4  #86966
+R:DH    Reggie Jackson             102  L  1977   +68.5  park:L  #87238
 
 --- lineup vs LHP ---
-L:C     Mike Zunino                 75  R  2021    +5.5  park:R DEF  77/ 77 +13.6  #86431
-L:1B    George Brett               103  L  1985   +36.6  park:L DEF  88/ 88 +2.3  #87025
-L:2B    Chase Utley                102  L  2009   +48.1  park:L DEF 139/139 +8.4  #87068
-L:3B    Alex Rodriguez             102  R  2007   +31.6  park:R DEF 123/123 +8.3  #87219
-L:SS    Corey Seager               103  L  2023   +30.9  park:L DEF 119/119 +4.5  #87173
-L:LF    Juan Soto                  102  L  2024   +43.0  park:L DEF  87/ 91 -1.3  #87013
-L:CF    Carlos Beltran              99  S  2004   +24.7  park:R DEF 108/108 -0.8  #87066
-L:RF    Bo Jackson                  88  R  1989   +26.6  park:R DEF 123/123 +4.4  #86966
-L:DH    Chris Sabo                  66  R  1990   +28.1  park:R  #87059
+L:C     Mike Zunino                 75  R  2021    +5.6  park:R DEF  77/ 77 +13.6  #86431
+L:1B    George Brett               103  L  1985   +36.2  park:L DEF  88/ 88 +2.3  #87025
+L:2B    Chase Utley                102  L  2009   +47.7  park:L DEF 139/139 +8.4  #87068
+L:3B    Chris Sabo                  66  R  1990   +28.0  park:R DEF  77/ 77 -3.6  #87059
+L:SS    Corey Seager               103  L  2023   +30.6  park:L DEF 119/119 +4.5  #87173
+L:LF    Carl Yastrzemski           103  L  1967   +40.2  park:L DEF 149/149 +8.6  #87129
+L:CF    Carlos Beltran              99  S  2004   +24.2  park:R DEF 108/108 -0.8  #87066
+L:RF    Bo Jackson                  88  R  1989   +25.9  park:R DEF 123/123 +4.4  #86966
+L:DH    Reggie Jackson             102  L  1977   +50.1  park:L  #87238
 
---- batting order vs RHP --- (6.28 runs/game; The Book's order 6.27)
-  1. Juan Soto DH
-  2. George Brett 1B
-  3. Corey Seager SS
-  4. Alex Rodriguez 3B
+--- batting order vs RHP --- (6.37 runs/game; The Book's order 6.36)
+  1. George Brett 3B
+  2. Carl Yastrzemski LF
+  3. Reggie Jackson DH
+  4. Corey Seager SS
   5. Carlos Beltran CF
-  6. Chase Utley 2B
-  7. Ed Bailey (VAR) C
+  6. Ed Bailey (VAR) C
+  7. Pedro Alvarez 1B
   8. Bo Jackson RF
-  9. Jacoby Ellsbury LF
+  9. Chase Utley 2B
 
 --- batting order vs LHP --- (5.56 runs/game; The Book's order 5.56)
-  1. Alex Rodriguez 3B
-  2. Juan Soto LF
-  3. George Brett 1B
-  4. Chase Utley 2B
-  5. Chris Sabo DH
+  1. Chase Utley 2B
+  2. George Brett 1B
+  3. Carl Yastrzemski LF
+  4. Reggie Jackson DH
+  5. Chris Sabo 3B
   6. Corey Seager SS
   7. Carlos Beltran CF
   8. Bo Jackson RF
   9. Mike Zunino C
 
 --- rotation ---
-SP1     Orel Hershiser             102  R  1988   +20.8   SP STM 100  #83135
-SP2     Bret Saberhagen            102  R  1989   +20.2   SP STM 106  #86915
-SP3     Harvey Haddix              101  L  1959   +18.3   SP STM 114  #86623
-SP4     Tommy John                  92  R  1979   +13.1   SP STM  90  #86604
-SP5     Steve Carlton (VAR)         96  L  1969   +11.2   SP STM  86  #85109
+SP1     Madison Bumgarner          103  R  2014   +16.1   SP STM 110  #87024
+SP2     Christy Mathewson          103  R  1905   +15.8   SP STM 111  #86697
+SP3     Orel Hershiser             102  R  1988   +13.8   SP STM 100  #83135
+SP4     Tommy John                  92  R  1979   +10.3   SP STM  90  #86604
+SP5     Don Larsen                  96  R  1956    +9.8   SP STM 100  #87240
 
 --- bullpen ---
-CL      Joe Beggs (VAR)             89  R  1940   +11.6   RP STM  46  #86762
-RP1     Justin Verlander            87  R  2013   +10.6   SP STM  98  #87064
-RP2     Bob Walk                    73  R  1988    +5.7   SP STM  82  #86971
-RP3     Dean Stone                  77  L  1954    +3.9   SP STM  81  #86164
-RP4     Mike Marshall               57  R  1973    +0.9   CL STM  74  #84720
-RP5     Chuck Finley (VAR)          60  L  2000    -0.8   SP STM  88  #85338
-RP6     Russ Ortiz                  68  R  2003    -1.0   SP STM  73  #86305
+CL      Bob Feller                  88  R  1939    +7.5   SP STM 111  #85650
+RP1     Tom Glavine                 97  L  1991    +7.5   SP STM  94  #87270
+RP2     Dizzy Trout                 97  R  1944    +7.4   SP STM 104  #85781
+RP3     Bob Walk                    73  R  1988    +5.4   SP STM  82  #86971
+RP4     Orlando Hernandez           78  R  1999    +4.3   SP STM  76  #87239
+RP5     Mike Marshall               57  R  1973    +1.3   CL STM  74  #84720
+RP6     Chuck Finley (VAR)          60  L  2000    +0.7   SP STM  88  #85338
 
 --- bench ---
-BN1     Brice Turang (VAR)          55  L  2024   -19.7  park:L  #82852
-BN2     Andruw Jones                99  R  2000   +13.0  park:R  #86326
-BN3     Ty Wigginton                54  R  2010    -7.9  park:R  #86086
-BN4     Chris Sabo                  66  R  1990    +1.5  park:R  #87059
-BN5     Mike Zunino                 75  R  2021   -27.8  park:R  #86431
+BN1     Chris Sabo                  66  R  1990    +1.3  park:R  #87059
+BN2     Shane Victorino             69  S  2013    -4.3  park:L  #87235
+BN3     Ty Wigginton                54  R  2010    -8.1  park:R  #86086
+BN4     Brice Turang (VAR)          55  L  2024   -20.0  park:L  #82852
+BN5     Mike Zunino                 75  R  2021   -27.7  park:R  #86431
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ed Bailey (VAR)            U1 Mike Zunino 77               U2 -                           
-  1B  George Brett               U1 Ty Wigginton 69              U2 -                           
+  1B  Pedro Alvarez              U1 Ty Wigginton 69              U2 -                           
   2B  Chase Utley                U1 Brice Turang (VAR) 116       U2 -                           
-  3B  Alex Rodriguez             U1 Chris Sabo 77                U2 -                           
+  3B  George Brett               U1 Chris Sabo 77                U2 -                           
   SS  Corey Seager               U1 Brice Turang (VAR) 88        U2 -                           
-  LF  Jacoby Ellsbury            U1 Ty Wigginton 60              U2 -                           
-  CF  Carlos Beltran             U1 Andruw Jones 152             U2 -                            def sub Andruw Jones (+6.9)
-  RF  Bo Jackson                 U1 Andruw Jones 158             U2 -                            def sub Andruw Jones (+6.1)
-  pinch hitters: Andruw Jones, Chris Sabo, Ty Wigginton, Brice Turang (VAR) · pinch runners: Brice Turang (VAR) (SPE 98), Andruw Jones (SPE 94), Chris Sabo (SPE 74)
+  LF  Carl Yastrzemski           U1 Shane Victorino 151          U2 Ty Wigginton 60             
+  CF  Carlos Beltran             U1 Shane Victorino 140          U2 -                            def sub Shane Victorino (+5)
+  RF  Bo Jackson                 U1 Shane Victorino 153          U2 -                            def sub Shane Victorino (+5.3)
+  pinch hitters: Chris Sabo, Shane Victorino, Ty Wigginton, Brice Turang (VAR) · pinch runners: Brice Turang (VAR) (SPE 98), Shane Victorino (SPE 92), Chris Sabo (SPE 74)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Mike Zunino                U1 Ed Bailey (VAR) 112          U2 -                           
-  1B  George Brett               U1 Ty Wigginton 69              U2 -                           
+  1B  George Brett               U1 Pedro Alvarez 96             U2 Ty Wigginton 69             
   2B  Chase Utley                U1 Brice Turang (VAR) 116       U2 -                           
-  3B  Alex Rodriguez             U1 NONE                         U2 -                           
+  3B  Chris Sabo                 U1 Pedro Alvarez 75             U2 -                           
   SS  Corey Seager               U1 Brice Turang (VAR) 88        U2 -                           
-  LF  Juan Soto                  U1 Jacoby Ellsbury 136          U2 Ty Wigginton 60              def sub Jacoby Ellsbury (+7.8)
-  CF  Carlos Beltran             U1 Andruw Jones 152             U2 Jacoby Ellsbury 123          def sub Andruw Jones (+6.9)
-  RF  Bo Jackson                 U1 Andruw Jones 158             U2 -                            def sub Andruw Jones (+6.1)
-  pinch hitters: Jacoby Ellsbury, Andruw Jones, Ty Wigginton, Ed Bailey (VAR) · pinch runners: Jacoby Ellsbury (SPE 119), Brice Turang (VAR) (SPE 98), Andruw Jones (SPE 94)
+  LF  Carl Yastrzemski           U1 Shane Victorino 151          U2 Ty Wigginton 60             
+  CF  Carlos Beltran             U1 Shane Victorino 140          U2 -                            def sub Shane Victorino (+5)
+  RF  Bo Jackson                 U1 Shane Victorino 153          U2 -                            def sub Shane Victorino (+5.3)
+  pinch hitters: Shane Victorino, Ty Wigginton, Pedro Alvarez, Ed Bailey (VAR) · pinch runners: Brice Turang (VAR) (SPE 98), Shane Victorino (SPE 92), Ty Wigginton (SPE 39)
 
-26 players · value 2247 · λ 8.000 · 5 variants
-vs RHP lineup gets the friendly park side in 7 of 9 spots
+26 players · value 2243 · λ 3.500 · 3 variants
+vs RHP lineup: 8 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
-  Alex Rodriguez         R EYE 172 (250/146)  POW 256 (162/288)  K 106  BABIP 120  GAP  79  SPE  83
+  Reggie Jackson         L EYE 186 (146/200)  POW 236 (222/240)  K 106  BABIP 135  GAP 138  SPE  62
   George Brett           L EYE 213 (158/232)  POW 184 (161/192)  K 137  BABIP 156  GAP 135  SPE  69
+  Carl Yastrzemski       L EYE 162 (142/169)  POW 193 (174/200)  K 147  BABIP 150  GAP 111  SPE  51
   Corey Seager           L EYE 147 (123/155)  POW 184 (155/193)  K 128  BABIP 134  GAP 156  SPE  41
   Carlos Beltran         S EYE 172 (124/188)  POW 180 (151/190)  K 132  BABIP  92  GAP 123  SPE 109
-  Juan Soto              L EYE 238 (244/236)  POW 200 (200/200)  K 116  BABIP 116  GAP  92  SPE  52
   Chase Utley            L EYE 200 (211/197)  POW 173 (189/167)  K 124  BABIP 140  GAP  84  SPE  84
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
   Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
   Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
-  Jacoby Ellsbury        L EYE  88 (78/91)  POW 115 (75/133)  K 116  BABIP 128  GAP 111  SPE 119
-  Andruw Jones           R EYE  76 (129/58)  POW 128 (95/141)  K 100  BABIP 107  GAP  92  SPE  94
   Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
+  Shane Victorino        S EYE  69 (72/69)  POW  81 (86/79)  K 106  BABIP 111  GAP  79  SPE  92
   Ty Wigginton           R EYE  75 (99/66)  POW 104 (44/128)  K  91  BABIP  70  GAP  76  SPE  39
   Brice Turang           L EYE  81 (70/85)  POW  29 (1/37)  K  99  BABIP  78  GAP  72  SPE  98
   Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (38 teams): 5.1 SP / 7.3 RP / 14.0 bats
-  ✓ starters' stamina Orel Hershiser 100, Bret Saberhagen 106, Harvey Haddix 114, Tommy John 90, Steve Carlton 86 (era floor 50)
-  ✓ stamina guys in the pen (45+): Joe Beggs 46, Justin Verlander 98, Bob Walk 82, Dean Stone 81, Mike Marshall 74, Chuck Finley 88, Russ Ortiz 73
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (53 teams): 5.3 SP / 7.4 RP / 14.3 bats
+  ✓ starters' stamina Madison Bumgarner 110, Christy Mathewson 111, Orel Hershiser 100, Tommy John 90, Don Larsen 100 (era floor 50)
+  ✓ stamina guys in the pen (45+): Bob Feller 111, Tom Glavine 94, Dizzy Trout 104, Bob Walk 82, Orlando Hernandez 76, Mike Marshall 74, Chuck Finley 88
   ✓ C  backup: vs RHP Mike Zunino 77 · vs LHP Ed Bailey 112
-  ✓ 1B backup: Ty Wigginton 69
+  ✓ 1B backup: vs RHP Ty Wigginton 69 · vs LHP Pedro Alvarez 96, Ty Wigginton 69
   ✓ 2B backup: Brice Turang 116
-  ✓ 3B backup: Chris Sabo 77
+  ✓ 3B backup: vs RHP Chris Sabo 77 · vs LHP Pedro Alvarez 75
   ✓ SS backup: Brice Turang 88
-  ✓ LF backup: vs RHP Juan Soto 87, Ty Wigginton 60 · vs LHP Jacoby Ellsbury 136, Ty Wigginton 60
-  ✓ CF backup: vs RHP Andruw Jones 152 · vs LHP Jacoby Ellsbury 123, Andruw Jones 152
-  ✓ RF backup: vs RHP Juan Soto 91, Andruw Jones 158 · vs LHP Andruw Jones 158
-(18 of 26 have a live ask in the last shop snapshot)
-objective: 587.9 weighted runs (bats 63/37 R/L, SP 1.98, RP 0.8, bench 0.1)
-points: lineup(both boards, 11 bats) 1035 · rotation 493 · bullpen 511 · bench-only 208
+  ✓ LF backup: Shane Victorino 151, Ty Wigginton 60
+  ✓ CF backup: Shane Victorino 140
+  ✓ RF backup: Reggie Jackson 69, Shane Victorino 153
+(12 of 26 have a live ask in the last shop snapshot)
+objective: 560.6 weighted runs (bats 64/36 R/L, SP 1.9500000000000002, RP 0.7215, bench 0.1)
+points: lineup(both boards, 11 bats) 1019 · rotation 496 · bullpen 550 · bench-only 178
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
-   Alex Rodriguez           Power 256 (fitted 1–228)
+   Reggie Jackson           Power 236 (fitted 1–228)
