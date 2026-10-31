@@ -806,7 +806,7 @@ async function main() {
     const sum = (k: string) => top ? Object.values(top.tiers as Record<string, Record<string, number>>).reduce((n, t) => n + (t[k] ?? 0), 0) : 0;
     const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
     console.log("\n--- roster check ---");
-    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, backupFloorCap: CAP != null ? CAP_BACKUP_FLOOR : null })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
+    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, backupFloorCap: CAP != null || SLOTS != null ? CAP_BACKUP_FLOOR : null })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
   }
   {
     // The cap ledger (lib/cap-ledger, L.J. 10-31): what each card's cap buys over a floor card.

@@ -145,10 +145,13 @@ const usable = (c: FillCard, rules: RosterRules) => (c.variant ? c.variantOwned 
  */
 export const CAP_BACKUP_FLOOR = 60;
 
-/** The glove floor a backup at `pos` must clear: the starter's floor, capped at CAP_BACKUP_FLOOR in a cap event. */
+/** The glove floor a backup at `pos` must clear: the starter's floor, capped at CAP_BACKUP_FLOOR in a cap or slots event. */
 export function backupFloorAt(rules: RosterRules, posFloor: PosFloor | undefined, pos: string): number {
   const f = Math.max(1, posFloorAt(posFloor, pos));
-  return rules.restrictions?.teamCap != null ? Math.min(f, CAP_BACKUP_FLOOR) : f;
+  // A slots event (Championship Cap: P4 D4 G4 S4 B4 I6) rations cards the same way: a backup
+  // built to a starter's floor takes a better tier's slot.
+  const rationed = rules.restrictions?.teamCap != null || rules.restrictions?.slots != null;
+  return rationed ? Math.min(f, CAP_BACKUP_FLOOR) : f;
 }
 
 /** The fielding positions this pool can cover twice (owned, eligible hitters at or above the backup floor). */
