@@ -1,79 +1,37 @@
 [
   {
-    "id": 635,
-    "name": "Daily Golden Heart",
+    "id": 535,
+    "name": "Saturday Bronze Cap",
     "status": "built",
-    "objective": 338.8,
-    "file": "goldenheart-claude-2026-10-18-gh.txt",
+    "objective": 42.1,
+    "file": "bronzecapweekly-claude-2026-10-31-sat.txt",
     "notes": [
-      "shape 5 SP / 6 RP / 15 bats (the series' exports)"
-    ],
-    "args": [
-      "--year",
-      "1956",
-      "--park",
-      "Crosley Field",
-      "--park-year",
-      "1958",
-      "--dh",
-      "--min",
-      "40",
-      "--max",
-      "89",
-      "--card-year-min",
-      "1930",
-      "--card-year-max",
-      "1989",
-      "--size",
-      "26",
-      "--series",
-      "goldenheart",
-      "--name",
-      "Daily Golden Heart",
-      "--sp",
-      "5",
-      "--rp",
-      "6",
-      "--bats",
-      "15"
-    ]
-  },
-  {
-    "id": 536,
-    "name": "Monday Up And At Them Bronze",
-    "status": "built",
-    "objective": 61.3,
-    "file": "bronzeweekly-claude-2026-10-18-gh.txt",
-    "notes": [
+      "neutral park (Standard Stadium (neutral))",
       "value window read off the name (name: Bronze)",
-      "shape 5 SP / 6 RP / 15 bats (the series' exports)"
+      "shape 5 SP / 7 RP / 14 bats (the series' exports)"
     ],
     "args": [
       "--year",
-      "1979",
-      "--park",
-      "Olympic Stadium",
-      "--park-year",
-      "1977",
+      "2016",
       "--dh",
       "--min",
       "40",
       "--max",
       "69",
-      "--card-types",
-      "2,3,4,5,6,7,8,9,10",
+      "--cap",
+      "1386",
       "--size",
       "26",
       "--series",
-      "bronzeweekly",
+      "bronzecapweekly",
       "--name",
-      "Monday Up And At Them Bronze",
+      "Saturday Bronze Cap",
       "--sp",
       "5",
       "--rp",
-      "6",
+      "7",
       "--bats",
-      "15"
+      "14"
     ]
   }
 ]
