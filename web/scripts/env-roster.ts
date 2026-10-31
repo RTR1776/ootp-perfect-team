@@ -701,7 +701,7 @@ async function main() {
       const bats = pool.filter((c) => !c.isPitcher && ids.has(otherFormId(c.cardId)) && byIdD.get(otherFormId(c.cardId))?.isPitcher
         && (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length);
       if (bats.length && shape.spKeys.length) {
-        const dshape: FillShape = { ...shape, benchKeys: [...shape.benchKeys, `BN${shape.benchKeys.length + 1}`] };
+        const dshape: FillShape = { ...shape, bats: shape.bats + 1, benchKeys: [...shape.benchKeys, `BN${shape.benchKeys.length + 1}`] };
         const dobj = rosterObjective(pool, { ...objectiveOpts, shape: dshape });
         const worth = (bat: number) => SP_WEIGHT * (fits.runsR.get(otherFormId(bat)) ?? -99) + Math.max(0, fits.runsR.get(bat) ?? 0);
         const tryN = num("dual-try", 4)!;
@@ -745,9 +745,11 @@ async function main() {
             objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
             candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
           });
-          const dual = Object.values(r.slots).some((id) => Object.values(r.slots).includes(otherFormId(id)));
-          console.log(`dual: ${c.name} in both roles ${r.legal && dual ? `${r.score.toFixed(1)} runs` : r.legal ? `climbed out of both roles (${r.score.toFixed(1)})` : "no legal board"}`);
-          if (r.legal && dual && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who: c.name };
+          const onBoard = new Set(Object.values(r.slots));
+          const dualId = [...onBoard].find((id) => !byIdD.get(id)?.isPitcher && onBoard.has(otherFormId(id)));
+          const who = dualId != null ? byIdD.get(dualId)?.name ?? String(dualId) : null;
+          console.log(`dual: from ${c.name} in both roles: ${r.legal && who ? `${who} in both, ${r.score.toFixed(1)} runs` : r.legal ? `climbed out of both roles (${r.score.toFixed(1)})` : "no legal board"}`);
+          if (r.legal && who && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who };
         }
         if (dbest && dbest.score > best.score + 0.5) {
           console.log(`dual: ${dbest.who} in both roles beats the board above, ${dbest.score.toFixed(1)} vs ${best.score.toFixed(1)} runs: taken`);
