@@ -741,6 +741,18 @@ async function main() {
             if (!h) continue;
             seed[nk] = h.cardId;
           }
+          // Over the cap or a tier's slots (Rile's 102 onto a full 1500): trade the dearest bench bats
+          // down to the cheapest unrostered bats that fit until it does; the climb takes it from there.
+          for (let tries = 0; tries < 8 && !fitsRules(seed); tries++) {
+            const units = new Set(Object.values(seed).map(unitOf));
+            const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat))
+              .sort((a, b) => (byIdD.get(seed[b]!)?.val ?? 0) - (byIdD.get(seed[a]!)?.val ?? 0))[0];
+            if (!benchKey) break;
+            const cheap = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
+              .sort((a, b) => (a.val ?? 0) - (b.val ?? 0) || dobj.slotValue(benchKey, b.cardId) - dobj.slotValue(benchKey, a.cardId))[0];
+            if (!cheap || (cheap.val ?? 0) >= (byIdD.get(seed[benchKey]!)?.val ?? 0)) break;
+            seed[benchKey] = cheap.cardId;
+          }
           const r = optimizeRoster(seed, pool, rules, dshape, {
             objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
             candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
