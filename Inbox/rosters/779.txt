@@ -5,126 +5,149 @@ R/G 5.15  AVG 0.261  OBP 0.332  SLG 0.435  K% 22.6  HR/PA 3.30%  preset Sabermet
 sac bunt (1st & 2nd, 0 out) -0.081 runs · steal break-even 82.4% (0 out) / 79.4% (1 out)
 park: all-LHB lineup 5.07 R/G vs all-RHB 5.19 — 0.12 R/G swing toward RIGHT-handed bats
 card sets: Negro League Star only
-two-way: 97 cards also in the other role — Hilton Smith as bat, Cool Papa Bell as arm, Lazaro Salazar as arm, Alejandro Oms as arm, John Beckwith as arm, Jose Mendez as bat, Don Newcombe as bat, Bobby Estalella as arm, Smokey Joe Williams as bat, Barney Brown as bat, Frank Grant as arm, Tubby Scales as arm, Cool Papa Bell as arm, Wade Johnston as arm, Tom Young as arm, Oscar Charleston as arm, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Bill Force as bat, Armando Cabanas as arm, Andy Porter as bat, Quincy Trouppe as arm, Walter Cannady as arm, Goose Curry as arm, Agustin Parpetti as arm, Ben Taylor as arm, Robert Poindexter as bat, Doc Wiley as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, Bob Thurman as arm, Judy Johnson as arm, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Simpson as arm, Dan Bankhead as bat, Johnny Davis as arm, Fred Hutchinson as arm, Biz Mackey as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Willie Pope as bat, Phil Cockrell as bat, Rufus Lewis as bat, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Dick Redding as bat, Rube Foster as bat, Milton Lewis as arm, Eddie Dixon as bat, Luther Farrell as bat, Henry McHenry as bat, Eddie Douglass as arm, Isidro Fabre as bat, Pablo Mesa as arm, Julio Rojo as arm, Matt Carlisle as arm, Bill Gatewood as bat, Frank Duncan as arm, Esteban Montalvo as arm, Bob Romby as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, George Mitchell as bat, Judy Gans as arm, Sam Bankhead as arm, John Bissant as arm, Jelly Jackson as arm, Dan Kennard as arm, Toussaint Allen as arm
+two-way: 101 cards also in the other role — Ed Rile as arm, Hilton Smith as bat, Cool Papa Bell as arm, Lazaro Salazar as arm, Alejandro Oms as arm, John Beckwith as arm, Jose Mendez as bat, Don Newcombe as bat, Bobby Estalella as arm, Smokey Joe Williams as bat, Barney Brown as bat, Frank Grant as arm, Tubby Scales as arm, Cool Papa Bell as arm, Wade Johnston as arm, Tom Young as arm, Oscar Charleston as arm, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Bill Force as bat, Sam Streeter as bat, Armando Cabanas as arm, Jimmie Lyons as arm, Andy Porter as bat, Quincy Trouppe as arm, Walter Cannady as arm, Goose Curry as arm, Agustin Parpetti as arm, Ben Taylor as arm, Candy Jim Taylor as arm, Robert Poindexter as bat, Doc Wiley as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, Bob Thurman as arm, Judy Johnson as arm, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Simpson as arm, Dan Bankhead as bat, Johnny Davis as arm, Fred Hutchinson as arm, Biz Mackey as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Willie Pope as bat, Phil Cockrell as bat, Rufus Lewis as bat, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Darltie Cooper as bat, Dick Redding as bat, Rube Foster as bat, Milton Lewis as arm, Eddie Dixon as bat, Luther Farrell as bat, Henry McHenry as bat, Eddie Douglass as arm, Pablo Mesa as arm, Julio Rojo as arm, Matt Carlisle as arm, Bill Gatewood as bat, Frank Duncan as arm, Esteban Montalvo as arm, Bob Romby as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, George Mitchell as bat, Isidro Fabre as bat, Judy Gans as arm, Sam Bankhead as arm, John Bissant as arm, Jelly Jackson as arm, Dan Kennard as arm, Toussaint Allen as arm
 
-pool: 316 eligible owned cards — 183 bats (60L / 22S / 101R), 133 arms
-staff weights from nelslotsweekly's exports: SP 1.38, RP 0.47 (a lineup slot = 1)
-field (nelslotsweekly, 2 exports): 32% of batters faced thrown left-handed · 41% of PA by left-handed bats · 12.9 bats / 6.9 SP / 4.3 RP per team
-shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 213 of 316 pool cards have innings on record (median 1341 PA/BF); K = 1000000
+pool: 334 eligible owned cards — 195 bats (64L / 22S / 109R), 139 arms
+staff weights from nelslotsweekly's exports: SP 1.73, RP 0.58 (a lineup slot = 1)
+field (nelslotsweekly, 5 exports): 33% of batters faced thrown left-handed · 43% of PA by left-handed bats · 13.1 bats / 6.9 SP / 4.4 RP per team
+shape: 15 bats / 5 SP / 6 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 231 of 334 pool cards have innings on record (median 1495 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 2.07, RP 0.94 (--no-team-weights to turn off)
-staff innings split over the arms carried: the field runs 4.6 SP / 6.6 RP → per SP ×0.92 (5 carried), per RP ×0.94 (7 carried)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×1.85 against a bat run → glove ×1.62, SP 2.59, RP 1.07 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 5.1 SP / 6.2 RP → per SP ×1.02 (5 carried), per RP ×1.03 (6 carried)
 
 +10 rating, runs/700 PA — LHB: Power +5.4  Avoid Ks +3.7  BABIP +2.0  Eye +1.2  Gap +0.9
                           RHB: Power +5.6  Avoid Ks +3.8  BABIP +2.1  Eye +1.2  Gap +0.9
                          arms: Stuff +1.9  pHR +1.8  pBABIP +1.2  Control +0.9
 seed: 779-seed.txt as is (26 cards)
+seed: scores 273.4 before the climb
 
-optimiser: 6 starts (λ + seed) hill-climbed; best 201.1 runs vs 113.5 greedy (+87.6), 5 moves from the seed
+optimiser: 14 starts (λ + seed) hill-climbed; best 285.3 runs vs 246.7 greedy (+38.6), 34 moves from λ 4.50 (the seed's climb: 277.2)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Biz Mackey                  74  S  1924    -0.5  park:L DEF  71/ 71 -6.8  #86894
-R:1B    Lennie Pearson (VAR)        93  R  1946    +6.5  park:R DEF  92/ 92 +3.1  #84880
-R:2B    Pop Lloyd                  101  L  1924   +23.8  park:L DEF 128/128 +4.8  #86896
-R:3B    Dewey Creacy                94  R  1926   +12.6  park:R DEF  88/ 88 -0.8  #86980
-R:SS    Pythias Russ                89  R  1927   +10.1  park:R DEF 112/112 +1.9  #87083
-R:LF    Cocaina Garcia              77  L  1927    +2.4  park:L DEF  90/ 90 -0.9  #86954
-R:CF    Cool Papa Bell             100  S  1925   +12.7  park:L DEF 122/134 +1.4  #85420
-R:RF    Branch Russell              83  L  1927   +13.1  park:L DEF 106/106 +1.4  #87172
+R:C     Pythias Russ (VAR)          89  R  1927   +16.3  park:R DEF  92/120 +3.7  #87083
+R:1B    Lennie Pearson (VAR)        93  R  1946    +6.4  park:R DEF  92/ 92 +3.1  #84880
+R:2B    Pop Lloyd                  101  L  1924   +23.7  park:L DEF 128/128 +4.8  #86896
+R:3B    Dewey Creacy                94  R  1926   +12.5  park:R DEF  88/ 88 -0.8  #86980
+R:SS    Pee Wee Butts               65  R  1946    -5.1  park:R DEF  97/ 97 -3.6  #87266
+R:LF    Cool Papa Bell             100  S  1925   +12.7  park:L DEF 134/134 +6.2  #85420
+R:CF    Jimmie Lyons                84  L  1920   +14.2  park:L DEF 118/129 +0.8  #87309
+R:RF    Charlie Blackwell           99  L  1921   +30.8  park:L DEF 111/111 +2.3  #87268
 
 --- lineup vs LHP ---
-L:C     Biz Mackey                  74  S  1924    -1.0  park:R DEF  71/ 71 -6.8  #86894
-L:1B    Lennie Pearson (VAR)        93  R  1946   +12.7  park:R DEF  92/ 92 +3.1  #84880
-L:2B    Pop Lloyd                  101  L  1924   +13.0  park:L DEF 128/128 +4.8  #86896
-L:3B    Dewey Creacy                94  R  1926   +15.8  park:R DEF  88/ 88 -0.8  #86980
-L:SS    Pythias Russ                89  R  1927   +15.2  park:R DEF 112/112 +1.9  #87083
-L:LF    Cocaina Garcia              77  L  1927    -1.3  park:L DEF  90/ 90 -0.9  #86954
-L:CF    Cool Papa Bell             100  S  1925   +16.8  park:R DEF 122/134 +1.4  #85420
-L:RF    Branch Russell              83  L  1927    +4.2  park:L DEF 106/106 +1.4  #87172
+L:C     Pythias Russ (VAR)          89  R  1927   +21.7  park:R DEF  92/120 +3.7  #87083
+L:1B    Lennie Pearson (VAR)        93  R  1946   +12.6  park:R DEF  92/ 92 +3.1  #84880
+L:2B    Pop Lloyd                  101  L  1924   +12.9  park:L DEF 128/128 +4.8  #86896
+L:3B    Dewey Creacy                94  R  1926   +15.7  park:R DEF  88/ 88 -0.8  #86980
+L:SS    Pee Wee Butts               65  R  1946    -4.7  park:R DEF  97/ 97 -3.6  #87266
+L:LF    Cool Papa Bell             100  S  1925   +16.8  park:R DEF 134/134 +6.2  #85420
+L:CF    Jimmie Lyons                84  L  1920    +8.8  park:L DEF 118/129 +0.8  #87309
+L:RF    Charlie Blackwell           99  L  1921   +18.1  park:L DEF 111/111 +2.3  #87268
 
---- batting order vs RHP --- (4.61 runs/game; The Book's order 4.59)
-  1. Branch Russell RF
-  2. Cool Papa Bell CF
-  3. Lennie Pearson (VAR) 1B
-  4. Pop Lloyd 2B
-  5. Pythias Russ SS
-  6. Biz Mackey C
-  7. Dewey Creacy 3B
-  8. Cocaina Garcia LF
+--- batting order vs RHP --- (4.77 runs/game; The Book's order 4.76)
+  1. Pee Wee Butts SS
+  2. Pop Lloyd 2B
+  3. Pythias Russ (VAR) C
+  4. Charlie Blackwell RF
+  5. Cool Papa Bell LF
+  6. Jimmie Lyons CF
+  7. Lennie Pearson (VAR) 1B
+  8. Dewey Creacy 3B
   9. Pitcher
 
---- batting order vs LHP --- (4.61 runs/game; The Book's order 4.59)
-  1. Branch Russell RF
+--- batting order vs LHP --- (4.71 runs/game; The Book's order 4.69)
+  1. Pee Wee Butts SS
   2. Pop Lloyd 2B
   3. Lennie Pearson (VAR) 1B
-  4. Cool Papa Bell CF
-  5. Pythias Russ SS
-  6. Biz Mackey C
-  7. Dewey Creacy 3B
-  8. Cocaina Garcia LF
+  4. Pythias Russ (VAR) C
+  5. Cool Papa Bell LF
+  6. Charlie Blackwell RF
+  7. Jimmie Lyons CF
+  8. Dewey Creacy 3B
   9. Pitcher
 
 --- rotation ---
-SP1     Claude Grier                99  L  1926   +14.2   SP STM  92  #87086
-SP2     Satchel Paige              100  R  1944   +13.6   SP STM  96  #84844
-SP3     Hilton Smith               101  R  1938   +13.3   SP STM  91  #85864
-SP4     Count Leblanc (VAR)         89  R  1921   +11.5   SP STM  93  #86978
-SP5     Luther Farrell              87  L  1927   +10.3   SP STM 104  #86900
+SP1     Ed Rile                    102  L  1927   +13.7      STM 110 two-way (pitching)  #87165
+SP2     Claude Grier                99  L  1926    +9.4   SP STM  92  #87086
+SP3     Hilton Smith               101  R  1938    +8.6   SP STM  91  #85864
+SP4     Luther Farrell              87  L  1927    +7.6   SP STM 104  #86900
+SP5     Bill Ricks                  79  R  1944    +6.2   SP STM  86  #87162
 
 --- bullpen ---
-CL      Johnny Markham              87  R  1942    +9.4   RP STM  69  #87159
-RP1     Bill Ricks                  79  R  1944    +7.7   SP STM  86  #87162
-RP2     Dan Bankhead                74  R  1946    +2.1   SP STM  74  #84884
-RP3     Red Howard                  64  L  1940    -4.2   RP STM  40  #87156
-RP4     Eddie Dixon                 66  R  1938    -4.5   RP STM  65  #87157
-RP5     Patricio Scantlebury        56  L  1946    -6.2   SP STM  68  #85828
-RP6     Tin Can Kincannon           45  R  1934    -8.3   SP STM  74  #86073
+CL      Johnny Markham (VAR)        87  R  1942    +9.1   RP STM  69  #87159
+RP1     Dan Bankhead                74  R  1946    +1.6   SP STM  74  #84884
+RP2     Diamond M. Pipkins          72  L  1942    +0.4   SP STM  69  #87324
+RP3     Patricio Scantlebury        56  L  1946    -2.6   SP STM  68  #85828
+RP4     Red Howard                  64  L  1940    -3.2   RP STM  40  #87156
+RP5     Eddie Dixon                 66  R  1938    -3.4   RP STM  65  #87157
 
 --- bench ---
-BN1     Pat Patterson               67  S  1935    +1.7  park:L  #87080
-BN2     Esteban Montalvo            58  L  1923    -5.4  park:L  #87081
-BN3     Julio Rojo                  65  S  1923    -8.4  park:L  #87161
-BN4     Otto Briggs                 62  L  1925    -6.3  park:L  #87228
-BN5     Sam Bankhead                49  R  1943   -17.1  park:R  #87160
-BN6     Cando Lopez                 59  R  1935   -25.5  park:R  #84413
+BN1     Esteban Montalvo            58  L  1923    -5.4  park:L  #87081
+BN2     Otto Briggs                 62  L  1925    -6.4  park:L  #87228
+BN3     Sam Bankhead                49  R  1943   -17.1  park:R  #87160
+BN4     Joe Scott                   54  L  1948   -18.7  park:L  #84882
+BN5     Pat Patterson               67  S  1935    +1.7  park:L  #87080
+BN6     Jelly Gardner (VAR)         77  L  1930   -20.1  park:L  #84532
+BN7     Pepper Bassett              57  S  1938   -25.8  park:L  #84414
 
-26 players · value 2018 · from seed · 2 variants
-vs RHP lineup gets the friendly park side in 5 of 8 spots
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Pythias Russ (VAR)         U1 Pepper Bassett 61            U2 -                           
+  1B  Lennie Pearson (VAR)       U1 Joe Scott 73                 U2 -                           
+  2B  Pop Lloyd                  U1 Pat Patterson 85             U2 -                           
+  3B  Dewey Creacy               U1 Pat Patterson 84             U2 -                           
+  SS  Pee Wee Butts              U1 Sam Bankhead 120             U2 -                            def sub Sam Bankhead (+8.5)
+  LF  Cool Papa Bell             U1 Jelly Gardner (VAR) 112      U2 -                           
+  CF  Jimmie Lyons               U1 Jelly Gardner (VAR) 96       U2 -                           
+  RF  Charlie Blackwell          U1 Jelly Gardner (VAR) 105      U2 -                           
+  pinch hitters: Pat Patterson, Esteban Montalvo, Otto Briggs, Sam Bankhead · pinch runners: Sam Bankhead (SPE 108), Pat Patterson (SPE 74), Jelly Gardner (VAR) (SPE 73)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Pythias Russ (VAR)         U1 Pepper Bassett 61            U2 -                           
+  1B  Lennie Pearson (VAR)       U1 Joe Scott 73                 U2 -                           
+  2B  Pop Lloyd                  U1 Pat Patterson 85             U2 -                           
+  3B  Dewey Creacy               U1 Pat Patterson 84             U2 -                           
+  SS  Pee Wee Butts              U1 Sam Bankhead 120             U2 -                            def sub Sam Bankhead (+8.5)
+  LF  Cool Papa Bell             U1 Jelly Gardner (VAR) 112      U2 -                           
+  CF  Jimmie Lyons               U1 Jelly Gardner (VAR) 96       U2 -                           
+  RF  Charlie Blackwell          U1 Jelly Gardner (VAR) 105      U2 -                           
+  pinch hitters: Pat Patterson, Otto Briggs, Sam Bankhead, Joe Scott · pinch runners: Sam Bankhead (SPE 108), Pat Patterson (SPE 74), Jelly Gardner (VAR) (SPE 73)
+
+26 players · value 2036 · λ 4.500 · 4 variants
+vs RHP lineup: 4 of 8 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
+  Charlie Blackwell      L EYE  92 (70/99)  POW 133 (121/137)  K 131  BABIP 131  GAP 132  SPE 110
   Pop Lloyd              L EYE 128 (115/132)  POW  72 (60/77)  K 168  BABIP 162  GAP 126  SPE 104
-  Branch Russell         L EYE 128 (120/131)  POW  96 (88/99)  K 119  BABIP 124  GAP  96  SPE  73
+  Pythias Russ           R EYE  82 (88/80)  POW 104 (111/103)  K 123  BABIP 127  GAP 147  SPE 101
+  Jimmie Lyons           L EYE  70 (68/71)  POW 123 (115/126)  K 111  BABIP 107  GAP 105  SPE  98
   Cool Papa Bell         S EYE  87 (90/86)  POW  83 (89/81)  K 122  BABIP 131  GAP 140  SPE 119
   Dewey Creacy           R EYE  44 (48/43)  POW 142 (146/141)  K 100  BABIP 102  GAP 127  SPE  63
-  Pythias Russ           R EYE  75 (81/73)  POW  96 (103/95)  K 113  BABIP 117  GAP 136  SPE 101
   Lennie Pearson         R EYE  85 (88/85)  POW 125 (134/121)  K  97  BABIP  88  GAP 101  SPE  89
-  Cocaina Garcia         L EYE  29 (27/30)  POW 107 (105/108)  K 113  BABIP 130  GAP  71  SPE  41
   Pat Patterson          S EYE  51 (50/52)  POW  86 (83/88)  K 112  BABIP 114  GAP 114  SPE  74
-  Biz Mackey             S EYE  58 (55/59)  POW  76 (75/77)  K 110  BABIP 119  GAP 119  SPE  63
+  Pee Wee Butts          R EYE  89 (90/89)  POW  34 (35/34)  K 143  BABIP 109  GAP 109  SPE  83
   Esteban Montalvo       L EYE  76 (55/82)  POW  99 (70/113)  K  77  BABIP  69  GAP  93  SPE  66
   Otto Briggs            L EYE 165 (162/166)  POW  16 (15/17)  K 140  BABIP 117  GAP  70  SPE  70
-  Julio Rojo             S EYE  65 (69/64)  POW  18 (19/18)  K 149  BABIP 118  GAP 114  SPE  98
   Sam Bankhead           R EYE  87 (90/86)  POW  47 (48/47)  K  80  BABIP  83  GAP  57  SPE 108
-  Cando Lopez            R EYE  68 (68/68)  POW  53 (54/53)  K 101  BABIP  57  GAP  73  SPE  51
+  Joe Scott              L EYE  97 (94/99)  POW  83 (80/85)  K  77  BABIP  48  GAP 132  SPE  42
+  Jelly Gardner          L EYE 130 (126/131)  POW  34 (33/35)  K  91  BABIP  71  GAP  61  SPE  73
+  Pepper Bassett         S EYE  45 (44/46)  POW  83 (80/84)  K  94  BABIP  50  GAP  79  SPE  24
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (56 teams): 4.8 SP / 6.9 RP / 13.6 bats
-  ✓ starters' stamina Claude Grier 92, Satchel Paige 96, Hilton Smith 91, Count Leblanc 93, Luther Farrell 104 (era floor 50)
-  ✓ stamina guys in the pen (45+): Johnny Markham 69, Bill Ricks 86, Dan Bankhead 74, Eddie Dixon 65, Patricio Scantlebury 68, Tin Can Kincannon 74
-  ✓ C  backup: Pythias Russ 86
-  ✓ 1B backup: Biz Mackey 69, Pop Lloyd 90, Cool Papa Bell 76
+  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (144 teams): 6.0 SP / 6.2 RP / 14.6 bats
+  ✓ starters' stamina Ed Rile 110, Claude Grier 92, Hilton Smith 91, Luther Farrell 104, Bill Ricks 86 (era floor 50)
+  ✓ stamina guys in the pen (45+): Johnny Markham 69, Dan Bankhead 74, Diamond M. Pipkins 69, Patricio Scantlebury 68, Eddie Dixon 65
+  ✓ C  backup: Pepper Bassett 61
+  ✓ 1B backup: Joe Scott 73
   ✓ 2B backup: Pat Patterson 85
-  ✓ 3B backup: Pop Lloyd 119, Branch Russell 71, Pat Patterson 84
-  ✓ SS backup: Pop Lloyd 114, Sam Bankhead 120
-  ✓ LF backup: Lennie Pearson 76, Cool Papa Bell 134
-  ✓ CF backup: Cando Lopez 93
-  ✓ RF backup: Cocaina Garcia 87, Cool Papa Bell 129
-(25 of 26 have a live ask in the last shop snapshot)
-objective: 201.1 weighted runs (bats 68/32 R/L, SP 2.07, RP 0.94, bench 0.1)
-points: lineup(both boards, 8 bats) 711 · rotation 476 · bullpen 471 · bench-only 360
+  ✓ 3B backup: Pat Patterson 84
+  ✓ SS backup: Sam Bankhead 120
+  ✓ LF backup: Jelly Gardner 112
+  ✓ CF backup: Jelly Gardner 96
+  ✓ RF backup: Jelly Gardner 105
+(22 of 26 have a live ask in the last shop snapshot)
+objective: 284.6 weighted runs (bats 67/33 R/L, SP 2.5949999999999998, RP 1.073, bench 0.1)
+points: lineup(both boards, 8 bats) 725 · rotation 468 · bullpen 419 · bench-only 424
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Patricio Scantlebury     pBABIP 45 (fitted 50–175)
-   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
