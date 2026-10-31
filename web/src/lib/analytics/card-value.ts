@@ -208,14 +208,22 @@ export function pitcherRates(r: Record<string, number>, era: EraRates, split: Sp
   const g = (key: string) => ratingOf(r, key, split);
   const stu = g("Stuff"), con = g("Control"), hra = g("pHR"), pba = g("pBABIP");
   if (stu == null || con == null || hra == null || pba == null) return null;
+  /*
+   * An arm rating below its curve's fitted window is read at the window's floor. The power
+   * law explodes downward: card 87329's pHR vL 4 (window 44-179) scored -2,842 runs per 700
+   * BF, and that one line dragged the 10-30 arm calibration slope from 0.58 to 0.26, pricing
+   * every arm at under half its worth against bats (Arm Model Audit 2026-10-31).
+   */
+  const floorAt = (c: Curve, v: number) => (Array.isArray(c.rating_range) ? Math.max(v, c.rating_range[0]) : v);
+  const k = curves.pit.k as Curve, bb = curves.pit.bb as Curve, hr = curves.pit.hr as Curve, babip = curves.pit.babip as Curve;
   return {
-    K: era.K * mult(curves.pit.k as Curve, stu),
-    BB: era.BB * mult(curves.pit.bb as Curve, con),
+    K: era.K * mult(k, floorAt(k, stu)),
+    BB: era.BB * mult(bb, floorAt(bb, con)),
     HBP: era.HBP,
-    HR: era.HR * mult(curves.pit.hr as Curve, hra),
+    HR: era.HR * mult(hr, floorAt(hr, hra)),
     B2: era.B2,
     B3: era.B3,
-    BABIP: era.BABIP * mult(curves.pit.babip as Curve, pba),
+    BABIP: era.BABIP * mult(babip, floorAt(babip, pba)),
   };
 }
 
