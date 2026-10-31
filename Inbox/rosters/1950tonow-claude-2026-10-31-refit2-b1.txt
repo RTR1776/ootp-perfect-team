@@ -1,0 +1,36 @@
+# Wednesday 1950 to Now — Claude pick 2026-10-31-refit2-b1, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Globe Life Field --park-year 2026 --dh --min 40 --max 105 --card-year-min 1950 --card-year-max 2026 --card-types 7,8 --size 26 --series 1950tonow --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Albert Pujols #87149
+R:2B Ernie Clement #87244
+R:3B Hank Thompson #86668
+R:SS Trea Turner (VAR) #82923
+R:LF Curtis Granderson #86595
+R:CF Richard Hidalgo #86707
+R:RF Andruw Jones #87057
+R:DH Kal Daniels #84163
+L:C Bob Boone #87032
+L:1B Albert Pujols #87149
+L:2B Brandon Phillips #87202
+L:3B Ernie Clement #87244
+L:SS Trea Turner (VAR) #82923
+L:LF Lonnie Smith #86721
+L:CF Richard Hidalgo #86707
+L:RF Andruw Jones #87057
+L:DH J.D. Martinez #87247
+SP1 CC Sabathia #86350
+SP2 Josh Beckett #87058
+SP3 Larry Jackson #86646
+SP4 Milt Pappas #86654
+SP5 Kyle Freeland (VAR) #86708
+CL Mark Langston #86956
+RP1 Danny Jackson #87052
+RP2 Barry Zito #86296
+RP3 Al Leiter (VAR) #85796
+RP4 Dock Ellis #85145
+RP5 Kelvim Escobar #87207
+RP6 Doug Fister #86353
+BN1 J.D. Martinez #87247
+BN2 Lonnie Smith #86721
+BN3 Brandon Phillips #87202
+BN4 Jose Oquendo #85738
+BN5 Charles Johnson #86365
