@@ -1,0 +1,35 @@
+# Daily Iron Strikes Back — Claude pick 2026-10-31-refit-b2, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Anaheim Stadium --park-year 1990 --min 40 --max 59 --size 26 --series ironstrikesback --sp 5 --rp 6 --bats 15)
+R:C Rick Wilkins #86392
+R:1B Shawn Green #87028
+R:2B Nap Lajoie #86581
+R:3B Chris Taylor #87243
+R:SS Javier Baez (VAR) #86417
+R:LF Norris Hopper #87191
+R:CF Milt Thompson #86927
+R:RF Vladimir Guerrero #86474
+L:C Ossee Schrecongost #87328
+L:1B Jackie Robinson (VAR) #84390
+L:2B Javier Baez (VAR) #86417
+L:3B Bill Hall #87200
+L:SS Ozzie Smith #86972
+L:LF Norris Hopper #87191
+L:CF Carlos Beltran #86298
+L:RF Sammy Sosa (VAR) #85691
+SP1 Big Jeff Pfeffer #87340
+SP2 Lefty Grove #87168
+SP3 Earl Wilson #85895
+SP4 Bullet Campbell #87084
+SP5 Ossie Orwoll (VAR) #86967
+CL James McDonald (VAR) #86384
+RP1 Mike Marshall #84720
+RP2 Justin Verlander #87014
+RP3 Wilson Alvarez (VAR) #83868
+RP4 Ernie Koob #87332
+RP5 Tom Seaver #85142
+BN1 Bill Hall #87200
+BN2 Carlos Beltran #86298
+BN3 Bob Bowman (VAR) #86803
+BN4 Jackie Robinson (VAR) #84390
+BN5 Ossee Schrecongost #87328
+BN6 Ozzie Smith #86972
+BN7 Sammy Sosa (VAR) #85691
