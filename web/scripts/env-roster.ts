@@ -629,7 +629,11 @@ async function main() {
     }
     if (SEED) {
       const seed = seedStart(SEED);
-      if (seed) starts.set("seed", { slots: seed, lambda: SEED_LAMBDA });
+      if (seed) {
+        starts.set("seed", { slots: seed, lambda: SEED_LAMBDA });
+        // The saved roster's own score, so a card-change rebuild shows what it gained.
+        console.log(`seed: scores ${objective(seed).toFixed(1)} before the climb`);
+      }
     }
 
     let best = { slots, score: greedyScore, from: lambda, moves: 0 };

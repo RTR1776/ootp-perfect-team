@@ -1,0 +1,35 @@
+# Tuesday Dead Silver Walking — Claude pick 2026-10-30-all-b18, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Washington Park --park-year 1911 --min 40 --max 79 --card-year-min 1871 --card-year-max 1920 --size 26 --series upto1969weekly --sp 4 --rp 5 --bats 17)
+R:C Bill Killefer #87346
+R:1B Con Daily (VAR) #86590
+R:2B Nap Lajoie #86581
+R:3B Honus Wagner #86712
+R:SS Jack Glasscock #87352
+R:LF Tom Brown #86767
+R:CF Pop Corkhill #86582
+R:RF Willie Keeler #85878
+L:C Bill Killefer #87346
+L:1B Joe Judge #84194
+L:2B Bill Dahlen #83725
+L:3B Joe Dugan (VAR) #86765
+L:SS Jack Glasscock #87352
+L:LF Tom Brown #86767
+L:CF Tillie Walker #86597
+L:RF Willie Keeler #85878
+SP1 Jeff Pfeffer #87350
+SP2 Jack Pfiester #87351
+SP3 Bill Duggleby #87335
+SP4 Sherry Smith #87030
+CL Kid Madden #87348
+RP1 Christy Mathewson #86706
+RP2 Big Jeff Pfeffer #87340
+RP3 Nick Altrock #87049
+RP4 Kid Nichols (VAR) #83202
+BN1 Bill Dahlen #83725
+BN2 Tillie Walker #86597
+BN3 Topsy Hartsel #87336
+BN4 Hank Gowdy #87246
+BN5 Joe Dugan (VAR) #86765
+BN6 Danny Green #87353
+BN7 Jack Tobin #86772
+BN8 Joe Judge #84194
+BN9 Davy Jones #87344

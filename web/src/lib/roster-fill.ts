@@ -70,8 +70,13 @@ export interface FitMaps {
  * don't override it: in those sets nearly every pitcher card carries an SP role,
  * so a field's SP count (Wednesday Deadball read 5.6 SP / 1.8 RP) says nothing
  * about how many men start. An explicit --sp/--rp/--bats still wins.
+ *
+ * L.J., 2026-10-30 — "in 1966 no MLB team used a 5 man rotation … make it 4
+ * SP for anything before 1970". The rotation is 4 before FOUR_MAN_BEFORE
+ * whatever the field's exports carry; the pen still follows the field.
  */
 export const PRE_1930 = 1930;
+export const FOUR_MAN_BEFORE = 1970;
 export const MAX_SP = 5;
 export const MAX_RP = 7;
 export const MAX_ARMS = 12;
@@ -82,7 +87,8 @@ export function eraStaff(envYear: number | null | undefined): { sp: number; rp: 
   if (envYear == null) return { sp: 5, rp: 7, band: "no env year — modern default" };
   if (envYear >= 2010) return { sp: 5, rp: 7, band: "2010–present" };
   if (envYear >= 1980) return { sp: 5, rp: envYear >= 1995 ? 7 : 6, band: "1980s–2000s" };
-  if (envYear >= 1960) return { sp: 5, rp: envYear >= 1970 ? 6 : 5, band: "1960s–70s" };
+  if (envYear >= FOUR_MAN_BEFORE) return { sp: 5, rp: 6, band: "1970s" };
+  if (envYear >= 1960) return { sp: 4, rp: 5, band: "1960s (L.J. 10-30: 4-man)" };
   if (envYear >= PRE_1930) return { sp: 4, rp: envYear >= 1940 ? 5 : 4, band: "1930s–50s" };
   return { sp: 4, rp: 5, band: "pre-1930 (L.J. 10-07)" };
 }
@@ -128,7 +134,8 @@ export function rosterShape(
    * held to PEN_CAP_PRE_1980 (L.J.: "1974. At most 6, probably just five").
    */
   if (meta?.avgSp != null && meta.avgRp != null && !pre1930) {
-    const sp = clamp(Math.round(meta.avgSp), 3, MAX_SP);
+    // Before 1970 the rotation is 4 whatever the field carries (L.J. 10-30); its pen still counts.
+    const sp = eraYear != null && eraYear < FOUR_MAN_BEFORE ? 4 : clamp(Math.round(meta.avgSp), 3, MAX_SP);
     const cap = eraYear != null && eraYear < 1980 ? PEN_CAP_PRE_1980 : MAX_RP;
     const rp = clamp(Math.round(meta.avgRp), 3, Math.min(cap, MAX_ARMS - sp));
     return { bats: clamp(size - sp - rp, lineupSize, 22), sp, rp, source: "observed", band: era.band };

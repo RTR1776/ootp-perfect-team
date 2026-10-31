@@ -1,0 +1,36 @@
+# Friday Danksville — Claude pick 2026-10-30, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Kingdome --park-year 1977 --dh --min 40 --max 49 --size 26 --series lowironweekly --sp 5 --rp 7 --bats 14)
+R:C Ossee Schrecongost #87328
+R:1B Stan Hack #86458
+R:2B Javier Baez (VAR) #86417
+R:3B Ray Dandridge #87264
+R:SS Sam Bankhead #87160
+R:LF Dwayne Hosey #86801
+R:CF Austin Jackson #84808
+R:RF Vladimir Guerrero #86474
+R:DH George Sisler (VAR) #87002
+L:C Ossee Schrecongost #87328
+L:1B Stan Hack #86458
+L:2B Javier Baez (VAR) #86417
+L:3B Ray Dandridge #87264
+L:SS Sam Bankhead #87160
+L:LF Dwayne Hosey #86801
+L:CF Vladimir Guerrero #86474
+L:RF Sammy Sosa (VAR) #85691
+L:DH Pete Incaviglia #86943
+SP1 Nate Robertson (VAR) #87130
+SP2 Bob Gibson (VAR) #86658
+SP3 Marco Estrada #87046
+SP4 Tin Can Kincannon #86073
+SP5 Limb McKenry #87373
+CL Randy Choate #87026
+RP1 Lefty Grove #87168
+RP2 R.T. Walker #86952
+RP3 Todd Jones (VAR) #86434
+RP4 Ace Adams #86197
+RP5 Mike Garcia #86664
+RP6 Reed Garrett #84825
+BN1 Alfredo Amezaga #87188
+BN2 Nico Hoerner #85088
+BN3 Pete Incaviglia #86943
+BN4 Buck Rodgers (VAR) #84312
+BN5 Sammy Sosa (VAR) #85691

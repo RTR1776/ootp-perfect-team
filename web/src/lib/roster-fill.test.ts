@@ -7,7 +7,8 @@ test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest
   assert.deepEqual([eraStaff(2024).sp, eraStaff(2024).rp], [5, 7], "L.J. 10-04: 5 SP at most, never 8 RP, never 13 arms");
   assert.deepEqual([eraStaff(2006).sp, eraStaff(2006).rp], [5, 7]);
   assert.deepEqual([eraStaff(1984).sp, eraStaff(1984).rp], [5, 6]);
-  assert.deepEqual([eraStaff(1968).sp, eraStaff(1968).rp], [5, 5]);
+  assert.deepEqual([eraStaff(1968).sp, eraStaff(1968).rp], [4, 5], "L.J. 10-30: 4 SP for anything before 1970");
+  assert.deepEqual([eraStaff(1972).sp, eraStaff(1972).rp], [5, 6]);
   assert.deepEqual([eraStaff(1935).sp, eraStaff(1935).rp], [4, 4]);
   assert.deepEqual([eraStaff(1907).sp, eraStaff(1907).rp], [4, 5], "L.J. 10-07: pre-1930 is 4 SP / 5 RP");
   assert.deepEqual([eraStaff(1920).sp, eraStaff(1920).rp], [4, 5]);
@@ -21,7 +22,9 @@ test("era staff sizes follow L.J.'s bands (2026-09-07) and hitters take the rest
   const goldfather = rosterShape(1974, 8, 26, { avgSp: 4.9, avgRp: 6.6, avgBats: 14.2 });
   assert.deepEqual([goldfather.bats, goldfather.sp, goldfather.rp], [15, 5, 6], "Goldfather II's best quarter (4.9 / 6.6) is 5 SP / 6 RP in 1974, not 5 / 7");
   const heart = rosterShape(1956, 8, 26, { avgSp: 5.0, avgRp: 5.9, avgBats: 14.6 });
-  assert.deepEqual([heart.bats, heart.sp, heart.rp], [15, 5, 6]);
+  assert.deepEqual([heart.bats, heart.sp, heart.rp], [16, 4, 6], "before 1970 the field's 5th starter becomes a bat (L.J. 10-30)");
+  const lunch = rosterShape(1966, 9, 26, { avgSp: 4.7, avgRp: 5.8, avgBats: 14.6 });
+  assert.deepEqual([lunch.bats, lunch.sp, lunch.rp, lunch.source], [16, 4, 6, "observed"], "Iron Lunch, 1966: 4 SP, the field's pen");
   const modern = rosterShape(2019, 9, 26, { avgSp: 4.8, avgRp: 7.3, avgBats: 13.8 });
   assert.deepEqual([modern.bats, modern.sp, modern.rp], [14, 5, 7], "a modern field's 7-man pen stays 7");
   const explicit = rosterShape(2010, 9, 26, { avgSp: 5, avgRp: 8, avgBats: 13 });
