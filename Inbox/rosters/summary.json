@@ -1,37 +1,40 @@
 [
   {
-    "id": 535,
-    "name": "Saturday Bronze Cap",
+    "id": 541,
+    "name": "Saturday Diamond Variety",
     "status": "built",
-    "objective": 42.1,
-    "file": "bronzecapweekly-claude-2026-10-31-sat.txt",
+    "objective": 364.8,
+    "file": "diamondvariety-claude-2026-10-31-sat.txt",
     "notes": [
-      "neutral park (Standard Stadium (neutral))",
-      "value window read off the name (name: Bronze)",
-      "shape 5 SP / 7 RP / 14 bats (the series' exports)"
+      "shape 4 SP / 5 RP / 17 bats (the series' exports)"
     ],
     "args": [
       "--year",
-      "2016",
-      "--dh",
+      "1952",
+      "--park",
+      "Tiger Stadium",
+      "--park-year",
+      "1958",
       "--min",
       "40",
       "--max",
-      "69",
-      "--cap",
-      "1386",
+      "99",
+      "--card-year-min",
+      "1910",
+      "--card-year-max",
+      "1959",
       "--size",
       "26",
       "--series",
-      "bronzecapweekly",
+      "diamondvariety",
       "--name",
-      "Saturday Bronze Cap",
+      "Saturday Diamond Variety",
       "--sp",
-      "5",
+      "4",
       "--rp",
-      "7",
+      "5",
       "--bats",
-      "14"
+      "17"
     ]
   }
 ]
