@@ -1,0 +1,155 @@
+
+=== PTCS 8 Championship - Iron ===
+1919 RE @ 1880 Agricultural County Fair Ground · DH off · value —–59 · cap none · 26 players
+R/G 4.64  AVG 0.284  OBP 0.341  SLG 0.370  K% 7.3  HR/PA 0.62%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.099 runs · steal break-even 77.5% (0 out) / 73.5% (1 out)
+park: all-LHB lineup 4.64 R/G vs all-RHB 4.64 — 0.00 R/G swing toward RIGHT-handed bats
+two-way: 30 cards also in the other role — Fred Goldsmith as bat, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Isidro Fabre as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
+
+pool: 281 eligible owned cards — 176 bats (46L / 11S / 119R), 105 arms
+!! no exports on record for series PTCS 8 Championship — shape and handedness fall back to the era table
+shape: 17 bats / 4 SP / 5 RP (pre-1930 (L.J. 10-07)) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 246 of 281 pool cards have innings on record (median 345 PA/BF); K = 1000000
+gloves ×1.21: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1919 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×2.41, SP 1.50, RP 0.62 (--no-team-weights to turn off)
+
++10 rating, runs/700 PA — LHB: BABIP +2.5  Eye +1.2  Gap +1.1  Power +1.0  Avoid Ks +1.0
+                          RHB: BABIP +2.5  Eye +1.2  Gap +1.1  Power +1.0  Avoid Ks +1.0
+                         arms: pBABIP +1.5  Control +0.9  Stuff +0.5  pHR +0.4
+seed: 9080001-seed.txt as is (26 cards)
+seed: scores -108.2 before the climb
+
+optimiser: 10 starts (λ + seed) hill-climbed; best -100.8 runs vs -119.2 greedy (+18.4), 10 moves from λ 0.00 (the seed's climb: -100.8)
+dual: from Big Jeff Pfeffer in both roles: Ossie Orwoll in both, -100.8 runs
+dual: from Lefty Grove in both roles: Ossie Orwoll in both, -100.8 runs
+dual: from Bullet Campbell in both roles: Ossie Orwoll in both, -100.8 runs
+dual: from Elden Auker in both roles: Ossie Orwoll in both, -100.8 runs
+dual: no two-way card in both roles beats -100.8 runs (best Ossie Orwoll -100.8)
+stamina repair: Harry Coveleski (82) to the rotation, Ossie Orwoll (56) to the pen — era floor 80; objective -105.5
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ossee Schrecongost          48  R  1907   -12.1  park:R DEF  80/ 80 -3.1  #87328
+R:1B    Stan Hack                   46  L  1944    -8.1  park:L DEF  77/ 77 +0.1  #86458
+R:2B    Nap Lajoie                  50  R  1905    -2.6  park:R DEF 114/114 +0.4  #86581
+R:3B    Ray Dandridge               47  R  1935   -15.3  park:R DEF 119/119 +10.8  #87264
+R:SS    Sam Bankhead                49  R  1943   -18.1  park:R DEF 120/120 +7.2  #87160
+R:LF    Red Killefer                45  R  1915    -7.9  park:R DEF 103/103 +1.8  #87339
+R:CF    Vince DiMaggio              46  R  1937   -31.8  park:R DEF 100/100 -3.0  #84352
+R:RF    Maurice Archdeacon          45  L  1924    -7.5  park:L DEF  81/ 85 -4.4  #85665
+
+--- lineup vs LHP ---
+L:C     Ossee Schrecongost          48  R  1907    -8.8  park:R DEF  80/ 80 -3.1  #87328
+L:1B    Scoops Carey (VAR)          52  R  1902    -6.2  park:R DEF  61/ 61 -4.7  #82851
+L:2B    Creepy Crespi               51  R  1941   -10.6  park:R DEF 108/108 -2.5  #87311
+L:3B    Ray Dandridge               47  R  1935    -4.7  park:R DEF 119/119 +10.8  #87264
+L:SS    Sam Bankhead                49  R  1943   -16.8  park:R DEF 120/120 +7.2  #87160
+L:LF    Red Killefer                45  R  1915    -4.1  park:R DEF 103/103 +1.8  #87339
+L:CF    Cando Lopez                 59  R  1935   -32.4  park:R DEF  93/ 93 -4.6  #84413
+L:RF    Maurice Archdeacon          45  L  1924    -2.3  park:L DEF  81/ 85 -4.4  #85665
+
+--- batting order vs RHP --- (3.57 runs/game; The Book's order 3.56)
+  1. Maurice Archdeacon RF
+  2. Stan Hack 1B
+  3. Ossee Schrecongost C
+  4. Red Killefer LF
+  5. Nap Lajoie 2B
+  6. Sam Bankhead SS
+  7. Ray Dandridge 3B
+  8. Vince DiMaggio CF
+  9. Pitcher
+
+--- batting order vs LHP --- (3.65 runs/game; The Book's order 3.64)
+  1. Maurice Archdeacon RF
+  2. Sam Bankhead SS
+  3. Creepy Crespi 2B
+  4. Red Killefer LF
+  5. Ossee Schrecongost C
+  6. Ray Dandridge 3B
+  7. Scoops Carey (VAR) 1B
+  8. Cando Lopez CF
+  9. Pitcher
+
+--- rotation ---
+SP1     Big Jeff Pfeffer            59  R  1906    +1.9   SP STM  98  #87340
+SP2     Lefty Grove                 48  L  1940    +0.5   SP STM  77  #87168
+SP3     Harry Coveleski (VAR)       59  S  1914    -2.3   SP STM  82  #83059
+SP4     Fred Goldsmith              59  R  1882    -5.6   SP STM  93  #83067
+
+--- bullpen ---
+CL      Herb Thormahlen             47  L  1919    -1.7   SP STM  77  #87329
+RP1     Bullet Campbell             56  R  1926    -3.7   SP STM  75  #87084
+RP2     Elden Auker                 55  R  1937    -4.0   SP STM  77  #86769
+RP3     Ice Box Chamberlain (VAR)   58  R  1893    -4.7   SP STM  81  #83049
+RP4     Ossie Orwoll (VAR)          57  L  1928    -5.8   SP STM  56  #86967
+
+--- bench ---
+BN1     Kid Elberfeld (VAR)         47  R  1903    -7.2  park:R  #86368
+BN2     Ted Easterly                58  L  1910    -9.2  park:L  #84686
+BN3     Walt French                 44  L  1927    -9.6  park:L  #86960
+BN4     Greasy Neale                42  L  1919   -14.8  park:L  #87142
+BN5     Scoops Carey (VAR)          52  R  1902   -16.6  park:R  #82851
+BN6     George Sisler (VAR)         48  L  1928    +3.3  park:L  #87002
+BN7     Connie Day                  50  R  1921   -22.8  park:R  #86982
+BN8     Creepy Crespi               51  R  1941   -24.6  park:R  #87311
+BN9     Cando Lopez                 59  R  1935   -32.9  park:R  #84413
+
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Ossee Schrecongost         U1 Ted Easterly 62              U2 -                           
+  1B  Stan Hack                  U1 Scoops Carey (VAR) 61        U2 -                           
+  2B  Nap Lajoie                 U1 Connie Day 124               U2 Creepy Crespi 108            def sub Connie Day (+4.8)
+  3B  Ray Dandridge              U1 Kid Elberfeld (VAR) 85       U2 Connie Day 110              
+  SS  Sam Bankhead               U1 Connie Day 108               U2 -                           
+  LF  Red Killefer               U1 Walt French 78               U2 Greasy Neale 80             
+  CF  Vince DiMaggio             U1 Cando Lopez 93               U2 -                           
+  RF  Maurice Archdeacon         U1 Greasy Neale 75              U2 -                           
+  pinch hitters: George Sisler (VAR), Kid Elberfeld (VAR), Ted Easterly, Walt French · pinch runners: Kid Elberfeld (VAR) (SPE 79), Walt French (SPE 77), Greasy Neale (SPE 76)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Ossee Schrecongost         U1 Ted Easterly 62              U2 -                           
+  1B  Scoops Carey (VAR)         U1 Nap Lajoie 96                U2 Stan Hack 77                 def sub Nap Lajoie (+10.5)
+  2B  Creepy Crespi              U1 Connie Day 124               U2 Nap Lajoie 114               def sub Connie Day (+7.7)
+  3B  Ray Dandridge              U1 Kid Elberfeld (VAR) 85       U2 Connie Day 110              
+  SS  Sam Bankhead               U1 Connie Day 108               U2 -                           
+  LF  Red Killefer               U1 Greasy Neale 80              U2 Walt French 78              
+  CF  Cando Lopez                U1 Vince DiMaggio 100           U2 -                           
+  RF  Maurice Archdeacon         U1 Greasy Neale 75              U2 -                           
+  pinch hitters: Kid Elberfeld (VAR), George Sisler (VAR), Greasy Neale, Stan Hack · pinch runners: Nap Lajoie (SPE 81), Kid Elberfeld (VAR) (SPE 79), Walt French (SPE 77)
+
+26 players · value 1325 · λ 0.000 · 6 variants
+vs RHP lineup: 2 of 8 bat from the left side (the platoon edge); this park favours right-handed bats
+
+--- order inputs (rostered bats) ---
+  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Kid Elberfeld          R EYE 101 (81/107)  POW   1 (1/1)  K 176  BABIP  88  GAP  99  SPE  79
+  Maurice Archdeacon     L EYE 113 (115/113)  POW   1 (1/1)  K  45  BABIP 126  GAP  63  SPE 112
+  Red Killefer           R EYE  70 (75/69)  POW  40 (34/43)  K  86  BABIP 117  GAP  89  SPE  67
+  Stan Hack              L EYE 128 (144/123)  POW  38 (1/46)  K 183  BABIP  81  GAP  61  SPE  47
+  Ted Easterly           L EYE  58 (54/60)  POW   1 (1/1)  K  97  BABIP  97  GAP  87  SPE  67
+  Walt French            L EYE  62 (42/66)  POW   1 (1/1)  K 117  BABIP  97  GAP  68  SPE  77
+  Ossee Schrecongost     R EYE  70 (71/70)  POW   5 (6/5)  K 106  BABIP 104  GAP 104  SPE  54
+  Greasy Neale           L EYE  84 (89/83)  POW  14 (24/11)  K  91  BABIP  96  GAP  65  SPE  76
+  Ray Dandridge          R EYE  39 (45/37)  POW  16 (19/16)  K  94  BABIP 101  GAP 117  SPE  94
+  Scoops Carey           R EYE  59 (46/63)  POW  25 (23/26)  K 116  BABIP  83  GAP 162  SPE  59
+  Sam Bankhead           R EYE  87 (90/86)  POW  47 (48/47)  K  80  BABIP  83  GAP  57  SPE 108
+  Connie Day             R EYE  77 (80/77)  POW  40 (43/39)  K 144  BABIP  64  GAP  81  SPE  70
+  Creepy Crespi          R EYE  99 (84/107)  POW  45 (68/34)  K  73  BABIP  83  GAP  67  SPE  56
+  Vince DiMaggio         R EYE  64 (61/65)  POW  83 (78/85)  K  58  BABIP  63  GAP  62  SPE  70
+  Cando Lopez            R EYE  68 (68/68)  POW  53 (54/53)  K 101  BABIP  57  GAP  73  SPE  51
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Big Jeff Pfeffer 98, Lefty Grove 77, Harry Coveleski 82, Fred Goldsmith 93 (era floor 80) — just under: Lefty Grove
+  ✓ stamina guys in the pen (45+): Herb Thormahlen 77, Bullet Campbell 75, Elden Auker 77, Ice Box Chamberlain 81, Ossie Orwoll 56
+  ✓ C  backup: Ted Easterly 62
+  ✓ 1B backup: vs RHP Scoops Carey 61 · vs LHP Stan Hack 77, Nap Lajoie 96
+  ✓ 2B backup: vs RHP Creepy Crespi 108, Connie Day 124 · vs LHP Nap Lajoie 114, Connie Day 124
+  ✓ 3B backup: Kid Elberfeld 85, Connie Day 110
+  ✓ SS backup: Connie Day 108
+  ✓ LF backup: Walt French 78, Greasy Neale 80
+  ✓ CF backup: vs RHP Cando Lopez 93 · vs LHP Vince DiMaggio 100
+  ✓ RF backup: Greasy Neale 75
+(23 of 26 have a live ask in the last shop snapshot)
+objective: -105.3 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 11 bats) 538 · rotation 225 · bullpen 273 · bench-only 289

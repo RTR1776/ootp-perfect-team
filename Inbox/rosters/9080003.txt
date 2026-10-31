@@ -1,0 +1,154 @@
+
+=== PTCS 8 Championship - Silver ===
+1919 RE @ 1903 Hilltop Park · DH off · value —–79 · cap none · 26 players
+R/G 4.33  AVG 0.270  OBP 0.328  SLG 0.363  K% 7.3  HR/PA 0.71%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.118 runs · steal break-even 77.0% (0 out) / 73.2% (1 out)
+park: all-LHB lineup 4.28 R/G vs all-RHB 4.36 — 0.07 R/G swing toward RIGHT-handed bats
+two-way: 108 cards also in the other role — Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Frank Foreman as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Jack Taylor as bat, Pop Corkhill as arm, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Blondie Purcell as arm, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Garland Buckeye as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Rip Sewell as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Isidro Fabre as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
+
+pool: 769 eligible owned cards — 486 bats (154L / 42S / 290R), 283 arms
+!! no exports on record for series PTCS 8 Championship — shape and handedness fall back to the era table
+shape: 17 bats / 4 SP / 5 RP (pre-1930 (L.J. 10-07)) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 638 of 769 pool cards have innings on record (median 506 PA/BF); K = 1000000
+gloves ×1.21: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1919 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×2.41, SP 1.50, RP 0.62 (--no-team-weights to turn off)
+
++10 rating, runs/700 PA — LHB: BABIP +2.2  Eye +1.2  Power +1.2  Gap +1.1  Avoid Ks +0.9
+                          RHB: BABIP +2.3  Eye +1.2  Power +1.2  Gap +1.1  Avoid Ks +0.9
+                         arms: pBABIP +1.3  Control +0.8  Stuff +0.5  pHR +0.4
+seed: 9080003-seed.txt as is (26 cards)
+seed: scores 88.8 before the climb
+
+optimiser: 10 starts (λ + seed) hill-climbed; best 94.1 runs vs 71.2 greedy (+22.9), 29 moves from λ 3.00 (the seed's climb: 94.1)
+dual: from Big Jeff Pfeffer in both roles: Luther Farrell in both, 93.7 runs
+dual: from Bill Ricks in both roles: Luther Farrell in both, 93.7 runs
+dual: from Grover Cleveland Alexander in both roles: Luther Farrell in both, 93.7 runs
+dual: from Cool Papa Bell in both roles: Luther Farrell in both, 93.7 runs
+dual: no two-way card in both roles beats 94.1 runs (best Luther Farrell 93.7)
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Bill Killefer               64  R  1919    -1.7  park:R DEF  91/ 91 +3.2  #87346
+R:1B    Charlie Grimm (VAR)         66  L  1931   +13.7  park:L DEF  75/ 75 -0.5  #87377
+R:2B    Nap Lajoie                  50  R  1905    -2.2  park:R DEF 114/114 +0.4  #86581
+R:3B    Honus Wagner                68  R  1913    -9.2  park:R DEF 108/108 +6.5  #86712
+R:SS    Jack Glasscock              76  R  1890    +5.2  park:R DEF 102/102 -2.6  #87352
+R:LF    Tom Brown                   66  L  1891   +16.6  park:L DEF  68/ 68 -6.5  #86767
+R:CF    Pop Corkhill                71  L  1887    -5.0  park:L DEF 133/147 +4.6  #86582
+R:RF    Willie Keeler               77  L  1894   +10.3  park:L DEF  86/ 86 -3.1  #85878
+
+--- lineup vs LHP ---
+L:C     Bill Killefer               64  R  1919    +0.0  park:R DEF  91/ 91 +3.2  #87346
+L:1B    Charlie Grimm (VAR)         66  L  1931    +2.7  park:L DEF  75/ 75 -0.5  #87377
+L:2B    Jesse Williams              79  R  1945   -10.3  park:R DEF 121/121 +3.8  #84871
+L:3B    Joe Dugan (VAR)             65  R  1920   +22.5  park:R DEF  63/ 70 -10.8  #86765
+L:SS    Jack Glasscock              76  R  1890   +10.5  park:R DEF 102/102 -2.6  #87352
+L:LF    Ed Morgan (VAR)             66  R  1929   +19.5  park:R DEF  61/ 61 -8.2  #85943
+L:CF    Tillie Walker               78  R  1914    +7.9  park:R DEF  97/117 -3.7  #86597
+L:RF    Tetelo Vargas               63  R  1943   +11.1  park:R DEF  84/ 91 -3.7  #87269
+
+--- batting order vs RHP --- (3.64 runs/game; The Book's order 3.64)
+  1. Bill Killefer C
+  2. Tom Brown LF
+  3. Jack Glasscock SS
+  4. Charlie Grimm (VAR) 1B
+  5. Willie Keeler RF
+  6. Honus Wagner 3B
+  7. Nap Lajoie 2B
+  8. Pop Corkhill CF
+  9. Pitcher
+
+--- batting order vs LHP --- (3.80 runs/game; The Book's order 3.79)
+  1. Tetelo Vargas RF
+  2. Tillie Walker CF
+  3. Ed Morgan (VAR) LF
+  4. Joe Dugan (VAR) 3B
+  5. Jack Glasscock SS
+  6. Charlie Grimm (VAR) 1B
+  7. Bill Killefer C
+  8. Jesse Williams 2B
+  9. Pitcher
+
+--- rotation ---
+SP1     Jeff Pfeffer                74  R  1914    +9.2   SP STM 102  #87350
+SP2     Bill Duggleby               65  R  1901    +6.8   SP STM 105  #87335
+SP3     Bill Ricks                  79  R  1944    +0.9   SP STM  86  #87162
+SP4     Luther Farrell              66  L  1928    +0.5   SP STM  92  #86899
+
+--- bullpen ---
+CL      Jack Pfiester               78  R  1906    +6.8   SP STM 103  #87351
+RP1     Sherry Smith                62  R  1916    +5.4   SP STM 118  #87030
+RP2     Kid Madden                  70  L  1888    +4.8   SP STM 101  #87348
+RP3     Hubert Lockhart             75  L  1923    +3.9   SP STM  86  #87082
+RP4     Nick Altrock                76  S  1906    +2.8   SP STM  90  #87049
+
+--- bench ---
+BN1     Con Daily (VAR)             71  L  1891    +1.2  park:L  #86590
+BN2     Paul Waner                  61  L  1943   +14.7  park:L  #86999
+BN3     Jack Tobin                  61  L  1920   +14.1  park:L  #86772
+BN4     Ed Morgan (VAR)             66  R  1929   +13.2  park:R  #85943
+BN5     Tetelo Vargas               63  R  1943    +7.3  park:R  #87269
+BN6     Tillie Walker               78  R  1914    -1.8  park:R  #86597
+BN7     Joe Dugan (VAR)             65  R  1920    +8.6  park:R  #86765
+BN8     Halley Harding              71  S  1926   +19.0  park:L  #86979
+BN9     Jesse Williams              79  R  1945   -12.9  park:R  #84871
+
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Bill Killefer              U1 Con Daily (VAR) 82           U2 -                           
+  1B  Charlie Grimm (VAR)        U1 Con Daily (VAR) 83           U2 -                           
+  2B  Nap Lajoie                 U1 Jesse Williams 121           U2 -                            def sub Jesse Williams (+3.4)
+  3B  Honus Wagner               U1 Joe Dugan (VAR) 63           U2 Jesse Williams 109          
+  SS  Jack Glasscock             U1 Jesse Williams 106           U2 -                           
+  LF  Tom Brown                  U1 Jack Tobin 77                U2 Paul Waner 60                def sub Tillie Walker (+11.6)
+  CF  Pop Corkhill               U1 Tillie Walker 97             U2 -                           
+  RF  Willie Keeler              U1 Tetelo Vargas 84             U2 -                           
+  pinch hitters: Halley Harding, Paul Waner, Jack Tobin, Ed Morgan (VAR) · pinch runners: Halley Harding (SPE 108), Tillie Walker (SPE 78), Ed Morgan (VAR) (SPE 69)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Bill Killefer              U1 Con Daily (VAR) 82           U2 -                           
+  1B  Charlie Grimm (VAR)        U1 Honus Wagner 86              U2 Con Daily (VAR) 83           def sub Nap Lajoie (+6.3)
+  2B  Jesse Williams             U1 Nap Lajoie 114               U2 -                           
+  3B  Joe Dugan (VAR)            U1 Honus Wagner 108             U2 -                            def sub Honus Wagner (+17.3)
+  SS  Jack Glasscock             U1 Honus Wagner 99              U2 -                           
+  LF  Ed Morgan (VAR)            U1 Tom Brown 68                 U2 Pop Corkhill 147             def sub Pop Corkhill (+20.4)
+  CF  Tillie Walker              U1 Pop Corkhill 133             U2 -                            def sub Pop Corkhill (+8.4)
+  RF  Tetelo Vargas              U1 Willie Keeler 86             U2 Pop Corkhill 145             def sub Pop Corkhill (+15.9)
+  pinch hitters: Halley Harding, Tom Brown, Willie Keeler, Honus Wagner · pinch runners: Halley Harding (SPE 108), Tom Brown (SPE 97), Willie Keeler (SPE 83)
+
+26 players · value 1798 · λ 3.000 · 4 variants
+vs RHP lineup: 4 of 8 bat from the left side (the platoon edge); this park favours right-handed bats
+
+--- order inputs (rostered bats) ---
+  Halley Harding         S EYE 114 (104/118)  POW  21 (20/22)  K 125  BABIP 162  GAP  68  SPE 108
+  Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
+  Paul Waner             L EYE 159 (146/163)  POW  27 (1/33)  K 193  BABIP 122  GAP  93  SPE  22
+  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Charlie Grimm          L EYE  98 (91/100)  POW  42 (1/53)  K 142  BABIP 146  GAP 103  SPE  37
+  Ed Morgan              R EYE 132 (127/134)  POW  42 (55/37)  K  96  BABIP 143  GAP 131  SPE  69
+  Willie Keeler          L EYE  41 (31/45)  POW  53 (43/57)  K 205  BABIP 139  GAP  84  SPE  83
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Tetelo Vargas          R EYE  95 (97/95)  POW   5 (10/4)  K 103  BABIP 150  GAP  92  SPE  67
+  Jack Glasscock         R EYE  68 (71/68)  POW  38 (41/38)  K 220  BABIP 121  GAP  88  SPE  71
+  Con Daily              L EYE  63 (49/67)  POW   1 (1/1)  K 119  BABIP 126  GAP 111  SPE  48
+  Bill Killefer          R EYE  74 (80/72)  POW  12 (13/12)  K 224  BABIP 113  GAP  73  SPE  44
+  Tillie Walker          R EYE  97 (158/84)  POW  81 (84/80)  K  62  BABIP 117  GAP 119  SPE  78
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Pop Corkhill           L EYE  41 (32/45)  POW  75 (66/78)  K 220  BABIP  93  GAP  75  SPE  74
+  Honus Wagner           R EYE  81 (51/89)  POW  69 (113/46)  K 109  BABIP  97  GAP  90  SPE  71
+  Jesse Williams         R EYE  79 (77/80)  POW  38 (41/37)  K  99  BABIP  93  GAP 100  SPE  67
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Jeff Pfeffer 102, Bill Duggleby 105, Bill Ricks 86, Luther Farrell 92 (era floor 80)
+  ✓ stamina guys in the pen (45+): Jack Pfiester 103, Sherry Smith 118, Kid Madden 101, Hubert Lockhart 86, Nick Altrock 90
+  ✓ C  backup: Con Daily 82
+  ✓ 1B backup: vs RHP Con Daily 83 · vs LHP Nap Lajoie 96, Honus Wagner 86, Pop Corkhill 66, Con Daily 83
+  ✓ 2B backup: vs RHP Jesse Williams 121 · vs LHP Nap Lajoie 114
+  ✓ 3B backup: vs RHP Jesse Williams 109, Joe Dugan 63 · vs LHP Honus Wagner 108
+  ✓ SS backup: vs RHP Jesse Williams 106 · vs LHP Honus Wagner 99
+  ✓ LF backup: vs RHP Jesse Williams 88, Tillie Walker 117, Tetelo Vargas 91, Ed Morgan 61, Paul Waner 60, Jack Tobin 77 · vs LHP Pop Corkhill 147, Tom Brown 68, Paul Waner 60, Jack Tobin 77
+  ✓ CF backup: vs RHP Tillie Walker 97 · vs LHP Pop Corkhill 133
+  ✓ RF backup: vs RHP Tetelo Vargas 84 · vs LHP Pop Corkhill 145, Willie Keeler 86
+(19 of 26 have a live ask in the last shop snapshot)
+objective: 94.0 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 13 bats) 889 · rotation 284 · bullpen 361 · bench-only 264

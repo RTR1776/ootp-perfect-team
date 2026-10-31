@@ -1,0 +1,154 @@
+
+=== PTCS 8 Championship - Bronze ===
+1919 RE @ 1903 South Side Park · DH off · value —–69 · cap none · 26 players
+R/G 3.60  AVG 0.251  OBP 0.311  SLG 0.328  K% 7.3  HR/PA 0.45%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.160 runs · steal break-even 75.2% (0 out) / 71.0% (1 out)
+park: all-LHB lineup 3.60 R/G vs all-RHB 3.60 — 0.00 R/G swing toward RIGHT-handed bats
+two-way: 68 cards also in the other role — Donald Reeves as arm, Cool Papa Bell as bat, Garland Buckeye as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Rip Sewell as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Isidro Fabre as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
+
+pool: 554 eligible owned cards — 349 bats (107L / 29S / 213R), 205 arms
+!! no exports on record for series PTCS 8 Championship — shape and handedness fall back to the era table
+shape: 17 bats / 4 SP / 5 RP (pre-1930 (L.J. 10-07)) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 472 of 554 pool cards have innings on record (median 593 PA/BF); K = 1000000
+gloves ×1.21: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1919 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×2.41, SP 1.50, RP 0.62 (--no-team-weights to turn off)
+
++10 rating, runs/700 PA — LHB: BABIP +1.9  Eye +1.1  Gap +1.0  Avoid Ks +0.8  Power +0.7
+                          RHB: BABIP +1.9  Eye +1.1  Gap +1.0  Avoid Ks +0.8  Power +0.7
+                         arms: pBABIP +1.1  Control +0.8  Stuff +0.4  pHR +0.3
+seed: 9080002-seed.txt as is (26 cards)
+seed: scores 36.6 before the climb
+
+optimiser: 10 starts (λ + seed) hill-climbed; best 38.4 runs vs -2.2 greedy (+40.6), 31 moves from λ 1.00 (the seed's climb: 38.4)
+dual: from Big Jeff Pfeffer in both roles: Luther Farrell in both, 38.3 runs
+dual: from Luther Farrell in both roles: Luther Farrell in both, 38.3 runs
+dual: from Cool Papa Bell in both roles: Luther Farrell in both, 38.3 runs
+dual: from Lefty Grove in both roles: Luther Farrell in both, 38.3 runs
+dual: no two-way card in both roles beats 38.4 runs (best Luther Farrell 38.3)
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Bill Killefer               64  R  1919    -2.9  park:R DEF  91/ 91 +3.2  #87346
+R:1B    Charlie Grimm (VAR)         66  L  1931   +13.3  park:L DEF  75/ 75 -0.5  #87377
+R:2B    Nap Lajoie                  50  R  1905    -3.3  park:R DEF 114/114 +0.4  #86581
+R:3B    Joe Dugan (VAR)             65  R  1920    +7.4  park:R DEF  63/ 70 -10.8  #86765
+R:SS    Sam Bankhead                49  R  1943   -19.0  park:R DEF 120/120 +7.2  #87160
+R:LF    Tom Brown                   66  L  1891   +16.1  park:L DEF  68/ 68 -6.5  #86767
+R:CF    Billy Southworth (VAR)      68  L  1926    -1.1  park:L DEF 100/115 -3.0  #86379
+R:RF    Tetelo Vargas               63  R  1943    +5.6  park:R DEF  84/ 91 -3.7  #87269
+
+--- lineup vs LHP ---
+L:C     Bill Killefer               64  R  1919    -1.3  park:R DEF  91/ 91 +3.2  #87346
+L:1B    Charlie Grimm (VAR)         66  L  1931    +1.5  park:L DEF  75/ 75 -0.5  #87377
+L:2B    Creepy Crespi               51  R  1941   -11.5  park:R DEF 108/108 -2.5  #87311
+L:3B    Joe Dugan (VAR)             65  R  1920   +21.4  park:R DEF  63/ 70 -10.8  #86765
+L:SS    Sam Bankhead                49  R  1943   -17.7  park:R DEF 120/120 +7.2  #87160
+L:LF    Ed Morgan (VAR)             66  R  1929   +17.4  park:R DEF  61/ 61 -8.2  #85943
+L:CF    Billy Southworth (VAR)      68  L  1926   -22.1  park:L DEF 100/115 -3.0  #86379
+L:RF    Tetelo Vargas               63  R  1943    +9.4  park:R DEF  84/ 91 -3.7  #87269
+
+--- batting order vs RHP --- (3.09 runs/game; The Book's order 3.09)
+  1. Tetelo Vargas RF
+  2. Tom Brown LF
+  3. Bill Killefer C
+  4. Charlie Grimm (VAR) 1B
+  5. Joe Dugan (VAR) 3B
+  6. Billy Southworth (VAR) CF
+  7. Nap Lajoie 2B
+  8. Sam Bankhead SS
+  9. Pitcher
+
+--- batting order vs LHP --- (3.07 runs/game; The Book's order 3.07)
+  1. Tetelo Vargas RF
+  2. Ed Morgan (VAR) LF
+  3. Charlie Grimm (VAR) 1B
+  4. Joe Dugan (VAR) 3B
+  5. Bill Killefer C
+  6. Creepy Crespi 2B
+  7. Sam Bankhead SS
+  8. Billy Southworth (VAR) CF
+  9. Pitcher
+
+--- rotation ---
+SP1     Bill Duggleby               65  R  1901    +6.9   SP STM 105  #87335
+SP2     Big Jeff Pfeffer            59  R  1906    +2.5   SP STM  98  #87340
+SP3     Luther Farrell              66  L  1928    +1.7   SP STM  92  #86899
+SP4     Red Lucas                   68  L  1927    +0.2   SP STM  93  #86781
+
+--- bullpen ---
+CL      Sherry Smith                62  R  1916    +5.1   SP STM 118  #87030
+RP1     Fritz Ostermueller          64  L  1944    +3.8   SP STM  98  #86357
+RP2     Christy Mathewson           65  R  1914    +2.5   SP STM 102  #86706
+RP3     Cool Papa Bell              68  R  1923    +1.0   SP STM  86  #86981
+RP4     Lefty Grove                 48  L  1940    +0.8   SP STM  77  #87168
+
+--- bench ---
+BN1     Maurice Archdeacon          45  L  1924    -8.7  park:L  #85665
+BN2     Honus Wagner                68  R  1913   -10.5  park:R  #86712
+BN3     Paul Waner                  61  L  1943   +14.3  park:L  #86999
+BN4     Ted Easterly                58  L  1910   -10.6  park:L  #84686
+BN5     Jack Tobin                  61  L  1920   +13.6  park:L  #86772
+BN6     Creepy Crespi               51  R  1941   -25.6  park:R  #87311
+BN7     Ed Morgan (VAR)             66  R  1929   +11.0  park:R  #85943
+BN8     Otto Briggs                 62  L  1925    +5.4  park:L  #87228
+BN9     Vince DiMaggio              46  R  1937   -32.0  park:R  #84352
+
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Bill Killefer              U1 Ted Easterly 62              U2 -                           
+  1B  Charlie Grimm (VAR)        U1 Honus Wagner 86              U2 -                            def sub Honus Wagner (+3.3)
+  2B  Nap Lajoie                 U1 Creepy Crespi 108            U2 -                           
+  3B  Joe Dugan (VAR)            U1 Honus Wagner 108             U2 -                            def sub Honus Wagner (+17.3)
+  SS  Sam Bankhead               U1 Honus Wagner 99              U2 -                           
+  LF  Tom Brown                  U1 Jack Tobin 77                U2 Paul Waner 60                def sub Maurice Archdeacon (+4)
+  CF  Billy Southworth (VAR)     U1 Vince DiMaggio 100           U2 -                           
+  RF  Tetelo Vargas              U1 Maurice Archdeacon 81        U2 -                           
+  pinch hitters: Paul Waner, Jack Tobin, Ed Morgan (VAR), Otto Briggs · pinch runners: Maurice Archdeacon (SPE 112), Honus Wagner (SPE 71), Otto Briggs (SPE 70)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Bill Killefer              U1 Ted Easterly 62              U2 -                           
+  1B  Charlie Grimm (VAR)        U1 Honus Wagner 86              U2 Nap Lajoie 96                def sub Nap Lajoie (+6.3)
+  2B  Creepy Crespi              U1 Nap Lajoie 114               U2 -                           
+  3B  Joe Dugan (VAR)            U1 Honus Wagner 108             U2 -                            def sub Honus Wagner (+17.3)
+  SS  Sam Bankhead               U1 Honus Wagner 99              U2 -                           
+  LF  Ed Morgan (VAR)            U1 Tom Brown 68                 U2 Maurice Archdeacon 85        def sub Maurice Archdeacon (+5.7)
+  CF  Billy Southworth (VAR)     U1 Vince DiMaggio 100           U2 -                           
+  RF  Tetelo Vargas              U1 Maurice Archdeacon 81        U2 -                           
+  pinch hitters: Tom Brown, Otto Briggs, Maurice Archdeacon, Honus Wagner · pinch runners: Maurice Archdeacon (SPE 112), Tom Brown (SPE 97), Nap Lajoie (SPE 81)
+
+26 players · value 1574 · λ 1.000 · 4 variants
+vs RHP lineup: 3 of 8 bat from the left side (the platoon edge); this park favours right-handed bats
+
+--- order inputs (rostered bats) ---
+  Tom Brown              L EYE  98 (88/102)  POW  64 (58/66)  K  67  BABIP 154  GAP 127  SPE  97
+  Paul Waner             L EYE 159 (146/163)  POW  27 (1/33)  K 193  BABIP 122  GAP  93  SPE  22
+  Jack Tobin             L EYE  82 (48/90)  POW  37 (31/40)  K 160  BABIP 140  GAP  88  SPE  69
+  Charlie Grimm          L EYE  98 (91/100)  POW  42 (1/53)  K 142  BABIP 146  GAP 103  SPE  37
+  Ed Morgan              R EYE 132 (127/134)  POW  42 (55/37)  K  96  BABIP 143  GAP 131  SPE  69
+  Joe Dugan              R EYE  70 (102/47)  POW  70 (81/66)  K  88  BABIP 149  GAP 171  SPE  61
+  Tetelo Vargas          R EYE  95 (97/95)  POW   5 (10/4)  K 103  BABIP 150  GAP  92  SPE  67
+  Otto Briggs            L EYE 165 (162/166)  POW  16 (15/17)  K 140  BABIP 117  GAP  70  SPE  70
+  Billy Southworth       L EYE  55 (7/67)  POW 104 (88/110)  K 217  BABIP  82  GAP  91  SPE  69
+  Bill Killefer          R EYE  74 (80/72)  POW  12 (13/12)  K 224  BABIP 113  GAP  73  SPE  44
+  Nap Lajoie             R EYE  44 (56/40)  POW  57 (69/50)  K 149  BABIP 103  GAP  88  SPE  81
+  Maurice Archdeacon     L EYE 113 (115/113)  POW   1 (1/1)  K  45  BABIP 126  GAP  63  SPE 112
+  Honus Wagner           R EYE  81 (51/89)  POW  69 (113/46)  K 109  BABIP  97  GAP  90  SPE  71
+  Ted Easterly           L EYE  58 (54/60)  POW   1 (1/1)  K  97  BABIP  97  GAP  87  SPE  67
+  Sam Bankhead           R EYE  87 (90/86)  POW  47 (48/47)  K  80  BABIP  83  GAP  57  SPE 108
+  Creepy Crespi          R EYE  99 (84/107)  POW  45 (68/34)  K  73  BABIP  83  GAP  67  SPE  56
+  Vince DiMaggio         R EYE  64 (61/65)  POW  83 (78/85)  K  58  BABIP  63  GAP  62  SPE  70
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Bill Duggleby 105, Big Jeff Pfeffer 98, Luther Farrell 92, Red Lucas 93 (era floor 80)
+  ✓ stamina guys in the pen (45+): Sherry Smith 118, Fritz Ostermueller 98, Christy Mathewson 102, Cool Papa Bell 86, Lefty Grove 77
+  ✓ C  backup: Ted Easterly 62
+  ✓ 1B backup: vs RHP Honus Wagner 86 · vs LHP Nap Lajoie 96, Honus Wagner 86
+  ✓ 2B backup: vs RHP Creepy Crespi 108 · vs LHP Nap Lajoie 114
+  ✓ 3B backup: Honus Wagner 108
+  ✓ SS backup: Honus Wagner 99
+  ✓ LF backup: vs RHP Ed Morgan 61, Maurice Archdeacon 85, Paul Waner 60, Jack Tobin 77 · vs LHP Tom Brown 68, Maurice Archdeacon 85, Paul Waner 60, Jack Tobin 77
+  ✓ CF backup: Vince DiMaggio 100
+  ✓ RF backup: Maurice Archdeacon 81
+(21 of 26 have a live ask in the last shop snapshot)
+objective: 37.9 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 10 bats) 608 · rotation 258 · bullpen 307 · bench-only 401

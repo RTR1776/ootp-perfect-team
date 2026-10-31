@@ -1,39 +1,104 @@
 [
   {
-    "id": 516,
-    "name": "Daily Late Iron",
+    "id": 9080001,
+    "name": "PTCS 8 Championship - Iron",
     "status": "built",
-    "objective": -75.4,
-    "file": "lateiron-claude-2026-10-31-lateiron.txt",
+    "objective": -105.3,
+    "file": "ptcs8championship-9080001-claude-2026-11-01-armfix-b1.txt",
     "notes": [
-      "PT default RE",
-      "value window read off the name (name: Iron)",
-      "shape 5 SP / 7 RP / 14 bats (the series' exports)"
+      "shape 4 SP / 5 RP / 17 bats (era table, pre-1930 (L.J. 10-07))"
     ],
     "args": [
       "--year",
-      "2010",
+      "1919",
       "--park",
-      "Chase Field",
+      "Agricultural County Fair Ground",
       "--park-year",
-      "2026",
-      "--dh",
-      "--min",
-      "40",
+      "1880",
       "--max",
       "59",
+      "--card-year-max",
+      "1945",
       "--size",
       "26",
       "--series",
-      "lateiron",
+      "PTCS 8 Championship",
       "--name",
-      "Daily Late Iron",
+      "PTCS 8 Championship - Iron",
       "--sp",
-      "5",
+      "4",
       "--rp",
-      "7",
+      "5",
       "--bats",
-      "14"
+      "17"
+    ]
+  },
+  {
+    "id": 9080002,
+    "name": "PTCS 8 Championship - Bronze",
+    "status": "built",
+    "objective": 37.9,
+    "file": "ptcs8championship-9080002-claude-2026-11-01-armfix-b1.txt",
+    "notes": [
+      "shape 4 SP / 5 RP / 17 bats (era table, pre-1930 (L.J. 10-07))"
+    ],
+    "args": [
+      "--year",
+      "1919",
+      "--park",
+      "South Side Park",
+      "--park-year",
+      "1903",
+      "--max",
+      "69",
+      "--card-year-max",
+      "1945",
+      "--size",
+      "26",
+      "--series",
+      "PTCS 8 Championship",
+      "--name",
+      "PTCS 8 Championship - Bronze",
+      "--sp",
+      "4",
+      "--rp",
+      "5",
+      "--bats",
+      "17"
+    ]
+  },
+  {
+    "id": 9080003,
+    "name": "PTCS 8 Championship - Silver",
+    "status": "built",
+    "objective": 94,
+    "file": "ptcs8championship-9080003-claude-2026-11-01-armfix-b1.txt",
+    "notes": [
+      "shape 4 SP / 5 RP / 17 bats (era table, pre-1930 (L.J. 10-07))"
+    ],
+    "args": [
+      "--year",
+      "1919",
+      "--park",
+      "Hilltop Park",
+      "--park-year",
+      "1903",
+      "--max",
+      "79",
+      "--card-year-max",
+      "1945",
+      "--size",
+      "26",
+      "--series",
+      "PTCS 8 Championship",
+      "--name",
+      "PTCS 8 Championship - Silver",
+      "--sp",
+      "4",
+      "--rp",
+      "5",
+      "--bats",
+      "17"
     ]
   }
 ]
