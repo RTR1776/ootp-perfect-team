@@ -4,146 +4,154 @@
 R/G 4.19  AVG 0.255  OBP 0.323  SLG 0.348  K% 7.6  HR/PA 1.13%  preset Small Ball
 sac bunt (1st & 2nd, 0 out) +0.118 runs · steal break-even 76.8% (0 out) / 73.2% (1 out)
 park: all-LHB lineup 3.69 R/G vs all-RHB 4.48 — 0.79 R/G swing toward RIGHT-handed bats
-two-way: 112 cards also in the other role — Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Bubba Chandler as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Anthony Nunez as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Cole Carrigg as arm, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Masyn Winn as arm, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Carlos Perez as arm, Don Robinson as bat, Julio Rojo as arm, Tom Vickery as bat, Carson Williams as arm, Matt Carlisle as arm, Pretzels Getzien as bat, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Blaze Alexander as arm, Rip Sewell as bat, Kyson Witherspoon as bat, Ben Casparius as bat, Jake Cronenworth as arm, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Kaelen Culpepper as arm, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Matt Davidson as arm, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Joshua Baez as arm, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Isidro Fabre as bat, Zach Agnos as bat, Jack Brannigan as arm, Judy Gans as arm, Enrique Hernandez as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Mitch Farris as bat, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Luke Williams as arm, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
+two-way: 107 cards also in the other role — Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Garland Buckeye as bat, Bubba Chandler as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Anthony Nunez as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Cole Carrigg as arm, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Masyn Winn as arm, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Carlos Perez as arm, Don Robinson as bat, Julio Rojo as arm, Tom Vickery as bat, Carson Williams as arm, Matt Carlisle as arm, Pretzels Getzien as bat, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Blaze Alexander as arm, Rip Sewell as bat, Kyson Witherspoon as bat, Ben Casparius as bat, Jake Cronenworth as arm, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Kody Funderburk as bat, Dane Myers as arm, Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Matt Davidson as arm, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Isidro Fabre as bat, Zach Agnos as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
 
-pool: 2472 eligible owned cards — 1333 bats (423L / 160S / 750R), 1139 arms
-staff weights from earlybronze's exports: SP 1.82, RP 0.33 (a lineup slot = 1)
-field (earlybronze, 3 exports): 34% of batters faced thrown left-handed · 48% of PA by left-handed bats · 14.6 bats / 5.2 SP / 4.1 RP per team
-shape: 16 bats / 5 SP / 5 RP (1930s–50s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 2122 of 2472 pool cards have innings on record (median 308 PA/BF); K = 1000000
+pool: 2274 eligible owned cards — 1251 bats (387L / 156S / 708R), 1023 arms
+staff weights from earlybronze's exports: SP 1.84, RP 0.32 (a lineup slot = 1)
+field (earlybronze, 4 exports): 35% of batters faced thrown left-handed · 48% of PA by left-handed bats · 14.6 bats / 5.2 SP / 4 RP per team
+shape: 17 bats / 4 SP / 5 RP (1930s–50s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 2047 of 2274 pool cards have innings on record (median 387 PA/BF); K = 1000000
+field's average card here (670 cards played in earlybronze, weighted by PA/BF): bat -13.9 vs RHP / -16.3 vs LHP, arm -2.0 — "fld" on each row is runs over that
 gloves ×1.16: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (1942 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×2.33, SP 2.73, RP 0.66 (--no-team-weights to turn off)
-staff innings split over the arms carried: the field runs 4.6 SP / 4.8 RP → per SP ×0.92 (5 carried), per RP ×0.96 (5 carried)
+team weights (1942 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×2.33, SP 2.76, RP 0.64 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.6 SP / 4.7 RP → per SP ×1.15 (4 carried), per RP ×0.94 (5 carried)
 
 +10 rating, runs/700 PA — LHB: BABIP +1.7  Power +1.6  Eye +1.3  Gap +0.9  Avoid Ks +0.8
                           RHB: BABIP +2.1  Power +2.0  Eye +1.5  Avoid Ks +0.9  Gap +0.9
                          arms: pBABIP +1.2  Control +1.0  pHR +0.6  Stuff +0.4
 seed: 525-seed.txt as is (26 cards)
+seed: scores 103.6 before the climb
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 61.6 runs vs 33.7 greedy (+27.9), 10 moves from λ 0.00 (the seed's climb: 61.6)
+optimiser: 10 starts (λ + seed) hill-climbed; best 112.1 runs vs 87.6 greedy (+24.5), 13 moves from λ 0.00 (the seed's climb: 112.1)
+dual: from Big Jeff Pfeffer in both roles: Big Jeff Pfeffer in both, 111.1 runs
+dual: from Cool Papa Bell in both roles: Big Jeff Pfeffer in both, 111.1 runs
+dual: from Red Lucas in both roles: Big Jeff Pfeffer in both, 111.1 runs
+dual: from Eddie Dixon in both roles: Big Jeff Pfeffer in both, 111.1 runs
+dual: no two-way card in both roles beats 112.1 runs (best Big Jeff Pfeffer 111.1)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ernie Whitt                 68  L  1985   -11.3  park:L DEF  94/ 94 +0.8  #86941
-R:1B    Shawn Green                 59  L  2004    -9.5  park:L DEF  96/ 96 +5.6  #87028
-R:2B    Mark Grudzielanek           65  R  2005   -11.0  park:R DEF 139/139 +12.0  #87000
-R:3B    Hank Blalock                68  L  2003    -6.5  park:L DEF 105/108 +5.2  #86433
-R:SS    Jefferson Rojas             66  R  2026   -11.0  park:R DEF 110/128 +1.7  #84751
-R:LF    Eric Byrnes                 67  R  2007    +0.5  park:R DEF 134/134 +8.8  #87195
-R:CF    Deion Sanders               69  L  1992    -1.7  park:L DEF 120/131 +1.6  #86962
-R:RF    Aaron Rowand                69  R  2004    +0.3  park:R DEF 134/134 +9.0  #87196
+R:C     Ernie Whitt                 68  L  1985   -11.4 fld  +2.5  park:L DEF  94/ 94 +0.8  #86941
+R:1B    Ben Zobrist                 69  S  2016    -5.3 fld  +8.6  park:L DEF  93/ 93 +4.7  #87245
+R:2B    Mark Grudzielanek           65  R  2005   -11.0 fld  +2.8  park:R DEF 139/139 +12.0  #87000
+R:3B    Hank Blalock                68  L  2003    -6.5 fld  +7.4  park:L DEF 105/108 +5.2  #86433
+R:SS    Ernie Clement               64  R  2025    -7.6 fld  +6.2  park:R DEF 109/130 +1.2  #87244
+R:LF    Eric Byrnes                 67  R  2007    +0.3 fld +14.1  park:R DEF 134/134 +8.8  #87195
+R:CF    Deion Sanders               69  L  1992    -1.8 fld +12.0  park:L DEF 120/131 +1.6  #86962
+R:RF    Aaron Rowand                69  R  2004    +0.1 fld +14.0  park:R DEF 134/134 +9.0  #87196
 
 --- lineup vs LHP ---
-L:C     Gabby Hartnett              66  R  1936    -2.4  park:R DEF  88/ 88 -3.0  #86254
-L:1B    Steve Pearce                69  R  2016    +8.3  park:R DEF  68/ 68 -2.5  #86366
-L:2B    Brandon Phillips            64  R  2007   +19.9  park:R DEF 130/130 +7.8  #87202
-L:3B    Chris Sabo                  66  R  1990   +29.2  park:R DEF  77/ 77 -5.2  #87059
-L:SS    Jefferson Rojas             66  R  2026    -6.0  park:R DEF 110/128 +1.7  #84751
-L:LF    Eric Byrnes                 67  R  2007    +5.6  park:R DEF 134/134 +8.8  #87195
-L:CF    Deion Sanders               69  L  1992    +3.0  park:L DEF 120/131 +1.6  #86962
-L:RF    Aaron Rowand                69  R  2004    +7.6  park:R DEF 134/134 +9.0  #87196
+L:C     Gabby Hartnett              66  R  1936    -2.4 fld +13.9  park:R DEF  88/ 88 -3.0  #86254
+L:1B    Steve Pearce                69  R  2016    +8.2 fld +24.6  park:R DEF  68/ 68 -2.5  #86366
+L:2B    Brandon Phillips            64  R  2007   +19.8 fld +36.2  park:R DEF 130/130 +7.8  #87202
+L:3B    Chris Sabo                  66  R  1990   +29.1 fld +45.4  park:R DEF  77/ 77 -5.2  #87059
+L:SS    Ernie Clement               64  R  2025    +8.1 fld +24.4  park:R DEF 109/130 +1.2  #87244
+L:LF    Eric Byrnes                 67  R  2007    +5.5 fld +21.8  park:R DEF 134/134 +8.8  #87195
+L:CF    Aaron Rowand                69  R  2004    +7.3 fld +23.6  park:R DEF 122/134 +2.0  #87196
+L:RF    Shane Victorino             69  S  2013    +1.6 fld +18.0  park:R DEF 153/153 +13.8  #87235
 
---- batting order vs RHP --- (3.22 runs/game; The Book's order 3.22)
-  1. Eric Byrnes LF
-  2. Ernie Whitt C
-  3. Jefferson Rojas SS
-  4. Aaron Rowand RF
+--- batting order vs RHP --- (3.28 runs/game; The Book's order 3.28)
+  1. Ben Zobrist 1B
+  2. Eric Byrnes LF
+  3. Aaron Rowand RF
+  4. Ernie Clement SS
   5. Mark Grudzielanek 2B
   6. Deion Sanders CF
-  7. Shawn Green 1B
+  7. Ernie Whitt C
   8. Hank Blalock 3B
   9. Pitcher
 
---- batting order vs LHP --- (3.66 runs/game; The Book's order 3.66)
+--- batting order vs LHP --- (3.76 runs/game; The Book's order 3.76)
   1. Steve Pearce 1B
   2. Eric Byrnes LF
   3. Chris Sabo 3B
-  4. Aaron Rowand RF
-  5. Brandon Phillips 2B
-  6. Gabby Hartnett C
-  7. Jefferson Rojas SS
-  8. Deion Sanders CF
+  4. Aaron Rowand CF
+  5. Ernie Clement SS
+  6. Shane Victorino RF
+  7. Gabby Hartnett C
+  8. Brandon Phillips 2B
   9. Pitcher
 
 --- rotation ---
-SP1     Sherry Smith                62  R  1916    +4.8   SP STM 118  #87030
-SP2     Fritz Ostermueller          64  L  1944    +3.8   SP STM  98  #86357
-SP3     Christy Mathewson           65  R  1914    +2.9   SP STM 102  #86706
-SP4     Bruce Hurst                 64  L  1990    +2.8   SP STM  86  #86361
-SP5     Cool Papa Bell              68  R  1923    +1.1   SP STM  86  #86981
+SP1     Mickey Lolich               69  S  1968    +7.3 fld  +9.3   SP STM 117  #87279
+SP2     Bill Duggleby               65  R  1901    +6.7 fld  +8.7   SP STM 105  #87335
+SP3     Sherry Smith                62  R  1916    +4.7 fld  +6.7   SP STM 118  #87030
+SP4     Fritz Ostermueller          64  L  1944    +3.8 fld  +5.8   SP STM  98  #86357
 
 --- bullpen ---
-CL      Red Lucas                   68  L  1927    +0.6   SP STM  93  #86781
-RP1     Jose Lima                   69  R  1999    +0.3   SP STM  93  #84852
-RP2     Eddie Plank                 66  L  1916    +0.2   SP STM  81  #86886
-RP3     Bill Lee                    65  L  1975    +0.0   SP STM  80  #87019
-RP4     Eddie Dixon                 66  R  1938    -0.0   RP STM  65  #87157
+CL      Christy Mathewson           65  R  1914    +2.9 fld  +4.9   SP STM 102  #86706
+RP1     Bruce Hurst                 64  L  1990    +2.9 fld  +4.9   SP STM  86  #86361
+RP2     Big Jeff Pfeffer            59  R  1906    +1.8 fld  +3.8   SP STM  98  #87340
+RP3     Cool Papa Bell              68  R  1923    +1.0 fld  +3.0   SP STM  86  #86981
+RP4     Livan Hernandez             68  R  1997    +0.9 fld  +2.9   SP STM  87  #87261
 
 --- bench ---
-BN1     Joc Pederson                68  L  2016    -0.0  park:L  #87143
-BN2     Billy Southworth            68  L  1926    -6.1  park:L  #86379
-BN3     Gabby Hartnett              66  R  1936   -19.0  park:R  #86254
-BN4     Bo Jackson                  65  R  1994    +0.1  park:R  #84710
-BN5     Brandon Phillips            64  R  2007   -10.0  park:R  #87202
-BN6     Chris Sabo                  66  R  1990    -1.6  park:R  #87059
-BN7     Dave Brain                  68  R  1907    -6.1  park:R  #85934
-BN8     Steve Pearce                69  R  2016    -7.6  park:R  #86366
+BN1     Joc Pederson                68  L  2016    +0.0 fld +13.9  park:L  #87143
+BN2     Chris Sabo                  66  R  1990    -1.7 fld +12.2  park:R  #87059
+BN3     Bo Jackson                  65  R  1994    -0.0 fld +13.8  park:R  #84710
+BN4     Chris Taylor                59  R  2018    -6.0 fld  +7.9  park:R  #87243
+BN5     Jonny Gomes                 58  R  2005    +0.0 fld +13.9  park:R  #87258
+BN6     Brandon Phillips            64  R  2007   -10.0 fld  +3.8  park:R  #87202
+BN7     Shane Victorino             69  S  2013   -11.6 fld  +2.2  park:L  #87235
+BN8     Gabby Hartnett              66  R  1936   -19.1 fld  -5.2  park:R  #86254
+BN9     Steve Pearce                69  R  2016    -7.7 fld  +6.2  park:R  #86366
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ernie Whitt                U1 Gabby Hartnett 88            U2 -                           
-  1B  Shawn Green                U1 Steve Pearce 68              U2 -                           
-  2B  Mark Grudzielanek          U1 Brandon Phillips 130         U2 -                           
-  3B  Hank Blalock               U1 Dave Brain 92                U2 Chris Sabo 77               
-  SS  Jefferson Rojas            U1 Dave Brain 86                U2 -                           
-  LF  Eric Byrnes                U1 Joc Pederson 98              U2 Billy Southworth 107        
-  CF  Deion Sanders              U1 Billy Southworth 93          U2 -                           
-  RF  Aaron Rowand               U1 Billy Southworth 93          U2 -                           
-  pinch hitters: Bo Jackson, Joc Pederson, Chris Sabo, Billy Southworth · pinch runners: Brandon Phillips (SPE 92), Chris Sabo (SPE 74), Dave Brain (SPE 70)
+  1B  Ben Zobrist                U1 Steve Pearce 68              U2 -                           
+  2B  Mark Grudzielanek          U1 Brandon Phillips 130         U2 Chris Taylor 112            
+  3B  Hank Blalock               U1 Chris Taylor 97              U2 Chris Sabo 77               
+  SS  Ernie Clement              U1 Chris Taylor 96              U2 -                           
+  LF  Eric Byrnes                U1 Shane Victorino 151          U2 Joc Pederson 98              def sub Shane Victorino (+3.9)
+  CF  Deion Sanders              U1 Shane Victorino 140          U2 Chris Taylor 94              def sub Shane Victorino (+4.5)
+  RF  Aaron Rowand               U1 Shane Victorino 153          U2 Jonny Gomes 78               def sub Shane Victorino (+4.8)
+  pinch hitters: Jonny Gomes, Joc Pederson, Bo Jackson, Chris Sabo · pinch runners: Brandon Phillips (SPE 92), Shane Victorino (SPE 92), Chris Taylor (SPE 87)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Gabby Hartnett             U1 Ernie Whitt 94               U2 -                            def sub Ernie Whitt (+3.8)
-  1B  Steve Pearce               U1 Shawn Green 96               U2 -                            def sub Shawn Green (+8.1)
-  2B  Brandon Phillips           U1 Mark Grudzielanek 139        U2 Hank Blalock 108             def sub Mark Grudzielanek (+4.2)
-  3B  Chris Sabo                 U1 Dave Brain 92                U2 Hank Blalock 105             def sub Hank Blalock (+10.4)
-  SS  Jefferson Rojas            U1 Dave Brain 86                U2 -                           
-  LF  Eric Byrnes                U1 Billy Southworth 107         U2 Joc Pederson 98             
-  CF  Deion Sanders              U1 Billy Southworth 93          U2 -                           
-  RF  Aaron Rowand               U1 Billy Southworth 93          U2 -                           
-  pinch hitters: Bo Jackson, Mark Grudzielanek, Dave Brain, Billy Southworth · pinch runners: Dave Brain (SPE 70), Mark Grudzielanek (SPE 69), Billy Southworth (SPE 69)
+  1B  Steve Pearce               U1 Ben Zobrist 93               U2 -                            def sub Ben Zobrist (+7.3)
+  2B  Brandon Phillips           U1 Mark Grudzielanek 139        U2 Chris Taylor 112             def sub Mark Grudzielanek (+4.2)
+  3B  Chris Sabo                 U1 Chris Taylor 97              U2 Hank Blalock 105             def sub Hank Blalock (+10.4)
+  SS  Ernie Clement              U1 Chris Taylor 96              U2 -                           
+  LF  Eric Byrnes                U1 Deion Sanders 131            U2 Chris Taylor 111            
+  CF  Aaron Rowand               U1 Deion Sanders 120            U2 Chris Taylor 94             
+  RF  Shane Victorino            U1 Deion Sanders 122            U2 Jonny Gomes 78              
+  pinch hitters: Bo Jackson, Deion Sanders, Jonny Gomes, Mark Grudzielanek · pinch runners: Deion Sanders (SPE 119), Chris Taylor (SPE 87), Jonny Gomes (SPE 70)
 
-26 players · value 1722 · λ 0.000 · 0 variants
-vs RHP lineup gets the friendly park side in 4 of 8 spots
+26 players · value 1707 · λ 0.000 · 0 variants
+vs RHP lineup: 4 of 8 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
   Eric Byrnes            R EYE  94 (117/88)  POW  90 (131/80)  K 100  BABIP 101  GAP  83  SPE 114
   Aaron Rowand           R EYE  60 (87/41)  POW 103 (114/100)  K  76  BABIP 135  GAP 131  SPE  62
-  Bo Jackson             R EYE  94 (104/91)  POW 132 (128/133)  K  44  BABIP 122  GAP  42  SPE  20
+  Jonny Gomes            R EYE 111 (122/108)  POW 128 (122/130)  K  27  BABIP 100  GAP  73  SPE  70
   Joc Pederson           L EYE 148 (159/144)  POW 106 (34/132)  K  42  BABIP  96  GAP  85  SPE  32
+  Bo Jackson             R EYE  94 (104/91)  POW 132 (128/133)  K  44  BABIP 122  GAP  42  SPE  20
   Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
   Deion Sanders          L EYE  63 (40/67)  POW  85 (112/77)  K  75  BABIP 149  GAP 113  SPE 119
-  Billy Southworth       L EYE  51 (5/61)  POW  96 (81/102)  K 201  BABIP  76  GAP  84  SPE  69
-  Dave Brain             R EYE  53 (57/52)  POW 121 (120/121)  K  83  BABIP  80  GAP  99  SPE  70
+  Ben Zobrist            S EYE 167 (139/176)  POW  75 (60/81)  K 125  BABIP  90  GAP 111  SPE  64
+  Chris Taylor           R EYE  99 (140/91)  POW  73 (84/69)  K  60  BABIP 115  GAP 122  SPE  87
   Hank Blalock           L EYE  67 (43/73)  POW  97 (40/117)  K  77  BABIP  93  GAP  88  SPE  26
+  Ernie Clement          R EYE  45 (43/46)  POW  48 (64/41)  K 167  BABIP 141  GAP 125  SPE  92
   Steve Pearce           R EYE 136 (155/130)  POW  97 (132/90)  K  97  BABIP  84  GAP  69  SPE  46
-  Shawn Green            L EYE  97 (88/101)  POW 122 (104/128)  K  75  BABIP  70  GAP  69  SPE  38
   Brandon Phillips       R EYE  47 (58/44)  POW 110 (160/96)  K  95  BABIP  94  GAP  76  SPE  92
   Mark Grudzielanek      R EYE  55 (87/33)  POW  63 (55/65)  K  89  BABIP 141  GAP  91  SPE  69
-  Jefferson Rojas        R EYE  69 (72/68)  POW  82 (88/81)  K 123  BABIP  82  GAP 120  SPE  84
   Ernie Whitt            L EYE 118 (142/111)  POW 107 (69/125)  K  93  BABIP  60  GAP  86  SPE  41
+  Shane Victorino        S EYE  69 (72/69)  POW  81 (86/79)  K 106  BABIP 111  GAP  79  SPE  92
   Gabby Hartnett         R EYE  64 (80/59)  POW  87 (128/77)  K  81  BABIP  96  GAP  75  SPE  28
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 5 RP / 16 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (91 teams): 4.6 SP / 5.4 RP / 15.1 bats
-  ✓ starters' stamina Sherry Smith 118, Fritz Ostermueller 98, Christy Mathewson 102, Bruce Hurst 86, Cool Papa Bell 86 (era floor 70)
-  ✓ stamina guys in the pen (45+): Red Lucas 93, Jose Lima 93, Eddie Plank 81, Bill Lee 80, Eddie Dixon 65
+  ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (120 teams): 4.6 SP / 5.4 RP / 15.1 bats
+  ✓ starters' stamina Mickey Lolich 117, Bill Duggleby 105, Sherry Smith 118, Fritz Ostermueller 98 (era floor 70)
+  ✓ stamina guys in the pen (45+): Christy Mathewson 102, Bruce Hurst 86, Big Jeff Pfeffer 98, Cool Papa Bell 86, Livan Hernandez 87
   ✓ C  backup: vs RHP Gabby Hartnett 88 · vs LHP Ernie Whitt 94
-  ✓ 1B backup: vs RHP Steve Pearce 68 · vs LHP Shawn Green 96
-  ✓ 2B backup: vs RHP Brandon Phillips 130 · vs LHP Mark Grudzielanek 139, Hank Blalock 108
-  ✓ 3B backup: vs RHP Chris Sabo 77, Dave Brain 92 · vs LHP Hank Blalock 105, Dave Brain 92
-  ✓ SS backup: Dave Brain 86
-  ✓ LF backup: vs RHP Steve Pearce 62, Joc Pederson 98, Billy Southworth 107 · vs LHP Joc Pederson 98, Billy Southworth 107
-  ✓ CF backup: Billy Southworth 93
-  ✓ RF backup: Billy Southworth 93
-(23 of 26 have a live ask in the last shop snapshot)
-objective: 61.6 weighted runs (bats 66/34 R/L, SP 2.73, RP 0.66, bench 0.1)
-points: lineup(both boards, 12 bats) 796 · rotation 323 · bullpen 334 · bench-only 269
+  ✓ 1B backup: vs RHP Steve Pearce 68 · vs LHP Ben Zobrist 93
+  ✓ 2B backup: vs RHP Brandon Phillips 130, Chris Taylor 112 · vs LHP Mark Grudzielanek 139, Hank Blalock 108, Chris Taylor 112
+  ✓ 3B backup: vs RHP Chris Sabo 77, Chris Taylor 97 · vs LHP Hank Blalock 105, Chris Taylor 97
+  ✓ SS backup: Chris Taylor 96
+  ✓ LF backup: vs RHP Steve Pearce 62, Shane Victorino 151, Joc Pederson 98, Chris Taylor 111, Jonny Gomes 66 · vs LHP Ben Zobrist 73, Deion Sanders 131, Joc Pederson 98, Chris Taylor 111, Jonny Gomes 66
+  ✓ CF backup: vs RHP Shane Victorino 140, Chris Taylor 94 · vs LHP Deion Sanders 120, Chris Taylor 94
+  ✓ RF backup: vs RHP Shane Victorino 153, Jonny Gomes 78 · vs LHP Deion Sanders 122, Jonny Gomes 78
+(24 of 26 have a live ask in the last shop snapshot)
+objective: 112.1 weighted runs (bats 65/35 R/L, SP 2.7600000000000002, RP 0.64, bench 0.1)
+points: lineup(both boards, 13 bats) 873 · rotation 260 · bullpen 324 · bench-only 250
