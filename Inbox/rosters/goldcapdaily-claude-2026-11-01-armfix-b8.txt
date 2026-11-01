@@ -1,0 +1,36 @@
+# Daily Gold Cap — Claude pick 2026-11-01-armfix-b8, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Jacobs Field --park-year 1999 --dh --min 40 --max 89 --cap 1780 --size 26 --series goldcapdaily --sp 5 --rp 7 --bats 14)
+R:C Pythias Russ (VAR) #87083
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Sebastian Walcott #85136
+R:SS Jeremy Pena #87154
+R:LF Eric Davis (VAR) #86974
+R:CF Darin Erstad #87242
+R:RF Bo Jackson #86966
+R:DH Carlos Pena #87183
+L:C Pythias Russ (VAR) #87083
+L:1B Carlos Pena #87183
+L:2B Brandon Phillips #87202
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Jeremy Pena #87154
+L:LF Darin Erstad #87242
+L:CF Sebastian Walcott #85136
+L:RF Bo Jackson #86966
+L:DH Eric Davis (VAR) #86974
+SP1 Count Leblanc (VAR) #86978
+SP2 Nick Altrock #87049
+SP3 CC Sabathia #87182
+SP4 Fritz Ostermueller #86357
+SP5 James McDonald (VAR) #86384
+CL Johnny Markham (VAR) #87159
+RP1 Gene Krapp #87374
+RP2 Big Jeff Pfeffer #87340
+RP3 John Bale #87234
+RP4 Randy Choate #87026
+RP5 Bob Gibson (VAR) #86658
+RP6 R.T. Walker #86952
+BN1 Rickey Henderson (VAR) #85362
+BN2 Tsung-Che Cheng (VAR) #84612
+BN3 Brandon Phillips #87202
+BN4 Buck Rodgers (VAR) #84312
+BN5 Alfredo Amezaga #87188

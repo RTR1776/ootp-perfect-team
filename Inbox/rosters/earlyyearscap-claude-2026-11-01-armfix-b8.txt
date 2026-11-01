@@ -1,0 +1,36 @@
+# Daily Early Years Cap — Claude pick 2026-11-01-armfix-b8, rebuilt from the catalogue's rules by current-rosters (--year 1888 --park Expostition Park III --park-year 1890 --min 40 --max 105 --card-year-min 1800 --card-year-max 1939 --cap 1500 --size 26 --series earlyyearscap --sp 4 --rp 5 --bats 17)
+R:C Bill Killefer #87346
+R:1B Ed Rile #87165
+R:2B Nap Lajoie #86581
+R:3B Pop Lloyd #86896
+R:SS Luke Appling #82759
+R:LF Ed Delahanty #87371
+R:CF Roy Thomas #86784
+R:RF Maurice Archdeacon #85665
+L:C Bill Killefer #87346
+L:1B Ed Rile #87165
+L:2B Pop Lloyd #86896
+L:3B Ray Dandridge #87264
+L:SS Luke Appling #82759
+L:LF Ed Delahanty #87371
+L:CF Roy Thomas #86784
+L:RF Maurice Archdeacon #85665
+SP1 Christy Mathewson #86697
+SP2 Ed Rile #87165
+SP3 Jeff Pfeffer #87350
+SP4 Big Jeff Pfeffer #87340
+CL Tin Can Kincannon #86073
+RP1 Bob Barr #82968
+RP2 George Hunter #84295
+RP3 Jim Hughey #82778
+RP4 Roy Wilkinson #82779
+BN1 Ray Dandridge #87264
+BN2 Count Sensenderfer #87322
+BN3 Charlie Eden #82834
+BN4 Greasy Neale #87142
+BN5 George Pinkney #83410
+BN6 John Leary #84297
+BN7 Tom O'Brien #82886
+BN8 Chick Fulmer #82837
+BN9 Red Killefer #87339
+BN10 Bruno Block #82830

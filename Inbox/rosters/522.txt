@@ -4,143 +4,149 @@ PT default (2010) RE @ 2017 Marlins Park · DH on · value 40–79 · cap none �
 R/G 4.04  AVG 0.233  OBP 0.307  SLG 0.376  K% 22.6  HR/PA 2.70%  preset Balanced
 sac bunt (1st & 2nd, 0 out) +0.001 runs · steal break-even 79.7% (0 out) / 76.5% (1 out)
 park: all-LHB lineup 4.06 R/G vs all-RHB 4.03 — 0.03 R/G swing toward LEFT-handed bats
-two-way: 171 cards also in the other role — Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Travis Sykora as bat, Justin Turner as arm, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Cocaina Garcia as arm, Blake Mitchell as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Matt Wallner as arm, Frank Foreman as bat, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Johnny Davis as arm, Gid Gardner as arm, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat, Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Bubba Chandler as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Anthony Nunez as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Cole Carrigg as arm, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Masyn Winn as arm, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Carlos Perez as arm, Don Robinson as bat, Julio Rojo as arm, Tom Vickery as bat, Carson Williams as arm, Matt Carlisle as arm, Pretzels Getzien as bat, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Blaze Alexander as arm, Rip Sewell as bat, Kyson Witherspoon as bat, Ben Casparius as bat, Jake Cronenworth as arm, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Kaelen Culpepper as arm, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Matt Davidson as arm, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Joshua Baez as arm, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Isidro Fabre as bat, Zach Agnos as bat, Jack Brannigan as arm, Judy Gans as arm, Enrique Hernandez as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Mitch Farris as bat, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Luke Williams as arm, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
+two-way: 165 cards also in the other role — Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Travis Sykora as bat, Justin Turner as arm, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Cocaina Garcia as arm, Blake Mitchell as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Frank Foreman as bat, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Johnny Davis as arm, Gid Gardner as arm, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat, Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Garland Buckeye as bat, Bubba Chandler as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Anthony Nunez as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Cole Carrigg as arm, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Masyn Winn as arm, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Carlos Perez as arm, Don Robinson as bat, Julio Rojo as arm, Tom Vickery as bat, Carson Williams as arm, Matt Carlisle as arm, Pretzels Getzien as bat, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Blaze Alexander as arm, Rip Sewell as bat, Kyson Witherspoon as bat, Ben Casparius as bat, Jake Cronenworth as arm, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Kody Funderburk as bat, Dane Myers as arm, Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Matt Davidson as arm, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Isidro Fabre as bat, Zach Agnos as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
 
-pool: 3225 eligible owned cards — 1771 bats (574L / 216S / 981R), 1454 arms
+pool: 3009 eligible owned cards — 1682 bats (532L / 213S / 937R), 1327 arms
 !! no exports on record for series earlysilver — shape and handedness fall back to the era table
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 2761 of 3225 pool cards have innings on record (median 387 PA/BF); K = 1000000
+observed play: 2684 of 3009 pool cards have innings on record (median 451 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.50, RP 0.62 (--no-team-weights to turn off)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.50, RP 0.62 (--no-team-weights to turn off)
 
 +10 rating, runs/700 PA — LHB: Power +4.7  Avoid Ks +3.0  BABIP +1.6  Eye +1.1  Gap +0.8
                           RHB: Power +4.4  Avoid Ks +3.0  BABIP +1.6  Eye +1.1  Gap +0.8
                          arms: pHR +1.5  Stuff +1.5  pBABIP +0.9  Control +0.8
 seed: 522-seed.txt as is (26 cards)
+seed: scores 218.3 before the climb
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 208.3 runs vs 174.3 greedy (+34.0), 10 moves from λ 0.00 (the seed's climb: 208.3)
+optimiser: 10 starts (λ + seed) hill-climbed; best 220.1 runs vs 186.9 greedy (+33.2), 32 moves from λ 1.00 (the seed's climb: 220.1)
+dual: from Bill Ricks in both roles: Bill Ricks in both, 218.9 runs
+dual: from Travis Sykora in both roles: Travis Sykora in both, 218.4 runs
+dual: from Big Jeff Pfeffer in both roles: Big Jeff Pfeffer in both, 218.5 runs
+dual: from Dan Bankhead in both roles: Bill Ricks in both, 218.9 runs
+dual: no two-way card in both roles beats 220.1 runs (best Bill Ricks 218.9)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Bob Boone                   73  R  1986    -8.0  park:R DEF 137/137 +17.8  #87032
-R:1B    Matt Carpenter              74  L  2015   +10.9  park:L DEF 102/102 +5.1  #86771
-R:2B    Placido Polanco             77  R  2007    +7.8  park:R DEF 141/141 +9.0  #87213
-R:3B    Aiva Arquette (VAR)         71  R  2026    +5.9  park:R DEF 113/113 +5.7  #84768
-R:SS    Jeremy Pena                 79  R  2022   +10.0  park:R DEF 116/116 +3.4  #87154
-R:LF    Willie McGee (VAR)          79  S  1985    +7.7  park:L DEF 131/131 +5.7  #85753
-R:CF    Steve Finley                79  L  1999    +8.3  park:L DEF 122/122 +1.4  #85400
-R:RF    Andy Van Slyke              77  L  1988   +11.9  park:L DEF 125/125 +4.7  #86936
-R:DH    Carlos Delgado              78  L  2005   +11.5  park:L  #86998
+R:C     Bob Boone                   73  R  1986    -8.2  park:R DEF 137/137 +17.8  #87032
+R:1B    Matt Carpenter              74  L  2015   +11.0  park:L DEF 102/102 +5.1  #86771
+R:2B    Placido Polanco             77  R  2007    +7.7  park:R DEF 141/141 +9.0  #87213
+R:3B    Aiva Arquette (VAR)         71  R  2026    +5.7  park:R DEF 113/113 +5.7  #84768
+R:SS    Jeremy Pena                 79  R  2022    +9.6  park:R DEF 116/116 +3.4  #87154
+R:LF    Willie McGee (VAR)          79  S  1985    +7.6  park:L DEF 131/131 +5.7  #85753
+R:CF    Marquis Grissom             73  R  1996    +3.8  park:R DEF 122/122 +1.4  #87237
+R:RF    Andy Van Slyke              77  L  1988   +11.8  park:L DEF 125/125 +4.7  #86936
+R:DH    Lee Thomas (VAR)            77  L  1962   +10.5  park:L  #86145
 
 --- lineup vs LHP ---
-L:C     Bob Boone                   73  R  1986    -6.7  park:R DEF 137/137 +17.8  #87032
-L:1B    Allen Craig                 74  R  2011   +10.1  park:R DEF  91/ 91 +2.9  #87139
-L:2B    Placido Polanco             77  R  2007    +3.8  park:R DEF 141/141 +9.0  #87213
-L:3B    Chris Sabo                  66  R  1990   +28.1  park:R DEF  77/ 77 -3.6  #87059
-L:SS    Jeremy Pena                 79  R  2022   +17.0  park:R DEF 116/116 +3.4  #87154
-L:LF    Willie McGee (VAR)          79  S  1985   +11.1  park:R DEF 131/131 +5.7  #85753
-L:CF    Steve Finley                79  L  1999    -1.1  park:L DEF 122/122 +1.4  #85400
-L:RF    Brian Jordan                74  R  1996    +7.3  park:R DEF 139/146 +7.2  #86965
-L:DH    Ryan Braun                  74  R  2007   +37.7  park:R  #87222
+L:C     Mike Zunino                 75  R  2021    +6.6  park:R DEF  77/ 77 +13.6  #86431
+L:1B    Ernie Clement               64  R  2025   +13.1  park:R DEF  96/130 +3.9  #87244
+L:2B    Placido Polanco             77  R  2007    +3.7  park:R DEF 141/141 +9.0  #87213
+L:3B    Chris Sabo                  66  R  1990   +28.0  park:R DEF  77/ 77 -3.6  #87059
+L:SS    Jeremy Pena                 79  R  2022   +16.6  park:R DEF 116/116 +3.4  #87154
+L:LF    Willie McGee (VAR)          79  S  1985   +11.0  park:R DEF 131/131 +5.7  #85753
+L:CF    Marquis Grissom             73  R  1996   +13.5  park:R DEF 122/122 +1.4  #87237
+L:RF    Alex Rios                   76  R  2007   +17.7  park:R DEF 113/113 +2.6  #87214
+L:DH    Ryan Braun                  74  R  2007   +37.6  park:R  #87222
 
---- batting order vs RHP --- (4.17 runs/game; The Book's order 4.17)
+--- batting order vs RHP --- (4.13 runs/game; The Book's order 4.13)
   1. Matt Carpenter 1B
-  2. Carlos Delgado DH
+  2. Lee Thomas (VAR) DH
   3. Andy Van Slyke RF
-  4. Steve Finley CF
+  4. Aiva Arquette (VAR) 3B
   5. Placido Polanco 2B
-  6. Aiva Arquette (VAR) 3B
-  7. Willie McGee (VAR) LF
-  8. Jeremy Pena SS
+  6. Willie McGee (VAR) LF
+  7. Jeremy Pena SS
+  8. Marquis Grissom CF
   9. Bob Boone C
 
---- batting order vs LHP --- (4.40 runs/game; The Book's order 4.40)
+--- batting order vs LHP --- (4.52 runs/game; The Book's order 4.52)
   1. Ryan Braun DH
-  2. Chris Sabo 3B
+  2. Alex Rios RF
   3. Jeremy Pena SS
-  4. Allen Craig 1B
-  5. Placido Polanco 2B
-  6. Steve Finley CF
-  7. Willie McGee (VAR) LF
-  8. Brian Jordan RF
-  9. Bob Boone C
+  4. Chris Sabo 3B
+  5. Ernie Clement 1B
+  6. Placido Polanco 2B
+  7. Marquis Grissom CF
+  8. Willie McGee (VAR) LF
+  9. Mike Zunino C
 
 --- rotation ---
-SP1     Nick Altrock                76  S  1906   +10.9   SP STM  90  #87049
-SP2     Kelvim Escobar              78  S  2007    +9.0   SP STM  76  #87207
-SP3     Bill Ricks                  79  R  1944    +7.3   SP STM  86  #87162
-SP4     Jacob deGrom                79  L  2014    +7.2   SP STM  73  #86675
-SP5     Jordan Montgomery           77  L  2023    +6.8   SP STM  87  #86354
+SP1     Nick Altrock                76  S  1906   +11.1   SP STM  90  #87049
+SP2     Kelvim Escobar              78  S  2007    +9.5   SP STM  76  #87207
+SP3     Jacob deGrom                79  L  2014    +7.6   SP STM  73  #86675
+SP4     Bill Ricks                  79  R  1944    +7.4   SP STM  86  #87162
+SP5     Jordan Montgomery           77  L  2023    +7.0   SP STM  87  #86354
 
 --- bullpen ---
-CL      Fritz Ostermueller          64  L  1944    +6.6   SP STM  98  #86357
-RP1     Bob Walk                    73  R  1988    +4.9   SP STM  82  #86971
-RP2     James McDonald (VAR)        55  L  2010    +3.9   SP STM  59  #86384
-RP3     Jakie May (VAR)             72  R  1927    +3.9   SP STM  69  #85286
-RP4     Bruce Ruffin                71  S  1993    +3.8   RP STM  51  #86777
-RP5     Jack Wenninger              79  L  2026    +3.7   RP STM  48  #85125
-RP6     Dean Stone                  77  L  1954    +3.1   SP STM  81  #86164
+CL      Fritz Ostermueller          64  L  1944    +6.7   SP STM  98  #86357
+RP1     Orlando Hernandez           78  R  1999    +6.6   SP STM  76  #87239
+RP2     Jeff Pfeffer                74  R  1914    +5.2   SP STM 102  #87350
+RP3     Gene Krapp                  62  R  1911    +5.1   SP STM 102  #87374
+RP4     Bob Walk                    73  R  1988    +4.8   SP STM  82  #86971
+RP5     Jack Wenninger              79  L  2026    +4.2   RP STM  48  #85125
+RP6     Gene Conley                 77  R  1959    +4.2   SP STM  95  #87276
 
 --- bench ---
-BN1     Chris Sabo                  66  R  1990    +1.4  park:R  #87059
-BN2     Brian Jordan                74  R  1996    +2.4  park:R  #86965
-BN3     Ryan Braun                  74  R  2007    -1.7  park:R  #87222
-BN4     Judy Johnson                79  R  1923   -18.9  park:R  #84517
-BN5     Allen Craig                 74  R  2011    -2.1  park:R  #87139
+BN1     Ernie Clement               64  R  2025    -2.3  park:R  #87244
+BN2     Ryan Braun                  74  R  2007    -1.7  park:R  #87222
+BN3     Chris Sabo                  66  R  1990    +1.3  park:R  #87059
+BN4     Alex Rios                   76  R  2007    -3.0  park:R  #87214
+BN5     Mike Zunino                 75  R  2021   -26.9  park:R  #86431
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Bob Boone                  U1 Judy Johnson 61              U2 -                           
-  1B  Matt Carpenter             U1 Allen Craig 91               U2 Judy Johnson 84             
-  2B  Placido Polanco            U1 Judy Johnson 108             U2 -                           
-  3B  Aiva Arquette (VAR)        U1 Chris Sabo 77                U2 Allen Craig 62              
-  SS  Jeremy Pena                U1 Judy Johnson 96              U2 -                           
-  LF  Willie McGee (VAR)         U1 Brian Jordan 146             U2 Allen Craig 73              
-  CF  Steve Finley               U1 Brian Jordan 133             U2 -                           
-  RF  Andy Van Slyke             U1 Brian Jordan 139             U2 -                           
-  pinch hitters: Brian Jordan, Chris Sabo, Ryan Braun, Allen Craig · pinch runners: Brian Jordan (SPE 108), Ryan Braun (SPE 80), Chris Sabo (SPE 74)
+  C   Bob Boone                  U1 Mike Zunino 77               U2 -                           
+  1B  Matt Carpenter             U1 Lee Thomas (VAR) 91          U2 Ernie Clement 96            
+  2B  Placido Polanco            U1 Ernie Clement 130            U2 -                           
+  3B  Aiva Arquette (VAR)        U1 Ernie Clement 104            U2 Chris Sabo 77               
+  SS  Jeremy Pena                U1 Ernie Clement 109            U2 -                           
+  LF  Willie McGee (VAR)         U1 Lee Thomas (VAR) 93          U2 -                           
+  CF  Marquis Grissom            U1 Alex Rios 96                 U2 -                           
+  RF  Andy Van Slyke             U1 Lee Thomas (VAR) 86          U2 Alex Rios 113               
+  pinch hitters: Chris Sabo, Ryan Braun, Ernie Clement, Alex Rios · pinch runners: Ernie Clement (SPE 92), Ryan Braun (SPE 80), Chris Sabo (SPE 74)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Bob Boone                  U1 Judy Johnson 61              U2 -                           
-  1B  Allen Craig                U1 Matt Carpenter 102           U2 Judy Johnson 84             
-  2B  Placido Polanco            U1 Aiva Arquette (VAR) 112      U2 Judy Johnson 108            
+  C   Mike Zunino                U1 Bob Boone 137                U2 -                            def sub Bob Boone (+4.2)
+  1B  Ernie Clement              U1 Matt Carpenter 102           U2 Lee Thomas (VAR) 91         
+  2B  Placido Polanco            U1 Aiva Arquette (VAR) 112      U2 -                           
   3B  Chris Sabo                 U1 Aiva Arquette (VAR) 113      U2 Matt Carpenter 74            def sub Aiva Arquette (VAR) (+9.3)
-  SS  Jeremy Pena                U1 Aiva Arquette (VAR) 100      U2 Judy Johnson 96             
-  LF  Willie McGee (VAR)         U1 Judy Johnson 64              U2 -                           
-  CF  Steve Finley               U1 Andy Van Slyke 99            U2 -                           
-  RF  Brian Jordan               U1 Andy Van Slyke 125           U2 -                           
-  pinch hitters: Aiva Arquette (VAR), Matt Carpenter, Carlos Delgado, Judy Johnson · pinch runners: Andy Van Slyke (SPE 95), Aiva Arquette (VAR) (SPE 78), Judy Johnson (SPE 64)
+  SS  Jeremy Pena                U1 Aiva Arquette (VAR) 100      U2 -                           
+  LF  Willie McGee (VAR)         U1 Lee Thomas (VAR) 93          U2 -                           
+  CF  Marquis Grissom            U1 Andy Van Slyke 99            U2 -                           
+  RF  Alex Rios                  U1 Lee Thomas (VAR) 86          U2 Andy Van Slyke 125          
+  pinch hitters: Aiva Arquette (VAR), Matt Carpenter, Bob Boone, Lee Thomas (VAR) · pinch runners: Andy Van Slyke (SPE 95), Aiva Arquette (VAR) (SPE 78), Matt Carpenter (SPE 54)
 
-26 players · value 1934 · λ 0.000 · 4 variants
-vs RHP lineup gets the friendly park side in 5 of 9 spots
+26 players · value 1931 · λ 1.000 · 3 variants
+vs RHP lineup: 4 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
   Andy Van Slyke         L EYE 106 (77/120)  POW 108 (44/133)  K  64  BABIP 106  GAP  98  SPE  95
-  Carlos Delgado         L EYE 140 (69/169)  POW 136 (120/141)  K  68  BABIP 111  GAP 109  SPE  16
   Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
+  Lee Thomas             L EYE  89 (63/97)  POW 119 (83/136)  K 106  BABIP  92  GAP  73  SPE  42
   Jeremy Pena            R EYE  59 (65/56)  POW 130 (134/128)  K  81  BABIP 136  GAP  80  SPE 111
-  Steve Finley           L EYE  74 (61/79)  POW 129 (117/133)  K 107  BABIP  67  GAP 106  SPE 108
   Placido Polanco        R EYE  69 (43/75)  POW  62 (72/58)  K 220  BABIP 144  GAP  95  SPE  67
   Willie McGee           S EYE  53 (47/56)  POW  75 (100/66)  K 113  BABIP 152  GAP 126  SPE 117
   Aiva Arquette          R EYE  78 (98/70)  POW 118 (104/124)  K  95  BABIP 103  GAP 117  SPE  78
-  Brian Jordan           R EYE  60 (84/44)  POW  95 (84/99)  K  88  BABIP 128  GAP 117  SPE 108
+  Marquis Grissom        R EYE  44 (28/50)  POW  91 (122/84)  K 121  BABIP 134  GAP  89  SPE  96
   Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
   Ryan Braun             R EYE  82 (147/63)  POW 158 (200/144)  K  62  BABIP 106  GAP  93  SPE  80
-  Allen Craig            R EYE  82 (66/87)  POW 129 (154/121)  K  76  BABIP  96  GAP  89  SPE  60
+  Ernie Clement          R EYE  45 (43/46)  POW  48 (64/41)  K 167  BABIP 141  GAP 125  SPE  92
+  Alex Rios              R EYE  81 (121/69)  POW 103 (110/101)  K  92  BABIP 112  GAP 106  SPE  69
   Bob Boone              R EYE  94 (109/90)  POW  61 (58/62)  K 165  BABIP 103  GAP  66  SPE  33
-  Judy Johnson           R EYE  66 (67/66)  POW  71 (77/69)  K  96  BABIP  70  GAP  90  SPE  64
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
-  ✓ starters' stamina Nick Altrock 90, Kelvim Escobar 76, Bill Ricks 86, Jacob deGrom 73, Jordan Montgomery 87 (era floor 50)
-  ✓ stamina guys in the pen (45+): Fritz Ostermueller 98, Bob Walk 82, James McDonald 59, Jakie May 69, Bruce Ruffin 51, Jack Wenninger 48, Dean Stone 81
-  ✓ C  backup: Judy Johnson 61
-  ✓ 1B backup: vs RHP Allen Craig 91, Judy Johnson 84 · vs LHP Matt Carpenter 102, Judy Johnson 84
-  ✓ 2B backup: vs RHP Judy Johnson 108 · vs LHP Aiva Arquette 112, Judy Johnson 108
-  ✓ 3B backup: vs RHP Allen Craig 62, Chris Sabo 77, Judy Johnson 105 · vs LHP Matt Carpenter 74, Aiva Arquette 113, Judy Johnson 105
-  ✓ SS backup: vs RHP Judy Johnson 96 · vs LHP Aiva Arquette 100, Judy Johnson 96
-  ✓ LF backup: vs RHP Allen Craig 73, Brian Jordan 146, Judy Johnson 64 · vs LHP Judy Johnson 64
-  ✓ CF backup: vs RHP Brian Jordan 133 · vs LHP Andy Van Slyke 99
-  ✓ RF backup: vs RHP Brian Jordan 139 · vs LHP Andy Van Slyke 125
-(20 of 26 have a live ask in the last shop snapshot)
-objective: 208.3 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
-points: lineup(both boards, 13 bats) 975 · rotation 389 · bullpen 491 · bench-only 79
+  ✓ starters' stamina Nick Altrock 90, Kelvim Escobar 76, Jacob deGrom 73, Bill Ricks 86, Jordan Montgomery 87 (era floor 50)
+  ✓ stamina guys in the pen (45+): Fritz Ostermueller 98, Orlando Hernandez 76, Jeff Pfeffer 102, Gene Krapp 102, Bob Walk 82, Jack Wenninger 48, Gene Conley 95
+  ✓ C  backup: vs RHP Mike Zunino 77 · vs LHP Bob Boone 137
+  ✓ 1B backup: vs RHP Lee Thomas 91, Ernie Clement 96 · vs LHP Matt Carpenter 102, Lee Thomas 91
+  ✓ 2B backup: vs RHP Ernie Clement 130 · vs LHP Aiva Arquette 112
+  ✓ 3B backup: vs RHP Ernie Clement 104, Chris Sabo 77 · vs LHP Matt Carpenter 74, Aiva Arquette 113
+  ✓ SS backup: vs RHP Ernie Clement 109 · vs LHP Aiva Arquette 100
+  ✓ LF backup: Lee Thomas 93
+  ✓ CF backup: vs RHP Alex Rios 96 · vs LHP Andy Van Slyke 99
+  ✓ RF backup: vs RHP Lee Thomas 86, Alex Rios 113 · vs LHP Andy Van Slyke 125, Lee Thomas 86
+(19 of 26 have a live ask in the last shop snapshot)
+objective: 220.1 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 14 bats) 1035 · rotation 389 · bullpen 507 · bench-only 0

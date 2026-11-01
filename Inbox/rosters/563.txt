@@ -11,6 +11,7 @@ staff weights from goldcapdaily's exports: SP 1.23, RP 0.44 (a lineup slot = 1)
 field (goldcapdaily, 4 exports): 41% of batters faced thrown left-handed · 41% of PA by left-handed bats · 13.3 bats / 5.8 SP / 5.6 RP per team
 shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 3192 of 3573 pool cards have innings on record (median 756 PA/BF); K = 1000000
+field's average card here (1308 cards played in goldcapdaily, weighted by PA/BF): bat +4.0 vs RHP / +2.6 vs LHP, arm +1.4 — "fld" on each row is runs over that
 gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1999 band): gloves ×1.25, framing ×0.5, starters ×1, pen ×1.85 against a bat run → glove ×1.15, SP 1.23, RP 0.81 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.7 SP / 6.6 RP → per SP ×0.94 (5 carried), per RP ×0.94 (7 carried)
@@ -19,31 +20,36 @@ staff innings split over the arms carried: the field runs 4.7 SP / 6.6 RP → pe
                           RHB: Power +4.8  Avoid Ks +2.7  BABIP +2.2  Eye +1.5  Gap +0.9
                          arms: pHR +1.7  Stuff +1.3  pBABIP +1.3  Control +1.1
 seed: 563-seed.txt as is (26 cards)
-seed: scores 281.0 before the climb
+seed: scores 290.5 before the climb
 
-optimiser: 15 starts (λ + seed) hill-climbed; best 281.3 runs vs 156.9 greedy (+124.4), 5 moves from the seed
+optimiser: 9 starts (λ + seed) hill-climbed; best 296.2 runs vs 176.3 greedy (+120.0), 7 moves from the seed
+dual: from Dizzy Dean in both roles: Big Jeff Pfeffer in both, 295.7 runs
+dual: from Luther Farrell in both roles: Luther Farrell in both, 294.0 runs
+dual: from Jack Stivetts in both roles: Jack Stivetts in both, 291.2 runs
+dual: from Bill Ricks in both roles: Bill Ricks in both, 290.5 runs
+dual: no two-way card in both roles beats 296.2 runs (best Big Jeff Pfeffer 295.7)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Pythias Russ (VAR)          89  R  1927   +12.6  park:R DEF  92/120 +1.8  #87083
-R:1B    Pedro Alvarez               81  L  2013   +45.2  park:L DEF  96/ 96 +2.8  #87062
-R:2B    Kaelen Culpepper (VAR)      89  R  2026   +12.8  park:R DEF 130/130 +3.9  #85033
-R:3B    Sebastian Walcott           89  R  2026   +21.9  park:R DEF  95/132 +0.7  #85136
-R:SS    Jeremy Pena                 79  R  2022   +11.2  park:R DEF 116/116 +2.4  #87154
-R:LF    Eric Davis (VAR)            85  R  1989   +33.9  park:R DEF  92/ 92 -0.4  #86974
-R:CF    Darin Erstad                89  L  2000   +17.8  park:L DEF 138/148 +2.8  #87242
-R:RF    Bo Jackson                  88  R  1989   +40.1  park:R DEF 123/123 +3.1  #86966
-R:DH    Carlos Pena                 89  L  2007   +37.0  park:L  #87183
+R:C     Pythias Russ (VAR)          89  R  1927   +12.6 fld  +8.6  park:R DEF  92/120 +1.8  #87083
+R:1B    Pedro Alvarez               81  L  2013   +45.2 fld +41.2  park:L DEF  96/ 96 +2.8  #87062
+R:2B    Kaelen Culpepper (VAR)      89  R  2026   +12.8 fld  +8.8  park:R DEF 130/130 +3.9  #85033
+R:3B    Sebastian Walcott           89  R  2026   +21.9 fld +17.9  park:R DEF  95/132 +0.7  #85136
+R:SS    Jeremy Pena                 79  R  2022   +11.2 fld  +7.3  park:R DEF 116/116 +2.4  #87154
+R:LF    Eric Davis (VAR)            85  R  1989   +33.9 fld +29.9  park:R DEF  92/ 92 -0.4  #86974
+R:CF    Darin Erstad                89  L  2000   +17.8 fld +13.8  park:L DEF 138/148 +2.8  #87242
+R:RF    Bo Jackson                  88  R  1989   +40.1 fld +36.1  park:R DEF 123/123 +3.1  #86966
+R:DH    Carlos Pena                 89  L  2007   +37.0 fld +33.0  park:L  #87183
 
 --- lineup vs LHP ---
-L:C     Pythias Russ (VAR)          89  R  1927   +17.2  park:R DEF  92/120 +1.8  #87083
-L:1B    Carlos Pena                 89  L  2007   +24.1  park:L DEF  78/ 78 +0.2  #87183
-L:2B    Brandon Phillips            64  R  2007   +19.7  park:R DEF 130/130 +3.9  #87202
-L:3B    Kaelen Culpepper (VAR)      89  R  2026   +18.7  park:R DEF 122/130 +5.7  #85033
-L:SS    Jeremy Pena                 79  R  2022   +17.2  park:R DEF 116/116 +2.4  #87154
-L:LF    Darin Erstad                89  L  2000   +18.5  park:L DEF 148/148 +6.0  #87242
-L:CF    Sebastian Walcott           89  R  2026   +17.5  park:R DEF 121/132 +0.9  #85136
-L:RF    Bo Jackson                  88  R  1989   +31.3  park:R DEF 123/123 +3.1  #86966
-L:DH    Eric Davis (VAR)            85  R  1989   +23.2  park:R  #86974
+L:C     Pythias Russ (VAR)          89  R  1927   +17.2 fld +14.6  park:R DEF  92/120 +1.8  #87083
+L:1B    Carlos Pena                 89  L  2007   +24.1 fld +21.4  park:L DEF  78/ 78 +0.2  #87183
+L:2B    Brandon Phillips            64  R  2007   +19.7 fld +17.0  park:R DEF 130/130 +3.9  #87202
+L:3B    Kaelen Culpepper (VAR)      89  R  2026   +18.7 fld +16.1  park:R DEF 122/130 +5.7  #85033
+L:SS    Jeremy Pena                 79  R  2022   +17.2 fld +14.6  park:R DEF 116/116 +2.4  #87154
+L:LF    Darin Erstad                89  L  2000   +18.5 fld +15.9  park:L DEF 148/148 +6.0  #87242
+L:CF    Sebastian Walcott           89  R  2026   +17.5 fld +14.9  park:R DEF 121/132 +0.9  #85136
+L:RF    Bo Jackson                  88  R  1989   +31.3 fld +28.7  park:R DEF 123/123 +3.1  #86966
+L:DH    Eric Davis (VAR)            85  R  1989   +23.2 fld +20.6  park:R  #86974
 
 --- batting order vs RHP --- (6.29 runs/game; The Book's order 6.29)
   1. Darin Erstad CF
@@ -68,27 +74,27 @@ L:DH    Eric Davis (VAR)            85  R  1989   +23.2  park:R  #86974
   9. Sebastian Walcott CF
 
 --- rotation ---
-SP1     Nick Altrock                76  S  1906    +9.9   SP STM  90  #87049
-SP2     Bob Feller                  88  R  1939    +9.3   SP STM 111  #85650
-SP3     Vean Gregg                  85  R  1911    +8.6   SP STM  97  #87375
-SP4     Fritz Ostermueller          64  L  1944    +5.8   SP STM  98  #86357
-SP5     Gene Krapp                  62  R  1911    +3.7   SP STM 102  #87374
+SP1     Count Leblanc (VAR)         89  R  1921   +15.1 fld +13.6   SP STM  93  #86978
+SP2     Nick Altrock                76  S  1906   +12.6 fld +11.2   SP STM  90  #87049
+SP3     CC Sabathia                 82  L  2007   +12.2 fld +10.8   SP STM  85  #87182
+SP4     Fritz Ostermueller          64  L  1944    +6.5 fld  +5.0   SP STM  98  #86357
+SP5     James McDonald (VAR)        55  L  2010    +4.2 fld  +2.8   SP STM  59  #86384
 
 --- bullpen ---
-CL      Johnny Markham (VAR)        87  R  1942    +9.8   RP STM  69  #87159
-RP1     James McDonald (VAR)        55  L  2010    +3.2   SP STM  59  #86384
-RP2     Big Jeff Pfeffer            59  R  1906    +2.4   SP STM  98  #87340
-RP3     Mike Marshall               57  R  1973    +0.7   CL STM  74  #84720
-RP4     Bob Gibson (VAR)            44  R  1959    -3.1   SP STM  69  #86658
-RP5     Randy Choate                45  L  2013    -3.2   RP STM   6  #87026
-RP6     R.T. Walker                 40  R  1947    -5.8   RP STM  69  #86952
+CL      Johnny Markham (VAR)        87  R  1942   +15.5 fld +14.1   RP STM  69  #87159
+RP1     Gene Krapp                  62  R  1911    +3.9 fld  +2.4   SP STM 102  #87374
+RP2     Big Jeff Pfeffer            59  R  1906    +1.3 fld  -0.2   SP STM  98  #87340
+RP3     John Bale                   59  L  2007    +0.9 fld  -0.6   RP STM  33  #87234
+RP4     Randy Choate                45  L  2013    -2.4 fld  -3.8   RP STM   6  #87026
+RP5     Bob Gibson (VAR)            44  R  1959    -8.4 fld  -9.9   SP STM  69  #86658
+RP6     R.T. Walker                 40  R  1947   -12.3 fld -13.7   RP STM  69  #86952
 
 --- bench ---
-BN1     Rickey Henderson (VAR)      46  R  2000   -10.2  park:R  #85362
-BN2     Tsung-Che Cheng (VAR)       44  L  2026   -11.0  park:L  #84612
-BN3     Brandon Phillips            64  R  2007    -6.0  park:R  #87202
-BN4     Buck Rodgers (VAR)          42  S  1962   -20.0  park:L  #84312
-BN5     Alfredo Amezaga             44  S  2007   -16.6  park:L  #87188
+BN1     Rickey Henderson (VAR)      46  R  2000   -10.2 fld -14.2  park:R  #85362
+BN2     Tsung-Che Cheng (VAR)       44  L  2026   -11.0 fld -15.0  park:L  #84612
+BN3     Brandon Phillips            64  R  2007    -6.0 fld -10.0  park:R  #87202
+BN4     Buck Rodgers (VAR)          42  S  1962   -20.0 fld -24.0  park:L  #84312
+BN5     Alfredo Amezaga             44  S  2007   -16.6 fld -20.5  park:L  #87188
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Pythias Russ (VAR)         U1 Buck Rodgers (VAR) 68        U2 -                           
@@ -112,7 +118,7 @@ BN5     Alfredo Amezaga             44  S  2007   -16.6  park:L  #87188
   RF  Bo Jackson                 U1 Alfredo Amezaga 116          U2 -                           
   pinch hitters: Pedro Alvarez, Tsung-Che Cheng (VAR), Rickey Henderson (VAR), Buck Rodgers (VAR) · pinch runners: Rickey Henderson (VAR) (SPE 87), Alfredo Amezaga (SPE 83), Tsung-Che Cheng (VAR) (SPE 82)
 
-26 players · value 1780 / 1780 (0 spare) · from seed · 9 variants
+26 players · value 1780 / 1780 (0 spare) · from seed · 10 variants
 vs RHP lineup: 3 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
@@ -134,8 +140,8 @@ LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (61 teams): 5.0 SP / 7.2 RP / 14.3 bats
-  ✓ starters' stamina Nick Altrock 90, Bob Feller 111, Vean Gregg 97, Fritz Ostermueller 98, Gene Krapp 102 (era floor 50)
-  ✓ stamina guys in the pen (45+): Johnny Markham 69, James McDonald 59, Big Jeff Pfeffer 98, Mike Marshall 74, Bob Gibson 69, R.T. Walker 69
+  ✓ starters' stamina Count Leblanc 93, Nick Altrock 90, CC Sabathia 85, Fritz Ostermueller 98, James McDonald 59 (era floor 50)
+  ✓ stamina guys in the pen (45+): Johnny Markham 69, Gene Krapp 102, Big Jeff Pfeffer 98, Bob Gibson 69, R.T. Walker 69
   ✓ C  backup: Buck Rodgers 68
   ✓ 1B backup: vs RHP Carlos Pena 78, Alfredo Amezaga 78 · vs LHP Pedro Alvarez 96, Alfredo Amezaga 78
   ✓ 2B backup: vs RHP Brandon Phillips 130, Tsung-Che Cheng 79, Alfredo Amezaga 84 · vs LHP Tsung-Che Cheng 79, Alfredo Amezaga 84
@@ -147,36 +153,37 @@ LEGAL — every rule check passes
 
 --- cap ledger --- (floor value 40; runs = what he adds over the best unrostered floor card in his slots)
   slot      card                     val +cap   runs   /pt  floor sub / why
+  DH/1B     Carlos Pena               89   49  +66.4  1.36  John Leary
+  2B/3B     Kaelen Culpepper          89   49  +60.8  1.24  Darrel Chaney
   C         Pythias Russ              89   49  +57.8  1.18  Sebastian Rivero
-  2B/3B     Kaelen Culpepper          89   49      -     -  no floor card fits  ◂ LEAK
-  3B/CF     Sebastian Walcott         89   49      -     -  no floor card fits  ◂ LEAK
-  CF/LF     Darin Erstad              89   49      -     -  no floor card fits  ◂ LEAK
-  DH/1B     Carlos Pena               89   49      -     -  no floor card fits  ◂ LEAK
-  SP2       Bob Feller                88   48  +29.7  0.62  Daniel Norris
-  RF        Bo Jackson                88   48      -     -  no floor card fits  ◂ LEAK
-  CL        Johnny Markham            87   47  +22.1  0.47  Daniel Norris
+  SP1       Count Leblanc             89   49  +55.5  1.13  Daniel Norris
+  3B/CF     Sebastian Walcott         89   49      -     -  no floor card fits
+  CF/LF     Darin Erstad              89   49      -     -  no floor card fits
+  RF        Bo Jackson                88   48  +77.8  1.62  Count Sensenderfer
+  CL        Johnny Markham            87   47  +38.1  0.81  Daniel Norris
   LF/DH     Eric Davis                85   45  +69.4  1.54  George Hunter
-  SP3       Vean Gregg                85   45  +26.8  0.60  Daniel Norris
-  1B        Pedro Alvarez             81   41      -     -  no floor card fits  ◂ LEAK
-  SS        Jeremy Pena               79   39      -     -  no floor card fits  ◂ LEAK
-  SP1       Nick Altrock              76   36  +32.6  0.91  Daniel Norris
-  SP4       Fritz Ostermueller        64   24  +22.0  0.92  Daniel Norris
-  2B/BN3    Brandon Phillips          64   24      -     -  no floor card fits  ◂ LEAK
-  SP5       Gene Krapp                62   22  +16.4  0.75  Daniel Norris
-  RP2       Big Jeff Pfeffer          59   19  +13.5  0.71  Daniel Norris
-  RP3       Mike Marshall             57   17  +12.1  0.71  Daniel Norris
-  RP1       James McDonald            55   15  +15.1  1.00  Daniel Norris
+  SP3       CC Sabathia               82   42  +45.0  1.07  Daniel Norris
+  1B        Pedro Alvarez             81   41  +48.8  1.19  John Leary
+  SS        Jeremy Pena               79   39  +63.2  1.62  Darrel Chaney
+  SP2       Nick Altrock              76   36  +48.9  1.36  Daniel Norris
+  SP4       Fritz Ostermueller        64   24  +35.6  1.48  Daniel Norris
+  2B/BN3    Brandon Phillips          64   24  +28.7  1.20  Darrel Chaney
+  RP1       Gene Krapp                62   22  +25.8  1.17  Daniel Norris
+  RP2       Big Jeff Pfeffer          59   19  +22.1  1.17  Daniel Norris
+  RP3       John Bale                 59   19  +21.8  1.15  Daniel Norris
+  SP5       James McDonald            55   15  +27.7  1.85  Daniel Norris
   BN1       Rickey Henderson          46    6   +1.3  0.21  Charlie Eden  ◂ LEAK
-  RP5       Randy Choate              45    5   +7.8  1.55  Daniel Norris
-  RP4       Bob Gibson                44    4   +8.5  2.11  Daniel Norris
+  RP4       Randy Choate              45    5  +17.9  3.59  Daniel Norris
+  RP5       Bob Gibson                44    4  +12.4  3.10  Daniel Norris
   BN2       Tsung-Che Cheng           44    4   +1.2  0.30  Charlie Eden  ◂ LEAK
   BN5       Alfredo Amezaga           44    4   +0.8  0.21  Charlie Eden · backup 3B/SS/CF/RF
   BN4       Buck Rodgers              42    2   +0.6  0.30  Charlie Eden · backup C, 2nd C
-  740 cap points above the floor on 25 cards (1 at the floor) · 0.86 runs per point on average
-  leaks (under half the average, no rule behind them): Kaelen Culpepper 49 pts, Sebastian Walcott 49 pts, Darin Erstad 49 pts, Carlos Pena 49 pts, Bo Jackson 48 pts, Pedro Alvarez 41 pts, Jeremy Pena 39 pts, Brandon Phillips 24 pts, Rickey Henderson 6 pts, Tsung-Che Cheng 4 pts
-(17 of 26 have a live ask in the last shop snapshot)
-objective: 281.3 weighted runs (bats 59/41 R/L, SP 1.23, RP 0.8140000000000001, bench 0.1)
-points: lineup(both boards, 10 bats) 842 · rotation 375 · bullpen 387 · bench-only 176
+  740 cap points above the floor on 25 cards (1 at the floor) · 1.29 runs per point on average
+  leaks (under half the average, no rule behind them): Rickey Henderson 6 pts, Tsung-Che Cheng 4 pts
+(19 of 26 have a live ask in the last shop snapshot)
+objective: 296.2 weighted runs (bats 59/41 R/L, SP 1.23, RP 0.8140000000000001, bench 0.1)
+points: lineup(both boards, 10 bats) 842 · rotation 366 · bullpen 396 · bench-only 176
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   John Bale                pBABIP 14 (fitted 50–175)
    Bob Gibson               pBABIP 49 (fitted 50–175)
