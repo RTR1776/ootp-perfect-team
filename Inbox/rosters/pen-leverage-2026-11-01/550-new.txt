@@ -1,0 +1,160 @@
+
+=== ad-hoc event ===
+PT default (2010) RE @ 2026 Globe Life Field · DH on · value 40–105 · cap none · 26 players
+R/G 4.34  AVG 0.237  OBP 0.311  SLG 0.396  K% 22.6  HR/PA 3.12%  preset Moderate Sabermetric
+sac bunt (1st & 2nd, 0 out) -0.025 runs · steal break-even 80.8% (0 out) / 77.8% (1 out)
+park: all-LHB lineup 4.50 R/G vs all-RHB 4.26 — 0.24 R/G swing toward LEFT-handed bats
+card sets: Snapshot, Unsung Heroes only
+two-way: 10 cards also in the other role — Don Robinson as bat, Matt Davidson as arm, CC Sabathia as bat, Madison Bumgarner as bat, Bobby Witt Jr. as arm, Jose Oquendo as arm, Dick Donovan as bat, Jack Harshman as bat, Earl Wilson as bat, Jim Maloney as bat
+
+pool: 838 eligible owned cards — 467 bats (160L / 65S / 242R), 371 arms
+staff weights from 1950tonow's exports: SP 1.27, RP 0.39 (a lineup slot = 1)
+field (1950tonow, 5 exports): 49% of batters faced thrown left-handed · 38% of PA by left-handed bats · 13 bats / 5 SP / 7 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 633 of 838 pool cards have innings on record (median 296 PA/BF); K = 1000000
+field's average card here (415 cards played in 1950tonow, weighted by PA/BF): bat +7.1 vs RHP / +6.0 vs LHP, arm +9.2 — "fld" on each row is runs over that
+gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.91, RP 0.78 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 5.0 SP / 7.2 RP → per SP ×1.00 (5 carried), per RP ×1.03 (7 carried)
+
++10 rating, runs/700 PA — LHB: Power +5.4  Avoid Ks +3.3  BABIP +1.7  Eye +1.1  Gap +0.8
+                          RHB: Power +5.1  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.8
+                         arms: pHR +1.7  Stuff +1.6  pBABIP +0.9  Control +0.8
+seed: seed550.txt as is (26 cards)
+seed: scores 509.9 before the climb
+
+optimiser: 10 starts (λ + seed) hill-climbed; best 524.4 runs vs 469.4 greedy (+55.0), 33 moves from λ 8.00 (the seed's climb: 524.4)
+dual: from CC Sabathia in both roles: CC Sabathia in both, 523.3 runs
+dual: from Bobby Witt Jr. in both roles: Bobby Witt Jr. in both, 519.4 runs
+dual: from Madison Bumgarner in both roles: CC Sabathia in both, 523.3 runs
+dual: from Don Robinson in both roles: CC Sabathia in both, 523.3 runs
+dual: no two-way card in both roles beats 524.4 runs (best CC Sabathia 523.3)
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Bob Boone                   73  R  1986    -8.1 fld -15.1  park:R DEF 137/137 +17.8  #87032
+R:1B    Albert Pujols              102  R  2011   +45.7 fld +38.6  park:R DEF  91/ 91 +2.9  #87149
+R:2B    Ernie Clement               64  R  2025    -2.1 fld  -9.2  park:R DEF 130/130 +5.4  #87244
+R:3B    Hank Thompson               87  L  1953   +13.5 fld  +6.5  park:L DEF  92/ 92 +0.3  #86668
+R:SS    Trea Turner (VAR)           98  R  2023   +15.9 fld  +8.8  park:R DEF 106/106 -0.3  #82923
+R:LF    Curtis Granderson           97  L  2007   +45.8 fld +38.7  park:L DEF 147/147 +8.2  #86595
+R:CF    Richard Hidalgo            101  R  2000   +38.8 fld +31.8  park:R DEF 114/124 +0.2  #86707
+R:RF    Andruw Jones               102  R  1996   +49.1 fld +42.0  park:R DEF 155/155 +10.0  #87057
+R:DH    Kal Daniels                 82  L  1987   +25.5 fld +18.4  park:L  #84163
+
+--- lineup vs LHP ---
+L:C     Bob Boone                   73  R  1986    -7.5 fld -13.4  park:R DEF 137/137 +17.8  #87032
+L:1B    Albert Pujols              102  R  2011   +56.1 fld +50.1  park:R DEF  91/ 91 +2.9  #87149
+L:2B    Brandon Phillips            64  R  2007   +18.4 fld +12.4  park:R DEF 130/130 +5.4  #87202
+L:3B    Ernie Clement               64  R  2025   +11.9 fld  +6.0  park:R DEF 104/130 +3.4  #87244
+L:SS    Trea Turner (VAR)           98  R  2023   +13.1 fld  +7.1  park:R DEF 106/106 -0.3  #82923
+L:LF    Lonnie Smith                98  R  1989   +15.2 fld  +9.2  park:R DEF 133/133 +6.0  #86721
+L:CF    Richard Hidalgo            101  R  2000   +14.3 fld  +8.4  park:R DEF 114/124 +0.2  #86707
+L:RF    Andruw Jones               102  R  1996   +51.9 fld +46.0  park:R DEF 155/155 +10.0  #87057
+L:DH    J.D. Martinez               85  R  2014   +32.6 fld +26.6  park:R  #87247
+
+--- batting order vs RHP --- (5.47 runs/game; The Book's order 5.46)
+  1. Kal Daniels DH
+  2. Albert Pujols 1B
+  3. Andruw Jones RF
+  4. Curtis Granderson LF
+  5. Richard Hidalgo CF
+  6. Hank Thompson 3B
+  7. Trea Turner (VAR) SS
+  8. Ernie Clement 2B
+  9. Bob Boone C
+
+--- batting order vs LHP --- (5.28 runs/game; The Book's order 5.28)
+  1. Albert Pujols 1B
+  2. Andruw Jones RF
+  3. J.D. Martinez DH
+  4. Brandon Phillips 2B
+  5. Trea Turner (VAR) SS
+  6. Lonnie Smith LF
+  7. Richard Hidalgo CF
+  8. Ernie Clement 3B
+  9. Bob Boone C
+
+--- rotation ---
+SP1     Josh Beckett               102  R  2003   +21.6 fld +12.4   SP STM  96  #87058
+SP2     CC Sabathia                101  L  2008   +20.3 fld +11.1   SP STM 105  #86350
+SP3     Mark Langston               91  R  1989   +14.5 fld  +5.3   SP STM  86  #86956
+SP4     Kyle Freeland (VAR)         91  L  2018   +14.5 fld  +5.3   SP STM  80  #86708
+SP5     Larry Jackson               92  R  1959   +13.8 fld  +4.7   SP STM  92  #86646
+
+--- bullpen ---
+CL      Andrew Miller              103  L  2014   +19.0 fld  +9.8   RP STM  10  #87138
+RP1     Robb Nen                   101  R  2000   +11.5 fld  +2.3   CL STM  19  #83906
+RP2     Daniel Palencia (VAR)      100  R  2026    +9.4 fld  +0.3   CL STM  14  #84613
+RP3     Tyler Matzek                98  L  2021    +8.6 fld  -0.6   RP STM  16  #87056
+RP4     Jake McGee (VAR)            99  L  2012    +7.5 fld  -1.7   RP STM  12  #86789
+RP5     Milt Pappas                 96  R  1959   +13.8 fld  +4.6   SP STM  79  #86654
+RP6     Joe Grzenda                 98  R  1971    +9.0 fld  -0.2   RP STM  62  #83323
+
+--- bench ---
+BN1     J.D. Martinez               85  R  2014   +16.8 fld  +9.7  park:R  #87247
+BN2     Lonnie Smith                98  R  1989   +13.4 fld  +6.4  park:R  #86721
+BN3     Jose Oquendo                73  S  1988    -8.5 fld -15.5  park:L  #85738
+BN4     Brandon Phillips            64  R  2007    -7.9 fld -14.9  park:R  #87202
+BN5     Charles Johnson             84  R  2000    -5.9 fld -12.9  park:R  #86365
+
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Bob Boone                  U1 Charles Johnson 86           U2 -                           
+  1B  Albert Pujols              U1 Jose Oquendo 87              U2 -                           
+  2B  Ernie Clement              U1 Jose Oquendo 139             U2 Brandon Phillips 130        
+  3B  Hank Thompson              U1 Jose Oquendo 114             U2 -                            def sub Jose Oquendo (+5.7)
+  SS  Trea Turner (VAR)          U1 Jose Oquendo 117             U2 -                            def sub Jose Oquendo (+4.1)
+  LF  Curtis Granderson          U1 Kal Daniels 60               U2 Lonnie Smith 133            
+  CF  Richard Hidalgo            U1 Jose Oquendo 94              U2 -                           
+  RF  Andruw Jones               U1 Jose Oquendo 104             U2 -                           
+  pinch hitters: J.D. Martinez, Lonnie Smith, Charles Johnson, Brandon Phillips · pinch runners: Lonnie Smith (SPE 98), Brandon Phillips (SPE 92), J.D. Martinez (SPE 51)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Bob Boone                  U1 Charles Johnson 86           U2 -                           
+  1B  Albert Pujols              U1 Jose Oquendo 87              U2 -                           
+  2B  Brandon Phillips           U1 Jose Oquendo 139             U2 Hank Thompson 88            
+  3B  Ernie Clement              U1 Jose Oquendo 114             U2 Hank Thompson 92            
+  SS  Trea Turner (VAR)          U1 Jose Oquendo 117             U2 -                            def sub Jose Oquendo (+4.1)
+  LF  Lonnie Smith               U1 Jose Oquendo 113             U2 Curtis Granderson 147       
+  CF  Richard Hidalgo            U1 Jose Oquendo 94              U2 Curtis Granderson 133       
+  RF  Andruw Jones               U1 Jose Oquendo 104             U2 Curtis Granderson 142       
+  pinch hitters: Jose Oquendo, Curtis Granderson, Charles Johnson, Hank Thompson · pinch runners: Curtis Granderson (SPE 121), Hank Thompson (SPE 78), Kal Daniels (SPE 67)
+
+26 players · value 2382 · λ 8.000 · 4 variants
+vs RHP lineup: 3 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
+
+--- order inputs (rostered bats) ---
+  Andruw Jones           R EYE 146 (157/142)  POW 209 (220/205)  K 107  BABIP 139  GAP 106  SPE  93
+  Curtis Granderson      L EYE 117 (97/125)  POW 132 (91/148)  K 108  BABIP 142  GAP 153  SPE 121
+  Albert Pujols          R EYE 165 (154/168)  POW 182 (210/173)  K 150  BABIP 138  GAP 183  SPE  52
+  Richard Hidalgo        R EYE 128 (122/130)  POW 165 (98/188)  K 127  BABIP 121  GAP 119  SPE  59
+  Kal Daniels            L EYE 164 (134/174)  POW 119 (38/150)  K  82  BABIP 116  GAP  93  SPE  67
+  J.D. Martinez          R EYE  89 (123/81)  POW 147 (190/133)  K  71  BABIP 175  GAP 119  SPE  51
+  Trea Turner            R EYE  89 (84/91)  POW 137 (127/140)  K 113  BABIP  95  GAP  86  SPE 120
+  Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
+  Lonnie Smith           R EYE 146 (155/143)  POW 106 (100/108)  K  80  BABIP 149  GAP 112  SPE  98
+  Ernie Clement          R EYE  45 (43/46)  POW  48 (64/41)  K 167  BABIP 141  GAP 125  SPE  92
+  Charles Johnson        R EYE 134 (145/130)  POW 121 (113/124)  K  51  BABIP 107  GAP  77  SPE  36
+  Brandon Phillips       R EYE  47 (58/44)  POW 110 (160/96)  K  95  BABIP  94  GAP  76  SPE  92
+  Bob Boone              R EYE  94 (109/90)  POW  61 (58/62)  K 165  BABIP 103  GAP  66  SPE  33
+  Jose Oquendo           S EYE 121 (81/138)  POW  50 (90/16)  K 146  BABIP 120  GAP  84  SPE  49
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (146 teams): 5.2 SP / 7.6 RP / 14.4 bats
+  ✓ starters' stamina Josh Beckett 96, CC Sabathia 105, Mark Langston 86, Kyle Freeland 80, Larry Jackson 92 (era floor 50)
+  ✓ stamina guys in the pen (45+): Milt Pappas 79, Joe Grzenda 62
+  ✓ C  backup: Charles Johnson 86
+  ✓ 1B backup: Jose Oquendo 87
+  ✓ 2B backup: vs RHP Brandon Phillips 130, Jose Oquendo 139 · vs LHP Hank Thompson 88, Jose Oquendo 139
+  ✓ 3B backup: vs RHP Jose Oquendo 114 · vs LHP Hank Thompson 92, Jose Oquendo 114
+  ✓ SS backup: Jose Oquendo 117
+  ✓ LF backup: vs RHP Kal Daniels 60, Lonnie Smith 133, Jose Oquendo 113 · vs LHP Hank Thompson 85, Curtis Granderson 147, Kal Daniels 60, Jose Oquendo 113
+  ✓ CF backup: vs RHP Jose Oquendo 94 · vs LHP Curtis Granderson 133, Jose Oquendo 94
+  ✓ RF backup: vs RHP Jose Oquendo 104 · vs LHP Hank Thompson 79, Curtis Granderson 142, Jose Oquendo 104
+(16 of 26 have a live ask in the last shop snapshot)
+objective: 524.4 weighted runs (bats 51/49 R/L, SP 1.905, RP 0.78, bench 0.1)
+points: lineup(both boards, 12 bats) 1053 · rotation 477 · bullpen 695 · bench-only 157
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   J.D. Martinez            BABIP 175 (fitted 17–164)
+   Andrew Miller            Stuff 204 (fitted 19–196), pBABIP 176 (fitted 50–175)
