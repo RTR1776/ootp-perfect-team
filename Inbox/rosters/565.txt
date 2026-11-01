@@ -17,9 +17,14 @@ team weights (1968 band): gloves ×2, framing ×1, starters ×1.5, pen ×1.85 ag
                           RHB: Power +3.5  Avoid Ks +2.0  BABIP +1.9  Eye +1.2  Gap +0.7
                          arms: pHR +1.2  pBABIP +1.1  Stuff +1.0  Control +0.9
 seed: 565-seed.txt as is (26 cards)
-seed: scores 309.1 before the climb
+seed: scores 326.5 before the climb
 
-optimiser: 15 starts (λ + seed) hill-climbed; best 312.5 runs vs 146.7 greedy (+165.8), 49 moves from λ 0.50 (the seed's climb: 309.9)
+optimiser: 9 starts (λ + seed) hill-climbed; best 340.1 runs vs 151.9 greedy (+188.2), 12 moves from the seed
+dual: from Don Larsen in both roles: Jack Stivetts in both, 340.2 runs
+dual: from Cy Young in both roles: Jack Stivetts in both, 340.2 runs
+dual: from Babe Ruth in both roles: Babe Ruth in both, 333.3 runs
+dual: from Steve Carlton in both roles: Babe Ruth in both, 343.0 runs
+dual: Babe Ruth in both roles beats the board above, 343.0 vs 340.1 runs: taken
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
 R:C     Ed Bailey (VAR)             97  L  1956   +28.2  park:L DEF 112/112 +5.8  #86637
@@ -64,52 +69,53 @@ L:RF    Bo Jackson                  88  R  1989   +27.5  park:R DEF 123/123 +5.3
   9. Pitcher
 
 --- rotation ---
-SP1     Bob Feller                  88  R  1939   +13.5   SP STM 111  #85650
-SP2     Babe Ruth                   97  L  1916   +11.6   SP STM 104  #86439
-SP3     Jack Stivetts               87  R  1891   +10.2   SP STM  83  #87357
-SP4     Luther Farrell              87  L  1927    +8.7   SP STM 104  #86900
+SP1     Don Larsen                  96  R  1956   +20.7   SP STM 100  #87240
+SP2     Cy Young                    99  R  1900   +20.0   SP STM 109  #86996
+SP3     Babe Ruth                   97  L  1916   +15.6   SP STM 104  #86439
+SP4     Jack Stivetts               87  R  1891   +13.9   SP STM  83  #87357
 
 --- bullpen ---
-CL      Fritz Ostermueller          64  L  1944    +4.3   SP STM  98  #86357
-RP1     Big Jeff Pfeffer            59  R  1906    +3.3   SP STM  98  #87340
-RP2     James McDonald (VAR)        55  L  2010    +1.5   SP STM  59  #86384
-RP3     Lefty Grove                 48  L  1940    -5.3   SP STM  77  #87168
-RP4     Bob Gibson (VAR)            44  R  1959    -6.2   SP STM  69  #86658
+CL      Fritz Ostermueller          64  L  1944    +4.8   SP STM  98  #86357
+RP1     Caden Scarborough (VAR)     64  R  2026    +3.9   RP STM  46  #84762
+RP2     James McDonald (VAR)        55  L  2010    +2.1   SP STM  59  #86384
+RP3     Randy Choate                45  L  2013    -5.6   RP STM   6  #87026
+RP4     Todd Jones (VAR)            43  L  2000   -10.0   CL STM  17  #86434
 
 --- bench ---
-BN1     George Sisler (VAR)         48  L  1928    +0.6  park:L  #87002
-BN2     Ernie Clement               64  R  2025    -1.2  park:R  #87244
-BN3     Chris Sabo                  66  R  1990    -2.1  park:R  #87059
-BN4     Stan Hack                   46  L  1944    -7.7  park:L  #86458
-BN5     Tsung-Che Cheng (VAR)       44  L  2026   -10.5  park:L  #84612
-BN6     Alfredo Amezaga             44  S  2007   -14.2  park:L  #87188
-BN7     Jerome Walton               43  R  1989   -17.1  park:R  #86945
-BN8     Buck Rodgers (VAR)          42  S  1962   -20.9  park:L  #84312
-BN9     Charlie Eden                40  L  1885   -29.8  park:L  #82834
+BN1     Darrel Chaney               40  S  1976   -31.5  park:L  #82846
+BN2     Chris Sabo                  66  R  1990    -2.1  park:R  #87059
+BN3     Babe Ruth                   97  L  1916    -4.2  park:L two-way (hitting)  #86439
+BN4     Buck Rodgers (VAR)          42  S  1962   -20.9  park:L  #84312
+BN5     Charlie Eden                40  L  1885   -29.8  park:L  #82834
+BN6     George Pinkney              40  R  1886   -30.3  park:R  #83410
+BN7     Count Sensenderfer          40  S  1871   -31.0  park:L  #87322
+BN8     John Leary                  40  R  1914   -31.5  park:R  #84297
+BN9     Ernie Clement               64  R  2025    -1.2  park:R  #87244
+BN10    Alfredo Amezaga             44  S  2007   -14.2  park:L  #87188
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ed Bailey (VAR)            U1 Buck Rodgers (VAR) 68        U2 -                           
-  1B  Pedro Alvarez              U1 Ernie Clement 96             U2 Stan Hack 77                
+  1B  Pedro Alvarez              U1 Ernie Clement 96             U2 Alfredo Amezaga 78          
   2B  Placido Polanco            U1 Ernie Clement 130            U2 -                           
   3B  Arjun Nimmala (VAR)        U1 Ernie Clement 104            U2 Chris Sabo 77               
   SS  Pythias Russ (VAR)         U1 Ernie Clement 109            U2 -                           
   LF  Curtis Granderson          U1 Alfredo Amezaga 110          U2 -                           
   CF  Carlos Beltran             U1 Alfredo Amezaga 95           U2 -                           
   RF  Bo Jackson                 U1 Alfredo Amezaga 116          U2 -                           
-  pinch hitters: George Sisler (VAR), Ernie Clement, Chris Sabo, Stan Hack · pinch runners: Ernie Clement (SPE 92), Alfredo Amezaga (SPE 83), Tsung-Che Cheng (VAR) (SPE 82)
+  pinch hitters: Ernie Clement, Chris Sabo, Babe Ruth, Alfredo Amezaga · pinch runners: Ernie Clement (SPE 92), Alfredo Amezaga (SPE 83), Chris Sabo (SPE 74)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Pythias Russ (VAR)         U1 Ed Bailey (VAR) 112          U2 Buck Rodgers (VAR) 68        def sub Ed Bailey (VAR) (+4.1)
-  1B  Ernie Clement              U1 Pedro Alvarez 96             U2 Stan Hack 77                
+  1B  Ernie Clement              U1 Pedro Alvarez 96             U2 Alfredo Amezaga 78          
   2B  Placido Polanco            U1 NONE                         U2 -                           
   3B  Chris Sabo                 U1 Pedro Alvarez 75             U2 Alfredo Amezaga 66          
   SS  Arjun Nimmala (VAR)        U1 NONE                         U2 -                           
   LF  Curtis Granderson          U1 Alfredo Amezaga 110          U2 -                           
   CF  Carlos Beltran             U1 Alfredo Amezaga 95           U2 -                           
   RF  Bo Jackson                 U1 Alfredo Amezaga 116          U2 -                           
-  pinch hitters: Jerome Walton, George Sisler (VAR), Tsung-Che Cheng (VAR), Stan Hack · pinch runners: Alfredo Amezaga (SPE 83), Tsung-Che Cheng (VAR) (SPE 82), Charlie Eden (SPE 71)
+  pinch hitters: Pedro Alvarez, Ed Bailey (VAR), George Pinkney, Buck Rodgers (VAR) · pinch runners: Alfredo Amezaga (SPE 83), George Pinkney (SPE 72), Charlie Eden (SPE 71)
 
-26 players · value 1788 / 1788 (0 spare) · λ 0.500 · 8 variants
+26 players · value 1788 / 1788 (0 spare) · from seed · 7 variants
 vs RHP lineup: 4 of 8 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
@@ -121,62 +127,60 @@ vs RHP lineup: 4 of 8 bat from the left side (the platoon edge); this park favou
   Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
   Pythias Russ           R EYE  82 (88/80)  POW 104 (111/103)  K 123  BABIP 127  GAP 147  SPE 101
   Placido Polanco        R EYE  69 (43/75)  POW  62 (72/58)  K 220  BABIP 144  GAP  95  SPE  67
-  George Sisler          L EYE  70 (57/73)  POW  45 (1/56)  K 173  BABIP 115  GAP  63  SPE  64
   Ernie Clement          R EYE  45 (43/46)  POW  48 (64/41)  K 167  BABIP 141  GAP 125  SPE  92
   Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
-  Stan Hack              L EYE 128 (144/123)  POW  38 (1/46)  K 183  BABIP  81  GAP  61  SPE  47
-  Tsung-Che Cheng        L EYE 135 (117/141)  POW  49 (29/55)  K  88  BABIP  92  GAP  38  SPE  82
+  Babe Ruth              L EYE  79 (71/82)  POW 105 (10/133)  K  62  BABIP  91  GAP  99  SPE  39
   Alfredo Amezaga        S EYE  82 (10/94)  POW  33 (1/40)  K 109  BABIP  78  GAP  85  SPE  83
-  Jerome Walton          R EYE  65 (71/63)  POW  52 (61/49)  K  76  BABIP 111  GAP  87  SPE  66
   Buck Rodgers           S EYE  66 (59/68)  POW  48 (49/48)  K 106  BABIP  64  GAP 113  SPE  56
   Charlie Eden           L EYE  68 (68/69)  POW  18 (18/19)  K  83  BABIP  73  GAP  89  SPE  71
+  George Pinkney         R EYE  87 (89/87)  POW  18 (19/18)  K  95  BABIP  64  GAP  70  SPE  72
+  Count Sensenderfer     S EYE   2 (2/2)  POW   2 (2/2)  K 100  BABIP 102  GAP  77  SPE  60
+  John Leary             R EYE  26 (15/30)  POW  28 (24/30)  K  84  BABIP  75  GAP  92  SPE  62
+  Darrel Chaney          S EYE  75 (92/69)  POW  19 (11/22)  K  78  BABIP  71  GAP  75  SPE  57
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms)
-  ✓ starters' stamina Bob Feller 111, Babe Ruth 104, Jack Stivetts 83, Luther Farrell 104 (era floor 60)
-  ✓ stamina guys in the pen (45+): Fritz Ostermueller 98, Big Jeff Pfeffer 98, James McDonald 59, Lefty Grove 77, Bob Gibson 69
+  ✓ staff 4 SP / 5 RP / 18 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Don Larsen 100, Cy Young 109, Babe Ruth 104, Jack Stivetts 83 (era floor 60)
+  ✓ stamina guys in the pen (45+): Fritz Ostermueller 98, Caden Scarborough 46, James McDonald 59
   ✓ C  backup: vs RHP Buck Rodgers 68 · vs LHP Ed Bailey 112, Buck Rodgers 68
-  ✓ 1B backup: vs RHP Ernie Clement 96, Stan Hack 77, Alfredo Amezaga 78 · vs LHP Pedro Alvarez 96, Stan Hack 77, Alfredo Amezaga 78
-  ✓ 2B backup: vs RHP Ernie Clement 130, Tsung-Che Cheng 79, Alfredo Amezaga 84 · vs LHP Tsung-Che Cheng 79, Alfredo Amezaga 84
+  ✓ 1B backup: vs RHP Ernie Clement 96, Alfredo Amezaga 78 · vs LHP Pedro Alvarez 96, Alfredo Amezaga 78
+  ✓ 2B backup: vs RHP Ernie Clement 130, Darrel Chaney 64, Alfredo Amezaga 84 · vs LHP Darrel Chaney 64, Alfredo Amezaga 84
   ✓ 3B backup: vs RHP Ernie Clement 104, Chris Sabo 77, Alfredo Amezaga 66 · vs LHP Pedro Alvarez 75, Alfredo Amezaga 66
   ✓ SS backup: vs RHP Ernie Clement 109, Alfredo Amezaga 64 · vs LHP Alfredo Amezaga 64
   ✓ LF backup: Alfredo Amezaga 110
-  ✓ CF backup: Alfredo Amezaga 95
-  ✓ RF backup: Alfredo Amezaga 116
+  ✓ CF backup: Count Sensenderfer 63, Alfredo Amezaga 95
+  ✓ RF backup: Count Sensenderfer 69, Alfredo Amezaga 116
 
 --- cap ledger --- (floor value 40; runs = what he adds over the best unrostered floor card in his slots)
   slot      card                     val +cap   runs   /pt  floor sub / why
-  CF        Carlos Beltran            99   59      -     -  no floor card fits  ◂ LEAK
+  SP2       Cy Young                  99   59  +79.3  1.34  George Hunter
+  CF        Carlos Beltran            99   59      -     -  no floor card fits
   LF        Curtis Granderson         97   57  +82.4  1.44  George Hunter
   C         Ed Bailey                 97   57  +56.1  0.98  Sebastian Rivero
-  SP2       Babe Ruth                 97   57  +49.5  0.87  George Hunter
-  3B/SS     Arjun Nimmala             94   54      -     -  no floor card fits  ◂ LEAK
-  SS/C      Pythias Russ              89   49      -     -  no floor card fits  ◂ LEAK
-  SP1       Bob Feller                88   48  +46.6  0.97  George Hunter
-  RF        Bo Jackson                88   48      -     -  no floor card fits  ◂ LEAK
-  SP3       Jack Stivetts             87   47  +44.2  0.94  George Hunter
-  SP4       Luther Farrell            87   47  +37.7  0.80  George Hunter
-  1B        Pedro Alvarez             81   41      -     -  no floor card fits  ◂ LEAK
-  2B        Placido Polanco           77   37      -     -  no floor card fits  ◂ LEAK
-  3B/BN3    Chris Sabo                66   26  +21.6  0.83  Coot Veal
-  CL        Fritz Ostermueller        64   24  +10.5  0.44  R.T. Walker
-  1B/BN2    Ernie Clement             64   24      -     -  no floor card fits  ◂ LEAK
-  RP1       Big Jeff Pfeffer          59   19   +7.6  0.40  R.T. Walker  ◂ LEAK
-  RP2       James McDonald            55   15   +6.2  0.41  R.T. Walker  ◂ LEAK
-  RP3       Lefty Grove               48    8   +2.0  0.24  R.T. Walker  ◂ LEAK
-  BN1       George Sisler             48    8   +1.1  0.14  George Pinkney  ◂ LEAK
-  BN4       Stan Hack                 46    6   +0.8  0.14  George Pinkney  ◂ LEAK
-  RP4       Bob Gibson                44    4   +1.4  0.34  R.T. Walker  ◂ LEAK
-  BN5       Tsung-Che Cheng           44    4   +0.7  0.18  George Pinkney  ◂ LEAK
-  BN6       Alfredo Amezaga           44    4   +0.6  0.15  George Pinkney · backup LF/CF/RF/SS
-  BN7       Jerome Walton             43    3   +0.5  0.16  George Pinkney  ◂ LEAK
-  BN8       Buck Rodgers              42    2   +0.3  0.17  George Pinkney · backup C
-  748 cap points above the floor on 25 cards (1 at the floor) · 0.85 runs per point on average
-  leaks (under half the average, no rule behind them): Carlos Beltran 59 pts, Arjun Nimmala 54 pts, Pythias Russ 49 pts, Bo Jackson 48 pts, Pedro Alvarez 41 pts, Placido Polanco 37 pts, Ernie Clement 24 pts, Big Jeff Pfeffer 19 pts, James McDonald 15 pts, Lefty Grove 8 pts, George Sisler 8 pts, Stan Hack 6 pts, Bob Gibson 4 pts, Tsung-Che Cheng 4 pts, Jerome Walton 3 pts
-(16 of 26 have a live ask in the last shop snapshot)
-objective: 311.7 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.5735, bench 0.1)
-points: lineup(both boards, 10 bats) 852 · rotation 359 · bullpen 270 · bench-only 307
+  SP3/BN3   Babe Ruth                 97   57      -     -  no floor card fits
+  SP1       Don Larsen                96   56  +82.7  1.48  George Hunter
+  3B/SS     Arjun Nimmala             94   54  +71.8  1.33  Coot Veal
+  SS/C      Pythias Russ              89   49      -     -  no floor card fits
+  RF        Bo Jackson                88   48  +84.6  1.76  George Hunter
+  SP4       Jack Stivetts             87   47  +61.2  1.30  George Hunter
+  1B        Pedro Alvarez             81   41  +61.0  1.49  Monte Beville
+  2B        Placido Polanco           77   37  +71.2  1.92  Coot Veal
+  3B/BN2    Chris Sabo                66   26  +21.5  0.83  Coot Veal
+  1B/BN9    Ernie Clement             64   24  +20.0  0.83  Monte Beville
+  CL        Fritz Ostermueller        64   24  +16.8  0.70  R.T. Walker
+  RP1       Caden Scarborough         64   24  +12.6  0.52  R.T. Walker  ◂ LEAK
+  RP2       James McDonald            55   15  +10.9  0.73  R.T. Walker
+  RP3       Randy Choate              45    5   +5.5  1.10  R.T. Walker
+  BN10      Alfredo Amezaga           44    4   +0.7  0.17  Zack Taylor · backup LF/SS
+  RP4       Todd Jones                43    3   +3.0  1.00  R.T. Walker
+  BN4       Buck Rodgers              42    2   +0.5  0.23  Zack Taylor · backup C
+  748 cap points above the floor on 21 cards (5 at the floor) · 1.27 runs per point on average
+  leaks (under half the average, no rule behind them): Caden Scarborough 24 pts
+(15 of 27 have a live ask in the last shop snapshot)
+objective: 342.9 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.5735, bench 0.1)
+points: lineup(both boards, 10 bats) 852 · rotation 379 · bullpen 271 · bench-only 286
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
-   Bob Gibson               pBABIP 49 (fitted 50–175)
+   Todd Jones               pBABIP 37 (fitted 50–175)
+   Count Sensenderfer       Eye 2 (fitted 24–283)
