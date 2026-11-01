@@ -1,0 +1,36 @@
+# Sunday Open Slots — Claude pick 2026-11-01-c340, rebuilt from the catalogue's rules by current-rosters (--year 1969 --park Shea Stadium --park-year 1964 --slots P8,D6,G4,S3,B3,I2 --size 26 --series openslotsweekly --sp 4 --rp 6 --bats 16)
+R:C Ed Bailey (VAR) #86637
+R:1B Albert Pujols #87149
+R:2B Chase Utley #87068
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Pythias Russ (VAR) #87083
+R:LF Carl Yastrzemski #87129
+R:CF Andruw Jones #87057
+R:RF Curtis Granderson #86595
+L:C Thurman Munson #82714
+L:1B Albert Pujols #87149
+L:2B Chase Utley #87068
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Pythias Russ (VAR) #87083
+L:LF Carl Yastrzemski #87129
+L:CF Andruw Jones #87057
+L:RF Bo Jackson #86966
+SP1 Mordecai Brown #87370
+SP2 Christy Mathewson #86697
+SP3 Madison Bumgarner #87024
+SP4 Ed Rile #87165
+CL Don Larsen #87240
+RP1 Cy Young #86996
+RP2 Count Leblanc (VAR) #86978
+RP3 Joe Beggs (VAR) #86762
+RP4 Kelvim Escobar #87207
+RP5 Nick Altrock #87049
+BN1 Jack Tobin #86772
+BN2 Thurman Munson #82714
+BN3 Javier Baez (VAR) #86417
+BN4 Billy Southworth (VAR) #86379
+BN5 Bill Buckner (VAR) #85858
+BN6 George Sisler (VAR) #87002
+BN7 Placido Polanco #87213
+BN8 Bo Jackson #86966
+BN9 Ed Rile #87165
