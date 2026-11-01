@@ -1,0 +1,36 @@
+# Daily Bronze Only Cap — Claude pick 2026-11-01-armfix-b4, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park American Family Field --park-year 2026 --dh --min 60 --max 69 --cap 1689 --variant-cap 13 --size 26 --series bronzeonlycapdaily --sp 5 --rp 7 --bats 14)
+R:C Ernie Whitt #86941
+R:1B Bill Buckner (VAR) #85858
+R:2B Brandon Phillips #87202
+R:3B Dave Brain (VAR) #85934
+R:SS Ernie Clement #87244
+R:LF Billy Southworth (VAR) #86379
+R:CF Deion Sanders #86962
+R:RF Eric Byrnes #87195
+R:DH Max Flack #87342
+L:C Tony Pena Sr. #86282
+L:1B Steve Pearce (VAR) #86366
+L:2B Brandon Phillips #87202
+L:3B Dave Brain (VAR) #85934
+L:SS Ernie Clement #87244
+L:LF Deion Sanders #86962
+L:CF Byron Buxton (VAR) #85821
+L:RF Eric Byrnes #87195
+L:DH Chris Sabo #87059
+SP1 Fritz Ostermueller #86357
+SP2 Gene Krapp #87374
+SP3 Mickey Lolich #87279
+SP4 Livan Hernandez #87261
+SP5 Hal Woodeshick #83148
+CL Caden Scarborough (VAR) #84762
+RP1 Edwin Diaz #86422
+RP2 Bruce Hurst #86361
+RP3 Don Robinson (VAR) #86773
+RP4 Chuck Finley (VAR) #85338
+RP5 Paul Assenmacher #86944
+RP6 Ramon Hernandez #87294
+BN1 Byron Buxton (VAR) #85821
+BN2 Jett Williams #84763
+BN3 Steve Pearce (VAR) #86366
+BN4 Chris Sabo #87059
+BN5 Tony Pena Sr. #86282

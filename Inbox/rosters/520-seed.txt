@@ -1,4 +1,4 @@
-# seed: saved roster 1551 "Claude pick 2026-10-31-refit2-b3"
+# seed: saved roster 1610 "Claude pick 2026-10-31 bk"
 R:C #86941
 R:1B #85858
 R:2B #87202
@@ -7,7 +7,7 @@ R:SS #87244
 R:LF #86379
 R:CF #86962
 R:RF #87195
-R:DH #87059
+R:DH #87342
 L:C #86282
 L:1B #86366
 L:2B #87202
@@ -29,8 +29,8 @@ RP3 #85717
 RP4 #85698
 RP5 #84762
 RP6 #86705
-BN1 #86366
+BN1 #87059
 BN2 #84765
 BN3 #85821
-BN4 #82018
+BN4 #86366
 BN5 #86282

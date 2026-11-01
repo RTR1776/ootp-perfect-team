@@ -11,6 +11,7 @@ staff weights from bronzeonlycapdaily's exports: SP 1.11, RP 0.52 (a lineup slot
 field (bronzeonlycapdaily, 7 exports): 39% of batters faced thrown left-handed · 45% of PA by left-handed bats · 13.3 bats / 5.8 SP / 6.2 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 981 of 1055 pool cards have innings on record (median 1279 PA/BF); K = 1000000
+field's average card here (860 cards played in bronzeonlycapdaily, weighted by PA/BF): bat -6.6 vs RHP / -7.8 vs LHP, arm -3.1 — "fld" on each row is runs over that
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (2019 band): gloves ×2, framing ×1, starters ×1.5, pen ×1.85 against a bat run → glove ×1.61, SP 1.67, RP 0.96 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.8 SP / 7.2 RP → per SP ×0.96 (5 carried), per RP ×1.03 (7 carried)
@@ -19,31 +20,36 @@ staff innings split over the arms carried: the field runs 4.8 SP / 7.2 RP → pe
                           RHB: Power +5.6  Avoid Ks +3.3  BABIP +1.7  Eye +1.2  Gap +0.8
                          arms: pHR +1.9  Stuff +1.6  pBABIP +1.0  Control +0.9
 seed: 520-seed.txt as is (26 cards)
-seed: scores 98.2 before the climb
+seed: scores 89.6 before the climb
 
-optimiser: 14 starts (λ + seed) hill-climbed; best 99.3 runs vs 59.5 greedy (+39.8), 19 moves from λ 2.00 (the seed's climb: 99.3)
+optimiser: 7 starts (λ + seed) hill-climbed; best 100.1 runs vs 56.5 greedy (+43.5), 16 moves from λ 2.00 (the seed's climb: 98.9)
+dual: from Don Robinson in both roles: Don Robinson in both, 99.2 runs
+dual: from Cool Papa Bell in both roles: no legal board
+dual: from Kyson Witherspoon in both roles: Kyson Witherspoon in both, 97.1 runs
+dual: from Larry Sherry in both roles: Larry Sherry in both, 96.9 runs
+dual: no two-way card in both roles beats 100.1 runs (best Don Robinson 99.2)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ernie Whitt                 68  L  1985    -2.9  park:L DEF  94/ 94 +0.9  #86941
-R:1B    Bill Buckner (VAR)          64  L  1974    +5.2  park:L DEF  83/ 83 +1.3  #85858
-R:2B    Brandon Phillips            64  R  2007    -6.4  park:R DEF 130/130 +5.4  #87202
-R:3B    Dave Brain (VAR)            68  R  1907    +3.5  park:R DEF  99/ 99 +2.1  #85934
-R:SS    Ernie Clement               64  R  2025    -0.6  park:R DEF 109/130 +0.8  #87244
-R:LF    Billy Southworth (VAR)      68  L  1926    +8.7  park:L DEF 115/115 +3.1  #86379
-R:CF    Deion Sanders               69  L  1992    +4.1  park:L DEF 120/131 +1.1  #86962
-R:RF    Eric Byrnes                 67  R  2007    +2.8  park:R DEF 133/134 +6.1  #87195
-R:DH    Max Flack                   61  L  1919    +3.4  park:L  #87342
+R:C     Ernie Whitt                 68  L  1985    -2.9 fld  +3.7  park:L DEF  94/ 94 +0.9  #86941
+R:1B    Bill Buckner (VAR)          64  L  1974    +5.2 fld +11.8  park:L DEF  83/ 83 +1.3  #85858
+R:2B    Brandon Phillips            64  R  2007    -6.4 fld  +0.3  park:R DEF 130/130 +5.4  #87202
+R:3B    Dave Brain (VAR)            68  R  1907    +3.5 fld +10.2  park:R DEF  99/ 99 +2.1  #85934
+R:SS    Ernie Clement               64  R  2025    -0.6 fld  +6.0  park:R DEF 109/130 +0.8  #87244
+R:LF    Billy Southworth (VAR)      68  L  1926    +8.7 fld +15.3  park:L DEF 115/115 +3.1  #86379
+R:CF    Deion Sanders               69  L  1992    +4.1 fld +10.7  park:L DEF 120/131 +1.1  #86962
+R:RF    Eric Byrnes                 67  R  2007    +2.8 fld  +9.5  park:R DEF 133/134 +6.1  #87195
+R:DH    Max Flack                   61  L  1919    +3.4 fld +10.0  park:L  #87342
 
 --- lineup vs LHP ---
-L:C     Tony Pena Sr.               62  R  1984    -9.8  park:R DEF 105/105 +10.2  #86282
-L:1B    Steve Pearce (VAR)          69  R  2016   +12.2  park:R DEF  73/ 73 -0.7  #86366
-L:2B    Brandon Phillips            64  R  2007   +20.3  park:R DEF 130/130 +5.4  #87202
-L:3B    Dave Brain (VAR)            68  R  1907    +5.9  park:R DEF  99/ 99 +2.1  #85934
-L:SS    Ernie Clement               64  R  2025   +14.0  park:R DEF 109/130 +0.8  #87244
-L:LF    Deion Sanders               69  L  1992    +6.8  park:L DEF 131/131 +5.7  #86962
-L:CF    Byron Buxton (VAR)          64  R  2019    +7.7  park:R DEF 130/130 +2.6  #85821
-L:RF    Eric Byrnes                 67  R  2007    +5.9  park:R DEF 133/134 +6.1  #87195
-L:DH    Chris Sabo                  66  R  1990   +30.7  park:R  #87059
+L:C     Tony Pena Sr.               62  R  1984    -9.8 fld  -2.0  park:R DEF 105/105 +10.2  #86282
+L:1B    Steve Pearce (VAR)          69  R  2016   +12.2 fld +20.0  park:R DEF  73/ 73 -0.7  #86366
+L:2B    Brandon Phillips            64  R  2007   +20.3 fld +28.1  park:R DEF 130/130 +5.4  #87202
+L:3B    Dave Brain (VAR)            68  R  1907    +5.9 fld +13.7  park:R DEF  99/ 99 +2.1  #85934
+L:SS    Ernie Clement               64  R  2025   +14.0 fld +21.8  park:R DEF 109/130 +0.8  #87244
+L:LF    Deion Sanders               69  L  1992    +6.8 fld +14.7  park:L DEF 131/131 +5.7  #86962
+L:CF    Byron Buxton (VAR)          64  R  2019    +7.7 fld +15.5  park:R DEF 130/130 +2.6  #85821
+L:RF    Eric Byrnes                 67  R  2007    +5.9 fld +13.7  park:R DEF 133/134 +6.1  #87195
+L:DH    Chris Sabo                  66  R  1990   +30.7 fld +38.5  park:R  #87059
 
 --- batting order vs RHP --- (4.47 runs/game; The Book's order 4.47)
   1. Eric Byrnes RF
@@ -68,51 +74,51 @@ L:DH    Chris Sabo                  66  R  1990   +30.7  park:R  #87059
   9. Byron Buxton (VAR) CF
 
 --- rotation ---
-SP1     Fritz Ostermueller          64  L  1944    +6.8   SP STM  98  #86357
-SP2     Gene Krapp                  62  R  1911    +4.0   SP STM 102  #87374
-SP3     Mickey Lolich               69  S  1968    +3.7   SP STM 117  #87279
-SP4     Hal Woodeshick              66  R  1962    +1.9   SP STM  67  #83148
-SP5     Livan Hernandez             68  R  1997    +1.7   SP STM  87  #87261
+SP1     Fritz Ostermueller          64  L  1944    +7.1 fld +10.2   SP STM  98  #86357
+SP2     Gene Krapp                  62  R  1911    +6.0 fld  +9.1   SP STM 102  #87374
+SP3     Mickey Lolich               69  S  1968    +3.6 fld  +6.7   SP STM 117  #87279
+SP4     Livan Hernandez             68  R  1997    +1.9 fld  +5.0   SP STM  87  #87261
+SP5     Hal Woodeshick              66  R  1962    -0.1 fld  +3.1   SP STM  67  #83148
 
 --- bullpen ---
-CL      Chuck Finley (VAR)          60  L  2000    +0.6   SP STM  88  #85338
-RP1     Bruce Hurst                 64  L  1990    +0.4   SP STM  86  #86361
-RP2     Bill Duggleby               65  R  1901    +0.2   SP STM 105  #87335
-RP3     Mickey Haefner              64  L  1944    -0.5   SP STM  84  #85717
-RP4     Jim Bouton (VAR)            64  R  1963    -0.6   SP STM  91  #85698
-RP5     Caden Scarborough (VAR)     64  R  2026    -0.7   RP STM  46  #84762
-RP6     Roy Halladay                61  R  2004    -1.7   SP STM  73  #86705
+CL      Caden Scarborough (VAR)     64  R  2026    +2.1 fld  +5.2   RP STM  46  #84762
+RP1     Edwin Diaz                  67  R  2016    +1.4 fld  +4.6   CL STM  13  #86422
+RP2     Bruce Hurst                 64  L  1990    -0.5 fld  +2.7   SP STM  86  #86361
+RP3     Don Robinson (VAR)          65  R  1984    -0.8 fld  +2.3   RP STM  39  #86773
+RP4     Chuck Finley (VAR)          60  L  2000    -1.1 fld  +2.0   SP STM  88  #85338
+RP5     Paul Assenmacher            62  L  1989    -2.1 fld  +1.0   RP STM  17  #86944
+RP6     Ramon Hernandez             62  S  1975    -2.9 fld  +0.2   RP STM  22  #87294
 
 --- bench ---
-BN1     Chris Sabo                  66  R  1990    +2.8  park:R  #87059
-BN2     Jhonny Level (VAR)          64  S  2026    -2.0  park:L  #84765
-BN3     Byron Buxton (VAR)          64  R  2019    -6.1  park:R  #85821
-BN4     Steve Pearce (VAR)          69  R  2016    +1.0  park:R  #86366
-BN5     Tony Pena Sr.               62  R  1984   -22.9  park:R  #86282
+BN1     Byron Buxton (VAR)          64  R  2019    -6.1 fld  +0.6  park:R  #85821
+BN2     Jett Williams               62  R  2026    -6.4 fld  +0.2  park:R  #84763
+BN3     Steve Pearce (VAR)          69  R  2016    +1.0 fld  +7.6  park:R  #86366
+BN4     Chris Sabo                  66  R  1990    +2.8 fld  +9.4  park:R  #87059
+BN5     Tony Pena Sr.               62  R  1984   -22.9 fld -16.2  park:R  #86282
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ernie Whitt                U1 Tony Pena Sr. 105            U2 -                            def sub Tony Pena Sr. (+9.2)
   1B  Bill Buckner (VAR)         U1 Steve Pearce (VAR) 73        U2 -                           
-  2B  Brandon Phillips           U1 Jhonny Level (VAR) 107       U2 -                           
-  3B  Dave Brain (VAR)           U1 Chris Sabo 77                U2 -                           
-  SS  Ernie Clement              U1 Jhonny Level (VAR) 94        U2 -                           
+  2B  Brandon Phillips           U1 Jett Williams 93             U2 -                           
+  3B  Dave Brain (VAR)           U1 Chris Sabo 77                U2 Jett Williams 83            
+  SS  Ernie Clement              U1 NONE                         U2 -                           
   LF  Billy Southworth (VAR)     U1 Steve Pearce (VAR) 67        U2 -                           
   CF  Deion Sanders              U1 Byron Buxton (VAR) 130       U2 -                           
   RF  Eric Byrnes                U1 NONE                         U2 -                           
-  pinch hitters: Chris Sabo, Steve Pearce (VAR), Jhonny Level (VAR), Byron Buxton (VAR) · pinch runners: Byron Buxton (VAR) (SPE 122), Chris Sabo (SPE 74), Tony Pena Sr. (SPE 48)
+  pinch hitters: Chris Sabo, Steve Pearce (VAR), Byron Buxton (VAR), Jett Williams · pinch runners: Byron Buxton (VAR) (SPE 122), Jett Williams (SPE 114), Chris Sabo (SPE 74)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Tony Pena Sr.              U1 Ernie Whitt 94               U2 -                           
   1B  Steve Pearce (VAR)         U1 Bill Buckner (VAR) 83        U2 -                           
-  2B  Brandon Phillips           U1 Jhonny Level (VAR) 107       U2 -                           
-  3B  Dave Brain (VAR)           U1 Chris Sabo 77                U2 -                           
-  SS  Ernie Clement              U1 Jhonny Level (VAR) 94        U2 -                           
+  2B  Brandon Phillips           U1 Jett Williams 93             U2 -                           
+  3B  Dave Brain (VAR)           U1 Chris Sabo 77                U2 Jett Williams 83            
+  SS  Ernie Clement              U1 NONE                         U2 -                           
   LF  Deion Sanders              U1 Billy Southworth (VAR) 115   U2 Bill Buckner (VAR) 68       
   CF  Byron Buxton (VAR)         U1 Billy Southworth (VAR) 100   U2 -                           
   RF  Eric Byrnes                U1 Billy Southworth (VAR) 100   U2 -                           
-  pinch hitters: Jhonny Level (VAR), Billy Southworth (VAR), Bill Buckner (VAR), Max Flack · pinch runners: Bill Buckner (VAR) (SPE 81), Billy Southworth (VAR) (SPE 69), Max Flack (SPE 62)
+  pinch hitters: Jett Williams, Billy Southworth (VAR), Bill Buckner (VAR), Max Flack · pinch runners: Jett Williams (SPE 114), Bill Buckner (VAR) (SPE 81), Billy Southworth (VAR) (SPE 69)
 
-26 players · value 1689 / 1689 (0 spare) · λ 2.000 · 9 variants
+26 players · value 1689 / 1689 (0 spare) · λ 2.000 · 8 variants
 vs RHP lineup: 5 of 9 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
@@ -125,58 +131,60 @@ vs RHP lineup: 5 of 9 bat from the left side (the platoon edge); this park favou
   Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
   Steve Pearce           R EYE 147 (167/140)  POW 106 (142/98)  K 105  BABIP  92  GAP  76  SPE  46
   Ernie Clement          R EYE  45 (43/46)  POW  48 (64/41)  K 167  BABIP 141  GAP 125  SPE  92
-  Jhonny Level           S EYE  68 (62/70)  POW 100 (87/104)  K  97  BABIP  98  GAP 109  SPE  36
   Ernie Whitt            L EYE 118 (142/111)  POW 107 (69/125)  K  93  BABIP  60  GAP  86  SPE  41
   Byron Buxton           R EYE  67 (72/65)  POW  71 (94/60)  K  83  BABIP  98  GAP 168  SPE 122
   Brandon Phillips       R EYE  47 (58/44)  POW 110 (160/96)  K  95  BABIP  94  GAP  76  SPE  92
+  Jett Williams          R EYE 151 (160/148)  POW  74 (88/69)  K  78  BABIP  81  GAP 125  SPE 114
   Tony Pena Sr.          R EYE  64 (43/68)  POW  70 (102/57)  K  79  BABIP  85  GAP  71  SPE  48
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (110 teams): 5.0 SP / 7.3 RP / 13.6 bats
-  ✓ starters' stamina Fritz Ostermueller 98, Gene Krapp 102, Mickey Lolich 117, Hal Woodeshick 67, Livan Hernandez 87 (era floor 50)
-  ✓ stamina guys in the pen (45+): Chuck Finley 88, Bruce Hurst 86, Bill Duggleby 105, Mickey Haefner 84, Jim Bouton 91, Caden Scarborough 46, Roy Halladay 73
+  ✓ starters' stamina Fritz Ostermueller 98, Gene Krapp 102, Mickey Lolich 117, Livan Hernandez 87, Hal Woodeshick 67 (era floor 50)
+  ✓ stamina guys in the pen (45+): Caden Scarborough 46, Bruce Hurst 86, Chuck Finley 88
   ✓ C  backup: vs RHP Tony Pena Sr. 105 · vs LHP Ernie Whitt 94
   ✓ 1B backup: vs RHP Steve Pearce 73 · vs LHP Bill Buckner 83
-  ✓ 2B backup: Jhonny Level 107
-  ✓ 3B backup: Chris Sabo 77
-  ✓ SS backup: Jhonny Level 94
+  ✓ 2B backup: Jett Williams 93
+  ✓ 3B backup: Chris Sabo 77, Jett Williams 83
+  ✓ SS backup: Jett Williams 78
   ✓ LF backup: vs RHP Steve Pearce 67 · vs LHP Bill Buckner 68, Billy Southworth 115
-  ✓ CF backup: vs RHP Byron Buxton 130 · vs LHP Billy Southworth 100
+  ✓ CF backup: vs RHP Byron Buxton 130, Jett Williams 87 · vs LHP Billy Southworth 100, Jett Williams 87
   ✓ RF backup: vs RHP Max Flack 67 · vs LHP Billy Southworth 100, Max Flack 67
 
 --- cap ledger --- (floor value 60; runs = what he adds over the best unrostered floor card in his slots)
   slot      card                     val +cap   runs   /pt  floor sub / why
   CF/LF     Deion Sanders             69    9  +29.5  3.28  Tony Gwynn Jr.
-  SP3       Mickey Lolich             69    9  +11.5  1.28  Justin Masterson
-  1B/BN4    Steve Pearce              69    9  +10.3  1.15  Romy Gonzalez · backup LF
+  SP3       Mickey Lolich             69    9  +14.8  1.65  Justin Masterson
+  1B/BN3    Steve Pearce              69    9  +10.3  1.15  Romy Gonzalez · backup LF
   3B        Dave Brain                68    8  +28.4  3.55  Gabriel Arias
   LF        Billy Southworth          68    8  +13.0  1.63  Tony Gwynn Jr.
+  SP4       Livan Hernandez           68    8  +11.2  1.40  Justin Masterson
   C         Ernie Whitt               68    8   +8.0  1.00  Frank Grube  ◂ LEAK
-  SP5       Livan Hernandez           68    8   +6.5  0.81  Justin Masterson  ◂ LEAK
   RF        Eric Byrnes               67    7  +28.8  4.11  Tony Gwynn Jr.
-  DH/BN1    Chris Sabo                66    6  +13.2  2.21  Willie Randolph · backup 3B
-  SP4       Hal Woodeshick            66    6   +8.1  1.35  Justin Masterson
-  RP2       Bill Duggleby             65    5   +3.8  0.75  Justin Masterson  ◂ LEAK
+  RP1       Edwin Diaz                67    7   +7.7  1.10  Justin Masterson  ◂ LEAK
+  DH/BN4    Chris Sabo                66    6  +13.2  2.21  Willie Randolph
+  SP5       Hal Woodeshick            66    6   +6.9  1.15  Justin Masterson  ◂ LEAK
+  RP3       Don Robinson              65    5   +4.9  0.98  Justin Masterson  ◂ LEAK
   SS        Ernie Clement             64    4  +39.1  9.79  Rabbit Maranville
-  SP1       Fritz Ostermueller        64    4  +19.0  4.74  Justin Masterson
-  CF/BN3    Byron Buxton              64    4  +18.9  4.72  Tony Gwynn Jr.
+  SP1       Fritz Ostermueller        64    4  +23.4  5.86  Justin Masterson
+  CF/BN1    Byron Buxton              64    4  +18.9  4.72  Tony Gwynn Jr.
   2B        Brandon Phillips          64    4  +14.9  3.73  Willie Randolph
   1B        Bill Buckner              64    4  +12.9  3.23  Romy Gonzalez
-  RP1       Bruce Hurst               64    4   +4.2  1.05  Justin Masterson  ◂ LEAK
-  RP3       Mickey Haefner            64    4   +3.0  0.75  Justin Masterson  ◂ LEAK
-  RP4       Jim Bouton                64    4   +2.7  0.68  Justin Masterson  ◂ LEAK
-  RP5       Caden Scarborough         64    4   +2.4  0.61  Justin Masterson  ◂ LEAK
-  BN2       Jhonny Level              64    4   +0.5  0.13  Davy Jones · backup 2B/SS
-  SP2       Gene Krapp                62    2  +12.9  6.45  Justin Masterson
+  CL        Caden Scarborough         64    4   +9.0  2.24  Justin Masterson
+  RP2       Bruce Hurst               64    4   +5.2  1.31  Justin Masterson  ◂ LEAK
+  SP2       Gene Krapp                62    2  +20.0 10.00  Justin Masterson
   C/BN5     Tony Pena Sr.             62    2   +5.8  2.92  Frank Grube
+  RP5       Paul Assenmacher          62    2   +3.1  1.53  Justin Masterson
+  RP6       Ramon Hernandez           62    2   +1.8  0.90  Justin Masterson
+  BN2       Jett Williams             62    2   +0.2  0.11  Davy Jones · backup 2B/SS
   DH        Max Flack                 61    1   +8.0  7.98  Davy Jones · backup RF
-  RP6       Roy Halladay              61    1   +1.2  1.20  Justin Masterson
-  129 cap points above the floor on 25 cards (1 at the floor) · 2.38 runs per point on average
-  leaks (under half the average, no rule behind them): Ernie Whitt 8 pts, Livan Hernandez 8 pts, Bill Duggleby 5 pts, Bruce Hurst 4 pts, Mickey Haefner 4 pts, Jim Bouton 4 pts, Caden Scarborough 4 pts
+  129 cap points above the floor on 25 cards (1 at the floor) · 2.63 runs per point on average
+  leaks (under half the average, no rule behind them): Ernie Whitt 8 pts, Edwin Diaz 7 pts, Hal Woodeshick 6 pts, Don Robinson 5 pts, Bruce Hurst 4 pts
 (24 of 26 have a live ask in the last shop snapshot)
-objective: 99.3 weighted runs (bats 61/39 R/L, SP 1.665, RP 0.9620000000000001, bench 0.1)
-points: lineup(both boards, 13 bats) 854 · rotation 329 · bullpen 442 · bench-only 64
+objective: 100.1 weighted runs (bats 61/39 R/L, SP 1.665, RP 0.9620000000000001, bench 0.1)
+points: lineup(both boards, 13 bats) 854 · rotation 329 · bullpen 444 · bench-only 62
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Hal Woodeshick           pBABIP 39 (fitted 50–175)
+   Edwin Diaz               pBABIP 25 (fitted 50–175)
+   Paul Assenmacher         pBABIP 37 (fitted 50–175)
