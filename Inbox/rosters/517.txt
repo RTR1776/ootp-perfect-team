@@ -11,6 +11,7 @@ staff weights from ironcapdaily's exports: SP 1.26, RP 0.51 (a lineup slot = 1)
 field (ironcapdaily, 5 exports): 27% of batters faced thrown left-handed · 23% of PA by left-handed bats · 12.9 bats / 5.3 SP / 5.8 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 1151 of 1219 pool cards have innings on record (median 514 PA/BF); K = 1000000
+field's average card here (712 cards played in ironcapdaily, weighted by PA/BF): bat -9.7 vs RHP / -13.6 vs LHP, arm -11.5 — "fld" on each row is runs over that
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×1.85 against a bat run → glove ×1.62, SP 1.89, RP 0.94 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.4 SP / 6.7 RP → per SP ×0.88 (5 carried), per RP ×0.96 (7 carried)
@@ -19,31 +20,36 @@ staff innings split over the arms carried: the field runs 4.4 SP / 6.7 RP → pe
                           RHB: Power +7.2  Avoid Ks +4.4  BABIP +2.3  Eye +1.3  Gap +0.9
                          arms: pHR +2.3  Stuff +2.1  pBABIP +1.3  Control +1.0
 seed: 517-seed.txt as is (26 cards)
-seed: scores -70.5 before the climb
+seed: scores -95.9 before the climb
 
-optimiser: 15 starts (λ + seed) hill-climbed; best -68.9 runs vs -96.9 greedy (+28.1), 1 moves from the seed
+optimiser: 9 starts (λ + seed) hill-climbed; best -94.2 runs vs -131.2 greedy (+37.0), 4 moves from the seed
+dual: from Big Jeff Pfeffer in both roles: Big Jeff Pfeffer in both, -94.7 runs
+dual: from Bullet Campbell in both roles: no legal board
+dual: from Bob Romby in both roles: no legal board
+dual: from Lefty Grove in both roles: Big Jeff Pfeffer in both, -94.7 runs
+dual: no two-way card in both roles beats -94.2 runs (best Big Jeff Pfeffer -94.7)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ossee Schrecongost          48  R  1907   -14.5  park:R DEF  80/ 80 -5.6  #87328
-R:1B    Nap Lajoie                  50  R  1905    -2.8  park:R DEF  96/114 +3.9  #86581
-R:2B    Javier Baez (VAR)           49  R  2021    -4.5  park:R DEF 102/102 -3.6  #86417
-R:3B    Chris Taylor                59  R  2018    -3.7  park:R DEF  97/112 +1.6  #87243
-R:SS    Ozzie Smith                 59  S  1982   -19.6  park:L DEF 140/140 +12.2  #86972
-R:LF    Norris Hopper               53  R  2007    -0.6  park:R DEF 137/137 +6.6  #87191
-R:CF    Milt Thompson               58  L  1989    -4.7  park:L DEF 114/121 +0.2  #86927
-R:RF    Vladimir Guerrero           48  R  1997    -2.8  park:R DEF 117/117 +3.3  #86474
-R:DH    George Sisler (VAR)         48  L  1928    -4.0  park:L  #87002
+R:C     Ossee Schrecongost          48  R  1907   -14.5 fld  -4.8  park:R DEF  80/ 80 -5.6  #87328
+R:1B    Nap Lajoie                  50  R  1905    -2.8 fld  +6.9  park:R DEF  96/114 +3.9  #86581
+R:2B    Javier Baez (VAR)           49  R  2021    -4.5 fld  +5.2  park:R DEF 102/102 -3.6  #86417
+R:3B    Chris Taylor                59  R  2018    -3.7 fld  +6.0  park:R DEF  97/112 +1.6  #87243
+R:SS    Ozzie Smith                 59  S  1982   -19.6 fld  -9.9  park:L DEF 140/140 +12.2  #86972
+R:LF    Norris Hopper               53  R  2007    -0.6 fld  +9.1  park:R DEF 137/137 +6.6  #87191
+R:CF    Milt Thompson               58  L  1989    -4.7 fld  +5.0  park:L DEF 114/121 +0.2  #86927
+R:RF    Vladimir Guerrero           48  R  1997    -2.8 fld  +6.9  park:R DEF 117/117 +3.3  #86474
+R:DH    George Sisler (VAR)         48  L  1928    -4.0 fld  +5.7  park:L  #87002
 
 --- lineup vs LHP ---
-L:C     Ossee Schrecongost          48  R  1907   -18.2  park:R DEF  80/ 80 -5.6  #87328
-L:1B    Nap Lajoie                  50  R  1905   -14.9  park:R DEF  96/114 +3.9  #86581
-L:2B    Javier Baez (VAR)           49  R  2021    -9.6  park:R DEF 102/102 -3.6  #86417
-L:3B    Chris Taylor                59  R  2018    -7.2  park:R DEF  97/112 +1.6  #87243
-L:SS    Ozzie Smith                 59  S  1982   -13.9  park:R DEF 140/140 +12.2  #86972
-L:LF    Sammy Sosa (VAR)            43  R  1990    -2.0  park:R DEF 105/109 +1.5  #85691
-L:CF    Norris Hopper               53  R  2007    -2.0  park:R DEF 121/137 +1.3  #87191
-L:RF    Vladimir Guerrero           48  R  1997    -3.9  park:R DEF 117/117 +3.3  #86474
-L:DH    Gary Sheffield              43  R  1989    -5.5  park:R  #86950
+L:C     Ossee Schrecongost          48  R  1907   -18.2 fld  -4.6  park:R DEF  80/ 80 -5.6  #87328
+L:1B    Nap Lajoie                  50  R  1905   -14.9 fld  -1.3  park:R DEF  96/114 +3.9  #86581
+L:2B    Javier Baez (VAR)           49  R  2021    -9.6 fld  +4.0  park:R DEF 102/102 -3.6  #86417
+L:3B    Chris Taylor                59  R  2018    -7.2 fld  +6.4  park:R DEF  97/112 +1.6  #87243
+L:SS    Ozzie Smith                 59  S  1982   -13.9 fld  -0.2  park:R DEF 140/140 +12.2  #86972
+L:LF    Sammy Sosa (VAR)            43  R  1990    -2.0 fld +11.6  park:R DEF 105/109 +1.5  #85691
+L:CF    Norris Hopper               53  R  2007    -2.0 fld +11.6  park:R DEF 121/137 +1.3  #87191
+L:RF    Vladimir Guerrero           48  R  1997    -3.9 fld  +9.7  park:R DEF 117/117 +3.3  #86474
+L:DH    Gary Sheffield              43  R  1989    -5.5 fld  +8.1  park:R  #86950
 
 --- batting order vs RHP --- (5.00 runs/game; The Book's order 4.99)
   1. Norris Hopper LF
@@ -68,27 +74,27 @@ L:DH    Gary Sheffield              43  R  1989    -5.5  park:R  #86950
   9. Ossee Schrecongost C
 
 --- rotation ---
-SP1     James McDonald (VAR)        55  L  2010    +4.2   SP STM  59  #86384
-SP2     Big Jeff Pfeffer            59  R  1906    +2.3   SP STM  98  #87340
-SP3     Justin Verlander            58  R  2006    -1.8   SP STM  83  #87014
-SP4     Bob Gibson (VAR)            44  R  1959    -2.4   SP STM  69  #86658
-SP5     Patricio Scantlebury        56  L  1946    -2.8   SP STM  68  #85828
+SP1     James McDonald (VAR)        55  L  2010    +6.1 fld +17.6   SP STM  59  #86384
+SP2     Big Jeff Pfeffer            59  R  1906    +2.3 fld +13.8   SP STM  98  #87340
+SP3     Justin Verlander            58  R  2006    -4.9 fld  +6.6   SP STM  83  #87014
+SP4     Bob Gibson (VAR)            44  R  1959    -6.8 fld  +4.7   SP STM  69  #86658
+SP5     Patricio Scantlebury        56  L  1946    -7.2 fld  +4.3   SP STM  68  #85828
 
 --- bullpen ---
-CL      Mike Marshall               57  R  1973    +1.2   CL STM  74  #84720
-RP1     John Bale                   59  L  2007    +0.8   RP STM  33  #87234
-RP2     Randy Choate                45  L  2013    -3.0   RP STM   6  #87026
-RP3     Jeff Francis                53  L  2007    -4.2   SP STM  75  #87199
-RP4     Tin Can Kincannon           45  R  1934    -4.8   SP STM  74  #86073
-RP5     R.T. Walker                 40  R  1947    -6.3   RP STM  69  #86952
-RP6     Todd Jones (VAR)            43  L  2000    -7.6   CL STM  17  #86434
+CL      John Bale                   59  L  2007    +3.0 fld +14.5   RP STM  33  #87234
+RP1     Mike Marshall               57  R  1973    +0.4 fld +11.9   CL STM  74  #84720
+RP2     Randy Choate                45  L  2013    -2.1 fld  +9.4   RP STM   6  #87026
+RP3     Todd Jones (VAR)            43  L  2000    -7.6 fld  +3.9   CL STM  17  #86434
+RP4     Jeff Francis                53  L  2007    -8.2 fld  +3.3   SP STM  75  #87199
+RP5     Tin Can Kincannon           45  R  1934    -9.5 fld  +2.1   SP STM  74  #86073
+RP6     R.T. Walker                 40  R  1947   -15.2 fld  -3.7   RP STM  69  #86952
 
 --- bench ---
-BN1     Alfredo Amezaga             44  S  2007   -13.8  park:L  #87188
-BN2     Jay Johnstone               42  L  1979   -17.0  park:L  #86373
-BN3     Buck Rodgers (VAR)          42  S  1962   -18.5  park:L  #84312
-BN4     Gary Sheffield              43  R  1989   -20.5  park:R  #86950
-BN5     Sammy Sosa (VAR)            43  R  1990   -27.3  park:R  #85691
+BN1     Alfredo Amezaga             44  S  2007   -13.8 fld  -4.1  park:L  #87188
+BN2     Jay Johnstone               42  L  1979   -17.0 fld  -7.2  park:L  #86373
+BN3     Buck Rodgers (VAR)          42  S  1962   -18.5 fld  -8.8  park:L  #84312
+BN4     Gary Sheffield              43  R  1989   -20.5 fld -10.8  park:R  #86950
+BN5     Sammy Sosa (VAR)            43  R  1990   -27.3 fld -17.6  park:R  #85691
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ossee Schrecongost         U1 Buck Rodgers (VAR) 68        U2 -                           
@@ -147,40 +153,40 @@ LEGAL — every rule check passes
 
 --- cap ledger --- (floor value 40; runs = what he adds over the best unrostered floor card in his slots)
   slot      card                     val +cap   runs   /pt  floor sub / why
+  SP2       Big Jeff Pfeffer          59   19  +60.1  3.16  Daniel Norris
   SS        Ozzie Smith               59   19  +43.1  2.27  Coot Veal
+  CL        John Bale                 59   19  +36.4  1.92  Daniel Norris
   3B        Chris Taylor              59   19  +34.6  1.82  Coot Veal
-  SP2       Big Jeff Pfeffer          59   19  +32.3  1.70  Daniel Norris
-  RP1       John Bale                 59   19  +16.5  0.87  Daniel Norris  ◂ LEAK
-  SP3       Justin Verlander          58   18  +23.1  1.29  Daniel Norris
-  CF        Milt Thompson             58   18  +21.7  1.21  Count Sensenderfer
-  CL        Mike Marshall             57   17  +17.9  1.05  Daniel Norris
-  SP5       Patricio Scantlebury      56   16  +16.7  1.05  Daniel Norris
-  SP1       James McDonald            55   15  +38.2  2.55  Daniel Norris
-  RP3       Jeff Francis              53   13  +10.7  0.82  Daniel Norris  ◂ LEAK
+  SP3       Justin Verlander          58   18  +43.8  2.43  Daniel Norris
+  CF        Milt Thompson             58   18  +21.7  1.21  Count Sensenderfer  ◂ LEAK
+  RP1       Mike Marshall             57   17  +31.6  1.86  Daniel Norris
+  SP5       Patricio Scantlebury      56   16  +31.0  1.94  Daniel Norris
+  SP1       James McDonald            55   15  +71.5  4.77  Daniel Norris
+  RP4       Jeff Francis              53   13  +20.1  1.54  Daniel Norris
   LF/CF     Norris Hopper             53   13      -     -  no floor card fits
   1B        Nap Lajoie                50   10  +31.6  3.16  John Leary
   2B        Javier Baez               49    9  +34.9  3.88  Coot Veal
   RF        Vladimir Guerrero         48    8  +33.4  4.17  Count Sensenderfer
   C         Ossee Schrecongost        48    8  +25.4  3.17  Sebastian Rivero
   DH        George Sisler             48    8  +14.5  1.81  George Pinkney
-  RP2       Randy Choate              45    5  +11.9  2.37  Daniel Norris
-  RP4       Tin Can Kincannon         45    5   +9.5  1.90  Daniel Norris
-  SP4       Bob Gibson                44    4  +20.5  5.13  Daniel Norris
+  RP2       Randy Choate              45    5  +27.2  5.45  Daniel Norris
+  RP5       Tin Can Kincannon         45    5  +17.6  3.52  Daniel Norris
+  SP4       Bob Gibson                44    4  +37.8  9.46  Daniel Norris
   BN1       Alfredo Amezaga           44    4   +0.7  0.17  George Pinkney · backup 2B/3B/SS
+  RP3       Todd Jones                43    3  +22.0  7.34  Daniel Norris
   LF/BN5    Sammy Sosa                43    3  +12.5  4.15  George Hunter
   DH/BN4    Gary Sheffield            43    3   +6.8  2.28  George Pinkney
-  RP6       Todd Jones                43    3   +5.0  1.66  Daniel Norris
   BN2       Jay Johnstone             42    2   +0.5  0.23  George Pinkney
   BN3       Buck Rodgers              42    2   +0.4  0.18  George Pinkney · backup C, 2nd C
-  260 cap points above the floor on 25 cards (1 at the floor) · 1.87 runs per point on average
-  leaks (under half the average, no rule behind them): John Bale 19 pts, Jeff Francis 13 pts
+  260 cap points above the floor on 25 cards (1 at the floor) · 2.67 runs per point on average
+  leaks (under half the average, no rule behind them): Milt Thompson 18 pts
 (20 of 26 have a live ask in the last shop snapshot)
-objective: -68.9 weighted runs (bats 73/27 R/L, SP 1.8900000000000001, RP 0.9435000000000001, bench 0.1)
+objective: -94.2 weighted runs (bats 73/27 R/L, SP 1.8900000000000001, RP 0.9435000000000001, bench 0.1)
 points: lineup(both boards, 11 bats) 558 · rotation 272 · bullpen 342 · bench-only 128
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Bob Gibson               pBABIP 49 (fitted 50–175)
    Patricio Scantlebury     pBABIP 45 (fitted 50–175)
    John Bale                pBABIP 14 (fitted 50–175)
-   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
    Todd Jones               pBABIP 37 (fitted 50–175)
+   Tin Can Kincannon        pBABIP 36 (fitted 50–175)
