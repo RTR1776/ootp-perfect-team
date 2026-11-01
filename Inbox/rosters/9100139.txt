@@ -12,6 +12,7 @@ staff weights from allstarhardwareslots's exports: SP 1.3, RP 0.39 (a lineup slo
 field (allstarhardwareslots, 7 exports): 36% of batters faced thrown left-handed · 40% of PA by left-handed bats · 13.3 bats / 5.9 SP / 5.5 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 444 of 483 pool cards have innings on record (median 3554 PA/BF); K = 1000000
+field's average card here (538 cards played in allstarhardwareslots, weighted by PA/BF): bat +20.1 vs RHP / +17.2 vs LHP, arm +11.5 — "fld" on each row is runs over that
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×1.85 against a bat run → glove ×1.62, SP 1.95, RP 0.72 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.9 SP / 6.4 RP → per SP ×0.98 (5 carried), per RP ×0.91 (7 carried)
@@ -20,36 +21,36 @@ staff innings split over the arms carried: the field runs 4.9 SP / 6.4 RP → pe
                           RHB: Power +4.8  Avoid Ks +2.9  BABIP +1.5  Eye +1.1  Gap +0.8
                          arms: pHR +1.6  Stuff +1.4  pBABIP +0.9  Control +0.8
 seed: 9100139-seed.txt as is (26 cards)
-seed: scores 560.6 before the climb
+seed: scores 641.6 before the climb
 
-optimiser: 13 starts (λ + seed) hill-climbed; best 560.6 runs vs 501.9 greedy (+58.7), 38 moves from λ 3.50 (the seed's climb: 560.6)
-dual: from Madison Bumgarner in both roles: Dizzy Trout in both, 560.6 runs
-dual: from Christy Mathewson in both roles: Dizzy Trout in both, 560.6 runs
-dual: from Don Larsen in both roles: Dizzy Trout in both, 560.6 runs
-dual: from Dizzy Trout in both roles: Dizzy Trout in both, 560.6 runs
-dual: no two-way card in both roles beats 560.6 runs (best Dizzy Trout 560.6)
+optimiser: 8 starts (λ + seed) hill-climbed; best 644.9 runs vs 561.9 greedy (+83.0), 32 moves from λ 3.00 (the seed's climb: 644.9)
+dual: from Madison Bumgarner in both roles: Christy Mathewson in both, 644.8 runs
+dual: from Christy Mathewson in both roles: Christy Mathewson in both, 644.8 runs
+dual: from Don Larsen in both roles: Christy Mathewson in both, 644.8 runs
+dual: from Steve Carlton in both roles: Christy Mathewson in both, 644.8 runs
+dual: no two-way card in both roles beats 644.9 runs (best Christy Mathewson 644.8)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ed Bailey (VAR)             97  L  1956   +34.4  park:L DEF 112/112 +10.8  #86637
-R:1B    Pedro Alvarez               81  L  2013   +36.2  park:L DEF  96/ 96 +3.9  #87062
-R:2B    Chase Utley                102  L  2009   +38.8  park:L DEF 139/139 +8.4  #87068
-R:3B    George Brett               103  L  1985   +58.0  park:L DEF  88/ 88 -0.8  #87025
-R:SS    Corey Seager               103  L  2023   +49.3  park:L DEF 119/119 +4.5  #87173
-R:LF    Carl Yastrzemski           103  L  1967   +57.5  park:L DEF 149/149 +8.6  #87129
-R:CF    Carlos Beltran              99  S  2004   +44.6  park:L DEF 108/108 -0.8  #87066
-R:RF    Bo Jackson                  88  R  1989   +32.9  park:R DEF 123/123 +4.4  #86966
-R:DH    Reggie Jackson             102  L  1977   +68.5  park:L  #87238
+R:C     Ed Bailey (VAR)             97  L  1956   +34.4 fld +14.3  park:L DEF 112/112 +10.8  #86637
+R:1B    Pedro Alvarez               81  L  2013   +36.2 fld +16.1  park:L DEF  96/ 96 +3.9  #87062
+R:2B    Chase Utley                102  L  2009   +38.8 fld +18.7  park:L DEF 139/139 +8.4  #87068
+R:3B    George Brett               103  L  1985   +58.0 fld +37.9  park:L DEF  88/ 88 -0.8  #87025
+R:SS    Corey Seager               103  L  2023   +49.3 fld +29.2  park:L DEF 119/119 +4.5  #87173
+R:LF    Carl Yastrzemski           103  L  1967   +57.5 fld +37.5  park:L DEF 149/149 +8.6  #87129
+R:CF    Carlos Beltran              99  S  2004   +44.6 fld +24.5  park:L DEF 108/108 -0.8  #87066
+R:RF    Bo Jackson                  88  R  1989   +32.9 fld +12.8  park:R DEF 123/123 +4.4  #86966
+R:DH    Reggie Jackson             102  L  1977   +68.5 fld +48.5  park:L  #87238
 
 --- lineup vs LHP ---
-L:C     Mike Zunino                 75  R  2021    +5.6  park:R DEF  77/ 77 +13.6  #86431
-L:1B    George Brett               103  L  1985   +36.2  park:L DEF  88/ 88 +2.3  #87025
-L:2B    Chase Utley                102  L  2009   +47.7  park:L DEF 139/139 +8.4  #87068
-L:3B    Chris Sabo                  66  R  1990   +28.0  park:R DEF  77/ 77 -3.6  #87059
-L:SS    Corey Seager               103  L  2023   +30.6  park:L DEF 119/119 +4.5  #87173
-L:LF    Carl Yastrzemski           103  L  1967   +40.2  park:L DEF 149/149 +8.6  #87129
-L:CF    Carlos Beltran              99  S  2004   +24.2  park:R DEF 108/108 -0.8  #87066
-L:RF    Bo Jackson                  88  R  1989   +25.9  park:R DEF 123/123 +4.4  #86966
-L:DH    Reggie Jackson             102  L  1977   +50.1  park:L  #87238
+L:C     Mike Zunino                 75  R  2021    +5.6 fld -11.6  park:R DEF  77/ 77 +13.6  #86431
+L:1B    George Brett               103  L  1985   +36.2 fld +19.0  park:L DEF  88/ 88 +2.3  #87025
+L:2B    Chase Utley                102  L  2009   +47.7 fld +30.5  park:L DEF 139/139 +8.4  #87068
+L:3B    Chris Sabo                  66  R  1990   +28.0 fld +10.8  park:R DEF  77/ 77 -3.6  #87059
+L:SS    Corey Seager               103  L  2023   +30.6 fld +13.4  park:L DEF 119/119 +4.5  #87173
+L:LF    Carl Yastrzemski           103  L  1967   +40.2 fld +23.1  park:L DEF 149/149 +8.6  #87129
+L:CF    Carlos Beltran              99  S  2004   +24.2 fld  +7.1  park:R DEF 108/108 -0.8  #87066
+L:RF    Bo Jackson                  88  R  1989   +25.9 fld  +8.7  park:R DEF 123/123 +4.4  #86966
+L:DH    Reggie Jackson             102  L  1977   +50.1 fld +33.0  park:L  #87238
 
 --- batting order vs RHP --- (6.37 runs/game; The Book's order 6.36)
   1. George Brett 3B
@@ -74,27 +75,27 @@ L:DH    Reggie Jackson             102  L  1977   +50.1  park:L  #87238
   9. Mike Zunino C
 
 --- rotation ---
-SP1     Madison Bumgarner          103  R  2014   +16.1   SP STM 110  #87024
-SP2     Christy Mathewson          103  R  1905   +15.8   SP STM 111  #86697
-SP3     Orel Hershiser             102  R  1988   +13.8   SP STM 100  #83135
-SP4     Tommy John                  92  R  1979   +10.3   SP STM  90  #86604
-SP5     Don Larsen                  96  R  1956    +9.8   SP STM 100  #87240
+SP1     Madison Bumgarner          103  R  2014   +26.1 fld +14.5   SP STM 110  #87024
+SP2     Christy Mathewson          103  R  1905   +25.6 fld +14.1   SP STM 111  #86697
+SP3     Orel Hershiser             102  R  1988   +21.7 fld +10.1   SP STM 100  #83135
+SP4     Don Larsen                  96  R  1956   +15.3 fld  +3.8   SP STM 100  #87240
+SP5     Tommy John                  92  R  1979   +13.6 fld  +2.1   SP STM  90  #86604
 
 --- bullpen ---
-CL      Bob Feller                  88  R  1939    +7.5   SP STM 111  #85650
-RP1     Tom Glavine                 97  L  1991    +7.5   SP STM  94  #87270
-RP2     Dizzy Trout                 97  R  1944    +7.4   SP STM 104  #85781
-RP3     Bob Walk                    73  R  1988    +5.4   SP STM  82  #86971
-RP4     Orlando Hernandez           78  R  1999    +4.3   SP STM  76  #87239
-RP5     Mike Marshall               57  R  1973    +1.3   CL STM  74  #84720
-RP6     Chuck Finley (VAR)          60  L  2000    +0.7   SP STM  88  #85338
+CL      Tom Glavine                 97  L  1991   +12.6 fld  +1.1   SP STM  94  #87270
+RP1     Joe Beggs (VAR)             89  R  1940   +12.3 fld  +0.8   RP STM  46  #86762
+RP2     Steve Carlton (VAR)         96  L  1969   +11.8 fld  +0.2   SP STM  86  #85109
+RP3     Orlando Hernandez           78  R  1999    +6.7 fld  -4.8   SP STM  76  #87239
+RP4     Bob Walk                    73  R  1988    +5.7 fld  -5.8   SP STM  82  #86971
+RP5     Mike Marshall               57  R  1973    +0.9 fld -10.7   CL STM  74  #84720
+RP6     Chuck Finley (VAR)          60  L  2000    -1.0 fld -12.5   SP STM  88  #85338
 
 --- bench ---
-BN1     Chris Sabo                  66  R  1990    +1.3  park:R  #87059
-BN2     Shane Victorino             69  S  2013    -4.3  park:L  #87235
-BN3     Ty Wigginton                54  R  2010    -8.1  park:R  #86086
-BN4     Brice Turang (VAR)          55  L  2024   -20.0  park:L  #82852
-BN5     Mike Zunino                 75  R  2021   -27.7  park:R  #86431
+BN1     Chris Sabo                  66  R  1990    +1.3 fld -18.8  park:R  #87059
+BN2     Mike Zunino                 75  R  2021   -27.7 fld -47.8  park:R  #86431
+BN3     Ty Wigginton                54  R  2010    -8.1 fld -28.2  park:R  #86086
+BN4     Shane Victorino             69  S  2013    -4.3 fld -24.4  park:L  #87235
+BN5     Brice Turang (VAR)          55  L  2024   -20.0 fld -40.1  park:L  #82852
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ed Bailey (VAR)            U1 Mike Zunino 77               U2 -                           
@@ -118,7 +119,7 @@ BN5     Mike Zunino                 75  R  2021   -27.7  park:R  #86431
   RF  Bo Jackson                 U1 Shane Victorino 153          U2 -                            def sub Shane Victorino (+5.3)
   pinch hitters: Shane Victorino, Ty Wigginton, Pedro Alvarez, Ed Bailey (VAR) · pinch runners: Brice Turang (VAR) (SPE 98), Shane Victorino (SPE 92), Ty Wigginton (SPE 39)
 
-26 players · value 2243 · λ 3.500 · 3 variants
+26 players · value 2243 · λ 3.000 · 5 variants
 vs RHP lineup: 8 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
@@ -140,18 +141,18 @@ LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (53 teams): 5.3 SP / 7.4 RP / 14.3 bats
-  ✓ starters' stamina Madison Bumgarner 110, Christy Mathewson 111, Orel Hershiser 100, Tommy John 90, Don Larsen 100 (era floor 50)
-  ✓ stamina guys in the pen (45+): Bob Feller 111, Tom Glavine 94, Dizzy Trout 104, Bob Walk 82, Orlando Hernandez 76, Mike Marshall 74, Chuck Finley 88
+  ✓ starters' stamina Madison Bumgarner 110, Christy Mathewson 111, Orel Hershiser 100, Don Larsen 100, Tommy John 90 (era floor 50)
+  ✓ stamina guys in the pen (45+): Tom Glavine 94, Joe Beggs 46, Steve Carlton 86, Orlando Hernandez 76, Bob Walk 82, Mike Marshall 74, Chuck Finley 88
   ✓ C  backup: vs RHP Mike Zunino 77 · vs LHP Ed Bailey 112
   ✓ 1B backup: vs RHP Ty Wigginton 69 · vs LHP Pedro Alvarez 96, Ty Wigginton 69
   ✓ 2B backup: Brice Turang 116
   ✓ 3B backup: vs RHP Chris Sabo 77 · vs LHP Pedro Alvarez 75
   ✓ SS backup: Brice Turang 88
-  ✓ LF backup: Shane Victorino 151, Ty Wigginton 60
+  ✓ LF backup: Ty Wigginton 60, Shane Victorino 151
   ✓ CF backup: Shane Victorino 140
   ✓ RF backup: Reggie Jackson 69, Shane Victorino 153
 (12 of 26 have a live ask in the last shop snapshot)
-objective: 560.6 weighted runs (bats 64/36 R/L, SP 1.9500000000000002, RP 0.7215, bench 0.1)
+objective: 644.9 weighted runs (bats 64/36 R/L, SP 1.9500000000000002, RP 0.7215, bench 0.1)
 points: lineup(both boards, 11 bats) 1019 · rotation 496 · bullpen 550 · bench-only 178
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
