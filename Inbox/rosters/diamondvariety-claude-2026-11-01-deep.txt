@@ -1,0 +1,35 @@
+# Saturday Diamond Variety — Claude pick 2026-11-01 deep (arm fix, 24 starts, dual phase), 447.7 vs 434.9
+R:C Ed Bailey (VAR) #86637
+R:1B Roy Cullenbine #86775
+R:2B Frankie Frisch #85721
+R:3B Hank Thompson #86668
+R:SS Pythias Russ (VAR) #87083
+R:LF Mickey Mantle #86635
+R:CF Dutch Zwilling #87364
+R:RF Charlie Blackwell #87268
+L:C Pythias Russ (VAR) #87083
+L:1B Rudy York (VAR) #86429
+L:2B Frankie Frisch #85721
+L:3B Candy Jim Taylor #87325
+L:SS Roger Peckinpaugh #87360
+L:LF Al Simmons #85942
+L:CF Willie Mays #86634
+L:RF Charlie Blackwell #87268
+SP1 Don Larsen #87240
+SP2 Count Leblanc (VAR) #86978
+SP3 Claude Grier #87086
+SP4 Babe Ruth #86439
+CL Joe Beggs (VAR) #86762
+RP1 Johnny Markham (VAR) #87159
+RP2 Milt Pappas #86654
+RP3 Bob Feller #85650
+RP4 Larry Jackson #86646
+BN1 Luke Appling #82759
+BN2 Roger Peckinpaugh #87360
+BN3 Al Simmons #85942
+BN4 Rudy York (VAR) #86429
+BN5 Mack Eggleston (VAR) #86977
+BN6 Willie McCovey #86609
+BN7 Willie Bobo #87164
+BN8 Willie Mays #86634
+BN9 Candy Jim Taylor #87325
