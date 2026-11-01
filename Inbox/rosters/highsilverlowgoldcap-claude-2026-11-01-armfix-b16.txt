@@ -1,0 +1,36 @@
+# Daily Low Gold Cap — Claude pick 2026-11-01-armfix-b16, rebuilt from the catalogue's rules by current-rosters (--year 2007 --park Shea Stadium --park-year 2008 --dh --min 40 --max 84 --cap 1610 --size 26 --series highsilverlowgoldcap --sp 5 --rp 7 --bats 14)
+R:C Mike Zunino #86431
+R:1B Matt Carpenter #86771
+R:2B Brandon Phillips #87202
+R:3B Chris Sabo #87059
+R:SS Jeremy Pena #87154
+R:LF Alfonso Soriano #86745
+R:CF Deion Sanders #86962
+R:RF Jeff Francoeur (VAR) #86300
+R:DH Pedro Alvarez #87062
+L:C Mike Zunino #86431
+L:1B Matt Carpenter #86771
+L:2B Brandon Phillips #87202
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Alfonso Soriano #86745
+L:CF Deion Sanders #86962
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 CC Sabathia #87182
+SP3 Kelvim Escobar #87207
+SP4 Fritz Ostermueller #86357
+SP5 James McDonald (VAR) #86384
+CL Gene Krapp #87374
+RP1 Big Jeff Pfeffer #87340
+RP2 Randy Choate #87026
+RP3 Bob Gibson (VAR) #86658
+RP4 Tin Can Kincannon #86073
+RP5 Todd Jones (VAR) #86434
+RP6 R.T. Walker #86952
+BN1 Ryan Braun #87222
+BN2 Tsung-Che Cheng (VAR) #84612
+BN3 Buck Rodgers (VAR) #84312
+BN4 Alfredo Amezaga #87188
+BN5 Jim Maloney #85498

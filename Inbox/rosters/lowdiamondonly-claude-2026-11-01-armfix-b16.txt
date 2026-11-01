@@ -1,0 +1,36 @@
+# Daily Low Diamond Only — Claude pick 2026-11-01-armfix-b16, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Coors Field --park-year 2000 --dh --min 90 --max 94 --size 26 --series lowdiamondonly --sp 5 --rp 7 --bats 14)
+R:C Johnny Bassler #86476
+R:1B Mark Teixeira #87184
+R:2B Fred Pfeffer #87363
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Luke Appling #82759
+R:LF Alex Gordon #86698
+R:CF Chick Stahl #86583
+R:RF Adolis Garcia #87022
+R:DH Carlos Lee #86349
+L:C Darren Daulton #86253
+L:1B Lennie Pearson (VAR) #84880
+L:2B Fred Pfeffer #87363
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Barry Larkin #86264
+L:LF Alex Gordon #86698
+L:CF Chick Stahl #86583
+L:RF Adolis Garcia #87022
+L:DH Luis Pena #84733
+SP1 Mark Langston #86956
+SP2 Kyle Freeland (VAR) #86708
+SP3 Larry Jackson #86646
+SP4 Tommy John #86604
+SP5 Al Leiter (VAR) #85796
+CL Liam Doyle #84730
+RP1 Sam Jones #86070
+RP2 Barry Zito #86296
+RP3 Manny Banuelos #86564
+RP4 Catfish Hunter #86878
+RP5 Jarlin Susana #84627
+RP6 Cody Allen #87054
+BN1 Luis Pena #84733
+BN2 Lennie Pearson (VAR) #84880
+BN3 Darren Daulton #86253
+BN4 Ryan Waldschmidt (VAR) #84737
+BN5 Barry Larkin #86264

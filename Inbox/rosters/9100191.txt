@@ -11,6 +11,7 @@ staff weights from highsilverlowgoldcap's exports: SP 1.23, RP 0.45 (a lineup sl
 field (highsilverlowgoldcap, 4 exports): 40% of batters faced thrown left-handed · 39% of PA by left-handed bats · 13.1 bats / 5.4 SP / 6.2 RP per team
 shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 3001 of 3318 pool cards have innings on record (median 899 PA/BF); K = 1000000
+field's average card here (1047 cards played in highsilverlowgoldcap, weighted by PA/BF): bat -0.6 vs RHP / -1.3 vs LHP, arm -1.0 — "fld" on each row is runs over that
 gloves ×0.93: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (2007 band): gloves ×1.25, framing ×0.5, starters ×1, pen ×1.85 against a bat run → glove ×1.16, SP 1.23, RP 0.83 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.7 SP / 6.8 RP → per SP ×0.94 (5 carried), per RP ×0.97 (7 carried)
@@ -19,165 +20,172 @@ staff innings split over the arms carried: the field runs 4.7 SP / 6.8 RP → pe
                           RHB: Power +4.5  Avoid Ks +2.5  BABIP +2.0  Eye +1.3  Gap +0.9
                          arms: pHR +1.5  Stuff +1.2  pBABIP +1.2  Control +0.9
 seed: 9100191-seed.txt as is (26 cards)
-seed: scores 162.0 before the climb
+seed: scores 156.2 before the climb
 
-optimiser: 16 starts (λ + seed) hill-climbed; best 162.3 runs vs 52.7 greedy (+109.5), 1 moves from the seed
+optimiser: 9 starts (λ + seed) hill-climbed; best 163.9 runs vs 47.7 greedy (+116.2), 38 moves from λ 3.00 (the seed's climb: 161.4)
+dual: from Bill Ricks in both roles: Big Jeff Pfeffer in both, 159.1 runs
+dual: from Travis Sykora in both roles: Travis Sykora in both, 154.4 runs
+dual: from Brian Anderson in both roles: Big Jeff Pfeffer in both, 163.3 runs
+dual: from Big Jeff Pfeffer in both roles: Big Jeff Pfeffer in both, 163.3 runs
+dual: no two-way card in both roles beats 163.9 runs (best Big Jeff Pfeffer 163.3)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Josh Gibson                 84  R  1946    +9.8  park:R DEF  69/ 75 -4.1  #86898
-R:1B    Pedro Alvarez               81  L  2013   +40.7  park:L DEF  96/ 96 +2.8  #87062
-R:2B    Marcus Semien               84  R  2021   +19.7  park:R DEF 121/121 +1.8  #86744
-R:3B    Aiva Arquette (VAR)         71  R  2026    +7.3  park:R DEF 113/113 +4.1  #84768
-R:SS    Jeremy Pena                 79  R  2022   +10.7  park:R DEF 116/116 +2.4  #87154
-R:LF    Alfonso Soriano             83  R  2006   +18.7  park:R DEF 115/115 +2.2  #86745
-R:CF    Deion Sanders               69  L  1992    +2.9  park:L DEF 120/131 +0.8  #86962
-R:RF    Jeff Francoeur (VAR)        81  R  2005    -1.8  park:R DEF 149/149 +6.4  #86300
-R:DH    Ryan Braun                  74  R  2007    +4.6  park:R  #87222
+R:C     Mike Zunino                 75  R  2021   -16.6 fld -16.0  park:R DEF  77/ 77 +6.2  #86431
+R:1B    Matt Carpenter              74  L  2015   +13.9 fld +14.6  park:L DEF 102/102 +3.7  #86771
+R:2B    Brandon Phillips            64  R  2007    -6.4 fld  -5.8  park:R DEF 130/130 +3.9  #87202
+R:3B    Chris Sabo                  66  R  1990    +5.0 fld  +5.7  park:R DEF  77/ 77 -2.6  #87059
+R:SS    Jeremy Pena                 79  R  2022   +10.7 fld +11.3  park:R DEF 116/116 +2.4  #87154
+R:LF    Alfonso Soriano             83  R  2006   +18.7 fld +19.3  park:R DEF 115/115 +2.2  #86745
+R:CF    Deion Sanders               69  L  1992    +2.9 fld  +3.5  park:L DEF 120/131 +0.8  #86962
+R:RF    Jeff Francoeur (VAR)        81  R  2005    -1.8 fld  -1.1  park:R DEF 149/149 +6.4  #86300
+R:DH    Pedro Alvarez               81  L  2013   +40.7 fld +41.3  park:L  #87062
 
 --- lineup vs LHP ---
-L:C     Josh Gibson                 84  R  1946   +15.8  park:R DEF  69/ 75 -4.1  #86898
-L:1B    Jackie Robinson (VAR)       58  R  1947    +3.1  park:R DEF  80/ 80 +0.5  #84390
-L:2B    Marcus Semien               84  R  2021    +5.1  park:R DEF 121/121 +1.8  #86744
-L:3B    Aiva Arquette (VAR)         71  R  2026    +7.5  park:R DEF 113/113 +4.1  #84768
-L:SS    Jeremy Pena                 79  R  2022   +17.0  park:R DEF 116/116 +2.4  #87154
-L:LF    Alfonso Soriano             83  R  2006   +21.6  park:R DEF 115/115 +2.2  #86745
-L:CF    Deion Sanders               69  L  1992    +8.3  park:L DEF 120/131 +0.8  #86962
-L:RF    Jeff Francoeur (VAR)        81  R  2005   +28.7  park:R DEF 149/149 +6.4  #86300
-L:DH    Ryan Braun                  74  R  2007   +42.4  park:R  #87222
+L:C     Mike Zunino                 75  R  2021   +17.8 fld +19.1  park:R DEF  77/ 77 +6.2  #86431
+L:1B    Matt Carpenter              74  L  2015    +2.9 fld  +4.2  park:L DEF 102/102 +3.7  #86771
+L:2B    Brandon Phillips            64  R  2007   +19.9 fld +21.1  park:R DEF 130/130 +3.9  #87202
+L:3B    Chris Sabo                  66  R  1990   +25.4 fld +26.7  park:R DEF  77/ 77 -2.6  #87059
+L:SS    Jeremy Pena                 79  R  2022   +17.0 fld +18.2  park:R DEF 116/116 +2.4  #87154
+L:LF    Alfonso Soriano             83  R  2006   +21.6 fld +22.9  park:R DEF 115/115 +2.2  #86745
+L:CF    Deion Sanders               69  L  1992    +8.3 fld  +9.6  park:L DEF 120/131 +0.8  #86962
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +28.7 fld +30.0  park:R DEF 149/149 +6.4  #86300
+L:DH    Ryan Braun                  74  R  2007   +42.4 fld +43.6  park:R  #87222
 
---- batting order vs RHP --- (5.00 runs/game; The Book's order 5.00)
-  1. Pedro Alvarez 1B
-  2. Marcus Semien 2B
+--- batting order vs RHP --- (4.81 runs/game; The Book's order 4.80)
+  1. Matt Carpenter 1B
+  2. Pedro Alvarez DH
   3. Alfonso Soriano LF
-  4. Josh Gibson C
-  5. Aiva Arquette (VAR) 3B
+  4. Chris Sabo 3B
+  5. Deion Sanders CF
   6. Jeremy Pena SS
-  7. Ryan Braun DH
-  8. Jeff Francoeur (VAR) RF
-  9. Deion Sanders CF
+  7. Jeff Francoeur (VAR) RF
+  8. Brandon Phillips 2B
+  9. Mike Zunino C
 
---- batting order vs LHP --- (5.19 runs/game; The Book's order 5.18)
-  1. Alfonso Soriano LF
-  2. Ryan Braun DH
-  3. Josh Gibson C
+--- batting order vs LHP --- (5.39 runs/game; The Book's order 5.39)
+  1. Ryan Braun DH
+  2. Alfonso Soriano LF
+  3. Chris Sabo 3B
   4. Jeff Francoeur (VAR) RF
-  5. Jeremy Pena SS
-  6. Aiva Arquette (VAR) 3B
-  7. Marcus Semien 2B
+  5. Brandon Phillips 2B
+  6. Jeremy Pena SS
+  7. Mike Zunino C
   8. Deion Sanders CF
-  9. Jackie Robinson (VAR) 1B
+  9. Matt Carpenter 1B
 
 --- rotation ---
-SP1     Nick Altrock                76  S  1906    +9.7   SP STM  90  #87049
-SP2     Kelvim Escobar              78  S  2007    +6.8   SP STM  76  #87207
-SP3     Fritz Ostermueller          64  L  1944    +6.5   SP STM  98  #86357
-SP4     Gene Krapp                  62  R  1911    +4.5   SP STM 102  #87374
-SP5     Big Jeff Pfeffer            59  R  1906    +2.6   SP STM  98  #87340
+SP1     Nick Altrock                76  S  1906   +12.0 fld +13.1   SP STM  90  #87049
+SP2     CC Sabathia                 82  L  2007   +11.4 fld +12.4   SP STM  85  #87182
+SP3     Kelvim Escobar              78  S  2007   +10.0 fld +11.1   SP STM  76  #87207
+SP4     Fritz Ostermueller          64  L  1944    +6.5 fld  +7.5   SP STM  98  #86357
+SP5     James McDonald (VAR)        55  L  2010    +4.3 fld  +5.4   SP STM  59  #86384
 
 --- bullpen ---
-CL      James McDonald (VAR)        55  L  2010    +3.4   SP STM  59  #86384
-RP1     Mike Marshall               57  R  1973    +1.0   CL STM  74  #84720
-RP2     Bob Gibson (VAR)            44  R  1959    -2.7   SP STM  69  #86658
-RP3     Randy Choate                45  L  2013    -3.2   RP STM   6  #87026
-RP4     Tin Can Kincannon           45  R  1934    -4.7   SP STM  74  #86073
-RP5     R.T. Walker                 40  R  1947    -5.4   RP STM  69  #86952
-RP6     Nate Robertson (VAR)        45  R  2006    -6.3   SP STM  64  #87130
+CL      Gene Krapp                  62  R  1911    +4.8 fld  +5.8   SP STM 102  #87374
+RP1     Big Jeff Pfeffer            59  R  1906    +1.6 fld  +2.6   SP STM  98  #87340
+RP2     Randy Choate                45  L  2013    -2.4 fld  -1.4   RP STM   6  #87026
+RP3     Bob Gibson (VAR)            44  R  1959    -7.4 fld  -6.4   SP STM  69  #86658
+RP4     Tin Can Kincannon           45  R  1934    -8.5 fld  -7.4   SP STM  74  #86073
+RP5     Todd Jones (VAR)            43  L  2000    -8.6 fld  -7.5   CL STM  17  #86434
+RP6     R.T. Walker                 40  R  1947   -11.3 fld -10.2   RP STM  69  #86952
 
 --- bench ---
-BN1     Tsung-Che Cheng (VAR)       44  L  2026   -11.3  park:L  #84612
-BN2     Rickey Henderson (VAR)      46  R  2000   -11.0  park:R  #85362
-BN3     Alfredo Amezaga             44  S  2007   -16.5  park:L  #87188
-BN4     Jackie Robinson (VAR)       58  R  1947   -16.5  park:R  #84390
-BN5     Buck Rodgers (VAR)          42  S  1962   -19.9  park:L  #84312
+BN1     Ryan Braun                  74  R  2007    +4.6 fld  +5.3  park:R  #87222
+BN2     Tsung-Che Cheng (VAR)       44  L  2026   -11.3 fld -10.7  park:L  #84612
+BN3     Buck Rodgers (VAR)          42  S  1962   -19.9 fld -19.3  park:L  #84312
+BN4     Alfredo Amezaga             44  S  2007   -16.5 fld -15.9  park:L  #87188
+BN5     Jim Maloney                 41  L  1961   -25.3 fld -24.7  park:L two-way (hitting)  #85498
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Josh Gibson                U1 Buck Rodgers (VAR) 68        U2 -                           
-  1B  Pedro Alvarez              U1 Jackie Robinson (VAR) 80     U2 Alfredo Amezaga 78          
-  2B  Marcus Semien              U1 NONE                         U2 -                           
-  3B  Aiva Arquette (VAR)        U1 Alfredo Amezaga 66           U2 -                           
+  C   Mike Zunino                U1 Buck Rodgers (VAR) 68        U2 -                           
+  1B  Matt Carpenter             U1 Pedro Alvarez 96             U2 Alfredo Amezaga 78          
+  2B  Brandon Phillips           U1 NONE                         U2 -                           
+  3B  Chris Sabo                 U1 Pedro Alvarez 75             U2 Alfredo Amezaga 66          
   SS  Jeremy Pena                U1 NONE                         U2 -                           
-  LF  Alfonso Soriano            U1 Rickey Henderson (VAR) 75    U2 Alfredo Amezaga 110         
+  LF  Alfonso Soriano            U1 Alfredo Amezaga 110          U2 -                           
   CF  Deion Sanders              U1 Alfredo Amezaga 95           U2 -                           
   RF  Jeff Francoeur (VAR)       U1 Alfredo Amezaga 116          U2 -                           
-  pinch hitters: Rickey Henderson (VAR), Tsung-Che Cheng (VAR), Jackie Robinson (VAR), Alfredo Amezaga · pinch runners: Jackie Robinson (VAR) (SPE 92), Rickey Henderson (VAR) (SPE 87), Alfredo Amezaga (SPE 83)
+  pinch hitters: Ryan Braun, Tsung-Che Cheng (VAR), Alfredo Amezaga, Buck Rodgers (VAR) · pinch runners: Alfredo Amezaga (SPE 83), Tsung-Che Cheng (VAR) (SPE 82), Ryan Braun (SPE 80)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Josh Gibson                U1 Buck Rodgers (VAR) 68        U2 -                           
-  1B  Jackie Robinson (VAR)      U1 Pedro Alvarez 96             U2 Alfredo Amezaga 78          
-  2B  Marcus Semien              U1 NONE                         U2 -                           
-  3B  Aiva Arquette (VAR)        U1 Pedro Alvarez 75             U2 Alfredo Amezaga 66          
+  C   Mike Zunino                U1 Buck Rodgers (VAR) 68        U2 -                           
+  1B  Matt Carpenter             U1 Pedro Alvarez 96             U2 Alfredo Amezaga 78          
+  2B  Brandon Phillips           U1 NONE                         U2 -                           
+  3B  Chris Sabo                 U1 Pedro Alvarez 75             U2 Alfredo Amezaga 66          
   SS  Jeremy Pena                U1 NONE                         U2 -                           
-  LF  Alfonso Soriano            U1 Rickey Henderson (VAR) 75    U2 Alfredo Amezaga 110         
+  LF  Alfonso Soriano            U1 Alfredo Amezaga 110          U2 -                           
   CF  Deion Sanders              U1 Alfredo Amezaga 95           U2 -                           
   RF  Jeff Francoeur (VAR)       U1 Alfredo Amezaga 116          U2 -                           
-  pinch hitters: Pedro Alvarez, Tsung-Che Cheng (VAR), Rickey Henderson (VAR), Buck Rodgers (VAR) · pinch runners: Rickey Henderson (VAR) (SPE 87), Alfredo Amezaga (SPE 83), Tsung-Che Cheng (VAR) (SPE 82)
+  pinch hitters: Pedro Alvarez, Tsung-Che Cheng (VAR), Buck Rodgers (VAR), Alfredo Amezaga · pinch runners: Alfredo Amezaga (SPE 83), Tsung-Che Cheng (VAR) (SPE 82), Buck Rodgers (VAR) (SPE 56)
 
-26 players · value 1610 / 1610 (0 spare) · from seed · 9 variants
-vs RHP lineup: 2 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
+26 players · value 1610 / 1610 (0 spare) · λ 3.000 · 6 variants
+vs RHP lineup: 3 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
   Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
-  Marcus Semien          R EYE 103 (100/105)  POW 153 (133/160)  K  95  BABIP  66  GAP 124  SPE  97
   Alfonso Soriano        R EYE 105 (158/92)  POW 157 (150/159)  K  66  BABIP  98  GAP 122  SPE 102
+  Matt Carpenter         L EYE 175 (155/182)  POW 116 (105/120)  K  66  BABIP 121  GAP 146  SPE  54
   Jeremy Pena            R EYE  59 (65/56)  POW 130 (134/128)  K  81  BABIP 136  GAP  80  SPE 111
-  Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
-  Aiva Arquette          R EYE  78 (98/70)  POW 118 (104/124)  K  95  BABIP 103  GAP 117  SPE  78
+  Chris Sabo             R EYE  96 (118/91)  POW 143 (166/135)  K 124  BABIP  64  GAP 110  SPE  74
   Ryan Braun             R EYE  82 (147/63)  POW 158 (200/144)  K  62  BABIP 106  GAP  93  SPE  80
   Deion Sanders          L EYE  63 (40/67)  POW  85 (112/77)  K  75  BABIP 149  GAP 113  SPE 119
   Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
-  Rickey Henderson       R EYE 172 (202/161)  POW  49 (7/60)  K  98  BABIP  67  GAP  64  SPE  87
+  Brandon Phillips       R EYE  47 (58/44)  POW 110 (160/96)  K  95  BABIP  94  GAP  76  SPE  92
   Tsung-Che Cheng        L EYE 135 (117/141)  POW  49 (29/55)  K  88  BABIP  92  GAP  38  SPE  82
-  Jackie Robinson        R EYE  78 (97/71)  POW  68 (101/43)  K 124  BABIP  87  GAP  83  SPE  92
   Alfredo Amezaga        S EYE  82 (10/94)  POW  33 (1/40)  K 109  BABIP  78  GAP  85  SPE  83
+  Mike Zunino            R EYE 111 (130/105)  POW 150 (184/138)  K  30  BABIP  65  GAP  65  SPE  38
   Buck Rodgers           S EYE  66 (59/68)  POW  48 (49/48)  K 106  BABIP  64  GAP 113  SPE  56
+  Jim Maloney            L EYE  60 (20/66)  POW  67 (25/75)  K  71  BABIP  90  GAP   1  SPE  16
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (54 teams): 4.8 SP / 7.3 RP / 13.5 bats
-  ✓ starters' stamina Nick Altrock 90, Kelvim Escobar 76, Fritz Ostermueller 98, Gene Krapp 102, Big Jeff Pfeffer 98 (era floor 50)
-  ✓ stamina guys in the pen (45+): James McDonald 59, Mike Marshall 74, Bob Gibson 69, Tin Can Kincannon 74, R.T. Walker 69, Nate Robertson 64
+  ✓ starters' stamina Nick Altrock 90, CC Sabathia 85, Kelvim Escobar 76, Fritz Ostermueller 98, James McDonald 59 (era floor 50)
+  ✓ stamina guys in the pen (45+): Gene Krapp 102, Big Jeff Pfeffer 98, Bob Gibson 69, Tin Can Kincannon 74, R.T. Walker 69
   ✓ C  backup: Buck Rodgers 68
-  ✓ 1B backup: vs RHP Jackie Robinson 80, Alfredo Amezaga 78 · vs LHP Pedro Alvarez 96, Alfredo Amezaga 78
+  ✓ 1B backup: Pedro Alvarez 96, Alfredo Amezaga 78
   ✓ 2B backup: Tsung-Che Cheng 79, Alfredo Amezaga 84
-  ✓ 3B backup: vs RHP Alfredo Amezaga 66 · vs LHP Pedro Alvarez 75, Alfredo Amezaga 66
+  ✓ 3B backup: Pedro Alvarez 75, Alfredo Amezaga 66
   ✓ SS backup: Alfredo Amezaga 64
-  ✓ LF backup: Rickey Henderson 75, Alfredo Amezaga 110
+  ✓ LF backup: Alfredo Amezaga 110
   ✓ CF backup: Alfredo Amezaga 95
   ✓ RF backup: Alfredo Amezaga 116
 
 --- cap ledger --- (floor value 40; runs = what he adds over the best unrostered floor card in his slots)
   slot      card                     val +cap   runs   /pt  floor sub / why
-  2B        Marcus Semien             84   44  +59.4  1.35  Darrel Chaney
-  C         Josh Gibson               84   44  +50.0  1.14  Sebastian Rivero
   LF        Alfonso Soriano           83   43  +64.9  1.51  George Hunter
+  SP2       CC Sabathia               82   42  +44.9  1.07  Daniel Norris
   RF        Jeff Francoeur            81   41  +55.6  1.36  Count Sensenderfer
-  1B        Pedro Alvarez             81   41  +46.9  1.14  John Leary
+  DH        Pedro Alvarez             81   41  +42.0  1.02  Charlie Eden
   SS        Jeremy Pena               79   39  +63.8  1.63  Darrel Chaney
-  SP2       Kelvim Escobar            78   38  +25.5  0.67  Daniel Norris
-  SP1       Nick Altrock              76   36  +31.2  0.87  Daniel Norris
-  DH        Ryan Braun                74   34  +49.2  1.45  Charlie Eden
-  3B        Aiva Arquette             71   31  +54.5  1.76  Coot Veal
+  SP3       Kelvim Escobar            78   38  +40.2  1.06  Daniel Norris
+  SP1       Nick Altrock              76   36  +48.9  1.36  Daniel Norris
+  C         Mike Zunino               75   35  +45.2  1.29  Sebastian Rivero
+  1B        Matt Carpenter            74   34  +50.3  1.48  John Leary
+  DH/BN1    Ryan Braun                74   34  +31.1  0.92  Charlie Eden
   CF        Deion Sanders             69   29  +46.6  1.61  Count Sensenderfer
-  SP3       Fritz Ostermueller        64   24  +23.4  0.98  Daniel Norris
-  SP4       Gene Krapp                62   22  +19.6  0.89  Daniel Norris
-  SP5       Big Jeff Pfeffer          59   19  +14.6  0.77  Daniel Norris
-  1B/BN4    Jackie Robinson           58   18  +18.7  1.04  John Leary
-  RP1       Mike Marshall             57   17  +13.1  0.77  Daniel Norris
-  CL        James McDonald            55   15  +16.3  1.09  Daniel Norris
-  BN2       Rickey Henderson          46    6   +1.2  0.20  Charlie Eden  ◂ LEAK
-  RP3       Randy Choate              45    5   +8.7  1.75  Daniel Norris
-  RP4       Tin Can Kincannon         45    5   +7.0  1.39  Daniel Norris
-  RP6       Nate Robertson            45    5   +4.0  0.81  Daniel Norris
-  RP2       Bob Gibson                44    4   +9.2  2.30  Daniel Norris
-  BN1       Tsung-Che Cheng           44    4   +1.2  0.29  Charlie Eden  ◂ LEAK
-  BN3       Alfredo Amezaga           44    4   +0.8  0.21  Charlie Eden · backup 3B/SS/CF/RF
-  BN5       Buck Rodgers              42    2   +0.6  0.31  Charlie Eden · backup C, 2nd C
-  570 cap points above the floor on 25 cards (1 at the floor) · 1.20 runs per point on average
-  leaks (under half the average, no rule behind them): Rickey Henderson 6 pts, Tsung-Che Cheng 4 pts
+  3B        Chris Sabo                66   26  +53.6  2.06  Coot Veal
+  2B        Brandon Phillips          64   24  +51.7  2.16  Darrel Chaney
+  SP4       Fritz Ostermueller        64   24  +33.6  1.40  Daniel Norris
+  CL        Gene Krapp                62   22  +28.0  1.27  Daniel Norris
+  RP1       Big Jeff Pfeffer          59   19  +23.4  1.23  Daniel Norris
+  SP5       James McDonald            55   15  +26.1  1.74  Daniel Norris
+  RP2       Randy Choate              45    5  +18.6  3.71  Daniel Norris
+  RP4       Tin Can Kincannon         45    5  +12.5  2.51  Daniel Norris
+  RP3       Bob Gibson                44    4  +14.3  3.58  Daniel Norris
+  BN2       Tsung-Che Cheng           44    4   +1.2  0.29  Charlie Eden  ◂ LEAK
+  BN4       Alfredo Amezaga           44    4   +0.8  0.21  Charlie Eden · backup SS/LF/CF/RF
+  RP5       Todd Jones                43    3  +11.6  3.85  Daniel Norris
+  BN3       Buck Rodgers              42    2   +0.6  0.31  Charlie Eden · backup C, 2nd C
+  BN5       Jim Maloney               41    1   +0.3  0.25  Charlie Eden
+  570 cap points above the floor on 25 cards (1 at the floor) · 1.42 runs per point on average
+  leaks (under half the average, no rule behind them): Tsung-Che Cheng 4 pts
 (19 of 26 have a live ask in the last shop snapshot)
-objective: 162.3 weighted runs (bats 60/40 R/L, SP 1.23, RP 0.8325, bench 0.1)
-points: lineup(both boards, 10 bats) 764 · rotation 339 · bullpen 331 · bench-only 176
+objective: 163.9 weighted runs (bats 60/40 R/L, SP 1.23, RP 0.8325, bench 0.1)
+points: lineup(both boards, 10 bats) 746 · rotation 355 · bullpen 338 · bench-only 171
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Bob Gibson               pBABIP 49 (fitted 50–175)
    Tin Can Kincannon        pBABIP 36 (fitted 50–175)
+   Todd Jones               pBABIP 37 (fitted 50–175)
+   Jim Maloney              Gap 1 (fitted 7–193)
