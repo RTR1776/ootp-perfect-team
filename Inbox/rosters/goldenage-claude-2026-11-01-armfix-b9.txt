@@ -1,0 +1,35 @@
+# Daily Golden Age — Claude pick 2026-11-01-armfix-b9, rebuilt from the catalogue's rules by current-rosters (--year 1925 --park Hamtramck Stadium --park-year 1930 --min 40 --max 89 --card-year-min 1800 --card-year-max 1929 --size 26 --series goldenage --sp 4 --rp 5 --bats 17)
+R:C Mack Eggleston (VAR) #86977
+R:1B Shoeless Joe Jackson #86372
+R:2B Sam Wise #87354
+R:3B Candy Jim Taylor #87325
+R:SS Pythias Russ (VAR) #87083
+R:LF Jimmie Lyons #87309
+R:CF George Gore #87326
+R:RF Branch Russell #87172
+L:C Jack Meyers #87358
+L:1B Kitty Bransfield #87356
+L:2B Jack Burdock #86067
+L:3B Candy Jim Taylor #87325
+L:SS Pythias Russ (VAR) #87083
+L:LF Jimmie Lyons #87309
+L:CF George Gore #87326
+L:RF Chick Hafey #85939
+SP1 Count Leblanc (VAR) #86978
+SP2 Old Hoss Radbourn (VAR) #82687
+SP3 Jeff Pfeffer #87350
+SP4 Jack Stivetts #87357
+CL Bill Duggleby #87335
+RP1 Sherry Smith #87030
+RP2 Carl Hubbell #86893
+RP3 Rube Marquard #86891
+RP4 Vean Gregg #87375
+BN1 Dave Brain (VAR) #85934
+BN2 Billy Southworth (VAR) #86379
+BN3 Topsy Hartsel #87336
+BN4 Mike Tiernan #87355
+BN5 Jack Burdock #86067
+BN6 Bill Joyce #87359
+BN7 Kitty Bransfield #87356
+BN8 Chick Hafey #85939
+BN9 Jack Meyers #87358
