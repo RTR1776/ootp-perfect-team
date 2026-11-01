@@ -10,6 +10,7 @@ staff weights from ironandfriends's exports: SP 1.18, RP 0.46 (a lineup slot = 1
 field (ironandfriends, 2 exports): 30% of batters faced thrown left-handed · 37% of PA by left-handed bats · 13.7 bats / 5 SP / 6.4 RP per team
 shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 1819 of 1934 pool cards have innings on record (median 1198 PA/BF); K = 1000000
+field's average card here (447 cards played in ironandfriends, weighted by PA/BF): bat -4.1 vs RHP / -6.8 vs LHP, arm -5.4 — "fld" on each row is runs over that
 gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1999 band): gloves ×1.25, framing ×0.5, starters ×1, pen ×1.85 against a bat run → glove ×1.15, SP 1.18, RP 0.85 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.5 SP / 6.9 RP → per SP ×0.90 (5 carried), per RP ×0.99 (7 carried)
@@ -18,139 +19,140 @@ staff innings split over the arms carried: the field runs 4.5 SP / 6.9 RP → pe
                           RHB: Power +4.8  Avoid Ks +2.6  BABIP +2.1  Eye +1.4  Gap +0.9
                          arms: pHR +1.6  Stuff +1.3  pBABIP +1.2  Control +1.0
 seed: 772-seed.txt as is (26 cards)
-seed: scores 67.5 before the climb
+seed: scores 38.2 before the climb
 
-optimiser: 17 starts (λ + seed) hill-climbed; best 68.0 runs vs 12.3 greedy (+55.7), 16 moves from λ 0.50 (the seed's climb: 68.0)
+optimiser: 10 starts (λ + seed) hill-climbed; best 46.4 runs vs -9.5 greedy (+55.9), 32 moves from λ 5.00 (the seed's climb: 43.6)
 dual: from Madison Bumgarner in both roles: no legal board
 dual: from CC Sabathia in both roles: no legal board
 dual: from Manny Banuelos in both roles: no legal board
 dual: from Bubba Chandler in both roles: no legal board
-dual: no two-way card in both roles beats 68.0 runs
+dual: no two-way card in both roles beats 46.4 runs
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Jake Rogers                 57  R  2026   -20.2  park:R DEF  80/ 80 -0.9  #82407
-R:1B    Shawn Green                 59  L  2004    -0.5  park:L DEF  96/ 96 +2.8  #87028
-R:2B    Chase Utley                102  L  2009   +36.0  park:L DEF 139/139 +5.9  #87068
-R:3B    Chris Taylor                59  R  2018    -4.9  park:R DEF  97/112 +1.1  #87243
-R:SS    Jeremy Pena                 79  R  2022   +11.3  park:R DEF 116/116 +2.4  #87154
-R:LF    Eric Byrnes                 67  R  2007    +1.7  park:R DEF 134/134 +4.4  #87195
-R:CF    Carlos Beltran              99  S  2004   +43.5  park:L DEF 108/108 -0.6  #87066
-R:RF    Jonny Gomes                 58  R  2005    -1.5  park:R DEF  78/ 78 -2.5  #87258
-R:DH    Carlos Pena                 89  L  2007   +34.7  park:L  #87183
+R:C     Jimmy Crooks (VAR)          68  L  2026    -9.8 fld  -5.7  park:L DEF 101/101 +4.5  #84772
+R:1B    Shawn Green                 59  L  2004    -0.5 fld  +3.6  park:L DEF  96/ 96 +2.8  #87028
+R:2B    Javier Baez (VAR)           49  R  2021    -1.5 fld  +2.7  park:R DEF 102/102 -2.6  #86417
+R:3B    Chris Taylor                59  R  2018    -4.9 fld  -0.8  park:R DEF  97/112 +1.1  #87243
+R:SS    Corey Seager               103  L  2023   +45.6 fld +49.7  park:L DEF 119/119 +3.2  #87173
+R:LF    Mike Trout (VAR)            51  R  2024    -5.3 fld  -1.1  park:R DEF  95/ 95 -0.0  #84793
+R:CF    Carlos Beltran              99  S  2004   +43.5 fld +47.7  park:L DEF 108/108 -0.6  #87066
+R:RF    Jonny Gomes                 58  R  2005    -1.5 fld  +2.6  park:R DEF  78/ 78 -2.5  #87258
+R:DH    Carlos Pena                 89  L  2007   +34.7 fld +38.9  park:L  #87183
 
 --- lineup vs LHP ---
-L:C     Jake Rogers                 57  R  2026   -19.1  park:R DEF  80/ 80 -0.9  #82407
-L:1B    Carlos Pena                 89  L  2007   +23.5  park:L DEF  78/ 78 +0.2  #87183
-L:2B    Chase Utley                102  L  2009   +45.8  park:L DEF 139/139 +5.9  #87068
-L:3B    Chris Taylor                59  R  2018    -4.6  park:R DEF  97/112 +1.1  #87243
-L:SS    Jeremy Pena                 79  R  2022   +17.5  park:R DEF 116/116 +2.4  #87154
-L:LF    Andruw Jones (VAR)          57  R  2011    -1.2  park:R DEF 103/103 +0.9  #86321
-L:CF    Carlos Beltran              99  S  2004   +25.3  park:R DEF 108/108 -0.6  #87066
-L:RF    Eric Byrnes                 67  R  2007    +9.0  park:R DEF 133/134 +4.3  #87195
-L:DH    Bill Hall                   59  R  2006    +7.0  park:R  #87200
+L:C     Jimmy Crooks (VAR)          68  L  2026   -17.6 fld -10.8  park:L DEF 101/101 +4.5  #84772
+L:1B    Carlos Pena                 89  L  2007   +23.5 fld +30.3  park:L DEF  78/ 78 +0.2  #87183
+L:2B    Javier Baez (VAR)           49  R  2021    -5.5 fld  +1.3  park:R DEF 102/102 -2.6  #86417
+L:3B    Chris Taylor                59  R  2018    -4.6 fld  +2.2  park:R DEF  97/112 +1.1  #87243
+L:SS    Corey Seager               103  L  2023   +28.6 fld +35.4  park:L DEF 119/119 +3.2  #87173
+L:LF    Andruw Jones (VAR)          57  R  2011    -1.2 fld  +5.6  park:R DEF 103/103 +0.9  #86321
+L:CF    Carlos Beltran              99  S  2004   +25.3 fld +32.1  park:R DEF 108/108 -0.6  #87066
+L:RF    Jonny Gomes                 58  R  2005    -3.1 fld  +3.7  park:R DEF  78/ 78 -2.5  #87258
+L:DH    Bill Hall                   59  R  2006    +7.0 fld +13.8  park:R  #87200
 
---- batting order vs RHP --- (5.38 runs/game; The Book's order 5.38)
-  1. Chase Utley 2B
-  2. Carlos Beltran CF
+--- batting order vs RHP --- (5.39 runs/game; The Book's order 5.39)
+  1. Carlos Beltran CF
+  2. Corey Seager SS
   3. Carlos Pena DH
-  4. Jeremy Pena SS
-  5. Eric Byrnes LF
-  6. Shawn Green 1B
+  4. Shawn Green 1B
+  5. Javier Baez (VAR) 2B
+  6. Mike Trout (VAR) LF
   7. Jonny Gomes RF
-  8. Jake Rogers C
+  8. Jimmy Crooks (VAR) C
   9. Chris Taylor 3B
 
---- batting order vs LHP --- (5.40 runs/game; The Book's order 5.40)
-  1. Chase Utley 2B
-  2. Carlos Beltran CF
+--- batting order vs LHP --- (5.10 runs/game; The Book's order 5.10)
+  1. Carlos Beltran CF
+  2. Bill Hall DH
   3. Carlos Pena 1B
-  4. Jeremy Pena SS
-  5. Eric Byrnes RF
-  6. Bill Hall DH
-  7. Andruw Jones (VAR) LF
-  8. Jake Rogers C
-  9. Chris Taylor 3B
+  4. Corey Seager SS
+  5. Andruw Jones (VAR) LF
+  6. Chris Taylor 3B
+  7. Jonny Gomes RF
+  8. Jimmy Crooks (VAR) C
+  9. Javier Baez (VAR) 2B
 
 --- rotation ---
-SP1     James McDonald (VAR)        55  L  2010    +3.6   SP STM  59  #86384
-SP2     Justin Verlander            58  R  2006    -1.7   SP STM  83  #87014
-SP3     Jeff Francis                53  L  2007    -4.0   SP STM  75  #87199
-SP4     Dallas Braden               57  L  2010    -6.2   SP STM  73  #86293
-SP5     Nate Robertson (VAR)        45  R  2006    -6.5   SP STM  64  #87130
+SP1     Kelvim Escobar              78  S  2007   +10.4 fld +15.8   SP STM  76  #87207
+SP2     James McDonald (VAR)        55  L  2010    +4.5 fld  +9.9   SP STM  59  #86384
+SP3     Justin Verlander            58  R  2006    -3.6 fld  +1.8   SP STM  83  #87014
+SP4     Jeff Francis                53  L  2007    -6.8 fld  -1.4   SP STM  75  #87199
+SP5     Nate Robertson (VAR)        45  R  2006   -10.0 fld  -4.6   SP STM  64  #87130
 
 --- bullpen ---
-CL      John Bale                   59  L  2007    +0.4   RP STM  33  #87234
-RP1     Randy Choate                45  L  2013    -3.2   RP STM   6  #87026
-RP2     Griffin Canning             55  R  2026    -6.6   RP STM  85  #81741
-RP3     Max Scherzer                57  R  2008    -6.6   RP STM  39  #87263
-RP4     Hector Carrasco (VAR)       59  R  1999    -6.7   RP STM  20  #83082
-RP5     Erick Fedde                 53  R  2026    -6.9   RP STM  93  #82481
-RP6     Simeon Woods Richardson     57  R  2026    -7.7   RP STM  77  #82350
+CL      John Bale                   59  L  2007    +0.9 fld  +6.3   RP STM  33  #87234
+RP1     Randy Choate                45  L  2013    -2.3 fld  +3.1   RP STM   6  #87026
+RP2     Hector Carrasco (VAR)       59  R  1999    -8.3 fld  -2.8   RP STM  20  #83082
+RP3     Todd Jones (VAR)            43  L  2000    -8.8 fld  -3.3   CL STM  17  #86434
+RP4     Max Scherzer                57  R  2008    -9.0 fld  -3.5   RP STM  39  #87263
+RP5     Dallas Braden               57  L  2010   -11.4 fld  -6.0   SP STM  73  #86293
+RP6     Griffin Canning             55  R  2026   -12.9 fld  -7.5   RP STM  85  #81741
 
 --- bench ---
-BN1     Mike Trout (VAR)            51  R  2024    -5.3  park:R  #84793
-BN2     Bill Hall                   59  R  2006    -6.1  park:R  #87200
-BN3     Javier Baez (VAR)           49  R  2021    -1.5  park:R  #86417
-BN4     Andruw Jones (VAR)          57  R  2011   -12.5  park:R  #86321
-BN5     Braxton Fulford             57  R  2026   -19.7  park:R  #81816
+BN1     Dan Uggla                   59  R  2006    -2.8 fld  +1.3  park:R  #86599
+BN2     Bill Hall                   59  R  2006    -6.1 fld  -2.0  park:R  #87200
+BN3     Andruw Jones (VAR)          57  R  2011   -12.5 fld  -8.4  park:R  #86321
+BN4     Dexter Fowler               53  S  2010   -12.9 fld  -8.7  park:L  #85725
+BN5     Braxton Fulford             57  R  2026   -19.7 fld -15.6  park:R  #81816
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Jake Rogers                U1 Braxton Fulford 67           U2 -                           
+  C   Jimmy Crooks (VAR)         U1 Braxton Fulford 67           U2 -                           
   1B  Shawn Green                U1 Carlos Pena 78               U2 -                           
-  2B  Chase Utley                U1 Javier Baez (VAR) 102        U2 Bill Hall 91                
+  2B  Javier Baez (VAR)          U1 Bill Hall 91                 U2 -                           
   3B  Chris Taylor               U1 Bill Hall 74                 U2 -                           
-  SS  Jeremy Pena                U1 Javier Baez (VAR) 88         U2 -                           
-  LF  Eric Byrnes                U1 Mike Trout (VAR) 95          U2 Bill Hall 67                
+  SS  Corey Seager               U1 NONE                         U2 -                           
+  LF  Mike Trout (VAR)           U1 Bill Hall 67                 U2 Andruw Jones (VAR) 103      
   CF  Carlos Beltran             U1 NONE                         U2 -                           
-  RF  Jonny Gomes                U1 Andruw Jones (VAR) 87        U2 -                           
-  pinch hitters: Javier Baez (VAR), Mike Trout (VAR), Bill Hall, Andruw Jones (VAR) · pinch runners: Javier Baez (VAR) (SPE 97), Mike Trout (VAR) (SPE 92), Bill Hall (SPE 76)
+  RF  Jonny Gomes                U1 Andruw Jones (VAR) 87        U2 Dexter Fowler 76            
+  pinch hitters: Dan Uggla, Bill Hall, Andruw Jones (VAR), Dexter Fowler · pinch runners: Dexter Fowler (SPE 101), Bill Hall (SPE 76), Dan Uggla (SPE 57)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
-  C   Jake Rogers                U1 Braxton Fulford 67           U2 -                           
+  C   Jimmy Crooks (VAR)         U1 Braxton Fulford 67           U2 -                           
   1B  Carlos Pena                U1 Shawn Green 96               U2 -                           
-  2B  Chase Utley                U1 Bill Hall 91                 U2 Javier Baez (VAR) 102       
+  2B  Javier Baez (VAR)          U1 Bill Hall 91                 U2 -                           
   3B  Chris Taylor               U1 Bill Hall 74                 U2 -                           
-  SS  Jeremy Pena                U1 Javier Baez (VAR) 88         U2 -                           
-  LF  Andruw Jones (VAR)         U1 Bill Hall 67                 U2 Jonny Gomes 66              
+  SS  Corey Seager               U1 NONE                         U2 -                           
+  LF  Andruw Jones (VAR)         U1 Bill Hall 67                 U2 Mike Trout (VAR) 95         
   CF  Carlos Beltran             U1 NONE                         U2 -                           
-  RF  Eric Byrnes                U1 Jonny Gomes 78               U2 -                           
-  pinch hitters: Jonny Gomes, Javier Baez (VAR), Shawn Green, Braxton Fulford · pinch runners: Javier Baez (VAR) (SPE 97), Mike Trout (VAR) (SPE 92), Jonny Gomes (SPE 70)
+  RF  Jonny Gomes                U1 Dexter Fowler 76             U2 -                           
+  pinch hitters: Dan Uggla, Shawn Green, Dexter Fowler, Braxton Fulford · pinch runners: Dexter Fowler (SPE 101), Mike Trout (VAR) (SPE 92), Dan Uggla (SPE 57)
 
-26 players · value 1595 · λ 0.500 · 6 variants
-vs RHP lineup: 4 of 9 bat from the left side (the platoon edge)
+26 players · value 1584 · λ 5.000 · 8 variants
+vs RHP lineup: 5 of 9 bat from the left side (the platoon edge)
 
 --- order inputs (rostered bats) ---
+  Corey Seager           L EYE 147 (123/155)  POW 184 (155/193)  K 128  BABIP 134  GAP 156  SPE  41
   Carlos Beltran         S EYE 172 (124/188)  POW 180 (151/190)  K 132  BABIP  92  GAP 123  SPE 109
-  Chase Utley            L EYE 200 (211/197)  POW 173 (189/167)  K 124  BABIP 140  GAP  84  SPE  84
   Carlos Pena            L EYE 200 (171/210)  POW 223 (209/228)  K  56  BABIP  88  GAP  72  SPE  15
-  Jeremy Pena            R EYE  59 (65/56)  POW 130 (134/128)  K  81  BABIP 136  GAP  80  SPE 111
-  Eric Byrnes            R EYE  94 (117/88)  POW  90 (131/80)  K 100  BABIP 101  GAP  83  SPE 114
   Shawn Green            L EYE  97 (88/101)  POW 122 (104/128)  K  75  BABIP  70  GAP  69  SPE  38
   Javier Baez            R EYE  75 (119/52)  POW 104 (67/119)  K  46  BABIP 118  GAP  87  SPE  97
   Jonny Gomes            R EYE 111 (122/108)  POW 128 (122/130)  K  27  BABIP 100  GAP  73  SPE  70
+  Dan Uggla              R EYE  87 (88/87)  POW 107 (74/122)  K  66  BABIP  89  GAP  73  SPE  57
   Chris Taylor           R EYE  99 (140/91)  POW  73 (84/69)  K  60  BABIP 115  GAP 122  SPE  87
   Mike Trout             R EYE 101 (119/96)  POW 105 (13/132)  K  92  BABIP  34  GAP  43  SPE  92
   Bill Hall              R EYE  91 (151/77)  POW 111 (140/102)  K  40  BABIP 103  GAP 100  SPE  76
+  Jimmy Crooks           L EYE 108 (96/113)  POW  93 (82/96)  K  61  BABIP  73  GAP  81  SPE  43
   Andruw Jones           R EYE 137 (119/143)  POW 130 (117/134)  K  46  BABIP  70  GAP  37  SPE  42
+  Dexter Fowler          S EYE  99 (128/93)  POW  42 (8/50)  K  63  BABIP 102  GAP  96  SPE 101
   Braxton Fulford        R EYE  73 (75/73)  POW  67 (70/67)  K  55  BABIP  83  GAP  87  SPE  50
-  Jake Rogers            R EYE  82 (86/81)  POW  82 (84/82)  K  57  BABIP  60  GAP  74  SPE  49
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (16 teams): 4.7 SP / 7.2 RP / 14.2 bats
-  ✓ starters' stamina James McDonald 59, Justin Verlander 83, Jeff Francis 75, Dallas Braden 73, Nate Robertson 64 (era floor 50)
-  ✓ stamina guys in the pen (45+): Griffin Canning 85, Erick Fedde 93, Simeon Woods Richardson 77
+  ✓ starters' stamina Kelvim Escobar 76, James McDonald 59, Justin Verlander 83, Jeff Francis 75, Nate Robertson 64 (era floor 50)
+  ✓ stamina guys in the pen (45+): Dallas Braden 73, Griffin Canning 85
   ✓ C  backup: Braxton Fulford 67
   ✓ 1B backup: vs RHP Carlos Pena 78 · vs LHP Shawn Green 96
-  ✓ 2B backup: Bill Hall 91, Javier Baez 102
+  ✓ 2B backup: Bill Hall 91, Dan Uggla 81
   ✓ 3B backup: Bill Hall 74
-  ✓ SS backup: Bill Hall 74, Javier Baez 88
-  ✓ LF backup: vs RHP Andruw Jones 103, Bill Hall 67, Mike Trout 95 · vs LHP Jonny Gomes 66, Bill Hall 67, Mike Trout 95
-  ✓ CF backup: Mike Trout 64
-  ✓ RF backup: vs RHP Andruw Jones 87 · vs LHP Shawn Green 61, Jonny Gomes 78
+  ✓ SS backup: Bill Hall 74
+  ✓ LF backup: vs RHP Andruw Jones 103, Bill Hall 67 · vs LHP Mike Trout 95, Bill Hall 67
+  ✓ CF backup: vs RHP Dexter Fowler 64 · vs LHP Mike Trout 64, Dexter Fowler 64
+  ✓ RF backup: vs RHP Andruw Jones 87, Dexter Fowler 76 · vs LHP Shawn Green 61, Dexter Fowler 76
 (20 of 26 have a live ask in the last shop snapshot)
-objective: 68.0 weighted runs (bats 70/30 R/L, SP 1.18, RP 0.8510000000000001, bench 0.1)
-points: lineup(both boards, 11 bats) 785 · rotation 268 · bullpen 385 · bench-only 157
+objective: 46.4 weighted runs (bats 70/30 R/L, SP 1.18, RP 0.8510000000000001, bench 0.1)
+points: lineup(both boards, 11 bats) 751 · rotation 289 · bullpen 375 · bench-only 169
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    John Bale                pBABIP 14 (fitted 50–175)
+   Todd Jones               pBABIP 37 (fitted 50–175)
