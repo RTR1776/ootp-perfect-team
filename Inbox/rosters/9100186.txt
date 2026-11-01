@@ -4,90 +4,97 @@ PT default (2010) RE @ 2026 PNC Park · DH on · value 40–105 · cap none · 2
 R/G 4.46  AVG 0.246  OBP 0.318  SLG 0.398  K% 22.6  HR/PA 2.84%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.030 runs · steal break-even 80.8% (0 out) / 77.6% (1 out)
 park: all-LHB lineup 4.51 R/G vs all-RHB 4.44 — 0.06 R/G swing toward LEFT-handed bats
-two-way: 62 cards also in the other role — Bubba Chandler as bat, Shohei Ohtani as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Chase DeLauter as arm, Nolan McLean as bat, Bryce Rainer as arm, Kaelen Culpepper as arm, Carson Williams as arm, Carson Benge as arm, Bryce Eldridge as arm, Joshua Baez as arm, River Ryan as bat, Alec Burleson as arm, Jac Caglianone as arm, Travis Sykora as bat, JR Ritchie as bat, Kyson Witherspoon as bat, Willi Castro as arm, Blake Mitchell as arm, Matt Wallner as arm, Brody Hopkins as bat, Braden Montgomery as arm, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Anthony Nunez as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Kaelen Culpepper as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Joshua Baez as arm, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Enrique Hernandez as arm, Mitch Farris as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Luke Williams as arm
+two-way: 49 cards also in the other role — Bubba Chandler as bat, Jake Bauers as arm, Chase DeLauter as arm, Payton Tolle as bat, Payton Tolle as bat, Bryce Eldridge as arm, Bryce Rainer as arm, Kaelen Culpepper as arm, Carson Williams as arm, Carson Benge as arm, Joshua Baez as arm, River Ryan as bat, Alec Burleson as arm, Jac Caglianone as arm, JR Ritchie as bat, Travis Sykora as bat, Willi Castro as arm, Blake Mitchell as arm, Brody Hopkins as bat, Braden Montgomery as arm, Khal Stephen as bat, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Anthony Nunez as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Blaze Alexander as arm, Kyson Witherspoon as bat, Ben Casparius as bat, Jake Cronenworth as arm, Jett Williams as arm, Kenley Jansen as bat, Kody Funderburk as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Lucas Erceg as bat, Zach Agnos as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm
 
-pool: 1582 eligible owned cards — 746 bats (270L / 87S / 389R), 836 arms
+pool: 1249 eligible owned cards — 597 bats (210L / 77S / 310R), 652 arms
 staff weights from liveplus's exports: SP 1.25, RP 0.39 (a lineup slot = 1)
-field (liveplus, 11 exports): 44% of batters faced thrown left-handed · 55% of PA by left-handed bats · 13.2 bats / 5.1 SP / 6.6 RP per team
+field (liveplus, 12 exports): 44% of batters faced thrown left-handed · 55% of PA by left-handed bats · 13.1 bats / 5.1 SP / 6.6 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 802 of 1582 pool cards have innings on record (median 98 PA/BF); K = 1000000
+observed play: 719 of 1249 pool cards have innings on record (median 105 PA/BF); K = 1000000
+field's average card here (315 cards played in liveplus, weighted by PA/BF): bat +5.2 vs RHP / +3.6 vs LHP, arm +5.9 — "fld" on each row is runs over that
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.88, RP 0.78 (--no-team-weights to turn off)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.88, RP 0.78 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.6 SP / 7.1 RP → per SP ×0.92 (5 carried), per RP ×1.01 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +4.9  Avoid Ks +3.3  BABIP +1.8  Eye +1.2  Gap +0.8
                           RHB: Power +4.7  Avoid Ks +3.3  BABIP +1.8  Eye +1.2  Gap +0.8
                          arms: Stuff +1.6  pHR +1.6  pBABIP +1.0  Control +0.9
 seed: 9100186-seed.txt as is (26 cards)
+seed: scores 347.4 before the climb
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 335.1 runs vs 324.4 greedy (+10.7), 6 moves from λ 0.00 (the seed's climb: 334.6)
+optimiser: 10 starts (λ + seed) hill-climbed; best 352.0 runs vs 327.9 greedy (+24.1), 26 moves from λ 1.00 (the seed's climb: 352.0)
+dual: from Bubba Chandler in both roles: Payton Tolle in both, 350.2 runs
+dual: from Payton Tolle in both roles: Payton Tolle in both, 350.2 runs
+dual: from Travis Sykora in both roles: Travis Sykora in both, 348.1 runs
+dual: from Payton Tolle in both roles: Payton Tolle in both, 350.2 runs
+dual: no two-way card in both roles beats 352.0 runs (best Payton Tolle 350.2)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Rainiel Rodriguez           97  R  2026    +9.2  park:R DEF  81/ 81 +0.3  #84734
-R:1B    Arjun Nimmala (VAR)         94  R  2026   +17.2  park:R DEF 105/128 +5.7  #84745
-R:2B    Leodalis De Vries          102  S  2026   +30.6  park:L DEF 130/130 +5.4  #84724
-R:3B    Kaelen Culpepper (VAR)      89  R  2026   +13.0  park:R DEF 122/130 +8.0  #85033
-R:SS    Roch Cholowsky             101  R  2026   +15.1  park:R DEF 119/119 +4.5  #86249
-R:LF    Max Clark (VAR)             98  L  2026   +11.9  park:L DEF 129/129 +5.4  #84725
-R:CF    Walker Jenkins             101  L  2026   +23.1  park:L DEF 114/127 +0.2  #84735
-R:RF    Zyhir Hope (VAR)            86  L  2026   +21.9  park:L DEF 112/112 +2.4  #84739
-R:DH    Josue De Paula (VAR)        87  L  2026   +19.5  park:L  #84729
+R:C     Rainiel Rodriguez           97  R  2026    +9.0 fld  +3.8  park:R DEF  81/ 81 +0.3  #84734
+R:1B    Arjun Nimmala (VAR)         94  R  2026   +17.0 fld +11.7  park:R DEF 105/128 +5.7  #84745
+R:2B    Leodalis De Vries          102  S  2026   +30.4 fld +25.1  park:L DEF 130/130 +5.4  #84724
+R:3B    Kaelen Culpepper (VAR)      89  R  2026   +12.8 fld  +7.5  park:R DEF 122/130 +8.0  #85033
+R:SS    Roch Cholowsky             101  R  2026   +14.9 fld  +9.7  park:R DEF 119/119 +4.5  #86249
+R:LF    Walker Jenkins             101  L  2026   +22.9 fld +17.6  park:L DEF 127/127 +5.0  #84735
+R:CF    Sebastian Walcott           89  R  2026   +16.7 fld +11.5  park:R DEF 121/132 +1.3  #85136
+R:RF    Zyhir Hope (VAR)            86  L  2026   +21.7 fld +16.5  park:L DEF 112/112 +2.4  #84739
+R:DH    Josue De Paula (VAR)        87  L  2026   +19.2 fld +14.0  park:L  #84729
 
 --- lineup vs LHP ---
-L:C     Rainiel Rodriguez           97  R  2026    +5.0  park:R DEF  81/ 81 +0.3  #84734
-L:1B    Arjun Nimmala (VAR)         94  R  2026   +20.6  park:R DEF 105/128 +5.7  #84745
-L:2B    Leodalis De Vries          102  S  2026   +24.7  park:R DEF 130/130 +5.4  #84724
-L:3B    Kaelen Culpepper (VAR)      89  R  2026   +19.7  park:R DEF 122/130 +8.0  #85033
-L:SS    Roch Cholowsky             101  R  2026   +22.5  park:R DEF 119/119 +4.5  #86249
-L:LF    Kevin Alcantara (VAR)       76  R  2026   +10.0  park:R DEF 122/122 +4.2  #84755
-L:CF    Walker Jenkins             101  L  2026   +10.1  park:L DEF 114/127 +0.2  #84735
-L:RF    Cody Bellinger             100  L  2026   +10.0  park:L DEF 134/139 +6.3  #86289
-L:DH    Aidan Miller                98  R  2026   +16.5  park:R  #85117
+L:C     Rainiel Rodriguez           97  R  2026    +4.8 fld  +1.2  park:R DEF  81/ 81 +0.3  #84734
+L:1B    Arjun Nimmala (VAR)         94  R  2026   +20.4 fld +16.7  park:R DEF 105/128 +5.7  #84745
+L:2B    Leodalis De Vries          102  S  2026   +24.6 fld +20.9  park:R DEF 130/130 +5.4  #84724
+L:3B    Kaelen Culpepper (VAR)      89  R  2026   +19.5 fld +15.9  park:R DEF 122/130 +8.0  #85033
+L:SS    Roch Cholowsky             101  R  2026   +22.3 fld +18.6  park:R DEF 119/119 +4.5  #86249
+L:LF    Walker Jenkins             101  L  2026    +9.9 fld  +6.3  park:L DEF 127/127 +5.0  #84735
+L:CF    Cody Bellinger             100  L  2026    +9.8 fld  +6.2  park:L DEF 127/139 +2.2  #86289
+L:RF    Sebastian Walcott           89  R  2026   +15.2 fld +11.6  park:R DEF 132/132 +5.9  #85136
+L:DH    Aidan Miller                98  R  2026   +16.4 fld +12.8  park:R  #85117
 
 --- batting order vs RHP --- (5.13 runs/game; The Book's order 5.13)
-  1. Walker Jenkins CF
-  2. Leodalis De Vries 2B
+  1. Walker Jenkins LF
+  2. Roch Cholowsky SS
   3. Josue De Paula (VAR) DH
-  4. Zyhir Hope (VAR) RF
-  5. Roch Cholowsky SS
+  4. Leodalis De Vries 2B
+  5. Zyhir Hope (VAR) RF
   6. Arjun Nimmala (VAR) 1B
-  7. Rainiel Rodriguez C
-  8. Kaelen Culpepper (VAR) 3B
-  9. Max Clark (VAR) LF
+  7. Sebastian Walcott CF
+  8. Rainiel Rodriguez C
+  9. Kaelen Culpepper (VAR) 3B
 
---- batting order vs LHP --- (5.01 runs/game; The Book's order 5.01)
+--- batting order vs LHP --- (5.02 runs/game; The Book's order 5.02)
   1. Leodalis De Vries 2B
   2. Roch Cholowsky SS
   3. Aidan Miller DH
   4. Arjun Nimmala (VAR) 1B
   5. Kaelen Culpepper (VAR) 3B
-  6. Cody Bellinger RF
-  7. Kevin Alcantara (VAR) LF
+  6. Cody Bellinger CF
+  7. Sebastian Walcott RF
   8. Rainiel Rodriguez C
-  9. Walker Jenkins CF
+  9. Walker Jenkins LF
 
 --- rotation ---
-SP1     Kade Anderson              102  L  2026   +17.2   SP STM  72  #85138
-SP2     Ryan Sloan                  98  R  2026   +12.4   SP STM  69  #84731
-SP3     Thomas White                97  L  2026   +11.6   SP STM  69  #84726
-SP4     Liam Doyle                  93  L  2026   +10.2   SP STM  69  #84730
-SP5     Bubba Chandler             100  S  2026    +8.9   SP STM  82  #84630
+SP1     Kade Anderson              102  L  2026   +18.3 fld +12.3   SP STM  72  #85138
+SP2     Ryan Sloan                  98  R  2026   +13.3 fld  +7.3   SP STM  69  #84731
+SP3     Thomas White                97  L  2026   +12.4 fld  +6.5   SP STM  69  #84726
+SP4     Liam Doyle                  93  L  2026   +10.9 fld  +4.9   SP STM  69  #84730
+SP5     Bubba Chandler             100  S  2026    +9.4 fld  +3.5   SP STM  82  #84630
 
 --- bullpen ---
-CL      Louie Varland              100  L  2026    +9.0   CL STM  25  #82511
-RP1     Trey Yesavage (VAR)         97  R  2026    +8.7   SP STM  69  #84648
-RP2     Daniel Palencia (VAR)      100  R  2026    +8.6   CL STM  14  #84613
-RP3     Shohei Ohtani              100  L  2026    +8.5      STM  82 two-way (pitching)  #81776
-RP4     Hagen Smith                 88  L  2026    +7.3   SP STM  63  #84629
-RP5     Jacob Misiorowski          100  R  2026    +7.1   SP STM  75  #81947
-RP6     Calvin Faucher              85  R  2026    +7.0   RP STM  17  #82119
+CL      Louie Varland              100  L  2026    +9.7 fld  +3.8   CL STM  25  #82511
+RP1     Daniel Palencia (VAR)      100  R  2026    +9.6 fld  +3.7   CL STM  14  #84613
+RP2     Trey Yesavage (VAR)         97  R  2026    +9.3 fld  +3.3   SP STM  69  #84648
+RP3     Hagen Smith                 88  L  2026    +7.8 fld  +1.8   SP STM  63  #84629
+RP4     Calvin Faucher              85  R  2026    +7.3 fld  +1.4   RP STM  17  #82119
+RP5     Jarlin Susana               94  R  2026    +7.2 fld  +1.3   RP STM  25  #84627
+RP6     Payton Tolle                99  L  2026    +6.9 fld  +1.0   SP STM  70  #84646
 
 --- bench ---
-BN1     Colt Emerson (VAR)          98  L  2026   +13.4  park:L  #85116
-BN2     Aidan Miller                98  R  2026   +11.4  park:R  #85117
-BN3     Cody Bellinger             100  L  2026    +7.9  park:L  #86289
-BN4     Kevin Alcantara (VAR)       76  R  2026    -0.0  park:R  #84755
-BN5     Thayron Liranzo (VAR)       65  S  2026   -12.1  park:L  #85135
+BN1     Aidan Miller                98  R  2026   +11.3 fld  +6.1  park:R  #85117
+BN2     Thayron Liranzo (VAR)       65  S  2026   -12.2 fld -17.5  park:L  #85135
+BN3     Colt Emerson (VAR)          98  L  2026   +13.2 fld  +8.0  park:L  #85116
+BN4     Max Clark (VAR)             98  L  2026   +11.7 fld  +6.4  park:L  #84725
+BN5     Cody Bellinger             100  L  2026    +7.7 fld  +2.4  park:L  #86289
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Rainiel Rodriguez          U1 Thayron Liranzo (VAR) 67     U2 -                           
@@ -95,10 +102,10 @@ BN5     Thayron Liranzo (VAR)       65  S  2026   -12.1  park:L  #85135
   2B  Leodalis De Vries          U1 Colt Emerson (VAR) 119       U2 Aidan Miller 123            
   3B  Kaelen Culpepper (VAR)     U1 Colt Emerson (VAR) 103       U2 -                           
   SS  Roch Cholowsky             U1 Aidan Miller 112             U2 Colt Emerson (VAR) 101      
-  LF  Max Clark (VAR)            U1 Josue De Paula (VAR) 71      U2 Cody Bellinger 139          
-  CF  Walker Jenkins             U1 Cody Bellinger 127           U2 Kevin Alcantara (VAR) 108   
-  RF  Zyhir Hope (VAR)           U1 Cody Bellinger 134           U2 Kevin Alcantara (VAR) 115    def sub Cody Bellinger (+3.9)
-  pinch hitters: Colt Emerson (VAR), Aidan Miller, Cody Bellinger, Kevin Alcantara (VAR) · pinch runners: Kevin Alcantara (VAR) (SPE 94), Aidan Miller (SPE 93), Colt Emerson (VAR) (SPE 81)
+  LF  Walker Jenkins             U1 Max Clark (VAR) 129          U2 Josue De Paula (VAR) 71     
+  CF  Sebastian Walcott          U1 Max Clark (VAR) 114          U2 Cody Bellinger 127          
+  RF  Zyhir Hope (VAR)           U1 Max Clark (VAR) 129          U2 Cody Bellinger 134           def sub Cody Bellinger (+3.9)
+  pinch hitters: Colt Emerson (VAR), Max Clark (VAR), Aidan Miller, Cody Bellinger · pinch runners: Max Clark (VAR) (SPE 112), Aidan Miller (SPE 93), Colt Emerson (VAR) (SPE 81)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Rainiel Rodriguez          U1 Thayron Liranzo (VAR) 67     U2 -                           
@@ -106,13 +113,13 @@ BN5     Thayron Liranzo (VAR)       65  S  2026   -12.1  park:L  #85135
   2B  Leodalis De Vries          U1 Aidan Miller 123             U2 Colt Emerson (VAR) 119      
   3B  Kaelen Culpepper (VAR)     U1 Colt Emerson (VAR) 103       U2 -                           
   SS  Roch Cholowsky             U1 Aidan Miller 112             U2 Colt Emerson (VAR) 101      
-  LF  Kevin Alcantara (VAR)      U1 Max Clark (VAR) 129          U2 Josue De Paula (VAR) 71     
-  CF  Walker Jenkins             U1 Max Clark (VAR) 114          U2 -                           
-  RF  Cody Bellinger             U1 Max Clark (VAR) 129          U2 Zyhir Hope (VAR) 112        
+  LF  Walker Jenkins             U1 Max Clark (VAR) 129          U2 Josue De Paula (VAR) 71     
+  CF  Cody Bellinger             U1 Max Clark (VAR) 114          U2 -                           
+  RF  Sebastian Walcott          U1 Max Clark (VAR) 129          U2 Zyhir Hope (VAR) 112        
   pinch hitters: Josue De Paula (VAR), Colt Emerson (VAR), Max Clark (VAR), Zyhir Hope (VAR) · pinch runners: Max Clark (VAR) (SPE 112), Zyhir Hope (VAR) (SPE 93), Colt Emerson (VAR) (SPE 81)
 
-26 players · value 2452 · λ 0.000 · 10 variants
-vs RHP lineup gets the friendly park side in 5 of 9 spots
+26 players · value 2458 · λ 1.000 · 9 variants
+vs RHP lineup: 4 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
   Leodalis De Vries      S EYE 145 (144/145)  POW 118 (115/120)  K 127  BABIP 152  GAP 152  SPE  91
@@ -120,6 +127,7 @@ vs RHP lineup gets the friendly park side in 5 of 9 spots
   Zyhir Hope             L EYE 119 (126/117)  POW 137 (100/151)  K  80  BABIP 123  GAP  96  SPE  93
   Josue De Paula         L EYE 134 (110/143)  POW 148 (126/156)  K  91  BABIP 102  GAP 106  SPE  59
   Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Sebastian Walcott      R EYE 157 (144/161)  POW 148 (126/155)  K  69  BABIP 122  GAP 115  SPE  81
   Roch Cholowsky         R EYE 142 (137/144)  POW 122 (133/118)  K 109  BABIP 128  GAP 112  SPE  59
   Colt Emerson           L EYE 129 (119/132)  POW  98 (84/103)  K  97  BABIP 126  GAP 130  SPE  81
   Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
@@ -127,25 +135,24 @@ vs RHP lineup gets the friendly park side in 5 of 9 spots
   Aidan Miller           R EYE 156 (176/149)  POW 145 (152/143)  K  77  BABIP  94  GAP  96  SPE  93
   Rainiel Rodriguez      R EYE 146 (141/148)  POW 135 (128/138)  K  85  BABIP 102  GAP  99  SPE  35
   Cody Bellinger         L EYE 132 (110/140)  POW  84 (90/82)  K 138  BABIP 118  GAP 101  SPE  64
-  Kevin Alcantara        R EYE  99 (106/97)  POW 120 (138/113)  K  69  BABIP 106  GAP  82  SPE  94
   Thayron Liranzo        S EYE 153 (164/149)  POW 116 (138/108)  K  63  BABIP  66  GAP  95  SPE  25
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (174 teams): 4.7 SP / 7.6 RP / 13.4 bats
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (190 teams): 4.6 SP / 7.6 RP / 13.4 bats
   ✓ starters' stamina Kade Anderson 72, Ryan Sloan 69, Thomas White 69, Liam Doyle 69, Bubba Chandler 82 (era floor 50)
-  ✓ stamina guys in the pen (45+): Trey Yesavage 69, Shohei Ohtani 82, Hagen Smith 63, Jacob Misiorowski 75
+  ✓ stamina guys in the pen (45+): Trey Yesavage 69, Hagen Smith 63, Payton Tolle 70
   ✓ C  backup: Thayron Liranzo 67
   ✓ 1B backup: vs RHP Cody Bellinger 64, Thayron Liranzo 76 · vs LHP Thayron Liranzo 76
   ✓ 2B backup: Aidan Miller 123, Colt Emerson 119
   ✓ 3B backup: Colt Emerson 103
   ✓ SS backup: Aidan Miller 112, Colt Emerson 101
-  ✓ LF backup: vs RHP Josue De Paula 71, Cody Bellinger 139, Kevin Alcantara 122 · vs LHP Zyhir Hope 106, Max Clark 129, Josue De Paula 71
-  ✓ CF backup: vs RHP Cody Bellinger 127, Kevin Alcantara 108 · vs LHP Max Clark 114
-  ✓ RF backup: vs RHP Cody Bellinger 134, Kevin Alcantara 115 · vs LHP Zyhir Hope 112, Max Clark 129
-(24 of 26 have a live ask in the last shop snapshot)
-objective: 335.1 weighted runs (bats 56/44 R/L, SP 1.875, RP 0.78, bench 0.1)
-points: lineup(both boards, 12 bats) 1129 · rotation 490 · bullpen 670 · bench-only 163
+  ✓ LF backup: vs RHP Josue De Paula 71, Cody Bellinger 139, Max Clark 129 · vs LHP Zyhir Hope 106, Josue De Paula 71, Max Clark 129
+  ✓ CF backup: vs RHP Cody Bellinger 127, Max Clark 114 · vs LHP Max Clark 114
+  ✓ RF backup: vs RHP Cody Bellinger 134, Max Clark 129 · vs LHP Zyhir Hope 112, Max Clark 129
+(23 of 26 have a live ask in the last shop snapshot)
+objective: 352.0 weighted runs (bats 56/44 R/L, SP 1.875, RP 0.78, bench 0.1)
+points: lineup(both boards, 11 bats) 1044 · rotation 490 · bullpen 663 · bench-only 261
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
    Calvin Faucher           pHR 207 (fitted 44–179)

@@ -5,119 +5,158 @@ R/G 4.44  AVG 0.240  OBP 0.313  SLG 0.411  K% 22.6  HR/PA 3.41%  preset Sabermet
 sac bunt (1st & 2nd, 0 out) -0.042 runs · steal break-even 81.5% (0 out) / 78.7% (1 out)
 park: all-LHB lineup 4.41 R/G vs all-RHB 4.46 — 0.05 R/G swing toward RIGHT-handed bats
 card sets: Live only
+two-way: 32 cards also in the other role — Jake Bauers as arm, Payton Tolle as bat, Carson Benge as arm, Alec Burleson as arm, Jac Caglianone as arm, Willi Castro as arm, Casey Schmitt as arm, Colt Keith as arm, Bubba Chandler as bat, Anthony Nunez as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Kenley Jansen as bat, Kody Funderburk as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Lucas Erceg as bat, Zach Agnos as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm
 
-pool: 1353 eligible owned cards — 641 bats (224L / 73S / 344R), 712 arms
+pool: 1123 eligible owned cards — 523 bats (180L / 66S / 277R), 600 arms
 staff weights from liveopendaily's exports: SP 1.33, RP 0.46 (a lineup slot = 1)
 field (liveopendaily, 2 exports): 42% of batters faced thrown left-handed · 55% of PA by left-handed bats · 12.6 bats / 5.7 SP / 5.3 RP per team
-shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
-observed play: 608 of 1353 pool cards have innings on record (median 72 PA/BF); K = 5000
+shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 628 of 1123 pool cards have innings on record (median 83 PA/BF); K = 1000000
+field's average card here (243 cards played in liveopendaily, weighted by PA/BF): bat -3.5 vs RHP / -4.6 vs LHP, arm +2.9 — "fld" on each row is runs over that
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (2019 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.61, SP 2.00, RP 0.92 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.0 SP / 7.0 RP → per SP ×0.80 (5 carried), per RP ×1.00 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +5.8  Avoid Ks +3.3  BABIP +1.6  Eye +1.1  Gap +0.8
                           RHB: Power +5.6  Avoid Ks +3.3  BABIP +1.7  Eye +1.2  Gap +0.8
                          arms: pHR +1.9  Stuff +1.6  pBABIP +1.0  Control +0.9
+seed: 529-seed.txt as is (26 cards)
+seed: scores 6.9 before the climb
 
-optimiser: 9 λ starts hill-climbed; best 19.1 runs vs 0.9 greedy (+18.2), 27 moves from λ 1.00
+optimiser: 10 starts (λ + seed) hill-climbed; best 13.9 runs vs 12.8 greedy (+1.1), 8 moves from λ 0.00 (the seed's climb: 13.9)
+dual: from Payton Tolle in both roles: Payton Tolle in both, 10.2 runs
+dual: from Bubba Chandler in both roles: Bubba Chandler in both, 5.6 runs
+dual: from Kody Funderburk in both roles: Kody Funderburk in both, 4.1 runs
+dual: from Anthony Nunez in both roles: Anthony Nunez in both, 4.5 runs
+dual: no two-way card in both roles beats 13.9 runs (best Payton Tolle 10.2)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Gabriel Moreno             100  R  2026    -1.6  park:R DEF  76/ 76 -0.3
-R:1B    Bryce Harper               100  L  2026    -1.3  park:L DEF  70/ 70 -0.7
-R:2B    Bobby Witt Jr.             100  R  2026    -3.5  park:R DEF 109/109 -0.5
-R:3B    Kevin McGonigle             95  L  2026    +0.2  park:L DEF  66/ 74 -2.7
-R:SS    Otto Lopez                  83  R  2026    -3.6  park:R DEF  61/ 78 -5.1
-R:LF    Pete Crow-Armstrong        100  L  2026    +1.1  park:L DEF 124/124 +1.8
-R:CF    Corbin Carroll              91  L  2026    -0.3  park:L DEF  85/104 -1.3
-R:RF    Shohei Ohtani              100  L  2026    +3.8  park:L DEF  68/ 68 -2.1
-R:DH    Yordan Alvarez             100  L  2026   +12.0  park:L
+R:C     Gabriel Moreno             100  R  2026    -4.0 fld  -0.5  park:R DEF  75/ 75 -4.8  #81848
+R:1B    Luis Garcia Jr.             81  L  2026    -7.9 fld  -4.4  park:L DEF  87/ 87 +2.1  #82026
+R:2B    Tommy Edman                 74  S  2026   -18.0 fld -14.5  park:L DEF  97/ 97 -5.2  #81772
+R:3B    Kevin McGonigle             99  L  2026    -5.6 fld  -2.1  park:L DEF  65/ 73 -6.7  #85007
+R:SS    Bobby Witt Jr.             100  R  2026    -1.5 fld  +2.0  park:R DEF  93/ 93 -5.1  #82379
+R:LF    Jake McCarthy               87  L  2026    -0.8 fld  +2.7  park:L DEF 103/103 +1.2  #81809
+R:CF    Pete Crow-Armstrong        100  L  2026    +8.3 fld +11.9  park:L DEF 108/108 -0.8  #81990
+R:RF    Corbin Carroll              87  L  2026    +0.7 fld  +4.2  park:L DEF  96/ 96 -0.4  #81849
+R:DH    Jackson Chourio             98  R  2026    -3.7 fld  -0.2  park:R  #81934
 
 --- lineup vs LHP ---
-L:C     Gabriel Moreno             100  R  2026    +2.0  park:R DEF  76/ 76 -0.3
-L:1B    Miguel Vargas               94  R  2026    -2.0  park:R DEF  83/ 83 +0.6
-L:2B    Bobby Witt Jr.             100  R  2026    -3.1  park:R DEF 109/109 -0.5
-L:3B    Kevin McGonigle             95  L  2026    -4.7  park:L DEF  66/ 74 -2.7
-L:SS    Otto Lopez                  83  R  2026    -2.0  park:R DEF  61/ 78 -5.1
-L:LF    Pete Crow-Armstrong        100  L  2026    -4.4  park:L DEF 124/124 +1.8
-L:CF    Corbin Carroll              91  L  2026    -3.3  park:L DEF  85/104 -1.3
-L:RF    Shohei Ohtani              100  L  2026    -0.1  park:L DEF  68/ 68 -2.1
-L:DH    Yordan Alvarez             100  L  2026    +7.0  park:L
+L:C     Gabriel Moreno             100  R  2026    -0.5 fld  +4.0  park:R DEF  75/ 75 -4.8  #81848
+L:1B    Jake Bauers                 99  L  2026    -6.1 fld  -1.5  park:L DEF  70/ 70 -1.4  #81932
+L:2B    Tommy Edman                 74  S  2026   -15.8 fld -11.2  park:R DEF  97/ 97 -5.2  #81772
+L:3B    Javier Sanoja               73  R  2026    -5.2 fld  -0.6  park:R DEF  64/ 64 -7.0  #82099
+L:SS    Bobby Witt Jr.             100  R  2026    -1.1 fld  +3.5  park:R DEF  93/ 93 -5.1  #82379
+L:LF    Jake McCarthy               87  L  2026    -4.3 fld  +0.3  park:L DEF 103/103 +1.2  #81809
+L:CF    Pete Crow-Armstrong        100  L  2026    +2.2 fld  +6.8  park:L DEF 108/108 -0.8  #81990
+L:RF    Corbin Carroll              87  L  2026    -2.1 fld  +2.4  park:L DEF  96/ 96 -0.4  #81849
+L:DH    Jackson Chourio             98  R  2026    -2.7 fld  +1.9  park:R  #81934
 
---- batting order vs RHP --- (4.30 runs/game; The Book's order 4.30)
-  1. Yordan Alvarez DH
-  2. Bryce Harper 1B
-  3. Shohei Ohtani RF
-  4. Pete Crow-Armstrong LF
-  5. Bobby Witt Jr. 2B
-  6. Kevin McGonigle 3B
-  7. Corbin Carroll CF
-  8. Gabriel Moreno C
-  9. Otto Lopez SS
+--- batting order vs RHP --- (4.14 runs/game; The Book's order 4.14)
+  1. Kevin McGonigle 3B
+  2. Gabriel Moreno C
+  3. Pete Crow-Armstrong CF
+  4. Luis Garcia Jr. 1B
+  5. Bobby Witt Jr. SS
+  6. Jackson Chourio DH
+  7. Corbin Carroll RF
+  8. Jake McCarthy LF
+  9. Tommy Edman 2B
 
---- batting order vs LHP --- (4.20 runs/game; The Book's order 4.20)
+--- batting order vs LHP --- (4.09 runs/game; The Book's order 4.09)
   1. Gabriel Moreno C
-  2. Yordan Alvarez DH
-  3. Pete Crow-Armstrong LF
-  4. Miguel Vargas 1B
-  5. Bobby Witt Jr. 2B
-  6. Shohei Ohtani RF
-  7. Corbin Carroll CF
-  8. Otto Lopez SS
-  9. Kevin McGonigle 3B
+  2. Bobby Witt Jr. SS
+  3. Pete Crow-Armstrong CF
+  4. Javier Sanoja 3B
+  5. Jackson Chourio DH
+  6. Jake Bauers 1B
+  7. Corbin Carroll RF
+  8. Jake McCarthy LF
+  9. Tommy Edman 2B
 
 --- rotation ---
-SP1     Tarik Skubal               100  L  2026    +5.8   SP STM  78
-SP2     Max Fried                  100  L  2026    +4.0   SP STM  73
-SP3     Jacob Misiorowski          100  R  2026    +3.8   SP STM  74
-SP4     Logan Webb                  95  R  2026    +1.2   SP STM  85
-SP5     Hunter Brown                85  R  2026    +0.5   SP STM  71
+SP1     Max Fried                  100  L  2026    +6.2 fld  +3.3   SP STM  73  #82587
+SP2     Cam Schlittler             100  R  2026    +5.1 fld  +2.2   SP STM  79  #82580
+SP3     Dylan Cease                100  R  2026    +4.9 fld  +2.0   SP STM  80  #82518
+SP4     Tarik Skubal               100  L  2026    +4.3 fld  +1.3   SP STM  80  #82424
+SP5     Jesus Luzardo              100  L  2026    +3.2 fld  +0.2   SP STM  84  #82066
 
 --- bullpen ---
-CL      Louie Varland              100  L  2026    +6.1   CL STM  25
-RP1     Cade Smith                  96  R  2026    +5.7   CL STM  17
-RP2     Adrian Morejon              93  L  2026    +5.3   RP STM  18
-RP3     David Bednar                93  L  2026    +3.7   CL STM  17
-RP4     Colin Holderman             85  R  2026    +3.6   RP STM  15
-RP5     Cam Schlittler             100  R  2026    +0.0   SP STM  78
-RP6     Jesus Luzardo              100  L  2026    -0.3   SP STM  84
+CL      Louie Varland              100  L  2026   +10.8 fld  +7.8   CL STM  25  #82511
+RP1     Calvin Faucher              85  R  2026    +8.6 fld  +5.7   RP STM  17  #82119
+RP2     Mason Miller               100  R  2026    +3.4 fld  +0.5   CL STM  17  #81761
+RP3     Adrian Morejon              96  L  2026    +3.2 fld  +0.3   RP STM  18  #81760
+RP4     Drew Rasmussen             100  R  2026    +3.1 fld  +0.2   SP STM  75  #82550
+RP5     Tyler Rogers                84  R  2026    +2.3 fld  -0.6   RP STM  15  #82512
+RP6     Yoshinobu Yamamoto         100  R  2026    +2.0 fld  -0.9   SP STM  86  #81798
 
 --- bench ---
-BN1     Miguel Vargas               94  R  2026    -4.2  park:R
-BN2     Kyle Schwarber              99  L  2026    -2.4  park:L
-BN3     Ben Rice                    94  L  2026    -1.5  park:L
-BN4     James Wood                 100  L  2026    -1.0  park:L
-BN5     William Contreras           86  R  2026    -4.8  park:R
+BN1     Jake Bauers                 99  L  2026    -5.0 fld  -1.5  park:L  #81932
+BN2     Carter Jensen               75  L  2026    -5.1 fld  -1.6  park:L  #82374
+BN3     Michael Harris II           89  L  2026    -5.5 fld  -2.0  park:L  #82146
+BN4     Javier Sanoja               73  R  2026    -8.8 fld  -5.2  park:R  #82099
+BN5     Miguel Rojas                74  R  2026   -22.0 fld -18.4  park:R  #81775
 
-26 players · value 2489 · λ 1.000 · 0 variants
-vs RHP lineup gets the friendly park side in 6 of 9 spots
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Gabriel Moreno             U1 Carter Jensen 67             U2 -                           
+  1B  Luis Garcia Jr.            U1 Jake Bauers 70               U2 -                           
+  2B  Tommy Edman                U1 Miguel Rojas 103             U2 -                           
+  3B  Kevin McGonigle            U1 Javier Sanoja 64             U2 -                           
+  SS  Bobby Witt Jr.             U1 Miguel Rojas 85              U2 -                           
+  LF  Jake McCarthy              U1 Jackson Chourio 92           U2 -                           
+  CF  Pete Crow-Armstrong        U1 Michael Harris II 93         U2 -                           
+  RF  Corbin Carroll             U1 Jackson Chourio 87           U2 -                           
+  pinch hitters: Jake Bauers, Carter Jensen, Michael Harris II, Javier Sanoja · pinch runners: Javier Sanoja (SPE 78), Carter Jensen (SPE 72), Michael Harris II (SPE 63)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Gabriel Moreno             U1 Carter Jensen 67             U2 -                           
+  1B  Jake Bauers                U1 Luis Garcia Jr. 87           U2 -                            def sub Luis Garcia Jr. (+3.4)
+  2B  Tommy Edman                U1 Miguel Rojas 103             U2 -                           
+  3B  Javier Sanoja              U1 Kevin McGonigle 65           U2 -                           
+  SS  Bobby Witt Jr.             U1 Miguel Rojas 85              U2 -                           
+  LF  Jake McCarthy              U1 Jackson Chourio 92           U2 -                           
+  CF  Pete Crow-Armstrong        U1 Michael Harris II 93         U2 -                           
+  RF  Corbin Carroll             U1 Jackson Chourio 87           U2 -                           
+  pinch hitters: Michael Harris II, Carter Jensen, Luis Garcia Jr., Kevin McGonigle · pinch runners: Carter Jensen (SPE 72), Michael Harris II (SPE 63), Luis Garcia Jr. (SPE 47)
+
+26 players · value 2401 · λ 0.000 · 0 variants
+vs RHP lineup: 6 of 9 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
-  Yordan Alvarez         L EYE 126 (117/129)  POW 131 (124/134)  K  86  BABIP 116  GAP  85  SPE  19
-  Shohei Ohtani          L EYE 105 (99/107)  POW 111 (104/114)  K  65  BABIP 100  GAP  94  SPE  67
-  Pete Crow-Armstrong    L EYE  94 (91/95)  POW 125 (111/130)  K  64  BABIP 113  GAP 115  SPE  90
-  Kevin McGonigle        L EYE 117 (102/123)  POW  79 (76/81)  K  97  BABIP  89  GAP  74  SPE  45
-  Corbin Carroll         L EYE 103 (98/105)  POW  86 (86/87)  K  74  BABIP  84  GAP 193  SPE 120
-  James Wood             L EYE 138 (126/142)  POW 120 (116/122)  K  53  BABIP 117  GAP 117  SPE  44
-  Bryce Harper           L EYE 137 (131/139)  POW 103 (100/105)  K  74  BABIP  97  GAP 105  SPE  22
-  Ben Rice               L EYE  99 (96/101)  POW 123 (115/126)  K  66  BABIP  76  GAP  98  SPE  39
-  Gabriel Moreno         R EYE  96 (98/96)  POW  77 (82/76)  K  93  BABIP 115  GAP  92  SPE  26
-  Kyle Schwarber         L EYE 131 (129/132)  POW 141 (126/146)  K  47  BABIP  90  GAP  76  SPE  21
-  Bobby Witt Jr.         R EYE  83 (85/83)  POW  87 (87/87)  K  92  BABIP 105  GAP  90  SPE  97
-  Otto Lopez             R EYE  62 (65/62)  POW  67 (67/67)  K 109  BABIP 113  GAP  81  SPE  72
-  Miguel Vargas          R EYE 123 (129/121)  POW 105 (109/104)  K  85  BABIP  64  GAP 119  SPE  33
-  William Contreras      R EYE  87 (92/86)  POW  77 (79/77)  K  98  BABIP  88  GAP  73  SPE  16
+  Pete Crow-Armstrong    L EYE  97 (95/98)  POW 129 (114/134)  K  64  BABIP 111  GAP 119  SPE  90
+  Corbin Carroll         L EYE  98 (94/100)  POW  90 (90/91)  K  71  BABIP  81  GAP 200  SPE 120
+  Jake McCarthy          L EYE  59 (59/60)  POW  76 (68/79)  K  98  BABIP 109  GAP 117  SPE 104
+  Bobby Witt Jr.         R EYE  89 (91/89)  POW  84 (84/84)  K  92  BABIP 102  GAP  91  SPE  97
+  Jackson Chourio        R EYE  75 (80/74)  POW  97 (97/97)  K  74  BABIP 122  GAP  76  SPE  59
+  Gabriel Moreno         R EYE  97 (99/97)  POW  83 (89/82)  K  95  BABIP 120  GAP  86  SPE  26
+  Jake Bauers            L EYE 137 (132/139)  POW 103 (100/105)  K  57  BABIP 111  GAP  82  SPE  45
+  Carter Jensen          L EYE  95 (92/96)  POW  99 (95/102)  K  56  BABIP  91  GAP 153  SPE  72
+  Michael Harris II      L EYE  46 (43/48)  POW  93 (93/94)  K  86  BABIP 110  GAP  86  SPE  63
+  Kevin McGonigle        L EYE 117 (102/123)  POW  81 (77/83)  K  97  BABIP  92  GAP  81  SPE  45
+  Luis Garcia Jr.        L EYE  54 (53/55)  POW 102 (99/104)  K  91  BABIP  83  GAP  95  SPE  47
+  Javier Sanoja          R EYE  61 (62/61)  POW  67 (73/66)  K 138  BABIP  81  GAP 106  SPE  78
+  Tommy Edman            S EYE  69 (68/70)  POW  78 (83/77)  K  83  BABIP  76  GAP  77  SPE  50
+  Miguel Rojas           R EYE  68 (71/68)  POW  63 (68/62)  K 103  BABIP  73  GAP  78  SPE  16
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (63 teams): 4.5 SP / 7.7 RP / 13.4 bats
-  ✓ starters' stamina Tarik Skubal 78, Max Fried 73, Jacob Misiorowski 74, Logan Webb 85, Hunter Brown 71 (era floor 50)
-  ✓ stamina guys in the pen (45+): Cam Schlittler 78, Jesus Luzardo 84
-  ✓ C  backup: William Contreras 65
-  ✓ 1B backup: Otto Lopez 73, Bobby Witt Jr. 95, Kevin McGonigle 72, Pete Crow-Armstrong 61, Bryce Harper 70, Miguel Vargas 83
-  ✓ 2B backup: Otto Lopez 78, Kevin McGonigle 74
-  ✓ 3B backup: Otto Lopez 66, Bobby Witt Jr. 102
-  ✓ SS backup: Bobby Witt Jr. 95
-  ✓ LF backup: Otto Lopez 75, Bobby Witt Jr. 68, Kevin McGonigle 68, Corbin Carroll 104, Shohei Ohtani 62, Bryce Harper 67, James Wood 70
-  ✓ CF backup: Pete Crow-Armstrong 110
-  ✓ RF backup: Otto Lopez 67, Bobby Witt Jr. 67, Kevin McGonigle 61, Corbin Carroll 96, Pete Crow-Armstrong 119, Bryce Harper 68, James Wood 65
-(25 of 26 have a live ask in the last shop snapshot)
-objective: 19.1 weighted runs (bats 58/42 R/L, SP 1.33, RP 0.46, bench 0.1)
-points: lineup(both boards, 10 bats) 963 · rotation 480 · bullpen 667 · bench-only 379
+  ✓ starters' stamina Max Fried 73, Cam Schlittler 79, Dylan Cease 80, Tarik Skubal 80, Jesus Luzardo 84 (era floor 50)
+  ✓ stamina guys in the pen (45+): Drew Rasmussen 75, Yoshinobu Yamamoto 86
+  ✓ C  backup: Carter Jensen 67
+  ✓ 1B backup: vs RHP Jake Bauers 70 · vs LHP Luis Garcia Jr. 87
+  ✓ 2B backup: Miguel Rojas 103
+  ✓ 3B backup: vs RHP Javier Sanoja 64 · vs LHP Kevin McGonigle 65
+  ✓ SS backup: Miguel Rojas 85
+  ✓ LF backup: Jackson Chourio 92
+  ✓ CF backup: Michael Harris II 93
+  ✓ RF backup: Jackson Chourio 87
+(26 of 26 have a live ask in the last shop snapshot)
+objective: 13.9 weighted runs (bats 58/42 R/L, SP 1.995, RP 0.92, bench 0.1)
+points: lineup(both boards, 11 bats) 998 · rotation 500 · bullpen 665 · bench-only 238
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Corbin Carroll           Gap 200 (fitted 7–193)
+   Calvin Faucher           pHR 207 (fitted 44–179)
+   Mason Miller             Stuff 208 (fitted 19–196)
+   Yoshinobu Yamamoto       pBABIP 182 (fitted 50–175)
