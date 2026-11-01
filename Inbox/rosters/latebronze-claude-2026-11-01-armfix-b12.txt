@@ -1,0 +1,36 @@
+# Daily Late Bronze — Claude pick 2026-11-01-armfix-b12, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Dodger Stadium --park-year 2003 --dh --min 40 --max 69 --size 26 --series latebronze --sp 5 --rp 7 --bats 14)
+R:C Ernie Whitt #86941
+R:1B Ben Zobrist #87245
+R:2B Ernie Clement #87244
+R:3B Hank Blalock #86433
+R:SS Rafael Furcal #86308
+R:LF Billy Southworth (VAR) #86379
+R:CF Deion Sanders #86962
+R:RF Shane Victorino #87235
+R:DH Bill Buckner (VAR) #85858
+L:C Tony Pena Sr. #86282
+L:1B Ben Zobrist #87245
+L:2B Brandon Phillips #87202
+L:3B Dave Brain (VAR) #85934
+L:SS Ernie Clement #87244
+L:LF Deion Sanders #86962
+L:CF Aaron Rowand #87196
+L:RF Shane Victorino #87235
+L:DH Chris Sabo #87059
+SP1 Fritz Ostermueller #86357
+SP2 Gene Krapp #87374
+SP3 James McDonald (VAR) #86384
+SP4 Mickey Lolich #87279
+SP5 Big Jeff Pfeffer #87340
+CL John Bale #87234
+RP1 Livan Hernandez #87261
+RP2 Caden Scarborough (VAR) #84762
+RP3 Edwin Diaz #86422
+RP4 Mike Marshall #84720
+RP5 Bob Miller #84715
+RP6 Hal Woodeshick #83148
+BN1 Dave Brain (VAR) #85934
+BN2 Chris Sabo #87059
+BN3 Aaron Rowand #87196
+BN4 Brandon Phillips #87202
+BN5 Tony Pena Sr. #86282
