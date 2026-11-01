@@ -42,6 +42,13 @@ test("the closer is the best reliever and SP1 the best starter", () => {
   assert.deepEqual([o.SP1, o.SP2, o.SP3, o.CL, o.RP1, o.RP2, o["R:C"]], [2, 3, 1, 11, 12, 10, 50]);
 });
 
+test("the pen can be ordered on its own value (a reliever's runs without the starters' stamina term)", () => {
+  const v: Record<number, number> = { 1: 20, 10: 20.5, 11: 19.3 };
+  const pen: Record<number, number> = { 1: 20, 10: 16.4, 11: 26.6 };
+  const o = orderStaff({ SP1: 1, CL: 10, RP1: 11 }, (id) => v[id], (id) => pen[id]);
+  assert.deepEqual([o.SP1, o.CL, o.RP1], [1, 11, 10]);
+});
+
 test("the passing checks collapse to one row, the failing ones stay whole", () => {
   const s = auditSummary([
     { ok: true, text: "staff 5 SP / 7 RP / 14 bats", short: "staff 5/7/14" },

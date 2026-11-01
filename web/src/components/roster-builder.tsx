@@ -50,7 +50,7 @@ import type { EraRates } from "@/lib/analytics/run-env";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
 import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/lib/analytics/projections";
-import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
+import { penStaminaRuns, rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
 import { searchCard, toPlainFits, type SearchBest, type SearchMessage, type SearchRequest } from "@/lib/roster-search";
 import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { date, ip, signed, stamp } from "@/lib/format";
@@ -1016,7 +1016,7 @@ export function RosterBuilder({
   const fieldSp = meta?.construction?.spWeight != null ? fieldStaff?.sp ?? null : null;
   const fieldRp = meta?.construction?.rpWeight != null ? fieldStaff?.rp ?? null : null;
   const objective = useMemo(() => envFits
-    ? rosterObjective(formPool as FillCard[], { eraYear: env?.eraYear ?? tournament?.envYear ?? 2010, shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm })
+    ? rosterObjective(formPool as FillCard[], { eraYear: env?.eraYear ?? tournament?.envYear ?? 2010, shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm, staffStaminaInRuns: true })
     : null, [envFits, formPool, fillShape, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, glove, teamW.frm]);
   const boardRuns = (source: Record<SlotKey, number | null>): number | null => {
     if (!objective) return null;
@@ -1189,6 +1189,8 @@ export function RosterBuilder({
     // The search also takes BACKUP_PENALTY off a board per position without a backup and per long man
     // short; so does this, or a board that adds one by giving up a few runs would read as no better.
     const poolById = new Map(searchPool.map((c) => [c.cardId, c]));
+    /** A reliever's runs as the pen slots price them (without the starters' stamina term): orders the pen. */
+    const penValue = (id: number) => (envFits?.runsR.get(id) ?? -Infinity) - penStaminaRuns(poolById.get(id)?.ratings["Stamina"]);
     const gaps = backups ? missingBackups(current, poolById, backupPositions(searchPool, tournament as RosterRules, LJ_FLOOR)).length : 0;
     const longGap = longMenShort(current, poolById, twoLong ? 2 : 0);
     const beforeSearch = before - 1000 * keep.filter((id) => !onNow.has(id)).length - BACKUP_PENALTY * (gaps + longGap);
@@ -1205,7 +1207,7 @@ export function RosterBuilder({
       out = await startSearch({
         mode, board: current, pool: searchPool, rules: tournament as RosterRules, shape: fillShape, fits: toPlainFits(fits),
         eraYear: env?.eraYear ?? tournament?.envYear ?? 2010,
-        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm,
+        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm, staffStaminaInRuns: true,
         locks: keep, minCatchers: twoCatchers ? 2 : 0, minShortstops: twoShortstops ? 2 : 0, minLongMen: twoLong ? 2 : 0, backups,
       }, runTid);
     } finally {
@@ -1258,7 +1260,7 @@ export function RosterBuilder({
           label: "Use it",
           onClick: () => {
             if (lastTid.current !== runTid || latest.current.slotOrder.length !== slotOrder.length) return;
-            latest.current.bulk({ type: "set", next: { slots: orderStaff(best.slots, (id) => envFits.runsR.get(id) ?? -Infinity) }, label }, { say: ({ runs, inOut }) => `Search result${runs ? `: ${runs}` : ""}. ${inOut}`, detail });
+            latest.current.bulk({ type: "set", next: { slots: orderStaff(best.slots, (id) => envFits.runsR.get(id) ?? -Infinity, penValue) }, label }, { say: ({ runs, inOut }) => `Search result${runs ? `: ${runs}` : ""}. ${inOut}`, detail });
           },
         },
       });
@@ -1271,7 +1273,7 @@ export function RosterBuilder({
     }
     // Rotation and pen best-first: SP1 starts the most, CL closes (roster-audit orderStaff).
     const staffValue = (id: number) => envFits.runsR.get(id) ?? -Infinity;
-    bulk({ type: "set", next: { slots: orderStaff(best.slots, staffValue) }, label }, {
+    bulk({ type: "set", next: { slots: orderStaff(best.slots, staffValue, penValue) }, label }, {
       say: ({ runs, inOut }) => `${breaks ? "Legal board" : "Better board"}${runs ? `: ${runs}` : ""}. ${inOut}${tail ? ` ${tail}` : ""}`,
       detail,
     });

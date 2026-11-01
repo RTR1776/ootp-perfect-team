@@ -16,6 +16,7 @@
  *
  * The result is plain data (no Maps), so a page can cache it.
  */
+import { penStaminaRuns } from "@/lib/roster-objective";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, importBatches, rosters, rosterSlots, seriesMeta, tournaments, uploads } from "@/db/schema";
@@ -337,14 +338,17 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
   for (const inp of inputs) {
     const runs = runsOf(inp.cardId);
     if (!runs) continue;
-    const [r, l] = runs;
     const c = w.byId.get(cardIdOf(inp.cardId))!;
+    const role = inp.isPitcher ? armRole(isTwoWayForm(inp.cardId) ? null : c.pitcherRole, inp.ratings["Stamina"]) : null;
+    // A reliever is priced as the pen slots price him: without the starters' stamina term (roster-objective penStaminaRuns).
+    const pen = role === "RP" ? penStaminaRuns(inp.ratings["Stamina"]) : 0;
+    const [r, l] = [runs[0] - pen, runs[1] - pen];
     const pos: ScoredForm["pos"] = {};
     if (!inp.isPitcher) for (const p of FIELD_POS) { const v = inp.ratings[`Pos Rating ${p}`]; if (v != null && v > 0) pos[p] = v; }
     const frame = inp.isPitcher ? undefined : inp.ratings.CatcherFrame;
     forms.set(inp.cardId, {
       id: inp.cardId, cardId: c.cardId, name: c.name, variant: inp.cardId < 0, isPitcher: inp.isPitcher,
-      role: inp.isPitcher ? armRole(isTwoWayForm(inp.cardId) ? null : c.pitcherRole, inp.ratings["Stamina"]) : null, runsR: r, runsL: l, pos, ...(frame != null ? { frame } : {}), val: c.cardValue,
+      role, runsR: r, runsL: l, pos, ...(frame != null ? { frame } : {}), val: c.cardValue,
     });
   }
   const tw = teamWeights(envYear ?? 2010, { rationed: rationedEvent(t.restrictions as { teamCap?: number | null; slots?: Record<string, number> | null } | null) });

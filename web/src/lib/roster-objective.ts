@@ -12,7 +12,8 @@
  * are weighted by how much of the field's pitching is left-handed — measured
  * per series (series_meta.lhp_bf_share) and 0.30 when nothing is on record.
  * Starters count in full, relief arms at RP_WEIGHT (0.31: a relief arm faces
- * 0.31 of a starter's batters in the archive), bench bats at a tenth. The
+ * 0.31 of a starter's batters in the archive), bench bats at a tenth. The pen
+ * tilts to CL by each slot's share of the batters times its leverage (penTilt). The
  * rotation tilts to SP1 by each slot's measured share of the starts
  * (ROTATION_SHARE), and with no DH a two-way starter's bat counts for his
  * plate appearances (STARTER_PA_SHARE).
@@ -26,6 +27,7 @@
  * Every number the objective adds is a run on the same calibrated scale
  * (env-fit `calibrate`), which is what makes a bat-for-glove trade honest.
  */
+import { STAMINA_CENTER, STAMINA_RUNS_PER_POINT } from "@/lib/analytics/calibration";
 import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import type { FillCard, FillResult, FillShape } from "@/lib/roster-fill";
 import { otherFormId } from "@/lib/two-way";
@@ -55,11 +57,50 @@ export const PEN_SHARE: Record<number, number[]> = {
   8: [0.15, 0.14, 0.14, 0.13, 0.12, 0.12, 0.11, 0.09],
   9: [0.13, 0.11, 0.11, 0.11, 0.11, 0.10, 0.10, 0.10, 0.08],
 };
-/** The pen's slots (CL first) as multiples of an average reliever's weight: mean 1. */
-export function penTilt(n: number): number[] {
+/**
+ * How much each pen slot's batters matter: the BF-weighted average leverage
+ * index (OOTP's pLi, 1 = an average plate appearance) of each reliever, best
+ * card first, by relievers who pitched (scripts/model-v2/leverage.mts over the
+ * 42 tournament exports, 11-01; 4,032 teams, 130-1,441 a row, 9 RP 72).
+ * Starters work at 1.005, the pen at 1.20: the best arm sits at 1.6-1.8 (the
+ * closer), the second at 1.3, the back of the pen at 0.75-1.0. Ranked by role
+ * (pLi) rather than card value the top slot reads 2.1-2.4, so this is the
+ * field's usage, not the ceiling of a pen set strictly best-to-worst.
+ *
+ * L.J. 11-01 (Sunday Open #547): Andrew Miller, B.J. Ryan and Zack Britton,
+ * the best relievers per batter at Truist, lost pen slots to Sabathia, Stieb
+ * and Beckett because a run saved by the closer counted the same as one saved
+ * in the sixth inning of a blowout.
+ */
+export const PEN_LEVERAGE: Record<number, number[]> = {
+  3: [1.64, 1.12, 0.73],
+  4: [1.70, 1.21, 1.01, 0.74],
+  5: [1.76, 1.28, 1.13, 1.01, 0.76],
+  6: [1.69, 1.36, 1.07, 1.01, 0.91, 0.87],
+  7: [1.62, 1.33, 1.16, 1.11, 1.01, 1.00, 0.99],
+  8: [1.74, 1.38, 1.17, 1.09, 1.01, 0.94, 0.89, 0.93],
+  9: [1.65, 1.26, 1.18, 1.14, 1.14, 0.93, 0.93, 0.94, 0.91],
+};
+/**
+ * The pen's slots (CL first) as multiples of an average reliever's weight: mean 1.
+ *
+ * With `leverage` (the default) each slot's share of the pen's batters is
+ * multiplied by its leverage (PEN_LEVERAGE), then the row is put back to mean
+ * 1, so the pen as a whole weighs what it did and only the split changes: a
+ * seven-man pen runs 1.61 at CL to 0.58 at the back, against 1.19 to 0.70 on
+ * batters alone. The pen's total is left alone on purpose: the team weights
+ * (calibration.ts TEAM_WEIGHTS, pen 2 against starters 1.5) were fitted on
+ * win% and already carry the pen's average leverage of 1.2. A slot is never
+ * weighted above the one before it (a running minimum), so the best arm
+ * always belongs at CL. Under three relievers the slots are equal.
+ */
+export function penTilt(n: number, leverage = true): number[] {
   if (n <= 0) return [];
-  const row = PEN_SHARE[Math.min(Math.max(n, 3), 9)];
-  const raw = n < 3 ? Array(n).fill(1) : Array.from({ length: n }, (_, i) => row[Math.min(i, row.length - 1)]);
+  const k = Math.min(Math.max(n, 3), 9);
+  const row = PEN_SHARE[k], lev = PEN_LEVERAGE[k];
+  const at = (r: number[], i: number) => r[Math.min(i, r.length - 1)];
+  let raw = n < 3 ? Array(n).fill(1) : Array.from({ length: n }, (_, i) => at(row, i) * (leverage ? at(lev, i) : 1));
+  if (leverage && n >= 3) { let m = Infinity; raw = raw.map((x) => (m = Math.min(m, x))); }
   const mean = raw.reduce((a, b) => a + b, 0) / n;
   return raw.map((x) => x / mean);
 }
@@ -129,6 +170,29 @@ export interface ObjectiveOptions {
   framingWeight?: number;
   /** Cards the roster must carry; a missing one costs 1000 runs. */
   mustIds?: ReadonlySet<number>;
+  /** Weight the pen's slots by their leverage (penTilt, PEN_LEVERAGE); default true. False is the batters-only split. */
+  penLeverage?: boolean;
+  /**
+   * runsR carries env-fit's staff-stamina term (tournamentTerms): say so and a
+   * pen slot takes it back out (penStaminaRuns). Leave unset for runs fitted
+   * without the term.
+   */
+  staffStaminaInRuns?: boolean;
+}
+
+/**
+ * The staff-stamina term env-fit adds to an arm's runs (calibration.ts
+ * STAMINA_RUNS_PER_POINT, from the BF-weighted staff mean of 71), which a pen
+ * slot takes back out. It is a STARTERS' effect: over 3,779 tournament
+ * team-events (scripts/model-v2/penstamina.mts, 11-01), team runs allowed per
+ * 9 fall 0.10 per +10 of the rotation's stamina and move +0.01 per +10 of the
+ * pen's (all five folds), with each side's card value held. Charged to every
+ * arm it cost a stamina-10 reliever 7.3 runs per 700 BF and paid a stamina-105
+ * starter in the pen 4.1 (Andrew Miller against CC Sabathia at Truist, L.J.
+ * 11-01). The pen's long men are a roster rule (minLongMen), not a run term.
+ */
+export function penStaminaRuns(stamina: number | null | undefined): number {
+  return stamina == null ? 0 : STAMINA_RUNS_PER_POINT * (stamina - STAMINA_CENTER);
 }
 
 export interface RosterObjective {
@@ -154,7 +218,7 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
   const share = (field: number | null | undefined, ours: number) => (field != null && field > 0 && ours > 0 ? field / ours : 1);
   const rpW = (o.rpWeight ?? RP_WEIGHT_DEFAULT) * share(o.fieldRp, shape.rpKeys.length);
   const bnW = Math.min(o.benchWeight ?? BENCH_WEIGHT_DEFAULT, shape.benchKeys.length > 0 ? BENCH_SLOTS / shape.benchKeys.length : Infinity);
-  const tilt = new Map(penTilt(shape.rpKeys.length).map((w, i) => [shape.rpKeys[i], w]));
+  const tilt = new Map(penTilt(shape.rpKeys.length, o.penLeverage ?? true).map((w, i) => [shape.rpKeys[i], w]));
   const spTilt = new Map(rotationTilt(shape.spKeys.length).map((w, i) => [shape.spKeys[i], w]));
   const spW = (o.spWeight ?? 1) * share(o.fieldSp, shape.spKeys.length);
   const noDh = !shape.lineupPos.includes("DH");
@@ -181,7 +245,7 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     if (key.startsWith("R:")) return (1 - lhp) * ((runsR.get(id) ?? 0) + defAt(id, key.slice(2)));
     if (key.startsWith("L:")) return lhp * ((runsL.get(id) ?? 0) + defAt(id, key.slice(2)));
     if (spSet.has(key)) return spW * (spTilt.get(key) ?? 1) * (runsR.get(id) ?? 0) + starterBat(key, id);
-    if (rpSet.has(key)) return rpW * (tilt.get(key) ?? 1) * (runsR.get(id) ?? 0);
+    if (rpSet.has(key)) return rpW * (tilt.get(key) ?? 1) * ((runsR.get(id) ?? 0) - (o.staffStaminaInRuns ? penStaminaRuns(byId.get(id)?.ratings["Stamina"]) : 0));
     if (bnSet.has(key)) return bnW * (runsR.get(id) ?? 0);
     return 0;
   };
