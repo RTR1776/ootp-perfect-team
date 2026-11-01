@@ -1,0 +1,36 @@
+R:C Ed Bailey (VAR) #86637
+R:1B Albert Pujols #87149
+R:2B Chase Utley #87068
+R:3B George Brett #87025
+R:SS Corey Seager #87173
+R:LF Carl Yastrzemski #87129
+R:CF Andruw Jones #87057
+R:RF Curtis Granderson #86595
+R:DH Reggie Jackson #87238
+L:C Mike Piazza (VAR) #86463
+L:1B Albert Pujols #87149
+L:2B Chase Utley #87068
+L:3B George Brett #87025
+L:SS Corey Seager #87173
+L:LF Ed Delahanty #87371
+L:CF Andruw Jones #87057
+L:RF Hank Aaron #86655
+L:DH Hideki Matsui #87042
+SP1 Mordecai Brown #87370
+SP2 Madison Bumgarner #87024
+SP3 Christy Mathewson #86697
+SP4 Cy Young (VAR) #86572
+SP5 Eddie Plank #86890
+CL Willie Hernandez #86914
+RP1 Orel Hershiser #83135
+RP2 Bret Saberhagen #86915
+RP3 Zack Britton #86426
+RP4 B.J. Ryan #87218
+RP5 Ed Rile #87165
+RP6 Andrew Miller #87138
+BN1 Ed Delahanty #87371
+BN2 Hank Aaron #86655
+BN3 Hideki Matsui #87042
+BN4 Mike Piazza (VAR) #86463
+BN5 Leodalis De Vries #84724
+BN6 Ed Rile #87165
