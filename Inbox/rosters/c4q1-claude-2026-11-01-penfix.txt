@@ -1,0 +1,36 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-11-01 penfix, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --series c4q1 --sp 5 --rp 7 --bats 14)
+R:C Pythias Russ (VAR) #87083
+R:1B Pedro Alvarez #87062
+R:2B Ernie Clement #87244
+R:3B Jose Bautista #87073
+R:SS Ed Williamson #87297
+R:LF Darin Erstad #87242
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+R:DH Hideki Matsui #87042
+L:C Pythias Russ (VAR) #87083
+L:1B Ernie Clement #87244
+L:2B Brandon Phillips #87202
+L:3B Jose Bautista #87073
+L:SS Ed Williamson #87297
+L:LF Darin Erstad #87242
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Hideki Matsui #87042
+SP1 Don Larsen #87240
+SP2 Mark Langston #86956
+SP3 Nick Altrock #87049
+SP4 Fritz Ostermueller #86357
+SP5 Gene Krapp #87374
+CL James McDonald (VAR) #86384
+RP1 John Bale #87234
+RP2 Mike Marshall #84720
+RP3 Randy Choate #87026
+RP4 Bob Gibson (VAR) #86658
+RP5 Todd Jones (VAR) #86434
+RP6 R.T. Walker #86952
+BN1 Brandon Phillips #87202
+BN2 Jerome Walton #86945
+BN3 Alfredo Amezaga #87188
+BN4 Charlie Eden #82834
+BN5 Buck Rodgers (VAR) #84312
