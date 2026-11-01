@@ -4,148 +4,159 @@ PT default (2010) RE @ 2026 Truist Park · DH on · value —–— · cap none 
 R/G 4.43  AVG 0.243  OBP 0.316  SLG 0.398  K% 22.6  HR/PA 3.02%  preset Moderate Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.029 runs · steal break-even 80.8% (0 out) / 77.6% (1 out)
 park: all-LHB lineup 4.54 R/G vs all-RHB 4.38 — 0.16 R/G swing toward LEFT-handed bats
-two-way: 256 cards also in the other role — Eddie Plank as bat, CC Sabathia as bat, Hilton Smith as bat, Cool Papa Bell as arm, Bubba Chandler as bat, Jack Coombs as bat, Shohei Ohtani as arm, Camilo Pascual as bat, Lazaro Salazar as arm, Jake Bauers as arm, Jacob deGrom as bat, Chase DeLauter as arm, Alejandro Oms as arm, Payton Tolle as bat, Payton Tolle as bat, Cy Young as bat, John Beckwith as arm, Bryce Eldridge as arm, Babe Ruth as bat, Dizzy Trout as bat, Steve Carlton as bat, Pete Donohue as bat, Jose Mendez as bat, Don Newcombe as bat, Chase DeLauter as arm, Bobby Estalella as arm, Smokey Joe Williams as bat, Manny Banuelos as bat, Barney Brown as bat, Hugh Daily as bat, Nolan McLean as bat, Frank Grant as arm, Sam Jones as bat, Gary Peters as bat, Bryce Rainer as arm, Tubby Scales as arm, Cool Papa Bell as arm, Dan Haren as bat, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Kaelen Culpepper as arm, Old Hoss Radbourn as bat, Madison Bumgarner as bat, Dizzy Dean as bat, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Jim Kaat as bat, Oliver Marcell as arm, Satchel Paige as bat, Carson Williams as arm, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Carson Benge as arm, Ray Brown as bat, Bryce Eldridge as arm, Bill Force as bat, George Weidman as bat, Joshua Baez as arm, Armando Cabanas as arm, Andy Porter as bat, River Ryan as bat, Quincy Trouppe as arm, Carlos Zambrano as bat, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Agustin Parpetti as arm, Ben Taylor as arm, Bobby Witt Jr. as arm, Alec Burleson as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Jac Caglianone as arm, Rap Dixon as arm, Kid Nichols as bat, Travis Sykora as bat, Bullet Rogan as arm, Justin Turner as arm, Pete Hill as arm, Terris McDuffie as bat, Frank Foreman as bat, JR Ritchie as bat, Johnny Davis as arm, Roosevelt Davis as bat, Bob Thurman as arm, Judy Johnson as arm, Phil Cockrell as bat, Johnny Lindell as arm, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Don Robinson as bat, Dave Malarcher as arm, Kyson Witherspoon as bat, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Ossie Orwoll as bat, Cocaina Garcia as arm, Matt Davidson as arm, Blake Mitchell as arm, Isidro Fabre as bat, Joe Strong as bat, Charlie Buffinton as bat, Cal McVey as arm, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Matt Wallner as arm, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat, Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Bubba Chandler as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Anthony Nunez as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Cole Carrigg as arm, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Masyn Winn as arm, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Carlos Perez as arm, Julio Rojo as arm, Tom Vickery as bat, Carson Williams as arm, Matt Carlisle as arm, Pretzels Getzien as bat, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Blaze Alexander as arm, Rip Sewell as bat, Ben Casparius as bat, Jake Cronenworth as arm, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Kody Funderburk as bat, Brody Hopkins as bat, Dane Myers as arm, Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Kaelen Culpepper as arm, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Joshua Baez as arm, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Zach Agnos as bat, Jack Brannigan as arm, Judy Gans as arm, Enrique Hernandez as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Mitch Farris as bat, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Luke Williams as arm, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
+two-way: 255 cards also in the other role — Madison Bumgarner as bat, Christy Mathewson as bat, Eddie Plank as bat, Ed Rile as arm, CC Sabathia as bat, Hilton Smith as bat, Cool Papa Bell as arm, Bubba Chandler as bat, Jack Coombs as bat, Camilo Pascual as bat, Lazaro Salazar as arm, Ed Williamson as arm, Jake Bauers as arm, Jesse Burkett as arm, Chase DeLauter as arm, Alejandro Oms as arm, Payton Tolle as bat, Payton Tolle as bat, Cy Young as bat, John Beckwith as arm, Bryce Eldridge as arm, Babe Ruth as bat, Dizzy Trout as bat, Steve Carlton as bat, Pete Donohue as bat, Don Larsen as bat, Jose Mendez as bat, Don Newcombe as bat, Bobby Estalella as arm, Smokey Joe Williams as bat, Manny Banuelos as bat, Barney Brown as bat, Hugh Daily as bat, Frank Grant as arm, Sam Jones as bat, Gary Peters as bat, Bryce Rainer as arm, Tubby Scales as arm, Cool Papa Bell as arm, Dan Haren as bat, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Kaelen Culpepper as arm, Old Hoss Radbourn as bat, Madison Bumgarner as bat, Dizzy Dean as bat, Mack Eggleston as arm, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Jim Kaat as bat, Oliver Marcell as arm, Satchel Paige as bat, Jack Stivetts as bat, Carson Williams as arm, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Carson Benge as arm, Ray Brown as bat, Bill Force as bat, Sam Streeter as bat, George Weidman as bat, Joshua Baez as arm, Armando Cabanas as arm, Jimmie Lyons as arm, Andy Porter as bat, River Ryan as bat, Quincy Trouppe as arm, Carlos Zambrano as bat, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Agustin Parpetti as arm, Ben Taylor as arm, Candy Jim Taylor as arm, Bobby Witt Jr. as arm, Alec Burleson as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Jac Caglianone as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, JR Ritchie as bat, Bob Thurman as arm, Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Travis Sykora as bat, Justin Turner as arm, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Cocaina Garcia as arm, Blake Mitchell as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Frank Foreman as bat, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Johnny Davis as arm, Gid Gardner as arm, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat, Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Garland Buckeye as bat, Bubba Chandler as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Anthony Nunez as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Cole Carrigg as arm, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Masyn Winn as arm, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Carlos Perez as arm, Don Robinson as bat, Julio Rojo as arm, Tom Vickery as bat, Carson Williams as arm, Matt Carlisle as arm, Pretzels Getzien as bat, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Blaze Alexander as arm, Rip Sewell as bat, Kyson Witherspoon as bat, Ben Casparius as bat, Jake Cronenworth as arm, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Kody Funderburk as bat, Dane Myers as arm, Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Matt Davidson as arm, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Isidro Fabre as bat, Zach Agnos as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
 
-pool: 4227 eligible owned cards — 2336 bats (779L / 274S / 1283R), 1891 arms
+pool: 4025 eligible owned cards — 2268 bats (746L / 275S / 1247R), 1757 arms
 staff weights from openweekly's exports: SP 1.26, RP 0.39 (a lineup slot = 1)
-field (openweekly, 3 exports): 42% of batters faced thrown left-handed · 44% of PA by left-handed bats · 13.4 bats / 6.1 SP / 5.9 RP per team
+field (openweekly, 5 exports): 41% of batters faced thrown left-handed · 45% of PA by left-handed bats · 13.4 bats / 6.2 SP / 5.9 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 2418 of 4227 pool cards have innings on record (median 153 PA/BF); K = 1000000
+observed play: 2426 of 4025 pool cards have innings on record (median 165 PA/BF); K = 1000000
+field's average card here (1025 cards played in openweekly, weighted by PA/BF): bat +26.0 vs RHP / +23.4 vs LHP, arm +16.5 — "fld" on each row is runs over that
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.89, RP 0.78 (--no-team-weights to turn off)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.89, RP 0.78 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.9 SP / 7.1 RP → per SP ×0.98 (5 carried), per RP ×1.01 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +5.1  Avoid Ks +3.3  BABIP +1.8  Eye +1.2  Gap +0.8
                           RHB: Power +5.0  Avoid Ks +3.2  BABIP +1.7  Eye +1.1  Gap +0.8
                          arms: pHR +1.7  Stuff +1.6  pBABIP +1.0  Control +0.8
 seed: 547-seed.txt as is (26 cards)
+seed: scores 840.3 before the climb
 
-optimiser: 18 starts (λ + seed) hill-climbed; best 770.8 runs vs 687.2 greedy (+83.6), 1 moves from the seed
+optimiser: 22 starts (λ + seed) hill-climbed; best 840.6 runs vs 765.2 greedy (+75.5), 15 moves from λ 0.00 (the seed's climb: 840.6)
+dual: from Ed Rile in both roles: Ed Rile in both, 841.2 runs
+dual: from Madison Bumgarner in both roles: Ed Rile in both, 841.2 runs
+dual: from Christy Mathewson in both roles: Ed Rile in both, 841.2 runs
+dual: from Eddie Plank in both roles: Ed Rile in both, 841.2 runs
+dual: from CC Sabathia in both roles: Ed Rile in both, 841.2 runs
+dual: from Jack Coombs in both roles: Ed Rile in both, 841.2 runs
+dual: Ed Rile in both roles beats the board above, 841.2 vs 840.6 runs: taken
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ed Bailey (VAR)             97  L  1956   +33.9  park:L DEF 112/112 +10.8  #86637
-R:1B    Albert Pujols              102  R  2011   +46.2  park:R DEF  91/ 91 +2.9  #87149
-R:2B    Chase Utley                102  L  2009   +39.3  park:L DEF 139/139 +8.4  #87068
-R:3B    Alex Rodriguez             102  R  2007   +80.0  park:R DEF 123/123 +8.3  #87219
-R:SS    Corey Seager               103  L  2023   +49.5  park:L DEF 119/119 +4.5  #87173
-R:LF    Juan Soto                  102  L  2024   +44.2  park:L DEF  87/ 91 -1.3  #87013
-R:CF    Carlos Beltran              99  S  2004   +44.8  park:L DEF 108/108 -0.8  #87066
-R:RF    Jose Bautista              100  R  2015   +47.5  park:R DEF 111/111 +2.3  #87073
-R:DH    George Brett               103  L  1985   +58.2  park:L  #87025
+R:C     Ed Bailey (VAR)             97  L  1956   +33.6 fld  +7.6  park:L DEF 112/112 +10.8  #86637
+R:1B    Albert Pujols              102  R  2011   +45.9 fld +19.9  park:R DEF  91/ 91 +2.9  #87149
+R:2B    Chase Utley                102  L  2009   +38.9 fld +12.9  park:L DEF 139/139 +8.4  #87068
+R:3B    George Brett               103  L  1985   +57.8 fld +31.8  park:L DEF  88/ 88 -0.8  #87025
+R:SS    Corey Seager               103  L  2023   +49.1 fld +23.1  park:L DEF 119/119 +4.5  #87173
+R:LF    Carl Yastrzemski           103  L  1967   +57.2 fld +31.2  park:L DEF 149/149 +8.6  #87129
+R:CF    Andruw Jones               102  R  1996   +49.2 fld +23.2  park:R DEF 148/155 +5.5  #87057
+R:RF    Curtis Granderson           97  L  2007   +44.8 fld +18.8  park:L DEF 142/147 +7.7  #86595
+R:DH    Reggie Jackson             102  L  1977   +67.5 fld +41.5  park:L  #87238
 
 --- lineup vs LHP ---
-L:C     Mike Piazza (VAR)          101  R  1995   +45.0  park:R DEF  69/ 69 -2.0  #86463
-L:1B    Albert Pujols              102  R  2011   +57.6  park:R DEF  91/ 91 +2.9  #87149
-L:2B    Chase Utley                102  L  2009   +48.6  park:L DEF 139/139 +8.4  #87068
-L:3B    Alex Rodriguez             102  R  2007   +32.4  park:R DEF 123/123 +8.3  #87219
-L:SS    Ernie Banks                102  R  1959   +32.9  park:R DEF 133/133 +9.7  #86621
-L:LF    Hank Aaron                 102  R  1959   +52.6  park:R DEF  85/ 87 -1.7  #86655
-L:CF    Jose Bautista              100  R  2015   +29.8  park:R DEF  83/111 -4.7 <-- under floor  #87073
-L:RF    Juan Soto                  102  L  2024   +43.4  park:L DEF  91/ 91 -1.2  #87013
-L:DH    Hideki Matsui              100  L  2009   +58.7  park:L  #87042
+L:C     Mike Piazza (VAR)          101  R  1995   +44.6 fld +21.2  park:R DEF  69/ 69 -2.0  #86463
+L:1B    Albert Pujols              102  R  2011   +57.2 fld +33.9  park:R DEF  91/ 91 +2.9  #87149
+L:2B    Chase Utley                102  L  2009   +48.2 fld +24.9  park:L DEF 139/139 +8.4  #87068
+L:3B    George Brett               103  L  1985   +36.9 fld +13.5  park:L DEF  88/ 88 -0.8  #87025
+L:SS    Corey Seager               103  L  2023   +31.3 fld  +7.9  park:L DEF 119/119 +4.5  #87173
+L:LF    Carl Yastrzemski           103  L  1967   +40.8 fld +17.5  park:L DEF 149/149 +8.6  #87129
+L:CF    Andruw Jones               102  R  1996   +53.1 fld +29.7  park:R DEF 148/155 +5.5  #87057
+L:RF    Hank Aaron                 102  R  1959   +52.1 fld +28.7  park:R DEF  87/ 87 -1.9  #86655
+L:DH    Hideki Matsui              100  L  2009   +58.2 fld +34.8  park:L  #87042
 
---- batting order vs RHP --- (7.19 runs/game; The Book's order 7.18)
-  1. George Brett DH
-  2. Juan Soto LF
-  3. Alex Rodriguez 3B
-  4. Jose Bautista RF
-  5. Corey Seager SS
-  6. Carlos Beltran CF
-  7. Albert Pujols 1B
-  8. Ed Bailey (VAR) C
+--- batting order vs RHP --- (7.00 runs/game; The Book's order 7.00)
+  1. George Brett 3B
+  2. Carl Yastrzemski LF
+  3. Reggie Jackson DH
+  4. Corey Seager SS
+  5. Albert Pujols 1B
+  6. Andruw Jones CF
+  7. Ed Bailey (VAR) C
+  8. Curtis Granderson RF
   9. Chase Utley 2B
 
---- batting order vs LHP --- (7.01 runs/game; The Book's order 7.00)
-  1. Juan Soto RF
-  2. Chase Utley 2B
-  3. Hideki Matsui DH
+--- batting order vs LHP --- (6.96 runs/game; The Book's order 6.96)
+  1. Chase Utley 2B
+  2. Hideki Matsui DH
+  3. Andruw Jones CF
   4. Albert Pujols 1B
-  5. Hank Aaron LF
-  6. Mike Piazza (VAR) C
-  7. Jose Bautista CF
-  8. Ernie Banks SS
-  9. Alex Rodriguez 3B
+  5. Hank Aaron RF
+  6. Carl Yastrzemski LF
+  7. Mike Piazza (VAR) C
+  8. Corey Seager SS
+  9. George Brett 3B
 
 --- rotation ---
-SP1     Cy Young (VAR)             102  R  1895   +23.4   SP STM 114  #86572
-SP2     Eddie Plank                102  L  1904   +22.1   SP STM 104  #86890
-SP3     Orel Hershiser             102  R  1988   +21.8   SP STM 100  #83135
-SP4     Bret Saberhagen            102  R  1989   +21.3   SP STM 106  #86915
-SP5     Dave Stieb                 101  R  1985   +20.3   SP STM 106  #86958
+SP1     Madison Bumgarner          103  R  2014   +27.6 fld +11.1   SP STM 110  #87024
+SP2     Christy Mathewson          103  R  1905   +27.1 fld +10.7   SP STM 111  #86697
+SP3     Cy Young (VAR)             102  R  1895   +24.5 fld  +8.1   SP STM 114  #86572
+SP4     Eddie Plank                102  L  1904   +23.1 fld  +6.6   SP STM 104  #86890
+SP5     Orel Hershiser             102  R  1988   +22.8 fld  +6.4   SP STM 100  #83135
 
 --- bullpen ---
-CL      Willie Hernandez           102  L  1984   +24.1   CL STM  67  #86914
-RP1     CC Sabathia                101  L  2008   +19.5   SP STM 105  #86350
-RP2     Harvey Haddix              101  L  1959   +19.4   SP STM 114  #86623
-RP3     Frank Viola                102  L  1988   +18.0   SP STM  90  #86955
-RP4     Zack Britton               102  L  2016   +17.4   CL STM  18  #86426
-RP5     Kade Anderson              102  L  2026   +17.2   SP STM  72  #85138
-RP6     Jack Coombs                100  S  1910   +16.1   SP STM 106  #85937
+CL      Willie Hernandez           102  L  1984   +25.6 fld  +9.1   CL STM  67  #86914
+RP1     Bret Saberhagen            102  R  1989   +22.3 fld  +5.9   SP STM 106  #86915
+RP2     Josh Beckett               102  R  2003   +21.9 fld  +5.4   SP STM  96  #87058
+RP3     Dave Stieb                 101  R  1985   +21.3 fld  +4.8   SP STM 106  #86958
+RP4     Ed Rile                    102  L  1927   +20.9 fld  +4.4      STM 110 two-way (pitching)  #87165
+RP5     CC Sabathia                101  L  2008   +20.5 fld  +4.0   SP STM 105  #86350
+RP6     Harvey Haddix              101  L  1959   +20.3 fld  +3.9   SP STM 114  #86623
 
 --- bench ---
-BN1     Hank Aaron                 102  R  1959   +37.7  park:R  #86655
-BN2     Ernie Banks                102  R  1959   +37.4  park:R  #86621
-BN3     Hideki Matsui              100  L  2009   +35.0  park:L  #87042
-BN4     Mike Piazza (VAR)          101  R  1995   +33.1  park:R  #86463
-BN5     Tony Phillips               88  S  1993    -5.6  park:L  #83845
+BN1     Carlos Beltran              99  S  2004   +44.3 fld +18.3  park:L  #87066
+BN2     Hank Aaron                 102  R  1959   +37.3 fld +11.3  park:R  #86655
+BN3     Hideki Matsui              100  L  2009   +34.7 fld  +8.7  park:L  #87042
+BN4     Mike Piazza (VAR)          101  R  1995   +32.9 fld  +6.9  park:R  #86463
+BN5     Leodalis De Vries          102  S  2026   +31.2 fld  +5.2  park:L  #84724
+BN6     Ed Rile                    102  L  1927   +37.9 fld +11.9  park:L  #87165
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ed Bailey (VAR)            U1 Mike Piazza (VAR) 69         U2 -                           
-  1B  Albert Pujols              U1 George Brett 88              U2 Ernie Banks 107              def sub Ernie Banks (+3.2)
-  2B  Chase Utley                U1 Tony Phillips 99             U2 -                           
-  3B  Alex Rodriguez             U1 George Brett 88              U2 Ernie Banks 133             
-  SS  Corey Seager               U1 Ernie Banks 133              U2 -                            def sub Ernie Banks (+5.2)
-  LF  Juan Soto                  U1 Hank Aaron 85                U2 Tony Phillips 110            def sub Tony Phillips (+3.7)
-  CF  Carlos Beltran             U1 Tony Phillips 91             U2 -                           
-  RF  Jose Bautista              U1 Hank Aaron 87                U2 Tony Phillips 101           
-  pinch hitters: Hank Aaron, Ernie Banks, Hideki Matsui, Mike Piazza (VAR) · pinch runners: Hank Aaron (SPE 69), Tony Phillips (SPE 67), Ernie Banks (SPE 44)
+  1B  Albert Pujols              U1 Ed Rile 86                   U2 Hank Aaron 75               
+  2B  Chase Utley                U1 Leodalis De Vries 130        U2 -                           
+  3B  George Brett               U1 Leodalis De Vries 116        U2 -                            def sub Leodalis De Vries (+7.3)
+  SS  Corey Seager               U1 Leodalis De Vries 115        U2 -                           
+  LF  Carl Yastrzemski           U1 Hank Aaron 85                U2 -                           
+  CF  Andruw Jones               U1 Carlos Beltran 108           U2 -                           
+  RF  Curtis Granderson          U1 Hank Aaron 87                U2 -                           
+  pinch hitters: Carlos Beltran, Ed Rile, Hank Aaron, Hideki Matsui · pinch runners: Carlos Beltran (SPE 109), Leodalis De Vries (SPE 91), Hank Aaron (SPE 69)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Mike Piazza (VAR)          U1 Ed Bailey (VAR) 112          U2 -                            def sub Ed Bailey (VAR) (+12.8)
-  1B  Albert Pujols              U1 George Brett 88              U2 -                           
-  2B  Chase Utley                U1 Tony Phillips 99             U2 -                           
-  3B  Alex Rodriguez             U1 George Brett 88              U2 Tony Phillips 80            
-  SS  Ernie Banks                U1 Corey Seager 119             U2 -                           
-  LF  Hank Aaron                 U1 Tony Phillips 110            U2 -                            def sub Tony Phillips (+4)
-  CF  Jose Bautista              U1 Carlos Beltran 108           U2 Tony Phillips 91             def sub Carlos Beltran (+3.9)
-  RF  Juan Soto                  U1 Tony Phillips 101            U2 -                           
-  pinch hitters: George Brett, Corey Seager, Carlos Beltran, Tony Phillips · pinch runners: Carlos Beltran (SPE 109), George Brett (SPE 69), Tony Phillips (SPE 67)
+  1B  Albert Pujols              U1 Ed Rile 86                   U2 -                           
+  2B  Chase Utley                U1 Leodalis De Vries 130        U2 -                           
+  3B  George Brett               U1 Leodalis De Vries 116        U2 -                            def sub Leodalis De Vries (+7.3)
+  SS  Corey Seager               U1 Leodalis De Vries 115        U2 -                           
+  LF  Carl Yastrzemski           U1 Curtis Granderson 147        U2 -                           
+  CF  Andruw Jones               U1 Carlos Beltran 108           U2 Curtis Granderson 133       
+  RF  Hank Aaron                 U1 Curtis Granderson 142        U2 -                            def sub Curtis Granderson (+9.6)
+  pinch hitters: Reggie Jackson, Ed Rile, Carlos Beltran, Leodalis De Vries · pinch runners: Curtis Granderson (SPE 121), Carlos Beltran (SPE 109), Leodalis De Vries (SPE 91)
 
-26 players · value 2622 · from seed · 3 variants
-vs RHP lineup gets the friendly park side in 6 of 9 spots
+26 players · value 2638 · λ 0.000 · 3 variants
+vs RHP lineup: 7 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
-  Alex Rodriguez         R EYE 172 (250/146)  POW 256 (162/288)  K 106  BABIP 120  GAP  79  SPE  83
+  Reggie Jackson         L EYE 186 (146/200)  POW 236 (222/240)  K 106  BABIP 135  GAP 138  SPE  62
   George Brett           L EYE 213 (158/232)  POW 184 (161/192)  K 137  BABIP 156  GAP 135  SPE  69
+  Carl Yastrzemski       L EYE 162 (142/169)  POW 193 (174/200)  K 147  BABIP 150  GAP 111  SPE  51
+  Andruw Jones           R EYE 146 (157/142)  POW 209 (220/205)  K 107  BABIP 139  GAP 106  SPE  93
   Corey Seager           L EYE 147 (123/155)  POW 184 (155/193)  K 128  BABIP 134  GAP 156  SPE  41
-  Jose Bautista          R EYE 227 (196/238)  POW 212 (188/220)  K 116  BABIP  99  GAP 106  SPE  37
   Albert Pujols          R EYE 165 (154/168)  POW 182 (210/173)  K 150  BABIP 138  GAP 183  SPE  52
+  Curtis Granderson      L EYE 117 (97/125)  POW 132 (91/148)  K 108  BABIP 142  GAP 153  SPE 121
   Carlos Beltran         S EYE 172 (124/188)  POW 180 (151/190)  K 132  BABIP  92  GAP 123  SPE 109
-  Juan Soto              L EYE 238 (244/236)  POW 200 (200/200)  K 116  BABIP 116  GAP  92  SPE  52
   Chase Utley            L EYE 200 (211/197)  POW 173 (189/167)  K 124  BABIP 140  GAP  84  SPE  84
+  Ed Rile                L EYE  91 (85/93)  POW 153 (146/156)  K 146  BABIP 141  GAP 166  SPE  48
   Hank Aaron             R EYE  97 (111/94)  POW 181 (210/172)  K 134  BABIP 136  GAP 123  SPE  69
-  Ernie Banks            R EYE 126 (145/120)  POW 187 (160/196)  K 129  BABIP 117  GAP  94  SPE  44
   Hideki Matsui          L EYE 166 (148/172)  POW 179 (235/160)  K 148  BABIP 135  GAP  69  SPE  31
   Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
   Mike Piazza            R EYE 111 (84/124)  POW 187 (226/172)  K 106  BABIP 155  GAP  67  SPE  39
-  Tony Phillips          S EYE 144 (142/145)  POW  50 (37/55)  K  80  BABIP 128  GAP  73  SPE  67
+  Leodalis De Vries      S EYE 145 (144/145)  POW 118 (115/120)  K 127  BABIP 152  GAP 152  SPE  91
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (182 teams): 5.2 SP / 7.6 RP / 14.2 bats
-  ✓ starters' stamina Cy Young 114, Eddie Plank 104, Orel Hershiser 100, Bret Saberhagen 106, Dave Stieb 106 (era floor 50)
-  ✓ stamina guys in the pen (45+): Willie Hernandez 67, CC Sabathia 105, Harvey Haddix 114, Frank Viola 90, Kade Anderson 72, Jack Coombs 106
+  ✓ staff 5 SP / 7 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (305 teams): 5.1 SP / 7.5 RP / 14.1 bats
+  ✓ starters' stamina Madison Bumgarner 110, Christy Mathewson 111, Cy Young 114, Eddie Plank 104, Orel Hershiser 100 (era floor 50)
+  ✓ stamina guys in the pen (45+): Willie Hernandez 67, Bret Saberhagen 106, Josh Beckett 96, Dave Stieb 106, Ed Rile 110, CC Sabathia 105, Harvey Haddix 114
   ✓ C  backup: vs RHP Mike Piazza 69 · vs LHP Ed Bailey 112
-  ✓ 1B backup: vs RHP George Brett 88, Ernie Banks 107, Hank Aaron 75 · vs LHP George Brett 88
-  ✓ 2B backup: Tony Phillips 99
-  ✓ 3B backup: vs RHP George Brett 88, Ernie Banks 133, Tony Phillips 80 · vs LHP George Brett 88, Tony Phillips 80
-  ✓ SS backup: vs RHP Ernie Banks 133 · vs LHP Corey Seager 119
-  ✓ LF backup: vs RHP Hank Aaron 85, Tony Phillips 110 · vs LHP Tony Phillips 110
-  ✓ CF backup: vs RHP Tony Phillips 91 · vs LHP Carlos Beltran 108, Tony Phillips 91
-  ✓ RF backup: vs RHP Hank Aaron 87, Tony Phillips 101 · vs LHP Tony Phillips 101
-(14 of 26 have a live ask in the last shop snapshot)
-objective: 770.8 weighted runs (bats 58/42 R/L, SP 1.8900000000000001, RP 0.78, bench 0.1)
-points: lineup(both boards, 13 bats) 1315 · rotation 509 · bullpen 710 · bench-only 88
+  ✓ 1B backup: vs RHP Hank Aaron 75, Ed Rile 86 · vs LHP Ed Rile 86
+  ✓ 2B backup: Leodalis De Vries 130
+  ✓ 3B backup: Leodalis De Vries 116
+  ✓ SS backup: Leodalis De Vries 115
+  ✓ LF backup: vs RHP Hank Aaron 85 · vs LHP Curtis Granderson 147
+  ✓ CF backup: vs RHP Carlos Beltran 108 · vs LHP Curtis Granderson 133, Carlos Beltran 108
+  ✓ RF backup: vs RHP Hank Aaron 87 · vs LHP Curtis Granderson 142
+(13 of 27 have a live ask in the last shop snapshot)
+objective: 841.2 weighted runs (bats 59/41 R/L, SP 1.8900000000000001, RP 0.78, bench 0.1)
+points: lineup(both boards, 12 bats) 1214 · rotation 512 · bullpen 711 · bench-only 201
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
-   Alex Rodriguez           Power 256 (fitted 1–228)
+   Reggie Jackson           Power 236 (fitted 1–228)
