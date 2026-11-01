@@ -4,47 +4,54 @@
 R/G 5.17  AVG 0.281  OBP 0.353  SLG 0.423  K% 12.1  HR/PA 2.66%  preset Moderate Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.022 runs · steal break-even 81.1% (0 out) / 78.0% (1 out)
 park: all-LHB lineup 5.43 R/G vs all-RHB 5.04 — 0.39 R/G swing toward LEFT-handed bats
-two-way: 59 cards also in the other role — Oscar Charleston as arm, Dizzy Dean as bat, Hilton Smith as bat, Bill Holland as bat, Jim Kaat as bat, Satchel Paige as bat, Leroy Matlock as bat, Ray Brown as bat, Andy Porter as bat, Quincy Trouppe as arm, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Bullet Rogan as arm, Terris McDuffie as bat, Bob Thurman as arm, Johnny Lindell as arm, Bill Ricks as bat, William Bell as bat, Joe Strong as bat, Charlie Mason as arm, Harry Simpson as arm, Johnny Davis as arm, Dan Bankhead as bat, Roosevelt Davis as bat, Don Robinson as bat, Bill Byrd as bat, Jose Oquendo as arm, Dick Donovan as bat, Jim LaMarque as bat, Isidro Fabre as bat, Dave Pope as arm, Willie Pope as bat, Rufus Lewis as bat, Connie Rector as bat, Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Eddie Smith as bat, Eddie Dixon as bat, Henry McHenry as bat, Larry Sherry as bat, Wes Ferrell as bat, Matt Carlisle as arm, Rip Sewell as bat, Bernie Friberg as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Elden Auker as bat, Earl Wilson as bat, Jack Wilson as bat, Jim Tobin as bat, Sam Bankhead as arm, John Bissant as arm, Lefty Grove as bat, Jelly Jackson as arm, Jim Maloney as bat
+two-way: 60 cards also in the other role — Oscar Charleston as arm, Dizzy Dean as bat, Hilton Smith as bat, Bill Holland as bat, Jim Kaat as bat, Satchel Paige as bat, Leroy Matlock as bat, Ray Brown as bat, Sam Streeter as bat, Andy Porter as bat, Quincy Trouppe as arm, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Bullet Rogan as arm, Terris McDuffie as bat, Bob Thurman as arm, Johnny Lindell as arm, Bill Ricks as bat, William Bell as bat, Joe Strong as bat, Charlie Mason as arm, Harry Simpson as arm, Dan Bankhead as bat, Johnny Davis as arm, Bill Byrd as bat, Roosevelt Davis as bat, Jose Oquendo as arm, Dick Donovan as bat, Jim LaMarque as bat, Dave Pope as arm, Willie Pope as bat, Rufus Lewis as bat, Connie Rector as bat, Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Eddie Smith as bat, Eddie Dixon as bat, Henry McHenry as bat, Larry Sherry as bat, Wes Ferrell as bat, Don Robinson as bat, Matt Carlisle as arm, Rip Sewell as bat, Bernie Friberg as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Elden Auker as bat, Earl Wilson as bat, Jack Wilson as bat, Jim Tobin as bat, Isidro Fabre as bat, Sam Bankhead as arm, John Bissant as arm, Lefty Grove as bat, Jelly Jackson as arm, Jim Maloney as bat
 
-pool: 1014 eligible owned cards — 586 bats (187L / 55S / 344R), 428 arms
-staff weights from goldenheart's exports: SP 1.46, RP 0.38 (a lineup slot = 1)
-field (goldenheart, 16 exports): 41% of batters faced thrown left-handed · 39% of PA by left-handed bats · 14.3 bats / 5.5 SP / 4.3 RP per team
-shape: 15 bats / 5 SP / 6 RP (1930s–50s) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
-observed play: 888 of 1014 pool cards have innings on record (median 306 PA/BF); K = 1000000
+pool: 1033 eligible owned cards — 598 bats (188L / 56S / 354R), 435 arms
+staff weights from goldenheart's exports: SP 1.48, RP 0.38 (a lineup slot = 1)
+field (goldenheart, 19 exports): 41% of batters faced thrown left-handed · 39% of PA by left-handed bats · 14.3 bats / 5.5 SP / 4.3 RP per team
+shape: 16 bats / 4 SP / 6 RP (1930s–50s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 907 of 1033 pool cards have innings on record (median 369 PA/BF); K = 1000000
+field's average card here (592 cards played in goldenheart, weighted by PA/BF): bat -5.7 vs RHP / -6.2 vs LHP, arm +1.8 — "fld" on each row is runs over that
 gloves ×1.03: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (1956 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×2.05, SP 2.19, RP 0.76 (--no-team-weights to turn off)
-staff innings split over the arms carried: the field runs 4.8 SP / 5.0 RP → per SP ×0.96 (5 carried), per RP ×0.83 (6 carried)
+team weights (1956 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×2.05, SP 2.22, RP 0.76 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.8 SP / 5.0 RP → per SP ×1.20 (4 carried), per RP ×0.83 (6 carried)
 
 +10 rating, runs/700 PA — LHB: Power +4.8  BABIP +2.5  Avoid Ks +2.0  Eye +1.7  Gap +0.8
                           RHB: Power +4.4  BABIP +2.3  Avoid Ks +1.8  Eye +1.6  Gap +0.8
                          arms: pHR +1.6  pBABIP +1.4  Control +1.2  Stuff +0.9
 seed: 635-seed.txt as is (26 cards)
+seed: scores 361.6 before the climb
 
-optimiser: 4 starts (λ + seed) hill-climbed; best 338.8 runs vs 310.0 greedy (+28.8), 31 moves from λ 4.00 (the seed's climb: 338.8)
+optimiser: 10 starts (λ + seed) hill-climbed; best 362.7 runs vs 326.5 greedy (+36.2), 13 moves from λ 0.00 (the seed's climb: 362.7)
+dual: from Dizzy Dean in both roles: Dizzy Dean in both, 360.5 runs
+dual: from Sam Streeter in both roles: Dizzy Dean in both, 360.5 runs
+dual: from Jim Kaat in both roles: Dizzy Dean in both, 360.5 runs
+dual: from Bill Ricks in both roles: Bill Ricks in both, 359.4 runs
+dual: no two-way card in both roles beats 362.7 runs (best Dizzy Dean 360.5)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Josh Gibson                 84  R  1946    +3.0  park:R DEF  69/ 75 -4.5  #86898
-R:1B    Roy Cullenbine              88  S  1946   +20.0  park:L DEF  78/ 78 +0.3  #86775
-R:2B    Jose Oquendo                73  S  1988    -9.9  park:L DEF 139/139 +10.6  #85738
-R:3B    Hank Thompson               87  L  1953   +11.9  park:L DEF  92/ 92 +0.3  #86668
-R:SS    Dickie Thon                 88  R  1983    -3.8  park:R DEF 115/133 +3.8  #86238
-R:LF    Eric Davis (VAR)            85  R  1989   +33.6  park:R DEF  92/ 92 -0.7  #86974
-R:CF    Bo Jackson                  88  R  1989   +41.4  park:R DEF 103/123 -2.0  #86966
-R:RF    Andy Van Slyke              77  L  1988   +18.3  park:L DEF 125/125 +5.9  #86936
-R:DH    Kal Daniels                 82  L  1987   +33.3  park:L  #84163
+R:C     Josh Gibson                 84  R  1946    +2.9 fld  +8.6  park:R DEF  69/ 75 -4.5  #86898
+R:1B    Roy Cullenbine              88  S  1946   +19.9 fld +25.6  park:L DEF  78/ 78 +0.3  #86775
+R:2B    Jose Oquendo                73  S  1988   -10.2 fld  -4.5  park:L DEF 139/139 +10.6  #85738
+R:3B    Hank Thompson               87  L  1953   +11.8 fld +17.5  park:L DEF  92/ 92 +0.3  #86668
+R:SS    Dickie Thon                 88  R  1983    -4.0 fld  +1.8  park:R DEF 115/133 +3.8  #86238
+R:LF    Eric Davis (VAR)            85  R  1989   +33.4 fld +39.1  park:R DEF  92/ 92 -0.7  #86974
+R:CF    Bo Jackson                  88  R  1989   +39.9 fld +45.6  park:R DEF 103/123 -2.0  #86966
+R:RF    Andy Van Slyke              77  L  1988   +18.1 fld +23.9  park:L DEF 125/125 +5.9  #86936
+R:DH    Kal Daniels                 82  L  1987   +33.1 fld +38.8  park:L  #84163
 
 --- lineup vs LHP ---
-L:C     Josh Gibson                 84  R  1946    +9.6  park:R DEF  69/ 75 -4.5  #86898
-L:1B    Dale Murphy                 88  R  1982   +12.5  park:R DEF 100/112 +6.0  #86270
-L:2B    Randy Ready                 77  R  1987   +14.1  park:R DEF 115/115 +0.7  #86921
-L:3B    Hubie Brooks (VAR)          76  R  1986   +24.6  park:R DEF  67/ 67 -7.9  #86973
-L:SS    Dickie Thon                 88  R  1983    +2.0  park:R DEF 115/133 +3.8  #86238
-L:LF    Eric Davis (VAR)            85  R  1989   +18.4  park:R DEF  92/ 92 -0.7  #86974
-L:CF    Willie McGee (VAR)          79  S  1985   +15.1  park:R DEF 118/131 +1.0  #85753
-L:RF    Bo Jackson                  88  R  1989   +35.8  park:R DEF 123/123 +5.5  #86966
-L:DH    Rudy York (VAR)             88  R  1943   +19.1  park:R  #86429
+L:C     Josh Gibson                 84  R  1946    +9.4 fld +15.6  park:R DEF  69/ 75 -4.5  #86898
+L:1B    Rudy York (VAR)             88  R  1943   +19.0 fld +25.1  park:R DEF  71/ 71 -1.5  #86429
+L:2B    Dickie Thon                 88  R  1983    +1.8 fld  +7.9  park:R DEF 133/133 +8.1  #86238
+L:3B    Randy Ready                 77  R  1987   +14.0 fld +20.2  park:R DEF  91/115 +0.0  #86921
+L:SS    Ernie Banks (VAR)           83  R  1961    +3.9 fld +10.1  park:R DEF 113/113 +2.9  #85494
+L:LF    Eric Davis (VAR)            85  R  1989   +18.3 fld +24.4  park:R DEF  92/ 92 -0.7  #86974
+L:CF    Willie McGee (VAR)          79  S  1985   +15.0 fld +21.2  park:R DEF 118/131 +1.0  #85753
+L:RF    Bo Jackson                  88  R  1989   +34.5 fld +40.6  park:R DEF 123/123 +5.5  #86966
+L:DH    Hubie Brooks (VAR)          76  R  1986   +24.4 fld +30.6  park:R  #86973
 
---- batting order vs RHP --- (6.13 runs/game; The Book's order 6.12)
+--- batting order vs RHP --- (6.11 runs/game; The Book's order 6.09)
   1. Roy Cullenbine 1B
   2. Kal Daniels DH
   3. Eric Davis (VAR) LF
@@ -55,64 +62,64 @@ L:DH    Rudy York (VAR)             88  R  1943   +19.1  park:R  #86429
   8. Dickie Thon SS
   9. Jose Oquendo 2B
 
---- batting order vs LHP --- (5.90 runs/game; The Book's order 5.89)
-  1. Randy Ready 2B
+--- batting order vs LHP --- (5.89 runs/game; The Book's order 5.87)
+  1. Randy Ready 3B
   2. Eric Davis (VAR) LF
-  3. Bo Jackson RF
-  4. Rudy York (VAR) DH
-  5. Hubie Brooks (VAR) 3B
-  6. Dale Murphy 1B
+  3. Rudy York (VAR) 1B
+  4. Bo Jackson RF
+  5. Hubie Brooks (VAR) DH
+  6. Ernie Banks (VAR) SS
   7. Josh Gibson C
   8. Willie McGee (VAR) CF
-  9. Dickie Thon SS
+  9. Dickie Thon 2B
 
 --- rotation ---
-SP1     Bob Feller                  88  R  1939   +14.8   SP STM 111  #85650
-SP2     Nolan Ryan                  87  R  1989   +14.0   SP STM 100  #85926
-SP3     Dizzy Dean                  88  R  1932   +12.7   SP STM  98  #86473
-SP4     Danny Jackson               88  R  1985   +12.1   SP STM  86  #87052
-SP5     Jerry Koosman               82  R  1979    +9.5   SP STM  85  #86995
+SP1     Bob Feller                  88  R  1939   +15.7 fld +13.8   SP STM 111  #85650
+SP2     Nolan Ryan                  87  R  1989   +14.7 fld +12.8   SP STM 100  #85926
+SP3     Dizzy Dean                  88  R  1932   +12.9 fld +11.1   SP STM  98  #86473
+SP4     Danny Jackson               88  R  1985   +12.6 fld +10.8   SP STM  86  #87052
 
 --- bullpen ---
-CL      Joe Beggs (VAR)             89  R  1940   +19.1   RP STM  46  #86762
-RP1     Johnny Markham              87  R  1942   +12.2   RP STM  69  #87159
-RP2     Gregg Olson (VAR)           88  R  1989   +11.8   CL STM  21  #86946
-RP3     Luis Arroyo (VAR)           84  L  1961    +9.4   CL STM  43  #85489
-RP4     Jim Kaat (VAR)              87  L  1967    +9.1   SP STM  78  #85114
-RP5     Dock Ellis                  85  S  1970    +8.7   SP STM  92  #85145
+CL      Joe Beggs (VAR)             89  R  1940   +21.3 fld +19.4   RP STM  46  #86762
+RP1     Johnny Markham (VAR)        87  R  1942   +18.6 fld +16.8   RP STM  69  #87159
+RP2     Gregg Olson (VAR)           88  R  1989   +12.9 fld +11.1   CL STM  21  #86946
+RP3     Luis Arroyo (VAR)           84  L  1961   +11.0 fld  +9.2   CL STM  43  #85489
+RP4     Dave Ferriss                84  L  1945   +10.9 fld  +9.1   SP STM  88  #87323
+RP5     Dock Ellis                  85  S  1970   +10.0 fld  +8.1   SP STM  92  #85145
 
 --- bench ---
-BN1     Dale Murphy                 88  R  1982    -9.2  park:R  #86270
-BN2     Randy Ready                 77  R  1987    -3.5  park:R  #86921
-BN3     Hubie Brooks (VAR)          76  R  1986    +4.5  park:R  #86973
-BN4     Willie McGee (VAR)          79  S  1985   +10.4  park:L  #85753
-BN5     Darrell Porter              74  L  1973    -2.9  park:L  #85896
-BN6     Rudy York (VAR)             88  R  1943   +14.3  park:R  #86429
+BN1     Randy Ready                 77  R  1987    -3.7 fld  +2.0  park:R  #86921
+BN2     Ernie Banks (VAR)           83  R  1961   -10.3 fld  -4.6  park:R  #85494
+BN3     Darrell Porter              74  L  1973    -3.0 fld  +2.7  park:L  #85896
+BN4     Hubie Brooks (VAR)          76  R  1986    +4.4 fld +10.1  park:R  #86973
+BN5     Willie McGee (VAR)          79  S  1985   +10.3 fld +16.0  park:L  #85753
+BN6     Rudy York (VAR)             88  R  1943   +14.1 fld +19.8  park:R  #86429
+BN7     Mickey Mantle               88  S  1959   +16.6 fld +22.3  park:L  #86635
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Josh Gibson                U1 Darrell Porter 80            U2 -                           
-  1B  Roy Cullenbine             U1 Rudy York (VAR) 71           U2 Dale Murphy 100              def sub Dale Murphy (+5.6)
+  1B  Roy Cullenbine             U1 Rudy York (VAR) 71           U2 Ernie Banks (VAR) 107        def sub Ernie Banks (VAR) (+7.4)
   2B  Jose Oquendo               U1 Randy Ready 115              U2 -                           
   3B  Hank Thompson              U1 Hubie Brooks (VAR) 67        U2 Randy Ready 91              
-  SS  Dickie Thon                U1 Hubie Brooks (VAR) 62        U2 -                           
-  LF  Eric Davis (VAR)           U1 Kal Daniels 60               U2 Willie McGee (VAR) 131       def sub Willie McGee (VAR) (+7.9)
-  CF  Bo Jackson                 U1 Willie McGee (VAR) 118       U2 Dale Murphy 102             
-  RF  Andy Van Slyke             U1 Dale Murphy 100              U2 -                           
-  pinch hitters: Rudy York (VAR), Willie McGee (VAR), Hubie Brooks (VAR), Darrell Porter · pinch runners: Willie McGee (VAR) (SPE 117), Rudy York (VAR) (SPE 66), Dale Murphy (SPE 61)
+  SS  Dickie Thon                U1 Ernie Banks (VAR) 113        U2 -                           
+  LF  Eric Davis (VAR)           U1 Kal Daniels 60               U2 Mickey Mantle 123            def sub Willie McGee (VAR) (+7.9)
+  CF  Bo Jackson                 U1 Mickey Mantle 103            U2 Willie McGee (VAR) 118      
+  RF  Andy Van Slyke             U1 Mickey Mantle 119            U2 -                           
+  pinch hitters: Mickey Mantle, Rudy York (VAR), Willie McGee (VAR), Hubie Brooks (VAR) · pinch runners: Willie McGee (VAR) (SPE 117), Mickey Mantle (SPE 98), Rudy York (VAR) (SPE 66)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Josh Gibson                U1 Darrell Porter 80            U2 -                           
-  1B  Dale Murphy                U1 Rudy York (VAR) 71           U2 Roy Cullenbine 78           
-  2B  Randy Ready                U1 Jose Oquendo 139             U2 Hank Thompson 88             def sub Jose Oquendo (+9.8)
-  3B  Hubie Brooks (VAR)         U1 Jose Oquendo 114             U2 Hank Thompson 92             def sub Jose Oquendo (+15.4)
-  SS  Dickie Thon                U1 Jose Oquendo 117             U2 -                           
-  LF  Eric Davis (VAR)           U1 Jose Oquendo 113             U2 Roy Cullenbine 69            def sub Jose Oquendo (+4.2)
-  CF  Willie McGee (VAR)         U1 Jose Oquendo 94              U2 Hank Thompson 63            
+  1B  Rudy York (VAR)            U1 Roy Cullenbine 78            U2 Jose Oquendo 87              def sub Jose Oquendo (+4.1)
+  2B  Dickie Thon                U1 Jose Oquendo 139             U2 Hank Thompson 88            
+  3B  Randy Ready                U1 Hubie Brooks (VAR) 67        U2 Jose Oquendo 114             def sub Jose Oquendo (+7.5)
+  SS  Ernie Banks (VAR)          U1 Jose Oquendo 117             U2 -                           
+  LF  Eric Davis (VAR)           U1 Jose Oquendo 113             U2 Mickey Mantle 123            def sub Mickey Mantle (+6.3)
+  CF  Willie McGee (VAR)         U1 Jose Oquendo 94              U2 Mickey Mantle 103           
   RF  Bo Jackson                 U1 Jose Oquendo 104             U2 Roy Cullenbine 78           
-  pinch hitters: Roy Cullenbine, Jose Oquendo, Hank Thompson, Kal Daniels · pinch runners: Andy Van Slyke (SPE 95), Hank Thompson (SPE 78), Kal Daniels (SPE 67)
+  pinch hitters: Roy Cullenbine, Jose Oquendo, Mickey Mantle, Hank Thompson · pinch runners: Mickey Mantle (SPE 98), Andy Van Slyke (SPE 95), Hank Thompson (SPE 78)
 
-26 players · value 2187 · λ 4.000 · 8 variants
-vs RHP lineup gets the friendly park side in 5 of 9 spots
+26 players · value 2185 · λ 0.000 · 9 variants
+vs RHP lineup: 5 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
   Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
@@ -120,6 +127,7 @@ vs RHP lineup gets the friendly park side in 5 of 9 spots
   Kal Daniels            L EYE 164 (134/174)  POW 119 (38/150)  K  82  BABIP 116  GAP  93  SPE  67
   Roy Cullenbine         S EYE 240 (254/236)  POW 109 (95/115)  K  82  BABIP 133  GAP  84  SPE  28
   Andy Van Slyke         L EYE 106 (77/120)  POW 108 (44/133)  K  64  BABIP 106  GAP  98  SPE  95
+  Mickey Mantle          S EYE 167 (118/184)  POW 135 (110/143)  K  62  BABIP 100  GAP  78  SPE  98
   Rudy York              R EYE 161 (181/154)  POW 179 (204/170)  K  63  BABIP  74  GAP 124  SPE  66
   Hank Thompson          L EYE 139 (108/150)  POW 125 (91/138)  K 102  BABIP  76  GAP  78  SPE  78
   Willie McGee           S EYE  53 (47/56)  POW  75 (100/66)  K 113  BABIP 152  GAP 126  SPE 117
@@ -128,22 +136,22 @@ vs RHP lineup gets the friendly park side in 5 of 9 spots
   Darrell Porter         L EYE 120 (61/146)  POW  94 (57/108)  K  50  BABIP  84  GAP 109  SPE  46
   Randy Ready            R EYE 143 (233/114)  POW  79 (74/81)  K 108  BABIP 107  GAP 129  SPE  61
   Dickie Thon            R EYE  98 (134/90)  POW 100 (75/113)  K 104  BABIP  88  GAP  97  SPE  83
-  Dale Murphy            R EYE 124 (135/120)  POW 120 (140/114)  K  60  BABIP 102  GAP  53  SPE  61
   Jose Oquendo           S EYE 121 (81/138)  POW  50 (90/16)  K 146  BABIP 120  GAP  84  SPE  49
+  Ernie Banks            R EYE  91 (96/89)  POW 123 (153/113)  K 103  BABIP  81  GAP  80  SPE  34
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (251 teams): 4.9 SP / 5.9 RP / 14.7 bats
-  ✓ starters' stamina Bob Feller 111, Nolan Ryan 100, Dizzy Dean 98, Danny Jackson 86, Jerry Koosman 85 (era floor 60)
-  ✓ stamina guys in the pen (45+): Joe Beggs 46, Johnny Markham 69, Jim Kaat 78, Dock Ellis 92
+  ✓ staff 4 SP / 6 RP / 16 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (299 teams): 4.9 SP / 5.8 RP / 14.8 bats
+  ✓ starters' stamina Bob Feller 111, Nolan Ryan 100, Dizzy Dean 98, Danny Jackson 86 (era floor 60)
+  ✓ stamina guys in the pen (45+): Joe Beggs 46, Johnny Markham 69, Dave Ferriss 88, Dock Ellis 92
   ✓ C  backup: Darrell Porter 80
-  ✓ 1B backup: vs RHP Dale Murphy 100, Rudy York 71 · vs LHP Roy Cullenbine 78, Jose Oquendo 87, Rudy York 71
+  ✓ 1B backup: vs RHP Ernie Banks 107, Rudy York 71 · vs LHP Roy Cullenbine 78, Jose Oquendo 87
   ✓ 2B backup: vs RHP Randy Ready 115 · vs LHP Jose Oquendo 139, Hank Thompson 88
-  ✓ 3B backup: vs RHP Randy Ready 91, Hubie Brooks 67 · vs LHP Jose Oquendo 114, Hank Thompson 92
-  ✓ SS backup: vs RHP Hubie Brooks 62 · vs LHP Jose Oquendo 117
-  ✓ LF backup: vs RHP Kal Daniels 60, Dale Murphy 112, Willie McGee 131 · vs LHP Roy Cullenbine 69, Jose Oquendo 113, Hank Thompson 85, Kal Daniels 60
-  ✓ CF backup: vs RHP Dale Murphy 102, Willie McGee 118 · vs LHP Jose Oquendo 94, Andy Van Slyke 99, Hank Thompson 63
-  ✓ RF backup: vs RHP Dale Murphy 100 · vs LHP Roy Cullenbine 78, Jose Oquendo 104, Andy Van Slyke 125, Hank Thompson 79
-(23 of 26 have a live ask in the last shop snapshot)
-objective: 338.8 weighted runs (bats 59/41 R/L, SP 2.19, RP 0.76, bench 0.1)
-points: lineup(both boards, 14 bats) 1160 · rotation 433 · bullpen 520 · bench-only 74
+  ✓ 3B backup: vs RHP Randy Ready 91, Hubie Brooks 67 · vs LHP Jose Oquendo 114, Hank Thompson 92, Hubie Brooks 67
+  ✓ SS backup: vs RHP Ernie Banks 113 · vs LHP Jose Oquendo 117
+  ✓ LF backup: vs RHP Kal Daniels 60, Ernie Banks 96, Willie McGee 131, Mickey Mantle 123 · vs LHP Roy Cullenbine 69, Jose Oquendo 113, Hank Thompson 85, Kal Daniels 60, Mickey Mantle 123
+  ✓ CF backup: vs RHP Willie McGee 118, Mickey Mantle 103 · vs LHP Jose Oquendo 94, Andy Van Slyke 99, Mickey Mantle 103
+  ✓ RF backup: vs RHP Mickey Mantle 119 · vs LHP Roy Cullenbine 78, Jose Oquendo 104, Andy Van Slyke 125, Hank Thompson 79, Mickey Mantle 119
+(20 of 26 have a live ask in the last shop snapshot)
+objective: 362.7 weighted runs (bats 59/41 R/L, SP 2.2199999999999998, RP 0.76, bench 0.1)
+points: lineup(both boards, 14 bats) 1155 · rotation 351 · bullpen 517 · bench-only 162
