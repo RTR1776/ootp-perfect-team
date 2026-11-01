@@ -22,7 +22,7 @@ import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@
 import { cardEligibility } from "@/lib/roster-rules";
 import { LJ_FLOOR, describePosFloor, parsePosFloor, posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { fieldingRuns, framingRuns, gloveScale } from "@/lib/analytics/fielding";
-import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT } from "@/lib/roster-objective";
+import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT, staffStaminaRuns } from "@/lib/roster-objective";
 import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
 import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
@@ -571,7 +571,7 @@ async function main() {
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
   const objectiveOpts = {
-    eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, mustIds,
+    eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, mustIds, staminaTerm: true,
   };
   let { objective, rank, defAt, slotValue } = rosterObjective(pool, objectiveOpts);
   void defAt;
@@ -710,7 +710,7 @@ async function main() {
         const t0 = Date.now();
         let done: SearchBest | null = null;
         runSearch({ mode, board: slots, pool, rules, shape, fits: toPlainFits(fits), runsR: [...fits.runsR], runsL: [...fits.runsL],
-          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS },
+          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, staminaTerm: true, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS },
           (m) => { if (m.type === "done") done = m.best; }, () => Date.now());
         const b = done as SearchBest | null;
         if (mode === "deep" && b) deepBoard = b.slots;
@@ -839,8 +839,9 @@ async function main() {
     }
   }
   // Rotation and pen best-first: the game starts SP1 most and closes with CL.
-  slots = orderStaff(slots, (id) => fits.runsR.get(id) ?? -Infinity);
   const poolById = new Map(pool.map((c) => [c.cardId, c]));
+  // The pen is ranked without the staff-stamina term (roster-objective staminaTerm).
+  slots = orderStaff(slots, (id) => fits.runsR.get(id) ?? -Infinity, (id) => (fits.runsR.get(id) ?? -Infinity) - staffStaminaRuns(poolById.get(id) as any));
   const out: RosterSlot[] = Object.entries(slots).map(([k, cardId]) => {
     const [a, b] = k.split(":");
     return { cardId, slot: b ?? a, versusHand: b ? a : "both", lineupOrder: b ? lineupPos.indexOf(b) + 1 : null, useVariant: poolById.get(cardId)?.variant ?? false };

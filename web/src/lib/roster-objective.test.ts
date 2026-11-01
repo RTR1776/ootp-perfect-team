@@ -91,3 +91,23 @@ test("with no DH a two-way starter's bat counts for his share of the starts; wit
   assert.equal(noDh.slotValue("SP1", 8), 10, "a pitcher with no bat form gets nothing");
   assert.equal(rosterObjective(pool, { shape: sp(true), runsR, runsL, lhpShare: 0.3 }).slotValue("SP1", twoWayId(7)), 10, "a DH bats for him");
 });
+
+test("staminaTerm: the pen prices an arm without the staff-stamina term; the rotation keeps it", async () => {
+  const { staffStaminaRuns } = await import("./roster-objective");
+  const { STAMINA_CENTER, STAMINA_RUNS_PER_POINT } = await import("./analytics/calibration");
+  const arm = (id: number, st: number): FillCard => ({ ...card(id, true), ratings: { Stamina: st } });
+  // A short reliever (Stamina 10) and a starter in the pen (Stamina 100); runsR carries env-fit's stamina term.
+  const reliever = arm(1, 10), starter = arm(2, 100);
+  const perBatter = { 1: 20, 2: 15 } as Record<number, number>;
+  const runsR = new Map([1, 2].map((id) => [id, perBatter[id] + STAMINA_RUNS_PER_POINT * ((id === 1 ? 10 : 100) - STAMINA_CENTER)]));
+  const pen: FillShape = { lineupPos: [], spKeys: ["SP1"], rpKeys: ["CL"], benchKeys: [], bats: 0 };
+  const off = rosterObjective([reliever, starter], { shape: pen, runsR, runsL: runsR, rpWeight: 1 });
+  const on = rosterObjective([reliever, starter], { shape: pen, runsR, runsL: runsR, rpWeight: 1, staminaTerm: true });
+  // Without the fix the starter looks like the better reliever; with it the per-batter better arm wins the pen.
+  assert.ok(off.slotValue("CL", 2) > off.slotValue("CL", 1));
+  assert.ok(on.slotValue("CL", 1) > on.slotValue("CL", 2));
+  assert.ok(Math.abs(on.slotValue("CL", 1) - 20) < 1e-9);
+  // The rotation still pays for stamina.
+  assert.equal(on.slotValue("SP1", 2), off.slotValue("SP1", 2));
+  assert.equal(staffStaminaRuns({ isPitcher: false, ratings: { Stamina: 100 } }), 0);
+});

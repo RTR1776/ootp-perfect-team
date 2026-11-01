@@ -100,13 +100,15 @@ export function auditRoster(o: {
  * closes. The optimiser treats the rotation and pen slots as interchangeable,
  * so it can hand the CL slot to its worst reliever (Axford, 10-04). Reorder
  * both best-first by `value` (runs saved); every card keeps its role.
+ * `penValue` orders the pen when it differs (roster-objective staminaTerm: a
+ * reliever is ranked on the batters he faces, not the staff-stamina term).
  */
-export function orderStaff(slots: Record<string, number>, value: (id: number) => number): Record<string, number> {
+export function orderStaff(slots: Record<string, number>, value: (id: number) => number, penValue: (id: number) => number = value): Record<string, number> {
   const out = { ...slots };
   const sp = Object.keys(slots).filter((k) => /^SP\d+$/.test(k)).sort((a, b) => Number(a.slice(2)) - Number(b.slice(2)));
   const pen = ["CL", ...Object.keys(slots).filter((k) => /^RP\d+$/.test(k)).sort((a, b) => Number(a.slice(2)) - Number(b.slice(2)))].filter((k) => k in slots);
-  for (const keys of [sp, pen]) {
-    const ids = keys.map((k) => slots[k]).sort((a, b) => value(b) - value(a));
+  for (const [keys, v] of [[sp, value], [pen, penValue]] as const) {
+    const ids = keys.map((k) => slots[k]).sort((a, b) => v(b) - v(a));
     keys.forEach((k, i) => { out[k] = ids[i]; });
   }
   return out;

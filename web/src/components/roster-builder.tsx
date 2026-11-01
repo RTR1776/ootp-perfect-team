@@ -50,7 +50,7 @@ import type { EraRates } from "@/lib/analytics/run-env";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
 import { defaultToVariant, formRatings, hasVariantSplitRatings } from "@/lib/card-forms";
 import { EMPTY_PROJ, projectCard, projectionEnvs, projOf, type Proj } from "@/lib/analytics/projections";
-import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
+import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, staffStaminaRuns } from "@/lib/roster-objective";
 import { searchCard, toPlainFits, type SearchBest, type SearchMessage, type SearchRequest } from "@/lib/roster-search";
 import { fieldingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { date, ip, signed, stamp } from "@/lib/format";
@@ -1016,7 +1016,7 @@ export function RosterBuilder({
   const fieldSp = meta?.construction?.spWeight != null ? fieldStaff?.sp ?? null : null;
   const fieldRp = meta?.construction?.rpWeight != null ? fieldStaff?.rp ?? null : null;
   const objective = useMemo(() => envFits
-    ? rosterObjective(formPool as FillCard[], { eraYear: env?.eraYear ?? tournament?.envYear ?? 2010, shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm })
+    ? rosterObjective(formPool as FillCard[], { eraYear: env?.eraYear ?? tournament?.envYear ?? 2010, shape: fillShape, runsR: envFits.runsR, runsL: envFits.runsL, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm, staminaTerm: true })
     : null, [envFits, formPool, fillShape, lhpShare, spWeight, rpWeight, fieldSp, fieldRp, glove, teamW.frm]);
   const boardRuns = (source: Record<SlotKey, number | null>): number | null => {
     if (!objective) return null;
@@ -1205,7 +1205,7 @@ export function RosterBuilder({
       out = await startSearch({
         mode, board: current, pool: searchPool, rules: tournament as RosterRules, shape: fillShape, fits: toPlainFits(fits),
         eraYear: env?.eraYear ?? tournament?.envYear ?? 2010,
-        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm,
+        runsR: [...envFits.runsR], runsL: [...envFits.runsL], lhpShare, spWeight, rpWeight, fieldSp, fieldRp, gloveScale: glove, framingWeight: teamW.frm, staminaTerm: true,
         locks: keep, minCatchers: twoCatchers ? 2 : 0, minShortstops: twoShortstops ? 2 : 0, minLongMen: twoLong ? 2 : 0, backups,
       }, runTid);
     } finally {
@@ -1258,7 +1258,7 @@ export function RosterBuilder({
           label: "Use it",
           onClick: () => {
             if (lastTid.current !== runTid || latest.current.slotOrder.length !== slotOrder.length) return;
-            latest.current.bulk({ type: "set", next: { slots: orderStaff(best.slots, (id) => envFits.runsR.get(id) ?? -Infinity) }, label }, { say: ({ runs, inOut }) => `Search result${runs ? `: ${runs}` : ""}. ${inOut}`, detail });
+            latest.current.bulk({ type: "set", next: { slots: orderStaff(best.slots, (id) => envFits.runsR.get(id) ?? -Infinity, (id) => (envFits.runsR.get(id) ?? -Infinity) - staffStaminaRuns(formPool.find((c) => c.cardId === id) as FillCard | undefined)) }, label }, { say: ({ runs, inOut }) => `Search result${runs ? `: ${runs}` : ""}. ${inOut}`, detail });
           },
         },
       });
@@ -1271,7 +1271,9 @@ export function RosterBuilder({
     }
     // Rotation and pen best-first: SP1 starts the most, CL closes (roster-audit orderStaff).
     const staffValue = (id: number) => envFits.runsR.get(id) ?? -Infinity;
-    bulk({ type: "set", next: { slots: orderStaff(best.slots, staffValue) }, label }, {
+    const formById = new Map(formPool.map((c) => [c.cardId, c]));
+    const penValue = (id: number) => staffValue(id) - staffStaminaRuns(formById.get(id) as FillCard | undefined);
+    bulk({ type: "set", next: { slots: orderStaff(best.slots, staffValue, penValue) }, label }, {
       say: ({ runs, inOut }) => `${breaks ? "Legal board" : "Better board"}${runs ? `: ${runs}` : ""}. ${inOut}${tail ? ` ${tail}` : ""}`,
       detail,
     });
