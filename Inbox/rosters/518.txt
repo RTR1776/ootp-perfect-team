@@ -5,118 +5,152 @@ R/G 4.27  AVG 0.236  OBP 0.310  SLG 0.392  K% 22.6  HR/PA 3.11%  preset Moderate
 sac bunt (1st & 2nd, 0 out) -0.019 runs · steal break-even 80.5% (0 out) / 77.4% (1 out)
 park: all-LHB lineup 4.28 R/G vs all-RHB 4.27 — 0.01 R/G swing toward LEFT-handed bats
 card sets: Live only
+two-way: 11 cards also in the other role — Will Brennan as arm, Zach McKinstry as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Lucas Erceg as bat, Zach Agnos as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm
 
-pool: 615 eligible owned cards — 301 bats (81L / 40S / 180R), 314 arms
-!! no exports on record for series liveirondaily — shape and handedness fall back to the era table
-shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
-observed play: 478 of 615 pool cards have innings on record (median 69 PA/BF); K = 5000
+pool: 477 eligible owned cards — 223 bats (60L / 32S / 131R), 254 arms
+staff weights from liveirondaily's exports: SP 1.15, RP 0.47 (a lineup slot = 1)
+field (liveirondaily, 2 exports): 31% of batters faced thrown left-handed · 40% of PA by left-handed bats · 12.9 bats / 4.4 SP / 7.8 RP per team
+shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 437 of 477 pool cards have innings on record (median 183 PA/BF); K = 1000000
+field's average card here (289 cards played in liveirondaily, weighted by PA/BF): bat -20.6 vs RHP / -20.2 vs LHP, arm -16.3 — "fld" on each row is runs over that
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.72, RP 0.94 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.9 SP / 7.4 RP → per SP ×0.98 (5 carried), per RP ×1.06 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +5.2  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.7
                           RHB: Power +5.2  Avoid Ks +3.1  BABIP +1.6  Eye +1.1  Gap +0.7
                          arms: pHR +1.7  Stuff +1.5  pBABIP +0.9  Control +0.8
+seed: 518-seed.txt as is (26 cards)
+seed: scores -429.9 before the climb
 
-optimiser: 9 λ starts hill-climbed; best -240.7 runs vs -243.6 greedy (+2.9), 9 moves from λ 0.00
+optimiser: 10 starts (λ + seed) hill-climbed; best -420.8 runs vs -426.1 greedy (+5.3), 11 moves from the seed
+dual: from Lucas Erceg in both roles: Lucas Erceg in both, -422.9 runs
+dual: from Zach Agnos in both roles: Zach Agnos in both, -425.5 runs
+dual: from Michael Lorenzen in both roles: Michael Lorenzen in both, -428.5 runs
+dual: from Braden Montgomery in both roles: Braden Montgomery in both, -455.8 runs
+dual: no two-way card in both roles beats -420.8 runs (best Lucas Erceg -422.9)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Joe Mack                    51  L  2026   -21.6  park:L DEF  70/ 70 -0.5
-R:1B    Ryan Vilade                 56  R  2026   -17.0  park:R DEF  77/ 77 +0.0
-R:2B    Anthony Volpe               57  R  2026   -20.2  park:R DEF  89/ 89 -3.0
-R:3B    Trevor Story                52  R  2026   -17.4  park:R DEF  71/ 93 -2.2
-R:SS    Brayan Rocchio              58  S  2026   -18.8  park:L DEF  69/ 86 -4.2
-R:LF    Randal Grichuk              55  R  2026   -15.5  park:R DEF  66/ 66 -1.9
-R:CF    Justin Crawford             59  L  2026   -18.6  park:L DEF  75/ 97 -1.8
-R:RF    Nathan Lukes                57  L  2026   -17.0  park:L DEF  79/ 82 -1.3
-R:DH    Keibert Ruiz                59  S  2026   -15.2  park:L
+R:C     Drew Romo                   58  S  2026   -30.7 fld -10.1  park:L DEF  92/ 92 +4.5  #85238
+R:1B    Ryan Vilade                 57  R  2026   -19.8 fld  +0.8  park:R DEF  78/ 78 +0.3  #84934
+R:2B    Andres Gimenez              55  L  2026   -20.3 fld  +0.3  park:L DEF  90/ 90 -7.5  #82503
+R:3B    Amed Rosario                53  R  2026   -18.1 fld  +2.5  park:R DEF  64/ 64 -7.0  #82565
+R:SS    Zach McKinstry              59  L  2026   -17.2 fld  +3.3  park:L DEF  52/ 67 -20.2 <-- under floor  #82401
+R:LF    Angel Martinez              58  S  2026   -16.8 fld  +3.8  park:L DEF  89/ 89 -1.0  #82428
+R:CF    Kyle Isbel                  57  L  2026   -19.0 fld  +1.6  park:L DEF  99/ 99 -2.2  #82375
+R:RF    Jonny DeLuca                59  R  2026   -17.8 fld  +2.8  park:R DEF  97/ 97 -0.2  #82527
+R:DH    Randal Grichuk              59  R  2026   -13.8 fld  +6.8  park:R  #82569
 
 --- lineup vs LHP ---
-L:C     Nick Fortes                 49  R  2026   -19.8  park:R DEF  64/ 64 -0.7
-L:1B    Trevor Story                52  R  2026   -15.1  park:R DEF  93/ 93 +1.7
-L:2B    Anthony Volpe               57  R  2026   -18.3  park:R DEF  89/ 89 -3.0
-L:3B    Edmundo Sosa                57  R  2026   -16.2  park:R DEF  68/ 76 -2.5
-L:SS    Brayan Rocchio              58  S  2026   -17.3  park:R DEF  69/ 86 -4.2
-L:LF    Jo Adell                    58  R  2026   -15.5  park:R DEF  79/ 79 -1.1
-L:CF    Ryan Waldschmidt            58  R  2026   -18.1  park:R DEF  65/ 86 -2.2
-L:RF    Randal Grichuk              55  R  2026   -13.3  park:R DEF  61/ 66 -2.6
-L:DH    Keibert Ruiz                59  S  2026   -13.4  park:R
+L:C     Jake Rogers                 57  R  2026   -24.5 fld  -4.3  park:R DEF  80/ 80 -1.5  #82407
+L:1B    Ryan Vilade                 57  R  2026   -18.9 fld  +1.3  park:R DEF  78/ 78 +0.3  #84934
+L:2B    Andres Gimenez              55  L  2026   -22.3 fld  -2.1  park:L DEF  90/ 90 -7.5  #82503
+L:3B    Amed Rosario                53  R  2026   -15.7 fld  +4.5  park:R DEF  64/ 64 -7.0  #82565
+L:SS    Zach McKinstry              59  L  2026   -20.4 fld  -0.1  park:L DEF  52/ 67 -20.2 <-- under floor  #82401
+L:LF    Randal Grichuk              59  R  2026   -12.1 fld  +8.2  park:R DEF  68/ 68 -4.4  #82569
+L:CF    Kyle Isbel                  57  L  2026   -22.0 fld  -1.8  park:L DEF  99/ 99 -2.2  #82375
+L:RF    Jonny DeLuca                59  R  2026   -16.5 fld  +3.7  park:R DEF  97/ 97 -0.2  #82527
+L:DH    Hao-Yu Lee                  58  R  2026   -13.3 fld  +6.9  park:R  #85230
 
---- batting order vs RHP --- (3.38 runs/game; The Book's order 3.38)
-  1. Justin Crawford CF
-  2. Nathan Lukes RF
-  3. Randal Grichuk LF
-  4. Keibert Ruiz DH
-  5. Brayan Rocchio SS
-  6. Ryan Vilade 1B
-  7. Joe Mack C
-  8. Trevor Story 3B
-  9. Anthony Volpe 2B
+--- batting order vs RHP --- (3.33 runs/game; The Book's order 3.33)
+  1. Ryan Vilade 1B
+  2. Zach McKinstry SS
+  3. Angel Martinez LF
+  4. Randal Grichuk DH
+  5. Andres Gimenez 2B
+  6. Jonny DeLuca RF
+  7. Amed Rosario 3B
+  8. Kyle Isbel CF
+  9. Drew Romo C
 
---- batting order vs LHP --- (3.45 runs/game; The Book's order 3.44)
-  1. Anthony Volpe 2B
-  2. Keibert Ruiz DH
-  3. Jo Adell LF
-  4. Randal Grichuk RF
-  5. Brayan Rocchio SS
-  6. Nick Fortes C
-  7. Edmundo Sosa 3B
-  8. Trevor Story 1B
-  9. Ryan Waldschmidt CF
+--- batting order vs LHP --- (3.33 runs/game; The Book's order 3.33)
+  1. Ryan Vilade 1B
+  2. Hao-Yu Lee DH
+  3. Jonny DeLuca RF
+  4. Randal Grichuk LF
+  5. Amed Rosario 3B
+  6. Andres Gimenez 2B
+  7. Jake Rogers C
+  8. Zach McKinstry SS
+  9. Kyle Isbel CF
 
 --- rotation ---
-SP1     Elmer Rodriguez             59  L  2026    -8.7   SP STM  58
-SP2     Cade Povich                 59  L  2026    -9.6   SP STM  59
-SP3     George Klassen              58  R  2026    -9.7   SP STM  59
-SP4     Luis Gil                    59  R  2026    -9.8   SP STM  59
-SP5     Luinder Avila               56  R  2026    -9.9   SP STM  68
+SP1     Noah Schultz                58  L  2026   -13.6 fld  +2.7   SP STM  66  #85232
+SP2     George Klassen              58  R  2026   -14.1 fld  +2.2   SP STM  59  #84987
+SP3     Elmer Rodriguez             59  L  2026   -14.2 fld  +2.0   SP STM  58  #85563
+SP4     Hurston Waldrep             58  R  2026   -15.2 fld  +1.0   SP STM  51  #86494
+SP5     Luis Gil                    56  R  2026   -15.5 fld  +0.8   SP STM  59  #85263
 
 --- bullpen ---
-CL      Kody Funderburk             58  L  2026    -3.6   RP STM  21
-RP1     Cionel Perez                55  L  2026    -4.2   RP STM  16
-RP2     Danny Young                 55  L  2026    -4.3   RP STM  14
-RP3     Taylor Rogers               54  L  2026    -4.7   RP STM  15
-RP4     Andrew Chafin               59  R  2026    -4.8   RP STM  14
-RP5     Kendry Rojas                58  L  2026    -7.7   RP STM  62
-RP6     Hagen Smith                 55  L  2026    -8.6   RP STM  63
+CL      Victor Vodnik               57  R  2026    -9.9 fld  +6.4   RP STM  19  #81824
+RP1     Griffin Canning             55  R  2026   -12.1 fld  +4.1   RP STM  85  #81741
+RP2     Tim Herrin                  59  L  2026   -12.2 fld  +4.1   RP STM  15  #82447
+RP3     Zach McCambley              55  L  2026   -12.7 fld  +3.5   RP STM  29  #86060
+RP4     Welinton Herrera            59  L  2026   -12.8 fld  +3.5   CL STM  20  #85957
+RP5     David Morgan                56  R  2026   -12.8 fld  +3.4   RP STM  21  #81737
+RP6     Simeon Woods Richardson     57  R  2026   -13.5 fld  +2.8   RP STM  77  #82350
 
 --- bench ---
-BN1     Jo Adell                    58  R  2026   -17.1  park:R
-BN2     Dominic Smith               59  L  2026   -16.2  park:L
-BN3     Edmundo Sosa                57  R  2026   -19.0  park:R
-BN4     Ryan Waldschmidt            58  R  2026   -20.0  park:R
-BN5     Nick Fortes                 49  R  2026   -22.5  park:R
+BN1     Ben Williamson              51  R  2026   -29.1 fld  -8.5  park:R  #82520
+BN2     Jake Rogers                 57  R  2026   -25.8 fld  -5.3  park:R  #82407
+BN3     Hao-Yu Lee                  58  R  2026   -14.7 fld  +5.9  park:R  #85230
+BN4     Wenceel Perez               55  S  2026   -16.9 fld  +3.7  park:L  #82393
+BN5     Abraham Toro                58  S  2026   -19.2 fld  +1.4  park:L  #82361
 
-26 players · value 1470 · λ 0.000 · 0 variants
-vs RHP lineup gets the friendly park side in 5 of 9 spots
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Drew Romo                  U1 Jake Rogers 80               U2 -                           
+  1B  Ryan Vilade                U1 Abraham Toro 70              U2 -                           
+  2B  Andres Gimenez             U1 Ben Williamson 87            U2 -                           
+  3B  Amed Rosario               U1 Ben Williamson 79            U2 -                            def sub Ben Williamson (+3.9)
+  SS  Zach McKinstry             U1 NONE                         U2 -                           
+  LF  Angel Martinez             U1 Randal Grichuk 68            U2 -                           
+  CF  Kyle Isbel                 U1 NONE                         U2 -                           
+  RF  Jonny DeLuca               U1 Wenceel Perez 81             U2 -                           
+  pinch hitters: Hao-Yu Lee, Wenceel Perez, Abraham Toro, Jake Rogers · pinch runners: Wenceel Perez (SPE 94), Hao-Yu Lee (SPE 87), Abraham Toro (SPE 56)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Jake Rogers                U1 Drew Romo 92                 U2 -                            def sub Drew Romo (+6)
+  1B  Ryan Vilade                U1 Abraham Toro 70              U2 -                           
+  2B  Andres Gimenez             U1 Ben Williamson 87            U2 -                           
+  3B  Amed Rosario               U1 Ben Williamson 79            U2 -                            def sub Ben Williamson (+3.9)
+  SS  Zach McKinstry             U1 NONE                         U2 -                           
+  LF  Randal Grichuk             U1 Angel Martinez 89            U2 -                            def sub Angel Martinez (+3.4)
+  CF  Kyle Isbel                 U1 NONE                         U2 -                           
+  RF  Jonny DeLuca               U1 Angel Martinez 84            U2 Wenceel Perez 81            
+  pinch hitters: Angel Martinez, Wenceel Perez, Abraham Toro, Ben Williamson · pinch runners: Wenceel Perez (SPE 94), Abraham Toro (SPE 56), Angel Martinez (SPE 52)
+
+26 players · value 1481 · from seed · 0 variants
+vs RHP lineup: 5 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
-  Keibert Ruiz           S EYE  55 (53/56)  POW  75 (75/76)  K 110  BABIP  74  GAP  85  SPE   7
-  Randal Grichuk         R EYE  56 (58/56)  POW  88 (88/88)  K  77  BABIP  74  GAP 109  SPE  47
-  Dominic Smith          L EYE  72 (72/73)  POW  76 (71/78)  K  90  BABIP  76  GAP  57  SPE  24
-  Nathan Lukes           L EYE  67 (66/68)  POW  74 (73/75)  K  90  BABIP  77  GAP  61  SPE  47
-  Ryan Vilade            R EYE  78 (80/78)  POW  74 (74/75)  K  67  BABIP  82  GAP  79  SPE  59
-  Jo Adell               R EYE  58 (59/58)  POW  90 (92/90)  K  72  BABIP  79  GAP  78  SPE  32
-  Trevor Story           R EYE  54 (56/54)  POW  76 (78/76)  K  65  BABIP  98  GAP  84  SPE  47
-  Justin Crawford        L EYE  71 (68/73)  POW  43 (39/45)  K  87  BABIP  96  GAP  75  SPE  85
-  Brayan Rocchio         S EYE  68 (67/69)  POW  67 (71/66)  K  98  BABIP  71  GAP  72  SPE  46
-  Edmundo Sosa           R EYE  44 (49/43)  POW  83 (86/82)  K  79  BABIP  77  GAP  80  SPE  56
-  Ryan Waldschmidt       R EYE  79 (82/79)  POW  59 (60/59)  K  65  BABIP  92  GAP  78  SPE  57
-  Anthony Volpe          R EYE  85 (88/84)  POW  61 (62/61)  K  73  BABIP  77  GAP  85  SPE  65
-  Joe Mack               L EYE  68 (67/69)  POW  86 (83/88)  K  62  BABIP  65  GAP  64  SPE  21
-  Nick Fortes            R EYE  50 (53/50)  POW  64 (67/63)  K  98  BABIP  70  GAP  68  SPE  10
+  Randal Grichuk         R EYE  56 (58/56)  POW  93 (93/93)  K  80  BABIP  78  GAP 115  SPE  47
+  Hao-Yu Lee             R EYE  78 (81/78)  POW  74 (76/74)  K  70  BABIP  85  GAP  88  SPE  87
+  Angel Martinez         S EYE  50 (50/51)  POW  82 (81/83)  K  81  BABIP  78  GAP 104  SPE  52
+  Wenceel Perez          S EYE  74 (73/75)  POW  77 (77/78)  K  83  BABIP  62  GAP  80  SPE  94
+  Zach McKinstry         L EYE  89 (86/90)  POW  54 (48/57)  K  87  BABIP  60  GAP  95  SPE 113
+  Jonny DeLuca           R EYE  59 (61/58)  POW  74 (75/74)  K  77  BABIP  73  GAP  87  SPE  90
+  Amed Rosario           R EYE  54 (61/52)  POW  71 (73/71)  K  83  BABIP  76  GAP  71  SPE  95
+  Kyle Isbel             L EYE  60 (60/61)  POW  62 (57/64)  K  78  BABIP  72  GAP  73  SPE 105
+  Abraham Toro           S EYE  67 (67/68)  POW  75 (63/79)  K  86  BABIP  68  GAP  81  SPE  56
+  Ryan Vilade            R EYE  81 (83/81)  POW  74 (74/75)  K  65  BABIP  80  GAP  75  SPE  59
+  Andres Gimenez         L EYE  47 (44/49)  POW  66 (63/68)  K  86  BABIP  81  GAP  82  SPE  52
+  Jake Rogers            R EYE  82 (86/81)  POW  82 (84/82)  K  57  BABIP  60  GAP  74  SPE  49
+  Ben Williamson         R EYE  69 (71/69)  POW  42 (50/40)  K  76  BABIP  76  GAP  75  SPE  42
+  Drew Romo              S EYE  71 (72/71)  POW  70 (70/71)  K  71  BABIP  47  GAP  77  SPE  35
 LEGAL — every rule check passes
 
 --- roster check ---
-  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
-  ✓ starters' stamina Elmer Rodriguez 58, Cade Povich 59, George Klassen 59, Luis Gil 59, Luinder Avila 68 (era floor 50)
-  ✓ stamina guys in the pen (45+): Kendry Rojas 62, Hagen Smith 63
-  ✓ C  backup: Joe Mack 70, Nick Fortes 64
-  ✓ 1B backup: Joe Mack 60, Brayan Rocchio 75, Anthony Volpe 76, Trevor Story 93, Nathan Lukes 73, Ryan Vilade 77, Edmundo Sosa 76, Ryan Waldschmidt 70, Jo Adell 63
-  ✓ 2B backup: Brayan Rocchio 86, Trevor Story 81, Nathan Lukes 65, Edmundo Sosa 75
-  ✓ 3B backup: Brayan Rocchio 74, Anthony Volpe 76, Trevor Story 71, Edmundo Sosa 68
-  ✓ SS backup: Anthony Volpe 72, Trevor Story 64
-  ✓ LF backup: Brayan Rocchio 72, Anthony Volpe 72, Justin Crawford 97, Nathan Lukes 82, Randal Grichuk 66, Ryan Vilade 72, Edmundo Sosa 71, Ryan Waldschmidt 86, Jo Adell 79
-  ✓ CF backup: Justin Crawford 75, Ryan Waldschmidt 65
-  ✓ RF backup: Brayan Rocchio 63, Anthony Volpe 64, Justin Crawford 92, Nathan Lukes 79, Randal Grichuk 61, Ryan Vilade 66, Edmundo Sosa 64, Ryan Waldschmidt 79, Jo Adell 72
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (64 teams): 5.0 SP / 7.6 RP / 13.2 bats
+  ✓ starters' stamina Noah Schultz 66, George Klassen 59, Elmer Rodriguez 58, Hurston Waldrep 51, Luis Gil 59 (era floor 50)
+  ✓ stamina guys in the pen (45+): Griffin Canning 85, Simeon Woods Richardson 77
+  ✓ C  backup: vs RHP Jake Rogers 80 · vs LHP Drew Romo 92
+  ✓ 1B backup: Abraham Toro 70
+  ✓ 2B backup: Ben Williamson 87
+  ✓ 3B backup: Ben Williamson 79
+  ✗ SS backup: NONE on the bench — nobody (floor 85)
+  ✓ LF backup: vs RHP Randal Grichuk 68 · vs LHP Angel Martinez 89
+  ✗ CF backup: NONE on the bench — only Kyle Isbel, who start (floor 90)
+  ✓ RF backup: vs RHP Wenceel Perez 81 · vs LHP Angel Martinez 84, Wenceel Perez 81
 (26 of 26 have a live ask in the last shop snapshot)
-objective: -240.7 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
-points: lineup(both boards, 13 bats) 726 · rotation 291 · bullpen 394 · bench-only 59
+objective: -420.8 weighted runs (bats 69/31 R/L, SP 1.7249999999999999, RP 0.94, bench 0.1)
+points: lineup(both boards, 11 bats) 630 · rotation 289 · bullpen 398 · bench-only 164
