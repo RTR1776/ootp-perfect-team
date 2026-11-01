@@ -11,6 +11,7 @@ staff weights from bronzeptcs3's exports: SP 1.2, RP 0.48 (a lineup slot = 1)
 field (bronzeptcs3, 21 exports): 37% of batters faced thrown left-handed · 41% of PA by left-handed bats · 13.4 bats / 5.8 SP / 5.8 RP per team
 shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 2097 of 2274 pool cards have innings on record (median 514 PA/BF); K = 1000000
+field's average card here (1295 cards played in bronzeptcs3, weighted by PA/BF): bat -3.8 vs RHP / -4.8 vs LHP, arm -2.5 — "fld" on each row is runs over that
 gloves ×0.92: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1999 band): gloves ×1.25, framing ×0.5, starters ×1, pen ×1.85 against a bat run → glove ×1.15, SP 1.20, RP 0.89 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.8 SP / 6.9 RP → per SP ×0.96 (5 carried), per RP ×0.99 (7 carried)
@@ -19,36 +20,36 @@ staff innings split over the arms carried: the field runs 4.8 SP / 6.9 RP → pe
                           RHB: Power +6.2  Avoid Ks +3.2  BABIP +2.7  Eye +1.6  Gap +0.9
                          arms: pHR +2.1  Stuff +1.6  pBABIP +1.5  Control +1.2
 seed: 773-seed.txt as is (26 cards)
-seed: scores 105.3 before the climb
+seed: scores 100.5 before the climb
 
-optimiser: 9 starts (λ + seed) hill-climbed; best 105.3 runs vs 76.8 greedy (+28.5), 26 moves from λ 1.00 (the seed's climb: 105.3)
-dual: from Big Jeff Pfeffer in both roles: Big Jeff Pfeffer in both, 104.2 runs
-dual: from Cool Papa Bell in both roles: Big Jeff Pfeffer in both, 104.2 runs
-dual: from Red Lucas in both roles: Big Jeff Pfeffer in both, 104.2 runs
-dual: from Don Robinson in both roles: Don Robinson in both, 103.1 runs
-dual: no two-way card in both roles beats 105.3 runs (best Big Jeff Pfeffer 104.2)
+optimiser: 10 starts (λ + seed) hill-climbed; best 108.4 runs vs 69.5 greedy (+38.9), 25 moves from λ 1.00 (the seed's climb: 108.4)
+dual: from Big Jeff Pfeffer in both roles: Big Jeff Pfeffer in both, 107.2 runs
+dual: from Don Robinson in both roles: no legal board
+dual: from Larry Sherry in both roles: no legal board
+dual: from Cool Papa Bell in both roles: no legal board
+dual: no two-way card in both roles beats 108.4 runs (best Big Jeff Pfeffer 107.2)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Ernie Whitt                 68  L  1985    -0.5  park:L DEF  94/ 94 +0.5  #86941
-R:1B    Steve Pearce (VAR)          69  R  2016    +4.0  park:R DEF  73/ 73 -0.5  #86366
-R:2B    Brandon Phillips            64  R  2007    -3.2  park:R DEF 130/130 +3.9  #87202
-R:3B    Chris Sabo                  66  R  1990    +8.2  park:R DEF  77/ 77 -2.6  #87059
-R:SS    Dave Brain (VAR)            68  R  1907    +7.8  park:R DEF  93/ 99 -3.6  #85934
-R:LF    Eric Byrnes                 67  R  2007    +5.0  park:R DEF 134/134 +4.4  #87195
-R:CF    Deion Sanders               69  L  1992    +3.2  park:L DEF 120/131 +0.8  #86962
-R:RF    Aaron Rowand                69  R  2004    +2.4  park:R DEF 134/134 +4.5  #87196
-R:DH    Bob Allison (VAR)           67  R  1959    +8.8  park:R  #86610
+R:C     Ernie Whitt                 68  L  1985    -0.5 fld  +3.3  park:L DEF  94/ 94 +0.5  #86941
+R:1B    Steve Pearce (VAR)          69  R  2016    +4.0 fld  +7.9  park:R DEF  73/ 73 -0.5  #86366
+R:2B    Brandon Phillips            64  R  2007    -3.2 fld  +0.7  park:R DEF 130/130 +3.9  #87202
+R:3B    Chris Sabo                  66  R  1990    +8.2 fld +12.0  park:R DEF  77/ 77 -2.6  #87059
+R:SS    Dave Brain (VAR)            68  R  1907    +7.8 fld +11.6  park:R DEF  93/ 99 -3.6  #85934
+R:LF    Eric Byrnes                 67  R  2007    +5.0 fld  +8.8  park:R DEF 134/134 +4.4  #87195
+R:CF    Deion Sanders               69  L  1992    +3.2 fld  +7.0  park:L DEF 120/131 +0.8  #86962
+R:RF    Aaron Rowand                69  R  2004    +2.4 fld  +6.3  park:R DEF 134/134 +4.5  #87196
+R:DH    Bob Allison (VAR)           67  R  1959    +8.8 fld +12.6  park:R  #86610
 
 --- lineup vs LHP ---
-L:C     Gabby Hartnett              66  R  1936    +2.8  park:R DEF  88/ 88 -3.6  #86254
-L:1B    Steve Pearce (VAR)          69  R  2016   +17.6  park:R DEF  73/ 73 -0.5  #86366
-L:2B    Brandon Phillips            64  R  2007   +24.4  park:R DEF 130/130 +3.9  #87202
-L:3B    Chris Sabo                  66  R  1990   +30.1  park:R DEF  77/ 77 -2.6  #87059
-L:SS    Dave Brain (VAR)            68  R  1907   +10.3  park:R DEF  93/ 99 -3.6  #85934
-L:LF    Eric Byrnes                 67  R  2007   +11.6  park:R DEF 134/134 +4.4  #87195
-L:CF    Deion Sanders               69  L  1992    +7.6  park:L DEF 120/131 +0.8  #86962
-L:RF    Aaron Rowand                69  R  2004   +11.3  park:R DEF 134/134 +4.5  #87196
-L:DH    Jayson 'Werewolf' Werth     68  R  2009   +16.9  park:R  #87320
+L:C     Gabby Hartnett              66  R  1936    +2.8 fld  +7.6  park:R DEF  88/ 88 -3.6  #86254
+L:1B    Steve Pearce (VAR)          69  R  2016   +17.6 fld +22.4  park:R DEF  73/ 73 -0.5  #86366
+L:2B    Brandon Phillips            64  R  2007   +24.4 fld +29.2  park:R DEF 130/130 +3.9  #87202
+L:3B    Chris Sabo                  66  R  1990   +30.1 fld +34.9  park:R DEF  77/ 77 -2.6  #87059
+L:SS    Dave Brain (VAR)            68  R  1907   +10.3 fld +15.1  park:R DEF  93/ 99 -3.6  #85934
+L:LF    Eric Byrnes                 67  R  2007   +11.6 fld +16.4  park:R DEF 134/134 +4.4  #87195
+L:CF    Deion Sanders               69  L  1992    +7.6 fld +12.4  park:L DEF 120/131 +0.8  #86962
+L:RF    Aaron Rowand                69  R  2004   +11.3 fld +16.1  park:R DEF 134/134 +4.5  #87196
+L:DH    Jayson 'Werewolf' Werth     68  R  2009   +16.9 fld +21.7  park:R  #87320
 
 --- batting order vs RHP --- (6.14 runs/game; The Book's order 6.14)
   1. Steve Pearce (VAR) 1B
@@ -73,27 +74,27 @@ L:DH    Jayson 'Werewolf' Werth     68  R  2009   +16.9  park:R  #87320
   9. Gabby Hartnett C
 
 --- rotation ---
-SP1     Fritz Ostermueller          64  L  1944    +6.7   SP STM  98  #86357
-SP2     James McDonald (VAR)        55  L  2010    +3.9   SP STM  59  #86384
-SP3     Mickey Lolich               69  S  1968    +3.7   SP STM 117  #87279
-SP4     Gene Krapp                  62  R  1911    +3.6   SP STM 102  #87374
-SP5     Bob Miller                  69  R  1963    +1.0   SP STM  62  #84715
+SP1     Fritz Ostermueller          64  L  1944    +6.6 fld  +9.1   SP STM  98  #86357
+SP2     James McDonald (VAR)        55  L  2010    +5.2 fld  +7.8   SP STM  59  #86384
+SP3     Gene Krapp                  62  R  1911    +4.5 fld  +7.1   SP STM 102  #87374
+SP4     Mickey Lolich               69  S  1968    +4.3 fld  +6.8   SP STM 117  #87279
+SP5     Big Jeff Pfeffer            59  R  1906    +1.1 fld  +3.6   SP STM  98  #87340
 
 --- bullpen ---
-CL      Big Jeff Pfeffer            59  R  1906    +2.4   SP STM  98  #87340
-RP1     Livan Hernandez             68  R  1997    +1.8   SP STM  87  #87261
-RP2     Hal Woodeshick              66  R  1962    +1.1   SP STM  67  #83148
-RP3     Mike Marshall               57  R  1973    +0.8   CL STM  74  #84720
-RP4     John Bale                   59  L  2007    +0.7   RP STM  33  #87234
-RP5     Bruce Hurst                 64  L  1990    +0.3   SP STM  86  #86361
-RP6     Justin Verlander            58  R  2006    -2.1   SP STM  83  #87014
+CL      Caden Scarborough (VAR)     64  R  2026    +2.7 fld  +5.3   RP STM  46  #84762
+RP1     Livan Hernandez             68  R  1997    +1.9 fld  +4.4   SP STM  87  #87261
+RP2     John Bale                   59  L  2007    +1.4 fld  +3.9   RP STM  33  #87234
+RP3     Edwin Diaz                  67  R  2016    +1.4 fld  +3.9   CL STM  13  #86422
+RP4     Bob Miller                  69  R  1963    -0.2 fld  +2.3   SP STM  62  #84715
+RP5     Mike Marshall               57  R  1973    -0.5 fld  +2.0   CL STM  74  #84720
+RP6     Randy Choate                45  L  2013    -1.8 fld  +0.8   RP STM   6  #87026
 
 --- bench ---
-BN1     Shawn Green                 59  L  2004    -0.3  park:L  #87028
-BN2     Javier Baez (VAR)           49  R  2021    +0.2  park:R  #86417
-BN3     Jayson 'Werewolf' Werth     68  R  2009    -0.7  park:R  #87320
-BN4     Jim Tabor                   54  R  1939    -1.1  park:R  #85905
-BN5     Gabby Hartnett              66  R  1936   -12.2  park:R  #86254
+BN1     Shawn Green                 59  L  2004    -0.3 fld  +3.5  park:L  #87028
+BN2     Javier Baez (VAR)           49  R  2021    +0.2 fld  +4.0  park:R  #86417
+BN3     Jayson 'Werewolf' Werth     68  R  2009    -0.7 fld  +3.1  park:R  #87320
+BN4     Jim Tabor                   54  R  1939    -1.1 fld  +2.7  park:R  #85905
+BN5     Gabby Hartnett              66  R  1936   -12.2 fld  -8.4  park:R  #86254
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Ernie Whitt                U1 Gabby Hartnett 88            U2 -                           
@@ -117,7 +118,7 @@ BN5     Gabby Hartnett              66  R  1936   -12.2  park:R  #86254
   RF  Aaron Rowand               U1 Jayson 'Werewolf' Werth 86   U2 -                           
   pinch hitters: Javier Baez (VAR), Bob Allison (VAR), Jim Tabor, Shawn Green · pinch runners: Javier Baez (VAR) (SPE 97), Bob Allison (VAR) (SPE 80), Jim Tabor (SPE 66)
 
-26 players · value 1653 · λ 1.000 · 5 variants
+26 players · value 1641 · λ 1.000 · 6 variants
 vs RHP lineup: 2 of 9 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
@@ -139,8 +140,8 @@ LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (326 teams): 5.0 SP / 7.1 RP / 14.0 bats
-  ✓ starters' stamina Fritz Ostermueller 98, James McDonald 59, Mickey Lolich 117, Gene Krapp 102, Bob Miller 62 (era floor 50)
-  ✓ stamina guys in the pen (45+): Big Jeff Pfeffer 98, Livan Hernandez 87, Hal Woodeshick 67, Mike Marshall 74, Bruce Hurst 86, Justin Verlander 83
+  ✓ starters' stamina Fritz Ostermueller 98, James McDonald 59, Gene Krapp 102, Mickey Lolich 117, Big Jeff Pfeffer 98 (era floor 50)
+  ✓ stamina guys in the pen (45+): Caden Scarborough 46, Livan Hernandez 87, Bob Miller 62, Mike Marshall 74
   ✓ C  backup: vs RHP Gabby Hartnett 88 · vs LHP Ernie Whitt 94
   ✓ 1B backup: Shawn Green 96
   ✓ 2B backup: Javier Baez 102
@@ -149,10 +150,10 @@ LEGAL — every rule check passes
   ✓ LF backup: Bob Allison 94, Jayson 'Werewolf' Werth 77
   ✓ CF backup: Bob Allison 77
   ✓ RF backup: Jayson 'Werewolf' Werth 86, Shawn Green 61
-(18 of 26 have a live ask in the last shop snapshot)
-objective: 105.3 weighted runs (bats 63/37 R/L, SP 1.2, RP 0.888, bench 0.1)
-points: lineup(both boards, 11 bats) 741 · rotation 319 · bullpen 431 · bench-only 162
+(19 of 26 have a live ask in the last shop snapshot)
+objective: 108.4 weighted runs (bats 63/37 R/L, SP 1.2, RP 0.888, bench 0.1)
+points: lineup(both boards, 11 bats) 741 · rotation 309 · bullpen 429 · bench-only 162
 
 !! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
-   Hal Woodeshick           pBABIP 39 (fitted 50–175)
    John Bale                pBABIP 14 (fitted 50–175)
+   Edwin Diaz               pBABIP 25 (fitted 50–175)
