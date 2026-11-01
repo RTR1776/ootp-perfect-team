@@ -1,0 +1,35 @@
+# Daily Roaring Silvers — Claude pick 2026-11-01 penfix, rebuilt from the catalogue's rules by current-rosters (--year 1927 --park Yankee Stadium --park-year 1927 --max 79 --card-year-min 1800 --card-year-max 1929 --size 26 --series roaringsilvers --sp 4 --rp 5 --bats 17)
+R:C Hank Gowdy #87246
+R:1B Dick Hoblitzel (VAR) #83655
+R:2B Nap Lajoie #86581
+R:3B Dave Brain (VAR) #85934
+R:SS Jack Glasscock #87352
+R:LF Topsy Hartsel #87336
+R:CF Billy Southworth (VAR) #86379
+R:RF Pop Corkhill #86582
+L:C Johnny Kling #87349
+L:1B Honus Wagner #86712
+L:2B Bill Sweeney #87378
+L:3B Lave Cross #87347
+L:SS Jack Glasscock #87352
+L:LF Tillie Walker #86597
+L:CF Pop Corkhill #86582
+L:RF Ping Bodie #87341
+SP1 Jeff Pfeffer #87350
+SP2 Bill Duggleby #87335
+SP3 Sherry Smith #87030
+SP4 Jack Pfiester #87351
+CL Nick Altrock #87049
+RP1 Kid Madden #87348
+RP2 Christy Mathewson #86706
+RP3 Hubert Lockhart #87082
+RP4 Jakie May (VAR) #85286
+BN1 Lave Cross #87347
+BN2 Johnny Kling #87349
+BN3 Ping Bodie #87341
+BN4 Willie Keeler #85878
+BN5 Bill Sweeney #87378
+BN6 Honus Wagner #86712
+BN7 Luther Farrell #86899
+BN8 Tom Brown #86767
+BN9 Tillie Walker #86597

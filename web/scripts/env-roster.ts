@@ -793,7 +793,12 @@ async function main() {
           const dualId = [...onBoard].find((id) => !byIdD.get(id)?.isPitcher && onBoard.has(otherFormId(id)));
           const who = dualId != null ? byIdD.get(dualId)?.name ?? String(dualId) : null;
           console.log(`dual: from ${c.name} in both roles: ${r.legal && who ? `${who} in both, ${r.score.toFixed(1)} runs` : r.legal ? `climbed out of both roles (${r.score.toFixed(1)})` : "no legal board"}`);
-          if (r.legal && who && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who };
+          // A two-way card in both roles is one unit (unitOf); the board must still hold SIZE distinct players
+          // (validateRoster's roster-size rule). 2026-11-01: Daily Diamond Cap and Early Years Cap seeds that
+          // already carried a two-way card came back from this phase with 25 and were taken, then failed validation.
+          const units = new Set(Object.values(r.slots).map(unitOf)).size;
+          if (r.legal && who && units !== SIZE) console.log(`dual: ${who} board holds ${units} players, not ${SIZE}: skipped`);
+          else if (r.legal && who && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who };
         }
         if (dbest && dbest.score > best.score + 0.5) {
           console.log(`dual: ${dbest.who} in both roles beats the board above, ${dbest.score.toFixed(1)} vs ${best.score.toFixed(1)} runs: taken`);

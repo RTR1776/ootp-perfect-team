@@ -1,0 +1,36 @@
+# Daily Low Silver Only — Claude pick 2026-11-01 penfix, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 70 --max 74 --size 26 --series lowsilveronly --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Matt Carpenter #86771
+R:2B Jose Oquendo #85738
+R:3B Aiva Arquette (VAR) #84768
+R:SS Luis Aparicio #86612
+R:LF Brian Jordan #86965
+R:CF Marquis Grissom #87237
+R:RF Roberto Clemente #86723
+R:DH Jeffrey Leonard #87060
+L:C Bob Boone #87032
+L:1B Allen Craig #87139
+L:2B Jose Oquendo #85738
+L:3B Aiva Arquette (VAR) #84768
+L:SS Luis Aparicio #86612
+L:LF Brian Jordan #86965
+L:CF Marquis Grissom #87237
+L:RF Roberto Clemente #86723
+L:DH Ryan Braun #87222
+SP1 Jeff Pfeffer #87350
+SP2 Bob Walk #86971
+SP3 Jakie May (VAR) #85286
+SP4 Felix Hernandez #87204
+SP5 Dan Bankhead #84884
+CL Bruce Ruffin #86777
+RP1 Andy McGaffigan (VAR) #86948
+RP2 Chad Bradford #86341
+RP3 Alex Claudio (VAR) #86447
+RP4 Rudy May #85288
+RP5 Brad Clontz #85920
+RP6 Gregory Santos #85611
+BN1 Cristian Guzman #85712
+BN2 Allen Craig #87139
+BN3 Bryce Harper #86905
+BN4 Ryan Braun #87222
+BN5 Biz Mackey #86894
