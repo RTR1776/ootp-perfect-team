@@ -1,0 +1,36 @@
+# Daily Gold Slots — Claude pick 2026-11-01 penfix, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Connie Mack Stadium --park-year 1968 --dh --min 40 --max 89 --slots G12,S8,B6 --variant-cap 13 --size 26 --series goldslotsdaily --sp 4 --rp 6 --bats 16)
+R:C Pythias Russ (VAR) #87083
+R:1B Pedro Alvarez #87062
+R:2B Placido Polanco #87213
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Jeremy Pena #87154
+R:LF Willie McGee (VAR) #85753
+R:CF Darin Erstad #87242
+R:RF Bo Jackson #86966
+R:DH Eric Davis (VAR) #86974
+L:C Pythias Russ (VAR) #87083
+L:1B Ernie Clement #87244
+L:2B Brandon Phillips #87202
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Jeremy Pena #87154
+L:LF Eric Davis (VAR) #86974
+L:CF Darin Erstad #87242
+L:RF Bo Jackson #86966
+L:DH Ryan Braun #87222
+SP1 Count Leblanc (VAR) #86978
+SP2 Justin Verlander #87064
+SP3 Bob Feller #85650
+SP4 Cherokee Fisher #87337
+CL Joe Beggs (VAR) #86762
+RP1 Troy Percival (VAR) #85371
+RP2 Kelvim Escobar #87207
+RP3 Jack Wenninger #85125
+RP4 Luis De Leon (VAR) #84758
+RP5 Dennis Cook (VAR) #83261
+BN1 Ernie Clement #87244
+BN2 Ryan Braun #87222
+BN3 Marco Scutaro (VAR) #86394
+BN4 Bill Buckner (VAR) #85858
+BN5 Brandon Phillips #87202
+BN6 Billy Southworth (VAR) #86379
+BN7 Tim McCarver #85833
