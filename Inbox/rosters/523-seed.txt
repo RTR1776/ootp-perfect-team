@@ -1,4 +1,4 @@
-# seed: saved roster 1572 "Claude pick 2026-10-31-refit2-b8"
+# seed: saved roster 1624 "Claude pick 2026-10-31 next"
 R:C #87032
 R:1B #86771
 R:2B #87213

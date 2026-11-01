@@ -5,118 +5,149 @@ R/G 4.59  AVG 0.248  OBP 0.320  SLG 0.406  K% 22.6  HR/PA 2.92%  preset Sabermet
 sac bunt (1st & 2nd, 0 out) -0.040 runs · steal break-even 81.2% (0 out) / 78.1% (1 out)
 park: all-LHB lineup 4.54 R/G vs all-RHB 4.62 — 0.07 R/G swing toward RIGHT-handed bats
 card sets: Live only
+two-way: 24 cards also in the other role — Bubba Chandler as bat, Anthony Nunez as bat, Cole Carrigg as arm, Masyn Winn as arm, Carlos Perez as arm, Carson Williams as arm, Drew Gilbert as arm, Blaze Alexander as arm, Ben Casparius as bat, Jake Cronenworth as arm, Kenley Jansen as bat, Kody Funderburk as bat, Dane Myers as arm, Will Brennan as arm, Zach McKinstry as arm, Brady House as arm, Leonardo Rivas as arm, Braden Montgomery as arm, Lucas Erceg as bat, Zach Agnos as bat, Michael Lorenzen as bat, Kyle Farmer as arm, Yohel Pozo as arm, Garrett Stubbs as arm
 
-pool: 1020 eligible owned cards — 491 bats (157L / 59S / 275R), 529 arms
+pool: 842 eligible owned cards — 392 bats (117L / 54S / 221R), 450 arms
 !! no exports on record for series livebronzedaily — shape and handedness fall back to the era table
-shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60 · defence priced in runs (fielding.json)
-observed play: 830 of 1020 pool cards have innings on record (median 101 PA/BF); K = 5000
+shape: 14 bats / 5 SP / 7 RP (2010–present, cards 2026 on) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 744 of 842 pool cards have innings on record (median 163 PA/BF); K = 1000000
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 1.50, RP 0.62 (--no-team-weights to turn off)
 
 +10 rating, runs/700 PA — LHB: Power +4.7  Avoid Ks +3.4  BABIP +1.8  Eye +1.2  Gap +0.9
                           RHB: Power +5.0  Avoid Ks +3.4  BABIP +1.8  Eye +1.2  Gap +0.9
                          arms: Stuff +1.7  pHR +1.6  pBABIP +1.1  Control +0.9
+seed: 561-seed.txt as is (26 cards)
+seed: scores -252.8 before the climb
 
-optimiser: 9 λ starts hill-climbed; best -156.1 runs vs -163.9 greedy (+7.8), 8 moves from λ 0.00
+optimiser: 10 starts (λ + seed) hill-climbed; best -247.2 runs vs -251.3 greedy (+4.1), 32 moves from λ 2.00 (the seed's climb: -247.2)
+dual: from Bubba Chandler in both roles: Bubba Chandler in both, -248.8 runs
+dual: from Anthony Nunez in both roles: Anthony Nunez in both, -249.2 runs
+dual: from Kody Funderburk in both roles: Bubba Chandler in both, -248.8 runs
+dual: from Lucas Erceg in both roles: Lucas Erceg in both, -259.5 runs
+dual: no two-way card in both roles beats -247.2 runs (best Bubba Chandler -248.8)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Carter Jensen               66  L  2026   -13.1  park:L DEF  66/ 66 -0.6
-R:1B    Colson Montgomery           68  L  2026   -12.9  park:L DEF  98/ 98 +2.2
-R:2B    Willy Adames                62  R  2026   -14.2  park:R DEF  89/ 89 -3.0
-R:3B    Kody Clemens                66  L  2026   -10.8  park:L DEF  61/ 78 -3.2
-R:SS    Gunnar Henderson            66  L  2026   -13.0  park:L DEF  79/102 -3.1
-R:LF    Dominic Canzone             68  L  2026    -9.6  park:L DEF  62/ 62 -2.2
-R:CF    Jackson Merrill             69  L  2026   -13.7  park:L DEF  90/108 -1.1
-R:RF    Daylen Lile                 64  L  2026   -11.8  park:L DEF  75/ 83 -1.6
-R:DH    Vladimir Guerrero Jr.       68  R  2026    -8.6  park:R
+R:C     Dillon Dingler              68  R  2026   -15.1  park:R DEF  81/ 81 -1.8  #82406
+R:1B    Alec Bohm                   67  R  2026   -17.6  park:R DEF 102/102 +5.1  #82053
+R:2B    Ernie Clement               67  R  2026   -20.1  park:R DEF  97/ 97 -5.2  #82501
+R:3B    Jose Ramirez                69  S  2026   -14.4  park:L DEF  72/ 72 -4.9  #82444
+R:SS    Masyn Winn                  66  R  2026   -22.8  park:R DEF  91/ 91 -5.8  #81878
+R:LF    Daylen Lile                 61  L  2026    -8.9  park:L DEF  83/ 83 -2.0  #82018
+R:CF    Kyle Isbel                  57  L  2026   -18.9  park:L DEF  99/ 99 -2.2  #82375
+R:RF    Jung-hoo Lee                68  L  2026    -9.9  park:L DEF  78/ 78 -3.5  #81713
+R:DH    Cole Carrigg                66  S  2026    -8.9  park:L  #86057
 
 --- lineup vs LHP ---
-L:C     Luis Torrens                62  R  2026   -17.0  park:R DEF  77/ 77 -0.3
-L:1B    Paul Goldschmidt            66  R  2026   -11.1  park:R DEF  70/ 70 -0.7
-L:2B    Ozzie Albies                65  S  2026   -11.5  park:R DEF  66/ 70 -5.9
-L:3B    Gunnar Henderson            66  L  2026   -15.5  park:L DEF  86/102 -0.5
-L:SS    Willy Adames                62  R  2026   -14.6  park:R DEF  73/ 89 -3.8
-L:LF    Dominic Canzone             68  L  2026   -10.9  park:L DEF  62/ 62 -2.2
-L:CF    Royce Lewis                 69  R  2026   -13.9  park:R DEF  65/ 91 -2.2
-L:RF    Teoscar Hernandez           67  R  2026   -10.5  park:R DEF  61/ 66 -2.6
-L:DH    Vladimir Guerrero Jr.       68  R  2026    -8.7  park:R
+L:C     Dillon Dingler              68  R  2026   -13.2  park:R DEF  81/ 81 -1.8  #82406
+L:1B    Alec Bohm                   67  R  2026   -16.0  park:R DEF 102/102 +5.1  #82053
+L:2B    Ernie Clement               67  R  2026   -19.7  park:R DEF  97/ 97 -5.2  #82501
+L:3B    Jose Ramirez                69  S  2026   -15.4  park:R DEF  72/ 72 -4.9  #82444
+L:SS    Masyn Winn                  66  R  2026   -21.4  park:R DEF  91/ 91 -5.8  #81878
+L:LF    Randal Grichuk              59  R  2026   -11.9  park:R DEF  68/ 68 -4.4  #82569
+L:CF    Derek Hill                  66  R  2026   -18.6  park:R DEF  91/102 -3.4  #82475
+L:RF    Jung-hoo Lee                68  L  2026   -12.2  park:L DEF  78/ 78 -3.5  #81713
+L:DH    Cole Carrigg                66  S  2026    -9.5  park:R  #86057
 
---- batting order vs RHP --- (3.82 runs/game; The Book's order 3.82)
-  1. Vladimir Guerrero Jr. DH
-  2. Gunnar Henderson SS
-  3. Kody Clemens 3B
-  4. Dominic Canzone LF
-  5. Daylen Lile RF
-  6. Jackson Merrill CF
-  7. Willy Adames 2B
-  8. Carter Jensen C
-  9. Colson Montgomery 1B
+--- batting order vs RHP --- (3.78 runs/game; The Book's order 3.78)
+  1. Jose Ramirez 3B
+  2. Alec Bohm 1B
+  3. Daylen Lile LF
+  4. Jung-hoo Lee RF
+  5. Ernie Clement 2B
+  6. Dillon Dingler C
+  7. Cole Carrigg DH
+  8. Kyle Isbel CF
+  9. Masyn Winn SS
 
 --- batting order vs LHP --- (3.84 runs/game; The Book's order 3.84)
-  1. Vladimir Guerrero Jr. DH
-  2. Paul Goldschmidt 1B
-  3. Dominic Canzone LF
-  4. Ozzie Albies 2B
-  5. Royce Lewis CF
-  6. Teoscar Hernandez RF
-  7. Willy Adames SS
-  8. Luis Torrens C
-  9. Gunnar Henderson 3B
+  1. Jose Ramirez 3B
+  2. Alec Bohm 1B
+  3. Dillon Dingler C
+  4. Randal Grichuk LF
+  5. Jung-hoo Lee RF
+  6. Ernie Clement 2B
+  7. Cole Carrigg DH
+  8. Derek Hill CF
+  9. Masyn Winn SS
 
 --- rotation ---
-SP1     Bubba Chandler              68  S  2026    -3.5   SP STM  75
-SP2     Andrew Alvarez              68  L  2026    -4.0   SP STM  70
-SP3     Patrick Sandoval            62  L  2026    -4.5   SP STM  62
-SP4     Janson Junk                 69  R  2026    -4.9   SP STM  66
-SP5     David Peterson              68  L  2026    -5.8   SP STM  87
+SP1     David Peterson              68  L  2026    -5.1   SP STM  91  #82094
+SP2     Joey Cantillo               69  L  2026    -6.6   SP STM  76  #82453
+SP3     Bubba Chandler              68  S  2026    -7.3   SP STM  76  #81909
+SP4     Martin Perez                68  L  2026    -7.7   SP STM  72  #82130
+SP5     Patrick Sandoval            62  L  2026    -9.0   SP STM  67  #82615
 
 --- bullpen ---
-CL      Justin Bruihl               69  L  2026    +2.4   RP STM  18
-RP1     Juan Morillo                69  R  2026    +1.5   RP STM  16
-RP2     Riley O'Brien               69  R  2026    +0.7   CL STM  23
-RP3     Evan Sisk                   66  L  2026    -0.3   RP STM  17
-RP4     Grant Wolfram               64  L  2026    -0.5   RP STM  19
-RP5     Brayan Bello                61  R  2026    -5.1   RP STM  76
-RP6     Stephen Kolek               68  R  2026    -6.5   SP STM  60
+CL      Justin Bruihl               69  L  2026    -5.2   RP STM  18  #84971
+RP1     Brayan Bello                66  R  2026    -6.0   RP STM  83  #82619
+RP2     Evan Sisk                   66  L  2026    -6.9   RP STM  17  #85245
+RP3     Erik Miller                 66  L  2026    -7.6   RP STM  19  #81709
+RP4     Grant Wolfram               68  L  2026    -7.9   RP STM  18  #82628
+RP5     Eric Orze                   62  R  2026    -8.1   RP STM  21  #82330
+RP6     Cal Quantrill               69  L  2026    -8.1   RP STM  75  #82192
 
 --- bench ---
-BN1     Teoscar Hernandez           67  R  2026   -12.1  park:R
-BN2     Paul Goldschmidt            66  R  2026   -13.1  park:R
-BN3     Ozzie Albies                65  S  2026   -13.2  park:L
-BN4     Royce Lewis                 69  R  2026   -13.8  park:R
-BN5     Luis Torrens                62  R  2026   -18.7  park:R
+BN1     Randal Grichuk              59  R  2026   -13.4  park:R  #82569
+BN2     Brett Baty                  67  L  2026   -18.2  park:L  #82075
+BN3     Derek Hill                  66  R  2026   -19.5  park:R  #82475
+BN4     Andres Gimenez              55  L  2026   -20.2  park:L  #82503
+BN5     Miguel Amaya                65  R  2026   -21.9  park:R  #81986
 
-26 players · value 1727 · λ 0.000 · 0 variants
-vs RHP lineup gets the friendly park side in 7 of 9 spots
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Dillon Dingler             U1 Miguel Amaya 64              U2 -                           
+  1B  Alec Bohm                  U1 Brett Baty 91                U2 -                           
+  2B  Ernie Clement              U1 Andres Gimenez 90            U2 -                           
+  3B  Jose Ramirez               U1 Brett Baty 61                U2 -                           
+  SS  Masyn Winn                 U1 NONE                         U2 -                           
+  LF  Daylen Lile                U1 Randal Grichuk 68            U2 -                           
+  CF  Kyle Isbel                 U1 Derek Hill 91                U2 -                           
+  RF  Jung-hoo Lee               U1 Derek Hill 102               U2 -                            def sub Derek Hill (+4.2)
+  pinch hitters: Randal Grichuk, Brett Baty, Derek Hill, Andres Gimenez · pinch runners: Derek Hill (SPE 69), Andres Gimenez (SPE 52), Randal Grichuk (SPE 47)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Dillon Dingler             U1 Miguel Amaya 64              U2 -                           
+  1B  Alec Bohm                  U1 Brett Baty 91                U2 -                           
+  2B  Ernie Clement              U1 Andres Gimenez 90            U2 -                           
+  3B  Jose Ramirez               U1 Brett Baty 61                U2 -                           
+  SS  Masyn Winn                 U1 NONE                         U2 -                           
+  LF  Randal Grichuk             U1 Daylen Lile 83               U2 -                           
+  CF  Derek Hill                 U1 Kyle Isbel 99                U2 -                           
+  RF  Jung-hoo Lee               U1 Daylen Lile 75               U2 -                           
+  pinch hitters: Daylen Lile, Brett Baty, Miguel Amaya, Kyle Isbel · pinch runners: Daylen Lile (SPE 108), Kyle Isbel (SPE 105), Andres Gimenez (SPE 52)
+
+26 players · value 1702 · λ 2.000 · 0 variants
+vs RHP lineup: 5 of 9 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
-  Vladimir Guerrero Jr.  R EYE  84 (87/84)  POW  64 (65/64)  K 105  BABIP  80  GAP  69  SPE  10
-  Dominic Canzone        L EYE  75 (73/76)  POW  98 (96/99)  K  75  BABIP  76  GAP  95  SPE  23
-  Kody Clemens           L EYE  67 (67/68)  POW 102 (98/104)  K  74  BABIP  64  GAP 115  SPE  71
-  Daylen Lile            L EYE  67 (66/68)  POW  83 (72/86)  K  83  BABIP  81  GAP 100  SPE 108
-  Teoscar Hernandez      R EYE  72 (73/72)  POW  91 (94/91)  K  61  BABIP 100  GAP  74  SPE  24
-  Colson Montgomery      L EYE  80 (80/81)  POW 109 (105/110)  K  49  BABIP  77  GAP  98  SPE  62
-  Gunnar Henderson       L EYE  87 (87/88)  POW  91 (88/92)  K  76  BABIP  60  GAP 106  SPE  61
-  Carter Jensen          L EYE  97 (94/99)  POW  90 (87/92)  K  57  BABIP  79  GAP 121  SPE  72
-  Paul Goldschmidt       R EYE  76 (78/76)  POW  94 (95/94)  K  74  BABIP  78  GAP  74  SPE   8
-  Ozzie Albies           S EYE  70 (67/72)  POW  89 (90/89)  K  99  BABIP  66  GAP  70  SPE  37
-  Jackson Merrill        L EYE  67 (67/68)  POW  93 (90/94)  K  71  BABIP  84  GAP  82  SPE  78
-  Royce Lewis            R EYE  78 (82/77)  POW  88 (88/89)  K  72  BABIP  77  GAP  91  SPE  29
-  Willy Adames           R EYE  74 (77/74)  POW  95 (95/95)  K  63  BABIP  75  GAP 102  SPE  31
-  Luis Torrens           R EYE  66 (68/66)  POW  75 (80/74)  K  80  BABIP  74  GAP  76  SPE  35
+  Daylen Lile            L EYE  65 (64/66)  POW  82 (71/86)  K  84  BABIP  75  GAP 107  SPE 108
+  Cole Carrigg           S EYE  69 (69/70)  POW  77 (76/78)  K  66  BABIP  97  GAP 100  SPE 120
+  Jung-hoo Lee           L EYE  59 (56/60)  POW  64 (64/65)  K 122  BABIP  87  GAP  90  SPE  83
+  Randal Grichuk         R EYE  56 (58/56)  POW  93 (93/93)  K  80  BABIP  78  GAP 115  SPE  47
+  Jose Ramirez           S EYE  94 (91/96)  POW  76 (71/78)  K 104  BABIP  60  GAP  96  SPE  61
+  Dillon Dingler         R EYE  63 (65/63)  POW  97 (100/97)  K  73  BABIP  77  GAP  98  SPE  41
+  Alec Bohm              R EYE  73 (75/73)  POW  75 (78/75)  K 100  BABIP  73  GAP  82  SPE  31
+  Brett Baty             L EYE  86 (83/87)  POW  78 (77/79)  K  65  BABIP  91  GAP  81  SPE  26
+  Kyle Isbel             L EYE  60 (60/61)  POW  62 (57/64)  K  78  BABIP  72  GAP  73  SPE 105
+  Derek Hill             R EYE  66 (68/66)  POW  78 (80/78)  K  60  BABIP  89  GAP  62  SPE  69
+  Ernie Clement          R EYE  47 (50/47)  POW  61 (61/62)  K 130  BABIP  73  GAP  82  SPE  35
+  Andres Gimenez         L EYE  47 (44/49)  POW  66 (63/68)  K  86  BABIP  81  GAP  82  SPE  52
+  Miguel Amaya           R EYE  76 (79/76)  POW  75 (77/75)  K  67  BABIP  84  GAP  78  SPE  19
+  Masyn Winn             R EYE  84 (87/83)  POW  49 (52/49)  K  76  BABIP  87  GAP  76  SPE  42
 LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms)
-  ✓ starters' stamina Bubba Chandler 75, Andrew Alvarez 70, Patrick Sandoval 62, Janson Junk 66, David Peterson 87 (era floor 50)
-  ✓ stamina guys in the pen (45+): Brayan Bello 76, Stephen Kolek 60
-  ✓ C  backup: Carter Jensen 66, Luis Torrens 77
-  ✓ 1B backup: Gunnar Henderson 102, Willy Adames 86, Kody Clemens 78, Jackson Merrill 94, Colson Montgomery 98, Vladimir Guerrero Jr. 67, Ozzie Albies 61, Royce Lewis 91, Paul Goldschmidt 70
-  ✓ 2B backup: Gunnar Henderson 93, Willy Adames 89, Jackson Merrill 64, Colson Montgomery 80, Ozzie Albies 66, Royce Lewis 78
-  ✓ 3B backup: Gunnar Henderson 86, Willy Adames 78, Kody Clemens 61, Jackson Merrill 64, Colson Montgomery 75, Royce Lewis 66
-  ✓ SS backup: Gunnar Henderson 79, Willy Adames 73, Colson Montgomery 66, Royce Lewis 60
-  ✓ LF backup: Gunnar Henderson 69, Willy Adames 67, Kody Clemens 67, Jackson Merrill 108, Daylen Lile 83, Ozzie Albies 70, Royce Lewis 87, Teoscar Hernandez 66
-  ✓ CF backup: Jackson Merrill 90, Royce Lewis 65
-  ✓ RF backup: Gunnar Henderson 64, Kody Clemens 63, Jackson Merrill 103, Daylen Lile 75, Ozzie Albies 62, Royce Lewis 78, Teoscar Hernandez 61
+  ✓ starters' stamina David Peterson 91, Joey Cantillo 76, Bubba Chandler 76, Martin Perez 72, Patrick Sandoval 67 (era floor 50)
+  ✓ stamina guys in the pen (45+): Brayan Bello 83, Cal Quantrill 75
+  ✓ C  backup: Miguel Amaya 64
+  ✓ 1B backup: Brett Baty 91
+  ✓ 2B backup: Andres Gimenez 90
+  ✓ 3B backup: Brett Baty 61
+  ✗ SS backup: NONE on the bench — only Masyn Winn, who start (floor 85)
+  ✓ LF backup: vs RHP Randal Grichuk 68 · vs LHP Daylen Lile 83
+  ✓ CF backup: vs RHP Derek Hill 91 · vs LHP Kyle Isbel 99
+  ✓ RF backup: vs RHP Derek Hill 102 · vs LHP Daylen Lile 75
 (26 of 26 have a live ask in the last shop snapshot)
-objective: -156.1 weighted runs (bats 70/30 R/L, SP 1, RP 0.31, bench 0.1)
-points: lineup(both boards, 14 bats) 926 · rotation 335 · bullpen 466 · bench-only 0
+objective: -247.2 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 11 bats) 714 · rotation 335 · bullpen 466 · bench-only 187

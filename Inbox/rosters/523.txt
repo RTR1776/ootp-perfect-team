@@ -12,6 +12,7 @@ staff weights from latesilver's exports: SP 1.67, RP 0.35 (a lineup slot = 1)
 field (latesilver, 29 exports): 29% of batters faced thrown left-handed · 51% of PA by left-handed bats · 14.5 bats / 5.5 SP / 4 RP per team
 shape: 15 bats / 5 SP / 6 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
 observed play: 1812 of 2016 pool cards have innings on record (median 561 PA/BF); K = 1000000
+field's average card here (1118 cards played in latesilver, weighted by PA/BF): bat -5.9 vs RHP / -8.8 vs LHP, arm -2.5 — "fld" on each row is runs over that
 gloves ×0.98: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
 team weights (1992 band): gloves ×1.25, framing ×0.5, starters ×1, pen ×3 against a bat run → glove ×1.23, SP 1.67, RP 1.05 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.6 SP / 4.9 RP → per SP ×0.92 (5 carried), per RP ×0.82 (6 carried)
@@ -20,36 +21,36 @@ staff innings split over the arms carried: the field runs 4.6 SP / 4.9 RP → pe
                           RHB: Power +3.9  Avoid Ks +2.0  BABIP +1.9  Eye +1.3  Gap +0.8
                          arms: pHR +1.3  pBABIP +1.2  Stuff +1.0  Control +1.0
 seed: 523-seed.txt as is (26 cards)
-seed: scores 196.9 before the climb
+seed: scores 222.7 before the climb
 
-optimiser: 10 starts (λ + seed) hill-climbed; best 196.9 runs vs 164.3 greedy (+32.7), 15 moves from λ 0.00 (the seed's climb: 196.9)
-dual: from Bill Ricks in both roles: Bill Ricks in both, 195.8 runs
-dual: from Charlie Hickman in both roles: Charlie Hickman in both, 196.8 runs
-dual: from Travis Sykora in both roles: Bill Ricks in both, 195.8 runs
-dual: from Larry Sherry in both roles: Larry Sherry in both, 194.3 runs
-dual: no two-way card in both roles beats 196.9 runs (best Charlie Hickman 196.8)
+optimiser: 10 starts (λ + seed) hill-climbed; best 225.9 runs vs 193.7 greedy (+32.2), 16 moves from λ 0.00 (the seed's climb: 225.9)
+dual: from Bill Ricks in both roles: Bill Ricks in both, 224.8 runs
+dual: from Brian Anderson in both roles: Bill Ricks in both, 224.8 runs
+dual: from Travis Sykora in both roles: Travis Sykora in both, 222.5 runs
+dual: from Larry Sherry in both roles: Larry Sherry in both, 223.1 runs
+dual: no two-way card in both roles beats 225.9 runs (best Bill Ricks 224.8)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Bob Boone                   73  R  1986   -10.7  park:R DEF 137/137 +9.6  #87032
-R:1B    Matt Carpenter              74  L  2015   +14.8  park:L DEF 102/102 +3.9  #86771
-R:2B    Placido Polanco             77  R  2007    +9.1  park:R DEF 141/141 +6.8  #87213
-R:3B    Aiva Arquette (VAR)         71  R  2026    +3.5  park:R DEF 113/113 +4.3  #84768
-R:SS    Jeremy Pena                 79  R  2022    +9.5  park:R DEF 116/116 +2.6  #87154
-R:LF    Willie McGee (VAR)          79  S  1985   +10.4  park:L DEF 131/131 +4.3  #85753
-R:CF    Deion Sanders               69  L  1992    +6.9  park:L DEF 120/131 +0.8  #86962
-R:RF    Andy Van Slyke              77  L  1988   +13.7  park:L DEF 125/125 +3.6  #86936
-R:DH    Carlos Delgado              78  L  2005   +14.4  park:L  #86998
+R:C     Bob Boone                   73  R  1986   -10.7 fld  -4.8  park:R DEF 137/137 +9.6  #87032
+R:1B    Matt Carpenter              74  L  2015   +14.8 fld +20.7  park:L DEF 102/102 +3.9  #86771
+R:2B    Placido Polanco             77  R  2007    +9.1 fld +15.0  park:R DEF 141/141 +6.8  #87213
+R:3B    Aiva Arquette (VAR)         71  R  2026    +3.5 fld  +9.4  park:R DEF 113/113 +4.3  #84768
+R:SS    Jeremy Pena                 79  R  2022    +9.5 fld +15.4  park:R DEF 116/116 +2.6  #87154
+R:LF    Willie McGee (VAR)          79  S  1985   +10.4 fld +16.3  park:L DEF 131/131 +4.3  #85753
+R:CF    Deion Sanders               69  L  1992    +6.9 fld +12.8  park:L DEF 120/131 +0.8  #86962
+R:RF    Andy Van Slyke              77  L  1988   +13.7 fld +19.6  park:L DEF 125/125 +3.6  #86936
+R:DH    Carlos Delgado              78  L  2005   +14.4 fld +20.3  park:L  #86998
 
 --- lineup vs LHP ---
-L:C     Mike Zunino                 75  R  2021   +12.3  park:R DEF  77/ 77 +6.2  #86431
-L:1B    Ernie Clement               64  R  2025   +13.4  park:R DEF  96/130 +3.0  #87244
-L:2B    Placido Polanco             77  R  2007    +1.3  park:R DEF 141/141 +6.8  #87213
-L:3B    Chris Sabo                  66  R  1990   +22.5  park:R DEF  77/ 77 -2.7  #87059
-L:SS    Jeremy Pena                 79  R  2022   +17.2  park:R DEF 116/116 +2.6  #87154
-L:LF    Willie McGee (VAR)          79  S  1985   +13.5  park:R DEF 131/131 +4.3  #85753
-L:CF    Deion Sanders               69  L  1992   +10.8  park:L DEF 120/131 +0.8  #86962
-L:RF    Alex Rios                   76  R  2007   +18.5  park:R DEF 113/113 +2.0  #87214
-L:DH    Ryan Braun                  74  R  2007   +40.0  park:R  #87222
+L:C     Mike Zunino                 75  R  2021   +12.3 fld +21.1  park:R DEF  77/ 77 +6.2  #86431
+L:1B    Ernie Clement               64  R  2025   +13.4 fld +22.2  park:R DEF  96/130 +3.0  #87244
+L:2B    Placido Polanco             77  R  2007    +1.3 fld +10.1  park:R DEF 141/141 +6.8  #87213
+L:3B    Chris Sabo                  66  R  1990   +22.5 fld +31.3  park:R DEF  77/ 77 -2.7  #87059
+L:SS    Jeremy Pena                 79  R  2022   +17.2 fld +26.1  park:R DEF 116/116 +2.6  #87154
+L:LF    Willie McGee (VAR)          79  S  1985   +13.5 fld +22.4  park:R DEF 131/131 +4.3  #85753
+L:CF    Deion Sanders               69  L  1992   +10.8 fld +19.6  park:L DEF 120/131 +0.8  #86962
+L:RF    Alex Rios                   76  R  2007   +18.5 fld +27.3  park:R DEF 113/113 +2.0  #87214
+L:DH    Ryan Braun                  74  R  2007   +40.0 fld +48.8  park:R  #87222
 
 --- batting order vs RHP --- (4.61 runs/game; The Book's order 4.60)
   1. Matt Carpenter 1B
@@ -74,27 +75,27 @@ L:DH    Ryan Braun                  74  R  2007   +40.0  park:R  #87222
   9. Placido Polanco 2B
 
 --- rotation ---
-SP1     Orlando Hernandez           78  R  1999    +6.9   SP STM  76  #87239
-SP2     Nick Altrock                76  S  1906    +6.8   SP STM  90  #87049
-SP3     Jeff Pfeffer                74  R  1914    +6.6   SP STM 102  #87350
-SP4     Mickey Lolich               69  S  1968    +5.8   SP STM 117  #87279
-SP5     Bob Walk                    73  R  1988    +5.3   SP STM  82  #86971
+SP1     Nick Altrock                76  S  1906    +9.8 fld +12.3   SP STM  90  #87049
+SP2     Orlando Hernandez           78  R  1999    +9.1 fld +11.6   SP STM  76  #87239
+SP3     Jeff Pfeffer                74  R  1914    +9.0 fld +11.5   SP STM 102  #87350
+SP4     Kelvim Escobar              78  S  2007    +8.4 fld +10.9   SP STM  76  #87207
+SP5     Gene Conley                 77  R  1959    +7.6 fld +10.1   SP STM  95  #87276
 
 --- bullpen ---
-CL      Jordan Montgomery           77  L  2023    +5.2   SP STM  87  #86354
-RP1     Gene Conley                 77  R  1959    +5.0   SP STM  95  #87276
-RP2     Kelvim Escobar              78  S  2007    +4.9   SP STM  76  #87207
-RP3     Bill Ricks                  79  R  1944    +4.1   SP STM  86  #87162
-RP4     Jacob deGrom                79  L  2014    +4.1   SP STM  73  #86675
-RP5     Fritz Ostermueller          64  L  1944    +3.9   SP STM  98  #86357
+CL      Bob Walk                    73  R  1988    +7.0 fld  +9.5   SP STM  82  #86971
+RP1     Jack Wenninger              79  L  2026    +6.9 fld  +9.3   RP STM  48  #85125
+RP2     Jordan Montgomery           77  L  2023    +6.7 fld  +9.2   SP STM  87  #86354
+RP3     Mickey Lolich               69  S  1968    +6.6 fld  +9.1   SP STM 117  #87279
+RP4     Jacob deGrom                79  L  2014    +5.9 fld  +8.3   SP STM  73  #86675
+RP5     Bill Ricks                  79  R  1944    +5.3 fld  +7.8   SP STM  86  #87162
 
 --- bench ---
-BN1     Mike Greenwell (VAR)        77  L  1989   +10.1  park:L  #86930
-BN2     Ernie Clement               64  R  2025    -2.2  park:R  #87244
-BN3     Ryan Braun                  74  R  2007    -2.2  park:R  #87222
-BN4     Chris Sabo                  66  R  1990    -4.7  park:R  #87059
-BN5     Alex Rios                   76  R  2007    -4.8  park:R  #87214
-BN6     Mike Zunino                 75  R  2021   -31.9  park:R  #86431
+BN1     Mike Zunino                 75  R  2021   -31.9 fld -26.0  park:R  #86431
+BN2     Ryan Braun                  74  R  2007    -2.2 fld  +3.7  park:R  #87222
+BN3     Ernie Clement               64  R  2025    -2.2 fld  +3.7  park:R  #87244
+BN4     Chris Sabo                  66  R  1990    -4.7 fld  +1.2  park:R  #87059
+BN5     Alex Rios                   76  R  2007    -4.8 fld  +1.1  park:R  #87214
+BN6     Mike Greenwell (VAR)        77  L  1989   +10.1 fld +16.0  park:L  #86930
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Bob Boone                  U1 Mike Zunino 77               U2 -                           
@@ -118,7 +119,7 @@ BN6     Mike Zunino                 75  R  2021   -31.9  park:R  #86431
   RF  Alex Rios                  U1 Andy Van Slyke 125           U2 -                           
   pinch hitters: Aiva Arquette (VAR), Matt Carpenter, Bob Boone, Carlos Delgado · pinch runners: Andy Van Slyke (SPE 95), Aiva Arquette (VAR) (SPE 78), Matt Carpenter (SPE 54)
 
-26 players · value 1933 · λ 0.000 · 3 variants
+26 players · value 1948 · λ 0.000 · 3 variants
 vs RHP lineup: 5 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
 
 --- order inputs (rostered bats) ---
@@ -141,8 +142,8 @@ LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 6 RP / 15 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (861 teams): 4.7 SP / 5.9 RP / 15.0 bats
-  ✓ starters' stamina Orlando Hernandez 76, Nick Altrock 90, Jeff Pfeffer 102, Mickey Lolich 117, Bob Walk 82 (era floor 50)
-  ✓ stamina guys in the pen (45+): Jordan Montgomery 87, Gene Conley 95, Kelvim Escobar 76, Bill Ricks 86, Jacob deGrom 73, Fritz Ostermueller 98
+  ✓ starters' stamina Nick Altrock 90, Orlando Hernandez 76, Jeff Pfeffer 102, Kelvim Escobar 76, Gene Conley 95 (era floor 50)
+  ✓ stamina guys in the pen (45+): Bob Walk 82, Jack Wenninger 48, Jordan Montgomery 87, Mickey Lolich 117, Jacob deGrom 73, Bill Ricks 86
   ✓ C  backup: vs RHP Mike Zunino 77 · vs LHP Bob Boone 137
   ✓ 1B backup: vs RHP Ernie Clement 96 · vs LHP Matt Carpenter 102
   ✓ 2B backup: vs RHP Ernie Clement 130 · vs LHP Aiva Arquette 112
@@ -152,5 +153,5 @@ LEGAL — every rule check passes
   ✓ CF backup: vs RHP Alex Rios 96 · vs LHP Andy Van Slyke 99
   ✓ RF backup: vs RHP Alex Rios 113 · vs LHP Andy Van Slyke 125
 (20 of 26 have a live ask in the last shop snapshot)
-objective: 196.9 weighted runs (bats 71/29 R/L, SP 1.67, RP 1.0499999999999998, bench 0.1)
-points: lineup(both boards, 14 bats) 1032 · rotation 370 · bullpen 454 · bench-only 77
+objective: 225.9 weighted runs (bats 71/29 R/L, SP 1.67, RP 1.0499999999999998, bench 0.1)
+points: lineup(both boards, 14 bats) 1032 · rotation 383 · bullpen 456 · bench-only 77
