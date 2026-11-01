@@ -1,0 +1,154 @@
+
+=== PTCS 8 Championship - Diamond ===
+1919 RE @ 1920 Ebbets Field · DH off · value —–99 · cap none · 26 players
+R/G 4.17  AVG 0.268  OBP 0.326  SLG 0.354  K% 7.3  HR/PA 0.60%  preset Small Ball
+sac bunt (1st & 2nd, 0 out) +0.128 runs · steal break-even 76.5% (0 out) / 72.5% (1 out)
+park: all-LHB lineup 4.50 R/G vs all-RHB 4.01 — 0.49 R/G swing toward LEFT-handed bats
+two-way: 158 cards also in the other role — Jesse Burkett as arm, Alejandro Oms as arm, Cy Young as bat, John Beckwith as arm, Babe Ruth as bat, Dizzy Trout as bat, Pete Donohue as bat, Jose Mendez as bat, Don Newcombe as bat, Smokey Joe Williams as bat, Barney Brown as bat, Hugh Daily as bat, Frank Grant as arm, Sam Jones as bat, Tubby Scales as arm, Cool Papa Bell as arm, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Old Hoss Radbourn as bat, Dizzy Dean as bat, Mack Eggleston as arm, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Jack Stivetts as bat, Walter Johnson as bat, Leroy Matlock as bat, Jules Thomas as arm, Ray Brown as bat, Bill Force as bat, Sam Streeter as bat, George Weidman as bat, Armando Cabanas as arm, Jimmie Lyons as arm, Andy Porter as bat, Quincy Trouppe as arm, Walter Cannady as arm, Agustin Parpetti as arm, Ben Taylor as arm, Candy Jim Taylor as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, Judy Johnson as arm, Johnny Lindell as arm, Kid Nichols as bat, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Cocaina Garcia as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Frank Foreman as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Bill Byrd as bat, Roosevelt Davis as bat, Willis Flournoy as bat, Dink Mothell as arm, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Jack Taylor as bat, Pop Corkhill as arm, Jack Scott as bat, Phil Cockrell as bat, Tom Hughes as bat, Blondie Purcell as arm, Connie Rector as bat, Donald Reeves as arm, Cool Papa Bell as bat, Garland Buckeye as bat, Darltie Cooper as bat, Larry Corcoran as bat, Red Lucas as bat, Hugh McQuillan as bat, Dick Redding as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Julio Rojo as arm, Tom Vickery as bat, Matt Carlisle as arm, Pretzels Getzien as bat, Art Nehf as bat, Frank Smith as bat, Rip Sewell as bat, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Frank Duncan as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Fred Goldsmith as bat, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Red Ruffing as bat, Pepper Bassett as arm, Ossie Orwoll as bat, Double Duty Radcliffe as arm, Bullet Campbell as bat, Elden Auker as bat, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Isidro Fabre as bat, Judy Gans as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, John Bissant as arm, Lefty Grove as bat, Cal McVey as arm, Frank Dwyer as bat, Jelly Jackson as arm, Dan Kennard as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Charlie Eden as arm, George Hunter as arm
+
+pool: 1032 eligible owned cards — 652 bats (208L / 56S / 388R), 380 arms
+!! no exports on record for series PTCS 8 Championship — shape and handedness fall back to the era table
+shape: 17 bats / 4 SP / 5 RP (pre-1930 (L.J. 10-07)) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 614 of 1032 pool cards have innings on record (median 229 PA/BF); K = 1000000
+gloves ×1.21: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1919 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×2.41, SP 1.50, RP 0.62 (--no-team-weights to turn off)
+
++10 rating, runs/700 PA — LHB: BABIP +2.4  Eye +1.2  Power +1.2  Gap +1.1  Avoid Ks +0.9
+                          RHB: BABIP +2.1  Eye +1.2  Gap +1.1  Power +0.9  Avoid Ks +0.8
+                         arms: pBABIP +1.3  Control +0.8  Stuff +0.4  pHR +0.3
+seed: 9080005-seed.txt as is (26 cards)
+seed: scores 297.3 before the climb
+
+optimiser: 10 starts (λ + seed) hill-climbed; best 299.4 runs vs 279.8 greedy (+19.6), 28 moves from λ 1.00 (the seed's climb: 299.4)
+dual: from Cy Young in both roles: Babe Ruth in both, 298.5 runs
+dual: from Old Hoss Radbourn in both roles: Babe Ruth in both, 298.5 runs
+dual: from Sam Streeter in both roles: Babe Ruth in both, 298.5 runs
+dual: from Jack Stivetts in both roles: Babe Ruth in both, 298.5 runs
+dual: no two-way card in both roles beats 299.4 runs (best Babe Ruth 298.5)
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Johnny Bassler              93  L  1924   +19.4  park:L DEF 125/125 +7.9  #86476
+R:1B    Ben Taylor (VAR)            83  L  1922   +22.9  park:L DEF  88/ 88 +3.4  #87163
+R:2B    Sam Wise                    88  L  1887   +19.8  park:L DEF 116/116 +1.3  #87354
+R:3B    Honus Wagner                99  R  1903   +11.7  park:R DEF 114/114 +8.9  #85540
+R:SS    Luke Appling                92  R  1936   +23.9  park:R DEF 110/110 +1.8  #82759
+R:LF    Jesse Burkett               99  L  1896   +29.2  park:L DEF  84/ 84 -2.7  #87367
+R:CF    Roy Thomas                  82  L  1903   +22.2  park:L DEF 112/112 -0.2  #86784
+R:RF    Charlie Blackwell           99  L  1921   +27.0  park:L DEF 111/111 +3.4  #87268
+
+--- lineup vs LHP ---
+L:C     Pythias Russ (VAR)          89  R  1927   +16.8  park:R DEF  92/120 +1.7  #87083
+L:1B    Ben Taylor (VAR)            83  L  1922   +20.7  park:L DEF  88/ 88 +3.4  #87163
+L:2B    Frankie Frisch              94  S  1927    +7.0  park:R DEF 139/139 +12.4  #85721
+L:3B    Honus Wagner                99  R  1903    +7.9  park:R DEF 114/114 +8.9  #85540
+L:SS    Luke Appling                92  R  1936   +12.5  park:R DEF 110/110 +1.8  #82759
+L:LF    Al Simmons                  99  R  1930   +23.6  park:R DEF  90/ 90 -1.3  #85942
+L:CF    Roy Thomas                  82  L  1903   +13.6  park:L DEF 112/112 -0.2  #86784
+L:RF    Chick Stahl                 93  L  1899   +12.4  park:L DEF 126/129 +7.3  #86583
+
+--- batting order vs RHP --- (4.10 runs/game; The Book's order 4.09)
+  1. Roy Thomas CF
+  2. Luke Appling SS
+  3. Johnny Bassler C
+  4. Jesse Burkett LF
+  5. Ben Taylor (VAR) 1B
+  6. Charlie Blackwell RF
+  7. Sam Wise 2B
+  8. Honus Wagner 3B
+  9. Pitcher
+
+--- batting order vs LHP --- (3.82 runs/game; The Book's order 3.81)
+  1. Roy Thomas CF
+  2. Luke Appling SS
+  3. Al Simmons LF
+  4. Ben Taylor (VAR) 1B
+  5. Chick Stahl RF
+  6. Pythias Russ (VAR) C
+  7. Honus Wagner 3B
+  8. Frankie Frisch 2B
+  9. Pitcher
+
+--- rotation ---
+SP1     Cy Young                    99  R  1900   +14.0   SP STM 109  #86996
+SP2     Old Hoss Radbourn (VAR)     89  R  1884   +11.8   SP STM 128  #82687
+SP3     Jack Stivetts               87  R  1891    +8.6   SP STM  83  #87357
+SP4     Babe Ruth                   97  L  1916    +5.8   SP STM 104  #86439
+
+--- bullpen ---
+CL      Bob Feller                  88  R  1939   +10.2   SP STM 111  #85650
+RP1     Sam Streeter                85  R  1933    +9.7   SP STM 102  #87231
+RP2     Count Leblanc (VAR)         89  R  1921    +9.3   SP STM  93  #86978
+RP3     Jeff Pfeffer                74  R  1914    +9.2   SP STM 102  #87350
+RP4     Claude Grier                99  L  1926    +9.0   SP STM  92  #87086
+
+--- bench ---
+BN1     Frankie Frisch              94  S  1927    +3.3  park:L  #85721
+BN2     George Gore                 89  L  1880   +16.5  park:L  #87326
+BN3     Branch Russell              83  L  1927   +16.4  park:L  #87172
+BN4     Chick Stahl                 93  L  1899   +13.3  park:L  #86583
+BN5     Pythias Russ (VAR)          89  R  1927   +12.6  park:R  #87083
+BN6     Al Simmons                  99  R  1930   +10.5  park:R  #85942
+BN7     Ty Cobb                     96  L  1927   +24.2  park:L  #86986
+BN8     Halley Harding              71  S  1926   +21.4  park:L  #86979
+BN9     Shoeless Joe Jackson        88  L  1915   +22.5  park:L  #86372
+
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Johnny Bassler             U1 Pythias Russ (VAR) 92        U2 -                           
+  1B  Ben Taylor (VAR)           U1 Shoeless Joe Jackson 73      U2 -                           
+  2B  Sam Wise                   U1 Frankie Frisch 139           U2 -                            def sub Frankie Frisch (+11.1)
+  3B  Honus Wagner               U1 Frankie Frisch 118           U2 Branch Russell 71           
+  SS  Luke Appling               U1 Pythias Russ (VAR) 120       U2 -                            def sub Pythias Russ (VAR) (+5.5)
+  LF  Jesse Burkett              U1 Chick Stahl 129              U2 Shoeless Joe Jackson 88      def sub Chick Stahl (+10.7)
+  CF  Roy Thomas                 U1 George Gore 113              U2 Chick Stahl 111             
+  RF  Charlie Blackwell          U1 Chick Stahl 126              U2 Shoeless Joe Jackson 83      def sub Chick Stahl (+3.9)
+  pinch hitters: Ty Cobb, Shoeless Joe Jackson, Halley Harding, George Gore · pinch runners: Frankie Frisch (SPE 108), Halley Harding (SPE 108), Pythias Russ (VAR) (SPE 101)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Pythias Russ (VAR)         U1 Johnny Bassler 125           U2 -                            def sub Johnny Bassler (+6.2)
+  1B  Ben Taylor (VAR)           U1 Shoeless Joe Jackson 73      U2 -                           
+  2B  Frankie Frisch             U1 Sam Wise 116                 U2 -                           
+  3B  Honus Wagner               U1 Branch Russell 71            U2 -                           
+  SS  Luke Appling               U1 Sam Wise 95                  U2 -                           
+  LF  Al Simmons                 U1 Jesse Burkett 84             U2 Shoeless Joe Jackson 88     
+  CF  Roy Thomas                 U1 George Gore 113              U2 -                           
+  RF  Chick Stahl                U1 Charlie Blackwell 111        U2 Ty Cobb 75                  
+  pinch hitters: Ty Cobb, Charlie Blackwell, Halley Harding, Jesse Burkett · pinch runners: Charlie Blackwell (SPE 110), Halley Harding (SPE 108), Sam Wise (SPE 86)
+
+26 players · value 2344 · λ 1.000 · 4 variants
+vs RHP lineup: 6 of 8 bat from the left side (the platoon edge); this park favours left-handed bats
+
+--- order inputs (rostered bats) ---
+  Jesse Burkett          L EYE  94 (77/100)  POW  97 (85/103)  K 163  BABIP 152  GAP 100  SPE  72
+  Charlie Blackwell      L EYE  92 (70/99)  POW 133 (121/137)  K 131  BABIP 131  GAP 132  SPE 110
+  Ty Cobb                L EYE 135 (121/139)  POW  59 (44/62)  K 186  BABIP 140  GAP  89  SPE  75
+  Luke Appling           R EYE 165 (174/162)  POW  53 (10/62)  K 154  BABIP 154  GAP  82  SPE  64
+  Ben Taylor             L EYE  88 (86/89)  POW  49 (46/50)  K 151  BABIP 158  GAP 151  SPE  36
+  Shoeless Joe Jackson   L EYE  95 (86/99)  POW  74 (77/73)  K 188  BABIP 127  GAP 122  SPE  81
+  Roy Thomas             L EYE 204 (210/202)  POW  30 (60/10)  K 120  BABIP 151  GAP  65  SPE  68
+  Halley Harding         S EYE 114 (104/118)  POW  21 (20/22)  K 125  BABIP 162  GAP  68  SPE 108
+  Sam Wise               L EYE  82 (75/85)  POW 113 (94/121)  K  67  BABIP 149  GAP 118  SPE  86
+  Johnny Bassler         L EYE 149 (140/152)  POW  25 (1/32)  K 217  BABIP 113  GAP  95  SPE  36
+  George Gore            L EYE 108 (99/112)  POW 120 (97/129)  K 112  BABIP 136  GAP  74  SPE  54
+  Branch Russell         L EYE 128 (120/131)  POW  96 (88/99)  K 119  BABIP 124  GAP  96  SPE  73
+  Chick Stahl            L EYE 112 (90/122)  POW  86 (92/85)  K 149  BABIP 116  GAP 105  SPE  80
+  Pythias Russ           R EYE  82 (88/80)  POW 104 (111/103)  K 123  BABIP 127  GAP 147  SPE 101
+  Honus Wagner           R EYE  79 (72/81)  POW  89 (100/86)  K 165  BABIP 120  GAP 118  SPE  93
+  Al Simmons             R EYE  65 (85/58)  POW 120 (129/117)  K 132  BABIP 141  GAP 128  SPE  61
+  Frankie Frisch         S EYE  59 (75/48)  POW  82 (71/86)  K 208  BABIP 102  GAP  93  SPE 108
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 4 SP / 5 RP / 17 bats (caps: 5 SP, 7 RP, 12 arms)
+  ✓ starters' stamina Cy Young 109, Old Hoss Radbourn 128, Jack Stivetts 83, Babe Ruth 104 (era floor 80)
+  ✓ stamina guys in the pen (45+): Bob Feller 111, Sam Streeter 102, Count Leblanc 93, Jeff Pfeffer 102, Claude Grier 92
+  ✓ C  backup: vs RHP Pythias Russ 92 · vs LHP Johnny Bassler 125
+  ✓ 1B backup: Shoeless Joe Jackson 73
+  ✓ 2B backup: vs RHP Frankie Frisch 139 · vs LHP Sam Wise 116
+  ✓ 3B backup: vs RHP Frankie Frisch 118, Branch Russell 71 · vs LHP Branch Russell 71
+  ✓ SS backup: vs RHP Pythias Russ 120 · vs LHP Sam Wise 95
+  ✓ LF backup: vs RHP Al Simmons 90, Chick Stahl 129, Shoeless Joe Jackson 88 · vs LHP Jesse Burkett 84, Shoeless Joe Jackson 88
+  ✓ CF backup: vs RHP Chick Stahl 111, George Gore 113 · vs LHP George Gore 113
+  ✓ RF backup: vs RHP Chick Stahl 126, Branch Russell 106, Ty Cobb 75, Shoeless Joe Jackson 83 · vs LHP Charlie Blackwell 111, Branch Russell 106, Ty Cobb 75, Shoeless Joe Jackson 83
+(16 of 26 have a live ask in the last shop snapshot)
+objective: 299.4 weighted runs (bats 70/30 R/L, SP 1.5, RP 0.62, bench 0.1)
+points: lineup(both boards, 12 bats) 1110 · rotation 372 · bullpen 435 · bench-only 427
