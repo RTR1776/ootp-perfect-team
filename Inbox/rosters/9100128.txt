@@ -4,126 +4,133 @@ PT default (2010) RE @ 2026 Fenway Park · DH on · value 80–84 · cap none ·
 R/G 4.74  AVG 0.252  OBP 0.324  SLG 0.414  K% 22.6  HR/PA 3.05%  preset Sabermetric
 sac bunt (1st & 2nd, 0 out) -0.052 runs · steal break-even 81.6% (0 out) / 78.4% (1 out)
 park: all-LHB lineup 4.63 R/G vs all-RHB 4.80 — 0.17 R/G swing toward RIGHT-handed bats
-two-way: 23 cards also in the other role — Joshua Baez as arm, Armando Cabanas as arm, Andy Porter as bat, River Ryan as bat, Quincy Trouppe as arm, Carlos Zambrano as bat, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Agustin Parpetti as arm, Ben Taylor as arm, Bobby Witt Jr. as arm, Alec Burleson as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Jac Caglianone as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, JR Ritchie as bat, Bob Thurman as arm
+two-way: 25 cards also in the other role — Joshua Baez as arm, Armando Cabanas as arm, Jimmie Lyons as arm, Andy Porter as bat, River Ryan as bat, Quincy Trouppe as arm, Carlos Zambrano as bat, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Agustin Parpetti as arm, Ben Taylor as arm, Candy Jim Taylor as arm, Bobby Witt Jr. as arm, Alec Burleson as arm, Buck Ewing as arm, Robert Poindexter as bat, Doc Wiley as arm, Jac Caglianone as arm, Rap Dixon as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, JR Ritchie as bat, Bob Thurman as arm
 
-pool: 308 eligible owned cards — 171 bats (59L / 16S / 96R), 137 arms
+pool: 309 eligible owned cards — 175 bats (62L / 16S / 97R), 134 arms
 staff weights from lowgoldonly's exports: SP 1.33, RP 0.48 (a lineup slot = 1)
 field (lowgoldonly, 3 exports): 35% of batters faced thrown left-handed · 45% of PA by left-handed bats · 13 bats / 5 SP / 5.9 RP per team
 shape: 14 bats / 5 SP / 7 RP (2010–present) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
-observed play: 284 of 308 pool cards have innings on record (median 3380 PA/BF); K = 1000000
+observed play: 281 of 309 pool cards have innings on record (median 3261 PA/BF); K = 1000000
+field's average card here (359 cards played in lowgoldonly, weighted by PA/BF): bat +1.6 vs RHP / -0.3 vs LHP, arm +0.6 — "fld" on each row is runs over that
 gloves ×0.81: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
-team weights (2010 band): gloves ×2, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 2.00, RP 0.96 (--no-team-weights to turn off)
+team weights (2010 band): gloves ×2, framing ×1, starters ×1.5, pen ×2 against a bat run → glove ×1.62, SP 2.00, RP 0.96 (--no-team-weights to turn off)
 staff innings split over the arms carried: the field runs 4.4 SP / 6.5 RP → per SP ×0.88 (5 carried), per RP ×0.93 (7 carried)
 
 +10 rating, runs/700 PA — LHB: Power +4.9  Avoid Ks +3.4  BABIP +1.9  Eye +1.2  Gap +0.9
                           RHB: Power +5.2  Avoid Ks +3.5  BABIP +1.9  Eye +1.2  Gap +0.9
                          arms: Stuff +1.7  pHR +1.7  pBABIP +1.1  Control +0.9
 seed: 9100128-seed.txt as is (26 cards)
+seed: scores 242.5 before the climb
 
-optimiser: 3 starts (λ + seed) hill-climbed; best 223.1 runs vs 221.7 greedy (+1.4), 5 moves from λ 0.00 (the seed's climb: 222.2)
+optimiser: 8 starts (λ + seed) hill-climbed; best 251.7 runs vs 251.7 greedy (+0.0), 10 moves from the seed
+dual: from Bobby Witt Jr. in both roles: Bobby Witt Jr. in both, 249.6 runs
+dual: from River Ryan in both roles: River Ryan in both, 246.2 runs
+dual: from Carlos Zambrano in both roles: Carlos Zambrano in both, 246.1 runs
+dual: from Andy Porter in both roles: Andy Porter in both, 241.8 runs
+dual: no two-way card in both roles beats 251.7 runs (best Bobby Witt Jr. 249.6)
 
 --- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
-R:C     Jeferson Quero (VAR)        80  R  2026   -12.2  park:R DEF 109/109 +11.8  #84764
-R:1B    Pedro Alvarez               81  L  2013   +30.9  park:L DEF  96/ 96 +3.9  #87062
-R:2B    Marcus Semien               84  R  2021   +18.1  park:R DEF 121/121 +2.5  #86744
-R:3B    Hanley Ramirez              82  R  2013   +13.7  park:R DEF  60/ 60 -8.0  #86807
-R:SS    Carlos Guillen              83  S  2006    +8.1  park:L DEF  89/ 90 -6.6  #87050
-R:LF    Alfonso Soriano             83  R  2006   +14.8  park:R DEF 115/115 +3.1  #86745
-R:CF    Ken Griffey Jr.             84  L  1991    +1.4  park:L DEF 116/116 +0.5  #85774
-R:RF    Branch Russell              83  L  1927   +12.4  park:L DEF 106/106 +1.4  #87172
-R:DH    Kal Daniels                 82  L  1987   +22.7  park:L  #84163
+R:C     Jeferson Quero (VAR)        80  R  2026   -12.4 fld -14.0  park:R DEF 109/109 +11.8  #84764
+R:1B    Pedro Alvarez               81  L  2013   +30.6 fld +29.0  park:L DEF  96/ 96 +3.9  #87062
+R:2B    Marcus Semien               84  R  2021   +17.9 fld +16.3  park:R DEF 121/121 +2.5  #86744
+R:3B    Candy Jim Taylor            83  R  1914   +11.6 fld +10.0  park:R DEF  84/ 91 -1.8  #87325
+R:SS    Ernie Banks (VAR)           83  R  1961    -3.1 fld  -4.7  park:R DEF 113/113 +2.3  #85494
+R:LF    Alfonso Soriano             83  R  2006   +14.6 fld +13.0  park:R DEF 115/115 +3.1  #86745
+R:CF    Jimmie Lyons                84  L  1920   +13.1 fld +11.5  park:L DEF 118/129 +0.8  #87309
+R:RF    Branch Russell              83  L  1927   +12.2 fld +10.5  park:L DEF 106/106 +1.4  #87172
+R:DH    Kal Daniels                 82  L  1987   +22.6 fld +21.0  park:L  #84163
 
 --- lineup vs LHP ---
-L:C     Josh Gibson                 84  R  1946   +12.7  park:R DEF  69/ 75 -7.8  #86898
-L:1B    Carlos Guillen              83  S  2006    +6.3  park:R DEF  90/ 90 +2.7  #87050
-L:2B    Tommy Edman                 81  S  2022    +4.8  park:R DEF 150/150 +11.9  #86340
-L:3B    Hanley Ramirez              82  R  2013   +19.7  park:R DEF  60/ 60 -8.0  #86807
-L:SS    Ernie Banks (VAR)           83  R  1961   +12.8  park:R DEF 113/113 +2.3  #85494
-L:LF    Alfonso Soriano             83  R  2006   +18.6  park:R DEF 115/115 +3.1  #86745
-L:CF    Chris B. Young              83  R  2011   +15.0  park:R DEF 125/125 +1.9  #87146
-L:RF    Jeff Francoeur (VAR)        81  R  2005   +28.0  park:R DEF 149/149 +8.9  #86300
-L:DH    Branch Russell              83  L  1927    +3.4  park:L  #87172
+L:C     Josh Gibson                 84  R  1946   +12.5 fld +12.8  park:R DEF  69/ 75 -7.8  #86898
+L:1B    Ernie Banks (VAR)           83  R  1961   +12.5 fld +12.8  park:R DEF 107/113 +6.1  #85494
+L:2B    Tommy Edman                 81  S  2022    +4.6 fld  +4.9  park:R DEF 150/150 +11.9  #86340
+L:3B    Candy Jim Taylor            83  R  1914   +14.7 fld +15.0  park:R DEF  84/ 91 -1.8  #87325
+L:SS    Rafael Furcal               82  S  2006   +14.7 fld +15.0  park:R DEF 105/105 -0.7  #87250
+L:LF    Alfonso Soriano             83  R  2006   +18.4 fld +18.7  park:R DEF 115/115 +3.1  #86745
+L:CF    Chris B. Young              83  R  2011   +14.8 fld +15.1  park:R DEF 125/125 +1.9  #87146
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +27.9 fld +28.2  park:R DEF 149/149 +8.9  #86300
+L:DH    Jimmie Lyons                84  L  1920    +7.9 fld  +8.2  park:L  #87309
 
---- batting order vs RHP --- (5.19 runs/game; The Book's order 5.19)
-  1. Kal Daniels DH
-  2. Branch Russell RF
+--- batting order vs RHP --- (5.24 runs/game; The Book's order 5.24)
+  1. Branch Russell RF
+  2. Kal Daniels DH
   3. Pedro Alvarez 1B
   4. Marcus Semien 2B
-  5. Hanley Ramirez 3B
-  6. Alfonso Soriano LF
-  7. Jeferson Quero (VAR) C
-  8. Ken Griffey Jr. CF
-  9. Carlos Guillen SS
+  5. Candy Jim Taylor 3B
+  6. Jimmie Lyons CF
+  7. Alfonso Soriano LF
+  8. Ernie Banks (VAR) SS
+  9. Jeferson Quero (VAR) C
 
---- batting order vs LHP --- (5.20 runs/game; The Book's order 5.20)
+--- batting order vs LHP --- (5.26 runs/game; The Book's order 5.25)
   1. Chris B. Young CF
-  2. Alfonso Soriano LF
-  3. Ernie Banks (VAR) SS
+  2. Rafael Furcal SS
+  3. Ernie Banks (VAR) 1B
   4. Jeff Francoeur (VAR) RF
-  5. Hanley Ramirez 3B
-  6. Carlos Guillen 1B
+  5. Candy Jim Taylor 3B
+  6. Alfonso Soriano LF
   7. Josh Gibson C
   8. Tommy Edman 2B
-  9. Branch Russell DH
+  9. Jimmie Lyons DH
 
 --- rotation ---
-SP1     CC Sabathia                 82  L  2007   +11.0   SP STM  85  #87182
-SP2     Jerry Koosman               82  R  1979    +8.2   SP STM  85  #86995
-SP3     John Lackey                 80  R  2002    +5.9   SP STM  68  #87075
-SP4     Raisel Iglesias             80  R  2015    +5.9   SP STM  69  #83322
-SP5     Seth Hernandez (VAR)        84  R  2026    +5.8   SP STM  64  #84742
+SP1     CC Sabathia                 82  L  2007   +11.7 fld +11.1   SP STM  85  #87182
+SP2     Dave Ferriss                84  L  1945    +9.1 fld  +8.5   SP STM  88  #87323
+SP3     Jerry Koosman               82  R  1979    +8.6 fld  +8.0   SP STM  85  #86995
+SP4     Raisel Iglesias             80  R  2015    +6.3 fld  +5.7   SP STM  69  #83322
+SP5     Seth Hernandez (VAR)        84  R  2026    +6.3 fld  +5.7   SP STM  64  #84742
 
 --- bullpen ---
-CL      Luis Arroyo (VAR)           84  L  1961    +7.1   CL STM  43  #85489
-RP1     Damaso Marte (VAR)          84  L  2003    +7.0   RP STM  19  #86703
-RP2     Michael Wacha               83  R  2013    +5.6   SP STM  72  #87076
-RP3     Matt Garza                  81  R  2011    +5.0   SP STM  72  #86294
-RP4     Javier Lopez                80  L  2010    +4.9   RP STM   9  #86408
-RP5     Rube Marquard               84  S  1916    +3.9   SP STM  82  #86891
-RP6     Aaron Sanchez               84  R  2016    +3.8   SP STM  75  #86728
+CL      Luis Arroyo (VAR)           84  L  1961    +7.8 fld  +7.2   CL STM  43  #85489
+RP1     Damaso Marte (VAR)          84  L  2003    +7.5 fld  +6.9   RP STM  19  #86703
+RP2     John Lackey                 80  R  2002    +6.3 fld  +5.7   SP STM  68  #87075
+RP3     Michael Wacha               83  R  2013    +6.0 fld  +5.5   SP STM  72  #87076
+RP4     Javier Lopez                80  L  2010    +5.4 fld  +4.8   RP STM   9  #86408
+RP5     Matt Garza                  81  R  2011    +5.2 fld  +4.6   SP STM  72  #86294
+RP6     Rube Marquard               84  S  1916    +4.2 fld  +3.6   SP STM  82  #86891
 
 --- bench ---
-BN1     Josh Gibson                 84  R  1946    +6.1  park:R  #86898
-BN2     Ernie Banks (VAR)           83  R  1961    -2.9  park:R  #85494
-BN3     Jeff Francoeur (VAR)        81  R  2005    -3.6  park:R  #86300
-BN4     Tommy Edman                 81  S  2022    -4.6  park:L  #86340
-BN5     Chris B. Young              83  R  2011    -7.1  park:R  #87146
+BN1     Tommy Edman                 81  S  2022    -4.9 fld  -6.5  park:L  #86340
+BN2     Rafael Furcal               82  S  2006    -1.1 fld  -2.7  park:L  #87250
+BN3     Josh Gibson                 84  R  1946    +6.0 fld  +4.4  park:R  #86898
+BN4     Jeff Francoeur (VAR)        81  R  2005    -3.7 fld  -5.3  park:R  #86300
+BN5     Chris B. Young              83  R  2011    -7.3 fld  -8.9  park:R  #87146
 
 --- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Jeferson Quero (VAR)       U1 Josh Gibson 69               U2 -                           
-  1B  Pedro Alvarez              U1 Josh Gibson 75               U2 Ernie Banks (VAR) 107       
+  1B  Pedro Alvarez              U1 Josh Gibson 75               U2 -                           
   2B  Marcus Semien              U1 Tommy Edman 150              U2 -                            def sub Tommy Edman (+9.4)
-  3B  Hanley Ramirez             U1 Tommy Edman 109              U2 -                            def sub Tommy Edman (+12.7)
-  SS  Carlos Guillen             U1 Tommy Edman 120              U2 Ernie Banks (VAR) 113        def sub Tommy Edman (+11.4)
-  LF  Alfonso Soriano            U1 Kal Daniels 60               U2 Ernie Banks (VAR) 96        
-  CF  Ken Griffey Jr.            U1 Chris B. Young 125           U2 -                           
+  3B  Candy Jim Taylor           U1 Tommy Edman 109              U2 -                            def sub Tommy Edman (+6.5)
+  SS  Ernie Banks (VAR)          U1 Tommy Edman 120              U2 Rafael Furcal 105           
+  LF  Alfonso Soriano            U1 Kal Daniels 60               U2 -                           
+  CF  Jimmie Lyons               U1 Chris B. Young 125           U2 -                           
   RF  Branch Russell             U1 Jeff Francoeur (VAR) 149     U2 Tommy Edman 99               def sub Jeff Francoeur (VAR) (+7.5)
-  pinch hitters: Josh Gibson, Ernie Banks (VAR), Jeff Francoeur (VAR), Tommy Edman · pinch runners: Tommy Edman (SPE 97), Chris B. Young (SPE 96), Jeff Francoeur (VAR) (SPE 68)
+  pinch hitters: Josh Gibson, Rafael Furcal, Jeff Francoeur (VAR), Tommy Edman · pinch runners: Tommy Edman (SPE 97), Chris B. Young (SPE 96), Rafael Furcal (SPE 83)
 
 --- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
   C   Josh Gibson                U1 Jeferson Quero (VAR) 109     U2 -                            def sub Jeferson Quero (VAR) (+19.6)
-  1B  Carlos Guillen             U1 Pedro Alvarez 96             U2 -                           
+  1B  Ernie Banks (VAR)          U1 Pedro Alvarez 96             U2 -                           
   2B  Tommy Edman                U1 Marcus Semien 121            U2 -                           
-  3B  Hanley Ramirez             U1 Branch Russell 71            U2 Pedro Alvarez 75             def sub Pedro Alvarez (+3.9)
-  SS  Ernie Banks (VAR)          U1 Marcus Semien 90             U2 -                           
-  LF  Alfonso Soriano            U1 Kal Daniels 60               U2 -                           
-  CF  Chris B. Young             U1 Ken Griffey Jr. 116          U2 -                           
+  3B  Candy Jim Taylor           U1 Branch Russell 71            U2 Pedro Alvarez 75            
+  SS  Rafael Furcal              U1 Marcus Semien 90             U2 -                           
+  LF  Alfonso Soriano            U1 Jimmie Lyons 129             U2 Kal Daniels 60              
+  CF  Chris B. Young             U1 Jimmie Lyons 118             U2 -                           
   RF  Jeff Francoeur (VAR)       U1 Branch Russell 106           U2 -                           
-  pinch hitters: Marcus Semien, Ken Griffey Jr., Jeferson Quero (VAR), Pedro Alvarez · pinch runners: Marcus Semien (SPE 97), Kal Daniels (SPE 67), Ken Griffey Jr. (SPE 44)
+  pinch hitters: Branch Russell, Marcus Semien, Jeferson Quero (VAR), Pedro Alvarez · pinch runners: Marcus Semien (SPE 97), Branch Russell (SPE 73), Kal Daniels (SPE 67)
 
-26 players · value 2142 · λ 0.000 · 6 variants
-vs RHP lineup gets the friendly park side in 5 of 9 spots
+26 players · value 2142 · from seed · 6 variants
+vs RHP lineup: 4 of 9 bat from the left side (the platoon edge); this park favours right-handed bats
 
 --- order inputs (rostered bats) ---
   Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
   Kal Daniels            L EYE 164 (134/174)  POW 119 (38/150)  K  82  BABIP 116  GAP  93  SPE  67
   Marcus Semien          R EYE 103 (100/105)  POW 153 (133/160)  K  95  BABIP  66  GAP 124  SPE  97
   Alfonso Soriano        R EYE 105 (158/92)  POW 157 (150/159)  K  66  BABIP  98  GAP 122  SPE 102
-  Hanley Ramirez         R EYE  88 (99/85)  POW 114 (128/110)  K  99  BABIP 130  GAP 123  SPE  88
+  Jimmie Lyons           L EYE  70 (68/71)  POW 123 (115/126)  K 111  BABIP 107  GAP 105  SPE  98
   Branch Russell         L EYE 128 (120/131)  POW  96 (88/99)  K 119  BABIP 124  GAP  96  SPE  73
-  Carlos Guillen         S EYE 139 (133/141)  POW  83 (83/83)  K  89  BABIP 140  GAP 125  SPE  69
+  Candy Jim Taylor       R EYE 115 (112/117)  POW 117 (122/116)  K 119  BABIP 104  GAP  77  SPE  84
   Josh Gibson            R EYE  79 (84/78)  POW 153 (161/151)  K  70  BABIP  83  GAP 138  SPE  56
-  Ken Griffey Jr.        L EYE  97 (94/99)  POW  96 (88/99)  K  87  BABIP 120  GAP  84  SPE  44
+  Rafael Furcal          S EYE 135 (130/137)  POW  66 (94/52)  K 121  BABIP 122  GAP  85  SPE  83
   Ernie Banks            R EYE  91 (96/89)  POW 123 (153/113)  K 103  BABIP  81  GAP  80  SPE  34
   Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
   Tommy Edman            S EYE  81 (66/85)  POW  68 (92/60)  K 115  BABIP 100  GAP 108  SPE  97
@@ -133,16 +140,16 @@ LEGAL — every rule check passes
 
 --- roster check ---
   ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (47 teams): 4.8 SP / 7.2 RP / 13.7 bats
-  ✓ starters' stamina CC Sabathia 85, Jerry Koosman 85, John Lackey 68, Raisel Iglesias 69, Seth Hernandez 64 (era floor 50)
-  ✓ stamina guys in the pen (45+): Michael Wacha 72, Matt Garza 72, Rube Marquard 82, Aaron Sanchez 75
+  ✓ starters' stamina CC Sabathia 85, Dave Ferriss 88, Jerry Koosman 85, Raisel Iglesias 69, Seth Hernandez 64 (era floor 50)
+  ✓ stamina guys in the pen (45+): John Lackey 68, Michael Wacha 72, Matt Garza 72, Rube Marquard 82
   ✓ C  backup: vs RHP Josh Gibson 69 · vs LHP Jeferson Quero 109
-  ✓ 1B backup: vs RHP Josh Gibson 75, Ernie Banks 107 · vs LHP Pedro Alvarez 96
+  ✓ 1B backup: vs RHP Josh Gibson 75 · vs LHP Pedro Alvarez 96
   ✓ 2B backup: vs RHP Tommy Edman 150 · vs LHP Marcus Semien 121
   ✓ 3B backup: vs RHP Tommy Edman 109 · vs LHP Pedro Alvarez 75, Branch Russell 71
-  ✓ SS backup: vs RHP Ernie Banks 113, Tommy Edman 120 · vs LHP Marcus Semien 90
-  ✓ LF backup: vs RHP Kal Daniels 60, Ernie Banks 96 · vs LHP Kal Daniels 60
-  ✓ CF backup: vs RHP Chris B. Young 125 · vs LHP Ken Griffey Jr. 116
+  ✓ SS backup: vs RHP Tommy Edman 120, Rafael Furcal 105 · vs LHP Marcus Semien 90
+  ✓ LF backup: vs RHP Kal Daniels 60 · vs LHP Jimmie Lyons 129, Kal Daniels 60
+  ✓ CF backup: vs RHP Chris B. Young 125 · vs LHP Jimmie Lyons 118
   ✓ RF backup: vs RHP Tommy Edman 99, Jeff Francoeur 149 · vs LHP Branch Russell 106
-(23 of 26 have a live ask in the last shop snapshot)
-objective: 223.1 weighted runs (bats 65/35 R/L, SP 1.995, RP 0.96, bench 0.1)
-points: lineup(both boards, 14 bats) 1154 · rotation 408 · bullpen 580 · bench-only 0
+(20 of 26 have a live ask in the last shop snapshot)
+objective: 251.7 weighted runs (bats 65/35 R/L, SP 1.995, RP 0.96, bench 0.1)
+points: lineup(both boards, 14 bats) 1154 · rotation 412 · bullpen 576 · bench-only 0
