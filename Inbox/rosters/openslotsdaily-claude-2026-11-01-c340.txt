@@ -1,0 +1,36 @@
+# Daily Open Slots — Claude pick 2026-11-01-c340, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Metrodome --park-year 1990 --dh --slots P6,D4,G4,S4,B4,I4 --size 26 --series openslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Albert Pujols #87149
+R:2B Chase Utley #87068
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Pythias Russ (VAR) #87083
+R:LF Carl Yastrzemski #87129
+R:CF Andruw Jones #87057
+R:RF Curtis Granderson #86595
+R:DH Bo Jackson #86966
+L:C Pythias Russ (VAR) #87083
+L:1B Albert Pujols #87149
+L:2B Chase Utley #87068
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Jeremy Pena #87154
+L:LF Carl Yastrzemski #87129
+L:CF Andruw Jones #87057
+L:RF Bo Jackson #86966
+L:DH Ryan Braun #87222
+SP1 Mordecai Brown #87370
+SP2 Madison Bumgarner #87024
+SP3 Don Larsen #87240
+SP4 Count Leblanc (VAR) #86978
+SP5 Jered Weaver #87169
+CL Nick Altrock #87049
+RP1 Mickey Lolich #87279
+RP2 Fritz Ostermueller #86357
+RP3 Larry Sherry #86622
+RP4 Bill Duggleby #87335
+RP5 James McDonald (VAR) #86384
+RP6 Big Jeff Pfeffer #87340
+BN1 Matt Carpenter #86771
+BN2 Jeremy Pena #87154
+BN3 Ryan Braun #87222
+BN4 Chris Taylor #87243
+BN5 Rick Wilkins #86392

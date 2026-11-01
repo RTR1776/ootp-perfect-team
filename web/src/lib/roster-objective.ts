@@ -27,6 +27,7 @@
  * (env-fit `calibrate`), which is what makes a bat-for-glove trade honest.
  */
 import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
+import { STAMINA_CENTER, STAMINA_RUNS_PER_POINT } from "@/lib/analytics/calibration";
 import type { FillCard, FillResult, FillShape } from "@/lib/roster-fill";
 import { otherFormId } from "@/lib/two-way";
 
@@ -97,6 +98,11 @@ export function rotationTilt(n: number): number[] {
 export const STARTER_PA_SHARE = 2.9 / 4.35;
 export const PITCHER_BAT_RUNS = -61.9;
 export const LHP_SHARE_DEFAULT = 0.3;
+/** The staff-stamina runs env-fit adds to an arm with `tournamentTerms` (calibration.ts); 0 for a bat or no Stamina. */
+export function staffStaminaRuns(c: { isPitcher?: boolean | null; ratings?: Record<string, number> | null } | undefined): number {
+  const st = c?.isPitcher ? c.ratings?.["Stamina"] : undefined;
+  return st != null ? STAMINA_RUNS_PER_POINT * (st - STAMINA_CENTER) : 0;
+}
 const FIELD_POS = /^(C|1B|2B|3B|SS|LF|CF|RF)$/;
 
 export interface ObjectiveOptions {
@@ -129,6 +135,18 @@ export interface ObjectiveOptions {
   framingWeight?: number;
   /** Cards the roster must carry; a missing one costs 1000 runs. */
   mustIds?: ReadonlySet<number>;
+  /**
+   * The runs maps carry env-fit's staff-stamina term for arms (`tournamentTerms`).
+   * That term is a STARTER effect — starters who go deep keep the weakest arms out
+   * of the game (calibration.ts STAMINA_RUNS_PER_POINT; a high-stamina arm is not
+   * better per batter). Set, a pen slot takes it back out, so a reliever is priced
+   * on what he does to the batters he faces. Before this (L.J. 2026-11-01, Sunday
+   * Open Main), Andrew Miller (Stamina 10) carried -7.3 runs/700 and Orel Hershiser
+   * (100) +3.5 in the pen, and the builder filled the pen with starters while
+   * leaving the event's best relievers out. The pen's innings are still covered by
+   * the long-man rule (minLongMen, two arms with Stamina 45+).
+   */
+  staminaTerm?: boolean;
 }
 
 export interface RosterObjective {
@@ -175,13 +193,15 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     return (o.gloveScale ?? 1) * fieldingRuns(pos, c.ratings[`Pos Rating ${pos}`] ?? 0) + (pos === "C" ? (o.framingWeight ?? 1) * framingRuns(c.ratings.CatcherFrame, o.eraYear) : 0);
   };
 
+  /** The staff-stamina runs inside an arm's runsR (env-fit `extra`), to take back out in the pen. */
+  const penStamina = (id: number): number => (o.staminaTerm ? staffStaminaRuns(byId.get(id)) : 0);
   const spSet = new Set(shape.spKeys), rpSet = new Set(shape.rpKeys), bnSet = new Set(shape.benchKeys);
   const otherKeys = [...shape.spKeys, ...shape.rpKeys, ...shape.benchKeys];
   const slotValue = (key: string, id: number): number => {
     if (key.startsWith("R:")) return (1 - lhp) * ((runsR.get(id) ?? 0) + defAt(id, key.slice(2)));
     if (key.startsWith("L:")) return lhp * ((runsL.get(id) ?? 0) + defAt(id, key.slice(2)));
     if (spSet.has(key)) return spW * (spTilt.get(key) ?? 1) * (runsR.get(id) ?? 0) + starterBat(key, id);
-    if (rpSet.has(key)) return rpW * (tilt.get(key) ?? 1) * (runsR.get(id) ?? 0);
+    if (rpSet.has(key)) return rpW * (tilt.get(key) ?? 1) * ((runsR.get(id) ?? 0) - penStamina(id));
     if (bnSet.has(key)) return bnW * (runsR.get(id) ?? 0);
     return 0;
   };

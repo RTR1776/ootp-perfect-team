@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Silver — Claude pick 2026-11-01 penfix, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park Hilltop Park --park-year 1903 --max 79 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 4 --rp 5 --bats 17)
+R:C Bill Killefer #87346
+R:1B Charlie Grimm (VAR) #87377
+R:2B Nap Lajoie #86581
+R:3B Lave Cross #87347
+R:SS Jack Glasscock #87352
+R:LF Tom Brown #86767
+R:CF Pop Corkhill #86582
+R:RF Willie Keeler #85878
+L:C Bill Killefer #87346
+L:1B Charlie Grimm (VAR) #87377
+L:2B Bill Sweeney #87378
+L:3B Joe Dugan (VAR) #86765
+L:SS Jack Glasscock #87352
+L:LF Ed Morgan (VAR) #85943
+L:CF Tillie Walker #86597
+L:RF Tetelo Vargas #87269
+SP1 Jeff Pfeffer #87350
+SP2 Bill Duggleby #87335
+SP3 Bill Ricks #87162
+SP4 Luther Farrell #86899
+CL Jack Pfiester #87351
+RP1 Kid Madden #87348
+RP2 Hubert Lockhart #87082
+RP3 Jakie May (VAR) #85286
+RP4 Eddie Dixon #87157
+BN1 Hank Gowdy #87246
+BN2 Paul Waner #86999
+BN3 Tillie Walker #86597
+BN4 Joe Dugan (VAR) #86765
+BN5 Tetelo Vargas #87269
+BN6 Bill Sweeney #87378
+BN7 Ed Morgan (VAR) #85943
+BN8 Halley Harding #86979
+BN9 Honus Wagner #86712

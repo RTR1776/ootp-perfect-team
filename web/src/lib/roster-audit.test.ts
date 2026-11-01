@@ -54,3 +54,12 @@ test("the passing checks collapse to one row, the failing ones stay whole", () =
   const cf = auditSummary([{ ok: true, text: "", short: "C backup" }, { ok: false, text: "CF backup: NONE", short: "CF backup" }]);
   assert.equal(cf.passed, "C backup", "a missing backup somewhere: name the ones that pass");
 });
+
+test("orderStaff ranks the pen by penValue when given", async () => {
+  const { orderStaff: os } = await import("./roster-audit");
+  const v: Record<number, number> = { 1: 5, 2: 4, 10: 9, 11: 8 };
+  const pv: Record<number, number> = { 10: 1, 11: 7 };
+  const o = os({ SP1: 2, SP2: 1, CL: 10, RP1: 11 }, (id) => v[id], (id) => pv[id] ?? v[id]);
+  assert.equal(o.SP1, 1);
+  assert.equal(o.CL, 11, "the pen follows penValue");
+});

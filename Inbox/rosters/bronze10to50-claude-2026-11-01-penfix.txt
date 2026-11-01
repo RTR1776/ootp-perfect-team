@@ -1,0 +1,36 @@
+# Daily Bronze 1910-59 — Claude pick 2026-11-01 penfix, rebuilt from the catalogue's rules by current-rosters (--year 1959 --park Seals Stadium --park-year 1959 --dh --min 40 --max 69 --card-year-min 1910 --card-year-max 1959 --size 26 --series bronze10to50 --sp 4 --rp 5 --bats 17)
+R:C Ed Bailey (VAR) #86616
+R:1B Charlie Grimm (VAR) #87377
+R:2B Bill Sweeney #87378
+R:3B Pat Patterson #87080
+R:SS Pee Wee Butts #87266
+R:LF Bob Allison (VAR) #86610
+R:CF Billy Southworth (VAR) #86379
+R:RF Ping Bodie #87341
+R:DH Jack Tobin #86772
+L:C Gabby Hartnett #86254
+L:1B Jackie Robinson (VAR) #84390
+L:2B Bill Sweeney #87378
+L:3B Honus Wagner #86712
+L:SS Pee Wee Butts #87266
+L:LF Ed Morgan (VAR) #85943
+L:CF Billy Southworth (VAR) #86379
+L:RF Ping Bodie #87341
+L:DH Joe Dugan (VAR) #86765
+SP1 Fritz Ostermueller #86357
+SP2 Gene Krapp #87374
+SP3 Eddie Plank #86886
+SP4 Christy Mathewson #86706
+CL Larry Sherry #86622
+RP1 Satchel Paige #84839
+RP2 Cool Papa Bell #86981
+RP3 Eddie Dixon #87157
+RP4 Red Howard #87156
+BN1 Joe Dugan (VAR) #86765
+BN2 Ed Morgan (VAR) #85943
+BN3 Tetelo Vargas #87269
+BN4 Honus Wagner #86712
+BN5 Specs Clark #87308
+BN6 Gabby Hartnett #86254
+BN7 Jackie Robinson (VAR) #84390
+BN8 Joe DiMaggio #85062
