@@ -119,6 +119,8 @@ export interface SearchRequest {
   framingWeight?: number;
   /** The runs maps carry env-fit's staff-stamina term: pen slots take it back out (roster-objective staminaTerm). */
   staminaTerm?: boolean;
+  /** Weight the pen's slots by leverage (roster-objective penLeverage); default true. */
+  penLeverage?: boolean;
   /** Locked cards the pool holds: every board must carry them (1000 runs off each one missing). */
   locks: number[];
   minCatchers: number;
@@ -184,7 +186,7 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
   const starts = searchStarts(d);
   const obj = rosterObjective(d.pool, {
     eraYear: d.eraYear, shape: d.shape, runsR: new Map(d.runsR), runsL: new Map(d.runsL), lhpShare: d.lhpShare,
-    spWeight: d.spWeight, rpWeight: d.rpWeight, fieldSp: d.fieldSp, fieldRp: d.fieldRp, gloveScale: d.gloveScale, framingWeight: d.framingWeight, staminaTerm: d.staminaTerm,
+    spWeight: d.spWeight, rpWeight: d.rpWeight, fieldSp: d.fieldSp, fieldRp: d.fieldRp, gloveScale: d.gloveScale, framingWeight: d.framingWeight, staminaTerm: d.staminaTerm, penLeverage: d.penLeverage,
     mustIds: locks.size ? locks : undefined,
   });
   const plan = quick ? QUICK : DEEP;

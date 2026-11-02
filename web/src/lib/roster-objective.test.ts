@@ -48,9 +48,9 @@ test("the pen's innings are fixed: more relievers than the field splits the same
 
 test("the pen tilts mildly to its best arm (CL first) and a big bench shares the bench's PA", async () => {
   const { penTilt, BENCH_SLOTS } = await import("./roster-objective");
-  const t5 = penTilt(5);
+  const t5 = penTilt(5, false);
   assert.ok(Math.abs(t5.reduce((a, b) => a + b, 0) - 5) < 1e-9, "mean 1");
-  assert.ok(t5[0] > t5[4] && t5[0] < 1.5, `mild tilt ${t5.map((x) => x.toFixed(2))}`);
+  assert.ok(t5[0] > t5[4] && t5[0] < 1.5, `mild tilt on batters alone ${t5.map((x) => x.toFixed(2))}`);
   assert.deepEqual(penTilt(2), [1, 1]);
   const pool = [card(1, false), card(2, false), card(3, false), card(4, false), card(5, false), card(6, false), card(7, false)];
   const runs = new Map(pool.map((c) => [c.cardId, 10]));
@@ -110,4 +110,32 @@ test("staminaTerm: the pen prices an arm without the staff-stamina term; the rot
   // The rotation still pays for stamina.
   assert.equal(on.slotValue("SP1", 2), off.slotValue("SP1", 2));
   assert.equal(staffStaminaRuns({ isPitcher: false, ratings: { Stamina: 100 } }), 0);
+});
+
+test("the pen's slots are weighted by leverage too: the closer's runs count most, the pen's total is unchanged", async () => {
+  const { penTilt, PEN_LEVERAGE, PEN_SHARE } = await import("./roster-objective");
+  for (let n = 3; n <= 9; n++) {
+    assert.equal(PEN_LEVERAGE[n].length, n);
+    assert.equal(PEN_SHARE[n].length, n);
+    const t = penTilt(n);
+    assert.ok(Math.abs(t.reduce((a, b) => a + b, 0) - n) < 1e-9, `mean 1 at ${n}`);
+    for (let i = 1; i < n; i++) assert.ok(t[i] <= t[i - 1] + 1e-12, `never above the slot before (${n}: ${t.map((x) => x.toFixed(2))})`);
+    // The closer outweighs his batters-only share, the back of the pen weighs less.
+    const flat = penTilt(n, false);
+    assert.ok(t[0] > flat[0] && t[n - 1] < flat[n - 1], `${n}: CL ${t[0].toFixed(2)} vs ${flat[0].toFixed(2)}`);
+  }
+  // A seven-man pen: CL ~1.6 of an average reliever's weight (1.19 on batters alone), the last arm ~0.6.
+  const t7 = penTilt(7);
+  assert.ok(t7[0] > 1.5 && t7[0] < 1.7 && t7[6] < 0.65, t7.map((x) => x.toFixed(2)).join(" "));
+  assert.deepEqual(penTilt(2), [1, 1]);
+
+  // Two pens, the same total runs: the one with its best arm at CL is worth more, and more than on batters alone.
+  const pool = [1, 2, 3, 4, 5, 6, 7].map((i) => card(i, true));
+  const runs = new Map([[1, 30], [2, 10], [3, 10], [4, 10], [5, 10], [6, 10], [7, 10]]);
+  const rp: FillShape = { lineupPos: [], spKeys: [], rpKeys: ["CL", "RP1", "RP2", "RP3", "RP4", "RP5", "RP6"], benchKeys: [], bats: 0 };
+  const board = (cl: number) => Object.fromEntries(rp.rpKeys.map((k, i) => [k, i === 0 ? cl : i + 1 === cl ? 1 : i + 1]));
+  const score = (lev: boolean, cl: number) => rosterObjective(pool, { shape: rp, runsR: runs, runsL: runs, rpWeight: 0.3, penLeverage: lev }).objective(board(cl));
+  assert.ok(score(true, 1) - score(true, 7) > score(false, 1) - score(false, 7), "leverage widens the closer's edge");
+  const equal = new Map(pool.map((c) => [c.cardId, 10]));
+  assert.ok(Math.abs(rosterObjective(pool, { shape: rp, runsR: equal, runsL: equal, rpWeight: 0.3 }).objective(board(1)) - 7 * 0.3 * 10) < 1e-9, "equal arms keep the pen's total");
 });

@@ -173,6 +173,10 @@ const MIN_POS: PosFloor = parsePosFloor(val("min-pos")) ?? LJ_FLOOR;
  * (see env-fit's roleTrust). Drop it and SP cards can win bullpen slots.
  */
 const ROLE_TRUST = num("role-trust", 1)!;
+/** --no-leverage: weigh the pen's slots by batters faced only, not by leverage too (roster-objective penTilt). For before/after checks. */
+const PEN_LEVERAGE = !flag("no-leverage");
+/** --pen-stamina: keep the staff-stamina term on pen arms (the pricing before 11-01; roster-objective staminaTerm). For before/after checks. */
+const PEN_STAMINA = !flag("pen-stamina");
 /**
  * --obs-k: how many PA (or BF) of observed play it takes to count as much as
  * the model. 5000 is where held-out prediction peaks on the calibrated scale
@@ -571,9 +575,12 @@ async function main() {
    * by the floor, so a +9 bat beat a +38 glove at second every time.
    */
   const objectiveOpts = {
-    eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, mustIds, staminaTerm: true,
+    eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, mustIds, staminaTerm: PEN_STAMINA, penLeverage: PEN_LEVERAGE,
   };
   let { objective, rank, defAt, slotValue } = rosterObjective(pool, objectiveOpts);
+  /** A reliever's runs as the pen slots price them (without the staff-stamina term unless --pen-stamina): orders the pen. */
+  const poolByIdAll = new Map(pool.map((c) => [c.cardId, c]));
+  const penValueOf = (id: number) => (fits.runsR.get(id) ?? -Infinity) - (PEN_STAMINA ? staffStaminaRuns(poolByIdAll.get(id)) : 0);
   void defAt;
 
   /**
@@ -658,8 +665,13 @@ async function main() {
    * search is stuck; one that scores below it means the objective prefers its pick.
    */
   if (SCORE) {
-    const s = seedStart(SCORE);
-    if (!s) process.exit(1);
+    const given = seedStart(SCORE);
+    if (!given) process.exit(1);
+    // The staff as it would be set (orderStaff, as every build prints it): CL the best reliever, SP1 the best starter.
+    const s = orderStaff(given, (id) => fits.runsR.get(id) ?? -Infinity, penValueOf);
+    if (Object.keys(s).some((k) => s[k] !== given[k])) console.log("staff ordered best first (SP1, CL) before scoring");
+    if (!PEN_LEVERAGE) console.log("pen weighed by batters faced only (--no-leverage)");
+    if (!PEN_STAMINA) console.log("pen arms keep the staff-stamina term (--pen-stamina)");
     const nameOf = (id: number) => pool.find((c) => c.cardId === id)?.name ?? String(id);
     const valOf = (id: number) => pool.find((c) => c.cardId === id)?.val ?? 0;
     for (const [k, id] of Object.entries(s)) console.log(`  ${k.padEnd(6)} ${nameOf(id).padEnd(26)} ${String(valOf(id)).padStart(3)}  ${slotValue(k, id).toFixed(2)}`);
@@ -710,7 +722,7 @@ async function main() {
         const t0 = Date.now();
         let done: SearchBest | null = null;
         runSearch({ mode, board: slots, pool, rules, shape, fits: toPlainFits(fits), runsR: [...fits.runsR], runsL: [...fits.runsL],
-          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, staminaTerm: true, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS },
+          lhpShare: LHP_SHARE, spWeight: SP_WEIGHT, rpWeight: RP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, staminaTerm: PEN_STAMINA, penLeverage: PEN_LEVERAGE, locks: [], minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS },
           (m) => { if (m.type === "done") done = m.best; }, () => Date.now());
         const b = done as SearchBest | null;
         if (mode === "deep" && b) deepBoard = b.slots;
@@ -846,7 +858,7 @@ async function main() {
   // Rotation and pen best-first: the game starts SP1 most and closes with CL.
   const poolById = new Map(pool.map((c) => [c.cardId, c]));
   // The pen is ranked without the staff-stamina term (roster-objective staminaTerm).
-  slots = orderStaff(slots, (id) => fits.runsR.get(id) ?? -Infinity, (id) => (fits.runsR.get(id) ?? -Infinity) - staffStaminaRuns(poolById.get(id) as any));
+  slots = orderStaff(slots, (id) => fits.runsR.get(id) ?? -Infinity, penValueOf);
   const out: RosterSlot[] = Object.entries(slots).map(([k, cardId]) => {
     const [a, b] = k.split(":");
     return { cardId, slot: b ?? a, versusHand: b ? a : "both", lineupOrder: b ? lineupPos.indexOf(b) + 1 : null, useVariant: poolById.get(cardId)?.variant ?? false };

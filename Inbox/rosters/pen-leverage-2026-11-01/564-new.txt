@@ -1,0 +1,160 @@
+
+=== ad-hoc event ===
+1985 RE @ 1982 Kingdome · DH on · value 40–99 · cap none · 26 players
+R/G 4.47  AVG 0.256  OBP 0.324  SLG 0.399  K% 14.0  HR/PA 2.57%  preset Traditional
+sac bunt (1st & 2nd, 0 out) +0.025 runs · steal break-even 79.8% (0 out) / 76.8% (1 out)
+park: all-LHB lineup 4.58 R/G vs all-RHB 4.42 — 0.16 R/G swing toward LEFT-handed bats
+two-way: 246 cards also in the other role — Old Hoss Radbourn as bat, Mack Eggleston as arm, Jim Kaat as bat, Carson Williams as arm, Walter Johnson as bat, Bill Force as bat, Quincy Trouppe as arm, Ben Taylor as arm, Rap Dixon as arm, Kid Nichols as bat, Travis Sykora as bat, Justin Turner as arm, Frank Foreman as bat, Johnny Davis as arm, Roosevelt Davis as bat, Phil Cockrell as bat, Don Robinson as bat, Kyson Witherspoon as bat, Ossie Orwoll as bat, Matt Davidson as arm, Isidro Fabre as bat, Cal McVey as arm, Jake Bauers as arm, Jesse Burkett as arm, Chase DeLauter as arm, Alejandro Oms as arm, Payton Tolle as bat, Payton Tolle as bat, Cy Young as bat, John Beckwith as arm, Bryce Eldridge as arm, Babe Ruth as bat, Dizzy Trout as bat, Steve Carlton as bat, Pete Donohue as bat, Don Larsen as bat, Jose Mendez as bat, Don Newcombe as bat, Bobby Estalella as arm, Smokey Joe Williams as bat, Manny Banuelos as bat, Barney Brown as bat, Hugh Daily as bat, Frank Grant as arm, Sam Jones as bat, Gary Peters as bat, Bryce Rainer as arm, Tubby Scales as arm, Cool Papa Bell as arm, Dan Haren as bat, Wade Johnston as arm, Jack Lynch as bat, Tom Young as arm, Oscar Charleston as arm, Kaelen Culpepper as arm, Madison Bumgarner as bat, Dizzy Dean as bat, Hilton Smith as bat, Luther Farrell as bat, Bill Holland as bat, Oliver Marcell as arm, Satchel Paige as bat, Jack Stivetts as bat, Leroy Matlock as bat, Jules Thomas as arm, Carson Benge as arm, Ray Brown as bat, Sam Streeter as bat, George Weidman as bat, Joshua Baez as arm, Armando Cabanas as arm, Jimmie Lyons as arm, Andy Porter as bat, River Ryan as bat, Carlos Zambrano as bat, Walter Cannady as arm, Goose Curry as arm, Mike McCormick as bat, Agustin Parpetti as arm, Candy Jim Taylor as arm, Bobby Witt Jr. as arm, Alec Burleson as arm, Buck Ewing as arm, Cherokee Fisher as bat, Robert Poindexter as bat, Doc Wiley as arm, Jac Caglianone as arm, Bullet Rogan as arm, Pete Hill as arm, Terris McDuffie as bat, JR Ritchie as bat, Bob Thurman as arm, Judy Johnson as arm, Johnny Lindell as arm, Bill Ricks as bat, William Bell as bat, Irvin Brooks as arm, Dave Malarcher as arm, Tommy Bond as bat, George Britt as bat, Willi Castro as arm, Cocaina Garcia as arm, Blake Mitchell as arm, Joe Strong as bat, Charlie Buffinton as bat, Andy Cooper as bat, Willie Gisentaner as bat, Charlie Mason as arm, Hurley McNair as arm, Harry Staley as bat, Harry Simpson as arm, Dan Bankhead as bat, Ray Collins as bat, Charlie Comiskey as arm, Gid Gardner as arm, Charlie Hickman as bat, Brody Hopkins as bat, Fred Hutchinson as arm, Frank Killen as bat, Biz Mackey as arm, Braden Montgomery as arm, Bill Byrd as bat, Willis Flournoy as bat, Dink Mothell as arm, Jose Oquendo as arm, Brian Anderson as bat, Dick Donovan as bat, Curry Foley as arm, Eggie Hensley as bat, Jim LaMarque as bat, Jimmie Lyons as arm, Dave Pope as arm, Khal Stephen as bat, Jack Taylor as bat, Pop Corkhill as arm, Willie Pope as bat, Casey Schmitt as arm, Jack Scott as bat, Tom Hughes as bat, Colt Keith as arm, Rufus Lewis as bat, Blondie Purcell as arm, Connie Rector as bat, Steve Barber as bat, Jack Harshman as bat, Donald Reeves as arm, Cool Papa Bell as bat, Garland Buckeye as bat, Bubba Chandler as bat, Darltie Cooper as bat, Larry Corcoran as bat, Jon Garland as bat, Red Lucas as bat, Hugh McQuillan as bat, Anthony Nunez as bat, Dick Redding as bat, Tanner Roark as bat, Oyster Burns as arm, Rube Foster as bat, Milton Lewis as arm, Levi Meyerle as arm, Eddie Smith as bat, Grover Cleveland Alexander as bat, Tyler Anderson as bat, Cole Carrigg as arm, Eddie Dixon as bat, Luther Farrell as bat, Pud Galvin as bat, Henry McHenry as bat, Larry Sherry as bat, Masyn Winn as arm, Jack Coombs as bat, Eddie Douglass as arm, Wes Ferrell as bat, Pink Hawley as bat, Jumbo McGinnis as bat, Pablo Mesa as arm, Carlos Perez as arm, Julio Rojo as arm, Tom Vickery as bat, Carson Williams as arm, Matt Carlisle as arm, Pretzels Getzien as bat, Drew Gilbert as arm, Isiah Kiner-Falefa as arm, Art Nehf as bat, Frank Smith as bat, Blaze Alexander as arm, Rip Sewell as bat, Ben Casparius as bat, Jake Cronenworth as arm, Bill Gatewood as bat, Claude Hendrix as bat, Sam Jones as bat, Jett Williams as arm, Frank Duncan as arm, Kenley Jansen as bat, Ichiro Suzuki as arm, Lefty Tyler as bat, Jim Bagby as bat, Bernie Friberg as arm, Kody Funderburk as bat, Dane Myers as arm, Will Brennan as arm, Fred Goldsmith as bat, Zach McKinstry as arm, Big Jeff Pfeffer as bat, Esteban Montalvo as arm, Bob Romby as bat, Red Ruffing as bat, Pepper Bassett as arm, Double Duty Radcliffe as arm, Bullet Campbell as bat, Specs Clark as arm, Brady House as arm, Elden Auker as bat, Leonardo Rivas as arm, Earl Wilson as bat, Braden Montgomery as arm, Jack Wilson as bat, Jack Chesbro as bat, George Mitchell as bat, Jim Tobin as bat, Lucas Erceg as bat, Zach Agnos as bat, Judy Gans as arm, Enrique Hernandez as arm, Phenomenal Smith as bat, Sam Bankhead as arm, Bill Hoffer as bat, Michael Lorenzen as bat, John Bissant as arm, Lefty Grove as bat, Frank Dwyer as bat, Kyle Farmer as arm, Jelly Jackson as arm, Dan Kennard as arm, Yohel Pozo as arm, Garrett Stubbs as arm, Stoney McGlynn as bat, Sam Weaver as bat, Toussaint Allen as arm, Al Mays as bat, Jim Maloney as bat, Charlie Eden as arm, George Hunter as arm
+
+pool: 3951 eligible owned cards — 2232 bats (728L / 268S / 1236R), 1719 arms
+staff weights from diamonddaily's exports: SP 1.3, RP 0.39 (a lineup slot = 1)
+field (diamonddaily, 21 exports): 40% of batters faced thrown left-handed · 40% of PA by left-handed bats · 13.3 bats / 6.2 SP / 5.5 RP per team
+shape: 14 bats / 5 SP / 7 RP (1980s–2000s) · out-of-position guard 60% of best · glove floor 60; SS 85; CF 90; 2B 85; RF 75 · defence priced in runs (fielding.json)
+observed play: 2631 of 3951 pool cards have innings on record (median 247 PA/BF); K = 1000000
+field's average card here (914 cards played in diamonddaily, weighted by PA/BF): bat +1.1 vs RHP / +0.1 vs LHP, arm +4.4 — "fld" on each row is runs over that
+gloves ×1.01: balls in play in this environment against the fit's archive (fielding.ts gloveScale)
+team weights (1985 band): gloves ×1.25, framing ×0.5, starters ×1, pen ×3 against a bat run → glove ×1.26, SP 1.30, RP 1.17 (--no-team-weights to turn off)
+staff innings split over the arms carried: the field runs 4.9 SP / 6.8 RP → per SP ×0.98 (5 carried), per RP ×0.97 (7 carried)
+
++10 rating, runs/700 PA — LHB: Power +4.1  BABIP +2.0  Avoid Ks +1.9  Eye +1.4  Gap +0.9
+                          RHB: Power +4.3  BABIP +1.9  Avoid Ks +1.9  Eye +1.3  Gap +0.9
+                         arms: pHR +1.4  pBABIP +1.1  Control +1.0  Stuff +0.9
+seed: seed564.txt as is (26 cards)
+seed: scores 520.0 before the climb
+
+optimiser: 10 starts (λ + seed) hill-climbed; best 555.0 runs vs 514.6 greedy (+40.4), 19 moves from λ 0.00 (the seed's climb: 555.0)
+dual: from Don Larsen in both roles: Cy Young in both, 552.0 runs
+dual: from Cy Young in both roles: Cy Young in both, 552.0 runs
+dual: from Babe Ruth in both roles: Babe Ruth in both, 554.3 runs
+dual: from Cherokee Fisher in both roles: Cy Young in both, 552.0 runs
+dual: no two-way card in both roles beats 555.0 runs (best Babe Ruth 554.3)
+
+--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)
+R:C     Ed Bailey (VAR)             97  L  1956   +26.1 fld +25.0  park:L DEF 112/112 +5.7  #86637
+R:1B    Pedro Alvarez               81  L  2013   +29.6 fld +28.4  park:L DEF  96/ 96 +3.0  #87062
+R:2B    Sam Wise                    88  L  1887   +17.7 fld +16.6  park:L DEF 116/116 +0.7  #87354
+R:3B    Arjun Nimmala (VAR)         94  R  2026   +17.4 fld +16.3  park:R DEF 128/128 +7.4  #84745
+R:SS    Pythias Russ (VAR)          89  R  1927   +14.4 fld +13.3  park:R DEF 120/120 +3.8  #87083
+R:LF    Curtis Granderson           97  L  2007   +46.7 fld +45.5  park:L DEF 147/147 +6.4  #86595
+R:CF    Darin Erstad                89  L  2000   +25.5 fld +24.3  park:L DEF 138/148 +3.0  #87242
+R:RF    Bo Jackson                  88  R  1989   +36.5 fld +35.4  park:R DEF 123/123 +3.4  #86966
+R:DH    Carlos Beltran              99  S  2004   +39.0 fld +37.9  park:L  #87066
+
+--- lineup vs LHP ---
+L:C     Thurman Munson              97  R  1976   +17.1 fld +17.0  park:R DEF 113/113 +6.9  #82714
+L:1B    Josh Vitters (VAR)          95  R  2012   +25.7 fld +25.6  park:R DEF  99/ 99 +3.5  #86419
+L:2B    Kaelen Culpepper (VAR)      89  R  2026   +17.6 fld +17.4  park:R DEF 130/130 +4.2  #85033
+L:3B    Arjun Nimmala (VAR)         94  R  2026   +21.7 fld +21.6  park:R DEF 128/128 +7.4  #84745
+L:SS    Pythias Russ (VAR)          89  R  1927   +19.6 fld +19.5  park:R DEF 120/120 +3.8  #87083
+L:LF    Bo Jackson                  88  R  1989   +33.2 fld +33.1  park:R DEF 116/123 +2.6  #86966
+L:CF    Darin Erstad                89  L  2000   +21.6 fld +21.4  park:L DEF 138/148 +3.0  #87242
+L:RF    Jeff Francoeur (VAR)        81  R  2005   +29.6 fld +29.5  park:R DEF 149/149 +6.9  #86300
+L:DH    Ryan Braun                  74  R  2007   +41.5 fld +41.3  park:R  #87222
+
+--- batting order vs RHP --- (5.68 runs/game; The Book's order 5.68)
+  1. Carlos Beltran DH
+  2. Curtis Granderson LF
+  3. Ed Bailey (VAR) C
+  4. Pedro Alvarez 1B
+  5. Bo Jackson RF
+  6. Arjun Nimmala (VAR) 3B
+  7. Pythias Russ (VAR) SS
+  8. Sam Wise 2B
+  9. Darin Erstad CF
+
+--- batting order vs LHP --- (5.33 runs/game; The Book's order 5.33)
+  1. Ryan Braun DH
+  2. Bo Jackson LF
+  3. Arjun Nimmala (VAR) 3B
+  4. Jeff Francoeur (VAR) RF
+  5. Josh Vitters (VAR) 1B
+  6. Kaelen Culpepper (VAR) 2B
+  7. Thurman Munson C
+  8. Pythias Russ (VAR) SS
+  9. Darin Erstad CF
+
+--- rotation ---
+SP1     Don Larsen                  96  R  1956   +21.2 fld +16.9   SP STM 100  #87240
+SP2     Cy Young                    99  R  1900   +18.8 fld +14.4   SP STM 109  #86996
+SP3     Catfish Hunter              92  R  1975   +18.5 fld +14.1   SP STM 111  #86878
+SP4     Count Leblanc (VAR)         89  R  1921   +17.6 fld +13.2   SP STM  93  #86978
+SP5     Mark Langston               91  R  1989   +16.3 fld +11.9   SP STM  86  #86956
+
+--- bullpen ---
+CL      Troy Percival (VAR)         87  R  2007   +15.6 fld +11.2   RP STM  19  #85371
+RP1     Devin Williams              99  R  2023   +14.3 fld  +9.9   CL STM  17  #83851
+RP2     Joe Beggs (VAR)             89  R  1940   +17.7 fld +13.3   RP STM  46  #86762
+RP3     Greg Holland                99  R  2014   +12.3 fld  +7.9   CL STM  17  #87278
+RP4     Jake McGee (VAR)            99  L  2012   +11.1 fld  +6.7   RP STM  12  #86789
+RP5     Tyler Matzek                98  L  2021   +11.1 fld  +6.7   RP STM  16  #87056
+RP6     Johnny Markham (VAR)        87  R  1942   +15.6 fld +11.3   RP STM  69  #87159
+
+--- bench ---
+BN1     Kaelen Culpepper (VAR)      89  R  2026   +10.8 fld  +9.6  park:R  #85033
+BN2     Josh Vitters (VAR)          95  R  2012    +9.5 fld  +8.3  park:R  #86419
+BN3     Thurman Munson              97  R  1976    +4.2 fld  +3.0  park:R  #82714
+BN4     Ryan Braun                  74  R  2007    -1.5 fld  -2.6  park:R  #87222
+BN5     Jeff Francoeur (VAR)        81  R  2005    -4.7 fld  -5.8  park:R  #86300
+
+--- depth chart vs RHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Ed Bailey (VAR)            U1 Thurman Munson 113           U2 -                           
+  1B  Pedro Alvarez              U1 Josh Vitters (VAR) 99        U2 -                           
+  2B  Sam Wise                   U1 Kaelen Culpepper (VAR) 130   U2 -                            def sub Kaelen Culpepper (VAR) (+3.5)
+  3B  Arjun Nimmala (VAR)        U1 Kaelen Culpepper (VAR) 122   U2 Josh Vitters (VAR) 86       
+  SS  Pythias Russ (VAR)         U1 Kaelen Culpepper (VAR) 117   U2 -                           
+  LF  Curtis Granderson          U1 Josh Vitters (VAR) 72        U2 -                           
+  CF  Darin Erstad               U1 Carlos Beltran 108           U2 -                           
+  RF  Bo Jackson                 U1 Jeff Francoeur (VAR) 149     U2 -                            def sub Jeff Francoeur (VAR) (+3.5)
+  pinch hitters: Kaelen Culpepper (VAR), Josh Vitters (VAR), Thurman Munson, Ryan Braun · pinch runners: Kaelen Culpepper (VAR) (SPE 100), Ryan Braun (SPE 80), Jeff Francoeur (VAR) (SPE 68)
+
+--- depth chart vs LHP --- (Utility 1 / Utility 2 off the bench; a defensive sub where his glove is 3+ runs a season better)
+  C   Thurman Munson             U1 Ed Bailey (VAR) 112          U2 -                           
+  1B  Josh Vitters (VAR)         U1 Pedro Alvarez 96             U2 -                           
+  2B  Kaelen Culpepper (VAR)     U1 Sam Wise 116                 U2 -                           
+  3B  Arjun Nimmala (VAR)        U1 Pedro Alvarez 75             U2 -                           
+  SS  Pythias Russ (VAR)         U1 Sam Wise 95                  U2 -                           
+  LF  Bo Jackson                 U1 Curtis Granderson 147        U2 -                            def sub Curtis Granderson (+3.8)
+  CF  Darin Erstad               U1 Carlos Beltran 108           U2 Curtis Granderson 133       
+  RF  Jeff Francoeur (VAR)       U1 Curtis Granderson 142        U2 -                           
+  pinch hitters: Carlos Beltran, Sam Wise, Curtis Granderson, Pedro Alvarez · pinch runners: Curtis Granderson (SPE 121), Carlos Beltran (SPE 109), Sam Wise (SPE 86)
+
+26 players · value 2383 · λ 0.000 · 11 variants
+vs RHP lineup: 6 of 9 bat from the left side (the platoon edge); this park favours left-handed bats
+
+--- order inputs (rostered bats) ---
+  Curtis Granderson      L EYE 117 (97/125)  POW 132 (91/148)  K 108  BABIP 142  GAP 153  SPE 121
+  Carlos Beltran         S EYE 172 (124/188)  POW 180 (151/190)  K 132  BABIP  92  GAP 123  SPE 109
+  Bo Jackson             R EYE  90 (144/77)  POW 219 (194/228)  K  51  BABIP 128  GAP  76  SPE 119
+  Pedro Alvarez          L EYE 115 (125/112)  POW 197 (72/244)  K  62  BABIP  85  GAP  73  SPE  25
+  Ed Bailey              L EYE 138 (109/148)  POW 166 (77/203)  K 102  BABIP  87  GAP  45  SPE  26
+  Darin Erstad           L EYE 110 (66/130)  POW  96 (120/90)  K 124  BABIP 155  GAP 111  SPE 118
+  Sam Wise               L EYE  82 (75/85)  POW 113 (94/121)  K  67  BABIP 149  GAP 118  SPE  86
+  Arjun Nimmala          R EYE 108 (113/106)  POW 140 (142/139)  K  89  BABIP 126  GAP 126  SPE  72
+  Pythias Russ           R EYE  82 (88/80)  POW 104 (111/103)  K 123  BABIP 127  GAP 147  SPE 101
+  Kaelen Culpepper       R EYE 118 (119/118)  POW 121 (132/117)  K 115  BABIP 106  GAP  97  SPE 100
+  Josh Vitters           R EYE  71 (84/66)  POW 103 (117/98)  K 131  BABIP 138  GAP 144  SPE  55
+  Thurman Munson         R EYE  76 (86/73)  POW 115 (132/110)  K 108  BABIP 114  GAP 130  SPE  53
+  Ryan Braun             R EYE  82 (147/63)  POW 158 (200/144)  K  62  BABIP 106  GAP  93  SPE  80
+  Jeff Francoeur         R EYE  49 (32/54)  POW 128 (183/109)  K  63  BABIP 115  GAP 142  SPE  68
+LEGAL — every rule check passes
+
+--- roster check ---
+  ✓ staff 5 SP / 7 RP / 14 bats (caps: 5 SP, 7 RP, 12 arms) · field's best quarter (335 teams): 5.0 SP / 7.2 RP / 13.7 bats
+  ✓ starters' stamina Don Larsen 100, Cy Young 109, Catfish Hunter 111, Count Leblanc 93, Mark Langston 86 (era floor 50)
+  ✓ stamina guys in the pen (45+): Joe Beggs 46, Johnny Markham 69
+  ✓ C  backup: vs RHP Thurman Munson 113 · vs LHP Ed Bailey 112
+  ✓ 1B backup: vs RHP Josh Vitters 99 · vs LHP Pedro Alvarez 96
+  ✓ 2B backup: vs RHP Kaelen Culpepper 130 · vs LHP Sam Wise 116
+  ✓ 3B backup: vs RHP Josh Vitters 86, Kaelen Culpepper 122 · vs LHP Pedro Alvarez 75
+  ✓ SS backup: vs RHP Kaelen Culpepper 117 · vs LHP Sam Wise 95
+  ✓ LF backup: vs RHP Josh Vitters 72 · vs LHP Curtis Granderson 147
+  ✓ CF backup: vs RHP Carlos Beltran 108 · vs LHP Curtis Granderson 133, Carlos Beltran 108
+  ✓ RF backup: vs RHP Jeff Francoeur 149 · vs LHP Curtis Granderson 142
+(16 of 26 have a live ask in the last shop snapshot)
+objective: 555.0 weighted runs (bats 60/40 R/L, SP 1.3, RP 1.17, bench 0.1)
+points: lineup(both boards, 14 bats) 1258 · rotation 467 · bullpen 658 · bench-only 0
+
+!! ratings past the curves' fitted range — the model extrapolates here, treat the number as a direction not a measurement:
+   Catfish Hunter           pBABIP 180 (fitted 50–175)
+   Troy Percival            pBABIP 196 (fitted 50–175)
+   Devin Williams           pBABIP 192 (fitted 50–175)
