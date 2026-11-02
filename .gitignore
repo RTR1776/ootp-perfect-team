@@ -49,3 +49,6 @@ web/scripts/.scratch/
 
 # cwhit upload folder, rebuilt by Make cwhit Upload Folder.command
 UPLOAD TO CWHIT TODAY/
+
+# Extracted from the local OOTP save folders (281k-card opponent rosters, 38 MB); regenerate with web/scripts/ootp-saves/
+Data/OOTP saves */
