@@ -112,3 +112,105 @@ Every new pick passes the roster check, including 2+ pen arms at 45+. Picks are 
 - The stamina test uses card VAL as the quality control. Next: re-run it in the Mac's archive harness (685 exports, model runs as the control) with `STAMINA` split SP/RP.
 - The per-batter stamina effect (−0.8 RA per +10, −0.2 FIP; Model Audit 10-17 #3) is still unpriced for anyone. In the pen it would favour short arms a little more. Not added.
 - Short-arm fatigue: a pen of five STM-10–20 arms leans on recovery (`Tourney Data/Reliever Recovery`). The 2-long-men rule is the guard. Watch it in Bo-series events.
+
+## Full rebuild with leverage (11-02): load files only, not saved
+
+- **What was built.** Every current event except 779, plus Championship 9080001–06 and 08: 80 events. Each was seeded from its newest saved pick (`current-rosters --all --starts 1 --tag 2026-11-02-leverage`).
+- **Where the picks are.** Load files are in `Inbox/rosters/*-claude-2026-11-02-leverage.txt`, with manifest `current-2026-11-02-leverage.tsv` listing all 80.
+- **Validation.** All 80 pass `roster-save --dry`.
+- **Saving.** Writing them to the database was blocked in the session (the original brief said not to change saved rosters). To save, run `Save Current Rosters.command` on the Mac after pulling; it picks the newest manifest. Or run `roster-save` per row.
+- **Results.** 22 events change cards. 47 get a different CL.
+  - Many newest saved picks are still the pre-stamina-fix "c340" builds. That is where the big pen swaps are: Gold Standard, Thursday Gold Rush, Silver and Gold Cap, Daily Open Slots, Sunday Open Slots, Wide Open, Wonky.
+
+**Two bugs found and fixed on the way:**
+
+1. **`current-rosters` re-sorted the staff in the load file by the printed runs column.** That column includes the staff-stamina term, so CL went back to a high-stamina arm, for example Hernandez over Miller.
+   - The load file now keeps env-roster's `orderStaff` order.
+   - The other session's "…penfix" saved rosters (11-01) were written by the same code, so their CL slots are suspect. The new load files fix that once saved.
+2. **A seeded climb from a saved dual pick could keep a 25-player board.** This happens when a two-way card sits in both roles on the normal shape (Daily Early Years Cap).
+   - The normal climb now skips boards without SIZE distinct players, as the dual phase already did. The dual phase then rebuilds the two-way board.
+   - Early Years Cap rebuilt legal at 255.6 with 8 starts (254.8 with 1).
+   - Its score can't be compared with saved 1762 by `--score`, because `--score` uses the normal shape. 11 cards change, so look at it before saving.
+
+| event | saved | cards changed | saved CL | new CL |
+|---|---|---|---|---|
+| 550 Wednesday 1950 to Now | 1761 | 0 | Andrew Miller (10) | Andrew Miller (10) |
+| 9100139 Daily All-Star Hardware Slots | 1709 | 0 | Joe Beggs (46) | Joe Beggs (46) |
+| 584 Daily Bronze 1910-59 | 1708 | 1 | Larry Sherry (48) | Larry Sherry (48) |
+| 535 Saturday Bronze Cap | 1754 | 0 | John Bale (33) | John Bale (33) |
+| 527 Daily Bronze Only Curiosities | 1712 | 0 | Edwin Diaz (13) | Edwin Diaz (13) |
+| 520 Daily Bronze Only Cap | 1711 | 0 | Caden Scarborough (46) | Edwin Diaz (13) |
+| 633 Daily Bronze OOTP Era | 1713 | 0 | Caden Scarborough (46) | Edwin Diaz (13) |
+| 773 Daily Bronze PTCS 3 Replay Slots | 1715 | 0 | Caden Scarborough (46) | Edwin Diaz (13) |
+| 536 Monday Up And At Them Bronze | 1753 | 0 | Larry Sherry (48) | Mike Myers (4) |
+| 9100187 Thursday CWhit's Say My Name Cap | 1759 | 0 | James McDonald (59) | John Bale (33) |
+| 515 Daily Dank | 1714 | 0 | Nate Robertson (64) | Randy Choate (6) |
+| 551 Wednesday Night of the Living Deadball | 1701 | 1 | Old Hoss Radbourn (128) | Eddie Plank (104) |
+| 9100199 Daily Diamond 1990 Onward | 1717 | 0 | Thomas White (69) | Troy Percival (19) |
+| 565 Daily Diamond Cap | 1763 | 1 | Caden Scarborough (46) | Caden Scarborough (46) |
+| 564 Daily Diamond | 1716 | 0 | Joe Beggs (46) | Troy Percival (19) |
+| 587 Daily Diamonds are Forever | 1721 | 0 | Johnny Markham (69) | Joe Beggs (46) |
+| 531 Daily Diamond Jumble Slots | 1718 | 0 | Johnny Markham (69) | Joe Beggs (46) |
+| 9100185 Daily Diamond Up to 1969 | 1686 | 3 | Don Larsen (100) | Joe Beggs (46) |
+| 541 Saturday Diamond Variety | 1756 | 0 | Joe Beggs (46) | Joe Beggs (46) |
+| 542 Wednesday Ice to See You | 1760 | 0 | Milt Pappas (79) | Greg Holland (17) |
+| 525 Daily Early Bronze | 1719 | 0 | Bruce Hurst (86) | Will Smith (17) |
+| 522 Daily Early Silver | 1720 | 0 | Jack Wenninger (48) | Eric O'Flaherty (11) |
+| 9100138 Daily Early Years Cap | 1762 | 10 | Tin Can Kincannon (74) | Herb Thormahlen (77) |
+| 563 Daily Gold Cap | 1722 | 0 | Joe Beggs (46) | Joe Beggs (46) |
+| 9100166 Daily Golden Age | 1724 | 0 | Bill Duggleby (105) | Carl Hubbell (81) |
+| 635 Daily Golden Heart | 1725 | 0 | Joe Beggs (46) | Joe Beggs (46) |
+| 567 Daily Goldfather II | 1726 | 0 | Joe Beggs (46) | Troy Percival (19) |
+| 548 Monday Now We're into the Dregs | 1752 | 0 | Caden Scarborough (46) | John Bale (33) |
+| 530 Daily Gold Slots | 1723 | 0 | Joe Beggs (46) | Troy Percival (19) |
+| 9100198 Daily Gold Standard | 1687 | 7 | Nick Altrock (90) | Calvin Faucher (17) |
+| 540 Thursday Night Gold Rush | 1699 | 5 | Johnny Markham (69) | Joe Beggs (46) |
+| 538 Sunday Silver and Gold Cap | 1695 | 4 | Johnny Markham (69) | Calvin Faucher (17) |
+| 9100191 Daily Low Gold Cap | 1744 | 0 | James McDonald (59) | Alex Claudio (23) |
+| 772 Daily Iron & Friends OOTP Era Slots | 1685 | 2 | John Bale (33) | Randy Choate (6) |
+| 517 Daily Iron Cap | 1727 | 0 | John Bale (33) | John Bale (33) |
+| 583 Daily Iron Dreamland | 1728 | 0 | James McDonald (59) | James McDonald (59) |
+| 562 Daily Iron Lunch | 1729 | 0 | John Bale (33) | Randy Choate (6) |
+| 556 Daily Iron Strikes Back | 1731 | 0 | Mike Marshall (74) | Randy Choate (6) |
+| 534 Saturday Iron Warriors | 1755 | 0 | James McDonald (59) | James McDonald (59) |
+| 9100194 Daily Late 1900s | 1730 | 0 | Willie Hernandez (67) | Willie Hernandez (67) |
+| 524 Daily Late Bronze | 1732 | 0 | John Bale (33) | Edwin Diaz (13) |
+| 516 Daily Late Iron | 1688 | 1 | John Bale (33) | John Bale (33) |
+| 523 Daily Late Silver | 1735 | 0 | Jack Wenninger (48) | Jack Wenninger (48) |
+| 561 Daily Live Bronze | 1733 | 0 | Justin Bruihl (18) | Justin Bruihl (18) |
+| 532 Daily Live Diamond | 1734 | 0 | Calvin Faucher (17) | Calvin Faucher (17) |
+| 528 Daily Live Gold | 1737 | 0 | Calvin Faucher (17) | Calvin Faucher (17) |
+| 518 Daily Live Iron | 1736 | 0 | Victor Vodnik (19) | Victor Vodnik (19) |
+| 529 Daily Live Open | 1689 | 1 | Louie Varland (25) | Louie Varland (25) |
+| 9100186 Daily Live Plus | 1738 | 0 | Louie Varland (25) | Daniel Palencia (14) |
+| 566 Daily Live Silver | 1741 | 0 | Sam Hentges (15) | Sam Hentges (15) |
+| 543 Friday Night Live Slots | 1694 | 4 | Louie Varland (25) | Louie Varland (25) |
+| 545 Tuesday Live | 1698 | 2 | Louie Varland (25) | Louie Varland (25) |
+| 519 Daily Low Bronze Only | 1740 | 0 | Caden Scarborough (46) | Caden Scarborough (46) |
+| 9100134 Daily Low Diamond Only | 1739 | 0 | Liam Doyle (69) | Jarlin Susana (25) |
+| 9100128 Daily Low Gold Only | 1690 | 2 | Luis Arroyo (43) | Damaso Marte (19) |
+| 570 Friday Danksville | 1748 | 1 | Randy Choate (6) | Randy Choate (6) |
+| 9100197 Daily Low Silver Only | 1742 | 0 | Bruce Ruffin (51) | Chad Bradford (11) |
+| 569 Friday Nightmare Cap | 1751 | 0 | Larry Sherry (48) | Edwin Diaz (13) |
+| 560 Daily Open Slots | 1693 | 7 | Nick Altrock (90) | Troy Percival (19) |
+| 546 Sunday Open Slots | 1700 | 7 | Don Larsen (100) | Greg Holland (17) |
+| 547 Sunday Open Main Event | 1684 | 4 | Willie Hernandez (67) | Andrew Miller (10) |
+| 632 Daily PTCS 2 Iron Replay | 1743 | 0 | John Bale (33) | Randy Choate (6) |
+| 9080001 PTCS 8 Championship - Iron | 1702 | 0 | Herb Thormahlen (77) | Herb Thormahlen (77) |
+| 9080002 PTCS 8 Championship - Bronze | 1703 | 0 | Fritz Ostermueller (98) | Eddie Dixon (65) |
+| 9080003 PTCS 8 Championship - Silver | 1704 | 0 | Jack Pfiester (103) | Jack Pfiester (103) |
+| 9080004 PTCS 8 Championship - Gold | 1705 | 0 | Count Leblanc (93) | Joe Beggs (46) |
+| 9080005 PTCS 8 Championship - Diamond | 1706 | 0 | Count Leblanc (93) | Joe Beggs (46) |
+| 9080006 PTCS 8 Championship - Open | 1707 | 0 | Mordecai Brown (104) | Mordecai Brown (104) |
+| 9080008 PTCS 8 Championship - Cap | 1710 | 0 | Jeff Pfeffer (102) | Jeff Pfeffer (102) |
+| 9100183 Daily Roaring Silvers | 1746 | 0 | Nick Altrock (90) | Nick Altrock (90) |
+| 539 Tuesday Sporer's Sandlot | 1758 | 0 | Troy Percival (19) | Troy Percival (19) |
+| 9100190 Daily Silver & Friends Slots | 1747 | 0 | Jack Wenninger (48) | Eric O'Flaherty (11) |
+| 9100125 Daily Silver Only Cap | 1745 | 0 | Bruce Ruffin (51) | Alex Claudio (23) |
+| 521 Daily Silver Slots | 1750 | 0 | Jack Wenninger (48) | Alex Claudio (23) |
+| 9100165 Daily Silver Snapshots | 1749 | 0 | Alex Claudio (23) | Alex Claudio (23) |
+| 537 Thursday Splendid Silver Only Spectacular | 1757 | 0 | Kelvim Escobar (76) | Alex Claudio (23) |
+| 9100193 Dr. Dynastic's Daily Time Travelers Slots | 1691 | 3 | Louie Varland (25) | Mason Miller (17) |
+| 549 Tuesday Dead Silver Walking | 1697 | 1 | Kid Madden (101) | Kid Madden (101) |
+| 533 Daily Wide Open | 1692 | 4 | Willie Hernandez (67) | Andrew Miller (10) |
+| 544 Monday Wonky Historical Slots | 1696 | 2 | Claude Grier (92) | Joe Beggs (46) |

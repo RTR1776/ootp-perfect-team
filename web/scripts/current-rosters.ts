@@ -405,7 +405,10 @@ async function toLoadFile(text: string, job: Job, uploadId: number): Promise<str
     else if (key.startsWith("BN")) bench.push(`${key} ${pin}`);
     else lines.push(`${key} ${pin}`);
   }
-  const staff = [...sps.sort((a, b) => b.runs - a.runs).map((p, i) => `SP${i + 1} ${p.pin}`), ...rps.sort((a, b) => b.runs - a.runs).map((p, i) => `${i === 0 ? "CL" : `RP${i}`} ${p.pin}`)];
+  // env-roster prints the staff in orderStaff's order (SP1 the best starter, CL the best reliever on the pen's own
+  // value, without the staff-stamina term), so keep it. Re-sorting by the printed runs column, which carries that
+  // term, handed CL back to a high-stamina arm (11-02: Hernandez over Miller on Wide Open and Open Main).
+  const staff = [...sps.map((p, i) => `SP${i + 1} ${p.pin}`), ...rps.map((p, i) => `${i === 0 ? "CL" : `RP${i}`} ${p.pin}`)];
   const file = `${job.slug}-claude-${TAG}.txt`;
   const head = `# ${job.name} — Claude pick ${TAG.replace(/-([a-z]+)$/, " $1")}, rebuilt from the catalogue's rules by current-rosters (${job.args.filter((a) => a !== "--name" && a !== job.name).join(" ")})`;
   writeFileSync(join(ROOT, "Inbox/rosters", file), [head, ...lines, ...staff, ...bench].join("\n") + "\n");
