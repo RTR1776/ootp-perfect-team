@@ -59,3 +59,11 @@ test("Control is found after Stuff wherever the view puts it", () => {
   // No Stuff column and the name is shared: leave Control out rather than guess.
   assert.deepEqual(pick("POS,Name,CON vL,CON vL_1"), {});
 });
+
+test("parseLeagueFilename reads vsL / vsR as the split (hd453_vsL.csv, 2026-11-01)", async () => {
+  const { parseLeagueFilename } = await import("./league");
+  assert.deepEqual(parseLeagueFilename("hd453_vsL.csv"), { league: "HD453", split: "vL" });
+  assert.deepEqual(parseLeagueFilename("hd453_vsR.csv"), { league: "HD453", split: "vR" });
+  assert.deepEqual(parseLeagueFilename("hd453_All (5).csv"), { league: "HD453", split: "all" });
+  assert.deepEqual(parseLeagueFilename("hd451_vL.csv"), { league: "HD451", split: "vL" });
+});

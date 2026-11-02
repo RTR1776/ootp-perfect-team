@@ -124,10 +124,11 @@ export function parseLeagueFilename(filename: string): {
    * word boundary that a digit satisfies. Guarded on both sides so an ordinary
    * word ("view", "vlad") can never read as a split.
    */
-  const marker = base.match(/(?:^|[^a-z])(versus_left|versus_right|vl|vr)(?![a-z])/);
+  // "vsL"/"vsR" too: hd453_vsL.csv / hd453_vsR.csv (2026-11-01) were filed as "all" without it.
+  const marker = base.match(/(?:^|[^a-z])(versus_left|versus_right|vsl|vsr|vl|vr)(?![a-z])/);
   const split: LeagueSplit = !marker
     ? "all"
-    : marker[1] === "versus_left" || marker[1] === "vl"
+    : marker[1] === "versus_left" || marker[1] === "vl" || marker[1] === "vsl"
       ? "vL"
       : "vR";
   return { league, split };
