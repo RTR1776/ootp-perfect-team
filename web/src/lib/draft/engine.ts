@@ -33,7 +33,7 @@
  */
 import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { LJ_FLOOR, posFloorAt, type PosFloor } from "@/lib/pos-floor";
-import { penTilt, PITCHER_BAT_RUNS, rotationTilt, STARTER_PA_SHARE } from "@/lib/roster-objective";
+import { penTilt, PITCHER_BAT_RUNS, rotationTilt, STARTER_PA_SHARE, staffStaminaRuns } from "@/lib/roster-objective";
 import type { Tier } from "@/lib/tiers";
 import type { DraftFormat, DraftGroup, PackKind, Remaining, RoundKind } from "@/lib/draft/formats";
 
@@ -184,11 +184,13 @@ export function makeEngine(cards: DraftCard[], ctx: DraftCtx): Engine {
     });
     rawR.push(r); rawL.push(l);
   }
+  /** An arm's runs in the pen: without the staff-stamina term, as roster-objective prices a pen slot (staminaTerm). */
+  const penRuns = (c: DraftCard) => c.runsR - staffStaminaRuns({ isPitcher: true, ratings: c.stamina != null ? { Stamina: c.stamina } : null });
   const repl = {
     R: Float64Array.from(atSlot.map((x) => quantile(x[0], REPLACEMENT_QUANTILE))),
     L: Float64Array.from(atSlot.map((x) => quantile(x[1], REPLACEMENT_QUANTILE))),
     SP: quantile(cards.filter((c) => c.isPitcher && c.role === "SP").map((c) => c.runsR), REPLACEMENT_QUANTILE),
-    RP: quantile(cards.filter((c) => c.isPitcher).map((c) => c.runsR), REPLACEMENT_QUANTILE),
+    RP: quantile(cards.filter((c) => c.isPitcher).map(penRuns), REPLACEMENT_QUANTILE),
     bench: quantile(cards.filter((c) => !c.isPitcher).map((c) => c.runsR), REPLACEMENT_QUANTILE),
   };
   const cR: Float64Array[] = [], cL: Float64Array[] = [];
@@ -196,7 +198,7 @@ export function makeEngine(cards: DraftCard[], ctx: DraftCtx): Engine {
   cards.forEach((c, i) => {
     if (c.isPitcher) {
       cR.push(new Float64Array(0)); cL.push(new Float64Array(0));
-      penC[i] = c.runsR - repl.RP;
+      penC[i] = penRuns(c) - repl.RP;
       if (c.role === "SP") rotKey[i] = ctx.spW * (c.runsR - repl.SP) + starterBatRuns(c, ctx) / Math.max(ctx.sp, 1);
       return;
     }
