@@ -6,6 +6,8 @@ From the archived tournament exports (740 exports, about 180k steal attempts and
 - `web/scripts/model-review/strategy-env.mts`: era year and steal break-evens per export and event, from `solveEnv`, the same numbers env-roster prints.
 - `web/scripts/model-review/strategy.py`: the study.
 
+*2026-11-02: `totalmods.csv` is now the game's own `total_modifiers.txt`; the old copy was a different version. Re-run on the new file, the SBSuccess check is slightly stronger (t 23.0) and every conclusion below stands.*
+
 ## Stealing: turn it down everywhere, most of all in deadball
 
 | Era | Break-even (0 out) | Stealing 100+ | 80–99 | 60–79 | under 60 |
