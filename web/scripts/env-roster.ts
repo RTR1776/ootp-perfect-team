@@ -712,7 +712,11 @@ async function main() {
         candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
       });
       if (st.lambda === SEED_LAMBDA) seedScore = r.score;
-      if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
+      // A seed with a two-way card in both roles (a saved dual pick) climbs on a board that counts him once: one
+      // player short of SIZE, which the validator refuses (Early Years Cap, 11-02). The dual phase below handles him.
+      const units = new Set(Object.values(r.slots).map(unitOf)).size;
+      if (units !== SIZE) { console.log(`${st.lambda === SEED_LAMBDA ? "seed" : `λ ${st.lambda.toFixed(2)}`}: board holds ${units} players, not ${SIZE}: skipped`); continue; }
+      if (r.score > best.score) best ={ slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }
     let deepBoard: Record<string, number> | null = null;
     if (COMPARE_SEARCH) {
