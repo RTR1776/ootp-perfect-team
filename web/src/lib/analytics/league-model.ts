@@ -33,7 +33,7 @@
 import MODEL from "@/data/league-model.json";
 import { envFor, marginalRatings } from "@/lib/analytics/card-value";
 import { linearWeights, type EraRates } from "@/lib/analytics/run-env";
-import { eraTable } from "@/lib/analytics/tournament-env";
+import { eraTable, leagueRow } from "@/lib/analytics/tournament-env";
 
 export type LeagueFamily = "PEL" | "HD" | "LD";
 export type Board = "vL" | "vR";
@@ -78,9 +78,10 @@ const worth = (rates: EraRates): Record<string, number> => {
   const env = envFor(rates, null, linearWeights(rates));
   return Object.fromEntries(marginalRatings(env, "hit").map((v) => [v.rating, v.runs]));
 };
-const BASE_WORTH = worth((eraTable["0"] ?? eraTable["2010"]).rates);
+/** An ordinary league week: PT default × the league multipliers (tournament-env LEAGUE_EVENT_MULT). */
+const BASE_WORTH = worth(leagueRow(eraTable["0"] ?? eraTable["2010"]).rates);
 
-/** Each rating's price in this environment relative to the PT default (1 = an ordinary week). */
+/** Each rating's price in these (league) rates relative to an ordinary league week (1). Pass leagueEraFor rates. */
 export function envPrices(rates: EraRates): BoardRatings {
   const w = worth(rates);
   const out = {} as BoardRatings;

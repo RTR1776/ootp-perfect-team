@@ -131,6 +131,45 @@ Refs: `chg:N` is a line in `G/changes.txt`; `gui:N` a line in `G/data/text/gui_t
 
 `park-factors.json` otherwise matches `pt_ballparks.txt` on 233 of 238 rows. `era_ballparks.txt` is a different, Lahman-style table; PT uses `pt_ballparks`.
 
+### 4b. The league's event multipliers (from L.J.'s friends, tested 2026-11-03)
+
+**The claim.** L.J.'s friends found that the regular PT league scales outcomes against a default-era tournament: BB ×1.104, K ×0.936, HR ×1.134, BABIP ×1.080, 2B ×1.088, 3B ×0.842, HBP ×1.352.
+- They aren't stored as plain float, double or int values in the league save's `world.dat`, `teams.dat` or `parks.dat`. Where they were found is still to be asked.
+
+**Raw rates.** 15 ordinary league weeks (9.5M PA) against 163 default-era tournament exports at value 90+ (6.3M PA).
+- HBP ×1.354 (the same in every value bucket) and BB ×1.095 match the claim.
+- 2B ×1.16, 3B ×0.73 and BABIP ×1.03 lean the same way.
+- K ×1.035 and HR ×0.95 go against it. The win test below says the raw comparison is confounded there (parks, card mix).
+
+**Win harness.** League only (`MV2_NO_TOUR=1`, `MV2_LEAGUE_MULT`, `MV2_LEAGUE_YEAR` in teams.mts): 60 league seasons, 1,864 team-seasons, 40 half-samples. Changes in r against the current fitted-era scoring:
+
+| Variant | Offence vs runs scored | Pitching vs runs allowed | Total vs win% |
+|---|---|---|---|
+| Current (fitted era) | r 0.553 | r 0.255 | r 0.483 |
+| BB/HBP/2B/3B at our measured ratios | +0.0022 (40/40) | +0.0037 (40/40) | +0.0006 (40/40) |
+| Friends' table without K and HR | +0.0053 (40/40) | +0.0033 (40/40) | +0.0007 (39/40) |
+| Friends' full table on the fitted era | +0.0098 (40/40) | +0.0048 (40/40) | +0.0011 (39/40) |
+| 2010 pinned, no multipliers | +0.0077 (40/40) | −0.0034 (3/40) | −0.0008 (7/40) |
+| Friends' full table on 2010, every week | +0.0179 (40/40) | +0.0015 (24/40) | +0.0001 (19/40) |
+| **Ordinary weeks: 2010 + full table; theme weeks: fitted era + full table** | **+0.0175 (40/40)** | **+0.0053 (40/40)** | **+0.0017 (37/40)** |
+
+**Reading.** The full table fits best, including the K and HR figures the raw rates disputed, so it looks like the league's real setting. Ordinary weeks are the 2010 default with the multipliers on top; the 2007–2013 era fits were the fit chasing them.
+
+**As shipped (PR, 2026-11-03).**
+- What it does: ordinary weeks score at 2010 × the table; theme weeks at their fitted or named year × the table. 10-04 is named 1952 and 10-18 is named 2007.
+- Code: `tournament-env` `LEAGUE_EVENT_MULT` / `leagueRow` / `leagueEraFor`, and `league-era` `leagueEnvYear`. Used by league-lineup (the league card page), league-model's prices, league-best, park-sweep, league-panel and the harness.
+- Re-run through the shipped code: runs scored +0.0143 (40/40), runs allowed +0.0041 (40/40), wins +0.0005 (29/40).
+- Ordinary weeks only (10-18 left out): runs scored +0.0167 (40/40), runs allowed +0.0044 (40/40), **wins +0.0003 (28/40)**.
+
+**Correction to the first read.** The multipliers sharpen who scores and who prevents runs, but they barely move win prediction.
+- The +0.0017 win gain in the table above came mostly from one week: 10-18 scored as 2010 instead of 2007.
+- On 10-18, 2010 beats 2007 with or without the multipliers (offence r 0.639 vs 0.608, wins 0.416 vs 0.406).
+- Whether 10-18 was really a 2007 week is L.J.'s call. The fit also calls it a theme (distance 0.72).
+
+**Theme weeks.** The multipliers help offence on 08-23 (1959) but cost wins there (0.586 vs 0.596). On 09-20 and 10-04 they're neutral. Four weeks is too few to settle it.
+
+**Left out on purpose:** `league-staff`'s tournament per-9 prior stays at PT default; its `ARM_MODEL_FIT` was fitted there.
+
 ## 5. Dead ends (don't redo)
 - `misc/hints_english.txt` is trivia and quotes only. `data/help` maps dialogs to wiki URLs.
 - `misc/xba|xslg|xwoba_table.txt` are exit velocity × launch angle grids for the displayed expected stats.

@@ -44,8 +44,8 @@ import { hand, parseLeagueFilename, resolveRatingCols } from "@/lib/ingest/leagu
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { envFor, marginalRatings } from "@/lib/analytics/card-value";
 import { linearWeights, type EraRates } from "@/lib/analytics/run-env";
-import { eraFor, eraTable } from "@/lib/analytics/tournament-env";
-import { fitEraYear } from "@/lib/analytics/league-era";
+import { eraTable, leagueEraFor, leagueRow } from "@/lib/analytics/tournament-env";
+import { KNOWN_THEME, leagueEnvYear } from "@/lib/analytics/league-era";
 
 const ROOT = join(process.cwd(), "..", "League Data");
 const OUT = process.argv[2] ?? join(process.cwd(), "..", "Archive", ".league-panel.csv");
@@ -74,20 +74,14 @@ const worth = (rates: EraRates) => {
   const env = envFor(rates, null, linearWeights(rates));
   return Object.fromEntries(marginalRatings(env, "hit").map((v) => [v.rating, v.runs]));
 };
-const BASE_WORTH = worth((eraTable["0"] ?? eraTable["2010"]).rates);
+/** An ordinary league week (PT default × the league multipliers) prices every rating at 1, as in league-model. */
+const BASE_WORTH = worth(leagueRow(eraTable["0"] ?? eraTable["2010"]).rates);
 const RATING_OF: Record<string, string> = { K: "Avoid Ks", BA: "BABIP", GAP: "Gap", POW: "Power", EYE: "Eye" };
 
-/**
- * Theme weeks L.J. announced that sit too close to the ordinary 2010-2013 band
- * for the fit to call: 2007 plays only ~10% more runs than 2010.
- */
-const KNOWN_THEME: Record<string, number> = { "2026-10-18": 2007 };
-
+/** The week's era (league-era: 2010 unless a theme week); without a database only the named theme weeks are known. */
 async function envOf(week: string): Promise<{ year: number; themed: boolean }> {
-  if (KNOWN_THEME[week]) return { year: KNOWN_THEME[week], themed: true };
-  if (!HAS_DB) return { year: 2010, themed: false };
-  const fit = await fitEraYear(week).catch(() => null);
-  return fit?.themed ? { year: Number(fit.year), themed: true } : { year: 2010, themed: false };
+  if (!HAS_DB) return KNOWN_THEME[week] ? { year: KNOWN_THEME[week], themed: true } : { year: 2010, themed: false };
+  return leagueEnvYear(week);
 }
 
 async function main() {
@@ -132,7 +126,7 @@ async function main() {
       if (e.themed) console.log(`${job.week}: theme week, scored in ${e.year}`);
     }
     const env = envCache.get(job.week)!;
-    const era = eraFor(env.year)?.row ?? eraTable["0"];
+    const era = leagueEraFor(env.year)?.row ?? leagueRow(eraTable["0"]);
     const recs: Out[] = [];
     const pool: Parameters<typeof envFitMaps>[0][number][] = [];
     const push = (rec: Out, isP: boolean, ratings: Record<string, number>) => {

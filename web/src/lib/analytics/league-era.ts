@@ -27,6 +27,10 @@
  *   - It describes the week that was PLAYED. A snapshot is the season that
  *     just ended, so building for the week ahead means passing --year when the
  *     game has announced a theme this fit cannot know about yet.
+ *
+ * SCORING is not this fit's year. The league plays the era with event
+ * multipliers on top, so ordinary weeks fit 2007-2013 when they are really PT's
+ * default (2010) × the multipliers: use leagueEnvYear below, then leagueEraFor.
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -94,5 +98,33 @@ export async function fitEraYear(on: string): Promise<EraFit | null> {
       `(AVG ${measured.avg.toFixed(3)} · K% ${measured.kPct.toFixed(1)} · HR/PA ${measured.hrPa.toFixed(2)}%` +
       `, fit ${best.distance.toFixed(2)} vs ${next?.year} ${next?.distance.toFixed(2)})` +
       (themed ? " — sharp fit, looks like a theme week" : " — ordinary week, era is approximate"),
+  };
+}
+
+/**
+ * Theme weeks L.J. named that the fit cannot call: 1952 played close to the
+ * ordinary line, and 2007 plays only ~10% more runs than 2010.
+ */
+export const KNOWN_THEME: Record<string, number> = { "2026-10-04": 1952, "2026-10-18": 2007 };
+
+export interface LeagueEnvYear { year: number; themed: boolean; summary: string }
+
+/**
+ * THE ERA TO SCORE A LEAGUE WEEK IN. Ordinary weeks are PT's default (2010):
+ * their 2007-2013 fits were the fit chasing the league's event multipliers
+ * (tournament-env LEAGUE_EVENT_MULT), and pinning 2010 under the multipliers
+ * scored better. A theme week keeps its fitted (or named) year. Score in
+ * leagueEraFor(year), not eraFor, so the multipliers go on top.
+ */
+export async function leagueEnvYear(on: string): Promise<LeagueEnvYear> {
+  if (KNOWN_THEME[on]) return { year: KNOWN_THEME[on], themed: true, summary: `era ${KNOWN_THEME[on]}: theme week L.J. named (${on}), league multipliers on` };
+  const fit = await fitEraYear(on).catch(() => null);
+  if (fit?.themed) return { year: Number(fit.year), themed: true, summary: `${fit.summary}; league multipliers on` };
+  return {
+    year: 2010,
+    themed: false,
+    summary: fit
+      ? `era 2010 (PT default) + league multipliers: ordinary week (${on} line fits ${fit.year} at ${fit.distance.toFixed(2)}, not a theme)`
+      : `era 2010 (PT default) + league multipliers: ${on} has no hitter stat keys to fit from`,
   };
 }

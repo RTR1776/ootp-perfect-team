@@ -120,6 +120,9 @@ function analyze(e: EraRates): Analysis {
   };
 }
 
+/** Runs per game the model's run-expectancy table gives these rates, before any stated R/G. */
+export const modelRG = (e: EraRates): number => analyze(e).RG;
+
 /**
  * Parks are applied at their stated strength. Checked 2026-10-25 (Docs/Model
  * Review 2026-10-25.md §1): a FIELD's observed rates move with the park by

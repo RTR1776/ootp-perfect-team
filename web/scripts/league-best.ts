@@ -26,7 +26,8 @@ import { HIT_POS } from "@/lib/roster-fill";
 import { readFileSync } from "node:fs";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
 import { resolveLeagueScope } from "@/lib/league-scope";
-import { fitEraYear } from "@/lib/analytics/league-era";
+import { leagueEnvYear } from "@/lib/analytics/league-era";
+import { leagueEraFor } from "@/lib/analytics/tournament-env";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -65,12 +66,14 @@ async function resolveScope() {
    * 2010-2013 weeks either side of it. It is fitted from the week's play now.
    * BASE stays a FIXED modern reference: the Δenv column only means "good
    * HERE rather than good generally" if the yardstick does not move too.
+   * 2026-11-03: YEAR is 2010 unless a theme week (league-era leagueEnvYear) and
+   * is scored with the league's event multipliers; BASE stays the plain
+   * tournament yardstick, so Δenv now includes what the multipliers do.
    */
-  const eraFit = await fitEraYear(ON);
-  YEAR = YEAR_ARG ?? eraFit?.year ?? BASE;
-  if (YEAR_ARG) console.log(`era ${YEAR} from --year${eraFit ? ` (the ${ON} line fits ${eraFit.year})` : ""}`);
-  else if (eraFit) console.log(eraFit.summary);
-  else console.log(`era ${YEAR} — fallback to the reference year, ${ON} has no hitter stat keys to fit from`);
+  const env = await leagueEnvYear(ON);
+  YEAR = YEAR_ARG ?? String(env.year);
+  if (YEAR_ARG) console.log(`era ${YEAR} from --year (the ${ON} week scores as ${env.year}), league multipliers on`);
+  else console.log(env.summary);
   ERA_YEAR = NO_CORRECT ? null : Number(YEAR);
   if (NO_CORRECT) console.log("  era correction OFF (--no-era-correct)");
 }
@@ -81,7 +84,7 @@ const WL = 0.3;
 
 async function main() {
   await resolveScope();
-  const era = eraTable[YEAR]!, eraBase = eraTable[BASE]!;
+  const era = leagueEraFor(Number(YEAR))!.row, eraBase = eraTable[BASE]!;
   const pr = PARK ? parkRow(PARK, PARK_YEAR) : null;
   if (PARK && !pr) console.log(`!! no factors on file for ${PARK_YEAR} ${PARK}`);
   const twins = parkTwins(PARK);
