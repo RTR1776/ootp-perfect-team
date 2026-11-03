@@ -147,6 +147,31 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
       "Park: 1936 Crosley Field, from the catalogue.",
     ],
   },
+  ptcs8pdweekly: {
+    series: "ptcs8pdweekly",
+    eventId: 9080010,
+    name: "PTCS 8 Championship - PD Weekly",
+    short: "PTCS 8 PD Weekly",
+    cards: 21,
+    envYear: 1919,
+    dh: false,
+    teams: 128,
+    mode: "Bo9",
+    rounds: [
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 4, pack: "choose" },
+      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 17, pack: "choose" },
+    ],
+    packSize: 6,
+    confirmed: [
+      "Modified Perfectly Iron PD: 1919 run environment, no DH, 1914 Griffith Stadium, Bo9 (catalogue).",
+      "21 cards, the Perfect rounds first (L.J., 11-03).",
+    ],
+    assumed: [
+      "4 Perfect rounds and 17 Iron (L.J. said four Perfect, then Iron, 21 cards in all).",
+      "Each round you pick the position, then see a pack of it. Switch to mixed packs on the page if not.",
+      "Packs show 6 cards; 128 teams. No exports of this event on file, so the field's hands are defaults.",
+    ],
+  },
 };
 
 export const formatFor = (series: string | null | undefined): DraftFormat | null =>
