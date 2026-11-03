@@ -158,18 +158,18 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     teams: 128,
     mode: "Bo9",
     rounds: [
-      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 4, pack: "choose" },
-      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 17, pack: "choose" },
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 4, pack: "mixed" },
+      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 17, pack: "mixed" },
     ],
-    packSize: 6,
+    packSize: 2,
     confirmed: [
       "Modified Perfectly Iron PD: 1919 run environment, no DH, 1914 Griffith Stadium, Bo9 (catalogue).",
       "21 cards, the Perfect rounds first (L.J., 11-03).",
+      "Packs usually show 2 cards, hitters and pitchers mixed (L.J., 11-03).",
     ],
     assumed: [
       "4 Perfect rounds and 17 Iron (L.J. said four Perfect, then Iron, 21 cards in all).",
-      "Each round you pick the position, then see a pack of it. Switch to mixed packs on the page if not.",
-      "Packs show 6 cards; 128 teams. No exports of this event on file, so the field's hands are defaults.",
+      "128 teams. No exports of this event on file, so the field's hands are defaults.",
     ],
   },
 };
