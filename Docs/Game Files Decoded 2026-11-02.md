@@ -164,7 +164,7 @@ Refs: `chg:N` is a line in `G/changes.txt`; `gui:N` a line in `G/data/text/gui_t
 **Correction to the first read.** The multipliers sharpen who scores and who prevents runs, but they barely move win prediction.
 - The +0.0017 win gain in the table above came mostly from one week: 10-18 scored as 2010 instead of 2007.
 - On 10-18, 2010 beats 2007 with or without the multipliers (offence r 0.639 vs 0.608, wins 0.416 vs 0.406).
-- Whether 10-18 was really a 2007 week is L.J.'s call. The fit also calls it a theme (distance 0.72).
+- L.J. confirmed (11-03) that 10-18 was a 2007 theme week; 2007 is just close to the 2010 default. It stays named 2007, and the 2010 edge there is one week of noise between two near-identical eras.
 
 **Theme weeks.** The multipliers help offence on 08-23 (1959) but cost wins there (0.586 vs 0.596). On 09-20 and 10-04 they're neutral. Four weeks is too few to settle it.
 
