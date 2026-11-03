@@ -19,7 +19,7 @@
 
 import ERAS from "@/data/eras.json";
 import PARKS from "@/data/park-factors.json";
-import { blendPark, solveEnv, type EraRates, type RunEnv } from "@/lib/analytics/run-env";
+import { blendPark, modelRG, solveEnv, type EraRates, type RunEnv } from "@/lib/analytics/run-env";
 
 export interface ParkRow {
   team: string | null;
@@ -43,6 +43,29 @@ export function eraFor(year: number | null): { row: EraRow; label: string } | nu
   }
   const row = eraTable[String(year)];
   return row ? { row, label: `${year} · ${row.src}` } : null;
+}
+
+/**
+ * THE REGULAR PT LEAGUE IS NOT A DEFAULT-ERA EVENT. It plays the era with
+ * these event multipliers on top (vs ×1 in a default-era tournament), found in
+ * the save files by L.J.'s friends (2026-11-03). Win-tested on 60 league seasons:
+ * scoring ordinary weeks as 2010 with these beats the fitted 2007-2013 eras on
+ * runs scored (r +0.018, 40/40), runs allowed (+0.005, 40/40) and wins (+0.002,
+ * 37/40). Docs/Game Files Decoded 2026-11-02 §4b. League only; tournaments stay ×1.
+ */
+export const LEAGUE_EVENT_MULT: EraRates = { K: 0.936, BB: 1.104, HBP: 1.352, HR: 1.134, B2: 1.088, B3: 0.842, BABIP: 1.08 };
+
+/** An era row as the league plays it: the rates × LEAGUE_EVENT_MULT, the stated R/G moved by what that does to the model's runs. */
+export function leagueRow(row: EraRow): EraRow {
+  const m = LEAGUE_EVENT_MULT, r = row.rates;
+  const rates: EraRates = { K: r.K * m.K, BB: r.BB * m.BB, HBP: r.HBP * m.HBP, HR: r.HR * m.HR, B2: r.B2 * m.B2, B3: r.B3 * m.B3, BABIP: r.BABIP * m.BABIP };
+  return { ...row, rates, rg: row.rg * (modelRG(rates) / modelRG(r)) };
+}
+
+/** eraFor, as the league plays that year. */
+export function leagueEraFor(year: number | null): { row: EraRow; label: string } | null {
+  const e = eraFor(year);
+  return e ? { row: leagueRow(e.row), label: `${e.label} · league multipliers` } : null;
 }
 
 export interface ParkPick { name: string | null; year: number | null; row: ParkRow | null; label: string }

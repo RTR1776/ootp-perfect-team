@@ -18,7 +18,8 @@
  *
  * MV2_TOURDIR=Archive/Completed reads every archived export instead of the Cap
  * Exports (2026-10-25 defence test: 701 exports, the Cap Exports among them);
- * MV2_NO_LEAGUE=1 skips the league seasons. Each team row also carries `dpos`:
+ * MV2_NO_LEAGUE=1 skips the league seasons; MV2_NO_TOUR=1 skips the tournaments;
+ * MV2_LEAGUE_YEAR pins the league era; MV2_LEAGUE_OLD / MV2_LEAGUE_MULT: see LEAGUE_OLD. Each team row also carries `dpos`:
  * per position, PA per game ÷ 700 times the rating's gap to the unit's
  * PA-weighted field mean (lin), the part of that gap below −20 (lo) and above
  * +15 (hi), and production's glove runs (prod), all × gloveScale. `dsub` carries
@@ -31,12 +32,12 @@ import { neon } from "@neondatabase/serverless";
 import { db } from "@/db/client";
 import { cards } from "@/db/schema";
 import { envFitMaps } from "@/lib/analytics/env-fit";
-import { eraFor, parkFor, eraTable } from "@/lib/analytics/tournament-env";
+import { eraFor, parkFor, eraTable, leagueRow } from "@/lib/analytics/tournament-env";
 import { fieldingRuns, framingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { parseLeagueExport, collectionVocab, type LeagueStint } from "@/lib/ingest/league";
 import { formRatings } from "@/lib/card-forms";
 import { scanForJimBeaters } from "@/lib/ingest/jim";
-import { fitEraYear } from "@/lib/analytics/league-era";
+import { fitEraYear, leagueEnvYear } from "@/lib/analytics/league-era";
 import { loadObservedBook, observedRunsFrom } from "@/lib/analytics/observed-blend";
 const OBS_KS = [20000, 5000, 1500, 500, 150];
 
@@ -55,28 +56,40 @@ const tours = (await sql.query(`select id, series, env_year, stadium from tourna
 const bySeries = new Map<string, any>();
 for (const t of tours) if (t.series && !bySeries.has(t.series)) bySeries.set(t.series, t);
 const capDir = `${ROOT}/${process.env.MV2_TOURDIR ?? "Tourney Data/Cap Exports"}`;
-for (const f of readdirSync(capDir).filter((x) => x.endsWith(".csv"))) {
+for (const f of process.env.MV2_NO_TOUR ? [] : readdirSync(capDir).filter((x) => x.endsWith(".csv"))) {
   const slug = f.replace(/_\d+\.csv$/, "");
   const t = bySeries.get(slug);
   if (!t) { console.log(`skip ${f}: no catalogue series ${slug}`); continue; }
   const load = () => parseLeagueExport(readFileSync(`${capDir}/${f}`, "utf8"), f).stints;
   units.push({ kind: "tour", id: f.replace(/\.csv$/, ""), year: t.env_year ?? 2010, stadium: t.stadium, load });
 }
-for (const [b, tid] of Object.entries(CHAMP)) {
+for (const [b, tid] of process.env.MV2_NO_TOUR ? [] : Object.entries(CHAMP)) {
   const t = tours.find((x) => x.id === tid);
   const f = `ptcs7champ${b}_1.csv`;
   const { stints } = parseLeagueExport(readFileSync(`${ROOT}/Tourney Data/PTCS7 Championship/${b}_all.csv`, "utf8"), f);
   units.push({ kind: "tour", id: `ptcs7champ${b}`, year: t.env_year, stadium: t.stadium, stints });
 }
 
+/*
+ * League units score as the app does (league-era leagueEnvYear, tournament-env leagueRow:
+ * 2010 unless a theme week, with the league's event multipliers). MV2_LEAGUE_OLD=1 is
+ * the scoring before 2026-11-03 (fitted era, no multipliers); MV2_LEAGUE_MULT="BB=1.104,…"
+ * scales the plain era rates by hand instead.
+ */
+const LEAGUE_OLD = !!process.env.MV2_LEAGUE_OLD;
+const LEAGUE_MULT: Record<string, number> | null = process.env.MV2_LEAGUE_MULT ? Object.fromEntries(process.env.MV2_LEAGUE_MULT.split(",").map((x) => { const [k, v] = x.split("="); return [k, Number(v)]; })) : null;
+
 // ---- league seasons
 const snaps = process.env.MV2_NO_LEAGUE ? [] : (await sql.query(`select id, league, captured_on::date::text on_ from league_snapshots where split = 'all' and captured_on::date <> '2026-10-01' order by captured_on, league`)) as any[];
 const eraOf = new Map<string, number>();
 for (const s of snaps) {
   if (eraOf.has(s.on_)) continue;
-  if (s.on_ === "2026-10-04") { eraOf.set(s.on_, 1952); continue; }
-  const fit = await fitEraYear(s.on_);
-  eraOf.set(s.on_, fit ? Number(fit.year) || 2010 : 2010);
+  if (process.env.MV2_LEAGUE_YEAR) { eraOf.set(s.on_, Number(process.env.MV2_LEAGUE_YEAR)); continue; }
+  if (LEAGUE_OLD) {
+    if (s.on_ === "2026-10-04") { eraOf.set(s.on_, 1952); continue; }
+    const fit = await fitEraYear(s.on_);
+    eraOf.set(s.on_, fit ? Number(fit.year) || 2010 : 2010);
+  } else eraOf.set(s.on_, (await leagueEnvYear(s.on_)).year);
 }
 for (const s of snaps) {
   const rows = (await sql.query(`select cid, name, pos, org, is_pitcher, is_free_agent, is_variant, val, pa, ip, ratings, stats from league_stints where snapshot_id = $1`, [s.id])) as any[];
@@ -94,6 +107,7 @@ for (const s of snaps) {
 }
 console.log(`units: ${units.filter((u) => u.kind === "tour").length} tournament exports, ${units.filter((u) => u.kind === "league").length} league seasons; league eras ${JSON.stringify(Object.fromEntries(eraOf))}`);
 
+
 // ---- card table
 type CardRow = typeof cards.$inferSelect;
 const card = new Map<number, CardRow>();
@@ -106,7 +120,9 @@ async function ensureCards(st: LeagueStint[]) {
 
 const out: any[] = [];
 for (const u of units) {
-  const era = eraFor(u.year) ?? { row: eraTable["0"] };
+  let era = eraFor(u.year) ?? { row: eraTable["0"] };
+  if (u.kind === "league" && LEAGUE_MULT) era = { ...era, row: { ...era.row, rates: Object.fromEntries(Object.entries(era.row.rates).map(([k, v]) => [k, (v as number) * (LEAGUE_MULT[k] ?? 1)])) as unknown as typeof era.row.rates } };
+  else if (u.kind === "league" && !LEAGUE_OLD) era = { ...era, row: leagueRow(era.row) };
   const park = u.stadium ? parkFor(u.stadium).row : null;
   const uStints = u.stints ?? u.load!();
   await ensureCards(uStints);

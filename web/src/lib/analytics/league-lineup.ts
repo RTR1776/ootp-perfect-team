@@ -19,7 +19,7 @@
  * allows it), but not at a position he has no rating for.
  */
 import { envFitMaps } from "@/lib/analytics/env-fit";
-import { eraFor, eraTable, type ParkRow } from "@/lib/analytics/tournament-env";
+import { eraTable, leagueEraFor, leagueRow, type ParkRow } from "@/lib/analytics/tournament-env";
 import { solveEnv } from "@/lib/analytics/run-env";
 import { leagueFieldingRuns } from "@/lib/analytics/fielding";
 import { maxAssignment } from "@/lib/assign";
@@ -73,7 +73,7 @@ const homeHalf = (p: ParkRow): ParkRow => ({
 });
 
 export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFamily; year: number; defScale?: number; dh?: boolean; park?: ParkRow | null }) {
-  const era = eraFor(opts.year)?.row ?? eraTable["0"];
+  const era = leagueEraFor(opts.year)?.row ?? leagueRow(eraTable["0"]);
   const prices: BoardRatings = envPrices(era.rates);
   const rg = solveEnv(era.rates, era.rg, null).RG;
   const rpw = 1.5 * rg + 3;

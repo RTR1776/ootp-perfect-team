@@ -56,11 +56,12 @@
  */
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { eraTable, parkTable } from "@/lib/analytics/runenv-view";
+import { parkTable } from "@/lib/analytics/runenv-view";
 import { envFitMaps } from "@/lib/analytics/env-fit";
 import { mergeCopyRatings } from "@/lib/ingest/collection";
 import { resolveLeagueScope } from "@/lib/league-scope";
-import { fitEraYear } from "@/lib/analytics/league-era";
+import { leagueEnvYear } from "@/lib/analytics/league-era";
+import { leagueEraFor } from "@/lib/analytics/tournament-env";
 import { isMyOrg } from "@/lib/my-team";
 import LEAGUE_PARKS from "@/data/league-parks.json";
 import LEAGUE_MODEL from "@/data/league-model.json";
@@ -142,13 +143,13 @@ function main() {
      * 1989, 2026-08-23 ran 1959), and a park scored in the wrong era is just a
      * different answer with nothing to flag it.
      */
-    const eraFit = await fitEraYear(ON);
-    YEAR = YEAR_ARG ?? eraFit?.year ?? "2010";
-    if (YEAR_ARG) console.log(`era ${YEAR} from --year${eraFit ? ` (the ${ON} line fits ${eraFit.year})` : ""}`);
-    else if (eraFit) console.log(eraFit.summary);
-    else console.log(`era ${YEAR} — fallback, ${ON} has no hitter stat keys to fit from`);
+    // 2026-11-03: 2010 unless a theme week, scored with the league's event multipliers (league-era leagueEnvYear).
+    const env = await leagueEnvYear(ON);
+    YEAR = YEAR_ARG ?? String(env.year);
+    if (YEAR_ARG) console.log(`era ${YEAR} from --year (the ${ON} week scores as ${env.year}), league multipliers on`);
+    else console.log(env.summary);
     // checked here, not at the top: YEAR is not known until the week is.
-    const era = eraTable[YEAR];
+    const era = leagueEraFor(Number(YEAR))?.row;
     if (!era) { console.log(`no era row for ${YEAR}`); process.exit(1); }
     const up = sc.upload;
     /*
