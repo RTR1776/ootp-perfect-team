@@ -111,7 +111,7 @@ export async function loadObservedRuns(
   /** Series left out entirely: an event's own exports from before its format changed. */
   excludeSeries: readonly string[] = [],
   /** The event, for the field-strength floor (fieldFloor). Left out, every field counts. */
-  event?: { series?: string | null; ratingsMax?: number | null },
+  event?: ObservedEvent,
 ): Promise<Map<number, ObservedRuns>> {
   if (!cardIds.length) return new Map();
   return observedRunsFrom(await loadObservedBook(cardIds, excludeSeries), modelRuns, reference, event);
@@ -140,6 +140,13 @@ export interface ObservedBook {
  * series and keeps Gold and up. Ratings carry a card where no such play exists.
  */
 export const FIELD_MARGIN = 8;
+
+/**
+ * The event a card's play is read for. `ownSeriesOnly` (2026-11-04): only the
+ * event's own series counts - play there carries at calibration
+ * OBS_K_OWN_SERIES, play elsewhere was tested and does not.
+ */
+export interface ObservedEvent { series?: string | null; ratingsMax?: number | null; ownSeriesOnly?: boolean }
 
 /**
  * The weakest field whose play may count for an event: its own series' strength
@@ -208,12 +215,15 @@ export function observedRunsFrom(
   modelRuns: (cardId: number) => number | null | undefined,
   reference?: (cardId: number) => number | null | undefined,
   /** The event: play against fields weaker than fieldFloor() is left out of each card's line. */
-  event?: { series?: string | null; ratingsMax?: number | null },
+  event?: ObservedEvent,
 ): Map<number, ObservedRuns> {
   const out = new Map<number, ObservedRuns>();
   const floor = event ? fieldFloor(book, event) : null;
   if (!book.lines.length) return out;
+  if (event?.ownSeriesOnly && !event.series) return out;
   const c = compiled(book);
+  const own = event?.ownSeriesOnly ? c.series.indexOf(event.series!) : -1;
+  if (event?.ownSeriesOnly && own < 0) return out;
   // The level of each field on the model's scale: PA-weighted (BF for arms)
   // mean of the model's runs over every card that played the series.
   const n = c.series.length;
@@ -229,6 +239,7 @@ export function observedRunsFrom(
   const { card, side, dev, w } = c.lines;
   for (let i = 0; i < card.length; i++) {
     const k = side[i], s = k >> 1;
+    if (own >= 0 && s !== own) continue;
     if (floor != null) { const st = c.strength[s]; if (!Number.isNaN(st) && st < floor) continue; }
     if (!(den[k] > 0)) continue;
     const M = num_[k] / den[k];

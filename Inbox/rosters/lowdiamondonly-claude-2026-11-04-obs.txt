@@ -1,0 +1,36 @@
+# Daily Low Diamond Only — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Coors Field --park-year 2000 --dh --min 90 --max 94 --size 26 --series lowdiamondonly --sp 5 --rp 7 --bats 14)
+R:C Lance Parrish #86942
+R:1B Mark Teixeira #87184
+R:2B Fred Pfeffer #87363
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Luke Appling #82759
+R:LF Alex Gordon #86698
+R:CF Walt Wilmot #85724
+R:RF Adolis Garcia #87022
+R:DH Willie McCovey #86609
+L:C Lance Parrish #86942
+L:1B Willie McCovey #86609
+L:2B Fred Pfeffer #87363
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Barry Larkin #86264
+L:LF Alex Gordon #86698
+L:CF Walt Wilmot #85724
+L:RF Chick Stahl #86583
+L:DH Luis Pena #84733
+SP1 Kyle Freeland (VAR) #86708
+SP2 Sam Jones #86070
+SP3 Noodles Hahn #87361
+SP4 Larry Jackson #86646
+SP5 Mark Langston #86956
+CL Cody Allen #87054
+RP1 Sean Marshall #86785
+RP2 Jarlin Susana #84627
+RP3 Matt Anderson #86557
+RP4 Jeff Montgomery #83319
+RP5 Liam Doyle #84730
+RP6 Satchel Paige #84841
+BN1 Chick Stahl #86583
+BN2 Darren Daulton #86253
+BN3 Luis Pena #84733
+BN4 Barry Larkin #86264
+BN5 Felipe Alou #85815

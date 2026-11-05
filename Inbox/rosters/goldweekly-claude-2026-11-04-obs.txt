@@ -1,0 +1,36 @@
+# Thursday Night Gold Rush — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park Great American Ballpark --park-year 2026 --dh --min 40 --max 89 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series goldweekly --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Pedro Alvarez #87062
+R:2B Brian Roberts #87216
+R:3B John Henry Russell (VAR) #87438
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Bo Jackson #86966
+R:CF Darin Erstad #87242
+R:RF Andy Van Slyke (VAR) #86936
+R:DH Kal Daniels #84163
+L:C Mike Zunino #86431
+L:1B Rudy York (VAR) #86429
+L:2B Brian Roberts #87216
+L:3B John Henry Russell (VAR) #87438
+L:SS Kaelen Culpepper (VAR) #85033
+L:LF Bo Jackson #86966
+L:CF Darin Erstad #87242
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 Danny Jackson #87052
+SP3 Jim Kaat (VAR) #85114
+SP4 Dave Stieb (VAR) #85911
+SP5 Count Leblanc (VAR) #86978
+CL Troy Percival (VAR) #85371
+RP1 Joe Beggs (VAR) #86762
+RP2 Heath Bell #87209
+RP3 Tony Watson (VAR) #85457
+RP4 Steve Hamilton (VAR) #83306
+RP5 Al Worthington #85948
+RP6 Dave Righetti #85870
+BN1 Rudy York (VAR) #86429
+BN2 Jeff Francoeur (VAR) #86300
+BN3 Ryan Braun #87222
+BN4 Jose Oquendo #85738
+BN5 Mike Zunino #86431

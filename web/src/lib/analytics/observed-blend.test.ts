@@ -30,3 +30,10 @@ test("a Gold event counts only play against fields near its own strength", () =>
   assert.ok(Math.abs(gold.runs) < 1e-9);
   assert.equal(bronze.n, 2000, "a Bronze event keeps play against stronger fields");
 });
+
+test("ownSeriesOnly reads only the event's own series", () => {
+  const own = observedRunsFrom(book, model, undefined, { series: "bronze", ratingsMax: 69, ownSeriesOnly: true }).get(1)!;
+  assert.equal(own.n, 1000, "the Gold play is left out");
+  assert.ok(Math.abs(own.runs - (0.05 / 1.25) * 700) < 1e-6);
+  assert.equal(observedRunsFrom(book, model, undefined, { series: "silver", ownSeriesOnly: true }).size, 0, "no play in its own series, no line");
+});

@@ -1,0 +1,35 @@
+# Daily Goldfather II — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 1974 --park Yankee Stadium --park-year 1971 --min 40 --max 89 --size 26 --series goldfather --sp 5 --rp 6 --bats 15)
+R:C Pythias Russ (VAR) #87083
+R:1B Pedro Alvarez #87062
+R:2B Placido Polanco #87213
+R:3B Hank Thompson #86668
+R:SS Jeremy Pena #87154
+R:LF Darin Erstad #87242
+R:CF George Gore #87326
+R:RF Andy Van Slyke (VAR) #86936
+L:C Pythias Russ (VAR) #87083
+L:1B Ernie Clement #87244
+L:2B Randy Ready #86921
+L:3B Chris Sabo #87059
+L:SS Jeremy Pena #87154
+L:LF Willie McGee (VAR) #85753
+L:CF Darin Erstad #87242
+L:RF Alex Rios #87214
+SP1 Jim Kaat (VAR) #85114
+SP2 Raisel Iglesias #83322
+SP3 Cherokee Fisher #87337
+SP4 Jack Stivetts #87357
+SP5 Luther Farrell #86900
+CL Tony Watson (VAR) #85457
+RP1 Steve Hamilton (VAR) #83306
+RP2 Troy Percival (VAR) #85371
+RP3 Javier Lopez #86408
+RP4 J.A. Happ #86352
+RP5 Joe Beggs (VAR) #86762
+BN1 Ernie Clement #87244
+BN2 Willie McGee (VAR) #85753
+BN3 Sam Wise #87354
+BN4 Randy Ready #86921
+BN5 Chris Sabo #87059
+BN6 Alex Rios #87214
+BN7 Nathan Flewelling (VAR) #86283

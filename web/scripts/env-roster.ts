@@ -25,7 +25,8 @@ import { fieldingRuns, framingRuns, gloveScale } from "@/lib/analytics/fielding"
 import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT, staffStaminaRuns } from "@/lib/roster-objective";
 import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
-import { loadObservedRuns, OBS_K_DEFAULT } from "@/lib/analytics/observed-blend";
+import { loadObservedRuns } from "@/lib/analytics/observed-blend";
+import { OBS_K_OWN_SERIES, type ObsK } from "@/lib/analytics/calibration";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
@@ -178,11 +179,15 @@ const PEN_LEVERAGE = !flag("no-leverage");
 /** --pen-stamina: keep the staff-stamina term on pen arms (the pricing before 11-01; roster-objective staminaTerm). For before/after checks. */
 const PEN_STAMINA = !flag("pen-stamina");
 /**
- * --obs-k: how many PA (or BF) of observed play it takes to count as much as
+ * --obs-k N: how many PA (or BF) of the event's own play count as much as the model, both sides (default: calibration OBS_K_OWN_SERIES, measured 11-04). Was:
  * the model. 5000 is where held-out prediction peaks on the calibrated scale
  * (observed-blend.ts, pnpm observed:validate). 0 turns observed play off.
  */
-const OBS_K = num("obs-k", OBS_K_DEFAULT)!;
+// 2026-11-04: default is the event's own series at OBS_K_OWN_SERIES (calibration.ts);
+// --obs-k N uses N for both sides (still own series), 0 turns play off.
+const OBS_K: ObsK = val("obs-k") != null ? num("obs-k", 0)! : OBS_K_OWN_SERIES;
+const OBS_ON = typeof OBS_K !== "number" || OBS_K > 0;
+const OBS_K_LABEL = typeof OBS_K === "number" ? String(OBS_K) : `${OBS_K.hit} PA bats / ${OBS_K.pit} BF arms, own series only`;
 /**
  * --obs-exclude "bronzeweekly": series left out of every card's observed play.
  * For an event whose format just changed: its own exports on file describe the
@@ -484,7 +489,7 @@ async function main() {
    * point) before the pool is scored with the blend.
    */
   let observed: Map<number, { runs: number; n: number }> | undefined;
-  if (OBS_K > 0) {
+  if (OBS_ON && SERIES) {
     const all = universe.map((c) => ({
       cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole,
       ratings: (c.ratings ?? {}) as Record<string, number>,
@@ -492,9 +497,9 @@ async function main() {
     const base = envFitMaps(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
     // `both` is already env-fit's 0.7 R / 0.3 L read, so it is also the reference that lets a variant keep its boost.
-    observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both, OBS_EXCLUDE, { series: SERIES, ratingsMax: MAX });
+    observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both, OBS_EXCLUDE, { series: SERIES, ratingsMax: MAX, ownSeriesOnly: true });
     const n = [...observed.values()];
-    console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
+    console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K_LABEL}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
   const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
   /*
@@ -545,7 +550,9 @@ async function main() {
     console.log("--- shown ---   (runs/700 PA or BF in this event; pitchers: one number)");
     for (const c of pool.filter((x) => SHOW.some((n) => x.name.toLowerCase().includes(n))).sort((a, b) => (fits.runsR.get(b.cardId) ?? 0) - (fits.runsR.get(a.cardId) ?? 0))) {
       const r = fits.runsR.get(c.cardId), l = fits.runsL.get(c.cardId);
-      console.log(`  ${c.name.padEnd(22)} ${String(c.val).padStart(3)} ${c.isPitcher ? "P" : "B"} ${c.bats ?? "-"}  ${c.isPitcher ? (r ?? 0).toFixed(1) : `vR ${(r ?? 0).toFixed(1)}  vL ${(l ?? 0).toFixed(1)}`}`);
+      const ob = observed?.get(c.cardId);
+      const obTxt = ob ? `   own-series play: ${Math.round(ob.n)} ${c.isPitcher ? "BF" : "PA"}, observed ${ob.runs.toFixed(1)}` : "";
+      console.log(`  ${c.name.padEnd(22)} ${String(c.val).padStart(3)} ${c.isPitcher ? "P" : "B"} ${c.bats ?? "-"}  ${c.isPitcher ? (r ?? 0).toFixed(1) : `vR ${(r ?? 0).toFixed(1)}  vL ${(l ?? 0).toFixed(1)}`}${obTxt}`);
     }
   }
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);

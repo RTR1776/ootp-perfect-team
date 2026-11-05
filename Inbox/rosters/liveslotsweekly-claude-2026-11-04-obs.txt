@@ -1,0 +1,36 @@
+# Friday Night Live Slots — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 2026 --dh --min 40 --max 105 --card-types 1 --card-year-min 2026 --card-year-max 2026 --slots P8,D5,G4,S3,B3,I3 --size 26 --series liveslotsweekly --sp 4 --rp 7 --bats 15)
+R:C Gabriel Moreno #81848
+R:1B Jake Bauers #81932
+R:2B Miguel Rojas #81775
+R:3B Alex Bregman #81993
+R:SS Bobby Witt Jr. #82379
+R:LF Jake McCarthy #81809
+R:CF Pete Crow-Armstrong #81990
+R:RF Andy Pages #81773
+R:DH Fernando Tatis Jr. #81753
+L:C Gabriel Moreno #81848
+L:1B Jake Bauers #81932
+L:2B Miguel Rojas #81775
+L:3B Alex Bregman #81993
+L:SS Bobby Witt Jr. #82379
+L:LF Jake McCarthy #81809
+L:CF Pete Crow-Armstrong #81990
+L:RF Andy Pages #81773
+L:DH Fernando Tatis Jr. #81753
+SP1 Tarik Skubal #82424
+SP2 Cam Schlittler #82580
+SP3 Max Fried #82587
+SP4 Dylan Cease #82518
+CL Louie Varland #82511
+RP1 Adrian Morejon #81760
+RP2 Sam Hentges #81727
+RP3 Edgardo Henriquez #81769
+RP4 Calvin Faucher #82119
+RP5 Clay Holmes #82095
+RP6 Landen Roupp #81730
+BN1 Hao-Yu Lee #85230
+BN2 Brett Baty #82075
+BN3 Cole Carrigg #86057
+BN4 Trevor Story #82610
+BN5 Daylen Lile #82018
+BN6 Joe Mack #85615

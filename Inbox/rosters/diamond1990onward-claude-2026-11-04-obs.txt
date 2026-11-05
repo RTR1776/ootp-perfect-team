@@ -1,0 +1,36 @@
+# Daily Diamond 1990 Onward — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 1957 --park Griffith Stadium --park-year 1954 --dh --max 99 --card-year-min 1990 --size 26 --series diamond1990onward --sp 5 --rp 6 --bats 15)
+R:C Rainiel Rodriguez #84734
+R:1B Pedro Alvarez #87062
+R:2B Jose Reyes #86343
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Darin Erstad #87242
+R:CF Carlos Beltran #87066
+R:RF Curtis Granderson #86595
+R:DH Carlos Pena #87183
+L:C Mike Zunino #86431
+L:1B Josh Vitters (VAR) #86419
+L:2B Jose Reyes #86343
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Kaelen Culpepper (VAR) #85033
+L:LF Darin Erstad #87242
+L:CF Sebastian Walcott #85136
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Ryan Sloan #84731
+SP2 Kyle Freeland (VAR) #86708
+SP3 CC Sabathia #87182
+SP4 Tom Glavine #87270
+SP5 Dave Stieb (VAR) #85911
+CL Jake McGee (VAR) #86789
+RP1 Troy Percival (VAR) #85371
+RP2 Duane Ward (VAR) #86334
+RP3 Tyler Matzek #87056
+RP4 Payton Tolle #84646
+RP5 Seth Hernandez (VAR) #84742
+BN1 Colt Emerson (VAR) #85116
+BN2 Jeff Francoeur (VAR) #86300
+BN3 Mike Zunino #86431
+BN4 Ryan Braun #87222
+BN5 Josh Vitters (VAR) #86419
+BN6 Sebastian Walcott #85136

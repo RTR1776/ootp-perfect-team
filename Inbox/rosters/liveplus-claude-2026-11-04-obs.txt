@@ -1,0 +1,36 @@
+# Daily Live Plus — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park PNC Park --park-year 2026 --dh --min 40 --max 105 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveplus --sp 5 --rp 7 --bats 14)
+R:C Rainiel Rodriguez #84734
+R:1B Arjun Nimmala (VAR) #84745
+R:2B Leodalis De Vries #84724
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Roch Cholowsky #86249
+R:LF Walker Jenkins #84735
+R:CF Cody Bellinger #86289
+R:RF Zyhir Hope (VAR) #84739
+R:DH Josue De Paula (VAR) #84729
+L:C Rainiel Rodriguez #84734
+L:1B Arjun Nimmala (VAR) #84745
+L:2B Leodalis De Vries #84724
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Roch Cholowsky #86249
+L:LF Kevin Alcantara (VAR) #84755
+L:CF Cody Bellinger #86289
+L:RF Sebastian Walcott #85136
+L:DH Josue De Paula (VAR) #84729
+SP1 Kade Anderson #85138
+SP2 Ryan Sloan #84731
+SP3 Liam Doyle #84730
+SP4 Bubba Chandler #84630
+SP5 Thomas White #84726
+CL Daniel Palencia (VAR) #84613
+RP1 Mason Miller #81761
+RP2 Calvin Faucher #82119
+RP3 Louie Varland #82511
+RP4 Adrian Morejon #81760
+RP5 Jack Wenninger #85125
+RP6 Noah Schultz #84626
+BN1 Sebastian Walcott #85136
+BN2 Ethan Holliday (VAR) #84744
+BN3 Colt Emerson (VAR) #85116
+BN4 Kevin Alcantara (VAR) #84755
+BN5 Thayron Liranzo (VAR) #85135

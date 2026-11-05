@@ -1,0 +1,36 @@
+# Monday Now We're into the Dregs — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 1994 --park Dodger Stadium --park-year 1996 --dh --min 50 --max 64 --cap 1468 --size 26 --series goldfloorcapweekly --sp 5 --rp 7 --bats 14)
+R:C Rick Wilkins #86392
+R:1B Jackie Robinson (VAR) #84390
+R:2B Brandon Phillips #87202
+R:3B Jim Tabor #85905
+R:SS Freddy Galvis (VAR) #85743
+R:LF Ty Wigginton (VAR) #86086
+R:CF Paul Blair #87249
+R:RF Andruw Jones (VAR) #86321
+R:DH Jack Cust #86804
+L:C Doug Mirabelli #85733
+L:1B Jackie Robinson (VAR) #84390
+L:2B Brandon Phillips #87202
+L:3B Jim Tabor #85905
+L:SS Freddy Galvis (VAR) #85743
+L:LF Jim Thorpe #86961
+L:CF Paul Blair #87249
+L:RF Andruw Jones (VAR) #86321
+L:DH Jack Cust #86804
+SP1 James McDonald (VAR) #86384
+SP2 Fritz Ostermueller #86357
+SP3 Gene Krapp #87374
+SP4 Justin Verlander #87014
+SP5 Big Jeff Pfeffer #87340
+CL Caden Scarborough (VAR) #84762
+RP1 Paul Assenmacher #86944
+RP2 John Bale #87234
+RP3 Jeff Francis #87199
+RP4 Hayden Juenger #86032
+RP5 Mark Huismann #85459
+RP6 Zach Agnos #81805
+BN1 Jim Thorpe #86961
+BN2 Nap Lajoie #86581
+BN3 Brian Jordan #86963
+BN4 Doug Mirabelli #85733
+BN5 Connie Day #86982

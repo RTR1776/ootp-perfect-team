@@ -1,0 +1,36 @@
+# Daily Low Gold Only — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Fenway Park --park-year 2026 --dh --min 80 --max 84 --variant-cap 8 --size 26 --series lowgoldonly --sp 5 --rp 7 --bats 14)
+R:C Eduardo Tait #84743
+R:1B Will Clark #85375
+R:2B Marcus Semien #86744
+R:3B Pedro Alvarez #87062
+R:SS Tommy Edman #86340
+R:LF Alfonso Soriano #86745
+R:CF Jimmie Lyons #87309
+R:RF Jeff Francoeur (VAR) #86300
+R:DH Kal Daniels #84163
+L:C Josh Gibson #86898
+L:1B Kitty Bransfield #87356
+L:2B Tommy Edman #86340
+L:3B Candy Jim Taylor #87325
+L:SS Rafael Furcal #87250
+L:LF Alfonso Soriano #86745
+L:CF Jimmie Lyons #87309
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Lastings Milledge #86584
+SP1 CC Sabathia #87182
+SP2 Cherokee Fisher #87337
+SP3 Jerry Koosman #86995
+SP4 Jake Peavy #82683
+SP5 Dave Ferriss #87323
+CL Javier Lopez #86408
+RP1 Luis Arroyo (VAR) #85489
+RP2 Damaso Marte (VAR) #86703
+RP3 Marc Rzepczynski #87136
+RP4 Tyler Rogers #82512
+RP5 Raisel Iglesias #83322
+RP6 Gary Lavelle #85838
+BN1 Candy Jim Taylor #87325
+BN2 Rafael Furcal #87250
+BN3 Kitty Bransfield #87356
+BN4 Lastings Milledge #86584
+BN5 Josh Gibson #86898

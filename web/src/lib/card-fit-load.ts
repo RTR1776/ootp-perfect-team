@@ -24,7 +24,7 @@ import { envFitMaps, observedShift, type EnvFitInput } from "@/lib/analytics/env
 import { bothHands, loadObservedBook, observedRunsFrom, type ObservedBook, type ObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraFor, eraTable, parkFor } from "@/lib/analytics/tournament-env";
 import { gloveScale } from "@/lib/analytics/fielding";
-import { rationedEvent, teamWeights } from "@/lib/analytics/calibration";
+import { OBS_K_OWN_SERIES, rationedEvent, teamWeights } from "@/lib/analytics/calibration";
 import { assumedVariantRatings, formRatings } from "@/lib/card-forms";
 import { CARD_TYPE_SHORT } from "@/lib/card-sets";
 import { armRole, bestTeam, FIELD_POS, fitIn, savedTeam, type Fit, type FitCtx, type Room, type ScoredForm } from "@/lib/card-fit";
@@ -305,7 +305,7 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
 
   const base = envFitMaps(w.allInputs, opts2);
   const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };
-  const observed = observedRunsFrom(w.book, both, bothHands(base), { series: t.series, ratingsMax: t.ratingsMax });
+  const observed = observedRunsFrom(w.book, both, bothHands(base), { series: t.series, ratingsMax: t.ratingsMax, ownSeriesOnly: true });
 
   // The forms read with play blended in: every legal base card, his legal variants, the targets and his saved roster.
   const variantsOk = rx?.variantsAllowed !== false && rx?.variantCap !== 0;
@@ -324,13 +324,13 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
   for (const inp of [...inputs]) { const f = twoWayForm(inp); if (f) inputs.push(f); }
   // A base card reads as the catalogue pass read it, with its play blended in; only variants
   // and two-way forms need scoring again.
-  const rescored = envFitMaps(inputs.filter((inp) => inp.cardId < 0 || isTwoWayForm(inp.cardId)), { ...opts2, observed: obs });
+  const rescored = envFitMaps(inputs.filter((inp) => inp.cardId < 0 || isTwoWayForm(inp.cardId)), { ...opts2, observed: obs, observedK: OBS_K_OWN_SERIES });
   const runsOf = (id: number): [number, number] | null => {
     const m = id < 0 || isTwoWayForm(id) ? rescored : base;
     const r = m.runsR.get(id), l = m.runsL.get(id);
     if (r == null || l == null) return null;
     const o = m === base ? obs.get(id) : undefined;
-    const shift = o ? observedShift(r, l, o) : 0;
+    const shift = o ? observedShift(r, l, o, OBS_K_OWN_SERIES, !!w.byId.get(id)?.isPitcher) : 0;
     return [r + shift, l + shift];
   };
 
