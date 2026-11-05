@@ -26,7 +26,7 @@ import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEF
 import { seriesMeta } from "@/db/schema";
 import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
 import { loadObservedRuns } from "@/lib/analytics/observed-blend";
-import { OBS_K_OWN_SERIES, type ObsK } from "@/lib/analytics/calibration";
+import { OBS_K_OWN_SERIES, OBS_HALF_LIFE_DAYS, type ObsK } from "@/lib/analytics/calibration";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
@@ -187,7 +187,7 @@ const PEN_STAMINA = !flag("pen-stamina");
 // --obs-k N uses N for both sides (still own series), 0 turns play off.
 const OBS_K: ObsK = val("obs-k") != null ? num("obs-k", 0)! : OBS_K_OWN_SERIES;
 const OBS_ON = typeof OBS_K !== "number" || OBS_K > 0;
-const OBS_K_LABEL = typeof OBS_K === "number" ? String(OBS_K) : `${OBS_K.hit} PA bats / ${OBS_K.pit} BF arms, own series only`;
+const OBS_K_LABEL = typeof OBS_K === "number" ? String(OBS_K) : `${OBS_K.hit} PA bats / ${OBS_K.pit} BF arms, own series only, each run weighed by age (half-life ${OBS_HALF_LIFE_DAYS} days)`;
 /**
  * --obs-exclude "bronzeweekly": series left out of every card's observed play.
  * For an event whose format just changed: its own exports on file describe the

@@ -585,6 +585,12 @@ export const observedCardStats = pgTable(
     counters: jsonb("counters").$type<Record<string, number>>().notNull(),
     /** The ratings the copies played with, weighted by playing time (they move for Live cards). Null before 10-17. */
     ratings: jsonb("ratings").$type<Record<string, number>>(),
+    /**
+     * Play by run day (2026-11-05): [day, n, dev] per day, day = days since 1970-01-01 (Chicago),
+     * n = PA (BF for arms), dev = runs above THAT day's field over the line (arms: runs saved).
+     * observed-blend weighs each day by age. Null before the 11-05 import.
+     */
+    byDay: jsonb("by_day").$type<[number, number, number][]>(),
   },
   (t) => [primaryKey({ columns: [t.series, t.cardId, t.isVariant] }), index("observed_series_idx").on(t.series)],
 );
@@ -651,6 +657,7 @@ export const observedCardStatsStage = pgTable(
     fip: real("fip"),
     counters: jsonb("counters").$type<Record<string, number>>().notNull(),
     ratings: jsonb("ratings").$type<Record<string, number>>(),
+    byDay: jsonb("by_day").$type<[number, number, number][]>(),
   },
   (t) => [primaryKey({ columns: [t.batchId, t.series, t.cardId, t.isVariant] })],
 );
