@@ -12,6 +12,7 @@ export async function ensureObservedVariantColumns(): Promise<void> {
   for (const t of ["observed_card_stats", "observed_card_stats_stage"]) {
     await db.execute(sql.raw(`alter table ${t} add column if not exists is_variant boolean not null default false`));
     await db.execute(sql.raw(`alter table ${t} add column if not exists ratings jsonb`));
+    await db.execute(sql.raw(`alter table ${t} add column if not exists by_day jsonb`));
   }
   const pk = await db.execute(sql`select conrelid::regclass::text t, conname from pg_constraint
     where conrelid::regclass::text in ('observed_card_stats', 'observed_card_stats_stage') and contype = 'p'`);

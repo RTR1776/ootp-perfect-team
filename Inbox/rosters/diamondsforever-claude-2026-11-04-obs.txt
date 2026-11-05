@@ -1,0 +1,36 @@
+# Daily Diamonds are Forever — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park Dell Diamond --park-year 2026 --dh --min 40 --max 99 --size 26 --series diamondsforever --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Mark Teixeira #87184
+R:2B Frankie Frisch #85721
+R:3B Pedro Alvarez #87062
+R:SS Honus Wagner #85540
+R:LF Curtis Granderson #86595
+R:CF Darin Erstad #87242
+R:RF Bo Jackson #86966
+R:DH Carlos Beltran #87066
+L:C Thurman Munson #82714
+L:1B Josh Vitters (VAR) #86419
+L:2B Frankie Frisch #85721
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Honus Wagner #85540
+L:LF Darin Erstad #87242
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+L:DH Ryan Braun #87222
+SP1 Ryan Sloan #84731
+SP2 Kyle Freeland (VAR) #86708
+SP3 Milt Pappas #86654
+SP4 Larry Jackson #86646
+SP5 Claude Grier #87086
+CL Tony Fossas (VAR) #83324
+RP1 Jake McGee (VAR) #86789
+RP2 Devin Williams #83851
+RP3 Joe Sambito #84075
+RP4 Greg Holland #87278
+RP5 Joe Beggs (VAR) #86762
+RP6 Thomas White #84726
+BN1 Josh Vitters (VAR) #86419
+BN2 Kaelen Culpepper (VAR) #85033
+BN3 Ryan Braun #87222
+BN4 Thurman Munson #82714
+BN5 Arjun Nimmala (VAR) #84745

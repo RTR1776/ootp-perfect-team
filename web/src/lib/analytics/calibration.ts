@@ -30,6 +30,31 @@ export function calibrationSlope(kind: "hit" | "pit"): number {
  */
 export const OBS_K_DEFAULT = 1_000_000;
 
+/*
+ * 2026-11-04: a card's play in the event's OWN series does carry. Split-half
+ * test (746 files, 89 series, odd vs even runs, base copies, Jim teams out):
+ * a card's gap from the model in one half returns in the other at weight
+ * n/(n+K), the measured weight tracking that curve band by band from 30 to
+ * 10,000+ PA. Best K: hitters 1,300 PA (bootstrap 1,200-1,400), arms 1,100 BF
+ * (1,000-1,200), ~2% less error than the model alone and better than K=5000.
+ * Play in other series stays off (OBS_K_DEFAULT): event-scoped callers load
+ * only the event's series (observed-blend ownSeriesOnly) and blend at these.
+ */
+/*
+ * 2026-11-05: ...and recent play counts for more (L.J.: "cards get worse over
+ * time" - Dave Stieb's edge on the Goldfather field went -0.32 -> -0.10 ->
+ * -0.04 FIP across its runs as newer arms arrived). Each run is weighed by
+ * 0.5^(age / OBS_HALF_LIFE_DAYS) and read against THAT run's field
+ * (observed_card_stats.by_day). Fit on 277k per-run lines: predicting each
+ * series' newest third, newest quarter and middle third from the runs before
+ * it, a 21-60 day half-life all score alike and beat no decay for bats and
+ * arms; 30 days is the middle. K is fit on the decayed sample: 1,300 PA for
+ * bats (1,200-1,900 across the three cuts), 900 BF for arms (800-1,000).
+ */
+export const OBS_HALF_LIFE_DAYS = 30;
+export const OBS_K_OWN_SERIES = { hit: 1300, pit: 900 } as const;
+export type ObsK = number | { hit: number; pit: number };
+
 /**
  * Arms' spread by run-environment era, on top of the calibration slope.
  *

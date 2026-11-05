@@ -24,7 +24,7 @@
  * is recorded as failed and leaves the previous complete series in place.
  */
 
-import { readFileSync, readdirSync, existsSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync, writeFileSync, statSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { db } from "../src/db/client";
@@ -51,7 +51,14 @@ import { isMyOrg } from "../src/lib/my-team";
 const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 const DIR = join(ROOT, "Archive/Completed");
 /** Bump when the aggregation changes meaning, so batches are comparable. */
-const PARSER_VERSION = "observed/4 (variant copies their own row, with the ratings played, 2026-10-17)";
+const PARSER_VERSION = "observed/5 (by_day: each run day's play against that day's field, 2026-11-05)";
+
+/** wOBA runs per point, as observed-blend's WOBA_SCALE. */
+const WOBA_SCALE = 1.25;
+const lineStint = (stats: Record<string, number>, ip: number, pa: number) => ({
+  stats, ip, pa, use: pa + ip * 4.3, isPitcher: false, isFreeAgent: false, org: "", cid: null,
+  name: "", pos: "", clan: null, val: null, tier: null, isVariant: false, cardYear: null, ratings: {}, war: 0,
+});
 
 interface Agg {
   series: string;
@@ -68,6 +75,8 @@ interface Agg {
   /** The copies' ratings (collection vocabulary), summed × playing time, and that time. */
   ratingSum: Record<string, number>;
   ratingW: number;
+  /** Day number -> [n, runs above that day's field over the line] (observed-blend weighs it by age). */
+  byDay: Map<number, [number, number]>;
 }
 
 /** Per-series usage meta (roster shape + card popularity), built per file. */
@@ -132,6 +141,38 @@ async function main() {
     return at != null ? chicagoDay(new Date(at * 1000)) : null;
   };
 
+  /*
+   * RUN DAY OF EVERY FILE (2026-11-05), for the age weighting in observed-blend:
+   * the dump's start for its event (slot x 10000 + run), else interpolated by run
+   * number between the series' dated runs, else the file's mtime less 3 days
+   * (filed a median 3 days after the start; retired events the dump no longer lists).
+   */
+  const slotOf = new Map<string, number>();
+  for (const t of dated) if (t.series && t.slot != null && !slotOf.has(t.series)) slotOf.set(t.series, t.slot);
+  const dayNum = (ms: number) => { const [y, m, d] = (chicagoDay(new Date(ms)) ?? new Date(ms).toISOString().slice(0, 10)).split("-").map(Number); return Math.round(Date.UTC(y, m - 1, d) / 86400000); };
+  const fileDay = new Map<string, number>();
+  {
+    const bySlug = new Map<string, { f: string; run: number; at: number | null }[]>();
+    for (const f of readdirSync(DIR).filter((x) => /_\d+\.csv$/i.test(x))) {
+      const slug = f.replace(/_\d+\.csv$/i, ""), run = Number(/_(\d+)\.csv$/i.exec(f)![1]);
+      const sl = slotOf.get(slug), at = sl != null ? runStart.get(sl * 10000 + run) : undefined;
+      const v = bySlug.get(slug) ?? []; v.push({ f, run, at: at != null ? at * 1000 : null }); bySlug.set(slug, v);
+    }
+    for (const v of bySlug.values()) {
+      const known = v.filter((x) => x.at != null).sort((a, b) => a.run - b.run);
+      for (const x of v) {
+        let ms = x.at;
+        if (ms == null && known.length >= 2) {
+          let a = known[0], b = known[known.length - 1];
+          for (let i = 0; i + 1 < known.length; i++) if (known[i].run <= x.run && known[i + 1].run >= x.run) { a = known[i]; b = known[i + 1]; }
+          ms = a.at! + ((b.at! - a.at!) * (x.run - a.run)) / (b.run - a.run || 1);
+        }
+        if (ms == null) ms = statSync(join(DIR, x.f)).mtimeMs - 3 * 86400000;
+        fileDay.set(x.f, dayNum(ms));
+      }
+    }
+  }
+
   const onlyArg = process.argv[process.argv.indexOf("--series") + 1];
   // --dated: every series whose event has a format date (the ones the split can move).
   const only = process.argv.includes("--dated")
@@ -186,13 +227,30 @@ async function main() {
     });
     builds.set(series, [...(builds.get(series) ?? []), teamBuilds(stints)]);
     const perOrg = new Map<string, { sp: number; rp: number; bats: number }>();
+    /* This run's field, and each card's line in it, for by_day. */
+    const day = fileDay.get(f)!;
+    const fh: Record<string, number> = {}, fp: Record<string, number> = {};
+    let fpa = 0, fip_ = 0;
+    const lineOf = new Map<string, { counters: Record<string, number>; pa: number; ip: number }>();
+    for (const s of stints) {
+      if (s.pa <= 0 && s.ip <= 0) continue;
+      const into = s.isPitcher ? fp : fh;
+      for (const [k, v] of Object.entries(s.stats)) if (k !== "IP_raw" && k !== "IP") into[k] = (into[k] ?? 0) + v;
+      if (s.isPitcher) fip_ += s.ip; else fpa += s.pa;
+      if (s.cid == null) continue;
+      const key = `${series} ${s.cid} ${s.isVariant ? "v" : "b"}`;
+      const l = lineOf.get(key) ?? { counters: {}, pa: 0, ip: 0 };
+      for (const [k, v] of Object.entries(s.stats)) if (k !== "IP_raw" && k !== "IP") l.counters[k] = (l.counters[k] ?? 0) + v;
+      l.pa += s.pa; l.ip += s.ip; lineOf.set(key, l);
+    }
+    const fieldWoba = wobaOf([lineStint(fh, 0, fpa) as never]), fieldFip = fipOf([lineStint(fp, fip_, 0) as never]);
     for (const s of stints) {
       if (s.cid == null) continue;
       if (s.pa <= 0 && s.ip <= 0) continue;
       const key = `${series} ${s.cid} ${s.isVariant ? "v" : "b"}`;
       let a = aggs.get(key);
       if (!a) {
-        a = { series, cardId: s.cid, isVariant: !!s.isVariant, isPitcher: s.isPitcher, name: s.name, pos: s.pos, instances: 0, pa: 0, ip: 0, war: 0, counters: {}, ratingSum: {}, ratingW: 0 };
+        a = { series, cardId: s.cid, isVariant: !!s.isVariant, isPitcher: s.isPitcher, name: s.name, pos: s.pos, instances: 0, pa: 0, ip: 0, war: 0, counters: {}, ratingSum: {}, ratingW: 0, byDay: new Map() };
         aggs.set(key, a);
       }
       // The ratings this copy played with, weighted by its playing time (Live cards' move with updates).
@@ -217,6 +275,23 @@ async function main() {
         } else o.bats += 1;
         perOrg.set(s.org, o);
       }
+    }
+    // Each card's line in this run against this run's field: [n, runs above it] on the run's day.
+    for (const [key, l] of lineOf) {
+      const a = aggs.get(key);
+      if (!a) continue;
+      let n: number, dev: number;
+      if (a.isPitcher) {
+        n = l.counters.BF ?? 0;
+        if (!(n > 0) || !(l.ip > 0) || !(fieldFip > 0)) continue;
+        dev = -((fipOf([lineStint(l.counters, l.ip, 0) as never]) - fieldFip) / 9) * l.ip;
+      } else {
+        n = l.pa;
+        if (!(n > 0) || !(fieldWoba > 0)) continue;
+        dev = ((wobaOf([lineStint(l.counters, 0, l.pa) as never]) - fieldWoba) / WOBA_SCALE) * n;
+      }
+      const d = a.byDay.get(day) ?? [0, 0];
+      d[0] += n; d[1] += dev; a.byDay.set(day, d);
     }
     const m = metas.get(series) ?? { files: 0, teamStints: 0, sp: 0, rp: 0, bats: 0 };
     m.files += 1;
@@ -245,6 +320,7 @@ async function main() {
       fip: a.isPitcher && a.ip > 0 ? Math.round(fipOf([stintLike as never]) * 100) / 100 : null,
       counters: a.counters,
       ratings: a.ratingW > 0 ? Object.fromEntries(Object.entries(a.ratingSum).map(([k, v]) => [k, Math.round((v / a.ratingW) * 10) / 10])) : null,
+      byDay: a.byDay.size ? [...a.byDay].sort((x, y) => x[0] - y[0]).map(([d, [n, dev]]) => [d, Math.round(n), Math.round(dev * 100) / 100] as [number, number, number]) : null,
     };
   });
 
@@ -300,14 +376,14 @@ async function main() {
       throw new Error(`staged ${staged[0]?.n ?? 0} rows but built ${rows.length} - refusing to publish`);
     }
     await db.execute(sql`
-      INSERT INTO observed_card_stats (series, card_id, is_variant, is_pitcher, instances, pa, ip, war, woba, fip, counters, ratings)
-      SELECT series, card_id, is_variant, is_pitcher, instances, pa, ip, war, woba, fip, counters, ratings
+      INSERT INTO observed_card_stats (series, card_id, is_variant, is_pitcher, instances, pa, ip, war, woba, fip, counters, ratings, by_day)
+      SELECT series, card_id, is_variant, is_pitcher, instances, pa, ip, war, woba, fip, counters, ratings, by_day
       FROM observed_card_stats_stage
       WHERE batch_id = ${batch.id}
       ON CONFLICT (series, card_id, is_variant) DO UPDATE SET
         is_pitcher = excluded.is_pitcher, instances = excluded.instances, pa = excluded.pa,
         ip = excluded.ip, war = excluded.war, woba = excluded.woba, fip = excluded.fip,
-        counters = excluded.counters, ratings = excluded.ratings`);
+        counters = excluded.counters, ratings = excluded.ratings, by_day = excluded.by_day`);
     const inScope = sql.join(sweepList.map((s) => sql`${s}`), sql`, `);
     const staleWhere = sql`o.series IN (${inScope}) AND NOT EXISTS (
         SELECT 1 FROM observed_card_stats_stage s

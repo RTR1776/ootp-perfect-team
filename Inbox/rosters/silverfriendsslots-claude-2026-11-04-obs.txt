@@ -1,0 +1,36 @@
+# Daily Silver & Friends Slots — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Daikin Park --park-year 2026 --dh --slots P1,D1,G1,S21,B1,I1 --variant-cap 13 --size 26 --series silverfriendsslots --sp 5 --rp 7 --bats 14)
+R:C Bob Boone #87032
+R:1B Lee Thomas (VAR) #86145
+R:2B John Henry Russell (VAR) #87438
+R:3B Alex Rodriguez #87219
+R:SS Jeremy Pena #87154
+R:LF Willie McGee (VAR) #85753
+R:CF Carlos Beltran #87066
+R:RF Andy Van Slyke (VAR) #86936
+R:DH Josh Bell (VAR) #85437
+L:C Mike Zunino #86431
+L:1B Frank Schwindel #86421
+L:2B John Henry Russell (VAR) #87438
+L:3B Alex Rodriguez #87219
+L:SS Jeremy Pena #87154
+L:LF Willie McGee (VAR) #85753
+L:CF Carlos Beltran #87066
+L:RF Alex Rios #87214
+L:DH Ryan Braun #87222
+SP1 J.A. Happ #86352
+SP2 Kelvim Escobar #87207
+SP3 Nick Altrock #87049
+SP4 Fritz Ostermueller #86357
+SP5 Jakie May (VAR) #85286
+CL Chad Bradford #86341
+RP1 Jason Motte #86788
+RP2 Edwin Diaz #86422
+RP3 Bruce Ruffin #86777
+RP4 Alex Claudio (VAR) #86447
+RP5 Brad Clontz #85920
+RP6 Jack Wenninger #85125
+BN1 Frank Schwindel #86421
+BN2 Alex Rios #87214
+BN3 Ryan Braun #87222
+BN4 Mike Zunino #86431
+BN5 Chris Taylor #87243

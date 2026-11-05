@@ -51,7 +51,7 @@ for (const line of readFileSync(FILE, "utf8").split("\n")) {
   roster.set(key, e);
 }
 const ids = [...new Set([...roster.values()].map((e) => e.id))];
-const cards = new Map((await sql`select card_id, name, card_value, bats, throws, position, ratings, is_pitcher from cards where card_id = any(${ids})`).map((c) => [Number(c.card_id), c]));
+const cards = new Map((await sql`select card_id, name, first_name, last_name, card_value, bats, throws, position, ratings, is_pitcher from cards where card_id = any(${ids})`).map((c) => [Number(c.card_id), c]));
 const [coll] = await sql`select id from uploads where kind = 'collection' order by uploaded_at desc, id desc limit 1`;
 const varRatings = new Map((await sql`select abs(card_id) as id, ratings from collection_cards where upload_id = ${coll.id} and is_variant and abs(card_id) = any(${ids})`).map((r) => [Number(r.id), r.ratings]));
 const ratingsOf = (e: Entry) => {
@@ -108,7 +108,9 @@ const obsOf = (e: Entry, pitcher: boolean) => {
 
 // ---- the 26 by value, then name
 const entries = [...roster.values()].map((e) => ({ e, c: cards.get(e.id)! }));
-entries.sort((a, b) => b.c.card_value - a.c.card_value || a.e.name.localeCompare(b.e.name));
+// Ties go by LAST name, then first (L.J., 11-03: "Last name alpha, not first name").
+const lastFirst = (x: { e: Entry; c: Record<string, unknown> }) => `${String(x.c.last_name ?? x.e.name.split(" ").pop() ?? "")}, ${String(x.c.first_name ?? "")}`;
+entries.sort((a, b) => b.c.card_value - a.c.card_value || lastFirst(a).localeCompare(lastFirst(b)) || a.e.name.localeCompare(b.e.name));
 const roleOf = (e: Entry) => {
   const R = e.slots.filter((s) => s.startsWith("R:")).map((s) => s.slice(2)), L = e.slots.filter((s) => s.startsWith("L:")).map((s) => s.slice(2));
   const staff = e.slots.filter((s) => /^(SP\d|RP\d|CL)$/.test(s)), bench = e.slots.some((s) => s.startsWith("BN"));

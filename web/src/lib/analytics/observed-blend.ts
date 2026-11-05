@@ -83,7 +83,7 @@ export interface ObservedRuns {
 }
 
 export { OBS_K_DEFAULT } from "./calibration";
-import { OBS_K_DEFAULT } from "./calibration";
+import { OBS_HALF_LIFE_DAYS, OBS_K_DEFAULT } from "./calibration";
 /** Runs per unit of wOBA in a modern environment; roster-fill uses the same. */
 const WOBA_SCALE = 1.25;
 
@@ -111,7 +111,7 @@ export async function loadObservedRuns(
   /** Series left out entirely: an event's own exports from before its format changed. */
   excludeSeries: readonly string[] = [],
   /** The event, for the field-strength floor (fieldFloor). Left out, every field counts. */
-  event?: { series?: string | null; ratingsMax?: number | null },
+  event?: ObservedEvent,
 ): Promise<Map<number, ObservedRuns>> {
   if (!cardIds.length) return new Map();
   return observedRunsFrom(await loadObservedBook(cardIds, excludeSeries), modelRuns, reference, event);
@@ -142,6 +142,28 @@ export interface ObservedBook {
 export const FIELD_MARGIN = 8;
 
 /**
+ * The event a card's play is read for. `ownSeriesOnly` (2026-11-04): only the
+ * event's own series counts - play there carries at calibration
+ * OBS_K_OWN_SERIES, play elsewhere was tested and does not.
+ */
+export interface ObservedEvent { series?: string | null; ratingsMax?: number | null; ownSeriesOnly?: boolean }
+
+/**
+ * AGE (2026-11-05). An own-series read weighs each run day's play by
+ * 0.5^(age / OBS_HALF_LIFE_DAYS), each day read against that day's field
+ * (observed_card_stats.by_day): a card that was +0.3 FIP on the field a
+ * month ago and level with it now reads mostly as now, and its sample shrinks
+ * with age, so the ratings carry more of it. Rows imported before by_day fall
+ * back to the whole-series line. Other reads (Cards, Played) stay whole.
+ */
+const dayNow = (): number => {
+  const [y, m, d] = new Date().toLocaleDateString("en-CA", { timeZone: "America/Chicago" }).split("-").map(Number);
+  return Math.round(Date.UTC(y, m - 1, d) / 86400000);
+};
+const decayed = (col: 1 | 2, today: number, halfLife: number) =>
+  sql.raw(`(select sum((e->>${col})::float * power(0.5, greatest(0, ${today} - (e->>0)::float) / ${halfLife})) from jsonb_array_elements(by_day) e)`);
+
+/**
  * The weakest field whose play may count for an event: its own series' strength
  * when its exports are on file, else its value ceiling less 3 (a field plays a
  * little under its cap: Gold Rush 89 -> 86, Bronze 69 -> 66), less FIELD_MARGIN.
@@ -153,13 +175,15 @@ export function fieldFloor(book: ObservedBook, ev: { series?: string | null; rat
   return level == null ? null : level - FIELD_MARGIN;
 }
 
-export async function loadObservedBook(cardIds?: readonly number[], excludeSeries: readonly string[] = []): Promise<ObservedBook> {
+export async function loadObservedBook(cardIds?: readonly number[], excludeSeries: readonly string[] = [], halfLife = OBS_HALF_LIFE_DAYS): Promise<ObservedBook> {
+  const today = dayNow();
+  const dw = decayed(1, today, halfLife), ddev = decayed(2, today, halfLife);
   const empty: ObservedBook = { lines: [], base: new Map(), played: [], strength: new Map() };
   if (cardIds && !cardIds.length) return empty;
   const only = cardIds ? sql` and card_id in (${sql.join(cardIds.map((id) => sql`${id}`), sql`, `)})` : sql``;
   const skip = excludeSeries.length ? sql` and series not in (${sql.join(excludeSeries.map((s) => sql`${s}`), sql`, `)})` : sql``;
   const lines = asRows(await db.execute(sql`
-    select card_id, series, is_pitcher, pa, ip, woba, fip, (counters->>'BF')::float bf
+    select card_id, series, is_pitcher, pa, ip, woba, fip, (counters->>'BF')::float bf, ${dw} dw, ${ddev} ddev
     from observed_card_stats where true${only}${skip}`));
   if (!lines.length) return empty;
   const seriesIn = sql.join([...new Set(lines.map((l) => str(l.series)))].map((s) => sql`${s}`), sql`, `);
@@ -190,7 +214,7 @@ export async function loadObservedBook(cardIds?: readonly number[], excludeSerie
   // Every card that played those series, for each field's level. With no
   // card filter the lines are that already.
   const played = cardIds ? asRows(await db.execute(sql`
-    select series, card_id, is_pitcher, pa, (counters->>'BF')::float bf
+    select series, card_id, is_pitcher, pa, (counters->>'BF')::float bf, ${dw} dw
     from observed_card_stats where series in (${seriesIn})`)) : lines;
   const str_ = asRows(await db.execute(sql`
     select o.series, sum(case when o.is_pitcher then coalesce((o.counters->>'BF')::float, 0) else coalesce(o.pa, 0) end * c.card_value)
@@ -208,12 +232,15 @@ export function observedRunsFrom(
   modelRuns: (cardId: number) => number | null | undefined,
   reference?: (cardId: number) => number | null | undefined,
   /** The event: play against fields weaker than fieldFloor() is left out of each card's line. */
-  event?: { series?: string | null; ratingsMax?: number | null },
+  event?: ObservedEvent,
 ): Map<number, ObservedRuns> {
   const out = new Map<number, ObservedRuns>();
   const floor = event ? fieldFloor(book, event) : null;
   if (!book.lines.length) return out;
-  const c = compiled(book);
+  if (event?.ownSeriesOnly && !event.series) return out;
+  const c = compiled(book, !!event?.ownSeriesOnly);
+  const own = event?.ownSeriesOnly ? c.series.indexOf(event.series!) : -1;
+  if (event?.ownSeriesOnly && own < 0) return out;
   // The level of each field on the model's scale: PA-weighted (BF for arms)
   // mean of the model's runs over every card that played the series.
   const n = c.series.length;
@@ -229,6 +256,7 @@ export function observedRunsFrom(
   const { card, side, dev, w } = c.lines;
   for (let i = 0; i < card.length; i++) {
     const k = side[i], s = k >> 1;
+    if (own >= 0 && s !== own) continue;
     if (floor != null) { const st = c.strength[s]; if (!Number.isNaN(st) && st < floor) continue; }
     if (!(den[k] > 0)) continue;
     const M = num_[k] / den[k];
@@ -260,14 +288,17 @@ interface CompiledBook {
   lines: { card: Int32Array; side: Int32Array; dev: Float64Array; w: Float64Array };
 }
 const compiledBooks = new WeakMap<ObservedBook, CompiledBook>();
-function compiled(book: ObservedBook): CompiledBook {
-  const hit = compiledBooks.get(book);
+const compiledAged = new WeakMap<ObservedBook, CompiledBook>();
+/** `aged`: each line from its by_day, weighed by age (see AGE); lines without by_day read whole. */
+function compiled(book: ObservedBook, aged = false): CompiledBook {
+  const cache = aged ? compiledAged : compiledBooks;
+  const hit = cache.get(book);
   if (hit) return hit;
   const index = new Map<string, number>();
   const idx = (series: string) => { let i = index.get(series); if (i == null) { i = index.size; index.set(series, i); } return i; };
   const pCard: number[] = [], pSide: number[] = [], pW: number[] = [];
   for (const r of book.played) {
-    const w = r.is_pitcher ? num(r.bf) : num(r.pa);
+    const w = aged && r.dw != null ? num(r.dw) : r.is_pitcher ? num(r.bf) : num(r.pa);
     if (!(w > 0)) continue;
     pCard.push(num(r.card_id)); pSide.push(idx(str(r.series)) * 2 + (r.is_pitcher ? 1 : 0)); pW.push(w);
   }
@@ -276,7 +307,11 @@ function compiled(book: ObservedBook): CompiledBook {
     const series = str(l.series), b = book.base.get(series);
     if (!b) continue;
     let dev: number, w: number;
-    if (l.is_pitcher) {
+    if (aged && l.dw != null && l.ddev != null) {
+      // Already runs above each day's own field, summed over the line with the age weights.
+      w = num(l.dw); dev = num(l.ddev);
+      if (!(w > 0)) continue;
+    } else if (l.is_pitcher) {
       const bf = num(l.bf);
       if (!(bf > 0) || l.fip == null || !(b.fip > 0)) continue;
       // FIP is runs per 9 IP; over the card's own IP; saved = negative allowed.
@@ -295,7 +330,7 @@ function compiled(book: ObservedBook): CompiledBook {
     played: { card: Int32Array.from(pCard), side: Int32Array.from(pSide), w: Float64Array.from(pW) },
     lines: { card: Int32Array.from(lCard), side: Int32Array.from(lSide), dev: Float64Array.from(lDev), w: Float64Array.from(lW) },
   };
-  compiledBooks.set(book, out);
+  cache.set(book, out);
   return out;
 }
 

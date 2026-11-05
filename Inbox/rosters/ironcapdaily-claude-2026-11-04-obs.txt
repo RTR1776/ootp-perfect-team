@@ -1,0 +1,36 @@
+# Daily Iron Cap — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Rio Grande Credit Union Field at Isotopes Park --park-year 2026 --dh --min 40 --max 59 --cap 1300 --variant-cap 14 --size 26 --series ironcapdaily --sp 5 --rp 7 --bats 14)
+R:C Ossee Schrecongost #87328
+R:1B Ty Wigginton (VAR) #86086
+R:2B Nap Lajoie #86581
+R:3B Jim Tabor #85905
+R:SS Alcides Escobar #87153
+R:LF Chris Taylor #87243
+R:CF Milt Thompson #86927
+R:RF Norris Hopper #87191
+R:DH Broderick Perkins #86460
+L:C Ossee Schrecongost #87328
+L:1B Ty Wigginton (VAR) #86086
+L:2B Chris Taylor #87243
+L:3B Jim Tabor #85905
+L:SS Alcides Escobar #87153
+L:LF Dwayne Hosey #86801
+L:CF Norris Hopper #87191
+L:RF Sammy Sosa (VAR) #85691
+L:DH Pete Incaviglia #86943
+SP1 James McDonald (VAR) #86384
+SP2 Big Jeff Pfeffer #87340
+SP3 Justin Verlander #87014
+SP4 Bob Gibson (VAR) #86658
+SP5 Tin Can Kincannon #86073
+CL John Bale #87234
+RP1 Todd Jones (VAR) #86434
+RP2 Randy Choate #87026
+RP3 Reed Garrett #84825
+RP4 Alex Reyes #86229
+RP5 Nate Robertson (VAR) #87130
+RP6 R.T. Walker #86952
+BN1 Pete Incaviglia #86943
+BN2 Dwayne Hosey #86801
+BN3 Sammy Sosa (VAR) #85691
+BN4 Coot Veal #85090
+BN5 Buck Rodgers (VAR) #84312

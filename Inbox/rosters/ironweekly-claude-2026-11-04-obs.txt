@@ -1,0 +1,36 @@
+# Saturday Iron Warriors — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 1991 --park Cleveland Stadium --park-year 1991 --dh --min 40 --max 59 --size 26 --series ironweekly --sp 5 --rp 6 --bats 15)
+R:C Rick Wilkins #86392
+R:1B Shawn Green #87028
+R:2B Nap Lajoie #86581
+R:3B Bill Hall #87200
+R:SS Chris Taylor #87243
+R:LF Andruw Jones (VAR) #86321
+R:CF Carlos Beltran #86298
+R:RF Norris Hopper #87191
+R:DH Jay Bruce #86409
+L:C Ossee Schrecongost #87328
+L:1B Jackie Robinson (VAR) #84390
+L:2B Bill Hall #87200
+L:3B Daryl Spencer (VAR) #86620
+L:SS Freddy Galvis (VAR) #85743
+L:LF Andruw Jones (VAR) #86321
+L:CF Carlos Beltran #86298
+L:RF Norris Hopper #87191
+L:DH Matt Davidson (VAR) #84666
+SP1 Big Jeff Pfeffer #87340
+SP2 James McDonald (VAR) #86384
+SP3 Jeff Francis #87199
+SP4 Justin Verlander #87014
+SP5 Tin Can Kincannon #86073
+CL Randy Choate #87026
+RP1 John Bale #87234
+RP2 Hector Carrasco (VAR) #83082
+RP3 Max Scherzer #87263
+RP4 Mike Marshall #84720
+RP5 Ossie Orwoll (VAR) #86967
+BN1 Jackie Robinson (VAR) #84390
+BN2 Matt Davidson (VAR) #84666
+BN3 Milt Thompson #86927
+BN4 Daryl Spencer (VAR) #86620
+BN5 Freddy Galvis (VAR) #85743
+BN6 Ossee Schrecongost #87328

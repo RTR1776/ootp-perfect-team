@@ -1,0 +1,36 @@
+# Saturday Bronze Cap — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 2016 --dh --min 40 --max 69 --cap 1386 --size 26 --series bronzecapweekly --sp 5 --rp 7 --bats 14)
+R:C Bill Killefer #87346
+R:1B Stan Hack #86458
+R:2B Nap Lajoie #86581
+R:3B Chris Sabo #87059
+R:SS Ernie Clement #87244
+R:LF Chris Taylor #87243
+R:CF Billy Southworth (VAR) #86379
+R:RF Eric Byrnes #87195
+R:DH George Sisler (VAR) #87002
+L:C Bill Killefer #87346
+L:1B Nap Lajoie #86581
+L:2B Ernie Clement #87244
+L:3B Chris Sabo #87059
+L:SS Chris Taylor #87243
+L:LF Billy Southworth (VAR) #86379
+L:CF Eric Byrnes #87195
+L:RF Sammy Sosa (VAR) #85691
+L:DH Gary Sheffield #86950
+SP1 James McDonald (VAR) #86384
+SP2 Fritz Ostermueller #86357
+SP3 Livan Hernandez #87261
+SP4 Big Jeff Pfeffer #87340
+SP5 Bob Gibson (VAR) #86658
+CL Satchel Paige #84839
+RP1 Todd Jones (VAR) #86434
+RP2 John Bale #87234
+RP3 Randy Choate #87026
+RP4 Reed Garrett #84825
+RP5 Tin Can Kincannon #86073
+RP6 Steve Farr #86924
+BN1 Alfredo Amezaga #87188
+BN2 Gary Sheffield #86950
+BN3 Buck Rodgers (VAR) #84312
+BN4 Count Sensenderfer #87322
+BN5 Sammy Sosa (VAR) #85691

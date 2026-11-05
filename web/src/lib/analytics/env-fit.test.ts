@@ -121,3 +121,10 @@ test("tournament terms: Speed for bats and staff stamina for arms, only when ask
   assert.ok(Math.abs(on.runsR.get(31)! - off.runsR.get(31)! - 20 * SPEED_RUNS_PER_POINT) < 1e-9);
   assert.ok(Math.abs(on.runsR.get(32)! - off.runsR.get(32)! - 30 * STAMINA_RUNS_PER_POINT) < 1e-9);
 });
+
+test("observedShift takes a per-side K", async () => {
+  const { observedShift } = await import("./env-fit");
+  const ob = { runs: 10, n: 1100, model: 0 };
+  assert.ok(Math.abs(observedShift(0, 0, ob, { hit: 1300, pit: 1100 }, true) - 5) < 1e-9, "arms: 1100 BF is half weight");
+  assert.ok(Math.abs(observedShift(0, 0, ob, { hit: 1300, pit: 1100 }, false) - 10 * 1100 / 2400) < 1e-9);
+});

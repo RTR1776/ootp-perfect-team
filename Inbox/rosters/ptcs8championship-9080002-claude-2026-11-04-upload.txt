@@ -1,0 +1,35 @@
+# PTCS 8 Championship - Bronze — Claude pick 2026-11-04 upload, rebuilt from the catalogue's rules by current-rosters (--year 1919 --park South Side Park --park-year 1903 --max 69 --card-year-max 1945 --size 26 --series PTCS 8 Championship --sp 3 --rp 5 --bats 18)
+R:C Bill Killefer #87346
+R:1B Charlie Grimm (VAR) #87377
+R:2B Nap Lajoie #86581
+R:3B Joe Dugan (VAR) #86765
+R:SS Sam Bankhead #87160
+R:LF Tom Brown #86767
+R:CF Billy Southworth (VAR) #86379
+R:RF Tetelo Vargas #87269
+L:C Bill Killefer #87346
+L:1B Charlie Grimm (VAR) #87377
+L:2B Bill Sweeney #87378
+L:3B Joe Dugan (VAR) #86765
+L:SS Sam Bankhead #87160
+L:LF Ed Morgan (VAR) #85943
+L:CF Pete Washington #87435
+L:RF Tetelo Vargas #87269
+SP1 Bill Duggleby #87335
+SP2 Sherry Smith #87030
+SP3 Luther Farrell #86899
+CL Nelson Dean #87434
+RP1 Eddie Dixon #87157
+RP2 Fritz Ostermueller #86357
+RP3 Lefty Grove #87168
+RP4 Big Jeff Pfeffer #87340
+BN1 Bill Sweeney #87378
+BN2 Otto Briggs #87228
+BN3 Maurice Archdeacon #85665
+BN4 Ed Morgan (VAR) #85943
+BN5 Jack Tobin #86772
+BN6 Paul Waner #86999
+BN7 Johnny Neun #85736
+BN8 Pete Washington #87435
+BN9 Honus Wagner #86712
+BN10 Ted Easterly #84686

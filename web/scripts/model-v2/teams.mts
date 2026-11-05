@@ -120,7 +120,18 @@ async function ensureCards(st: LeagueStint[]) {
 }
 
 const out: any[] = [];
+/** MV2_OBS_ERA=N: the track record counts only series run within N years of the unit's environment (seriesYear). */
+const OBS_ERA = process.env.MV2_OBS_ERA != null ? Number(process.env.MV2_OBS_ERA) : null;
+/** MV2_YEAR_MAX / MV2_YEAR_MIN: score only the units whose run environment falls in this range. */
+const YEAR_MAX = process.env.MV2_YEAR_MAX ? Number(process.env.MV2_YEAR_MAX) : Infinity, YEAR_MIN = process.env.MV2_YEAR_MIN ? Number(process.env.MV2_YEAR_MIN) : -Infinity;
+const obsSeries = OBS_ERA != null ? ((await sql.query(`select distinct series from observed_card_stats`)) as any[]).map((r) => String(r.series)) : [];
+/** A series' run-environment year: the catalogue's, else an archived export's; a "-preYYYYMMDD" series takes its successor's. Null when unknown. */
+const unitYear = new Map<string, number>();
+for (const u of units) if (u.kind === "tour") unitYear.set(u.id.replace(/_\d+$/, ""), u.year);
+const seriesYear = (s: string): number | null => { const b = s.replace(/-pre\d{8}$/, ""); return bySeries.get(b)?.env_year ?? unitYear.get(b) ?? null; };
+if (OBS_ERA != null) console.log(`track record: series within ${OBS_ERA} years; years known for ${obsSeries.filter((s) => seriesYear(s) != null).length} of ${obsSeries.length} series`);
 for (const u of units) {
+  if (u.year > YEAR_MAX || u.year < YEAR_MIN) continue;
   let era = eraFor(u.year) ?? { row: eraTable["0"] };
   if (u.kind === "league" && LEAGUE_MULT) era = { ...era, row: { ...era.row, rates: Object.fromEntries(Object.entries(era.row.rates).map(([k, v]) => [k, (v as number) * (LEAGUE_MULT[k] ?? 1)])) as unknown as typeof era.row.rates } };
   else if (u.kind === "league" && !LEAGUE_OLD) era = { ...era, row: leagueRow(era.row) };
@@ -165,6 +176,8 @@ for (const u of units) {
   if (u.kind === "tour" && process.env.MV2_OBS) {
     const series = u.id.startsWith("ptcs7champ") ? u.id : u.id.replace(/_\d+$/, "");
     const exclude = u.id.startsWith("ptcs7champ") ? Object.keys(CHAMP).map((b) => `ptcs7champ${b}`) : [series];
+    // MV2_OBS_ERA=N (L.J. 11-04): only play from series whose run environment is within N years of this unit's.
+    if (OBS_ERA != null) for (const s of obsSeries) { const y = seriesYear(s); if (y == null || Math.abs(y - u.year) > OBS_ERA) exclude.push(s); }
     const both = (id: number) => { const r = fits.runsR.get(id), l = fits.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };
     obs = observedRunsFrom(await loadObservedBook(ids.filter((id) => id > 0), exclude), both);
   }

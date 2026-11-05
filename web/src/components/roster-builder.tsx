@@ -43,7 +43,7 @@ import { BACKUP_PENALTY, CAP_BACKUP_FLOOR, backupPositions, longMenShort, missin
 import { auditRoster, auditSummary, orderStaff } from "@/lib/roster-audit";
 import { batsLeftOn, envFitMaps } from "@/lib/analytics/env-fit";
 import { hitterRates } from "@/lib/analytics/card-value";
-import { calibrationSlope, rationedEvent, teamWeights } from "@/lib/analytics/calibration";
+import { calibrationSlope, OBS_K_OWN_SERIES, rationedEvent, teamWeights } from "@/lib/analytics/calibration";
 import { bestOrder, obp, orderEnv, paLine, pitcherLine, shrink, slg } from "@/lib/batting-order";
 import type { Confidence } from "@/lib/data-confidence";
 import type { EraRates } from "@/lib/analytics/run-env";
@@ -663,7 +663,7 @@ export function RosterBuilder({
      percentile. Without one (no era row at all) the rating composite. */
   const fits = useMemo(() => env
     ? envFitMaps(formPool, {
-        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear, tournamentTerms: true,
+        era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear, tournamentTerms: true, observedK: OBS_K_OWN_SERIES,
         observed: new Map(env.observed.map(([id, runs, n, model]) => [id, { runs, n, model }])),
       })
     : fitMaps(formPool), [formPool, env]);
@@ -1967,7 +1967,7 @@ export function RosterBuilder({
                         <Th label={view === "PIT" ? "Role" : "Pos"} right={false} />
                         <Th id="val" label="VAL" />
                         <Th id="fit" label="Fit" title="0–99 percentile of Runs within this legal pool (bats: with best-position defence)" />
-                        <Th id="runs" label="Runs" title="Calibrated runs per 700 PA in this event's era and park, observed play blended in by precision — the number the optimiser uses" />
+                        <Th id="runs" label="Runs" title="Calibrated runs per 700 PA in this event's era and park, this tournament's observed play blended in by sample size — the number the optimiser uses" />
                         <Th id="proj" label={view === "PIT" ? "pFIP" : "pWOBA"} title="Projected in this event's era and park (curve model, calibrated)" />
                         <Th id="pvl" label="vL" title="Projection vs LHP/LHB" />
                         <Th id="pvr" label="vR" title="Projection vs RHP/RHB" />
@@ -2432,7 +2432,7 @@ function HowTheNumbersWork({ env, tournament, hasMeasuredHands, ratingScale }: {
         </button>
       </div>
       <ul className="list-disc space-y-1.5 pl-4">
-        <li><b>Runs</b> are calibrated model runs per 700 PA in this event&apos;s era and park, with this tournament&apos;s observed play blended in by precision (K = 5,000). {hands} <b>Fit</b> is the 0–99 percentile of Runs within this legal pool.</li>
+        <li><b>Runs</b> are calibrated model runs per 700 PA in this event&apos;s era and park, with this tournament&apos;s own observed play blended in by sample size: n/(n+K), K = 1,300 PA for bats and 900 batters faced for arms. Each run counts by its age, half as much every 30 days, against that run&apos;s own field, so play from when a card was meta fades as newer cards arrive. Play in other tournaments is left out. {hands} <b>Fit</b> is the 0–99 percentile of Runs within this legal pool.</li>
         <li><b>pWOBA / pFIP</b> are the projected lines here. <b>Obs</b> and <b>PA / IP</b> are this tournament only.</li>
         <li><b>Reset to recommended</b> is the greedy fill. <b>Optimise</b> hill-climbs from your board and a few other starts on runs, with gloves priced in runs under the glove floor (70, LF 50, none at 1B), then polishes its best two boards over every card you own. <b>Search longer</b> tries more starts and a wider search, and polishes its best three: it matches Claude's full builds. Both keep locked cards and skip banned ones.</li>
         <li><b>Rules:</b> the value window, card years, card sets and slot tiers are checked in the pool; the cap, the variant limit and the roster size on the board. Legal means legal under the rules on file.</li>

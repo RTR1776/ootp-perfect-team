@@ -1,0 +1,35 @@
+# Saturday Diamond Variety — Claude pick 2026-11-04 obs, rebuilt from the catalogue's rules by current-rosters (--year 1952 --park Tiger Stadium --park-year 1958 --min 40 --max 99 --card-year-min 1910 --card-year-max 1959 --size 26 --series diamondvariety --sp 4 --rp 5 --bats 17)
+R:C Ed Bailey (VAR) #86637
+R:1B George Sisler #87362
+R:2B John Henry Russell (VAR) #87438
+R:3B Hank Thompson #86668
+R:SS Luke Appling #82759
+R:LF Mickey Mantle #86635
+R:CF Dutch Zwilling #87364
+R:RF Charlie Blackwell #87268
+L:C Jack Meyers #87358
+L:1B Jimmie Foxx #84011
+L:2B Frankie Frisch #85721
+L:3B John Henry Russell (VAR) #87438
+L:SS Roger Peckinpaugh #87360
+L:LF Al Simmons #85942
+L:CF Willie Mays #86634
+L:RF Charlie Blackwell #87268
+SP1 Luther Farrell #86900
+SP2 Count Leblanc (VAR) #86978
+SP3 Babe Ruth #86439
+SP4 Sam Jones #86070
+CL Johnny Markham (VAR) #87159
+RP1 Joe Beggs (VAR) #86762
+RP2 Carl Hubbell #86893
+RP3 Claude Grier #87086
+RP4 Don Larsen #87240
+BN1 Al Simmons #85942
+BN2 Jack Meyers #87358
+BN3 Willie Bobo #87164
+BN4 Frankie Frisch #85721
+BN5 Jimmie Foxx #84011
+BN6 Larry Doby #84878
+BN7 Roy Cullenbine #86775
+BN8 Willie Mays #86634
+BN9 Roger Peckinpaugh #87360

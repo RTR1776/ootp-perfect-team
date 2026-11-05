@@ -27,7 +27,7 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, trustedSplit, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { armEraSpread, armRatingFix, PARK_HAND_TRUST, SPEED_CENTER, SPEED_RUNS_PER_POINT, STAMINA_CENTER, STAMINA_RUNS_PER_POINT, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns } from "@/lib/analytics/calibration";
+import { armEraSpread, armRatingFix, PARK_HAND_TRUST, SPEED_CENTER, SPEED_RUNS_PER_POINT, STAMINA_CENTER, STAMINA_RUNS_PER_POINT, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns, type ObsK } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -118,7 +118,8 @@ export interface EnvFitOptions {
    * (found 2026-09-26). Without `model` the level blend applies, as before.
    */
   observed?: Map<number, { runs: number; n: number; model?: number | null }>;
-  observedK?: number;
+  /** One K for both sides, or { hit, pit } (calibration OBS_K_OWN_SERIES). */
+  observedK?: ObsK;
   /**
    * Put the model's runs on the observed scale (default true).
    *
@@ -193,8 +194,9 @@ const composite = (
  * (a variant keeps its boost), else against this form's own:
  * (n·obs + K·both)/(n+K) − both.
  */
-export function observedShift(r: number, l: number, ob: { runs: number; n: number; model?: number | null }, K = OBS_K_DEFAULT): number {
+export function observedShift(r: number, l: number, ob: { runs: number; n: number; model?: number | null }, K0: ObsK = OBS_K_DEFAULT, isPitcher = false): number {
   if (!(ob.n > 0)) return 0;
+  const K = typeof K0 === "number" ? K0 : isPitcher ? K0.pit : K0.hit;
   const both = 0.7 * r + 0.3 * l;
   const ref = ob.model != null && Number.isFinite(ob.model) ? ob.model : both;
   return (ob.n / (ob.n + K)) * (ob.runs - ref);
@@ -295,7 +297,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
     if (r != null) r += eraFix(c, "R") + extra(c, "R");
     if (l != null) l += eraFix(c, "L") + extra(c, "L");
     const ob = o.observed?.get(c.cardId);
-    if (ob && r != null && l != null) { const shift = observedShift(r, l, ob, K); r += shift; l += shift; }
+    if (ob && r != null && l != null) { const shift = observedShift(r, l, ob, K, c.isPitcher); r += shift; l += shift; }
     if (r != null) runsR.set(c.cardId, r);
     if (l != null) runsL.set(c.cardId, l);
   }
