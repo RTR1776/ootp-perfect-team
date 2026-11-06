@@ -13,6 +13,7 @@
 import { and, eq, gte, isNotNull, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { importBatches, myResults, results, tournaments } from "@/db/schema";
+import { filedState } from "@/lib/export-filed";
 
 export const KEEP_DAYS = 7;
 const LOOK_BACK_DAYS = 21;
@@ -27,6 +28,13 @@ export interface ExportToGrab {
   ageDays: number;
   /** Past the week Your Tournaments keeps. */
   likelyGone: boolean;
+  /**
+   * Why it is listed again although a file was filed for it: "no-stats" when
+   * the newest import read it and found fielding but no batting or pitching;
+   * "removed" when an earlier import had it and the newest one does not (the
+   * file was taken out of the archive as unusable). Null for one never filed.
+   */
+  redo: "no-stats" | "removed" | null;
 }
 
 export interface ExportsToGrab {
@@ -48,7 +56,7 @@ export async function loadExportsToGrab(now: Date = new Date()): Promise<Exports
       .from(myResults).where(and(eq(myResults.source, "tournaments"), gte(myResults.startAt, since))),
     db.select({ slot: tournaments.slot, series: tournaments.series, retired: tournaments.retired })
       .from(tournaments).where(and(isNotNull(tournaments.slot), isNotNull(tournaments.series))),
-    db.select({ files: importBatches.files, at: importBatches.publishedAt })
+    db.select({ id: importBatches.id, scope: importBatches.scope, files: importBatches.files, at: importBatches.publishedAt })
       .from(importBatches).where(sql`${importBatches.kind} = 'observed' and ${importBatches.status} = 'published'`),
   ]);
 
@@ -57,12 +65,9 @@ export async function loadExportsToGrab(now: Date = new Date()): Promise<Exports
   for (const t of [...cat].sort((a, b) => Number(a.retired) - Number(b.retired))) {
     if (t.slot != null && t.series && !seriesBySlot.has(t.slot)) seriesBySlot.set(t.slot, t.series);
   }
-  const filed = new Set<string>();
+  const { filed, redo } = filedState(batches.map((b) => ({ id: b.id, scope: b.scope ?? [], files: b.files ?? [] })));
   let lastImportAt: Date | null = null;
-  for (const b of batches) {
-    for (const f of b.files ?? []) filed.add(f.name.replace(/\.csv$/i, ""));
-    if (b.at && (!lastImportAt || b.at > lastImportAt)) lastImportAt = b.at;
-  }
+  for (const b of batches) if (b.at && (!lastImportAt || b.at > lastImportAt)) lastImportAt = b.at;
 
   const played = new Map<number, { name: string; on: string }>();
   for (const r of logged) if (r.eventId != null && r.eventId < 2_000_000) played.set(r.eventId, { name: r.name.replace(/\s*\(\d+\)\s*$/, ""), on: String(r.on).slice(0, 10) });
@@ -81,7 +86,7 @@ export async function loadExportsToGrab(now: Date = new Date()): Promise<Exports
       continue;
     }
     const ageDays = Math.floor((now.getTime() - new Date(`${p.on}T12:00:00Z`).getTime()) / 86_400_000);
-    rows.push({ eventId, name: p.name, on: p.on, file, ageDays, likelyGone: ageDays > KEEP_DAYS });
+    rows.push({ eventId, name: p.name, on: p.on, file, ageDays, likelyGone: ageDays > KEEP_DAYS, redo: (file && redo.get(file)) || null });
   }
   rows.sort((a, b) => a.on.localeCompare(b.on) || a.eventId - b.eventId);
   return { rows, newestImported, lastImportAt };

@@ -186,6 +186,8 @@ async function main() {
   const metas = new Map<string, Meta>();
   const fileMeta: Array<ImportFile & { series?: string; runOn?: string; mine?: Array<{ cid: number; name: string; pos: string; variant: boolean; pa: number; ip: number; war: number }>; dropped?: Array<{ org: string; games: number; rs: number; ra: number }> }> = [];
   let parsed = 0, skipped = 0, droppedTeams = 0, droppedStints = 0;
+  /** Files with fielding but no batting or pitching: recorded on the batch, used for nothing. */
+  const noStatFiles: string[] = [];
   /** Per series, each run's teams: which tiers went to bats, bench, SP and RP (field-construction.ts). */
   const builds = new Map<string, TeamBuild[][]>();
 
@@ -202,6 +204,19 @@ async function main() {
     if (!looksLikeLeagueExport(headerLine)) { skipped++; continue; }
     const { stints: allStints } = parseLeagueExport(text, f);
     parsed++;
+    /**
+     * NO BATTING OR PITCHING. OOTP can write a stats export with every player
+     * and the fielding filled in but every batting and pitching cell blank (G
+     * empty, PA and IP 0): 5 files on 10-18, 37 on 11-05. Read as usual, each
+     * such run added its teams with no play, which raised the series' starter
+     * weight (Goldfather 1.48 -> 1.61). Such a file is left out entirely and
+     * marked noStats on the batch, so /upload lists the event to export again.
+     */
+    if (!allStints.some((s) => s.pa > 0 || s.ip > 0)) {
+      noStatFiles.push(f);
+      fileMeta.push({ name: f, bytes: raw.byteLength, sha256: createHash("sha256").update(raw).digest("hex"), ...(series !== slug ? { series } : {}), noStats: true });
+      continue;
+    }
     /**
      * JIM TEAMS. A team that drew a no-roster opponent carries four games of
      * 50-0 in every hitter's line and four shutouts in every pitcher's. The
@@ -482,6 +497,7 @@ async function main() {
   console.log(`field construction: ${builds.size} series -> src/data/field-construction.json (commit it with Push to GitHub)`);
   console.log(`batch #${batch.id} published: ${rows.length} rows across ${seriesList.length} series; ${swept} stale row(s) swept; ${fileMeta.length} files hashed`);
   console.log(`observed: ${rows.length} (series×card) rows from ${parsed} files across ${seriesList.length} series; skipped ${skipped}`);
+  if (noStatFiles.length) console.log(`!! ${noStatFiles.length} file(s) have fielding but no batting or pitching, left out (export them again): ${noStatFiles.join(", ")}`);
   console.log(`Jim-beater teams dropped: ${droppedTeams} teams / ${droppedStints} stints across ${fileMeta.filter((m) => m.dropped).length} files`);
   if (only) for (const m of metaRows) console.log(`  ${m.series}: ${m.files} file(s), ${rows.filter((r) => r.series === m.series).length} card rows, ${m.avgTeams} teams/run`);
   const top = seriesList
