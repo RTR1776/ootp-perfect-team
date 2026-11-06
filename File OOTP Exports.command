@@ -1053,8 +1053,38 @@ def short(path: str) -> str:
     p = re.sub(r"~/Application Support/.*/saved_games/[0-9a-f]*([0-9a-f]{4})\.pt/import_export", r"OOTP game …\1", p)
     return p.replace("~/Application Support/Out of the Park Developments/OOTP Baseball 27/online_data", "OOTP online_data")
 
+def has_games(path: str) -> bool:
+    """True when at least one row has a batting/pitching G (games) value.
+
+    OOTP can write a stats export whose FIELDING columns are filled (G_2,
+    IP_1, ZR...) but whose batting and pitching columns are all blank or
+    zero: G empty, PA and IP 0 (5 files on 10-18, 37 on 11-05). Filed and
+    imported, those count each team as a real one with no plate appearances
+    or innings, which skews each series' staff weights, and the importer has
+    no batting or pitching to read from them. So they are stopped here."""
+    try:
+        with open(path, "r", encoding="utf-8-sig", errors="replace") as f:
+            r = csv.reader(f)
+            head = [c.strip() for c in next(r)]
+            if "G" not in head:
+                return True
+            gi = head.index("G")
+            for row in r:
+                if gi < len(row) and row[gi].strip() not in ("", "-"):
+                    return True
+    except (OSError, StopIteration):
+        return False
+    return False
+
 def file_one(mt: float, p: str, label: str, filed: list) -> str:
     """Prompt for and file a single export. Returns ok|skip."""
+    if not has_games(p):
+        print(f"NO BATTING/PITCHING STATS in {os.path.basename(p)} - not filed")
+        alert(f"{os.path.basename(p)} has fielding stats but no batting or pitching stats: G is blank and PA and IP are 0 on every row.\n\n"
+              "Nothing was filed. Export this tournament again from OOTP and check the batting and pitching columns come through.",
+              ("OK",), "OK", timeout=120)
+        remember_skip(p, mt)
+        return "skip"
     likely = likely_slugs(p)
     info = (f"{label}:  {os.path.basename(p)}\n"
             f"from {short(os.path.dirname(p))}\n"

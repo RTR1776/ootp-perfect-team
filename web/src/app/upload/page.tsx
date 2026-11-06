@@ -120,7 +120,8 @@ export default async function UploadPage() {
  * drops them as they age. Only logged and dumped events can be listed.
  */
 function ExportsToGrab({ grab }: { grab: Awaited<ReturnType<typeof loadExportsToGrab>> }) {
-  const live = grab.rows.filter((r) => !r.likelyGone);
+  const redo = grab.rows.filter((r) => r.redo && !r.likelyGone);
+  const live = grab.rows.filter((r) => !r.redo && !r.likelyGone);
   const gone = grab.rows.filter((r) => r.likelyGone);
   const row = (r: ExportToGrab) => (
     <tr key={r.eventId} className={cn("border-t border-border/60", r.likelyGone && "text-muted-foreground")}>
@@ -142,9 +143,22 @@ function ExportsToGrab({ grab }: { grab: Awaited<ReturnType<typeof loadExportsTo
         <p className="mt-1 text-xs text-muted-foreground">
           {live.length
             ? <>{live.length} event{live.length === 1 ? "" : "s"} you played {live.length === 1 ? "isn't" : "aren't"} filed yet. Grab them oldest first — Your Tournaments keeps about {KEEP_DAYS} days — then double-click File OOTP Exports.command.</>
-            : "Every event you played in the last week is filed."}
+            : redo.length ? "Everything else you played in the last week is filed." : "Every event you played in the last week is filed."}
           {" "}Only events in your logged results or the community dump are listed, so log today&apos;s screenshot to see today&apos;s.
         </p>
+        {redo.length > 0 && (
+          <div className="mt-3 rounded-md border border-destructive/40 bg-destructive/5 p-3">
+            <h3 className="text-sm font-semibold text-destructive">Export these again ({redo.length})</h3>
+            <p className="mt-1 text-xs text-muted-foreground">
+              These were filed, but the file had fielding stats and no batting or pitching (G blank, PA and IP 0), so nothing from them is used.
+              Export each again from Your Tournaments; the watcher refuses a file that comes out the same way.
+            </p>
+            <table className="mt-2 w-full text-sm">
+              <thead><tr className="text-left text-[11px] uppercase tracking-wide text-muted-foreground"><th className="pb-1 font-medium">Played</th><th className="pb-1 font-medium">Event</th><th className="pb-1 font-medium">File it becomes</th></tr></thead>
+              <tbody>{redo.map(row)}</tbody>
+            </table>
+          </div>
+        )}
         {live.length > 0 && (
           <table className="mt-2 w-full text-sm">
             <thead><tr className="text-left text-[11px] uppercase tracking-wide text-muted-foreground"><th className="pb-1 font-medium">Played</th><th className="pb-1 font-medium">Event</th><th className="pb-1 font-medium">File it becomes</th></tr></thead>

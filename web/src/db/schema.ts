@@ -604,6 +604,12 @@ export interface ImportFile {
   name: string;
   bytes: number;
   sha256: string;
+  /**
+   * The file was read but carried no batting or pitching (fielding only, G
+   * blank, PA and IP 0), so nothing from it was used. An OOTP export can come
+   * out this way (10-18, 11-05); the event still needs exporting again.
+   */
+  noStats?: boolean;
 }
 
 /**
