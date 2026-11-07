@@ -104,6 +104,20 @@ export interface OptimizeOptions {
    * missing none a swap at a time.
    */
   backups?: boolean;
+  /**
+   * When the climb stops, try the staff tier before giving up: the staff re-solved (who starts,
+   * who relieves, in what order) around a new arm, and the cross-role moves only that makes
+   * possible (staffTier below). Needs slotValue. Off by default: it is a polish for a search's
+   * best boards. Every start climbing on through it found the same best board on Saturday Bronze
+   * Cap (2026-11-07) for 36% more CPU; env-roster's polish of its best 3 costs about 11%.
+   */
+  staffTier?: boolean;
+  /**
+   * The start is already where the plain moves stop (env-roster's polish climbs its own climbs'
+   * boards again, with the same moves): the first pass goes straight to the staff tier instead of
+   * searching every single move and pair again for nothing.
+   */
+  atOptimum?: boolean;
   pairMoves?: {
     /** Upgrade candidates considered per slot, best-ranked first. */
     aTop: number;
@@ -497,6 +511,147 @@ export function optimizeRoster(
     return s > fromScore + 1e-9 ? { slots: t, score: s } : null;
   };
 
+  /*
+   * THE STAFF, RE-SOLVED. Which arms on the roster start, which relieve, and in what order. The
+   * objective prices each staff slot on its own (a rotation slot by its share of the starts, a
+   * pen slot by its share of the batters times its leverage), so the best arrangement of a set of
+   * arms is an assignment, as for the bats.
+   *
+   * Without it a new arm was only ever scored in the one slot he moved into. Saturday Bronze
+   * Cap, 2026-11-07: Livan Hernandez (68, SP) for Satchel Paige (68, closing) is a legal swap at
+   * a full cap, but scored with Hernandez closing it lost; it pays only with Hernandez starting,
+   * the SP5 (Tin Can Kincannon) in the pen and Todd Jones closing. The best of 14 starts stopped
+   * at 110.8 with Paige closing; the re-solved board is 114.3.
+   */
+  const staffKeys = [...shape.spKeys, ...shape.rpKeys];
+  const stCache = new Map(staffKeys.map((k) => [k, new Map<number, number>()]));
+  const staffWeight = (k: string, id: number): number => {
+    const m = stCache.get(k)!;
+    let w = m.get(id);
+    if (w === undefined) { w = eligible.get(k)?.has(id) ? o.slotValue!(k, id) : -Infinity; m.set(id, w); }
+    return w;
+  };
+  /** The pen's long men short of the minimum, for arms in staff-key order. */
+  const longIn = (ids: readonly number[]) => {
+    let n = 0;
+    for (let i = shape.spKeys.length; i < ids.length; i++) if ((byId.get(ids[i])?.ratings.Stamina ?? 0) >= LONG_MAN_STAMINA) n++;
+    return Math.max(0, minLongWanted - n);
+  };
+  /*
+   * A set of arms at its best: the order (staff-key order) and what the staff then adds to the
+   * objective, its slots' slotValue less the long-men penalty. That is all the staff adds (a
+   * locked arm leaving and a two-way starter's lineup correction aside: the exact score settles
+   * those), so a staff move's worth is this against the board's own, with nothing else scored.
+   * Remembered by the set: the searches below meet the same set many times.
+   */
+  const staffMemo = new Map<string, { ids: number[]; value: number } | null>();
+  const staffBest = (arms: readonly number[]): { ids: number[]; value: number } | null => {
+    const key = [...arms].sort((x, y) => x - y).join(",");
+    let m = staffMemo.get(key);
+    if (m !== undefined) return m;
+    const w = staffKeys.map((k) => arms.map((id) => staffWeight(k, id)));
+    const a = maxAssignment(w);
+    m = null;
+    if (a) {
+      const ids = a.map((j) => arms[j]);
+      let v = 0;
+      a.forEach((j, i) => { v += w[i][j]; });
+      m = { ids, value: v - BACKUP_PENALTY * longIn(ids) };
+    }
+    if (staffMemo.size > 200_000) staffMemo.clear();
+    staffMemo.set(key, m);
+    return m;
+  };
+  // Every arm a staff slot may take, for the moves that bring one in: a reliever who cannot
+  // start comes in for a starter too, once the staff is re-solved (a pen arm who can start moves up).
+  const armPool = [...new Map(staffKeys.flatMap((k) => cands.get(k) ?? []).map((c) => [c.cardId, c])).values()];
+
+  /*
+   * The staff tier (o.staffTier): tried only when no plain move or pair helps, so a climb follows
+   * the path it always did to the board it always reached, and only then looks further. Running
+   * these moves on every pass instead changed which way each start went, and on Saturday Bronze
+   * Cap all 14 λ starts ended lower (best 107.0 against 110.8): each climbs steepest-first, and
+   * the big re-solve gains pulled them toward boards whose last fix (Reed Garrett back in the pen
+   * for Jerry Augustine) lies outside the pair lists.
+   *
+   * One-card moves first, the best taken: the arms on the board re-solved as they are, then a
+   * new arm for any arm on the staff, re-solved around him. Only when none helps, pairs with a
+   * new arm on one side or both: a new arm and a bat move (a cheaper starter in for the closer
+   * pays for a bat), or two new arms. Every move is priced first from its parts (the staff's
+   * worth against the board's, plus what the bat move adds on its own: the two touch different
+   * slots), and only a move that could beat the best so far is built, checked and scored.
+   */
+  const staffTier = (from: FillResult, fromScore: number, onRoster: ReadonlySet<number>): { slots: FillResult; score: number } | null => {
+    if (!o.slotValue || !staffKeys.length) return null;
+    const arms0 = staffKeys.map((k) => from[k]);
+    let v0 = -BACKUP_PENALTY * longIn(arms0);
+    staffKeys.forEach((k, i) => { v0 += staffWeight(k, arms0[i]); });
+    let best: { slots: FillResult; score: number } | null = null;
+    let floor = fromScore;
+    /** Build `t` with the staff in `ids`' order, check it, and keep it when it beats the best. */
+    const consider = (t: FillResult, ids: readonly number[]) => {
+      if (!isComplete(t, shape)) return;
+      const u: FillResult = { ...t };
+      staffKeys.forEach((k, i) => { u[k] = ids[i]; });
+      if (!legal(u, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong)) return;
+      const s = obj(u);
+      if (s > floor + 1e-9) { best = { slots: u, score: s }; floor = s; }
+    };
+    /** The best order of the staff with these arms swapped in, and what it adds over the board's. */
+    const swapIn = (moves: readonly [number, number][]) => {
+      const arms = arms0.slice();
+      for (const [i, id] of moves) arms[i] = id;
+      const m = staffBest(arms);
+      return m ? { ids: m.ids, gain: m.value - v0 } : null;
+    };
+
+    const same = swapIn([]);
+    if (same && fromScore + same.gain > floor + 1e-9) consider(from, same.ids);
+    staffKeys.forEach((key, i) => {
+      for (const c of armPool) {
+        if (onRoster.has(c.cardId)) continue;
+        const m = swapIn([[i, c.cardId]]);
+        if (m && fromScore + m.gain > floor + 1e-9) consider(place(from, key, c), m.ids);
+      }
+    });
+    if (best || !pm || !upgrades || !downgrades) return best;
+
+    // A bat move on its own: what it adds (the pairs below join one to a staff move).
+    const batGain = new Map<string, number>();
+    const batMove = (key: string, c: FillCard) => {
+      const k = `${key}|${c.cardId}`;
+      let d = batGain.get(k);
+      if (d === undefined) {
+        const t = place(from, key, c);
+        d = isComplete(t, shape) ? obj(t) - fromScore : -Infinity;
+        batGain.set(k, d);
+      }
+      return d;
+    };
+    const idx = new Map(staffKeys.map((k, i) => [k, i]));
+    for (const a of keys) {
+      const ia = idx.get(a);
+      for (const ca of upgrades.get(a) ?? []) {
+        if (ca.cardId === from[a]) continue;
+        // An arm already on the staff swapped in only reorders it: the re-solve covers that.
+        if (ia != null && onRoster.has(ca.cardId)) continue;
+        for (const b of keys) {
+          const ib = idx.get(b);
+          if (b === a || (ia == null && ib == null)) continue;
+          for (const cb of downgrades.get(b) ?? []) {
+            if (cb.cardId === from[b] || cb.cardId === ca.cardId || (ib != null && onRoster.has(cb.cardId))) continue;
+            const m = ia != null && ib != null ? swapIn([[ia, ca.cardId], [ib, cb.cardId]])
+              : swapIn([[(ia ?? ib)!, (ia != null ? ca : cb).cardId]]);
+            if (!m) continue;
+            const est = fromScore + m.gain + (ia == null ? batMove(a, ca) : ib == null ? batMove(b, cb) : 0);
+            if (est > floor + 1e-9) consider(place(place(from, a, ca), b, cb), m.ids);
+          }
+        }
+      }
+    }
+    return best;
+  };
+
   const settled0 = settle(slots, score);
   if (settled0) { slots = settled0.slots; score = settled0.score; moves++; }
 
@@ -506,7 +661,9 @@ export function optimizeRoster(
     let bestSlots: FillResult | null = null;
     let bestPair: { a: string; ai: number; b: string; bi: number } | null = null;
 
-    for (const key of keys) {
+    // A start already at the plain moves' optimum: its first pass is the staff tier's.
+    const plain = !(pass === 0 && o.atOptimum && o.staffTier);
+    for (const key of plain ? keys : []) {
       const current = slots[key];
       for (const c of cands.get(key) ?? []) {
         if (c.cardId === current) continue;
@@ -526,7 +683,7 @@ export function optimizeRoster(
     }
 
     // Only when no single move helps: pay for an upgrade with a downgrade.
-    if (!bestKey && pm && upgrades && downgrades) {
+    if (plain && !bestKey && pm && upgrades && downgrades) {
       for (const a of keys) {
         for (const ca of upgrades.get(a) ?? []) {
           if (ca.cardId === slots[a]) continue;
@@ -549,7 +706,12 @@ export function optimizeRoster(
 
     if (bestKey && bestSlots) { slots = bestSlots; void bestId; }
     else if (bestPair) { slots = place(place(slots, bestPair.a, byId.get(bestPair.ai)!), bestPair.b, byId.get(bestPair.bi)!); }
-    else break;
+    else {
+      // A local optimum for every plain move: the staff tier when asked for, or done.
+      const st = o.staffTier ? staffTier(slots, score, onRoster) : null;
+      if (!st) break;
+      slots = st.slots; bestScore = st.score;
+    }
     score = bestScore;
     moves++;
     const settled = settle(slots, score);

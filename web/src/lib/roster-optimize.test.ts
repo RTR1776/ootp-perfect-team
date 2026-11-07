@@ -221,3 +221,67 @@ test("the cap ledger prices each card against the best floor card that can take 
   assert.ok(ss.runs! > 0 && bn.above === 8);
   assert.equal(capLedger({ slots: { "R:SS": 1, "L:SS": 1, BN1: 4 }, pool, rules, objective: obj.objective }), null, "no cap, no ledger");
 });
+
+/* Cross-role moves (Saturday Bronze Cap, 2026-11-07). Two starters, a three-man pen, and the cap
+   full, so the only legal swaps are like-for-like in value. */
+const arm = (id: number, val: number, role: "SP" | "RP", stamina = role === "SP" ? 70 : 20): FillCard => ({
+  cardId: id, name: `P${id}`, val, year: 2016, isPitcher: true, role, cardType: 1, ratings: { Stamina: stamina },
+  baseOwned: true, variantOwned: false, variant: false,
+});
+const staffShape: FillShape = { lineupPos: ["DH"], spKeys: ["SP1", "SP2"], rpKeys: ["CL", "RP1", "RP2"], benchKeys: [], bats: 1 };
+const staffRules = (cap: number): RosterRules => ({ ...rules, restrictions: { cards: 6, teamCap: cap } });
+const bat = { ...hitter(1, {}), val: 50 };
+
+test("a starter in for the closer: the staff is re-solved around him (he starts, the SP2 relieves)", () => {
+  // X (#7, 60) is the closer's (#4, 60) price. Closing he is worse than #4 (9 runs to 12); starting
+  // he is far better than #3 (9 to 2), who is fine in the pen. No one-slot move gets there.
+  const pool = [bat, arm(2, 50, "SP"), arm(3, 40, "SP"), arm(4, 60, "RP"), arm(5, 40, "RP"), arm(6, 40, "RP"), arm(7, 60, "SP")];
+  const runs = new Map([[1, 10], [2, 10], [3, 2], [4, 12], [5, 6], [6, 3], [7, 9]]);
+  const obj = rosterObjective(pool, { shape: staffShape, runsR: runs, runsL: runs });
+  const start = { "R:DH": 1, "L:DH": 1, SP1: 2, SP2: 3, CL: 4, RP1: 5, RP2: 6 };
+  const cap = staffRules(280);
+
+  const plain = optimizeRoster(start, pool, cap, staffShape, { objective: obj.objective, slotValue: obj.slotValue });
+  assert.ok(!Object.values(plain.slots).includes(7), "without the staff tier he is scored closing, and loses");
+
+  const r = optimizeRoster(start, pool, cap, staffShape, { objective: obj.objective, slotValue: obj.slotValue, staffTier: true });
+  assert.equal(r.legal, true);
+  assert.deepEqual([r.slots.SP1, r.slots.SP2], [2, 7], JSON.stringify(r.slots));
+  assert.deepEqual([r.slots.CL, r.slots.RP1, r.slots.RP2], [5, 6, 3], "the best reliever closes; the old SP2 relieves");
+  assert.ok(r.score > plain.score + 1, `${r.score} vs ${plain.score}`);
+  assert.ok(Math.abs(r.score - obj.objective(r.slots)) < 1e-9, "reported score is the objective's");
+
+  // A polish from the plain climb's stopping point may skip straight to the staff tier: same board.
+  const polished = optimizeRoster(plain.slots, pool, cap, staffShape, { objective: obj.objective, slotValue: obj.slotValue, staffTier: true, atOptimum: true });
+  assert.deepEqual(polished.slots, r.slots);
+  assert.equal(polished.score, r.score);
+});
+
+test("a reliever who cannot start, in for a starter: a pen arm who can start moves up", () => {
+  // #7 (RP, 50) is the SP2's (#3, 50) price and cannot start; #4, a long man in the pen, can,
+  // though worse than #3 (2 runs to 4), so swapping the two alone loses. The move exists only
+  // with the staff re-solved: #7 closes, #4 starts, #3 goes.
+  const pool = [bat, arm(2, 50, "SP"), arm(3, 50, "SP"), arm(4, 40, "SP"), arm(5, 40, "RP"), arm(6, 40, "RP"), arm(7, 50, "RP")];
+  const runs = new Map([[1, 10], [2, 10], [3, 4], [4, 2], [5, 6], [6, 3], [7, 12]]);
+  const obj = rosterObjective(pool, { shape: staffShape, runsR: runs, runsL: runs });
+  const start = { "R:DH": 1, "L:DH": 1, SP1: 2, SP2: 3, CL: 5, RP1: 4, RP2: 6 };
+  const r = optimizeRoster(start, pool, staffRules(270), staffShape, { objective: obj.objective, slotValue: obj.slotValue, staffTier: true });
+  assert.equal(r.legal, true);
+  assert.deepEqual([r.slots.SP1, r.slots.SP2], [2, 4], JSON.stringify(r.slots));
+  assert.deepEqual([r.slots.CL, r.slots.RP1, r.slots.RP2], [7, 5, 6]);
+  assert.ok(!Object.values(r.slots).includes(3));
+});
+
+test("a pair move: a dearer starter in for the closer, paid by a cheaper bat, scored with the staff re-solved", () => {
+  // #7 (SP, 70) for the closer #4 (60) breaks the cap by 10; the bat #8 (40) for #1 (50) pays it.
+  // Closing, #7 loses to #4 and the pair loses; starting (the SP2 to the pen) it wins.
+  const pool = [{ ...bat, val: 50 }, arm(2, 50, "SP"), arm(3, 40, "SP"), arm(4, 60, "RP"), arm(5, 40, "RP"), arm(6, 40, "RP"), arm(7, 70, "SP"), { ...hitter(8, {}), val: 40 }];
+  const runs = new Map([[1, 5], [2, 10], [3, 2], [4, 12], [5, 6], [6, 3], [7, 9], [8, 4]]);
+  const obj = rosterObjective(pool, { shape: staffShape, runsR: runs, runsL: runs });
+  const start = { "R:DH": 1, "L:DH": 1, SP1: 2, SP2: 3, CL: 4, RP1: 5, RP2: 6 };
+  const opts = { objective: obj.objective, slotValue: obj.slotValue, pairMoves: { aTop: 10, bCheapest: 10, rank: obj.rank }, staffTier: true };
+  const r = optimizeRoster(start, pool, staffRules(280), staffShape, opts);
+  assert.equal(r.legal, true);
+  assert.deepEqual([r.slots.SP1, r.slots.SP2, r.slots.CL, r.slots["R:DH"]], [2, 7, 5, 8], JSON.stringify(r.slots));
+  assert.ok(Math.abs(r.score - obj.objective(r.slots)) < 1e-9);
+});

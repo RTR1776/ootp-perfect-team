@@ -713,18 +713,44 @@ async function main() {
 
     let best = { slots, score: greedyScore, from: lambda, moves: 0 };
     let seedScore: number | null = null;
+    const climbOpts = {
+      objective, slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
+      candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
+    };
+    const fromLabel = (l: number) => (l === SEED_LAMBDA ? "seed" : `λ ${l.toFixed(2)}`);
+    const climbed: (typeof best)[] = [];
     for (const [, st] of COMPARE_ONLY ? [] : starts) {
-      const r = optimizeRoster(st.slots, pool, rules, shape, {
-        objective, slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
-        candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
-      });
+      const r = optimizeRoster(st.slots, pool, rules, shape, climbOpts);
       if (st.lambda === SEED_LAMBDA) seedScore = r.score;
       // A seed with a two-way card in both roles (a saved dual pick) climbs on a board that counts him once: one
       // player short of SIZE, which the validator refuses (Early Years Cap, 11-02). The dual phase below handles him.
       const units = new Set(Object.values(r.slots).map(unitOf)).size;
-      if (units !== SIZE) { console.log(`${st.lambda === SEED_LAMBDA ? "seed" : `λ ${st.lambda.toFixed(2)}`}: board holds ${units} players, not ${SIZE}: skipped`); continue; }
+      if (units !== SIZE) { console.log(`${fromLabel(st.lambda)}: board holds ${units} players, not ${SIZE}: skipped`); continue; }
+      climbed.push({ slots: r.slots, score: r.score, from: st.lambda, moves: r.moves });
       if (r.score > best.score) best ={ slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }
+    /*
+     * The staff polish (roster-optimize staffTier, 2026-11-07): the best few distinct boards climb on with the
+     * staff re-solved around a new arm (who starts, who relieves, who closes) and the cross-role moves that opens.
+     * Saturday Bronze Cap: every start stopped at or below 110.8 with Satchel Paige closing; Livan Hernandez in
+     * for him, starting, with Tin Can Kincannon to the pen and Todd Jones closing, is 114.3. Only the best few
+     * boards: polishing every start found the same best board for 36% more CPU. --staff-polish N (default 3, 0 off).
+     */
+    const POLISH_N = num("staff-polish", 3)!;
+    const seenBoards = new Set<string>();
+    const toPolish = [...climbed].sort((a, b) => b.score - a.score).filter((b) => {
+      const k = [...new Set(Object.values(b.slots))].sort((x, y) => x - y).join(",");
+      return seenBoards.has(k) ? false : (seenBoards.add(k), true);
+    }).slice(0, POLISH_N);
+    const polished: string[] = [];
+    for (const b of toPolish) {
+      // The same moves as the climb that stopped here (a pruned pool re-prunes around the board: not then).
+      const r = optimizeRoster(b.slots, pool, rules, shape, { ...climbOpts, staffTier: true, atOptimum: CANDIDATE_LIMIT == null });
+      if (new Set(Object.values(r.slots).map(unitOf)).size !== SIZE) continue;
+      polished.push(`${fromLabel(b.from)} ${b.score.toFixed(1)}${r.score > b.score + 1e-9 ? ` -> ${r.score.toFixed(1)} (${r.moves} move${r.moves === 1 ? "" : "s"})` : " (no change)"}`);
+      if (r.score > best.score + 1e-9) best = { slots: r.slots, score: r.score, from: b.from, moves: b.moves + r.moves };
+    }
+    if (polished.length) console.log(`staff polish, best ${polished.length} boards: ${polished.join("; ")}`);
     let deepBoard: Record<string, number> | null = null;
     if (COMPARE_SEARCH) {
       /* /build's own search (roster-search: Optimise = quick, Search longer = deep) on these same
@@ -811,6 +837,8 @@ async function main() {
           const r = optimizeRoster(seed, pool, rules, dshape, {
             objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
             candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
+            // It competes with the polished board above, so it gets the same staff tier.
+            staffTier: POLISH_N > 0,
           });
           const onBoard = new Set(Object.values(r.slots));
           const dualId = [...onBoard].find((id) => !byIdD.get(id)?.isPitcher && onBoard.has(otherFormId(id)));
