@@ -56,11 +56,14 @@ export const SETTINGS = [
  * reference). From a board that is already good the full climb has few moves
  * left, so it is quick where a full climb from a cold start is not.
  * Measured 2026-09-30 on the CLI's inputs (env-roster --compare-search): see
- * Docs/Handoff 2026-09-30.md.
+ * Docs/Handoff 2026-09-30.md. Search longer's polish also gets the staff tier
+ * (roster-optimize staffTier, 2026-11-07): the staff re-solved around a new arm,
+ * as env-roster polishes its best boards. Optimise's does not: on Saturday Bronze
+ * Cap, with the machine busy, it added 22 s to a 76 s search for 0.1 run.
  */
 export const POLISH = { candidateLimit: undefined as number | undefined, aTop: 10, bCheapest: 12, maxPasses: 80, tag: ", full pool" };
-export const QUICK = { maxStarts: 7, lambdas: [2, 8, 1, 4, 0.5], budgetMs: 45_000, polish: 2 };
-export const DEEP = { maxStarts: 12, lambdas: [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5], polish: 3 };
+export const QUICK = { maxStarts: 7, lambdas: [2, 8, 1, 4, 0.5], budgetMs: 45_000, polish: 2, staffTier: false };
+export const DEEP = { maxStarts: 12, lambdas: [2, 1, 4, 0.5, 8, 3, 1.5, 6, 0.25, 0.75, 5], polish: 3, staffTier: true };
 
 type Entries = [number, number][];
 /** FitMaps as entry arrays, to cross postMessage. */
@@ -195,11 +198,12 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
   let done = 0;
   let cut = false;
   const found: SearchBest[] = [];
-  const climb = (slots: FillResult, cfg: { candidateLimit?: number; aTop: number; bCheapest: number; maxPasses: number }, from: string) => {
+  const climb = (slots: FillResult, cfg: { candidateLimit?: number; aTop: number; bCheapest: number; maxPasses: number; staffTier?: boolean }, from: string) => {
     const r = optimizeRoster(slots, d.pool, d.rules, d.shape, {
       objective: obj.objective, slotValue: obj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
       pairMoves: { aTop: cfg.aTop, bCheapest: cfg.bCheapest, rank: obj.rank }, maxPasses: cfg.maxPasses,
       candidateLimit: cfg.candidateLimit, keep: locks, minCatchers: d.minCatchers, minShortstops: d.minShortstops ?? 0, minLongMen: d.minLongMen ?? 0, backups: d.backups ?? false,
+      staffTier: cfg.staffTier,
     });
     // Only boards that pass every rule compete.
     if (r.legal) {
@@ -224,7 +228,7 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
   }).slice(0, plan.polish);
   for (const b of top) {
     post({ type: "progress", done, total, best, current: b.from + POLISH.tag });
-    climb(b.slots, POLISH, b.from + POLISH.tag);
+    climb(b.slots, { ...POLISH, staffTier: plan.staffTier }, b.from + POLISH.tag);
   }
   // Fewer distinct boards than planned polishes: the count ends where the work did.
   post({ type: "done", done, total: done, best, cut });
