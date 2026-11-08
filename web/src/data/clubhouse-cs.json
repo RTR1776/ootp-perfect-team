@@ -1,0 +1,1046 @@
+{
+ "asOf": "2026-11-08",
+ "from": "L.J.'s Clubhouse screenshots (value 78 and up; the ~84 cheaper cards, all under 50 CS, weren't captured). Prices drop on Wednesdays, weekly or every other week; new cards are added as often.",
+ "cards": [
+  {
+   "set": "Sporer Faves",
+   "pos": "SP",
+   "name": "Justin Verlander",
+   "team": "DET",
+   "year": "2011",
+   "value": 103,
+   "cs": 700,
+   "discount": null
+  },
+  {
+   "set": "Playoff Stars",
+   "pos": "CL",
+   "name": "Koji Uehara",
+   "team": "BOS",
+   "year": "2013",
+   "value": 103,
+   "cs": 550,
+   "discount": null
+  },
+  {
+   "set": "Played Where? - Historical All-Star",
+   "pos": "CL",
+   "name": "Fernando Rodney",
+   "team": "SD",
+   "year": "2016",
+   "value": 102,
+   "cs": 400,
+   "discount": 20
+  },
+  {
+   "set": "Baseball Reference 9",
+   "pos": "C",
+   "name": "Yogi Berra",
+   "team": "NYY",
+   "year": "1956",
+   "value": 102,
+   "cs": 630,
+   "discount": 10
+  },
+  {
+   "set": "Immortal Seasons",
+   "pos": "SP",
+   "name": "Brandon Webb",
+   "team": "ARI",
+   "year": "2006",
+   "value": 102,
+   "cs": 600,
+   "discount": null
+  },
+  {
+   "set": "Raising the Deadball",
+   "pos": "CF",
+   "name": "Billy Hamilton",
+   "team": "PHI",
+   "year": "Peak",
+   "value": 102,
+   "cs": 550,
+   "discount": null
+  },
+  {
+   "set": "Baseball Reference 8",
+   "pos": "LF",
+   "name": "Hank Greenberg",
+   "team": "DET",
+   "year": "1940",
+   "value": 102,
+   "cs": 490,
+   "discount": 30
+  },
+  {
+   "set": "Baseball Reference 7",
+   "pos": "SP",
+   "name": "Roger Clemens",
+   "team": "TOR",
+   "year": "1998",
+   "value": 101,
+   "cs": 300,
+   "discount": 50
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "CL",
+   "name": "Sean Doolittle",
+   "team": "WAS",
+   "year": "2018",
+   "value": 101,
+   "cs": 120,
+   "discount": 70
+  },
+  {
+   "set": "NeL Monday 2",
+   "pos": "C",
+   "name": "Mitchell Murray",
+   "team": "SLS",
+   "year": "1926",
+   "value": 101,
+   "cs": 400,
+   "discount": 20
+  },
+  {
+   "set": "Raising the Deadball",
+   "pos": "SS",
+   "name": "Hughie Jennings",
+   "team": "BLN",
+   "year": "1896",
+   "value": 101,
+   "cs": 500,
+   "discount": null
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "SP",
+   "name": "Johan Santana",
+   "team": "MIN",
+   "year": "2006",
+   "value": 101,
+   "cs": 180,
+   "discount": 70
+  },
+  {
+   "set": "Baseball Reference 6",
+   "pos": "CL",
+   "name": "Aroldis Chapman",
+   "team": "CHC",
+   "year": "2016",
+   "value": 101,
+   "cs": 160,
+   "discount": 60
+  },
+  {
+   "set": "Baseball Reference 7",
+   "pos": "LF",
+   "name": "Albert Belle",
+   "team": "CLE",
+   "year": "1995",
+   "value": 101,
+   "cs": 250,
+   "discount": 50
+  },
+  {
+   "set": "Baseball Reference 8",
+   "pos": "3B",
+   "name": "Freddie Lindstrom",
+   "team": "NY1",
+   "year": "1930",
+   "value": 100,
+   "cs": 280,
+   "discount": 30
+  },
+  {
+   "set": "60s Week - Historical All-Star",
+   "pos": "1B",
+   "name": "Norm Cash",
+   "team": "DET",
+   "year": "1961",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "HR Derby Winner",
+   "pos": "RF",
+   "name": "Jordan Walker",
+   "team": "STL",
+   "year": "2026",
+   "value": 100,
+   "cs": 120,
+   "discount": 70
+  },
+  {
+   "set": "Baseball Reference 5",
+   "pos": "2B",
+   "name": "Marcus Giles",
+   "team": "ATL",
+   "year": "2003",
+   "value": 100,
+   "cs": 150,
+   "discount": 70
+  },
+  {
+   "set": "HOF Inductees",
+   "pos": "2B",
+   "name": "Jeff Kent",
+   "team": "SF",
+   "year": "2000",
+   "value": 100,
+   "cs": 200,
+   "discount": 60
+  },
+  {
+   "set": "Immortal Seasons",
+   "pos": "SS",
+   "name": "Jimmy Rollins",
+   "team": "PHI",
+   "year": "2007",
+   "value": 100,
+   "cs": 400,
+   "discount": null
+  },
+  {
+   "set": "Baseball Reference 6",
+   "pos": "RF",
+   "name": "J.D. Martinez",
+   "team": "ARI",
+   "year": "2017",
+   "value": 100,
+   "cs": 160,
+   "discount": 60
+  },
+  {
+   "set": "Negro League Star",
+   "pos": "SS",
+   "name": "Dobie Moore",
+   "team": "KCM",
+   "year": "1924",
+   "value": 100,
+   "cs": 100,
+   "discount": 78
+  },
+  {
+   "set": "All-Time Legend",
+   "pos": "SS",
+   "name": "Ozzie Smith",
+   "team": "STL",
+   "year": "Peak",
+   "value": 100,
+   "cs": 135,
+   "discount": 70
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "SP",
+   "name": "Tex Hughson",
+   "team": "BOS",
+   "year": "1944",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "Negro League Star",
+   "pos": "3B",
+   "name": "Jud Wilson",
+   "team": "BBS",
+   "year": "1927",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "World Baseball Classic",
+   "pos": "LF",
+   "name": "Wladimir Balentien",
+   "team": "NED",
+   "year": "2017",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "Y&O 1 - Hardware Heroes",
+   "pos": "RF",
+   "name": "Chuck Klein",
+   "team": "PHI",
+   "year": "1930",
+   "value": 100,
+   "cs": 100,
+   "discount": 75
+  },
+  {
+   "set": "SwitchKnucklers - Veteran Presence",
+   "pos": "SP",
+   "name": "Eddie Cicotte",
+   "team": "CWS",
+   "year": "1917",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "SwitchKnucklers - Hall of Fame",
+   "pos": "SP",
+   "name": "Phil Niekro",
+   "team": "ATL",
+   "year": "1978",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "SwitchKnucklers - Historical All-Star",
+   "pos": "CL",
+   "name": "Kenley Jansen",
+   "team": "LAD",
+   "year": "2017",
+   "value": 100,
+   "cs": 100,
+   "discount": 75
+  },
+  {
+   "set": "SwitchKnucklers - All-Time Legend",
+   "pos": "C",
+   "name": "Jorge Posada",
+   "team": "NYY",
+   "year": "Peak",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "Played Where? - Veteran Presence",
+   "pos": "SP",
+   "name": "Randy Johnson",
+   "team": "HOU",
+   "year": "1998",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "Baseball Reference 7",
+   "pos": "CL",
+   "name": "Armando Benitez",
+   "team": "FLO",
+   "year": "2004",
+   "value": 100,
+   "cs": 150,
+   "discount": 50
+  },
+  {
+   "set": "April Fools' Day",
+   "pos": "SP",
+   "name": "Pedro Martinez",
+   "team": "NYM",
+   "year": "2005",
+   "value": 100,
+   "cs": 100,
+   "discount": 80
+  },
+  {
+   "set": "Baseball Reference 9",
+   "pos": "SP",
+   "name": "Dave Stewart",
+   "team": "ATH",
+   "year": "1989",
+   "value": 99,
+   "cs": 135,
+   "discount": 10
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "SS",
+   "name": "Rico Petrocelli",
+   "team": "BOS",
+   "year": "1969",
+   "value": 99,
+   "cs": 30,
+   "discount": 80
+  },
+  {
+   "set": "Negro League Star",
+   "pos": "SP",
+   "name": "Dave Barnhill",
+   "team": "NYC",
+   "year": "1941",
+   "value": 99,
+   "cs": 40,
+   "discount": 80
+  },
+  {
+   "set": "Hall of Fame",
+   "pos": "SS",
+   "name": "Phil Rizzuto",
+   "team": "NYY",
+   "year": "1950",
+   "value": 99,
+   "cs": 120,
+   "discount": 40
+  },
+  {
+   "set": "Baseball Reference 8",
+   "pos": "RF",
+   "name": "Manny Ramirez",
+   "team": "CLE",
+   "year": "1999",
+   "value": 99,
+   "cs": 105,
+   "discount": 30
+  },
+  {
+   "set": "All-Time Legend",
+   "pos": "SS",
+   "name": "John Valentin",
+   "team": "BOS",
+   "year": "Peak",
+   "value": 99,
+   "cs": 155,
+   "discount": 11
+  },
+  {
+   "set": "Y&O 1 - Rookie Sensation",
+   "pos": "C",
+   "name": "Gene Tenace",
+   "team": "ATH",
+   "year": "1970",
+   "value": 98,
+   "cs": 30,
+   "discount": 80
+  },
+  {
+   "set": "World Baseball Classic",
+   "pos": "SP",
+   "name": "Marcus Stroman",
+   "team": "USA",
+   "year": "2017",
+   "value": 98,
+   "cs": 30,
+   "discount": 85
+  },
+  {
+   "set": "Y&O 1 - Rookie Sensation",
+   "pos": "SS",
+   "name": "Johnny Pesky",
+   "team": "BOS",
+   "year": "1942",
+   "value": 97,
+   "cs": 30,
+   "discount": 80
+  },
+  {
+   "set": "Baseball Reference 8",
+   "pos": "SP",
+   "name": "Dontrelle Willis",
+   "team": "FLO",
+   "year": "2005",
+   "value": 97,
+   "cs": 105,
+   "discount": 30
+  },
+  {
+   "set": "SwitchKnucklers - Snapshot",
+   "pos": "1B",
+   "name": "John Anderson",
+   "team": "WAS",
+   "year": "1898",
+   "value": 97,
+   "cs": 30,
+   "discount": 80
+  },
+  {
+   "set": "Baseball Reference 9",
+   "pos": "RP",
+   "name": "Kelvin Herrera",
+   "team": "KC",
+   "year": "2014",
+   "value": 97,
+   "cs": 90,
+   "discount": 10
+  },
+  {
+   "set": "Hardware Heroes",
+   "pos": "CF",
+   "name": "Robin Yount",
+   "team": "ML4",
+   "year": "1989",
+   "value": 97,
+   "cs": 120,
+   "discount": 20
+  },
+  {
+   "set": "Baseball Reference 7",
+   "pos": "C",
+   "name": "Jason Varitek",
+   "team": "BOS",
+   "year": "2004",
+   "value": 96,
+   "cs": 50,
+   "discount": 60
+  },
+  {
+   "set": "Hall of Fame",
+   "pos": "SP",
+   "name": "Don Drysdale",
+   "team": "LAD",
+   "year": "1965",
+   "value": 96,
+   "cs": 45,
+   "discount": 70
+  },
+  {
+   "set": "Baseball Reference 6",
+   "pos": "LF",
+   "name": "Goose Goslin",
+   "team": "SLA",
+   "year": "1930",
+   "value": 95,
+   "cs": 60,
+   "discount": 60
+  },
+  {
+   "set": "Hardware Heroes",
+   "pos": "1B",
+   "name": "Fred McGriff",
+   "team": "TOR",
+   "year": "1989",
+   "value": 95,
+   "cs": 110,
+   "discount": 21
+  },
+  {
+   "set": "Baseball Reference 6",
+   "pos": "SP",
+   "name": "Rich Harden",
+   "team": "CHC",
+   "year": "2008",
+   "value": 94,
+   "cs": 35,
+   "discount": 72
+  },
+  {
+   "set": "Hardware Heroes",
+   "pos": "1B",
+   "name": "Keith Hernandez",
+   "team": "STL",
+   "year": "1979",
+   "value": 94,
+   "cs": 30,
+   "discount": 70
+  },
+  {
+   "set": "Snapshot",
+   "pos": "SP",
+   "name": "Javier Vazquez",
+   "team": "MON",
+   "year": "2001",
+   "value": 94,
+   "cs": 100,
+   "discount": null
+  },
+  {
+   "set": "All-Time Legend",
+   "pos": "CF",
+   "name": "Enrique Hernandez",
+   "team": "LAD",
+   "year": "Peak",
+   "value": 94,
+   "cs": 90,
+   "discount": 10
+  },
+  {
+   "set": "60s Week - Snapshot",
+   "pos": "LF",
+   "name": "Jerry Lynch",
+   "team": "CIN",
+   "year": "1961",
+   "value": 94,
+   "cs": 30,
+   "discount": 70
+  },
+  {
+   "set": "Playoff Stars",
+   "pos": "3B",
+   "name": "Alex Bregman",
+   "team": "HOU",
+   "year": "2019",
+   "value": 94,
+   "cs": 80,
+   "discount": null
+  },
+  {
+   "set": "Baseball Reference 7",
+   "pos": "3B",
+   "name": "Graig Nettles",
+   "team": "NYY",
+   "year": "1977",
+   "value": 94,
+   "cs": 50,
+   "discount": 60
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "CF",
+   "name": "Brady Anderson",
+   "team": "BAL",
+   "year": "1996",
+   "value": 94,
+   "cs": 30,
+   "discount": 70
+  },
+  {
+   "set": "Played Where? - Unsung Heroes",
+   "pos": "CF",
+   "name": "Starling Marte",
+   "team": "MIA",
+   "year": "2021",
+   "value": 93,
+   "cs": 30,
+   "discount": 70
+  },
+  {
+   "set": "Played Where? - Snapshot",
+   "pos": "SP",
+   "name": "Max Scherzer",
+   "team": "NYM",
+   "year": "2022",
+   "value": 93,
+   "cs": 80,
+   "discount": 20
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "C",
+   "name": "Stan Lopata",
+   "team": "PHI",
+   "year": "1955",
+   "value": 92,
+   "cs": 50,
+   "discount": 55
+  },
+  {
+   "set": "Baseball Reference 5",
+   "pos": "RP",
+   "name": "Randy Rodriguez",
+   "team": "SF",
+   "year": "2025",
+   "value": 90,
+   "cs": 30,
+   "discount": 62
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "C",
+   "name": "Smoky Burgess",
+   "team": "PIT",
+   "year": "1959",
+   "value": 89,
+   "cs": 40,
+   "discount": 50
+  },
+  {
+   "set": "SwitchKnucklers - Historical All-Star",
+   "pos": "LF",
+   "name": "Roy White",
+   "team": "NYY",
+   "year": "1970",
+   "value": 89,
+   "cs": 20,
+   "discount": 73
+  },
+  {
+   "set": "Hardware Heroes",
+   "pos": "1B",
+   "name": "Cecil Cooper",
+   "team": "ML4",
+   "year": "1980",
+   "value": 89,
+   "cs": 20,
+   "discount": 73
+  },
+  {
+   "set": "Veteran Presence",
+   "pos": "RP",
+   "name": "Bobby Shantz",
+   "team": "NYY",
+   "year": "1959",
+   "value": 89,
+   "cs": 20,
+   "discount": 67
+  },
+  {
+   "set": "April Fools' Day",
+   "pos": "RF",
+   "name": "Brian Giles",
+   "team": "SD",
+   "year": "2005",
+   "value": 88,
+   "cs": 20,
+   "discount": 71
+  },
+  {
+   "set": "Snapshot",
+   "pos": "RP",
+   "name": "Tom Niedenfuer",
+   "team": "LAD",
+   "year": "1983",
+   "value": 88,
+   "cs": 20,
+   "discount": 67
+  },
+  {
+   "set": "Baseball Reference 5",
+   "pos": "3B",
+   "name": "Billy Grabarkewitz",
+   "team": "LAD",
+   "year": "1970",
+   "value": 88,
+   "cs": 20,
+   "discount": 73
+  },
+  {
+   "set": "Y&O 1 - Rookie Sensation",
+   "pos": "CF",
+   "name": "Jimmie Hall",
+   "team": "MIN",
+   "year": "1963",
+   "value": 88,
+   "cs": 20,
+   "discount": 75
+  },
+  {
+   "set": "Hardware Heroes",
+   "pos": "2B",
+   "name": "Ryne Sandberg",
+   "team": "CHC",
+   "year": "1989",
+   "value": 87,
+   "cs": 55,
+   "discount": 27
+  },
+  {
+   "set": "Sporer Faves",
+   "pos": "SP",
+   "name": "Garrett Richards",
+   "team": "LAA",
+   "year": "2014",
+   "value": 86,
+   "cs": 60,
+   "discount": null
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "RP",
+   "name": "Lance McCullers Jr.",
+   "team": "HOU",
+   "year": "2017",
+   "value": 86,
+   "cs": 55,
+   "discount": 15
+  },
+  {
+   "set": "Baseball Reference 9",
+   "pos": "LF",
+   "name": "Kyle Schwarber",
+   "team": "CHC",
+   "year": "2015",
+   "value": 86,
+   "cs": 60,
+   "discount": 14
+  },
+  {
+   "set": "Baseball Reference 5",
+   "pos": "C",
+   "name": "Rich Gedman",
+   "team": "BOS",
+   "year": "1985",
+   "value": 86,
+   "cs": 20,
+   "discount": 71
+  },
+  {
+   "set": "Negro League Star",
+   "pos": "2B",
+   "name": "Newt Allen",
+   "team": "KCM",
+   "year": "1937",
+   "value": 85,
+   "cs": 20,
+   "discount": 71
+  },
+  {
+   "set": "HOF Inductees",
+   "pos": "RF",
+   "name": "Carlos Beltran",
+   "team": "SF",
+   "year": "2011",
+   "value": 85,
+   "cs": 20,
+   "discount": 73
+  },
+  {
+   "set": "Baseball Reference 5",
+   "pos": "1B",
+   "name": "Jesus Aguilar",
+   "team": "MIL",
+   "year": "2018",
+   "value": 85,
+   "cs": 20,
+   "discount": 73
+  },
+  {
+   "set": "Snapshot",
+   "pos": "3B",
+   "name": "Mark Vientos",
+   "team": "NYM",
+   "year": "2024",
+   "value": 85,
+   "cs": 60,
+   "discount": 14
+  },
+  {
+   "set": "Negro League Star",
+   "pos": "1B",
+   "name": "Buck O'Neil",
+   "team": "KCM",
+   "year": "1946",
+   "value": 84,
+   "cs": 20,
+   "discount": 69
+  },
+  {
+   "set": "SwitchKnucklers - Historical All-Star",
+   "pos": "3B",
+   "name": "Pablo Sandoval",
+   "team": "SF",
+   "year": "2011",
+   "value": 84,
+   "cs": 20,
+   "discount": 73
+  },
+  {
+   "set": "Y&O 1 - Hardware Heroes",
+   "pos": "3B",
+   "name": "Kris Bryant",
+   "team": "CHC",
+   "year": "2015",
+   "value": 84,
+   "cs": 20,
+   "discount": 71
+  },
+  {
+   "set": "Hardware Heroes",
+   "pos": "CL",
+   "name": "Mark Davis",
+   "team": "SD",
+   "year": "1989",
+   "value": 84,
+   "cs": 40,
+   "discount": 33
+  },
+  {
+   "set": "Baseball Reference 8",
+   "pos": "3B",
+   "name": "Nolan Arenado",
+   "team": "COL",
+   "year": "2015",
+   "value": 84,
+   "cs": 45,
+   "discount": 40
+  },
+  {
+   "set": "60s Week - Historical All-Star",
+   "pos": "RF",
+   "name": "George Altman",
+   "team": "CHC",
+   "year": "1961",
+   "value": 84,
+   "cs": 20,
+   "discount": 73
+  },
+  {
+   "set": "60s Week - Veteran Presence",
+   "pos": "SP",
+   "name": "Warren Spahn",
+   "team": "ML1",
+   "year": "1961",
+   "value": 84,
+   "cs": 20,
+   "discount": 75
+  },
+  {
+   "set": "Played Where? - Veteran Presence",
+   "pos": "C",
+   "name": "Gene Tenace",
+   "team": "STL",
+   "year": "1982",
+   "value": 84,
+   "cs": 50,
+   "discount": 29
+  },
+  {
+   "set": "Unsung Heroes",
+   "pos": "RP",
+   "name": "Derek Lowe",
+   "team": "BOS",
+   "year": "1999",
+   "value": 83,
+   "cs": 50,
+   "discount": 17
+  },
+  {
+   "set": "Unsung Heroes",
+   "pos": "SP",
+   "name": "Don Mossi",
+   "team": "DET",
+   "year": "1959",
+   "value": 83,
+   "cs": 30,
+   "discount": 57
+  },
+  {
+   "set": "Baseball Reference 9",
+   "pos": "RP",
+   "name": "Ken Dayley",
+   "team": "STL",
+   "year": "1985",
+   "value": 82,
+   "cs": 50,
+   "discount": 17
+  },
+  {
+   "set": "Negro League Star",
+   "pos": "SP",
+   "name": "Booker McDaniel",
+   "team": "KCM",
+   "year": "1945",
+   "value": 82,
+   "cs": 20,
+   "discount": 67
+  },
+  {
+   "set": "Hardware Heroes",
+   "pos": "DH",
+   "name": "Dave Winfield",
+   "team": "TOR",
+   "year": "1992",
+   "value": 81,
+   "cs": 50,
+   "discount": 17
+  },
+  {
+   "set": "April Fools' Day",
+   "pos": "LF",
+   "name": "Elmer Smith",
+   "team": "CIN",
+   "year": "1898",
+   "value": 81,
+   "cs": 20,
+   "discount": 69
+  },
+  {
+   "set": "Played Where? - Veteran Presence",
+   "pos": "1B",
+   "name": "Brandon Belt",
+   "team": "TOR",
+   "year": "2023",
+   "value": 81,
+   "cs": 20,
+   "discount": 71
+  },
+  {
+   "set": "60s Week - Unsung Heroes",
+   "pos": "1B",
+   "name": "Steve Bilko",
+   "team": "LAA",
+   "year": "1961",
+   "value": 81,
+   "cs": 20,
+   "discount": 73
+  },
+  {
+   "set": "Snapshot",
+   "pos": "C",
+   "name": "Joe Mauer",
+   "team": "MIN",
+   "year": "2007",
+   "value": 81,
+   "cs": 60,
+   "discount": null
+  },
+  {
+   "set": "Hall of Fame",
+   "pos": "LF",
+   "name": "Lou Brock",
+   "team": "STL",
+   "year": "1964",
+   "value": 80,
+   "cs": 20,
+   "discount": 71
+  },
+  {
+   "set": "60s Week - Snapshot",
+   "pos": "SP",
+   "name": "Joe Gibbon",
+   "team": "PIT",
+   "year": "1961",
+   "value": 80,
+   "cs": 20,
+   "discount": 67
+  },
+  {
+   "set": "Hardware Heroes",
+   "pos": "2B",
+   "name": "Nellie Fox",
+   "team": "CWS",
+   "year": "1959",
+   "value": 79,
+   "cs": 20,
+   "discount": 67
+  },
+  {
+   "set": "Rookie Sensation",
+   "pos": "SP",
+   "name": "Rynie Wolters",
+   "team": "NY2",
+   "year": "1871",
+   "value": 79,
+   "cs": 20,
+   "discount": 60
+  },
+  {
+   "set": "Negro League Star",
+   "pos": "C",
+   "name": "Spoony Palm",
+   "team": "DS",
+   "year": "1929",
+   "value": 79,
+   "cs": 20,
+   "discount": 60
+  },
+  {
+   "set": "Historical All-Star",
+   "pos": "CF",
+   "name": "Vada Pinson",
+   "team": "CIN",
+   "year": "1959",
+   "value": 78,
+   "cs": 20,
+   "discount": 67
+  },
+  {
+   "set": "Baseball Reference 9",
+   "pos": "RP",
+   "name": "Jeremy Affeldt",
+   "team": "SF",
+   "year": "2012",
+   "value": 78,
+   "cs": 40,
+   "discount": 11
+  }
+ ]
+}

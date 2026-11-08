@@ -1,0 +1,3536 @@
+{
+"asOf": "2026-11-08",
+"from": "L.J.'s collection export filtered to unlocked cards (706 rows). Mission turn-ins lock cards; no export marks locks, so this list is refreshed by hand.",
+"cards": [
+{
+"name": "Josh Hader",
+"val": 104,
+"variant": false
+},
+{
+"name": "Yoshinobu Yamamoto",
+"val": 104,
+"variant": false
+},
+{
+"name": "Mordecai Brown",
+"val": 103,
+"variant": false
+},
+{
+"name": "Madison Bumgarner",
+"val": 103,
+"variant": false
+},
+{
+"name": "Elly De La Cruz",
+"val": 103,
+"variant": false
+},
+{
+"name": "Andrew Miller",
+"val": 103,
+"variant": false
+},
+{
+"name": "Louis Varland",
+"val": 103,
+"variant": false
+},
+{
+"name": "Carl Yastrzemski",
+"val": 103,
+"variant": false
+},
+{
+"name": "Hank Aaron",
+"val": 102,
+"variant": false
+},
+{
+"name": "Kade Anderson",
+"val": 102,
+"variant": false
+},
+{
+"name": "Zack Britton",
+"val": 102,
+"variant": false
+},
+{
+"name": "Junior Caminero",
+"val": 102,
+"variant": false
+},
+{
+"name": "Wade Davis",
+"val": 102,
+"variant": false
+},
+{
+"name": "Leodalis De Vries",
+"val": 102,
+"variant": false
+},
+{
+"name": "Willie Hernandez",
+"val": 102,
+"variant": false
+},
+{
+"name": "Orel Hershiser",
+"val": 102,
+"variant": false
+},
+{
+"name": "Reggie Jackson",
+"val": 102,
+"variant": false
+},
+{
+"name": "Andruw Jones",
+"val": 102,
+"variant": false
+},
+{
+"name": "Gabriel Moreno",
+"val": 102,
+"variant": false
+},
+{
+"name": "Alex Rodriguez",
+"val": 102,
+"variant": false
+},
+{
+"name": "B.J. Ryan",
+"val": 102,
+"variant": false
+},
+{
+"name": "Bret Saberhagen",
+"val": 102,
+"variant": false
+},
+{
+"name": "Juan Soto",
+"val": 102,
+"variant": false
+},
+{
+"name": "Chase Utley",
+"val": 102,
+"variant": false
+},
+{
+"name": "Frank Viola",
+"val": 102,
+"variant": false
+},
+{
+"name": "Cy Young",
+"val": 102,
+"variant": true
+},
+{
+"name": "Roch Cholowsky",
+"val": 101,
+"variant": false
+},
+{
+"name": "Josh Gibson",
+"val": 101,
+"variant": false
+},
+{
+"name": "Rich Gossage",
+"val": 101,
+"variant": false
+},
+{
+"name": "Walker Jenkins",
+"val": 101,
+"variant": false
+},
+{
+"name": "Pop Lloyd",
+"val": 101,
+"variant": false
+},
+{
+"name": "Mel Ott",
+"val": 101,
+"variant": false
+},
+{
+"name": "Mike Piazza",
+"val": 101,
+"variant": true
+},
+{
+"name": "Scott Rolen",
+"val": 101,
+"variant": false
+},
+{
+"name": "Al Rosen",
+"val": 101,
+"variant": false
+},
+{
+"name": "CC Sabathia",
+"val": 101,
+"variant": false
+},
+{
+"name": "Hilton Smith",
+"val": 101,
+"variant": false
+},
+{
+"name": "Arky Vaughan",
+"val": 101,
+"variant": false
+},
+{
+"name": "Jose Bautista",
+"val": 100,
+"variant": false
+},
+{
+"name": "Cool Papa Bell",
+"val": 100,
+"variant": false
+},
+{
+"name": "Cody Bellinger",
+"val": 100,
+"variant": false
+},
+{
+"name": "Ty Cobb",
+"val": 100,
+"variant": false
+},
+{
+"name": "Jack Coombs",
+"val": 100,
+"variant": false
+},
+{
+"name": "Josh Johnson",
+"val": 100,
+"variant": false
+},
+{
+"name": "Craig Kimbrel",
+"val": 100,
+"variant": false
+},
+{
+"name": "Corey Kluber",
+"val": 100,
+"variant": false
+},
+{
+"name": "Cliff Lee",
+"val": 100,
+"variant": true
+},
+{
+"name": "Hideki Matsui",
+"val": 100,
+"variant": false
+},
+{
+"name": "Lefty O'Doul",
+"val": 100,
+"variant": false
+},
+{
+"name": "Daniel Palencia",
+"val": 100,
+"variant": true
+},
+{
+"name": "Ben Rice",
+"val": 100,
+"variant": false
+},
+{
+"name": "Lazaro Salazar",
+"val": 100,
+"variant": false
+},
+{
+"name": "Cristopher Sanchez",
+"val": 100,
+"variant": false
+},
+{
+"name": "Kyle Schwarber",
+"val": 100,
+"variant": false
+},
+{
+"name": "Gavin Williams",
+"val": 100,
+"variant": false
+},
+{
+"name": "Ken Williams",
+"val": 100,
+"variant": false
+},
+{
+"name": "Garret Anderson",
+"val": 99,
+"variant": false
+},
+{
+"name": "Tony Fossas",
+"val": 99,
+"variant": true
+},
+{
+"name": "Bob Friend",
+"val": 99,
+"variant": false
+},
+{
+"name": "Mike Greenwell",
+"val": 99,
+"variant": false
+},
+{
+"name": "Mel Harder",
+"val": 99,
+"variant": false
+},
+{
+"name": "Al Kaline",
+"val": 99,
+"variant": false
+},
+{
+"name": "Jake McGee",
+"val": 99,
+"variant": true
+},
+{
+"name": "Cla Meredith",
+"val": 99,
+"variant": false
+},
+{
+"name": "Munetaka Murakami",
+"val": 99,
+"variant": false
+},
+{
+"name": "Justin Verlander",
+"val": 99,
+"variant": false
+},
+{
+"name": "Honus Wagner",
+"val": 99,
+"variant": false
+},
+{
+"name": "Mookie Betts",
+"val": 98,
+"variant": false
+},
+{
+"name": "Max Clark",
+"val": 98,
+"variant": true
+},
+{
+"name": "Willson Contreras",
+"val": 98,
+"variant": false
+},
+{
+"name": "Colt Emerson",
+"val": 98,
+"variant": true
+},
+{
+"name": "Doug Fister",
+"val": 98,
+"variant": false
+},
+{
+"name": "Joe Grzenda",
+"val": 98,
+"variant": false
+},
+{
+"name": "Jerry Koosman",
+"val": 98,
+"variant": false
+},
+{
+"name": "Aramis Ramirez",
+"val": 98,
+"variant": false
+},
+{
+"name": "Aaron Robinson",
+"val": 98,
+"variant": false
+},
+{
+"name": "Trea Turner",
+"val": 98,
+"variant": true
+},
+{
+"name": "Jonny Venters",
+"val": 98,
+"variant": false
+},
+{
+"name": "Duane Ward",
+"val": 98,
+"variant": true
+},
+{
+"name": "Tom Glavine",
+"val": 97,
+"variant": false
+},
+{
+"name": "Curtis Granderson",
+"val": 97,
+"variant": false
+},
+{
+"name": "Adrian Morejon",
+"val": 97,
+"variant": false
+},
+{
+"name": "Jesse Petty",
+"val": 97,
+"variant": false
+},
+{
+"name": "Ed Reulbach",
+"val": 97,
+"variant": false
+},
+{
+"name": "Rainiel Rodriguez",
+"val": 97,
+"variant": false
+},
+{
+"name": "Babe Ruth",
+"val": 97,
+"variant": false
+},
+{
+"name": "Thomas White",
+"val": 97,
+"variant": false
+},
+{
+"name": "Trey Yesavage",
+"val": 97,
+"variant": true
+},
+{
+"name": "Steve Carlton",
+"val": 96,
+"variant": true
+},
+{
+"name": "Ty Cobb",
+"val": 96,
+"variant": false
+},
+{
+"name": "Connelly Early",
+"val": 96,
+"variant": false
+},
+{
+"name": "Harry Heilmann",
+"val": 96,
+"variant": false
+},
+{
+"name": "Rats Henderson",
+"val": 96,
+"variant": false
+},
+{
+"name": "Charlie Hollocher",
+"val": 96,
+"variant": false
+},
+{
+"name": "Cedric Mullins",
+"val": 96,
+"variant": false
+},
+{
+"name": "Jayson Werth",
+"val": 96,
+"variant": false
+},
+{
+"name": "JJ Wetherholt",
+"val": 96,
+"variant": true
+},
+{
+"name": "Joe Adcock",
+"val": 95,
+"variant": false
+},
+{
+"name": "Tyler Anderson",
+"val": 95,
+"variant": false
+},
+{
+"name": "Fred Clarke",
+"val": 95,
+"variant": false
+},
+{
+"name": "Tony Conigliaro",
+"val": 95,
+"variant": false
+},
+{
+"name": "Shawon Dunston",
+"val": 95,
+"variant": false
+},
+{
+"name": "Ethan Holliday",
+"val": 95,
+"variant": true
+},
+{
+"name": "Barry Latman",
+"val": 95,
+"variant": false
+},
+{
+"name": "Seiya Suzuki",
+"val": 95,
+"variant": false
+},
+{
+"name": "Miguel Vargas",
+"val": 95,
+"variant": false
+},
+{
+"name": "Josh Vitters",
+"val": 95,
+"variant": true
+},
+{
+"name": "Andrew Bailey",
+"val": 94,
+"variant": false
+},
+{
+"name": "Shane Bieber",
+"val": 94,
+"variant": false
+},
+{
+"name": "Bobby Estalella",
+"val": 94,
+"variant": false
+},
+{
+"name": "Elmer Flick",
+"val": 94,
+"variant": false
+},
+{
+"name": "Frankie Frisch",
+"val": 94,
+"variant": false
+},
+{
+"name": "Jim Ray Hart",
+"val": 94,
+"variant": false
+},
+{
+"name": "Logan Henderson",
+"val": 94,
+"variant": false
+},
+{
+"name": "Sam Jethroe",
+"val": 94,
+"variant": false
+},
+{
+"name": "Newt Joseph",
+"val": 94,
+"variant": false
+},
+{
+"name": "Jake Latz",
+"val": 94,
+"variant": false
+},
+{
+"name": "Evan Longoria",
+"val": 94,
+"variant": false
+},
+{
+"name": "Lance Parrish",
+"val": 94,
+"variant": false
+},
+{
+"name": "Roy Sievers",
+"val": 94,
+"variant": false
+},
+{
+"name": "Mark Teixeira",
+"val": 94,
+"variant": false
+},
+{
+"name": "Ryan Waldschmidt",
+"val": 94,
+"variant": true
+},
+{
+"name": "Smokey Joe Williams",
+"val": 94,
+"variant": false
+},
+{
+"name": "Bobby Witt Jr.",
+"val": 94,
+"variant": false
+},
+{
+"name": "Masataka Yoshida",
+"val": 94,
+"variant": false
+},
+{
+"name": "Johnny Bassler",
+"val": 93,
+"variant": false
+},
+{
+"name": "Beals Becker",
+"val": 93,
+"variant": false
+},
+{
+"name": "Darren Daulton",
+"val": 93,
+"variant": false
+},
+{
+"name": "Liam Doyle",
+"val": 93,
+"variant": false
+},
+{
+"name": "Noodles Hahn",
+"val": 93,
+"variant": false
+},
+{
+"name": "Cole Hamels",
+"val": 93,
+"variant": false
+},
+{
+"name": "John Hiller",
+"val": 93,
+"variant": false
+},
+{
+"name": "Willie McCovey",
+"val": 93,
+"variant": false
+},
+{
+"name": "Nolan McLean",
+"val": 93,
+"variant": false
+},
+{
+"name": "Lennie Pearson",
+"val": 93,
+"variant": true
+},
+{
+"name": "Ron Santo",
+"val": 93,
+"variant": true
+},
+{
+"name": "Kyle Stowers",
+"val": 93,
+"variant": false
+},
+{
+"name": "Jesse Winker",
+"val": 93,
+"variant": false
+},
+{
+"name": "Harlond Clift",
+"val": 92,
+"variant": false
+},
+{
+"name": "Frank Grant",
+"val": 92,
+"variant": false
+},
+{
+"name": "Catfish Hunter",
+"val": 92,
+"variant": false
+},
+{
+"name": "Jonathan Lucroy",
+"val": 92,
+"variant": false
+},
+{
+"name": "Louis Santop",
+"val": 92,
+"variant": false
+},
+{
+"name": "Tubby Scales",
+"val": 92,
+"variant": false
+},
+{
+"name": "Terry Shumpert",
+"val": 92,
+"variant": false
+},
+{
+"name": "Ted Strong",
+"val": 92,
+"variant": false
+},
+{
+"name": "Mickey Tettleton",
+"val": 92,
+"variant": false
+},
+{
+"name": "Rick Wilkins",
+"val": 92,
+"variant": false
+},
+{
+"name": "Barry Zito",
+"val": 92,
+"variant": false
+},
+{
+"name": "Oneil Cruz",
+"val": 91,
+"variant": false
+},
+{
+"name": "Carlton Fisk",
+"val": 91,
+"variant": false
+},
+{
+"name": "Kyle Freeland",
+"val": 91,
+"variant": true
+},
+{
+"name": "John Habyan",
+"val": 91,
+"variant": false
+},
+{
+"name": "Hal Haid",
+"val": 91,
+"variant": false
+},
+{
+"name": "Dan Haren",
+"val": 91,
+"variant": false
+},
+{
+"name": "Wade Johnston",
+"val": 91,
+"variant": false
+},
+{
+"name": "Jeff Kent",
+"val": 91,
+"variant": false
+},
+{
+"name": "Willie Wells",
+"val": 91,
+"variant": false
+},
+{
+"name": "Tommy Byrne",
+"val": 90,
+"variant": false
+},
+{
+"name": "George Carr",
+"val": 90,
+"variant": false
+},
+{
+"name": "Johnny Cueto",
+"val": 90,
+"variant": false
+},
+{
+"name": "Mitch Garver",
+"val": 90,
+"variant": false
+},
+{
+"name": "Heinie Groh",
+"val": 90,
+"variant": false
+},
+{
+"name": "Buddy Groom",
+"val": 90,
+"variant": false
+},
+{
+"name": "Al Leiter",
+"val": 90,
+"variant": true
+},
+{
+"name": "Mark Loretta",
+"val": 90,
+"variant": false
+},
+{
+"name": "Webster McDonald",
+"val": 90,
+"variant": false
+},
+{
+"name": "Minnie Minoso",
+"val": 90,
+"variant": false
+},
+{
+"name": "George Selkirk",
+"val": 90,
+"variant": false
+},
+{
+"name": "Joe Beggs",
+"val": 89,
+"variant": true
+},
+{
+"name": "Ossie Bluege",
+"val": 89,
+"variant": true
+},
+{
+"name": "Orlando Cabrera",
+"val": 89,
+"variant": false
+},
+{
+"name": "Brett Cecil",
+"val": 89,
+"variant": false
+},
+{
+"name": "Kaelen Culpepper",
+"val": 89,
+"variant": true
+},
+{
+"name": "Dick Groat",
+"val": 89,
+"variant": false
+},
+{
+"name": "Steve Hamilton",
+"val": 89,
+"variant": true
+},
+{
+"name": "Jack Kramer",
+"val": 89,
+"variant": false
+},
+{
+"name": "Count Leblanc",
+"val": 89,
+"variant": true
+},
+{
+"name": "Kevin Millwood",
+"val": 89,
+"variant": true
+},
+{
+"name": "Carlos Pena",
+"val": 89,
+"variant": false
+},
+{
+"name": "Old Hoss Radbourn",
+"val": 89,
+"variant": true
+},
+{
+"name": "Pythias Russ",
+"val": 89,
+"variant": true
+},
+{
+"name": "Dave Stieb",
+"val": 89,
+"variant": true
+},
+{
+"name": "Sebastian Walcott",
+"val": 89,
+"variant": false
+},
+{
+"name": "Jered Weaver",
+"val": 89,
+"variant": false
+},
+{
+"name": "Luis Arraez",
+"val": 88,
+"variant": false
+},
+{
+"name": "Heath Bell",
+"val": 88,
+"variant": false
+},
+{
+"name": "Yennier Cano",
+"val": 88,
+"variant": false
+},
+{
+"name": "Tyler Clippard",
+"val": 88,
+"variant": false
+},
+{
+"name": "Roy Cullenbine",
+"val": 88,
+"variant": false
+},
+{
+"name": "Dizzy Dean",
+"val": 88,
+"variant": false
+},
+{
+"name": "Dick Dietz",
+"val": 88,
+"variant": false
+},
+{
+"name": "Brian Dozier",
+"val": 88,
+"variant": true
+},
+{
+"name": "Mack Eggleston",
+"val": 88,
+"variant": true
+},
+{
+"name": "Bob Feller",
+"val": 88,
+"variant": true
+},
+{
+"name": "Billy Herman",
+"val": 88,
+"variant": false
+},
+{
+"name": "Bo Jackson",
+"val": 88,
+"variant": false
+},
+{
+"name": "Tony Phillips",
+"val": 88,
+"variant": false
+},
+{
+"name": "Socks Seybold",
+"val": 88,
+"variant": false
+},
+{
+"name": "Hilton Smith",
+"val": 88,
+"variant": false
+},
+{
+"name": "Rudy York",
+"val": 88,
+"variant": true
+},
+{
+"name": "Jeff Bagwell",
+"val": 87,
+"variant": false
+},
+{
+"name": "Mookie Betts",
+"val": 87,
+"variant": false
+},
+{
+"name": "Josue De Paula",
+"val": 87,
+"variant": true
+},
+{
+"name": "Logan Gilbert",
+"val": 87,
+"variant": false
+},
+{
+"name": "Curtis Granderson",
+"val": 87,
+"variant": false
+},
+{
+"name": "J.A. Happ",
+"val": 87,
+"variant": false
+},
+{
+"name": "Bill Holland",
+"val": 87,
+"variant": false
+},
+{
+"name": "Jim Kaat",
+"val": 87,
+"variant": true
+},
+{
+"name": "Johnny Markham",
+"val": 87,
+"variant": true
+},
+{
+"name": "Al Oliver",
+"val": 87,
+"variant": false
+},
+{
+"name": "Troy Percival",
+"val": 87,
+"variant": true
+},
+{
+"name": "Brian Roberts",
+"val": 87,
+"variant": false
+},
+{
+"name": "Richie Scheinblum",
+"val": 87,
+"variant": false
+},
+{
+"name": "Carson Williams",
+"val": 87,
+"variant": true
+},
+{
+"name": "C.J. Wilson",
+"val": 87,
+"variant": false
+},
+{
+"name": "Ryan Zimmerman",
+"val": 87,
+"variant": false
+},
+{
+"name": "Carlos Baerga",
+"val": 86,
+"variant": true
+},
+{
+"name": "Eric Chavez",
+"val": 86,
+"variant": false
+},
+{
+"name": "David Cone",
+"val": 86,
+"variant": false
+},
+{
+"name": "Jake Daubert",
+"val": 86,
+"variant": true
+},
+{
+"name": "Bob Fothergill",
+"val": 86,
+"variant": true
+},
+{
+"name": "Zyhir Hope",
+"val": 86,
+"variant": true
+},
+{
+"name": "Carl Hubbell",
+"val": 86,
+"variant": false
+},
+{
+"name": "Terry Kennedy",
+"val": 86,
+"variant": true
+},
+{
+"name": "Corey Knebel",
+"val": 86,
+"variant": false
+},
+{
+"name": "George Lombard Jr.",
+"val": 86,
+"variant": true
+},
+{
+"name": "Leroy Matlock",
+"val": 86,
+"variant": false
+},
+{
+"name": "Carlos May",
+"val": 86,
+"variant": false
+},
+{
+"name": "Jonathan Broxton",
+"val": 85,
+"variant": false
+},
+{
+"name": "Byron Buxton",
+"val": 85,
+"variant": false
+},
+{
+"name": "Dock Ellis",
+"val": 85,
+"variant": false
+},
+{
+"name": "Jason Isringhausen",
+"val": 85,
+"variant": false
+},
+{
+"name": "Jeff Kent",
+"val": 85,
+"variant": true
+},
+{
+"name": "Tug McGraw",
+"val": 85,
+"variant": false
+},
+{
+"name": "Albie Pearson",
+"val": 85,
+"variant": true
+},
+{
+"name": "Barney Schultz",
+"val": 85,
+"variant": false
+},
+{
+"name": "Luis Arroyo",
+"val": 84,
+"variant": true
+},
+{
+"name": "Lorenzo Cain",
+"val": 84,
+"variant": false
+},
+{
+"name": "Rafael Devers",
+"val": 84,
+"variant": false
+},
+{
+"name": "Dillon Dingler",
+"val": 84,
+"variant": false
+},
+{
+"name": "Dave Ferriss",
+"val": 84,
+"variant": false
+},
+{
+"name": "Jimmie Foxx",
+"val": 84,
+"variant": false
+},
+{
+"name": "John Franco",
+"val": 84,
+"variant": false
+},
+{
+"name": "Josh Gibson",
+"val": 84,
+"variant": false
+},
+{
+"name": "Ken Griffey Jr.",
+"val": 84,
+"variant": false
+},
+{
+"name": "Frankie Hayes",
+"val": 84,
+"variant": false
+},
+{
+"name": "Howard Johnson",
+"val": 84,
+"variant": true
+},
+{
+"name": "Carlos Lagrange",
+"val": 84,
+"variant": true
+},
+{
+"name": "Jimmie Lyons",
+"val": 84,
+"variant": false
+},
+{
+"name": "Damaso Marte",
+"val": 84,
+"variant": true
+},
+{
+"name": "Brian McRae",
+"val": 84,
+"variant": false
+},
+{
+"name": "Tom Burgmeier",
+"val": 83,
+"variant": false
+},
+{
+"name": "Jesse Chavez",
+"val": 83,
+"variant": false
+},
+{
+"name": "Zack Cozart",
+"val": 83,
+"variant": false
+},
+{
+"name": "Goose Curry",
+"val": 83,
+"variant": false
+},
+{
+"name": "Charlie Gehringer",
+"val": 83,
+"variant": false
+},
+{
+"name": "Rogers Hornsby",
+"val": 83,
+"variant": false
+},
+{
+"name": "Mike McCormick",
+"val": 83,
+"variant": false
+},
+{
+"name": "Dave Nilsson",
+"val": 83,
+"variant": false
+},
+{
+"name": "Branch Russell",
+"val": 83,
+"variant": false
+},
+{
+"name": "Reggie Sanders",
+"val": 83,
+"variant": false
+},
+{
+"name": "J.T. Snow",
+"val": 83,
+"variant": true
+},
+{
+"name": "Alfonso Soriano",
+"val": 83,
+"variant": false
+},
+{
+"name": "Robin Yount",
+"val": 83,
+"variant": false
+},
+{
+"name": "Tiny Bonham",
+"val": 82,
+"variant": true
+},
+{
+"name": "Wally Bunker",
+"val": 82,
+"variant": false
+},
+{
+"name": "Mike Cameron",
+"val": 82,
+"variant": false
+},
+{
+"name": "Kal Daniels",
+"val": 82,
+"variant": false
+},
+{
+"name": "Kid Elberfeld",
+"val": 82,
+"variant": false
+},
+{
+"name": "Buck Ewing",
+"val": 82,
+"variant": false
+},
+{
+"name": "Jason Giambi",
+"val": 82,
+"variant": false
+},
+{
+"name": "John Jaha",
+"val": 82,
+"variant": false
+},
+{
+"name": "Jerry Koosman",
+"val": 82,
+"variant": false
+},
+{
+"name": "Robert Poindexter",
+"val": 82,
+"variant": false
+},
+{
+"name": "CC Sabathia",
+"val": 82,
+"variant": false
+},
+{
+"name": "Stan Spence",
+"val": 82,
+"variant": false
+},
+{
+"name": "Kyle Tucker",
+"val": 82,
+"variant": false
+},
+{
+"name": "Walbert Urena",
+"val": 82,
+"variant": false
+},
+{
+"name": "Doc Wiley",
+"val": 82,
+"variant": false
+},
+{
+"name": "Pedro Alvarez",
+"val": 81,
+"variant": false
+},
+{
+"name": "Norm Charlton",
+"val": 81,
+"variant": true
+},
+{
+"name": "Jeff Francoeur",
+"val": 81,
+"variant": true
+},
+{
+"name": "Matt Garza",
+"val": 81,
+"variant": false
+},
+{
+"name": "Dick Green",
+"val": 81,
+"variant": false
+},
+{
+"name": "Tom House",
+"val": 81,
+"variant": false
+},
+{
+"name": "Jason Kipnis",
+"val": 81,
+"variant": true
+},
+{
+"name": "Lyn Lary",
+"val": 81,
+"variant": false
+},
+{
+"name": "Henry Bolte",
+"val": 80,
+"variant": false
+},
+{
+"name": "Kitty Bransfield",
+"val": 80,
+"variant": false
+},
+{
+"name": "Duke Brett",
+"val": 80,
+"variant": false
+},
+{
+"name": "Norm Cash",
+"val": 80,
+"variant": false
+},
+{
+"name": "Pete Hill",
+"val": 80,
+"variant": false
+},
+{
+"name": "Raisel Iglesias",
+"val": 80,
+"variant": false
+},
+{
+"name": "John Lackey",
+"val": 80,
+"variant": false
+},
+{
+"name": "Ad Lankford",
+"val": 80,
+"variant": false
+},
+{
+"name": "Al Leiter",
+"val": 80,
+"variant": false
+},
+{
+"name": "Jeferson Quero",
+"val": 80,
+"variant": true
+},
+{
+"name": "Mike Stanley",
+"val": 80,
+"variant": false
+},
+{
+"name": "Fernando Abad",
+"val": 79,
+"variant": false
+},
+{
+"name": "Jacob deGrom",
+"val": 79,
+"variant": false
+},
+{
+"name": "Carlos Gomez",
+"val": 79,
+"variant": false
+},
+{
+"name": "Vic Harris",
+"val": 79,
+"variant": true
+},
+{
+"name": "Woodie Held",
+"val": 79,
+"variant": false
+},
+{
+"name": "George Klassen",
+"val": 79,
+"variant": true
+},
+{
+"name": "Willie McGee",
+"val": 79,
+"variant": true
+},
+{
+"name": "Kid Nichols",
+"val": 79,
+"variant": true
+},
+{
+"name": "Dan Pasqua",
+"val": 79,
+"variant": true
+},
+{
+"name": "Jeremy Pena",
+"val": 79,
+"variant": false
+},
+{
+"name": "Bill Ricks",
+"val": 79,
+"variant": false
+},
+{
+"name": "Jackie Robinson",
+"val": 79,
+"variant": true
+},
+{
+"name": "John Henry Russell",
+"val": 79,
+"variant": true
+},
+{
+"name": "Bobby Shantz",
+"val": 79,
+"variant": true
+},
+{
+"name": "Ozzie Smith",
+"val": 79,
+"variant": true
+},
+{
+"name": "Julio Teheran",
+"val": 79,
+"variant": true
+},
+{
+"name": "Jack Wenninger",
+"val": 79,
+"variant": false
+},
+{
+"name": "Jesse Williams",
+"val": 79,
+"variant": false
+},
+{
+"name": "CJ Abrams",
+"val": 78,
+"variant": false
+},
+{
+"name": "Javier Baez",
+"val": 78,
+"variant": false
+},
+{
+"name": "Josh Bell",
+"val": 78,
+"variant": true
+},
+{
+"name": "Owen Caissie",
+"val": 78,
+"variant": true
+},
+{
+"name": "Mark Carreon",
+"val": 78,
+"variant": false
+},
+{
+"name": "Will Clark",
+"val": 78,
+"variant": true
+},
+{
+"name": "Carlos Delgado",
+"val": 78,
+"variant": false
+},
+{
+"name": "Kelvim Escobar",
+"val": 78,
+"variant": false
+},
+{
+"name": "Lew Fonseca",
+"val": 78,
+"variant": false
+},
+{
+"name": "Avisail Garcia",
+"val": 78,
+"variant": false
+},
+{
+"name": "Ken Griffey Jr.",
+"val": 78,
+"variant": true
+},
+{
+"name": "Clay Holmes",
+"val": 78,
+"variant": false
+},
+{
+"name": "Bobby Lowe",
+"val": 78,
+"variant": true
+},
+{
+"name": "Percy Miller",
+"val": 78,
+"variant": false
+},
+{
+"name": "Muddy Ruel",
+"val": 78,
+"variant": true
+},
+{
+"name": "Harry Salmon",
+"val": 78,
+"variant": false
+},
+{
+"name": "Travis Sykora",
+"val": 78,
+"variant": true
+},
+{
+"name": "Justin Turner",
+"val": 78,
+"variant": true
+},
+{
+"name": "Tim Wallach",
+"val": 78,
+"variant": false
+},
+{
+"name": "Luis De Leon",
+"val": 77,
+"variant": true
+},
+{
+"name": "Mike Greenwell",
+"val": 77,
+"variant": true
+},
+{
+"name": "Randy Johnson",
+"val": 77,
+"variant": true
+},
+{
+"name": "Mark Littell",
+"val": 77,
+"variant": true
+},
+{
+"name": "Mike Matthews",
+"val": 77,
+"variant": true
+},
+{
+"name": "Joe Medwick",
+"val": 77,
+"variant": false
+},
+{
+"name": "Justin Morneau",
+"val": 77,
+"variant": false
+},
+{
+"name": "Placido Polanco",
+"val": 77,
+"variant": false
+},
+{
+"name": "Colby Rasmus",
+"val": 77,
+"variant": true
+},
+{
+"name": "Randy Ready",
+"val": 77,
+"variant": false
+},
+{
+"name": "Wilbert Robinson",
+"val": 77,
+"variant": true
+},
+{
+"name": "Miguel Sano",
+"val": 77,
+"variant": false
+},
+{
+"name": "Jack Smith",
+"val": 77,
+"variant": true
+},
+{
+"name": "Dean Stone",
+"val": 77,
+"variant": false
+},
+{
+"name": "Miguel Tejada",
+"val": 77,
+"variant": false
+},
+{
+"name": "Lee Thomas",
+"val": 77,
+"variant": true
+},
+{
+"name": "B.J. Upton",
+"val": 77,
+"variant": false
+},
+{
+"name": "Andy Van Slyke",
+"val": 77,
+"variant": true
+},
+{
+"name": "Jose Vidro",
+"val": 77,
+"variant": true
+},
+{
+"name": "Kevin Alcantara",
+"val": 76,
+"variant": true
+},
+{
+"name": "Nick Altrock",
+"val": 76,
+"variant": false
+},
+{
+"name": "Hubie Brooks",
+"val": 76,
+"variant": true
+},
+{
+"name": "Dave Bush",
+"val": 76,
+"variant": true
+},
+{
+"name": "Dennis Cook",
+"val": 76,
+"variant": true
+},
+{
+"name": "Brad Hand",
+"val": 76,
+"variant": true
+},
+{
+"name": "Ken Holtzman",
+"val": 76,
+"variant": true
+},
+{
+"name": "Michael King",
+"val": 76,
+"variant": true
+},
+{
+"name": "Parker Messick",
+"val": 76,
+"variant": true
+},
+{
+"name": "Vic Power",
+"val": 76,
+"variant": true
+},
+{
+"name": "Kirby Puckett",
+"val": 76,
+"variant": true
+},
+{
+"name": "Alex Rios",
+"val": 76,
+"variant": false
+},
+{
+"name": "Ivan Rodriguez",
+"val": 76,
+"variant": false
+},
+{
+"name": "Ed Spiezio",
+"val": 76,
+"variant": true
+},
+{
+"name": "Jose Valverde",
+"val": 76,
+"variant": false
+},
+{
+"name": "Carlos Beltran",
+"val": 75,
+"variant": false
+},
+{
+"name": "Alec Burleson",
+"val": 75,
+"variant": false
+},
+{
+"name": "Lave Cross",
+"val": 75,
+"variant": false
+},
+{
+"name": "David Dahl",
+"val": 75,
+"variant": false
+},
+{
+"name": "Al Ferrara",
+"val": 75,
+"variant": true
+},
+{
+"name": "Nathan Flewelling",
+"val": 75,
+"variant": true
+},
+{
+"name": "Frank Foreman",
+"val": 75,
+"variant": true
+},
+{
+"name": "Juan Guzman",
+"val": 75,
+"variant": false
+},
+{
+"name": "Billy Hoeft",
+"val": 75,
+"variant": false
+},
+{
+"name": "Desmond Jennings",
+"val": 75,
+"variant": false
+},
+{
+"name": "Jeff Kent",
+"val": 75,
+"variant": false
+},
+{
+"name": "Corey Koskie",
+"val": 75,
+"variant": true
+},
+{
+"name": "Derrek Lee",
+"val": 75,
+"variant": false
+},
+{
+"name": "Ed Lopat",
+"val": 75,
+"variant": true
+},
+{
+"name": "Matt Mantei",
+"val": 75,
+"variant": true
+},
+{
+"name": "Don McMahon",
+"val": 75,
+"variant": false
+},
+{
+"name": "Tony Phillips",
+"val": 75,
+"variant": true
+},
+{
+"name": "Mike Zunino",
+"val": 75,
+"variant": true
+},
+{
+"name": "Ryan Braun",
+"val": 74,
+"variant": false
+},
+{
+"name": "Johnny Davis",
+"val": 74,
+"variant": true
+},
+{
+"name": "Bryce Harper",
+"val": 74,
+"variant": false
+},
+{
+"name": "Charlie Hickman",
+"val": 74,
+"variant": false
+},
+{
+"name": "Joe Judge",
+"val": 74,
+"variant": false
+},
+{
+"name": "Frank Killen",
+"val": 74,
+"variant": false
+},
+{
+"name": "Biz Mackey",
+"val": 74,
+"variant": false
+},
+{
+"name": "Triston McKenzie",
+"val": 74,
+"variant": false
+},
+{
+"name": "Dick Stuart",
+"val": 74,
+"variant": true
+},
+{
+"name": "Dave Tomlin",
+"val": 74,
+"variant": true
+},
+{
+"name": "Troy Tulowitzki",
+"val": 74,
+"variant": true
+},
+{
+"name": "Devon White",
+"val": 74,
+"variant": false
+},
+{
+"name": "Jack Aker",
+"val": 73,
+"variant": true
+},
+{
+"name": "Bob Boone",
+"val": 73,
+"variant": true
+},
+{
+"name": "Felnin Celesten",
+"val": 73,
+"variant": false
+},
+{
+"name": "Roosevelt Davis",
+"val": 73,
+"variant": true
+},
+{
+"name": "Marquis Grissom",
+"val": 73,
+"variant": false
+},
+{
+"name": "Dick Hoblitzel",
+"val": 73,
+"variant": true
+},
+{
+"name": "Torii Hunter",
+"val": 73,
+"variant": true
+},
+{
+"name": "Gage Jump",
+"val": 73,
+"variant": false
+},
+{
+"name": "Harmon Killebrew",
+"val": 73,
+"variant": false
+},
+{
+"name": "Andy McGaffigan",
+"val": 73,
+"variant": true
+},
+{
+"name": "Jack Russell",
+"val": 73,
+"variant": false
+},
+{
+"name": "Fernando Tatis",
+"val": 73,
+"variant": true
+},
+{
+"name": "Josue Briceno",
+"val": 72,
+"variant": true
+},
+{
+"name": "Miguel Cabrera",
+"val": 72,
+"variant": false
+},
+{
+"name": "Mike Fitzgerald",
+"val": 72,
+"variant": false
+},
+{
+"name": "Gary Gaetti",
+"val": 72,
+"variant": true
+},
+{
+"name": "Dan Haren",
+"val": 72,
+"variant": false
+},
+{
+"name": "Eggie Hensley",
+"val": 72,
+"variant": true
+},
+{
+"name": "Felix Hernandez",
+"val": 72,
+"variant": false
+},
+{
+"name": "Ramon Hernandez",
+"val": 72,
+"variant": false
+},
+{
+"name": "Jakie May",
+"val": 72,
+"variant": true
+},
+{
+"name": "Jake McCarthy",
+"val": 72,
+"variant": false
+},
+{
+"name": "Jacob Reimer",
+"val": 72,
+"variant": true
+},
+{
+"name": "Riggs Stephenson",
+"val": 72,
+"variant": true
+},
+{
+"name": "Earl Webb",
+"val": 72,
+"variant": false
+},
+{
+"name": "Mitch Webster",
+"val": 72,
+"variant": false
+},
+{
+"name": "Aiva Arquette",
+"val": 71,
+"variant": true
+},
+{
+"name": "Con Daily",
+"val": 71,
+"variant": true
+},
+{
+"name": "Miller Huggins",
+"val": 71,
+"variant": false
+},
+{
+"name": "Peter Moylan",
+"val": 71,
+"variant": false
+},
+{
+"name": "Gene Schott",
+"val": 71,
+"variant": true
+},
+{
+"name": "Gus Bell",
+"val": 70,
+"variant": false
+},
+{
+"name": "Alex Claudio",
+"val": 70,
+"variant": true
+},
+{
+"name": "Juan Cruz",
+"val": 70,
+"variant": false
+},
+{
+"name": "Xavier Edwards",
+"val": 70,
+"variant": false
+},
+{
+"name": "Casey Fien",
+"val": 70,
+"variant": true
+},
+{
+"name": "Chad Green",
+"val": 70,
+"variant": true
+},
+{
+"name": "Jose Offerman",
+"val": 70,
+"variant": false
+},
+{
+"name": "Nick Swisher",
+"val": 70,
+"variant": true
+},
+{
+"name": "Ed Bailey",
+"val": 69,
+"variant": true
+},
+{
+"name": "Dave Bancroft",
+"val": 69,
+"variant": false
+},
+{
+"name": "Adam Cimber",
+"val": 69,
+"variant": true
+},
+{
+"name": "Claude Johnson",
+"val": 69,
+"variant": false
+},
+{
+"name": "Jose Lima",
+"val": 69,
+"variant": false
+},
+{
+"name": "Kenta Maeda",
+"val": 69,
+"variant": false
+},
+{
+"name": "Bob Miller",
+"val": 69,
+"variant": false
+},
+{
+"name": "Steve Pearce",
+"val": 69,
+"variant": true
+},
+{
+"name": "Aaron Rowand",
+"val": 69,
+"variant": false
+},
+{
+"name": "Marco Scutaro",
+"val": 69,
+"variant": true
+},
+{
+"name": "Justin Smoak",
+"val": 69,
+"variant": false
+},
+{
+"name": "Pete Washington",
+"val": 69,
+"variant": false
+},
+{
+"name": "Cy Williams",
+"val": 69,
+"variant": true
+},
+{
+"name": "Kerry Wood",
+"val": 69,
+"variant": false
+},
+{
+"name": "Dave Brain",
+"val": 68,
+"variant": true
+},
+{
+"name": "Leo Cardenas",
+"val": 68,
+"variant": false
+},
+{
+"name": "Jimmy Crooks",
+"val": 68,
+"variant": true
+},
+{
+"name": "Nelson Dean",
+"val": 68,
+"variant": false
+},
+{
+"name": "Paul DeJong",
+"val": 68,
+"variant": true
+},
+{
+"name": "Jose DeLeon",
+"val": 68,
+"variant": false
+},
+{
+"name": "Rafael Devers",
+"val": 68,
+"variant": false
+},
+{
+"name": "Larry Gardner",
+"val": 68,
+"variant": false
+},
+{
+"name": "Rickey Henderson",
+"val": 68,
+"variant": true
+},
+{
+"name": "Joe Hewitt",
+"val": 68,
+"variant": true
+},
+{
+"name": "Felipe Lopez",
+"val": 68,
+"variant": true
+},
+{
+"name": "Mickey Mantle",
+"val": 68,
+"variant": true
+},
+{
+"name": "Ketel Marte",
+"val": 68,
+"variant": true
+},
+{
+"name": "John Olerud",
+"val": 68,
+"variant": false
+},
+{
+"name": "Dave Roberts",
+"val": 68,
+"variant": true
+},
+{
+"name": "Ken Sanders",
+"val": 68,
+"variant": true
+},
+{
+"name": "Billy Southworth",
+"val": 68,
+"variant": true
+},
+{
+"name": "Tully Sparks",
+"val": 68,
+"variant": true
+},
+{
+"name": "Jim Todd",
+"val": 68,
+"variant": true
+},
+{
+"name": "Chien-Ming Wang",
+"val": 68,
+"variant": false
+},
+{
+"name": "Tom Williams",
+"val": 68,
+"variant": true
+},
+{
+"name": "Johnny Wright",
+"val": 68,
+"variant": true
+},
+{
+"name": "Bob Allison",
+"val": 67,
+"variant": true
+},
+{
+"name": "Rich Aurilia",
+"val": 67,
+"variant": false
+},
+{
+"name": "Brandon Beachy",
+"val": 67,
+"variant": false
+},
+{
+"name": "Jake Bloss",
+"val": 67,
+"variant": true
+},
+{
+"name": "Eric Byrnes",
+"val": 67,
+"variant": false
+},
+{
+"name": "Robinson Cano",
+"val": 67,
+"variant": false
+},
+{
+"name": "Edwin Diaz",
+"val": 67,
+"variant": false
+},
+{
+"name": "Roberto H. Hernandez",
+"val": 67,
+"variant": true
+},
+{
+"name": "Kevin Kiermaier",
+"val": 67,
+"variant": false
+},
+{
+"name": "Red Kress",
+"val": 67,
+"variant": true
+},
+{
+"name": "Pedro Martinez",
+"val": 67,
+"variant": false
+},
+{
+"name": "Scott Rolen",
+"val": 67,
+"variant": false
+},
+{
+"name": "Grover Cleveland Alexander",
+"val": 66,
+"variant": false
+},
+{
+"name": "Ellis Burks",
+"val": 66,
+"variant": false
+},
+{
+"name": "Royce Clayton",
+"val": 66,
+"variant": false
+},
+{
+"name": "Josh Collmenter",
+"val": 66,
+"variant": true
+},
+{
+"name": "Johnny Damon",
+"val": 66,
+"variant": true
+},
+{
+"name": "Charlie Grimm",
+"val": 66,
+"variant": true
+},
+{
+"name": "Tanner McDougal",
+"val": 66,
+"variant": true
+},
+{
+"name": "Ed Morgan",
+"val": 66,
+"variant": true
+},
+{
+"name": "Alexi Ogando",
+"val": 66,
+"variant": false
+},
+{
+"name": "Eddie Plank",
+"val": 66,
+"variant": false
+},
+{
+"name": "Chris Sabo",
+"val": 66,
+"variant": false
+},
+{
+"name": "Larry Sherry",
+"val": 66,
+"variant": false
+},
+{
+"name": "Jerry Staley",
+"val": 66,
+"variant": true
+},
+{
+"name": "Marshall Bridges",
+"val": 65,
+"variant": true
+},
+{
+"name": "Jose Canseco",
+"val": 65,
+"variant": true
+},
+{
+"name": "Vic Davalillo",
+"val": 65,
+"variant": false
+},
+{
+"name": "Joe Dugan",
+"val": 65,
+"variant": true
+},
+{
+"name": "Mark Grudzielanek",
+"val": 65,
+"variant": false
+},
+{
+"name": "Shigetoshi Hasegawa",
+"val": 65,
+"variant": false
+},
+{
+"name": "Pinky Higgins",
+"val": 65,
+"variant": true
+},
+{
+"name": "Joe Morgan",
+"val": 65,
+"variant": false
+},
+{
+"name": "Don Robinson",
+"val": 65,
+"variant": true
+},
+{
+"name": "Garret Anderson",
+"val": 64,
+"variant": true
+},
+{
+"name": "Mark Bellhorn",
+"val": 64,
+"variant": false
+},
+{
+"name": "Jim Bouton",
+"val": 64,
+"variant": true
+},
+{
+"name": "Greg Briley",
+"val": 64,
+"variant": true
+},
+{
+"name": "Bill Buckner",
+"val": 64,
+"variant": true
+},
+{
+"name": "Brett Butler",
+"val": 64,
+"variant": true
+},
+{
+"name": "Joe Carter",
+"val": 64,
+"variant": false
+},
+{
+"name": "Dick Culler",
+"val": 64,
+"variant": false
+},
+{
+"name": "Ian Desmond",
+"val": 64,
+"variant": false
+},
+{
+"name": "Elrod Hendricks",
+"val": 64,
+"variant": true
+},
+{
+"name": "Bruce Hurst",
+"val": 64,
+"variant": false
+},
+{
+"name": "Isiah Kiner-Falefa",
+"val": 64,
+"variant": false
+},
+{
+"name": "Corey Kluber",
+"val": 64,
+"variant": true
+},
+{
+"name": "Ryan Lavarnway",
+"val": 64,
+"variant": false
+},
+{
+"name": "Jhonny Level",
+"val": 64,
+"variant": true
+},
+{
+"name": "Carl Lundgren",
+"val": 64,
+"variant": true
+},
+{
+"name": "Oddibe McDowell",
+"val": 64,
+"variant": true
+},
+{
+"name": "Eddie Murphy",
+"val": 64,
+"variant": true
+},
+{
+"name": "Carlos Santana",
+"val": 64,
+"variant": false
+},
+{
+"name": "Caden Scarborough",
+"val": 64,
+"variant": true
+},
+{
+"name": "Jose Valentin",
+"val": 64,
+"variant": true
+},
+{
+"name": "U L Washington",
+"val": 64,
+"variant": true
+},
+{
+"name": "Mitch Williams",
+"val": 64,
+"variant": false
+},
+{
+"name": "Jack Cust",
+"val": 63,
+"variant": false
+},
+{
+"name": "Jim Edmonds",
+"val": 63,
+"variant": false
+},
+{
+"name": "Mark Ellis",
+"val": 63,
+"variant": true
+},
+{
+"name": "Andy Etchebarren",
+"val": 63,
+"variant": false
+},
+{
+"name": "Aaron Hicks",
+"val": 63,
+"variant": false
+},
+{
+"name": "Dave Rozema",
+"val": 63,
+"variant": false
+},
+{
+"name": "Danny Tartabull",
+"val": 63,
+"variant": false
+},
+{
+"name": "Happy Townsend",
+"val": 63,
+"variant": true
+},
+{
+"name": "Josh Willingham",
+"val": 63,
+"variant": false
+},
+{
+"name": "Russ Wrightstone",
+"val": 63,
+"variant": true
+},
+{
+"name": "Julio Cruz",
+"val": 62,
+"variant": true
+},
+{
+"name": "Khalil Greene",
+"val": 62,
+"variant": false
+},
+{
+"name": "Ramon Hernandez",
+"val": 62,
+"variant": false
+},
+{
+"name": "Darren O'Day",
+"val": 62,
+"variant": true
+},
+{
+"name": "Josh Reddick",
+"val": 62,
+"variant": true
+},
+{
+"name": "Reggie Sanders",
+"val": 62,
+"variant": true
+},
+{
+"name": "Steve Sax",
+"val": 62,
+"variant": false
+},
+{
+"name": "Dupee Shaw",
+"val": 62,
+"variant": true
+},
+{
+"name": "Donn Clendenon",
+"val": 61,
+"variant": true
+},
+{
+"name": "Dwight Gooden",
+"val": 61,
+"variant": false
+},
+{
+"name": "Bob Kennedy",
+"val": 61,
+"variant": true
+},
+{
+"name": "Jim Konstanty",
+"val": 61,
+"variant": false
+},
+{
+"name": "Jack Tobin",
+"val": 61,
+"variant": false
+},
+{
+"name": "Paul Waner",
+"val": 61,
+"variant": false
+},
+{
+"name": "Ricky Bones",
+"val": 60,
+"variant": true
+},
+{
+"name": "Jose Cardenal",
+"val": 60,
+"variant": true
+},
+{
+"name": "Dave Concepcion",
+"val": 60,
+"variant": true
+},
+{
+"name": "Chuck Finley",
+"val": 60,
+"variant": true
+},
+{
+"name": "Tony Gwynn Jr.",
+"val": 60,
+"variant": false
+},
+{
+"name": "Chase Headley",
+"val": 60,
+"variant": true
+},
+{
+"name": "Darrell May",
+"val": 60,
+"variant": false
+},
+{
+"name": "Willy Adames",
+"val": 59,
+"variant": false
+},
+{
+"name": "Wilson Alvarez",
+"val": 59,
+"variant": true
+},
+{
+"name": "John Bale",
+"val": 59,
+"variant": false
+},
+{
+"name": "Andrew Benintendi",
+"val": 59,
+"variant": true
+},
+{
+"name": "Hector Carrasco",
+"val": 59,
+"variant": true
+},
+{
+"name": "Harry Coveleski",
+"val": 59,
+"variant": true
+},
+{
+"name": "Wilmer Flores",
+"val": 59,
+"variant": true
+},
+{
+"name": "Andres Galarraga",
+"val": 59,
+"variant": false
+},
+{
+"name": "Shawn Green",
+"val": 59,
+"variant": false
+},
+{
+"name": "Bill Hall",
+"val": 59,
+"variant": false
+},
+{
+"name": "Vicente Padilla",
+"val": 59,
+"variant": true
+},
+{
+"name": "Geraldo Perdomo",
+"val": 59,
+"variant": true
+},
+{
+"name": "Mark Quinn",
+"val": 59,
+"variant": false
+},
+{
+"name": "Dan Uggla",
+"val": 59,
+"variant": false
+},
+{
+"name": "Ice Box Chamberlain",
+"val": 58,
+"variant": true
+},
+{
+"name": "Freddy Galvis",
+"val": 58,
+"variant": true
+},
+{
+"name": "Jason Giambi",
+"val": 58,
+"variant": true
+},
+{
+"name": "Tony Gwynn",
+"val": 58,
+"variant": false
+},
+{
+"name": "Roy Lee Jackson",
+"val": 58,
+"variant": true
+},
+{
+"name": "Greg Norton",
+"val": 58,
+"variant": true
+},
+{
+"name": "Tom Poorman",
+"val": 58,
+"variant": true
+},
+{
+"name": "Jackie Robinson",
+"val": 58,
+"variant": true
+},
+{
+"name": "Jack Russell",
+"val": 58,
+"variant": true
+},
+{
+"name": "Justin Verlander",
+"val": 58,
+"variant": false
+},
+{
+"name": "Jonathan Villar",
+"val": 58,
+"variant": true
+},
+{
+"name": "Hank Wyse",
+"val": 58,
+"variant": true
+},
+{
+"name": "Dallas Braden",
+"val": 57,
+"variant": false
+},
+{
+"name": "Gene Conley",
+"val": 57,
+"variant": true
+},
+{
+"name": "Junior Felix",
+"val": 57,
+"variant": true
+},
+{
+"name": "Jason Heyward",
+"val": 57,
+"variant": false
+},
+{
+"name": "Andruw Jones",
+"val": 57,
+"variant": true
+},
+{
+"name": "Joe Krakauskas",
+"val": 57,
+"variant": false
+},
+{
+"name": "Mike Marshall",
+"val": 57,
+"variant": false
+},
+{
+"name": "Bob Oliver",
+"val": 57,
+"variant": true
+},
+{
+"name": "Ossie Orwoll",
+"val": 57,
+"variant": true
+},
+{
+"name": "Broderick Perkins",
+"val": 57,
+"variant": false
+},
+{
+"name": "Daryl Spencer",
+"val": 57,
+"variant": true
+},
+{
+"name": "Specs Clark",
+"val": 56,
+"variant": false
+},
+{
+"name": "Matt Davidson",
+"val": 56,
+"variant": true
+},
+{
+"name": "Pumpsie Green",
+"val": 56,
+"variant": true
+},
+{
+"name": "Tommy John",
+"val": 56,
+"variant": false
+},
+{
+"name": "Xavier Nady",
+"val": 56,
+"variant": false
+},
+{
+"name": "Tom Seaver",
+"val": 56,
+"variant": false
+},
+{
+"name": "Jack Shepard",
+"val": 56,
+"variant": true
+},
+{
+"name": "Mike Stanton",
+"val": 56,
+"variant": false
+},
+{
+"name": "Salomon Torres",
+"val": 56,
+"variant": true
+},
+{
+"name": "Ramon Arano",
+"val": 55,
+"variant": true
+},
+{
+"name": "Ken Berry",
+"val": 55,
+"variant": false
+},
+{
+"name": "Bob Bowman",
+"val": 55,
+"variant": true
+},
+{
+"name": "Roger Bresnahan",
+"val": 55,
+"variant": false
+},
+{
+"name": "Roy Mahaffey",
+"val": 55,
+"variant": true
+},
+{
+"name": "James McDonald",
+"val": 55,
+"variant": true
+},
+{
+"name": "John Shelby",
+"val": 55,
+"variant": false
+},
+{
+"name": "Brice Turang",
+"val": 55,
+"variant": true
+},
+{
+"name": "Kerry Wood",
+"val": 55,
+"variant": true
+},
+{
+"name": "Eddie Cicotte",
+"val": 54,
+"variant": true
+},
+{
+"name": "Lefty Gomez",
+"val": 54,
+"variant": true
+},
+{
+"name": "Duffy Lewis",
+"val": 54,
+"variant": true
+},
+{
+"name": "Wally Post",
+"val": 54,
+"variant": true
+},
+{
+"name": "Jim Tabor",
+"val": 54,
+"variant": true
+},
+{
+"name": "Jordan Walden",
+"val": 54,
+"variant": true
+},
+{
+"name": "Ty Wigginton",
+"val": 54,
+"variant": true
+},
+{
+"name": "Ted Williams",
+"val": 54,
+"variant": true
+},
+{
+"name": "Jeff Francis",
+"val": 53,
+"variant": false
+},
+{
+"name": "Norris Hopper",
+"val": 53,
+"variant": false
+},
+{
+"name": "Dolf Luque",
+"val": 53,
+"variant": false
+},
+{
+"name": "Trevor Rosenthal",
+"val": 53,
+"variant": true
+},
+{
+"name": "Grady Sizemore",
+"val": 53,
+"variant": true
+},
+{
+"name": "Scoops Carey",
+"val": 52,
+"variant": true
+},
+{
+"name": "Leo Gomez",
+"val": 52,
+"variant": false
+},
+{
+"name": "Marquis Grissom",
+"val": 52,
+"variant": false
+},
+{
+"name": "Lenny Harris",
+"val": 52,
+"variant": true
+},
+{
+"name": "Rick Rhoden",
+"val": 52,
+"variant": true
+},
+{
+"name": "Francisco Rodriguez",
+"val": 52,
+"variant": true
+},
+{
+"name": "Eddie Waitkus",
+"val": 52,
+"variant": true
+},
+{
+"name": "Cheslor Cuthbert",
+"val": 51,
+"variant": false
+},
+{
+"name": "Clay Dalrymple",
+"val": 51,
+"variant": true
+},
+{
+"name": "Derek Dietrich",
+"val": 51,
+"variant": true
+},
+{
+"name": "Isidro Fabre",
+"val": 51,
+"variant": true
+},
+{
+"name": "Pedro Martinez",
+"val": 51,
+"variant": false
+},
+{
+"name": "Kirk McCaskill",
+"val": 51,
+"variant": true
+},
+{
+"name": "Mike Trout",
+"val": 51,
+"variant": true
+},
+{
+"name": "Todd Benzinger",
+"val": 50,
+"variant": false
+},
+{
+"name": "Ken Griffey Jr.",
+"val": 50,
+"variant": true
+},
+{
+"name": "Dave Henderson",
+"val": 50,
+"variant": false
+},
+{
+"name": "Nap Lajoie",
+"val": 50,
+"variant": true
+},
+{
+"name": "Fritz Maisel",
+"val": 50,
+"variant": true
+},
+{
+"name": "Sammy Taylor",
+"val": 50,
+"variant": true
+},
+{
+"name": "Javier Baez",
+"val": 49,
+"variant": true
+},
+{
+"name": "Robert Person",
+"val": 49,
+"variant": true
+},
+{
+"name": "Eliezer J. Alfonzo",
+"val": 48,
+"variant": true
+},
+{
+"name": "Kevin Appier",
+"val": 48,
+"variant": false
+},
+{
+"name": "Tim Beckham",
+"val": 48,
+"variant": true
+},
+{
+"name": "Billy Bryan",
+"val": 48,
+"variant": true
+},
+{
+"name": "Lefty Grove",
+"val": 48,
+"variant": false
+},
+{
+"name": "Vladimir Guerrero",
+"val": 48,
+"variant": false
+},
+{
+"name": "Jeff Innis",
+"val": 48,
+"variant": true
+},
+{
+"name": "Jonathan Lucroy",
+"val": 48,
+"variant": true
+},
+{
+"name": "George Sisler",
+"val": 48,
+"variant": true
+},
+{
+"name": "Harold Baines",
+"val": 47,
+"variant": true
+},
+{
+"name": "Jose Bautista",
+"val": 47,
+"variant": false
+},
+{
+"name": "Kid Elberfeld",
+"val": 47,
+"variant": true
+},
+{
+"name": "Al Holland",
+"val": 47,
+"variant": true
+},
+{
+"name": "Jorge Mateo",
+"val": 47,
+"variant": false
+},
+{
+"name": "Cal McVey",
+"val": 47,
+"variant": true
+},
+{
+"name": "Kevin Newman",
+"val": 47,
+"variant": true
+},
+{
+"name": "Ace Adams",
+"val": 46,
+"variant": false
+},
+{
+"name": "Bert Gallia",
+"val": 46,
+"variant": true
+},
+{
+"name": "Jim Hegan",
+"val": 46,
+"variant": true
+},
+{
+"name": "Ken Heintzelman",
+"val": 46,
+"variant": true
+},
+{
+"name": "Rickey Henderson",
+"val": 46,
+"variant": true
+},
+{
+"name": "Pete Incaviglia",
+"val": 46,
+"variant": false
+},
+{
+"name": "Fred Lynn",
+"val": 46,
+"variant": false
+},
+{
+"name": "Jose Tartabull",
+"val": 46,
+"variant": false
+},
+{
+"name": "Jordan Danks",
+"val": 45,
+"variant": true
+},
+{
+"name": "Tin Can Kincannon",
+"val": 45,
+"variant": false
+},
+{
+"name": "Nate Robertson",
+"val": 45,
+"variant": true
+},
+{
+"name": "Alfredo Amezaga",
+"val": 44,
+"variant": false
+},
+{
+"name": "John Bateman",
+"val": 44,
+"variant": true
+},
+{
+"name": "Byron Buxton",
+"val": 44,
+"variant": false
+},
+{
+"name": "Rick Camp",
+"val": 44,
+"variant": false
+},
+{
+"name": "Tsung-Che Cheng",
+"val": 44,
+"variant": true
+},
+{
+"name": "Bob Gibson",
+"val": 44,
+"variant": true
+},
+{
+"name": "Bob Horner",
+"val": 44,
+"variant": false
+},
+{
+"name": "Eguy Rosario",
+"val": 44,
+"variant": false
+},
+{
+"name": "Todd Jones",
+"val": 43,
+"variant": true
+},
+{
+"name": "Freddie Patek",
+"val": 43,
+"variant": true
+},
+{
+"name": "Sammy Sosa",
+"val": 43,
+"variant": true
+},
+{
+"name": "Al Spohrer",
+"val": 43,
+"variant": false
+},
+{
+"name": "Jerome Walton",
+"val": 43,
+"variant": true
+},
+{
+"name": "Jerry Augustine",
+"val": 42,
+"variant": true
+},
+{
+"name": "Joe Boehling",
+"val": 42,
+"variant": true
+},
+{
+"name": "Henry Easterday",
+"val": 42,
+"variant": false
+},
+{
+"name": "Buck Rodgers",
+"val": 42,
+"variant": true
+},
+{
+"name": "Bob Uecker",
+"val": 42,
+"variant": false
+},
+{
+"name": "Leo Durocher",
+"val": 41,
+"variant": true
+},
+{
+"name": "Paddy O'Connor",
+"val": 41,
+"variant": false
+},
+{
+"name": "Monte Beville",
+"val": 40,
+"variant": true
+},
+{
+"name": "Bunny Brief",
+"val": 40,
+"variant": false
+},
+{
+"name": "Doug Flynn",
+"val": 40,
+"variant": true
+},
+{
+"name": "John Gochnauer",
+"val": 40,
+"variant": false
+},
+{
+"name": "Andrew Miller",
+"val": 40,
+"variant": true
+},
+{
+"name": "Del Rice",
+"val": 40,
+"variant": true
+}
+]
+}
