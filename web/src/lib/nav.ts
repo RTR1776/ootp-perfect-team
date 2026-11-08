@@ -31,7 +31,7 @@ export const NAV: NavGroup[] = [
   {
     label: "Scout",
     items: [
-      { href: "/needs", label: "Needs", icon: Crosshair, hint: "Where your cards are weakest by tier and spot, and what to buy at what price", also: ["/eras"] },
+      { href: "/needs", label: "Needs", icon: Crosshair, hint: "Where your cards are weakest by tier and spot, what to buy at what price, and a buy plan for PP and CS", also: ["/eras", "/buy-plan"] },
       { href: "/cards", label: "Cards", icon: Search, hint: "New cards and where each one fits for you; any card's projection, play and the leaderboard", also: ["/played"] },
       { href: "/upgrades", label: "Upgrades", icon: CircleArrowUp, hint: "What to buy for an event or a championship: variants, cards you don't own, runs per PP" },
       { href: "/market", label: "Market", icon: CandlestickChart, hint: "Prices, value per PP, movers and sell candidates" },

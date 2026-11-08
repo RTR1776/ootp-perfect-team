@@ -30,6 +30,7 @@ const SECTIONS = {
   needs: [
     { href: "/needs", label: "Needs", hint: "Where your cards are weakest by tier and spot, and what to buy at what price" },
     { href: "/eras", label: "By era", hint: "Your cards against the best in each of five eras" },
+    { href: "/buy-plan", label: "Buy plan", hint: "Where you're short across the tiers you play, what to buy for PP and CS, and what to sell" },
   ],
   environments: [
     { href: "/environments", label: "Events", hint: "How each tournament plays, and which are alike" },
