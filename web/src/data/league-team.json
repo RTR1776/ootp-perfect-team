@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-07",
-  "from": "L.J.'s PEL roster on 11-07 (80-59, run differential +108, first in the AC East by 3), from his batting, pitching and staff screenshots. Same 26 as on 11-05. Rotation 5-man in strict order: Brown, Yamamoto, Bumgarner, Hershiser, Plank. Andrew Miller closes, Willie Hernandez is the stopper, Hader is middle relief (use more often, secondary closer), Davis and Varland set up, and Cy Young and Mathewson are long relief. Batting orders are as set in the game.",
+  "asOf": "2026-11-10",
+  "from": "L.J.'s PEL roster on 11-10, from his staff and lineup screenshots (home park 1987 Yankee Stadium). Ben Sheets 87414 bought (PP) and in the rotation as SP3; Orel Hershiser off. Rotation 5-man, always start highest rested, SP not allowed in relief: Brown, Bumgarner, Sheets, Yamamoto, Sale. Andrew Miller closes (8th or later, secondary stopper); Willie Hernandez is the stopper (7th and close game, secondary closer). Middle relief, normal usage: Britton (setup), Plank (long), B.J. Ryan (setup), Mathewson (long), Hader (setup). Batting orders below are as set in the game, in order.",
   "family": "PEL",
   "bats": [
     "Gabriel Moreno#87397",
@@ -20,54 +20,54 @@
   ],
   "arms": [
     "Mordecai Brown#87370",
-    "Yoshinobu Yamamoto#87408",
     "Madison Bumgarner#87024",
-    "Orel Hershiser#83135",
-    "Eddie Plank#86890",
+    "Ben Sheets#87414",
+    "Yoshinobu Yamamoto#87408",
+    "Chris Sale#87406",
     "Andrew Miller#87138",
     "Willie Hernandez#86914",
-    "Josh Hader#87401",
-    "Wade Davis#87067",
-    "Cy Young#86572",
-    "Louis Varland#87400",
-    "Christy Mathewson#86697"
+    "Zack Britton#86426",
+    "Eddie Plank#86890",
+    "B.J. Ryan#87218",
+    "Christy Mathewson#86697",
+    "Josh Hader#87401"
   ],
   "lineups": {
     "vR": {
-      "2B": "Chase Utley#87068",
+      "1B": "George Brett#87025",
       "LF": "Carl Yastrzemski#87129",
+      "RF": "Jose Bautista#87073",
       "3B": "Alex Rodriguez#87219",
       "DH": "Reggie Jackson#87238",
-      "CF": "Andruw Jones#87057",
-      "1B": "George Brett#87025",
+      "2B": "Chase Utley#87068",
       "SS": "Corey Seager#87173",
-      "RF": "Jose Bautista#87073",
+      "CF": "Andruw Jones#87057",
       "C": "Gabriel Moreno#87397"
     },
     "vL": {
       "2B": "Chase Utley#87068",
-      "RF": "Juan Soto#87013",
-      "1B": "Albert Pujols#87149",
       "DH": "Hideki Matsui#87042",
       "CF": "Andruw Jones#87057",
+      "1B": "Albert Pujols#87149",
       "3B": "Alex Rodriguez#87219",
+      "RF": "Juan Soto#87013",
       "LF": "Carl Yastrzemski#87129",
-      "C": "Yadier Molina#87256",
-      "SS": "Corey Seager#87173"
+      "SS": "Corey Seager#87173",
+      "C": "Yadier Molina#87256"
     }
   },
   "staff": {
     "SP1": "Mordecai Brown#87370",
-    "SP2": "Yoshinobu Yamamoto#87408",
-    "SP3": "Madison Bumgarner#87024",
-    "SP4": "Orel Hershiser#83135",
-    "SP5": "Eddie Plank#86890",
+    "SP2": "Madison Bumgarner#87024",
+    "SP3": "Ben Sheets#87414",
+    "SP4": "Yoshinobu Yamamoto#87408",
+    "SP5": "Chris Sale#87406",
     "CL": "Andrew Miller#87138",
     "RP1": "Willie Hernandez#86914",
-    "RP2": "Josh Hader#87401",
-    "RP3": "Wade Davis#87067",
-    "RP4": "Cy Young#86572",
-    "RP5": "Louis Varland#87400",
-    "RP6": "Christy Mathewson#86697"
+    "RP2": "Zack Britton#86426",
+    "RP3": "Eddie Plank#86890",
+    "RP4": "B.J. Ryan#87218",
+    "RP5": "Christy Mathewson#86697",
+    "RP6": "Josh Hader#87401"
   }
 }
