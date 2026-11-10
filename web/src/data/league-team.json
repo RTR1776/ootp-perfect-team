@@ -1,6 +1,6 @@
 {
-  "asOf": "2026-11-09",
-  "from": "L.J.'s PEL roster to open the 11-09 week (home park 1987 Yankee Stadium), from his staff and lineup screenshots. Chris Sale 87406 added as SP2; Britton and B.J. Ryan in; Varland, Davis and Cy Young off. Rotation 5-man, always start highest rested: Brown, Sale, Bumgarner, Yamamoto, Plank. Miller closes (secondary stopper), Hernandez is the stopper, Hader middle relief (use more often, setup), Britton and Ryan middle relief (setup), Hershiser and Mathewson middle relief (long). Vs RHP Bautista plays RF and bats third. Batting orders as set in the game.",
+  "asOf": "2026-11-10",
+  "from": "L.J.'s PEL roster on 11-10, from his staff and lineup screenshots (home park 1987 Yankee Stadium). Ben Sheets 87414 bought (PP) and in the rotation as SP3; Orel Hershiser off. Rotation 5-man, always start highest rested, SP not allowed in relief: Brown, Bumgarner, Sheets, Yamamoto, Sale. Andrew Miller closes (8th or later, secondary stopper); Willie Hernandez is the stopper (7th and close game, secondary closer). Middle relief, normal usage: Britton (setup), Plank (long), B.J. Ryan (setup), Mathewson (long), Hader (setup). Batting orders below are as set in the game, in order.",
   "family": "PEL",
   "bats": [
     "Gabriel Moreno#87397",
@@ -20,17 +20,17 @@
   ],
   "arms": [
     "Mordecai Brown#87370",
-    "Chris Sale#87406",
     "Madison Bumgarner#87024",
+    "Ben Sheets#87414",
     "Yoshinobu Yamamoto#87408",
-    "Eddie Plank#86890",
+    "Chris Sale#87406",
     "Andrew Miller#87138",
     "Willie Hernandez#86914",
     "Zack Britton#86426",
-    "Orel Hershiser#83135",
+    "Eddie Plank#86890",
+    "B.J. Ryan#87218",
     "Christy Mathewson#86697",
-    "Josh Hader#87401",
-    "B.J. Ryan#87218"
+    "Josh Hader#87401"
   ],
   "lineups": {
     "vR": {
@@ -58,16 +58,16 @@
   },
   "staff": {
     "SP1": "Mordecai Brown#87370",
-    "SP2": "Chris Sale#87406",
-    "SP3": "Madison Bumgarner#87024",
+    "SP2": "Madison Bumgarner#87024",
+    "SP3": "Ben Sheets#87414",
     "SP4": "Yoshinobu Yamamoto#87408",
-    "SP5": "Eddie Plank#86890",
+    "SP5": "Chris Sale#87406",
     "CL": "Andrew Miller#87138",
     "RP1": "Willie Hernandez#86914",
-    "RP2": "Josh Hader#87401",
-    "RP3": "Zack Britton#86426",
-    "RP4": "Orel Hershiser#83135",
-    "RP5": "B.J. Ryan#87218",
-    "RP6": "Christy Mathewson#86697"
+    "RP2": "Zack Britton#86426",
+    "RP3": "Eddie Plank#86890",
+    "RP4": "B.J. Ryan#87218",
+    "RP5": "Christy Mathewson#86697",
+    "RP6": "Josh Hader#87401"
   }
 }
