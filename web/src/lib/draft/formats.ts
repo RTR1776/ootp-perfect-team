@@ -172,6 +172,95 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
       "128 teams. No exports of this event on file, so the field's hands are defaults.",
     ],
   },
+  /*
+   * PTMS 3 (Saturday 2026-11-21), from the format announcement L.J. sent on
+   * 11-10. The catalogue rows are 9130004-06 (src/db/seed/ptms3.json). The
+   * announcement gives the card pools, run environments and parks; it does not
+   * give the rounds, so each format below says what it borrowed them from.
+   */
+  ptms3pd1: {
+    series: "ptms3pd1",
+    eventId: 9130004,
+    name: "PTMS 3 PD 1 - Low of Lows",
+    short: "PTMS 3 PD 1 Low of Lows",
+    cards: 26,
+    envYear: 1986,
+    dh: true,
+    teams: 128,
+    mode: "Bo9",
+    rounds: [
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 2, pack: "choose" },
+      { key: "D", label: "Diamond", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "choose" },
+      { key: "G", label: "Gold", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "choose" },
+      { key: "S", label: "Silver", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "choose" },
+      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "choose" },
+      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "choose" },
+    ],
+    packSize: 6,
+    confirmed: [
+      "Low of Lows, cards up to 1986, 1986 run environment, DH on, LE on, 1985 Veterans Stadium, Bo9 (PTMS 3 announcement, 11-10).",
+    ],
+    assumed: [
+      "26 rounds in the usual PD mix: 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron (the 101+ double PD export, strugglingsleep_170). No Low of Lows export is on file.",
+      "\"Low of Lows\" probably means each pack is the low end of its tier (Diamond 90-94 and so on). The helper picks by tier only, so check the values on the pack you are shown.",
+      "You pick the position each round, packs of 6. 128 teams.",
+    ],
+  },
+  ptms3pd2: {
+    series: "ptms3pd2",
+    eventId: 9130005,
+    name: "PTMS 3 PD 2 - Double 101+",
+    short: "PTMS 3 PD 2 Double 101+",
+    cards: 26,
+    envYear: 2015,
+    dh: true,
+    teams: 128,
+    mode: "Bo9",
+    rounds: [
+      { key: "P101", label: "101+ (round 1)", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "mixed" },
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "choose" },
+      { key: "D", label: "Diamond", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "choose" },
+      { key: "G", label: "Gold", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "choose" },
+      { key: "S", label: "Silver", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "choose" },
+      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "choose" },
+      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "choose" },
+    ],
+    packSize: 6,
+    confirmed: [
+      "Double PD with a 101+ first round, cards from 1970 to present, 2015 run environment, DH on, LE on, 2015 Angel Stadium of Anaheim, Bo9 (PTMS 3 announcement, 11-10).",
+      "A 101+ round 1 double PD drafted 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron (most of each tier on any team in strugglingsleep_170, Daily Struggling to Sleep - DBL, 101+ RD1).",
+    ],
+    assumed: [
+      "The same rounds here. The 101+ round is Perfect tier to the helper: only take a card valued 101 or more from it.",
+      "\"Double\" read as the usual double PD: you see two cards a pick. If a pick gives you both cards, the round count halves; tell me.",
+      "128 teams.",
+    ],
+  },
+  ptms3pd3: {
+    series: "ptms3pd3",
+    eventId: 9130006,
+    name: "PTMS 3 PD 3 - Modified Perfectly Bronze",
+    short: "PTMS 3 PD 3 Perfectly Bronze",
+    cards: 21,
+    envYear: 1939,
+    dh: false,
+    teams: 128,
+    mode: "Bo9",
+    rounds: [
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 4, pack: "mixed" },
+      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 17, pack: "mixed" },
+    ],
+    packSize: 2,
+    confirmed: [
+      "Modified Perfectly Bronze, 21 cards, 1939 run environment, no DH, LE on, 1940 Braves Field, Bo9 (PTMS 3 announcement, 11-10).",
+      "The daily Perfectly Bronze drafts only Perfect and Bronze cards (14 and 12 of 26 in thiscouldvebeenemail_219).",
+    ],
+    assumed: [
+      "4 Perfect rounds first, then 17 Bronze, as in PTCS 8's Modified Perfectly Iron (L.J., 11-03: four Perfect, then Iron, 21 cards).",
+      "Packs show 2 cards, hitters and pitchers mixed (L.J. on Modified Perfectly Iron, 11-03).",
+      "128 teams.",
+    ],
+  },
 };
 
 export const formatFor = (series: string | null | undefined): DraftFormat | null =>

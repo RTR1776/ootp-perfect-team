@@ -1,0 +1,59 @@
+{
+ "series": "PTMS 3",
+ "playedOn": "2026-11-21",
+ "capturedOn": "2026-11-10",
+ "source": "PTMS 3 format announcement (L.J.'s screenshot, 2026-11-10). Same points and standings system as PTMS 1 and 2.",
+ "note": "All six events Best of 9, Saturday 2026-11-21; L.J. qualified for both standings and enters all six. Categories are the nearest PTCS category (the catalogue needs one): Tournament 1 Open, 2 Iron, 3 Cap (a slots event); PD 1 and 2 PD Daily, PD 3 PD Weekly. Start times not announced. Tournament 2 is an Iron-tier event (Cards <= IRON) limited to five card types, variant cap 10. Tournament 3 slots P0 D8 G6 S6 B6 I0 = 26, so nothing over Diamond. Draft round structures are in lib/draft/formats.ts (ptms3pd1-3), partly assumed.",
+ "events": [
+  {
+   "category": "Open",
+   "name": "PTMS 3 Tournament 1 - Open",
+   "firstSimEt": "TBA",
+   "text": "Best of 9, Open, 1988 RE, DH on, Variants on, 1996 Dodger Stadium",
+   "rules": { "bestOf": 9, "reYear": 1988, "dh": true, "variantsAllowed": true, "park": "1996 Dodger Stadium" }
+  },
+  {
+   "category": "Iron",
+   "name": "PTMS 3 Tournament 2 - Iron",
+   "firstSimEt": "TBA",
+   "text": "Best of 9, Iron (Negro Leagues, All-Stars, Snapshots, Unsung Heroes, Hardware Heroes cards only), 1998 RE, DH on, Variant Cap 10, 1999 Jacobs Field",
+   "rules": { "bestOf": 9, "reYear": 1998, "dh": true, "variantsAllowed": true, "variantCap": 10, "valueMax": 59,
+     "cardTypes": ["Negro Leagues", "All-Stars", "Snapshots", "Unsung Heroes", "Hardware Heroes"], "park": "1999 Jacobs Field" }
+  },
+  {
+   "category": "Cap",
+   "name": "PTMS 3 Tournament 3 - Slots",
+   "firstSimEt": "TBA",
+   "text": "Best of 9, Slots (0 Perfect, 8 Diamond, 6 Gold, 6 Silver, 6 Bronze, 0 Iron), 2019 RE, DH on, Variants off, 1995 Coors Field",
+   "rules": { "bestOf": 9, "reYear": 2019, "dh": true, "variantsAllowed": false, "valueMax": 99,
+     "slots": { "P": 0, "D": 8, "G": 6, "S": 6, "B": 6, "I": 0 }, "park": "1995 Coors Field" }
+  },
+  {
+   "category": "PD Daily",
+   "name": "PTMS 3 PD 1 - Low of Lows",
+   "firstSimEt": "TBA",
+   "isDraft": true,
+   "draftFormat": "Low of Lows PD",
+   "text": "Best of 9, Low of Lows cards up to 1986, 1986 RE, DH on, LE on, 1985 Veterans Stadium",
+   "rules": { "bestOf": 9, "reYear": 1986, "dh": true, "yearMax": 1986, "cards": 26, "park": "1985 Veterans Stadium" }
+  },
+  {
+   "category": "PD Daily",
+   "name": "PTMS 3 PD 2 - Double 101+",
+   "firstSimEt": "TBA",
+   "isDraft": true,
+   "draftFormat": "Double PD, 101+ Round 1",
+   "text": "Best of 9, Double 101+ cards from 1970-Present, 2015 RE, DH on, LE on, 2015 Angel Stadium of Anaheim",
+   "rules": { "bestOf": 9, "reYear": 2015, "dh": true, "yearMin": 1970, "cards": 26, "park": "2015 Angel Stadium of Anaheim" }
+  },
+  {
+   "category": "PD Weekly",
+   "name": "PTMS 3 PD 3 - Modified Perfectly Bronze",
+   "firstSimEt": "TBA",
+   "isDraft": true,
+   "draftFormat": "Modified Perfectly Bronze PD, 21 cards",
+   "text": "Best of 9, Modified Perfectly Bronze, pick 21 cards, 1939 RE, DH off, LE on, 1940 Braves Field",
+   "rules": { "bestOf": 9, "reYear": 1939, "dh": false, "cards": 21, "park": "1940 Braves Field" }
+  }
+ ]
+}
