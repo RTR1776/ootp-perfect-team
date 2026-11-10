@@ -15,6 +15,7 @@ export interface SectionTab { href: string; label: string; hint: string }
 const SECTIONS = {
   ptcs: [
     { href: "/ptcs", label: "PTCS", hint: "This period's categories, pace and result entry" },
+    { href: "/ptms", label: "PTMS 3", hint: "The six PTMS 3 events (Nov 21): rules, parks, saved rosters and the drafts" },
     { href: "/qualifying", label: "PTMS · PTWC", hint: "Championship finishes, league seasons and PT Live, added up for PTMS 3 and PTWC 2" },
   ],
   league: [
