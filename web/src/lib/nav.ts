@@ -24,7 +24,7 @@ export const NAV: NavGroup[] = [
     label: "Play",
     items: [
       { href: "/build", label: "Build", icon: Hammer, hint: "Roster for an event, scored in its era and park" },
-      { href: "/ptcs", label: "PTCS", icon: Medal, hint: "Qualifying points and pace; PTMS and PTWC standing", also: ["/qualifying"] },
+      { href: "/ptcs", label: "PTCS", icon: Medal, hint: "Qualifying points and pace; PTMS and PTWC standing", also: ["/qualifying", "/ptms"] },
       { href: "/draft/live", label: "Draft", icon: LayoutGrid, hint: "Live drafts: each pick's best card with the rounds left priced in; the board by position", also: ["/draft"] },
     ],
   },
