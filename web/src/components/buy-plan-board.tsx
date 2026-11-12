@@ -77,6 +77,8 @@ export function BuyPlanBoard({ data }: { data: BuyPlanData }) {
 
   const picked = [...basket].map((id) => byId.get(id)).filter((b): b is BuyRow => !!b);
   const spend = picked.reduce((s, b) => s + (b.target ?? b.price ?? 0), 0);
+  const unpricedPicked = picked.filter((b) => b.price == null).length;
+  const unpriced = data.buys.filter((b) => b.price == null).length;
   const gain = picked.reduce((s, b) => s + b.weighted, 0);
   const toggle = (id: number) => setBasket((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   const confirmHref = `/upgrades?group=events:${data.events.map((e) => e.id).join(",")}`;
@@ -96,8 +98,14 @@ export function BuyPlanBoard({ data }: { data: BuyPlanData }) {
     { key: "price", header: "Last sold · ask", align: "right", priority: 2, sortValue: (r) => r.price, render: (r) => <span className={num}>{pp(r.last10)} · {pp(r.ask)}</span> },
     { key: "how", header: "How", priority: 1, sortValue: (r) => r.target, render: (r) => (
       <span className="flex flex-wrap items-center gap-1">
-        <Pill tone={r.call === "buy" ? "go" : "wait"}>{r.call === "buy" ? "Buy" : "Bid"} {pp(r.target)}</Pill>
-        {r.cs != null && <Pill tone="cs" title="Clubhouse price">{r.cs} CS</Pill>}
+        {r.call === "none"
+          ? <Pill tone="wait" title={r.fresh ? "New on the card list: no ask and no sales yet. Bid once it lists." : r.clubhouse ? "No PP sales on file: buy it with CS in the Clubhouse." : "No ask and no sales on file."}>
+              {r.fresh ? "No price yet" : r.clubhouse ? "No PP sales" : "No price"}
+            </Pill>
+          : <Pill tone={r.call === "buy" ? "go" : "wait"}>{r.call === "buy" ? "Buy" : "Bid"} {pp(r.target)}</Pill>}
+        {r.cs != null
+          ? <Pill tone="cs" title="Clubhouse price">{r.cs} CS</Pill>
+          : r.clubhouse && <Pill tone="cs" title="A Clubhouse card whose CS price isn't in the screenshots yet">CS ?</Pill>}
       </span>
     ) },
     { key: "where", header: "Where it starts", priority: 3, render: (r) => (
@@ -118,13 +126,17 @@ export function BuyPlanBoard({ data }: { data: BuyPlanData }) {
 
   const rate = data.clubhouse.ppPerCs;
   const clubRows = data.clubhouse.rows.filter((r) => !r.owned && (allClub || r.weighted > 0));
+  // Clubhouse cards the screenshots don't have yet: what they add is known, their CS price isn't.
+  const unlisted = data.clubhouse.rows.filter((r) => r.cs == null && !r.owned && r.weighted > 0).sort((a, b) => b.weighted - a.weighted);
   const clubCols: Column<ClubRow>[] = [
     { key: "card", header: "Clubhouse card", priority: 1, sortValue: (r) => r.name, render: (r) => r.id != null ? <CardName id={r.id} name={r.name} val={r.val} compact /> : <span>{r.name} <span className="text-[11px] text-muted-foreground">{r.val}</span></span> },
-    { key: "cs", header: "CS", align: "right", priority: 1, sortValue: (r) => r.cs, render: (r) => <span className={num}>{r.cs}{r.discount ? <span className="ml-1 text-[11px] text-muted-foreground">−{r.discount}%</span> : null}</span> },
+    { key: "cs", header: "CS", align: "right", priority: 1, sortValue: (r) => r.cs, render: (r) => r.cs != null
+      ? <span className={num}>{r.cs}{r.discount ? <span className="ml-1 text-[11px] text-muted-foreground">−{r.discount}%</span> : null}</span>
+      : <span className="text-[11px] text-muted-foreground" title="Not in the Clubhouse screenshots yet: send one for its CS price">not in screenshots</span> },
     { key: "perCs", header: "Runs / wk per 10 CS", align: "right", priority: 1, sortValue: (r) => r.perCs, render: (r) => <span className={num}>{r.perCs?.toFixed(1) ?? "—"}</span> },
     { key: "weighted", header: "Runs / wk", align: "right", priority: 2, sortValue: (r) => r.weighted, render: (r) => <span className={num}>{r.weighted ? r.weighted.toFixed(1) : "—"}</span> },
     { key: "pp", header: "Or in PP", align: "right", priority: 2, sortValue: (r) => r.pp, render: (r) => {
-      const csCost = rate ? r.cs * rate : null;
+      const csCost = rate && r.cs != null ? r.cs * rate : null;
       const cheaper = r.pp != null && csCost != null && r.pp < csCost * 0.8;
       return <span className={num}>{pp(r.pp)}{cheaper && <span className="ml-1"><Pill tone="go" title="Cheaper in PP than in CS at today's rate">PP</Pill></span>}</span>;
     } },
@@ -173,11 +185,12 @@ export function BuyPlanBoard({ data }: { data: BuyPlanData }) {
         </div>
       </Section>
 
-      <Section id="buys" title="What to buy" summary={`${data.buys.length} cards you don't own that start in events you play`}
+      <Section id="buys" title="What to buy" summary={`${data.buys.length} cards you don't own that start in events you play${unpriced ? `, ${unpriced} with no price yet` : ""}`}
         actions={<Link href={confirmHref} className="text-sm text-primary hover:underline">Confirm a basket on Upgrades</Link>}
         help={<>
-          <p>Every card you don&rsquo;t own with a price, swapped into your newest saved roster in each event you play (Card Fit&rsquo;s one swap, in the event&rsquo;s era and park, with tournament play blended in). In a slots or cap event a card that only fits once room is made counts what it adds less what the room costs. Each event&rsquo;s gain is multiplied by your entries a week there.</p>
+          <p>Every card you don&rsquo;t own that has a price, plus new releases the market hasn&rsquo;t priced yet and Clubhouse cards, swapped into your newest saved roster in each event you play (Card Fit&rsquo;s one swap, in the event&rsquo;s era and park, with tournament play blended in). In a slots or cap event a card that only fits once room is made counts what it adds less what the room costs. Each event&rsquo;s gain is multiplied by your entries a week there.</p>
           <p><b>How</b>: buy at the ask when it is within 10% of recent sales; otherwise bid about the last-10 average and wait. Two cards for the same spot don&rsquo;t add up, so confirm a basket with the real rebuild on Upgrades before buying several.</p>
+          <p><b>No price yet</b>: a card first listed within a week of the newest card on the card list, with no ask and no sales; bid once it lists. <b>No PP sales</b>: a Clubhouse card that hasn&rsquo;t traded for PP; buy it with CS (its price is under Spend CS when the screenshots have it, else <b>CS ?</b>).</p>
         </>}>
         <div className="mb-3 flex flex-wrap items-end gap-3">
           <label className="flex flex-col gap-1 text-xs text-muted-foreground" htmlFor="budget">
@@ -195,6 +208,7 @@ export function BuyPlanBoard({ data }: { data: BuyPlanData }) {
           <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 rounded-lg border border-border bg-muted/40 px-3 py-2 text-sm">
             <span className="font-medium">Basket: {picked.length} card{picked.length === 1 ? "" : "s"}</span>
             <span className={num}>{pp(spend)} PP</span>
+            {unpricedPicked > 0 && <span className="text-muted-foreground">plus {unpricedPicked} with no PP price yet</span>}
             <span className={cn(num, spend > budget ? "text-warning" : "text-muted-foreground")}>{spend > budget ? `${pp(spend - budget)} over budget` : `${pp(budget - spend)} left`}</span>
             <span className={num}>about +{gain.toFixed(1)} runs a week, before overlaps</span>
             <button type="button" onClick={() => setBasket(new Set())} className="ml-auto text-xs text-muted-foreground hover:text-foreground">Clear</button>
@@ -219,9 +233,18 @@ export function BuyPlanBoard({ data }: { data: BuyPlanData }) {
         help={<>
           <p>The Clubhouse prices come from your screenshots ({data.clubhouse.note}) and live in <code>src/data/clubhouse-cs.json</code>: send new screenshots after a Wednesday price drop and they get updated. Clubhouse cards also trade for PP, so the median of PP price over CS price says what one CS is worth.</p>
           <p>Runs a week are the same as under What to buy. A card marked PP is cheaper bought for PP than with CS at that rate.</p>
+          <p>Clubhouse cards the screenshots don&rsquo;t have yet (a set added since they were taken) are listed too when they start somewhere, with their runs a week and no CS price; they sort after the priced ones, best first.</p>
         </>}>
-        <DataTable columns={clubCols} rows={clubRows} rowKey={(r) => `${r.name}-${r.val}-${r.pos}`} sort={{ key: "perCs", desc: true }}
-          empty={<p className="py-6 text-center text-sm text-muted-foreground">No Clubhouse card in the screenshots starts in the events you play.</p>} />
+        {unlisted.length > 0 && (
+          <p className="mb-3 text-sm">
+            <span className="font-medium">Not in the screenshots yet, so no CS price:</span>{" "}
+            {unlisted.slice(0, 6).map((r) => `${r.name} ${r.val} (${r.weighted.toFixed(0)} runs / wk)`).join(" · ")}
+            {unlisted.length > 6 ? ` · ${unlisted.length - 6} more` : ""}.{" "}
+            <span className="text-muted-foreground">Send a Clubhouse screenshot for their prices.</span>
+          </p>
+        )}
+        <DataTable columns={clubCols} rows={clubRows} rowKey={(r) => `${r.id ?? ""}-${r.name}-${r.val}-${r.pos}`} sort={{ key: "perCs", desc: true }}
+          empty={<p className="py-6 text-center text-sm text-muted-foreground">No Clubhouse card starts in the events you play.</p>} />
       </Section>
 
       <Section id="sells" title="What to sell" summary={`${sellable.length} unlocked cards on no current roster and not on your league team`}

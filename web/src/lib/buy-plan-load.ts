@@ -10,11 +10,15 @@
  *   where he plays — logged results over the last PLAY_DAYS days, drafts out,
  *     each event's entries a week; per tier, points per entry
  *   buys — the Upgrades scan (lib/upgrades-load) over exactly those events:
- *     every card he doesn't own with a price, Card Fit's one swap into the
- *     saved roster, each event's gain times his entries a week there
+ *     every card he doesn't own with a price, plus releases the market hasn't
+ *     priced yet and Clubhouse cards (call "none" when there is no price),
+ *     Card Fit's one swap into the saved roster, each event's gain times his
+ *     entries a week there
  *   variants — the same scan's variant reads, weighted the same way
  *   CS — the Clubhouse screenshot prices (data/clubhouse-cs.json) matched to
- *     cards, what one CS is worth in PP, and each Clubhouse card's gain per CS
+ *     cards, what one CS is worth in PP, and each Clubhouse card's gain per CS;
+ *     Clubhouse cards the screenshots don't have yet that start somewhere are
+ *     listed too, with no CS price
  *   sells — owned cards on no saved roster for a live event in the last
  *     SELL_ROSTER_DAYS days and not on the league team, worth SELL_FLOOR+;
  *     no export marks the game's locks, so each is checked against his newest
@@ -29,7 +33,7 @@ import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, results, rosters, rosterSlots, tournaments } from "@/db/schema";
 import { fitSources } from "@/lib/card-fit-load";
 import { loadUpgrades } from "@/lib/upgrades-load";
-import { buyCall, clubhouseTitleMatches, eventName, isDraftResult, netGain, ppPerCs, sellCall, tierOf, TIERS, weightedGain, type PlanTier } from "@/lib/buy-plan";
+import { buyCall, clubhouseSet, clubhouseTitleMatches, eventName, isDraftResult, netGain, ppPerCs, sellCall, tierOf, TIERS, weightedGain, type PlanTier } from "@/lib/buy-plan";
 import clubhouseCs from "@/data/clubhouse-cs.json";
 import leagueTeam from "@/data/league-team.json";
 import unlockedCards from "@/data/unlocked-cards.json";
@@ -72,11 +76,17 @@ export interface BuyRow {
   weighted: number;
   /** Weighted runs per 10,000 PP at the price below. */
   per10k: number | null;
+  /** Ask, else recent sales. Null when neither is on file: see `fresh` and `clubhouse`. */
   price: number | null;
   ask: number | null;
   last10: number | null;
-  call: "buy" | "bid";
+  /** "none": no ask and no sales to call. */
+  call: "buy" | "bid" | "none";
   target: number | null;
+  /** First seen within a week of the newest card on file: with no price, the market hasn't formed yet. */
+  fresh: boolean;
+  /** A Clubhouse card (bought with CS): with no price, it hasn't traded for PP. */
+  clubhouse: boolean;
   /** The Clubhouse CS price, when the card is in the screenshots. */
   cs: number | null;
   starts: BuyStart[];
@@ -86,7 +96,8 @@ export interface BuyRow {
 
 export interface VariantRow { id: number; name: string; val: number; pos: string; weighted: number; price: number | null; per10k: number | null; events: number }
 
-export interface ClubRow { id: number | null; name: string; val: number; pos: string; set: string; cs: number; discount: number | null; pp: number | null; weighted: number; perCs: number | null; owned: boolean }
+/** A Clubhouse card. `cs` is null for one the screenshots don't have yet (a set added since they were taken). */
+export interface ClubRow { id: number | null; name: string; val: number; pos: string; set: string; cs: number | null; discount: number | null; pp: number | null; weighted: number; perCs: number | null; owned: boolean }
 
 export interface SellRow {
   id: number;
@@ -187,10 +198,18 @@ async function sellList(collectionId: number, shopId: number | null): Promise<Se
   return out.sort((a, b) => (b.last10 ?? 0) - (a.last10 ?? 0));
 }
 
-/** The Clubhouse screenshot rows, matched to cards and priced in PP. */
+/**
+ * The Clubhouse screenshot rows, matched to cards and priced in PP, then the
+ * Clubhouse cards the screenshots don't have (a set added since they were
+ * taken) that he doesn't own and that start somewhere: what they add is known,
+ * their CS price isn't. Ordered by runs a week per CS, then runs a week, so the
+ * page's sort (nulls last, stable) keeps the unpriced ones by worth.
+ */
 async function clubhouse(collectionId: number, shopId: number | null, weightedById: Map<number, number>) {
-  const club = await db.select({ cardId: cards.cardId, name: cards.name, val: cards.cardValue, title: cards.title })
-    .from(cards).where(ilike(cards.title, "Clubhouse%"));
+  const club = await db.select({
+    cardId: cards.cardId, name: cards.name, val: cards.cardValue, title: cards.title,
+    isPitcher: cards.isPitcher, pitcherRole: cards.pitcherRole, position: cards.position,
+  }).from(cards).where(ilike(cards.title, "Clubhouse%"));
   const ids = club.map((c) => c.cardId);
   const [snaps, mine] = await Promise.all([
     shopId == null || !ids.length ? [] : db.select({ cardId: cardSnapshots.cardId, last10: cardSnapshots.last10, ask: cardSnapshots.sellOrderLow })
@@ -208,6 +227,17 @@ async function clubhouse(collectionId: number, shopId: number | null, weightedBy
       owned: c ? owned.has(c.cardId) : false,
     };
   });
+  const listed = new Set(rows.flatMap((r) => (r.id != null ? [r.id] : [])));
+  for (const c of club) {
+    const weighted = weightedById.get(c.cardId) ?? 0;
+    if (listed.has(c.cardId) || owned.has(c.cardId) || !(weighted > 0)) continue;
+    const pos = c.isPitcher ? (c.pitcherRole ?? "P") : c.position;
+    rows.push({
+      id: c.cardId, name: c.name, val: c.val, pos, set: clubhouseSet(c.title, pos, c.name), cs: null, discount: null,
+      pp: pp.get(c.cardId) ?? null, weighted: r1(weighted), perCs: null, owned: false,
+    });
+  }
+  rows.sort((a, b) => (b.perCs ?? -1) - (a.perCs ?? -1) || b.weighted - a.weighted);
   return { asOf: clubhouseCs.asOf, note: clubhouseCs.from, ppPerCs: ppPerCs(rows.map((r) => ({ cs: r.cs, pp: r.pp }))), rows };
 }
 
@@ -238,7 +268,7 @@ export async function loadBuyPlan(): Promise<BuyPlanData> {
     buys.push({
       id: s.card.id, name: s.card.name, val: s.card.val, pos: s.card.pos, tier: s.card.tier, le: s.card.le, title: titles.get(s.card.id) ?? "",
       weighted: r1(weighted), per10k: price ? r1((weighted / price) * 10_000) : null,
-      price, ask: s.card.ask, last10: s.card.last10, ...buyCall(s.card.ask, s.card.last10), cs: null,
+      price, ask: s.card.ask, last10: s.card.last10, ...buyCall(s.card.ask, s.card.last10), fresh: s.fresh, clubhouse: s.clubhouse, cs: null,
       starts, clash: [...new Set(s.clash.map((c) => names.get(c.eventId) ?? String(c.eventId)))],
     });
   }

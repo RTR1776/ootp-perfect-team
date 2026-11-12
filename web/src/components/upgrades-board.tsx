@@ -112,7 +112,14 @@ export function UpgradesBoard({ data }: { data: UpgradesData }) {
       ),
     },
     { key: "gain", header: "Runs", align: "right", priority: 1, tip: "Card Fit's gains summed over the picked events where it starts.", render: (s) => <Signed v={s.gain} className="font-semibold" />, sortValue: (s) => s.gain },
-    { key: "price", header: "Price", align: "right", priority: 1, tip: "The lowest ask, else recent sales (last 10).", render: (s) => <span className={num} title={`ask ${s.card.ask ?? "none"} · last 10 ${s.card.last10 ?? "none"}`}>{pp(s.price)}</span>, sortValue: (s) => s.price },
+    {
+      key: "price", header: "Price", align: "right", priority: 1,
+      tip: "The lowest ask, else recent sales (last 10). No price yet: new on the card list, no ask or sales. No PP sales: a Clubhouse card that hasn't traded for PP (buy it with CS).",
+      render: (s) => s.price != null
+        ? <span className={num} title={`ask ${s.card.ask ?? "none"} · last 10 ${s.card.last10 ?? "none"}`}>{pp(s.price)}</span>
+        : <span className="text-xs text-muted-foreground">{s.fresh ? "no price yet" : s.clubhouse ? "no PP sales" : "—"}</span>,
+      sortValue: (s) => s.price,
+    },
     { key: "value", header: "Runs / 10k PP", align: "right", priority: 1, render: (s) => (s.value != null && s.gain > 0 ? <span className={num}>{s.value.toFixed(1)}</span> : <span className="text-muted-foreground">—</span>), sortValue: (s) => (s.gain > 0 ? s.value : null) },
   ];
 
@@ -169,9 +176,9 @@ export function UpgradesBoard({ data }: { data: UpgradesData }) {
       <Section
         id="shop"
         title="Cards you don't own"
-        summary={`${sRows.length} cards with a price that start for you in a picked event${sRows.some((s) => s.blocked) ? ", or would but for the slots or cap" : ""}.`}
+        summary={`${sRows.length} cards that start for you in a picked event${sRows.some((s) => s.blocked) ? ", or would but for the slots or cap" : ""}${sRows.some((s) => s.price == null) ? `; ${sRows.filter((s) => s.price == null).length} with no price yet` : ""}.`}
         help={<>
-          <p>Every card legal in a picked event that you don&rsquo;t own and that has an ask or recent sales, placed by Card Fit: one swap into your saved roster.</p>
+          <p>Every card legal in a picked event that you don&rsquo;t own and that has an ask or recent sales, placed by Card Fit: one swap into your saved roster. New releases the market hasn&rsquo;t priced yet (first listed within a week of the newest card on the card list) and Clubhouse cards are placed too, with <b>no price yet</b> or <b>no PP sales</b> in the price column.</p>
           <p>In a slots or cap event the swap must leave a legal 26. A card with no slot to sit in pays for the cheapest room: a card that starts nowhere off the roster (free), else one starter giving way to a card of yours that fits. Grey chips are swaps that gain, but whose room costs more than they add (or that no single move makes room for).</p>
         </>}
       >
@@ -197,6 +204,7 @@ function ConfirmPanel({ data, picked, chosen, clear }: { data: UpgradesData; pic
   ];
   const cost = variants.reduce((a, id) => a + (data.variants.find((v) => v.cardId === id)?.price ?? 0), 0)
     + owned.reduce((a, id) => a + (data.shop.find((s) => s.card.id === id)?.price ?? 0), 0);
+  const unpriced = owned.filter((id) => data.shop.find((s) => s.card.id === id)?.price == null).length;
   // The events a ticked card reads anything in: where its variant starts, or where Card Fit places it.
   const eventIds = data.events.filter((e) => picked.has(e.id) && (
     variants.some((id) => data.variants.find((v) => v.cardId === id)?.starts.some((s) => s.eventId === e.id && s.gain > 0))
@@ -236,7 +244,7 @@ function ConfirmPanel({ data, picked, chosen, clear }: { data: UpgradesData; pic
     <Section
       id="confirm"
       title="Confirm a buy"
-      summary={names.length ? `${names.join(", ")}: ${pp(cost)} PP, rebuilt in ${eventIds.length} event${eventIds.length === 1 ? "" : "s"}.` : "Tick cards above, then rebuild the events they play in."}
+      summary={names.length ? `${names.join(", ")}: ${pp(cost)} PP${unpriced ? ` plus ${unpriced} with no PP price yet` : ""}, rebuilt in ${eventIds.length} event${eventIds.length === 1 ? "" : "s"}.` : "Tick cards above, then rebuild the events they play in."}
       help={<>
         <p>One-swap gains don&rsquo;t add up: two buys can want the same spot, and a buy can make the roster reshuffle around it. This runs the real rebuild (env-roster, as a Claude pick: the event&rsquo;s rules and staff shape, your floors) seeded from your saved roster, once with the ticked cards assumed yours and once without, and shows the objective&rsquo;s change and the cards that move. Nothing is saved.</p>
         <p>About a minute per event, three at a time. It runs on the Mac&rsquo;s dev server; elsewhere it gives the command to run there.</p>
