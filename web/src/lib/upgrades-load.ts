@@ -17,7 +17,9 @@
  *
  * CARDS HE DOESN'T OWN. Every card legal in the group with a price (an ask, or
  * recent sales), placed by Card Fit, which holds a slots or cap event's swap
- * to a legal roster (card-fit Room).
+ * to a legal roster (card-fit Room). Since 2026-11-12 also a new release the
+ * market hasn't priced yet and a Clubhouse card with no PP sales
+ * (lib/upgrade-candidates), with no price: `fresh` and `clubhouse` say which.
  *
  * Both are one swap into the saved roster. Gains are per event and summed
  * over the events picked on the page; two buys don't simply add, which is
@@ -31,6 +33,7 @@ import { cardSnapshots, rosters, tournaments, uploads } from "@/db/schema";
 import { armWeight, batAt, type Board, type LineupSpot, type ScoredForm } from "@/lib/card-fit";
 import { fitCard, fitEventOf, fitRow, fitWorld, legalIn, placeIn, scoreFitEvent, type FitCard, type FitEvent, type FitRow } from "@/lib/card-fit-load";
 import { VARIANT_BOOST } from "@/lib/card-forms";
+import { freshCutoff, isBuyCandidate, isClubhouseTitle, isFresh } from "@/lib/upgrade-candidates";
 
 export interface UpgradeGroup {
   /** The key the page's URL carries: "series:<name>", or "events:<id,id>". */
@@ -67,8 +70,12 @@ export interface VariantUpgrade {
 
 export interface ShopUpgrade {
   card: FitCard;
-  /** Ask, else recent sales: what a buy costs now. */
+  /** Ask, else recent sales: what a buy costs now. Null for a new or Clubhouse card nothing has priced yet. */
   price: number | null;
+  /** First seen within a week of the newest card on file: with no price, the market hasn't formed yet. */
+  fresh: boolean;
+  /** A Clubhouse card, bought with CS: with no price, it hasn't traded for PP. */
+  clubhouse: boolean;
   /** Card Fit in each event where it starts, or where only the slots or cap stop it. */
   rows: FitRow[];
   /**
@@ -167,12 +174,18 @@ export async function loadUpgrades(group: UpgradeGroup, groups: UpgradeGroup[]):
   const shopRows = new Map<number, FitRow[]>();
   const clashes = new Map<number, ShopUpgrade["clash"]>();
 
-  // The cards he might buy: not his, and with a price on file.
+  // The cards he might buy: not his, and with a price on file, or a release the
+  // market hasn't priced yet, or a Clubhouse card (lib/upgrade-candidates).
   const notMine = w.universe.filter((c) => !w.owned.base.has(c.cardId) && !w.owned.variant.has(c.cardId)).map((c) => c.cardId);
   const legalBy = new Map(events.map((t) => [t.id, legalIn(w, t)]));
   const legalAnywhere = notMine.filter((id) => [...legalBy.values()].some((l) => l.has(id)));
   const prices = await latestPrices(legalAnywhere);
-  const candidates = legalAnywhere.filter((id) => prices.get(id)?.ask != null || prices.get(id)?.last10 != null);
+  const cutoff = freshCutoff(w.universe.map((c) => c.firstSeenAt));
+  const fresh = new Set(w.universe.filter((c) => isFresh(c.firstSeenAt, cutoff)).map((c) => c.cardId));
+  const club = new Set(w.universe.filter((c) => isClubhouseTitle(c.title)).map((c) => c.cardId));
+  const candidates = legalAnywhere.filter((id) => isBuyCandidate({
+    priced: prices.get(id)?.ask != null || prices.get(id)?.last10 != null, fresh: fresh.has(id), clubhouse: club.has(id),
+  }));
 
   for (const t of events) {
     const roster = w.newest.get(t.id);
@@ -227,7 +240,10 @@ export async function loadUpgrades(group: UpgradeGroup, groups: UpgradeGroup[]):
   const variants = [...variantBy.values()].map((v) => ({ ...v, price: vPrices.get(v.cardId)?.last10Variant ?? null }));
   const shop: ShopUpgrade[] = [...shopRows].map(([id, rows]) => {
     const p = prices.get(id);
-    return { card: fitCard(w, id, p ?? undefined)!, price: p?.ask ?? p?.last10 ?? null, rows: rows.sort((a, b) => b.gain - a.gain), clash: clashes.get(id) ?? [] };
+    return {
+      card: fitCard(w, id, p ?? undefined)!, price: p?.ask ?? p?.last10 ?? null, fresh: fresh.has(id), clubhouse: club.has(id),
+      rows: rows.sort((a, b) => b.gain - a.gain), clash: clashes.get(id) ?? [],
+    };
   }).filter((s) => s.card);
 
   return {

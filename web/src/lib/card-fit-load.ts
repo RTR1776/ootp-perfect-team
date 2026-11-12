@@ -31,6 +31,7 @@ import { armRole, bestTeam, FIELD_POS, fitIn, savedTeam, type Fit, type FitCtx, 
 import { eventGroupOf } from "@/lib/event-groups";
 import { cardIdOf, formIdForSlot, isTwoWayForm, twoWayForm, twoWayId } from "@/lib/two-way";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
+import { freshCutoff, isFresh } from "@/lib/upgrade-candidates";
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { cardEligibility, parseCardTypeRule, type RosterRules } from "@/lib/roster-rules";
 import { exportsPredate } from "@/lib/set-evidence-server";
@@ -177,8 +178,8 @@ async function ownedAt(uploadId: number, clubhouse: (id: number) => boolean): Pr
 export async function newCardIds(): Promise<{ shop: number[]; pulled: number[]; variants: number[] }> {
   const { collection, previous } = await fitSources();
   const universe = await db.select({ cardId: cards.cardId, firstSeenAt: cards.firstSeenAt, title: cards.title }).from(cards);
-  const newest = universe.reduce((m, c) => Math.max(m, c.firstSeenAt.getTime()), 0);
-  const shop = universe.filter((c) => c.firstSeenAt.getTime() >= newest - 7 * 86_400_000).map((c) => c.cardId);
+  const cutoff = freshCutoff(universe.map((c) => c.firstSeenAt));
+  const shop = universe.filter((c) => isFresh(c.firstSeenAt, cutoff)).map((c) => c.cardId);
   if (!collection || !previous) return { shop, pulled: [], variants: [] };
   const club = new Set(universe.filter((c) => /clubhouse/i.test(c.title)).map((c) => c.cardId));
   const [now, then] = await Promise.all([ownedAt(collection.id, (id) => club.has(id)), ownedAt(previous.id, (id) => club.has(id))]);

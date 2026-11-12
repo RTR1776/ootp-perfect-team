@@ -9,7 +9,7 @@ import { fitVersion } from "@/lib/card-fit-load";
 import { loadBuyPlan, newestResult, type BuyPlanData } from "@/lib/buy-plan-load";
 
 /** Bump when the plan's numbers change, so cached results from the old code aren't served. */
-const BUY_PLAN_CODE = "buy-plan-v1";
+const BUY_PLAN_CODE = "buy-plan-v2";
 
 export async function buyPlan(): Promise<BuyPlanData> {
   const [version, result] = await Promise.all([fitVersion(), newestResult()]);

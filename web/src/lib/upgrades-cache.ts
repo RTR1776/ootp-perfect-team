@@ -9,7 +9,7 @@ import { fitVersion } from "@/lib/card-fit-load";
 import { loadUpgrades, resolveGroup, upgradeGroups, type UpgradesData } from "@/lib/upgrades-load";
 
 /** Bump when the scan's numbers change, so cached results from the old code aren't served. */
-const UPGRADES_CODE = "upgrades-v1";
+const UPGRADES_CODE = "upgrades-v2";
 
 export async function upgrades(groupKey: string | null | undefined): Promise<UpgradesData | null> {
   const version = await fitVersion();
