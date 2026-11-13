@@ -285,3 +285,124 @@ test("a pair move: a dearer starter in for the closer, paid by a cheaper bat, sc
   assert.deepEqual([r.slots.SP1, r.slots.SP2, r.slots.CL, r.slots["R:DH"]], [2, 7, 5, 8], JSON.stringify(r.slots));
   assert.ok(Math.abs(r.score - obj.objective(r.slots)) < 1e-9);
 });
+
+test("the cap tier: an upgrade no single cheaper card can pay for is paid for by two", () => {
+  // The cap is full. 1B can go from H1 to H2 for +30 runs at +10 value. No single slot can give
+  // 10 back for less than 40 runs, but 3B and SS can give 5 each for 2 runs apiece.
+  const three: FillShape = { lineupPos: ["1B", "3B", "SS"], spKeys: [], rpKeys: [], benchKeys: [], bats: 3 };
+  const capped: RosterRules = { ...rules, restrictions: { cards: 3, teamCap: 210 } };
+  const at = (id: number, pos: Record<string, number>, val: number) => ({ ...hitter(id, pos), val });
+  const pool = [
+    at(1, { "1B": 90 }, 70), at(2, { "1B": 90 }, 80),
+    at(3, { "3B": 90 }, 70), at(4, { "3B": 90 }, 65), at(5, { "3B": 90 }, 60),
+    at(6, { SS: 90 }, 70), at(7, { SS: 90 }, 65), at(8, { SS: 90 }, 60),
+  ];
+  const runs = new Map([[1, 0], [2, 30], [3, 10], [4, 8], [5, -30], [6, 10], [7, 8], [8, -30]]);
+  const obj = rosterObjective(pool, { shape: three, runsR: runs, runsL: runs });
+  const start = { "R:1B": 1, "R:3B": 3, "R:SS": 6, "L:1B": 1, "L:3B": 3, "L:SS": 6 };
+  const opts = { objective: obj.objective, slotValue: obj.slotValue, pairMoves: { aTop: 3, bCheapest: 3, rank: obj.rank } };
+  const ids = (s: Record<string, number>) => [s["R:1B"], s["R:3B"], s["R:SS"]];
+
+  const plain = optimizeRoster(start, pool, capped, three, opts);
+  assert.deepEqual(ids(plain.slots), [1, 3, 6], "single moves and pairs cannot get there");
+
+  const r = optimizeRoster(start, pool, capped, three, { ...opts, capTier: true });
+  assert.equal(r.legal, true);
+  assert.deepEqual(ids(r.slots), [2, 4, 7], JSON.stringify(r.slots));
+  assert.ok(Math.abs(r.score - obj.objective(r.slots)) < 1e-9, "reported score is the objective's");
+  assert.ok(Math.abs(r.score - plain.score - (30 - 2 - 2)) < 1e-9, "+30 for the bat, 2 lost at each of the other two spots");
+  // A polish of a board already at the plain moves' optimum lands on the same roster.
+  const polished = optimizeRoster(plain.slots, pool, capped, three, { ...opts, capTier: true, atOptimum: true });
+  assert.deepEqual(ids(polished.slots), [2, 4, 7]);
+  // With no cap there is nothing for the tier to do.
+  const free = optimizeRoster(start, pool, { ...rules, restrictions: { cards: 3 } }, three, { ...opts, capTier: true });
+  assert.deepEqual(ids(free.slots), [2, 3, 6]);
+});
+
+test("under a cap the search is checked against brute force: never above it, and close", () => {
+  // Small enough to enumerate: 5 bats from 10, 4 arms from 8, every assignment of each.
+  const small: FillShape = { lineupPos: ["C", "SS", "CF", "DH"], spKeys: ["SP1", "SP2"], rpKeys: ["CL", "RP1"], benchKeys: ["BN1"], bats: 5 };
+  const POSN = ["C", "SS", "CF"];
+  let seed = 20261112;
+  const rnd = () => ((seed = (Math.imul(seed, 1103515245) + 12345) >>> 0) / 2 ** 32);
+  const combos = <T,>(a: T[], k: number): T[][] => {
+    const out: T[][] = [];
+    const go = (i: number, cur: T[]) => { if (cur.length === k) { out.push([...cur]); return; } for (let j = i; j <= a.length - (k - cur.length); j++) { cur.push(a[j]); go(j + 1, cur); cur.pop(); } };
+    go(0, []);
+    return out;
+  };
+  let cases = 0, plainMiss = 0, tierMiss = 0, tierGap = 0;
+  for (let t = 0; t < 24; t++) {
+    const pool: FillCard[] = [];
+    const runsR = new Map<number, number>(), runsL = new Map<number, number>();
+    for (let i = 0; i < 10; i++) {
+      const id = i + 1, val = 40 + Math.floor(rnd() * 60);
+      const pos: Record<string, number> = { [POSN[i % 3]]: 60 + Math.floor(rnd() * 40) };
+      if (rnd() < 0.5) pos[POSN[Math.floor(rnd() * 3)]] ??= 50 + Math.floor(rnd() * 40);
+      pool.push({ ...hitter(id, pos), val });
+      const b = (val - 70) * 0.9 + (rnd() - 0.5) * 30, sp = (rnd() - 0.5) * 20;
+      runsR.set(id, b + sp); runsL.set(id, b - sp);
+    }
+    for (let i = 0; i < 8; i++) {
+      const id = 11 + i, val = 40 + Math.floor(rnd() * 60), role = i < 5 ? "SP" : "RP";
+      pool.push({ cardId: id, name: `P${id}`, val, year: 1950, isPitcher: true, role, cardType: 4, ratings: { Stamina: role === "SP" ? 70 : 20 }, baseOwned: true, variantOwned: false, variant: false });
+      const r = (val - 70) * 0.9 + (rnd() - 0.5) * 30;
+      runsR.set(id, r); runsL.set(id, r);
+    }
+    const cap = Math.round(9 * (pool.reduce((n, c) => n + (c.val ?? 0), 0) / pool.length + 3));
+    const capped: RosterRules = { ...rules, dh: true, restrictions: { cards: 9, teamCap: cap } };
+    const obj = rosterObjective(pool, { shape: small, runsR, runsL });
+    const elig = (k: string, c: FillCard) => {
+      const p = k.includes(":") ? k.split(":")[1] : k;
+      if (/^SP/.test(p)) return c.isPitcher && c.role === "SP";
+      if (/^RP|^CL/.test(p)) return c.isPitcher;
+      if (/^BN/.test(p) || p === "DH") return !c.isPitcher;
+      return !c.isPitcher && (c.ratings[`Pos Rating ${p}`] ?? 0) > 0;
+    };
+    const solve = (rows: string[], cs: FillCard[]) => {
+      const m = rows.map((k) => cs.map((c) => (elig(k, c) ? obj.slotValue(k, c.cardId) : -Infinity)));
+      const a = maxAssignment(m);
+      if (!a || a.some((j, i) => !Number.isFinite(m[i][j]))) return null;
+      return { total: a.reduce((s, j, i) => s + m[i][j], 0), ids: a.map((j) => cs[j].cardId) };
+    };
+    const rRows = [...small.lineupPos.map((p) => `R:${p}`), ...small.benchKeys], lRows = small.lineupPos.map((p) => `L:${p}`), staff = [...small.spKeys, ...small.rpKeys];
+    // The true best, and any legal board to start from.
+    let best = -Infinity, start: Record<string, number> | null = null, worst = Infinity;
+    const hit = combos(pool.filter((c) => !c.isPitcher), 5).flatMap((H) => {
+      const r = solve(rRows, H), l = solve(lRows, H);
+      return r && l ? [{ v: H.reduce((n, c) => n + (c.val ?? 0), 0), total: r.total + l.total, r, l }] : [];
+    });
+    const arm = combos(pool.filter((c) => c.isPitcher), 4).flatMap((S) => {
+      const s = solve(staff, S);
+      return s ? [{ v: S.reduce((n, c) => n + (c.val ?? 0), 0), total: s.total, s }] : [];
+    });
+    for (const h of hit) for (const a of arm) {
+      if (h.v + a.v > cap) continue;
+      const total = h.total + a.total;
+      if (total > best) best = total;
+      if (total < worst) {
+        worst = total;
+        start = Object.fromEntries([...rRows.map((k, i) => [k, h.r.ids[i]]), ...lRows.map((k, i) => [k, h.l.ids[i]]), ...staff.map((k, i) => [k, a.s.ids[i]])]);
+      }
+    }
+    if (!start || !Number.isFinite(best)) continue;
+    cases++;
+    const opts = { objective: obj.objective, slotValue: obj.slotValue, pairMoves: { aTop: 10, bCheapest: 12, rank: obj.rank }, maxPasses: 80 };
+    // From the WORST legal board, so the climb has the whole way to go.
+    const plain = optimizeRoster(start, pool, capped, small, opts);
+    const tier = optimizeRoster(start, pool, capped, small, { ...opts, staffTier: true, capTier: true });
+    for (const r of [plain, tier]) {
+      assert.equal(r.legal, true, `case ${t}`);
+      assert.ok(r.score <= best + 1e-6, `case ${t}: the search (${r.score}) cannot beat every roster there is (${best})`);
+    }
+    assert.ok(tier.score >= plain.score - 1e-9, `case ${t}: the tiers never finish below the plain climb`);
+    if (best - plain.score > 1e-6) plainMiss++;
+    if (best - tier.score > 1e-6) { tierMiss++; tierGap += best - tier.score; }
+  }
+  assert.ok(cases >= 20, `${cases} cases`);
+  assert.ok(tierMiss <= plainMiss, `tiers miss ${tierMiss}, plain ${plainMiss}`);
+  // Where the search stands today, from one start: a later change that does worse fails here.
+  // (11 of 24 and a mean gap of 0.69 runs on 2026-11-12, from one start at the worst legal board.)
+  assert.ok(tierMiss <= Math.ceil(cases * 0.5), `the best roster missed in ${tierMiss} of ${cases}`);
+  assert.ok(tierGap / cases < 1.0, `mean gap ${(tierGap / cases).toFixed(2)} runs`);
+});
