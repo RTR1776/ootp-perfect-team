@@ -33,8 +33,13 @@ if (!PASSWORD) {
 }
 const only = process.argv.includes("--only") ? process.argv[process.argv.indexOf("--only") + 1] : null;
 
-// Every nav link, read from lib/nav.ts so a new page is checked without edits here.
-const navHrefs = [...readFileSync(new URL("../src/lib/nav.ts", import.meta.url), "utf8").matchAll(/href:\s*"([^"]+)"/g)].map((m) => m[1]);
+// Every nav link and every tab under one (`also:`), read from lib/nav.ts so a new page is checked
+// without edits here. Until 2026-11-12 only the links were read, so eight pages were never visited.
+const navSource = readFileSync(new URL("../src/lib/nav.ts", import.meta.url), "utf8");
+const navHrefs = [
+  ...[...navSource.matchAll(/href:\s*"([^"]+)"/g)].map((m) => m[1]),
+  ...[...navSource.matchAll(/also:\s*\[([^\]]*)\]/g)].flatMap((m) => [...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1])),
+];
 // States a bare nav link never reaches: Build overflowed only with an event chosen.
 const EXTRA = ["/build?t=9100139", "/draft?t=9100139", "/cards?q=aaron", "/played?event=9100139"];
 const ROUTES = [...new Set([...navHrefs, ...EXTRA])].filter((r) => !only || r.startsWith(only));
@@ -55,6 +60,9 @@ const executablePath = process.env.CHROMIUM ?? (existsSync("/opt/pw-browsers/chr
 const browser = await chromium.launch(executablePath ? { executablePath } : { channel: "chrome" });
 const failures = [];
 
+/** Uncaught script errors on the page being checked; check() reports and clears them. */
+const errors = [];
+
 async function check(page, route, w) {
   const res = await page.goto(`${BASE}${route}`, { waitUntil: "networkidle", timeout: 120_000 });
   await page.waitForTimeout(800);
@@ -62,6 +70,9 @@ async function check(page, route, w) {
   const landed = `${url.pathname}${url.search}`;
   const problems = [];
   if (!res || res.status() >= 400) problems.push(`HTTP ${res?.status() ?? "no response"}`);
+  // A page that throws still answers 200: it streams the error screen (app/error.tsx, "Rain delay").
+  if (await page.getByText("Rain delay").count()) problems.push("the page rendered its error screen");
+  if (errors.length) problems.push(...errors.splice(0).map((e) => `script error: ${e}`));
   if (landed !== route) problems.push(`landed on ${landed}`);
   const m = await page.evaluate(() => {
     const vw = window.innerWidth, off = [];
@@ -140,6 +151,7 @@ for (const w of WIDTHS) {
 
   const ctx = await browser.newContext({ viewport: { width: w.width, height: w.height } });
   const page = await ctx.newPage();
+  page.on("pageerror", (e) => errors.push(String(e?.message ?? e).slice(0, 200)));
   const login = await page.request.post(`${BASE}/api/login`, { data: { password: PASSWORD } });
   if (!login.ok()) { console.error(`Sign-in failed (${login.status()}); check APP_PASSWORD.`); process.exit(2); }
   for (const route of ROUTES) await check(page, route, w);
