@@ -17,6 +17,7 @@ import { gzipSync } from "node:zlib";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { todayInChicago } from "@/lib/ptcs-progress";
+import { freeBackupPath } from "@/lib/backup-path";
 
 const argv = process.argv.slice(2);
 const val = (k: string) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? argv[i + 1] : undefined; };
@@ -26,7 +27,7 @@ async function main() {
   const day = todayInChicago();
   let out = val("out") ?? join(process.env.OOTP_DATA_ROOT ?? "..", "Docs", "Archive", `saved-rosters-${day}.json.gz`);
   // Never overwrite an earlier backup from the same day: that one holds what this run is about to replace.
-  for (let n = 2; existsSync(out); n++) out = out.replace(/(-\d+)?\.json\.gz$/, `-${n}.json.gz`);
+  out = freeBackupPath(out, existsSync);
   const rosters = rows<Record<string, unknown>>(await db.execute(sql`
     select r.*, t.name tournament_name from rosters r left join tournaments t on t.id = r.tournament_id order by r.id`));
   const slots = rows<Record<string, unknown>>(await db.execute(sql`

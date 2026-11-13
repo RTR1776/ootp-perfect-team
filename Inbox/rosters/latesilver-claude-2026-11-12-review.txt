@@ -20,17 +20,17 @@ L:DH Ryan Braun #87222
 SP1 Fritz Ostermueller #86357
 SP2 Kelvim Escobar #87207
 SP3 Nick Altrock #87049
-SP4 Jordan Montgomery #86354
-SP5 Zack Wheeler (VAR) #86314
+SP4 Jakie May (VAR) #85286
+SP5 Jordan Montgomery #86354
 CL Mike Matthews (VAR) #87296
-RP1 Jakie May (VAR) #85286
+RP1 Scott Williamson #87490
 RP2 Chad Bradford #86341
 RP3 Bruce Ruffin #86777
-RP4 Brad Hand (VAR) #86251
-RP5 Dave Bush (VAR) #86812
-BN1 Chris Sabo #87059
-BN2 Alex Rios #87214
-BN3 Ryan Braun #87222
+RP4 Zack Wheeler (VAR) #86314
+RP5 Brad Hand (VAR) #86251
+BN1 Alex Rios #87214
+BN2 Ryan Braun #87222
+BN3 Chris Sabo #87059
 BN4 Mike Zunino (VAR) #86431
 BN5 Angel Genao #84740
 BN6 Brandon Phillips #87202
