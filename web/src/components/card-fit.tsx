@@ -240,7 +240,7 @@ export function NewCardsBoard({ data, pulled }: { data: CardFitData; pulled: num
   const yours = pick(all.filter((x) => x.pulled)), shop = pick(all.filter((x) => !x.pulled));
   return (
     <div className="flex flex-col gap-4">
-      {tiers.length > 1 && <Segmented aria-label="Card tier" size="md" options={["All", ...tiers].map((t) => ({ value: t, label: t }))} value={tier} onChange={setTier} />}
+      {tiers.length > 1 && <Segmented aria-label="Card tier" size="md" className="max-w-full flex-wrap self-start" options={["All", ...tiers].map((t) => ({ value: t, label: t }))} value={tier} onChange={setTier} />}
       {all.some((x) => x.pulled) && (
         <Section id="new-yours" title="New to your collection" summary="Cards and variants you got since the collection before.">
           <DataTable columns={cols} rows={yours} rowKey={(x) => x.card.id} onRowClick={open} rowClassName={(x) => (x.starts.length ? STARTS_TINT : undefined)} empty={<p className="p-4 text-sm text-muted-foreground">None in this tier.</p>} />
