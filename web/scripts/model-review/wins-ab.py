@@ -26,7 +26,7 @@ Run on the exports in git, 2026-11-13:
     whole score +0.0006 r, better in 37 of 40. Adopted.
 Docs/Improvement Plan 2026-11-12.md has both tables.
 """
-import json, sys
+import json, re, sys
 import numpy as np
 
 POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"]
@@ -110,6 +110,19 @@ champ = np.array(["champ" in u.lower() for u in units])
 groups = [(allm, "ALL")] + [(bands == b, b) for b in W if (bands == b).any()]
 if champ.any() and (~champ).any():
     groups += [(champ, "championship brackets"), (~champ, "everything else")]
+# Cap and slots events ration cards, so a change to how bats are scaled against arms can cut the other way there
+# (the bend, on the 36 cap exports in git: worse in 34 of 40). Series from the catalogue's rules, 2026-11-13.
+CAP = """bronzecapweekly bronzeonlycapdaily c4q1 c4q4 diamondcapdaily earlyyearscap goldcapdaily goldfloorcapweekly
+highironfloorgoldceilingweekly highsilverlowgoldcap ironcapdaily liveplusbronzelowgoldpopup nightmarecap openlowcap
+ptcs4cap silveronlycapdaily ptcs7champcap""".split()
+SLOTS = """5ldeadball 6lpowerplay allstarhardwareslots bronzeptcs3 diamondslotsdaily goldslotsdaily ironandfriends
+liveslotsweekly nelslotsweekly openslotsdaily openslotsweekly silverandfriends silverfriendsslots silverslotsdaily
+timetravelersslots wonkyslots""".split()
+series = np.array([re.sub(r"_\d+$", "", u) for u in units])
+cap, slots = np.isin(series, CAP), np.isin(series, SLOTS)
+for m, l in ((cap, "cap events"), (slots, "slots events"), (~cap & ~slots, "no cap, no slots")):
+    if m.any() and (~m).any():
+        groups.append((m, l))
 
 print("whole score (bats + gloves + framing + arms, production weights):")
 for m, l in groups:

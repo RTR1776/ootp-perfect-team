@@ -2,9 +2,13 @@
 # Push to GitHub — double-click this. It syncs both ways.
 #
 # 1. Data this Mac produced — League Data/, Tourney Data/, web/src/data/
-#    (the filer's recalibration, the dump loader's lines), reference/ — is
+#    (the filer's recalibration, the dump loader's lines), reference/ — and
+#    Docs/ (handoffs and write-ups from Claude sessions on this Mac) is
 #    committed, after you say yes, so it goes up with the sync. Only those
 #    folders go into that commit; other local edits stay on this Mac.
+#    Docs/ was added 2026-11-13: a handoff written here on 11-07 sat on this
+#    Mac for six days, so a cloud session rebuilt Daily Dank without knowing
+#    L.J. had approved a 50 glove in left field there.
 # 2. What Claude merged on GitHub comes down. Any other local edits are set
 #    aside first and put back afterwards (git's autostash), so they no longer
 #    stop the pull with "unstaged changes".
@@ -65,11 +69,11 @@ resolve_unmerged
 
 # 1. data first, so it rides along with this sync
 DATA=()
-for p in "League Data" "Tourney Data" "web/src/data" "reference"; do [ -e "$p" ] && DATA+=("$p"); done
+for p in "League Data" "Tourney Data" "web/src/data" "reference" "Docs"; do [ -e "$p" ] && DATA+=("$p"); done
 CHANGED=""
 [ ${#DATA[@]} -gt 0 ] && CHANGED=$(git status --porcelain -- "${DATA[@]}" 2>/dev/null)
 if [ -n "$CHANGED" ]; then
-  echo "Data on this Mac that GitHub does not have yet:"
+  echo "Data and notes on this Mac that GitHub does not have yet:"
   echo "$CHANGED" | sed 's/^/   /'
   echo
   read -r -p "Commit it so it goes up with this sync? [Y/n] " ok

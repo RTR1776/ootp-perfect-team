@@ -23,7 +23,7 @@ import { join } from "node:path";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { rosterSlots, rosters, seriesMeta, tournaments, uploads } from "@/db/schema";
-import { CLAUDE_PICK_FLAGS, eventRosterArgs, eventShape } from "@/lib/event-roster-args";
+import { claudePickFlags, eventRosterArgs, eventShape } from "@/lib/event-roster-args";
 import { exportsPredate } from "@/lib/set-evidence-server";
 
 export interface ConfirmCard { id: number; name: string; val: number; variant: boolean }
@@ -83,7 +83,7 @@ async function jobFor(eventId: number): Promise<Job> {
 /** One env-roster run's printout. */
 function runBuild(job: Job, extra: string[]): Promise<string> {
   return new Promise((resolve, reject) => {
-    const args = ["--import", "tsx", "scripts/env-roster.ts", ...job.args, ...CLAUDE_PICK_FLAGS, "--starts", "1", ...(job.seed ? ["--seed", job.seed] : []), ...extra];
+    const args = ["--import", "tsx", "scripts/env-roster.ts", ...job.args, ...claudePickFlags(job.eventId), "--starts", "1", ...(job.seed ? ["--seed", job.seed] : []), ...extra];
     const child = spawn(process.execPath, args, { env: process.env, cwd: process.cwd() });
     let text = "";
     child.stdout.on("data", (d) => { text += d; });

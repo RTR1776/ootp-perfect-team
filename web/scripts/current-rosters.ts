@@ -55,7 +55,7 @@ import { cards, collectionCards, rosterSlots, rosters, seriesMeta, tournaments, 
 import { parseDump } from "@/lib/analytics/dumps";
 import { newestDumpFile } from "@/lib/analytics/dump-files";
 import { eventGroupOf } from "@/lib/event-groups";
-import { eventRosterArgs, eventShape, LJ_FLOORS } from "@/lib/event-roster-args";
+import { claudePickFloors, eventRosterArgs, eventShape } from "@/lib/event-roster-args";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { newSince, savedCollectionId, type OwnedForms } from "@/lib/saved-roster-freshness";
 import { loadCardFit } from "@/lib/card-fit-load";
@@ -126,14 +126,15 @@ const SEED = !flag("no-seed");
  * drops back to env-roster's own 60 everywhere.
  */
 const EXTRA = val("extra") ? val("extra")!.split(/\s+/).filter(Boolean) : [];
-const FLOORS = flag("no-floors") || EXTRA.includes("--min-pos") ? [] : ["--min-pos", LJ_FLOORS];
+/** His floors for this event (event-roster-args claudePickFloors: Daily Dank plays left field at 50), unless --no-floors or --extra names --min-pos. */
+const floorsFor = (eventId: number): string[] => (flag("no-floors") || EXTRA.includes("--min-pos") ? [] : ["--min-pos", claudePickFloors(eventId)]);
 const BUILD = ["--optimize", "--starts", val("starts") ?? (TRIAGE && SEED ? "1" : "16"), "--role-trust", "0.25", ...(argv.includes("--compare-search") ? ["--compare-search"] : []),
   // Cards bought but not yet uploaded (env-roster --assume-owned); load files and --save take them as owned too.
   ...(BOUGHT.length ? ["--assume-owned", BOUGHT.join(",")] : []),
   // Cards sold since the upload (env-roster --sold): out of every pool.
   ...(SOLD.size ? ["--sold", [...SOLD].join(",")] : []),
-  // --extra "…": more env-roster flags for every build; L.J.'s floors are added unless it names --min-pos.
-  ...FLOORS, ...EXTRA];
+  // --extra "…": more env-roster flags for every build; L.J.'s floors are added per event (floorsFor) unless it names --min-pos.
+  ...EXTRA];
 
 /** Each slot's newest run in the newest tournaments dump, as epoch seconds. */
 function lastRuns(): { at: Map<number, number>; newest: number } {
@@ -325,7 +326,7 @@ async function main() {
     const prior = SEED ? savedNow.get(job.id) : undefined;
     const seed = prior?.seed.length ? join(OUT, `${job.id}-seed.txt`) : null;
     if (seed) writeFileSync(seed, `# seed: saved roster ${prior!.id} "${prior!.name}"\n${prior!.seed.join("\n")}\n`);
-    const child = spawn(process.execPath, ["--import", "tsx", "scripts/env-roster.ts", ...job.args, ...BUILD, ...(seed ? ["--seed", seed] : [])], { env: process.env });
+    const child = spawn(process.execPath, ["--import", "tsx", "scripts/env-roster.ts", ...job.args, ...BUILD, ...floorsFor(job.id), ...(seed ? ["--seed", seed] : [])], { env: process.env });
     let text = "";
     child.stdout.on("data", (d) => { text += d; });
     child.stderr.on("data", (d) => { text += d; });
