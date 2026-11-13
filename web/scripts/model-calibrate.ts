@@ -34,9 +34,12 @@
  * runs is added. Rankings within a scale are unchanged by it; the exchange
  * rates between bat, glove and arm are what it corrects.
  *
- *   pnpm model:calibrate [--min-n 300] [--no-write]
+ *   pnpm model:calibrate [--min-n 300] [--no-write] [--force]
+ *
+ * A fit unlike the one in use is not written (calibration-guard); --force overrides.
  */
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
+import { checkCalibration } from "@/lib/analytics/calibration-guard";
 import { join } from "node:path";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -51,6 +54,8 @@ const argv = process.argv.slice(2);
 const num = (k: string, d: number) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? Number(argv[i + 1]) : d; };
 const MIN_N = num("min-n", 300);
 const WRITE = !argv.includes("--no-write");
+/** --force: write a fit the guard refuses (lib/analytics/calibration-guard). */
+const FORCE = argv.includes("--force");
 /** Runs per unit of wOBA — the same scale observed-blend and roster-fill use. */
 const WOBA_SCALE = 1.25;
 type Row = Record<string, unknown>;
@@ -207,6 +212,18 @@ async function main() {
 
   if (WRITE) {
     const dest = join(process.cwd(), "src/data/model-calibration.json");
+    // Checked against the file it would replace (lib/analytics/calibration-guard).
+    let prev: Parameters<typeof checkCalibration>[1] = null;
+    try { prev = JSON.parse(readFileSync(dest, "utf8")); } catch { /* first fit */ }
+    const check = checkCalibration(out as never, prev);
+    if (!check.ok && !FORCE) {
+      console.log(`\nThis fit is not like the one in use:`);
+      for (const p of check.problems) console.log(`  ${p}`);
+      console.log(`Find the cause first (one card scored far off the scale did this on 10-30); --force writes it anyway.`);
+      console.error(`calibration NOT written: ${check.problems.join("; ")}`);
+      process.exit(2);
+    }
+    if (!check.ok) console.log(`\n--force: writing despite: ${check.problems.join("; ")}`);
     writeFileSync(dest, JSON.stringify(out, null, 2) + "\n");
     console.log(`\nwrote ${dest}`);
   }
