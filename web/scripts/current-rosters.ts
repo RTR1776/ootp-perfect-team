@@ -363,6 +363,18 @@ async function main() {
   if (flag("save") && built.length) {
     // The same save the Mac's Save Current Rosters.command does, as "Claude pick <tag>"; it replaces each event's earlier Claude pick.
     const name = `Claude pick ${TAG.replace(/-([a-z]+)$/, " $1")}`;
+    // The saves below replace each event's earlier Claude pick. Keep what is there first
+    // (scripts/roster-backup: Docs/Archive/saved-rosters-<day>.json.gz), so a pick that was
+    // live can still be read after the next rebuild. --no-backup skips it.
+    if (!flag("no-backup")) {
+      const line = await new Promise<string>((resolve) => {
+        const child = spawn(process.execPath, ["--import", "tsx", "scripts/roster-backup.ts", "--why", `before saving "${name}"`], { env: process.env });
+        let t = ""; child.stdout.on("data", (d) => { t += d; }); child.stderr.on("data", (d) => { t += d; });
+        child.on("close", (code) => resolve(code === 0 ? t.trim().split("\n").at(-1) ?? "" : `backup FAILED: ${t.trim().split("\n").at(-1) ?? ""}`));
+      });
+      console.log(`\n${line}`);
+      if (line.startsWith("backup FAILED")) { console.log("not saving: the rosters in place were not backed up (--no-backup saves anyway)"); process.exit(1); }
+    }
     console.log(`\nsaving ${built.length} as "${name}"${BOUGHT.length ? ` (bought, not yet uploaded: ${BOUGHT.join(", ")})` : ""}`);
     for (const r of built) {
       const out = await new Promise<string>((resolve) => {
