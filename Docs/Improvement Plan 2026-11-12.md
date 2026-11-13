@@ -6,7 +6,7 @@ L.J.: "take an overall look at our program, the engine, our results, etc. and pu
 
 **Not done:** no live screenshots of the app. The UI section is from code.
 
-**Where the work is:** [pull request 181](https://github.com/RTR1776/ootp-perfect-team/pull/181).
+**Where the work is:** [pull request 181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (merged: sections 2 and 3) and [pull request 182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard and the optimiser's cap tier).
 
 ---
 
@@ -81,7 +81,18 @@ L.J.: "take an overall look at our program, the engine, our results, etc. and pu
 | **Nothing checked a change before it deployed.** | | CI runs typecheck and the tests on every pull request and push to main. |
 | A bare `env-roster` priced relievers 3.4 runs high (role trust 1, not 0.25). | Only by-hand runs; the batch passed 0.25. | Default is 0.25. |
 
-Tests went from 383 to 396; all pass.
+Tests went from 383 to 406; all pass.
+
+### Built after the fixes
+
+| What | Why | Where |
+|---|---|---|
+| **Live draft for any draft.** Enter the rounds by tier, the run environment, park and DH the event screen shows; the same engine runs on that. | The helper had six formats. About three quarters of your draft entries are other events, most in a random environment with no rules on file. | /draft/live → "Any draft" |
+| **The draft board on a phone.** | At 390 px the card name had about 14 px and overlapped the next column. Checked in a browser. | /draft/live |
+| **Scoreboard.** Your series record and points an entry by week, category, event and round, with your rank among regulars. Rewritten by every Monday's dump load. | Section 1 took two throwaway scripts. | /scoreboard, a tab under PTCS |
+| **A cap tier in the optimiser:** one upgrade paid for by two cheaper cards. | Section 4, item 1. On the brute-force cases: 16 misses of 60 down to 10, average gap 0.73 runs down to 0.22, worst 10.1 down to 2.7, for 8% more time. | Roster builds and Search longer |
+| **The search is now tested against brute force.** | Nothing compared the climb with a true best roster. | the test suite |
+| **Rebuild of all 74 current events** on the fixed pricing, saved as "Claude pick 2026-11-12 review". Every roster as it stood before is backed up in `Docs/Archive`. | Section 5 A. | /build |
 
 ---
 
@@ -119,7 +130,7 @@ Tests went from 383 to 396; all pass.
 
 From the optimiser audit, which tested the search against brute force on small cases. Two items are fixed (section 2). The rest:
 
-1. **Under a cap the search is not exact.** On 60 random capped 13-man cases it missed the true best roster in 19 (mean gap 1.1 runs, worst 10.1). Uncapped it was exact every time. Most misses need one upgrade paid for by two downgrades, and no such move exists. Re-solving positions inside each pair trial cut the misses to 11 at twice the time.
+1. **Under a cap the search is not exact.** On 60 random capped 13-man cases it missed the true best roster in 19 (mean gap 1.1 runs, worst 10.1). Uncapped it was exact every time. Most misses needed one upgrade paid for by two downgrades. **That move now exists** (the cap tier, above): 10 misses, mean gap 0.22. The ones left need a bat move and a staff re-solve together; an exact solver (item 7) is the way to close them.
 2. **Position floors bind only cards moving in.** A board that starts with an under-floor glove keeps it unless replacing him gains runs, and reports legal.
 3. **/build and the CLI are different searches.** The two-way dual phase is CLI-only. Optimise has no staff polish, seven starts and a 45-second cut, so its answer varies with how busy the machine is.
 4. **The stamina repair runs after the search** and can cost a long man.
@@ -131,20 +142,20 @@ From the optimiser audit, which tested the search against brute force on small c
 
 ## 5. What is left, in order
 
-### A. Rebuild the rosters (next)
+### A. Rebuild the rosters (running)
 
-Every Claude pick was built on the old blend, and ten were built while positions were missing: rosters 2034–2038, 2040, 2042–2045 (events 550, 9100186, 560, 542, 551, 537, 515, 9100165, 540, 9100166). One full rebuild after the model work settles.
+Every Claude pick was built on the old blend, and ten were built while positions were missing. All 74 current events are being rebuilt from their saved rosters; this is a first pass (one climb each, plus the staff and cap polish). The events you play most deserve a deeper search afterwards.
 
 ### B. Drafts
 
-- **Cover what you enter.** The live helper has six formats. About three quarters of your draft entries since 10-01 (All-Gold, All-Diamond, All-Silver, the Perfectos, the weeklies) have only the old Board tab.
-- **5L and 6L.** Find why they lose. The helper's own study found team value barely tracks wins in the 6L (r 0.09).
+- ~~Cover what you enter~~ and ~~the phone layout~~: done (section 2).
+- **5L and 6L.** Find why they lose. The helper's own study found team value barely tracks wins in the 6L (r 0.09). This needs the Mac's export archive.
 - **Log the pack, not just the pick**, so the helper can be graded.
-- **Phone layout** for /draft/live: seven fixed columns leave about 14 px for the card name at 390 px wide (*audit*, from the code).
+- **Confirm the presets.** "Any draft" assumes each round's pack is mixed positions, six cards. Tell me where an event differs.
 
 ### C. Keep score automatically
 
-- A scoreboard page from the dumps: win %, points an entry and rank by week, tier and event; the round-by-round split against the top 25.
+- ~~A scoreboard page~~: done (section 2).
 - Keep every pick (saved rosters are one per event and get replaced) and grade it when the run's export lands.
 - Grade the seven pre-registered tests from 09-26, which the handoffs never show graded.
 

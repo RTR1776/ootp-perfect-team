@@ -748,7 +748,8 @@ async function main() {
     const polished: string[] = [];
     for (const b of toPolish) {
       // The same moves as the climb that stopped here (a pruned pool re-prunes around the board: not then).
-      const r = optimizeRoster(b.slots, pool, rules, shape, { ...climbOpts, staffTier: true, atOptimum: CANDIDATE_LIMIT == null });
+      // The cap tier rides with it (roster-optimize capTier, 2026-11-12): under a cap, one upgrade paid for by two cheaper cards.
+      const r = optimizeRoster(b.slots, pool, rules, shape, { ...climbOpts, staffTier: true, capTier: true, atOptimum: CANDIDATE_LIMIT == null });
       if (new Set(Object.values(r.slots).map(unitOf)).size !== SIZE) continue;
       polished.push(`${fromLabel(b.from)} ${b.score.toFixed(1)}${r.score > b.score + 1e-9 ? ` -> ${r.score.toFixed(1)} (${r.moves} move${r.moves === 1 ? "" : "s"})` : " (no change)"}`);
       if (r.score > best.score + 1e-9) best = { slots: r.slots, score: r.score, from: b.from, moves: b.moves + r.moves };
@@ -841,7 +842,7 @@ async function main() {
             objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
             candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
             // It competes with the polished board above, so it gets the same staff tier.
-            staffTier: POLISH_N > 0,
+            staffTier: POLISH_N > 0, capTier: POLISH_N > 0,
           });
           const onBoard = new Set(Object.values(r.slots));
           const dualId = [...onBoard].find((id) => !byIdD.get(id)?.isPitcher && onBoard.has(otherFormId(id)));

@@ -203,7 +203,8 @@ export function runSearch(d: SearchRequest, post: (m: SearchMessage) => void, no
       objective: obj.objective, slotValue: obj.slotValue, minDefShare: 0.6, posFloor: LJ_FLOOR,
       pairMoves: { aTop: cfg.aTop, bCheapest: cfg.bCheapest, rank: obj.rank }, maxPasses: cfg.maxPasses,
       candidateLimit: cfg.candidateLimit, keep: locks, minCatchers: d.minCatchers, minShortstops: d.minShortstops ?? 0, minLongMen: d.minLongMen ?? 0, backups: d.backups ?? false,
-      staffTier: cfg.staffTier,
+      // The cap tier rides with the staff tier: Search longer's polish, not Optimise (roster-optimize capTier).
+      staffTier: cfg.staffTier, capTier: cfg.staffTier,
     });
     // Only boards that pass every rule compete.
     if (r.legal) {

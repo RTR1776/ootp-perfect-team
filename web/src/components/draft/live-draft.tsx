@@ -126,7 +126,7 @@ function useDraftView(data: DraftPageData, input: ViewInput | null): { view: Dra
   return state;
 }
 
-export function LiveDraft({ events, data }: { events: { series: string; short: string }[]; data: DraftPageData }) {
+export function LiveDraft({ events, data, openEvent }: { events: { series: string; short: string }[]; data: DraftPageData; /** The entry of `events` that is open, when it is not the format's own series (a set-up draft). */ openEvent?: string }) {
   const f = data.format;
   const E = React.useMemo(() => makeEngine(data.cards, data.ctx), [data]);
   const [saved, update, loaded] = useSaved(f.series, f.packSize);
@@ -222,7 +222,7 @@ export function LiveDraft({ events, data }: { events: { series: string; short: s
           <div className="flex flex-wrap items-center gap-2">
             {events.map((ev) => (
               <Link key={ev.series} href={`/draft/live?e=${ev.series}`}
-                className={cn("rounded-md border px-3 py-1.5 text-sm font-medium", ev.series === f.series ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:text-foreground")}>
+                className={cn("rounded-md border px-3 py-1.5 text-sm font-medium", ev.series === (openEvent ?? f.series) ? "border-primary bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:text-foreground")}>
                 {ev.short}
               </Link>
             ))}
@@ -437,13 +437,14 @@ function Picks({ E, view, pack, onTake }: {
       <table className="w-full table-fixed text-xs">
         <thead>
           <tr className="text-left text-[11px] text-muted-foreground">
-            <th className="w-6 font-normal">#</th>
+            {/* A phone has room for the card, its lead and the button: the rank and the field share go, and where the card plays moves under its name. */}
+            <th className="hidden w-6 font-normal sm:table-cell">#</th>
             <th className="font-normal">Card</th>
-            <th className="w-24 font-normal">Plays</th>
+            <th className="hidden w-24 font-normal sm:table-cell">Plays</th>
             <th className="w-12 text-right font-normal" title="The finished team's value against the top pick (the top pick: its lead)">vs top</th>
             <th className="w-14 text-right font-normal" title="Model runs per 700: a bat vs RHP / vs LHP; an arm saved">runs</th>
-            <th className="w-10 text-right font-normal" title="Share of the field's full teams that drafted it (current-format exports)">field</th>
-            <th className="w-12" />
+            <th className="hidden w-10 text-right font-normal sm:table-cell" title="Share of the field's full teams that drafted it (current-format exports)">field</th>
+            <th className="w-14 sm:w-12" />
           </tr>
         </thead>
         <tbody>
@@ -451,8 +452,8 @@ function Picks({ E, view, pack, onTake }: {
             const c = E.cards[r.idx];
             return (
               <tr key={c.id} className={cn("border-t border-border/60", k === 0 && "font-medium", !r.exact && "text-muted-foreground")}>
-                <td className="py-1 font-mono">{k + 1}</td>
-                <td className="py-1">
+                <td className="hidden py-1 font-mono sm:table-cell">{k + 1}</td>
+                <td className="py-1.5 sm:py-1">
                   <span className="flex min-w-0 items-center gap-1">
                     <CardName c={c} />
                     {c.out ? (
@@ -461,14 +462,15 @@ function Picks({ E, view, pack, onTake }: {
                       <span className="shrink-0 text-[10px] text-muted-foreground" title="Nobody drafted it in the current-format exports">not drafted lately</span>
                     ) : null}
                   </span>
+                  <span className="block truncate text-[11px] font-normal text-muted-foreground sm:hidden">{r.use || (r.exact ? "" : "quick read")}</span>
                 </td>
-                <td className="truncate py-1" title={r.use}>{r.use || (r.exact ? "" : "quick read")}</td>
+                <td className="hidden truncate py-1 sm:table-cell" title={r.use}>{r.use || (r.exact ? "" : "quick read")}</td>
                 <td className={cn("py-1 text-right font-mono", k === 0 ? "text-positive" : r.delta < -3 ? "text-negative" : "")}
                   title={typical ? `${signed(r.overTypical)} over a typical pick here` : undefined}>{signed(r.delta)}</td>
                 <td className="py-1 text-right font-mono">{c.isPitcher ? c.runsR.toFixed(0) : `${c.runsR.toFixed(0)}/${c.runsL.toFixed(0)}`}</td>
-                <td className="py-1 text-right font-mono">{c.share != null ? `${Math.round(c.share * 100)}%` : ""}</td>
+                <td className="hidden py-1 text-right font-mono sm:table-cell">{c.share != null ? `${Math.round(c.share * 100)}%` : ""}</td>
                 <td className="py-1 text-right">
-                  <button className="rounded border border-border px-1.5 py-0.5 text-[11px] hover:bg-muted" onClick={() => onTake(r.idx)}>Take</button>
+                  <button className="rounded border border-border px-2.5 py-2 text-xs hover:bg-muted sm:px-1.5 sm:py-0.5 sm:text-[11px]" onClick={() => onTake(r.idx)}>Take</button>
                 </td>
               </tr>
             );

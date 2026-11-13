@@ -113,6 +113,12 @@ export interface OptimizeOptions {
    */
   staffTier?: boolean;
   /**
+   * Under a value cap, when everything else stops: one upgrade paid for by TWO cheaper cards,
+   * and the upgrade-for-downgrade pairs again with every position re-solved around them
+   * (capTier below). Needs slotValue and pairMoves. A polish, like the staff tier.
+   */
+  capTier?: boolean;
+  /**
    * The start is already where the plain moves stop (env-roster's polish climbs its own climbs'
    * boards again, with the same moves): the first pass goes straight to the staff tier instead of
    * searching every single move and pair again for nothing.
@@ -652,6 +658,94 @@ export function optimizeRoster(
     return best;
   };
 
+  /*
+   * THE CAP TIER. With the cap full, the plain climb can pay for an upgrade with ONE cheaper
+   * card, scored where the two cards land. Brute force on 60 random capped 13-man rosters
+   * (2026-11-12) found the true best roster missed in 16: most needed one upgrade paid for by
+   * two cheaper cards, a move that did not exist, and some needed the positions re-solved
+   * around a pair before it paid. Both are tried here, once nothing else helps.
+   *
+   * Every combination is priced first from its parts (each card's slotValue against the card it
+   * replaces, over the slots that card holds), which is cheap; only the best few are built,
+   * checked with legal(), re-solved and scored on the full objective.
+   */
+  const CAP_TIER_BUILDS = 24;
+  const capTier = (from: FillResult, fromScore: number, onRoster: ReadonlySet<number>): { slots: FillResult; score: number } | null => {
+    const cap = rules.restrictions?.teamCap;
+    if (cap == null || !pm || !upgrades || !downgrades || !o.slotValue) return null;
+    const sv = o.slotValue;
+    const units = new Map<number, number>();
+    for (const id of onRoster) { const c = byId.get(id); if (c && !units.has(unitOf(id))) units.set(unitOf(id), c.val ?? 0); }
+    let spent = 0;
+    for (const v of units.values()) spent += v;
+    const spare = cap - spent;
+    /** What `c` adds over the card in `key`, across every slot that card holds where `c` may play. */
+    const swing = (key: string, c: FillCard): number => {
+      const cur = from[key];
+      let d = 0;
+      for (const k of keys) if (from[k] === cur && eligible.get(k)?.has(c.cardId)) d += sv(k, c.cardId) - sv(k, cur);
+      return d;
+    };
+    interface Opt { key: string; card: FillCard; out: number; cost: number; d: number }
+    const ups: Opt[] = [], downs: Opt[] = [];
+    for (const k of keys) {
+      const cur = from[k], curVal = byId.get(cur)?.val ?? 0;
+      if (cur == null) continue;
+      for (const c of upgrades.get(k) ?? []) {
+        if (onRoster.has(c.cardId)) continue;
+        const cost = (c.val ?? 0) - curVal, d = swing(k, c);
+        if (cost > spare && d > 1e-9) ups.push({ key: k, card: c, out: cur, cost, d });
+      }
+      for (const c of downgrades.get(k) ?? []) {
+        if (onRoster.has(c.cardId)) continue;
+        const freed = curVal - (c.val ?? 0);
+        if (freed > 0) downs.push({ key: k, card: c, out: cur, cost: -freed, d: swing(k, c) });
+      }
+    }
+    if (!ups.length || !downs.length) return null;
+    downs.sort((x, y) => y.d - x.d); // least lost first
+    // The best few by parts: pairs (one downgrade pays) and triples (two are needed).
+    const picks: { est: number; moves: Opt[] }[] = [];
+    const offered = new Set<string>();
+    const offer = (est: number, moves: Opt[]) => {
+      if (est <= -3) return; // the re-solve can add a little to a move that prices just under water
+      const sig = moves.map((m) => `${m.key}:${m.card.cardId}`).sort().join("|");
+      if (offered.has(sig)) return; // the same two downgrades reached from either one
+      offered.add(sig);
+      if (picks.length < CAP_TIER_BUILDS) picks.push({ est, moves });
+      else { let w = 0; for (let i = 1; i < picks.length; i++) if (picks[i].est < picks[w].est) w = i; if (est > picks[w].est) picks[w] = { est, moves }; }
+    };
+    const clash = (x: Opt, y: Opt) => x.out === y.out || x.key === y.key || x.card.cardId === y.card.cardId;
+    for (const u of ups) {
+      const need = u.cost - spare;
+      // One cheaper card pays: the plain pair, to be scored with the positions re-solved.
+      for (const x of downs) { if (-x.cost < need || clash(u, x)) continue; offer(u.d + x.d, [u, x]); break; }
+      // Two are needed: for each first one that cannot pay alone, the least-lost second that completes it.
+      for (let i = 0; i < downs.length; i++) {
+        const x = downs[i];
+        if (-x.cost >= need || clash(u, x)) continue;
+        for (let j = 0; j < downs.length; j++) {
+          const y = downs[j];
+          if (j === i || -y.cost >= need || -x.cost - y.cost < need || clash(u, y) || clash(x, y)) continue;
+          offer(u.d + x.d + y.d, [u, x, y]);
+          break;
+        }
+      }
+    }
+    let best: { slots: FillResult; score: number } | null = null;
+    for (const p of picks.sort((a, b) => b.est - a.est)) {
+      let t: FillResult = from;
+      for (const m of p.moves) t = place(t, m.key, m.card);
+      if (!isComplete(t, shape)) continue;
+      if (!legal(t, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong)) continue;
+      let sc = obj(t);
+      const r = settle(t, sc);
+      if (r) { t = r.slots; sc = r.score; }
+      if (sc > (best?.score ?? fromScore) + 1e-9) best = { slots: t, score: sc };
+    }
+    return best;
+  };
+
   const settled0 = settle(slots, score);
   if (settled0) { slots = settled0.slots; score = settled0.score; moves++; }
 
@@ -662,7 +756,7 @@ export function optimizeRoster(
     let bestPair: { a: string; ai: number; b: string; bi: number } | null = null;
 
     // A start already at the plain moves' optimum: its first pass is the staff tier's.
-    const plain = !(pass === 0 && o.atOptimum && o.staffTier);
+    const plain = !(pass === 0 && o.atOptimum && (o.staffTier || o.capTier));
     for (const key of plain ? keys : []) {
       const current = slots[key];
       for (const c of cands.get(key) ?? []) {
@@ -708,7 +802,8 @@ export function optimizeRoster(
     else if (bestPair) { slots = place(place(slots, bestPair.a, byId.get(bestPair.ai)!), bestPair.b, byId.get(bestPair.bi)!); }
     else {
       // A local optimum for every plain move: the staff tier when asked for, or done.
-      const st = o.staffTier ? staffTier(slots, score, onRoster) : null;
+      let st = o.staffTier ? staffTier(slots, score, onRoster) : null;
+      if (!st && o.capTier) st = capTier(slots, score, onRoster);
       if (!st) break;
       slots = st.slots; bestScore = st.score;
     }

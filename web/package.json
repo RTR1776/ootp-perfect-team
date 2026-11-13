@@ -72,6 +72,7 @@
     "positions:harvest": "node --env-file=.env.local --import tsx scripts/positions-harvest.ts",
     "positions:reapply": "node --env-file=.env.local --import tsx scripts/positions-reapply.ts",
     "record": "node --import tsx scripts/record.ts",
+    "scoreboard": "node --import tsx scripts/scoreboard.ts",
     "roster:diff": "node --env-file=.env.local --import tsx scripts/roster-diff.ts",
     "cwhit:compare": "node --env-file=.env.local --import tsx scripts/cwhit-compare.ts",
     "dumps:restandings": "node --env-file=.env.local --import tsx scripts/dumps-restandings.ts",
