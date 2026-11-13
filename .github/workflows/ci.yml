@@ -1,0 +1,33 @@
+# Tests and typecheck on every pull request and on every push to main.
+# Until 2026-11-12 nothing checked a change before Vercel deployed it; the suite
+# takes a few seconds. A push from the Mac ("Push to GitHub.command") goes
+# straight to main, so this also turns main red when a data file it carries
+# (the model calibration, say) fails its own test.
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test

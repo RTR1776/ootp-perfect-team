@@ -24,7 +24,7 @@ import { LJ_FLOOR, describePosFloor, parsePosFloor, posFloorAt, type PosFloor } 
 import { fieldingRuns, framingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { rosterObjective, LHP_SHARE_DEFAULT, RP_WEIGHT_DEFAULT, BENCH_WEIGHT_DEFAULT, staffStaminaRuns } from "@/lib/roster-objective";
 import { seriesMeta } from "@/db/schema";
-import { envFitMaps, batsLeftOn } from "@/lib/analytics/env-fit";
+import { envFitMaps, batsLeftOn, referenceFits } from "@/lib/analytics/env-fit";
 import { loadObservedRuns } from "@/lib/analytics/observed-blend";
 import { OBS_K_OWN_SERIES, OBS_HALF_LIFE_DAYS, type ObsK } from "@/lib/analytics/calibration";
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
@@ -172,8 +172,10 @@ const MIN_POS: PosFloor = parsePosFloor(val("min-pos")) ?? LJ_FLOOR;
  * --role-trust: how much of the relief role bonus to believe. 1 is the fitted
  * constant; the archived exports say most of it is inherited-runner accounting
  * (see env-fit's roleTrust). Drop it and SP cards can win bullpen slots.
+ * The default is 0.25, what the app and every Claude pick use (it was 1 until
+ * 2026-11-12, so a bare env:roster priced relievers ~3.4 runs/700 high).
  */
-const ROLE_TRUST = num("role-trust", 1)!;
+const ROLE_TRUST = num("role-trust", 0.25)!;
 /** --no-leverage: weigh the pen's slots by batters faced only, not by leverage too (roster-objective penTilt). For before/after checks. */
 const PEN_LEVERAGE = !flag("no-leverage");
 /** --pen-stamina: keep the staff-stamina term on pen arms (the pricing before 11-01; roster-objective staminaTerm). For before/after checks. */
@@ -494,7 +496,8 @@ async function main() {
       cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole,
       ratings: (c.ratings ?? {}) as Record<string, number>,
     }));
-    const base = envFitMaps(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true });
+    // The blend's reference carries no tournament-only terms (env-fit referenceFits): play can't see Speed or Stamina.
+    const base = referenceFits(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
     // `both` is already env-fit's 0.7 R / 0.3 L read, so it is also the reference that lets a variant keep its boost.
     observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both, OBS_EXCLUDE, { series: SERIES, ratingsMax: MAX, ownSeriesOnly: true });

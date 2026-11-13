@@ -128,3 +128,48 @@ test("observedShift takes a per-side K", async () => {
   assert.ok(Math.abs(observedShift(0, 0, ob, { hit: 1300, pit: 1100 }, true) - 5) < 1e-9, "arms: 1100 BF is half weight");
   assert.ok(Math.abs(observedShift(0, 0, ob, { hit: 1300, pit: 1100 }, false) - 10 * 1100 / 2400) < 1e-9);
 });
+
+test("the observed blend leaves Speed and Stamina whole when the reference is referenceFits", async () => {
+  const { referenceFits, tournamentTermRuns } = await import("./env-fit");
+  const era = eraTable["2010"] ?? eraTable["0"];
+  const speedy = (id: number, speed: number) => ({ ...bat(id, {}), ratings: { ...bat(id, {}).ratings, Speed: speed } });
+  const armOf = (id: number, stamina: number) => {
+    const r: Record<string, number> = { Stamina: stamina };
+    for (const k of ["Stuff", "Control", "pHR", "pBABIP"]) for (const s of ["", " vL", " vR"]) r[k + s] = 100;
+    return { cardId: id, isPitcher: true, bats: null, role: "SP", ratings: r };
+  };
+  // Alike but for the one rating play cannot see.
+  const bats = [speedy(41, 20), speedy(42, 60), speedy(43, 120)];
+  const arms = [armOf(51, 10), armOf(52, 70), armOf(53, 104)];
+  const pool = [...bats, ...arms];
+  const o = { era: era.rates, park: null, roleTrust: 0.25, tournamentTerms: true };
+  const K = { hit: 1300, pit: 900 }, n = 3000;
+
+  // Every card played exactly at its field's level, as observed-blend builds it:
+  // runs = the reference's mean over the field, model = the card's own reference.
+  const blendedOn = (ref: { runsR: Map<number, number>; runsL: Map<number, number> }) => {
+    const both = (id: number) => 0.7 * ref.runsR.get(id)! + 0.3 * ref.runsL.get(id)!;
+    const observed = new Map<number, { runs: number; n: number; model: number }>();
+    for (const field of [bats, arms]) {
+      const level = field.reduce((s, c) => s + both(c.cardId), 0) / field.length;
+      for (const c of field) observed.set(c.cardId, { runs: level, n, model: both(c.cardId) });
+    }
+    return envFitMaps(pool, { ...o, observed, observedK: K });
+  };
+  const right = blendedOn(referenceFits(pool, o));
+  const wrong = blendedOn(envFitMaps(pool, o)); // the reference env-roster and Card Fit built until 2026-11-12
+
+  const termGap = (a: (typeof pool)[number], b: (typeof pool)[number]) => tournamentTermRuns(a) - tournamentTermRuns(b);
+  const gap = (f: typeof right, a: number, b: number) => f.runsR.get(a)! - f.runsR.get(b)!;
+  assert.ok(termGap(bats[2], bats[0]) > 3 && termGap(arms[2], arms[0]) > 10, "the terms are worth runs here");
+  // Right: the whole term rides on top of the blend, whatever the sample.
+  assert.ok(Math.abs(gap(right, 43, 41) - termGap(bats[2], bats[0])) < 1e-9, "Speed is kept whole");
+  assert.ok(Math.abs(gap(right, 53, 51) - termGap(arms[2], arms[0])) < 1e-9, "Stamina is kept whole");
+  // Wrong: with the terms in the reference, n/(n+K) of each card's term was blended away.
+  assert.ok(Math.abs(gap(wrong, 43, 41) - (1 - n / (n + K.hit)) * termGap(bats[2], bats[0])) < 1e-9);
+  assert.ok(Math.abs(gap(wrong, 53, 51) - (1 - n / (n + K.pit)) * termGap(arms[2], arms[0])) < 1e-9);
+  // The reference itself carries no term and no blend.
+  const ref = referenceFits(pool, { ...o, observed: new Map([[41, { runs: 50, n: 9999, model: 0 }]]), observedK: K });
+  assert.ok(Math.abs(ref.runsR.get(41)! - ref.runsR.get(43)!) < 1e-9, "alike bats read alike in the reference");
+  assert.ok(Math.abs(ref.runsR.get(51)! - ref.runsR.get(53)!) < 1e-9, "alike arms read alike in the reference");
+});

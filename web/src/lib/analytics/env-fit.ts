@@ -27,7 +27,7 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, trustedSplit, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { armEraSpread, armRatingFix, PARK_HAND_TRUST, SPEED_CENTER, SPEED_RUNS_PER_POINT, STAMINA_CENTER, STAMINA_RUNS_PER_POINT, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns, type ObsK } from "@/lib/analytics/calibration";
+import { armEraSpread, armRatingFix, calibratedHitRuns, PARK_HAND_TRUST, SPEED_CENTER, SPEED_RUNS_PER_POINT, STAMINA_CENTER, STAMINA_RUNS_PER_POINT, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns, type ObsK } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -202,6 +202,42 @@ export function observedShift(r: number, l: number, ob: { runs: number; n: numbe
   return (ob.n / (ob.n + K)) * (ob.runs - ref);
 }
 
+/**
+ * The tournament-only term env-fit adds to a card with `tournamentTerms`
+ * (calibration.ts): Speed for a bat, the staff-stamina share for an arm. The
+ * same on both boards. 0 where the card has no such rating.
+ */
+export function tournamentTermRuns(c: Pick<EnvFitInput, "isPitcher" | "ratings">): number {
+  if (c.isPitcher) {
+    const st = c.ratings["Stamina"];
+    return st != null ? STAMINA_RUNS_PER_POINT * (st - STAMINA_CENTER) : 0;
+  }
+  const sp = c.ratings["Speed"];
+  return sp != null ? SPEED_RUNS_PER_POINT * (sp - SPEED_CENTER) : 0;
+}
+
+/**
+ * The model the observed blend is read against: env-fit on the same options
+ * with the tournament-only terms left out and nothing blended in.
+ *
+ * Observed play is wOBA for a bat and FIP for an arm. Neither can see Speed or
+ * the staff-stamina share, so those terms must sit outside the blend: the
+ * reference sets each series' level (the model's mean over the field) and each
+ * card's own zero, and with the terms in both, a card's term came out as
+ * (1 - w)·its own + w·the field's mean, w = n/(n+K). At the own-series K
+ * (1,300 PA / 900 BF) a card with 3,000 on record kept 30% of its own term.
+ * /build's reference never carried the terms; env-roster's and Card Fit's did,
+ * so the two priced the same card differently (found 2026-11-12: Evan Phillips,
+ * Stamina 10, +0.4 on the CLI and -4.1 on /build; Dizzy Trout, Stamina 104,
+ * 3.4 and 7.5; Trea Turner, Speed 120, 1.9 and 5.7). It also undid part of
+ * the 11-01 pen fix: the objective takes the full stamina term back out of a
+ * pen slot, and the map held a shrunken one. Every caller that blends builds
+ * its reference here.
+ */
+export function referenceFits(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvFits {
+  return envFitMaps(pool, { ...o, tournamentTerms: false, observed: undefined, runsOnly: true });
+}
+
 export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvFits {
   const defWeight = o.defWeight ?? 0.17;
   const envLeft = solveSide(o.era, o.park, 1);
@@ -282,18 +318,14 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
   }
   const extra = (c: EnvFitInput, board: "R" | "L"): number => {
     if (o.calibrate === false) return 0;
-    if (c.isPitcher) {
-      const st = c.ratings["Stamina"];
-      return o.tournamentTerms && st != null ? STAMINA_RUNS_PER_POINT * (st - STAMINA_CENTER) : 0;
-    }
-    const sp = c.ratings["Speed"];
-    return (batsLeftOn(c.bats, board) ? handOff.L : handOff.R)
-      + (o.tournamentTerms && sp != null ? SPEED_RUNS_PER_POINT * (sp - SPEED_CENTER) : 0);
+    const term = o.tournamentTerms ? tournamentTermRuns(c) : 0;
+    return c.isPitcher ? term : (batsLeftOn(c.bats, board) ? handOff.L : handOff.R) + term;
   };
   for (const c of pool) {
     let r = runsOf(c, "R"), l = runsOf(c, "L");
-    const slope = c.isPitcher ? slopePit : slopeHit;
-    if (slope !== 1) { if (r != null) r *= slope; if (l != null) l *= slope; }
+    if (c.isPitcher) { if (slopePit !== 1) { if (r != null) r *= slopePit; if (l != null) l *= slopePit; } }
+    // Bats: the straight slope, or the bend when it is switched on (calibration.ts calibratedHitRuns).
+    else if (o.calibrate !== false) { if (r != null) r = calibratedHitRuns(r); if (l != null) l = calibratedHitRuns(l); }
     if (r != null) r += eraFix(c, "R") + extra(c, "R");
     if (l != null) l += eraFix(c, "L") + extra(c, "L");
     const ob = o.observed?.get(c.cardId);

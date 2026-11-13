@@ -8,7 +8,12 @@
  */
 import CALIBRATION_JSON from "@/data/model-calibration.json";
 
-export interface CalibrationSide { slope: number; intercept: number; applied: boolean; r?: number; rmse?: number; cards?: number; n?: number }
+/**
+ * A bend in the bat calibration (2026-11-12): one slope below `at` raw model
+ * runs per 700, a flatter one above it. See calibratedHitRuns.
+ */
+export interface CalibrationBend { at: number; below: number; above: number; applied: boolean; heldOutBetter?: number; heldOutOf?: number; gain?: number }
+export interface CalibrationSide { slope: number; intercept: number; applied: boolean; r?: number; rmse?: number; cards?: number; n?: number; bend?: CalibrationBend }
 export interface Calibration { fittedAt: string | null; hit: CalibrationSide; pit: CalibrationSide }
 
 export const CALIBRATION = CALIBRATION_JSON as unknown as Calibration;
@@ -17,6 +22,36 @@ export const CALIBRATION = CALIBRATION_JSON as unknown as Calibration;
 export function calibrationSlope(kind: "hit" | "pit"): number {
   const s = CALIBRATION[kind];
   return s && s.applied && Number.isFinite(s.slope) && s.slope > 0 ? s.slope : 1;
+}
+
+/** A bend that is switched on and sane; null otherwise. */
+export function activeBend(side: CalibrationSide | undefined = CALIBRATION.hit): CalibrationBend | null {
+  const b = side?.bend;
+  return b && b.applied && [b.at, b.below, b.above].every(Number.isFinite) && b.below > 0 && b.above > 0 && b.above <= b.below ? b : null;
+}
+
+/**
+ * A bat's raw model runs per 700 on the observed scale.
+ *
+ * The straight line (calibrationSlope) says every modelled run returns the
+ * same share in play. Measured 2026-11-12 on 15,442 card-series lines: it does
+ * not. Below about +16 raw runs a modelled run returns ~0.60-0.66; above it,
+ * ~0.30-0.33. One slope (0.50) splits the difference: it squeezes ordinary
+ * bats too hard and pays the gap between two elite bats half again too much.
+ * Held out by series the bend beats the line in 40 of 40 half-splits on the
+ * calibration frame and 38-39 of 40 in each event's own environment, in every
+ * era band with weight above the knee; arms show no bend (20-27 of 40).
+ *
+ * It is recorded by model:calibrate and applied only when `bend.applied` is
+ * set. It is OFF until the team-win harness (Mac archive) says it also
+ * predicts wins: elite bats sit on teams that go deep and face better arms,
+ * which could flatten their lines without the ratings being wrong.
+ * Docs/Improvement Plan 2026-11-12.md has the numbers.
+ */
+export function calibratedHitRuns(raw: number, side: CalibrationSide | undefined = CALIBRATION.hit): number {
+  const b = activeBend(side);
+  if (!b) return raw * (side && side.applied && Number.isFinite(side.slope) && side.slope > 0 ? side.slope : 1);
+  return raw <= b.at ? b.below * raw : b.below * b.at + b.above * (raw - b.at);
 }
 
 /** Runs above league average, put on the observed scale. */

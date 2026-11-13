@@ -23,6 +23,7 @@ import { sql as dsql } from "drizzle-orm";
 import { db as drizzleDb } from "@/db/client";
 import { parseShopList } from "../src/lib/ingest/pt-card-list";
 import { parseCollection, matchCollectionToShop } from "../src/lib/ingest/collection";
+import { reapplyHarvestedPositions } from "../src/lib/ingest/positions-reapply";
 
 async function main() {
   const [shopPath, collectionPath, date] = process.argv.slice(2);
@@ -141,7 +142,13 @@ async function main() {
     await drizzleDb.execute(dsql`DELETE FROM uploads WHERE id IN (${shopId}, ${collectionId})`).catch(() => {});
     throw new Error(String((e as any)?.cause?.message ?? (e as any)?.message ?? e).slice(0, 400));
   }
-  console.log(JSON.stringify({ committed:true, shopUploadId:shopId, collectionUploadId:collectionId, unmatched: unmatched.length }));
+  // The card rows above carry only the positions printed on each card. Put the
+  // harvested ones back now, not at the next Monday harvest. Not part of the
+  // import's own rollback: a failure here leaves the import good and says so.
+  let positions = "";
+  try { const r = await reapplyHarvestedPositions(); positions = `${r.ratings} unlisted position ratings put back on ${r.cards} hitters`; }
+  catch (e) { positions = `positions NOT re-applied (${String((e as any)?.message ?? e).slice(0, 120)}); run pnpm positions:reapply`; }
+  console.log(JSON.stringify({ committed:true, shopUploadId:shopId, collectionUploadId:collectionId, unmatched: unmatched.length, positions }));
 }
 
 main().catch(e => { console.error(e.message); process.exitCode=1; });

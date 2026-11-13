@@ -24,7 +24,8 @@ import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { desc, eq, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { cardPositions, cards, collectionCards, uploads } from "@/db/schema";
+import { cardPositions, collectionCards, uploads } from "@/db/schema";
+import { reapplyHarvestedPositions } from "@/lib/ingest/positions-reapply";
 import { parseCsv } from "@/lib/ingest/eligible-pool";
 import { positionOverride } from "@/lib/position-overrides";
 
@@ -69,18 +70,11 @@ const rows = <T,>(r: unknown): T[] => (Array.isArray(r) ? r : ((r as { rows?: T[
   }
   console.log(`card_positions upserted: ${list.length}`);
 
-  // Base cards: fill the unlisted positions.
-  const universe = await db.select({ cardId: cards.cardId, isPitcher: cards.isPitcher, ratings: cards.ratings }).from(cards);
-  let filled = 0, fills = 0;
-  for (const c of universe) {
-    if (c.isPitcher) continue;
-    const s = seen.get(`${c.cardId}:b`); if (!s) continue;
-    const r = { ...((c.ratings ?? {}) as Record<string, number>) };
-    let touched = false;
-    for (const p of POS) { if ((r[`Pos Rating ${p}`] ?? 0) <= 0 && s.positions[p] > 0) { r[`Pos Rating ${p}`] = s.positions[p]; touched = true; fills++; } }
-    if (touched) { await db.update(cards).set({ ratings: r }).where(eq(cards.cardId, c.cardId)); filled++; }
-  }
-  console.log(`base cards: ${filled} cards given ${fills} unlisted position ratings`);
+  // Base cards: fill the unlisted positions, from the table just written. The
+  // card-list imports run the same statement, so a new list no longer waits
+  // for this harvest (lib/ingest/positions-reapply).
+  const base = await reapplyHarvestedPositions();
+  console.log(`base cards: ${base.cards} cards given ${base.ratings} unlisted position ratings`);
 
   // Owned variant copies in the current upload: stamp POS keys (harvest, then overrides on top).
   const [up] = await db.select({ id: uploads.id }).from(uploads).where(eq(uploads.kind, "collection")).orderBy(desc(uploads.uploadedAt), desc(uploads.id)).limit(1);

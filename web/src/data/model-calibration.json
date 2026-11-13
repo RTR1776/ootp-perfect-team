@@ -1,5 +1,5 @@
 {
-  "fittedAt": "2026-11-12",
+  "fittedAt": "2026-11-13",
   "minN": 300,
   "frame": "within-series: card's observed runs above its field vs model runs above the field's model mean; PT default engine, neutral park, roleTrust 0.25",
   "hit": {
@@ -13,6 +13,15 @@
     "sdModel": 15.9,
     "sdObs": 12.61,
     "applied": true,
+    "bend": {
+      "at": 16,
+      "below": 0.6558,
+      "above": 0.3462,
+      "heldOutBetter": 40,
+      "heldOutOf": 40,
+      "gain": 0.1975,
+      "applied": false
+    },
     "deciles": [
       {
         "n": 1545,

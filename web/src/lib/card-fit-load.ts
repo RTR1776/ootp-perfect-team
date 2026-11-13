@@ -20,7 +20,7 @@ import { staffStaminaRuns } from "@/lib/roster-objective";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, importBatches, rosters, rosterSlots, seriesMeta, tournaments, uploads } from "@/db/schema";
-import { envFitMaps, observedShift, type EnvFitInput } from "@/lib/analytics/env-fit";
+import { envFitMaps, observedShift, tournamentTermRuns, type EnvFitInput } from "@/lib/analytics/env-fit";
 import { bothHands, loadObservedBook, observedRunsFrom, type ObservedBook, type ObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraFor, eraTable, parkFor } from "@/lib/analytics/tournament-env";
 import { gloveScale } from "@/lib/analytics/fielding";
@@ -305,8 +305,15 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
   const slots = roster ? w.slotRows.filter((s) => s.rosterId === roster.id) : [];
 
   const base = envFitMaps(w.allInputs, opts2);
-  const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };
-  const observed = observedRunsFrom(w.book, both, bothHands(base), { series: t.series, ratingsMax: t.ratingsMax, ownSeriesOnly: true });
+  // The blend's reference carries no tournament-only terms (env-fit referenceFits): play can't see
+  // Speed or Stamina. `base` has them, because a base card is read straight from it below, so the
+  // reference is `base` less each card's term rather than a second pass over the catalogue.
+  const term = new Map<number, number>();
+  for (const c of w.allInputs) term.set(c.cardId, tournamentTermRuns(c));
+  const less = (v: number | null | undefined, id: number) => (v == null ? null : v - (term.get(id) ?? 0));
+  const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : less((1 - lhp) * r + lhp * l, id); };
+  const ref = bothHands(base);
+  const observed = observedRunsFrom(w.book, both, (id) => less(ref(id), id), { series: t.series, ratingsMax: t.ratingsMax, ownSeriesOnly: true });
 
   // The forms read with play blended in: every legal base card, his legal variants, the targets and his saved roster.
   const variantsOk = rx?.variantsAllowed !== false && rx?.variantCap !== 0;

@@ -294,7 +294,15 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
     return total + dualCorrection(r);
   };
 
+  /**
+   * How candidates for a slot are ordered when the search prunes its lists and
+   * builds the cap's downgrade frontier. A pen slot pays an arm's runs less the
+   * staff-stamina term (slotValue), so it ranks on the same number: on raw runs
+   * a Stamina-10 reliever sat 10.8 runs below a Stamina-100 arm of the same pen
+   * value, and the short relievers were the ones the lists cut (2026-11-12).
+   */
   const rank = (key: string, c: FillCard): number => {
+    if (rpSet.has(key)) return (runsR.get(c.cardId) ?? -1e6) - penStamina(c.cardId);
     const pos = key.includes(":") ? key.split(":")[1] : "";
     const d = FIELD_POS.test(pos) ? defAt(c.cardId, pos) : 0;
     return (key.startsWith("L:") ? (runsL.get(c.cardId) ?? -1e6) : (runsR.get(c.cardId) ?? -1e6)) + d;
