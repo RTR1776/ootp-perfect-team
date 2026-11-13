@@ -89,7 +89,7 @@ export function UpgradesBoard({ data }: { data: UpgradesData }) {
     },
     { key: "gain", header: "Runs", align: "right", priority: 1, tip: "The variant's gain, summed over the picked events (roster objective units, one swap each).", render: (v) => <Signed v={v.gain} className="font-semibold" />, sortValue: (v) => v.gain },
     { key: "price", header: "Variant price", align: "right", priority: 1, tip: "Recent variant sales (last 10) on the newest shop list that has the card. A thin market: check the auction house before bidding.", render: (v) => <span className={num}>{v.price != null ? pp(v.price) : <span className="text-xs text-muted-foreground">no sales</span>}</span>, sortValue: (v) => v.price },
-    { key: "value", header: "Runs / 10k PP", align: "right", priority: 1, render: (v) => (v.value != null ? <span className={num}>{v.value.toFixed(1)}</span> : <span className="text-muted-foreground">—</span>), sortValue: (v) => v.value },
+    { key: "value", header: "Runs / 10k PP", align: "right", priority: 2, render: (v) => (v.value != null ? <span className={num}>{v.value.toFixed(1)}</span> : <span className="text-muted-foreground">—</span>), sortValue: (v) => v.value },
   ];
 
   const sCols: Column<SRow>[] = [
@@ -120,7 +120,7 @@ export function UpgradesBoard({ data }: { data: UpgradesData }) {
         : <span className="text-xs text-muted-foreground">{s.fresh ? "no price yet" : s.clubhouse ? "no PP sales" : "—"}</span>,
       sortValue: (s) => s.price,
     },
-    { key: "value", header: "Runs / 10k PP", align: "right", priority: 1, render: (s) => (s.value != null && s.gain > 0 ? <span className={num}>{s.value.toFixed(1)}</span> : <span className="text-muted-foreground">—</span>), sortValue: (s) => (s.gain > 0 ? s.value : null) },
+    { key: "value", header: "Runs / 10k PP", align: "right", priority: 2, render: (s) => (s.value != null && s.gain > 0 ? <span className={num}>{s.value.toFixed(1)}</span> : <span className="text-muted-foreground">—</span>), sortValue: (s) => (s.gain > 0 ? s.value : null) },
   ];
 
   const groupOptions = data.groups.map((g) => ({ value: g.key, label: g.label }));

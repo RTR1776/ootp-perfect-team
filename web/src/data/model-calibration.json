@@ -173,58 +173,58 @@
     "lines": 13180,
     "cards": 1487,
     "n": 33769151,
-    "slope": 0.6241,
-    "intercept": 0.156,
-    "r": 0.6619,
-    "rmse": 5.95,
-    "sdModel": 8.42,
+    "slope": 0.6242,
+    "intercept": 0.154,
+    "r": 0.6656,
+    "rmse": 5.92,
+    "sdModel": 8.46,
     "sdObs": 7.94,
     "applied": true,
     "deciles": [
       {
         "n": 1318,
-        "model": -19.2,
+        "model": -19.4,
         "observed": -11.2
       },
       {
         "n": 1318,
-        "model": -11.2,
-        "observed": -7.8
+        "model": -11.3,
+        "observed": -7.9
       },
       {
         "n": 1318,
         "model": -7.3,
-        "observed": -4.3
+        "observed": -4.5
       },
       {
         "n": 1318,
         "model": -4.3,
-        "observed": -2.6
+        "observed": -2.7
       },
       {
         "n": 1318,
         "model": -1.7,
-        "observed": -1.4
+        "observed": -1.2
       },
       {
         "n": 1318,
-        "model": 0.6,
-        "observed": 0.6
+        "model": 0.7,
+        "observed": 0.5
       },
       {
         "n": 1318,
         "model": 2.9,
-        "observed": 1.9
+        "observed": 2
       },
       {
         "n": 1318,
         "model": 5.3,
-        "observed": 3.9
+        "observed": 3.7
       },
       {
         "n": 1318,
         "model": 8.2,
-        "observed": 5.2
+        "observed": 5.4
       },
       {
         "n": 1318,
@@ -237,7 +237,7 @@
         "key": "2026-03",
         "cards": 791,
         "n": 10489118,
-        "resid": 0.1
+        "resid": 0
       },
       {
         "key": "2026-04",
@@ -261,25 +261,25 @@
         "key": "2026-07",
         "cards": 109,
         "n": 5514694,
-        "resid": 1
+        "resid": 1.1
       },
       {
         "key": "2026-08",
         "cards": 102,
         "n": 3759041,
-        "resid": -0.7
+        "resid": -0.6
       },
       {
         "key": "2026-09",
         "cards": 112,
         "n": 4587668,
-        "resid": 0
+        "resid": -0.1
       },
       {
         "key": "2026-10",
         "cards": 91,
         "n": 1419199,
-        "resid": -0.6
+        "resid": -0.7
       },
       {
         "key": "2026-11",

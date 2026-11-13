@@ -237,7 +237,7 @@ type FitTournament = FitWorld["current"][number];
 
 const ratingsOf = (c: UniverseCard) => (c.ratings ?? {}) as Record<string, number>;
 const inputOf = (c: UniverseCard, ratings = ratingsOf(c), id = c.cardId): EnvFitInput =>
-  ({ cardId: id, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings });
+  ({ cardId: id, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings });
 const legalCard = (c: UniverseCard, rules: RosterRules) => cardEligibility({
   cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher ?? false, role: c.pitcherRole,
   cardType: c.cardType, le: c.cardSubType === "LE", ratings: ratingsOf(c), baseOwned: false, variantOwned: false,

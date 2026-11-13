@@ -51,7 +51,7 @@ export async function loadEraStrength(): Promise<EraStrengthData> {
   const [universe, coll, snaps] = await Promise.all([
     db.select({
       cardId: cards.cardId, name: cards.name, cardValue: cards.cardValue, position: cards.position, pitcherRole: cards.pitcherRole,
-      isPitcher: cards.isPitcher, bats: cards.bats, year: cards.year, cardType: cards.cardType, cardSubType: cards.cardSubType,
+      isPitcher: cards.isPitcher, bats: cards.bats, throws: cards.throws, year: cards.year, cardType: cards.cardType, cardSubType: cards.cardSubType,
       releasedOn: cards.releasedOn, ratings: cards.ratings,
     }).from(cards),
     collection ? db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant, ratings: collectionCards.ratings })
@@ -77,7 +77,7 @@ export async function loadEraStrength(): Promise<EraStrengthData> {
   }
 
   const input = (c: (typeof universe)[number], ratings: Record<string, number>, id = c.cardId): EnvFitInput =>
-    ({ cardId: id, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings });
+    ({ cardId: id, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings });
 
   // Observed play, once, against the whole universe at the PT default: each
   // series' level is the mean model of every card that played it.

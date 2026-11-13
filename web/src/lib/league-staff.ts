@@ -102,7 +102,8 @@ export interface ArmLines { family: LeagueFamily; fam: Map<string, ArmEdge>; oth
 
 /** The tournament model's runs saved per 9, per role, for each set of ratings. */
 function modelPer9(list: { id: number; ratings: Record<string, number> }[], role: ArmRole): Map<number, number> {
-  const fits = envFitMaps(list.map((x) => ({ cardId: x.id, isPitcher: true, bats: null, role, ratings: x.ratings })), { era: eraTable["0"].rates, park: null, roleTrust: 0.25 });
+  // No throwing hand: the league families (familyFit) were fitted on the one-share blend, and stay on it.
+  const fits = envFitMaps(list.map((x) => ({ cardId: x.id, isPitcher: true, bats: null, throws: null, role, ratings: x.ratings })), { era: eraTable["0"].rates, park: null, roleTrust: 0.25 });
   const out = new Map<number, number>();
   for (const x of list) {
     const r = fits.runsR.get(x.id);

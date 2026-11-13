@@ -92,6 +92,8 @@ export interface BuilderCard {
   role: string | null;
   isPitcher: boolean;
   bats: string | null;
+  /** "L" or "R": how an arm's vL and vR lines are blended (env-fit pitchLhbShareFor). */
+  throws: string | null;
   year: number | null;
   active: boolean;
   variant: boolean;
@@ -1613,8 +1615,10 @@ export function RosterBuilder({
     // Cap and slots events judge a backup at a 60 glove (roster-optimize CAP_BACKUP_FLOOR), as the search does.
     const rx = tournament?.restrictions as { teamCap?: number | null; slots?: Record<string, number> | null } | null | undefined;
     const backupFloorCap = rx?.teamCap != null || rx?.slots != null ? CAP_BACKUP_FLOOR : null;
-    return auditRoster({ slots: filled, cards: byId as unknown as Map<number, { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }>, lineupPos, envYear: tournament?.envYear, posFloor: LJ_FLOOR, field, backupFloorCap });
-  }, [slots, byId, lineupPos, tournament?.envYear, tournament?.restrictions, meta]);
+    // A position the pool cannot cover twice at the floor is stated, not failed: the search holds the board to the same list.
+    const coverable = tournament ? new Set(backupPositions((pool as FillCard[]).filter((c) => !bans.has(c.cardId)).map(searchCard), tournament as RosterRules, LJ_FLOOR).map((b) => b.pos)) : null;
+    return auditRoster({ slots: filled, cards: byId as unknown as Map<number, { cardId: number; name: string; isPitcher: boolean; ratings: Record<string, number> }>, lineupPos, envYear: tournament?.envYear, posFloor: LJ_FLOOR, field, backupFloorCap, coverable });
+  }, [slots, byId, lineupPos, tournament, pool, bans, meta]);
 
   /** Two-way cards holding both roles on this board (lib/two-way dualUseOk): one roster spot, two jobs. */
   const twoWayDuals = useMemo(() => {

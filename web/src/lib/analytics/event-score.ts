@@ -75,10 +75,10 @@ export async function computeEventScores(ev: EventRef | null): Promise<{ rows: P
   const lhbShare = meta?.lhbPaShare ?? 0.35;
 
   const universe = await db.select({
-    cardId: cards.cardId, isPitcher: cards.isPitcher, bats: cards.bats, role: cards.pitcherRole, ratings: cards.ratings,
+    cardId: cards.cardId, isPitcher: cards.isPitcher, bats: cards.bats, throws: cards.throws, role: cards.pitcherRole, ratings: cards.ratings,
   }).from(cards);
   const fits = envFitMaps(
-    universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.role, ratings: (c.ratings ?? {}) as Record<string, number> })),
+    universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.role, ratings: (c.ratings ?? {}) as Record<string, number> })),
     { era: era.rates, park: park.row, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: eraYear ?? PT_DEFAULT_ENV_YEAR, tournamentTerms: true },
   );
   const both = (id: number) => {

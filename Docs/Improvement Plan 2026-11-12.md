@@ -4,9 +4,9 @@ L.J.: "take an overall look at our program, the engine, our results, etc. and pu
 
 **How this was checked.** Results come from the 11-09 community dump. I ran the test suite and typecheck, read the handoffs and audits, and worked against the database. Four code audits ran in parallel (pricing model, optimiser, UI and drafts, data pipeline). Everything under "Fixed" I verified myself in the code and, where it touches data, in the database. Findings I have not re-checked are marked *audit*.
 
-**Not done:** no live screenshots of the app. The UI section is from code.
+**The app was checked in a browser** against the live database, at phone and desktop width: every new page, and after the last change every page (`pnpm smoke`). The audit's UI findings in section 5 G are from code and not re-checked.
 
-**Where the work is:** pull requests [181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (the fixes in sections 2 and 3), [182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard, the optimiser's cap tier) and [183](https://github.com/RTR1776/ootp-perfect-team/pull/183) (the Today page, the smoke check, the roster backup, pinned prices).
+**Where the work is:** pull requests [181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (the fixes in sections 2 and 3), [182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard, the optimiser's cap tier) [183](https://github.com/RTR1776/ootp-perfect-team/pull/183) (the Today page, the smoke check, the roster backup, pinned prices) and [184](https://github.com/RTR1776/ootp-perfect-team/pull/184) (the two win tests in section 3, arms priced by throwing hand, the roster check fix, the phone fixes). The rebuilt rosters' load files follow in the last one.
 
 ---
 
@@ -96,7 +96,10 @@ Tests went from 383 to 408; all pass.
 | **Saved rosters are backed up before any batch replaces them.** | A new Claude pick replaced the old one, so the roster that was live a given week could not be read back. | `pnpm roster:backup`; automatic in the batch |
 | **Ten cards' prices are pinned** in six environments. | Nothing failed when a change moved what the scorer says about a card. | the test suite |
 | **The page smoke check visits every page**, tabs included, and fails on an error screen. | It skipped eight pages and could not see a page that rendered its error. | `pnpm smoke` |
-| **Rebuild of all 74 current events** on the fixed pricing, saved as "Claude pick 2026-11-12 review". Every roster as it stood before is backed up in `Docs/Archive`. | Section 5 A. | /build |
+| **Arms are priced by the hand they throw with.** A left-hander's line against left-handed bats counts 35%, a right-hander's 50%; it was 45% for everyone. | Section 3, item 2: it passed your bar on wins. | every pick, /build, Card Fit, Upgrades, Buy Plan, drafts |
+| **The roster check no longer fails a roster for a backup nobody could carry.** | Daily Live Iron failed every build: one Live card at 59 or under has an 85 glove at short. The search knew; the printed check didn't, and the new save gate reads the check. | env-roster, /build |
+| **Five pages fit a phone that didn't.** | Tier buttons, a diamond and four tables ran 50 to 150 px off a 390 px screen once their data had loaded. Found by the smoke check, which now waits for the data. | /cards, /needs, /upgrades, /qualifying, /buy-plan |
+| **Rebuild of all 74 current events** on the final pricing, saved as "Claude pick 2026-11-12 review". Every roster as it stood before is backed up in `Docs/Archive`. | Section 5 A. | /build |
 
 ---
 
@@ -118,8 +121,29 @@ Tests went from 383 to 408; all pass.
 
    So ordinary bats are squeezed too hard, and the gap between two elite bats is paid about half again too much. Held out by series, two slopes beat one in **40 of 40** half-splits, and in 38–39 of 40 when each event is scored in its own environment. It shows in every era band that has elite bats. Arms show no bend.
 
-   **It is built and switched off.** Your bar for a pricing change is held-out wins, and that harness needs the Mac's archive. There is also a reading I can't rule out from here: elite bats sit on teams that go deep and face better pitching, which would flatten their lines without the ratings being wrong. `model:calibrate` now measures the bend at every refit. One flag turns it on (`hit.bend.applied` in `model-calibration.json`).
-2. **Arms have room.** 0.54 against a ceiling of 0.72. Two held-out wins from the 10-31 audit were never built: the left-handed-batter share by pitcher hand (0.35 for LHP, 0.50 for RHP; the code uses 0.45), and the low end of the pHR curve.
+   **It is built, tested on wins, and stays off.** Your bar for a pricing change is held-out wins, so I built the team harness twice (bend off, bend on) over the exports that are in git: 36 cap exports and the six PTCS 7 Championship brackets, 3,580 team-events. Win % against the team score, within each export, over 40 half-samples of the exports:
+
+   | | Straight slope | Bend | Better in |
+   |---|---|---|---|
+   | Whole team score, all 42 exports | 0.4097 | 0.4100 | **24 of 40** |
+   | Championship brackets (6, no cap) | 0.4070 | 0.4093 | 38 of 40 |
+   | Cap exports (36) | 0.4129 | 0.4118 | 6 of 40 |
+   | Offence term on its own, all | 0.3504 | 0.3546 | 39 of 40 |
+
+   It needs 37 of 40 and gets 24. The bend does describe bats better (39 of 40 on the offence term alone), but once gloves and arms are in the score the gain is three ten-thousandths of r. It helps a little where teams are stacked with elite bats and hurts a little under a cap. Neither size would change a roster you'd notice. Rescaling the bent term to the old spread, or letting each build fit its own offence weight, gives the same answer (21 or 22 of 40). So the single slope is not costing wins, and bats are not where the model is leaving them.
+
+   `model:calibrate` still measures the bend at every refit, and `scripts/model-review/wins-ab.py` reruns this test. The Mac's full archive (935 exports against these 42) is the one place the verdict could change; the commands are in the script's header.
+2. **Arms have room**: 0.54 against a ceiling of 0.72. The 10-31 audit left two held-out wins unbuilt. **One is now built and on.**
+   - **The share of left-handed bats an arm faces, by the hand he throws with.** Lineups stack the other hand, so a left-hander sees fewer left-handed bats. The audit fitted 0.35 for LHP and 0.50 for RHP on card lines; the code used 0.45 for everyone. Same win test as the bend, the audit's values untouched:
+
+     | | One share (0.45) | By hand | Better in |
+     |---|---|---|---|
+     | Whole team score, all 42 exports | 0.4107 | 0.4113 | **37 of 40** |
+     | Cap exports (36) | 0.4133 | 0.4146 | 40 of 40 |
+     | Championship brackets (6) | 0.4100 | 0.4091 | 13 of 40 |
+
+     It clears your bar, just. It is small: about a run per 700 batters on an arm with a wide split, and a few marginal staff choices per roster. The calibration refit agrees (arm slope unchanged at 0.624, r 0.662 to 0.666). The championship brackets go the other way by a little; that field is 1971 Dodger Stadium with right-handed builds, and the `--pitch-lhb` flag you used there still overrides the default. A grid of other shares on the same exports wanted even more of each arm's weak side in modern cap events, but I kept the audit's values rather than fit a second time to this sample.
+   - **The low end of the pHR curve:** still open.
 3. **FIP can't see pBABIP**, and the blend reads arms against FIP. So a high-pBABIP arm's edge is shrunk by the blend the same way Speed was. Not fixed; it needs its own test.
 4. **Surfaces that price differently** (*audit*, not yet fixed):
    - /build's Buy box and Shop tab use raw glove runs, no framing and no leverage.
@@ -146,9 +170,9 @@ From the optimiser audit, which tested the search against brute force on small c
 
 ## 5. What is left, in order
 
-### A. Rebuild the rosters (running)
+### A. Rebuild the rosters
 
-Every Claude pick was built on the old blend, and ten were built while positions were missing. All 74 current events are being rebuilt from their saved rosters; this is a first pass (one climb each, plus the staff and cap polish). The events you play most deserve a deeper search afterwards.
+Every Claude pick was built on the old blend, and ten were built while positions were missing. All 74 current events were rebuilt from their saved rosters in two passes, so every pick ends on the final pricing (the blend fix, the pen ranking, the cap tier, arms by throwing hand). Each is one seeded climb plus the staff and cap polish: a first pass. The events you play most deserve a deeper search (`--starts 8`) afterwards.
 
 ### B. Drafts
 
@@ -196,12 +220,7 @@ Sections 3 and 4, in the order listed there.
 
 ## 6. What I need from you
 
-1. **Run the bend's win check on the Mac** (or have a session there do it). Build the team harness twice, bend off and on, then compare on wins:
-   - `MV2_TOURDIR=Archive/Completed MV2_NO_LEAGUE=1 MV2_DIR=/tmp/h-off node --import tsx scripts/model-v2/teams.mts`
-   - set `hit.bend.applied` to `true` in `web/src/data/model-calibration.json`, then the same command with `MV2_DIR=/tmp/h-on`
-   - `python3 -I scripts/model-review/endtoend.py /tmp/h-off /tmp/h-on`
-
-   Adopt at 37 of 40 or better.
+1. **Optional: rerun the bend's win check on the Mac's full archive.** I ran it here on the 42 exports in git and it failed your bar (24 of 40; section 3). The archive holds far more exports than these 42. The three commands are at the top of `web/scripts/model-review/wins-ab.py`, with `MV2_TOURDIR=Archive/Completed` added. Adopt only at 37 of 40 or better on the whole score.
 2. **Start OOTP cloud sessions on the "LJC" environment.** It has the database variable, the site password and open network. Tonight's session started on "Default", which has none of them.
 3. **`Handoff 2026-11-07.md` was never committed.** If it is on the Mac, push it; its "Still open" list is referenced and lost.
 4. **Back up the archive.** One copy of 935 export files is the weakest point in the whole setup.

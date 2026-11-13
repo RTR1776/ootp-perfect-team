@@ -30,7 +30,7 @@ import { OBS_K_OWN_SERIES, OBS_HALF_LIFE_DAYS, type ObsK } from "@/lib/analytics
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
-import { CAP_BACKUP_FLOOR, optimizeRoster } from "@/lib/roster-optimize";
+import { CAP_BACKUP_FLOOR, backupPositions, optimizeRoster } from "@/lib/roster-optimize";
 import { capLedger, isLeak } from "@/lib/cap-ledger";
 import { runSearch, toPlainFits, type SearchBest } from "@/lib/roster-search";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
@@ -353,7 +353,7 @@ async function main() {
         .from(cardSnapshots).where(eq(cardSnapshots.uploadId, shop.id))).map((p) => [p.cardId, p.ask]))
     : new Map<number, number | null>();
 
-  type P = FillCard & { pos: string; tier: string; bats: string | null };
+  type P = FillCard & { pos: string; tier: string; bats: string | null; throws: string | null };
   const pool: P[] = [];
 
   if (POOL_CSV) {
@@ -376,7 +376,7 @@ async function main() {
         cardId: m.cardId, name: m.name, val: m.val, year: m.year, isPitcher: m.isPitcher,
         role: m.role, cardType: m.cardType, ratings: m.ratings,
         baseOwned: true, variantOwned: m.variant, variant: m.variant, player: byId.get(m.cardId)?.brefId ?? null,
-        pos: byId.get(m.cardId)?.position ?? "", tier: byId.get(m.cardId)?.tier ?? "", bats: m.bats,
+        pos: byId.get(m.cardId)?.position ?? "", tier: byId.get(m.cardId)?.tier ?? "", bats: m.bats, throws: byId.get(m.cardId)?.throws ?? null,
       });
     }
     console.log(`pool from export: ${rows.length} rows -> ${pool.length} distinct cards${unmatched.length ? `; UNMATCHED (${unmatched.length}): ${unmatched.map((u) => `${u.name} ${u.value}`).join(", ")}` : "; all matched"}`);
@@ -392,7 +392,7 @@ async function main() {
       cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher,
       role: c.pitcherRole, cardType: c.cardType, le: c.cardSubType === "LE", ratings,
       baseOwned: baseSet.has(cid), variantOwned: vr != null, player: c.brefId,
-      variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", tier: c.tier ?? "", bats: c.bats,
+      variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", tier: c.tier ?? "", bats: c.bats, throws: c.throws,
     };
     if (card.variant && !card.variantOwned) continue;
     if (CARD_TYPES.size && !CARD_TYPES.has(Number(c.cardType))) continue;
@@ -493,7 +493,7 @@ async function main() {
   let observed: Map<number, { runs: number; n: number }> | undefined;
   if (OBS_ON && SERIES) {
     const all = universe.map((c) => ({
-      cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole,
+      cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, throws: c.throws, role: c.pitcherRole,
       ratings: (c.ratings ?? {}) as Record<string, number>,
     }));
     // The blend's reference carries no tournament-only terms (env-fit referenceFits): play can't see Speed or Stamina.
@@ -514,13 +514,13 @@ async function main() {
   let fieldAvg: { batR: number; batL: number; arm: number; n: number } | null = null;
   if (SERIES) {
     const res: any = await db.execute(sql`
-      select o.card_id, o.is_variant, o.is_pitcher, o.pa, o.ip, o.ratings vr, c.ratings, c.bats, c.pitcher_role, c.position
+      select o.card_id, o.is_variant, o.is_pitcher, o.pa, o.ip, o.ratings vr, c.ratings, c.bats, c.throws, c.pitcher_role, c.position
       from observed_card_stats o join cards c on c.card_id = o.card_id
       where o.series = ${SERIES} and (o.pa > 0 or o.ip > 0)`);
     const rows: any[] = Array.isArray(res) ? res : res.rows ?? [];
     if (rows.length) {
       const fp = rows.filter((r: any) => r.ratings).map((r: any) => ({
-        cardId: r.is_variant ? -Number(r.card_id) : Number(r.card_id), isPitcher: !!r.is_pitcher, bats: r.bats,
+        cardId: r.is_variant ? -Number(r.card_id) : Number(r.card_id), isPitcher: !!r.is_pitcher, bats: r.bats, throws: r.throws,
         role: r.is_pitcher ? r.pitcher_role : r.position,
         ratings: r.is_variant ? formRatings(r.ratings, r.vr, r.position) : r.ratings,
       }));
@@ -1008,7 +1008,8 @@ async function main() {
     const sum = (k: string) => top ? Object.values(top.tiers as Record<string, Record<string, number>>).reduce((n, t) => n + (t[k] ?? 0), 0) : 0;
     const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
     console.log("\n--- roster check ---");
-    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, backupFloorCap: CAP != null || SLOTS != null ? CAP_BACKUP_FLOOR : null })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
+    const coverable = new Set(backupPositions(pool, rules, MIN_POS).map((b) => b.pos));
+    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, backupFloorCap: CAP != null || SLOTS != null ? CAP_BACKUP_FLOOR : null, coverable })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
   }
   printCapLedger(slots);
 

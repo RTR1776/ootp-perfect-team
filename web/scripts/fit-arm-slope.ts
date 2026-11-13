@@ -53,11 +53,11 @@ async function main() {
   const edges = poolArmEdges(rows);
 
   // The tournament model's read of every arm's shop card, per role.
-  const shop = await db.select({ cardId: cards.cardId, name: cards.name, isPitcher: cards.isPitcher, ratings: cards.ratings }).from(cards);
+  const shop = await db.select({ cardId: cards.cardId, name: cards.name, isPitcher: cards.isPitcher, throws: cards.throws, ratings: cards.ratings }).from(cards);
   const arms = shop.filter((c) => c.isPitcher);
   const era = eraTable["0"];
   const fitAs = (role: ArmRole) => envFitMaps(
-    arms.map((c) => ({ cardId: c.cardId, isPitcher: true, bats: null, role, ratings: (c.ratings ?? {}) as Record<string, number> })),
+    arms.map((c) => ({ cardId: c.cardId, isPitcher: true, bats: null, throws: c.throws, role, ratings: (c.ratings ?? {}) as Record<string, number> })),
     { era: era.rates, park: null, roleTrust: 0.25 },
   );
   const byRole = { SP: fitAs("SP"), RP: fitAs("RP") };

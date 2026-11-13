@@ -18,6 +18,7 @@
  *
  * MV2_TOURDIR=Archive/Completed reads every archived export instead of the Cap
  * Exports (2026-10-25 defence test: 701 exports, the Cap Exports among them);
+ * MV2_PITCH_LHB=field|flat sets the arms' vL/vR blend (default: by throwing hand in tournaments).
  * MV2_NO_LEAGUE=1 skips the league seasons; MV2_NO_TOUR=1 skips the tournaments;
  * MV2_LEAGUE_YEAR pins the league era; MV2_LEAGUE_OLD / MV2_LEAGUE_MULT: see LEAGUE_OLD. Each team row also carries `dpos`:
  * per position, PA per game ÷ 700 times the rating's gap to the unit's
@@ -168,8 +169,12 @@ for (const u of units) {
     else { const p = s.stats.PA ?? 0; pa += p; paL += p * (c.bats === "L" ? 1 : c.bats === "S" ? 0.5 : 0); }
   }
   const lhp = bf ? bfL / bf : 0.3, lhb = pa ? paL / pa : 0.35;
-  const pool = ids.map((id) => { const c = card.get(Math.abs(id))!; return { cardId: id, isPitcher: !!c.isPitcher, bats: c.bats, ratings: formRatingsOf.get(id)!, role: c.pitcherRole }; });
-  const fits = envFitMaps(pool, { era: era.row.rates, park, eraYear: u.year, roleTrust: 0.25, leagueLhbShare: lhb, pitchLhbShare: lhb, tournamentTerms: u.kind === "tour" });
+  const pool = ids.map((id) => { const c = card.get(Math.abs(id))!; return { cardId: id, isPitcher: !!c.isPitcher, bats: c.bats, throws: c.throws, ratings: formRatingsOf.get(id)!, role: c.pitcherRole }; });
+  // Arms' vL/vR blend. Tournaments are priced as production prices them: by throwing hand (env-fit pitchLhbShareFor).
+  // League seasons keep the field's own share, the frame their weights were fitted in. MV2_PITCH_LHB=field puts every
+  // unit on the field's share (this harness before 2026-11-13); =flat on 0.45 (production before that date).
+  const pitchLhb = process.env.MV2_PITCH_LHB === "flat" ? { pitchLhbShare: 0.45 } : process.env.MV2_PITCH_LHB === "field" || u.kind !== "tour" ? { pitchLhbShare: lhb } : {};
+  const fits = envFitMaps(pool, { era: era.row.rates, park, eraYear: u.year, roleTrust: 0.25, leagueLhbShare: lhb, ...pitchLhb, tournamentTerms: u.kind === "tour" });
   const gs = gloveScale(era.row.rates);
   // Track record from OTHER event types only (this unit's own series excluded), tournaments only.
   let obs: Map<number, { runs: number; n: number }> | null = null;

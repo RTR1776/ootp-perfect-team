@@ -64,7 +64,10 @@ const failures = [];
 const errors = [];
 
 async function check(page, route, w) {
-  const res = await page.goto(`${BASE}${route}`, { waitUntil: "networkidle", timeout: 120_000 });
+  // "load", then a short wait for the network to go quiet. A page that keeps a request open (the dev
+  // server's reload socket under load, a board that polls) never goes idle, and timed the whole run out.
+  const res = await page.goto(`${BASE}${route}`, { waitUntil: "load", timeout: 120_000 });
+  await page.waitForLoadState("networkidle", { timeout: 20_000 }).catch(() => {});
   await page.waitForTimeout(800);
   const url = new URL(page.url());
   const landed = `${url.pathname}${url.search}`;

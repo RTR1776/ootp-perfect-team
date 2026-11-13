@@ -68,7 +68,7 @@ export default async function DraftPage({ searchParams }: { searchParams: Promis
 
     if (eraRow && universe.length) {
       const fit = envFitMaps(
-        universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })),
+        universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })),
         { era: eraRow.rates, park: park.row, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 },
       );
       const keep = new Set<number>();

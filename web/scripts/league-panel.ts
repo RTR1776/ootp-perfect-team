@@ -132,7 +132,7 @@ async function main() {
     const push = (rec: Out, isP: boolean, ratings: Record<string, number>) => {
       rec.rowid = rows.length + recs.length + 1;
       recs.push(rec);
-      pool.push({ cardId: rec.rowid as number, isPitcher: isP, bats: (rec.bats as string) || null, role: isP ? (rec.pos as string) : null, ratings });
+      pool.push({ cardId: rec.rowid as number, isPitcher: isP, bats: (rec.bats as string) || null, throws: null, role: isP ? (rec.pos as string) : null, ratings });
     };
     const w = worth(era.rates);
     const scales = Object.fromEntries(Object.entries(RATING_OF).map(([k, r]) => [`scale_${k}`, BASE_WORTH[r] ? Math.round((w[r] / BASE_WORTH[r]) * 1000) / 1000 : 1]));

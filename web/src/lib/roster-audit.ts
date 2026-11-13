@@ -55,6 +55,15 @@ export function auditRoster(o: {
   field?: FieldShape | null;
   /** Cap events: the glove a backup needs, when lower than the starter's floor (roster-optimize CAP_BACKUP_FLOOR). */
   backupFloorCap?: number | null;
+  /**
+   * The positions the event's pool can cover twice at the backup floor
+   * (roster-optimize backupPositions, the list the search itself holds a
+   * roster to). A position missing from it passes: no roster he can build
+   * has a backup there, so it is stated, not failed. Daily Live Iron,
+   * 2026-11-13: one Live card at 59 or under has an 85 glove at short, and
+   * the check failed every build. Omit to hold every position to the floor.
+   */
+  coverable?: ReadonlySet<string> | null;
 }): AuditLine[] {
   const out: AuditLine[] = [];
   const get = (id: number | undefined) => (id == null ? undefined : o.cards.get(id));
@@ -84,8 +93,14 @@ export function auditRoster(o: {
     const can = bats.filter((c) => (c.ratings[`Pos Rating ${pos}`] ?? 0) >= fl);
     const bench = (hand: "R" | "L") => can.filter((c) => !inField[hand].has(c.cardId));
     const r = bench("R"), l = bench("L");
-    const ok = r.length > 0 && l.length > 0;
     const named = (cs: typeof can) => cs.map((c) => `${c.name} ${c.ratings[`Pos Rating ${pos}`]}`).join(", ");
+    if (!(r.length > 0 && l.length > 0) && o.coverable && !o.coverable.has(pos)) {
+      // Nobody to add: say who is nearest among the bats already here.
+      const near = bats.filter((c) => !can.includes(c)).sort((a, b) => (b.ratings[`Pos Rating ${pos}`] ?? 0) - (a.ratings[`Pos Rating ${pos}`] ?? 0))[0];
+      out.push({ ok: true, text: `${pos.padEnd(2)} backup: the pool has no second card at the floor (${fl})${near && (near.ratings[`Pos Rating ${pos}`] ?? 0) > 0 ? `; nearest here: ${named([near])}` : ""}`, short: `${pos} backup` });
+      continue;
+    }
+    const ok = r.length > 0 && l.length > 0;
     const same = r.length === l.length && r.every((c) => l.includes(c));
     const text = ok
       ? same ? named(r) : `vs RHP ${named(r)} · vs LHP ${named(l)}`

@@ -38,6 +38,29 @@ export interface EnvFitInput {
   ratings: Record<string, number>;
   /** SP / RP / CL. Relief arms beat their ratings — see roleRuns(). */
   role?: string | null;
+  /** "L" or "R". Sets how an arm's vL and vR lines are blended — see pitchLhbShareFor(). */
+  throws: string | null;
+}
+
+/**
+ * The share of an arm's batters who hit left, by the hand he throws with.
+ *
+ * Lineups stack the other hand against him, so a left-hander sees fewer
+ * left-handed bats than a right-hander does. Fitted on card-series lines
+ * (Docs/Arm Model Audit 2026-10-31): 0.35 for LHP (90% interval 0.29-0.40)
+ * and 0.50 for RHP (0.46-0.53), better held out in 20 of 20 splits on runs
+ * allowed and 16 of 20 on FIP. One share for every arm (0.45) was in use
+ * until 2026-11-13.
+ *
+ * On team wins (scripts/model-review/wins-ab.py, the 42 exports in git,
+ * 3,580 team-events): whole team score r 0.4107 to 0.4113, better in 37 of 40
+ * export half-samples; 40 of 40 on the 36 cap exports, 13 of 40 on the six
+ * PTCS 7 Championship brackets (1971 Dodger Stadium, a right-handed field),
+ * where an explicit `pitchLhbShare` is the better tool.
+ */
+export const PITCH_LHB_SHARE = { L: 0.35, R: 0.5, unknown: 0.45 } as const;
+export function pitchLhbShareFor(throws: string | null | undefined): number {
+  return throws === "L" ? PITCH_LHB_SHARE.L : throws === "R" ? PITCH_LHB_SHARE.R : PITCH_LHB_SHARE.unknown;
 }
 
 export interface EnvFitOptions {
@@ -51,9 +74,10 @@ export interface EnvFitOptions {
   leagueLhbShare?: number;
   /**
    * Share of a pitcher's batters who hit left, for blending his vL and vR
-   * lines. 0.45 (the league's) unless an event's field is known to lean one
-   * way, e.g. the PTCS 7 Championship's right-handed builds at 1971 Dodger
-   * Stadium (L.J. 2026-10-10).
+   * lines, the same for every arm. Leave it unset and each arm gets the share
+   * his throwing hand faces (pitchLhbShareFor). Set it when an event's field
+   * is known to lean one way, e.g. the PTCS 7 Championship's right-handed
+   * builds at 1971 Dodger Stadium (L.J. 2026-10-10).
    */
   pitchLhbShare?: number;
   /**
@@ -259,7 +283,7 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
        */
       const role = -roleRuns(c.role, c.ratings["Stamina"]) * (o.roleTrust ?? 1);
       // A starter faces both hands; the vs-LHP board is the pure-left read.
-      const pl = o.pitchLhbShare ?? 0.45;
+      const pl = o.pitchLhbShare ?? pitchLhbShareFor(c.throws);
       const blend = pl * rL + (1 - pl) * rR;
       /**
        * A PITCHER'S SPLIT IS MOSTLY NOISE, and acting on a small one is worse
