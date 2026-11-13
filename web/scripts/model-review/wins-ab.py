@@ -69,31 +69,35 @@ units = np.array([k[0] for k in keys]); bands = np.array([band(O[k]["year"]) for
 print(f"offence term moved: mean |on - off| {np.abs(bat_on - bat_off).mean():.3f} runs a game; spread off {bat_off.std():.3f}, on {bat_on.std():.3f}")
 
 
+# Each export as an integer, so a mean per export is one pass (np.bincount) whatever the number of exports.
+# The first version looped over the exports inside every correlation: fine on the 42 in git, hours on 900.
+unit_names, code = np.unique(units, return_inverse=True)
+K = len(unit_names)
+
+
 def centre(v, m):
-    out = np.zeros(len(v))
-    for u in np.unique(units[m]):
-        s = (units == u) & m
-        out[s] = v[s] - np.average(v[s], weights=w[s])
-    return out
+    """v on the masked rows, less each export's games-weighted mean there."""
+    c, ww, vv = code[m], w[m], v[m]
+    sw = np.bincount(c, weights=ww, minlength=K); sv = np.bincount(c, weights=ww * vv, minlength=K)
+    return vv - (sv / np.where(sw > 0, sw, 1.0))[c]
 
 
 def r(s, m):
-    a, b, ww = centre(s, m)[m], centre(y, m)[m], w[m]
+    a, b, ww = centre(s, m), centre(y, m), w[m]
     return np.sum(ww * a * b) / np.sqrt(np.sum(ww * a * a) * np.sum(ww * b * b))
 
 
 def halves(m):
     """The 40 half-samples of the exports under a mask: 20 random splits, both sides of each."""
-    U = np.unique(units[m])
+    U = np.unique(code[m])  # in name order, as before, so the same seeds draw the same exports
     for seed in range(20):
-        half = set(np.random.default_rng(seed).choice(U, len(U) // 2, replace=False))
-        h = np.array([x in half for x in units])
+        h = np.isin(code, np.random.default_rng(seed).choice(U, len(U) // 2, replace=False))
         yield h & m, ~h & m
         yield ~h & m, h & m
 
 
 def compare(m, label, a, b):
-    U = np.unique(units[m])
+    U = np.unique(code[m])
     if len(U) < 4:
         print(f"   {label:22} n {m.sum():5d}  {len(U):2d} exports: too few to split;  off {r(a, m):.4f}  on {r(b, m):.4f}  ({r(b, m) - r(a, m):+.4f})")
         return
@@ -128,7 +132,7 @@ def best(bat, other, m):
 
 
 for m, l in groups:
-    if len(np.unique(units[m])) < 4:
+    if len(np.unique(code[m])) < 4:
         continue
     ro, rn, go, gn = [], [], [], []
     for fit, test in halves(m):

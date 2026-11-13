@@ -1,5 +1,5 @@
 #!/bin/bash
-# Run Win Tests — double-click this. Optional; about 15 to 30 minutes, and the Mac can be used meanwhile.
+# Run Win Tests — double-click this. Optional; the three builds take several minutes each, the comparison under a minute.
 #
 # Claude's cloud sessions can only test a pricing change against the 42 exports
 # that are in git. This Mac has the whole archive. This reruns the two tests of
@@ -25,19 +25,42 @@ if ! python3 -c "import numpy" 2>/dev/null; then
   esac
 fi
 
-TMP="$(mktemp -d)"
-build() { # build <name> <what it is>; extra settings come in through the environment
-  printf '%s… ' "$2"
-  if MV2_TOURDIR="Archive/Completed" MV2_NO_LEAGUE=1 MV2_DIR="$TMP/$1" node --env-file=.env.local --import tsx scripts/model-v2/teams.mts > "$TMP/$1.log" 2>&1; then
-    echo "done ($(grep -c . "$TMP/$1.log") lines of log)."
-  else
-    echo "FAILED. The end of its log:"; tail -15 "$TMP/$1.log"; echo; echo "Copy that to Claude."; close 1
-  fi
-}
-echo "Three builds of the team harness, several minutes each."
-MV2_PITCH_LHB=flat build flat "1 of 3: arms on one share of left-handed bats (the pricing before 11-13)"
-build now "2 of 3: as priced now"
-MV2_BEND=1 build bend "3 of 3: with the curved bat calibration"
+# The three builds are kept in the Mac's temporary folder, so a run that was stopped (or a second
+# look the same evening) does not have to make them again. Builds from an earlier run of this
+# command, including the first version's (it used a folder named tmp.XXXX), are offered for reuse.
+CACHE="${TMPDIR:-/tmp}"; CACHE="${CACHE%/}"
+has_builds() { [ -f "$1/flat/teams.json" ] && [ -f "$1/now/teams.json" ] && [ -f "$1/bend/teams.json" ]; }
+PREV=""
+for d in "$CACHE/ootp-win-tests" "$CACHE"/tmp.*; do
+  has_builds "$d" || continue
+  if [ -z "$PREV" ] || [ "$d/bend/teams.json" -nt "$PREV/bend/teams.json" ]; then PREV="$d"; fi
+done
+TMP=""
+if [ -n "$PREV" ] && [ -n "$(find "$PREV/bend/teams.json" -mmin -720 2>/dev/null)" ]; then
+  WHEN="$(date -r "$PREV/bend/teams.json" '+%H:%M' 2>/dev/null)" || WHEN="$(stat -f '%Sm' -t '%H:%M' "$PREV/bend/teams.json" 2>/dev/null)"
+  echo "The three builds from an earlier run are still here (finished ${WHEN:-earlier today})."
+  echo "Reuse them unless exports were filed or the pricing changed since."
+  read -r -p "Reuse them? [Y/n] " ok
+  case "$ok" in n|N|no|NO) ;; *) TMP="$PREV" ;; esac
+  echo
+fi
+if [ -z "$TMP" ]; then
+  TMP="$CACHE/ootp-win-tests"
+  rm -rf "$TMP"; mkdir -p "$TMP" || { echo "Could not create $TMP"; close 1; }
+  build() { # build <name> <what it is>; extra settings come in through the environment
+    printf '%s… ' "$2"
+    if MV2_TOURDIR="Archive/Completed" MV2_NO_LEAGUE=1 MV2_DIR="$TMP/$1" node --env-file=.env.local --import tsx scripts/model-v2/teams.mts > "$TMP/$1.log" 2>&1; then
+      echo "done ($(grep -c . "$TMP/$1.log") lines of log)."
+    else
+      echo "FAILED. The end of its log:"; tail -15 "$TMP/$1.log"; echo; echo "Copy that to Claude."; close 1
+    fi
+  }
+  echo "Three builds of the team harness, several minutes each."
+  MV2_PITCH_LHB=flat build flat "1 of 3: arms on one share of left-handed bats (the pricing before 11-13)"
+  build now "2 of 3: as priced now"
+  MV2_BEND=1 build bend "3 of 3: with the curved bat calibration"
+fi
+echo "Comparing them on wins (under a minute)…"
 
 mkdir -p "../Tourney Data/Win Tests"
 OUT="../Tourney Data/Win Tests/win-tests-$(date +%Y-%m-%d).txt"
