@@ -6,7 +6,7 @@ L.J.: "take an overall look at our program, the engine, our results, etc. and pu
 
 **The app was checked in a browser** against the live database, at phone and desktop width: every new page, and after the last change every page (`pnpm smoke`). The audit's UI findings in section 5 G are from code and not re-checked.
 
-**Where the work is:** pull requests [181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (the fixes in sections 2 and 3), [182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard, the optimiser's cap tier) [183](https://github.com/RTR1776/ootp-perfect-team/pull/183) (the Today page, the smoke check, the roster backup, pinned prices) and [184](https://github.com/RTR1776/ootp-perfect-team/pull/184) (the two win tests in section 3, arms priced by throwing hand, the roster check fix, the rebuilt rosters).
+**Where the work is:** pull requests [181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (the fixes in sections 2 and 3), [182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard, the optimiser's cap tier) [183](https://github.com/RTR1776/ootp-perfect-team/pull/183) (the Today page, the smoke check, the roster backup, pinned prices) and [184](https://github.com/RTR1776/ootp-perfect-team/pull/184) (the two win tests in section 3, arms priced by throwing hand, the roster check fix, the phone fixes). The rebuilt rosters' load files follow in the last one.
 
 ---
 
@@ -98,7 +98,7 @@ Tests went from 383 to 408; all pass.
 | **The page smoke check visits every page**, tabs included, and fails on an error screen. | It skipped eight pages and could not see a page that rendered its error. | `pnpm smoke` |
 | **Arms are priced by the hand they throw with.** A left-hander's line against left-handed bats counts 35%, a right-hander's 50%; it was 45% for everyone. | Section 3, item 2: it passed your bar on wins. | every pick, /build, Card Fit, Upgrades, Buy Plan, drafts |
 | **The roster check no longer fails a roster for a backup nobody could carry.** | Daily Live Iron failed every build: one Live card at 59 or under has an 85 glove at short. The search knew; the printed check didn't, and the new save gate reads the check. | env-roster, /build |
-| **The new-cards board fits a phone.** | Its tier buttons ran 71 px off a 390 px screen. Found by the smoke check. | /cards |
+| **Five pages fit a phone that didn't.** | Tier buttons, a diamond and four tables ran 50 to 150 px off a 390 px screen once their data had loaded. Found by the smoke check, which now waits for the data. | /cards, /needs, /upgrades, /qualifying, /buy-plan |
 | **Rebuild of all 74 current events** on the final pricing, saved as "Claude pick 2026-11-12 review". Every roster as it stood before is backed up in `Docs/Archive`. | Section 5 A. | /build |
 
 ---
