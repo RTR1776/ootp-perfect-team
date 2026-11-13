@@ -74,7 +74,7 @@ async function main() {
   };
   const out = join(process.cwd(), "src", "data", "ptcs-lines.json");
   writeFileSync(out, JSON.stringify(stored, null, 2) + "\n");
-  console.log(`  wrote src/data/ptcs-lines.json (commit it so /ptcs shows cwhit beside the line)`);
+  console.log(`  wrote src/data/ptcs-lines.json (commit it: /ptcs and /today read their lines and cwhit's board from it)`);
   // The database only when asked to write, so a plain read runs without .env.local.
   const { db } = await import("@/db/client");
   const { periods } = await import("@/db/schema");
