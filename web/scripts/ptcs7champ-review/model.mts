@@ -14,7 +14,7 @@ for (const [b, tid] of Object.entries(IDS)) {
   const [t] = await db.select().from(tournaments).where(inArray(tournaments.id, [tid]));
   const era = eraFor(t.envYear)!; const park = parkFor(t.stadium);
   const rows = await db.select().from(cards).where(inArray(cards.cardId, cids[b].cids));
-  const pool = rows.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, ratings: c.ratings as Record<string, number>, role: c.pitcherRole }));
+  const pool = rows.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, throws: c.throws, ratings: c.ratings as Record<string, number>, role: c.pitcherRole }));
   const fits = envFitMaps(pool, { era: era.row.rates, park: park.row, eraYear: t.envYear, pitchLhbShare: cids[b].lhbShare });
   // Each card's play in OTHER events (the Championship itself excluded), on the model's scale.
   const lhp = cids[b].lhpShare;

@@ -63,7 +63,7 @@ async function main() {
   }
   // model runs at 2010 neutral
   const universe = await db.select().from(cards);
-  const fits = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraTable["2010"]!.rates, park: null, roleTrust: 0.25 });
+  const fits = envFitMaps(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> })), { era: eraTable["2010"]!.rates, park: null, roleTrust: 0.25 });
   const model = (id: number) => { const r = fits.runsR.get(id), l = fits.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
 
   for (const isP of [false, true]) {

@@ -106,7 +106,7 @@ async function snapshot() {
     (min == null || (c.cardValue ?? 0) >= min) && (max == null || (c.cardValue ?? 0) <= max) && (!types || types.includes(c.cardType ?? -1));
   const pool = universe.filter((c) => legal(c) || played.has(c.cardId));
 
-  const input = universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
+  const input = universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
   const opts = { era: era.rates, park, roleTrust: 0.25, leagueLhbShare: lhb, eraYear: envYear ?? 2010 };
   const model = envFitMaps(input, opts);
   const both = (id: number) => { const r = model.runsR.get(id), l = model.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };

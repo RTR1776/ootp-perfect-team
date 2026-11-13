@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { envFitMaps } from "./env-fit";
+import { envFitMaps, PITCH_LHB_SHARE, pitchLhbShareFor } from "./env-fit";
 import { armEraSpread, armRatingFix, eraBand, eraCorrectionPerPoint, powerCurveRuns } from "./calibration";
 import { FIELDING_CALIBRATION, FIELDING_FIT, LEAGUE_FIELDING_CALIBRATION, fieldingRuns, leagueFieldingRuns } from "./fielding";
 import { eraTable } from "./tournament-env";
@@ -9,12 +9,12 @@ const bat = (id: number, over: Record<string, number>) => {
   const r: Record<string, number> = {};
   for (const k of ["Avoid Ks", "Eye", "Power", "Gap", "BABIP"]) for (const s of ["", " vL", " vR"]) r[(s ? k.replace("Avoid Ks", "Avoid K") : k) + s] = 110;
   for (const [k, v] of Object.entries(over)) { r[k] = v; r[k.replace("Avoid Ks", "Avoid K") + " vL"] = v; r[k.replace("Avoid Ks", "Avoid K") + " vR"] = v; }
-  return { cardId: id, isPitcher: false, bats: "R", ratings: r };
+  return { cardId: id, isPitcher: false, bats: "R", throws: null, ratings: r };
 };
 
 test("the era correction pays BABIP what play returned, leaves an average card alone, and widens arms only by the era spread", () => {
   const era = eraTable["1975"] ?? eraTable["0"];
-  const pool = [bat(1, { BABIP: 150 }), bat(2, { Power: 150 }), bat(3, {}), { cardId: 4, isPitcher: true, bats: null, role: "SP", ratings: { Stuff: 120, Control: 120, pHR: 120, pBABIP: 120, "Stuff vL": 120, "Control vL": 120, "pHR vL": 120, "pBABIP vL": 120, "Stuff vR": 120, "Control vR": 120, "pHR vR": 120, "pBABIP vR": 120 } }];
+  const pool = [bat(1, { BABIP: 150 }), bat(2, { Power: 150 }), bat(3, {}), { cardId: 4, isPitcher: true, bats: null, throws: null, role: "SP", ratings: { Stuff: 120, Control: 120, pHR: 120, pBABIP: 120, "Stuff vL": 120, "Control vL": 120, "pHR vL": 120, "pBABIP vL": 120, "Stuff vR": 120, "Control vR": 120, "pHR vR": 120, "pBABIP vR": 120 } }];
   const plain = envFitMaps(pool, { era: era.rates, park: null });
   const fixed = envFitMaps(pool, { era: era.rates, park: null, eraYear: 1975 });
   const gain = (id: number) => fixed.runsR.get(id)! - plain.runsR.get(id)!;
@@ -115,7 +115,7 @@ test("tournament terms: Speed for bats and staff stamina for arms, only when ask
   const { SPEED_RUNS_PER_POINT, SPEED_CENTER, STAMINA_RUNS_PER_POINT, STAMINA_CENTER } = await import("./calibration");
   const era = eraTable["2010"] ?? eraTable["0"];
   const fast = { ...bat(31, {}), ratings: { ...bat(31, {}).ratings, Speed: SPEED_CENTER + 20 } };
-  const arm = { cardId: 32, isPitcher: true, bats: null, role: "SP", ratings: { Stuff: 100, Control: 100, pHR: 100, pBABIP: 100, "Stuff vL": 100, "Control vL": 100, "pHR vL": 100, "pBABIP vL": 100, "Stuff vR": 100, "Control vR": 100, "pHR vR": 100, "pBABIP vR": 100, Stamina: STAMINA_CENTER + 30 } };
+  const arm = { cardId: 32, isPitcher: true, bats: null, throws: null, role: "SP", ratings: { Stuff: 100, Control: 100, pHR: 100, pBABIP: 100, "Stuff vL": 100, "Control vL": 100, "pHR vL": 100, "pBABIP vL": 100, "Stuff vR": 100, "Control vR": 100, "pHR vR": 100, "pBABIP vR": 100, Stamina: STAMINA_CENTER + 30 } };
   const on = envFitMaps([fast, arm], { era: era.rates, park: null, tournamentTerms: true });
   const off = envFitMaps([fast, arm], { era: era.rates, park: null });
   assert.ok(Math.abs(on.runsR.get(31)! - off.runsR.get(31)! - 20 * SPEED_RUNS_PER_POINT) < 1e-9);
@@ -136,7 +136,7 @@ test("the observed blend leaves Speed and Stamina whole when the reference is re
   const armOf = (id: number, stamina: number) => {
     const r: Record<string, number> = { Stamina: stamina };
     for (const k of ["Stuff", "Control", "pHR", "pBABIP"]) for (const s of ["", " vL", " vR"]) r[k + s] = 100;
-    return { cardId: id, isPitcher: true, bats: null, role: "SP", ratings: r };
+    return { cardId: id, isPitcher: true, bats: null, throws: null, role: "SP", ratings: r };
   };
   // Alike but for the one rating play cannot see.
   const bats = [speedy(41, 20), speedy(42, 60), speedy(43, 120)];
@@ -172,4 +172,27 @@ test("the observed blend leaves Speed and Stamina whole when the reference is re
   const ref = referenceFits(pool, { ...o, observed: new Map([[41, { runs: 50, n: 9999, model: 0 }]]), observedK: K });
   assert.ok(Math.abs(ref.runsR.get(41)! - ref.runsR.get(43)!) < 1e-9, "alike bats read alike in the reference");
   assert.ok(Math.abs(ref.runsR.get(51)! - ref.runsR.get(53)!) < 1e-9, "alike arms read alike in the reference");
+});
+
+test("an arm's vL and vR lines are blended by the hand he throws with", () => {
+  const era = eraTable["2010"];
+  // Strong against left-handed bats, ordinary against right-handed ones.
+  const split = (id: number, throws: string | null) => ({
+    cardId: id, isPitcher: true, bats: null, throws, role: "SP",
+    ratings: { Stuff: 110, Control: 110, pHR: 110, pBABIP: 110, "Stuff vL": 140, "Control vL": 140, "pHR vL": 140, "pBABIP vL": 140, "Stuff vR": 95, "Control vR": 95, "pHR vR": 95, "pBABIP vR": 95, Stamina: 70 },
+  });
+  const pool = [split(1, "L"), split(2, "R"), split(3, null)];
+  const o = { era: era.rates, park: null, roleTrust: 0.25, calibrate: false } as const;
+  const byHand = envFitMaps(pool, o).runsR;
+  // The same ratings are worth least in a left hand: he sees the fewest left-handed bats.
+  assert.ok(byHand.get(1)! < byHand.get(3)! && byHand.get(3)! < byHand.get(2)!, "LHP < unknown < RHP for an arm better against lefties");
+  // Each hand's price is the one-share price at that hand's share.
+  const at = (share: number) => envFitMaps(pool, { ...o, pitchLhbShare: share }).runsR;
+  assert.ok(Math.abs(byHand.get(1)! - at(PITCH_LHB_SHARE.L).get(1)!) < 1e-9);
+  assert.ok(Math.abs(byHand.get(2)! - at(PITCH_LHB_SHARE.R).get(2)!) < 1e-9);
+  assert.ok(Math.abs(byHand.get(3)! - at(0.45).get(3)!) < 1e-9);
+  assert.equal(pitchLhbShareFor("L"), 0.35); assert.equal(pitchLhbShareFor("R"), 0.5); assert.equal(pitchLhbShareFor(undefined), 0.45);
+  // An event's own share, when it is set, is the same for every arm.
+  const set = at(0.3);
+  assert.ok(Math.abs(set.get(1)! - set.get(2)!) < 1e-9 && Math.abs(set.get(2)! - set.get(3)!) < 1e-9);
 });

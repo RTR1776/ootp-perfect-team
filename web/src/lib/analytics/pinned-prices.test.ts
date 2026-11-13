@@ -24,12 +24,12 @@ const bat = (id: number, o: Record<string, number>, bats = "R") => {
     const s = k === "Avoid Ks" ? "Avoid K" : k;
     r[`${s} vL`] = v; r[`${s} vR`] = v;
   }
-  return { cardId: id, isPitcher: false, bats, ratings: r };
+  return { cardId: id, isPitcher: false, bats, throws: null, ratings: r };
 };
 const arm = (id: number, o: Record<string, number>, role = "SP") => {
   const r: Record<string, number> = { Stamina: role === "SP" ? 75 : 20 };
   for (const [k, v] of Object.entries({ Stuff: 100, Control: 100, pHR: 100, pBABIP: 100, ...o })) { r[k] = v; r[`${k} vL`] = v; r[`${k} vR`] = v; }
-  return { cardId: id, isPitcher: true, bats: null, role, ratings: r };
+  return { cardId: id, isPitcher: true, bats: null, throws: null, role, ratings: r };
 };
 
 /** Five bats and five arms, each with one clear shape. */

@@ -12,8 +12,8 @@ const series = (await sql.query(`select distinct series from observed_card_stats
 const out: any[] = [];
 for (const s of series) {
   const t = bySeries.get(s); const era = eraFor(t.env_year); if (!era) continue; const park = parkFor(t.stadium);
-  const rows = await sql.query(`select o.card_id, o.is_pitcher, o.pa, o.ip, o.woba, o.fip, o.counters, c.bats, c.ratings, c.pitcher_role, c.position, c.card_value from observed_card_stats o join cards c on c.card_id=o.card_id where o.series=$1`, [s]) as any[];
-  const pool = rows.map((r: any) => ({ cardId: r.card_id, isPitcher: r.is_pitcher, bats: r.bats, ratings: r.ratings, role: r.pitcher_role }));
+  const rows = await sql.query(`select o.card_id, o.is_pitcher, o.pa, o.ip, o.woba, o.fip, o.counters, c.bats, c.throws, c.ratings, c.pitcher_role, c.position, c.card_value from observed_card_stats o join cards c on c.card_id=o.card_id where o.series=$1`, [s]) as any[];
+  const pool = rows.map((r: any) => ({ cardId: r.card_id, isPitcher: r.is_pitcher, bats: r.bats, throws: r.throws, ratings: r.ratings, role: r.pitcher_role }));
   const fits = envFitMaps(pool, { era: era.row.rates, park: park.row, eraYear: t.env_year, roleTrust: 0.25 });
   for (const r of rows) {
     const R = fits.runsR.get(r.card_id), L = fits.runsL.get(r.card_id); if (R == null || L == null) continue;

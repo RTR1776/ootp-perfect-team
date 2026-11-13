@@ -298,6 +298,7 @@ export default async function BuildPage({
           role: c.pitcherRole,
           isPitcher: isP,
           bats: c.bats,
+          throws: c.throws,
           year: c.year,
           active: activeSet.has(c.cardId),
           variant: variantSet.has(c.cardId),
@@ -332,10 +333,10 @@ export default async function BuildPage({
     if (eraRow) {
       const universe = await db.select({
         cardId: cards.cardId, name: cards.name, tier: cards.tier, cardValue: cards.cardValue, position: cards.position,
-        pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
+        pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, throws: cards.throws, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
         title: cards.title, firstSeenAt: cards.firstSeenAt, cardSubType: cards.cardSubType,
       }).from(cards);
-      const base = referenceFits(withTwoWayForms(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }))), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
+      const base = referenceFits(withTwoWayForms(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }))), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
       const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
       // The reference (the base card's model, env-fit's 0.7 R / 0.3 L read) lets an
       // owned variant keep its boost; a base card blends exactly as before.
@@ -417,7 +418,7 @@ export default async function BuildPage({
           return o;
         };
         const vr = cands.map((c) => ({ c, r: bump(fullById.get(c.cardId) ?? {}, c.isPitcher) }));
-        const vfit = envFitMaps(vr.map(({ c, r }) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.role, ratings: r })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
+        const vfit = envFitMaps(vr.map(({ c, r }) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, throws: c.throws, role: c.role, ratings: r })), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
         for (const { c, r } of vr) {
           const rr = vfit.runsR.get(c.cardId) ?? null, rl = vfit.runsL.get(c.cardId) ?? null;
           if (rr == null) continue;

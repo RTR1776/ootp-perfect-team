@@ -102,7 +102,7 @@ async function main() {
   const missing = [...hitters, ...pitchers].filter((l) => !l.card).map((l) => `${l.name} ${l.val}`);
   if (missing.length) console.log(`!! not in the card table at that value: ${missing.join(" · ")}\n`);
 
-  const input = matched.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
+  const input = matched.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
   const base = envFitMaps(input, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB, eraYear: ERA_YEAR });
   const both = (m: { runsR: Map<number, number>; runsL: Map<number, number> }, id: number) => { const r = m.runsR.get(id), l = m.runsL.get(id); return r == null || l == null ? null : (1 - LHP) * r + LHP * l; };
   const observed = OBS_K > 0 ? await loadObservedRuns(matched.map((c) => c.cardId), (id) => both(base, id), bothHands(base)) : undefined;

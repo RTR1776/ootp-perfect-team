@@ -92,6 +92,8 @@ export interface BuilderCard {
   role: string | null;
   isPitcher: boolean;
   bats: string | null;
+  /** "L" or "R": how an arm's vL and vR lines are blended (env-fit pitchLhbShareFor). */
+  throws: string | null;
   year: number | null;
   active: boolean;
   variant: boolean;

@@ -1,23 +1,30 @@
-"""Does the curved bat calibration (calibration.ts, hit.bend) predict WINS better than the straight slope?
+"""Does a pricing change predict WINS better? An A/B of two builds of the team harness.
 
-Two builds of the same team-events, bend off and bend on:
+Build the harness twice, before and after the change, then compare:
 
-  MV2_NO_LEAGUE=1 MV2_DIR=/tmp/h-off node --import tsx scripts/model-v2/teams.mts
-  (set hit.bend.applied to true in src/data/model-calibration.json)
-  MV2_NO_LEAGUE=1 MV2_DIR=/tmp/h-on  node --import tsx scripts/model-v2/teams.mts
-  python3 -I scripts/model-review/bend-wins.py /tmp/h-off /tmp/h-on
+  MV2_NO_LEAGUE=1 MV2_DIR=/tmp/h-a node --import tsx scripts/model-v2/teams.mts
+  (make the change)
+  MV2_NO_LEAGUE=1 MV2_DIR=/tmp/h-b node --import tsx scripts/model-v2/teams.mts
+  python3 -I scripts/model-review/wins-ab.py /tmp/h-a /tmp/h-b
 
-Add MV2_TOURDIR=Archive/Completed on the Mac to run it on every archived export.
+Add MV2_TOURDIR=Archive/Completed on the Mac to run it on every archived export; without it the
+harness reads the exports in git (36 cap exports and six PTCS 7 Championship brackets, 3,580 team-events).
 
 Both builds are scored with production's team weights by era band (the frame of endtoend.py), win% r
-within each export, over 40 export half-samples. The bar for a pricing change is 37 of 40.
+within each export, over 40 export half-samples. "off" is the first build, "on" the second. The bar
+for a pricing change is 37 of 40 on the whole score.
 
-The bend also widens the offence term, and the team weights were tuned beside the straight slope, so
-two more reads separate its shape from its scale: (a) the bent term rescaled to the straight spread,
-(b) each build given its own offence multiplier, fitted on one half of the exports and scored on the other.
+A change to bats can also widen or narrow the offence term, and the team weights were tuned beside
+the old one, so two more reads separate shape from scale: (a) the new offence term rescaled to the old
+spread, (b) each build given its own offence multiplier, fitted on one half of the exports and scored
+on the other.
 
-Run 2026-11-13 on the exports in git (36 cap exports and six PTCS 7 Championship brackets, 3,580
-team-events): whole score +0.0003 r, better in 24 of 40. Not adopted. Docs/Improvement Plan 2026-11-12.md.
+Run on the exports in git, 2026-11-13:
+  - The curved bat calibration (calibration.ts hit.bend; set hit.bend.applied to true for build B):
+    whole score +0.0003 r, better in 24 of 40. Not adopted.
+  - Arms' vL/vR blend by throwing hand (env-fit.ts pitchLhbShareFor; MV2_PITCH_LHB=flat for build A):
+    whole score +0.0006 r, better in 37 of 40. Adopted.
+Docs/Improvement Plan 2026-11-12.md has both tables.
 """
 import json, sys
 import numpy as np

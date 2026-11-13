@@ -100,7 +100,7 @@ async function main() {
   const variants = new Map(owned.filter((o) => o.isVariant).map((o) => [o.cardId!, o.ratings]));
   const universe = await db.select().from(cards);
   const byId = new Map(universe.map((c) => [c.cardId, c]));
-  type P = FillCard & { pos: string; bats: string | null; cardType: number | null };
+  type P = FillCard & { pos: string; bats: string | null; throws: string | null; cardType: number | null };
   const pool: P[] = [];
   for (const cid of new Set(owned.map((o) => o.cardId!))) {
     const c = byId.get(cid); if (!c) continue;
@@ -111,7 +111,7 @@ async function main() {
     const card: P = {
       cardId: cid, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher, role: c.pitcherRole, cardType: c.cardType,
       ratings: useVariant ? formRatings(base, vr, c.position) : base,
-      baseOwned: baseSet.has(cid), variantOwned: vr != null, variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", bats: c.bats,
+      baseOwned: baseSet.has(cid), variantOwned: vr != null, variant: useVariant || !baseSet.has(cid), pos: c.position ?? "", bats: c.bats, throws: c.throws,
     };
     if (card.variant && !card.variantOwned) continue;
     if (cardEligibility(card, rules).errors.length) continue;

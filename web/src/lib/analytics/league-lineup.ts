@@ -82,7 +82,7 @@ export function leagueLineups(hitters: LineupHitter[], opts: { family: LeagueFam
   const slots = opts.dh === false ? FIELD : [...FIELD, "DH"];
   const byId = new Map(hitters.map((h) => [h.id, h]));
 
-  const fits = envFitMaps(hitters.map((h) => ({ cardId: h.id, isPitcher: false, bats: h.bats, ratings: h.ratings })),
+  const fits = envFitMaps(hitters.map((h) => ({ cardId: h.id, isPitcher: false, bats: h.bats, throws: null, ratings: h.ratings })),
     { era: era.rates, park: opts.park ? homeHalf(opts.park) : null, roleTrust: 0.25, eraYear: opts.year });
   const runs = new Map<number, Record<Board, number | null>>();
   const warnings: string[] = [];

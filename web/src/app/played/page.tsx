@@ -83,7 +83,7 @@ async function buildLines(uploadId: number | null): Promise<{ lines: PlayedLine[
     cardType: cards.cardType, cardSubType: cards.cardSubType, ratings: cards.ratings,
   }).from(cards);
   const fits = envFitMaps(universe.map((c) => ({
-    cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole,
+    cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole,
     ratings: (c.ratings ?? {}) as Record<string, number>,
   })), { era: era.rates, park: null, roleTrust: 0.25 });
   const both = (id: number) => { const r = fits.runsR.get(id), l = fits.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };

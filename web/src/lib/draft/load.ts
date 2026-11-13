@@ -155,7 +155,7 @@ export async function loadDraftFormat(format: DraftFormat, src: { field?: FieldR
     cardType: c.cardType, le: c.cardSubType === "LE", ratings: c.ratings, baseOwned: false, variantOwned: false,
   }, rules).errors.length === 0);
 
-  const inputs: EnvFitInput[] = legal.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, role: c.pitcherRole, ratings: c.ratings }));
+  const inputs: EnvFitInput[] = legal.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: c.ratings }));
   // With no DH a pitcher bats: score the bat of every arm that can hit (lib/two-way).
   if (!format.dh) for (const inp of [...inputs]) if (inp.isPitcher && canHit(inp.ratings)) { const f = twoWayForm(inp); if (f) inputs.push(f); }
   const fit = envFitMaps(inputs, {

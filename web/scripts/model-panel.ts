@@ -60,7 +60,7 @@ async function main() {
     const lhp = s.lhp != null ? Number(s.lhp) : 0.3, lhb = s.lhb != null ? Number(s.lhb) : 0.35;
     const mine = lines.filter((l) => l.series === s.series);
     const pool = mine.map((l) => byId.get(Number(l.card_id))).filter(Boolean).map((c) => ({
-      cardId: Number(c!.card_id), isPitcher: !!c!.is_pitcher, bats: c!.bats, role: c!.pitcher_role, ratings: (c!.ratings ?? {}) as Record<string, number>,
+      cardId: Number(c!.card_id), isPitcher: !!c!.is_pitcher, bats: c!.bats, throws: c!.throws ?? null, role: c!.pitcher_role, ratings: (c!.ratings ?? {}) as Record<string, number>,
     }));
     const base = { era: era.rates, park, roleTrust: 0.25, leagueLhbShare: lhb };
     const raw = envFitMaps(pool, { ...base, calibrate: false });

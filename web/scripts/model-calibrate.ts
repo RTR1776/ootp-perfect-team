@@ -93,13 +93,13 @@ async function main() {
   const era = eraTable["0"] ?? eraTable["2010"];
   const universe = await db.select({
     cardId: cards.cardId, name: cards.name, cardValue: cards.cardValue, isPitcher: cards.isPitcher,
-    bats: cards.bats, pitcherRole: cards.pitcherRole, releasedOn: cards.releasedOn, ratings: cards.ratings, position: cards.position,
+    bats: cards.bats, throws: cards.throws, pitcherRole: cards.pitcherRole, releasedOn: cards.releasedOn, ratings: cards.ratings, position: cards.position,
   }).from(cards);
   // The frame every consumer of the model shares: PT default engine, neutral
   // park, relief role at the trusted quarter. Calibration OFF here, or the
   // script would measure its own previous output.
   const fits = envFitMaps(universe.map((c) => ({
-    cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole,
+    cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole,
     ratings: (c.ratings ?? {}) as Record<string, number>,
   })), { era: era.rates, park: null, roleTrust: 0.25, calibrate: false });
   const byId = new Map(universe.map((c) => [c.cardId, c]));
@@ -122,7 +122,7 @@ async function main() {
   }
   const vfits = envFitMaps([...variantOf].flatMap(([id, v]) => {
     const c = byId.get(id);
-    return c ? [{ cardId: -id, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: formRatings((c.ratings ?? {}) as Record<string, number>, v.ratings, c.position) }] : [];
+    return c ? [{ cardId: -id, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: formRatings((c.ratings ?? {}) as Record<string, number>, v.ratings, c.position) }] : [];
   }), { era: era.rates, park: null, roleTrust: 0.25, calibrate: false });
   const model = (id: number, variant = false) => {
     const m = variant && variantOf.has(id) ? vfits : fits, k = variant && variantOf.has(id) ? -id : id;

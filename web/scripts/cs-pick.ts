@@ -38,11 +38,11 @@ const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
 
   const owned = asRows<any>(await db.execute(sql`
     select cc.id row_id, cc.card_id, coalesce(c.name, cc.name) name, coalesce(c.card_value, cc.card_value) val,
-           c.tier, c.year, c.bats, c.is_pitcher, c.pitcher_role, c.position, c.ratings, cc.ratings copy_ratings, cc.pos cpos
+           c.tier, c.year, c.bats, c.throws, c.is_pitcher, c.pitcher_role, c.position, c.ratings, cc.ratings copy_ratings, cc.pos cpos
     from collection_cards cc left join cards c on c.card_id = cc.card_id where cc.upload_id = ${UP}`));
   const ownedIds = new Set(owned.map((r) => Number(r.card_id)));
   const shop = asRows<any>(await db.execute(sql`
-    select c.card_id, c.name, c.card_value val, c.tier, c.year, c.bats, c.is_pitcher, c.pitcher_role,
+    select c.card_id, c.name, c.card_value val, c.tier, c.year, c.bats, c.throws, c.is_pitcher, c.pitcher_role,
            c.position, c.ratings, s.buy_order_high, s.sell_order_low, s.last10
     from cards c join card_snapshots s on s.card_id=c.card_id
      and s.upload_id=(select id from uploads where kind = 'shop_list' order by uploaded_at desc, id desc limit 1) where c.card_value >= 90`));
@@ -51,13 +51,13 @@ const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
   for (const r of owned) {
     const isP = r.is_pitcher ?? /^(SP|RP|CL|P)$/.test(String(r.cpos ?? ""));
     pool.push({ cardId: `o${r.row_id}`, realId: Number(r.card_id), name: r.name, val: Number(r.val), tier: r.tier, year: r.year,
-      bats: r.bats ?? "R", isPitcher: isP, ownedFlag: true, role: isP ? (r.pitcher_role ?? r.cpos) : (r.position ?? r.cpos),
+      bats: r.bats ?? "R", throws: r.throws ?? null, isPitcher: isP, ownedFlag: true, role: isP ? (r.pitcher_role ?? r.cpos) : (r.position ?? r.cpos),
       ratings: mergeCopyRatings(r.ratings ?? {}, r.copy_ratings ?? null, r.cpos), baseRatings: r.ratings ?? undefined });
   }
   for (const c of shop) {
     if (ownedIds.has(Number(c.card_id))) continue;
     pool.push({ cardId: `s${c.card_id}`, realId: Number(c.card_id), name: c.name, val: Number(c.val), tier: c.tier, year: c.year,
-      bats: c.bats ?? "R", isPitcher: c.is_pitcher, ownedFlag: false,
+      bats: c.bats ?? "R", throws: c.throws ?? null, isPitcher: c.is_pitcher, ownedFlag: false,
       role: c.is_pitcher ? c.pitcher_role : c.position, ratings: c.ratings ?? {},
       buy: c.buy_order_high, sell: c.sell_order_low, last10: c.last10 });
   }
@@ -86,7 +86,7 @@ const f1 = (n: number) => `${n >= 0 ? "+" : ""}${n.toFixed(1)}`;
     const byReal = new Map<number, any>();
     for (const c of pool) if (c.realId && !byReal.has(c.realId)) byReal.set(c.realId, c);
     const base = envFitMaps([...byReal.values()].map((c) => ({
-      cardId: c.realId, isPitcher: c.isPitcher, bats: c.bats, ratings: c.baseRatings ?? c.ratings, role: c.role,
+      cardId: c.realId, isPitcher: c.isPitcher, bats: c.bats, throws: c.throws, ratings: c.baseRatings ?? c.ratings, role: c.role,
     })) as any, { era: era.rates, park: half, roleTrust: ROLE_TRUST, eraYear: Number(YEAR) });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id);
       return r == null || l == null ? null : (1 - WL) * r + WL * l; };

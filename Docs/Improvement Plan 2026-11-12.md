@@ -129,7 +129,7 @@ Tests went from 383 to 408; all pass.
 
    It needs 37 of 40 and gets 24. The bend does describe bats better (39 of 40 on the offence term alone), but once gloves and arms are in the score the gain is three ten-thousandths of r. It helps a little where teams are stacked with elite bats and hurts a little under a cap. Neither size would change a roster you'd notice. Rescaling the bent term to the old spread, or letting each build fit its own offence weight, gives the same answer (21 or 22 of 40). So the single slope is not costing wins, and bats are not where the model is leaving them.
 
-   `model:calibrate` still measures the bend at every refit, and `scripts/model-review/bend-wins.py` reruns this test. The Mac's full archive (935 exports against these 42) is the one place the verdict could change; the commands are in the script's header.
+   `model:calibrate` still measures the bend at every refit, and `scripts/model-review/wins-ab.py` reruns this test. The Mac's full archive (935 exports against these 42) is the one place the verdict could change; the commands are in the script's header.
 2. **Arms have room.** 0.54 against a ceiling of 0.72. Two held-out wins from the 10-31 audit were never built: the left-handed-batter share by pitcher hand (0.35 for LHP, 0.50 for RHP; the code uses 0.45), and the low end of the pHR curve.
 3. **FIP can't see pBABIP**, and the blend reads arms against FIP. So a high-pBABIP arm's edge is shrunk by the blend the same way Speed was. Not fixed; it needs its own test.
 4. **Surfaces that price differently** (*audit*, not yet fixed):
@@ -207,7 +207,7 @@ Sections 3 and 4, in the order listed there.
 
 ## 6. What I need from you
 
-1. **Optional: rerun the bend's win check on the Mac's full archive.** I ran it here on the 42 exports in git and it failed your bar (24 of 40; section 3). The archive holds far more exports than these 42. The three commands are at the top of `web/scripts/model-review/bend-wins.py`, with `MV2_TOURDIR=Archive/Completed` added. Adopt only at 37 of 40 or better on the whole score.
+1. **Optional: rerun the bend's win check on the Mac's full archive.** I ran it here on the 42 exports in git and it failed your bar (24 of 40; section 3). The archive holds far more exports than these 42. The three commands are at the top of `web/scripts/model-review/wins-ab.py`, with `MV2_TOURDIR=Archive/Completed` added. Adopt only at 37 of 40 or better on the whole score.
 2. **Start OOTP cloud sessions on the "LJC" environment.** It has the database variable, the site password and open network. Tonight's session started on "Default", which has none of them.
 3. **`Handoff 2026-11-07.md` was never committed.** If it is on the Mac, push it; its "Still open" list is referenced and lost.
 4. **Back up the archive.** One copy of 935 export files is the weakest point in the whole setup.
