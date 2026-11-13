@@ -25,6 +25,8 @@ import { join, basename } from "node:path";
 import { execFileSync } from "node:child_process";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
+import { dumpFileDate, isCompetitiveDumpFile, periodInPlay } from "@/lib/analytics/dump-files";
+import { todayInChicago } from "@/lib/ptcs-progress";
 
 const asRows = <T,>(r: any): T[] => (Array.isArray(r) ? r : r.rows ?? []);
 const argv = process.argv.slice(2);
@@ -70,23 +72,49 @@ async function main() {
     process.exit(0);
   }
 
-  /* ---- 3: import anything new ---- */
-  const done = new Set(asRows<any>(await db.execute(
-    sql`select filename from uploads where kind = 'dump'`)).map((r) => String(r.filename)));
-  const todo = onDisk.filter((f) => !done.has(basename(f)));
-  console.log(`\n  ${onDisk.length} dumps on disk · ${done.size} already imported · ${todo.length} new`);
+  /* ---- 3: import anything new ----
+     Competitive dumps only: a Quick dump holds no event that scores in a PTCS
+     category, and stored as a board it sat on /ptcs for a week (10-19). */
+  const stored = asRows<{ filename: string; period: string | null }>(await db.execute(
+    sql`select filename, report->>'period' period from uploads where kind = 'dump'`));
+  const done = new Set(stored.map((r) => String(r.filename)));
+  const competitive = onDisk.filter((f) => isCompetitiveDumpFile(basename(f)));
+  const todo = competitive.filter((f) => !done.has(basename(f)));
+  console.log(`\n  ${competitive.length} competitive dumps on disk · ${todo.length} new` +
+    (onDisk.length > competitive.length ? ` · ${onDisk.length - competitive.length} Quick dump${onDisk.length - competitive.length === 1 ? "" : "s"} filed, not scored` : ""));
 
+  // A name scores a dump in that period alone; with none, import:dump picks
+  // the period the dump reaches (and the one that closed the week before).
   const period = val("period");
-  for (const f of todo) {
-    const m = /(\d{4})(\d{2})(\d{2})/.exec(f);
-    const on = m ? `${m[1]}-${m[2]}-${m[3]}` : "";
-    console.log(`\n  importing ${f}${on ? ` (captured ${on})` : ""}`);
-    if (DRY) continue;
+  const importOne = (f: string, forPeriod?: string) => {
+    const on = dumpFileDate(f) ?? "";
+    console.log(`\n  importing ${f}${on ? ` (captured ${on})` : ""}${forPeriod ? ` for ${forPeriod}` : ""}`);
+    if (DRY) return;
     try {
-      console.log(run(["scripts/import-dump.ts", join(DEST, f), ...(on ? [on] : []), ...(period ? [period] : [])])
+      // capturedOn is positional, so a period name needs a date before it.
+      console.log(run(["scripts/import-dump.ts", join(DEST, f), ...(on ? [on] : forPeriod ? [todayInChicago()] : []), ...(forPeriod ? [forPeriod] : [])])
         .split("\n").map((l) => `    ${l}`).join("\n"));
     } catch (e: any) {
       console.log(`    !! failed: ${String(e?.stderr ?? e?.message ?? e).split("\n")[0]}`);
+    }
+  };
+  for (const f of todo) importOne(f, period);
+
+  /* ---- 3a: the period in play has a board from every dump since it opened ----
+     Dumps loaded under the wrong period name (11-02 and 11-09 went in as
+     PTCS 8) left /ptcs with no rank or line for the period in play. */
+  if (!period) {
+    const periodsOnFile = asRows<{ name: string; startsOn: string; endsOn: string }>(await db.execute(
+      sql`select name, starts_on::text "startsOn", ends_on::text "endsOn" from periods order by starts_on`));
+    const now = periodInPlay(periodsOnFile, todayInChicago());
+    if (now) {
+      const have = new Set(stored.filter((r) => r.period === now.name).map((r) => String(r.filename)));
+      const missing = competitive.filter((f) => {
+        const on = dumpFileDate(f);
+        return !!on && on >= now.startsOn && on <= now.endsOn && done.has(basename(f)) && !have.has(basename(f));
+      });
+      if (missing.length) console.log(`\n  ${missing.length} dump${missing.length === 1 ? "" : "s"} on file carry no ${now.name} board; scoring ${missing.length === 1 ? "it" : "them"} now`);
+      for (const f of missing) importOne(f, now.name);
     }
   }
 

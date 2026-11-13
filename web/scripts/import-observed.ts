@@ -253,7 +253,7 @@ async function main() {
       for (const [k, v] of Object.entries(s.stats)) if (k !== "IP_raw" && k !== "IP") into[k] = (into[k] ?? 0) + v;
       if (s.isPitcher) fip_ += s.ip; else fpa += s.pa;
       if (s.cid == null) continue;
-      const key = `${series} ${s.cid} ${s.isVariant ? "v" : "b"}`;
+      const key = `${series}\0${s.cid}\0${s.isVariant ? "v" : "b"}`;
       const l = lineOf.get(key) ?? { counters: {}, pa: 0, ip: 0 };
       for (const [k, v] of Object.entries(s.stats)) if (k !== "IP_raw" && k !== "IP") l.counters[k] = (l.counters[k] ?? 0) + v;
       l.pa += s.pa; l.ip += s.ip; lineOf.set(key, l);
@@ -262,7 +262,7 @@ async function main() {
     for (const s of stints) {
       if (s.cid == null) continue;
       if (s.pa <= 0 && s.ip <= 0) continue;
-      const key = `${series} ${s.cid} ${s.isVariant ? "v" : "b"}`;
+      const key = `${series}\0${s.cid}\0${s.isVariant ? "v" : "b"}`;
       let a = aggs.get(key);
       if (!a) {
         a = { series, cardId: s.cid, isVariant: !!s.isVariant, isPitcher: s.isPitcher, name: s.name, pos: s.pos, instances: 0, pa: 0, ip: 0, war: 0, counters: {}, ratingSum: {}, ratingW: 0, byDay: new Map() };

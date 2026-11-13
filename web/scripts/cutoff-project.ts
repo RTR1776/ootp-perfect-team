@@ -22,6 +22,13 @@ const WRITE = argv.includes("--write");
 if (WRITE && raw !== undefined) { console.error("--write stores the line the dumps support; drop --day"); process.exit(1); }
 
 async function main() {
+  // PERIOD above is typed in by hand. Once it is more than a week over, writing
+  // its projection as "the current lines" is wrong, and nothing else would say so.
+  const overBy = Math.round((Date.parse(todayInChicago()) - Date.parse(PERIOD.end)) / 864e5);
+  if (overBy > 7) {
+    console.error(`\n  ⚠ ${PERIOD.name} ended ${PERIOD.end}, ${overBy} days ago. Set PERIOD in scripts/cutoff-project.ts to the period in play.`);
+    if (WRITE) { console.error(`  Not writing: the lines would be stored for a finished period.\n`); process.exit(1); }
+  }
   const p = projectCutoffs({ period: PERIOD, dir: join(process.cwd(), "..", "Tourney Data"), day: raw !== undefined ? Number(raw) : undefined });
   const cwhit = readCwhitTargets(join(process.cwd(), "..", "reference", "cwhit"));
   const N = p.day;
