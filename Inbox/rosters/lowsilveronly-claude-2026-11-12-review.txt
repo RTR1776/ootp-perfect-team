@@ -25,10 +25,10 @@ SP5 Bob Walk #86971
 CL Bruce Ruffin #86777
 RP1 Chad Bradford #86341
 RP2 Dave Tomlin (VAR) #83236
-RP3 Alex Claudio (VAR) #86447
-RP4 Rudy May #85288
-RP5 Brad Clontz #85920
-RP6 David Davalillo #85132
+RP3 Scott Williamson #87490
+RP4 Alex Claudio (VAR) #86447
+RP5 Rudy May #85288
+RP6 Brad Clontz #85920
 BN1 Julio Lugo #85932
 BN2 Marquis Grissom #87237
 BN3 Darrell Porter #85896

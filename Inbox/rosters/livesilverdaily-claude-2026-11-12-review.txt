@@ -21,7 +21,7 @@ SP1 Landen Roupp #81730
 SP2 Andrew Alvarez #85566
 SP3 Framber Valdez #82423
 SP4 David Peterson #82094
-SP5 Jose Soriano #82320
+SP5 Michael King #81765
 CL Sam Hentges #81727
 RP1 Gregory Santos #85611
 RP2 Juan Morillo #81833

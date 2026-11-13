@@ -23,12 +23,12 @@ SP3 Jacob deGrom #86675
 SP4 Bill Ricks #87162
 SP5 Zack Wheeler (VAR) #86314
 CL Mike Matthews (VAR) #87296
-RP1 Eric O'Flaherty #86776
-RP2 John Bale (VAR) #87234
+RP1 John Bale (VAR) #87234
+RP2 Chad Bradford #86341
 RP3 Dennis Cook (VAR) #83261
-RP4 Chad Bradford #86341
-RP5 Jack Wenninger #85125
-RP6 Bruce Ruffin #86777
+RP4 Eric O'Flaherty #86776
+RP5 Bruce Ruffin #86777
+RP6 Jack Wenninger #85125
 BN1 Alex Rios #87214
 BN2 Judy Johnson #84517
 BN3 Ryan Braun #87222

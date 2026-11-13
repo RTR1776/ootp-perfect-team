@@ -16,13 +16,13 @@ L:LF Tillie Walker #86597
 L:CF Pete Washington #87435
 L:RF Willie Keeler #85878
 SP1 Jeff Pfeffer #87350
-SP2 Bill Duggleby #87335
-SP3 Nick Altrock #87049
+SP2 Nick Altrock #87049
+SP3 Bill Duggleby #87335
 SP4 Christy Mathewson #86706
 CL Percy Miller #87437
 RP1 Nelson Dean #87434
-RP2 Jack Russell #87305
-RP3 Hubert Lockhart #87082
+RP2 Hubert Lockhart #87082
+RP3 Jack Russell #87305
 RP4 Jack Pfiester #87351
 BN1 Danny Green #87353
 BN2 Luther Farrell #86899

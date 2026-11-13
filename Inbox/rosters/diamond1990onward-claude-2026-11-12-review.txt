@@ -30,7 +30,7 @@ RP4 Payton Tolle #84646
 RP5 Logan Gilbert #87402
 BN1 Luis Pena #84733
 BN2 Sebastian Walcott #85136
-BN3 Mike Zunino (VAR) #86431
+BN3 Josh Vitters (VAR) #86419
 BN4 Ryan Braun #87222
 BN5 Jeff Francoeur (VAR) #86300
-BN6 Josh Vitters (VAR) #86419
+BN6 Mike Zunino (VAR) #86431

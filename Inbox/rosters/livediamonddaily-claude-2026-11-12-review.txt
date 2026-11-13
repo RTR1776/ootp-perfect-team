@@ -19,8 +19,8 @@ L:RF Corbin Carroll #81849
 L:DH Jackson Chourio #81934
 SP1 Logan Webb #81732
 SP2 Ranger Suarez #82620
-SP3 Reid Detmers #82321
-SP4 Zack Wheeler #82068
+SP3 Zack Wheeler #82068
+SP4 Reid Detmers #82321
 SP5 Bryan Woo #82251
 CL Calvin Faucher #82119
 RP1 Adrian Morejon #81760

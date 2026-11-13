@@ -21,11 +21,11 @@ SP1 Bob Feller (VAR) #85650
 SP2 Danny Jackson #87052
 SP3 Jordan Montgomery #86354
 SP4 Dave Ferriss #87323
-SP5 Jerry Koosman #86995
+SP5 Count Leblanc (VAR) #86978
 CL Joe Beggs (VAR) #86762
 RP1 Heath Bell #87209
-RP2 Troy Percival (VAR) #85371
-RP3 Dave Righetti #85870
+RP2 Dave Righetti #85870
+RP3 Troy Percival (VAR) #85371
 RP4 Chad Bradford #86341
 RP5 Steve Hamilton (VAR) #83306
 RP6 Tony Watson (VAR) #85457

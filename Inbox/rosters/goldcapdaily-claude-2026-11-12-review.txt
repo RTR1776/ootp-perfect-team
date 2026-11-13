@@ -23,8 +23,8 @@ SP3 Cherokee Fisher #87337
 SP4 Nick Altrock #87049
 SP5 Fritz Ostermueller #86357
 CL Joe Beggs (VAR) #86762
-RP1 Alex Claudio (VAR) #86447
-RP2 John Bale (VAR) #87234
+RP1 John Bale (VAR) #87234
+RP2 Alex Claudio (VAR) #86447
 RP3 James McDonald (VAR) #86384
 RP4 Randy Choate #87026
 RP5 Todd Jones (VAR) #86434

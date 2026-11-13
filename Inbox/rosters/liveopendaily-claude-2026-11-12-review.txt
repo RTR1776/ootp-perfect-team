@@ -28,7 +28,7 @@ RP2 Trevor Megill #81943
 RP3 Mason Miller #81761
 RP4 Adrian Morejon #81760
 RP5 Max Fried #82587
-RP6 Blake Snell #81796
+RP6 Tarik Skubal #82424
 BN1 Juan Soto #82086
 BN2 Carter Jensen #82374
 BN3 Michael Harris II #82146

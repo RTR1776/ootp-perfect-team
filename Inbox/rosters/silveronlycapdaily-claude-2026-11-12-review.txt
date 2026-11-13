@@ -24,8 +24,8 @@ SP4 David Davalillo #85132
 SP5 Bob Gibson #85499
 CL Chad Bradford #86341
 RP1 Bruce Ruffin #86777
-RP2 Alex Claudio (VAR) #86447
-RP3 Brian Anderson #87070
+RP2 Brian Anderson #87070
+RP3 Alex Claudio (VAR) #86447
 RP4 Bruce Sutter #86709
 RP5 Juan Cruz #87224
 RP6 Bryan Hudson #84964

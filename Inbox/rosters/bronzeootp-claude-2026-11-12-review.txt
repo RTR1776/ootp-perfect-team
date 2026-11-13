@@ -26,8 +26,8 @@ CL Edwin Diaz #86422
 RP1 John Bale (VAR) #87234
 RP2 Caden Scarborough (VAR) #84762
 RP3 Adam Cimber (VAR) #84271
-RP4 Kerry Wood #86987
-RP5 Hector Carrasco (VAR) #83082
+RP4 Hector Carrasco (VAR) #83082
+RP5 Kerry Wood #86987
 RP6 Kyson Witherspoon (VAR) #84774
 BN1 Jhonny Level (VAR) #84765
 BN2 Byron Buxton (VAR) #85821

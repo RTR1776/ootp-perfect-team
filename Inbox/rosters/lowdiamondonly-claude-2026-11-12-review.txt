@@ -19,16 +19,16 @@ L:RF Chick Stahl #86583
 L:DH Barry Larkin #86264
 SP1 Larry Jackson #86646
 SP2 Noodles Hahn #87361
-SP3 Kyle Freeland (VAR) #86708
-SP4 Hugh Daily #85227
+SP3 Hugh Daily #85227
+SP4 Kyle Freeland (VAR) #86708
 SP5 Sam Jones #86070
 CL Jake Latz #87399
 RP1 Cody Allen #87054
 RP2 Sean Marshall #86785
-RP3 Nolan McLean #87403
-RP4 Mark Langston #86956
-RP5 Manny Banuelos #86564
-RP6 Matt Thornton #86071
+RP3 Matt Thornton #86071
+RP4 Manny Banuelos #86564
+RP5 Mark Langston #86956
+RP6 Nolan McLean #87403
 BN1 Bryce Rainer #84732
 BN2 Walt Wilmot #85724
 BN3 Lennie Pearson (VAR) #84880

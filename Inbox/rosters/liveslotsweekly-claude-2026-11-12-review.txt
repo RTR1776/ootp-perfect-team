@@ -34,4 +34,3 @@ BN3 Joe Mack #85615
 BN4 Hao-Yu Lee #85230
 BN5 Cole Carrigg #86057
 BN6 Daylen Lile #82018
-BN7 Jung-hoo Lee #81713

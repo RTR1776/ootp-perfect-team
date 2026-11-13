@@ -1,6 +1,6 @@
 # Daily Bronze Only Cap — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park American Family Field --park-year 2026 --dh --min 60 --max 69 --cap 1689 --variant-cap 13 --size 26 --series bronzeonlycapdaily --sp 5 --rp 7 --bats 14)
 R:C Ernie Whitt #86941
-R:1B Edward Florentino (VAR) #84777
+R:1B Bill Buckner (VAR) #85858
 R:2B Brandon Phillips #87202
 R:3B Dave Brain (VAR) #85934
 R:SS Ernie Clement #87244
@@ -26,11 +26,11 @@ CL Edwin Diaz #86422
 RP1 Kerry Wood #86987
 RP2 Caden Scarborough (VAR) #84762
 RP3 Paul Assenmacher #86944
-RP4 Mike Myers #87312
+RP4 Don Robinson (VAR) #86773
 RP5 Ramon Hernandez #87294
 RP6 Justin Masterson #86358
 BN1 Chris Sabo #87059
-BN2 Max Flack #87342
-BN3 Jett Williams #84763
+BN2 Davy Jones #87344
+BN3 Trea Turner #82056
 BN4 Steve Pearce (VAR) #86366
 BN5 Tony Pena Sr. #86282

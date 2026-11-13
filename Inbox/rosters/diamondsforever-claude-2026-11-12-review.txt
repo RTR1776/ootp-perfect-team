@@ -20,8 +20,8 @@ L:DH Ryan Braun #87222
 SP1 Ryan Sloan #84731
 SP2 Jerry Koosman #87440
 SP3 Ed Reulbach #87376
-SP4 Kyle Freeland (VAR) #86708
-SP5 Babe Ruth #86439
+SP4 Babe Ruth #86439
+SP5 Tom Glavine #87270
 CL Jake McGee (VAR) #86789
 RP1 Greg Holland #87278
 RP2 Tony Fossas (VAR) #83324

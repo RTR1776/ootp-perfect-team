@@ -15,8 +15,8 @@ L:SS Pythias Russ (VAR) #87083
 L:LF Curtis Granderson #86595
 L:CF Carlos Beltran #87066
 L:RF Bo Jackson #86966
-SP1 Bob Feller (VAR) #85650
-SP2 Jerry Koosman #87440
+SP1 Jerry Koosman #87440
+SP2 Bob Feller (VAR) #85650
 SP3 Cy Young #86996
 SP4 Babe Ruth #86439
 CL Troy Percival (VAR) #85371
@@ -33,4 +33,3 @@ BN6 George Pinkney #83410
 BN7 Count Sensenderfer #87322
 BN8 Mel Almada #85275
 BN9 John Leary #84297
-BN10 Coot Veal #85090

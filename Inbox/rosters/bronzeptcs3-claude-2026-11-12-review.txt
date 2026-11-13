@@ -26,11 +26,11 @@ CL Edwin Diaz #86422
 RP1 Adam Cimber (VAR) #84271
 RP2 Kerry Wood #86987
 RP3 Randy Choate #87026
-RP4 Bob Miller #84715
-RP5 John Bale (VAR) #87234
+RP4 John Bale (VAR) #87234
+RP5 Bob Miller #84715
 RP6 Caden Scarborough (VAR) #84762
 BN1 Bill Hall #87200
 BN2 Dave Harris #83649
 BN3 Jim Tabor (VAR) #85905
-BN4 Alfredo Amezaga #87188
-BN5 Gabby Hartnett #86254
+BN4 Gabby Hartnett #86254
+BN5 Alfredo Amezaga #87188

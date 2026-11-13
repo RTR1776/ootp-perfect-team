@@ -21,9 +21,9 @@ SP3 Jordan Montgomery #86354
 SP4 Kelvim Escobar #87207
 SP5 Fritz Ostermueller #86357
 CL Mike Matthews (VAR) #87296
-RP1 Alex Claudio (VAR) #86447
-RP2 Jacob deGrom #86675
-RP3 Mike Myers #87312
+RP1 Scott Williamson #87490
+RP2 Alex Claudio (VAR) #86447
+RP3 Caden Scarborough (VAR) #84762
 RP4 James McDonald (VAR) #86384
 RP5 John Bale (VAR) #87234
 BN1 Chris Taylor #87243

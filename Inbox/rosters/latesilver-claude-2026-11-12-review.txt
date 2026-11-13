@@ -25,12 +25,12 @@ SP5 Zack Wheeler (VAR) #86314
 CL Mike Matthews (VAR) #87296
 RP1 Jakie May (VAR) #85286
 RP2 Chad Bradford #86341
-RP3 Mike Myers #87312
-RP4 Bruce Ruffin #86777
-RP5 Dennis Cook (VAR) #83261
-BN1 Mike Zunino (VAR) #86431
+RP3 Bruce Ruffin #86777
+RP4 Brad Hand (VAR) #86251
+RP5 Dave Bush (VAR) #86812
+BN1 Chris Sabo #87059
 BN2 Alex Rios #87214
 BN3 Ryan Braun #87222
-BN4 Chris Sabo #87059
+BN4 Mike Zunino (VAR) #86431
 BN5 Angel Genao #84740
 BN6 Brandon Phillips #87202

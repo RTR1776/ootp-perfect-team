@@ -17,8 +17,8 @@ L:CF Willie Mays #86634
 L:RF Socks Seybold #87427
 SP1 Bob Feller (VAR) #85650
 SP2 Don Larsen #87240
-SP3 Sam Jones #86070
-SP4 Babe Ruth #86439
+SP3 Babe Ruth #86439
+SP4 Sam Jones #86070
 SP5 Luther Farrell #86900
 CL Ed Reulbach #87376
 RP1 Jerry Koosman #87440

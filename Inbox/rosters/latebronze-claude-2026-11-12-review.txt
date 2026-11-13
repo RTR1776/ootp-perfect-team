@@ -25,8 +25,8 @@ SP5 Mickey Lolich #87279
 CL John Bale (VAR) #87234
 RP1 Edwin Diaz #86422
 RP2 Randy Choate #87026
-RP3 Kerry Wood #86987
-RP4 Caden Scarborough (VAR) #84762
+RP3 Caden Scarborough (VAR) #84762
+RP4 Kerry Wood #86987
 RP5 Adam Cimber (VAR) #84271
 RP6 Bob Miller #84715
 BN1 Dave Brain (VAR) #85934

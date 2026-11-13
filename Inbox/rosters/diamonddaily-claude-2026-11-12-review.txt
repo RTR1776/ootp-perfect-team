@@ -20,8 +20,8 @@ L:DH Ryan Braun #87222
 SP1 Jerry Koosman #87440
 SP2 Ed Reulbach #87376
 SP3 Don Larsen #87240
-SP4 Noodles Hahn #87361
-SP5 Tom Glavine #87270
+SP4 Tom Glavine #87270
+SP5 Noodles Hahn #87361
 CL Jake McGee (VAR) #86789
 RP1 Jake Latz #87399
 RP2 Troy Percival (VAR) #85371

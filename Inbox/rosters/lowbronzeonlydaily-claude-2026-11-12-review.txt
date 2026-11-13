@@ -20,9 +20,9 @@ SP2 Corey Kluber (VAR) #87008
 SP3 Bruce Hurst #86361
 SP4 Roy Halladay #86705
 CL Caden Scarborough (VAR) #84762
-RP1 Mike Myers #87312
-RP2 Paul Assenmacher #86944
-RP3 Red Howard #87156
+RP1 Paul Assenmacher #86944
+RP2 Red Howard #87156
+RP3 Ramon Hernandez #87294
 RP4 Kyson Witherspoon (VAR) #84774
 BN1 Khalil Greene #87203
 BN2 Jim Thome #85661

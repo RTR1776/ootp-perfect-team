@@ -18,16 +18,16 @@ L:CF Carlos Gomez #87418
 L:RF Mookie Betts #87271
 L:DH Ryan Braun #87222
 SP1 Bob Feller (VAR) #85650
-SP2 CC Sabathia #87182
-SP3 Count Leblanc (VAR) #86978
+SP2 Count Leblanc (VAR) #86978
+SP3 CC Sabathia #87182
 SP4 Cherokee Fisher #87337
 CL Troy Percival (VAR) #85371
-RP1 David Price #87260
+RP1 Gregg Olson (VAR) #86946
 RP2 Mike Matthews (VAR) #87296
 RP3 Zack Wheeler (VAR) #86314
 RP4 Chad Bradford #86341
 RP5 Caden Scarborough (VAR) #84762
-BN1 Bill Buckner (VAR) #85858
+BN1 Paul Waner #86999
 BN2 Billy Southworth (VAR) #86379
 BN3 Jack Tobin #86772
 BN4 Ryan Braun #87222

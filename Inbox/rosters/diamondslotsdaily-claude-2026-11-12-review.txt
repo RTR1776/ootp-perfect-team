@@ -20,13 +20,13 @@ L:DH Chris Sabo #87059
 SP1 Noodles Hahn #87361
 SP2 Larry Jackson #86646
 SP3 Count Leblanc (VAR) #86978
-SP4 Jerry Koosman #87440
-SP5 Tom Glavine #87270
+SP4 Tom Glavine #87270
+SP5 Jerry Koosman #87440
 CL Nolan McLean #87403
 RP1 Joe Beggs (VAR) #86762
 RP2 Mike Matthews (VAR) #87296
-RP3 Yennier Cano #87398
-RP4 Johnny Markham (VAR) #87159
+RP3 Johnny Markham (VAR) #87159
+RP4 Yennier Cano #87398
 RP5 Troy Percival (VAR) #85371
 RP6 John Bale (VAR) #87234
 BN1 Seiya Suzuki #87381

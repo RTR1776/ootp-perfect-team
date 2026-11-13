@@ -25,8 +25,8 @@ SP5 Livan Hernandez #87261
 CL Edwin Diaz #86422
 RP1 Adam Cimber (VAR) #84271
 RP2 Kerry Wood #86987
-RP3 Mike Myers #87312
-RP4 Ramon Hernandez #87294
+RP3 Ramon Hernandez #87294
+RP4 Paul Assenmacher #86944
 RP5 Justin Masterson #86358
 RP6 Milo Candini #85646
 BN1 Aaron Rowand #87196

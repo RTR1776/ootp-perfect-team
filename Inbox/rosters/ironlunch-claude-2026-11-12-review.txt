@@ -27,10 +27,10 @@ RP2 Max Scherzer #87263
 RP3 Mike Marshall #84720
 RP4 Chase Silseth #84910
 RP5 Patricio Scantlebury #85828
-BN1 Ossee Schrecongost #87328
-BN2 Alcides Escobar #87153
+BN1 Pete Incaviglia #86943
+BN2 Bill Hall #87200
 BN3 Jackie Robinson #84390
 BN4 Andruw Jones #86321
 BN5 Alfredo Amezaga #87188
-BN6 Pete Incaviglia #86943
-BN7 Bill Hall #87200
+BN6 Ossee Schrecongost #87328
+BN7 Alcides Escobar #87153

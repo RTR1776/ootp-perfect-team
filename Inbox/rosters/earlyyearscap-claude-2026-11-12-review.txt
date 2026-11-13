@@ -33,4 +33,3 @@ BN6 Greasy Neale #87142
 BN7 Jay Faatz #84324
 BN8 Chick Fulmer #82837
 BN9 Bruno Block #82830
-BN10 Bill Everitt #82866
