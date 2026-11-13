@@ -11,8 +11,8 @@
  */
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { projectCutoffs, readCwhitTargets, type StoredLines } from "@/lib/ptcs-projection";
-import { todayInChicago } from "@/lib/ptcs-progress";
+import { projectCutoffs, readCwhitTargets, type ProjectionSource, type StoredLines } from "@/lib/ptcs-projection";
+import { cwhitLinesFor, todayInChicago } from "@/lib/ptcs-progress";
 
 const PERIOD = { name: "PTCS 9", start: "2026-11-02", end: "2026-12-06" };
 const argv = process.argv.slice(2);
@@ -31,20 +31,25 @@ async function main() {
   }
   const p = projectCutoffs({ period: PERIOD, dir: join(process.cwd(), "..", "Tourney Data"), day: raw !== undefined ? Number(raw) : undefined });
   const cwhit = readCwhitTargets(join(process.cwd(), "..", "reference", "cwhit"));
+  const cwStale = cwhitLinesFor(cwhit, { name: PERIOD.name, totalDays: p.periodDays }).stale;
   const N = p.day;
+  // "reaches 11-08 (11-09 dropped: 6 events, a day runs 55)" when the last day was pulled mid-day.
+  const reach = (s: ProjectionSource) =>
+    `reaches ${s.reach}${s.partial ? `; ${s.last} dropped: ${s.lastEvents} event${s.lastEvents === 1 ? "" : "s"}, a whole day runs ${s.usual}` : ""}`;
 
   console.log(`\n${PERIOD.name} · day ${N} of ${p.periodDays} · where the line is now and where it lands\n`);
   const forced = raw !== undefined && N !== p.dumpDay;
   if (forced) console.log(`  day ${N} ← --day${Number(raw) === N ? "" : ` (clamped from ${raw})`}, overriding the day ${p.dumpDay} the dumps reach`);
-  console.log(`  ${forced ? "dumps  " : `day ${N} ←`} ${p.binding.file} (${p.binding.kind}, reaches ${p.binding.reach})`);
-  for (const s of p.sources) if (s.file !== p.binding.file) console.log(`  also    ${s.file} (${s.kind}, reaches ${s.reach})`);
+  console.log(`  ${forced ? "dumps  " : `day ${N} ←`} ${p.binding.file} (${p.binding.kind}, ${reach(p.binding)})`);
+  for (const s of p.sources) if (s.file !== p.binding.file) console.log(`  also    ${s.file} (${s.kind}, ${reach(s)})`);
   const today = todayInChicago();
   const calendarDay = Math.min(p.periodDays, Math.max(1, Math.round((Date.parse(today) - Date.parse(PERIOD.start)) / 864e5) + 1));
   if (p.dumpDay < 1) console.log(`  ⚠ the newest dump ends BEFORE ${PERIOD.name} opened — there is no day-N read here at all`);
   else if (calendarDay > p.dumpDay) console.log(`  ⚠ today is ${today}, day ${calendarDay} — the dump stops at day ${p.dumpDay}, ${calendarDay - p.dumpDay} day(s) back, and so does every line below`);
   if (p.sources[0].reach !== p.sources[1].reach) console.log(`  ⚠ the two dumps end on different days; the earlier one sets N`);
+  if (p.sources.some((s) => s.partial)) console.log(`  a dump's last day holds only what had finished when it was pulled, so N is the last whole day`);
   console.log();
-  console.log(`  category     you  rank   line now |  P5 d${N} → P5 end  ×    |  P6 scaled ×  |  PROJECTED   cwhit  verdict`);
+  console.log(`  category     you  rank   line now |  P5 d${N} → P5 end  ×    |  P6 scaled ×  |  PROJECTED  ${cwStale ? "cwhit*" : " cwhit"}  verdict`);
   for (const l of p.lines) {
     const verdict = l.rank == null ? "not entered"
       : l.rank <= 128 ? `IN now, ${l.you >= l.projected ? "already past the projected line" : `needs ${l.projected - l.you} more`}`
@@ -57,7 +62,9 @@ async function main() {
   console.log(`\n  "line now" is the 128th-place total through day ${N} of ${p.periodDays} (${p.binding.reach}), so it is small by`);
   console.log(`  construction. The multiplier is how much that same line grew from day ${N} over the rest of PTCS 5`);
   console.log(`  (the same 28-day shape) averaged with PTCS 6 rescaled to ${p.periodDays} days.`);
-  console.log(cwhit ? `  cwhit is his projected cutoff (${cwhit.file}), shown for comparison.\n` : `  No cwhit board transcribed under reference/cwhit/.\n`);
+  console.log(!cwhit ? `  No cwhit board transcribed under reference/cwhit/.\n`
+    : cwStale ? `  * cwhit's board (${cwhit.file}) is stale for ${PERIOD.name}: ${cwStale}. Shown, but left out of safe at.\n`
+    : `  cwhit is his projected cutoff (${cwhit.file}), shown for comparison.\n`);
 
   if (!WRITE) return;
   const projected = Object.fromEntries(p.lines.map((l) => [l.category, l.projected]));

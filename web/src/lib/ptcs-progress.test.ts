@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { SAFE_MARGIN, lastDataIndex, periodCalendar, safeMark, standings, verdictLabel } from "./ptcs-progress";
+import { SAFE_MARGIN, cwhitLinesFor, lastDataIndex, periodCalendar, safeMark, standings, verdictLabel } from "./ptcs-progress";
 import type { MergedDay } from "./result-ledger";
 
 const CATS = ["Iron", "Bronze", "Silver", "Gold", "Diamond", "Open", "Live", "Cap", "PD Daily", "PD Weekly"] as const;
@@ -136,4 +136,26 @@ test("points from the dump are counted and reported per category", () => {
   assert.equal(by.Bronze.total, 13);
   assert.equal(by.Bronze.fromDump, 10);
   assert.equal(by.Open.fromDump, 3);
+});
+
+test("cwhit's board counts toward safe at only for its own cycle and length", () => {
+  const lines = { Bronze: 107, Diamond: 77 };
+  const ptcs9 = { name: "PTCS 9", totalDays: 35 };
+  // The board stored with PTCS 9's lines on 11-09: no cycle or length fields, cycle 7 in the name.
+  assert.deepEqual(cwhitLinesFor({ file: "2026-09-17 cycle7 targets.csv", lines }, ptcs9), { lines: null, stale: "for PTCS 7" });
+  assert.deepEqual(cwhitLinesFor({ file: "2026-09-17 cycle7 targets.csv", lines, cycle: 7, days: 28 }, ptcs9),
+    { lines: null, stale: "for PTCS 7, 28 days against 35" });
+  assert.deepEqual(cwhitLinesFor({ file: "x cycle9 targets.csv", lines, cycle: 9, days: 28 }, ptcs9),
+    { lines: null, stale: "28 days against 35" }, "this cycle's board, but for the wrong length");
+  assert.deepEqual(cwhitLinesFor({ file: "x cycle9 targets.csv", lines, cycle: 9, days: 35 }, ptcs9), { lines, stale: null });
+  assert.deepEqual(cwhitLinesFor({ file: "2026-09-17 cycle7 targets.csv", lines, cycle: 7, days: 28 }, { name: "PTCS 7", totalDays: 28 }),
+    { lines, stale: null }, "the PTCS 7 board in PTCS 7");
+  assert.deepEqual(cwhitLinesFor(null, ptcs9), { lines: null, stale: null });
+
+  // A stale board leaves safe at on our line alone: Diamond 83 → 92, not cwhit's 77 or a max with it.
+  const o = { totalDays: 35, daysLeft: 28, dayIndex: 8, ourLines: { Diamond: 83 } };
+  const stale = cwhitLinesFor({ file: "2026-09-17 cycle7 targets.csv", lines: { Diamond: 96 } }, ptcs9);
+  const row = standings(days([{ Diamond: 10 }]), ["Diamond"], { ...o, cwhitLines: stale.lines })[0];
+  assert.equal(row.cwhitLine, null);
+  assert.equal(row.safeAt, 92);
 });

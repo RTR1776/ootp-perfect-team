@@ -11,8 +11,8 @@
  * The lines and verdicts come from lib/ptcs-progress, the page's own code, so
  * the two cannot disagree on Safe at. Our line is the period's stored target
  * (`pnpm cutoff:project --write` sets it from the newest dump), cwhit's is the
- * board stored beside it in src/data/ptcs-lines.json, and Safe at is the
- * higher of the two plus SAFE_MARGIN. When the dumps on disk now project a
+ * board stored beside it in src/data/ptcs-lines.json (left out when it is for
+ * another cycle or length), and Safe at is the higher of the two plus SAFE_MARGIN. When the dumps on disk now project a
  * different line, the script says so.
  *
  *   node --env-file=.env.local --import tsx scripts/ptcs-standing.ts [--period 2]
@@ -23,7 +23,7 @@ import { db } from "@/db/client";
 import { dailyTotals, myResults, periods, results } from "@/db/schema";
 import STORED_LINES from "@/data/ptcs-lines.json";
 import { CATEGORIES } from "@/lib/ingest/constants";
-import { SAFE_MARGIN, lastDataIndex, periodCalendar, standings, todayInChicago, verdictLabel } from "@/lib/ptcs-progress";
+import { SAFE_MARGIN, cwhitLinesFor, lastDataIndex, periodCalendar, standings, todayInChicago, verdictLabel } from "@/lib/ptcs-progress";
 import { projectCutoffs, readCwhitTargets, type StoredLines } from "@/lib/ptcs-projection";
 import { dumpEvent, mergeDays, type LedgerEvent } from "@/lib/result-ledger";
 
@@ -60,9 +60,11 @@ async function main() {
   const stored = STORED_LINES as StoredLines;
   const lines = stored.period === p.name ? stored : null;
   const targets = (p.targets ?? {}) as Record<string, number>;
+  // A cwhit board for another cycle or length is stale and stays out of safe at.
+  const cw = cwhitLinesFor(lines?.cwhit, { name: p.name, totalDays: cal.totalDays });
   const board = standings(days, CATEGORIES, {
     totalDays: cal.totalDays, daysLeft: cal.daysLeft, dayIndex: cal.elapsed,
-    ourLines: targets, cwhitLines: lines?.cwhit?.lines ?? null,
+    ourLines: targets, cwhitLines: cw.lines,
   });
   const counted = days.flatMap((d) => d.events);
   const last = lastDataIndex(days);
@@ -70,7 +72,7 @@ async function main() {
 
   const ourSrc = p.targetsAreOfficial ? "official cutoffs"
     : lines ? `dump projection from day ${lines.day} (${lines.dumpFile}, reaches ${lines.dumpReach})` : "stored estimates";
-  console.log(`  our line = ${ourSrc}${lines?.cwhit ? `; cwhit = ${lines.cwhit.file}` : ""}`);
+  console.log(`  our line = ${ourSrc}${lines?.cwhit ? `; cwhit = ${lines.cwhit.file}${cw.stale ? ` (stale: ${cw.stale}; not in safe at)` : ""}` : ""}`);
   console.log(`  data through ${thru ?? "—"}: ${logged.length} logged events, ${counted.filter((e) => e.source === "dump").length} more from the dump\n`);
 
   const pad = (v: string | number | null, n: number) => String(v ?? "—").padStart(n);
@@ -100,8 +102,8 @@ async function main() {
     } catch {
       // No dumps on this machine: the stored line is all there is.
     }
-    const cw = readCwhitTargets(join(process.cwd(), "..", "reference", "cwhit"));
-    if (cw && cw.file !== lines?.cwhit?.file) console.log(`\n  ⚠ a newer cwhit board is on disk (${cw.file}); pnpm cutoff:project --write stores it.`);
+    const onDisk = readCwhitTargets(join(process.cwd(), "..", "reference", "cwhit"));
+    if (onDisk && onDisk.file !== lines?.cwhit?.file) console.log(`\n  ⚠ a newer cwhit board is on disk (${onDisk.file}); pnpm cutoff:project --write stores it.`);
   }
   console.log();
   process.exit(0);

@@ -17,7 +17,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/page-header";
 import { CATEGORIES } from "@/lib/ingest/constants";
 import { loadPeriodLedger } from "@/lib/period-ledger";
-import { standings, todayInChicago, verdictLabel, type StandingRow } from "@/lib/ptcs-progress";
+import { cwhitLinesFor, standings, todayInChicago, verdictLabel, type StandingRow } from "@/lib/ptcs-progress";
 import { loadExportsToGrab } from "@/lib/exports-to-grab";
 import { loadFreshness } from "@/lib/freshness";
 import { nextMilestone } from "@/lib/qualifying";
@@ -78,7 +78,8 @@ export default async function TodayPage() {
   const board = ledger && period
     ? standings(ledger.days, CATEGORIES, {
       totalDays: ledger.calendar.totalDays, daysLeft: ledger.calendar.daysLeft, dayIndex: ledger.calendar.elapsed,
-      ourLines: targets, cwhitLines: stored.period === period.name ? stored.cwhit?.lines ?? null : null,
+      ourLines: targets,
+      cwhitLines: stored.period === period.name ? cwhitLinesFor(stored.cwhit, { name: period.name, totalDays: ledger.calendar.totalDays }).lines : null,
     })
     : [];
   const open = board.filter((r) => r.verdict !== "safe" && r.verdict !== "not-playing").sort((a, b) => urgency[a.verdict] - urgency[b.verdict] || (b.gap ?? 0) - (a.gap ?? 0));
