@@ -1,0 +1,36 @@
+# Saturday Negro Leagues Slots — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Coors Field --park-year 2026 --card-year-min 1896 --card-year-max 1964 --card-types 2 --slots P4,D4,G4,S4,B5,I5 --size 26 --series nelslotsweekly --sp 5 --rp 7 --bats 14)
+R:C Pythias Russ (VAR) #87083
+R:1B Ed Rile #87165
+R:2B John Henry Russell (VAR) #87438
+R:3B Candy Jim Taylor #87325
+R:SS Pop Lloyd #86896
+R:LF Lester Lockett #87267
+R:CF Jimmie Lyons #87309
+R:RF Charlie Blackwell #87268
+L:C Pythias Russ (VAR) #87083
+L:1B Ed Rile #87165
+L:2B John Henry Russell (VAR) #87438
+L:3B Candy Jim Taylor #87325
+L:SS Pop Lloyd #86896
+L:LF Lester Lockett #87267
+L:CF Jimmie Lyons #87309
+L:RF Charlie Blackwell #87268
+SP1 Ed Rile #87165
+SP2 Claude Grier #87086
+SP3 Satchel Paige #84844
+SP4 Hilton Smith #85864
+SP5 Luther Farrell #86900
+CL Johnny Markham (VAR) #87159
+RP1 Dan Bankhead #84884
+RP2 Bill Ricks #87162
+RP3 Nelson Dean #87434
+RP4 Percy Miller #87437
+RP5 Cool Papa Bell #86981
+RP6 Red Howard #87156
+BN1 Esteban Montalvo #87081
+BN2 Tetelo Vargas #87269
+BN3 Connie Day #86982
+BN4 Art Pennington #87442
+BN5 Specs Clark #87308
+BN6 Dan Kennard #87226
+BN7 William Tenny #84400

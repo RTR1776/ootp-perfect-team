@@ -1,0 +1,36 @@
+# Sunday Open Main Event — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Truist Park --park-year 2026 --dh --size 26 --series openweekly --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B George Brett #87025
+R:2B Chase Utley #87068
+R:3B Alex Rodriguez #87219
+R:SS Leodalis De Vries #84724
+R:LF Ed Delahanty #87371
+R:CF Andruw Jones #87057
+R:RF Curtis Granderson #86595
+R:DH Juan Soto #87013
+L:C Mike Piazza (VAR) #86463
+L:1B Albert Pujols #87149
+L:2B Chase Utley #87068
+L:3B Leodalis De Vries #84724
+L:SS Elly De La Cruz #87387
+L:LF Ed Delahanty #87371
+L:CF Andruw Jones #87057
+L:RF Juan Soto #87013
+L:DH Hideki Matsui #87042
+SP1 Madison Bumgarner #87024
+SP2 Mordecai Brown #87370
+SP3 Chris Sale #87406
+SP4 Eddie Plank #86890
+SP5 Cy Young (VAR) #86572
+CL Andrew Miller #87138
+RP1 Willie Hernandez #86914
+RP2 B.J. Ryan #87218
+RP3 Josh Hader #87401
+RP4 Yoshinobu Yamamoto #87408
+RP5 Louis Varland #87400
+RP6 Ben Sheets #87414
+BN1 Albert Pujols #87149
+BN2 Mike Piazza (VAR) #86463
+BN3 Elly De La Cruz #87387
+BN4 Hideki Matsui #87042
+BN5 Sebastian Walcott #85136

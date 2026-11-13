@@ -1,0 +1,36 @@
+# Daily Bronze OOTP Era — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2009 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 69 --card-year-min 1999 --card-year-max 2026 --size 26 --series bronzeootp --sp 5 --rp 7 --bats 14)
+R:C Jimmy Crooks (VAR) #84772
+R:1B Ben Zobrist #87245
+R:2B Brandon Phillips #87202
+R:3B Hank Blalock #86433
+R:SS Jefferson Rojas #84751
+R:LF Joc Pederson #87143
+R:CF Eric Byrnes #87195
+R:RF Shane Victorino #87235
+R:DH Felipe Lopez (VAR) #84106
+L:C Thayron Liranzo (VAR) #85135
+L:1B Ben Zobrist #87245
+L:2B Brandon Phillips #87202
+L:3B Jefferson Rojas #84751
+L:SS Ernie Clement #87244
+L:LF Eric Byrnes #87195
+L:CF Byron Buxton (VAR) #85821
+L:RF Shane Victorino #87235
+L:DH Aaron Rowand #87196
+SP1 Corey Kluber (VAR) #87008
+SP2 James McDonald (VAR) #86384
+SP3 Tanner McDougal (VAR) #85032
+SP4 Jake Bloss (VAR) #84779
+SP5 Roy Halladay #86705
+CL Edwin Diaz #86422
+RP1 John Bale (VAR) #87234
+RP2 Caden Scarborough (VAR) #84762
+RP3 Adam Cimber (VAR) #84271
+RP4 Kerry Wood #86987
+RP5 Hector Carrasco (VAR) #83082
+RP6 Kyson Witherspoon (VAR) #84774
+BN1 Jhonny Level (VAR) #84765
+BN2 Byron Buxton (VAR) #85821
+BN3 Ernie Clement #87244
+BN4 Aaron Rowand #87196
+BN5 Thayron Liranzo (VAR) #85135

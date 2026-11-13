@@ -1,0 +1,36 @@
+# Daily Live Plus — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park PNC Park --park-year 2026 --dh --min 40 --max 105 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveplus --sp 5 --rp 7 --bats 14)
+R:C Dillon Dingler #87396
+R:1B Leodalis De Vries #84724
+R:2B Roch Cholowsky #86249
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Elly De La Cruz #87387
+R:LF Walker Jenkins #84735
+R:CF Byron Buxton #87383
+R:RF Cody Bellinger #86289
+R:DH Ben Rice #87395
+L:C Gabriel Moreno #87397
+L:1B Leodalis De Vries #84724
+L:2B Roch Cholowsky #86249
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Elly De La Cruz #87387
+L:LF Cody Bellinger #86289
+L:CF Sebastian Walcott #85136
+L:RF Seiya Suzuki #87381
+L:DH Junior Caminero #87390
+SP1 Chris Sale #87406
+SP2 Kade Anderson #85138
+SP3 Yoshinobu Yamamoto #87408
+SP4 Ryan Sloan #84731
+SP5 Bubba Chandler #84630
+CL Josh Hader #87401
+RP1 Louis Varland #87400
+RP2 Jhoan Duran #82063
+RP3 Adrian Morejon #87421
+RP4 Calvin Faucher #82119
+RP5 Liam Doyle #84730
+RP6 Gavin Williams #87405
+BN1 Junior Caminero #87390
+BN2 Seiya Suzuki #87381
+BN3 Sebastian Walcott #85136
+BN4 Gabriel Moreno #87397
+BN5 Ethan Holliday (VAR) #84744

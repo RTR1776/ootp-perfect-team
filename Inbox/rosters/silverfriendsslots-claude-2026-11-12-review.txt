@@ -1,0 +1,36 @@
+# Daily Silver & Friends Slots — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Daikin Park --park-year 2026 --dh --slots P1,D1,G1,S21,B1,I1 --variant-cap 13 --size 26 --series silverfriendsslots --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Matt Carpenter #86771
+R:2B John Henry Russell (VAR) #87438
+R:3B Alex Rodriguez #87219
+R:SS Jeremy Pena #87154
+R:LF Willie McGee (VAR) #85753
+R:CF Carlos Gomez #87418
+R:RF Andy Van Slyke (VAR) #86936
+R:DH CJ Abrams #87385
+L:C Mike Zunino (VAR) #86431
+L:1B Ernie Clement #87244
+L:2B John Henry Russell (VAR) #87438
+L:3B Alex Rodriguez #87219
+L:SS Jeremy Pena #87154
+L:LF Willie McGee (VAR) #85753
+L:CF Carlos Gomez #87418
+L:RF Alex Rios #87214
+L:DH Ryan Braun #87222
+SP1 Bob Feller (VAR) #85650
+SP2 Kelvim Escobar #87207
+SP3 Fritz Ostermueller #86357
+SP4 Nick Altrock #87049
+SP5 Jordan Montgomery #86354
+CL Chad Bradford #86341
+RP1 Mike Matthews (VAR) #87296
+RP2 Edwin Diaz #86422
+RP3 John Bale (VAR) #87234
+RP4 Bruce Ruffin #86777
+RP5 Dennis Cook (VAR) #83261
+RP6 Jakie May (VAR) #85286
+BN1 Ernie Clement #87244
+BN2 Ryan Braun #87222
+BN3 Alex Rios #87214
+BN4 Colby Rasmus (VAR) #87144
+BN5 Mike Zunino (VAR) #86431

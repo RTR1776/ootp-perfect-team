@@ -1,0 +1,36 @@
+# Monday Now We're into the Dregs — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 1994 --park Dodger Stadium --park-year 1996 --dh --min 50 --max 64 --cap 1468 --size 26 --series goldfloorcapweekly --sp 5 --rp 7 --bats 14)
+R:C Roger Bresnahan #87426
+R:1B Nap Lajoie (VAR) #86581
+R:2B Brandon Phillips #87202
+R:3B Jim Tabor (VAR) #85905
+R:SS Ernie Clement #87244
+R:LF Mike Trout (VAR) #84793
+R:CF Byron Buxton (VAR) #85821
+R:RF Jett Williams #84763
+R:DH Ty Wigginton (VAR) #86086
+L:C Sam Huff #85265
+L:1B Jackie Robinson (VAR) #84390
+L:2B Brandon Phillips #87202
+L:3B Jim Tabor (VAR) #85905
+L:SS Ernie Clement #87244
+L:LF Jim Thorpe #86961
+L:CF Byron Buxton (VAR) #85821
+L:RF Jett Williams #84763
+L:DH Bill Hall #87200
+SP1 Big Jeff Pfeffer #87340
+SP2 Fritz Ostermueller #86357
+SP3 James McDonald (VAR) #86384
+SP4 Justin Verlander #87014
+SP5 Gene Krapp #87374
+CL Caden Scarborough (VAR) #84762
+RP1 John Bale (VAR) #87234
+RP2 Jeff Francis #87199
+RP3 Juan Mejia #81806
+RP4 Hayden Juenger #86032
+RP5 Austin Warren #85244
+RP6 John Maine #86301
+BN1 Bill Hall #87200
+BN2 Jackie Robinson (VAR) #84390
+BN3 Jim Thorpe #86961
+BN4 Sam Huff #85265
+BN5 Dave Henderson #86926

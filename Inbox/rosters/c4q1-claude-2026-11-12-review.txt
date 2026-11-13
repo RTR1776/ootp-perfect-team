@@ -1,0 +1,36 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --series c4q1 --sp 5 --rp 7 --bats 14)
+R:C Bob Boone (VAR) #87032
+R:1B Sebastian Walcott #85136
+R:2B Joe Gordon #87419
+R:3B Ed Williamson #87297
+R:SS Arjun Nimmala (VAR) #84745
+R:LF Curtis Granderson #86595
+R:CF Bo Jackson #86966
+R:RF Jose Bautista #87073
+R:DH Eric Davis (VAR) #86974
+L:C Bob Boone (VAR) #87032
+L:1B Sebastian Walcott #85136
+L:2B Joe Gordon #87419
+L:3B Ed Williamson #87297
+L:SS Arjun Nimmala (VAR) #84745
+L:LF Curtis Granderson #86595
+L:CF Bo Jackson #86966
+L:RF Jose Bautista #87073
+L:DH Eric Davis (VAR) #86974
+SP1 Josh Johnson #86275
+SP2 Cliff Lee (VAR) #85693
+SP3 Kelvim Escobar #87207
+SP4 Nick Altrock #87049
+SP5 James McDonald (VAR) #86384
+CL John Bale (VAR) #87234
+RP1 Randy Choate #87026
+RP2 Todd Jones (VAR) #86434
+RP3 Reed Garrett #84825
+RP4 Tin Can Kincannon #86073
+RP5 Bob Gibson (VAR) #86658
+RP6 Jerry Augustine (VAR) #86424
+BN1 Buck Rodgers (VAR) #84312
+BN2 Alfredo Amezaga #87188
+BN3 Jim Maloney #85498
+BN4 Stan Hack #86458
+BN5 Greasy Neale #87142

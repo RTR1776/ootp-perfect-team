@@ -1,0 +1,36 @@
+# Daily Diamond Cap — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Jarry Park --park-year 1976 --min 40 --max 99 --cap 1788 --size 26 --series diamondcapdaily --sp 4 --rp 5 --bats 17)
+R:C Rick Wilkins #87432
+R:1B Pedro Alvarez #87062
+R:2B Placido Polanco #87213
+R:3B Arjun Nimmala (VAR) #84745
+R:SS Pythias Russ (VAR) #87083
+R:LF Curtis Granderson #86595
+R:CF Carlos Beltran #87066
+R:RF Bo Jackson #86966
+L:C Rick Wilkins #87432
+L:1B Ernie Clement #87244
+L:2B Placido Polanco #87213
+L:3B Arjun Nimmala (VAR) #84745
+L:SS Pythias Russ (VAR) #87083
+L:LF Curtis Granderson #86595
+L:CF Carlos Beltran #87066
+L:RF Bo Jackson #86966
+SP1 Bob Feller (VAR) #85650
+SP2 Jerry Koosman #87440
+SP3 Cy Young #86996
+SP4 Babe Ruth #86439
+CL Troy Percival (VAR) #85371
+RP1 Caden Scarborough (VAR) #84762
+RP2 James McDonald (VAR) #86384
+RP3 Randy Choate #87026
+RP4 Todd Jones (VAR) #86434
+BN1 Babe Ruth #86439
+BN2 Ernie Clement #87244
+BN3 Stan Hack #86458
+BN4 Buck Rodgers (VAR) #84312
+BN5 Charlie Eden #82834
+BN6 George Pinkney #83410
+BN7 Count Sensenderfer #87322
+BN8 Mel Almada #85275
+BN9 John Leary #84297
+BN10 Coot Veal #85090

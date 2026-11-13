@@ -1,0 +1,37 @@
+# Friday Night Live Slots — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Wrigley Field --park-year 2026 --dh --min 40 --max 105 --card-types 1 --card-year-min 2026 --card-year-max 2026 --slots P8,D5,G4,S3,B3,I3 --size 26 --series liveslotsweekly --sp 4 --rp 7 --bats 15)
+R:C Patrick Bailey #81719
+R:1B Elly De La Cruz #81965
+R:2B Geraldo Perdomo #81846
+R:3B Fernando Tatis Jr. #81753
+R:SS Bobby Witt Jr. #82379
+R:LF Jake McCarthy #81809
+R:CF Pete Crow-Armstrong #81990
+R:RF Corbin Carroll #81849
+R:DH Shohei Ohtani #81776
+L:C Patrick Bailey #81719
+L:1B Elly De La Cruz #81965
+L:2B Geraldo Perdomo #81846
+L:3B Fernando Tatis Jr. #81753
+L:SS Bobby Witt Jr. #82379
+L:LF Jake McCarthy #81809
+L:CF Pete Crow-Armstrong #81990
+L:RF Corbin Carroll #81849
+L:DH Shohei Ohtani #81776
+SP1 Chris Sale #82162
+SP2 Tarik Skubal #82424
+SP3 Shohei Ohtani #81776
+SP4 Cam Schlittler #82580
+CL Jhoan Duran #82063
+RP1 Adrian Morejon #81760
+RP2 Edgardo Henriquez #81769
+RP3 Calvin Faucher #82119
+RP4 Sam Hentges #81727
+RP5 Blake Snell #81796
+RP6 Landen Roupp #81730
+BN1 CJ Abrams #82023
+BN2 Randal Grichuk #82569
+BN3 Joe Mack #85615
+BN4 Hao-Yu Lee #85230
+BN5 Cole Carrigg #86057
+BN6 Daylen Lile #82018
+BN7 Jung-hoo Lee #81713

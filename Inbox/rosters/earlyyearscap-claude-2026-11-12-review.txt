@@ -1,0 +1,36 @@
+# Daily Early Years Cap — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 1888 --park Expostition Park III --park-year 1890 --min 40 --max 105 --card-year-min 1800 --card-year-max 1939 --cap 1500 --size 26 --series earlyyearscap --sp 4 --rp 5 --bats 17)
+R:C Bill Killefer #87346
+R:1B Ed Rile #87165
+R:2B Nap Lajoie (VAR) #86581
+R:3B Ray Dandridge #87264
+R:SS Pop Lloyd #86896
+R:LF Jack Tobin #86772
+R:CF Roy Thomas #86784
+R:RF Pop Corkhill #86582
+L:C Bill Killefer #87346
+L:1B Ed Rile #87165
+L:2B Nap Lajoie (VAR) #86581
+L:3B Ray Dandridge #87264
+L:SS Pop Lloyd #86896
+L:LF Red Killefer #87339
+L:CF Roy Thomas #86784
+L:RF Pop Corkhill #86582
+SP1 Christy Mathewson #86697
+SP2 Cy Young (VAR) #86572
+SP3 Bob Feller (VAR) #85650
+SP4 Ed Rile #87165
+CL Frank Wickware #87443
+RP1 Tin Can Kincannon #86073
+RP2 Rube Schauer #86555
+RP3 George Hunter #84295
+RP4 Jim Hughey #82778
+BN1 Red Killefer #87339
+BN2 Charlie Eden #82834
+BN3 Count Sensenderfer #87322
+BN4 Walt French #86960
+BN5 George Pinkney #83410
+BN6 Greasy Neale #87142
+BN7 Jay Faatz #84324
+BN8 Chick Fulmer #82837
+BN9 Bruno Block #82830
+BN10 Bill Everitt #82866
