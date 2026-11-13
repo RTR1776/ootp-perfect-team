@@ -1,0 +1,36 @@
+# Daily Gold Slots — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 1968 --park Connie Mack Stadium --park-year 1968 --dh --min 40 --max 89 --slots G12,S8,B6 --variant-cap 13 --size 26 --series goldslotsdaily --sp 4 --rp 6 --bats 16)
+R:C Bob Boone (VAR) #87032
+R:1B Sebastian Walcott #85136
+R:2B Placido Polanco #87213
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Pythias Russ (VAR) #87083
+R:LF Darin Erstad #87242
+R:CF Carlos Gomez #87418
+R:RF Mookie Betts #87271
+R:DH Pedro Alvarez #87062
+L:C Mike Zunino (VAR) #86431
+L:1B Sebastian Walcott #85136
+L:2B Brandon Phillips #87202
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Pythias Russ (VAR) #87083
+L:LF Darin Erstad #87242
+L:CF Carlos Gomez #87418
+L:RF Mookie Betts #87271
+L:DH Ryan Braun #87222
+SP1 Bob Feller (VAR) #85650
+SP2 Count Leblanc (VAR) #86978
+SP3 CC Sabathia #87182
+SP4 Cherokee Fisher #87337
+CL Troy Percival (VAR) #85371
+RP1 Gregg Olson (VAR) #86946
+RP2 Mike Matthews (VAR) #87296
+RP3 Zack Wheeler (VAR) #86314
+RP4 Chad Bradford #86341
+RP5 Caden Scarborough (VAR) #84762
+BN1 Paul Waner #86999
+BN2 Billy Southworth (VAR) #86379
+BN3 Jack Tobin #86772
+BN4 Ryan Braun #87222
+BN5 Marco Scutaro (VAR) #86394
+BN6 Brandon Phillips #87202
+BN7 Mike Zunino (VAR) #86431

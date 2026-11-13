@@ -1,0 +1,36 @@
+# Daily Open Slots — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Metrodome --park-year 1990 --dh --slots P6,D4,G4,S4,B4,I4 --size 26 --series openslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Rick Wilkins #87432
+R:1B Pedro Alvarez #87062
+R:2B Chase Utley #87068
+R:3B Alex Rodriguez #87219
+R:SS Pythias Russ (VAR) #87083
+R:LF Ed Delahanty #87371
+R:CF Andruw Jones #87057
+R:RF Curtis Granderson #86595
+R:DH Carlos Beltran #87066
+L:C Mike Zunino (VAR) #86431
+L:1B Steve Pearce (VAR) #86366
+L:2B Chase Utley #87068
+L:3B Alex Rodriguez #87219
+L:SS Pythias Russ (VAR) #87083
+L:LF Ed Delahanty #87371
+L:CF Carlos Beltran #87066
+L:RF Andruw Jones #87057
+L:DH Chris Sabo #87059
+SP1 Mordecai Brown #87370
+SP2 Jerry Koosman #87440
+SP3 Bob Feller (VAR) #85650
+SP4 Nick Altrock #87049
+SP5 Fritz Ostermueller #86357
+CL Josh Hader #87401
+RP1 Troy Percival (VAR) #85371
+RP2 Mike Matthews (VAR) #87296
+RP3 Chad Bradford #86341
+RP4 James McDonald (VAR) #86384
+RP5 Will Smith #87132
+RP6 Justin Verlander #87014
+BN1 Chris Sabo #87059
+BN2 Steve Pearce (VAR) #86366
+BN3 Roger Bresnahan #87426
+BN4 Chris Taylor #87243
+BN5 Mike Zunino (VAR) #86431

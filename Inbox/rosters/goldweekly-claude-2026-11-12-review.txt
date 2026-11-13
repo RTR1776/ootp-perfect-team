@@ -1,0 +1,36 @@
+# Thursday Night Gold Rush — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park Great American Ballpark --park-year 2026 --dh --min 40 --max 89 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series goldweekly --sp 5 --rp 7 --bats 14)
+R:C Dillon Dingler #87396
+R:1B Pedro Alvarez #87062
+R:2B Marcus Semien #86744
+R:3B John Henry Russell (VAR) #87438
+R:SS Kaelen Culpepper (VAR) #85033
+R:LF Darin Erstad #87242
+R:CF Byron Buxton #87383
+R:RF Andy Van Slyke (VAR) #86936
+R:DH Kal Daniels #84163
+L:C Mike Zunino (VAR) #86431
+L:1B Sebastian Walcott #85136
+L:2B John Henry Russell (VAR) #87438
+L:3B Chris Sabo #87059
+L:SS Kaelen Culpepper (VAR) #85033
+L:LF Darin Erstad #87242
+L:CF Byron Buxton #87383
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Bob Feller (VAR) #85650
+SP2 Danny Jackson #87052
+SP3 Jordan Montgomery #86354
+SP4 Dave Ferriss #87323
+SP5 Count Leblanc (VAR) #86978
+CL Joe Beggs (VAR) #86762
+RP1 Heath Bell #87209
+RP2 Dave Righetti #85870
+RP3 Troy Percival (VAR) #85371
+RP4 Chad Bradford #86341
+RP5 Steve Hamilton (VAR) #83306
+RP6 Tony Watson (VAR) #85457
+BN1 Chris Sabo #87059
+BN2 Sebastian Walcott #85136
+BN3 Ryan Braun #87222
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino (VAR) #86431

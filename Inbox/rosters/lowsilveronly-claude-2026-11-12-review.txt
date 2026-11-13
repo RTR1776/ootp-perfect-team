@@ -1,0 +1,36 @@
+# Daily Low Silver Only — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 70 --max 74 --size 26 --series lowsilveronly --sp 5 --rp 7 --bats 14)
+R:C Bob Boone (VAR) #87032
+R:1B Matt Carpenter #86771
+R:2B Aiva Arquette (VAR) #84768
+R:3B Felnin Celesten #84767
+R:SS Luis Aparicio #86612
+R:LF Bryce Harper #86905
+R:CF Duke Snider #85225
+R:RF Roberto Clemente #86723
+R:DH Jake McCarthy #87382
+L:C Bob Boone (VAR) #87032
+L:1B Aiva Arquette (VAR) #84768
+L:2B Jose Oquendo #85738
+L:3B Felnin Celesten #84767
+L:SS Luis Aparicio #86612
+L:LF Jake McCarthy #87382
+L:CF Marquis Grissom #87237
+L:RF Roberto Clemente #86723
+L:DH Ryan Braun #87222
+SP1 Felix Hernandez #87204
+SP2 Doug Davis #86802
+SP3 Jakie May (VAR) #85286
+SP4 Dan Bankhead #84884
+SP5 Bob Walk #86971
+CL Bruce Ruffin #86777
+RP1 Chad Bradford #86341
+RP2 Dave Tomlin (VAR) #83236
+RP3 Scott Williamson #87490
+RP4 Alex Claudio (VAR) #86447
+RP5 Rudy May #85288
+RP6 Brad Clontz #85920
+BN1 Julio Lugo #85932
+BN2 Marquis Grissom #87237
+BN3 Darrell Porter #85896
+BN4 Ryan Braun #87222
+BN5 Jose Oquendo #85738

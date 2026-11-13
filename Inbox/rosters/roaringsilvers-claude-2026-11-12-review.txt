@@ -1,0 +1,35 @@
+# Daily Roaring Silvers — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 1927 --park Yankee Stadium --park-year 1927 --max 79 --card-year-min 1800 --card-year-max 1929 --size 26 --series roaringsilvers --sp 4 --rp 5 --bats 17)
+R:C Roger Bresnahan #87426
+R:1B Nap Lajoie (VAR) #86581
+R:2B John Henry Russell (VAR) #87438
+R:3B Dave Brain (VAR) #85934
+R:SS Dave Bancroft #87412
+R:LF Tillie Walker #86597
+R:CF Billy Southworth (VAR) #86379
+R:RF Willie Keeler #85878
+L:C Johnny Kling #87349
+L:1B Lew Fonseca #87428
+L:2B John Henry Russell (VAR) #87438
+L:3B Honus Wagner #86712
+L:SS Dave Bancroft #87412
+L:LF Tillie Walker #86597
+L:CF Pete Washington #87435
+L:RF Willie Keeler #85878
+SP1 Jeff Pfeffer #87350
+SP2 Nick Altrock #87049
+SP3 Bill Duggleby #87335
+SP4 Christy Mathewson #86706
+CL Percy Miller #87437
+RP1 Nelson Dean #87434
+RP2 Hubert Lockhart #87082
+RP3 Jack Russell #87305
+RP4 Jack Pfiester #87351
+BN1 Danny Green #87353
+BN2 Luther Farrell #86899
+BN3 Tom Brown #86767
+BN4 Topsy Hartsel #87336
+BN5 Lew Fonseca #87428
+BN6 Claude Johnson #87436
+BN7 Pete Washington #87435
+BN8 Honus Wagner #86712
+BN9 Johnny Kling #87349

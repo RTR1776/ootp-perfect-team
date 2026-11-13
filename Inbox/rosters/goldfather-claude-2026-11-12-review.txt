@@ -1,0 +1,35 @@
+# Daily Goldfather II — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 1974 --park Yankee Stadium --park-year 1971 --min 40 --max 89 --size 26 --series goldfather --sp 5 --rp 6 --bats 15)
+R:C Bob Boone (VAR) #87032
+R:1B Pedro Alvarez #87062
+R:2B Charlie Gehringer #87431
+R:3B Hank Thompson #86668
+R:SS Pythias Russ (VAR) #87083
+R:LF Zyhir Hope (VAR) #84739
+R:CF Darin Erstad #87242
+R:RF Andy Van Slyke (VAR) #86936
+L:C Mike Zunino (VAR) #86431
+L:1B Shoeless Joe Jackson #86372
+L:2B Charlie Gehringer #87431
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Pythias Russ (VAR) #87083
+L:LF Curtis Granderson #86596
+L:CF Darin Erstad #87242
+L:RF Alex Rios #87214
+SP1 Jim Kaat (VAR) #85114
+SP2 CC Sabathia #87182
+SP3 Count Leblanc (VAR) #86978
+SP4 Luther Farrell #86900
+SP5 Bob Feller (VAR) #85650
+CL Johnny Markham (VAR) #87159
+RP1 J.A. Happ #86352
+RP2 Carl Hubbell #86893
+RP3 Steve Hamilton (VAR) #83306
+RP4 Tony Watson (VAR) #85457
+RP5 Raisel Iglesias #83322
+BN1 Curtis Granderson #86596
+BN2 Shoeless Joe Jackson #86372
+BN3 Sam Wise #87354
+BN4 Kaelen Culpepper (VAR) #85033
+BN5 Rafael Devers #87388
+BN6 Alex Rios #87214
+BN7 Mike Zunino (VAR) #86431

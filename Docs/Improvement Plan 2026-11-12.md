@@ -6,7 +6,7 @@ L.J.: "take an overall look at our program, the engine, our results, etc. and pu
 
 **The app was checked in a browser** against the live database, at phone and desktop width: every new page, and after the last change every page (`pnpm smoke`). The audit's UI findings in section 5 G are from code and not re-checked.
 
-**Where the work is:** pull requests [181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (the fixes in sections 2 and 3), [182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard, the optimiser's cap tier) [183](https://github.com/RTR1776/ootp-perfect-team/pull/183) (the Today page, the smoke check, the roster backup, pinned prices) and [184](https://github.com/RTR1776/ootp-perfect-team/pull/184) (the two win tests in section 3, arms priced by throwing hand, the roster check fix, the phone fixes). The rebuilt rosters' load files follow in the last one.
+**Where the work is:** pull requests [181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (the fixes in sections 2 and 3), [182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard, the optimiser's cap tier) [183](https://github.com/RTR1776/ootp-perfect-team/pull/183) (the Today page, the smoke check, the roster backup, pinned prices) and [184](https://github.com/RTR1776/ootp-perfect-team/pull/184) (the two win tests in section 3, arms priced by throwing hand, the roster check fix, the phone fixes). [185](https://github.com/RTR1776/ootp-perfect-team/pull/185) has the rebuilt rosters' load files.
 
 ---
 
@@ -170,9 +170,11 @@ From the optimiser audit, which tested the search against brute force on small c
 
 ## 5. What is left, in order
 
-### A. Rebuild the rosters
+### A. Rebuild the rosters (done; deeper search is what is left)
 
-Every Claude pick was built on the old blend, and ten were built while positions were missing. All 74 current events were rebuilt from their saved rosters in two passes, so every pick ends on the final pricing (the blend fix, the pen ranking, the cap tier, arms by throwing hand). Each is one seeded climb plus the staff and cap polish: a first pass. The events you play most deserve a deeper search (`--starts 8`) afterwards.
+Every Claude pick was built on the old blend, and ten were built while positions were missing. All 74 current events were rebuilt from their saved rosters in two passes, so every pick is on the final pricing (the blend fix, the pen ranking, the cap tier, arms by throwing hand). Your 11-13 collection upload (Rolen and O'Doul out, nine cards in) landed during the second pass; the card-changes run then rebuilt the four events where a new card starts, and left the other 70 as saved.
+
+Each is one seeded climb plus the staff and cap polish. The three you asked for (Friday Nightmare Cap, Daily Early Bronze, Daily Live Plus) were rebuilt at 16 starts: that found 0.3 and 0.4 runs on the first two and nothing on the third, so the quick pass is close. The events you play most still deserve the deeper search.
 
 ### B. Drafts
 

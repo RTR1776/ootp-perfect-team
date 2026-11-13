@@ -1,0 +1,36 @@
+# Daily Live Open — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park American Family Field --park-year 2026 --dh --min 40 --max 100 --card-types 1 --card-year-min 2026 --card-year-max 2026 --size 26 --series liveopendaily --sp 5 --rp 7 --bats 14)
+R:C Gabriel Moreno #81848
+R:1B Oneil Cruz #81904
+R:2B Brice Turang #81931
+R:3B Elly De La Cruz #81965
+R:SS Bobby Witt Jr. #82379
+R:LF Corbin Carroll #81849
+R:CF Pete Crow-Armstrong #81990
+R:RF Aaron Judge #82576
+R:DH Yordan Alvarez #82178
+L:C Gabriel Moreno #81848
+L:1B Oneil Cruz #81904
+L:2B Brice Turang #81931
+L:3B Elly De La Cruz #81965
+L:SS Bobby Witt Jr. #82379
+L:LF Corbin Carroll #81849
+L:CF Pete Crow-Armstrong #81990
+L:RF Aaron Judge #82576
+L:DH Yordan Alvarez #82178
+SP1 Chris Sale #82162
+SP2 Shohei Ohtani #81776
+SP3 Jacob Misiorowski #81947
+SP4 Dylan Cease #82518
+SP5 Cristopher Sanchez #82065
+CL Jhoan Duran #82063
+RP1 Calvin Faucher #82119
+RP2 Trevor Megill #81943
+RP3 Mason Miller #81761
+RP4 Adrian Morejon #81760
+RP5 Max Fried #82587
+RP6 Tarik Skubal #82424
+BN1 Juan Soto #82086
+BN2 Carter Jensen #82374
+BN3 Michael Harris II #82146
+BN4 Jake McCarthy #81809
+BN5 Masyn Winn #81878
