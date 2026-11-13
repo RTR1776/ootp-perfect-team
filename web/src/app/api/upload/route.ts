@@ -44,6 +44,7 @@ import {
 import { looksLikeStandings, parseStandings } from "@/lib/ingest/standings";
 import { looksLikeLeagueExport, parseLeagueExport } from "@/lib/ingest/league";
 import { looksLikeDump, parseDump, computeStandings } from "@/lib/analytics/dumps";
+import { reapplyHarvestedPositions } from "@/lib/ingest/positions-reapply";
 import { periods } from "@/db/schema";
 import { leagueSnapshots, leagueStints } from "@/db/schema";
 import { chicagoDay } from "@/lib/format";
@@ -467,6 +468,9 @@ export async function POST(request: Request) {
         // An older list only adds cards the table lacks (its snapshots need them).
         : insert.onConflictDoNothing({ target: cards.cardId }));
     }
+    // The list just overwrote cards.ratings with the printed positions only;
+    // put the harvested ones back (lib/ingest/positions-reapply).
+    if (updatesCards) await reapplyHarvestedPositions();
 
     const snapshotRows = parsed.cards.map((c) => ({
       uploadId: upload.id,
