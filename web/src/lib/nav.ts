@@ -1,5 +1,5 @@
 import {
-  CandlestickChart, CircleArrowUp, Crosshair, Hammer, LayoutGrid, Medal, Search, Trophy, Upload, Wind,
+  CandlestickChart, CircleArrowUp, Crosshair, Hammer, LayoutGrid, Medal, Search, Sun, Trophy, Upload, Wind,
   type LucideIcon,
 } from "lucide-react";
 
@@ -23,6 +23,7 @@ export const NAV: NavGroup[] = [
   {
     label: "Play",
     items: [
+      { href: "/today", label: "Today", icon: Sun, hint: "What needs doing now: where to put entries, exports to grab, data getting old, how you are doing" },
       { href: "/build", label: "Build", icon: Hammer, hint: "Roster for an event, scored in its era and park" },
       { href: "/ptcs", label: "PTCS", icon: Medal, hint: "Qualifying points and pace; PTMS and PTWC standing", also: ["/qualifying", "/ptms", "/scoreboard"] },
       { href: "/draft/live", label: "Draft", icon: LayoutGrid, hint: "Live drafts: each pick's best card with the rounds left priced in; the board by position", also: ["/draft"] },
