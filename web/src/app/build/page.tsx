@@ -29,7 +29,7 @@ import { and, desc, eq, inArray, lt } from "drizzle-orm";
 import { EMPTY_PROJ, projectCard, projectionEnvs, projOf } from "@/lib/analytics/projections";
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { eraFor, eraTable, parkFor, solveFor } from "@/lib/analytics/tournament-env";
-import { envFitMaps } from "@/lib/analytics/env-fit";
+import { envFitMaps, referenceFits } from "@/lib/analytics/env-fit";
 import { bothHands, loadObservedRuns } from "@/lib/analytics/observed-blend";
 import { eraBand } from "@/lib/analytics/calibration";
 import { dataConfidence, type Confidence } from "@/lib/data-confidence";
@@ -335,7 +335,7 @@ export default async function BuildPage({
         pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, year: cards.year, cardType: cards.cardType, ratings: cards.ratings,
         title: cards.title, firstSeenAt: cards.firstSeenAt, cardSubType: cards.cardSubType,
       }).from(cards);
-      const base = envFitMaps(withTwoWayForms(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }))), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
+      const base = referenceFits(withTwoWayForms(universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }))), { era: eraRow.rates, park, roleTrust: 0.25, leagueLhbShare: lhbShare, eraYear: envYear ?? 2010 });
       const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - lhpShare) * r + lhpShare * l; };
       // The reference (the base card's model, env-fit's 0.7 R / 0.3 L read) lets an
       // owned variant keep its boost; a base card blends exactly as before.
