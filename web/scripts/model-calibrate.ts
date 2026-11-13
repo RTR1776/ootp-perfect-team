@@ -34,12 +34,13 @@
  * runs is added. Rankings within a scale are unchanged by it; the exchange
  * rates between bat, glove and arm are what it corrects.
  *
- *   pnpm model:calibrate [--min-n 300] [--no-write] [--force]
+ *   pnpm model:calibrate [--min-n 300] [--no-write] [--force] [--dump points.csv]
  *
  * A fit unlike the one in use is not written (calibration-guard); --force overrides.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { checkCalibration } from "@/lib/analytics/calibration-guard";
+import { fitBend, heldOutBend } from "@/lib/analytics/calibration-bend";
 import { join } from "node:path";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/client";
@@ -54,6 +55,11 @@ const argv = process.argv.slice(2);
 const num = (k: string, d: number) => { const i = argv.indexOf(`--${k}`); return i >= 0 ? Number(argv[i + 1]) : d; };
 const MIN_N = num("min-n", 300);
 const WRITE = !argv.includes("--no-write");
+/** Where the bat calibration is allowed to bend, in raw model runs per 700 (calibration-bend). Held-out gain is flat from 8 to 20. */
+const BEND_AT = 16;
+/** --dump FILE: every fitted line (kind, card, variant, series, model, field level, observed, weight, value) as CSV, for shape checks. */
+const DUMP = (() => { const i = argv.indexOf("--dump"); return i >= 0 ? argv[i + 1] : null; })();
+const dump: string[] = [];
 /** --force: write a fit the guard refuses (lib/analytics/calibration-guard). */
 const FORCE = argv.includes("--force");
 /** Runs per unit of wOBA — the same scale observed-blend and roster-fill use. */
@@ -67,7 +73,7 @@ const stintLike = (counters: Record<string, number>, ip: number, pa: number) => 
   clan: null, val: null, tier: null, isVariant: false, cardYear: null, ratings: {}, war: 0,
 });
 
-interface Pt { cardId: number; series: string; x: number; y: number; w: number; val: number; released: string | null }
+interface Pt { cardId: number; series: string; x: number; y: number; w: number; val: number; released: string | null; /** raw model runs, not centred on the field */ m: number }
 
 function wfit(pts: Pt[]) {
   let sw = 0, mx = 0, my = 0;
@@ -146,6 +152,10 @@ async function main() {
     const side = l.is_pitcher ? e.p : e.h; side.num += m * w; side.den += w; level.set(String(l.series), e);
   }
 
+  const DEST = join(process.cwd(), "src/data/model-calibration.json");
+  let prevFile: Parameters<typeof checkCalibration>[1] = null;
+  try { prevFile = JSON.parse(readFileSync(DEST, "utf8")); } catch { /* first fit */ }
+
   const out: Record<string, unknown> = {
     fittedAt: new Date().toISOString().slice(0, 10), minN: MIN_N,
     frame: "within-series: card's observed runs above its field vs model runs above the field's model mean; PT default engine, neutral park, roleTrust 0.25",
@@ -167,7 +177,8 @@ async function main() {
         w = n(l.pa); if (w < MIN_N || l.woba == null || !(b.woba > 0)) continue;
         y = ((n(l.woba) - b.woba) / WOBA_SCALE) * 700;
       }
-      pts.push({ cardId: id, series, x: m - side.num / side.den, y, w, val: c.cardValue, released: c.releasedOn ? String(c.releasedOn).slice(0, 7) : null });
+      pts.push({ cardId: id, series, x: m - side.num / side.den, y, w, val: c.cardValue, released: c.releasedOn ? String(c.releasedOn).slice(0, 7) : null, m });
+      if (DUMP) dump.push(`${kind},${id},${l.is_variant ? 1 : 0},${series},${m.toFixed(3)},${(side.num / side.den).toFixed(3)},${y.toFixed(3)},${w},${c.cardValue ?? ""}`);
     }
     const fit = wfit(pts);
     const total = pts.reduce((s, p) => s + p.w, 0);
@@ -201,21 +212,41 @@ async function main() {
     const byRelease = residBy((p) => p.released ?? "unknown", "release month");
     const byTier = residBy((p) => tierCode(p.val ?? 0), "value tier");
 
+    /*
+     * Bats only: is one slope enough? Two slopes joined at BEND_AT raw runs,
+     * fitted the same way, and scored against the line on held-out series
+     * (lib/analytics/calibration-bend). Recorded every refit; applied only
+     * when the file says so (calibration.ts calibratedHitRuns), which a refit
+     * never changes on its own.
+     */
+    let bend: Record<string, unknown> | undefined;
+    if (!isP) {
+      const bp = pts.map((p) => ({ series: p.series, x: p.m, y: p.y, w: p.w }));
+      const b = fitBend(bp, BEND_AT), h = heldOutBend(bp, BEND_AT);
+      const wasApplied = (prevFile as { hit?: { bend?: { applied?: boolean } } } | null)?.hit?.bend?.applied === true;
+      bend = {
+        at: BEND_AT, below: Number(b.below.toFixed(4)), above: Number(b.above.toFixed(4)),
+        heldOutBetter: h.better, heldOutOf: h.of, gain: Number(h.gain.toFixed(4)), applied: wasApplied,
+      };
+      const share = pts.filter((p) => p.m > BEND_AT).reduce((a, p) => a + p.w, 0) / total;
+      console.log(`  bend at ${BEND_AT > 0 ? "+" : ""}${BEND_AT} raw runs: a modelled run returns ${b.below.toFixed(3)} below it and ${b.above.toFixed(3)} above (${Math.round(share * 100)}% of PA is above)`);
+      console.log(`    held out by series: better than the line in ${h.better} of ${h.of} half-splits, rmse ${f1(-h.gain)} runs/700 — ${wasApplied ? "APPLIED" : "recorded, not applied"}`);
+    }
+
     out[kind] = {
       lines: pts.length, cards: new Set(pts.map((p) => p.cardId)).size, n: Math.round(total),
       slope: Number(fit.slope.toFixed(4)), intercept: Number(fit.intercept.toFixed(3)),
       r: Number(fit.r.toFixed(4)), rmse: Number(fit.rmse.toFixed(2)),
       sdModel: Number(fit.sdModel.toFixed(2)), sdObs: Number(fit.sdObs.toFixed(2)),
-      applied, deciles, byRelease, byTier,
+      applied, ...(bend ? { bend } : {}), deciles, byRelease, byTier,
     };
   }
 
+  if (DUMP) { writeFileSync(DUMP, "kind,card_id,variant,series,model,field,observed,w,value\n" + dump.join("\n") + "\n"); console.log(`\ndumped ${dump.length} lines to ${DUMP}`); }
   if (WRITE) {
-    const dest = join(process.cwd(), "src/data/model-calibration.json");
+    const dest = DEST;
     // Checked against the file it would replace (lib/analytics/calibration-guard).
-    let prev: Parameters<typeof checkCalibration>[1] = null;
-    try { prev = JSON.parse(readFileSync(dest, "utf8")); } catch { /* first fit */ }
-    const check = checkCalibration(out as never, prev);
+    const check = checkCalibration(out as never, prevFile);
     if (!check.ok && !FORCE) {
       console.log(`\nThis fit is not like the one in use:`);
       for (const p of check.problems) console.log(`  ${p}`);

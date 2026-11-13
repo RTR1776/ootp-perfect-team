@@ -42,6 +42,10 @@ export function checkCalibration(
     if (!Number.isFinite(n.slope)) { problems.push(`${label}: slope is not a number`); continue; }
     if (n.slope < B.slope.min || n.slope > B.slope.max) problems.push(`${label}: slope ${n.slope} is outside ${B.slope.min}-${B.slope.max}`);
     if (n.r != null && n.r < B.rMin) problems.push(`${label}: r ${n.r} is under ${B.rMin}`);
+    const bend = n.bend;
+    if (bend && !([bend.at, bend.below, bend.above].every(Number.isFinite) && bend.below > 0 && bend.above > 0 && bend.below <= 1 && bend.above <= bend.below)) {
+      if (bend.applied) problems.push(`${label}: the bend in use reads below ${bend.below}, above ${bend.above}`);
+    }
     const p = (prev as { hit?: GuardedSide; pit?: GuardedSide } | null)?.[kind];
     if (!p || !Number.isFinite(p.slope) || !(p.slope > 0)) continue;
     const move = n.slope / p.slope - 1;

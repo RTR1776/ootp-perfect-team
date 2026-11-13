@@ -27,7 +27,7 @@ import { posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { cardRuns, envFor, hitterRates, marginalRatings, pitcherRates, roleRuns, trustedSplit, type Env } from "@/lib/analytics/card-value";
 import { HIT_POS, bestDef, percentileMap, type FitMaps } from "@/lib/roster-fill";
 import type { ParkRow } from "@/lib/analytics/tournament-env";
-import { armEraSpread, armRatingFix, PARK_HAND_TRUST, SPEED_CENTER, SPEED_RUNS_PER_POINT, STAMINA_CENTER, STAMINA_RUNS_PER_POINT, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns, type ObsK } from "@/lib/analytics/calibration";
+import { armEraSpread, armRatingFix, calibratedHitRuns, PARK_HAND_TRUST, SPEED_CENTER, SPEED_RUNS_PER_POINT, STAMINA_CENTER, STAMINA_RUNS_PER_POINT, CALIBRATION, calibrationSlope, eraCorrectionPerPoint, ERA_AVERAGE_RATING, ERA_SPLIT_KEY, OBS_K_DEFAULT, powerCurveRuns, type ObsK } from "@/lib/analytics/calibration";
 
 export { CALIBRATION };
 
@@ -323,8 +323,9 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
   };
   for (const c of pool) {
     let r = runsOf(c, "R"), l = runsOf(c, "L");
-    const slope = c.isPitcher ? slopePit : slopeHit;
-    if (slope !== 1) { if (r != null) r *= slope; if (l != null) l *= slope; }
+    if (c.isPitcher) { if (slopePit !== 1) { if (r != null) r *= slopePit; if (l != null) l *= slopePit; } }
+    // Bats: the straight slope, or the bend when it is switched on (calibration.ts calibratedHitRuns).
+    else if (o.calibrate !== false) { if (r != null) r = calibratedHitRuns(r); if (l != null) l = calibratedHitRuns(l); }
     if (r != null) r += eraFix(c, "R") + extra(c, "R");
     if (l != null) l += eraFix(c, "L") + extra(c, "L");
     const ob = o.observed?.get(c.cardId);
