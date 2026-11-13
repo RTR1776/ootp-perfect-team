@@ -73,6 +73,7 @@
     "positions:reapply": "node --env-file=.env.local --import tsx scripts/positions-reapply.ts",
     "record": "node --import tsx scripts/record.ts",
     "scoreboard": "node --import tsx scripts/scoreboard.ts",
+    "smoke": "node scripts/check-layout.mjs",
     "roster:diff": "node --env-file=.env.local --import tsx scripts/roster-diff.ts",
     "cwhit:compare": "node --env-file=.env.local --import tsx scripts/cwhit-compare.ts",
     "dumps:restandings": "node --env-file=.env.local --import tsx scripts/dumps-restandings.ts",
