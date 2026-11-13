@@ -19,6 +19,7 @@
  * MV2_TOURDIR=Archive/Completed reads every archived export instead of the Cap
  * Exports (2026-10-25 defence test: 701 exports, the Cap Exports among them);
  * MV2_PITCH_LHB=field|flat sets the arms' vL/vR blend (default: by throwing hand in tournaments).
+ * MV2_BEND=1 prices bats on the curved calibration (calibration.ts hit.bend) for this run, without editing the fitted file.
  * MV2_NO_LEAGUE=1 skips the league seasons; MV2_NO_TOUR=1 skips the tournaments;
  * MV2_LEAGUE_YEAR pins the league era; MV2_LEAGUE_OLD / MV2_LEAGUE_MULT: see LEAGUE_OLD. Each team row also carries `dpos`:
  * per position, PA per game ÷ 700 times the rating's gap to the unit's
@@ -34,6 +35,7 @@ import { neon } from "@neondatabase/serverless";
 import { db } from "@/db/client";
 import { cards } from "@/db/schema";
 import { envFitMaps } from "@/lib/analytics/env-fit";
+import { CALIBRATION } from "@/lib/analytics/calibration";
 import { eraFor, parkFor, eraTable, leagueRow } from "@/lib/analytics/tournament-env";
 import { fieldingRuns, framingRuns, gloveScale } from "@/lib/analytics/fielding";
 import { parseLeagueExport, collectionVocab, type LeagueStint } from "@/lib/ingest/league";
@@ -44,6 +46,7 @@ import { loadObservedBook, observedRunsFrom } from "@/lib/analytics/observed-ble
 const OBS_KS = [20000, 5000, 1500, 500, 150];
 
 const OUT = process.env.MV2_DIR ?? "/tmp/mv2";
+if (process.env.MV2_BEND === "1" && CALIBRATION.hit.bend) CALIBRATION.hit.bend.applied = true;
 mkdirSync(OUT, { recursive: true });
 const sql = neon(process.env.DATABASE_URL!);
 const ROOT = "..";

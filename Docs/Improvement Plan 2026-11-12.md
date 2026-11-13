@@ -222,7 +222,10 @@ Sections 3 and 4, in the order listed there.
 
 ## 6. What I need from you
 
-1. **Optional: rerun the bend's win check on the Mac's full archive.** I ran it here on the 42 exports in git and it failed your bar (24 of 40; section 3). The archive holds far more exports than these 42. The three commands are at the top of `web/scripts/model-review/wins-ab.py`, with `MV2_TOURDIR=Archive/Completed` added. Adopt only at 37 of 40 or better on the whole score.
-2. **Start OOTP cloud sessions on the "LJC" environment.** It has the database variable, the site password and open network. Tonight's session started on "Default", which has none of them.
-3. **`Handoff 2026-11-07.md` was never committed.** If it is on the Mac, push it; its "Still open" list is referenced and lost.
-4. **Back up the archive.** One copy of 935 export files is the weakest point in the whole setup.
+Each is a file to double-click in the project folder (pull request [186](https://github.com/RTR1776/ootp-perfect-team/pull/186)):
+
+1. **Push to GitHub.command**, as always. It brings the three files below down.
+2. **After The 11-12 Review.command**, once. It walks through the rest and asks before each step: the 11-07 handoff that was never committed, the archive backup, the optional win tests, and the sync.
+3. **Back Up Export Archive.command** whenever you have filed new exports. One copy of the archive is the weakest point in the whole setup.
+4. **Run Win Tests.command**, optional: both of section 3's tests on the whole archive. I ran them on the 42 exports in git. The bend needs 37 of 40 on the whole score to come on.
+5. **Start OOTP cloud sessions on the "LJC" environment.** It has the database variable, the site password and open network. This one is a setting in the app, not a file.
