@@ -109,6 +109,11 @@ test("staminaTerm: the pen prices an arm without the staff-stamina term; the rot
   assert.ok(Math.abs(on.slotValue("CL", 1) - 20) < 1e-9);
   // The rotation still pays for stamina.
   assert.equal(on.slotValue("SP1", 2), off.slotValue("SP1", 2));
+  // Candidates are ranked on what the slot pays, so the search's lists keep the right arms:
+  // the reliever leads the pen's list by his per-batter edge, and the rotation's list is unchanged.
+  assert.ok(Math.abs(on.rank("CL", reliever) - on.rank("CL", starter) - (20 - 15)) < 1e-9);
+  assert.ok(on.rank("SP1", starter) > on.rank("SP1", reliever));
+  assert.ok(off.rank("CL", starter) > off.rank("CL", reliever), "with the term left in, raw runs rank the pen");
   assert.equal(staffStaminaRuns({ isPitcher: false, ratings: { Stamina: 100 } }), 0);
 });
 

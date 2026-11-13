@@ -309,6 +309,17 @@ async function main() {
     return manifest;
   };
   let next = 0;
+  /** The ✗ lines of env-roster's "--- roster check ---" block. */
+  const rosterCheckFailures = (text: string): string[] => {
+    const at = text.indexOf("--- roster check ---");
+    if (at < 0) return [];
+    const out: string[] = [];
+    for (const line of text.slice(at).split("\n").slice(1)) {
+      if (/^\s+✗ /.test(line)) out.push(line.trim().slice(2));
+      else if (!/^\s+✓ /.test(line)) break;
+    }
+    return out;
+  };
   const run = (job: Job) => new Promise<void>((resolve) => {
     const out = join(OUT, `${job.id}.txt`);
     const prior = SEED ? savedNow.get(job.id) : undefined;
@@ -322,7 +333,12 @@ async function main() {
       writeFileSync(out, text);
       const legal = /^LEGAL — every rule check passes/m.test(text);
       const objective = Number(/^objective: ([-0-9.]+)/m.exec(text)?.[1] ?? NaN);
+      // L.J.'s roster rules (staff caps, starters' stamina, long men, backups) are the
+      // "--- roster check ---" block, not the rule validator. A ✗ there is a roster he
+      // said never to hand him, so it is not saved or put in the manifest (--allow-check-fail overrides).
+      const failedChecks = rosterCheckFailures(text);
       let file: string | null = null, status = code === 0 ? (legal ? "built" : "not legal") : "failed";
+      if (status === "built" && failedChecks.length && !flag("allow-check-fail")) status = `fails the roster check: ${failedChecks.join(" | ").slice(0, 300)}`;
       if (status === "built") {
         try {
           file = await toLoadFile(text, job, latest.id);
