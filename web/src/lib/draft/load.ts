@@ -93,25 +93,41 @@ export type FieldRead = Pick<StudySeries, "files" | "lhpBfShare" | "lhbPaShare" 
 export async function loadDraft(series: string, field?: FieldRead): Promise<DraftData | null> {
   const format = formatFor(series);
   if (!format) return null;
-  const [t] = await db.select().from(tournaments).where(eq(tournaments.id, format.eventId));
-  if (!t) return null;
-  const [meta] = await db.select().from(seriesMeta).where(eq(seriesMeta.series, series));
-  const saved = studyFor(series);
+  return loadDraftFormat(format, { field });
+}
+
+/**
+ * `custom`: a draft set up at draft time (lib/draft/custom). Its environment,
+ * park and DH are what L.J. entered, so no catalogue row is needed and none is
+ * compared; a row he picked still supplies the event's card rules (types,
+ * years) and, through its series, the field's handedness.
+ */
+export async function loadDraftFormat(format: DraftFormat, src: { field?: FieldRead; custom?: { stadium: string | null } } = {}): Promise<DraftData | null> {
+  const { field, custom } = src;
+  const [t] = format.eventId > 0 ? await db.select().from(tournaments).where(eq(tournaments.id, format.eventId)) : [];
+  if (!t && !custom) return null;
+  // The slug the field's exports are filed under: the format's own, or the picked catalogue row's.
+  const series = custom ? t?.series ?? "" : format.series;
+  const [meta] = series ? await db.select().from(seriesMeta).where(eq(seriesMeta.series, series)) : [];
+  // A study belongs to the format it was read from; a set-up draft has none.
+  const saved = custom ? null : studyFor(series);
   const study = field ?? saved;
 
   const differences: string[] = [];
-  if (t.envYear !== format.envYear) differences.push(`run environment ${t.envYear ?? "none"} in the catalogue, ${format.envYear} here`);
-  if ((t.dh ?? false) !== format.dh) differences.push(`DH ${t.dh ? "on" : "off"} in the catalogue, ${format.dh ? "on" : "off"} here`);
-  if (t.entrants != null && t.entrants !== format.teams) differences.push(`${t.entrants} teams in the catalogue, ${format.teams} here`);
+  if (t && !custom) {
+    if (t.envYear !== format.envYear) differences.push(`run environment ${t.envYear ?? "none"} in the catalogue, ${format.envYear} here`);
+    if ((t.dh ?? false) !== format.dh) differences.push(`DH ${t.dh ? "on" : "off"} in the catalogue, ${format.dh ? "on" : "off"} here`);
+    if (t.entrants != null && t.entrants !== format.teams) differences.push(`${t.entrants} teams in the catalogue, ${format.teams} here`);
+  }
 
   const era = eraFor(format.envYear)?.row ?? eraTable["0"];
-  const park = parkFor(t.stadium);
+  const park = parkFor(custom ? custom.stadium : t?.stadium ?? null);
   // The field's hands off the current format's exports (the study) before the importer's older read.
   const lhp = study?.lhpBfShare ?? meta?.lhpBfShare ?? LHP_SHARE_DEFAULT;
   const lhb = study?.lhbPaShare ?? meta?.lhbPaShare ?? 0.35;
   const fieldFrom = study?.lhpBfShare != null ? `the ${study.files.length} current-format exports` : meta?.lhpBfShare != null ? "series_meta" : "defaults";
 
-  const built = (fieldConstruction as { series: Record<string, SeriesBuild> }).series[series];
+  const built = custom ? undefined : (fieldConstruction as { series: Record<string, SeriesBuild> }).series[series];
   const spWeight = study?.spWeight ?? built?.spWeight ?? null;
   const rpWeight = study?.rpWeight ?? built?.rpWeight ?? null;
   const staff = study?.staff ?? staffPerTeam(built);
@@ -121,17 +137,20 @@ export async function loadDraft(series: string, field?: FieldRead): Promise<Draf
     source: study?.spWeight != null ? "current-format exports" : built?.spWeight != null ? "field-construction.json" : "defaults",
   };
 
+  // A set-up draft's tiers are its rounds, so the catalogue row's value window (if any) is not applied.
   const rules: RosterRules = {
-    name: t.name, dh: format.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax,
-    cardYearMin: t.cardYearMin, cardYearMax: t.cardYearMax, isDraft: true,
-    restrictions: (t.restrictions ?? {}) as RosterRules["restrictions"],
+    name: t?.name ?? format.name, dh: format.dh, ratingsMin: custom ? null : t?.ratingsMin ?? null, ratingsMax: custom ? null : t?.ratingsMax ?? null,
+    cardYearMin: t?.cardYearMin ?? null, cardYearMax: t?.cardYearMax ?? null, isDraft: true,
+    restrictions: (t?.restrictions ?? {}) as RosterRules["restrictions"],
   };
   const universe = await db.select({
     cardId: cards.cardId, name: cards.name, tier: cards.tier, cardValue: cards.cardValue, position: cards.position,
     pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, throws: cards.throws, year: cards.year,
     cardType: cards.cardType, cardSubType: cards.cardSubType, brefId: cards.brefId, ratings: cards.ratings, firstSeenAt: cards.firstSeenAt,
   }).from(cards);
-  const legal = universe.filter((c) => isTier(c.tier) && cardEligibility({
+  // A set-up draft has no value window, so keep only the tiers its rounds draw from.
+  const tiersIn = custom ? new Set<string>(format.rounds.map((r) => r.tier)) : null;
+  const legal = universe.filter((c) => isTier(c.tier) && (!tiersIn || tiersIn.has(c.tier)) && cardEligibility({
     cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher, role: c.pitcherRole,
     cardType: c.cardType, le: c.cardSubType === "LE", ratings: c.ratings, baseOwned: false, variantOwned: false,
   }, rules).errors.length === 0);
@@ -185,7 +204,7 @@ export async function loadDraft(series: string, field?: FieldRead): Promise<Draf
       park: park.label,
       lhp, lhb, fieldFrom,
     },
-    catalogue: { envYear: t.envYear, dh: t.dh, stadium: t.stadium, entrants: t.entrants },
+    catalogue: { envYear: t?.envYear ?? null, dh: t?.dh ?? null, stadium: t?.stadium ?? null, entrants: t?.entrants ?? null },
     differences,
     ctx, weights, cards: out, study: saved,
   };
