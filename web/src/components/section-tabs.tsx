@@ -17,6 +17,7 @@ const SECTIONS = {
     { href: "/ptcs", label: "PTCS", hint: "This period's categories, pace and result entry" },
     { href: "/ptms", label: "PTMS 3", hint: "The six PTMS 3 events (Nov 21): rules, parks, saved rosters and the drafts" },
     { href: "/qualifying", label: "PTMS · PTWC", hint: "Championship finishes, league seasons and PT Live, added up for PTMS 3 and PTWC 2" },
+    { href: "/scoreboard", label: "Scoreboard", hint: "Your series record and points an entry beside the field's: by week, category, event and round" },
   ],
   league: [
     { href: "/league-card", label: "My team", hint: "Lineups and staff on the league model, this week's numbers, and what a card would add" },

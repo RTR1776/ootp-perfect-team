@@ -147,7 +147,7 @@ async function main() {
 
   /* ---- 5: say where he stands ---- */
   if (!DRY) {
-    for (const [label, args] of [["PROJECTED LINES", ["scripts/cutoff-project.ts", "--write"]], ["STANDING", ["scripts/ptcs-standing.ts"]], ["BERTH LINES", ["scripts/berth-lines.ts"]]] as const) {
+    for (const [label, args] of [["PROJECTED LINES", ["scripts/cutoff-project.ts", "--write"]], ["STANDING", ["scripts/ptcs-standing.ts"]], ["BERTH LINES", ["scripts/berth-lines.ts"]], ["SCOREBOARD", ["scripts/scoreboard.ts"]]] as const) {
       console.log(`\n  ── ${label} ──`);
       try { console.log(run([...args])); } catch (e: any) { console.log(`  !! ${String(e?.stderr ?? e?.message ?? e).split("\n")[0]}`); }
     }

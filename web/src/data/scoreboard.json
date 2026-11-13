@@ -1,0 +1,1795 @@
+{
+ "user": "rtr1776",
+ "generatedOn": "2026-11-12",
+ "recentDays": 42,
+ "through": "2026-11-09",
+ "tournaments": {
+  "weeks": [
+   {
+    "week": "2026-07-27",
+    "entries": 51,
+    "won": 60,
+    "lost": 51,
+    "pct": 54.1,
+    "ptsPer": 2,
+    "top8": 3,
+    "titles": 0
+   },
+   {
+    "week": "2026-08-03",
+    "entries": 62,
+    "won": 73,
+    "lost": 61,
+    "pct": 54.5,
+    "ptsPer": 2.29,
+    "top8": 7,
+    "titles": 1
+   },
+   {
+    "week": "2026-08-10",
+    "entries": 59,
+    "won": 61,
+    "lost": 58,
+    "pct": 51.3,
+    "ptsPer": 2.12,
+    "top8": 5,
+    "titles": 1
+   },
+   {
+    "week": "2026-08-17",
+    "entries": 52,
+    "won": 57,
+    "lost": 51,
+    "pct": 52.8,
+    "ptsPer": 2.42,
+    "top8": 6,
+    "titles": 1
+   },
+   {
+    "week": "2026-08-24",
+    "entries": 61,
+    "won": 52,
+    "lost": 60,
+    "pct": 46.4,
+    "ptsPer": 1.92,
+    "top8": 7,
+    "titles": 1
+   },
+   {
+    "week": "2026-08-31",
+    "entries": 62,
+    "won": 77,
+    "lost": 61,
+    "pct": 55.8,
+    "ptsPer": 2.44,
+    "top8": 7,
+    "titles": 1
+   },
+   {
+    "week": "2026-09-07",
+    "entries": 63,
+    "won": 85,
+    "lost": 63,
+    "pct": 57.4,
+    "ptsPer": 2.49,
+    "top8": 9,
+    "titles": 0
+   },
+   {
+    "week": "2026-09-14",
+    "entries": 59,
+    "won": 76,
+    "lost": 57,
+    "pct": 57.1,
+    "ptsPer": 3.24,
+    "top8": 9,
+    "titles": 2
+   },
+   {
+    "week": "2026-09-21",
+    "entries": 69,
+    "won": 92,
+    "lost": 69,
+    "pct": 57.1,
+    "ptsPer": 2.67,
+    "top8": 12,
+    "titles": 0
+   },
+   {
+    "week": "2026-09-28",
+    "entries": 61,
+    "won": 87,
+    "lost": 59,
+    "pct": 59.6,
+    "ptsPer": 3.08,
+    "top8": 10,
+    "titles": 2
+   },
+   {
+    "week": "2026-10-05",
+    "entries": 63,
+    "won": 112,
+    "lost": 61,
+    "pct": 64.7,
+    "ptsPer": 4.32,
+    "top8": 12,
+    "titles": 2
+   },
+   {
+    "week": "2026-10-12",
+    "entries": 67,
+    "won": 103,
+    "lost": 67,
+    "pct": 60.6,
+    "ptsPer": 3.01,
+    "top8": 13,
+    "titles": 0
+   },
+   {
+    "week": "2026-10-19",
+    "entries": 67,
+    "won": 119,
+    "lost": 65,
+    "pct": 64.7,
+    "ptsPer": 3.93,
+    "top8": 15,
+    "titles": 2
+   },
+   {
+    "week": "2026-10-26",
+    "entries": 66,
+    "won": 96,
+    "lost": 64,
+    "pct": 60,
+    "ptsPer": 3.2,
+    "top8": 13,
+    "titles": 2
+   },
+   {
+    "week": "2026-11-02",
+    "entries": 68,
+    "won": 105,
+    "lost": 66,
+    "pct": 61.4,
+    "ptsPer": 3.38,
+    "top8": 11,
+    "titles": 2
+   },
+   {
+    "week": "2026-11-09",
+    "entries": 4,
+    "won": 12,
+    "lost": 4,
+    "pct": 75,
+    "ptsPer": 6.75,
+    "top8": 2,
+    "titles": 0
+   }
+  ],
+  "windows": [
+   {
+    "label": "Last 42 days",
+    "from": "2026-09-29",
+    "to": "2026-11-09",
+    "me": {
+     "entries": 387,
+     "won": 626,
+     "lost": 377,
+     "pct": 62.4,
+     "ptsPer": 3.55,
+     "top8": 75,
+     "titles": 10
+    },
+    "regulars": 881,
+    "minEntries": 60,
+    "rank": 51,
+    "tenthPct": 68.1,
+    "medianPct": 47
+   },
+   {
+    "label": "The 42 days before",
+    "from": "2026-08-18",
+    "to": "2026-09-28",
+    "me": {
+     "entries": 369,
+     "won": 442,
+     "lost": 364,
+     "pct": 54.8,
+     "ptsPer": 2.54,
+     "top8": 51,
+     "titles": 5
+    },
+    "regulars": 965,
+    "minEntries": 60,
+    "rank": 224,
+    "tenthPct": 68.7,
+    "medianPct": 47.3
+   },
+   {
+    "label": "Earlier this season",
+    "from": "2026-03-13",
+    "to": "2026-08-17",
+    "me": {
+     "entries": 595,
+     "won": 714,
+     "lost": 585,
+     "pct": 55,
+     "ptsPer": 2.41,
+     "top8": 77,
+     "titles": 10
+    },
+    "regulars": 1087,
+    "minEntries": 224,
+    "rank": 230,
+    "tenthPct": 67.7,
+    "medianPct": 48
+   }
+  ],
+  "groups": [
+   {
+    "group": "Open",
+    "entries": 84,
+    "won": 142,
+    "lost": 84,
+    "pct": 62.8,
+    "ptsPer": 3.42,
+    "top8": 21,
+    "titles": 0,
+    "before": {
+     "entries": 108,
+     "won": 117,
+     "lost": 108,
+     "pct": 52,
+     "ptsPer": 1.91,
+     "top8": 11,
+     "titles": 0
+    }
+   },
+   {
+    "group": "Diamond",
+    "entries": 74,
+    "won": 109,
+    "lost": 72,
+    "pct": 60.2,
+    "ptsPer": 3.23,
+    "top8": 12,
+    "titles": 2,
+    "before": {
+     "entries": 418,
+     "won": 546,
+     "lost": 408,
+     "pct": 57.2,
+     "ptsPer": 2.75,
+     "top8": 65,
+     "titles": 10
+    }
+   },
+   {
+    "group": "Gold",
+    "entries": 68,
+    "won": 116,
+    "lost": 66,
+    "pct": 63.7,
+    "ptsPer": 3.68,
+    "top8": 13,
+    "titles": 2,
+    "before": {
+     "entries": 192,
+     "won": 203,
+     "lost": 190,
+     "pct": 51.7,
+     "ptsPer": 2.13,
+     "top8": 25,
+     "titles": 2
+    }
+   },
+   {
+    "group": "Bronze",
+    "entries": 64,
+    "won": 111,
+    "lost": 63,
+    "pct": 63.8,
+    "ptsPer": 3.81,
+    "top8": 13,
+    "titles": 1,
+    "before": {
+     "entries": 84,
+     "won": 100,
+     "lost": 81,
+     "pct": 55.2,
+     "ptsPer": 2.82,
+     "top8": 10,
+     "titles": 3
+    }
+   },
+   {
+    "group": "Silver",
+    "entries": 51,
+    "won": 93,
+    "lost": 48,
+    "pct": 66,
+    "ptsPer": 4.51,
+    "top8": 9,
+    "titles": 3,
+    "before": {
+     "entries": 159,
+     "won": 189,
+     "lost": 159,
+     "pct": 54.3,
+     "ptsPer": 2.31,
+     "top8": 17,
+     "titles": 0
+    }
+   },
+   {
+    "group": "Iron",
+    "entries": 46,
+    "won": 55,
+    "lost": 44,
+    "pct": 55.6,
+    "ptsPer": 2.7,
+    "top8": 7,
+    "titles": 2,
+    "before": {
+     "entries": 3,
+     "won": 1,
+     "lost": 3,
+     "pct": 25,
+     "ptsPer": 0.33,
+     "top8": 0,
+     "titles": 0
+    }
+   }
+  ],
+  "events": [
+   {
+    "name": "Daily Goldfather II",
+    "size": 128,
+    "entries": 21,
+    "won": 43,
+    "lost": 20,
+    "pct": 68.3,
+    "ptsPer": 5,
+    "top8": 4,
+    "titles": 1
+   },
+   {
+    "name": "Daily Diamond Jumble Slots",
+    "size": 64,
+    "entries": 20,
+    "won": 21,
+    "lost": 20,
+    "pct": 51.2,
+    "ptsPer": 1.9,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Daily Open Slots",
+    "size": 64,
+    "entries": 19,
+    "won": 38,
+    "lost": 19,
+    "pct": 66.7,
+    "ptsPer": 4,
+    "top8": 7,
+    "titles": 0
+   },
+   {
+    "name": "Daily Diamond 1990 Onward",
+    "size": 64,
+    "entries": 17,
+    "won": 24,
+    "lost": 16,
+    "pct": 60,
+    "ptsPer": 3.29,
+    "top8": 3,
+    "titles": 1
+   },
+   {
+    "name": "Daily Bronze PTCS 3 Replay Slots",
+    "size": 64,
+    "entries": 15,
+    "won": 20,
+    "lost": 15,
+    "pct": 57.1,
+    "ptsPer": 2.33,
+    "top8": 3,
+    "titles": 0
+   },
+   {
+    "name": "Daily Bronze OOTP Era",
+    "size": 128,
+    "entries": 14,
+    "won": 24,
+    "lost": 14,
+    "pct": 63.2,
+    "ptsPer": 3.64,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Daily Late 1900s",
+    "size": 64,
+    "entries": 12,
+    "won": 15,
+    "lost": 12,
+    "pct": 55.6,
+    "ptsPer": 2.5,
+    "top8": 3,
+    "titles": 0
+   },
+   {
+    "name": "Daily Gold Slots",
+    "size": 64,
+    "entries": 11,
+    "won": 18,
+    "lost": 10,
+    "pct": 64.3,
+    "ptsPer": 4.27,
+    "top8": 3,
+    "titles": 1
+   },
+   {
+    "name": "Daily Silver Snapshots",
+    "size": 128,
+    "entries": 10,
+    "won": 19,
+    "lost": 9,
+    "pct": 67.9,
+    "ptsPer": 5.8,
+    "top8": 3,
+    "titles": 1
+   },
+   {
+    "name": "Daily Iron Lunch",
+    "size": 128,
+    "entries": 8,
+    "won": 9,
+    "lost": 8,
+    "pct": 52.9,
+    "ptsPer": 2,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily All-Star Hardware Slots",
+    "size": 32,
+    "entries": 8,
+    "won": 10,
+    "lost": 8,
+    "pct": 55.6,
+    "ptsPer": 2.25,
+    "top8": 3,
+    "titles": 0
+   },
+   {
+    "name": "Daily PTCS 2 Iron Replay",
+    "size": 64,
+    "entries": 8,
+    "won": 15,
+    "lost": 7,
+    "pct": 68.2,
+    "ptsPer": 5.13,
+    "top8": 2,
+    "titles": 1
+   },
+   {
+    "name": "Daily Diamond Up to 1969",
+    "size": 64,
+    "entries": 8,
+    "won": 10,
+    "lost": 8,
+    "pct": 55.6,
+    "ptsPer": 2.63,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily Late Iron",
+    "size": 128,
+    "entries": 7,
+    "won": 9,
+    "lost": 7,
+    "pct": 56.3,
+    "ptsPer": 2.43,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily Late Silver",
+    "size": 128,
+    "entries": 7,
+    "won": 18,
+    "lost": 6,
+    "pct": 75,
+    "ptsPer": 7.86,
+    "top8": 2,
+    "titles": 1
+   },
+   {
+    "name": "Daily Golden Heart",
+    "size": 64,
+    "entries": 7,
+    "won": 16,
+    "lost": 7,
+    "pct": 69.6,
+    "ptsPer": 5,
+    "top8": 4,
+    "titles": 0
+   },
+   {
+    "name": "Daily Live Plus",
+    "size": 64,
+    "entries": 7,
+    "won": 9,
+    "lost": 7,
+    "pct": 56.3,
+    "ptsPer": 2.86,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily Silver & Friends Slots",
+    "size": 64,
+    "entries": 7,
+    "won": 12,
+    "lost": 7,
+    "pct": 63.2,
+    "ptsPer": 3.57,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Daily Low Bronze Only",
+    "size": 64,
+    "entries": 6,
+    "won": 4,
+    "lost": 6,
+    "pct": 40,
+    "ptsPer": 0.83,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Monday Now We're into the Dregs",
+    "size": 128,
+    "entries": 6,
+    "won": 13,
+    "lost": 6,
+    "pct": 68.4,
+    "ptsPer": 4.17,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Tuesday Dead Silver Walking",
+    "size": 128,
+    "entries": 6,
+    "won": 16,
+    "lost": 5,
+    "pct": 76.2,
+    "ptsPer": 7.5,
+    "top8": 1,
+    "titles": 1
+   },
+   {
+    "name": "Wednesday 1950 to Now",
+    "size": 128,
+    "entries": 6,
+    "won": 7,
+    "lost": 6,
+    "pct": 53.8,
+    "ptsPer": 1.67,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Wednesday Ice to See You",
+    "size": 256,
+    "entries": 6,
+    "won": 9,
+    "lost": 6,
+    "pct": 60,
+    "ptsPer": 2.67,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Wednesday Night of the Living Deadball",
+    "size": 128,
+    "entries": 6,
+    "won": 9,
+    "lost": 6,
+    "pct": 60,
+    "ptsPer": 3.5,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Thursday Splendid Silver Only Spectacular",
+    "size": 256,
+    "entries": 6,
+    "won": 7,
+    "lost": 6,
+    "pct": 53.8,
+    "ptsPer": 2.83,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Friday Nightmare Cap",
+    "size": 128,
+    "entries": 6,
+    "won": 10,
+    "lost": 6,
+    "pct": 62.5,
+    "ptsPer": 2.5,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Saturday Bronze Cap",
+    "size": 128,
+    "entries": 6,
+    "won": 13,
+    "lost": 6,
+    "pct": 68.4,
+    "ptsPer": 5.17,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Saturday Diamond Variety",
+    "size": 128,
+    "entries": 6,
+    "won": 13,
+    "lost": 6,
+    "pct": 68.4,
+    "ptsPer": 4.83,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Sunday Silver and Gold Cap",
+    "size": 128,
+    "entries": 6,
+    "won": 11,
+    "lost": 6,
+    "pct": 64.7,
+    "ptsPer": 3.17,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Sunday Open Slots",
+    "size": 128,
+    "entries": 6,
+    "won": 8,
+    "lost": 6,
+    "pct": 57.1,
+    "ptsPer": 2,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Sunday Open Main Event",
+    "size": 256,
+    "entries": 6,
+    "won": 10,
+    "lost": 6,
+    "pct": 62.5,
+    "ptsPer": 4,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Saturday Negro Leagues Slots",
+    "size": 128,
+    "entries": 6,
+    "won": 17,
+    "lost": 6,
+    "pct": 73.9,
+    "ptsPer": 6.33,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Daily Iron Cap",
+    "size": 64,
+    "entries": 5,
+    "won": 8,
+    "lost": 4,
+    "pct": 66.7,
+    "ptsPer": 5.4,
+    "top8": 1,
+    "titles": 1
+   },
+   {
+    "name": "Daily Silver Slots",
+    "size": 64,
+    "entries": 5,
+    "won": 4,
+    "lost": 5,
+    "pct": 44.4,
+    "ptsPer": 1,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Low Diamond Only",
+    "size": 64,
+    "entries": 5,
+    "won": 6,
+    "lost": 5,
+    "pct": 54.5,
+    "ptsPer": 2.4,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Monday Up And At Them Bronze",
+    "size": 256,
+    "entries": 5,
+    "won": 8,
+    "lost": 5,
+    "pct": 61.5,
+    "ptsPer": 3.8,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Monday Wonky Historical Slots",
+    "size": 128,
+    "entries": 5,
+    "won": 13,
+    "lost": 5,
+    "pct": 72.2,
+    "ptsPer": 6.4,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Tuesday Sporer's Sandlot",
+    "size": 128,
+    "entries": 5,
+    "won": 7,
+    "lost": 5,
+    "pct": 58.3,
+    "ptsPer": 2,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Thursday Night Gold Rush",
+    "size": 256,
+    "entries": 5,
+    "won": 9,
+    "lost": 5,
+    "pct": 64.3,
+    "ptsPer": 3.2,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Bronze 1910-59",
+    "size": 64,
+    "entries": 5,
+    "won": 4,
+    "lost": 5,
+    "pct": 44.4,
+    "ptsPer": 1,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Dank",
+    "size": 64,
+    "entries": 4,
+    "won": 3,
+    "lost": 4,
+    "pct": 42.9,
+    "ptsPer": 1,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Bronze Only Cap",
+    "size": 64,
+    "entries": 4,
+    "won": 15,
+    "lost": 3,
+    "pct": 83.3,
+    "ptsPer": 11.75,
+    "top8": 3,
+    "titles": 1
+   },
+   {
+    "name": "Friday Danksville",
+    "size": 256,
+    "entries": 4,
+    "won": 3,
+    "lost": 4,
+    "pct": 42.9,
+    "ptsPer": 1.5,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Saturday Iron Warriors",
+    "size": 256,
+    "entries": 4,
+    "won": 2,
+    "lost": 4,
+    "pct": 33.3,
+    "ptsPer": 0.75,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Golden Age",
+    "size": 64,
+    "entries": 4,
+    "won": 5,
+    "lost": 4,
+    "pct": 55.6,
+    "ptsPer": 1.75,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Diamonds are Forever",
+    "size": 64,
+    "entries": 4,
+    "won": 11,
+    "lost": 3,
+    "pct": 78.6,
+    "ptsPer": 8,
+    "top8": 1,
+    "titles": 1
+   },
+   {
+    "name": "Thursday CWhit's Say My Name Cap",
+    "size": 128,
+    "entries": 4,
+    "won": 11,
+    "lost": 4,
+    "pct": 73.3,
+    "ptsPer": 6,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Daily Low Gold Cap",
+    "size": 64,
+    "entries": 4,
+    "won": 3,
+    "lost": 4,
+    "pct": 42.9,
+    "ptsPer": 1,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily Gold Cap",
+    "size": 64,
+    "entries": 3,
+    "won": 1,
+    "lost": 3,
+    "pct": 25,
+    "ptsPer": 0.33,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Diamond",
+    "size": 64,
+    "entries": 3,
+    "won": 2,
+    "lost": 3,
+    "pct": 40,
+    "ptsPer": 1,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Friday Night Live Slots",
+    "size": 128,
+    "entries": 3,
+    "won": 7,
+    "lost": 3,
+    "pct": 70,
+    "ptsPer": 4.33,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Live Iron",
+    "size": 128,
+    "entries": 2,
+    "won": 0,
+    "lost": 2,
+    "pct": 0,
+    "ptsPer": 0,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Early Bronze",
+    "size": 128,
+    "entries": 2,
+    "won": 9,
+    "lost": 2,
+    "pct": 81.8,
+    "ptsPer": 12.5,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Daily Low Gold Only",
+    "size": 64,
+    "entries": 2,
+    "won": 3,
+    "lost": 2,
+    "pct": 60,
+    "ptsPer": 3,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily Iron Dreamland",
+    "size": 64,
+    "entries": 2,
+    "won": 1,
+    "lost": 2,
+    "pct": 33.3,
+    "ptsPer": 0.5,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Iron & Friends OOTP Era Slots",
+    "size": 32,
+    "entries": 2,
+    "won": 5,
+    "lost": 2,
+    "pct": 71.4,
+    "ptsPer": 4.5,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Daily Low Silver Only",
+    "size": 64,
+    "entries": 2,
+    "won": 3,
+    "lost": 2,
+    "pct": 60,
+    "ptsPer": 2,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Bronze Only Curiosities",
+    "size": 64,
+    "entries": 1,
+    "won": 1,
+    "lost": 1,
+    "pct": 50,
+    "ptsPer": 1,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Silver Only Cap",
+    "size": 64,
+    "entries": 1,
+    "won": 2,
+    "lost": 1,
+    "pct": 66.7,
+    "ptsPer": 3,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Roaring Silvers",
+    "size": 64,
+    "entries": 1,
+    "won": 2,
+    "lost": 1,
+    "pct": 66.7,
+    "ptsPer": 3,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Thursday CWhit's Cap Challenge 5",
+    "size": 128,
+    "entries": 1,
+    "won": 1,
+    "lost": 1,
+    "pct": 50,
+    "ptsPer": 1,
+    "top8": 0,
+    "titles": 0
+   }
+  ],
+  "rounds": [
+   {
+    "left": 256,
+    "won": 19,
+    "played": 36,
+    "pct": 52.8,
+    "topPct": 74.4
+   },
+   {
+    "left": 128,
+    "won": 127,
+    "played": 167,
+    "pct": 76,
+    "topPct": 72
+   },
+   {
+    "left": 64,
+    "won": 211,
+    "played": 319,
+    "pct": 66.1,
+    "topPct": 71.4
+   },
+   {
+    "left": 32,
+    "won": 125,
+    "played": 222,
+    "pct": 56.3,
+    "topPct": 67.4
+   },
+   {
+    "left": 16,
+    "won": 75,
+    "played": 125,
+    "pct": 60,
+    "topPct": 65.4
+   },
+   {
+    "left": 8,
+    "won": 39,
+    "played": 75,
+    "pct": 52,
+    "topPct": 64.8
+   },
+   {
+    "left": 4,
+    "won": 20,
+    "played": 39,
+    "pct": 51.3,
+    "topPct": 60.6
+   },
+   {
+    "left": 2,
+    "won": 10,
+    "played": 20,
+    "pct": 50,
+    "topPct": 59.1
+   }
+  ]
+ },
+ "drafts": {
+  "weeks": [
+   {
+    "week": "2026-07-20",
+    "entries": 36,
+    "won": 32,
+    "lost": 35,
+    "pct": 47.8,
+    "ptsPer": 1.92,
+    "top8": 3,
+    "titles": 1
+   },
+   {
+    "week": "2026-07-27",
+    "entries": 28,
+    "won": 37,
+    "lost": 28,
+    "pct": 56.9,
+    "ptsPer": 2.5,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "week": "2026-08-03",
+    "entries": 38,
+    "won": 34,
+    "lost": 37,
+    "pct": 47.9,
+    "ptsPer": 1.87,
+    "top8": 4,
+    "titles": 1
+   },
+   {
+    "week": "2026-08-10",
+    "entries": 26,
+    "won": 33,
+    "lost": 26,
+    "pct": 55.9,
+    "ptsPer": 2.42,
+    "top8": 5,
+    "titles": 0
+   },
+   {
+    "week": "2026-08-17",
+    "entries": 35,
+    "won": 46,
+    "lost": 33,
+    "pct": 58.2,
+    "ptsPer": 3.37,
+    "top8": 7,
+    "titles": 2
+   },
+   {
+    "week": "2026-08-24",
+    "entries": 45,
+    "won": 38,
+    "lost": 45,
+    "pct": 45.8,
+    "ptsPer": 1.22,
+    "top8": 3,
+    "titles": 0
+   },
+   {
+    "week": "2026-08-31",
+    "entries": 52,
+    "won": 56,
+    "lost": 52,
+    "pct": 51.9,
+    "ptsPer": 1.77,
+    "top8": 4,
+    "titles": 0
+   },
+   {
+    "week": "2026-09-07",
+    "entries": 29,
+    "won": 64,
+    "lost": 25,
+    "pct": 71.9,
+    "ptsPer": 6.14,
+    "top8": 8,
+    "titles": 4
+   },
+   {
+    "week": "2026-09-14",
+    "entries": 26,
+    "won": 34,
+    "lost": 25,
+    "pct": 57.6,
+    "ptsPer": 2.88,
+    "top8": 4,
+    "titles": 1
+   },
+   {
+    "week": "2026-09-21",
+    "entries": 32,
+    "won": 30,
+    "lost": 32,
+    "pct": 48.4,
+    "ptsPer": 1.41,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "week": "2026-09-28",
+    "entries": 36,
+    "won": 49,
+    "lost": 35,
+    "pct": 58.3,
+    "ptsPer": 3.03,
+    "top8": 6,
+    "titles": 1
+   },
+   {
+    "week": "2026-10-05",
+    "entries": 24,
+    "won": 27,
+    "lost": 24,
+    "pct": 52.9,
+    "ptsPer": 2.21,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "week": "2026-10-12",
+    "entries": 29,
+    "won": 29,
+    "lost": 28,
+    "pct": 50.9,
+    "ptsPer": 2.38,
+    "top8": 3,
+    "titles": 1
+   },
+   {
+    "week": "2026-10-19",
+    "entries": 35,
+    "won": 34,
+    "lost": 35,
+    "pct": 49.3,
+    "ptsPer": 1.83,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "week": "2026-10-26",
+    "entries": 35,
+    "won": 51,
+    "lost": 34,
+    "pct": 60,
+    "ptsPer": 3.11,
+    "top8": 5,
+    "titles": 1
+   },
+   {
+    "week": "2026-11-02",
+    "entries": 35,
+    "won": 30,
+    "lost": 35,
+    "pct": 46.2,
+    "ptsPer": 1.4,
+    "top8": 0,
+    "titles": 0
+   }
+  ],
+  "windows": [
+   {
+    "label": "Last 42 days",
+    "from": "2026-09-29",
+    "to": "2026-11-09",
+    "me": {
+     "entries": 188,
+     "won": 211,
+     "lost": 186,
+     "pct": 53.1,
+     "ptsPer": 2.24,
+     "top8": 16,
+     "titles": 2
+    },
+    "regulars": 930,
+    "minEntries": 30,
+    "rank": 237,
+    "tenthPct": 61,
+    "medianPct": 50
+   },
+   {
+    "label": "The 42 days before",
+    "from": "2026-08-18",
+    "to": "2026-09-28",
+    "me": {
+     "entries": 219,
+     "won": 267,
+     "lost": 212,
+     "pct": 55.7,
+     "ptsPer": 2.57,
+     "top8": 27,
+     "titles": 7
+    },
+    "regulars": 1015,
+    "minEntries": 30,
+    "rank": 133,
+    "tenthPct": 61.5,
+    "medianPct": 50
+   },
+   {
+    "label": "Earlier this season",
+    "from": "2026-03-13",
+    "to": "2026-08-17",
+    "me": {
+     "entries": 515,
+     "won": 579,
+     "lost": 508,
+     "pct": 53.3,
+     "ptsPer": 2.31,
+     "top8": 64,
+     "titles": 7
+    },
+    "regulars": 1271,
+    "minEntries": 112,
+    "rank": 276,
+    "tenthPct": 58.8,
+    "medianPct": 50.1
+   }
+  ],
+  "groups": [
+   {
+    "group": "PD Daily",
+    "entries": 122,
+    "won": 121,
+    "lost": 120,
+    "pct": 50.2,
+    "ptsPer": 1.85,
+    "top8": 10,
+    "titles": 2,
+    "before": {
+     "entries": 649,
+     "won": 758,
+     "lost": 635,
+     "pct": 54.4,
+     "ptsPer": 2.45,
+     "top8": 88,
+     "titles": 14
+    }
+   },
+   {
+    "group": "PD Weekly",
+    "entries": 66,
+    "won": 90,
+    "lost": 66,
+    "pct": 57.7,
+    "ptsPer": 2.97,
+    "top8": 6,
+    "titles": 0,
+    "before": {
+     "entries": 85,
+     "won": 88,
+     "lost": 85,
+     "pct": 50.9,
+     "ptsPer": 1.96,
+     "top8": 3,
+     "titles": 0
+    }
+   }
+  ],
+  "events": [
+   {
+    "name": "Laptophound's Daily 5L Deadball",
+    "size": 128,
+    "entries": 23,
+    "won": 21,
+    "lost": 23,
+    "pct": 47.7,
+    "ptsPer": 1.48,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Laptophound's Daily 6L Power Play",
+    "size": 128,
+    "entries": 21,
+    "won": 18,
+    "lost": 21,
+    "pct": 46.2,
+    "ptsPer": 1.24,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily All-Gold",
+    "size": 64,
+    "entries": 14,
+    "won": 16,
+    "lost": 14,
+    "pct": 53.3,
+    "ptsPer": 2.14,
+    "top8": 3,
+    "titles": 0
+   },
+   {
+    "name": "Daily All-Silver",
+    "size": 64,
+    "entries": 10,
+    "won": 14,
+    "lost": 10,
+    "pct": 58.3,
+    "ptsPer": 2.9,
+    "top8": 2,
+    "titles": 0
+   },
+   {
+    "name": "Daily All-Diamond",
+    "size": 64,
+    "entries": 10,
+    "won": 7,
+    "lost": 10,
+    "pct": 41.2,
+    "ptsPer": 0.9,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Perfectly Bronze",
+    "size": 64,
+    "entries": 6,
+    "won": 3,
+    "lost": 6,
+    "pct": 33.3,
+    "ptsPer": 1,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Monday Night History Lesson",
+    "size": 256,
+    "entries": 6,
+    "won": 10,
+    "lost": 6,
+    "pct": 62.5,
+    "ptsPer": 2.83,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Tuesday Perfectly Iron Mevening",
+    "size": 256,
+    "entries": 6,
+    "won": 16,
+    "lost": 6,
+    "pct": 72.7,
+    "ptsPer": 6.5,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Thursday Overnight Under the Covers - ORD",
+    "size": 256,
+    "entries": 6,
+    "won": 5,
+    "lost": 6,
+    "pct": 45.5,
+    "ptsPer": 1.17,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Sunday PD Main Event",
+    "size": 256,
+    "entries": 6,
+    "won": 15,
+    "lost": 6,
+    "pct": 71.4,
+    "ptsPer": 5.67,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Wednesday Double Your Fun",
+    "size": 256,
+    "entries": 5,
+    "won": 4,
+    "lost": 5,
+    "pct": 44.4,
+    "ptsPer": 1.4,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Thursday Night Put it in the Books",
+    "size": 256,
+    "entries": 5,
+    "won": 10,
+    "lost": 5,
+    "pct": 66.7,
+    "ptsPer": 5.4,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Saturday Can't Sleep Clown Will Eat Me",
+    "size": 256,
+    "entries": 5,
+    "won": 7,
+    "lost": 5,
+    "pct": 58.3,
+    "ptsPer": 2.8,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Sunday Perfecto",
+    "size": 256,
+    "entries": 5,
+    "won": 7,
+    "lost": 5,
+    "pct": 58.3,
+    "ptsPer": 3.4,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily Perfecto Morning",
+    "size": 64,
+    "entries": 5,
+    "won": 1,
+    "lost": 5,
+    "pct": 16.7,
+    "ptsPer": 0.2,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Midday Perfecto",
+    "size": 64,
+    "entries": 5,
+    "won": 9,
+    "lost": 4,
+    "pct": 69.2,
+    "ptsPer": 5.8,
+    "top8": 1,
+    "titles": 1
+   },
+   {
+    "name": "Daily High Heat in the Morning",
+    "size": 64,
+    "entries": 4,
+    "won": 4,
+    "lost": 4,
+    "pct": 50,
+    "ptsPer": 1.5,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Wednesday Bring the High Heat",
+    "size": 256,
+    "entries": 4,
+    "won": 1,
+    "lost": 4,
+    "pct": 20,
+    "ptsPer": 0.25,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Friday Draft About Nothing",
+    "size": 256,
+    "entries": 4,
+    "won": 2,
+    "lost": 4,
+    "pct": 33.3,
+    "ptsPer": 0.5,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Saturday Shrinkage",
+    "size": 256,
+    "entries": 4,
+    "won": 4,
+    "lost": 4,
+    "pct": 50,
+    "ptsPer": 2.5,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Thursday Modified Perfectly Iron",
+    "size": 128,
+    "entries": 4,
+    "won": 0,
+    "lost": 4,
+    "pct": 0,
+    "ptsPer": 0,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Dr. Dynastic's Doc Rock Derby - HH",
+    "size": 64,
+    "entries": 3,
+    "won": 3,
+    "lost": 3,
+    "pct": 50,
+    "ptsPer": 1.33,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Perfectly Gold",
+    "size": 64,
+    "entries": 3,
+    "won": 7,
+    "lost": 3,
+    "pct": 70,
+    "ptsPer": 4,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily Perfectly Silver",
+    "size": 64,
+    "entries": 3,
+    "won": 2,
+    "lost": 3,
+    "pct": 40,
+    "ptsPer": 0.67,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Hitters First",
+    "size": 64,
+    "entries": 3,
+    "won": 3,
+    "lost": 3,
+    "pct": 50,
+    "ptsPer": 1.33,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Around the Horn at Night",
+    "size": 64,
+    "entries": 3,
+    "won": 9,
+    "lost": 2,
+    "pct": 81.8,
+    "ptsPer": 9.67,
+    "top8": 1,
+    "titles": 1
+   },
+   {
+    "name": "Daily Perfectly Iron",
+    "size": 64,
+    "entries": 2,
+    "won": 2,
+    "lost": 2,
+    "pct": 50,
+    "ptsPer": 1.5,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Monday Getting it Started",
+    "size": 256,
+    "entries": 2,
+    "won": 1,
+    "lost": 2,
+    "pct": 33.3,
+    "ptsPer": 0.5,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Sunday Morning Markus' Revenge",
+    "size": 128,
+    "entries": 2,
+    "won": 4,
+    "lost": 2,
+    "pct": 66.7,
+    "ptsPer": 5,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "Daily Around the Breakfast Table",
+    "size": 64,
+    "entries": 2,
+    "won": 0,
+    "lost": 2,
+    "pct": 0,
+    "ptsPer": 0,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Pitchers First",
+    "size": 64,
+    "entries": 2,
+    "won": 0,
+    "lost": 2,
+    "pct": 0,
+    "ptsPer": 0,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Live All Night",
+    "size": 64,
+    "entries": 1,
+    "won": 1,
+    "lost": 1,
+    "pct": 50,
+    "ptsPer": 1,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Tuesday Double Rocking Chairs",
+    "size": 128,
+    "entries": 1,
+    "won": 0,
+    "lost": 1,
+    "pct": 0,
+    "ptsPer": 0,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Wednesday Perfectly Bronze",
+    "size": 128,
+    "entries": 1,
+    "won": 4,
+    "lost": 1,
+    "pct": 80,
+    "ptsPer": 10,
+    "top8": 1,
+    "titles": 0
+   },
+   {
+    "name": "TWIPT Saturday Showdown",
+    "size": 256,
+    "entries": 1,
+    "won": 0,
+    "lost": 1,
+    "pct": 0,
+    "ptsPer": 0,
+    "top8": 0,
+    "titles": 0
+   },
+   {
+    "name": "Daily Around the Horn Before Bed",
+    "size": 64,
+    "entries": 1,
+    "won": 1,
+    "lost": 1,
+    "pct": 50,
+    "ptsPer": 1,
+    "top8": 0,
+    "titles": 0
+   }
+  ],
+  "rounds": [
+   {
+    "left": 256,
+    "won": 36,
+    "played": 59,
+    "pct": 61,
+    "topPct": 59.6
+   },
+   {
+    "left": 128,
+    "won": 37,
+    "played": 72,
+    "pct": 51.4,
+    "topPct": 59.9
+   },
+   {
+    "left": 64,
+    "won": 71,
+    "played": 129,
+    "pct": 55,
+    "topPct": 61.6
+   },
+   {
+    "left": 32,
+    "won": 38,
+    "played": 72,
+    "pct": 52.8,
+    "topPct": 62.8
+   },
+   {
+    "left": 16,
+    "won": 16,
+    "played": 38,
+    "pct": 42.1,
+    "topPct": 58.9
+   },
+   {
+    "left": 8,
+    "won": 9,
+    "played": 16,
+    "pct": 56.3,
+    "topPct": 63.5
+   },
+   {
+    "left": 4,
+    "won": 2,
+    "played": 9,
+    "pct": 22.2,
+    "topPct": 62.8
+   },
+   {
+    "left": 2,
+    "won": 2,
+    "played": 2,
+    "pct": 100,
+    "topPct": 63.3
+   }
+  ]
+ }
+}
