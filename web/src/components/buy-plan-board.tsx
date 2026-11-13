@@ -88,7 +88,7 @@ export function BuyPlanBoard({ data }: { data: BuyPlanData }) {
       <input type="checkbox" checked={basket.has(r.id)} onChange={() => toggle(r.id)} onClick={(e) => e.stopPropagation()} aria-label={`Add ${r.name} to the basket`} className="size-4 accent-[var(--primary)]" />
     ) },
     { key: "card", header: "Card", priority: 1, sortValue: (r) => r.name, render: (r) => (
-      <span className="flex min-w-0 flex-col">
+      <span className="flex min-w-0 max-w-[8.5rem] flex-col sm:max-w-none">
         <CardName id={r.id} name={r.name} val={r.val} tier={r.tier} compact />
         <span className="truncate text-[11px] text-muted-foreground">{r.pos} · {r.title.replace(/\s+\S+\s+\S+\s+\d{4}$/, "").slice(0, 48)}</span>
       </span>
@@ -147,7 +147,7 @@ export function BuyPlanBoard({ data }: { data: BuyPlanData }) {
   const sells = sellable.slice(0, sellLimit);
   const sellCols: Column<SellRow>[] = [
     { key: "card", header: "Card", priority: 1, sortValue: (r) => r.name, render: (r) => (
-      <span className="flex min-w-0 flex-col">
+      <span className="flex min-w-0 max-w-[9.5rem] flex-col sm:max-w-none">
         <CardName id={r.id} name={r.name} val={r.val} variant={r.variant} owned compact />
         <span className="truncate text-[11px] text-muted-foreground">
           {r.locked && <span className="mr-1 font-medium text-warning">Locked or new</span>}

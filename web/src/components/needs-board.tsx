@@ -92,7 +92,7 @@ export function NeedsBoard({ data }: { data: NeedsData }) {
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         {/* the diamond */}
         <div className="flex flex-col gap-2">
-          <div className="relative aspect-[5/4] min-h-[340px] overflow-hidden rounded-lg border border-border bg-[#0f1a12]">
+          <div className="relative aspect-[5/4] min-h-[270px] overflow-hidden rounded-lg border border-border bg-[#0f1a12] sm:min-h-[340px]">
             <FieldBackdrop />
             {spots.filter((s) => SPOT[s.spot]).map((s) => {
               const [x, y] = SPOT[s.spot]!;
@@ -161,9 +161,9 @@ function SpotDetail({ tier, s, eras }: { tier: NeedTier; s: NeedSpot; eras: stri
               <th className="pb-1 font-medium">Card</th>
               <th className="pb-1 text-right font-medium" title="Runs per 700 over the card it would replace, five-era average">Adds</th>
               <th className="pb-1 text-right font-medium" title="Lowest ask now / highest bid now">Ask · bid</th>
-              <th className="pb-1 text-right font-medium" title="Last-10 average: two-week low – median – high">Last-10 (14 d)</th>
+              <th className="hidden pb-1 text-right font-medium sm:table-cell" title="Last-10 average: two-week low – median – high">Last-10 (14 d)</th>
               <th className="pb-1 text-right font-medium" title="Buy at the ask when it's at or under the two-week median; else bid the low and wait">Call</th>
-              <th className="pb-1 text-right font-medium" title="Runs per 1,000 PP at that price">Runs/1k</th>
+              <th className="hidden pb-1 text-right font-medium sm:table-cell" title="Runs per 1,000 PP at that price">Runs/1k</th>
             </tr>
           </thead>
           <tbody>
@@ -174,11 +174,11 @@ function SpotDetail({ tier, s, eras }: { tier: NeedTier; s: NeedSpot; eras: stri
                 </td>
                 <td className={cn("py-1 text-right font-mono", (b.gainAvg ?? 0) > 0 ? "text-positive" : "")}>{signed(b.gainAvg)}</td>
                 <td className="py-1 text-right font-mono">{pts(b.price.ask)} · {pts(b.price.bid)}</td>
-                <td className="py-1 text-right font-mono">{b.price.low == null ? "—" : `${pts(b.price.low)}–${pts(b.price.median)}–${pts(b.price.high)}`}</td>
+                <td className="hidden py-1 text-right font-mono sm:table-cell">{b.price.low == null ? "—" : `${pts(b.price.low)}–${pts(b.price.median)}–${pts(b.price.high)}`}</td>
                 <td className="py-1 text-right font-mono">
                   {b.call === "buy" ? <span className="text-positive">buy {pts(b.target)}</span> : b.call === "bid" ? <span className="text-warning">bid {pts(b.target)}</span> : "—"}
                 </td>
-                <td className="py-1 text-right font-mono">{b.perK == null ? "—" : b.perK.toFixed(2)}</td>
+                <td className="hidden py-1 text-right font-mono sm:table-cell">{b.perK == null ? "—" : b.perK.toFixed(2)}</td>
               </tr>
             ))}
             {buys.length === 0 && <tr><td colSpan={6} className="py-2 text-muted-foreground">No unowned card beats yours here.</td></tr>}

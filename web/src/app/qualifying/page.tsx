@@ -98,7 +98,7 @@ export default async function QualifyingPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-muted-foreground">
-                <th className="py-1.5 pr-3">Week</th><th className="py-1.5 pr-3">League</th><th className="py-1.5 pr-3 text-right">Record</th>
+                <th className="py-1.5 pr-3">Week</th><th className="hidden py-1.5 pr-3 sm:table-cell">League</th><th className="hidden py-1.5 pr-3 text-right sm:table-cell">Record</th>
                 <th className="py-1.5 pr-3 text-right">Place</th><th className="py-1.5 pr-3 text-right">Pts</th><th className="py-1.5">From</th>
               </tr>
             </thead>
@@ -106,8 +106,8 @@ export default async function QualifyingPage() {
               {q.league.weeks.map((w) => (
                 <tr key={w.week} className="border-b border-border/50">
                   <td className="py-1.5 pr-3 font-sans">{md(w.week)}</td>
-                  <td className="py-1.5 pr-3">{w.league}</td>
-                  <td className="py-1.5 pr-3 text-right">{w.record ?? "—"}</td>
+                  <td className="hidden py-1.5 pr-3 sm:table-cell">{w.league}</td>
+                  <td className="hidden py-1.5 pr-3 text-right sm:table-cell">{w.record ?? "—"}</td>
                   <td className="py-1.5 pr-3 text-right">{w.outcome ? <span className="font-sans text-xs">{w.outcome}</span> : w.place != null ? `${w.place}${w.of ? ` / ${w.of}` : ""}` : "—"}</td>
                   <td className="py-1.5 pr-3 text-right">{w.inProgress ? "—" : w.points}</td>
                   <td className={cn("py-1.5 font-sans text-xs", w.source === "none" && !w.inProgress ? "text-warning" : "text-muted-foreground")}>
