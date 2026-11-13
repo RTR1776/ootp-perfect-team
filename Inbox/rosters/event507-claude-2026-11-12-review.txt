@@ -1,0 +1,36 @@
+# Gold Quick — Claude pick 2026-11-12 review, rebuilt from the catalogue's rules by current-rosters (--year 2010 --dh --min 40 --max 89 --variant-cap 10 --size 26 --sp 5 --rp 7 --bats 14)
+R:C Dillon Dingler #87396
+R:1B Pedro Alvarez #87062
+R:2B Marcus Semien #86744
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Pythias Russ (VAR) #87083
+R:LF Darin Erstad #87242
+R:CF Byron Buxton #87383
+R:RF Bo Jackson #86966
+R:DH Eric Davis (VAR) #86974
+L:C Mike Zunino (VAR) #86431
+L:1B Sebastian Walcott #85136
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Pythias Russ (VAR) #87083
+L:LF Bo Jackson #86966
+L:CF Darin Erstad #87242
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Socks Seybold #87427
+SP1 Bob Feller (VAR) #85650
+SP2 Count Leblanc (VAR) #86978
+SP3 Cherokee Fisher #87337
+SP4 Justin Verlander #87064
+SP5 Vean Gregg #87375
+CL Gregg Olson (VAR) #86946
+RP1 Joe Beggs (VAR) #86762
+RP2 Calvin Faucher #82119
+RP3 Johnny Markham (VAR) #87159
+RP4 Heath Bell #87209
+RP5 Walbert Urena #87423
+RP6 Javier Lopez #86408
+BN1 Chris Sabo #87059
+BN2 Sebastian Walcott #85136
+BN3 Jeff Francoeur (VAR) #86300
+BN4 Socks Seybold #87427
+BN5 Mike Zunino (VAR) #86431
