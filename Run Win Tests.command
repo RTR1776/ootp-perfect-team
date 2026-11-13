@@ -76,8 +76,8 @@ OUT="../Tourney Data/Win Tests/win-tests-$(date +%Y-%m-%d).txt"
 } > "$OUT" 2>&1
 
 echo
-echo "The two lines that decide it (whole team score, every export):"
-awk '/^=== /{print "  " $0} /^whole score/{w=1; next} w && /^ +ALL /{print "  " $0; w=0}' "$OUT"
+echo "What decides it: the whole team score on every export (ALL), then by how the event rations cards:"
+awk '/^=== /{print "  " $0} /^whole score/{w=1; next} /^the offence term/{w=0} w && /^ +(ALL|cap events|slots events|no cap, no slots) /{print "  " $0}' "$OUT"
 echo
 echo "Full result: Tourney Data/Win Tests/$(basename "$OUT")"
 echo "Next: double-click Push to GitHub.command and say yes to committing Tourney Data, so Claude can read it."

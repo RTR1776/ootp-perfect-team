@@ -61,3 +61,17 @@ test("the staff shape: the era table before 1930, L.J.'s own where he set one, a
   const pen = eventShape(deadball, { seriesStale: false, meta: null, over: { rp: "4" } });
   assert.deepEqual(pen.args, ["--sp", "4", "--rp", "4", "--bats", "18"]);
 });
+
+test("Daily Dank is built with left field at 50; every other event keeps his floors", async () => {
+  const { claudePickFloors, claudePickFlags, LJ_FLOORS, OWN_FLOORS } = await import("./event-roster-args");
+  const { parsePosFloor, posFloorAt } = await import("./pos-floor");
+  const dank = parsePosFloor(claudePickFloors(515));
+  // L.J., 2026-11-12: approved for Dank only.
+  assert.equal(posFloorAt(dank, "LF"), 50);
+  for (const [pos, floor] of [["SS", 85], ["CF", 90], ["2B", 85], ["RF", 75], ["C", 60], ["3B", 60]] as const) assert.equal(posFloorAt(dank, pos), floor, pos);
+  assert.deepEqual(Object.keys(OWN_FLOORS), ["515"], "one event has a floor of its own; add another only on his say-so");
+  assert.equal(claudePickFloors(569), LJ_FLOORS);
+  assert.equal(claudePickFloors(null), LJ_FLOORS);
+  assert.equal(posFloorAt(parsePosFloor(claudePickFloors(569)), "LF"), 60);
+  assert.deepEqual(claudePickFlags(515).slice(-2), ["--min-pos", `${LJ_FLOORS},LF:50`]);
+});

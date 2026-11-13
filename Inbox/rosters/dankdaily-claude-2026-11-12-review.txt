@@ -4,7 +4,7 @@ R:1B Stan Hack #86458
 R:2B Javier Baez (VAR) #86417
 R:3B Wally Backman #86903
 R:SS Sam Bankhead #87160
-R:LF Dwayne Hosey #86801
+R:LF George Sisler (VAR) #87002
 R:CF Ken Griffey Jr. #87291
 R:RF Alfredo Amezaga #87188
 L:C Jim Hegan (VAR) #85834
@@ -12,7 +12,7 @@ L:1B Todd Helton #86888
 L:2B Javier Baez (VAR) #86417
 L:3B Ray Dandridge #87264
 L:SS Sam Bankhead #87160
-L:LF Dwayne Hosey #86801
+L:LF Pete Incaviglia #86943
 L:CF Ken Griffey Jr. #87291
 L:RF Sammy Sosa (VAR) #85691
 SP1 Lefty Grove #87168
@@ -24,11 +24,11 @@ RP1 Todd Jones (VAR) #86434
 RP2 Frank Wickware #87443
 RP3 Randy Choate #87026
 RP4 Marco Estrada #87046
-BN1 Tsung-Che Cheng (VAR) #84612
-BN2 Billy Bryan (VAR) #85849
-BN3 George Sisler (VAR) #87002
-BN4 Todd Helton #86888
-BN5 Austin Jackson #84808
+BN1 Dwayne Hosey #86801
+BN2 Tsung-Che Cheng (VAR) #84612
+BN3 Todd Helton #86888
+BN4 Austin Jackson #84808
+BN5 Pete Incaviglia #86943
 BN6 Sammy Sosa (VAR) #85691
 BN7 Jorge Mateo #82701
 BN8 Ray Dandridge #87264

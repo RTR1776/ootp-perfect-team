@@ -121,7 +121,7 @@ Tests went from 383 to 408; all pass.
 
    So ordinary bats are squeezed too hard, and the gap between two elite bats is paid about half again too much. Held out by series, two slopes beat one in **40 of 40** half-splits, and in 38–39 of 40 when each event is scored in its own environment. It shows in every era band that has elite bats. Arms show no bend.
 
-   **It is built, tested on wins, and stays off.** Your bar for a pricing change is held-out wins, so I built the team harness twice (bend off, bend on) over the exports that are in git: 36 cap exports and the six PTCS 7 Championship brackets, 3,580 team-events. Win % against the team score, within each export, over 40 half-samples of the exports:
+   **It is built, and tested on wins twice. The first test, here, said no.** Your bar for a pricing change is held-out wins, so I built the team harness twice (bend off, bend on) over the exports that are in git: 36 cap exports and the six PTCS 7 Championship brackets, 3,580 team-events. Win % against the team score, within each export, over 40 half-samples of the exports:
 
    | | Straight slope | Bend | Better in |
    |---|---|---|---|
@@ -130,9 +130,17 @@ Tests went from 383 to 408; all pass.
    | Cap exports (36) | 0.4129 | 0.4118 | 6 of 40 |
    | Offence term on its own, all | 0.3504 | 0.3546 | 39 of 40 |
 
-   It needs 37 of 40 and gets 24. The bend does describe bats better (39 of 40 on the offence term alone), but once gloves and arms are in the score the gain is three ten-thousandths of r. It helps a little where teams are stacked with elite bats and hurts a little under a cap. Neither size would change a roster you'd notice. Rescaling the bent term to the old spread, or letting each build fit its own offence weight, gives the same answer (21 or 22 of 40). So the single slope is not costing wins, and bats are not where the model is leaving them.
+   On those 42 it needs 37 of 40 and gets 24. The bend does describe bats better (39 of 40 on the offence term alone), but once gloves and arms are in the score the gain is three ten-thousandths of r. It helps a little where teams are stacked with elite bats and hurts a little under a cap. Neither size would change a roster you'd notice. Rescaling the bent term to the old spread, or letting each build fit its own offence weight, gives the same answer (21 or 22 of 40). So the single slope is not costing wins, and bats are not where the model is leaving them.
 
-   `model:calibrate` still measures the bend at every refit, and `scripts/model-review/wins-ab.py` reruns this test. The Mac's full archive (935 exports against these 42) is the one place the verdict could change; the commands are in the script's header.
+   **Then you ran it on the whole archive, and the verdict changed.** 907 exports, 74,239 team-events (11-12, 23:07):
+
+   | | Straight slope | Bend | Better in |
+   |---|---|---|---|
+   | Whole team score, all 907 exports | 0.3764 | 0.3776 | **40 of 40** |
+   | 1946–76 (the weak band) | 0.3673 | 0.3675 | 32 of 40 |
+   | 2010 on | 0.3948 | 0.3965 | 40 of 40 |
+
+   The 42 exports in git were 36 cap exports and six championship brackets: not a fair sample of what you play. The bend clears your bar on the whole archive and should come on. The one thing I want first is the same test split by cap, slots and neither, because under a cap it went the other way on the 36 (worse in 34 of 40). That split is one more double-click of Run Win Tests.command. It is still off until then.
 2. **Arms have room**: 0.54 against a ceiling of 0.72. The 10-31 audit left two held-out wins unbuilt. **One is now built and on.**
    - **The share of left-handed bats an arm faces, by the hand he throws with.** Lineups stack the other hand, so a left-hander sees fewer left-handed bats. The audit fitted 0.35 for LHP and 0.50 for RHP on card lines; the code used 0.45 for everyone. Same win test as the bend, the audit's values untouched:
 
@@ -142,7 +150,7 @@ Tests went from 383 to 408; all pass.
      | Cap exports (36) | 0.4133 | 0.4146 | 40 of 40 |
      | Championship brackets (6) | 0.4100 | 0.4091 | 13 of 40 |
 
-     It clears your bar, just. It is small: about a run per 700 batters on an arm with a wide split, and a few marginal staff choices per roster. The calibration refit agrees (arm slope unchanged at 0.624, r 0.662 to 0.666). The championship brackets go the other way by a little; that field is 1971 Dodger Stadium with right-handed builds, and the `--pitch-lhb` flag you used there still overrides the default. A grid of other shares on the same exports wanted even more of each arm's weak side in modern cap events, but I kept the audit's values rather than fit a second time to this sample.
+     It clears your bar, just, on those 42. **On the whole archive it is 40 of 40** (0.3756 to 0.3764; every era band 39 or 40). It is small: about a run per 700 batters on an arm with a wide split, and a few marginal staff choices per roster. The calibration refit agrees (arm slope unchanged at 0.624, r 0.662 to 0.666). The championship brackets go the other way by a little; that field is 1971 Dodger Stadium with right-handed builds, and the `--pitch-lhb` flag you used there still overrides the default. A grid of other shares on the same exports wanted even more of each arm's weak side in modern cap events, but I kept the audit's values rather than fit a second time to this sample.
    - **The low end of the pHR curve:** still open.
 3. **FIP can't see pBABIP**, and the blend reads arms against FIP. So a high-pBABIP arm's edge is shrunk by the blend the same way Speed was. Not fixed; it needs its own test.
 4. **Surfaces that price differently** (*audit*, not yet fixed):

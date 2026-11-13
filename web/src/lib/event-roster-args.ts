@@ -104,8 +104,26 @@ export function eventRosterArgs(t: CatalogueEvent, opts: { seriesStale: boolean 
  * RF 75, 60 elsewhere), as env-roster --min-pos.
  */
 export const LJ_FLOORS = "60,SS:85,CF:90,2B:85,RF:75";
+/**
+ * Events where L.J. set a glove floor of his own, on top of LJ_FLOORS.
+ *
+ * Daily Dank (515): left field at 50. At 60 the event's two best left
+ * fielders by bat (Sisler and Incaviglia, gloves 55 and 56) cannot play
+ * there, which cost about 8 runs. He approved 50 on 2026-11-12, for Dank
+ * only: ask before using it in another event (Docs/Handoff 2026-11-07.md).
+ * It lived in one build's --min-pos until 2026-11-13, so the 11-12 rebuild
+ * of every event did not know it and went back to 60.
+ */
+export const OWN_FLOORS: Record<number, string> = { 515: "LF:50" };
+/** The --min-pos value a Claude pick of this event is built with: his floors, then the event's own. */
+export function claudePickFloors(eventId?: number | null): string {
+  const own = eventId != null ? OWN_FLOORS[eventId] : undefined;
+  return own ? `${LJ_FLOORS},${own}` : LJ_FLOORS;
+}
 /** The flags every Claude pick builds with besides the event's own: the optimiser, relief role trust 0.25, his floors. */
-export const CLAUDE_PICK_FLAGS = ["--optimize", "--role-trust", "0.25", "--min-pos", LJ_FLOORS] as const;
+export function claudePickFlags(eventId?: number | null): string[] {
+  return ["--optimize", "--role-trust", "0.25", "--min-pos", claudePickFloors(eventId)];
+}
 /** Events L.J. built to his own shape: always built to it (Tuesday Dead Silver Walking: 4 SP / 5 RP). */
 export const OWN_SHAPE: Record<number, { sp: number; rp: number }> = { 549: { sp: 4, rp: 5 } };
 
