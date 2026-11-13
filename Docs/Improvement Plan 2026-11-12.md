@@ -6,7 +6,7 @@ L.J.: "take an overall look at our program, the engine, our results, etc. and pu
 
 **Not done:** no live screenshots of the app. The UI section is from code.
 
-**Where the work is:** [pull request 181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (merged: sections 2 and 3) and [pull request 182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard and the optimiser's cap tier).
+**Where the work is:** pull requests [181](https://github.com/RTR1776/ootp-perfect-team/pull/181) (the fixes in sections 2 and 3), [182](https://github.com/RTR1776/ootp-perfect-team/pull/182) (the draft setup, the scoreboard, the optimiser's cap tier) and [183](https://github.com/RTR1776/ootp-perfect-team/pull/183) (the Today page, the smoke check, the roster backup, pinned prices).
 
 ---
 
@@ -81,7 +81,7 @@ L.J.: "take an overall look at our program, the engine, our results, etc. and pu
 | **Nothing checked a change before it deployed.** | | CI runs typecheck and the tests on every pull request and push to main. |
 | A bare `env-roster` priced relievers 3.4 runs high (role trust 1, not 0.25). | Only by-hand runs; the batch passed 0.25. | Default is 0.25. |
 
-Tests went from 383 to 406; all pass.
+Tests went from 383 to 408; all pass.
 
 ### Built after the fixes
 
@@ -92,6 +92,10 @@ Tests went from 383 to 406; all pass.
 | **Scoreboard.** Your series record and points an entry by week, category, event and round, with your rank among regulars. Rewritten by every Monday's dump load. | Section 1 took two throwaway scripts. | /scoreboard, a tab under PTCS |
 | **A cap tier in the optimiser:** one upgrade paid for by two cheaper cards. | Section 4, item 1. On the brute-force cases: 16 misses of 60 down to 10, average gap 0.73 runs down to 0.22, worst 10.1 down to 2.7, for 8% more time. | Roster builds and Search longer |
 | **The search is now tested against brute force.** | Nothing compared the climb with a true best roster. | the test suite |
+| **Today page**, now the front door: the PTCS categories still open (behind first), exports to grab while the game keeps them, data getting old, the scoreboard's headline. | The daily signals were on four pages. | /today |
+| **Saved rosters are backed up before any batch replaces them.** | A new Claude pick replaced the old one, so the roster that was live a given week could not be read back. | `pnpm roster:backup`; automatic in the batch |
+| **Ten cards' prices are pinned** in six environments. | Nothing failed when a change moved what the scorer says about a card. | the test suite |
+| **The page smoke check visits every page**, tabs included, and fails on an error screen. | It skipped eight pages and could not see a page that rendered its error. | `pnpm smoke` |
 | **Rebuild of all 74 current events** on the fixed pricing, saved as "Claude pick 2026-11-12 review". Every roster as it stood before is backed up in `Docs/Archive`. | Section 5 A. | /build |
 
 ---
@@ -122,7 +126,7 @@ Tests went from 383 to 406; all pass.
    - Card Fit, Upgrades and Buy Plan weigh every pen and rotation slot alike. The builder weighs the closer 1.61 and the seventh arm 0.58, so a closer-grade buy is understated by up to 38%.
    - /cards' top panel applies no era correction.
    - The glove floor is 60 everywhere on /build and SS 85 / CF 90 / 2B 85 / RF 75 in Claude picks.
-5. **No pinned prices.** Nothing fails when a change moves what the scorer says about a card.
+5. ~~No pinned prices~~: done (section 2).
 
 ---
 
@@ -156,7 +160,7 @@ Every Claude pick was built on the old blend, and ten were built while positions
 ### C. Keep score automatically
 
 - ~~A scoreboard page~~: done (section 2).
-- Keep every pick (saved rosters are one per event and get replaced) and grade it when the run's export lands.
+- Every pick is now kept (a backup before each batch save). Still to do: grade each one when its run's export lands, which needs the Mac's archive.
 - Grade the seven pre-registered tests from 09-26, which the handoffs never show graded.
 
 ### D. Beat good teams
@@ -175,13 +179,13 @@ Sections 3 and 4, in the order listed there.
 - **Neon keeps six hours of history and no snapshots.** Saved rosters, catalogue rules and price history live only there.
 - Card and league imports are not transactions; a killed run leaves a partial upload as the newest.
 - No team-count check on a filed export. Three sliver-sized files are live: `bronzeootp_165`, `latesilver_182`, `goldfather_181`.
-- `observed_card_stats(card_id)` has no index (54,000 sequential scans on a 323 MB table).
+- ~~`observed_card_stats(card_id)` has no index~~: checked, not a problem. A lookup by card already runs in about 4 ms through the existing key.
 - The period is still typed by hand in `cutoff-project.ts`, `berth-lines.ts` and `qualifying/page.tsx`.
 - `engine/` (Python) is dead code. The README and RUNBOOK are stale in places.
 
 ### G. App (*audit*)
 
-- **A Today page.** `/` redirects to /build, which opens on a select of every event. The daily signals are on four pages.
+- ~~A Today page~~: done (section 2). /build still opens on a select of every event with no "recent" group.
 - **Work is stuck in one browser.** Draft picks and build boards live in localStorage; a draft started on the Mac is not on the phone.
 - **"What to buy" is answered in six places on two scales.**
 - **Search longer loses its result if you leave the page.**
