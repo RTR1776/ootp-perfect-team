@@ -43,9 +43,13 @@ export function activeBend(side: CalibrationSide | undefined = CALIBRATION.hit):
  * era band with weight above the knee; arms show no bend (20-27 of 40).
  *
  * It is recorded by model:calibrate and applied only when `bend.applied` is
- * set. It is OFF until the team-win harness (Mac archive) says it also
- * predicts wins: elite bats sit on teams that go deep and face better arms,
- * which could flatten their lines without the ratings being wrong.
+ * set. It is OFF: it did not clear the project's bar on wins. Team harness
+ * built both ways on the 42 exports in git (3,580 team-events, 2026-11-13,
+ * scripts/model-review/bend-wins.py): whole team score r 0.4097 to 0.4100,
+ * better in 24 of 40 export half-samples against a bar of 37. The offence
+ * term alone is better in 39 of 40, so the bend is real, but beside gloves
+ * and arms it does not move wins: up a little in uncapped championship
+ * brackets (38 of 40), down a little under a cap (6 of 40).
  * Docs/Improvement Plan 2026-11-12.md has the numbers.
  */
 export function calibratedHitRuns(raw: number, side: CalibrationSide | undefined = CALIBRATION.hit): number {
