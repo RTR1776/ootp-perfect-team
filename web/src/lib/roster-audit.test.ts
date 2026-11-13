@@ -63,3 +63,21 @@ test("orderStaff ranks the pen by penValue when given", async () => {
   assert.equal(o.SP1, 1);
   assert.equal(o.CL, 11, "the pen follows penValue");
 });
+
+test("a position the pool cannot cover twice is stated, not failed", () => {
+  // Daily Live Iron, 2026-11-13: one card in the pool has an 85 glove at short. No roster has a backup there.
+  const cards = [bat(1, "Hayes", { SS: 85, "3B": 94 }), bat(2, "Tovar", { SS: 81, "3B": 87 }), bat(3, "Story", { SS: 63, "3B": 70 })];
+  const slots: Record<string, number> = { "R:SS": 1, "L:SS": 1, "R:3B": 2, "L:3B": 2, BN1: 3 };
+  const byId = new Map(cards.map((c) => [c.cardId, c]));
+  const o = { slots, cards: byId, lineupPos: ["SS", "3B"], envYear: 2010, posFloor: { default: 60, SS: 85 } }; // the floors Claude picks are built to
+  // Held to the floor with nothing said about the pool: it fails, as before.
+  assert.equal(auditRoster(o).find((l) => l.short === "SS backup")!.ok, false);
+  // The pool covers third twice but short once: short passes and names the nearest glove; third is still checked.
+  const lines = auditRoster({ ...o, coverable: new Set(["3B"]) });
+  const ss = lines.find((l) => l.short === "SS backup")!;
+  assert.equal(ss.ok, true, ss.text);
+  assert.ok(ss.text.includes("no second card at the floor (85)") && ss.text.includes("Tovar 81"), ss.text);
+  assert.equal(lines.find((l) => l.short === "3B backup")!.ok, true);
+  // A position the pool CAN cover twice still fails when the bench holds no one for it.
+  assert.equal(auditRoster({ ...o, slots: { "R:SS": 1, "L:SS": 1, "R:3B": 2, "L:3B": 2 }, coverable: new Set(["SS", "3B"]) }).find((l) => l.short === "SS backup")!.ok, false);
+});

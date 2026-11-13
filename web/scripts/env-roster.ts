@@ -30,7 +30,7 @@ import { OBS_K_OWN_SERIES, OBS_HALF_LIFE_DAYS, type ObsK } from "@/lib/analytics
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
-import { CAP_BACKUP_FLOOR, optimizeRoster } from "@/lib/roster-optimize";
+import { CAP_BACKUP_FLOOR, backupPositions, optimizeRoster } from "@/lib/roster-optimize";
 import { capLedger, isLeak } from "@/lib/cap-ledger";
 import { runSearch, toPlainFits, type SearchBest } from "@/lib/roster-search";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
@@ -1008,7 +1008,8 @@ async function main() {
     const sum = (k: string) => top ? Object.values(top.tiers as Record<string, Record<string, number>>).reduce((n, t) => n + (t[k] ?? 0), 0) : 0;
     const field = top ? { sp: sum("sp"), rp: sum("rp"), bats: sum("bats") + sum("bench"), label: `field's best quarter (${top.n} teams)` } : null;
     console.log("\n--- roster check ---");
-    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, backupFloorCap: CAP != null || SLOTS != null ? CAP_BACKUP_FLOOR : null })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
+    const coverable = new Set(backupPositions(pool, rules, MIN_POS).map((b) => b.pos));
+    for (const l of auditRoster({ slots, cards: poolById as any, lineupPos, envYear: YEAR, posFloor: MIN_POS, field, backupFloorCap: CAP != null || SLOTS != null ? CAP_BACKUP_FLOOR : null, coverable })) console.log(`  ${l.ok ? "✓" : "✗"} ${l.text}`);
   }
   printCapLedger(slots);
 
