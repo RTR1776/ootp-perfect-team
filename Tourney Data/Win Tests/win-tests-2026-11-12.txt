@@ -1,0 +1,44 @@
+Win tests on the whole archive (Run Win Tests.command), 2026-11-12 22:49
+"off" is the first build named, "on" the second. The bar is better in 37 of 40 on the whole score, ALL row.
+
+=== 1. Arms by throwing hand: off = one share (0.45), on = by hand (LHP 0.35, RHP 0.50). In use since 11-13.
+74239 team-events in both builds, 907 exports
+offence term moved: mean |on - off| 0.000 runs a game; spread off 0.628, on 0.628
+whole score (bats + gloves + framing + arms, production weights):
+   ALL                    n 74239  907 exports   off 0.3756   on 0.3764   +0.0008   better in 40/40
+   <=1945                 n  6658  81 exports   off 0.3102   on 0.3105   +0.0002   better in 39/40
+   1946-76                n 17011  225 exports   off 0.3664   on 0.3673   +0.0008   better in 40/40
+   1977-93                n 17632  166 exports   off 0.3809   on 0.3822   +0.0012   better in 40/40
+   1994-09                n  9466  124 exports   off 0.3830   on 0.3844   +0.0013   better in 40/40
+   2010+                  n 23472  311 exports   off 0.3941   on 0.3948   +0.0007   better in 40/40
+   championship brackets  n   671   6 exports   off 0.4100   on 0.4091   -0.0009   better in 13/40
+   everything else        n 73568  901 exports   off 0.3752   on 0.3761   +0.0009   better in 40/40
+the offence term alone:
+   ALL                    n 74239  907 exports   off 0.3309   on 0.3309   -0.0000   better in 12/40
+   <=1945                 n  6658  81 exports   off 0.2817   on 0.2817   +0.0000   better in 39/40
+   1946-76                n 17011  225 exports   off 0.3332   on 0.3332   +0.0000   better in 32/40
+   1977-93                n 17632  166 exports   off 0.3267   on 0.3267   -0.0000   better in 20/40
+   1994-09                n  9466  124 exports   off 0.3233   on 0.3233   -0.0000   better in 3/40
+   2010+                  n 23472  311 exports   off 0.3491   on 0.3491   -0.0000   better in 2/40
+   championship brackets  n   671   6 exports   off 0.3127   on 0.3127   +0.0000   better in 40/40
+   everything else        n 73568  901 exports   off 0.3312   on 0.3312   -0.0000   better in 6/40
+(a) shape without scale: the bent offence term times 1.000, the straight term's spread
+   ALL                    n 74239  907 exports   off 0.3756   on 0.3764   +0.0008   better in 40/40
+   <=1945                 n  6658  81 exports   off 0.3102   on 0.3105   +0.0002   better in 39/40
+   1946-76                n 17011  225 exports   off 0.3664   on 0.3673   +0.0008   better in 40/40
+   1977-93                n 17632  166 exports   off 0.3809   on 0.3822   +0.0012   better in 40/40
+   1994-09                n  9466  124 exports   off 0.3830   on 0.3844   +0.0013   better in 40/40
+   2010+                  n 23472  311 exports   off 0.3941   on 0.3948   +0.0007   better in 40/40
+   championship brackets  n   671   6 exports   off 0.4100   on 0.4091   -0.0009   better in 13/40
+   everything else        n 73568  901 exports   off 0.3752   on 0.3761   +0.0009   better in 40/40
+(b) each build's own offence multiplier, fitted on the other half of the exports
+   ALL                    off 0.3756 (x0.91)   on 0.3765 (x0.90)   +0.0009   better in 40/40
+   <=1945                 off 0.3092 (x1.05)   on 0.3094 (x1.04)   +0.0002   better in 36/40
+   1946-76                off 0.3662 (x1.19)   on 0.3670 (x1.16)   +0.0008   better in 40/40
+   1977-93                off 0.3815 (x0.75)   on 0.3828 (x0.72)   +0.0014   better in 40/40
+   1994-09                off 0.3831 (x0.76)   on 0.3845 (x0.74)   +0.0014   better in 40/40
+   2010+                  off 0.3940 (x0.90)   on 0.3947 (x0.89)   +0.0007   better in 40/40
+   championship brackets  off 0.4075 (x0.76)   on 0.4065 (x0.77)   -0.0010   better in 13/40
+   everything else        off 0.3752 (x0.92)   on 0.3761 (x0.91)   +0.0009   better in 40/40
+
+=== 2. Curved bat calibration: off = the straight slope (in use), on = the bend.
