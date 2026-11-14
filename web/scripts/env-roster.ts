@@ -807,6 +807,7 @@ async function main() {
           return true;
         };
         let dbest: { slots: Record<string, number>; score: number; who: string } | null = null;
+        const dtake = new Map<number, { slots: Record<string, number>; score: number; who: string }>();
         const nk = dshape.benchKeys[dshape.benchKeys.length - 1]!;
         for (const c of cands) {
           const bat = c.cardId, arm = otherFormId(bat);
@@ -892,9 +893,17 @@ async function main() {
           const units = new Set(Object.values(r.slots).map(unitOf)).size;
           if (r.legal && who && units !== SIZE) console.log(`dual: ${who} board holds ${units} players, not ${SIZE}: skipped`);
           else if (r.legal && who && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who };
+          if (r.legal && who && units === SIZE && dualId != null && (!dtake.has(dualId) || r.score > dtake.get(dualId)!.score)) dtake.set(dualId, { slots: r.slots, score: r.score, who });
           }
         }
-        if (dbest && dbest.score > best.score + 0.5) {
+        // --dual-take ID (a what-if): take that two-way card's best both-roles board even when it doesn't beat the one above.
+        const takeId = num("dual-take", 0)!;
+        if (takeId && dtake.has(takeId)) {
+          const t = dtake.get(takeId)!;
+          console.log(`dual: --dual-take ${t.who}: ${t.score.toFixed(1)} vs ${best.score.toFixed(1)} runs, taken as asked`);
+          slots = t.slots; shape = dshape;
+          ({ objective, rank, defAt, slotValue } = dobj);
+        } else if (dbest && dbest.score > best.score + 0.5) {
           console.log(`dual: ${dbest.who} in both roles beats the board above, ${dbest.score.toFixed(1)} vs ${best.score.toFixed(1)} runs: taken`);
           slots = dbest.slots; shape = dshape;
           ({ objective, rank, defAt, slotValue } = dobj);
