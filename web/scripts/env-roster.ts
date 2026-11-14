@@ -47,7 +47,7 @@ import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
 import { loadSetEvidence } from "@/lib/set-evidence-server";
 import { cardIdOf, formIdForSlot, isTwoWayForm, otherFormId, twoWayForm, unitOf } from "@/lib/two-way";
-import { slotCapacityIssues, slotOverflow, tierCode, TIER_ORDER } from "@/lib/roster-rules";
+import { fitsPosition, slotCapacityIssues, slotOverflow, tierCode, TIER_ORDER } from "@/lib/roster-rules";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -850,6 +850,14 @@ async function main() {
                 const subs = pool.filter((h) => !!h.isPitcher === pitcher && !onUnits.has(unitOf(h.cardId)) && rank(h.val ?? 0) < TIER_ORDER.indexOf(over.tier)
                   && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
                   .map((h) => ({ h, v: keys.reduce((a, k) => a + dobj.slotValue(k, h.cardId), 0) }))
+                  // Only a card that can play every one of those slots (2026-11-14 sweep: Jake Bauers dropped
+                  // at SS and Socks Seybold at C climbed to boards the validator then refused).
+                  .filter((x) => keys.every((k) => {
+                    const slot = k.replace(/^[RL]:/, "");
+                    if (!fitsPosition(x.h, slot)) return false;
+                    const pr = x.h.ratings[`Pos Rating ${slot}`];
+                    return pr == null || !/^(C|1B|2B|3B|SS|LF|CF|RF)$/.test(slot) || pr >= posFloorAt(MIN_POS, slot);
+                  }))
                   .sort((a, b) => b.v - a.v);
                 // The best fits are often in tiers that are full too (Diamond and Gold bats for A-Rod's SS):
                 // walk down the list to the first that fits the slots.

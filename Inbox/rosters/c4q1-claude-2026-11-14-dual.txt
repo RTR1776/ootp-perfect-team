@@ -1,0 +1,37 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-11-14 dual, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --series c4q1 --sp 5 --rp 7 --bats 14)
+R:C Bob Boone (VAR) #87032
+R:1B Aiva Arquette (VAR) #84768
+R:2B Ernie Clement #87244
+R:3B Ed Williamson #87297
+R:SS Arjun Nimmala (VAR) #84745
+R:LF Kirk Gibson (VAR) #87255
+R:CF Bo Jackson #86966
+R:RF Jose Bautista #87073
+R:DH Edgar Martinez #86467
+L:C Bob Boone (VAR) #87032
+L:1B Aiva Arquette (VAR) #84768
+L:2B Ernie Clement #87244
+L:3B Ed Williamson #87297
+L:SS Arjun Nimmala (VAR) #84745
+L:LF Kirk Gibson (VAR) #87255
+L:CF Bo Jackson #86966
+L:RF Jose Bautista #87073
+L:DH Edgar Martinez #86467
+SP1 Josh Johnson #86275
+SP2 Cliff Lee (VAR) #85693
+SP3 Babe Ruth #86439
+SP4 Kelvim Escobar #87207
+SP5 Fritz Ostermueller #86357
+CL John Bale (VAR) #87234
+RP1 James McDonald (VAR) #86384
+RP2 Randy Choate #87026
+RP3 Todd Jones (VAR) #86434
+RP4 Reed Garrett #84825
+RP5 Tin Can Kincannon #86073
+RP6 Bob Gibson (VAR) #86658
+BN1 Charlie Eden #82834
+BN2 Buck Rodgers (VAR) #84312
+BN3 George Pinkney #83410
+BN4 Babe Ruth #86439
+BN5 Alfredo Amezaga #87188
+BN6 Ken Griffey Jr. #87291
