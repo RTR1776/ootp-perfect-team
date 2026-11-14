@@ -13,7 +13,7 @@ import { unstable_cache } from "next/cache";
 import { fitVersion, loadCardFit, newCardIds, type CardFitData } from "@/lib/card-fit-load";
 
 /** Bump when Card Fit's scoring changes, so cached results from the old code aren't served. */
-const FIT_CODE = "fit-v6"; // v6 2026-11-12: Speed and Stamina stay outside the observed blend (env-fit referenceFits); harvested positions back on the cards. v5 2026-10-27: slots and cap hold the swap to a legal roster (card-fit Room). v4 2026-10-25: model review
+const FIT_CODE = "fit-v7"; // v7 2026-11-14: a two-way card in both roles at once (card-fit dualFitIn). v6 2026-11-12: Speed and Stamina stay outside the observed blend (env-fit referenceFits); harvested positions back on the cards. v5 2026-10-27: slots and cap hold the swap to a legal roster (card-fit Room). v4 2026-10-25: model review
 /** Bump when newCardIds' result changes shape (v2: `variants`). */
 const IDS_CODE = "new-ids-v2";
 
