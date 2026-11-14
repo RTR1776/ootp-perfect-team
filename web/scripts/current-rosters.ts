@@ -62,6 +62,7 @@ import { loadCardFit } from "@/lib/card-fit-load";
 import { exportsPredate } from "@/lib/set-evidence-server";
 import { chicagoDay } from "@/lib/format";
 import { editCatalogueRules, parseSlots, type CatalogueEdit } from "@/lib/catalogue-edit";
+import { boardReport, loadFileShortfalls, parseBoardRows, type LoadLine } from "@/lib/load-file";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -400,6 +401,13 @@ function sameCards(loadFile: string, saved: ReadonlySet<string>): boolean {
  * env-roster's printout as a roster:save load file, every card pinned by id:
  * matched by name, value and year among the cards owned in the collection
  * (a variant implies its base copy). Starters ace first; the best reliever closes.
+ *
+ * Every board row goes in (lib/load-file parseBoardRows): the lineups, the
+ * staff and the whole bench, a saved dual pick's BN7 included. The file is
+ * then held to the board's own count ("26 players") and the roster check's
+ * staff line (loadFileShortfalls); a file that misses a card is not written
+ * (11-14, Saturday Negro Leagues Slots: William Tenny, the backup catcher at
+ * BN7, was on the board and in the roster check but not in the load file).
  */
 async function toLoadFile(text: string, job: Job, uploadId: number): Promise<string> {
   const owned = await db.select({ cardId: collectionCards.cardId, isVariant: collectionCards.isVariant }).from(collectionCards).where(eq(collectionCards.uploadId, uploadId));
@@ -410,30 +418,30 @@ async function toLoadFile(text: string, job: Job, uploadId: number): Promise<str
   for (const id of BOUGHT) base.add(id);
   for (const id of SOLD) base.delete(id);
   const vars = new Set(owned.filter((o) => o.isVariant && o.cardId != null && !SOLD.has(o.cardId)).map((o) => o.cardId!));
-  const re = /^(R:\w+|L:\w+|SP\d|CL|RP\d+|BN\d+)\s+(.+?)\s{2,}(\d+)\s+([LRS])\s+(\d{4})\s+([+-]?\d+\.\d)/;
+  const { rows, unread } = parseBoardRows(text);
+  if (unread.length) throw new Error(`board rows that do not read: ${unread.slice(0, 3).join(" | ")}`);
   const lines: string[] = [], bench: string[] = [], sps: { runs: number; pin: string }[] = [], rps: { runs: number; pin: string }[] = [];
-  for (const l of text.split(/\r?\n/)) {
-    const m = re.exec(l);
-    if (!m) continue;
-    const [, key, rawName, value, , year, runs] = m;
-    const isVar = /\(VAR\)$/.test(rawName);
-    const name = rawName.replace(/\s*\(VAR\)$/, "");
+  const pinned: LoadLine[] = [];
+  for (const r of rows) {
+    const { key, rawName, name, variant: isVar, value, year, runs } = r;
     const pitcher = /^(SP|RP|CL)/.test(key);
     // A two-way card (lib/two-way) playing the role it isn't listed in.
-    const twoWay = / two-way \((pitching|hitting)\)/.test(l);
-    let hits = universe.filter((c) => c.name.toLowerCase() === name.toLowerCase() && c.value === Number(value) && c.year === Number(year)
-      && (isVar ? vars.has(c.cardId) : base.has(c.cardId) || vars.has(c.cardId)) && (key.startsWith("BN") || (c.isPitcher ?? false) === pitcher || twoWay));
+    let hits = universe.filter((c) => c.name.toLowerCase() === name.toLowerCase() && c.value === value && c.year === year
+      && (isVar ? vars.has(c.cardId) : base.has(c.cardId) || vars.has(c.cardId)) && (key.startsWith("BN") || (c.isPitcher ?? false) === pitcher || r.twoWay));
     // Two owned cards can share name, value and year (a Live card and a Future Legend, 10-05 Payton Tolle):
     // env-roster ends each row with the card's id, which settles it.
-    const pinned = /\s#(\d+)\s*$/.exec(l);
-    if (hits.length > 1 && pinned) hits = hits.filter((c) => c.cardId === Number(pinned[1]));
+    if (hits.length > 1) hits = hits.filter((c) => c.cardId === r.cardId);
     if (hits.length !== 1) throw new Error(`${key} ${rawName} ${value} ${year}: ${hits.length} owned matches`);
     const pin = `${rawName} #${hits[0].cardId}`;
-    if (key.startsWith("SP")) sps.push({ runs: Number(runs), pin });
-    else if (key === "CL" || key.startsWith("RP")) rps.push({ runs: Number(runs), pin });
+    pinned.push({ key, cardId: hits[0].cardId, variant: isVar });
+    if (key.startsWith("SP")) sps.push({ runs, pin });
+    else if (key === "CL" || key.startsWith("RP")) rps.push({ runs, pin });
     else if (key.startsWith("BN")) bench.push(`${key} ${pin}`);
     else lines.push(`${key} ${pin}`);
   }
+  // Every card on the board, as many as the board's players and the roster check's staff and bats.
+  const short = loadFileShortfalls(pinned, boardReport(text));
+  if (short.length) throw new Error(`load file does not match the board: ${short.join("; ")}`);
   // env-roster prints the staff in orderStaff's order (SP1 the best starter, CL the best reliever on the pen's own
   // value, without the staff-stamina term), so keep it. Re-sorting by the printed runs column, which carries that
   // term, handed CL back to a high-stamina arm (11-02: Hernandez over Miller on Wide Open and Open Main).

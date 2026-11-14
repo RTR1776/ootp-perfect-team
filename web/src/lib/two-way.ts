@@ -78,6 +78,21 @@ export function dualUseOk(slots: Record<string, number>): boolean {
   return true;
 }
 
+/**
+ * The two-way cards a board uses in both roles, by unit (`unitOf`): each is one
+ * roster spot holding two slots, so the board needs one bench key more than a
+ * shape that counts every slot as a card (env-roster's dual phase adds it).
+ */
+export function bothRoles(slots: Record<string, number>): number[] {
+  const on = new Set(Object.values(slots));
+  return [...new Set([...on].filter((id) => !isTwoWayForm(id) && on.has(otherFormId(id))).map(unitOf))];
+}
+
+/** How many players a board holds: a card and its other-role form are one (`unitOf`). */
+export function playersOn(slots: Record<string, number>): number {
+  return new Set(Object.values(slots).map(unitOf)).size;
+}
+
 export function twoWayId(cardId: number): number {
   return cardId + TWO_WAY_OFFSET;
 }
