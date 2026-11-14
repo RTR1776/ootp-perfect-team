@@ -293,7 +293,7 @@ function legal(
  * the run model prices no defence at all, so the position is simply closed to
  * anyone rated below this share of his own best position.
  */
-function candidatesFor(
+export function candidatesFor(
   key: string, pool: readonly FillCard[], rules: RosterRules, minDefShare = 0, posFloor?: PosFloor,
 ): FillCard[] {
   const pos = key.includes(":") ? key.split(":")[1] : key;

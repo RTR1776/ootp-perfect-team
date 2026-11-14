@@ -47,7 +47,7 @@ import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
 import { loadSetEvidence } from "@/lib/set-evidence-server";
 import { cardIdOf, formIdForSlot, isTwoWayForm, otherFormId, twoWayForm, unitOf } from "@/lib/two-way";
-import { slotCapacityIssues, tierCode } from "@/lib/roster-rules";
+import { dualSeeds } from "@/lib/dual-seed";
 
 const argv = process.argv.slice(2);
 const flag = (k: string) => argv.includes(`--${k}`);
@@ -779,6 +779,8 @@ async function main() {
      * Add one bench slot, seed a board with each of the best two-way cards in both roles (his arm
      * in the rotation's weakest slot, his bat on the roster), climb, and keep the best board when
      * it beats the one above. --no-dual skips it; --dual-try N sets how many cards (default 4).
+     * Where the seed breaks the slots, cap or variant cap, the card holding what the rule needs
+     * gives way first (lib/dual-seed); --dual-repairs N sets how many such seeds climb (default 2).
      */
     if (!flag("no-dual") && !COMPARE_ONLY) {
       const ids = new Set(pool.map((c) => c.cardId));
@@ -791,69 +793,34 @@ async function main() {
         const worth = (bat: number) => SP_WEIGHT * (fits.runsR.get(otherFormId(bat)) ?? -99) + Math.max(0, fits.runsR.get(bat) ?? 0);
         const tryN = num("dual-try", 4)!;
         const cands = [...bats].sort((a, b) => worth(b.cardId) - worth(a.cardId)).slice(0, tryN);
-        const unitVal = (sl: Record<string, number>) => {
-          const seen = new Map<number, number>();
-          for (const id of Object.values(sl)) seen.set(unitOf(id), byIdD.get(id)?.val ?? 0);
-          return seen;
-        };
-        const fitsRules = (sl: Record<string, number>) => {
-          const u = unitVal(sl);
-          if (CAP != null && [...u.values()].reduce((a, b) => a + b, 0) > CAP) return false;
-          if (SLOTS) {
-            const tiers: Record<string, number> = {};
-            for (const v of u.values()) { const t = tierCode(v); tiers[t] = (tiers[t] ?? 0) + 1; }
-            if (slotCapacityIssues(tiers, SLOTS).length) return false;
-          }
-          return true;
-        };
         let dbest: { slots: Record<string, number>; score: number; who: string } | null = null;
-        const nk = dshape.benchKeys[dshape.benchKeys.length - 1]!;
         for (const c of cands) {
-          const bat = c.cardId, arm = otherFormId(bat);
-          const seed: Record<string, number> = { ...slots };
-          const on = new Set(Object.values(seed));
-          if (!on.has(arm)) {
-            const k = shape.spKeys.reduce((w, x) => (dobj.slotValue(x, seed[x]!) < dobj.slotValue(w, seed[w]!) ? x : w));
-            seed[k] = arm;
-          }
-          if (!on.has(bat)) seed[nk] = bat;
-          else {
-            // His bat is already on the roster: the freed spot takes the best unrostered bat that fits the rules.
-            const units = new Set(Object.values(seed).map(unitOf));
-            const fill = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
-              .sort((a, b) => dobj.slotValue(nk, b.cardId) - dobj.slotValue(nk, a.cardId) || (a.val ?? 0) - (b.val ?? 0));
-            const h = fill.find((x) => fitsRules({ ...seed, [nk]: x.cardId }));
-            if (!h) continue;
-            seed[nk] = h.cardId;
-          }
-          // Over the cap or a tier's slots (Rile's 102 onto a full 1500): trade the dearest bench bats
-          // down to the cheapest unrostered bats that fit until it does; the climb takes it from there.
-          for (let tries = 0; tries < 8 && !fitsRules(seed); tries++) {
-            const units = new Set(Object.values(seed).map(unitOf));
-            const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat))
-              .sort((a, b) => (byIdD.get(seed[b]!)?.val ?? 0) - (byIdD.get(seed[a]!)?.val ?? 0))[0];
-            if (!benchKey) break;
-            const cheap = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
-              .sort((a, b) => (a.val ?? 0) - (b.val ?? 0) || dobj.slotValue(benchKey, b.cardId) - dobj.slotValue(benchKey, a.cardId))[0];
-            if (!cheap || (cheap.val ?? 0) >= (byIdD.get(seed[benchKey]!)?.val ?? 0)) break;
-            seed[benchKey] = cheap.cardId;
-          }
-          const r = optimizeRoster(seed, pool, rules, dshape, {
-            objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
-            candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
-            // It competes with the polished board above, so it gets the same staff tier.
-            staffTier: POLISH_N > 0, capTier: POLISH_N > 0,
+          // The seed, and when it breaks the slots, cap or variant cap, the card holding what the rule needs
+          // giving way (lib/dual-seed; Silver & Friends Slots 11-14: Rile could not seed while A-Rod held the P slot).
+          const { seeds, why } = dualSeeds({
+            board: slots, bat: c.cardId, pool, rules, shape, dshape, slotValue: dobj.slotValue, objective: dobj.objective,
+            posFloor: MIN_POS, minDefShare: MIN_DEF, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, repairs: num("dual-repairs", 2)!,
           });
-          const onBoard = new Set(Object.values(r.slots));
-          const dualId = [...onBoard].find((id) => !byIdD.get(id)?.isPitcher && onBoard.has(otherFormId(id)));
-          const who = dualId != null ? byIdD.get(dualId)?.name ?? String(dualId) : null;
-          console.log(`dual: from ${c.name} in both roles: ${r.legal && who ? `${who} in both, ${r.score.toFixed(1)} runs` : r.legal ? `climbed out of both roles (${r.score.toFixed(1)})` : "no legal board"}`);
-          // A two-way card in both roles is one unit (unitOf); the board must still hold SIZE distinct players
-          // (validateRoster's roster-size rule). 2026-11-01: Daily Diamond Cap and Early Years Cap seeds that
-          // already carried a two-way card came back from this phase with 25 and were taken, then failed validation.
-          const units = new Set(Object.values(r.slots).map(unitOf)).size;
-          if (r.legal && who && units !== SIZE) console.log(`dual: ${who} board holds ${units} players, not ${SIZE}: skipped`);
-          else if (r.legal && who && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who };
+          if (!seeds.length) { console.log(`dual: from ${c.name} in both roles: no legal seed (${why})`); continue; }
+          for (const sd of seeds) {
+            const r = optimizeRoster(sd.slots, pool, rules, dshape, {
+              objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
+              candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
+              // It competes with the polished board above, so it gets the same staff tier.
+              staffTier: POLISH_N > 0, capTier: POLISH_N > 0,
+            });
+            const onBoard = new Set(Object.values(r.slots));
+            const dualId = [...onBoard].find((id) => !byIdD.get(id)?.isPitcher && onBoard.has(otherFormId(id)));
+            const who = dualId != null ? byIdD.get(dualId)?.name ?? String(dualId) : null;
+            const from = sd.note === "as seeded" ? "" : ` (room: ${sd.note})`;
+            console.log(`dual: from ${c.name} in both roles${from}: ${r.legal && who ? `${who} in both, ${r.score.toFixed(1)} runs` : r.legal ? `climbed out of both roles (${r.score.toFixed(1)})` : "no legal board"}`);
+            // A two-way card in both roles is one unit (unitOf); the board must still hold SIZE distinct players
+            // (validateRoster's roster-size rule). 2026-11-01: Daily Diamond Cap and Early Years Cap seeds that
+            // already carried a two-way card came back from this phase with 25 and were taken, then failed validation.
+            const units = new Set(Object.values(r.slots).map(unitOf)).size;
+            if (r.legal && who && units !== SIZE) console.log(`dual: ${who} board holds ${units} players, not ${SIZE}: skipped`);
+            else if (r.legal && who && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who };
+          }
         }
         if (dbest && dbest.score > best.score + 0.5) {
           console.log(`dual: ${dbest.who} in both roles beats the board above, ${dbest.score.toFixed(1)} vs ${best.score.toFixed(1)} runs: taken`);
