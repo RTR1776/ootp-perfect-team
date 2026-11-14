@@ -78,6 +78,38 @@ export function dualUseOk(slots: Record<string, number>): boolean {
   return true;
 }
 
+/**
+ * What a two-way starter's lineup spot gives back on the days he pitches, on one
+ * board, in the caller's units (a slot value, or runs before the board's weight).
+ * The caller multiplies it by his share of the starts.
+ *
+ * No DH: he is off the field, and the best sub plays his spot (his bat that day is
+ * the pitcher's: roster-objective starterBat credits it). With a DH he bats for
+ * himself on the days he starts (L.J. 2026-11-14; Ed Rile took about 4.2 PA a game
+ * in the PTCS 7 Championship Open, an everyday bat): at DH he gives back nothing; at
+ * a field spot he moves to DH, and the regular DH sits or takes the spot, whichever
+ * leaves the better field (`dhAtSpot`), else the best sub plays it. Never below 0:
+ * a start day can't make the everyday lineup better.
+ *
+ * `mine`: him at his spot. `mineAtDh`: him at DH. `dhNow`: the regular DH at DH
+ * (null when the DH spot is empty). `dhAtSpot`: the regular DH at his spot (null
+ * where that card can't play it). `subs`: each sub at his spot (bench cards, the
+ * card he displaced).
+ */
+export function startDayLoss(p: {
+  dh: boolean; atDh: boolean; mine: number; subs: readonly number[];
+  mineAtDh?: number | null; dhNow?: number | null; dhAtSpot?: number | null;
+}): number {
+  const bestSub = (xs: readonly (number | null | undefined)[]) => {
+    let b = -Infinity;
+    for (const x of xs) if (x != null && x > b) b = x;
+    return Number.isFinite(b) ? b : 0;
+  };
+  if (!p.dh) return p.mine - bestSub(p.subs);
+  if (p.atDh) return 0;
+  return Math.max(0, p.mine + (p.dhNow ?? 0) - (p.mineAtDh ?? p.mine) - bestSub([...p.subs, p.dhAtSpot]));
+}
+
 export function twoWayId(cardId: number): number {
   return cardId + TWO_WAY_OFFSET;
 }
