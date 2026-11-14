@@ -278,8 +278,10 @@ test("placeIn: both roles when they add more than either alone; his arm alone ne
   assert.ok(armIn.fit.dual);
   assert.deepEqual(armIn.fit.swaps.map((s) => s.spot), ["SP"]);
   assert.ok(Math.abs(armIn.fit.gain - 6.8) < 1e-9);
-  // Already in both roles: on.
-  assert.equal(placeIn(sc({ ...batOn, SP: [...rot.slice(0, 4), rileArm] }), rile.cardId)!.fit.status, "on");
+  // Already in both roles: on, both named.
+  const both2 = placeIn(sc({ ...batOn, SP: [...rot.slice(0, 4), rileArm] }), rile.cardId)!;
+  assert.equal(both2.fit.status, "on");
+  assert.deepEqual(both2.fit.on, ["SP", "1B vR", "1B vL"]);
 });
 
 test("placeIn, slots event where nothing starts: the both-ways read shows when it comes nearest, naming who gives way", async () => {

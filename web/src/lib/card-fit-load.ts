@@ -423,6 +423,8 @@ export function placeIn(sc: EventScore, id: number, pool = sc.pool): { f: Scored
   // room is paid (its room line says why not): Ed Rile on Silver & Friends Slots read "bench SP, short of Bob
   // Feller -33" when both ways, with Alex Rodriguez giving up the Perfect slot, fell short by less.
   if (dual.status === "start" && dual.gain > (single?.fit.gain ?? 0) + 1e-9) return { f: bat, fit: dual };
+  // Already in both roles: say so (each form alone reads only its own half).
+  if (dual.status === "on" && dual.on.length > 1 && (!single || single.fit.status !== "start")) return { f: bat, fit: dual };
   const nearer = dual.status === "bench" && dual.room && dual.short
     && (!single || (single.fit.status === "bench" && (single.fit.short == null || dual.short.delta > single.fit.short.delta)));
   if (nearer) return { f: bat, fit: dual };
