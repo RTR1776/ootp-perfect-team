@@ -826,22 +826,11 @@ async function main() {
             if (!h) continue;
             seed[nk] = h.cardId;
           }
-          // Over the cap or a tier's slots (Rile's 102 onto a full 1500): trade the dearest bench bats
-          // down to the cheapest unrostered bats that fit until it does; the climb takes it from there.
-          for (let tries = 0; tries < 8 && !fitsRules(seed); tries++) {
-            const units = new Set(Object.values(seed).map(unitOf));
-            const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat))
-              .sort((a, b) => (byIdD.get(seed[b]!)?.val ?? 0) - (byIdD.get(seed[a]!)?.val ?? 0))[0];
-            if (!benchKey) break;
-            const cheap = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
-              .sort((a, b) => (a.val ?? 0) - (b.val ?? 0) || dobj.slotValue(benchKey, b.cardId) - dobj.slotValue(benchKey, a.cardId))[0];
-            if (!cheap || (cheap.val ?? 0) >= (byIdD.get(seed[benchKey]!)?.val ?? 0)) break;
-            seed[benchKey] = cheap.cardId;
-          }
-          // Still over a tier's slots (L.J. 2026-11-14: Ed Rile's 102 where A-Rod holds Silver & Friends' one
-          // Perfect slot came back "no legal board", so the two-way card was never priced there): free the tier.
-          // One seed per card holding it, that card swapped for the best unrostered card below the tier in the
-          // same slots; each is climbed, and the best board competes as before.
+          // Over a tier's slots (L.J. 2026-11-14: Ed Rile's 102 where A-Rod holds Silver & Friends' one Perfect
+          // slot came back "no legal board", so the two-way card was never priced there): free the tier first.
+          // One seed per card holding it, that card swapped for the best unrostered card below the tier that
+          // fits the slots, in the same slots; each is climbed, and the best board competes as before. Done
+          // before the bench trade-down below, which in a slots event fills the lower tiers with cheap bats.
           const seeds: Array<{ seed: Record<string, number>; freed: string | null }> = [{ seed, freed: null }];
           if (SLOTS && !fitsRules(seed)) {
             const units = unitVal(seed);
@@ -852,6 +841,7 @@ async function main() {
             if (over) {
               const rank = (v: number) => TIER_ORDER.indexOf(tierCode(v));
               const holders = [...units.entries()].filter(([u, v]) => u !== unitOf(bat) && rank(v) >= TIER_ORDER.indexOf(over.tier));
+              const freedSeeds: typeof seeds = [];
               for (const [holder] of holders.slice(0, 4)) {
                 const keys = Object.keys(seed).filter((k) => unitOf(seed[k]!) === holder);
                 const pitcher = !!byIdD.get(seed[keys[0]!]!)?.isPitcher;
@@ -865,10 +855,24 @@ async function main() {
                 for (const { h } of subs) {
                   const s2 = { ...seed };
                   for (const k of keys) s2[k] = h.cardId;
-                  if (fitsRules(s2)) { seeds.push({ seed: s2, freed: `${byIdD.get(seed[keys[0]!]!)?.name ?? holder} out for ${h.name}` }); break; }
+                  if (fitsRules(s2)) { freedSeeds.push({ seed: s2, freed: `${byIdD.get(seed[keys[0]!]!)?.name ?? holder} out for ${h.name}` }); break; }
                 }
               }
-              if (seeds.length > 1) seeds.shift();
+              if (freedSeeds.length) seeds.splice(0, seeds.length, ...freedSeeds);
+            }
+          }
+          // Over the cap (Rile's 102 onto a full 1500), or still over a tier's slots: trade the dearest bench
+          // bats down to the cheapest unrostered bats that fit until it does; the climb takes it from there.
+          for (const { seed } of seeds) {
+            for (let tries = 0; tries < 8 && !fitsRules(seed); tries++) {
+              const units = new Set(Object.values(seed).map(unitOf));
+              const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat))
+                .sort((a, b) => (byIdD.get(seed[b]!)?.val ?? 0) - (byIdD.get(seed[a]!)?.val ?? 0))[0];
+              if (!benchKey) break;
+              const cheap = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
+                .sort((a, b) => (a.val ?? 0) - (b.val ?? 0) || dobj.slotValue(benchKey, b.cardId) - dobj.slotValue(benchKey, a.cardId))[0];
+              if (!cheap || (cheap.val ?? 0) >= (byIdD.get(seed[benchKey]!)?.val ?? 0)) break;
+              seed[benchKey] = cheap.cardId;
             }
           }
           for (const { seed, freed } of seeds) {
