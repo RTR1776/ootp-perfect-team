@@ -1,0 +1,36 @@
+# Daily Iron & Friends OOTP Era Slots — Claude pick 2026-11-14 dual, rebuilt from the catalogue's rules by current-rosters (--year 1999 --dh --card-year-min 1999 --card-year-max 2026 --slots P1,D1,G1,S1,B1,I21 --size 26 --series ironandfriends --sp 5 --rp 7 --bats 14)
+R:C Cal Raleigh #87281
+R:1B Shawn Green #87028
+R:2B Javier Baez (VAR) #86417
+R:3B Alex Rodriguez #87219
+R:SS Jeremy Pena #87154
+R:LF Eric Byrnes #87195
+R:CF Carlos Beltran #87066
+R:RF Sebastian Walcott #85136
+R:DH Ty Wigginton (VAR) #86086
+L:C Cal Raleigh #87281
+L:1B Sebastian Walcott #85136
+L:2B Javier Baez (VAR) #86417
+L:3B Alex Rodriguez #87219
+L:SS Jeremy Pena #87154
+L:LF Eric Byrnes #87195
+L:CF Carlos Beltran #87066
+L:RF Jonny Gomes #87258
+L:DH Bill Hall #87200
+SP1 James McDonald (VAR) #86384
+SP2 Justin Verlander #87014
+SP3 Jeff Francis #87199
+SP4 Dallas Braden #86293
+SP5 Noah Schultz #85232
+CL John Bale (VAR) #87234
+RP1 Randy Choate #87026
+RP2 Hector Rondon #83078
+RP3 Todd Jones (VAR) #86434
+RP4 Antonio Alfonseca #83071
+RP5 Elmer Rodriguez #85563
+RP6 Kendry Rojas #85561
+BN1 Jonny Gomes #87258
+BN2 Bill Hall #87200
+BN3 Lenny Harris (VAR) #86396
+BN4 Mike Trout (VAR) #84793
+BN5 Braxton Fulford #81816
