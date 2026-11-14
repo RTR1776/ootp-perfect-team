@@ -1,0 +1,35 @@
+# Friday Nightmare Cap — Claude pick 2026-11-14 dual, rebuilt from the catalogue's rules by current-rosters (--year 1971 --park County Stadium --park-year 1970 --min 65 --max 79 --cap 1805 --variant-cap 6 --no-le --size 26 --series nightmarecap --sp 5 --rp 6 --bats 15)
+R:C Mike Zunino (VAR) #86431
+R:1B Matt Carpenter #86771
+R:2B Jefferson Rojas #84751
+R:3B John Henry Russell (VAR) #87438
+R:SS Jeremy Pena #87154
+R:LF Billy Southworth (VAR) #86379
+R:CF Deion Sanders #86962
+R:RF Andy Van Slyke (VAR) #86936
+L:C Mike Zunino (VAR) #86431
+L:1B Matt Carpenter #86771
+L:2B Jefferson Rojas #84751
+L:3B John Henry Russell (VAR) #87438
+L:SS Jeremy Pena #87154
+L:LF Deion Sanders #86962
+L:CF Aaron Rowand #87196
+L:RF Shane Victorino #87235
+SP1 Kelvim Escobar #87207
+SP2 Jordan Montgomery #86354
+SP3 Nelson Dean #87434
+SP4 Erik Hanson #87285
+SP5 Cool Papa Bell #86981
+CL Edwin Diaz #86422
+RP1 Pedro Martinez #87430
+RP2 Don Robinson (VAR) #86773
+RP3 Eddie Dixon #87157
+RP4 Brock Burke #81969
+RP5 Mason Fluharty #82493
+BN1 Aaron Rowand #87196
+BN2 Joe Dugan (VAR) #86765
+BN3 Bo Jackson #84710
+BN4 Scott Hatteberg #87194
+BN5 Shane Victorino #87235
+BN6 Pee Wee Butts #87266
+BN7 John Grim #87343
