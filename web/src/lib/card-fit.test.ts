@@ -178,3 +178,124 @@ test("without slots or a cap the room changes nothing", () => {
   assert.equal(fit.gain, 4);
   assert.equal(fit.room, null);
 });
+
+/*
+ * Two-way cards in both roles (card-fit dualFitIn). Daily Silver & Friends Slots,
+ * 2026-11-14: Ed Rile (1B/SP 102) read "bench SP, short of Bob Feller", his bat never
+ * counted. In small: a five-man rotation with a weak fifth starter, Thomas at 1B and
+ * Abrams at DH, Rile's arm 9 and his bat 20 at first.
+ */
+const twoWay = (name: string, batRuns: number, armRuns: number, pos: ScoredForm["pos"], val = 102) => {
+  const b = valued(bat(name, batRuns, batRuns, pos), val);
+  const a: ScoredForm = { ...b, id: b.cardId + 10_000_000, isPitcher: true, role: "SP", runsR: armRuns, runsL: armRuns, pos: {} };
+  return { b, a };
+};
+const rileCase = () => {
+  const { b: rile, a: rileArm } = twoWay("Rile", 20, 9, { "1B": 70 });
+  const thomas = valued(bat("Thomas", 5, 5, { "1B": 70 }), 77), abrams = valued(bat("Abrams", 6, 6, { SS: 70 }), 78);
+  const rot = [valued(arm("Reulbach", "SP", 10), 97), valued(arm("Feller", "SP", 9), 88), valued(arm("Escobar", "SP", 8), 78), valued(arm("Altrock", "SP", 7), 76), valued(arm("Ostermueller", "SP", 2), 64)];
+  const team = { R: { "1B": thomas, DH: abrams }, L: { "1B": thomas, DH: abrams }, SP: rot, RP: [], bench: [] as ScoredForm[] };
+  return { rile, rileArm, thomas, abrams, rot, team };
+};
+
+test("both roles, with a DH: his arm for the fifth starter and his bat at first, one roster spot", async () => {
+  const { dualFitIn } = await import("./card-fit");
+  const { rile, rileArm, team } = rileCase();
+  // Alone: the arm adds 9 - 2 = 7; the bat 20 - 5 = 15 at first on both boards.
+  assert.equal(fitIn(rileArm, team, [], ctx)!.gain, 7);
+  assert.ok(Math.abs(fitIn(rile, team, [], ctx)!.gain - 15) < 1e-9);
+  const fit = dualFitIn(rile, rileArm, team, [], ctx)!;
+  assert.equal(fit.status, "start");
+  assert.deepEqual(fit.swaps.map((s) => [s.board, s.spot, s.out?.name]), [["staff", "SP", "Ostermueller"], ["R", "1B", "Thomas"], ["L", "1B", "Thomas"]]);
+  // On his starts (one in five) he DHs: Abrams sits and Thomas, now on the bench, plays first: 20 + 6 - 20 - 5 = 1 a start.
+  assert.ok(Math.abs(fit.dual!.startDays - 0.2) < 1e-9);
+  assert.ok(Math.abs(fit.gain - (7 + 15 - 0.2)) < 1e-9);
+});
+
+test("both roles, no DH: the sub plays first on his starts and his own bat is credited in them", async () => {
+  const { dualFitIn } = await import("./card-fit");
+  const { STARTER_PA_SHARE, PITCHER_BAT_RUNS } = await import("@/lib/roster-objective");
+  const { rile, rileArm, team } = rileCase();
+  const fit = dualFitIn(rile, rileArm, team, [], noDh)!;
+  // A fifth of his first-base days go to Thomas (15 a game), and his bat bats for him on those days, over a pitcher's.
+  const ownBat = 0.2 * STARTER_PA_SHARE * (20 - PITCHER_BAT_RUNS);
+  assert.ok(Math.abs(fit.dual!.startDays - (0.2 * 15 - ownBat)) < 1e-9);
+  assert.ok(Math.abs(fit.gain - (7 + 15 - 0.2 * 15 + ownBat)) < 1e-9);
+});
+
+test("both roles: a starter already in the rotation adds his bat, less his start days; a reliever can't take the field", async () => {
+  const { dualFitIn } = await import("./card-fit");
+  const { rile, rileArm, team, rot } = rileCase();
+  const withArm = { ...team, SP: [...rot.slice(0, 4), rileArm] };
+  const fit = dualFitIn(rile, rileArm, withArm, [], ctx)!;
+  assert.deepEqual(fit.on, ["SP"]);
+  assert.deepEqual(fit.swaps.map((s) => s.spot), ["1B", "1B"]);
+  assert.ok(Math.abs(fit.gain - (15 - 0.2)) < 1e-9);
+  assert.equal(dualFitIn(rile, { ...rileArm, role: "RP" }, team, [], ctx), null);
+  assert.equal(dualFitIn(rile, rileArm, { ...team, RP: [rileArm] }, [], ctx), null);
+});
+
+test("both roles in a slots event: the Perfect slot is held, so the card holding it gives way and the swap names him", async () => {
+  const { dualFitIn } = await import("./card-fit");
+  const { rile, rileArm, thomas, abrams, rot, team } = rileCase();
+  // Alex Rodriguez (102) holds the one Perfect slot at short; Polanco (77, SS 85) sits on the bench.
+  const arod = valued(bat("Alex Rodriguez", 20, 20, { SS: 90 }), 102), polanco = valued(bat("Polanco", 2, 2, { SS: 85 }), 77);
+  const braun = valued(bat("Braun", 1, 1, { "3B": 70 }), 74), bale = valued(arm("Bale", "RP", 1), 59);
+  const t = { ...team, R: { ...team.R, SS: arod }, L: { ...team.L, SS: arod }, RP: [bale], bench: [braun, polanco] };
+  const onRoster = [arod, thomas, abrams, ...rot, braun, polanco, bale];
+  const room = {
+    slots: { P: 1, D: 1, G: 1, S: 6, B: 1, I: 1 }, cap: null,
+    roster: new Map(onRoster.map((f) => [f.cardId, { val: f.val!, name: f.name }])),
+    spares: onRoster,
+  };
+  // His arm alone can't pay for the room (A-Rod to Polanco at short costs 18 plus the glove); with his bat it can.
+  assert.equal(fitIn(rileArm, t, [], ctx, room)!.status, "bench");
+  const fit = dualFitIn(rile, rileArm, t, [], ctx, room)!;
+  assert.equal(fit.status, "start");
+  assert.match(fit.room!.note, /^Alex Rodriguez \(102\) out for Polanco \(77\)/);
+  assert.deepEqual(fit.swaps.map((s) => s.out?.name), ["Ostermueller", "Thomas", "Thomas"]);
+  assert.ok(fit.gain > fitIn(rile, t, [], ctx, room)!.gain, "both roles beat his bat alone");
+  assert.ok(Math.abs(fit.gain - (fit.room!.gross - fit.room!.cost!)) < 1e-9);
+});
+
+test("a saved roster's bench is kept apart: it starts nowhere", () => {
+  const sub = bat("Sub", 1, 1, { "1B": 70 });
+  const team = savedTeam([{ formId: sub.id, slot: "BN2", versusHand: "both" }], new Map([[sub.id, sub]]));
+  assert.deepEqual(team.bench?.map((f) => f.name), ["Sub"]);
+  assert.equal(Object.keys(team.R).length + team.SP.length, 0);
+});
+
+test("placeIn: both roles when they add more than either alone; his arm alone never ignores the bat that already plays", async () => {
+  const { placeIn } = await import("./card-fit-load");
+  const { rile, rileArm, team, rot, thomas } = rileCase();
+  const sc = (t: typeof team) => ({ teamFor: () => t, forms: new Map([[rile.id, rile], [rileArm.id, rileArm]]), variantForms: new Set<number>(), ctx, room: null, pool: [] }) as never;
+  const both = placeIn(sc(team), rile.cardId)!;
+  assert.equal(both.f.id, rile.id);
+  assert.ok(both.fit.dual && Math.abs(both.fit.gain - 21.8) < 1e-9);
+  // His bat already at first: the arm's +7 gives back his start days (0.2), so it reads 6.8, not 7.
+  const batOn = { ...team, R: { ...team.R, "1B": rile }, L: { ...team.L, "1B": rile }, bench: [thomas] };
+  const armIn = placeIn(sc(batOn), rile.cardId)!;
+  assert.ok(armIn.fit.dual);
+  assert.deepEqual(armIn.fit.swaps.map((s) => s.spot), ["SP"]);
+  assert.ok(Math.abs(armIn.fit.gain - 6.8) < 1e-9);
+  // Already in both roles: on.
+  assert.equal(placeIn(sc({ ...batOn, SP: [...rot.slice(0, 4), rileArm] }), rile.cardId)!.fit.status, "on");
+});
+
+test("placeIn, slots event where nothing starts: the both-ways read shows when it comes nearest, naming who gives way", async () => {
+  const { placeIn } = await import("./card-fit-load");
+  const { rile, rileArm, thomas, abrams, rot, team } = rileCase();
+  // As on Silver & Friends (2026-11-14): Alex Rodriguez is worth far more at short than Rile adds, so nothing starts.
+  const arod = valued(bat("Alex Rodriguez", 40, 40, { SS: 90 }), 102), polanco = valued(bat("Polanco", 2, 2, { SS: 85 }), 77);
+  const braun = valued(bat("Braun", 1, 1, { "3B": 70 }), 74), bale = valued(arm("Bale", "RP", 1), 59);
+  const t = { ...team, R: { ...team.R, SS: arod }, L: { ...team.L, SS: arod }, RP: [bale], bench: [braun, polanco] };
+  const onRoster = [arod, thomas, abrams, ...rot, braun, polanco, bale];
+  const room = { slots: { P: 1, D: 1, G: 1, S: 6, B: 1, I: 1 }, cap: null, roster: new Map(onRoster.map((f) => [f.cardId, { val: f.val!, name: f.name }])), spares: onRoster };
+  const sc = { teamFor: () => t, forms: new Map([[rile.id, rile], [rileArm.id, rileArm]]), variantForms: new Set<number>(), ctx, room, pool: [] } as never;
+  const p = placeIn(sc, rile.cardId)!;
+  assert.equal(p.fit.status, "bench");
+  assert.ok(p.fit.dual, "the both-ways read, not his arm alone");
+  assert.match(p.fit.room!.note, /^Alex Rodriguez \(102\) out for Polanco \(77\)/);
+  assert.deepEqual(p.fit.dual!.plan.map((s) => s.out?.name), ["Ostermueller", "Thomas", "Thomas"]);
+  assert.ok(p.fit.short!.delta > fitIn(rileArm, t, [], ctx, room)!.short!.delta);
+});

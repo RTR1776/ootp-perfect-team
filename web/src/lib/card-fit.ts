@@ -32,8 +32,9 @@
  */
 import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { LJ_FLOOR, posFloorAt } from "@/lib/pos-floor";
-import { RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
+import { PITCHER_BAT_RUNS, RP_WEIGHT_DEFAULT, STARTER_PA_SHARE } from "@/lib/roster-objective";
 import { slotOverflow, tierCode } from "@/lib/roster-rules";
+import { startDayLoss } from "@/lib/two-way";
 
 export const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
 export type FieldPos = (typeof FIELD_POS)[number];
@@ -135,6 +136,8 @@ export interface Team {
   L: Partial<Record<LineupSpot, ScoredForm>>;
   SP: ScoredForm[];
   RP: ScoredForm[];
+  /** A saved roster's bench (BN slots): who plays a two-way starter's spot on the days he pitches. */
+  bench?: ScoredForm[];
 }
 
 /**
@@ -173,14 +176,15 @@ export function bestTeam(owned: readonly ScoredForm[], ctx: FitCtx): Team {
 /** A saved roster's slot, its form resolved (useVariant → the variant's form). */
 export interface SavedSlot { formId: number; slot: string; versusHand: string | null }
 
-/** His team as a saved roster has it. Bench slots are left out; CL counts with the pen. */
+/** His team as a saved roster has it. CL counts with the pen; the bench is kept apart (it starts nowhere). */
 export function savedTeam(slots: readonly SavedSlot[], forms: ReadonlyMap<number, ScoredForm>): Team {
-  const team: Team = { R: {}, L: {}, SP: [], RP: [] };
+  const team: Team = { R: {}, L: {}, SP: [], RP: [], bench: [] };
   for (const s of slots) {
     const f = forms.get(s.formId);
     if (!f) continue;
     if (/^SP\d*$/.test(s.slot)) team.SP.push(f);
     else if (/^(RP\d*|CL)$/.test(s.slot)) team.RP.push(f);
+    else if (/^BN\d*$/.test(s.slot)) team.bench!.push(f);
     else if ((FIELD_POS as readonly string[]).includes(s.slot) || s.slot === "DH") {
       if (s.versusHand === "R" || s.versusHand === "L") team[s.versusHand][s.slot as LineupSpot] = f;
     }
@@ -223,6 +227,14 @@ export interface Fit {
    * when no single move makes the roster legal: the card can't start.
    */
   room?: { gross: number; cost: number | null; note: string } | null;
+  /**
+   * A two-way card placed in both roles at once (dualFitIn): his arm in the
+   * rotation and his bat in the lineup, one roster spot and one tier slot.
+   * `startDays`: what his lineup spots give back on the days he pitches, net of
+   * his bat in those games with no DH (runs, already out of `gain`). `plan`: the
+   * moves of his best placement, shown even when room keeps him from starting.
+   */
+  dual?: { startDays: number; plan: Swap[] } | null;
 }
 
 /**
@@ -494,4 +506,143 @@ function bestPlan(t: ScoredForm, team: Team, ctx: FitCtx, room: Room) {
     if (!best || net > best.net) best = { swaps: plan.swaps, gross: plan.gross, net, room: r };
   }
   return best;
+}
+
+/* ------------------------------------------------------------------ both roles */
+
+/**
+ * A two-way card in both roles at once (lib/two-way): his arm in the rotation
+ * and his bat in the lineup, ONE roster spot and one tier slot. L.J.,
+ * 2026-11-14: Card Fit read Ed Rile (1B/SP 102) on Daily Silver & Friends Slots
+ * as "bench SP, short of Bob Feller", his bat never counted, because each form
+ * was placed alone. In OOTP he plays his position on the days he doesn't
+ * start and, with a DH, bats for himself on the days he does.
+ *
+ * Every way it could go: his arm in place of each starter (or where it is
+ * already), his bat at its two best spots on each board (or where it already
+ * plays), the card it replaces in the lineup moving to the bench. His starts'
+ * share of what his lineup spots give back on those days (two-way
+ * startDayLoss) comes out of the gain; with no DH his bat in his own starts
+ * is credited as the builder credits it (roster-objective starterBat). In a
+ * slots or cap event the roster must still hold, as for one swap (roomFor):
+ * a starter he displaces from the rotation may leave for free; a card holding
+ * the tier slot he needs may give way to one of his that fits.
+ *
+ * Null when the card can't be used both ways here: no starter's role, no
+ * lineup spot, or his arm already in the pen (a reliever doesn't take the
+ * field, two-way dualUseOk).
+ */
+export function dualFitIn(bat: ScoredForm, arm: ScoredForm, team: Team, pool: readonly ScoredForm[], ctx: FitCtx, room?: Room | null): Fit | null {
+  if (bat.isPitcher || !arm.isPitcher || arm.role !== "SP" || bat.cardId !== arm.cardId) return null;
+  if (team.RP.some((f) => f.cardId === arm.cardId)) return null;
+  const batSpots = spotsOf(bat, ctx) as LineupSpot[];
+  if (!batSpots.length) return null;
+
+  const on: string[] = [];
+  const armOn = team.SP.some((f) => f.cardId === arm.cardId);
+  if (armOn) on.push("SP");
+  const batAtNow = { R: null as LineupSpot | null, L: null as LineupSpot | null };
+  for (const b of ["R", "L"] as const) {
+    const at = (Object.entries(team[b]) as [LineupSpot, ScoredForm][]).find(([, f]) => f.cardId === bat.cardId);
+    if (at) { batAtNow[b] = at[0]; on.push(`${at[0]} v${b}`); }
+  }
+
+  // His share of the starts: a fifth in a five-man rotation (Card Fit weighs every rotation slot alike).
+  const nSp = armOn || team.SP.length ? team.SP.length : 1;
+  const starts = 1 / Math.max(nSp, 1);
+  const armOuts: (ScoredForm | null)[] = armOn ? [null] : team.SP.length ? [...team.SP] : [null];
+  const wArm = armWeight("SP", team.SP.length, ctx);
+  // No DH: his bat in his own starts over a pitcher's, as the builder credits it; already earned if he starts now.
+  const ownBat = !ctx.dh && !armOn
+    ? starts * STARTER_PA_SHARE * ((1 - ctx.lhp) * (bat.runsR - PITCHER_BAT_RUNS) + ctx.lhp * (bat.runsL - PITCHER_BAT_RUNS))
+    : 0;
+
+  /** What his start days give back on one board with him at `spot` (runs before the board's weight). */
+  const loss = (b: Board, spot: LineupSpot, inc: ScoredForm | undefined): number => {
+    const lineup = { ...team[b], [spot]: bat };
+    const playing = new Set(Object.values(lineup).map((f) => f!.cardId));
+    const subs = [...(team.bench ?? []), ...(inc ? [inc] : [])]
+      .filter((f) => !playing.has(f.cardId))
+      .map((f) => batAt(f, spot, b, ctx))
+      .filter((v): v is number => v != null);
+    const dhCard = ctx.dh && spot !== "DH" ? lineup.DH : undefined;
+    return startDayLoss({
+      dh: ctx.dh, atDh: spot === "DH", mine: batAt(bat, spot, b, ctx)!, subs,
+      mineAtDh: ctx.dh ? batAt(bat, "DH", b, ctx) : null,
+      dhNow: dhCard ? batAt(dhCard, "DH", b, ctx) : null,
+      dhAtSpot: dhCard ? batAt(dhCard, spot, b, ctx) : null,
+    });
+  };
+  /** One board's part: the swap (none where he already plays), the weighted runs it adds after his start days, and what those days give back. */
+  type BatOpt = { swap: Swap | null; inc: ScoredForm | undefined; add: number; give: number };
+  const batOpts = (["R", "L"] as const).map((b): (BatOpt | null)[] => {
+    const w = boardWeight(b, ctx);
+    const now = batAtNow[b];
+    // Where he already plays: he stays, and his start days come back out of it.
+    if (now) { const give = starts * loss(b, now, undefined) * w; return [{ swap: null, inc: undefined, add: -give, give }]; }
+    const opts: BatOpt[] = [];
+    for (const spot of batSpots) {
+      const inc = team[b][spot];
+      const theirs = inc ? batAt(inc, spot, b, ctx) : null;
+      const delta = batAt(bat, spot, b, ctx)! - (theirs ?? 0);
+      const give = starts * loss(b, spot, inc) * w;
+      if (delta * w - give >= GAIN_FLOOR / 2) opts.push({ swap: { board: b, spot, out: inc ? outOf(inc) : null, delta }, inc, add: delta * w - give, give });
+    }
+    return [null, ...opts.sort((x, y) => y.add - x.add).slice(0, 2)];
+  });
+
+  interface DualPlan extends Plan { give: number }
+  const plans: DualPlan[] = [];
+  for (const out of armOuts) {
+    const armDelta = arm.runsR - (out?.runsR ?? 0);
+    const armSwap: Swap | null = armOn ? null : { board: "staff", spot: "SP", out: out ? outOf(out) : null, delta: armDelta };
+    const armGain = armOn ? 0 : armDelta * wArm;
+    for (const r of batOpts[0]) for (const l of batOpts[1]) {
+      // Both ways: his bat must play somewhere, and something must change.
+      if (!r && !l) continue;
+      const picked = [r, l].filter((x): x is BatOpt => x != null);
+      const swaps = [...(armSwap ? [armSwap] : []), ...picked.flatMap((x) => (x.swap ? [x.swap] : []))];
+      if (!swaps.length) continue;
+      plans.push({
+        swaps,
+        gross: armGain + ownBat + picked.reduce((sum, x) => sum + x.add, 0),
+        give: picked.reduce((sum, x) => sum + x.give, 0) - ownBat,
+        outs: [...(out ? [out] : []), ...picked.flatMap((x) => (x.inc ? [x.inc] : []))],
+      });
+    }
+  }
+
+  // The best plan, room paid for in a slots or cap event (as fitIn).
+  const rules = room && (room.slots || room.cap != null) && holds([...room.roster.values()].map((x) => x.val), room) ? room : null;
+  let best: { plan: DualPlan; net: number; room: { cost: number; note: string } | null } | null = null;
+  let blocked: DualPlan | null = null;
+  for (const plan of plans.sort((a, b) => b.gross - a.gross)) {
+    if (best && plan.gross <= best.net) break;
+    if (!rules) { if (!best || plan.gross > best.net) best = { plan, net: plan.gross, room: null }; continue; }
+    const r = roomFor(bat, plan, team, ctx, rules);
+    if (!r) { blocked ??= plan; continue; }
+    const net = plan.gross - r.cost;
+    if (!best || net > best.net) best = { plan, net, room: r };
+  }
+
+  const roomRead: Fit["room"] = rules
+    ? best ? { gross: best.plan.gross, cost: best.room!.cost, note: best.room!.note }
+      : blocked ? { gross: blocked.gross, cost: null, note: "no single move makes room for him in both roles" } : null
+    : null;
+  const starting = best != null && best.net >= GAIN_FLOOR;
+  // Short of starting: the card his best plan would have replaced, and by how much it falls short once room is paid (as fitIn).
+  const shortOf = !starting && best && rules ? best.plan.swaps.find((s) => s.out)?.out ?? null : null;
+  const swaps = starting ? best!.plan.swaps : [];
+  const weight = (s: Swap) => s.delta * (s.board === "staff" ? wArm : boardWeight(s.board, ctx));
+  const top = swaps.slice().sort((a, b) => weight(b) - weight(a))[0];
+  const spot: Spot = top ? top.spot : armOn ? "SP" : batAtNow.R ?? batAtNow.L ?? "SP";
+  const form = spot === "SP" ? arm : bat;
+  const value = spotValue(form, spot, ctx) ?? form.runsR;
+  return {
+    spot, runsR: form.runsR, runsL: form.runsL, value, ...rankAt(value, pool, spot, ctx),
+    status: starting ? "start" : armOn && (batAtNow.R || batAtNow.L) ? "on" : "bench",
+    gain: starting ? best!.net : 0, swaps, on, short: shortOf ? { name: shortOf.name, delta: best!.net } : null,
+    room: roomRead && (starting || roomRead.gross >= GAIN_FLOOR) ? roomRead : null,
+    dual: { startDays: best ? best.plan.give : 0, plan: best?.plan.swaps ?? blocked?.swaps ?? [] },
+  };
 }

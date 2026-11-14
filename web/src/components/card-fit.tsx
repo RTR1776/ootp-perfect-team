@@ -40,6 +40,14 @@ function swapText(s: FitRow["swaps"][number]) {
   return `${where} ${s.out ? `over ${s.out.name}${s.out.variant ? " (V)" : ""}` : "(empty)"} ${signed(s.delta)}`;
 }
 
+/** "SP + 1B" for a two-way card placed both ways (card-fit dualFitIn), else the spot. */
+function spotLabel(r: FitRow): string {
+  if (!r.dual) return r.spot;
+  const spots = [...r.on.map((o) => o.split(" ")[0]), ...r.dual.plan.map((s) => s.spot)];
+  const bats = [...new Set(spots.filter((x) => x !== "SP" && x !== "RP"))];
+  return ["SP", ...bats].join(" + ");
+}
+
 /** What the card does to his team there: the gain and whom it replaces, or why it doesn't start. */
 function TeamCell({ r, e }: { r: FitRow; e: FitEvent }) {
   const against = e.team.kind === "saved" ? `Measured against your saved roster “${e.team.name}”.` : "No roster saved for this event: measured against the best team your legal cards make.";
@@ -54,6 +62,11 @@ function TeamCell({ r, e }: { r: FitRow; e: FitEvent }) {
       <span className="flex flex-col gap-0.5" title={against}>
         <span><Signed v={r.gain} colour className="font-semibold" /> <span className="text-xs text-muted-foreground">runs</span></span>
         <span className="text-xs">{r.swaps.map(swapText).join(" · ")}</span>
+        {r.dual && (
+          <span className="text-[11px] text-muted-foreground" title="A two-way card in both roles: his arm in the rotation and his bat in the lineup, one roster spot and one tier slot. With a DH he bats for himself on the days he starts; without one the best sub plays his spot then.">
+            both ways, one roster spot{r.on.length ? ` (already ${r.on.join(", ")})` : ""}{r.dual.startDays > 0 ? ` · ${r.dual.startDays.toFixed(1)} back for his start days` : ""}
+          </span>
+        )}
         {cap && <span className="text-[11px]">{cap}</span>}
         {r.room && r.room.cost != null && r.room.cost > 0 && (
           <span className="text-[11px] text-muted-foreground">{signed(r.room.gross)} less {r.room.cost.toFixed(1)} to make room: {r.room.note}</span>
@@ -66,7 +79,7 @@ function TeamCell({ r, e }: { r: FitRow; e: FitEvent }) {
   if (r.room) {
     return (
       <span className="text-xs text-muted-foreground" title={against}>
-        {signed(r.room.gross)} in one swap, but {r.room.cost == null ? "no single move makes room for it" : <>room costs {r.room.cost.toFixed(1)} ({r.room.note})</>}
+        {signed(r.room.gross)} {r.dual ? `both ways (${r.dual.plan.map(swapText).join(" · ")})` : "in one swap"}, but {r.room.cost == null ? "no single move makes room for it" : <>room costs {r.room.cost.toFixed(1)} ({r.room.note})</>}
       </span>
     );
   }
@@ -127,7 +140,7 @@ export function CardFitTable({ data, cardId }: { data: CardFitData; cardId: numb
     {
       key: "spot", header: "Spot", priority: 2,
       tip: "Where it goes: the spot of its biggest gain, else where it plays now, else where it ranks best.",
-      render: (r) => <span className="font-medium">{r.spot}{r.variant && <span className="ml-1 rounded bg-accent px-1 text-[10px] font-semibold">V</span>}</span>,
+      render: (r) => <span className="font-medium">{spotLabel(r)}{r.variant && <span className="ml-1 rounded bg-accent px-1 text-[10px] font-semibold">V</span>}</span>,
     },
     {
       key: "team", header: "Your team", priority: 1,
@@ -224,7 +237,7 @@ export function NewCardsBoard({ data, pulled }: { data: CardFitData; pulled: num
         <span className="flex flex-wrap gap-1">
           {x.starts.slice(0, 3).map((r) => (
             <span key={r.eventId} className="rounded bg-positive/10 px-1.5 py-0.5 text-[11px]" title={r.swaps.map(swapText).join(" · ")}>
-              {events.get(r.eventId)?.name.replace(/^Daily /, "")} <span className="font-semibold text-positive">{signed(r.gain)}</span> <span className="text-muted-foreground">{r.spot}</span>
+              {events.get(r.eventId)?.name.replace(/^Daily /, "")} <span className="font-semibold text-positive">{signed(r.gain)}</span> <span className="text-muted-foreground">{spotLabel(r)}</span>
             </span>
           ))}
           {x.starts.length > 3 && <span className="text-[11px] text-muted-foreground">+{x.starts.length - 3} more</span>}
