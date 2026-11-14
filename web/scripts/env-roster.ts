@@ -848,6 +848,7 @@ async function main() {
             const tiers: Record<string, number> = {};
             for (const v of units.values()) { const t = tierCode(v); tiers[t] = (tiers[t] ?? 0) + 1; }
             const over = slotOverflow(tiers, SLOTS);
+            if (process.env.DUAL_DEBUG) console.log(`dual: ${c.name} seed overflows ${over ? `${over.tier} (${over.cards} for ${over.room})` : "nothing"}`);
             if (over) {
               const rank = (v: number) => TIER_ORDER.indexOf(tierCode(v));
               const holders = [...units.entries()].filter(([u, v]) => u !== unitOf(bat) && rank(v) >= TIER_ORDER.indexOf(over.tier));
@@ -859,7 +860,9 @@ async function main() {
                   && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
                   .map((h) => ({ h, v: keys.reduce((a, k) => a + dobj.slotValue(k, h.cardId), 0) }))
                   .sort((a, b) => b.v - a.v);
-                for (const { h } of subs.slice(0, 12)) {
+                // The best fits are often in tiers that are full too (Diamond and Gold bats for A-Rod's SS):
+                // walk down the list to the first that fits the slots.
+                for (const { h } of subs) {
                   const s2 = { ...seed };
                   for (const k of keys) s2[k] = h.cardId;
                   if (fitsRules(s2)) { seeds.push({ seed: s2, freed: `${byIdD.get(seed[keys[0]!]!)?.name ?? holder} out for ${h.name}` }); break; }
