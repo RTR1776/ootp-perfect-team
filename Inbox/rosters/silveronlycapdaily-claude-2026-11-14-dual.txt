@@ -1,0 +1,36 @@
+# Daily Silver Only Cap — Claude pick 2026-11-14 dual, rebuilt from the catalogue's rules by current-rosters (--year 1998 --park Heinsohn Ballpark --park-year 2026 --dh --min 70 --max 79 --cap 1888 --variant-cap 11 --size 26 --series silveronlycapdaily --sp 5 --rp 7 --bats 14)
+R:C Bob Boone (VAR) #87032
+R:1B Matt Carpenter #86771
+R:2B John Henry Russell (VAR) #87438
+R:3B Aiva Arquette (VAR) #84768
+R:SS Luis Aparicio #86612
+R:LF Desmond Jennings #87420
+R:CF Carlos Gomez #87418
+R:RF Mitch Webster #85448
+R:DH Gus Bell #85785
+L:C Mike Zunino (VAR) #86431
+L:1B Aiva Arquette (VAR) #84768
+L:2B John Henry Russell (VAR) #87438
+L:3B Kevin Mitchell #86733
+L:SS Felnin Celesten #84767
+L:LF Desmond Jennings #87420
+L:CF Carlos Gomez #87418
+L:RF Mitch Webster #85448
+L:DH Ryan Braun #87222
+SP1 Nick Altrock #87049
+SP2 Jakie May (VAR) #85286
+SP3 Felix Hernandez #87204
+SP4 David Davalillo #85132
+SP5 Bob Gibson #85499
+CL Chad Bradford #86341
+RP1 Bruce Ruffin #86777
+RP2 Brian Anderson #87070
+RP3 Alex Claudio (VAR) #86447
+RP4 Bruce Sutter #86709
+RP5 Juan Cruz #87224
+RP6 Bryan Hudson #84964
+BN1 Nick Swisher (VAR) #85784
+BN2 Felnin Celesten #84767
+BN3 Kevin Mitchell #86733
+BN4 Ryan Braun #87222
+BN5 Mike Zunino (VAR) #86431
