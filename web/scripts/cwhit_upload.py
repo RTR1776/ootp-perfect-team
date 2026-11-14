@@ -16,12 +16,15 @@ What cwhit (DCFC) still needs, and how to hand it to him. Used by
   - refused too: a row with no CID or team, fewer than MIN_TEAMS teams (a
     cut-off run), or a card newer than an event's year limit.
 """
-import csv, glob, os, re, zipfile
+import csv, datetime, glob, os, re, zipfile
 import xml.etree.ElementTree as ET
 
 CWHIT_COLUMNS = ['POS', 'Name', 'First Name', 'Last Name', 'ORG', 'HT', 'WT', 'B', 'T', 'VAL', 'CTM', 'CFR', 'CYear', 'CEra', 'ST', 'CID', 'Tier', 'Title', 'L10', 'VAR', 'VLvl', 'BABIP', 'GAP', 'POW', 'EYE', "K's", 'BA vL', 'GAP vL', 'POW vL', 'EYE vL', 'K vL', 'BA vR', 'GAP vR', 'POW vR', 'EYE vR', 'K vR', 'BUN', 'BFH', 'BBT', 'GBT', 'FBT', 'STU', 'CON', 'PBABIP', 'HRA', 'STU vL', 'CON vL', 'PBABIP vL', 'HRA vL', 'STU vR', 'CON vR', 'PBABIP vR', 'HRA vR', 'FB', 'CH', 'CB', 'SL', 'SI', 'SP', 'CT', 'FO', 'CC', 'SC', 'KC', 'KN', 'PIT', 'G/F', 'VELO', 'Slot', 'PT', 'STM', 'HLD', 'C ABI', 'C FRM', 'C ARM', 'IF RNG', 'IF ERR', 'IF ARM', 'TDP', 'OF RNG', 'OF ERR', 'OF ARM', 'P', 'C', '1B', '2B', '3B', 'SS', 'LF', 'CF', 'RF', 'P Pot', 'C Pot', '1B Pot', '2B Pot', '3B Pot', 'SS Pot', 'LF Pot', 'CF Pot', 'RF Pot', 'SPE', 'SR', 'STE', 'RUN', 'G', 'GS', 'PA', 'AB', 'H', '1B_1', '2B_1', '3B_1', 'HR', 'RBI', 'R', 'BB', 'IBB', 'HP', 'SH', 'SF', 'CI', 'K', 'GIDP', 'RC', 'WPA', 'wRC', 'wRAA', 'WAR', 'PI/PA', 'SB', 'CS', 'wSB', 'UBR', 'G_1', 'GS_1', 'W', 'L', 'HLD_1', 'SD', 'MD', 'IP', 'BF', 'AB_1', '1B_2', '2B_2', '3B_2', 'HR_1', 'R_1', 'ER', 'BB_1', 'IBB_1', 'K_1', 'HP_1', 'SH_1', 'SF_1', 'WP', 'BK', 'CI_1', 'DP', 'GF', 'IR', 'IRS', 'pLi', 'PI', 'GB', 'FB_1', 'SB_1', 'CS_1', 'WPA_1', 'WAR_1', 'rWAR', 'SIERA', 'G_2', 'GS_2', 'TC', 'A', 'PO', 'E', 'DP_1', 'TP', 'RNG', 'ZR', 'EFF', 'SBA', 'RTO', 'IP_1', 'PB', 'CER', 'BIZ-R', 'BIZ-Rm', 'BIZ-L', 'BIZ-Lm', 'BIZ-E', 'BIZ-Em', 'BIZ-U', 'BIZ-Um', 'BIZ-Z', 'BIZ-Zm', 'FRM', 'ARM']
 MIN_TEAMS = 20
 UPLOAD_DIR_NAME = "UPLOAD TO CWHIT TODAY"
+# The upload folder only takes his rows dated within this many days (L.J.,
+# 2026-11-14: nothing over two weeks old). Undated rows (quicks) are left out.
+RECENT_DAYS = 14
 
 def _restart(new, first_run):
     return lambda run: (new, run - first_run)
@@ -81,6 +84,24 @@ def _col(ref):
 
 def read_sheet(path):
     """{expected_filename: status} over every tab that has those two columns."""
+    return {fn: st for fn, (st, _) in read_sheet_rows(path).items()}
+
+def _sheet_date(v):
+    """His tourney_date cell: '11/14/26' text or an Excel day number. None if blank."""
+    if not v:
+        return None
+    m = re.fullmatch(r"(\d{1,2})/(\d{1,2})/(\d{2}|\d{4})", v.strip())
+    if m:
+        y = int(m.group(3))
+        return datetime.date(y + 2000 if y < 100 else y, int(m.group(1)), int(m.group(2)))
+    try:
+        return datetime.date(1899, 12, 30) + datetime.timedelta(days=int(float(v)))
+    except ValueError:
+        return None
+
+def read_sheet_rows(path):
+    """{expected_filename: (status, tourney_date or None)} over every tab that has
+    those columns. Quick tabs have no date until someone enters one."""
     ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
     z = zipfile.ZipFile(path)
     shared = []
@@ -107,10 +128,11 @@ def read_sheet(path):
         head = {v: k for k, v in rows[0].items()}
         if "expected_filename" not in head or "status" not in head:
             continue
+        dcol = head.get("tourney_date")
         for r in rows[1:]:
             fn = r.get(head["expected_filename"])
             if fn:
-                out[fn] = r.get(head["status"], "")
+                out[fn] = (r.get(head["status"], ""), _sheet_date(r.get(dcol)) if dcol is not None else None)
     return out
 
 # --- one file --------------------------------------------------------------

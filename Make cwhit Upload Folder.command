@@ -2,13 +2,14 @@
 # Make cwhit Upload Folder — double-click after Push to GitHub.command.
 #
 # Builds ONE folder, "UPLOAD TO CWHIT TODAY" (next to this file), holding every
-# export of ours that cwhit's sheet still lists as Missing: renamed to his
+# export of ours that cwhit's sheet still lists as Missing, dated within the last
+# two weeks (cu.RECENT_DAYS; quicks are left out): renamed to his
 # filenames, trimmed to his 200 columns, checked (web/scripts/cwhit_upload.py).
 # Drag that folder to his uploader at app.cwhitstats.com/upload.
 #
 # His sheet: the newest "DCFCStats App Data Entry" .xlsx in Downloads, Desktop,
 # this folder or Tourney Data. Download a fresh one from his site first for
-# the most up-to-date list (the newest copy in Tourney Data is from 2026-10-18).
+# the most up-to-date list (the newest copy in Tourney Data is from 2026-11-14).
 #
 # It also clears out the old cwhit folders (DCFC Upload Queue, DCFC READY TO
 # UPLOAD..., DCFC Rejected). Every file in them is a copy of one in
@@ -63,8 +64,14 @@ sheet = cu.find_sheet(REPO)
 if not sheet:
     print("\nNo cwhit sheet found. Download 'DCFCStats App Data Entry' (.xlsx) from his site into Downloads and run this again.")
     sys.exit(0)
-status = cu.read_sheet(sheet)
-print("\ncwhit's sheet: %s (%d rows, %d missing)" % (sheet, len(status), sum(v == "Missing" for v in status.values())))
+import datetime
+rows = cu.read_sheet_rows(sheet)
+since = datetime.date.today() - datetime.timedelta(days=cu.RECENT_DAYS)
+# Only his Missing rows dated in the last RECENT_DAYS (quicks have no date, so they're out too).
+status = {fn: st for fn, (st, d) in rows.items() if d and d >= since}
+print("\ncwhit's sheet: %s (%d rows, %d missing; taking the %d missing since %s)" % (
+    sheet, len(rows), sum(st == "Missing" for st, _ in rows.values()),
+    sum(v == "Missing" for v in status.values()), since))
 
 # 3. Rebuild the folder.
 archived = scan()   # now including anything rescued above
