@@ -1,106 +1,127 @@
 {
-  "fittedAt": "2026-10-25",
-  "source": "league split exports, weeks 2026-06-28, 2026-08-16, 2026-08-23, 2026-08-30, 2026-09-06, 2026-09-13, 2026-09-20, 2026-09-27, 2026-10-04, 2026-10-11, 2026-10-18, 2026-10-25 (theme weeks: 2026-08-23 = 1959, 2026-09-20 = 1989, 2026-10-18 = 2007); card-board lines with 1500+ PA",
-  "lines": 342,
-  "pa": 9337350,
+  "fittedAt": "2026-11-15",
+  "source": "league split exports, weeks 2026-06-28, 2026-08-16, 2026-08-23, 2026-08-30, 2026-09-06, 2026-09-13, 2026-09-20, 2026-09-27, 2026-10-04, 2026-10-11, 2026-10-18, 2026-10-25, 2026-11-01, 2026-11-08, 2026-11-15 (theme weeks: 2026-08-23 = 1959, 2026-09-20 = 1989, 2026-10-04 = 1952, 2026-10-18 = 2007); card-board lines with 1500+ PA",
+  "lines": 388,
+  "pa": 11665158,
   "coef": {
-    "intercept": 0.0268,
-    "app": 0.3897,
-    "K": 15.5467,
-    "BA": 9.3693,
-    "GAP": 3.7519,
-    "POW": 4.7457,
-    "EYE": 10.9069
+    "intercept": 0.0144,
+    "app": 0.3612,
+    "K": 15.9634,
+    "BA": 9.6604,
+    "GAP": 4.0198,
+    "POW": 5.149,
+    "EYE": 10.8155
   },
   "coefNote": "Rating terms are per unit of ln(rating) minus the league's PA-weighted mean ln(rating) on that board, each multiplied by the week's environment price (the app's +10 value of that rating there over the PT default; 1 in an ordinary week).",
-  "shrink": 0.5647,
+  "shrink": 0.536,
   "validation": {
-    "byCard": 0.932,
-    "byWeek": 0.857,
+    "byCard": 0.937,
+    "byWeek": 0.852,
     "shrinkOnlyByCard": 0.822,
-    "shrinkOnlyByWeek": 0.758,
+    "shrinkOnlyByWeek": 0.756,
     "eachWeek": {
       "2026-06-28": {
-        "r": 0.846,
-        "shrinkOnly": 0.748,
+        "r": 0.843,
+        "shrinkOnly": 0.745,
         "lines": 58,
         "themed": false,
         "envYear": 2010
       },
       "2026-08-16": {
         "r": 0.885,
-        "shrinkOnly": 0.799,
+        "shrinkOnly": 0.794,
         "lines": 170,
         "themed": false,
         "envYear": 2010
       },
       "2026-08-23": {
         "r": 0.711,
-        "shrinkOnly": 0.719,
+        "shrinkOnly": 0.717,
         "lines": 77,
         "themed": true,
         "envYear": 1959
       },
       "2026-08-30": {
-        "r": 0.848,
-        "shrinkOnly": 0.755,
+        "r": 0.847,
+        "shrinkOnly": 0.747,
         "lines": 145,
         "themed": false,
         "envYear": 2010
       },
       "2026-09-06": {
         "r": 0.875,
-        "shrinkOnly": 0.797,
+        "shrinkOnly": 0.792,
         "lines": 193,
         "themed": false,
         "envYear": 2010
       },
       "2026-09-13": {
         "r": 0.846,
-        "shrinkOnly": 0.778,
+        "shrinkOnly": 0.774,
         "lines": 172,
         "themed": false,
         "envYear": 2010
       },
       "2026-09-20": {
-        "r": 0.808,
-        "shrinkOnly": 0.768,
+        "r": 0.807,
+        "shrinkOnly": 0.764,
         "lines": 190,
         "themed": true,
         "envYear": 1989
       },
       "2026-09-27": {
         "r": 0.845,
-        "shrinkOnly": 0.762,
+        "shrinkOnly": 0.754,
         "lines": 195,
         "themed": false,
         "envYear": 2010
       },
       "2026-10-04": {
-        "r": 0.872,
-        "shrinkOnly": 0.766,
+        "r": 0.813,
+        "shrinkOnly": 0.793,
         "lines": 187,
-        "themed": false,
-        "envYear": 2010
+        "themed": true,
+        "envYear": 1952
       },
       "2026-10-11": {
-        "r": 0.89,
-        "shrinkOnly": 0.784,
+        "r": 0.889,
+        "shrinkOnly": 0.772,
         "lines": 172,
         "themed": false,
         "envYear": 2010
       },
       "2026-10-18": {
-        "r": 0.85,
-        "shrinkOnly": 0.67,
+        "r": 0.853,
+        "shrinkOnly": 0.658,
         "lines": 184,
         "themed": true,
         "envYear": 2007
       },
       "2026-10-25": {
         "r": 0.894,
-        "shrinkOnly": 0.785,
+        "shrinkOnly": 0.774,
         "lines": 159,
+        "themed": false,
+        "envYear": 2010
+      },
+      "2026-11-01": {
+        "r": 0.882,
+        "shrinkOnly": 0.779,
+        "lines": 149,
+        "themed": false,
+        "envYear": 2010
+      },
+      "2026-11-08": {
+        "r": 0.861,
+        "shrinkOnly": 0.79,
+        "lines": 169,
+        "themed": false,
+        "envYear": 2010
+      },
+      "2026-11-15": {
+        "r": 0.839,
+        "shrinkOnly": 0.723,
+        "lines": 136,
         "themed": false,
         "envYear": 2010
       }
@@ -108,36 +129,32 @@
   },
   "reference": {
     "HD|vL": {
-      "week": "2026-10-25",
-      "pa": 322578,
+      "week": "2026-11-15",
+      "pa": 162856,
       "leagues": [
         "HD450",
-        "HD451",
-        "HD452",
-        "HD453"
+        "HD451"
       ],
-      "app": 30.9746,
-      "lK": 0.9484,
-      "lBA": 0.9867,
-      "lGAP": 0.7722,
-      "lPOW": 1.0302,
-      "lEYE": 1.0185
+      "app": 35.1414,
+      "lK": 0.9556,
+      "lBA": 1.0119,
+      "lGAP": 0.7848,
+      "lPOW": 1.0699,
+      "lEYE": 1.0589
     },
     "HD|vR": {
-      "week": "2026-10-25",
-      "pa": 418720,
+      "week": "2026-11-15",
+      "pa": 210224,
       "leagues": [
         "HD450",
-        "HD451",
-        "HD452",
-        "HD453"
+        "HD451"
       ],
-      "app": 32.3186,
-      "lK": 0.9595,
-      "lBA": 0.9606,
-      "lGAP": 0.8704,
-      "lPOW": 1.0651,
-      "lEYE": 1.0105
+      "app": 38.6006,
+      "lK": 0.9653,
+      "lBA": 1.0027,
+      "lGAP": 0.907,
+      "lPOW": 1.1171,
+      "lEYE": 1.0888
     },
     "LD|vL": {
       "week": "2026-09-06",
@@ -145,7 +162,7 @@
       "leagues": [
         "LD404"
       ],
-      "app": 17.8059,
+      "app": 19.0122,
       "lK": 0.8825,
       "lBA": 0.9226,
       "lGAP": 0.7096,
@@ -158,7 +175,7 @@
       "leagues": [
         "LD404"
       ],
-      "app": 18.0515,
+      "app": 19.2749,
       "lK": 0.9129,
       "lBA": 0.9017,
       "lGAP": 0.755,
@@ -166,53 +183,53 @@
       "lEYE": 0.8322
     },
     "PEL|vL": {
-      "week": "2026-10-25",
-      "pa": 100259,
+      "week": "2026-11-15",
+      "pa": 97957,
       "leagues": [
         "PEL"
       ],
-      "app": 35.6819,
-      "lK": 0.9496,
-      "lBA": 1.002,
-      "lGAP": 0.7866,
-      "lPOW": 1.1165,
-      "lEYE": 1.0904
+      "app": 38.1161,
+      "lK": 0.969,
+      "lBA": 1.0125,
+      "lGAP": 0.8138,
+      "lPOW": 1.1024,
+      "lEYE": 1.1155
     },
     "PEL|vR": {
-      "week": "2026-10-25",
-      "pa": 124275,
+      "week": "2026-11-15",
+      "pa": 123359,
       "leagues": [
         "PEL"
       ],
-      "app": 37.4385,
-      "lK": 0.9656,
-      "lBA": 0.9777,
-      "lGAP": 0.8844,
-      "lPOW": 1.1544,
-      "lEYE": 1.0919
+      "app": 42.2528,
+      "lK": 0.9735,
+      "lBA": 1.0233,
+      "lGAP": 0.9324,
+      "lPOW": 1.1561,
+      "lEYE": 1.1471
     }
   },
   "lhpShare": {
-    "HD": 0.435,
+    "HD": 0.437,
     "LD": 0.424,
-    "PEL": 0.447
+    "PEL": 0.443
   },
   "ratingRange": {
     "K": [
-      32.0,
+      28.0,
       288.0
     ],
     "BA": [
-      25.0,
-      213.0
+      22.0,
+      220.0
     ],
     "GAP": [
       17.0,
-      205.0
+      218.0
     ],
     "POW": [
       1.0,
-      288.0
+      300.0
     ],
     "EYE": [
       32.0,
