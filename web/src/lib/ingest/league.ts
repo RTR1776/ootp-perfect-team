@@ -124,10 +124,11 @@ export function parseLeagueFilename(filename: string): {
    * word boundary that a digit satisfies. Guarded on both sides so an ordinary
    * word ("view", "vlad") can never read as a split.
    */
-  const marker = base.match(/(?:^|[^a-z])(versus_left|versus_right|vl|vr)(?![a-z])/);
+  // "PEL2060v_L.csv" (L.J., 11-15) and "pel_vs_l" spell it with an underscore inside the marker.
+  const marker = base.match(/(?:^|[^a-z])(versus_left|versus_right|vs_?l|vs_?r|v_l|v_r|vl|vr)(?![a-z])/);
   const split: LeagueSplit = !marker
     ? "all"
-    : marker[1] === "versus_left" || marker[1] === "vl"
+    : /^(versus_left|vs_?l|v_l|vl)$/.test(marker[1])
       ? "vL"
       : "vR";
   return { league, split };

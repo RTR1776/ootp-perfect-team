@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseLeagueExport, resolveRatingCols } from "./league";
+import { parseLeagueExport, parseLeagueFilename, resolveRatingCols } from "./league";
 
 test("a league export keeps each copy's split ratings and variant level", () => {
   const header = "POS,Name,ORG,VAL,CID,VAR,VLvl,BABIP,GAP,POW,EYE,K's,BA vL,GAP vL,POW vL,EYE vL,K vL,BA vR,GAP vR,POW vR,EYE vR,K vR,STU,CON,PBABIP,HRA,STU vL,CON vL,PBABIP vL,HRA vL,STU vR,CON vR,PBABIP vR,HRA vR,PA,AB,H,HR";
@@ -58,4 +58,19 @@ test("Control is found after Stuff wherever the view puts it", () => {
   assert.deepEqual(pick(wide), { CON: "CON_1", "CON vL": "CON vL_1", "CON vR": "CON vR_1" });
   // No Stuff column and the name is shared: leave Control out rather than guess.
   assert.deepEqual(pick("POS,Name,CON vL,CON vL_1"), {});
+});
+
+test("the split marker reads in every spelling L.J.'s files use", () => {
+  const split = (f: string) => parseLeagueFilename(f).split;
+  assert.equal(split("pel_vL.csv"), "vL");
+  assert.equal(split("hd451_vr (1).csv"), "vR");
+  assert.equal(split("ld404vR_statistics_x.csv"), "vR");
+  // 2026-11-15: these two were stored as "all" and the vR file replaced the full season.
+  assert.equal(split("PEL2060v_L.csv"), "vL");
+  assert.equal(split("PEL2060v_R.csv"), "vR");
+  assert.equal(split("pel_vs_l.csv"), "vL");
+  assert.equal(split("PEL2060_all.csv"), "all");
+  assert.equal(split("PEL2060lateseason_vR.csv"), "vR");
+  assert.equal(split("hd452_view.csv"), "all");
+  assert.equal(parseLeagueFilename("PEL2060v_R.csv").league, "PEL");
 });
