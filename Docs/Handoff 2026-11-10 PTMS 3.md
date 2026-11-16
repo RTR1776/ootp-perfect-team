@@ -38,3 +38,7 @@ Built with `current-rosters --only 9130001,9130002,9130003 --all --tag 2026-11-1
 - The draft round questions above.
 - The PTMS 3 drafts' `teams` are set to 128 (a guess).
 - Everything under "Still open" in `Handoff 2026-11-07.md`.
+
+## L.J.'s answer on the draft rounds (11-10)
+- PD 3 Modified Perfectly Bronze: "yes ... I believe" — 4 Perfect then 17 Bronze, packs of 2. Treat as likely, not certain.
+- PD 1 Low of Lows and PD 2 Double 101+: he doesn't know either. Leave the assumptions flagged; confirm from the in-game draft screen when the drafts open, then write a draft kit per PD.
