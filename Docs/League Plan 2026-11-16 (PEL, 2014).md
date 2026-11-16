@@ -125,3 +125,43 @@ Runs per 9 over the league's arm, on PEL record:
   - Reggie is worth 1.0 run over Edgar DHing every day.
   - The 7th reliever is worth 0.9.
   - Claude's lean is the 7th reliever, because pen fatigue over 162 games is what these numbers don't see. L.J.'s call.
+
+---
+
+## 7. Update 11-16: HD452 refit, the new division, and L.J.'s roster checked
+
+**Refit with HD452** (uploads 405–407, the last HD league from last week):
+- Hitter model: 392 card lines, 11.85M PA. Held out by card r 0.932, by week r 0.854. League play returns 0.536 of a tournament edge, unchanged.
+- Arm model: Miller +0.59 per 9, Uehara +0.44, Hernandez +0.44, Yates +0.40. Hader −0.65 on the slope fit.
+- Tests: 414 pass.
+
+**Division: NC Central.** KC, Mt Etna Hotter Otters, Tulsa Goldies, Castroville Mashers, Lincoln Heights Doyers and Ottawa Hammerheads. WAR is from each team's newest export. HD WAR runs higher than PEL WAR.
+
+| Team | Came from | WAR | LHB share of PA | LHP share of GS |
+|---|---|---|---|---|
+| Castroville Mashers | HD451, 1st of 31 (next best 44.5) | 51.1 | 60% (+7% switch) | 56% |
+| Lincoln Heights Doyers | HD450, 2nd of 31 | 48.4 | 44% | 31% |
+| Tulsa Goldies | HD451, 9th | 39.6 | 37% (+10% switch) | 51% |
+| Mt Etna Hotter Otters | PEL | 37.1 (KC 37.9) | 55% (+25% switch) | 61% |
+| Ottawa Hammerheads | no export since HD450 09-13 | — | — | — |
+
+- All of them are mirror rosters of KC: Utley, Soto, Yaz, Brett, Seager, Andruw, Bumgarner, Sale, Brown and the same relievers.
+- Castroville and Mt Etna lean left-handed, which favours Bumgarner, Sale, Plank and Ryan. Tulsa and Lincoln Heights lean right-handed, which favours Brown and Davis.
+
+**L.J.'s 26 (screenshot, 11-16):** 14 bats (no Bautista, Molina, Matsui) and 12 arms.
+
+Each lineup was scored on `scripts/league-lineup-blend.mts`: the league model in 2014 at 1987 Yankee Stadium, blended with each card's league history at K 1300.
+- **vs LHP:** his nine is the model's best nine, exactly.
+- **vs RHP:** −13.8 runs/700. He plays Delahanty in LF and benches Granderson.
+  - Granderson in LF is +13.4 against Delahanty's −0.5: bat +9.8 over 13k PA of league play, against −3.3.
+  - The finding holds at K 500 (−14.5) and K 3000 (−12.8).
+  - About 7.7 runs a season.
+- **Batting order** (`scripts/league-order.mts`):
+  - vs RHP: Brett, Soto, Reggie, A-Rod, Seager, Utley, Granderson, Andruw, Moreno.
+  - vs LHP: Edgar, Utley, Soto, Pujols, Seager, Andruw, Delahanty, A-Rod, Boone.
+  - His orders cost 0.008 R/G vs RHP and 0.020 vs LHP, about 2 runs a season together.
+- **Bautista or the 7th reliever:** Bautista is +1.3; the 7th reliever (Varland) is +0.7. That's a tie, so keep 7 RP for pen fatigue, as he has it.
+- **Staff** (`scripts/league-staff-check.mts`):
+  - Same five starters, but SP1 should be Sheets (+0.29), not Bumgarner (+0.17).
+  - Pen: Miller CL +0.59, Hernandez +0.34, Ryan +0.33 (vs LHB +0.76, vs RHB −0.05: the specialist role is right), Britton +0.33, Hader +0.17, Davis +0.16, Varland +0.13.
+  - Hader's "Long Relief" secondary role doesn't fit his stamina of 19. Hernandez (67) is the only real long man.
