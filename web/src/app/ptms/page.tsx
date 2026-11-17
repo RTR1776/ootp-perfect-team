@@ -20,7 +20,7 @@ import { SectionTabs } from "@/components/section-tabs";
 import { RulesStrip } from "@/components/rules-strip";
 import { describeRules, type RosterRules } from "@/lib/roster-rules";
 import { parkFor } from "@/lib/analytics/tournament-env";
-import { DRAFT_FORMATS } from "@/lib/draft/formats";
+import { DRAFT_FORMATS, screensText } from "@/lib/draft/formats";
 
 export const dynamic = "force-dynamic";
 
@@ -108,7 +108,8 @@ export default async function PtmsPage() {
                   {fmt ? (
                     <>
                       <p>
-                        {fmt.cards} cards: {fmt.rounds.map((r) => `${r.count} ${r.label}`).join(", ")} · packs of {fmt.packSize}{fmt.keep && fmt.keep > 1 ? `, keep ${fmt.keep}` : ""}
+                        {fmt.cards} cards: {fmt.rounds.map((r) => `${r.count} ${r.label}`).join(", ")}
+                        {" · "}{screensText(fmt) ?? `packs of ${fmt.packSize}${fmt.keep && fmt.keep > 1 ? `, keep ${fmt.keep}` : ""}`}
                         {fmt.starts && <span className="text-muted-foreground"> · starts {fmt.starts}</span>}
                       </p>
                       <ul className="mt-1 list-disc pl-5 text-xs text-muted-foreground">

@@ -30,12 +30,15 @@
  * exact for a uniform pack: expectedBestOfN). A second catcher round makes the
  * first catcher less urgent; a Gold round that may bring a shortstop makes a
  * Bronze one worth a little less; a deep pool can wait and a thin one can't.
+ * Where the format lists the game's rounds (PTMS 3's event screens), N is
+ * each round's own: a "pick 1 of 12" round is the best of 12, a "pick 2 of
+ * 12" round about the best of 8 for each pick (formats.ts pricedPack).
  */
 import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { LJ_FLOOR, posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { penTilt, PITCHER_BAT_RUNS, rotationTilt, STARTER_PA_SHARE, staffStaminaRuns } from "@/lib/roster-objective";
 import type { Tier } from "@/lib/tiers";
-import { inBand, type DraftFormat, type DraftGroup, type PackKind, type Remaining, type RoundKind } from "@/lib/draft/formats";
+import { inBand, pricedPack, stepsLeft, type DraftFormat, type DraftGroup, type PackKind, type Remaining, type RoundKind } from "@/lib/draft/formats";
 
 export const FIELD = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
 export type FieldPos = (typeof FIELD)[number];
@@ -494,24 +497,32 @@ function expectedFrom(E: Engine, pool: readonly number[], plan: Plan, n: number)
 }
 
 export interface PlayOptions {
+  /** The pack a pick is priced at (best of N): the pick on screen's, and every pick left's when the format lists no rounds. */
   packSize: number;
   /** Pack kind by round key, over the format's (the page's 5L switch). */
   packKinds?: Record<string, PackKind>;
+  /**
+   * Cards each of the game's rounds shows, for a format that lists them
+   * (DraftFormat.screens). Each pick left is then priced at its own round:
+   * pricedPack(screenSize, that round's keep), so a "pick 1 of 12" round is
+   * the best of 12 and a "pick 2 of 12" round about the best of 8 a pick.
+   */
+  screenSize?: number;
 }
 
 export const kindOf = (r: RoundKind, o: PlayOptions): PackKind => o.packKinds?.[r.key] ?? r.pack;
 
 /** One round's expected pick for this team: a pick-a-position round takes the group with the best expected pack. */
-export function expectedPick(E: Engine, r: RoundKind, plan: Plan, taken: ReadonlySet<string | number>, o: PlayOptions): ExpectedPick | null {
+export function expectedPick(E: Engine, r: RoundKind, plan: Plan, taken: ReadonlySet<string | number>, o: PlayOptions, n = o.packSize): ExpectedPick | null {
   if (kindOf(r, o) === "choose") {
     let best: ExpectedPick | null = null;
     for (const g of r.groups) {
-      const e = expectedFrom(E, poolOf(E, r, [g], taken), plan, o.packSize);
+      const e = expectedFrom(E, poolOf(E, r, [g], taken), plan, n);
       if (e && (!best || e.ev > best.ev)) best = { ...e, group: g };
     }
     return best;
   }
-  const e = expectedFrom(E, poolOf(E, r, r.groups, taken), plan, o.packSize);
+  const e = expectedFrom(E, poolOf(E, r, r.groups, taken), plan, n);
   return e ? { ...e, group: E.cards[e.idx].group } : null;
 }
 
@@ -537,6 +548,23 @@ export function playOrder(f: DraftFormat, rem: Remaining, o: PlayOptions): Round
   return out;
 }
 
+/**
+ * The picks left in play-out order, each with the pack it is priced at: the
+ * game's own round list when the format has one and the page passed its
+ * screen size (each pick at its round's keep), else playOrder at o.packSize.
+ */
+export function playSteps(f: DraftFormat, rem: Remaining, o: PlayOptions): { r: RoundKind; n: number }[] {
+  const steps = o.screenSize ? stepsLeft(f, rem) : null;
+  if (steps) {
+    const byKey = new Map(f.rounds.map((r) => [r.key, r]));
+    return steps.flatMap((s) => {
+      const r = byKey.get(s.key);
+      return r ? [{ r, n: pricedPack(o.screenSize!, s.keep) }] : [];
+    });
+  }
+  return playOrder(f, rem, o).map((r) => ({ r, n: o.packSize }));
+}
+
 export interface Playout {
   team: number[];
   plan: Plan;
@@ -558,8 +586,8 @@ export function playOut(E: Engine, f: DraftFormat, team0: readonly number[], rem
   let plan = teamPlan(E, team);
   let value = plan.value;
   const expected: Playout["expected"] = [];
-  for (const r of playOrder(f, rem, o)) {
-    const pick = expectedPick(E, r, plan, taken, o);
+  for (const { r, n } of playSteps(f, rem, o)) {
+    const pick = expectedPick(E, r, plan, taken, o, n);
     if (!pick) continue;
     value += pick.ev;
     team.push(pick.idx);

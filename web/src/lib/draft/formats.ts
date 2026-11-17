@@ -67,6 +67,16 @@ export interface RoundKind {
   valueMax?: number;
 }
 
+/**
+ * One of the game's rounds as its event screen lists it ("Round 5: Pick 1 of
+ * 12 cards (Bronze 60-69)"): the round kind it deals from and how many cards
+ * are kept from its pack. The pack size is the format's.
+ */
+export interface Screen {
+  round: string;
+  keep: number;
+}
+
 export interface DraftFormat {
   /** The export slug the event is filed under. */
   series: string;
@@ -96,13 +106,22 @@ export interface DraftFormat {
    */
   ordered?: boolean;
   rounds: RoundKind[];
+  /**
+   * The game's rounds in order, when the event screen lists them. Then they
+   * are the truth: each kind's count is the picks its screens keep, the
+   * format is dealt in this order, and each pick keeps (and is priced at) its
+   * own screen's count, so PD 3's "pick 1 of 12" rounds price at the best of
+   * 12 and its "pick 2 of 12" rounds at about the best of 8 each.
+   */
+  screens?: Screen[];
   /** Cards a pack (one round's screen) shows; the page can change it. */
   packSize: number;
   /**
    * Cards kept from each pack. 1 unless said: L.J.'s game saves show the
    * ladder and Perfectly-X drafts as rounds of about 12 cards with 2 kept
    * (lib/draft/live-state withPick keeps the pack up for the second pick).
-   * Round counts stay in picks, not screens.
+   * Round counts stay in picks, not screens. A format with `screens` keeps
+   * each round's own count (keepFor); this is then only the fallback.
    */
   keep?: number;
   /** One line each: what the data or L.J. has confirmed, and what is assumed. */
@@ -113,6 +132,8 @@ export interface DraftFormat {
 const bronzeAt = (g: DraftGroup, count = 1, also: DraftGroup[] = []): RoundKind => ({
   key: `B-${g}`, label: `Bronze ${[g, ...also].join("/")}`, tier: "Bronze", groups: [g, ...also], count, pack: "fixed",
 });
+
+const screensOf = (...list: [string, number][]): Screen[] => list.map(([round, keep]) => ({ round, keep }));
 
 export const DRAFT_FORMATS: Record<string, DraftFormat> = {
   "6lpowerplay": {
@@ -202,10 +223,9 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
   },
   /*
    * PTMS 3 (Saturday 2026-11-21). The catalogue rows are 9130004-06
-   * (src/db/seed/ptms3.json). Environments, parks, card pools, 128 teams and
-   * start times are from the event screens L.J. sent on 11-17. The screens do
-   * not give the PD 1 and PD 2 rounds, so each says what it borrowed them from
-   * (Docs/PTMS 3 Drafts 2026-11-17 (Claude).md has the evidence).
+   * (src/db/seed/ptms3.json). Everything below, the round lists included, is
+   * from the event screens L.J. sent on 11-17 ("Round 1: Pick 2 of 12 cards
+   * (Perfect) 100" and so on); `screens` copies each draft's 13 rounds.
    */
   ptms3pd1: {
     series: "ptms3pd1",
@@ -220,57 +240,56 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     starts: "Sat 21 Nov, 07:59 AM",
     ordered: true,
     rounds: [
-      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 2, pack: "mixed" },
-      { key: "D", label: "Diamond 90-94", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "mixed", valueMax: 94 },
-      { key: "G", label: "Gold 80-84", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMax: 84 },
-      { key: "S", label: "Silver 70-74", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMax: 74 },
-      { key: "B", label: "Bronze 60-64", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMax: 64 },
-      { key: "I", label: "Iron 40-49", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "mixed", valueMax: 49 },
+      { key: "P", label: "Perfect 100", tier: "Perfect", groups: ALL_GROUPS, count: 2, pack: "mixed", valueMin: 100, valueMax: 100 },
+      { key: "D", label: "Low Diamond 90-94", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "mixed", valueMin: 90, valueMax: 94 },
+      { key: "G", label: "Low Gold 80-84", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMin: 80, valueMax: 84 },
+      { key: "S", label: "Low Silver 70-74", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMin: 70, valueMax: 74 },
+      { key: "B", label: "Low Bronze 60-64", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMin: 60, valueMax: 64 },
+      { key: "I", label: "Low Iron 40-49", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "mixed", valueMin: 40, valueMax: 49 },
     ],
+    screens: screensOf(["P", 2], ["D", 2], ["D", 2], ["G", 2], ["G", 2], ["G", 2], ["S", 2], ["S", 2], ["S", 2], ["B", 2], ["B", 2], ["B", 2], ["I", 2]),
     packSize: 12,
     keep: 2,
     confirmed: [
-      "Low of Lows, cards up to 1986, 1986 run environment, DH, 1985 Veterans Stadium (AVG 1.007/1.027, HR 1.030/.982, 2B 1.073, 3B 1.119), 128 teams, Bo9, starts Sat 21 Nov 07:59 (event screen, 11-17).",
-      "Each tier's bottom band is the game's own \"Low\" band: Daily Low Diamond Only is 90-94, Low Gold Only 80-84, Low Silver Only 70-74, Low Bronze Only 60-64 and Low Iron Quick 49 and under (catalogue).",
+      "Low of Lows, cards up to 1986, 1986 run environment, DH, 1985 Veterans Stadium (AVG 1.007/1.027, HR 1.030/.982, 2B 1.073, 3B 1.119), Bo9, starts Sat 21 Nov 07:59 (event screen, 11-17).",
+      "13 rounds, each pick 2 of 12: round 1 Perfect 100; 2-3 Low Diamond 90-94; 4-6 Low Gold 80-84; 7-9 Low Silver 70-74; 10-12 Low Bronze 60-64; 13 Low Iron 40-49 (event screen, 11-17). 2 P, 4 D, 6 G, 6 S, 6 B, 2 I.",
     ],
     assumed: [
-      "Rounds come top tier first: 6 of the 8 ladder drafts in L.J.'s game saves (11-11..11-17) went Perfect, Diamond, Gold, Silver, Bronze, Iron; one mixed Perfect and Diamond picks, one came in no order. Typing the pack's first card sets the round either way.",
-      "26 rounds: 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron, as in the Double 101+ draft on file (strugglingsleep_170). Two of L.J.'s recent ladder drafts ran 4/4/4/6/6/2 instead. If the screen shows another split, set it under Rounds.",
-      "Perfect rounds are not capped: no game event defines a low Perfect band. L.J. read Low of Lows as 94 and under for Perfect and 84 for Diamond; the game's bands put 94 on Diamond and 84 on Gold.",
-      "Each round shows about 12 cards, positions mixed, and you keep 2 (L.J., 11-17: \"12 or so\" cards a round; the ladder drafts in his game saves fit 12-card rounds with 2 kept). The counts above are picks, so 13 rounds.",
+      "128 teams (a guess; no export of this event on file).",
+      "Each pack mixes positions (the screen doesn't say).",
     ],
   },
   ptms3pd2: {
     series: "ptms3pd2",
     eventId: 9130005,
-    name: "PTMS 3 PD 2 - Double 101+",
-    short: "PTMS 3 PD 2 Double 101+",
+    name: "PTMS 3 PD 2 - Double PD",
+    short: "PTMS 3 PD 2 Double",
     cards: 26,
     envYear: 2015,
     dh: true,
     teams: 128,
     mode: "Bo9, sims every 10 minutes",
-    starts: "Sat 21 Nov, 08:30 AM",
+    starts: "Sat 21 Nov, 08:29 AM",
     ordered: true,
     rounds: [
-      { key: "P101", label: "101+ (round 1)", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "mixed", valueMin: 101 },
-      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "mixed" },
-      { key: "D", label: "Diamond", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "mixed" },
-      { key: "G", label: "Gold", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "mixed" },
-      { key: "S", label: "Silver", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "mixed" },
-      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "mixed" },
-      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "mixed" },
+      { key: "P101", label: "Perfect 101+", tier: "Perfect", groups: ALL_GROUPS, count: 2, pack: "mixed", valueMin: 101 },
+      { key: "P", label: "Perfect 100", tier: "Perfect", groups: ALL_GROUPS, count: 2, pack: "mixed", valueMin: 100, valueMax: 100 },
+      { key: "D", label: "Diamond 90-99", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "mixed" },
+      { key: "G", label: "Gold 80-89", tier: "Gold", groups: ALL_GROUPS, count: 4, pack: "mixed" },
+      { key: "S", label: "Silver 70-79", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "mixed" },
+      { key: "B", label: "Bronze 60-69", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "mixed" },
+      { key: "I", label: "Iron 40-59", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "mixed", valueMin: 40 },
     ],
+    screens: screensOf(["P101", 2], ["P", 2], ["D", 2], ["D", 2], ["G", 2], ["G", 2], ["S", 2], ["S", 2], ["S", 2], ["B", 2], ["B", 2], ["B", 2], ["I", 2]),
     packSize: 12,
     keep: 2,
     confirmed: [
-      "Double PD, cards from 1970 on, 2015 run environment, DH, 2015 Angel Stadium of Anaheim (AVG 1.004/.950, HR .973/.998, 2B .968, 3B .827), 128 teams, Bo9, starts Sat 21 Nov 08:30 (event screen, 11-17).",
-      "The Double 101+ draft on file drafted exactly 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron on all 3 full teams (strugglingsleep_170, Daily Struggling to Sleep - DBL, 101+ RD1).",
+      "Double PD, cards from 1970 on, 2015 run environment, DH, 2015 Angel Stadium of Anaheim (AVG 1.004/.950, HR .973/.998, 2B .968, 3B .827), Bo9, starts Sat 21 Nov 08:29 (event screen, 11-17).",
+      "13 rounds, each pick 2 of 12: round 1 Perfect 101+; 2 Perfect 100; 3-4 Diamond 90-99; 5-6 Gold 80-89; 7-9 Silver 70-79; 10-12 Bronze 60-69; 13 Iron 40-59 (event screen, 11-17). 4 P (2 of them 101+), 4 D, 4 G, 6 S, 6 B, 2 I.",
     ],
     assumed: [
-      "Rounds come top tier first, as in 6 of the 8 ladder drafts in L.J.'s game saves (11-11..11-17). Typing the pack's first card sets the round either way.",
-      "The same rounds here, with a 101+ first round: the 11-10 announcement called it Double 101+; the 11-17 screen says only Double PD. The helper takes a Perfect card of any value in either Perfect round.",
-      "Each round shows about 12 cards, positions mixed, and you keep 2, as in PD 1. \"Double\" is not defined on file; every tier count in the double draft on file is even, which fits 2 kept a round. If round 1 deals 101+ cards for both picks, it makes no difference to the counts: both are Perfect.",
+      "128 teams (a guess; no export of this event on file).",
+      "Each pack mixes positions (the screen doesn't say).",
     ],
   },
   ptms3pd3: {
@@ -286,18 +305,19 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     starts: "Sat 21 Nov, 08:49 AM",
     ordered: true,
     rounds: [
-      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 8, pack: "mixed" },
-      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 13, pack: "mixed" },
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 7, pack: "mixed" },
+      { key: "B", label: "Bronze 60-69", tier: "Bronze", groups: ALL_GROUPS, count: 14, pack: "mixed" },
     ],
+    screens: screensOf(["P", 1], ["P", 2], ["P", 2], ["P", 2], ["B", 1], ["B", 1], ["B", 1], ["B", 2], ["B", 2], ["B", 2], ["B", 2], ["B", 2], ["B", 1]),
     packSize: 12,
     keep: 2,
     confirmed: [
-      "Modified Perfectly Bronze, 21 cards, 1939 run environment, no DH, 1940 Braves Field (AVG .995/.969, HR .829/.906, 2B 1.014, 3B .905), 128 teams, Bo9, starts Sat 21 Nov 08:49 (event screen, 11-17).",
-      "Rounds of about 12 cards, 2 kept, Perfect rounds included: the 26-card Perfect + Iron draft in L.J.'s 11-11 game save drew its 8 Perfect picks 2 at a time from the first four 12-card screens, then 18 Iron 2 a round (the save numbers every card shown; 23 of 25 readable picks fit).",
-      "PTCS 8's Modified Perfectly Iron, the 21-card version, gave L.J. 7 or 8 Perfect cards (8 if his Trout is the 103) and 13 or 14 Iron, so a Perfect round is not one card.",
+      "Modified Perfectly Bronze, 21 cards, 1939 run environment, no DH, 1940 Braves Field (AVG .995/.969, HR .829/.906, 2B 1.014, 3B .905), Bo9, starts Sat 21 Nov 08:49 (event screen, 11-17).",
+      "13 rounds of 12 cards: round 1 Perfect, pick 1; 2-4 Perfect, pick 2; 5-7 Bronze 60-69, pick 1; 8-12 Bronze, pick 2; 13 Bronze, pick 1 (event screen, 11-17). 7 Perfect, 14 Bronze. The 8 and 13 on file before this were a guess from the 26-card Perfectly Iron.",
     ],
     assumed: [
-      "8 Perfect (4 rounds × 2), then 13 Bronze to make 21. Nine 2-pick Bronze rounds would be 18, so either the draft stops at 21 or some Bronze rounds keep 1; the cards come out 8 and 13 either way. If the screen lets you keep only 1 Perfect a round, set Perfect to 4 and Bronze to 17 under rounds.",
+      "128 teams (a guess; no export of this event on file).",
+      "Each pack mixes positions (the screen doesn't say).",
     ],
   },
 };
@@ -349,7 +369,8 @@ export const inPool = (r: RoundKind, c: { tier: Tier; val: number }): boolean =>
 export function withCounts(f: DraftFormat, counts: Record<string, number> | null | undefined): DraftFormat {
   if (!counts || !f.rounds.some((r) => counts[r.key] != null && counts[r.key] !== r.count)) return f;
   const rounds = f.rounds.map((r) => (counts[r.key] != null ? { ...r, count: Math.max(0, Math.round(counts[r.key])) } : r));
-  return { ...f, rounds, cards: rounds.reduce((a, r) => a + r.count, 0) };
+  // The screen list no longer adds up, so it goes: keep falls back to the format's (or the page's).
+  return { ...f, rounds, cards: rounds.reduce((a, r) => a + r.count, 0), screens: undefined };
 }
 
 /**
@@ -365,18 +386,88 @@ export function nextRound(f: DraftFormat, rem: Remaining): RoundKind | null {
 }
 
 /**
- * The round a drafted card used up: the most specific remaining kind it fits
- * (a Bronze SS takes "Bronze SS" before any open Bronze round). Null when no
- * round left can have held it, which the page reports instead of guessing.
+ * The round a drafted card used up: of the remaining kinds it fits, one whose
+ * value band holds it (PD 2's 102 goes to the 101+ round, its 100 to the 100
+ * round), then the most specific (a Bronze SS takes "Bronze SS" before any
+ * open Bronze round). Null when no round left can have held it, which the
+ * page reports instead of guessing.
  */
-export function roundFor(f: DraftFormat, rem: Remaining, c: { tier: Tier; group: DraftGroup }): RoundKind | null {
+export function roundFor(f: DraftFormat, rem: Remaining, c: { tier: Tier; group: DraftGroup; val?: number }): RoundKind | null {
   const open = f.rounds.filter((r) => (rem[r.key] ?? 0) > 0 && fitsRound(r, c));
-  open.sort((a, b) => a.groups.length - b.groups.length);
+  const band = (r: RoundKind) => (c.val == null || inBand(r, { val: c.val }) ? 0 : 1);
+  open.sort((a, b) => band(a) - band(b) || a.groups.length - b.groups.length);
   return open[0] ?? null;
 }
 
+/* ------------------------------------------- the game's rounds (screens) */
+
+export interface ScreenAt {
+  /** The game's round number, 1-based. */
+  no: number;
+  screen: Screen;
+  /** Picks already taken from this round's pack. */
+  taken: number;
+}
+
+/**
+ * The round of the game's list the next pick comes from, counted by picks
+ * made: PD 3's pick 2 is round 2's first, pick 3 its second. Null with no
+ * screen list, or once the list is used up.
+ */
+export function screenAt(f: DraftFormat, picksMade: number): ScreenAt | null {
+  if (!f.screens) return null;
+  let before = 0;
+  for (const [k, screen] of f.screens.entries()) {
+    if (picksMade < before + screen.keep) return { no: k + 1, screen, taken: picksMade - before };
+    before += screen.keep;
+  }
+  return null;
+}
+
+/**
+ * Cards kept from the pack on screen: the game's round for this pick when the
+ * format lists them, else the page's setting, else the format's.
+ */
+export function keepFor(f: DraftFormat, picksMade: number, pageKeep?: number): number {
+  if (f.screens) return screenAt(f, picksMade)?.screen.keep ?? f.keep ?? 1;
+  return pageKeep ?? f.keep ?? 1;
+}
+
+/**
+ * The picks left, in the game's order, each with its round kind and the
+ * cards its screen keeps. Each kind's picks are used up from the front, so
+ * the ones left are its last `rem[kind]` in the list; a card typed into the
+ * wrong round costs that round, not the order. Null with no screen list.
+ */
+export function stepsLeft(f: DraftFormat, rem: Remaining): { key: string; keep: number }[] | null {
+  if (!f.screens) return null;
+  const all = f.screens.flatMap((s) => Array.from({ length: s.keep }, () => ({ key: s.round, keep: s.keep })));
+  const left = new Map(Object.entries(rem).map(([k, v]) => [k, Math.max(0, v)]));
+  const out: { key: string; keep: number }[] = [];
+  for (let i = all.length - 1; i >= 0; i--) {
+    const n = left.get(all[i].key) ?? 0;
+    if (n > 0) { out.push(all[i]); left.set(all[i].key, n - 1); }
+  }
+  return out.reverse();
+}
+
+/** The screen list the way the event screen reads, runs of alike rounds joined: "R1 Perfect, keep 1 · R2-4 Perfect, keep 2 · …". */
+export function screensText(f: DraftFormat): string | null {
+  if (!f.screens?.length) return null;
+  const label = (key: string) => f.rounds.find((r) => r.key === key)?.label ?? key;
+  const parts: string[] = [];
+  let from = 0;
+  for (let k = 1; k <= f.screens.length; k++) {
+    const a = f.screens[from], b = f.screens[k];
+    if (b && b.round === a.round && b.keep === a.keep) continue;
+    parts.push(`R${from + 1}${k - 1 > from ? `-${k}` : ""} ${label(a.round)}, keep ${a.keep}`);
+    from = k;
+  }
+  return `${f.screens.length} rounds of ${f.packSize}: ${parts.join(" · ")}`;
+}
+
 /** The remaining rounds after a draft's picks, in pick order; `unplaced` are picks no round could hold. */
-export function replay(f: DraftFormat, picks: readonly { tier: Tier; group: DraftGroup }[]): { rem: Remaining; used: (string | null)[]; unplaced: number } {
+export function replay(f: DraftFormat, picks: readonly { tier: Tier; group: DraftGroup; val?: number }[]): { rem: Remaining; used: (string | null)[]; unplaced: number } {
   const rem = allRounds(f);
   const used: (string | null)[] = [];
   let unplaced = 0;

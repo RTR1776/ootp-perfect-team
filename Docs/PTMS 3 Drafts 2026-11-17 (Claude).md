@@ -2,13 +2,49 @@
 
 All three PTMS 3 Perfect Drafts are on Saturday 21 Nov. Each is fixed, 128 teams, best of nine, with a sim every 10 minutes. The rules are from L.J.'s event screens of 11-17.
 
+## Update, 11-17 evening: the event screens list every round
+
+L.J. sent the full draft screens. They settle every round question below, and two of the three formats on file were wrong. **This section wins over anything later in this file.**
+
+| Round | PD 1 Low of Lows | PD 2 Double PD | PD 3 Modified Perfectly Bronze |
+|---|---|---|---|
+| 1 | 2 of 12, Perfect 100 | 2 of 12, Perfect 101+ | **1** of 12, Perfect |
+| 2 | 2, Low Diamond 90-94 | 2, Perfect 100 | 2, Perfect |
+| 3 | 2, Low Diamond 90-94 | 2, Diamond 90-99 | 2, Perfect |
+| 4 | 2, Low Gold 80-84 | 2, Diamond 90-99 | 2, Perfect |
+| 5 | 2, Low Gold 80-84 | 2, Gold 80-89 | **1**, Bronze 60-69 |
+| 6 | 2, Low Gold 80-84 | 2, Gold 80-89 | **1**, Bronze |
+| 7 | 2, Low Silver 70-74 | 2, Silver 70-79 | **1**, Bronze |
+| 8 | 2, Low Silver 70-74 | 2, Silver 70-79 | 2, Bronze |
+| 9 | 2, Low Silver 70-74 | 2, Silver 70-79 | 2, Bronze |
+| 10 | 2, Low Bronze 60-64 | 2, Bronze 60-69 | 2, Bronze |
+| 11 | 2, Low Bronze 60-64 | 2, Bronze 60-69 | 2, Bronze |
+| 12 | 2, Low Bronze 60-64 | 2, Bronze 60-69 | 2, Bronze |
+| 13 | 2, Low Iron 40-49 | 2, Iron 40-59 | **1**, Bronze |
+| **Cards** | 2 P, 4 D, 6 G, 6 S, 6 B, 2 I (26) | 4 P (2 of them 101+), 4 D, 4 G, 6 S, 6 B, 2 I (26) | 7 P, 14 B (21) |
+| Starts | 07:59 AM | **08:29** AM | 08:49 AM |
+
+**What was wrong on file:**
+- **PD 3** was 8 Perfect / 13 Bronze. It is **7 / 14**. Round 1 keeps 1 Perfect, and rounds 5-7 and 13 keep 1 Bronze. The save-file inference below got the 12-card rounds right and the counts wrong.
+- **PD 2** was 1 Perfect 101+, 1 Perfect, 4 D, **6 G**. It is **2 + 2** Perfect and **4 Gold**. Start time 08:29, not 08:30.
+- **PD 1's** split was right. Its Perfect round is **100 only**; the helper had it uncapped.
+
+**What the helper does with it** (`lib/draft/formats.ts` `screens`):
+- It knows which of the 13 rounds you're on from the picks made: "Round 5 of 13 · pick 1 of 1 from 12". A strip of 13 chips shows the rounds, done and to come.
+- **Keep is per round.** In PD 3 the pack clears after one pick in rounds 1, 5-7 and 13, and stays up for a second pick in the others. The keep box is gone for these drafts.
+- **The rounds to come are priced per round.** A "pick 1 of 12" round is the best of 12. A "pick 2 of 12" round is about the best of 8 for each pick. Before, every round was priced at 8.
+- **Value bands:** PD 1 Perfect 100 only; PD 2 round 1 101+ and round 2 100 only. A typed 102 in PD 2 goes to the 101+ round and a 100 to the 100 round.
+- If a screen on the day shows something else, setting the counts by hand under "picks left · set" drops the round list and gives back the keep box.
+
+**Still assumed:** 128 teams in each (no exports), and positions mixed in each pack (the screens don't say).
+
 | | PD 1 Low of Lows | PD 2 Double PD | PD 3 Modified Perfectly Bronze |
 |---|---|---|---|
-| Starts | 07:59 AM | 08:30 AM | 08:49 AM |
+| Starts | 07:59 AM | 08:29 AM (was 08:30 on file) | 08:49 AM |
 | Environment | 1986, DH | 2015, DH | 1939, no DH |
 | Park | 1985 Veterans Stadium | 2015 Angel Stadium of Anaheim | 1940 Braves Field |
 | Cards | up to 1986 | 1970 on | any year |
-| Rounds in the helper | 2 P, 4 D, 6 G, 6 S, 6 B, 2 I (26) | 101+ round, 1 P, 4 D, 6 G, 6 S, 6 B, 2 I (26) | 8 P, then 13 B (21) |
+| Rounds in the helper (before the update above) | 2 P, 4 D, 6 G, 6 S, 6 B, 2 I (26) | 101+ round, 1 P, 4 D, 6 G, 6 S, 6 B, 2 I (26) | 8 P, then 13 B (21) |
 
 The park factors on file match each screen to the third decimal.
 
