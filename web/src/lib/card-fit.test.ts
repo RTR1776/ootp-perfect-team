@@ -1,8 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { armRole, batAt, bestTeam, fitIn, savedTeam, spotValue, type FitCtx, type ScoredForm } from "./card-fit";
+import { armRole, batAt, bestTeam, fitIn, savedTeam, spotValue, staffSwap, type FitCtx, type ScoredForm } from "./card-fit";
 import { fieldingRuns } from "@/lib/analytics/fielding";
-import { RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
+import { rosterObjective, RP_WEIGHT_DEFAULT, rotationTilt, staffStaminaRuns, type ObjectiveOptions } from "@/lib/roster-objective";
+import type { FillCard } from "@/lib/roster-fill";
+import { twoWayId } from "@/lib/two-way";
 
 const ctx: FitCtx = { dh: true, lhp: 0.3, glove: 1 };
 let next = 1;
@@ -106,8 +108,12 @@ test("Card Fit prices an arm as the builder does: the series' weight split over 
  * PTCS 8 Championship Cap (2026-10-27): Card Fit put Webster McDonald (90) in
  * for Luther Farrell (66) at +13.9, but the Diamond and Perfect slots were full,
  * and full builds with him owned kept the roster as it was. In small: slots
- * P1 D1 S1 B2, a 102 and a 99 already in the rotation.
+ * P1 D1 S1 B2, a 102 and a 99 already in the rotation. A three-man rotation
+ * weighs its slots by their share of the starts (rotationTilt): Farrell's SP3
+ * slot counts ROT[2] of an average start, Young's SP2 ROT[1].
  */
+const ROT = rotationTilt(3);
+const near = (a: number | null | undefined, b: number) => a != null && Math.abs(a - b) < 1e-9;
 const valued = (f: ScoredForm, val: number): ScoredForm => ({ ...f, val });
 const capCase = (spareRuns: number, extraBench: ScoredForm[] = []) => {
   const rile = valued(arm("Rile", "SP", 9), 102), young = valued(arm("Young", "SP", 8), 99), farrell = valued(arm("Farrell", "SP", 2), 66);
@@ -126,21 +132,21 @@ const noDh = { ...ctx, dh: false };
 
 test("Cap: one swap reads a start, but with the Diamond and Perfect slots full the card doesn't start", () => {
   const { team, room, mcdonald } = capCase(3);
-  assert.equal(fitIn(mcdonald, team, [], noDh)!.gain, 4, "the old one-swap read: +4 over Farrell");
+  assert.ok(near(fitIn(mcdonald, team, [], noDh)!.gain, 4 * ROT[2]), "the old one-swap read: +4 over Farrell at SP3");
   const fit = fitIn(mcdonald, team, [], noDh, room)!;
   assert.equal(fit.status, "bench");
   assert.equal(fit.gain, 0);
-  assert.equal(fit.room?.gross, 4);
+  assert.ok(near(fit.room?.gross, 4 * ROT[2]));
   // Room for a third Diamond-or-better card means Young (99) giving way: to the 75 (8 → 3) or to Farrell (8 → 2).
-  assert.equal(fit.room?.cost, 5);
+  assert.ok(near(fit.room?.cost, 5 * ROT[1]));
   assert.match(fit.room!.note, /^Young \(99\) out for Spare \(75\)/);
 });
 
 test("Cap: room that costs less than the swap adds is paid out of the gain", () => {
-  const { team, room, mcdonald } = capCase(5);
+  const { team, room, mcdonald } = capCase(7);
   const fit = fitIn(mcdonald, team, [], noDh, room)!;
   assert.equal(fit.status, "start");
-  assert.ok(Math.abs(fit.gain - 1) < 1e-9, "4 over Farrell, less 3 for Young → the 75");
+  assert.ok(near(fit.gain, 4 * ROT[2] - 1 * ROT[1]), "4 over Farrell at SP3, less 1 at SP2 for Young → the 75");
   assert.equal(fit.swaps[0].out?.name, "Farrell");
 });
 
@@ -150,7 +156,7 @@ test("Cap: a Diamond card on the bench goes off the roster for free", () => {
   // One more D slot for the bench card: the saved roster holds as it is.
   const fit = fitIn(mcdonald, team, [], noDh, room)!;
   assert.equal(fit.status, "start");
-  assert.equal(fit.gain, 4);
+  assert.ok(near(fit.gain, 4 * ROT[2]));
   assert.equal(fit.room?.cost, 0);
   assert.match(fit.room!.note, /off the roster/);
 });
@@ -175,6 +181,95 @@ test("a value cap: the swap is paid for by a bench card's value, else it can't s
 test("without slots or a cap the room changes nothing", () => {
   const { team, room, mcdonald } = capCase(3);
   const fit = fitIn(mcdonald, team, [], noDh, { ...room, slots: null })!;
-  assert.equal(fit.gain, 4);
+  assert.ok(near(fit.gain, 4 * ROT[2]));
   assert.equal(fit.room, null);
+});
+
+/* ------------------------------------------------- arms, as the objective prices them */
+
+/** Arms as card-fit-load scores them: `pen` is the runs in a pen slot; runsR keeps the staff-stamina term for a starter and drops it for a reliever. */
+const arms = (specs: [name: string, role: "SP" | "RP", pen: number, stamina: number][]): ScoredForm[] => specs.map(([name, role, pen, stamina]) => {
+  const raw = pen + staffStaminaRuns({ isPitcher: true, ratings: { Stamina: stamina } });
+  const runs = role === "RP" ? pen : raw;
+  return { ...arm(name, role, runs), pen, stamina };
+});
+const fillCard = (f: ScoredForm, ratings: Record<string, number>): FillCard => ({
+  cardId: f.id, name: f.name, val: 60, year: 2000, isPitcher: f.isPitcher, role: f.role, cardType: 4,
+  ratings, baseOwned: true, variantOwned: false, variant: false,
+});
+/** The roster objective's value of these arms in these slots, every order tried: the order the builder's search settles on. */
+function objectiveBest(keys: string[], ids: number[], score: (board: Record<string, number>) => number): number {
+  let best = -Infinity;
+  const go = (rest: number[], board: Record<string, number>) => {
+    if (!rest.length) { best = Math.max(best, score(board)); return; }
+    rest.forEach((id, i) => go(rest.filter((_, j) => j !== i), { ...board, [keys[keys.length - rest.length]]: id }));
+  };
+  go(ids, {});
+  return best;
+}
+
+/*
+ * PTMS 3 T2 Iron (2026-11-17), roster 2218's pen as Card Fit read it: Carter
+ * Capps (RP, Stamina 19) screened +6.0 in place of Bob Gibson (VAR), the pen's
+ * worst arm and one of its two long men. Builds forced to carry Capps gave +1.4,
+ * with Capps in for Todd Jones and the long men kept.
+ */
+test("a reliever takes the place the builder can give him: the pen re-sorted at its tilt, its two long men kept", () => {
+  const ctx: FitCtx = { dh: true, lhp: 0.3, glove: 1, pit: 2, pitSp: 1, pitRp: 2.5 };
+  const pen = arms([
+    ["Bale", "RP", 9.3, 33], ["Choate", "RP", 4.7, 6], ["Thatcher", "RP", 0.8, 7], ["Marshall", "RP", -0.7, 74],
+    ["Carrasco", "RP", -2.5, 20], ["Jones", "RP", -2.9, 17], ["Gibson", "SP", -8.5, 69],
+  ]);
+  const [capps] = arms([["Capps", "RP", -1.1, 19]]);
+  const keys = ["CL", "RP1", "RP2", "RP3", "RP4", "RP5", "RP6"];
+  const objective = (staff: ScoredForm[]) => {
+    const all = [...staff, capps];
+    // env-fit's runs carry the staff-stamina term; the objective takes it out in every pen slot (staminaTerm).
+    const runs = new Map(all.map((f) => [f.id, f.pen! + staffStaminaRuns({ isPitcher: true, ratings: { Stamina: f.stamina! } })]));
+    const o: ObjectiveOptions = { shape: { lineupPos: [], spKeys: [], rpKeys: keys, benchKeys: [], bats: 0 }, runsR: runs, runsL: runs, rpWeight: RP_WEIGHT_DEFAULT * 2.5, staminaTerm: true };
+    const obj = rosterObjective(all.map((f) => fillCard(f, { Stamina: f.stamina! })), o);
+    return objectiveBest(keys, staff.map((f) => f.id), obj.objective);
+  };
+  const team = { R: {}, L: {}, SP: [], RP: pen };
+  const fit = fitIn(capps, team, [], ctx)!;
+  assert.equal(fit.swaps[0].out?.name, "Jones", "not Gibson: Marshall and Gibson are the pen's only long men");
+  assert.equal(staffSwap("RP", pen, pen[6], capps, ctx), null);
+  const jonesOut = pen.map((f) => (f.name === "Jones" ? capps : f));
+  assert.ok(near(fit.gain, objective(jonesOut) - objective(pen)), `the objective's gain: ${fit.gain}`);
+  assert.ok(fit.gain > 1 && fit.gain < 1.5, "about +1.2, as the forced builds and the --score swap read it");
+
+  // A third long man frees Gibson's place.
+  const deeper = pen.map((f) => (f.name === "Carrasco" ? { ...f, stamina: 50 } : f));
+  const fit3 = fitIn(capps, { ...team, RP: deeper }, [], ctx)!;
+  assert.equal(fit3.swaps[0].out?.name, "Gibson");
+  assert.ok(near(fit3.gain, objective(deeper.map((f) => (f.name === "Gibson" ? capps : f))) - objective(deeper)));
+});
+
+/*
+ * Friday Nightmare Cap (2026-11-17), roster 2179's rotation: Francisco Liriano
+ * (SP) screened +12.5, his forced build +9.0. With no DH, Cool Papa Bell bats
+ * in his starts, which the objective credits over a pitcher's bat; and Liriano
+ * goes in at SP1, the rest sliding down a slot.
+ */
+test("a starter is priced on the rotation re-sorted at SP1's tilt, a two-way starter's bat counted with no DH", () => {
+  const ctx: FitCtx = { dh: false, lhp: 0.3343, glove: 1, pit: 2, pitSp: 1.5, spWeight: 1.59, fieldSp: 4.8 };
+  const rot = arms([["Escobar", "SP", 9.7, 76], ["Montgomery", "SP", 7.3, 87], ["Conley", "SP", 6.0, 95], ["Dean", "SP", 4.5, 90], ["Bell", "SP", 1.1, 86]]);
+  const bell = rot[4];
+  bell.bat = { runsR: -32.5, runsL: -33.2 };
+  const [liriano] = arms([["Liriano", "SP", 11.28, 77]]);
+  const keys = ["SP1", "SP2", "SP3", "SP4", "SP5"];
+  const objective = (staff: ScoredForm[]) => {
+    const all = [...rot, liriano];
+    const runsR = new Map(all.map((f) => [f.id, f.runsR])), runsL = new Map(runsR);
+    runsR.set(twoWayId(bell.id), bell.bat!.runsR); runsL.set(twoWayId(bell.id), bell.bat!.runsL);
+    const batForm: FillCard = { ...fillCard(bell, {}), cardId: twoWayId(bell.id), isPitcher: false, role: null };
+    const o: ObjectiveOptions = { shape: { lineupPos: ["SS"], spKeys: keys, rpKeys: [], benchKeys: [], bats: 1 }, runsR, runsL, lhpShare: ctx.lhp, spWeight: 1.59 * 1.5, fieldSp: 4.8 };
+    const obj = rosterObjective([...all.map((f) => fillCard(f, { Stamina: f.stamina! })), batForm], o);
+    return objectiveBest(keys, staff.map((f) => f.id), obj.objective);
+  };
+  const fit = fitIn(liriano, { R: {}, L: {}, SP: rot, RP: [] }, [], ctx)!;
+  assert.equal(fit.swaps[0].out?.name, "Bell");
+  assert.ok(near(fit.gain, objective(rot.map((f) => (f === bell ? liriano : f))) - objective(rot)), `the objective's gain: ${fit.gain}`);
+  // The old read: (12.0 - 2.9) at the flat starter weight, Bell's bat left out.
+  assert.ok(near(liriano.runsR, 12) && fit.gain < 9.1 * 2.2896 - 4, `${fit.gain}`);
 });

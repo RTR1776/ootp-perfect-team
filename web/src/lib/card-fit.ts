@@ -14,8 +14,8 @@
  * event's run environment and park, observed play blended in, a glove's
  * runs at the spot scaled to the era (fielding.ts gloveScale). The gain is in
  * the roster objective's units (roster-objective.ts): a lineup spot counts on
- * each board by the field's share of right- and left-handed pitching, a
- * starter in full, a reliever at 0.31. It is one swap into his roster, so it
+ * each board by the field's share of right- and left-handed pitching, an arm
+ * at its slot on the staff (below). It is one swap into his roster, so it
  * is the first move Build's Optimise would weigh, not the whole reshuffle a
  * cap or slot rule can force.
  *
@@ -28,11 +28,21 @@
  * (66) read +13.9, but the Diamond and Perfect slots were full, and full
  * builds with him owned kept the roster as it was.
  *
+ * An arm is priced on the staff as the objective prices it (staffValue): the
+ * staff re-sorted after the swap, each slot at its tilt (the closer's leverage,
+ * SP1's starts), a pen arm without the staff-stamina term, a two-way starter's
+ * bat with no DH; and the pen keeps the builder's two long men. PTMS 3 T2 Iron
+ * and Daily Iron & Friends, 2026-11-17: Carter Capps (RP, Stamina 19) read +6.0
+ * and +10.2 by taking the place of a long man (Bob Gibson, Noah Schultz) the
+ * builder could not let go; env-roster builds forced to carry him gave +1.4 and
+ * +0.5, Capps in for Todd Jones.
+ *
  * Pure; lib/card-fit-load.ts scores the cards.
  */
 import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { LJ_FLOOR, posFloorAt } from "@/lib/pos-floor";
-import { RP_WEIGHT_DEFAULT } from "@/lib/roster-objective";
+import { LONG_MAN_STAMINA } from "@/lib/roster-audit";
+import { penTilt, PITCHER_BAT_RUNS, rotationTilt, RP_WEIGHT_DEFAULT, STARTER_PA_SHARE } from "@/lib/roster-objective";
 import { slotOverflow, tierCode } from "@/lib/roster-rules";
 
 export const FIELD_POS = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
@@ -62,6 +72,16 @@ export interface ScoredForm {
   /** Catcher framing rating (fielding.ts framingRuns), when it has one. */
   frame?: number;
   val: number | null;
+  /** An arm's Stamina: 45+ makes a long man (roster-audit LONG_MAN_STAMINA), whom the pen must keep two of. */
+  stamina?: number | null;
+  /**
+   * An arm's runs in a pen slot: without the staff-stamina term, as the
+   * objective prices every pen arm (roster-objective staminaTerm). A reliever's
+   * runsR is already priced so; absent, runsR.
+   */
+  pen?: number;
+  /** A two-way arm's bat (lib/two-way): with no DH a starter bats in his starts (roster-objective starterBat). */
+  bat?: { runsR: number; runsL: number } | null;
 }
 
 export interface FitCtx {
@@ -97,6 +117,46 @@ export function armWeight(role: "SP" | "RP", n: number, ctx: FitCtx): number {
   const field = role === "SP" ? ctx.fieldSp : ctx.fieldRp;
   const share = field != null && field > 0 && n > 0 ? field / n : 1;
   return base * share * ((role === "SP" ? ctx.pitSp : ctx.pitRp) ?? ctx.pit ?? 1);
+}
+
+/** Pen arms at LONG_MAN_STAMINA+ every build carries (env-roster --min-long, Build's "two long men"). */
+export const MIN_LONG_MEN = 2;
+
+/** An arm's runs per 700 BF in a role: a pen slot's (no staff-stamina term) or a starter's. */
+export const armRuns = (f: ScoredForm, role: "SP" | "RP"): number => (role === "RP" ? f.pen ?? f.runsR : f.runsR);
+
+/** What a two-way starter's bat adds over a pitcher's across all his starts, with no DH (roster-objective starterBat before the rotation's tilt). */
+function starterBat(f: ScoredForm, ctx: FitCtx): number {
+  if (ctx.dh || !f.bat) return 0;
+  return STARTER_PA_SHARE * ((1 - ctx.lhp) * (f.bat.runsR - PITCHER_BAT_RUNS) + ctx.lhp * (f.bat.runsL - PITCHER_BAT_RUNS));
+}
+
+/**
+ * What a role's arms add to the roster objective (roster-objective slotValue
+ * over the staff's slots): best arm first, each slot at its tilt (rotationTilt,
+ * penTilt), at the role's weight for this many arms.
+ */
+export function staffValue(role: "SP" | "RP", arms: readonly ScoredForm[], ctx: FitCtx): number {
+  const n = arms.length;
+  if (!n) return 0;
+  const w = armWeight(role, n, ctx);
+  const tilt = role === "SP" ? rotationTilt(n) : penTilt(n);
+  const per = arms.map((f) => w * armRuns(f, role) + (role === "SP" ? starterBat(f, ctx) / n : 0));
+  return per.sort((a, b) => b - a).reduce((s, v, i) => s + tilt[i] * v, 0);
+}
+
+/**
+ * The objective's gain from `t` taking `out`'s place on the staff, the staff
+ * re-sorted; null where the builder can't make the move: a pen left short of
+ * its long men (MIN_LONG_MEN, or as many as it had).
+ */
+export function staffSwap(role: "SP" | "RP", staff: readonly ScoredForm[], out: ScoredForm, t: ScoredForm, ctx: FitCtx): number | null {
+  const after = staff.map((f) => (f === out ? t : f));
+  if (role === "RP") {
+    const long = (arms: readonly ScoredForm[]) => arms.filter((f) => (f.stamina ?? 0) >= LONG_MAN_STAMINA).length;
+    if (long(after) < Math.min(MIN_LONG_MEN, long(staff))) return null;
+  }
+  return staffValue(role, after, ctx) - staffValue(role, staff, ctx);
 }
 
 /** An arm's role as the roster reads it: the card's own, else by stamina. */
@@ -269,14 +329,17 @@ export function fitIn(t: ScoredForm, team: Team, pool: readonly ScoredForm[], ct
     const staff = team[role];
     if (staff.some((f) => f.cardId === t.cardId)) on.push(role);
     else {
-      // It takes the weakest arm's place in that role (the staff's size is the roster's own).
-      const weakest = staff.length ? staff.reduce((a, b) => (b.runsR < a.runsR ? b : a)) : null;
-      const delta = weakest ? t.runsR - weakest.runsR : t.runsR;
-      const w = armWeight(role, staff.length, ctx);
-      if (delta * w >= GAIN_FLOOR) {
-        gain = delta * w;
-        swaps.push({ board: "staff", spot: role, out: weakest ? outOf(weakest) : null, delta });
-      } else if (weakest) short = { name: weakest.name, delta };
+      // It takes the place that gains most (the weakest arm it may replace), the staff re-sorted; its size is the roster's own.
+      let best: { out: ScoredForm | null; gain: number } | null = staff.length ? null : { out: null, gain: staffValue(role, [t], ctx) };
+      for (const f of staff) {
+        const g = staffSwap(role, staff, f, t, ctx);
+        if (g != null && (!best || g > best.gain)) best = { out: f, gain: g };
+      }
+      const delta = armRuns(t, role) - (best?.out ? armRuns(best.out, role) : 0);
+      if (best && best.gain >= GAIN_FLOOR) {
+        gain = best.gain;
+        swaps.push({ board: "staff", spot: role, out: best.out ? outOf(best.out) : null, delta });
+      } else if (best?.out) short = { name: best.out.name, delta };
     }
   } else {
     for (const board of ["R", "L"] as const) {
@@ -366,10 +429,9 @@ function plansFor(t: ScoredForm, team: Team, ctx: FitCtx): Plan[] {
   const plans: Plan[] = [];
   if (t.isPitcher) {
     const role = t.role!;
-    const w = armWeight(role, team[role].length, ctx);
     for (const f of team[role]) {
-      const delta = t.runsR - f.runsR;
-      if (delta * w >= GAIN_FLOOR) plans.push({ swaps: [{ board: "staff", spot: role, out: outOf(f), delta }], gross: delta * w, outs: [f] });
+      const g = staffSwap(role, team[role], f, t, ctx);
+      if (g != null && g >= GAIN_FLOOR) plans.push({ swaps: [{ board: "staff", spot: role, out: outOf(f), delta: armRuns(t, role) - armRuns(f, role) }], gross: g, outs: [f] });
     }
     return plans;
   }
@@ -417,8 +479,10 @@ function stepIns(team: Team, room: Room, ctx: FitCtx): Map<number, { z: ScoredFo
       let loss = 0;
       for (const p of ps) {
         if (p.board === "staff") {
-          if (!z.isPitcher || z.role !== p.spot) { loss = Infinity; break; }
-          loss += (y.runsR - z.runsR) * armWeight(p.spot as "SP" | "RP", team[p.spot as "SP" | "RP"].length, ctx);
+          const role = p.spot as "SP" | "RP";
+          const g = z.isPitcher && z.role === role ? staffSwap(role, team[role], y, z, ctx) : null;
+          if (g == null) { loss = Infinity; break; }
+          loss -= g;
         } else {
           const mine = batAt(y, p.spot as LineupSpot, p.board, ctx), theirs = batAt(z, p.spot as LineupSpot, p.board, ctx);
           if (mine == null || theirs == null) { loss = Infinity; break; }
