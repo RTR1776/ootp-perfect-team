@@ -85,7 +85,8 @@ export function RoundBoard({ data, search }: { data: DraftPageData; search: stri
 
   const q = search.trim().toLowerCase();
   const inPack = new Set(pack);
-  const take = (idx: number) => update((s) => withPick(s, E.cards[idx].id));
+  const keep = saved.keep ?? f.keep ?? 1;
+  const take = (idx: number) => update((s) => withPick(s, E.cards[idx].id, keep));
   const following = !pinnedRound || pinnedRound.key === current?.key;
 
   return (

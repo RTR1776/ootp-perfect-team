@@ -52,10 +52,7 @@ The park factors on file match each screen to the third decimal.
   - If the screen shows another split, set it under **rounds left · set** on the live helper. It is kept per draft in the browser, and the board follows it.
 - **PD 2's 101+ first round:** the 11-10 announcement says "Double 101+", but the 11-17 screen says only "Double PD".
 - **What "double" means** is not on file. Every tier count in the double draft is even, and so is every ladder in the saves, so it may just mean two picks a round.
-- **Pack kinds and sizes are unchanged:**
-  - PD 1 and PD 2: you pick the position, packs of 6.
-  - PD 3: mixed packs of 2.
-  - Both can be switched on the page.
+- **Packs (changed 11-17, second PR):** every round shows about 12 cards, positions mixed, and you keep 2, in all three drafts. See "What a round is" below.
 
 ## The big board
 
@@ -83,3 +80,41 @@ Events without a format on file keep the old board.
 
 - The catalogue rows 9130004–06 still say start "TBA" and no field size. I didn't write to the database. The screens give local times, so check the time zone before setting `firstSimEt` (it is ET).
 - Three of the 11-13..11-14 saves dealt a 22-card Bronze draft: 18 B, 2 I, 1 S, 1 G. That isn't the 5L's 21-card format on file. Worth a look if those were 5L Deadball entries.
+
+## What a round is (added 11-17, after L.J.'s account)
+
+**L.J.'s account:**
+- A Perfect round shows "12 or so" Perfect cards and you choose one.
+- PD 3 is probably 4 Perfect rounds of 1 pick, then 9 Bronze rounds of 2: 22 cards, not the 21 the screen says.
+
+**What the saves show.**
+- The game numbers every card in a draft with a running ID (`7729NNN` in `players.dat`). In each 26-card draft the IDs rise with pick order and top out at 147–155, about 13 × 12.
+- In five drafts the picks fall two to a block of 12, so each round is about 12 cards with 2 kept:
+
+| Save (`saved_games/`) | Taken | Fit |
+|---|---|---|
+| `draft_7ea200000000000000003c4a7729.pt` (11-11 19:01) | 8 Perfect, then 18 Iron | 23 of 25 readable picks |
+| `draft_7ea200000000000000003d7a7729.pt` (11-12, all Perfect) | 26 Perfect | 24 of 26 |
+| `draft_7ea200000000000000003da67729.pt` (11-13, ladder) | ladder | 23 of 25 |
+| `draft_7ea200000000000000003d187729.pt` (11-16, ladder) | ladder | 26 of 26 |
+| `draft_7ea200000000000000003d557729.pt` (11-17, 12 P / 14 D) | 12 Perfect, 14 Diamond | 25 of 26 |
+
+  - **"About 12 cards, keep 1" fits 0–1 picks in every draft.** It would need IDs up to about 312.
+  - The 11-11 save is the one most like PD 3. Its 8 Perfect picks came 2 per block from the first four blocks (IDs 2, 8 | 16, 20 | 29, 31 | 43, ?), then 18 Iron 2 per block.
+- **The other drafts don't fit a simple pattern:** 11-11 20:54, 11-14 01:15, 11-14 12:50, 11-14 18:20, 11-17 11:06, the 6L and the 22-card Bronze drafts. In the 11-17 11:06 save, the 4 Perfect picks all came from cards 1–10. So the mechanics vary by event.
+- **This rests on one inference:** that the ID counts every card shown. The fit is close and the maximum matches 13 rounds of 12, but the game doesn't say so.
+- **There is no PD 3 save**, and no Modified Perfectly Iron save is on disk. The 11-12 save (`…3d577729`) is an empty draft.
+
+**Reconciled:**
+- **12 cards a round:** L.J. is right.
+- **One pick per Perfect round:** the data say no. His own PTCS 8 Modified Perfectly Iron team, the 21-card version, had 7 or 8 Perfect cards (8 if his Trout is the 103). With one Perfect pick a round it would have had 4.
+- **So PD 3 stays 8 Perfect and 13 Bronze.** Nine 2-pick Bronze rounds would make 26 cards, so either the draft stops at 21, or some Bronze rounds keep 1. The cards come out 8 and 13 either way.
+- **If the screen keeps only 1 Perfect a round,** set Perfect to 4 and Bronze to 17 under "picks left · set".
+
+**The helper now:**
+- defaults to packs of 12, keep 2, mixed, for PD 1, PD 2 and PD 3;
+- keeps the pack up after the first pick, so the second comes from the same 11 cards;
+- prices each pick as the best of about 8 (keeping 2 of 12);
+- treats round counts as picks.
+
+It is solo, not a snake draft: other drafters never enter it.
