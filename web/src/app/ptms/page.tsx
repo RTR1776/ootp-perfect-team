@@ -108,7 +108,7 @@ export default async function PtmsPage() {
                   {fmt ? (
                     <>
                       <p>
-                        {fmt.cards} cards: {fmt.rounds.map((r) => `${r.count} ${r.label}`).join(", ")} · packs of {fmt.packSize}
+                        {fmt.cards} cards: {fmt.rounds.map((r) => `${r.count} ${r.label}`).join(", ")} · packs of {fmt.packSize}{fmt.keep && fmt.keep > 1 ? `, keep ${fmt.keep}` : ""}
                         {fmt.starts && <span className="text-muted-foreground"> · starts {fmt.starts}</span>}
                       </p>
                       <ul className="mt-1 list-disc pl-5 text-xs text-muted-foreground">

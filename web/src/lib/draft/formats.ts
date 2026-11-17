@@ -96,8 +96,15 @@ export interface DraftFormat {
    */
   ordered?: boolean;
   rounds: RoundKind[];
-  /** Cards a pack shows; the page can change it. */
+  /** Cards a pack (one round's screen) shows; the page can change it. */
   packSize: number;
+  /**
+   * Cards kept from each pack. 1 unless said: L.J.'s game saves show the
+   * ladder and Perfectly-X drafts as rounds of about 12 cards with 2 kept
+   * (lib/draft/live-state withPick keeps the pack up for the second pick).
+   * Round counts stay in picks, not screens.
+   */
+  keep?: number;
   /** One line each: what the data or L.J. has confirmed, and what is assumed. */
   confirmed: string[];
   assumed: string[];
@@ -213,14 +220,15 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     starts: "Sat 21 Nov, 07:59 AM",
     ordered: true,
     rounds: [
-      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 2, pack: "choose" },
-      { key: "D", label: "Diamond 90-94", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "choose", valueMax: 94 },
-      { key: "G", label: "Gold 80-84", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "choose", valueMax: 84 },
-      { key: "S", label: "Silver 70-74", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "choose", valueMax: 74 },
-      { key: "B", label: "Bronze 60-64", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "choose", valueMax: 64 },
-      { key: "I", label: "Iron 40-49", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "choose", valueMax: 49 },
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 2, pack: "mixed" },
+      { key: "D", label: "Diamond 90-94", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "mixed", valueMax: 94 },
+      { key: "G", label: "Gold 80-84", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMax: 84 },
+      { key: "S", label: "Silver 70-74", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMax: 74 },
+      { key: "B", label: "Bronze 60-64", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "mixed", valueMax: 64 },
+      { key: "I", label: "Iron 40-49", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "mixed", valueMax: 49 },
     ],
-    packSize: 6,
+    packSize: 12,
+    keep: 2,
     confirmed: [
       "Low of Lows, cards up to 1986, 1986 run environment, DH, 1985 Veterans Stadium (AVG 1.007/1.027, HR 1.030/.982, 2B 1.073, 3B 1.119), 128 teams, Bo9, starts Sat 21 Nov 07:59 (event screen, 11-17).",
       "Each tier's bottom band is the game's own \"Low\" band: Daily Low Diamond Only is 90-94, Low Gold Only 80-84, Low Silver Only 70-74, Low Bronze Only 60-64 and Low Iron Quick 49 and under (catalogue).",
@@ -229,7 +237,7 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
       "Rounds come top tier first: 6 of the 8 ladder drafts in L.J.'s game saves (11-11..11-17) went Perfect, Diamond, Gold, Silver, Bronze, Iron; one mixed Perfect and Diamond picks, one came in no order. Typing the pack's first card sets the round either way.",
       "26 rounds: 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron, as in the Double 101+ draft on file (strugglingsleep_170). Two of L.J.'s recent ladder drafts ran 4/4/4/6/6/2 instead. If the screen shows another split, set it under Rounds.",
       "Perfect rounds are not capped: no game event defines a low Perfect band. L.J. read Low of Lows as 94 and under for Perfect and 84 for Diamond; the game's bands put 94 on Diamond and 84 on Gold.",
-      "You pick the position each round, packs of 6.",
+      "Each round shows about 12 cards, positions mixed, and you keep 2 (L.J., 11-17: \"12 or so\" cards a round; the ladder drafts in his game saves fit 12-card rounds with 2 kept). The counts above are picks, so 13 rounds.",
     ],
   },
   ptms3pd2: {
@@ -246,14 +254,15 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     ordered: true,
     rounds: [
       { key: "P101", label: "101+ (round 1)", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "mixed", valueMin: 101 },
-      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "choose" },
-      { key: "D", label: "Diamond", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "choose" },
-      { key: "G", label: "Gold", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "choose" },
-      { key: "S", label: "Silver", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "choose" },
-      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "choose" },
-      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "choose" },
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "mixed" },
+      { key: "D", label: "Diamond", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "mixed" },
+      { key: "G", label: "Gold", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "mixed" },
+      { key: "S", label: "Silver", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "mixed" },
+      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "mixed" },
+      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "mixed" },
     ],
-    packSize: 6,
+    packSize: 12,
+    keep: 2,
     confirmed: [
       "Double PD, cards from 1970 on, 2015 run environment, DH, 2015 Angel Stadium of Anaheim (AVG 1.004/.950, HR .973/.998, 2B .968, 3B .827), 128 teams, Bo9, starts Sat 21 Nov 08:30 (event screen, 11-17).",
       "The Double 101+ draft on file drafted exactly 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron on all 3 full teams (strugglingsleep_170, Daily Struggling to Sleep - DBL, 101+ RD1).",
@@ -261,7 +270,7 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     assumed: [
       "Rounds come top tier first, as in 6 of the 8 ladder drafts in L.J.'s game saves (11-11..11-17). Typing the pack's first card sets the round either way.",
       "The same rounds here, with a 101+ first round: the 11-10 announcement called it Double 101+; the 11-17 screen says only Double PD. The helper takes a Perfect card of any value in either Perfect round.",
-      "\"Double\" is not defined on file. Every tier count in the double draft on file is even, as in every ladder in L.J.'s saves, so it may mean two picks a round. If a pick gives you both cards, enter both.",
+      "Each round shows about 12 cards, positions mixed, and you keep 2, as in PD 1. \"Double\" is not defined on file; every tier count in the double draft on file is even, which fits 2 kept a round. If round 1 deals 101+ cards for both picks, it makes no difference to the counts: both are Perfect.",
     ],
   },
   ptms3pd3: {
@@ -280,13 +289,15 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
       { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 8, pack: "mixed" },
       { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 13, pack: "mixed" },
     ],
-    packSize: 2,
+    packSize: 12,
+    keep: 2,
     confirmed: [
       "Modified Perfectly Bronze, 21 cards, 1939 run environment, no DH, 1940 Braves Field (AVG .995/.969, HR .829/.906, 2B 1.014, 3B .905), 128 teams, Bo9, starts Sat 21 Nov 08:49 (event screen, 11-17).",
-      "8 Perfect, then 13 Bronze. \"Four rounds of Perfect, then nine of Bronze\" is 13 rounds of two picks: the 26-card Perfectly Iron in L.J.'s 11-11 game save dealt 8 Perfect then 18 Iron. Stopping at 21 cards leaves 13 Bronze. PTCS 8's Modified Perfectly Iron came out the same: L.J.'s team had 8 Perfect and 13 Iron.",
+      "Rounds of about 12 cards, 2 kept, Perfect rounds included: the 26-card Perfect + Iron draft in L.J.'s 11-11 game save drew its 8 Perfect picks 2 at a time from the first four 12-card screens, then 18 Iron 2 a round (the save numbers every card shown; 23 of 25 readable picks fit).",
+      "PTCS 8's Modified Perfectly Iron, the 21-card version, gave L.J. 7 or 8 Perfect cards (8 if his Trout is the 103) and 13 or 14 Iron, so a Perfect round is not one card.",
     ],
     assumed: [
-      "Packs show 2 cards, hitters and pitchers mixed (L.J. on Modified Perfectly Iron, 11-03).",
+      "8 Perfect (4 rounds × 2), then 13 Bronze to make 21. Nine 2-pick Bronze rounds would be 18, so either the draft stops at 21 or some Bronze rounds keep 1; the cards come out 8 and 13 either way. If the screen lets you keep only 1 Perfect a round, set Perfect to 4 and Bronze to 17 under rounds.",
     ],
   },
 };
@@ -306,6 +317,15 @@ export type Remaining = Record<string, number>;
 
 export const allRounds = (f: DraftFormat): Remaining =>
   Object.fromEntries(f.rounds.map((r) => [r.key, r.count]));
+
+/**
+ * The pack the rounds to come are priced at, per pick: keeping k of a pack of
+ * N is worth about the best of n with n/(n+1) the mean of the top k of N
+ * (uniform order statistics), n = (N − (k−1)/2) / ((k+1)/2). Keep 2 of 12 is
+ * about the best of 8 for each pick.
+ */
+export const pricedPack = (packSize: number, keep = 1): number =>
+  Math.max(1, Math.round((packSize - (keep - 1) / 2) / ((keep + 1) / 2)));
 
 /** Rounds left in all. */
 export const roundsLeft = (rem: Remaining): number => Object.values(rem).reduce((a, b) => a + Math.max(0, b), 0);

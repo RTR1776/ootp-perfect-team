@@ -17,7 +17,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { cardIndex, matchCards } from "@/lib/card-search";
 import { draftView, makeEngine, type DraftCard, type DraftView, type ViewInput } from "@/lib/draft/engine";
-import { nextRound, replay, roundFor, withCounts, type DraftFormat, type DraftGroup, type PackKind, type RoundKind } from "@/lib/draft/formats";
+import { nextRound, pricedPack, replay, roundFor, withCounts, type DraftFormat, type DraftGroup, type PackKind, type RoundKind } from "@/lib/draft/formats";
 import { freshDraft, useLiveDraft, withPick } from "@/components/draft/use-live-draft";
 import type { DraftPageData } from "@/lib/draft/load";
 import { fieldPercentile } from "@/lib/draft/study";
@@ -90,6 +90,8 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
   // The rounds on file, or the split L.J. set from the draft screen.
   const f = React.useMemo(() => withCounts(data.format, saved.counts), [data.format, saved.counts]);
   const [editRounds, setEditRounds] = React.useState(false);
+  /** Cards kept from each pack (a round): the PTMS 3 drafts keep 2 of about 12. */
+  const keep = saved.keep ?? f.keep ?? 1;
   const [query, setQuery] = React.useState("");
   const [active, setActive] = React.useState(0);
   const input = React.useRef<HTMLInputElement>(null);
@@ -113,7 +115,7 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
 
   const viewInput: ViewInput | null = loaded ? {
     format: f, team, rem, round: round?.key ?? null, group, pack,
-    play: { packSize: saved.packSize, packKinds: saved.kinds }, keep: 60,
+    play: { packSize: pricedPack(saved.packSize, keep), packKinds: saved.kinds }, keep: 60,
   } : null;
   const { view, busy, error } = useDraftView(data, viewInput);
   const current = view && view.round === (round?.key ?? null) ? view : null;
@@ -133,7 +135,7 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
     update((s) => {
       const r = (s.round ? f.rounds.find((x) => x.key === s.round) : null) ?? round ?? roundFor(f, rem, c);
       return {
-        ...s, pack: s.pack.includes(c.id) ? s.pack : [...s.pack, c.id],
+        ...s, pack: s.pack.includes(c.id) ? s.pack : [...s.pack, c.id], packTaken: s.pack.length ? s.packTaken : 0,
         round: s.round ?? r?.key ?? null,
         group: s.group ?? (r && kindOf(r) === "choose" ? c.group : null),
       };
@@ -143,7 +145,7 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
   };
   const take = (idx: number) => {
     const c = E.cards[idx];
-    update((s) => withPick(s, c.id));
+    update((s) => withPick(s, c.id, keep));
     setQuery("");
     setActive(0);
     input.current?.focus();
@@ -188,11 +190,17 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
               {f.envYear} run environment · {data.env.park} · {f.dh ? "DH" : "no DH"} · {f.cards} cards · {f.teams} teams, {f.mode}{f.starts ? ` · starts ${f.starts}` : ""}
             </span>
             <div className="ml-auto flex flex-wrap items-center gap-2 text-xs">
-              <label className="flex items-center gap-1 text-muted-foreground" title="Cards a pack shows. Sets what the rounds left are expected to bring.">
+              <label className="flex items-center gap-1 text-muted-foreground" title="Cards a round's screen shows. Sets what the rounds left are expected to bring.">
                 Pack
                 <input type="number" min={2} max={15} value={saved.packSize}
                   onChange={(e) => update((s) => ({ ...s, packSize: Math.max(2, Math.min(15, Number(e.target.value) || f.packSize)) }))}
                   className="h-7 w-14 rounded-md border border-input bg-background px-2 text-sm" />
+              </label>
+              <label className="flex items-center gap-1 text-muted-foreground" title="Cards you keep from each pack. With 2, the pack stays up after your first pick so you can take the second from it.">
+                keep
+                <input type="number" min={1} max={3} value={keep}
+                  onChange={(e) => { const v = Math.max(1, Math.min(3, Math.round(Number(e.target.value) || 1))); update((s) => ({ ...s, keep: v === (f.keep ?? 1) ? undefined : v })); }}
+                  className="h-7 w-12 rounded-md border border-input bg-background px-2 text-sm" />
               </label>
               {f.rounds.filter((r) => r.pack !== "fixed").length > 0 && (
                 <PackKindSwitch rounds={f.rounds.filter((r) => r.pack !== "fixed")} kindOf={kindOf}
@@ -224,7 +232,7 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
               <span className="label-eyebrow">{done ? "Draft done" : `Pick ${pickNo} of ${f.cards}`}</span>
               <button className="text-[11px] text-muted-foreground underline-offset-2 hover:text-foreground hover:underline" onClick={() => setEditRounds((v) => !v)}
                 title="Set how many rounds of each kind this draft has, if the draft screen shows a different split">
-                {editRounds ? "done" : "rounds left · set"}
+                {editRounds ? "done" : "picks left · set"}
               </button>
             </div>
             {editRounds && (
@@ -307,7 +315,9 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
             </div>
             {pack.length > 0 && (
               <div className="flex flex-wrap items-center gap-1">
-                <span className="text-[11px] text-muted-foreground">Pack:</span>
+                <span className="text-[11px] text-muted-foreground">
+                  {keep > 1 ? `Pack, pick ${(saved.packTaken ?? 0) + 1} of ${keep}:` : "Pack:"}
+                </span>
                 {pack.map((i) => (
                   <span key={E.cards[i].id} className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-0.5 text-xs">
                     {E.cards[i].name}
@@ -386,7 +396,7 @@ function RoundsEditor({ rounds, counts, set }: { rounds: RoundKind[]; counts: Re
         </label>
       ))}
       <p className="text-[11px] leading-snug text-muted-foreground">
-        {changed ? "Set by you, not the split on file. " : "The split on file. "}Your picks stay; each still uses up the round it fits.
+        {changed ? "Set by you, not the split on file. " : "The split on file. "}Counts are picks, not screens: a round that keeps 2 counts 2. Your picks stay; each still uses up the kind it fits.
       </p>
       {changed && <button className="self-start text-[11px] text-primary hover:underline" onClick={() => set({})}>Back to the split on file</button>}
     </div>

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { allRounds, DRAFT_FORMATS, groupOf, inBand, inPool, nextRound, replay, roundFor, roundsLeft, withCounts, type DraftFormat, type DraftGroup } from "./formats";
+import { allRounds, DRAFT_FORMATS, groupOf, inBand, inPool, nextRound, pricedPack, replay, roundFor, roundsLeft, withCounts, type DraftFormat, type DraftGroup } from "./formats";
 import type { Tier } from "@/lib/tiers";
 
 const six = DRAFT_FORMATS["6lpowerplay"], five = DRAFT_FORMATS["5ldeadball"];
@@ -107,4 +107,14 @@ test("round counts set on the page override the file's and move the roster size"
   assert.deepEqual(tiersOf(f), { Perfect: 4, Diamond: 4, Gold: 4, Silver: 6, Bronze: 6, Iron: 2 });
   assert.equal(withCounts(pd1, { I: 0 }).cards, 24);
   assert.equal(pd1.rounds[0].count, 2, "the file's format is untouched");
+});
+
+test("keeping 2 of a 12-card pack is priced about as the best of 8 for each pick", () => {
+  assert.equal(pricedPack(6), 6, "keep 1: the pack itself");
+  assert.equal(pricedPack(12, 2), 8);
+  assert.equal(pricedPack(2, 2), 1);
+  for (const f of [DRAFT_FORMATS.ptms3pd1, DRAFT_FORMATS.ptms3pd2, DRAFT_FORMATS.ptms3pd3]) {
+    assert.deepEqual([f.packSize, f.keep], [12, 2], f.series);
+    assert.ok(f.rounds.every((r) => r.pack === "mixed"), `${f.series}: mixed screens`);
+  }
 });
