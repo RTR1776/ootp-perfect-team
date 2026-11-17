@@ -215,3 +215,34 @@ test("a card that left the pool is out of what the rounds to come can bring, but
   const out = playOut(E, f, [ih], { "B-SS": 1 }, { packSize: 2 });
   assert.ok(!out.team.includes(ig));
 });
+
+test("a round's value band shapes its pool: a Low of Lows Diamond round deals 90-94 only, a 101+ round 101 and up", () => {
+  const low = bat("Low D", "SS", 5, 5, { SS: 80 }, { tier: "Diamond", val: 92 });
+  const high = bat("High D", "SS", 20, 20, { SS: 90 }, { tier: "Diamond", val: 97 });
+  const p100 = bat("P100", "SS", 30, 30, { SS: 90 }, { tier: "Perfect", val: 100 });
+  const p102 = bat("P102", "SS", 40, 40, { SS: 90 }, { tier: "Perfect", val: 102 });
+  const E = makeEngine(pool([low, high, p100, p102]), ctx);
+  const idx = (c: DraftCard) => E.byId.get(c.id)!;
+  assert.deepEqual(poolOf(E, { tier: "Diamond", valueMax: 94 }, ["SS"], new Set()), [idx(low)]);
+  assert.deepEqual(poolOf(E, { tier: "Perfect", valueMin: 101 }, ["SS"], new Set()), [idx(p102)]);
+  assert.equal(poolOf(E, "Diamond", ["SS"], new Set()).length, 2, "no band: the whole tier");
+  // The board for the band leaves the 97 out even though he is the better card.
+  const f: DraftFormat = { ...toy, rounds: [{ key: "D", label: "Diamond 90-94", tier: "Diamond", groups: ["SS"], count: 1, pack: "mixed", valueMax: 94 }] };
+  const adv = advise(E, { format: f, team: [], rem: { D: 1 }, round: f.rounds[0], play: { packSize: 2 } });
+  assert.deepEqual(adv.rows.map((r) => r.idx), [idx(low)]);
+});
+
+test("an ordered format plays its rounds out in its own order", () => {
+  const p = bat("Perfect SS", "SS", 40, 40, { SS: 90 }, { tier: "Perfect", val: 100 });
+  const b = bat("Bronze SS", "SS", 1, 1, { SS: 70 });
+  const E = makeEngine(pool([p, b]), ctx);
+  const f: DraftFormat = {
+    ...toy, ordered: true,
+    rounds: [
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ["SS"], count: 1, pack: "mixed" },
+      { key: "B", label: "Bronze", tier: "Bronze", groups: ["SS"], count: 1, pack: "mixed" },
+    ],
+  };
+  const out = playOut(E, f, [], { P: 1, B: 1 }, { packSize: 6 });
+  assert.deepEqual(out.expected.map((e) => e.round), ["P", "B"]);
+});

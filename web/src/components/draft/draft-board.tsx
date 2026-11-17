@@ -14,6 +14,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { describePosFloor, LJ_FLOOR } from "@/lib/pos-floor";
+import type { DraftPageData } from "@/lib/draft/load";
+import { RoundBoard } from "@/components/draft/round-board";
 import { cn } from "@/lib/utils";
 
 export interface DraftEvent { id: number; label: string; isDraft: boolean }
@@ -30,6 +32,8 @@ interface Props {
   context: string | null;
   columns: DraftColumn[];
   cards: DraftCard[];
+  /** A Perfect Draft whose format is on file: the board follows its rounds and the live helper's picks (RoundBoard). */
+  draft?: DraftPageData | null;
 }
 
 /** A drop this big between neighbours starts a new tier (runs per 700). */
@@ -99,15 +103,15 @@ export function DraftBoard(p: Props) {
               className="h-8 w-44 rounded-md border border-input bg-background px-2 text-sm"
             />
           </label>
-          <label className="flex flex-col gap-1" title="Picks between your turns. Sets the wait cost in each column header.">
+          {!p.draft && <label className="flex flex-col gap-1" title="Picks between your turns. Sets the wait cost in each column header.">
             <span className="label-eyebrow">Picks until your next turn</span>
             <input
               type="number" min={1} max={40} value={pickGap}
               onChange={(e) => setPickGap(Math.max(1, Math.min(40, Number(e.target.value) || 1)))}
               className="h-8 w-20 rounded-md border border-input bg-background px-2 text-sm"
             />
-          </label>
-          {p.eventId && (
+          </label>}
+          {p.eventId && !p.draft && (
             <div className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
               <span>{taken.length} taken</span>
               <button className="rounded border border-border px-2 py-1 hover:text-foreground disabled:opacity-40" disabled={!taken.length} onClick={() => setTaken(taken.slice(0, -1))}>Undo last</button>
@@ -118,7 +122,9 @@ export function DraftBoard(p: Props) {
         </CardContent>
       </Card>
 
-      {!p.eventId ? (
+      {p.draft ? (
+        <RoundBoard data={p.draft} search={search} />
+      ) : !p.eventId ? (
         <p className="text-sm text-muted-foreground">Pick an event to lay out its board.</p>
       ) : p.columns.length === 0 ? (
         <p className="text-sm text-muted-foreground">No legal cards or no run environment on file for this event.</p>
@@ -180,15 +186,15 @@ export function DraftBoard(p: Props) {
         </div>
       )}
 
-      {taken.length > 0 && (
+      {!p.draft && taken.length > 0 && (
         <p className="text-xs text-muted-foreground">
           Taken: {taken.map((id) => byId.get(id)?.name ?? id).join(", ")}. Click a name on the board again to put it back
           (search finds taken cards too once you undo).
         </p>
       )}
-      <p className="text-[11px] text-muted-foreground">
+      {!p.draft && <p className="text-[11px] text-muted-foreground">
         {`Hitter columns rank bat (both hands, weighted to the field) plus glove at that spot, and only list cards at or above the glove floor (${describePosFloor(LJ_FLOOR)}); the small number is the glove rating there. The two bars are the bat vs LHP and vs RHP, so a platoon-only bat stands out. A dashed line is a tier break: the next card is ${TIER_GAP}+ runs worse. Arms rank on runs saved; S is stamina.`}
-      </p>
+      </p>}
     </div>
   );
 }

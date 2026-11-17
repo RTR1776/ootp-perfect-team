@@ -35,7 +35,7 @@ import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { LJ_FLOOR, posFloorAt, type PosFloor } from "@/lib/pos-floor";
 import { penTilt, PITCHER_BAT_RUNS, rotationTilt, STARTER_PA_SHARE, staffStaminaRuns } from "@/lib/roster-objective";
 import type { Tier } from "@/lib/tiers";
-import type { DraftFormat, DraftGroup, PackKind, Remaining, RoundKind } from "@/lib/draft/formats";
+import { inBand, type DraftFormat, type DraftGroup, type PackKind, type Remaining, type RoundKind } from "@/lib/draft/formats";
 
 export const FIELD = ["C", "1B", "2B", "3B", "SS", "LF", "CF", "RF"] as const;
 export type FieldPos = (typeof FIELD)[number];
@@ -431,15 +431,20 @@ export function expectedBestOfN(desc: readonly number[], n: number): number {
 
 /**
  * Card indices a round of this kind can show, for one group or all of its
- * groups, leaving out players already taken and, unless asked for, the cards
- * taken to be out of the pool (Engine.absent).
+ * groups: its tier, inside its value band (a Low of Lows Diamond round deals
+ * 90-94 only), leaving out players already taken and, unless asked for, the
+ * cards taken to be out of the pool (Engine.absent).
  */
-export function poolOf(E: Engine, tier: Tier, groups: readonly DraftGroup[], taken: ReadonlySet<string | number>, withAbsent = false): number[] {
+export function poolOf(
+  E: Engine, round: Tier | Pick<RoundKind, "tier" | "valueMin" | "valueMax">, groups: readonly DraftGroup[],
+  taken: ReadonlySet<string | number>, withAbsent = false,
+): number[] {
+  const r = typeof round === "string" ? { tier: round } : round;
   const out: number[] = [];
   for (const g of groups) {
-    for (const i of E.pools.get(`${tier}|${g}`) ?? []) {
+    for (const i of E.pools.get(`${r.tier}|${g}`) ?? []) {
       const c = E.cards[i];
-      if (!taken.has(c.player ?? c.id) && (withAbsent || !E.absent[i])) out.push(i);
+      if (!taken.has(c.player ?? c.id) && (withAbsent || !E.absent[i]) && inBand(r, c)) out.push(i);
     }
   }
   return out;
@@ -501,12 +506,12 @@ export function expectedPick(E: Engine, r: RoundKind, plan: Plan, taken: Readonl
   if (kindOf(r, o) === "choose") {
     let best: ExpectedPick | null = null;
     for (const g of r.groups) {
-      const e = expectedFrom(E, poolOf(E, r.tier, [g], taken), plan, o.packSize);
+      const e = expectedFrom(E, poolOf(E, r, [g], taken), plan, o.packSize);
       if (e && (!best || e.ev > best.ev)) best = { ...e, group: g };
     }
     return best;
   }
-  const e = expectedFrom(E, poolOf(E, r.tier, r.groups, taken), plan, o.packSize);
+  const e = expectedFrom(E, poolOf(E, r, r.groups, taken), plan, o.packSize);
   return e ? { ...e, group: E.cards[e.idx].group } : null;
 }
 
@@ -514,9 +519,17 @@ export function expectedPick(E: Engine, r: RoundKind, plan: Plan, taken: Readonl
 export const takenOf = (E: Engine, team: readonly number[]): Set<string | number> =>
   new Set(team.map((i) => E.cards[i].player ?? E.cards[i].id));
 
-/** The rounds left in play-out order: position-locked rounds first, then the open ones (the real order is not on file). */
+/**
+ * The rounds left in play-out order: an ordered format's own order (Perfect
+ * first in every ladder on file); else position-locked rounds first, then the
+ * open ones (the real order is not on file).
+ */
 export function playOrder(f: DraftFormat, rem: Remaining, o: PlayOptions): RoundKind[] {
   const out: RoundKind[] = [];
+  if (f.ordered) {
+    for (const r of f.rounds) for (let k = 0; k < (rem[r.key] ?? 0); k++) out.push(r);
+    return out;
+  }
   const add = (fixed: boolean) => {
     for (const r of f.rounds) if ((kindOf(r, o) === "fixed") === fixed) for (let k = 0; k < (rem[r.key] ?? 0); k++) out.push(r);
   };
@@ -632,11 +645,11 @@ export function advise(E: Engine, a: AdviseInput): Advice {
   // The finished team without this round's pick, to read each card's quick gain against.
   const rest = playOut(E, a.format, a.team, remAfter, play);
   const groupsOpen = a.group ? [a.group] : round.groups;
-  const pool = a.pack?.length ? [...a.pack] : poolOf(E, round.tier, groupsOpen, taken, true);
+  const pool = a.pack?.length ? [...a.pack] : poolOf(E, round, groupsOpen, taken, true);
 
   // What a typical pack of this round gives (in a pick-a-position round, from the best group to open).
   const typicalPick = a.group
-    ? (() => { const e = expectedFrom(E, poolOf(E, round.tier, [a.group], taken), rest.plan, play.packSize); return e ? { ...e, group: a.group } : null; })()
+    ? (() => { const e = expectedFrom(E, poolOf(E, round, [a.group], taken), rest.plan, play.packSize); return e ? { ...e, group: a.group } : null; })()
     : expectedPick(E, round, rest.plan, taken, play);
 
   const quick = pool.map((i) => ({ i, g: quickGain(E, i, rest.plan) })).sort((x, y) => y.g - x.g || x.i - y.i);
@@ -672,7 +685,7 @@ export function advise(E: Engine, a: AdviseInput): Advice {
   const groups: Advice["groups"] = [];
   if (kindOf(round, play) === "choose" && !a.group) {
     for (const g of round.groups) {
-      const e = expectedFrom(E, poolOf(E, round.tier, [g], taken), rest.plan, play.packSize);
+      const e = expectedFrom(E, poolOf(E, round, [g], taken), rest.plan, play.packSize);
       if (e) groups.push({ group: g, ev: e.ev, delta: 0, idx: e.idx });
     }
     groups.sort((x, y) => y.ev - x.ev);

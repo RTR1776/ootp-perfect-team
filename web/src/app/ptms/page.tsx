@@ -109,13 +109,14 @@ export default async function PtmsPage() {
                     <>
                       <p>
                         {fmt.cards} cards: {fmt.rounds.map((r) => `${r.count} ${r.label}`).join(", ")} · packs of {fmt.packSize}
+                        {fmt.starts && <span className="text-muted-foreground"> · starts {fmt.starts}</span>}
                       </p>
                       <ul className="mt-1 list-disc pl-5 text-xs text-muted-foreground">
                         {fmt.assumed.map((a) => <li key={a}><span className="text-warning">Assumed:</span> {a}</li>)}
                       </ul>
                       <div className="mt-2 flex flex-wrap gap-4">
                         <Link className="text-primary underline-offset-2 hover:underline" href={`/draft/live?e=${fmt.series}`}>Live draft helper</Link>
-                        <Link className="text-primary underline-offset-2 hover:underline" href={`/draft?t=${e.id}`}>Board by position</Link>
+                        <Link className="text-primary underline-offset-2 hover:underline" href={`/draft?t=${e.id}`}>Board (follows the rounds)</Link>
                       </div>
                     </>
                   ) : (

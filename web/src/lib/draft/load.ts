@@ -148,9 +148,10 @@ export async function loadDraftFormat(format: DraftFormat, src: { field?: FieldR
     pitcherRole: cards.pitcherRole, isPitcher: cards.isPitcher, bats: cards.bats, throws: cards.throws, year: cards.year,
     cardType: cards.cardType, cardSubType: cards.cardSubType, brefId: cards.brefId, ratings: cards.ratings, firstSeenAt: cards.firstSeenAt,
   }).from(cards);
-  // A set-up draft has no value window, so keep only the tiers its rounds draw from.
-  const tiersIn = custom ? new Set<string>(format.rounds.map((r) => r.tier)) : null;
-  const legal = universe.filter((c) => isTier(c.tier) && (!tiersIn || tiersIn.has(c.tier)) && cardEligibility({
+  // Only the tiers the rounds draw from: a set-up draft has no value window, and a
+  // Perfect + Bronze draft never deals a Diamond, so it shouldn't set replacement levels.
+  const tiersIn = new Set<string>(format.rounds.map((r) => r.tier));
+  const legal = universe.filter((c) => isTier(c.tier) && tiersIn.has(c.tier) && cardEligibility({
     cardId: c.cardId, name: c.name, val: c.cardValue, year: c.year, isPitcher: c.isPitcher, role: c.pitcherRole,
     cardType: c.cardType, le: c.cardSubType === "LE", ratings: c.ratings, baseOwned: false, variantOwned: false,
   }, rules).errors.length === 0);
