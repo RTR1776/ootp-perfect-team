@@ -7,10 +7,11 @@
  * change what he can get, and the helper never asks for them.
  *
  * A format is the multiset of its rounds: each round's tier, the position
- * groups its pack can hold, and how the pack is put together. The order the
- * rounds come in is not on file for either Laptophound event, so the helper
- * works from what is left, not from a round number: a pick uses up the
- * round its card fits.
+ * groups its pack can hold, and how the pack is put together. A pick uses up
+ * the round its card fits, so the helper works from what is left, not from a
+ * round number. Where the order is known or likely (`ordered`: most ladder
+ * drafts in L.J.'s game saves deal Perfect first, then down the tiers) the
+ * next round is the next kind in the list; the 6L's is not.
  *
  * WHAT THE EXPORTS SAY (scripts/draft-study.ts; Docs/Draft Helper 2026-10-26.md).
  *
@@ -54,6 +55,16 @@ export interface RoundKind {
   /** How many rounds of this kind the draft has. */
   count: number;
   pack: PackKind;
+  /**
+   * The card values this round deals, when it is narrower than its tier: a
+   * Low of Lows round deals only its tier's bottom band (Diamond 90-94), a
+   * 101+ round only Perfects of 101 or more. The band shapes the pool the
+   * board shows and the rounds to come are priced from. It does not decide
+   * where a typed pick goes (fitsRound is by tier), so a card outside the
+   * band can still be entered if the band turns out wrong.
+   */
+  valueMin?: number;
+  valueMax?: number;
 }
 
 export interface DraftFormat {
@@ -75,6 +86,15 @@ export interface DraftFormat {
   dh: boolean;
   teams: number;
   mode: string;
+  /** When it starts, as the event screen gives it. */
+  starts?: string;
+  /**
+   * The rounds are listed in the order the game deals them, so the round
+   * after the last pick is the next kind with rounds left. 6 of the 8 ladder
+   * drafts in L.J.'s game saves (11-11..11-17) dealt their tiers top down,
+   * Perfect first; the 6L dealt Bronze first, so it is not marked.
+   */
+  ordered?: boolean;
   rounds: RoundKind[];
   /** Cards a pack shows; the page can change it. */
   packSize: number;
@@ -157,26 +177,28 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     dh: false,
     teams: 128,
     mode: "Bo9",
+    ordered: true,
     rounds: [
-      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 4, pack: "mixed" },
-      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 17, pack: "mixed" },
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 8, pack: "mixed" },
+      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 13, pack: "mixed" },
     ],
     packSize: 2,
     confirmed: [
       "Modified Perfectly Iron PD: 1919 run environment, no DH, 1914 Griffith Stadium, Bo9 (catalogue).",
       "21 cards, the Perfect rounds first (L.J., 11-03).",
+      "8 Perfect and 13 Iron: the team L.J. drafted (his 11-07 screenshots) had 8 Perfect cards (Trout, Yastrzemski, Gibson, Hornsby, Jeter, Will Clark, Jud Wilson, Cedeno) and 13 Iron. This file said 4 and 17 until 11-17.",
       "Packs usually show 2 cards, hitters and pitchers mixed (L.J., 11-03).",
     ],
     assumed: [
-      "4 Perfect rounds and 17 Iron (L.J. said four Perfect, then Iron, 21 cards in all).",
       "128 teams. No exports of this event on file, so the field's hands are defaults.",
     ],
   },
   /*
-   * PTMS 3 (Saturday 2026-11-21), from the format announcement L.J. sent on
-   * 11-10. The catalogue rows are 9130004-06 (src/db/seed/ptms3.json). The
-   * announcement gives the card pools, run environments and parks; it does not
-   * give the rounds, so each format below says what it borrowed them from.
+   * PTMS 3 (Saturday 2026-11-21). The catalogue rows are 9130004-06
+   * (src/db/seed/ptms3.json). Environments, parks, card pools, 128 teams and
+   * start times are from the event screens L.J. sent on 11-17. The screens do
+   * not give the PD 1 and PD 2 rounds, so each says what it borrowed them from
+   * (Docs/PTMS 3 Drafts 2026-11-17 (Claude).md has the evidence).
    */
   ptms3pd1: {
     series: "ptms3pd1",
@@ -187,23 +209,27 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     envYear: 1986,
     dh: true,
     teams: 128,
-    mode: "Bo9",
+    mode: "Bo9, sims every 10 minutes",
+    starts: "Sat 21 Nov, 07:59 AM",
+    ordered: true,
     rounds: [
       { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 2, pack: "choose" },
-      { key: "D", label: "Diamond", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "choose" },
-      { key: "G", label: "Gold", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "choose" },
-      { key: "S", label: "Silver", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "choose" },
-      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "choose" },
-      { key: "I", label: "Iron", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "choose" },
+      { key: "D", label: "Diamond 90-94", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "choose", valueMax: 94 },
+      { key: "G", label: "Gold 80-84", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "choose", valueMax: 84 },
+      { key: "S", label: "Silver 70-74", tier: "Silver", groups: ALL_GROUPS, count: 6, pack: "choose", valueMax: 74 },
+      { key: "B", label: "Bronze 60-64", tier: "Bronze", groups: ALL_GROUPS, count: 6, pack: "choose", valueMax: 64 },
+      { key: "I", label: "Iron 40-49", tier: "Iron", groups: ALL_GROUPS, count: 2, pack: "choose", valueMax: 49 },
     ],
     packSize: 6,
     confirmed: [
-      "Low of Lows, cards up to 1986, 1986 run environment, DH on, LE on, 1985 Veterans Stadium, Bo9 (PTMS 3 announcement, 11-10).",
+      "Low of Lows, cards up to 1986, 1986 run environment, DH, 1985 Veterans Stadium (AVG 1.007/1.027, HR 1.030/.982, 2B 1.073, 3B 1.119), 128 teams, Bo9, starts Sat 21 Nov 07:59 (event screen, 11-17).",
+      "Each tier's bottom band is the game's own \"Low\" band: Daily Low Diamond Only is 90-94, Low Gold Only 80-84, Low Silver Only 70-74, Low Bronze Only 60-64 and Low Iron Quick 49 and under (catalogue).",
     ],
     assumed: [
-      "26 rounds in the usual PD mix: 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron (the 101+ double PD export, strugglingsleep_170). No Low of Lows export is on file.",
-      "\"Low of Lows\" probably means each pack is the low end of its tier (Diamond 90-94 and so on). The helper picks by tier only, so check the values on the pack you are shown.",
-      "You pick the position each round, packs of 6. 128 teams.",
+      "Rounds come top tier first: 6 of the 8 ladder drafts in L.J.'s game saves (11-11..11-17) went Perfect, Diamond, Gold, Silver, Bronze, Iron; one mixed Perfect and Diamond picks, one came in no order. Typing the pack's first card sets the round either way.",
+      "26 rounds: 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron, as in the Double 101+ draft on file (strugglingsleep_170). Two of L.J.'s recent ladder drafts ran 4/4/4/6/6/2 instead. If the screen shows another split, set it under Rounds.",
+      "Perfect rounds are not capped: no game event defines a low Perfect band. L.J. read Low of Lows as 94 and under for Perfect and 84 for Diamond; the game's bands put 94 on Diamond and 84 on Gold.",
+      "You pick the position each round, packs of 6.",
     ],
   },
   ptms3pd2: {
@@ -215,9 +241,11 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     envYear: 2015,
     dh: true,
     teams: 128,
-    mode: "Bo9",
+    mode: "Bo9, sims every 10 minutes",
+    starts: "Sat 21 Nov, 08:30 AM",
+    ordered: true,
     rounds: [
-      { key: "P101", label: "101+ (round 1)", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "mixed" },
+      { key: "P101", label: "101+ (round 1)", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "mixed", valueMin: 101 },
       { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 1, pack: "choose" },
       { key: "D", label: "Diamond", tier: "Diamond", groups: ALL_GROUPS, count: 4, pack: "choose" },
       { key: "G", label: "Gold", tier: "Gold", groups: ALL_GROUPS, count: 6, pack: "choose" },
@@ -227,13 +255,13 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     ],
     packSize: 6,
     confirmed: [
-      "Double PD with a 101+ first round, cards from 1970 to present, 2015 run environment, DH on, LE on, 2015 Angel Stadium of Anaheim, Bo9 (PTMS 3 announcement, 11-10).",
-      "A 101+ round 1 double PD drafted 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron (most of each tier on any team in strugglingsleep_170, Daily Struggling to Sleep - DBL, 101+ RD1).",
+      "Double PD, cards from 1970 on, 2015 run environment, DH, 2015 Angel Stadium of Anaheim (AVG 1.004/.950, HR .973/.998, 2B .968, 3B .827), 128 teams, Bo9, starts Sat 21 Nov 08:30 (event screen, 11-17).",
+      "The Double 101+ draft on file drafted exactly 2 Perfect, 4 Diamond, 6 Gold, 6 Silver, 6 Bronze, 2 Iron on all 3 full teams (strugglingsleep_170, Daily Struggling to Sleep - DBL, 101+ RD1).",
     ],
     assumed: [
-      "The same rounds here. The 101+ round is Perfect tier to the helper: only take a card valued 101 or more from it.",
-      "\"Double\" read as the usual double PD: you see two cards a pick. If a pick gives you both cards, the round count halves; tell me.",
-      "128 teams.",
+      "Rounds come top tier first, as in 6 of the 8 ladder drafts in L.J.'s game saves (11-11..11-17). Typing the pack's first card sets the round either way.",
+      "The same rounds here, with a 101+ first round: the 11-10 announcement called it Double 101+; the 11-17 screen says only Double PD. The helper takes a Perfect card of any value in either Perfect round.",
+      "\"Double\" is not defined on file. Every tier count in the double draft on file is even, as in every ladder in L.J.'s saves, so it may mean two picks a round. If a pick gives you both cards, enter both.",
     ],
   },
   ptms3pd3: {
@@ -245,20 +273,20 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
     envYear: 1939,
     dh: false,
     teams: 128,
-    mode: "Bo9",
+    mode: "Bo9, sims every 10 minutes",
+    starts: "Sat 21 Nov, 08:49 AM",
+    ordered: true,
     rounds: [
-      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 4, pack: "mixed" },
-      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 17, pack: "mixed" },
+      { key: "P", label: "Perfect", tier: "Perfect", groups: ALL_GROUPS, count: 8, pack: "mixed" },
+      { key: "B", label: "Bronze", tier: "Bronze", groups: ALL_GROUPS, count: 13, pack: "mixed" },
     ],
     packSize: 2,
     confirmed: [
-      "Modified Perfectly Bronze, 21 cards, 1939 run environment, no DH, LE on, 1940 Braves Field, Bo9 (PTMS 3 announcement, 11-10).",
-      "The daily Perfectly Bronze drafts only Perfect and Bronze cards (14 and 12 of 26 in thiscouldvebeenemail_219).",
+      "Modified Perfectly Bronze, 21 cards, 1939 run environment, no DH, 1940 Braves Field (AVG .995/.969, HR .829/.906, 2B 1.014, 3B .905), 128 teams, Bo9, starts Sat 21 Nov 08:49 (event screen, 11-17).",
+      "8 Perfect, then 13 Bronze. \"Four rounds of Perfect, then nine of Bronze\" is 13 rounds of two picks: the 26-card Perfectly Iron in L.J.'s 11-11 game save dealt 8 Perfect then 18 Iron. Stopping at 21 cards leaves 13 Bronze. PTCS 8's Modified Perfectly Iron came out the same: L.J.'s team had 8 Perfect and 13 Iron.",
     ],
     assumed: [
-      "4 Perfect rounds first, then 17 Bronze, as in PTCS 8's Modified Perfectly Iron (L.J., 11-03: four Perfect, then Iron, 21 cards).",
       "Packs show 2 cards, hitters and pitchers mixed (L.J. on Modified Perfectly Iron, 11-03).",
-      "128 teams.",
     ],
   },
 };
@@ -282,9 +310,39 @@ export const allRounds = (f: DraftFormat): Remaining =>
 /** Rounds left in all. */
 export const roundsLeft = (rem: Remaining): number => Object.values(rem).reduce((a, b) => a + Math.max(0, b), 0);
 
-/** Can a card come out of a round of this kind? */
+/** Can a card come out of a round of this kind? By tier and group; the value band only shapes the pool (inBand). */
 export const fitsRound = (r: RoundKind, c: { tier: Tier; group: DraftGroup }): boolean =>
   r.tier === c.tier && r.groups.includes(c.group);
+
+/** Is a card's value inside the band its round deals (RoundKind.valueMin / valueMax)? */
+export const inBand = (r: Pick<RoundKind, "valueMin" | "valueMax">, c: { val: number }): boolean =>
+  (r.valueMin == null || c.val >= r.valueMin) && (r.valueMax == null || c.val <= r.valueMax);
+
+/** A round's pool: its tier, inside its value band. */
+export const inPool = (r: RoundKind, c: { tier: Tier; val: number }): boolean => r.tier === c.tier && inBand(r, c);
+
+/**
+ * The format with the round counts L.J. set on the page (the screen showed a
+ * different split than the one on file). Unknown keys are ignored; the
+ * roster size follows the counts.
+ */
+export function withCounts(f: DraftFormat, counts: Record<string, number> | null | undefined): DraftFormat {
+  if (!counts || !f.rounds.some((r) => counts[r.key] != null && counts[r.key] !== r.count)) return f;
+  const rounds = f.rounds.map((r) => (counts[r.key] != null ? { ...r, count: Math.max(0, Math.round(counts[r.key])) } : r));
+  return { ...f, rounds, cards: rounds.reduce((a, r) => a + r.count, 0) };
+}
+
+/**
+ * The round the game deals next when nothing says otherwise: in an ordered
+ * format the first kind in order with rounds left; else, with one kind left
+ * or three kinds at most, the one with most left; else unknown (null).
+ */
+export function nextRound(f: DraftFormat, rem: Remaining): RoundKind | null {
+  const open = f.rounds.filter((r) => (rem[r.key] ?? 0) > 0);
+  if (f.ordered) return open[0] ?? null;
+  if (open.length === 1 || f.rounds.length <= 3) return [...open].sort((a, b) => (rem[b.key] ?? 0) - (rem[a.key] ?? 0))[0] ?? null;
+  return null;
+}
 
 /**
  * The round a drafted card used up: the most specific remaining kind it fits

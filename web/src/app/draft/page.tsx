@@ -19,6 +19,8 @@ import { cardEligibility, type RosterRules } from "@/lib/roster-rules";
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
 import { DraftBoard, type DraftCard, type DraftColumn, type DraftEvent } from "@/components/draft/draft-board";
 import { PageHeader } from "@/components/page-header";
+import { DRAFT_FORMATS } from "@/lib/draft/formats";
+import { loadDraft, pageData, type DraftPageData } from "@/lib/draft/load";
 import { SectionTabs } from "@/components/section-tabs";
 
 export const dynamic = "force-dynamic";
@@ -42,7 +44,12 @@ export default async function DraftPage({ searchParams }: { searchParams: Promis
   let cardsOut: DraftCard[] = [];
   let context: string | null = null;
 
-  if (picked) {
+  // A Perfect Draft whose rounds are on file: the board follows its rounds and the live helper's picks.
+  const format = picked ? Object.values(DRAFT_FORMATS).find((f) => f.eventId === picked.id) ?? null : null;
+  const loaded = format ? await loadDraft(format.series) : null;
+  const draft: DraftPageData | null = loaded ? pageData(loaded) : null;
+
+  if (picked && !draft) {
     const [full] = await db.select().from(tournaments).where(eq(tournaments.id, picked.id));
     const park = parkFor(full.stadium);
     const notes = (full.restrictions as { notes?: string[] } | null)?.notes;
@@ -130,6 +137,7 @@ export default async function DraftPage({ searchParams }: { searchParams: Promis
         context={context}
         columns={columns}
         cards={cardsOut}
+        draft={draft}
       />
     </div>
   );
