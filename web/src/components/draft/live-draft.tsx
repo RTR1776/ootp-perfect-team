@@ -17,7 +17,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { cardIndex, matchCards } from "@/lib/card-search";
 import { draftView, makeEngine, type DraftCard, type DraftView, type ViewInput } from "@/lib/draft/engine";
-import { nextRound, pricedPack, replay, roundFor, withCounts, type DraftFormat, type DraftGroup, type PackKind, type RoundKind } from "@/lib/draft/formats";
+import { keepFor, nextRound, pricedPack, replay, roundFor, screenAt, withCounts, type DraftFormat, type DraftGroup, type PackKind, type RoundKind } from "@/lib/draft/formats";
+import { ScreenStrip } from "@/components/draft/screen-strip";
 import { freshDraft, useLiveDraft, withPick } from "@/components/draft/use-live-draft";
 import type { DraftPageData } from "@/lib/draft/load";
 import { fieldPercentile } from "@/lib/draft/study";
@@ -90,8 +91,6 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
   // The rounds on file, or the split L.J. set from the draft screen.
   const f = React.useMemo(() => withCounts(data.format, saved.counts), [data.format, saved.counts]);
   const [editRounds, setEditRounds] = React.useState(false);
-  /** Cards kept from each pack (a round): the PTMS 3 drafts keep 2 of about 12. */
-  const keep = saved.keep ?? f.keep ?? 1;
   const [query, setQuery] = React.useState("");
   const [active, setActive] = React.useState(0);
   const input = React.useRef<HTMLInputElement>(null);
@@ -100,6 +99,10 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
   const team = React.useMemo(() => saved.picks.map(idxOf).filter((i): i is number => i != null), [saved.picks, idxOf]);
   const pack = React.useMemo(() => saved.pack.map(idxOf).filter((i): i is number => i != null), [saved.pack, idxOf]);
   const { rem, used, unplaced } = React.useMemo(() => replay(f, team.map((i) => E.cards[i])), [f, team, E]);
+  /** The game's round this pick comes from, when the event screen listed them (PTMS 3). */
+  const at = screenAt(f, team.length);
+  /** Cards kept from the pack on screen: that round's own count where the rounds are listed (PTMS 3 PD 3 keeps 1 in some, 2 in others), else the page's setting. */
+  const keep = keepFor(f, team.length, saved.keep);
   const kindOf = React.useCallback((r: RoundKind) => saved.kinds[r.key] ?? r.pack, [saved.kinds]);
   const taken = React.useMemo(() => new Set(team.map((i) => E.cards[i].player ?? E.cards[i].id)), [team, E]);
 
@@ -115,7 +118,7 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
 
   const viewInput: ViewInput | null = loaded ? {
     format: f, team, rem, round: round?.key ?? null, group, pack,
-    play: { packSize: pricedPack(saved.packSize, keep), packKinds: saved.kinds }, keep: 60,
+    play: { packSize: pricedPack(saved.packSize, keep), packKinds: saved.kinds, screenSize: f.screens ? saved.packSize : undefined }, keep: 60,
   } : null;
   const { view, busy, error } = useDraftView(data, viewInput);
   const current = view && view.round === (round?.key ?? null) ? view : null;
@@ -196,12 +199,18 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
                   onChange={(e) => update((s) => ({ ...s, packSize: Math.max(2, Math.min(15, Number(e.target.value) || f.packSize)) }))}
                   className="h-7 w-14 rounded-md border border-input bg-background px-2 text-sm" />
               </label>
-              <label className="flex items-center gap-1 text-muted-foreground" title="Cards you keep from each pack. With 2, the pack stays up after your first pick so you can take the second from it.">
-                keep
-                <input type="number" min={1} max={3} value={keep}
-                  onChange={(e) => { const v = Math.max(1, Math.min(3, Math.round(Number(e.target.value) || 1))); update((s) => ({ ...s, keep: v === (f.keep ?? 1) ? undefined : v })); }}
-                  className="h-7 w-12 rounded-md border border-input bg-background px-2 text-sm" />
-              </label>
+              {f.screens ? (
+                <span className="text-muted-foreground" title="Cards kept from each round's pack, as the event screen lists them. With 2, the pack stays up after your first pick so you can take the second from it.">
+                  keep {keep} this round
+                </span>
+              ) : (
+                <label className="flex items-center gap-1 text-muted-foreground" title="Cards you keep from each pack. With 2, the pack stays up after your first pick so you can take the second from it.">
+                  keep
+                  <input type="number" min={1} max={3} value={keep}
+                    onChange={(e) => { const v = Math.max(1, Math.min(3, Math.round(Number(e.target.value) || 1))); update((s) => ({ ...s, keep: v === (f.keep ?? 1) ? undefined : v })); }}
+                    className="h-7 w-12 rounded-md border border-input bg-background px-2 text-sm" />
+                </label>
+              )}
               {f.rounds.filter((r) => r.pack !== "fixed").length > 0 && (
                 <PackKindSwitch rounds={f.rounds.filter((r) => r.pack !== "fixed")} kindOf={kindOf}
                   set={(kinds) => update((s) => ({ ...s, kinds: { ...s.kinds, ...kinds }, group: null }))} />
@@ -239,6 +248,13 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
               <RoundsEditor rounds={data.format.rounds} counts={saved.counts ?? {}}
                 set={(counts) => update((s) => ({ ...s, counts: Object.keys(counts).length ? counts : undefined, round: null, group: null }))} />
             )}
+            {f.screens && !done && at && (
+              <p className="text-sm">
+                Round {at.no} of {f.screens.length}
+                <span className="text-muted-foreground"> · pick {at.taken + 1} of {at.screen.keep} from {saved.packSize}</span>
+              </p>
+            )}
+            <ScreenStrip f={f} picksMade={team.length} packSize={saved.packSize} />
             <div className="flex flex-col gap-1">
               {f.rounds.map((r) => {
                 const left = rem[r.key] ?? 0;
@@ -258,7 +274,9 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
               })}
             </div>
             <p className="text-[11px] leading-snug text-muted-foreground">
-              {f.ordered
+              {f.screens
+                ? "The game's rounds are on file from the event screen, so the next one is known, and so is how many you keep from it. Click another round only if the game shows something else."
+                : f.ordered
                 ? "Rounds come in this order, so the next one is assumed. Click another if the game shows it, or type the first card of the pack: it sets the round."
                 : f.rounds.length > 3
                   ? "Click the round the game is showing, or just type the first card of the pack: it sets the round."
@@ -288,7 +306,7 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
           <CardContent className="flex flex-col gap-3 p-4">
             <div className="flex flex-wrap items-center gap-2">
               <span className="label-eyebrow">
-                {round ? `${round.label}${group ? ` · ${group}` : ""}` : "Which round?"}
+                {round ? `${at && at.screen.round === round.key ? `Round ${at.no} · ` : ""}${round.label}${group ? ` · ${group}` : ""}${at && at.screen.round === round.key ? ` · keep ${at.screen.keep}` : ""}` : "Which round?"}
               </span>
               {busy && <span className="text-[11px] text-muted-foreground">thinking…</span>}
               {current && <span className="ml-auto text-[11px] text-muted-foreground">{current.ms.toFixed(0)} ms</span>}
@@ -316,7 +334,7 @@ export function LiveDraft({ events, data, openEvent }: { events: { series: strin
             {pack.length > 0 && (
               <div className="flex flex-wrap items-center gap-1">
                 <span className="text-[11px] text-muted-foreground">
-                  {keep > 1 ? `Pack, pick ${(saved.packTaken ?? 0) + 1} of ${keep}:` : "Pack:"}
+                  {keep > 1 ? `Pack, pick ${(at ? at.taken : saved.packTaken ?? 0) + 1} of ${keep}:` : "Pack:"}
                 </span>
                 {pack.map((i) => (
                   <span key={E.cards[i].id} className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-0.5 text-xs">

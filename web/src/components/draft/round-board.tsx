@@ -23,7 +23,8 @@ import * as React from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { FIELD, makeEngine, poolOf, slotRuns, starterBatRuns, takenOf } from "@/lib/draft/engine";
-import { nextRound, replay, roundFor, withCounts, type RoundKind } from "@/lib/draft/formats";
+import { keepFor, nextRound, replay, roundFor, screenAt, withCounts, type RoundKind } from "@/lib/draft/formats";
+import { ScreenStrip } from "@/components/draft/screen-strip";
 import type { DraftPageData } from "@/lib/draft/load";
 import { useLiveDraft, withPick } from "@/components/draft/use-live-draft";
 import { TIER_COLORS } from "@/lib/tiers";
@@ -85,7 +86,8 @@ export function RoundBoard({ data, search }: { data: DraftPageData; search: stri
 
   const q = search.trim().toLowerCase();
   const inPack = new Set(pack);
-  const keep = saved.keep ?? f.keep ?? 1;
+  const keep = keepFor(f, team.length, saved.keep);
+  const at = screenAt(f, team.length);
   const take = (idx: number) => update((s) => withPick(s, E.cards[idx].id, keep));
   const following = !pinnedRound || pinnedRound.key === current?.key;
 
@@ -98,7 +100,9 @@ export function RoundBoard({ data, search }: { data: DraftPageData; search: stri
             {shown && (
               <span className="text-sm">
                 <span className="text-muted-foreground">{following ? "This round: " : "Looking ahead at: "}</span>
+                {following && at && at.screen.round === shown.key && <>Round {at.no} · </>}
                 {shown.label}
+                {following && at && at.screen.round === shown.key && <span className="text-muted-foreground"> · pick {at.taken + 1} of {at.screen.keep}</span>}
                 <span className="text-muted-foreground"> · {rem[shown.key] ?? 0} of {shown.count} left</span>
               </span>
             )}
@@ -108,6 +112,7 @@ export function RoundBoard({ data, search }: { data: DraftPageData; search: stri
               <Link className="rounded border border-border px-2 py-1 hover:text-foreground" href={`/draft/live?e=${data.format.series}`}>Live helper</Link>
             </div>
           </div>
+          <ScreenStrip f={f} picksMade={team.length} packSize={saved.packSize} />
           <div className="flex flex-wrap items-center gap-1.5">
             {f.rounds.map((r) => {
               const left = rem[r.key] ?? 0;

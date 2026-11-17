@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  advise, assign, BACKUP_C_MISSING, BACKUP_C_WEIGHT, expectedBestOfN, makeEngine, playOut, poolOf, quickGain, slotRuns, starterBatRuns, teamPlan, spotOf,
+  advise, assign, BACKUP_C_MISSING, BACKUP_C_WEIGHT, expectedBestOfN, makeEngine, playOut, playSteps, poolOf, quickGain, slotRuns, starterBatRuns, teamPlan, spotOf,
   type DraftCard, type DraftCtx,
 } from "./engine";
 import { allRounds, type DraftFormat, type DraftGroup } from "./formats";
@@ -245,4 +245,22 @@ test("an ordered format plays its rounds out in its own order", () => {
   };
   const out = playOut(E, f, [], { P: 1, B: 1 }, { packSize: 6 });
   assert.deepEqual(out.expected.map((e) => e.round), ["P", "B"]);
+});
+
+test("with the game's rounds listed, each pick left is priced at its own round: keep 1 of 12 the best of 12, keep 2 about the best of 8", () => {
+  const f: DraftFormat = {
+    ...toy, ordered: true,
+    rounds: [{ key: "B", label: "Bronze", tier: "Bronze", groups: ["SS"], count: 3, pack: "mixed" }],
+    screens: [{ round: "B", keep: 1 }, { round: "B", keep: 2 }],
+  };
+  assert.deepEqual(playSteps(f, { B: 3 }, { packSize: 99, screenSize: 12 }).map((s) => s.n), [12, 8, 8]);
+  assert.deepEqual(playSteps(f, { B: 2 }, { packSize: 99, screenSize: 12 }).map((s) => s.n), [8, 8], "round 1 done");
+  assert.deepEqual(playSteps(f, { B: 3 }, { packSize: 99 }).map((s) => s.n), [99, 99, 99], "no screen size: the one pack");
+  // The played-out value follows: a keep-1 round left is worth more than the same pick at the best of 8.
+  const cards = Array.from({ length: 20 }, (_, k) => bat(`SS ${k}`, "SS", k - 10, k - 10, { SS: 70 }));
+  const E = makeEngine(pool(cards), ctx);
+  const one: DraftFormat = { ...f, rounds: [{ ...f.rounds[0], count: 1 }], screens: [{ round: "B", keep: 1 }] };
+  const at12 = playOut(E, one, [], { B: 1 }, { packSize: 8, screenSize: 12 }).value;
+  const at8 = playOut(E, one, [], { B: 1 }, { packSize: 8 }).value;
+  assert.ok(at12 > at8, `best of 12 ${at12.toFixed(2)} over best of 8 ${at8.toFixed(2)}`);
 });
