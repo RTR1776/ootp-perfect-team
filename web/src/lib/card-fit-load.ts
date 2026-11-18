@@ -29,7 +29,7 @@ import { assumedVariantRatings, formRatings } from "@/lib/card-forms";
 import { CARD_TYPE_SHORT } from "@/lib/card-sets";
 import { armRole, bestTeam, FIELD_POS, fitIn, savedTeam, type Fit, type FitCtx, type Room, type ScoredForm } from "@/lib/card-fit";
 import { eventGroupOf } from "@/lib/event-groups";
-import { cardIdOf, formIdForSlot, isTwoWayForm, twoWayForm, twoWayId } from "@/lib/two-way";
+import { cardIdOf, formIdForSlot, isTwoWayForm, otherFormId, twoWayForm, twoWayId } from "@/lib/two-way";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
 import { freshCutoff, isFresh } from "@/lib/upgrade-candidates";
 import { LHP_SHARE_DEFAULT } from "@/lib/roster-objective";
@@ -354,10 +354,17 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
     const pos: ScoredForm["pos"] = {};
     if (!inp.isPitcher) for (const p of FIELD_POS) { const v = inp.ratings[`Pos Rating ${p}`]; if (v != null && v > 0) pos[p] = v; }
     const frame = inp.isPitcher ? undefined : inp.ratings.CatcherFrame;
+    // An arm in a pen slot is priced without the staff-stamina term, whatever its role (a starter in long relief too).
+    const arm = inp.isPitcher ? { stamina: inp.ratings["Stamina"] ?? null, pen: runs[0] - staffStaminaRuns(inp) } : {};
     forms.set(inp.cardId, {
       id: inp.cardId, cardId: c.cardId, name: c.name, variant: inp.cardId < 0, isPitcher: inp.isPitcher,
-      role, runsR: r, runsL: l, pos, ...(frame != null ? { frame } : {}), val: c.cardValue,
+      role, runsR: r, runsL: l, pos, ...(frame != null ? { frame } : {}), val: c.cardValue, ...arm,
     });
+  }
+  // A two-way arm carries its bat: with no DH a starter bats in his starts (roster-objective starterBat).
+  for (const f of forms.values()) {
+    const b = f.isPitcher ? forms.get(otherFormId(f.id)) : undefined;
+    if (b && !b.isPitcher) f.bat = { runsR: b.runsR, runsL: b.runsL };
   }
   const tw = teamWeights(envYear ?? 2010, { rationed: rationedEvent(t.restrictions as { teamCap?: number | null; slots?: Record<string, number> | null } | null) });
   // Arms priced as the builder prices them: the series' measured weights, split over the staff carried.
