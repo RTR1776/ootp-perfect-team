@@ -124,6 +124,13 @@ export interface OptimizeOptions {
    * searching every single move and pair again for nothing.
    */
   atOptimum?: boolean;
+  /**
+   * Solve the arrangement of the start's own cards exactly before climbing (exactBoards below):
+   * both boards and the bench over every set of hitters that could start, and the staff re-solved.
+   * For a fixed pool, where every card is already on the roster and no move can bring one in
+   * (env-roster --pool-ids: a drafted 26). Needs slotValue.
+   */
+  exactBoards?: boolean;
   pairMoves?: {
     /** Upgrade candidates considered per slot, best-ranked first. */
     aTop: number;
@@ -745,6 +752,75 @@ export function optimizeRoster(
     }
     return best;
   };
+
+  /*
+   * THE EXACT ARRANGEMENT (o.exactBoards). With a fixed pool nothing can come or go, so only the
+   * arrangement is open, and it is small enough to solve outright rather than climb to. Each board
+   * on its own: every set of hitters that could start against that hand (15 choose 9 is 5,005),
+   * each set's positions as an assignment, the rest to the bench on the vs-RHP board, the whole
+   * board scored on obj, backup penalty in. The boards don't touch: a board's runs and its missing
+   * backups read only its own lineup (missingBackups), so solving one and then the other is exact.
+   * The staff is re-solved as staffBest does. reassign alone can't do this: it maximises slotValue
+   * and never sees the backups, and the climb's one- and two-slot moves stop short of it. PTMS 3
+   * PD 1 (L.J.'s drafted 26, 2026-11-18): the build kept Cool Papa Bell at 1B and Kevin Bass in RF
+   * vs RHP; Bell in CF, Ben Taylor at 1B and a Brock/Bass platoon in RF scored 4.5 runs higher.
+   */
+  const exactBoards = (from: FillResult, fromScore: number): { slots: FillResult; score: number } | null => {
+    if (!o.slotValue) return null;
+    const hitters = [...new Set([...hitKeys].map((k) => from[k]).filter((id): id is number => id != null && byId.get(id)?.isPitcher === false))];
+    const lineR = shape.lineupPos.map((p) => `R:${p}`), lineL = shape.lineupPos.map((p) => `L:${p}`);
+    if (!lineR.length || hitters.length !== lineR.length + shape.benchKeys.length) return null;
+    const ok = (t: FillResult) => isComplete(t, shape) && legal(t, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong);
+    let cur: FillResult = { ...from };
+    let curScore = ok(cur) ? obj(cur) : -Infinity;
+    const arms = [...new Set(staffKeys.map((k) => from[k]).filter((id): id is number => id != null))];
+    if (arms.length === staffKeys.length) {
+      const sb = staffBest(arms);
+      if (sb) {
+        const t: FillResult = { ...cur };
+        staffKeys.forEach((k, i) => { t[k] = sb.ids[i]; });
+        if (ok(t)) { const s = obj(t); if (s > curScore + 1e-9) { cur = t; curScore = s; } }
+      }
+    }
+    for (const rows of [lineR, lineL]) {
+      let bestT: FillResult | null = null, bestS = curScore;
+      const ix = rows.map((_, i) => i);
+      for (;;) {
+        const set = ix.map((i) => hitters[i]);
+        const w = rows.map((k) => set.map((id) => weight(k, id)));
+        const a = maxAssignment(w);
+        if (a && rows.every((_, i) => Number.isFinite(w[i][a[i]]))) {
+          const t: FillResult = { ...cur };
+          rows.forEach((k, i) => { t[k] = set[a[i]]; });
+          let benchOk = true;
+          if (rows === lineR) {
+            const inSet = new Set(set);
+            const rest = hitters.filter((id) => !inSet.has(id));
+            const wb = shape.benchKeys.map((k) => rest.map((id) => weight(k, id)));
+            const b = shape.benchKeys.length ? maxAssignment(wb) : [];
+            if (b) shape.benchKeys.forEach((k, i) => { t[k] = rest[b[i]]; });
+            else benchOk = false;
+          }
+          if (benchOk && ok(t)) {
+            const s = obj(t);
+            if (s > bestS + 1e-9) { bestS = s; bestT = t; }
+          }
+        }
+        // Next combination of rows.length indices out of hitters.length, in lexicographic order.
+        let i = ix.length - 1;
+        while (i >= 0 && ix[i] === hitters.length - ix.length + i) i--;
+        if (i < 0) break;
+        ix[i]++;
+        for (let j = i + 1; j < ix.length; j++) ix[j] = ix[j - 1] + 1;
+      }
+      if (bestT) { cur = bestT; curScore = bestS; }
+    }
+    return curScore > fromScore + 1e-9 ? { slots: cur, score: curScore } : null;
+  };
+  if (o.exactBoards) {
+    const ex = exactBoards(slots, score);
+    if (ex) { slots = ex.slots; score = ex.score; moves++; }
+  }
 
   const settled0 = settle(slots, score);
   if (settled0) { slots = settled0.slots; score = settled0.score; moves++; }

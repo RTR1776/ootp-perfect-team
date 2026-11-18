@@ -30,7 +30,7 @@ import { OBS_K_OWN_SERIES, OBS_HALF_LIFE_DAYS, type ObsK } from "@/lib/analytics
 import { eraTable, parkRow } from "@/lib/analytics/runenv-view";
 import { eraFor, PT_DEFAULT_ENV_YEAR } from "@/lib/analytics/tournament-env";
 import { hitterRates, marginalRatings, pitcherRates, rangeFlags } from "@/lib/analytics/card-value";
-import { CAP_BACKUP_FLOOR, backupPositions, optimizeRoster } from "@/lib/roster-optimize";
+import { BACKUP_PENALTY, CAP_BACKUP_FLOOR, backupPositions, optimizeRoster } from "@/lib/roster-optimize";
 import { capLedger, isLeak } from "@/lib/cap-ledger";
 import { runSearch, toPlainFits, type SearchBest } from "@/lib/roster-search";
 import { rateLine, solveEnv, blendPark, applyPark } from "@/lib/analytics/run-env";
@@ -131,7 +131,14 @@ const MIN_SS = num("min-ss", 0)!;
 /** Long men (pen arms with stamina ≥ 45) the optimiser must carry (L.J. 2026-10-04); --min-long 0 turns it off. */
 const MIN_LONG = num("min-long", 2)!;
 /** A backup at every fielding position (L.J. 2026-10-04); --no-backups turns it off. */
-const BACKUPS = !flag("no-backups");
+/**
+ * Backups are scored (roster-optimize BACKUP_PENALTY) only when cards can come and go. The rule picks
+ * which cards make a roster; a fixed pool (--pool-ids, a drafted 26) has its roster already, so the
+ * penalty could only move starters: PTMS 3 PD 1 (2026-11-18) started a 48 at short, a -43.5 bat, to
+ * free the 83 there as a backup second baseman, 30.5 weighted runs below the best board. The roster
+ * check still lists the positions nobody backs up.
+ */
+const BACKUPS = !flag("no-backups") && POOL_IDS.length === 0;
 /**
  * --seed <load file>: hill-climb from this roster too (a saved roster's load
  * file: "R:C Name #id" / "SP1 Name #id" / "BN1 Name #id" lines). When new cards
@@ -714,16 +721,30 @@ async function main() {
       }
     }
 
-    let best = { slots, score: greedyScore, from: lambda, moves: 0 };
+    /*
+     * The greedy fill climbs as a start like the rest, and the best board is chosen on the climb's
+     * own score: the objective less BACKUP_PENALTY for each missing backup and long man. Until
+     * 2026-11-18 `best` began as the greedy fill's raw objective, with no penalty, against climbs
+     * scored with it; when no board can cover every backup (PTMS 3 PD 1, L.J.'s drafted 26: nobody
+     * backs up 2B) every climb carried at least 25 and the greedy fill won untouched, "0 moves",
+     * 4.5 runs below the best arrangement and missing two more backups than it.
+     */
+    starts.set("greedy", { slots, lambda });
+    // -Infinity until a climb lands: every climbed board is scored the same way, the greedy fill's among them.
+    let best = { slots, score: -Infinity, from: lambda, moves: 0 };
+    let greedyClimbScore: number | null = null;
     let seedScore: number | null = null;
     const climbOpts = {
       objective, slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank }, maxPasses: 80,
       candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
+      // A fixed pool (--pool-ids: a drafted 26) leaves only the arrangement open: solve it exactly.
+      exactBoards: POOL_IDS.length > 0,
     };
     const fromLabel = (l: number) => (l === SEED_LAMBDA ? "seed" : `λ ${l.toFixed(2)}`);
     const climbed: (typeof best)[] = [];
-    for (const [, st] of COMPARE_ONLY ? [] : starts) {
+    for (const [key, st] of COMPARE_ONLY ? [] : starts) {
       const r = optimizeRoster(st.slots, pool, rules, shape, climbOpts);
+      if (key === "greedy") greedyClimbScore = r.startLegal ? r.startScore : -Infinity;
       if (st.lambda === SEED_LAMBDA) seedScore = r.score;
       // A seed with a two-way card in both roles (a saved dual pick) climbs on a board that counts him once: one
       // player short of SIZE, which the validator refuses (Early Years Cap, 11-02). The dual phase below handles him.
@@ -732,6 +753,8 @@ async function main() {
       climbed.push({ slots: r.slots, score: r.score, from: st.lambda, moves: r.moves });
       if (r.score > best.score) best ={ slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
     }
+    // Nothing climbed (--compare-only): the greedy fill stands, at its climb score when there is one.
+    if (!Number.isFinite(best.score)) best = { ...best, score: greedyClimbScore ?? greedyScore };
     /*
      * The staff polish (roster-optimize staffTier, 2026-11-07): the best few distinct boards climb on with the
      * staff re-solved around a new arm (who starts, who relieves, who closes) and the cross-role moves that opens.
@@ -770,7 +793,7 @@ async function main() {
         console.log(`compare-search: /build ${mode === "quick" ? "Optimise" : "Search longer"} ${b ? objective(b.slots).toFixed(1) : "none"} runs (from ${b?.from ?? "-"}) in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
       }
     }
-    console.log(`\noptimiser: ${starts.size} ${starts.has("seed") ? "starts (λ + seed)" : "λ starts"} hill-climbed; best ${best.score.toFixed(1)} runs vs ${greedyScore.toFixed(1)} greedy (+${(best.score - greedyScore).toFixed(1)}), ${best.moves} moves from ${best.from === SEED_LAMBDA ? "the seed" : `λ ${best.from.toFixed(2)}`}${seedScore != null && best.from !== SEED_LAMBDA ? ` (the seed's climb: ${seedScore.toFixed(1)})` : ""}`);
+    console.log(`\noptimiser: ${starts.size} ${starts.has("seed") ? "starts (λ + seed)" : "λ starts"} hill-climbed; best ${best.score.toFixed(1)} runs vs ${(greedyClimbScore ?? greedyScore).toFixed(1)} greedy (+${(best.score - (greedyClimbScore ?? greedyScore)).toFixed(1)}; both less ${BACKUP_PENALTY} a missing backup or long man), ${best.moves} moves from ${best.from === SEED_LAMBDA ? "the seed" : `λ ${best.from.toFixed(2)}`}${seedScore != null && best.from !== SEED_LAMBDA ? ` (the seed's climb: ${seedScore.toFixed(1)})` : ""}`);
     slots = best.slots; lambda = best.from;
     /*
      * The dual phase (L.J. 2026-10-31: Ed Rile, "crushing bat at 1B and full on SP"; 35 of the
