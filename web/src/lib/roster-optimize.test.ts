@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { maxAssignment } from "./assign";
-import { CAP_BACKUP_FLOOR, backupFloorAt, backupPositions, missingBackups, optimizeRoster } from "./roster-optimize";
+import { BACKUP_PENALTY, CAP_BACKUP_FLOOR, backupFloorAt, backupPositions, missingBackups, optimizeRoster } from "./roster-optimize";
 import { capLedger } from "./cap-ledger";
 import { rosterObjective } from "./roster-objective";
 import type { FillCard, FillShape } from "./roster-fill";
@@ -405,4 +405,43 @@ test("under a cap the search is checked against brute force: never above it, and
   // (11 of 24 and a mean gap of 0.69 runs on 2026-11-12, from one start at the worst legal board.)
   assert.ok(tierMiss <= Math.ceil(cases * 0.5), `the best roster missed in ${tierMiss} of ${cases}`);
   assert.ok(tierGap / cases < 1.0, `mean gap ${(tierGap / cases).toFixed(2)} runs`);
+});
+
+/* A fixed pool (env-roster --pool-ids: a drafted 26): every card is on the roster, so only the
+   arrangement is open, and exactBoards solves it outright. PTMS 3 PD 1, 2026-11-18: the build
+   left 7.4 runs on the table, keeping the best centre fielder at first base. */
+test("a fixed pool's arrangement is solved exactly: it matches brute force over every board", () => {
+  const five: FillShape = { lineupPos: ["1B", "2B", "SS"], spKeys: [], rpKeys: [], benchKeys: ["BN1", "BN2"], bats: 5 };
+  const r5: RosterRules = { ...rules, restrictions: { cards: 5 } };
+  const pool = [
+    hitter(1, { "1B": 80, SS: 60 }),
+    hitter(2, { "2B": 120, SS: 100 }),
+    hitter(3, { SS: 110, "2B": 90 }),
+    hitter(4, { "1B": 100 }),
+    hitter(5, { "2B": 70, "1B": 60, SS: 70 }),
+  ];
+  const runsR = new Map([[1, 14], [2, 3], [3, -8], [4, 6], [5, -15]]);
+  const runsL = new Map([[1, 2], [2, 9], [3, 4], [4, -6], [5, -2]]);
+  const obj = rosterObjective(pool, { shape: five, runsR, runsL });
+  const byId = new Map(pool.map((c) => [c.cardId, c]));
+  const backupPos = backupPositions(pool, r5);
+  const total = (s: Record<string, number>) => obj.objective(s) - BACKUP_PENALTY * missingBackups(s, byId, backupPos).length;
+  const can = (id: number, pos: string) => (byId.get(id)!.ratings[`Pos Rating ${pos}`] ?? 0) > 0;
+  const perms = (xs: number[]): number[][] => (xs.length <= 1 ? [xs] : xs.flatMap((x) => perms(xs.filter((y) => y !== x)).map((p) => [x, ...p])));
+  const ids = pool.map((c) => c.cardId);
+  let brute = -Infinity;
+  for (const pr of perms(ids)) {
+    if (!five.lineupPos.every((p, i) => can(pr[i], p))) continue;
+    for (const pl of perms(ids)) {
+      if (!five.lineupPos.every((p, i) => can(pl[i], p))) continue;
+      brute = Math.max(brute, total({ "R:1B": pr[0], "R:2B": pr[1], "R:SS": pr[2], BN1: pr[3], BN2: pr[4], "L:1B": pl[0], "L:2B": pl[1], "L:SS": pl[2] }));
+    }
+  }
+  const start = { "R:1B": 4, "R:2B": 2, "R:SS": 3, BN1: 1, BN2: 5, "L:1B": 4, "L:2B": 2, "L:SS": 3 };
+  const opts = { objective: obj.objective, slotValue: obj.slotValue, backups: true };
+  const exact = optimizeRoster(start, pool, r5, five, { ...opts, exactBoards: true });
+  assert.ok(Math.abs(exact.score - brute) < 1e-9, `exact ${exact.score} vs brute force ${brute}`);
+  assert.equal(new Set(Object.values(exact.slots)).size, 5, "every card stays on the roster");
+  const climb = optimizeRoster(start, pool, r5, five, opts);
+  assert.ok(climb.score <= exact.score + 1e-9);
 });
