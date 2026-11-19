@@ -445,3 +445,31 @@ test("a fixed pool's arrangement is solved exactly: it matches brute force over 
   const climb = optimizeRoster(start, pool, r5, five, opts);
   assert.ok(climb.score <= exact.score + 1e-9);
 });
+
+/* PTMS 3 PD 2, 2026-11-19 (L.J.'s drafted 26): one catcher at the C floor, so the two-catcher rule
+   refused every board, the exact solve and the climb moved nothing, and the λ 0 fill came back with
+   Moniak (1B 11) at first and Longoria on the bench. Scored on bats alone, that board also beats every
+   board inside the floors, so the exact solve must not keep it either. The pool, cut to four slots. */
+test("a fixed pool short of a count rule still solves, and never keeps a card under his floor", () => {
+  const four: FillShape = { lineupPos: ["C", "1B", "3B", "LF"], spKeys: [], rpKeys: [], benchKeys: ["BN1", "BN2"], bats: 6 };
+  const r6: RosterRules = { ...rules, restrictions: { cards: 6 } };
+  const pool = [
+    hitter(1, { C: 118, "1B": 60 }), // Mack: 1B 60 is under 60% of his C 118
+    hitter(2, { "1B": 98, "3B": 119 }), // Nimmala
+    hitter(3, { "3B": 123 }), // Longoria
+    hitter(4, { "1B": 11, LF: 131 }), // Moniak
+    hitter(5, { C: 45, LF: 88 }), // Downing: no second catcher at the floor
+    hitter(6, { "1B": 40, LF: 67 }), // Nava
+  ];
+  const runs = new Map([[1, -8], [2, 9], [3, 2], [4, 25], [5, 7], [6, 1]]);
+  const obj = rosterObjective(pool, { shape: four, runsR: runs, runsL: runs, gloveScale: 0, framingWeight: 0 });
+  const fill = { "R:C": 1, "R:1B": 4, "R:3B": 2, "R:LF": 5, BN1: 3, BN2: 6, "L:C": 1, "L:1B": 4, "L:3B": 2, "L:LF": 5 };
+  const opts = { objective: obj.objective, slotValue: obj.slotValue, posFloor: { default: 60 }, minDefShare: 0.6, minCatchers: 2, exactBoards: true };
+  const r = optimizeRoster(fill, pool, r6, four, opts);
+  const board = (h: "R" | "L") => four.lineupPos.map((p) => r.slots[`${h}:${p}`]);
+  assert.deepEqual(board("R"), [1, 2, 3, 4], "Mack C, Nimmala 1B, Longoria 3B, Moniak LF");
+  assert.deepEqual(board("L"), [1, 2, 3, 4]);
+  assert.ok(r.legal, "a legal board");
+  assert.ok(obj.objective(fill) > r.score, "the fill outscores it on bats alone; the floor holds anyway");
+  assert.ok(Math.abs(r.score - obj.objective(r.slots)) < 1e-9);
+});

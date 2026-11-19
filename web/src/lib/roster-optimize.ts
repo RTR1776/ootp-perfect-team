@@ -380,10 +380,23 @@ export function optimizeRoster(
   // spot no value, but the game wants all 26 (Negro Leagues Slots
   // 2026-09-26: 25 players, "this event needs 26").
   const minPlayers = Math.min(rosterSize(rules) ?? Infinity, new Set(Object.values(start).map(unitOf)).size);
-  const minC = o.minCatchers ?? 0;
   const cFloor = Math.max(1, posFloorAt(o.posFloor, "C"));
-  const minSS = o.minShortstops ?? 0;
   const ssFloor = Math.max(1, posFloorAt(o.posFloor, "SS"));
+  /*
+   * A count rule asks only for what the pool holds. legal() refuses every board short of it, so a
+   * pool with one catcher at the floor made every board illegal: the exact arrangement, the
+   * re-solves and every climb move were refused, and the fill's board came back untouched. PTMS 3
+   * PD 2, 2026-11-19 (L.J.'s drafted 26, Mack the one catcher at C 60+): the build printed the λ 0
+   * fill, Moniak (1B 11) at first and Longoria on the bench, 219.2 against 235.9 for the board L.J.
+   * set inside his floors. The roster check still says the second catcher is missing.
+   */
+  const supply = (pos: string, floor: number) => {
+    const players = new Set<string>();
+    for (const c of pool) if (!c.isPitcher && (c.ratings[`Pos Rating ${pos}`] ?? 0) >= floor && usable(c, rules)) players.add(c.player ?? `#${unitOf(c.cardId)}`);
+    return players.size;
+  };
+  const minC = Math.min(o.minCatchers ?? 0, supply("C", cFloor));
+  const minSS = Math.min(o.minShortstops ?? 0, supply("SS", ssFloor));
   // Scored as a penalty in obj (above), not a legality rule.
   const minLongWanted = o.minLongMen ?? 0;
   const minLong = 0;
@@ -771,6 +784,14 @@ export function optimizeRoster(
     const lineR = shape.lineupPos.map((p) => `R:${p}`), lineL = shape.lineupPos.map((p) => `L:${p}`);
     if (!lineR.length || hitters.length !== lineR.length + shape.benchKeys.length) return null;
     const ok = (t: FillResult) => isComplete(t, shape) && legal(t, byId, rules, shape, minPlayers, minC, cFloor, minSS, ssFloor, minLong);
+    /*
+     * A board with a card where he may not play (under his position floor or the out-of-position
+     * guard) is no incumbent: any arrangement inside the floors replaces it, as a start that breaks a
+     * rule is replaced (startLegal). legal() doesn't read positions and the objective prices a glove
+     * but holds no floor, so such a board can outscore every board inside them: the λ 0 fill for
+     * PTMS 3 PD 2 (2026-11-19) started Moniak, 1B 11, at first, its last resort once Nimmala took third.
+     */
+    const misplaced = (t: FillResult) => [lineR, lineL].filter((rows) => !rows.every((k) => Number.isFinite(weight(k, t[k])))).length;
     let cur: FillResult = { ...from };
     let curScore = ok(cur) ? obj(cur) : -Infinity;
     const arms = [...new Set(staffKeys.map((k) => from[k]).filter((id): id is number => id != null))];
@@ -783,7 +804,8 @@ export function optimizeRoster(
       }
     }
     for (const rows of [lineR, lineL]) {
-      let bestT: FillResult | null = null, bestS = curScore;
+      let bestT: FillResult | null = null;
+      let bestS = rows.every((k) => Number.isFinite(weight(k, cur[k]))) ? curScore : -Infinity;
       const ix = rows.map((_, i) => i);
       for (;;) {
         const set = ix.map((i) => hitters[i]);
@@ -815,7 +837,9 @@ export function optimizeRoster(
       }
       if (bestT) { cur = bestT; curScore = bestS; }
     }
-    return curScore > fromScore + 1e-9 ? { slots: cur, score: curScore } : null;
+    // Fewer boards with a card out of place wins outright; with as many, the higher score.
+    const dm = misplaced(cur) - misplaced(from);
+    return Number.isFinite(curScore) && (dm < 0 || (dm === 0 && curScore > fromScore + 1e-9)) ? { slots: cur, score: curScore } : null;
   };
   if (o.exactBoards) {
     const ex = exactBoards(slots, score);

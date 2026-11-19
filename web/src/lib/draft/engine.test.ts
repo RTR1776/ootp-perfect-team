@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  advise, assign, BACKUP_C_MISSING, BACKUP_C_WEIGHT, expectedBestOfN, makeEngine, playOut, playSteps, poolOf, quickGain, slotRuns, starterBatRuns, teamPlan, spotOf,
+  advise, assign, BACKUP_C_FLOOR, BACKUP_C_MISSING, BACKUP_C_WEIGHT, backupCFloor, expectedBestOfN, makeEngine, playOut, playSteps, poolOf, quickGain, slotRuns, starterBatRuns, teamPlan, spotOf,
   type DraftCard, type DraftCtx,
 } from "./engine";
 import { allRounds, type DraftFormat, type DraftGroup } from "./formats";
@@ -116,6 +116,52 @@ test("a backup catcher is worth a tenth of his value behind the plate, and havin
   const alone = teamPlan(E, [ia]);
   assert.equal(alone.parts.backup, -BACKUP_C_MISSING);
   assert.ok(Math.abs(quickGain(E, ib, alone) - (plan.value - alone.value)) < 1e-6, "the quick read sees the charge lifted");
+});
+
+/* PTMS 3 PD 2, 2026-11-19: starting at his own position skips the glove floor, and the backup reused
+   that slot, so a C card with C 42 and no bat (Rafael Flores Jr.) counted as a backup catcher while
+   an LF card with C 45 (Brian Downing) could not. The engine asked for Flores in round 10; L.J. took
+   Downing, and set the backup floor at C 45 for anyone. */
+test("a backup catcher needs C 45, listed catcher or not; starting at C keeps the floor rules", () => {
+  const noDh = { ...ctx, dh: false }; // Mack catches: no DH to take his bat
+  const mack = bat("Mack", "C", 10, 10, { C: 90 });
+  const downing = bat("Downing", "LF", 8, 8, { C: 45, LF: 88 }, { frame: 44 });
+  const flores = bat("Flores", "C", -25, -25, { C: 42 }, { frame: 50 });
+  const rice = bat("Rice", "1B", 30, 30, { C: 17, "1B": 70 });
+  const E = makeEngine(pool([mack, downing, flores, rice]), noDh);
+  const [im, id, iflo, ir] = [mack, downing, flores, rice].map((c) => E.byId.get(c.id)!);
+  assert.equal(BACKUP_C_FLOOR, 45);
+  assert.equal(slotRuns(downing, "C", "R", noDh), null, "starting at C, an LF card still needs the 60");
+  assert.notEqual(slotRuns(flores, "C", "R", noDh), null, "a listed catcher still starts at C under it");
+  assert.ok(Number.isNaN(E.catchC[iflo]), "C 42 is no backup");
+  assert.ok(Number.isNaN(E.catchC[ir]), "nor a big bat at C 17");
+  const alone = teamPlan(E, [im]);
+  const all = teamPlan(E, [im, id, iflo, ir]);
+  assert.equal(all.R[0], im, "Mack starts at C");
+  assert.equal(all.backup, id, "Downing is the second catcher");
+  const withDowning = teamPlan(E, [im, id]);
+  assert.ok(Math.abs(withDowning.parts.backup - BACKUP_C_WEIGHT * E.catchC[id]) < 1e-9);
+  assert.ok(Math.abs(quickGain(E, id, alone) - (withDowning.value - alone.value)) < 1e-6, "the quick read sees the charge lifted");
+  const withFlores = teamPlan(E, [im, iflo]);
+  assert.equal(withFlores.parts.backup, -BACKUP_C_MISSING);
+  assert.ok(Math.abs(quickGain(E, iflo, alone) - (withFlores.value - alone.value)) < 1e-6, "Flores lifts no charge in the quick read");
+  // A backup's floor is never above the starter's: with C 40 to start, Flores backs up.
+  const low = { ...noDh, floor: { default: 40 } };
+  assert.equal(backupCFloor(low), 40);
+  assert.ok(!Number.isNaN(makeEngine(pool([mack, flores]), low).catchC[iflo]));
+});
+
+test("a man who can't out-catch a replacement doesn't lift the no-backup charge, in the plan or the quick read", () => {
+  const mack = bat("Mack", "C", 10, 10, { C: 90 });
+  const stone = bat("Stone", "1B", -60, -60, { C: 65, "1B": 80 });
+  const E = makeEngine(pool([mack, stone]), { ...ctx, dh: false });
+  const im = E.byId.get(mack.id)!, is = E.byId.get(stone.id)!;
+  assert.ok(E.catchC[is] <= 0, "the pool's worst catcher is the replacement level: nothing over it");
+  const alone = teamPlan(E, [im]);
+  const both = teamPlan(E, [im, is]);
+  assert.equal(both.backup, -1);
+  assert.equal(both.parts.backup, -BACKUP_C_MISSING);
+  assert.ok(Math.abs(quickGain(E, is, alone) - (both.value - alone.value)) < 1e-6, `quick ${quickGain(E, is, alone)} vs exact ${both.value - alone.value}`);
 });
 
 test("with no DH a two-way starter's bat counts for his share of the starts", () => {
