@@ -111,15 +111,6 @@ export const BACKUP_C_WEIGHT = 0.1;
  * there. Enough that the rounds left always find one; not a hard rule.
  */
 export const BACKUP_C_MISSING = 4;
-/**
- * The catcher rating a backup catcher needs: L.J., 2026-11-19 (PTMS 3 PD 2), "set backup C floor to
- * 45". Downing (C 45) backs up; Flores Jr. (C 42) doesn't. Starting at C keeps the position floor.
- * Some floor is needed: the glove curve at C spans 6 runs from C 1 to C 118, so without one the bat
- * decides, and Ben Rice (1B, C 17) priced above Joe Mack (C 118) behind the plate.
- */
-export const BACKUP_C_FLOOR = 45;
-/** A backup's floor never above a starter's (roster-optimize backupFloorAt caps it the same way). */
-export const backupCFloor = (ctx: DraftCtx): number => Math.min(BACKUP_C_FLOOR, posFloorAt(ctx.floor ?? LJ_FLOOR, "C"));
 /** The replacement at a slot: this quantile of the event's legal cards there. */
 export const REPLACEMENT_QUANTILE = 0.05;
 /** Candidates scored by a full play-out of the rounds left; the rest keep the quick read. */
@@ -135,7 +126,7 @@ export interface Engine {
   cL: Float64Array[];
   /** A bat's bench value over replacement (≥ 0). */
   benchC: Float64Array;
-  /** A bat's value catching on the vs-RHP board over replacement, as a backup (NaN under backupCFloor, listed catcher or not). */
+  /** A bat's value catching on the vs-RHP board over replacement (NaN if he can't catch). */
   catchC: Float64Array;
   /** An SP card's rotation value per start share: spW × (runs − replacement) + his bat with no DH. */
   rotKey: Float64Array;
@@ -217,13 +208,7 @@ export function makeEngine(cards: DraftCard[], ctx: DraftCtx): Engine {
     cR.push(rawR[i]!.map((v, k) => v - repl.R[k]));
     cL.push(rawL[i]!.map((v, k) => v - repl.L[k]));
     benchC[i] = Math.max(0, c.runsR - repl.bench);
-    // A backup catcher clears backupCFloor, listed catcher or not, and is then priced behind the plate
-    // with no other floor. Starting at his own position skips the floor, and catchC used to reuse that
-    // slot, so a C card with C 42 and no bat (Rafael Flores Jr., -44.3 runs there) counted as a backup
-    // while an LF card with C 45 and a bat (Brian Downing, -13.7) could not. PTMS 3 PD 2, 2026-11-19:
-    // the engine asked for Flores in round 10; L.J. took Downing.
-    const atC = (c.pos.C ?? 0) >= backupCFloor(ctx) ? slotRuns(c, "C", "R", { ...ctx, floor: 0 }) : null;
-    catchC[i] = atC == null ? NaN : atC - repl.R[0];
+    catchC[i] = cR[i][0];
   });
   const pools = new Map<string, number[]>();
   cards.forEach((c, i) => {
@@ -421,10 +406,8 @@ export function quickGain(E: Engine, i: number, plan: Plan): number {
   if (bestR <= 0) g += ctx.benchW * Math.max(0, E.benchC[i] - (plan.benchFull ? plan.benchMin : 0));
   const cc = E.catchC[i];
   if (!Number.isNaN(cc)) {
-    // A second man who can catch ends the no-backup charge, whichever of the two starts, once he
-    // is worth more than a replacement catcher there (teamPlan's test).
-    const back = atC ? E.catchC[plan.R[0]] : cc;
-    if (plan.backup < 0 && plan.R[0] >= 0) { if (back > 0) g += BACKUP_C_MISSING + BACKUP_C_WEIGHT * back; }
+    // A second man who can catch ends the no-backup charge, whichever of the two starts.
+    if (plan.backup < 0 && plan.R[0] >= 0) g += BACKUP_C_MISSING + BACKUP_C_WEIGHT * Math.max(0, atC ? E.catchC[plan.R[0]] : cc);
     else if (!atC) g += BACKUP_C_WEIGHT * Math.max(0, cc - plan.backupContrib);
   }
   return g;
