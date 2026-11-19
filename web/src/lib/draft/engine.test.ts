@@ -118,6 +118,45 @@ test("a backup catcher is worth a tenth of his value behind the plate, and havin
   assert.ok(Math.abs(quickGain(E, ib, alone) - (plan.value - alone.value)) < 1e-6, "the quick read sees the charge lifted");
 });
 
+/* PTMS 3 PD 2, 2026-11-19: starting at his own position skips the glove floor, and the backup reused
+   that slot, so a C card with C 42 and no bat (Rafael Flores Jr.) counted as a backup catcher while
+   an LF card with C 45 (Brian Downing) could not. The engine asked for Flores in round 10. A backup
+   now clears the C floor whoever he is, as the builder's two-catcher rule and roster check hold it. */
+test("a backup catcher clears the C floor, listed catcher or not; starting at C, a listed catcher still needn't", () => {
+  const noDh = { ...ctx, dh: false }; // Mack catches: no DH to take his bat
+  const mack = bat("Mack", "C", 10, 10, { C: 90 });
+  const downing = bat("Downing", "LF", 8, 8, { C: 45, LF: 88 }, { frame: 44 });
+  const flores = bat("Flores", "C", -25, -25, { C: 42 }, { frame: 50 });
+  const util = bat("Utility", "LF", 0, 0, { C: 65, LF: 70 });
+  const E = makeEngine(pool([mack, downing, flores, util]), noDh);
+  const [im, id, iflo, iu] = [mack, downing, flores, util].map((c) => E.byId.get(c.id)!);
+  assert.notEqual(slotRuns(flores, "C", "R", noDh), null, "a listed catcher still starts at C under the floor");
+  assert.ok(Number.isNaN(E.catchC[iflo]) && Number.isNaN(E.catchC[id]), "neither backs up under 60");
+  const alone = teamPlan(E, [im]);
+  const three = teamPlan(E, [im, id, iflo]);
+  assert.equal(three.R[0], im, "Mack starts at C");
+  assert.equal(three.backup, -1);
+  assert.equal(three.parts.backup, -BACKUP_C_MISSING);
+  assert.ok(Math.abs(quickGain(E, iflo, alone) - (teamPlan(E, [im, iflo]).value - alone.value)) < 1e-6, "Flores lifts no charge in the quick read");
+  const withUtil = teamPlan(E, [im, iu]);
+  assert.equal(withUtil.backup, iu, "an off-position card at C 65 is a backup");
+  assert.ok(Math.abs(withUtil.parts.backup - BACKUP_C_WEIGHT * E.catchC[iu]) < 1e-9);
+  assert.ok(Math.abs(quickGain(E, iu, alone) - (withUtil.value - alone.value)) < 1e-6, "the quick read sees the charge lifted");
+});
+
+test("a man who can't out-catch a replacement doesn't lift the no-backup charge, in the plan or the quick read", () => {
+  const mack = bat("Mack", "C", 10, 10, { C: 90 });
+  const stone = bat("Stone", "1B", -60, -60, { C: 65, "1B": 80 });
+  const E = makeEngine(pool([mack, stone]), { ...ctx, dh: false });
+  const im = E.byId.get(mack.id)!, is = E.byId.get(stone.id)!;
+  assert.ok(E.catchC[is] <= 0, "the pool's worst catcher is the replacement level: nothing over it");
+  const alone = teamPlan(E, [im]);
+  const both = teamPlan(E, [im, is]);
+  assert.equal(both.backup, -1);
+  assert.equal(both.parts.backup, -BACKUP_C_MISSING);
+  assert.ok(Math.abs(quickGain(E, is, alone) - (both.value - alone.value)) < 1e-6, `quick ${quickGain(E, is, alone)} vs exact ${both.value - alone.value}`);
+});
+
 test("with no DH a two-way starter's bat counts for his share of the starts", () => {
   const noDh = { ...ctx, dh: false };
   const ruth = arm("Two-way", "SP", 10, { batR: 20, batL: 10 });

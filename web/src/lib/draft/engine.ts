@@ -126,7 +126,7 @@ export interface Engine {
   cL: Float64Array[];
   /** A bat's bench value over replacement (≥ 0). */
   benchC: Float64Array;
-  /** A bat's value catching on the vs-RHP board over replacement (NaN if he can't catch). */
+  /** A bat's value catching on the vs-RHP board over replacement, as a backup (NaN under the C floor, listed catcher or not). */
   catchC: Float64Array;
   /** An SP card's rotation value per start share: spW × (runs − replacement) + his bat with no DH. */
   rotKey: Float64Array;
@@ -208,7 +208,15 @@ export function makeEngine(cards: DraftCard[], ctx: DraftCtx): Engine {
     cR.push(rawR[i]!.map((v, k) => v - repl.R[k]));
     cL.push(rawL[i]!.map((v, k) => v - repl.L[k]));
     benchC[i] = Math.max(0, c.runsR - repl.bench);
-    catchC[i] = cR[i][0];
+    // A backup catcher clears the C floor, listed catcher or not: the rule the builder's two-catcher
+    // count and roster check hold (roster-optimize minCatchers, roster-audit). Starting at his own
+    // position skips the floor, and catchC used to reuse that slot, so a C card with C 42 and no bat
+    // (Rafael Flores Jr., -44.3 runs there) counted as a backup while an LF card with C 45 and a bat
+    // (Brian Downing, -13.7) could not. PTMS 3 PD 2, 2026-11-19: the engine asked for Flores in round
+    // 10. No floor at all is worse: the glove curve at C spans 6 runs from C 1 to C 118, so the bat
+    // decides, and Ben Rice (1B, C 17) priced above Joe Mack (C 118) behind the plate.
+    const atC = (c.pos.C ?? 0) >= posFloorAt(ctx.floor ?? LJ_FLOOR, "C") ? slotRuns(c, "C", "R", ctx) : null;
+    catchC[i] = atC == null ? NaN : atC - repl.R[0];
   });
   const pools = new Map<string, number[]>();
   cards.forEach((c, i) => {
@@ -406,8 +414,10 @@ export function quickGain(E: Engine, i: number, plan: Plan): number {
   if (bestR <= 0) g += ctx.benchW * Math.max(0, E.benchC[i] - (plan.benchFull ? plan.benchMin : 0));
   const cc = E.catchC[i];
   if (!Number.isNaN(cc)) {
-    // A second man who can catch ends the no-backup charge, whichever of the two starts.
-    if (plan.backup < 0 && plan.R[0] >= 0) g += BACKUP_C_MISSING + BACKUP_C_WEIGHT * Math.max(0, atC ? E.catchC[plan.R[0]] : cc);
+    // A second man who can catch ends the no-backup charge, whichever of the two starts, once he
+    // is worth more than a replacement catcher there (teamPlan's test).
+    const back = atC ? E.catchC[plan.R[0]] : cc;
+    if (plan.backup < 0 && plan.R[0] >= 0) { if (back > 0) g += BACKUP_C_MISSING + BACKUP_C_WEIGHT * back; }
     else if (!atC) g += BACKUP_C_WEIGHT * Math.max(0, cc - plan.backupContrib);
   }
   return g;
