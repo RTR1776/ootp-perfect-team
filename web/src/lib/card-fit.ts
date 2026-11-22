@@ -611,7 +611,8 @@ export function dualFitIn(bat: ScoredForm, arm: ScoredForm, team: Team, pool: re
     if (at) { batAtNow[b] = at[0]; on.push(`${at[0]} v${b}`); }
   }
 
-  // His share of the starts: a fifth in a five-man rotation (Card Fit weighs every rotation slot alike).
+  // His share of the starts, flat: a fifth in a five-man rotation. The staff itself is priced at its tilt (staffSwap,
+  // since PR 198), so a top-of-rotation two-way card's start days read up to ~1.5 runs light here (11-22 review).
   const nSp = armOn || team.SP.length ? team.SP.length : 1;
   const starts = 1 / Math.max(nSp, 1);
   const armOuts: (ScoredForm | null)[] = armOn ? [null] : team.SP.length ? [...team.SP] : [null];

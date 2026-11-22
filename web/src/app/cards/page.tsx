@@ -117,7 +117,7 @@ export default async function CardsPage({ searchParams }: { searchParams: Promis
   for (const o of obs) obsBy.set(Number(o.card_id), [...(obsBy.get(Number(o.card_id)) ?? []), o]);
 
   const input = hits.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher ?? false, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
-  const fits = ids.length ? envFitMaps(input, { era: era.rates, park: park?.row ?? null, roleTrust: 0.25, leagueLhbShare: lhb }) : null;
+  const fits = ids.length ? envFitMaps(input, { era: era.rates, park: park?.row ?? null, roleTrust: 0.25, leagueLhbShare: lhb, capped: (ev?.restrictions as { teamCap?: number | null } | null)?.teamCap != null }) : null;
   const both = (id: number) => { const r = fits?.runsR.get(id), l = fits?.runsL.get(id); return r == null || l == null ? null : (1 - lhp) * r + lhp * l; };
   const observed = ids.length ? await loadObservedRuns(ids, both) : new Map();
 

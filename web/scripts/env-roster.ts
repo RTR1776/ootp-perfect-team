@@ -904,7 +904,11 @@ async function main() {
             if (process.env.DUAL_DEBUG) console.log(`dual: ${c.name} seed overflows ${over ? `${over.tier} (${over.cards} for ${over.room})` : "nothing"}`);
             if (over) {
               const rank = (v: number) => TIER_ORDER.indexOf(tierCode(v));
-              const holders = [...units.entries()].filter(([u, v]) => u !== unitOf(bat) && rank(v) >= TIER_ORDER.indexOf(over.tier));
+              // A card already in both roles on the board above (a seeded dual pick) is not a holder to swap out:
+              // one sub's id would land in his lineup slots and his rotation slot alike (11-22 review: a hitter's
+              // id in SP1, priced on his batting runs).
+              const dualUnits = new Set(bothRoles(seed));
+              const holders = [...units.entries()].filter(([u, v]) => u !== unitOf(bat) && !dualUnits.has(u) && rank(v) >= TIER_ORDER.indexOf(over.tier));
               const freedSeeds: typeof seeds = [];
               for (const [holder] of holders.slice(0, 4)) {
                 const keys = Object.keys(seed).filter((k) => unitOf(seed[k]!) === holder);
@@ -938,7 +942,9 @@ async function main() {
           for (const { seed } of seeds) {
             for (let tries = 0; tries < 8 && !fitsRules(seed); tries++) {
               const units = new Set(Object.values(seed).map(unitOf));
-              const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat))
+              // Not a card in both roles: trading his bench bat keeps him through his arm, adds a player and frees nothing.
+              const dualUnits = new Set(bothRoles(seed));
+              const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat) && !dualUnits.has(unitOf(seed[k]!)))
                 .sort((a, b) => (byIdD.get(seed[b]!)?.val ?? 0) - (byIdD.get(seed[a]!)?.val ?? 0))[0];
               if (!benchKey) break;
               const cheap = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
