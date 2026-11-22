@@ -1,0 +1,35 @@
+# Daily PTCS 2 Iron Replay — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 1969 --park Shea Stadium --park-year 1964 --min 40 --max 59 --card-types 2,7,8,9 --size 26 --series ptcs2iron --sp 4 --rp 6 --bats 16)
+R:C Rick Wilkins (VAR) #86392
+R:1B Shawn Green #87028
+R:2B Nap Lajoie (VAR) #86581
+R:3B Chris Taylor #87243
+R:SS Ozzie Smith #86972
+R:LF Norris Hopper #87191
+R:CF Milt Thompson #86927
+R:RF Roger Bresnahan #87426
+L:C Charlie O'Brien #86925
+L:1B Matt Davidson (VAR) #84666
+L:2B Danny Espinosa #87519
+L:3B Bill Hall #87200
+L:SS Ozzie Smith #86972
+L:LF Andruw Jones (VAR) #86321
+L:CF Norris Hopper #87191
+L:RF Sammy Sosa (VAR) #85691
+SP1 James McDonald (VAR) #86384
+SP2 Big Jeff Pfeffer #87340
+SP3 Dallas Keuchel #87450
+SP4 Ice Box Chamberlain (VAR) #83049
+CL John Bale (VAR) #87234
+RP1 Carter Capps #87508
+RP2 Joe Thatcher #87526
+RP3 Randy Choate #87026
+RP4 Tyler Chatwood #87515
+RP5 Charlie Morton #87586
+BN1 Broderick Perkins #86460
+BN2 Andruw Jones (VAR) #86321
+BN3 Bill Hall #87200
+BN4 Matt Davidson (VAR) #84666
+BN5 Alfredo Amezaga #87188
+BN6 Danny Espinosa #87519
+BN7 Sammy Sosa (VAR) #85691
+BN8 Charlie O'Brien #86925

@@ -1,0 +1,36 @@
+# Daily Open Slots — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Metrodome --park-year 1990 --dh --slots P6,D4,G4,S4,B4,I4 --size 26 --series openslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Chase Utley #87068
+R:3B Alex Rodriguez #87219
+R:SS Trevor Story #87503
+R:LF Ed Delahanty #87371
+R:CF Andruw Jones #87057
+R:RF Curtis Granderson #86595
+R:DH Matt Kemp #87504
+L:C Mike Zunino (VAR) #86431
+L:1B Steve Pearce (VAR) #86366
+L:2B Chase Utley #87068
+L:3B Alex Rodriguez #87219
+L:SS Trevor Story #87503
+L:LF Ed Delahanty #87371
+L:CF Andruw Jones #87057
+L:RF Matt Kemp #87504
+L:DH Chris Sabo #87059
+SP1 Mordecai Brown #87370
+SP2 Chris Sale #87406
+SP3 Jerry Koosman #87440
+SP4 Bob Feller (VAR) #85650
+SP5 Fritz Ostermueller #86357
+CL Troy Percival (VAR) #85371
+RP1 Mike Matthews (VAR) #87296
+RP2 Chad Bradford #86341
+RP3 Kelvim Escobar #87207
+RP4 James McDonald (VAR) #86384
+RP5 Will Smith #87132
+RP6 John Bale (VAR) #87234
+BN1 Steve Pearce (VAR) #86366
+BN2 Chris Sabo #87059
+BN3 Jim Tabor (VAR) #85905
+BN4 Chris Taylor #87243
+BN5 Mike Zunino (VAR) #86431

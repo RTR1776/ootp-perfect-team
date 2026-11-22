@@ -30,7 +30,7 @@ import { daysAgo, range } from "@/lib/format";
 import { CATEGORIES } from "@/lib/ingest/constants";
 import {
   FORECAST_MIN_DAYS, NOT_PLAYING_FROM_DAY, SAFE_MARGIN,
-  lastDataIndex, standings, todayInChicago, verdictLabel, type StandingRow, type Verdict,
+  cwhitLinesFor, lastDataIndex, standings, todayInChicago, verdictLabel, type StandingRow, type Verdict,
 } from "@/lib/ptcs-progress";
 import { loadPeriodLedger } from "@/lib/period-ledger";
 import { PageHeader } from "@/components/page-header";
@@ -148,11 +148,14 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
   // targets above and this file together); cwhit's board rides beside it.
   const stored = STORED_LINES as StoredLines;
   const projection = stored.period === period.name ? stored : null;
-  const cwhit = projection?.cwhit ?? null;
-  const cwhitDate = cwhit?.file.match(/^\d{4}-\d{2}-\d{2}/)?.[0] ?? null;
+  // A board for another cycle or length is labelled stale and kept out of safe at.
+  const cwhitBoard = projection?.cwhit ?? null;
+  const cwhitUse = cwhitLinesFor(cwhitBoard, { name: period.name, totalDays });
+  const cwhit = cwhitUse.lines ? cwhitBoard : null;
+  const cwhitDate = cwhitBoard?.file.match(/^\d{4}-\d{2}-\d{2}/)?.[0] ?? null;
 
   const board = standings(days, CATEGORIES, {
-    totalDays, daysLeft, dayIndex: elapsed, ourLines: targets, cwhitLines: cwhit?.lines ?? null,
+    totalDays, daysLeft, dayIndex: elapsed, ourLines: targets, cwhitLines: cwhitUse.lines,
   });
   const safe = board.filter((r) => r.verdict === "safe");
   const toPlay = board.filter((r) => r.verdict !== "safe" && r.verdict !== "not-playing");
@@ -199,6 +202,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
                 ? `is the projected final 128th-place line: the day-${projection.day} dump (through ${md(projection.dumpReach)}) grown the way PTCS 5 and 6 grew from the same day.`
                 : "is an estimate; run pnpm cutoff:project --write after a dump."}
             {cwhit && <> <strong className="text-foreground">cwhit line</strong> is his projected cutoff ({cwhit.file}).</>}
+            {cwhitUse.stale && cwhitBoard && <> cwhit&apos;s board ({cwhitBoard.file}) is stale ({cwhitUse.stale}), so it is left out of safe at.</>}
           </p>
           <p>
             <strong className="text-foreground">Safe at</strong> is the higher of the two lines plus {Math.round(SAFE_MARGIN * 100)}%, rounded up.
@@ -242,7 +246,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
           {projection
             ? ` · Our line: dump through ${md(projection.dumpReach)} (${dumpAge === 0 ? "today" : `${dumpAge}d old`})`
             : " · Our line: no projection stored"}
-          {cwhitDate && ` · cwhit: ${md(cwhitDate)}`}
+          {cwhitDate && ` · cwhit: ${md(cwhitDate)}${cwhitUse.stale ? ` (stale: ${cwhitUse.stale}; not in safe at)` : ""}`}
           {" · "}
           <Link href="/upload" className="underline underline-offset-2 hover:text-foreground">Upload a new dump</Link>
         </p>
@@ -261,7 +265,7 @@ export default async function PtcsPage({ searchParams }: { searchParams: Promise
           label="Data thru"
           value={dataThru ? md(dataThru) : "—"}
           sub={projection || cwhitDate ? (
-            <Joined items={[projection ? `lines ${md(projection.dumpReach)}` : null, cwhitDate ? `cwhit ${md(cwhitDate)}` : null].filter((s) => s != null)} />
+            <Joined items={[projection ? `lines ${md(projection.dumpReach)}` : null, cwhitDate ? `cwhit ${md(cwhitDate)}${cwhitUse.stale ? " (stale)" : ""}` : null].filter((s) => s != null)} />
           ) : undefined}
         />
       </div>

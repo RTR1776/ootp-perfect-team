@@ -26,7 +26,8 @@ async function main() {
     from uploads where kind = 'dump' order by id`));
   let done = 0, skipped = 0;
   for (const r of rows) {
-    const path = join(DIR, r.filename);
+    // Older dumps live in Archive/dumps/ on the Mac since 2026-11-22 (load-dumps step 6).
+    const path = [join(DIR, r.filename), join(DIR, "..", "Archive", "dumps", r.filename)].find((p) => existsSync(p)) ?? join(DIR, r.filename);
     if (!r.start || !r.end || !existsSync(path)) { skipped++; console.log(`  skip ${r.filename}: ${!existsSync(path) ? "not on disk" : "no window stored"}`); continue; }
     const d = parseDump(readFileSync(path, "utf8"));
     if (!d) { skipped++; console.log(`  skip ${r.filename}: unparseable`); continue; }

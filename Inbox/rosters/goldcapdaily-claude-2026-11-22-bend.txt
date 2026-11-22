@@ -1,0 +1,36 @@
+# Daily Gold Cap — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 1999 --park Jacobs Field --park-year 1999 --dh --min 40 --max 89 --cap 1780 --size 26 --series goldcapdaily --sp 5 --rp 7 --bats 14)
+R:C Pythias Russ (VAR) #87083
+R:1B Pedro Alvarez #87062
+R:2B Kaelen Culpepper (VAR) #85033
+R:3B Chris Sabo #87059
+R:SS Trevor Story #87503
+R:LF Eric Davis (VAR) #86974
+R:CF Byron Buxton #87383
+R:RF Bo Jackson #86966
+R:DH Carlos Pena #87183
+L:C Pythias Russ (VAR) #87083
+L:1B Carlos Pena #87183
+L:2B Kaelen Culpepper (VAR) #85033
+L:3B Chris Sabo #87059
+L:SS Trevor Story #87503
+L:LF Eric Davis (VAR) #86974
+L:CF Byron Buxton #87383
+L:RF Bo Jackson #86966
+L:DH Ryan Braun #87222
+SP1 Bob Feller (VAR) #85650
+SP2 Count Leblanc (VAR) #86978
+SP3 Francisco Liriano #87528
+SP4 Nick Altrock #87049
+SP5 Fritz Ostermueller #86357
+CL Joe Beggs (VAR) #86762
+RP1 John Bale (VAR) #87234
+RP2 James McDonald (VAR) #86384
+RP3 Randy Choate #87026
+RP4 Joe Thatcher #87526
+RP5 Charlie Morton #87586
+RP6 Todd Jones (VAR) #86434
+BN1 Ken Griffey Jr. #87291
+BN2 Rougned Odor #87524
+BN3 Ryan Braun #87222
+BN4 Alfredo Amezaga #87188
+BN5 Buck Rodgers (VAR) #84312

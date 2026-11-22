@@ -339,13 +339,61 @@ function fillPass(pool: readonly FillCard[], rules: RosterRules, shape: FillShap
   return { next, held };
 }
 
-/** Every slot the shape asks for is filled. */
-export function isComplete(result: FillResult, shape: FillShape): boolean {
-  const keys = [
+/** Every key of the shape's board, in board order: lineup vs RHP, lineup vs LHP, rotation, pen, bench. */
+export function shapeKeys(shape: FillShape): string[] {
+  return [
     ...shape.lineupPos.map((p) => `R:${p}`), ...shape.lineupPos.map((p) => `L:${p}`),
     ...shape.spKeys, ...shape.rpKeys, ...shape.benchKeys,
   ];
-  return keys.every((k) => result[k] != null);
+}
+
+/** Every slot the shape asks for is filled. */
+export function isComplete(result: FillResult, shape: FillShape): boolean {
+  return shapeKeys(shape).every((k) => result[k] != null);
+}
+
+const slotNo = (k: string) => Number(k.replace(/^\D+/, ""));
+
+/**
+ * The shape a board actually fills. A board can hold a slot its shape lacks: a
+ * saved dual pick (a two-way card in both roles is one roster spot, so the dual
+ * phase adds a bench key) seeds the next rebuild with BN7 on an event whose
+ * shape has six bench keys, and the climb keeps him there. Everything that
+ * prices, prints or saves a board walks its shape, so that card dropped out of
+ * the printout and the load file while the roster check, which reads the
+ * board, still counted him (Saturday Negro Leagues Slots, 2026-11-14: William
+ * Tenny the backup catcher at BN7, 25 cards in the load file).
+ *
+ * This adds every rotation, pen and bench key the board holds to the shape (in
+ * number order) and counts the added bench keys in `bats`. Lineup keys are the
+ * event's positions and are never added (`offShapeKeys` names a stray one).
+ * Returns the same shape when the board holds nothing more.
+ */
+export function boardShape(shape: FillShape, slots: FillResult): FillShape {
+  const has = new Set(shapeKeys(shape));
+  const extra = (re: RegExp) => Object.keys(slots).filter((k) => !has.has(k) && re.test(k)).sort((a, b) => slotNo(a) - slotNo(b));
+  const sp = extra(/^SP\d+$/), rp = extra(/^RP\d+$|^CL$/), bn = extra(/^BN\d+$/);
+  if (!sp.length && !rp.length && !bn.length) return shape;
+  const byNo = (keys: string[]) => [...keys].sort((a, b) => (a === "CL" ? -1 : b === "CL" ? 1 : slotNo(a) - slotNo(b)));
+  return {
+    ...shape,
+    spKeys: byNo([...shape.spKeys, ...sp]),
+    rpKeys: byNo([...shape.rpKeys, ...rp]),
+    benchKeys: byNo([...shape.benchKeys, ...bn]),
+    bats: shape.bats + bn.length,
+  };
+}
+
+/** Keys a board holds that no shape built from this one can print: a lineup position the event does not play (R:DH without a DH), or no slot kind at all. */
+export function offShapeKeys(shape: FillShape, slots: FillResult): string[] {
+  const has = new Set(shapeKeys(boardShape(shape, slots)));
+  return Object.keys(slots).filter((k) => !has.has(k));
+}
+
+/** The next free bench key on a board of this shape: one past the highest bench number, so it never lands on a bench card the board holds. */
+export function nextBenchKey(shape: FillShape, slots: FillResult): string {
+  const nos = [...boardShape(shape, slots).benchKeys].map(slotNo);
+  return `BN${(nos.length ? Math.max(...nos) : 0) + 1}`;
 }
 
 /**

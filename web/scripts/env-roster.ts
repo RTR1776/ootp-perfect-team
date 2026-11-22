@@ -16,7 +16,7 @@ import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, uploads } from "@/db/schema";
 import { formRatings } from "@/lib/card-forms";
 import {
-  HIT_POS, fillOnce, fillRoster, fitMaps, isComplete, rosterShape, type FillCard, type FillShape,
+  HIT_POS, boardShape, fillOnce, fillRoster, fitMaps, isComplete, nextBenchKey, offShapeKeys, rosterShape, shapeKeys, type FillCard, type FillShape,
 } from "@/lib/roster-fill";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { cardEligibility } from "@/lib/roster-rules";
@@ -46,7 +46,8 @@ import { staffPerTeam, topShape, type SeriesBuild } from "@/lib/field-constructi
 import { setRuleGuard } from "@/lib/set-evidence";
 import { cardTypeNames } from "@/lib/card-sets";
 import { loadSetEvidence } from "@/lib/set-evidence-server";
-import { cardIdOf, formIdForSlot, isTwoWayForm, otherFormId, twoWayForm, unitOf } from "@/lib/two-way";
+import { bothRoles, cardIdOf, formIdForSlot, isTwoWayForm, otherFormId, playersOn, twoWayForm, unitOf } from "@/lib/two-way";
+import { boardRow } from "@/lib/load-file";
 import { fitsPosition, slotCapacityIssues, slotOverflow, tierCode, TIER_ORDER } from "@/lib/roster-rules";
 
 const argv = process.argv.slice(2);
@@ -504,14 +505,14 @@ async function main() {
       ratings: (c.ratings ?? {}) as Record<string, number>,
     }));
     // The blend's reference carries no tournament-only terms (env-fit referenceFits): play can't see Speed or Stamina.
-    const base = referenceFits(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
+    const base = referenceFits(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, capped: CAP != null });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
     // `both` is already env-fit's 0.7 R / 0.3 L read, so it is also the reference that lets a variant keep its boost.
     observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both, OBS_EXCLUDE, { series: SERIES, ratingsMax: MAX, ownSeriesOnly: true });
     const n = [...observed.values()];
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K_LABEL}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, capped: CAP != null, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
   /*
    * The field's average card (L.J. 10-31: "is it avg card in env as in cards others play?").
    * The runs columns are against the era's league-average line; this is the usage-weighted
@@ -531,7 +532,7 @@ async function main() {
         role: r.is_pitcher ? r.pitcher_role : r.position,
         ratings: r.is_variant ? formRatings(r.ratings, r.vr, r.position) : r.ratings,
       }));
-      const ff = envFitMaps(fp as any, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
+      const ff = envFitMaps(fp as any, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, capped: CAP != null, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
       let bw = 0, br = 0, bl = 0, aw = 0, av = 0;
       for (const r of rows) {
         const id = r.is_variant ? -Number(r.card_id) : Number(r.card_id);
@@ -595,6 +596,13 @@ async function main() {
     eraYear: ERA_YEAR, shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP_SHARE, rpWeight: RP_WEIGHT, benchWeight: BENCH_WEIGHT, spWeight: SP_WEIGHT, fieldSp: FIELD_SP, fieldRp: FIELD_RP, gloveScale: GLOVE, framingWeight: FRAMING, mustIds, staminaTerm: PEN_STAMINA, penLeverage: PEN_LEVERAGE,
   };
   let { objective, rank, defAt, slotValue } = rosterObjective(pool, objectiveOpts);
+  /**
+   * The objective for a board's own shape (roster-fill boardShape). A seeded dual pick holds a bench key the
+   * event's shape lacks (BN7: the spot his second role frees); on its own shape that slot is priced and
+   * climbed like any bench slot, and printed, so the card in it reaches the load file.
+   */
+  const baseShape = shape, baseObj = { objective, rank, defAt, slotValue };
+  const objFor = (sh: FillShape): typeof baseObj => (sh === baseShape ? baseObj : rosterObjective(pool, { ...objectiveOpts, shape: sh }));
   /** A reliever's runs as the pen slots price them (without the staff-stamina term unless --pen-stamina): orders the pen. */
   const poolByIdAll = new Map(pool.map((c) => [c.cardId, c]));
   const penValueOf = (id: number) => (fits.runsR.get(id) ?? -Infinity) - (PEN_STAMINA ? staffStaminaRuns(poolByIdAll.get(id)) : 0);
@@ -637,7 +645,18 @@ async function main() {
       return HIT_POS.includes(pos as (typeof HIT_POS)[number]) && (byIdSeed.get(Number(m[2]))?.ratings[`Pos Rating ${pos}`] ?? 0) <= 0;
     }).length + underFloor;
     const direct = Object.fromEntries(kept.map((m) => [m[1]!, Number(m[2])]));
-    if (!gone && !misplaced && isComplete(direct, shape)) { console.log(`seed: ${path.split("/").pop()} as is (${new Set(Object.values(direct)).size} cards)`); return direct; }
+    // Keys the event's shape lacks. A saved dual pick has one bench key more per two-way card in both roles
+    // (his second role frees a roster spot; the dual phase added BN7): the board climbs on its own shape
+    // (boardShape). Any other (a fifth starter on a four-man shape, a pen of eight) is a different shape: refill.
+    const own = new Set(shapeKeys(shape));
+    const extra = Object.keys(direct).filter((k) => !own.has(k));
+    const dualBench = extra.length > 0 && extra.every((k) => /^BN\d+$/.test(k)) && extra.length === bothRoles(direct).length;
+    const offShape = dualBench ? 0 : extra.length;
+    if (!gone && !misplaced && !offShape && isComplete(direct, shape)) {
+      console.log(`seed: ${path.split("/").pop()} as is (${playersOn(direct)} players${dualBench ? `; ${extra.join(", ")} for the spot ${bothRoles(direct).map((u) => byIdSeed.get(u)?.name ?? u).join(", ")} frees in both roles` : ""})`);
+      return direct;
+    }
+    if (offShape) console.log(`seed: ${offShape} slot${offShape === 1 ? "" : "s"} this event's shape lacks (${extra.join(", ")}); refilling`);
     if (misplaced) console.log(`seed: ${misplaced} slot${misplaced === 1 ? "" : "s"} held by a card that can no longer play there or sits under the position floor (${underFloor} under the floor); refilling`);
     const must = new Set(kept.map((m) => Number(m[2])));
     for (const lam of [0, 0.5, 1, 2, 4, 8]) {
@@ -647,7 +666,7 @@ async function main() {
         return r;
       }
     }
-    if (!gone && isComplete(direct, shape)) {
+    if (!gone && !offShape && isComplete(direct, shape)) {
       console.log(`seed: ${path.split("/").pop()} could not be refilled around its under-floor slots; kept as is`);
       return direct;
     }
@@ -684,6 +703,9 @@ async function main() {
   if (SCORE) {
     const given = seedStart(SCORE);
     if (!given) process.exit(1);
+    // Scored on its own shape: a dual pick's BN7 counts as a bench slot.
+    shape = boardShape(shape, given);
+    ({ objective, rank, defAt, slotValue } = objFor(shape));
     // The staff as it would be set (orderStaff, as every build prints it): CL the best reliever, SP1 the best starter.
     const s = orderStaff(given, (id) => fits.runsR.get(id) ?? -Infinity, penValueOf);
     if (Object.keys(s).some((k) => s[k] !== given[k])) console.log("staff ordered best first (SP1, CL) before scoring");
@@ -716,8 +738,8 @@ async function main() {
       const seed = seedStart(SEED);
       if (seed) {
         starts.set("seed", { slots: seed, lambda: SEED_LAMBDA });
-        // The saved roster's own score, so a card-change rebuild shows what it gained.
-        console.log(`seed: scores ${objective(seed).toFixed(1)} before the climb`);
+        // The saved roster's own score (on its own shape: a dual pick's BN7 counts), so a card-change rebuild shows what it gained.
+        console.log(`seed: scores ${objFor(boardShape(shape, seed)).objective(seed).toFixed(1)} before the climb`);
       }
     }
 
@@ -731,7 +753,7 @@ async function main() {
      */
     starts.set("greedy", { slots, lambda });
     // -Infinity until a climb lands: every climbed board is scored the same way, the greedy fill's among them.
-    let best = { slots, score: -Infinity, from: lambda, moves: 0 };
+    let best = { slots, score: -Infinity, from: lambda, moves: 0, shape, obj: baseObj };
     let greedyClimbScore: number | null = null;
     let seedScore: number | null = null;
     const climbOpts = {
@@ -740,18 +762,24 @@ async function main() {
       // A fixed pool (--pool-ids: a drafted 26) leaves only the arrangement open: solve it exactly.
       exactBoards: POOL_IDS.length > 0,
     };
+    /** The climb's options on a board's own objective (objFor). */
+    const climbOptsFor = (ob: typeof baseObj) => ({ ...climbOpts, objective: ob.objective, slotValue: ob.slotValue, pairMoves: { ...climbOpts.pairMoves, rank: ob.rank } });
     const fromLabel = (l: number) => (l === SEED_LAMBDA ? "seed" : `λ ${l.toFixed(2)}`);
     const climbed: (typeof best)[] = [];
     for (const [key, st] of COMPARE_ONLY ? [] : starts) {
-      const r = optimizeRoster(st.slots, pool, rules, shape, climbOpts);
+      // Each board climbs on its own shape: a seeded dual pick keeps its BN7 as a bench slot the climb can fill
+      // and the printout shows (on the event's shape he sat there unpriced and unprinted, 11-14).
+      const sh = boardShape(shape, st.slots), ob = objFor(sh);
+      const r = optimizeRoster(st.slots, pool, rules, sh, climbOptsFor(ob));
       if (key === "greedy") greedyClimbScore = r.startLegal ? r.startScore : -Infinity;
       if (st.lambda === SEED_LAMBDA) seedScore = r.score;
-      // A seed with a two-way card in both roles (a saved dual pick) climbs on a board that counts him once: one
-      // player short of SIZE, which the validator refuses (Early Years Cap, 11-02). The dual phase below handles him.
-      const units = new Set(Object.values(r.slots).map(unitOf)).size;
+      // A seed with a two-way card in both roles and no bench key for the spot he frees (a dual pick saved
+      // before the dual phase added one) climbs on a board that counts him once: one player short of SIZE,
+      // which the validator refuses (Early Years Cap, 11-02). The dual phase below handles him.
+      const units = playersOn(r.slots);
       if (units !== SIZE) { console.log(`${fromLabel(st.lambda)}: board holds ${units} players, not ${SIZE}: skipped`); continue; }
-      climbed.push({ slots: r.slots, score: r.score, from: st.lambda, moves: r.moves });
-      if (r.score > best.score) best ={ slots: r.slots, score: r.score, from: st.lambda, moves: r.moves };
+      climbed.push({ slots: r.slots, score: r.score, from: st.lambda, moves: r.moves, shape: sh, obj: ob });
+      if (r.score > best.score) best = { slots: r.slots, score: r.score, from: st.lambda, moves: r.moves, shape: sh, obj: ob };
     }
     // Nothing climbed (--compare-only): the greedy fill stands, at its climb score when there is one.
     if (!Number.isFinite(best.score)) best = { ...best, score: greedyClimbScore ?? greedyScore };
@@ -772,10 +800,10 @@ async function main() {
     for (const b of toPolish) {
       // The same moves as the climb that stopped here (a pruned pool re-prunes around the board: not then).
       // The cap tier rides with it (roster-optimize capTier, 2026-11-12): under a cap, one upgrade paid for by two cheaper cards.
-      const r = optimizeRoster(b.slots, pool, rules, shape, { ...climbOpts, staffTier: true, capTier: true, atOptimum: CANDIDATE_LIMIT == null });
-      if (new Set(Object.values(r.slots).map(unitOf)).size !== SIZE) continue;
+      const r = optimizeRoster(b.slots, pool, rules, b.shape, { ...climbOptsFor(b.obj), staffTier: true, capTier: true, atOptimum: CANDIDATE_LIMIT == null });
+      if (playersOn(r.slots) !== SIZE) continue;
       polished.push(`${fromLabel(b.from)} ${b.score.toFixed(1)}${r.score > b.score + 1e-9 ? ` -> ${r.score.toFixed(1)} (${r.moves} move${r.moves === 1 ? "" : "s"})` : " (no change)"}`);
-      if (r.score > best.score + 1e-9) best = { slots: r.slots, score: r.score, from: b.from, moves: b.moves + r.moves };
+      if (r.score > best.score + 1e-9) best = { slots: r.slots, score: r.score, from: b.from, moves: b.moves + r.moves, shape: b.shape, obj: b.obj };
     }
     if (polished.length) console.log(`staff polish, best ${polished.length} boards: ${polished.join("; ")}`);
     let deepBoard: Record<string, number> | null = null;
@@ -795,6 +823,8 @@ async function main() {
     }
     console.log(`\noptimiser: ${starts.size} ${starts.has("seed") ? "starts (λ + seed)" : "λ starts"} hill-climbed; best ${best.score.toFixed(1)} runs vs ${(greedyClimbScore ?? greedyScore).toFixed(1)} greedy (+${(best.score - (greedyClimbScore ?? greedyScore)).toFixed(1)}; both less ${BACKUP_PENALTY} a missing backup or long man), ${best.moves} moves from ${best.from === SEED_LAMBDA ? "the seed" : `λ ${best.from.toFixed(2)}`}${seedScore != null && best.from !== SEED_LAMBDA ? ` (the seed's climb: ${seedScore.toFixed(1)})` : ""}`);
     slots = best.slots; lambda = best.from;
+    // The board's own shape and objective from here on: the dual phase, the stamina repair and the printout.
+    shape = best.shape; ({ objective, rank, defAt, slotValue } = best.obj);
     /*
      * The dual phase (L.J. 2026-10-31: Ed Rile, "crushing bat at 1B and full on SP"; 35 of the
      * 36 PTCS 7 Championship Open teams carrying him used him both ways). A two-way card in both
@@ -809,7 +839,12 @@ async function main() {
       const bats = pool.filter((c) => !c.isPitcher && ids.has(otherFormId(c.cardId)) && byIdD.get(otherFormId(c.cardId))?.isPitcher
         && (c.variant ? c.variantOwned : c.baseOwned) && !cardEligibility(c, rules).errors.length);
       if (bats.length && shape.spKeys.length) {
-        const dshape: FillShape = { ...shape, bats: shape.bats + 1, benchKeys: [...shape.benchKeys, `BN${shape.benchKeys.length + 1}`] };
+        // The freed spot's key comes after every bench key the board holds. `shape` is the board's own
+        // (boardShape), so a board that already carries a two-way card in both roles (a seeded dual pick's
+        // BN7) gets BN8. Counting from the event's six bench keys gave BN7 again: the try overwrote the card
+        // there and came back a player short (11-14, Saturday Negro Leagues Slots: "holds 25 players" three times).
+        const nk = nextBenchKey(shape, slots);
+        const dshape: FillShape = { ...shape, bats: shape.bats + 1, benchKeys: [...shape.benchKeys, nk] };
         const dobj = rosterObjective(pool, { ...objectiveOpts, shape: dshape });
         const worth = (bat: number) => SP_WEIGHT * (fits.runsR.get(otherFormId(bat)) ?? -99) + Math.max(0, fits.runsR.get(bat) ?? 0);
         const tryN = num("dual-try", 4)!;
@@ -831,13 +866,18 @@ async function main() {
         };
         let dbest: { slots: Record<string, number>; score: number; who: string } | null = null;
         const dtake = new Map<number, { slots: Record<string, number>; score: number; who: string }>();
-        const nk = dshape.benchKeys[dshape.benchKeys.length - 1]!;
         for (const c of cands) {
           const bat = c.cardId, arm = otherFormId(bat);
           const seed: Record<string, number> = { ...slots };
           const on = new Set(Object.values(seed));
+          // In both roles on the board above already (a seeded dual pick): that board is this try, climbed.
+          if (on.has(arm) && on.has(bat)) { console.log(`dual: ${c.name} is in both roles on the board above already`); continue; }
           if (!on.has(arm)) {
-            const k = shape.spKeys.reduce((w, x) => (dobj.slotValue(x, seed[x]!) < dobj.slotValue(w, seed[w]!) ? x : w));
+            // The weakest rotation slot whose card leaves the board with it: another two-way card's arm keeps
+            // his roster spot through his bat, so taking it would leave the board a player over.
+            const open = shape.spKeys.filter((x) => seed[x] != null && !on.has(otherFormId(seed[x]!)));
+            if (!open.length) continue;
+            const k = open.reduce((w, x) => (dobj.slotValue(x, seed[x]!) < dobj.slotValue(w, seed[w]!) ? x : w));
             seed[k] = arm;
           }
           if (!on.has(bat)) seed[nk] = bat;
@@ -864,7 +904,11 @@ async function main() {
             if (process.env.DUAL_DEBUG) console.log(`dual: ${c.name} seed overflows ${over ? `${over.tier} (${over.cards} for ${over.room})` : "nothing"}`);
             if (over) {
               const rank = (v: number) => TIER_ORDER.indexOf(tierCode(v));
-              const holders = [...units.entries()].filter(([u, v]) => u !== unitOf(bat) && rank(v) >= TIER_ORDER.indexOf(over.tier));
+              // A card already in both roles on the board above (a seeded dual pick) is not a holder to swap out:
+              // one sub's id would land in his lineup slots and his rotation slot alike (11-22 review: a hitter's
+              // id in SP1, priced on his batting runs).
+              const dualUnits = new Set(bothRoles(seed));
+              const holders = [...units.entries()].filter(([u, v]) => u !== unitOf(bat) && !dualUnits.has(u) && rank(v) >= TIER_ORDER.indexOf(over.tier));
               const freedSeeds: typeof seeds = [];
               for (const [holder] of holders.slice(0, 4)) {
                 const keys = Object.keys(seed).filter((k) => unitOf(seed[k]!) === holder);
@@ -898,7 +942,9 @@ async function main() {
           for (const { seed } of seeds) {
             for (let tries = 0; tries < 8 && !fitsRules(seed); tries++) {
               const units = new Set(Object.values(seed).map(unitOf));
-              const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat))
+              // Not a card in both roles: trading his bench bat keeps him through his arm, adds a player and frees nothing.
+              const dualUnits = new Set(bothRoles(seed));
+              const benchKey = dshape.benchKeys.filter((k) => seed[k] != null && unitOf(seed[k]!) !== unitOf(bat) && !dualUnits.has(unitOf(seed[k]!)))
                 .sort((a, b) => (byIdD.get(seed[b]!)?.val ?? 0) - (byIdD.get(seed[a]!)?.val ?? 0))[0];
               if (!benchKey) break;
               const cheap = pool.filter((h) => !h.isPitcher && !units.has(unitOf(h.cardId)) && (h.variant ? h.variantOwned : h.baseOwned) && !cardEligibility(h, rules).errors.length)
@@ -908,6 +954,9 @@ async function main() {
             }
           }
           for (const { seed, freed } of seeds) {
+          // The try must hold the roster's players before it climbs (the climb never drops one): every card the
+          // board above carries, plus his second role in the freed spot.
+          if (playersOn(seed) !== SIZE) { console.log(`dual: from ${c.name} in both roles${freed ? ` (${freed})` : ""}: the try holds ${playersOn(seed)} players, not ${SIZE}: skipped`); continue; }
           const r = optimizeRoster(seed, pool, rules, dshape, {
             objective: dobj.objective, slotValue: dobj.slotValue, minDefShare: MIN_DEF, posFloor: MIN_POS, pairMoves: { aTop: 10, bCheapest: 12, rank: dobj.rank }, maxPasses: 80,
             candidateLimit: CANDIDATE_LIMIT ?? undefined, minCatchers: MIN_CATCHERS, minShortstops: MIN_SS, minLongMen: MIN_LONG, backups: BACKUPS,
@@ -915,13 +964,17 @@ async function main() {
             staffTier: POLISH_N > 0, capTier: POLISH_N > 0,
           });
           const onBoard = new Set(Object.values(r.slots));
-          const dualId = [...onBoard].find((id) => !byIdD.get(id)?.isPitcher && onBoard.has(otherFormId(id)));
-          const who = dualId != null ? byIdD.get(dualId)?.name ?? String(dualId) : null;
+          // This try's card when he ended in both roles, else any card in both (main's --dual-take key).
+          const dualId = onBoard.has(bat) && onBoard.has(arm) ? bat : [...onBoard].find((id) => !byIdD.get(id)?.isPitcher && onBoard.has(otherFormId(id)));
+          // Every card in both roles on the climbed board (a seeded dual pick's and this try's).
+          const duals = bothRoles(r.slots).map((u) => byIdD.get(u)?.name ?? String(u));
+          const who = duals.length ? duals.join(" and ") : null;
           console.log(`dual: from ${c.name} in both roles${freed ? ` (${freed})` : ""}: ${r.legal && who ? `${who} in both, ${r.score.toFixed(1)} runs` : r.legal ? `climbed out of both roles (${r.score.toFixed(1)})` : "no legal board"}`);
           // A two-way card in both roles is one unit (unitOf); the board must still hold SIZE distinct players
-          // (validateRoster's roster-size rule). 2026-11-01: Daily Diamond Cap and Early Years Cap seeds that
-          // already carried a two-way card came back from this phase with 25 and were taken, then failed validation.
-          const units = new Set(Object.values(r.slots).map(unitOf)).size;
+          // (validateRoster's roster-size rule). The try is held to it above; this guards the climb's result.
+          // 2026-11-01: Daily Diamond Cap and Early Years Cap tries came back from this phase with 25 and were
+          // taken, then failed validation; 11-14 found why (the try's bench key was one the board already held).
+          const units = playersOn(r.slots);
           if (r.legal && who && units !== SIZE) console.log(`dual: ${who} board holds ${units} players, not ${SIZE}: skipped`);
           else if (r.legal && who && (!dbest || r.score > dbest.score)) dbest = { slots: r.slots, score: r.score, who };
           if (r.legal && who && units === SIZE && dualId != null && (!dtake.has(dualId) || r.score > dtake.get(dualId)!.score)) dtake.set(dualId, { slots: r.slots, score: r.score, who });
@@ -981,6 +1034,23 @@ async function main() {
   const poolById = new Map(pool.map((c) => [c.cardId, c]));
   // The pen is ranked without the staff-stamina term (roster-objective staminaTerm).
   slots = orderStaff(slots, (id) => fits.runsR.get(id) ?? -Infinity, penValueOf);
+  /*
+   * The printout walks the shape, and the load file is made from the printout (current-rosters), so the
+   * shape must hold every slot on the board. The climb and the dual phase keep it so; anything still outside
+   * (a path that skipped boardShape) is added here, priced, and named, rather than left off the load file.
+   */
+  {
+    const grown = boardShape(shape, slots);
+    if (grown !== shape) {
+      const had = new Set(shapeKeys(shape));
+      console.log(`!! the board holds slots its shape lacked: ${shapeKeys(grown).filter((k) => !had.has(k)).join(", ")}; printed and priced with them`);
+      shape = grown;
+      ({ objective, rank, defAt, slotValue } = objFor(shape));
+    }
+  }
+  /** Slots no shape can print (a lineup position the event doesn't play): listed after the bench, and named. */
+  const offShape = offShapeKeys(shape, slots);
+  if (offShape.length) console.log(`!! the board holds slots this event has no place for: ${offShape.join(", ")}`);
   const out: RosterSlot[] = Object.entries(slots).map(([k, cardId]) => {
     const [a, b] = k.split(":");
     return { cardId, slot: b ?? a, versusHand: b ? a : "both", lineupOrder: b ? lineupPos.indexOf(b) + 1 : null, useVariant: poolById.get(cardId)?.variant ?? false };
@@ -996,7 +1066,7 @@ async function main() {
   const row = (key: string, board: "R" | "L" | null) => {
     const cid = slots[key];
     const c = cid != null ? poolById.get(cid) : undefined;
-    if (!c) return `${key.padEnd(7)} —`;
+    if (!c) return boardRow(key, undefined, null);
     const runs = board === "L" ? fits.runsL.get(c.cardId) : fits.runsR.get(c.cardId);
     const side = !c.isPitcher && board ? (batsLeftOn(c.bats, board) ? "park:L" : "park:R") : "";
     let def = "";
@@ -1017,7 +1087,8 @@ async function main() {
     const twoWay = isTwoWayForm(c.cardId) ? ` two-way (${c.isPitcher ? "pitching" : "hitting"})` : "";
     const base = fieldAvg == null || runs == null ? null : c.isPitcher ? fieldAvg.arm : board === "L" ? fieldAvg.batL : fieldAvg.batR;
     const fld = base == null ? "" : ` fld ${f1(runs! - base).padStart(5)}`;
-    return `${key.padEnd(7)} ${(c.name + (c.variant ? " (VAR)" : "")).padEnd(26)} ${String(c.val).padStart(3)}  ${(c.bats ?? "-").padEnd(2)} ${String(c.year ?? "").padEnd(5)} ${runs == null ? "" : f1(runs).padStart(6)}${fld}  ${side}${def}${arm}${twoWay}  #${cardIdOf(c.cardId)}`;
+    // lib/load-file boardRow: the row current-rosters reads back into the load file.
+    return boardRow(key, c, runs, `${fld}  ${side}${def}${arm}${twoWay}`);
   };
 
   console.log(`\n--- lineup vs RHP ---   (name, value, bats, year, runs/700 PA on this board)`);
@@ -1053,6 +1124,10 @@ async function main() {
   for (const k of shape.rpKeys) console.log(row(k, "R"));
   console.log(`\n--- bench ---`);
   for (const k of shape.benchKeys) console.log(row(k, "R"));
+  if (offShape.length) {
+    console.log(`\n--- off the shape --- (slots this event has no place for; the rules check says whether they stand)`);
+    for (const k of offShape) console.log(row(k, k.startsWith("L:") ? "L" : "R"));
+  }
   /* The game's depth chart (lib/depth-chart): utility men and a defensive sub per position, pinch hitters and runners. */
   for (const hand of ["R", "L"] as const) {
     const nm = (c: { cardId: number; name: string }) => `${c.name}${poolById.get(c.cardId)?.variant ? " (VAR)" : ""}`;

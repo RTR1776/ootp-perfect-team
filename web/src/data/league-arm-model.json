@@ -1,27 +1,27 @@
 {
-  "fittedAt": "2026-11-15",
-  "source": "116 base-card arms with 1000+ league IP, 16 weeks, pnpm fit:arms",
-  "k": 0.6719,
+  "fittedAt": "2026-11-22",
+  "source": "117 base-card arms with 1000+ league IP, 17 weeks, pnpm fit:arms",
+  "k": 0.6424,
   "intercept": -0.0218,
-  "app9League": 0.758,
-  "n": 116,
-  "r": 0.649,
+  "app9League": 0.7717,
+  "n": 117,
+  "r": 0.637,
   "minIp": 1000,
-  "bfPerIp": 4.323,
+  "bfPerIp": 4.322,
   "families": {
     "PEL": {
-      "a": -0.0484,
-      "b": 0.8621,
-      "w": 1500,
-      "n": 101,
-      "r": 0.787
+      "a": -0.0411,
+      "b": 0.8546,
+      "w": 2000,
+      "n": 105,
+      "r": 0.775
     },
     "HD": {
-      "a": 0.042,
-      "b": 0.7567,
-      "w": 300,
-      "n": 108,
-      "r": 0.804
+      "a": 0.0326,
+      "b": 0.7412,
+      "w": 600,
+      "n": 112,
+      "r": 0.794
     },
     "LD": {
       "a": 0,

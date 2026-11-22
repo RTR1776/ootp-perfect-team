@@ -147,10 +147,10 @@ async function main() {
 
   /* ---- score ---- */
   const all = universe.map((c) => ({ cardId: c.cardId, isPitcher: c.isPitcher, bats: c.bats, throws: c.throws, role: c.pitcherRole, ratings: (c.ratings ?? {}) as Record<string, number> }));
-  const base = envFitMaps(all, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB, eraYear: ERA_YEAR });
+  const base = envFitMaps(all, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB, eraYear: ERA_YEAR, capped: CAP != null });
   const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : (1 - LHP) * r + LHP * l; };
   const observed = OBS_K > 0 ? await loadObservedRuns(pool.map((c) => c.cardId), both, bothHands(base)) : undefined;
-  const fits = envFitMaps(pool, { era: era.rates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB, eraYear: ERA_YEAR });
+  const fits = envFitMaps(pool, { era: era.rates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB, eraYear: ERA_YEAR, capped: CAP != null });
   const { objective, rank, defAt } = rosterObjective(pool, { shape, runsR: fits.runsR, runsL: fits.runsL, lhpShare: LHP, rpWeight: RP_WEIGHT_DEFAULT, benchWeight: BENCH_WEIGHT_DEFAULT });
   const poolById = new Map(pool.map((c) => [c.cardId, c]));
   const nameOf = (id: number | undefined) => { const c = id != null ? poolById.get(id) : undefined; return c ? `${c.name}${c.variant ? " (VAR)" : ""}` : "—"; };

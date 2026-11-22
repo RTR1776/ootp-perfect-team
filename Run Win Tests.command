@@ -29,15 +29,15 @@ fi
 # look the same evening) does not have to make them again. Builds from an earlier run of this
 # command, including the first version's (it used a folder named tmp.XXXX), are offered for reuse.
 CACHE="${TMPDIR:-/tmp}"; CACHE="${CACHE%/}"
-has_builds() { [ -f "$1/flat/teams.json" ] && [ -f "$1/now/teams.json" ] && [ -f "$1/bend/teams.json" ]; }
+has_builds() { [ -f "$1/flat/teams.json" ] && [ -f "$1/now/teams.json" ] && [ -f "$1/straight/teams.json" ]; }
 PREV=""
 for d in "$CACHE/ootp-win-tests" "$CACHE"/tmp.*; do
   has_builds "$d" || continue
-  if [ -z "$PREV" ] || [ "$d/bend/teams.json" -nt "$PREV/bend/teams.json" ]; then PREV="$d"; fi
+  if [ -z "$PREV" ] || [ "$d/straight/teams.json" -nt "$PREV/straight/teams.json" ]; then PREV="$d"; fi
 done
 TMP=""
-if [ -n "$PREV" ] && [ -n "$(find "$PREV/bend/teams.json" -mmin -720 2>/dev/null)" ]; then
-  WHEN="$(date -r "$PREV/bend/teams.json" '+%H:%M' 2>/dev/null)" || WHEN="$(stat -f '%Sm' -t '%H:%M' "$PREV/bend/teams.json" 2>/dev/null)"
+if [ -n "$PREV" ] && [ -n "$(find "$PREV/straight/teams.json" -mmin -720 2>/dev/null)" ]; then
+  WHEN="$(date -r "$PREV/straight/teams.json" '+%H:%M' 2>/dev/null)" || WHEN="$(stat -f '%Sm' -t '%H:%M' "$PREV/straight/teams.json" 2>/dev/null)"
   echo "The three builds from an earlier run are still here (finished ${WHEN:-earlier today})."
   echo "Reuse them unless exports were filed or the pricing changed since."
   read -r -p "Reuse them? [Y/n] " ok
@@ -57,8 +57,8 @@ if [ -z "$TMP" ]; then
   }
   echo "Three builds of the team harness, several minutes each."
   MV2_PITCH_LHB=flat build flat "1 of 3: arms on one share of left-handed bats (the pricing before 11-13)"
-  build now "2 of 3: as priced now"
-  MV2_BEND=1 build bend "3 of 3: with the curved bat calibration"
+  build now "2 of 3: as priced now (the bent bat calibration, on since 11-22)"
+  MV2_BEND=0 build straight "3 of 3: bats on the straight slope (the pricing before 11-22)"
 fi
 echo "Comparing them on wins (under a minute)…"
 
@@ -71,8 +71,8 @@ OUT="../Tourney Data/Win Tests/win-tests-$(date +%Y-%m-%d).txt"
   echo "=== 1. Arms by throwing hand: off = one share (0.45), on = by hand (LHP 0.35, RHP 0.50). In use since 11-13."
   python3 scripts/model-review/wins-ab.py "$TMP/flat" "$TMP/now"
   echo
-  echo "=== 2. Curved bat calibration: off = the straight slope (in use), on = the bend."
-  python3 scripts/model-review/wins-ab.py "$TMP/now" "$TMP/bend"
+  echo "=== 2. Curved bat calibration: off = the straight slope, on = the bend (in use since 11-22, cap events excepted; this harness bends every export, so read the cap row for them)."
+  python3 scripts/model-review/wins-ab.py "$TMP/straight" "$TMP/now"
 } > "$OUT" 2>&1
 
 echo

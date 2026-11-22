@@ -43,7 +43,14 @@ export function activeBend(side: CalibrationSide | undefined = CALIBRATION.hit):
  * era band with weight above the knee; arms show no bend (20-27 of 40).
  *
  * It is recorded by model:calibrate and applied only when `bend.applied` is
- * set. It is OFF: it did not clear the project's bar on wins. Team harness
+ * set. ON since 2026-11-22, except in cap events (`straight`, EnvFitOptions
+ * capped): on the whole archive (950 exports, 78,929 team-events, Run Win
+ * Tests.command) the whole team score is better in 40 of 40 half-samples
+ * overall, 40 of 40 in slots events and outside cap and slots, but 20 of 40
+ * under a cap (-0.0001, a tie), which misses the bar of 37 set on 11-12.
+ * Tourney Data/Win Tests/win-tests-2026-11-22.txt has the table.
+ *
+ * Before that it was OFF: it did not clear the bar on wins. Team harness
  * built both ways on the 42 exports in git (3,580 team-events, 2026-11-13,
  * scripts/model-review/wins-ab.py): whole team score r 0.4097 to 0.4100,
  * better in 24 of 40 export half-samples against a bar of 37. The offence
@@ -52,8 +59,8 @@ export function activeBend(side: CalibrationSide | undefined = CALIBRATION.hit):
  * brackets (38 of 40), down a little under a cap (6 of 40).
  * Docs/Improvement Plan 2026-11-12.md has the numbers.
  */
-export function calibratedHitRuns(raw: number, side: CalibrationSide | undefined = CALIBRATION.hit): number {
-  const b = activeBend(side);
+export function calibratedHitRuns(raw: number, side: CalibrationSide | undefined = CALIBRATION.hit, o: { straight?: boolean } = {}): number {
+  const b = o.straight ? null : activeBend(side);
   if (!b) return raw * (side && side.applied && Number.isFinite(side.slope) && side.slope > 0 ? side.slope : 1);
   return raw <= b.at ? b.below * raw : b.below * b.at + b.above * (raw - b.at);
 }

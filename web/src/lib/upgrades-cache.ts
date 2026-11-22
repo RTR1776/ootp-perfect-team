@@ -9,7 +9,7 @@ import { fitVersion } from "@/lib/card-fit-load";
 import { loadUpgrades, resolveGroup, upgradeGroups, type UpgradesData } from "@/lib/upgrades-load";
 
 /** Bump when the scan's numbers change, so cached results from the old code aren't served. */
-const UPGRADES_CODE = "upgrades-v2";
+const UPGRADES_CODE = "upgrades-v3"; // v3 2026-11-14: Card Fit places a two-way card in both roles at once
 
 export async function upgrades(groupKey: string | null | undefined): Promise<UpgradesData | null> {
   const version = await fitVersion();

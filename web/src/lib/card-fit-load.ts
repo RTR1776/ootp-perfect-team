@@ -27,7 +27,7 @@ import { gloveScale } from "@/lib/analytics/fielding";
 import { OBS_K_OWN_SERIES, rationedEvent, teamWeights } from "@/lib/analytics/calibration";
 import { assumedVariantRatings, formRatings } from "@/lib/card-forms";
 import { CARD_TYPE_SHORT } from "@/lib/card-sets";
-import { armRole, bestTeam, FIELD_POS, fitIn, savedTeam, type Fit, type FitCtx, type Room, type ScoredForm } from "@/lib/card-fit";
+import { armRole, bestTeam, dualFitIn, FIELD_POS, fitIn, savedTeam, type Fit, type FitCtx, type Room, type ScoredForm } from "@/lib/card-fit";
 import { eventGroupOf } from "@/lib/event-groups";
 import { cardIdOf, formIdForSlot, isTwoWayForm, otherFormId, twoWayForm, twoWayId } from "@/lib/two-way";
 import { impliedBaseCopies } from "@/lib/ingest/collection";
@@ -300,7 +300,7 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
   const parkPick = parkFor(t.stadium);
   const meta = t.series && !w.staleSeries.has(t.id) ? w.metaBy.get(t.series) ?? null : null;
   const lhp = meta?.lhpBfShare ?? LHP_SHARE_DEFAULT, lhb = meta?.lhbPaShare ?? 0.35;
-  const opts2 = { era: era.rates, park: parkPick.row, roleTrust: ROLE_TRUST, leagueLhbShare: lhb, eraYear: envYear ?? 2010, runsOnly: true, tournamentTerms: true };
+  const opts2 = { era: era.rates, park: parkPick.row, roleTrust: ROLE_TRUST, leagueLhbShare: lhb, eraYear: envYear ?? 2010, runsOnly: true, tournamentTerms: true, capped: rx?.teamCap != null };
   const roster = w.newest.get(t.id);
   const slots = roster ? w.slotRows.filter((s) => s.rosterId === roster.id) : [];
 
@@ -405,15 +405,37 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
 }
 export type EventScore = ReturnType<typeof scoreFitEvent>;
 
-/** Where card `id` fits in one scored event: its best form (his variant's where he has one), in whichever role helps more. */
+/**
+ * Where card `id` fits in one scored event: its best form (his variant's where he has one), in
+ * whichever role helps more, or a two-way card in both roles at once (card-fit dualFitIn) when
+ * that beats either role alone.
+ */
 export function placeIn(sc: EventScore, id: number, pool = sc.pool): { f: ScoredForm; fit: Fit } | null {
-  // A two-way card is placed in whichever role it helps more (lib/two-way).
-  return [id, twoWayId(id)]
+  const team = sc.teamFor(id);
+  const forms = [id, twoWayId(id)]
     .map((fid) => (sc.variantForms.has(id) ? sc.forms.get(-fid) : null) ?? sc.forms.get(fid))
-    .filter((g): g is ScoredForm => !!g)
-    .map((g) => ({ f: g, fit: fitIn(g, sc.teamFor(id), pool, sc.ctx, sc.room) }))
+    .filter((g): g is ScoredForm => !!g);
+  const bat = forms.find((g) => !g.isPitcher), arm = forms.find((g) => g.isPitcher);
+  const dual = bat && arm ? dualFitIn(bat, arm, team, pool, sc.ctx, sc.room) : null;
+  const playsAs = (g: ScoredForm) => [...Object.values(team.R), ...Object.values(team.L), ...team.SP, ...team.RP].some((f) => f?.id === g.id);
+  const singles = forms
+    // A form placed alone while his other form already plays is both roles in truth: the dual read prices it.
+    .filter((g) => !dual || !forms.some((o) => o !== g && playsAs(o)) || playsAs(g))
+    .map((g) => ({ f: g, fit: fitIn(g, team, pool, sc.ctx, sc.room) }))
     .filter((x): x is { f: ScoredForm; fit: Fit } => x.fit != null)
-    .sort((a, b) => b.fit.gain - a.fit.gain || (a.fit.rank - 1) / a.fit.of - (b.fit.rank - 1) / b.fit.of)[0] ?? null;
+    .sort((a, b) => b.fit.gain - a.fit.gain || (a.fit.rank - 1) / a.fit.of - (b.fit.rank - 1) / b.fit.of);
+  const single = singles[0] ?? null;
+  if (!dual || !bat) return single;
+  // Both ways when it adds more. In a slots or cap event where nothing starts, the read that comes nearest once
+  // room is paid (its room line says why not): Ed Rile on Silver & Friends Slots read "bench SP, short of Bob
+  // Feller -33" when both ways, with Alex Rodriguez giving up the Perfect slot, fell short by less.
+  if (dual.status === "start" && dual.gain > (single?.fit.gain ?? 0) + 1e-9) return { f: bat, fit: dual };
+  // Already in both roles: say so (each form alone reads only its own half).
+  if (dual.status === "on" && dual.on.length > 1 && (!single || single.fit.status !== "start")) return { f: bat, fit: dual };
+  const nearer = dual.status === "bench" && dual.room && dual.short
+    && (!single || (single.fit.status === "bench" && (single.fit.short == null || dual.short.delta > single.fit.short.delta)));
+  if (nearer) return { f: bat, fit: dual };
+  return single ?? { f: bat, fit: dual };
 }
 
 export async function loadCardFit(targetIds: readonly number[]): Promise<CardFitData> {
@@ -452,10 +474,14 @@ export async function loadCardFit(targetIds: readonly number[]): Promise<CardFit
 
 /** A placed card as a row: its play in the series and, in a cap event, the value its top swap adds. */
 export function fitRow(w: FitWorld, t: FitTournament, sc: EventScore, id: number, { f, fit }: { f: ScoredForm; fit: Fit }): FitRow {
-  const outVal = fit.swaps.slice().sort((a, b) => b.delta - a.delta)[0]?.out?.val ?? null;
+  // Both roles: the starter he displaces leaves; the bat he displaces stays on the bench. He adds his value once, if new.
+  const outVal = fit.dual
+    ? fit.swaps.find((s) => s.board === "staff")?.out?.val ?? null
+    : fit.swaps.slice().sort((a, b) => b.delta - a.delta)[0]?.out?.val ?? null;
+  const inVal = fit.dual && sc.slots.some((s) => s.cardId === id) ? 0 : f.val;
   return round({
     ...fit, eventId: t.id, variant: f.variant, played: t.series && sc.meta ? playedIn(w.book, id, t.series) : null,
-    capCost: sc.rx?.teamCap != null && fit.status === "start" && f.val != null ? f.val - (outVal ?? 0) : null,
+    capCost: sc.rx?.teamCap != null && fit.status === "start" && inVal != null ? inVal - (outVal ?? 0) : null,
   });
 }
 
@@ -481,6 +507,7 @@ function round(r: FitRow): FitRow {
     swaps: r.swaps.map((s) => ({ ...s, delta: r1(s.delta) })),
     short: r.short ? { ...r.short, delta: r1(r.short.delta) } : null,
     room: r.room ? { ...r.room, gross: r1(r.room.gross), cost: r.room.cost == null ? null : r1(r.room.cost) } : null,
+    dual: r.dual ? { startDays: r1(r.dual.startDays), plan: r.dual.plan.map((s) => ({ ...s, delta: r1(s.delta) })) } : null,
     played: r.played ? { n: Math.round(r.played.n), vsField: r1(r.played.vsField) } : null,
   };
 }

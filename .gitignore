@@ -52,3 +52,9 @@ UPLOAD TO CWHIT TODAY/
 
 # Extracted from the local OOTP save folders (281k-card opponent rosters, 38 MB); regenerate with web/scripts/ootp-saves/
 Data/OOTP saves */
+# current-rosters' working files, rewritten every batch (GitHub cleanup 2026-11-22): the build log per
+# event, the seed it climbed from and the batch summary. The load files and manifests stay tracked.
+Inbox/rosters/[0-9][0-9][0-9].txt
+Inbox/rosters/[0-9][0-9][0-9][0-9][0-9][0-9][0-9].txt
+Inbox/rosters/*-seed.txt
+Inbox/rosters/summary.json

@@ -54,4 +54,23 @@ test("calibratedHitRuns: the straight slope until a bend is switched on, then tw
   assert.equal(activeBend({ ...side, bend: { at: 16, below: 0.3, above: 0.6, applied: true } }), null);
   assert.equal(activeBend({ ...side, bend: { at: 16, below: Number.NaN, above: 0.3, applied: true } }), null);
   assert.equal(calibratedHitRuns(40, { slope: 0.9, intercept: 0, applied: false }), 40, "a recorded-only slope is 1");
+  // A cap event keeps the straight slope with the bend on (11-22 win tests: a tie under a cap).
+  assert.equal(calibratedHitRuns(40, on, { straight: true }), 20);
+});
+
+test("the scorer bends bats except in a cap event", async () => {
+  const { envFitMaps } = await import("./env-fit");
+  const { eraTable } = await import("./tournament-env");
+  const { CALIBRATION } = await import("./calibration");
+  const era = (eraTable["2010"] ?? eraTable["0"]).rates;
+  // A strong bat (env-fit.test's rating names): 140 Power, 130 elsewhere.
+  const ratings: Record<string, number> = {};
+  for (const k of ["Avoid K", "Eye", "Power", "Gap", "BABIP"]) for (const sd of ["", " vL", " vR"]) ratings[k + sd] = k === "Power" ? 140 : 130;
+  ratings["Avoid Ks"] = 130;
+  const pool = [{ cardId: 1, isPitcher: false, bats: "R", throws: null, ratings }];
+  const bent = envFitMaps(pool, { era, park: null }).runsR.get(1)!;
+  const straight = envFitMaps(pool, { era, park: null, capped: true }).runsR.get(1)!;
+  assert.ok(Number.isFinite(bent) && Number.isFinite(straight));
+  if (activeBend(CALIBRATION.hit)) assert.notEqual(bent, straight, "the bend is on in the file, so the two differ for a strong bat");
+  else assert.equal(bent, straight);
 });

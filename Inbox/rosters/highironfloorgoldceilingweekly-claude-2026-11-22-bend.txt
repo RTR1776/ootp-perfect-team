@@ -1,0 +1,36 @@
+# Sunday Silver and Gold Cap — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Atlanta Fulton County Stadium --park-year 1977 --dh --min 70 --max 89 --cap 2026 --variant-cap 13 --size 26 --series highironfloorgoldceilingweekly --sp 5 --rp 7 --bats 14)
+R:C Bob Boone (VAR) #87032
+R:1B Pedro Alvarez #87062
+R:2B John Henry Russell (VAR) #87438
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Trevor Story #87503
+R:LF Bo Jackson #86966
+R:CF Byron Buxton #87383
+R:RF Andy Van Slyke (VAR) #86936
+R:DH Kal Daniels #84163
+L:C Mike Zunino (VAR) #86431
+L:1B Allen Craig #87139
+L:2B John Henry Russell (VAR) #87438
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Trevor Story #87503
+L:LF Bo Jackson #86966
+L:CF Byron Buxton #87383
+L:RF Alex Rios #87214
+L:DH Ryan Braun #87222
+SP1 CC Sabathia #87182
+SP2 Kelvim Escobar #87207
+SP3 Jordan Montgomery #86354
+SP4 Francisco Liriano #87528
+SP5 Nick Altrock #87049
+CL Johnny Markham (VAR) #87159
+RP1 Jakie May (VAR) #85286
+RP2 Dennis Cook (VAR) #83261
+RP3 Chad Bradford #86341
+RP4 Brad Clontz #85920
+RP5 Bruce Ruffin #86777
+RP6 Bob Gibson #85499
+BN1 Allen Craig #87139
+BN2 Ryan Braun #87222
+BN3 Alex Rios #87214
+BN4 Josh Harrison #87535
+BN5 Mike Zunino (VAR) #86431

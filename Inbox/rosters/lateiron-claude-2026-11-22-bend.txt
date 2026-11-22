@@ -1,0 +1,36 @@
+# Daily Late Iron — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Chase Field --park-year 2026 --dh --min 40 --max 59 --size 26 --series lateiron --sp 5 --rp 7 --bats 14)
+R:C Cal Raleigh #87281
+R:1B Shawn Green #87028
+R:2B Nap Lajoie (VAR) #86581
+R:3B Jim Tabor (VAR) #85905
+R:SS Ozzie Smith #86972
+R:LF Milt Thompson #86927
+R:CF Carlos Beltran #86298
+R:RF Norris Hopper #87191
+R:DH Roger Bresnahan #87426
+L:C Cal Raleigh #87281
+L:1B Jackie Robinson (VAR) #84390
+L:2B Nap Lajoie (VAR) #86581
+L:3B Bill Hall #87200
+L:SS Ozzie Smith #86972
+L:LF Dwayne Hosey #86801
+L:CF Carlos Beltran #86298
+L:RF Norris Hopper #87191
+L:DH Matt Davidson (VAR) #84666
+SP1 James McDonald (VAR) #86384
+SP2 Big Jeff Pfeffer #87340
+SP3 Tin Can Kincannon #86073
+SP4 Jose Quintana #87548
+SP5 Dallas Keuchel #87450
+CL John Bale (VAR) #87234
+RP1 Todd Jones (VAR) #86434
+RP2 Randy Choate #87026
+RP3 Joe Thatcher #87526
+RP4 Hector Rondon #83078
+RP5 Mike Marshall #84720
+RP6 Justin Verlander #87014
+BN1 Dwayne Hosey #86801
+BN2 Matt Davidson (VAR) #84666
+BN3 Bill Hall #87200
+BN4 Chris Taylor #87243
+BN5 Jackie Robinson (VAR) #84390

@@ -132,7 +132,7 @@ async function main() {
   };
 
   /* ---- pricing: model → era correction → observed blend ---- */
-  const base = envFitMaps(pool, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB });
+  const base = envFitMaps(pool, { era: era.rates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB, capped: CAP != null });
   const k = calibrationSlope("hit");
   const band = OBSERVED.find(([, lo, hi]) => (YEAR ?? 2010) >= lo && (YEAR ?? 2010) <= hi)!;
   const modelLine = (env: typeof base.envRight) => Object.fromEntries(marginalRatings(env, "hit").map((v) => [v.rating, v.runs * k]));

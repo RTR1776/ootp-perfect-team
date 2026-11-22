@@ -17,10 +17,15 @@
  *   4. refreshes my_results from the newest tournaments + drafts dump
  *   5. projects the berth lines from the new dump and stores them as the
  *      period's targets (cutoff:project --write), then prints the standing
+ *   6. moves every dump but the newest of its kind into Archive/dumps/ (GitHub
+ *      cleanup, 2026-11-22). Each dump holds the whole season so far, so the
+ *      newest alone carries everything; the older ones stay on this Mac, in
+ *      the folder Back Up Export Archive copies, and stop going to GitHub.
+ *      A competitive dump moves only once it is imported.
  *
  *   pnpm dumps:load [--period "PTCS 7"] [--dry]
  */
-import { readdirSync, existsSync, renameSync, copyFileSync, unlinkSync, statSync } from "node:fs";
+import { readdirSync, existsSync, renameSync, copyFileSync, unlinkSync, statSync, mkdirSync } from "node:fs";
 import { join, basename } from "node:path";
 import { execFileSync } from "node:child_process";
 import { sql } from "drizzle-orm";
@@ -36,6 +41,8 @@ const ROOT = process.env.OOTP_DATA_ROOT ?? "..";
 const HOME = process.env.HOME ?? "";
 const DEST = join(ROOT, "Tourney Data");
 const SOURCES = [join(ROOT, "Inbox"), join(HOME, "Downloads"), join(HOME, "Desktop"), DEST];
+/** Superseded dumps (step 6): on this Mac, out of git (Archive/ is ignored), in the export backup. */
+const OLD_DUMPS = join(ROOT, "Archive", "dumps");
 
 const isDump = (f: string) => /^pt27_.*dump.*\.csv$/i.test(f);
 const run = (args: string[]) => {
@@ -143,6 +150,28 @@ async function main() {
     console.log(`\n  refreshing my_results from the newest tournaments + drafts dump`);
     try { console.log(run(["scripts/import-myresults.ts"]).split("\n").map((l) => `    ${l}`).join("\n")); }
     catch (e: any) { console.log(`    !! ${String(e?.stderr ?? e?.message ?? e).split("\n")[0]}`); }
+  }
+
+  /* ---- 6: older dumps out of Tourney Data/ ----
+     The newest dump of a kind holds every event of the season, and every reader takes the newest
+     (dump-files newestDumpFile); dumps-restandings finds the rest in Archive/dumps/. */
+  if (!DRY) {
+    const imported = new Set([...done, ...todo.map((f) => basename(f))]);
+    const kinds = new Map<string, string[]>();
+    for (const f of readdirSync(DEST).filter(isDump)) {
+      const kind = f.replace(/_\d{8}.*$/, "");
+      kinds.set(kind, [...(kinds.get(kind) ?? []), f]);
+    }
+    const moved: string[] = [];
+    for (const files of kinds.values()) {
+      for (const f of files.sort().slice(0, -1)) {
+        if (isCompetitiveDumpFile(f) && !imported.has(f)) continue;
+        mkdirSync(OLD_DUMPS, { recursive: true });
+        try { renameSync(join(DEST, f), join(OLD_DUMPS, f)); moved.push(f); }
+        catch (e: any) { console.log(`    !! could not move ${f}: ${String(e?.message ?? e).split("\n")[0]}`); }
+      }
+    }
+    if (moved.length) console.log(`\n  ${moved.length} older dump${moved.length === 1 ? "" : "s"} moved to Archive/dumps/ (kept on this Mac; Push to GitHub sends the removal up)`);
   }
 
   /* ---- 5: say where he stands ---- */

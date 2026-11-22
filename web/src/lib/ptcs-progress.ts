@@ -39,6 +39,43 @@ export const NOT_PLAYING_SHARE = 0.1;
 /** …that either hasn't scored on enough days to forecast, or whose pace ends the period under this share of it. */
 export const NOT_PLAYING_PACE_SHARE = 0.25;
 
+/** cwhit's board as stored beside our line in src/data/ptcs-lines.json. */
+export interface CwhitBoard {
+  file: string;
+  lines: Record<string, number>;
+  /** His cycle (cycle7 in the file name is PTCS 7); absent on boards stored before it was read. */
+  cycle?: number | null;
+  /** The period length the board projects to: his Weeks column × 7. */
+  days?: number | null;
+}
+
+export interface CwhitUse {
+  /** The lines safe at may use; null with no board, or a stale one. */
+  lines: Record<string, number> | null;
+  /** Why the board is left out of safe at ("for PTCS 7, 28 days against 35"); null when it counts. */
+  stale: string | null;
+}
+
+/**
+ * Whether cwhit's board can stand beside our line in safe at. His board
+ * projects one cycle to that cycle's length, so a board for another cycle or
+ * another length is stale: the 28-day PTCS 7 board read 107 for Bronze beside
+ * a 35-day PTCS 9 line of 156, and under max() a stale board binds exactly
+ * where it is high for the wrong reason. Stale boards are labelled and left
+ * out of safe at, not rescaled: a two-month-old projection for another
+ * period, stretched, is not a second opinion on this one.
+ */
+export function cwhitLinesFor(board: CwhitBoard | null | undefined, period: { name: string; totalDays: number }): CwhitUse {
+  if (!board) return { lines: null, stale: null };
+  const num = (s: string | undefined) => (s != null && Number.isFinite(Number(s)) ? Number(s) : null);
+  const cycle = board.cycle ?? num(board.file.match(/cycle(\d+)/i)?.[1]);
+  const periodNo = num(period.name.match(/PTCS\s*(\d+)/i)?.[1]);
+  const why: string[] = [];
+  if (cycle != null && periodNo != null && cycle !== periodNo) why.push(`for PTCS ${cycle}`);
+  if (board.days != null && board.days !== period.totalDays) why.push(`${board.days} days against ${period.totalDays}`);
+  return why.length ? { lines: null, stale: why.join(", ") } : { lines: board.lines, stale: null };
+}
+
 export interface SafeMark {
   /** The higher of our line and cwhit's. */
   line: number;

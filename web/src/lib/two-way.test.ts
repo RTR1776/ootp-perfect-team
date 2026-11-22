@@ -108,3 +108,43 @@ test("the objective takes back a two-way starter's field days on his starts", as
   const armOnly = o.slotValue("SP4", xArm) - o.slotValue("SP4", 6);
   assert.ok(gain < armOnly && gain > armOnly - 40 * 0.5, `gain ${gain} vs arm ${armOnly}`);
 });
+
+test("start days: no DH, the sub plays his spot; with a DH he bats for himself", async () => {
+  const { startDayLoss } = await import("./two-way");
+  // No DH: his spot over the best sub (none: the whole spot).
+  assert.equal(startDayLoss({ dh: false, atDh: false, mine: 30, subs: [5, 12] }), 18);
+  assert.equal(startDayLoss({ dh: false, atDh: false, mine: 30, subs: [] }), 30);
+  // DH, and he is the DH: he loses nothing.
+  assert.equal(startDayLoss({ dh: true, atDh: true, mine: 30, subs: [] }), 0);
+  // DH, he plays 1B (30 there, 26 at DH, so a 4-run glove): he moves to DH, the DH (10) sits, the sub (8 at 1B) plays.
+  assert.equal(startDayLoss({ dh: true, atDh: false, mine: 30, mineAtDh: 26, dhNow: 10, dhAtSpot: null, subs: [8] }), 6);
+  // ... or the DH takes 1B (9 there) when that leaves the better field.
+  assert.equal(startDayLoss({ dh: true, atDh: false, mine: 30, mineAtDh: 26, dhNow: 10, dhAtSpot: 9, subs: [8] }), 5);
+  // Never below 0.
+  assert.equal(startDayLoss({ dh: true, atDh: false, mine: 30, mineAtDh: 29, dhNow: 1, dhAtSpot: 9, subs: [] }), 0);
+});
+
+test("the objective, with a DH: a two-way starter at DH keeps every game; at 1B only the move to DH costs", async () => {
+  const { rosterObjective } = await import("./roster-objective");
+  const { twoWayId } = await import("./two-way");
+  const sh = { lineupPos: ["1B", "DH"], spKeys: ["SP1", "SP2", "SP3", "SP4"], rpKeys: [], benchKeys: ["BN1"], bats: 3 };
+  const x = 1, xArm = twoWayId(1), dh = 2, sub = 3;
+  const hitter = (id: number, name: string, val: number) => ({ cardId: id, name, val, year: 1927, isPitcher: false, role: null, ratings: { "Pos Rating 1B": 100 }, baseOwned: true, variantOwned: false, variant: false });
+  const pool = [
+    hitter(x, "X", 100), hitter(dh, "D", 60), hitter(sub, "S", 40),
+    { cardId: xArm, name: "X", val: 100, year: 1927, isPitcher: true, role: "SP", ratings: { Stamina: 110 }, baseOwned: true, variantOwned: false, variant: false },
+    ...[4, 5, 6, 7].map((id) => ({ cardId: id, name: `P${id}`, val: 40, year: 1927, isPitcher: true, role: "SP", ratings: { Stamina: 100 }, baseOwned: true, variantOwned: false, variant: false })),
+  ];
+  const runs = new Map<number, number>([[x, 40], [dh, 20], [sub, 0], [xArm, 10], [4, 0], [5, 0], [6, 0], [7, 0]]);
+  const o = rosterObjective(pool as never, { shape: sh, runsR: runs, runsL: runs, lhpShare: 0 });
+  const armOnly = o.slotValue("SP4", xArm) - o.slotValue("SP4", 7);
+  // At DH: his arm adds its slot value and nothing comes back.
+  const atDh = { "R:1B": dh, "L:1B": dh, "R:DH": x, "L:DH": x, BN1: sub, SP1: 4, SP2: 5, SP3: 6, SP4: 7 };
+  assert.ok(Math.abs(o.objective({ ...atDh, SP4: xArm }) - o.objective(atDh) - armOnly) < 1e-9);
+  // At 1B: on his starts he DHs, the DH (20) sits and the sub (0) plays first, so a start in four gives back 20, plus
+  // his glove at first (the same 1B rating as the sub's, so none): 20 x 1/4 at the SP4 tilt, not his whole 40.
+  const at1b = { "R:1B": x, "L:1B": x, "R:DH": dh, "L:DH": dh, BN1: sub, SP1: 4, SP2: 5, SP3: 6, SP4: 7 };
+  const gain = o.objective({ ...at1b, SP4: xArm }) - o.objective(at1b);
+  const noDhRead = armOnly - 40 * 0.25;
+  assert.ok(gain > noDhRead && gain < armOnly, `gain ${gain}, arm ${armOnly}, the old read ${noDhRead}`);
+});
