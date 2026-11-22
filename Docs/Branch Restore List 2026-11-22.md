@@ -1,6 +1,8 @@
 # Branch restore list (2026-11-22)
 
-Written before the branch cleanup in `Docs/GitHub Cleanup Plan 2026-11-22 (Claude).md`, step 2. Every branch deleted that day is listed with its last commit, so any of them can be put back.
+Written before the branch cleanup in `Docs/GitHub Cleanup Plan 2026-11-22 (Claude).md`, step 2. Every branch the cleanup deletes is listed with its last commit, so any of them can be put back.
+
+A cloud session can push only to its own branch, so **Clean Up Branches.command** does the cleanup on the Mac. It reads `Docs/Branch Cleanup 2026-11-22.tsv`, which lists the same branches.
 
 ## How to restore one
 
