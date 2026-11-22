@@ -1,0 +1,37 @@
+# Monday Now We're into the Dregs — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 1994 --park Dodger Stadium --park-year 1996 --dh --min 50 --max 64 --cap 1468 --size 26 --series goldfloorcapweekly --sp 5 --rp 7 --bats 14)
+R:C Cal Raleigh #87281
+R:1B Nap Lajoie (VAR) #86581
+R:2B Brandon Phillips #87202
+R:3B Travis Fryman (VAR) #87457
+R:SS Khalil Greene (VAR) #87203
+R:LF Mike Trout (VAR) #84793
+R:CF Byron Buxton (VAR) #85821
+R:RF Joe Carter #85917
+R:DH Jim Tabor (VAR) #85905
+L:C Cal Raleigh #87281
+L:1B Ray Knight #87452
+L:2B Brandon Phillips #87202
+L:3B Travis Fryman (VAR) #87457
+L:SS Khalil Greene (VAR) #87203
+L:LF Jim Thorpe (VAR) #86961
+L:CF Byron Buxton (VAR) #85821
+L:RF Joe Carter #85917
+L:DH Jackie Robinson (VAR) #84390
+SP1 Big Jeff Pfeffer #87340
+SP2 Fritz Ostermueller #86357
+SP3 James McDonald (VAR) #86384
+SP4 Gene Krapp #87374
+SP5 Justin Verlander #87014
+CL John Bale (VAR) #87234
+RP1 Caden Scarborough (VAR) #84762
+RP2 Carter Capps #87508
+RP3 Tyler Chatwood #87515
+RP4 Jeff Francis #87199
+RP5 Juan Mejia #81806
+RP6 Hayden Juenger #86032
+BN1 Jim Thorpe (VAR) #86961
+BN2 Jackie Robinson (VAR) #84390
+BN3 Sam Huff #85265
+BN4 Trei Cruz #86004
+BN5 Big Jeff Pfeffer #87340
+BN6 Ray Knight #87452

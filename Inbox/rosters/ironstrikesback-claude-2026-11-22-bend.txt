@@ -1,0 +1,35 @@
+# Daily Iron Strikes Back — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 1987 --park Anaheim Stadium --park-year 1990 --min 40 --max 59 --size 26 --series ironstrikesback --sp 5 --rp 6 --bats 15)
+R:C Roger Bresnahan #87426
+R:1B Ty Wigginton (VAR) #86086
+R:2B Nap Lajoie (VAR) #86581
+R:3B Jim Tabor (VAR) #85905
+R:SS Javier Baez (VAR) #86417
+R:LF Chris Taylor #87243
+R:CF Milt Thompson #86927
+R:RF Norris Hopper #87191
+L:C Cal Raleigh #87281
+L:1B Ray Knight #87452
+L:2B Danny Espinosa #87519
+L:3B Bill Hall #87200
+L:SS Javier Baez (VAR) #86417
+L:LF Norris Hopper #87191
+L:CF Ken Berry #85449
+L:RF Sammy Sosa (VAR) #85691
+SP1 James McDonald (VAR) #86384
+SP2 Jose Quintana #87548
+SP3 Dallas Keuchel #87450
+SP4 Big Jeff Pfeffer #87340
+SP5 Justin Verlander #87014
+CL John Bale (VAR) #87234
+RP1 Randy Choate #87026
+RP2 Joe Thatcher #87526
+RP3 Mike Marshall #84720
+RP4 Carter Capps #87508
+RP5 Charlie Morton #87586
+BN1 Bob Bowman (VAR) #86803
+BN2 Sammy Sosa (VAR) #85691
+BN3 Danny Espinosa #87519
+BN4 Ken Berry #85449
+BN5 Cal Raleigh #87281
+BN6 Ray Knight #87452
+BN7 Bill Hall #87200

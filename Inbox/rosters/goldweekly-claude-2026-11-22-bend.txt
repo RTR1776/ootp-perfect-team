@@ -1,0 +1,36 @@
+# Thursday Night Gold Rush — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 2019 --park Great American Ballpark --park-year 2026 --dh --min 40 --max 89 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series goldweekly --sp 5 --rp 7 --bats 14)
+R:C Dillon Dingler #87396
+R:1B Pedro Alvarez #87062
+R:2B Brian Roberts #87216
+R:3B Kaelen Culpepper (VAR) #85033
+R:SS Trevor Story #87503
+R:LF Bo Jackson #86966
+R:CF Darin Erstad #87242
+R:RF Andy Van Slyke (VAR) #86936
+R:DH Rafael Devers #87388
+L:C Mike Zunino (VAR) #86431
+L:1B Sebastian Walcott #85136
+L:2B Brian Roberts #87216
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Trevor Story #87503
+L:LF Bo Jackson #86966
+L:CF Darin Erstad #87242
+L:RF Jeff Francoeur (VAR) #86300
+L:DH Ryan Braun #87222
+SP1 Bob Feller (VAR) #85650
+SP2 Jordan Montgomery #86354
+SP3 Danny Jackson #87052
+SP4 Count Leblanc (VAR) #86978
+SP5 Justin Verlander #87064
+CL Joe Beggs (VAR) #86762
+RP1 Troy Percival (VAR) #85371
+RP2 Yennier Cano #87398
+RP3 Heath Bell #87209
+RP4 Dave Righetti #85870
+RP5 Steve Howe #87478
+RP6 James Paxton #87545
+BN1 Sebastian Walcott #85136
+BN2 Josh Harrison #87535
+BN3 Ryan Braun #87222
+BN4 Jeff Francoeur (VAR) #86300
+BN5 Mike Zunino (VAR) #86431

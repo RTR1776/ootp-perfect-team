@@ -1,0 +1,35 @@
+# Daily Iron Dreamland — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 1907 --park Swampoodle Grounds --park-year 1886 --max 59 --size 26 --series irondreamland --sp 4 --rp 5 --bats 17)
+R:C Rick Wilkins (VAR) #86392
+R:1B Nap Lajoie (VAR) #86581
+R:2B Specs Clark #87308
+R:3B Chris Taylor #87243
+R:SS Ozzie Smith #86972
+R:LF Milt Thompson #86927
+R:CF Austin Jackson #84808
+R:RF Norris Hopper #87191
+L:C Ossee Schrecongost #87328
+L:1B Jackie Robinson (VAR) #84390
+L:2B Danny Espinosa #87519
+L:3B Ray Dandridge #87264
+L:SS Ozzie Smith #86972
+L:LF Dwayne Hosey #86801
+L:CF Milt Thompson #86927
+L:RF Norris Hopper #87191
+SP1 Big Jeff Pfeffer #87340
+SP2 Lefty Grove #87168
+SP3 Jose Quintana #87548
+SP4 Justin Verlander #87014
+CL Sergio Romo #87582
+RP1 Al Holland (VAR) #86232
+RP2 Tyler Kinley #82155
+RP3 James McDonald (VAR) #86384
+RP4 Frank Wickware #87443
+BN1 Broderick Perkins #86460
+BN2 Dwayne Hosey #86801
+BN3 George Sisler (VAR) #87002
+BN4 Bob Bowman (VAR) #86803
+BN5 Vladimir Guerrero #86474
+BN6 Jackie Robinson (VAR) #84390
+BN7 Ossee Schrecongost #87328
+BN8 Danny Espinosa #87519
+BN9 Ray Dandridge #87264

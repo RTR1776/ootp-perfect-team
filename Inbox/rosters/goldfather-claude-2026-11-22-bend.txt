@@ -1,0 +1,35 @@
+# Daily Goldfather II — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 1974 --park Yankee Stadium --park-year 1971 --min 40 --max 89 --size 26 --series goldfather --sp 5 --rp 6 --bats 15)
+R:C Bob Boone (VAR) #87032
+R:1B Pedro Alvarez #87062
+R:2B Charlie Gehringer #87431
+R:3B Hank Thompson #86668
+R:SS Trevor Story #87503
+R:LF Darin Erstad #87242
+R:CF Christian Yelich #87566
+R:RF Andy Van Slyke (VAR) #86936
+L:C Bob Boone (VAR) #87032
+L:1B Shoeless Joe Jackson #86372
+L:2B Charlie Gehringer #87431
+L:3B Kaelen Culpepper (VAR) #85033
+L:SS Trevor Story #87503
+L:LF Mike Donlin #87544
+L:CF Darin Erstad #87242
+L:RF Alex Rios #87214
+SP1 Jim Kaat (VAR) #85114
+SP2 Count Leblanc (VAR) #86978
+SP3 CC Sabathia #87182
+SP4 Luther Farrell #86900
+SP5 Bob Feller (VAR) #85650
+CL James Paxton #87545
+RP1 Johnny Markham (VAR) #87159
+RP2 J.A. Happ #86352
+RP3 Steve Howe #87478
+RP4 Carl Hubbell #86893
+RP5 Tony Watson (VAR) #85457
+BN1 Alex Rios #87214
+BN2 Shoeless Joe Jackson #86372
+BN3 Kal Daniels #84163
+BN4 Mike Donlin #87544
+BN5 Kaelen Culpepper (VAR) #85033
+BN6 Pythias Russ (VAR) #87083
+BN7 Rafael Devers #87388

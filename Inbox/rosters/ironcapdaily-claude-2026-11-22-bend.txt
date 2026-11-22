@@ -1,0 +1,36 @@
+# Daily Iron Cap — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Rio Grande Credit Union Field at Isotopes Park --park-year 2026 --dh --min 40 --max 59 --cap 1300 --variant-cap 14 --size 26 --series ironcapdaily --sp 5 --rp 7 --bats 14)
+R:C Cal Raleigh #87281
+R:1B Ty Wigginton (VAR) #86086
+R:2B Nap Lajoie (VAR) #86581
+R:3B Chris Taylor #87243
+R:SS Ozzie Smith #86972
+R:LF Norris Hopper #87191
+R:CF Milt Thompson #86927
+R:RF Vladimir Guerrero #86474
+R:DH Jim Tabor (VAR) #85905
+L:C Cal Raleigh #87281
+L:1B Ray Knight #87452
+L:2B Nap Lajoie (VAR) #86581
+L:3B Chris Taylor #87243
+L:SS Ozzie Smith #86972
+L:LF Sammy Sosa (VAR) #85691
+L:CF Norris Hopper #87191
+L:RF Vladimir Guerrero #86474
+L:DH Jim Tabor (VAR) #85905
+SP1 James McDonald (VAR) #86384
+SP2 Jose Quintana #87548
+SP3 Big Jeff Pfeffer #87340
+SP4 Dallas Keuchel #87450
+SP5 Charlie Morton #87586
+CL John Bale (VAR) #87234
+RP1 Todd Jones (VAR) #86434
+RP2 Joe Thatcher #87526
+RP3 Randy Choate #87026
+RP4 Tyler Chatwood #87515
+RP5 Bob Gibson (VAR) #86658
+RP6 R.T. Walker #86952
+BN1 Leo Durocher (VAR) #83909
+BN2 Jerome Walton (VAR) #86945
+BN3 Sammy Sosa (VAR) #85691
+BN4 Ray Knight #87452
+BN5 Buck Rodgers (VAR) #84312

@@ -1,0 +1,36 @@
+# Thursday CWhit's Say My Name Cap — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 100 --cap 1775 --variant-cap 10 --size 26 --series c4q1 --sp 5 --rp 7 --bats 14)
+R:C Bob Boone (VAR) #87032
+R:1B Aiva Arquette (VAR) #84768
+R:2B Joe Gordon #87419
+R:3B Jose Bautista #87073
+R:SS Trevor Story #87503
+R:LF Bo Jackson #86966
+R:CF Carlos Beltran #87066
+R:RF Matt Kemp #87504
+R:DH Edgar Martinez #86467
+L:C Bob Boone (VAR) #87032
+L:1B Aiva Arquette (VAR) #84768
+L:2B Joe Gordon #87419
+L:3B Jose Bautista #87073
+L:SS Trevor Story #87503
+L:LF Bo Jackson #86966
+L:CF Carlos Beltran #87066
+L:RF Matt Kemp #87504
+L:DH Edgar Martinez #86467
+SP1 Josh Johnson #86275
+SP2 Sandy Alcantara #82679
+SP3 Gio Gonzalez #87531
+SP4 Francisco Liriano #87528
+SP5 James McDonald (VAR) #86384
+CL John Bale (VAR) #87234
+RP1 Randy Choate #87026
+RP2 Joe Thatcher #87526
+RP3 Todd Jones (VAR) #86434
+RP4 Charlie Morton #87586
+RP5 Bob Gibson (VAR) #86658
+RP6 Jerry Augustine (VAR) #86424
+BN1 George Pinkney #83410
+BN2 Buck Rodgers (VAR) #84312
+BN3 Rougned Odor #87524
+BN4 Alfredo Amezaga #87188
+BN5 Ken Griffey Jr. #87291
