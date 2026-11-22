@@ -1,0 +1,36 @@
+# Daily Bronze OOTP Era — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 2009 --park Heinsohn Ballpark --park-year 2026 --dh --min 40 --max 69 --card-year-min 1999 --card-year-max 2026 --size 26 --series bronzeootp --sp 5 --rp 7 --bats 14)
+R:C Jimmy Crooks (VAR) #84772
+R:1B Edward Florentino (VAR) #84777
+R:2B Ernie Clement #87244
+R:3B Hank Blalock #86433
+R:SS Jefferson Rojas #84751
+R:LF Nelson Cruz #87551
+R:CF Eric Byrnes #87195
+R:RF Shane Victorino #87235
+R:DH Felipe Lopez (VAR) #84106
+L:C Thayron Liranzo (VAR) #85135
+L:1B Steve Pearce (VAR) #86366
+L:2B Brandon Phillips #87202
+L:3B Jefferson Rojas #84751
+L:SS Ernie Clement #87244
+L:LF Nelson Cruz #87551
+L:CF Eric Byrnes #87195
+L:RF Shane Victorino #87235
+L:DH Jayson 'Werewolf' Werth #87320
+SP1 Corey Kluber (VAR) #87008
+SP2 James McDonald (VAR) #86384
+SP3 Jaime Garcia #87521
+SP4 Jose Quintana #87548
+SP5 Roy Halladay #86705
+CL Edwin Diaz #86422
+RP1 Caden Scarborough (VAR) #84762
+RP2 John Bale (VAR) #87234
+RP3 Kerry Wood #86987
+RP4 Adam Cimber (VAR) #84271
+RP5 Hector Carrasco (VAR) #83082
+RP6 Kyson Witherspoon (VAR) #84774
+BN1 Jayson 'Werewolf' Werth #87320
+BN2 Steve Pearce (VAR) #86366
+BN3 Brandon Phillips #87202
+BN4 Thayron Liranzo (VAR) #85135
+BN5 Chris Taylor #87243
