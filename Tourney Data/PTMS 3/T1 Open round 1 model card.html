@@ -1,0 +1,130 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>PTMS 3 T1 round one</title>
+<style>
+  :root{ --paper:#f3ead6; --ink:#2b2117; --soft:#6b5a45; --faint:#a8977c; --red:#a8322a; --navy:#23395b; --rule:#2b2117; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:1416px}
+  body{
+    background:
+      radial-gradient(1400px 900px at 50% 40%, rgba(255,255,255,.35), transparent 70%),
+      radial-gradient(900px 700px at 0% 100%, rgba(150,110,60,.16), transparent 70%),
+      radial-gradient(900px 700px at 100% 0%, rgba(150,110,60,.12), transparent 70%),
+      var(--paper);
+    color:var(--ink); font-family:Baskerville,"Baskerville Old Face",Georgia,serif;
+    padding:44px 60px 40px;
+  }
+  .frame{border:3px double var(--rule);padding:30px 40px 26px;height:100%;position:relative}
+  .kicker{font-family:Copperplate,"Copperplate Gothic Light",Georgia,serif;font-size:19px;letter-spacing:.28em;text-align:center;color:var(--navy);
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:9px 0 7px}
+  .kicker span{color:var(--red);margin:0 14px}
+  h1{font-family:"SuperClarendon",Rockwell,Georgia,serif;font-weight:700;font-size:66px;line-height:1.02;text-align:center;margin-top:22px;letter-spacing:-.01em}
+  .deck{font-style:italic;font-size:21px;line-height:1.45;text-align:center;color:var(--soft);margin:14px auto 0;max-width:930px}
+  .deck b{font-style:normal;font-weight:600;color:var(--ink)}
+  .line{display:grid;grid-template-columns:repeat(4,1fr);margin-top:26px;border-top:3px double var(--rule);border-bottom:3px double var(--rule)}
+  .line>div{text-align:center;padding:18px 10px 16px}
+  .line>div+div{border-left:1px solid var(--rule)}
+  .line .n{font-family:Rockwell,"SuperClarendon",Georgia,serif;font-size:50px;font-weight:700;line-height:1}
+  .line .n.red{color:var(--red)}
+  .line .k{font-family:Copperplate,Georgia,serif;font-size:14.5px;letter-spacing:.16em;margin-top:9px;color:var(--navy)}
+  .line .s{font-style:italic;font-size:16.5px;color:var(--soft);margin-top:4px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:24px}
+  .col{padding:0 30px}
+  .col:first-child{padding-left:0;border-right:1px solid var(--rule)}
+  .col:last-child{padding-right:0}
+  h2{font-family:Copperplate,Georgia,serif;font-size:19px;letter-spacing:.2em;color:var(--navy);border-bottom:2px solid var(--rule);padding-bottom:6px}
+  .note{font-style:italic;font-size:16.5px;color:var(--soft);margin-top:8px;line-height:1.4}
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  th{white-space:nowrap;font-family:Copperplate,Georgia,serif;font-weight:400;font-size:13px;letter-spacing:.14em;color:var(--soft);text-align:left;padding:4px 0 6px;border-bottom:1px solid var(--rule)}
+  th.r,td.r{text-align:right;padding-left:14px}
+  td{font-size:19px;padding:13px 0;border-bottom:1px dotted var(--faint);vertical-align:middle}
+  td.lab{font-family:Rockwell,Georgia,serif;font-weight:700;width:112px;white-space:nowrap}
+  .dots{font-size:21px;letter-spacing:3px;color:var(--ink);white-space:nowrap}
+  .dots i{font-style:normal;color:var(--faint)}
+  td.num{font-family:Rockwell,Georgia,serif;width:88px;text-align:right;font-size:20px}
+  td.num.bad{color:var(--red);font-weight:700}
+  .verdict{margin-top:22px;padding:14px 16px;border:1px solid var(--rule);background:rgba(255,255,255,.28);font-size:18px;line-height:1.45}
+  .verdict b{font-family:Rockwell,Georgia,serif}
+  .verdict em{color:var(--soft)}
+  .st td{font-size:19px;padding:9px 0}
+  .st .rk{font-family:Rockwell,Georgia,serif;width:34px;color:var(--soft)}
+  .st .tm{white-space:nowrap}
+  .st .tm .lead{display:inline}
+  .st .od{font-family:Rockwell,Georgia,serif;text-align:right;width:70px}
+  .st .rs{text-align:right;width:118px;font-style:italic}
+  .w{color:var(--navy);font-weight:600;font-style:normal}
+  .l{color:var(--red);font-weight:600;font-style:normal}
+  .bye{color:var(--soft)}
+  .us{font-weight:700}
+  .tally{font-style:italic;font-size:16.5px;color:var(--soft);margin-top:10px}
+  .ups{margin-top:24px;border-top:3px double var(--rule);padding-top:12px}
+  .ups .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:10px}
+  .ups .u{padding:0 22px}
+  .ups .u:first-child{padding-left:0}
+  .ups .u+.u{border-left:1px solid var(--rule)}
+  .ups .u:last-child{padding-right:0}
+  .ups .hl{font-family:"SuperClarendon",Rockwell,Georgia,serif;font-weight:700;font-size:20.5px;white-space:nowrap;line-height:1.15}
+  .ups .hl span{color:var(--red)}
+  .ups .tx{font-size:17px;line-height:1.4;margin-top:6px;color:var(--soft);font-style:italic}
+  .foot{position:absolute;left:40px;right:40px;bottom:22px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--rule);padding-top:10px;font-size:14.5px;font-style:italic;color:var(--soft);line-height:1.4}
+  .sig{font-family:Copperplate,Georgia,serif;font-style:normal;letter-spacing:.18em;font-size:14px;color:var(--navy);white-space:nowrap;margin-left:20px}
+</style></head>
+<body><div class="frame">
+
+<div class="kicker">PTMS 3<span>★</span>Tournament 1<span>★</span>The Open<span>★</span>Round One</div>
+<h1>How the Model Called Round One</h1>
+<p class="deck">Every club's <b>full 26-card roster</b>, read from the game's save and scored on card ratings alone, in the 1988 run environment at 1996 Dodger Stadium. No tournament results used. Graded on the <b>50 of 64</b> best-of-nine series where both clubs set a roster.</p>
+
+<div class="line">
+  <div><div class="n">31–19</div><div class="k">Favorites' Record</div><div class="s">a .620 clip</div></div>
+  <div><div class="n">36.1</div><div class="k">Wins the Odds Expected</div><div class="s">5.1 short: overconfident</div></div>
+  <div><div class="n">.239</div><div class="k">Brier Score</div><div class="s">a coin flip scores .250</div></div>
+  <div><div class="n">31–18</div><div class="k">Card Value Alone</div><div class="s">level with the model (1 tie)</div></div>
+</div>
+
+<div class="cols">
+  <div class="col">
+    <h2>The Confidence Test</h2>
+    <p class="note">Each series by how sure the model was of the favorite. Filled dot: favorite won. Open dot: upset.</p>
+    <table>
+      <tr><th>How sure</th><th>Series</th><th class="r">Won</th><th class="r">Expected</th></tr>
+      <tr><td class="lab">50–60%</td><td class="dots">●●●●●<i>○○○○○○</i></td><td class="num">5</td><td class="num">6.1</td></tr>
+      <tr><td class="lab">60–70%</td><td class="dots">●●●●●●●●<i>○○○○</i></td><td class="num">8</td><td class="num">7.7</td></tr>
+      <tr><td class="lab">70–80%</td><td class="dots">●●●●●●●●<i>○○○○</i></td><td class="num">8</td><td class="num">9.1</td></tr>
+      <tr><td class="lab">80% +</td><td class="dots">●●●●●●●●●●<i>○○○○○</i></td><td class="num bad">10</td><td class="num">13.2</td></tr>
+    </table>
+    <div class="verdict"><b>The verdict:</b> right on direction, too sure at the top. The middle held, but the big calls came up three short. <em>Next: test a tighter spread on all six PTMS 3 events before changing anything.</em></div>
+  </div>
+  <div class="col">
+    <h2>Pre-Tourney Top Ten</h2>
+    <p class="note">By model strength, with title odds and the round-one result.</p>
+    <table class="st">
+      <tr><td class="rk">1</td><td class="tm">Providence Friars</td><td class="od">10.8%</td><td class="rs bye">adv. (bye)</td></tr>
+      <tr><td class="rk">2</td><td class="tm">Boston Sloths</td><td class="od">8.2%</td><td class="rs bye">adv. (bye)</td></tr>
+      <tr><td class="rk">3</td><td class="tm">Gamehendge Lizards</td><td class="od">7.0%</td><td class="rs bye">adv. (bye)</td></tr>
+      <tr><td class="rk">4</td><td class="tm">NoseKerim Astea Kerim</td><td class="od">6.8%</td><td class="rs"><span class="l">L</span> 3–5</td></tr>
+      <tr><td class="rk">5</td><td class="tm">Dock Ellis Day-Trippers</td><td class="od">4.9%</td><td class="rs"><span class="w">W</span> 5–3</td></tr>
+      <tr><td class="rk">6</td><td class="tm">Maple Madness</td><td class="od">4.5%</td><td class="rs"><span class="w">W</span> 5–3</td></tr>
+      <tr><td class="rk">7</td><td class="tm">Mt Etna Hotter Otters</td><td class="od">3.5%</td><td class="rs"><span class="w">W</span> 5–1</td></tr>
+      <tr><td class="rk">8</td><td class="tm">Tulsa Doom</td><td class="od">3.5%</td><td class="rs"><span class="w">W</span> 5–2</td></tr>
+      <tr><td class="rk">9</td><td class="tm">New Platson Grand Petites</td><td class="od">3.2%</td><td class="rs"><span class="l">L</span> 4–5</td></tr>
+      <tr><td class="rk">10</td><td class="tm">Kansas City Torrent</td><td class="od">3.3%</td><td class="rs"><span class="l">L</span> 3–5</td></tr>
+    </table>
+    <p class="tally">Seven of ten advanced: 4–3 in real series, plus three byes over blank rosters. No. 4 fell to No. 6 head to head.</p>
+  </div>
+</div>
+
+<div class="ups">
+  <h2>Upsets of the Round</h2>
+  <div class="row">
+    <div class="u"><div class="hl">Murderhawks 5, <span>Hellcats 4</span></div><div class="tx">The model had the Hellcats at 95%. Firestone came in ranked 108th.</div></div>
+    <div class="u"><div class="hl">Hurricanes 5, <span>Vaqueros 4</span></div><div class="tx">Morgan Hill were 86% favorites. Mayport came in ranked 94th.</div></div>
+    <div class="u"><div class="hl">EVC's 5, <span>Whalers 4</span></div><div class="tx">Sydney were 84% favorites. EVC's came in ranked 110th.</div></div>
+  </div>
+</div>
+
+<div class="foot">
+  <div>Rosters from the game's save files (the stats export for 12 clubs where the two disagree). Odds from 20,000 simulated 128-team brackets.<br>Fifty series is a small sample: about ±7 points on the favorites' record.</div>
+  <div class="sig">Claude &amp; L.J.</div>
+</div>
+
+</div></body></html>

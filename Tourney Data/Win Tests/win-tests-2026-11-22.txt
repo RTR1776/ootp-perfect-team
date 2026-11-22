@@ -1,0 +1,106 @@
+Win tests on the whole archive (Run Win Tests.command), 2026-11-22 15:17
+"off" is the first build named, "on" the second. The bar is better in 37 of 40 on the whole score, ALL row.
+
+=== 1. Arms by throwing hand: off = one share (0.45), on = by hand (LHP 0.35, RHP 0.50). In use since 11-13.
+78929 team-events in both builds, 950 exports
+offence term moved: mean |on - off| 0.000 runs a game; spread off 0.633, on 0.633
+whole score (bats + gloves + framing + arms, production weights):
+   ALL                    n 78929  950 exports   off 0.3743   on 0.3751   +0.0008   better in 40/40
+   <=1945                 n  7178  87 exports   off 0.3063   on 0.3064   +0.0001   better in 27/40
+   1946-76                n 17549  231 exports   off 0.3663   on 0.3671   +0.0008   better in 40/40
+   1977-93                n 18697  175 exports   off 0.3827   on 0.3838   +0.0012   better in 40/40
+   1994-09                n 10318  133 exports   off 0.3803   on 0.3818   +0.0015   better in 40/40
+   2010+                  n 25187  324 exports   off 0.3908   on 0.3915   +0.0007   better in 40/40
+   championship brackets  n   671   6 exports   off 0.4100   on 0.4091   -0.0009   better in 13/40
+   everything else        n 78258  944 exports   off 0.3739   on 0.3748   +0.0009   better in 40/40
+   cap events             n  6212  77 exports   off 0.4090   on 0.4095   +0.0005   better in 38/40
+   slots events           n 15815  258 exports   off 0.3580   on 0.3593   +0.0012   better in 40/40
+   no cap, no slots       n 56902  615 exports   off 0.3747   on 0.3755   +0.0008   better in 40/40
+the offence term alone:
+   ALL                    n 78929  950 exports   off 0.3281   on 0.3281   -0.0000   better in 9/40
+   <=1945                 n  7178  87 exports   off 0.2782   on 0.2782   +0.0000   better in 37/40
+   1946-76                n 17549  231 exports   off 0.3320   on 0.3320   +0.0000   better in 33/40
+   1977-93                n 18697  175 exports   off 0.3286   on 0.3286   +0.0000   better in 20/40
+   1994-09                n 10318  133 exports   off 0.3183   on 0.3183   -0.0000   better in 1/40
+   2010+                  n 25187  324 exports   off 0.3434   on 0.3434   -0.0000   better in 0/40
+   championship brackets  n   671   6 exports   off 0.3126   on 0.3126   +0.0000   better in 40/40
+   everything else        n 78258  944 exports   off 0.3284   on 0.3284   -0.0000   better in 13/40
+   cap events             n  6212  77 exports   off 0.3483   on 0.3483   -0.0000   better in 3/40
+   slots events           n 15815  258 exports   off 0.3001   on 0.3001   -0.0000   better in 6/40
+   no cap, no slots       n 56902  615 exports   off 0.3348   on 0.3348   +0.0000   better in 36/40
+(a) shape without scale: the bent offence term times 1.000, the straight term's spread
+   ALL                    n 78929  950 exports   off 0.3743   on 0.3751   +0.0008   better in 40/40
+   <=1945                 n  7178  87 exports   off 0.3063   on 0.3064   +0.0001   better in 27/40
+   1946-76                n 17549  231 exports   off 0.3663   on 0.3671   +0.0008   better in 40/40
+   1977-93                n 18697  175 exports   off 0.3827   on 0.3838   +0.0012   better in 40/40
+   1994-09                n 10318  133 exports   off 0.3803   on 0.3818   +0.0015   better in 40/40
+   2010+                  n 25187  324 exports   off 0.3908   on 0.3915   +0.0007   better in 40/40
+   championship brackets  n   671   6 exports   off 0.4100   on 0.4091   -0.0009   better in 13/40
+   everything else        n 78258  944 exports   off 0.3739   on 0.3748   +0.0009   better in 40/40
+   cap events             n  6212  77 exports   off 0.4090   on 0.4095   +0.0005   better in 38/40
+   slots events           n 15815  258 exports   off 0.3580   on 0.3593   +0.0012   better in 40/40
+   no cap, no slots       n 56902  615 exports   off 0.3747   on 0.3755   +0.0008   better in 40/40
+(b) each build's own offence multiplier, fitted on the other half of the exports
+   ALL                    off 0.3743 (x0.92)   on 0.3751 (x0.90)   +0.0009   better in 40/40
+   <=1945                 off 0.3054 (x1.08)   on 0.3055 (x1.09)   +0.0001   better in 28/40
+   1946-76                off 0.3662 (x1.17)   on 0.3670 (x1.15)   +0.0008   better in 40/40
+   1977-93                off 0.3832 (x0.74)   on 0.3845 (x0.73)   +0.0013   better in 40/40
+   1994-09                off 0.3808 (x0.73)   on 0.3825 (x0.70)   +0.0017   better in 40/40
+   2010+                  off 0.3907 (x0.92)   on 0.3914 (x0.90)   +0.0007   better in 40/40
+   championship brackets  off 0.4075 (x0.76)   on 0.4064 (x0.77)   -0.0010   better in 13/40
+   everything else        off 0.3739 (x0.92)   on 0.3748 (x0.90)   +0.0009   better in 40/40
+   cap events             off 0.4079 (x1.04)   on 0.4085 (x1.04)   +0.0006   better in 38/40
+   slots events           off 0.3579 (x0.90)   on 0.3592 (x0.89)   +0.0013   better in 40/40
+   no cap, no slots       off 0.3747 (x0.91)   on 0.3755 (x0.90)   +0.0008   better in 40/40
+
+=== 2. Curved bat calibration: off = the straight slope (in use), on = the bend.
+78929 team-events in both builds, 950 exports
+offence term moved: mean |on - off| 0.062 runs a game; spread off 0.633, on 0.663
+whole score (bats + gloves + framing + arms, production weights):
+   ALL                    n 78929  950 exports   off 0.3751   on 0.3763   +0.0012   better in 40/40
+   <=1945                 n  7178  87 exports   off 0.3064   on 0.3072   +0.0009   better in 39/40
+   1946-76                n 17549  231 exports   off 0.3671   on 0.3674   +0.0004   better in 37/40
+   1977-93                n 18697  175 exports   off 0.3838   on 0.3849   +0.0010   better in 40/40
+   1994-09                n 10318  133 exports   off 0.3818   on 0.3833   +0.0015   better in 40/40
+   2010+                  n 25187  324 exports   off 0.3915   on 0.3934   +0.0019   better in 40/40
+   championship brackets  n   671   6 exports   off 0.4091   on 0.4114   +0.0023   better in 38/40
+   everything else        n 78258  944 exports   off 0.3748   on 0.3760   +0.0012   better in 40/40
+   cap events             n  6212  77 exports   off 0.4095   on 0.4095   -0.0001   better in 20/40
+   slots events           n 15815  258 exports   off 0.3593   on 0.3605   +0.0012   better in 40/40
+   no cap, no slots       n 56902  615 exports   off 0.3755   on 0.3767   +0.0012   better in 40/40
+the offence term alone:
+   ALL                    n 78929  950 exports   off 0.3281   on 0.3330   +0.0049   better in 40/40
+   <=1945                 n  7178  87 exports   off 0.2782   on 0.2796   +0.0014   better in 40/40
+   1946-76                n 17549  231 exports   off 0.3320   on 0.3337   +0.0017   better in 40/40
+   1977-93                n 18697  175 exports   off 0.3286   on 0.3369   +0.0083   better in 40/40
+   1994-09                n 10318  133 exports   off 0.3183   on 0.3245   +0.0061   better in 40/40
+   2010+                  n 25187  324 exports   off 0.3434   on 0.3483   +0.0048   better in 40/40
+   championship brackets  n   671   6 exports   off 0.3126   on 0.3190   +0.0063   better in 35/40
+   everything else        n 78258  944 exports   off 0.3284   on 0.3332   +0.0049   better in 40/40
+   cap events             n  6212  77 exports   off 0.3483   on 0.3528   +0.0045   better in 40/40
+   slots events           n 15815  258 exports   off 0.3001   on 0.3050   +0.0049   better in 40/40
+   no cap, no slots       n 56902  615 exports   off 0.3348   on 0.3393   +0.0045   better in 40/40
+(a) shape without scale: the bent offence term times 0.955, the straight term's spread
+   ALL                    n 78929  950 exports   off 0.3751   on 0.3764   +0.0013   better in 40/40
+   <=1945                 n  7178  87 exports   off 0.3064   on 0.3072   +0.0009   better in 39/40
+   1946-76                n 17549  231 exports   off 0.3671   on 0.3673   +0.0003   better in 36/40
+   1977-93                n 18697  175 exports   off 0.3838   on 0.3851   +0.0012   better in 40/40
+   1994-09                n 10318  133 exports   off 0.3818   on 0.3836   +0.0018   better in 40/40
+   2010+                  n 25187  324 exports   off 0.3915   on 0.3934   +0.0018   better in 40/40
+   championship brackets  n   671   6 exports   off 0.4091   on 0.4117   +0.0026   better in 38/40
+   everything else        n 78258  944 exports   off 0.3748   on 0.3760   +0.0012   better in 40/40
+   cap events             n  6212  77 exports   off 0.4095   on 0.4095   -0.0000   better in 19/40
+   slots events           n 15815  258 exports   off 0.3593   on 0.3606   +0.0013   better in 40/40
+   no cap, no slots       n 56902  615 exports   off 0.3755   on 0.3767   +0.0013   better in 40/40
+(b) each build's own offence multiplier, fitted on the other half of the exports
+   ALL                    off 0.3751 (x0.90)   on 0.3763 (x0.93)   +0.0012   better in 40/40
+   <=1945                 off 0.3055 (x1.09)   on 0.3063 (x1.01)   +0.0008   better in 38/40
+   1946-76                off 0.3670 (x1.15)   on 0.3673 (x1.11)   +0.0003   better in 34/40
+   1977-93                off 0.3845 (x0.73)   on 0.3854 (x0.75)   +0.0008   better in 40/40
+   1994-09                off 0.3825 (x0.70)   on 0.3838 (x0.72)   +0.0014   better in 40/40
+   2010+                  off 0.3914 (x0.90)   on 0.3932 (x1.00)   +0.0018   better in 40/40
+   championship brackets  off 0.4064 (x0.77)   on 0.4079 (x0.80)   +0.0015   better in 32/40
+   everything else        off 0.3748 (x0.90)   on 0.3759 (x0.93)   +0.0011   better in 40/40
+   cap events             off 0.4085 (x1.04)   on 0.4085 (x0.99)   +0.0000   better in 19/40
+   slots events           off 0.3592 (x0.89)   on 0.3603 (x0.92)   +0.0011   better in 40/40
+   no cap, no slots       off 0.3755 (x0.90)   on 0.3767 (x0.93)   +0.0012   better in 40/40

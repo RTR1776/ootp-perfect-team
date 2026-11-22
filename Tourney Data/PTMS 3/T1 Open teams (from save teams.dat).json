@@ -1,0 +1,710 @@
+[
+{
+"city": "Boston",
+"abbr": "SLO",
+"nick": "Sloths - HotL",
+"full": "Boston Sloths - HotL"
+},
+{
+"city": "Guerreros",
+"abbr": "GUE",
+"nick": "de Oaxaca - JW",
+"full": "Guerreros de Oaxaca - JW"
+},
+{
+"city": "Highland",
+"abbr": "DEER",
+"nick": "Deer - HOTL",
+"full": "Highland Deer - HOTL"
+},
+{
+"city": "Las Vegas",
+"abbr": "LVB",
+"nick": "Bat Country - JW",
+"full": "Las Vegas Bat Country - JW"
+},
+{
+"city": "Madison",
+"abbr": "MAD",
+"nick": "Mashers",
+"full": "Madison Mashers"
+},
+{
+"city": "Oysters",
+"abbr": "Oyst",
+"nick": "Incognito",
+"full": "Oysters Incognito"
+},
+{
+"city": "Charlotte",
+"abbr": "CHA",
+"nick": "Hellcats GH",
+"full": "Charlotte Hellcats GH"
+},
+{
+"city": "Castroville",
+"abbr": "CAS",
+"nick": "Mashers - JW",
+"full": "Castroville Mashers - JW"
+},
+{
+"city": "Cleveland",
+"abbr": "CLE",
+"nick": "Spiders - JW",
+"full": "Cleveland Spiders - JW"
+},
+{
+"city": "Charlotte",
+"abbr": "CHA",
+"nick": "Sundevils",
+"full": "Charlotte Sundevils"
+},
+{
+"city": "Chicago",
+"abbr": "CHI",
+"nick": "Beans",
+"full": "Chicago Beans"
+},
+{
+"city": "New Barn",
+"abbr": "NB",
+"nick": "Spartans",
+"full": "New Barn Spartans"
+},
+{
+"city": "Chico",
+"abbr": "CHI",
+"nick": "Heat BFF",
+"full": "Chico Heat BFF"
+},
+{
+"city": "AW",
+"abbr": "AW",
+"nick": "Bees - GH",
+"full": "AW Bees - GH"
+},
+{
+"city": "New England",
+"abbr": "NE",
+"nick": "Bees",
+"full": "New England Bees"
+},
+{
+"city": "PSL",
+"abbr": "PSL",
+"nick": "Hurricanes",
+"full": "PSL Hurricanes"
+},
+{
+"city": "Peninsula",
+"abbr": "PEN",
+"nick": "Whips",
+"full": "Peninsula Whips"
+},
+{
+"city": "Alexandria",
+"abbr": "ALE",
+"nick": "SafeZone",
+"full": "Alexandria SafeZone"
+},
+{
+"city": "Southend",
+"abbr": "SOU",
+"nick": "Seasiders",
+"full": "Southend Seasiders"
+},
+{
+"city": "San Diego",
+"abbr": "SD",
+"nick": "Wombats",
+"full": "San Diego Wombats"
+},
+{
+"city": "OKC",
+"abbr": "OKWW",
+"nick": "Whirlwinds - PCK",
+"full": "OKC Whirlwinds - PCK"
+},
+{
+"city": "Gamehendge",
+"abbr": "GAM",
+"nick": "Lizards - HotL",
+"full": "Gamehendge Lizards - HotL"
+},
+{
+"city": "NoseKerim Astea",
+"abbr": "NK",
+"nick": "Kerim",
+"full": "NoseKerim Astea Kerim"
+},
+{
+"city": "Normal",
+"abbr": "NNT",
+"nick": "Night Owls - HotL",
+"full": "Normal Night Owls - HotL"
+},
+{
+"city": "Bloody",
+"abbr": "9",
+"nick": "Nines",
+"full": "Bloody Nines"
+},
+{
+"city": "Atlantic City",
+"abbr": "AC",
+"nick": "Surf - GH",
+"full": "Atlantic City Surf - GH"
+},
+{
+"city": "Madison",
+"abbr": "MAD",
+"nick": "Mohicans",
+"full": "Madison Mohicans"
+},
+{
+"city": "Roaming",
+"abbr": "BB",
+"nick": "Rascals BFF",
+"full": "Roaming Rascals BFF"
+},
+{
+"city": "Texas",
+"abbr": "TEX",
+"nick": "Briskets",
+"full": "Texas Briskets"
+},
+{
+"city": "Laffy",
+"abbr": "LAF",
+"nick": "Comedians - JW",
+"full": "Laffy Comedians - JW"
+},
+{
+"city": "Grover Beach",
+"abbr": "GB",
+"nick": "Grouches",
+"full": "Grover Beach Grouches"
+},
+{
+"city": "Colorado",
+"abbr": "COL",
+"nick": "Avalanche - JW",
+"full": "Colorado Avalanche - JW"
+},
+{
+"city": "Portland",
+"abbr": "POR",
+"nick": "Grizzlies",
+"full": "Portland Grizzlies"
+},
+{
+"city": "Bonney Lake",
+"abbr": "BL",
+"nick": "LPs - GH",
+"full": "Bonney Lake LPs - GH"
+},
+{
+"city": "We'll Do",
+"abbr": "LIVE",
+"nick": "It Live",
+"full": "We'll Do It Live"
+},
+{
+"city": "Kansas City",
+"abbr": "KCT",
+"nick": "Torrent - JW",
+"full": "Kansas City Torrent - JW"
+},
+{
+"city": "Watertown",
+"abbr": "WAT",
+"nick": "Sword Guys TBD",
+"full": "Watertown Sword Guys TBD"
+},
+{
+"city": "Providence",
+"abbr": "PROV",
+"nick": "Friars - HotL",
+"full": "Providence Friars - HotL"
+},
+{
+"city": "Ogden",
+"abbr": "OGD",
+"nick": "Raptors - HotL",
+"full": "Ogden Raptors - HotL"
+},
+{
+"city": "Denver",
+"abbr": "DEN",
+"nick": "Highlanders",
+"full": "Denver Highlanders"
+},
+{
+"city": "Lyman",
+"abbr": "LYM",
+"nick": "Legends",
+"full": "Lyman Legends"
+},
+{
+"city": "Charlotte",
+"abbr": "CHA",
+"nick": "Aviators - JW",
+"full": "Charlotte Aviators - JW"
+},
+{
+"city": "The Black",
+"abbr": "TB",
+"nick": "Freighter TBD",
+"full": "The Black Freighter TBD"
+},
+{
+"city": "Winnipeg",
+"abbr": "WBJ",
+"nick": "Brew Jays - HotL",
+"full": "Winnipeg Brew Jays - HotL"
+},
+{
+"city": "Breslau",
+"abbr": "BB",
+"nick": "Binturongs - HotL",
+"full": "Breslau Binturongs - HotL"
+},
+{
+"city": "Shibuya",
+"abbr": "SHR",
+"nick": "Shredders - GH",
+"full": "Shibuya Shredders - GH"
+},
+{
+"city": "Dark Web",
+"abbr": "DW",
+"nick": "Hackers",
+"full": "Dark Web Hackers"
+},
+{
+"city": "Brooklyn",
+"abbr": "BRO",
+"nick": "Cyclones",
+"full": "Brooklyn Cyclones"
+},
+{
+"city": "Chicago",
+"abbr": "CHI",
+"nick": "Gamblers - E6",
+"full": "Chicago Gamblers - E6"
+},
+{
+"city": "Mayport",
+"abbr": "MAY",
+"nick": "Hurricanes",
+"full": "Mayport Hurricanes"
+},
+{
+"city": "Charlotte",
+"abbr": "CHA",
+"nick": "Dachshunds - GH",
+"full": "Charlotte Dachshunds - GH"
+},
+{
+"city": "Detroit",
+"abbr": "DET",
+"nick": "Tigers",
+"full": "Detroit Tigers"
+},
+{
+"city": "Dock Ellis",
+"abbr": "Dock",
+"nick": "Day-Trippers",
+"full": "Dock Ellis Day-Trippers"
+},
+{
+"city": "Everett",
+"abbr": "eVe",
+"nick": "Aqua Sox",
+"full": "Everett Aqua Sox"
+},
+{
+"city": "Door County",
+"abbr": "DC",
+"nick": "Dockers",
+"full": "Door County Dockers"
+},
+{
+"city": "El Paso",
+"abbr": "HUH",
+"nick": "Preguntas",
+"full": "El Paso Preguntas"
+},
+{
+"city": "Chicago",
+"abbr": "RAT",
+"nick": "Rat Finks - HotL",
+"full": "Chicago Rat Finks - HotL"
+},
+{
+"city": "Sydney",
+"abbr": "SYD",
+"nick": "Whalers",
+"full": "Sydney Whalers"
+},
+{
+"city": "Corpus Christi",
+"abbr": "CC",
+"nick": "Swingers",
+"full": "Corpus Christi Swingers"
+},
+{
+"city": "Flint",
+"abbr": "FLI",
+"nick": "Pheasants",
+"full": "Flint Pheasants"
+},
+{
+"city": "Warner Robins",
+"abbr": "WR",
+"nick": "Demons - HotL",
+"full": "Warner Robins Demons - HotL"
+},
+{
+"city": "Morgan Hill",
+"abbr": "MH",
+"nick": "Vaqueros - TBD",
+"full": "Morgan Hill Vaqueros - TBD"
+},
+{
+"city": "Ottawa",
+"abbr": "OTT",
+"nick": "Lynx - HotL",
+"full": "Ottawa Lynx - HotL"
+},
+{
+"city": "Kamouraska",
+"abbr": "KAM",
+"nick": "Sportagie",
+"full": "Kamouraska Sportagie"
+},
+{
+"city": "False",
+"abbr": "FALS",
+"nick": "Hustle",
+"full": "False Hustle"
+},
+{
+"city": "Sixes",
+"abbr": "SIX",
+"nick": "Tornadoes",
+"full": "Sixes Tornadoes"
+},
+{
+"city": "Pumpkin",
+"abbr": "PUMP",
+"nick": "Smashers - HotL",
+"full": "Pumpkin Smashers - HotL"
+},
+{
+"city": "Tulsa",
+"abbr": "TUL",
+"nick": "Doom",
+"full": "Tulsa Doom"
+},
+{
+"city": "Cibolo",
+"abbr": "CIB",
+"nick": "Packsters PCK",
+"full": "Cibolo Packsters PCK"
+},
+{
+"city": "Houston",
+"abbr": "HOU",
+"nick": "Harambe - GH",
+"full": "Houston Harambe - GH"
+},
+{
+"city": "Vols",
+"abbr": "VOL",
+"nick": "Deep",
+"full": "Vols Deep"
+},
+{
+"city": "Paramus",
+"abbr": "PAR",
+"nick": "Fisher Cats",
+"full": "Paramus Fisher Cats"
+},
+{
+"city": "Chargn",
+"abbr": "CHA",
+"nick": "Bison - HotL",
+"full": "Chargn Bison - HotL"
+},
+{
+"city": "Liverpool",
+"abbr": "LIV",
+"nick": "Reds",
+"full": "Liverpool Reds"
+},
+{
+"city": "Why",
+"abbr": "WHY",
+"nick": "Knots",
+"full": "Why Knots"
+},
+{
+"city": "Minnesota",
+"abbr": "MIN",
+"nick": "Twins",
+"full": "Minnesota Twins"
+},
+{
+"city": "Southport",
+"abbr": "SOU",
+"nick": "Stars",
+"full": "Southport Stars"
+},
+{
+"city": "Compton",
+"abbr": "CORG",
+"nick": "Corgis - HOTL",
+"full": "Compton Corgis - HOTL"
+},
+{
+"city": "Savannah",
+"abbr": "SaHu",
+"nick": "Hurricanes",
+"full": "Savannah Hurricanes"
+},
+{
+"city": "Alhambra",
+"abbr": "ALH",
+"nick": "Moors - HotL TTC",
+"full": "Alhambra Moors - HotL TTC"
+},
+{
+"city": "Amarillo",
+"abbr": "AMA",
+"nick": "Armadillos",
+"full": "Amarillo Armadillos"
+},
+{
+"city": "Jinzhou",
+"abbr": "JS",
+"nick": "Speedster",
+"full": "Jinzhou Speedster"
+},
+{
+"city": "Montreal",
+"abbr": "MON",
+"nick": "Expos TTC",
+"full": "Montreal Expos TTC"
+},
+{
+"city": "Chicago",
+"abbr": "CHI",
+"nick": "Gamblers - GH",
+"full": "Chicago Gamblers - GH"
+},
+{
+"city": "Desert",
+"abbr": "DES",
+"nick": "Sand Dwellers - JW",
+"full": "Desert Sand Dwellers - JW"
+},
+{
+"city": "B-Town",
+"abbr": "B-T",
+"nick": "Nasty Boyz",
+"full": "B-Town Nasty Boyz"
+},
+{
+"city": "Greystones",
+"abbr": "GRE",
+"nick": "Finches",
+"full": "Greystones Finches"
+},
+{
+"city": "Gotham City",
+"abbr": "GCB",
+"nick": "Batmen",
+"full": "Gotham City Batmen"
+},
+{
+"city": "Telluride",
+"abbr": "TEL",
+"nick": "Giants - CG",
+"full": "Telluride Giants - CG"
+},
+{
+"city": "Pumpkin",
+"abbr": "PUMP",
+"nick": "Smashers - HOTL",
+"full": "Pumpkin Smashers - HOTL"
+},
+{
+"city": "Asbury",
+"abbr": "ASB",
+"nick": "Springboks",
+"full": "Asbury Springboks"
+},
+{
+"city": "NorCal",
+"abbr": "NOR",
+"nick": "CGE",
+"full": "NorCal CGE"
+},
+{
+"city": "Country",
+"abbr": "COU",
+"nick": "Clubbers",
+"full": "Country Clubbers"
+},
+{
+"city": "Honolulu",
+"abbr": "WAR",
+"nick": "Warriors - HotL",
+"full": "Honolulu Warriors - HotL"
+},
+{
+"city": "Philadelphia",
+"abbr": "PHI",
+"nick": "Oil Barons",
+"full": "Philadelphia Oil Barons"
+},
+{
+"city": "Cibao",
+"abbr": "CIB",
+"nick": "Aguilas",
+"full": "Cibao Aguilas"
+},
+{
+"city": "Chicago",
+"abbr": "CHI",
+"nick": "Seals",
+"full": "Chicago Seals"
+},
+{
+"city": "Crouton's",
+"abbr": "LICK",
+"nick": "Last Licks",
+"full": "Crouton's Last Licks"
+},
+{
+"city": "Houston",
+"abbr": "HOU",
+"nick": "Swangas",
+"full": "Houston Swangas"
+},
+{
+"city": "Summerglen",
+"abbr": "SUM",
+"nick": "Seraphs TBD",
+"full": "Summerglen Seraphs TBD"
+},
+{
+"city": "Durham",
+"abbr": "DUR",
+"nick": "Los Toros",
+"full": "Durham Los Toros"
+},
+{
+"city": "Ann Arbor",
+"abbr": "AA",
+"nick": "Blue - HotL",
+"full": "Ann Arbor Blue - HotL"
+},
+{
+"city": "New Haven",
+"abbr": "NH",
+"nick": "Ravens",
+"full": "New Haven Ravens"
+},
+{
+"city": "Crown Point",
+"abbr": "CP",
+"nick": "Corn Dogs",
+"full": "Crown Point Corn Dogs"
+},
+{
+"city": "Cape Cod",
+"abbr": "CC",
+"nick": "Sharks - HotL",
+"full": "Cape Cod Sharks - HotL"
+},
+{
+"city": "New Old",
+"abbr": "NYC",
+"nick": "Yankees TTC",
+"full": "New Old Yankees TTC"
+},
+{
+"city": "Billys",
+"abbr": "BIL",
+"nick": "Bunters",
+"full": "Billys Bunters"
+},
+{
+"city": "Phoenix",
+"abbr": "PMS",
+"nick": "Mango Slush - HOTL",
+"full": "Phoenix Mango Slush - HOTL"
+},
+{
+"city": "Orlando",
+"abbr": "ORL",
+"nick": "Arcias",
+"full": "Orlando Arcias"
+},
+{
+"city": "Delmarva",
+"abbr": "DEL",
+"nick": "Shorebirds_TTC",
+"full": "Delmarva Shorebirds_TTC"
+},
+{
+"city": "Firestone",
+"abbr": "FIR",
+"nick": "Murderhawks",
+"full": "Firestone Murderhawks"
+},
+{
+"city": "Chilliwack",
+"abbr": "CWK",
+"nick": "Chiefs",
+"full": "Chilliwack Chiefs"
+},
+{
+"city": "Lindy",
+"abbr": "HOPS",
+"nick": "Hops",
+"full": "Lindy Hops"
+},
+{
+"city": "New York",
+"abbr": "NYB",
+"nick": "Brownies",
+"full": "New York Brownies"
+},
+{
+"city": "Maple",
+"abbr": "MAD",
+"nick": "Madness",
+"full": "Maple Madness"
+},
+{
+"city": "Webster Groves",
+"abbr": "WG",
+"nick": "Supercells",
+"full": "Webster Groves Supercells"
+},
+{
+"city": "Dry Creek",
+"abbr": "DC",
+"nick": "Craw Daddies",
+"full": "Dry Creek Craw Daddies"
+},
+{
+"city": "Chester",
+"abbr": "CHE",
+"nick": "Surge",
+"full": "Chester Surge"
+}
+]
