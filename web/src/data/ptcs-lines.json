@@ -1,21 +1,21 @@
 {
   "period": "PTCS 9",
-  "day": 15,
+  "day": 14,
   "periodDays": 35,
-  "dumpReach": "2026-11-16",
+  "dumpReach": "2026-11-15",
   "dumpFile": "pt27_tournaments_competitve_dump_20261116.csv",
   "writtenOn": "2026-11-22",
   "projected": {
-    "Bronze": 144,
-    "Silver": 143,
-    "Gold": 112,
-    "Diamond": 73,
-    "Cap": 153,
-    "Open": 119,
-    "PD Daily": 285,
-    "PD Weekly": 103,
-    "Iron": 116,
-    "Live": 173
+    "Bronze": 153,
+    "Silver": 154,
+    "Gold": 118,
+    "Diamond": 78,
+    "Cap": 159,
+    "Open": 126,
+    "PD Daily": 300,
+    "PD Weekly": 108,
+    "Iron": 120,
+    "Live": 182
   },
   "cwhit": {
     "file": "2026-09-17 cycle7 targets.csv",
@@ -30,6 +30,8 @@
       "Iron": 102,
       "Live": 136,
       "PD Daily": 269
-    }
+    },
+    "cycle": 7,
+    "days": 28
   }
 }
