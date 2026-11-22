@@ -505,14 +505,14 @@ async function main() {
       ratings: (c.ratings ?? {}) as Record<string, number>,
     }));
     // The blend's reference carries no tournament-only terms (env-fit referenceFits): play can't see Speed or Stamina.
-    const base = referenceFits(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR });
+    const base = referenceFits(all, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, capped: CAP != null });
     const both = (id: number) => { const r = base.runsR.get(id), l = base.runsL.get(id); return r == null || l == null ? null : 0.7 * r + 0.3 * l; };
     // `both` is already env-fit's 0.7 R / 0.3 L read, so it is also the reference that lets a variant keep its boost.
     observed = await loadObservedRuns(pool.map((c) => c.cardId), both, both, OBS_EXCLUDE, { series: SERIES, ratingsMax: MAX, ownSeriesOnly: true });
     const n = [...observed.values()];
     console.log(`observed play: ${n.length} of ${pool.length} pool cards have innings on record (median ${n.length ? Math.round(n.map((x) => x.n).sort((a, b) => a - b)[n.length >> 1]) : 0} PA/BF); K = ${OBS_K_LABEL}${OBS_EXCLUDE.length ? `; left out: ${OBS_EXCLUDE.join(", ")}` : ""}`);
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr, minPosRating: MIN_POS, roleTrust: ROLE_TRUST, observed, observedK: OBS_K, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, capped: CAP != null, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
   /*
    * The field's average card (L.J. 10-31: "is it avg card in env as in cards others play?").
    * The runs columns are against the era's league-average line; this is the usage-weighted
@@ -532,7 +532,7 @@ async function main() {
         role: r.is_pitcher ? r.pitcher_role : r.position,
         ratings: r.is_variant ? formRatings(r.ratings, r.vr, r.position) : r.ratings,
       }));
-      const ff = envFitMaps(fp as any, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
+      const ff = envFitMaps(fp as any, { era: scoringRates, park: pr, roleTrust: ROLE_TRUST, leagueLhbShare: LHB_SHARE, eraYear: ERA_YEAR, tournamentTerms: true, capped: CAP != null, ...(PITCH_LHB != null ? { pitchLhbShare: PITCH_LHB } : {}) });
       let bw = 0, br = 0, bl = 0, aw = 0, av = 0;
       for (const r of rows) {
         const id = r.is_variant ? -Number(r.card_id) : Number(r.card_id);

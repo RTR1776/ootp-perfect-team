@@ -666,9 +666,10 @@ export function RosterBuilder({
   const fits = useMemo(() => env
     ? envFitMaps(formPool, {
         era: env.rates, park: env.park, roleTrust: 0.25, minPosRating: LJ_FLOOR, leagueLhbShare: env.lhbShare, eraYear: env.eraYear, tournamentTerms: true, observedK: OBS_K_OWN_SERIES,
+        capped: (tournament?.restrictions as { teamCap?: number | null } | null | undefined)?.teamCap != null,
         observed: new Map(env.observed.map(([id, runs, n, model]) => [id, { runs, n, model }])),
       })
-    : fitMaps(formPool), [formPool, env]);
+    : fitMaps(formPool), [formPool, env, tournament]);
   const { fitR } = fits;
   /** The scorer's number for a card: calibrated runs per 700 in this event,
    *  observed play blended in, read at the field's pitcher handedness. */

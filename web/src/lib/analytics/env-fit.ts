@@ -81,6 +81,13 @@ export interface EnvFitOptions {
    */
   pitchLhbShare?: number;
   /**
+   * The event has a team value cap: bats stay on the straight calibration
+   * slope, not the bend (calibration.ts calibratedHitRuns; the 11-22 win tests
+   * tied under a cap, 20 of 40). Unset for everything else, cap events included
+   * where the caller doesn't know the event.
+   */
+  capped?: boolean;
+  /**
    * The event's run-environment year. When given, a bat's calibrated model
    * runs are moved by what play in that era band returned per rating point
    * above the model's own line (calibration.ts ERA_SLOPES: BABIP two to
@@ -349,7 +356,10 @@ export function envFitMaps(pool: readonly EnvFitInput[], o: EnvFitOptions): EnvF
     let r = runsOf(c, "R"), l = runsOf(c, "L");
     if (c.isPitcher) { if (slopePit !== 1) { if (r != null) r *= slopePit; if (l != null) l *= slopePit; } }
     // Bats: the straight slope, or the bend when it is switched on (calibration.ts calibratedHitRuns).
-    else if (o.calibrate !== false) { if (r != null) r = calibratedHitRuns(r); if (l != null) l = calibratedHitRuns(l); }
+    else if (o.calibrate !== false) {
+      const co = { straight: o.capped === true };
+      if (r != null) r = calibratedHitRuns(r, undefined, co); if (l != null) l = calibratedHitRuns(l, undefined, co);
+    }
     if (r != null) r += eraFix(c, "R") + extra(c, "R");
     if (l != null) l += eraFix(c, "L") + extra(c, "L");
     const ob = o.observed?.get(c.cardId);

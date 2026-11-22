@@ -20,7 +20,7 @@
       "heldOutBetter": 40,
       "heldOutOf": 40,
       "gain": 0.2038,
-      "applied": false
+      "applied": true
     },
     "deciles": [
       {

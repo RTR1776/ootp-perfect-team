@@ -300,7 +300,7 @@ export function scoreFitEvent(w: FitWorld, t: FitTournament, legal: Set<number>,
   const parkPick = parkFor(t.stadium);
   const meta = t.series && !w.staleSeries.has(t.id) ? w.metaBy.get(t.series) ?? null : null;
   const lhp = meta?.lhpBfShare ?? LHP_SHARE_DEFAULT, lhb = meta?.lhbPaShare ?? 0.35;
-  const opts2 = { era: era.rates, park: parkPick.row, roleTrust: ROLE_TRUST, leagueLhbShare: lhb, eraYear: envYear ?? 2010, runsOnly: true, tournamentTerms: true };
+  const opts2 = { era: era.rates, park: parkPick.row, roleTrust: ROLE_TRUST, leagueLhbShare: lhb, eraYear: envYear ?? 2010, runsOnly: true, tournamentTerms: true, capped: rx?.teamCap != null };
   const roster = w.newest.get(t.id);
   const slots = roster ? w.slotRows.filter((s) => s.rosterId === roster.id) : [];
 

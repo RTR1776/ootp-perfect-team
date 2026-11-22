@@ -19,7 +19,7 @@
  * MV2_TOURDIR=Archive/Completed reads every archived export instead of the Cap
  * Exports (2026-10-25 defence test: 701 exports, the Cap Exports among them);
  * MV2_PITCH_LHB=field|flat sets the arms' vL/vR blend (default: by throwing hand in tournaments).
- * MV2_BEND=1 prices bats on the curved calibration (calibration.ts hit.bend) for this run, without editing the fitted file.
+ * MV2_BEND=1 / MV2_BEND=0 prices bats on the curved / straight calibration (calibration.ts hit.bend) for this run, without editing the fitted file.
  * MV2_NO_LEAGUE=1 skips the league seasons; MV2_NO_TOUR=1 skips the tournaments;
  * MV2_LEAGUE_YEAR pins the league era; MV2_LEAGUE_OLD / MV2_LEAGUE_MULT: see LEAGUE_OLD. Each team row also carries `dpos`:
  * per position, PA per game ÷ 700 times the rating's gap to the unit's
@@ -46,7 +46,10 @@ import { loadObservedBook, observedRunsFrom } from "@/lib/analytics/observed-ble
 const OBS_KS = [20000, 5000, 1500, 500, 150];
 
 const OUT = process.env.MV2_DIR ?? "/tmp/mv2";
+// MV2_BEND=1 / 0 forces the bend on / off for this run (on in the file since 2026-11-22). The harness doesn't know which
+// exports are cap events, so it bends every one; the app keeps cap events straight (EnvFitOptions capped).
 if (process.env.MV2_BEND === "1" && CALIBRATION.hit.bend) CALIBRATION.hit.bend.applied = true;
+if (process.env.MV2_BEND === "0" && CALIBRATION.hit.bend) CALIBRATION.hit.bend.applied = false;
 mkdirSync(OUT, { recursive: true });
 const sql = neon(process.env.DATABASE_URL!);
 const ROOT = "..";

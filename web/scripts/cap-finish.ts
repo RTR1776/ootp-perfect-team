@@ -161,7 +161,7 @@ async function main() {
       console.log(`FIELD: K% ${(fl.kPct*100).toFixed(1)}  BB% ${(fl.bbPct*100).toFixed(1)}  HR/PA ${(fl.hrPa*100).toFixed(2)}%  OPS ${fl.ops.toFixed(3)}  bunt ${fenv.bunt_12_0>=0?"+":""}${fenv.bunt_12_0.toFixed(3)}  steal BE ${(fenv.sbbe0*100).toFixed(1)}%  preset ${fenv.preset}`);
     }
   }
-  const fits = envFitMaps(pool, { era: scoringRates, park: pr });
+  const fits = envFitMaps(pool, { era: scoringRates, park: pr, capped: true });
   console.log(`\n+10 rating, runs/700 PA — LHB: ${marginalRatings(fits.envLeft, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                          RHB: ${marginalRatings(fits.envRight, "hit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
   console.log(`                         arms: ${marginalRatings(fits.envPitch, "pit").map((v) => `${v.rating} ${f1(v.runs)}`).join("  ")}`);
