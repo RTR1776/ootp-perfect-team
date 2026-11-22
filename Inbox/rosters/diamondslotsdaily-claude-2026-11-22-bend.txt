@@ -1,0 +1,36 @@
+# Daily Diamond Jumble Slots — Claude pick 2026-11-22 bend, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Jack Murphy Stadium --park-year 1984 --dh --min 40 --max 99 --card-types 2,5,7,8,9 --slots D12,G8,S3,B3 --size 26 --series diamondslotsdaily --sp 5 --rp 7 --bats 14)
+R:C Ed Bailey (VAR) #86637
+R:1B Pedro Alvarez #87062
+R:2B Joe Gordon #87419
+R:3B Arky Vaughan #84006
+R:SS Trevor Story #87503
+R:LF Curtis Granderson #86595
+R:CF Carlos Beltran #87066
+R:RF Matt Kemp #87504
+R:DH Kirk Gibson (VAR) #87255
+L:C Mike Zunino (VAR) #86431
+L:1B Allen Craig #87139
+L:2B Joe Gordon #87419
+L:3B Chris Sabo #87059
+L:SS Trevor Story #87503
+L:LF Darin Erstad #87242
+L:CF Carlos Beltran #87066
+L:RF Matt Kemp #87504
+L:DH Kirk Gibson (VAR) #87255
+SP1 Noodles Hahn #87361
+SP2 Larry Jackson #86646
+SP3 Sandy Alcantara #82679
+SP4 Count Leblanc (VAR) #86978
+SP5 Jerry Koosman #87440
+CL Gio Gonzalez #87531
+RP1 Joe Beggs (VAR) #86762
+RP2 James Paxton #87545
+RP3 Steve Howe #87478
+RP4 Mike Matthews (VAR) #87296
+RP5 Johnny Markham (VAR) #87159
+RP6 John Bale (VAR) #87234
+BN1 Darin Erstad #87242
+BN2 Chris Sabo #87059
+BN3 Allen Craig #87139
+BN4 Pat Patterson #87080
+BN5 Mike Zunino (VAR) #86431
