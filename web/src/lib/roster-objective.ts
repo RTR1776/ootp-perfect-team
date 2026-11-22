@@ -30,7 +30,7 @@
 import { fieldingRuns, framingRuns } from "@/lib/analytics/fielding";
 import { STAMINA_CENTER, STAMINA_RUNS_PER_POINT } from "@/lib/analytics/calibration";
 import type { FillCard, FillResult, FillShape } from "@/lib/roster-fill";
-import { otherFormId } from "@/lib/two-way";
+import { otherFormId, startDayLoss } from "@/lib/two-way";
 
 export const RP_WEIGHT_DEFAULT = 0.31;
 export const BENCH_WEIGHT_DEFAULT = 0.1;
@@ -255,9 +255,11 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
 
   /**
    * A starter who also holds a lineup spot (two-way dualUseOk; Ed Rile at 1B and in the
-   * rotation, L.J. 10-31) is off his position on the days he starts: the best bench card
-   * plays it then. His bat on those days is the pitcher's bat (starterBat, no DH). The
-   * lineup slot counted him every game, so take back his starts' share of it over the sub.
+   * rotation, L.J. 10-31) is off his position on the days he starts. The lineup slot
+   * counted him every game, so his starts' share of what that costs is taken back
+   * (two-way startDayLoss): with no DH the best bench card plays his spot and his bat
+   * is the pitcher's (starterBat); with a DH he bats for himself (L.J. 11-14), so at DH
+   * he costs nothing and at a field spot only what moving him to DH costs.
    */
   const dualCorrection = (r: FillResult): number => {
     let out = 0;
@@ -270,10 +272,14 @@ export function rosterObjective(pool: readonly FillCard[], o: ObjectiveOptions):
       for (const h of ["R", "L"] as const) for (const p of shape.lineupPos) {
         const key = `${h}:${p}`;
         if (r[key] !== bat) continue;
-        let sub = -Infinity;
-        for (const b of bench) if (b !== bat) sub = Math.max(sub, slotValue(key, b));
-        if (!Number.isFinite(sub)) sub = 0;
-        out -= starts * (slotValue(key, bat) - sub);
+        const dhKey = `${h}:DH`, dhCard = noDh ? undefined : r[dhKey];
+        out -= starts * startDayLoss({
+          dh: !noDh, atDh: p === "DH", mine: slotValue(key, bat),
+          subs: bench.filter((b) => b !== bat).map((b) => slotValue(key, b)),
+          mineAtDh: noDh ? null : slotValue(dhKey, bat),
+          dhNow: dhCard == null ? null : slotValue(dhKey, dhCard),
+          dhAtSpot: dhCard == null || dhCard === bat ? null : slotValue(key, dhCard),
+        });
       }
     }
     return out;

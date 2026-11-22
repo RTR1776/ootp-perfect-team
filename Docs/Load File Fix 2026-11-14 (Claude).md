@@ -1,6 +1,6 @@
-# Handoff — 2026-11-14 (a dual pick's bench card left off the load file)
+# Load file fix — 2026-11-14 (a dual pick's bench card left off the load file)
 
-Read after `Handoff 2026-11-12.md`, which still holds the access notes, the model and the open lists. Branch: `claude/adoring-mayer-n0gmzv`.
+Written on branch `claude/adoring-mayer-n0gmzv`, which was never merged; brought onto main with the 11-22 cleanup (`Docs/GitHub Cleanup Plan 2026-11-22 (Claude).md`). The access notes, the model and the open lists are in `Handoff 2026-11-12.md`.
 
 ## What happened
 

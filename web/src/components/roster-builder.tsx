@@ -2164,7 +2164,7 @@ export function RosterBuilder({
                 {twoWayDuals.length > 0 && (
                   <ul className="mb-2 space-y-0.5 text-[10.5px]">
                     {twoWayDuals.map((d) => (
-                      <li key={d.name} className="font-medium text-sky-700 dark:text-sky-300" title="A two-way card in both roles counts once: one roster spot, one card value, one tier slot. On his start days the best bench card plays his position.">
+                      <li key={d.name} className="font-medium text-sky-700 dark:text-sky-300" title="A two-way card in both roles counts once: one roster spot, one card value, one tier slot. On his start days he leaves his position to the best bench card, and with a DH he bats for himself.">
                         ⇄ {d.name}: {d.roles} — one roster spot
                       </li>
                     ))}
