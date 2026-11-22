@@ -1,0 +1,59 @@
+League model (2026-11-15, league split exports, weeks 2026-06-28, 2026-08-16, 2026-08-23, 2026-08-30, 2026-09-06, 2026-09-13, 2026-09-20, 2026-09-27, 2026-10-04, 2026-10-11, 2026-10-18, 2026-10-25, 2026-11-01, 2026-11-08, 2026-11-15 (theme weeks: 2026-08-23 = 1959, 2026-09-20 = 1989, 2026-10-04 = 1952, 2026-10-18 = 2007); card-board lines with 1500+ PA).
+PEL · run environment 2014 · rating prices K 0.84 BA 1.07 GAP 1.11 POW 0.74 EYE 0.90 · vs-LHP share 44% · R/G 5.07, 10.6 runs per win · gloves ×1 · home park Yankee Stadium 1987 (half weight)
+
+bats on the league model (runs per 700 PA above the league's average bat on that board):
+  Gabriel Moreno 102           vs RHP  -11.2   vs LHP  -16.3
+  Bob Boone 88 VAR             vs RHP  -27.5   vs LHP   -4.3
+  Albert Pujols 102            vs RHP   +5.5   vs LHP   +9.8
+  Leodalis De Vries 102        vs RHP   -1.7   vs LHP   -9.3
+  Chase Utley 102              vs RHP   +0.7   vs LHP   +5.2
+  Alex Rodriguez 102           vs RHP   +5.3   vs LHP   -2.7
+  George Brett 103             vs RHP  +16.0   vs LHP   -1.6
+  Corey Seager 103             vs RHP   +7.1   vs LHP   -4.4
+  Ed Delahanty 103             vs RHP   -0.4   vs LHP   -0.1
+  Andruw Jones 102             vs RHP   -2.6   vs LHP   +1.3
+  Reggie Jackson 102           vs RHP  +14.1   vs LHP   -0.0
+  Juan Soto 102                vs RHP   +4.1   vs LHP   +1.2
+  Edgar Martinez 100           vs RHP   +9.9   vs LHP  +18.9
+  Arenado PTMS3 103 84         vs RHP   +6.0   vs LHP  +15.2   (candidate)
+  Berkman PTMS3 98 85          vs RHP   +4.9   vs LHP  -10.0   (candidate)
+  Vaughan PTMS3 92 101         vs RHP   -0.9   vs LHP  -18.8   (candidate)
+  Donlin PTMS3 83 86           vs RHP  -19.6   vs LHP   -3.6   (candidate)
+  Musial PTMS3 78 85           vs RHP  -11.0   vs LHP   -8.1   (candidate)
+  Cruz PTMS3 68 84             vs RHP  -33.8   vs LHP  -40.7   (candidate)
+
+best lineups now:
+  vs RHP             +64.8  C Gabriel Moreno · 1B George Brett · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Juan Soto · CF Andruw Jones · RF Reggie Jackson · DH Edgar Martinez
+  vs LHP             +56.0  C Bob Boone VAR · 1B Albert Pujols · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Ed Delahanty · CF Andruw Jones · RF Juan Soto · DH Edgar Martinez
+
+with Arenado PTMS3 103 84 (Clubhouse - Baseball Reference 8 3B Nolan Arenado COL 2015):
+  vs RHP             +65.8  C Gabriel Moreno · 1B George Brett · 2B Chase Utley · 3B Arenado PTMS3 103 · SS Corey Seager · LF Juan Soto · CF Andruw Jones · RF Reggie Jackson · DH Edgar Martinez
+  vs LHP             +74.2  C Bob Boone VAR · 1B Albert Pujols · 2B Chase Utley · 3B Arenado PTMS3 103 · SS Corey Seager · LF Ed Delahanty · CF Andruw Jones · RF Juan Soto · DH Edgar Martinez
+
+with Berkman PTMS3 98 85 (Live Collection Reward - Unsung Heroes LF Ken Henderson SF 1970):
+  vs RHP             +64.8  C Gabriel Moreno · 1B George Brett · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Berkman PTMS3 98 · CF Andruw Jones · RF Reggie Jackson · DH Edgar Martinez
+  vs LHP             +56.0  C Bob Boone VAR · 1B Albert Pujols · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Ed Delahanty · CF Andruw Jones · RF Juan Soto · DH Edgar Martinez
+
+with Vaughan PTMS3 92 101 (Heart Attack - Historical All-Star SS Arky Vaughan PIT 1935):
+  vs RHP             +64.8  C Gabriel Moreno · 1B George Brett · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Juan Soto · CF Andruw Jones · RF Reggie Jackson · DH Edgar Martinez
+  vs LHP             +56.0  C Bob Boone VAR · 1B Albert Pujols · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Ed Delahanty · CF Andruw Jones · RF Juan Soto · DH Edgar Martinez
+
+with Donlin PTMS3 83 86 (Clubhouse - Baseball Reference 9 LF Kyle Schwarber CHC 2015):
+  vs RHP             +64.8  C Gabriel Moreno · 1B George Brett · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Juan Soto · CF Andruw Jones · RF Reggie Jackson · DH Edgar Martinez
+  vs LHP             +56.0  C Bob Boone VAR · 1B Albert Pujols · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Ed Delahanty · CF Andruw Jones · RF Juan Soto · DH Edgar Martinez
+
+with Musial PTMS3 78 85 (Clubhouse - Mariners 50th Anniversary 1B John Olerud SEA 2002):
+  vs RHP             +64.8  C Gabriel Moreno · 1B George Brett · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Juan Soto · CF Andruw Jones · RF Reggie Jackson · DH Edgar Martinez
+  vs LHP             +56.0  C Bob Boone VAR · 1B Albert Pujols · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Ed Delahanty · CF Andruw Jones · RF Juan Soto · DH Edgar Martinez
+
+with Cruz PTMS3 68 84 (Negro League Star RF Zollie Wright CEG 1935):
+  vs RHP             +64.8  C Gabriel Moreno · 1B George Brett · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Juan Soto · CF Andruw Jones · RF Reggie Jackson · DH Edgar Martinez
+  vs LHP             +56.0  C Bob Boone VAR · 1B Albert Pujols · 2B Chase Utley · 3B Alex Rodriguez · SS Corey Seager · LF Ed Delahanty · CF Andruw Jones · RF Juan Soto · DH Edgar Martinez
+
+what each candidate adds (best lineup with him minus best lineup without; boards weighted 56/44):
+  Arenado PTMS3 103 84         vs RHP   +1.0   vs LHP  +18.2   season   +8.6 runs = +0.8 W   (DH only, nothing else moves: +0.0)
+  Berkman PTMS3 98 85          vs RHP   +0.0   vs LHP   +0.0   season   +0.0 runs = +0.0 W   (DH only, nothing else moves: +0.0)
+  Vaughan PTMS3 92 101         vs RHP   +0.0   vs LHP   +0.0   season   +0.0 runs = +0.0 W   (DH only, nothing else moves: +0.0)
+  Donlin PTMS3 83 86           vs RHP   +0.0   vs LHP   +0.0   season   +0.0 runs = +0.0 W   (DH only, nothing else moves: +0.0)
+  Musial PTMS3 78 85           vs RHP   +0.0   vs LHP   +0.0   season   +0.0 runs = +0.0 W   (DH only, nothing else moves: +0.0)
+  Cruz PTMS3 68 84             vs RHP   +0.0   vs LHP   +0.0   season   +0.0 runs = +0.0 W   (DH only, nothing else moves: +0.0)

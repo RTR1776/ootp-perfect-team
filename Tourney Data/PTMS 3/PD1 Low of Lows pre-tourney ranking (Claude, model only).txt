@@ -1,0 +1,122 @@
+PA/slot/game 4.48 -> 156 weighted runs = 1 R/G; Pythag exponent 1.89
+field mean obj 12.9, sd 42.8 weighted runs = 0.274 R/G; env 4.59 R/G; sims 20000
+  # team                                title BO9 v avg     sd    R/G    off    def    pit  n
+  1 Dayton Aviators                      4.6%       66%  +2.38  +0.65  +0.12  -0.04  +0.57 25
+  2 Tuscaloosa Thunderbirds              4.0%       65%  +2.21  +0.61  +0.22  +0.13  +0.25 22
+  3 Lyman Legends                        3.1%       63%  +1.90  +0.52  +0.25  +0.13  +0.14 26
+  4 West Valley Wazzirds                 2.7%       61%  +1.68  +0.46  +0.26  -0.10  +0.29 25
+  5 Gotham City Batmen                   2.4%       61%  +1.56  +0.43  -0.03  -0.02  +0.48 25
+  6 NoseKerim Astea Kerim                2.0%       60%  +1.39  +0.38  -0.02  +0.18  +0.22 25
+  7 Magical Mule Marcille                1.9%       59%  +1.33  +0.36  +0.31  -0.01  +0.06 24
+  8 Chargn Bison - HotL                  1.9%       59%  +1.27  +0.35  +0.00  +0.12  +0.22 26
+  9 Moria Balrogs                        1.9%       59%  +1.24  +0.34  +0.09  +0.03  +0.22 22
+ 10 Maui Stingrays                       1.6%       58%  +1.23  +0.34  +0.22  +0.14  -0.02 23
+ 11 Houston Outlaws                      1.8%       58%  +1.23  +0.34  +0.30  +0.04  -0.01 26
+ 12 AW Bees - GH                         1.6%       58%  +1.17  +0.32  +0.17  +0.14  +0.01 26
+ 13 Salty Hall Monitors TBD              1.7%       58%  +1.16  +0.32  +0.04  -0.02  +0.30 21
+ 14 Las Vegas Bat Country - JW           1.7%       58%  +1.13  +0.31  +0.10  +0.09  +0.12 24
+ 15 Kamouraska Sportagie                 1.6%       58%  +1.12  +0.31  +0.15  +0.06  +0.10 26
+ 16 Summerglen Seraphs TBD               1.7%       58%  +1.12  +0.31  +0.26  +0.17  -0.13 26
+ 17 Seoul Hannams                        1.7%       58%  +1.12  +0.31  +0.03  +0.04  +0.24 25
+ 18 Chester Surge                        1.8%       58%  +1.10  +0.30  +0.29  +0.09  -0.08 26
+ 19 Mt Etna Hotter Otters - HotL         1.7%       57%  +1.06  +0.29  -0.28  +0.13  +0.45 19
+ 20 Atlantic City Surf - GH              1.4%       57%  +1.04  +0.28  +0.18  -0.00  +0.10 21
+ 21 . -                                  1.4%       57%  +1.02  +0.28  +0.06  +0.01  +0.22 26
+ 22 Vero Beach Screwballs                1.4%       57%  +0.99  +0.27  -0.02  -0.07  +0.37 23
+ 23 Los Altos Undertakers                1.5%       56%  +0.93  +0.26  -0.10  +0.07  +0.28 25
+ 24 Football Manager 2012                1.6%       56%  +0.93  +0.25  +0.32  +0.07  -0.14 26
+ 25 Charlotte Hellcats GH                1.4%       56%  +0.90  +0.25  +0.30  +0.03  -0.08 23
+ 26 NorCal CGE                           1.2%       56%  +0.84  +0.23  -0.03  +0.12  +0.14 26
+ 27 Crouton's Champions Champions - Ho   1.2%       56%  +0.83  +0.23  +0.16  +0.18  -0.12 26
+ 28 Arroyo Grande Big Streams            1.4%       56%  +0.82  +0.22  +0.21  -0.01  +0.03 25
+ 29 Port Angeles Lefties                 1.3%       55%  +0.77  +0.21  +0.30  +0.09  -0.17 24
+ 30 Toms River Barons                    1.2%       55%  +0.77  +0.21  +0.09  +0.06  +0.06 24
+ 31 Looking Glass Loopers TBD            1.3%       55%  +0.74  +0.20  +0.06  +0.01  +0.13 24
+ 32 Omaha Twisters                       1.3%       55%  +0.68  +0.19  -0.05  +0.16  +0.08 25
+ 33 Chicago Beans                        1.1%       55%  +0.66  +0.18  +0.06  +0.00  +0.12 23
+ 34 Roaming Rascals BFF                  1.1%       54%  +0.59  +0.16  -0.10  -0.10  +0.36 24
+ 35 Salt Lake Ridge Runners              1.1%       54%  +0.53  +0.14  +0.11  +0.04  -0.00 23
+ 36 New Haven Ravens                     1.1%       54%  +0.52  +0.14  -0.11  +0.09  +0.16 22
+ 37 Chicago Gamblers - GH                0.9%       53%  +0.50  +0.14  +0.17  -0.08  +0.04 25
+ 38 Hilo Canefires                       0.9%       53%  +0.50  +0.14  +0.05  +0.01  +0.07 19
+ 39 New Haven Corsairs                   0.8%       53%  +0.49  +0.13  +0.07  +0.21  -0.15 24
+ 40 Star City Arrows                     0.9%       53%  +0.47  +0.13  +0.06  +0.18  -0.12 22
+ 41 Sarasota Seminoles                   1.0%       53%  +0.47  +0.13  +0.09  -0.04  +0.08 22
+ 42 Ottawa Lynx - HotL                   0.9%       53%  +0.43  +0.12  +0.35  -0.08  -0.15 24
+ 43 Michigan Black Bears                 0.8%       53%  +0.42  +0.11  +0.05  -0.08  +0.15 22
+ 44 Hudson Railers                       0.9%       53%  +0.41  +0.11  +0.28  -0.11  -0.06 24
+ 45 Deltaville Velvet Ants               0.8%       53%  +0.40  +0.11  +0.02  -0.02  +0.12 25
+ 46 Cleveland Spiders - JW               0.9%       53%  +0.39  +0.11  -0.04  -0.06  +0.21 23
+ 47 Crouton Goes Yard                    0.8%       52%  +0.36  +0.10  +0.13  -0.08  +0.05 26
+ 48 Cibolo Packsters PCK                 0.8%       52%  +0.34  +0.09  -0.17  +0.01  +0.26 22
+ 49 Watertown Sword Guys TBD             0.9%       52%  +0.31  +0.09  +0.11  -0.16  +0.14 25
+ 50 Columbus Jobus                       0.7%       52%  +0.30  +0.08  -0.12  +0.05  +0.15 26
+ 51 SIU Salukis                          0.8%       52%  +0.29  +0.08  +0.24  -0.00  -0.16 23
+ 52 Henry Murder Hornets                 0.7%       52%  +0.27  +0.07  -0.09  +0.04  +0.12 26
+ 53 Shelbyville Nuclear Power Plant      0.8%       51%  +0.20  +0.06  +0.22  +0.01  -0.17 25
+ 54 New Platson Grand Petites HotL       0.8%       51%  +0.18  +0.05  +0.26  -0.00  -0.21 25
+ 55 Anyang Baekho                        0.8%       51%  +0.17  +0.05  -0.13  +0.06  +0.12 26
+ 56 Crouton's Last Licks                 0.6%       51%  +0.11  +0.03  +0.03  -0.10  +0.10 24
+ 57 Madison Mashers                      0.5%       50%  +0.06  +0.02  -0.16  +0.07  +0.11 26
+ 58 Perugia Warriors                     0.7%       50%  +0.05  +0.01  -0.15  -0.04  +0.20 26
+ 59 Lowlyworm's Apple Car                0.7%       50%  +0.05  +0.01  +0.15  -0.04  -0.10 25
+ 60 Clear Spring Blazers                 0.6%       50%  +0.05  +0.01  -0.05  -0.09  +0.15 25
+ 61 Pensacola Swampangels                0.6%       50%  +0.04  +0.01  -0.07  -0.11  +0.19 23
+ 62 Gamehendge Lizards - HotL            0.6%       50%  +0.04  +0.01  +0.02  -0.04  +0.03 26
+ 63 Newyork Bluechips                    0.6%       50%  +0.04  +0.01  +0.03  -0.08  +0.06 25
+ 64 Colorado Avalanche - JW              0.6%       50%  +0.01  +0.00  -0.11  -0.08  +0.19 25
+ 65 1st Class Millionaires               0.5%       50%  -0.01  -0.00  +0.23  +0.10  -0.33 26
+ 66 West Kildonan Whips                  0.6%       50%  -0.02  -0.01  -0.08  -0.08  +0.15 25
+ 67 Liverpool Reds                       0.5%       50%  -0.06  -0.02  +0.04  +0.01  -0.07 22
+ 68 Retro Birds TTC                      0.6%       49%  -0.11  -0.03  +0.13  -0.09  -0.07 22
+ 69 Dock Ellis Day-Trippers              0.5%       49%  -0.12  -0.03  +0.17  -0.06  -0.15 25
+ 70 North American 20 and 30 Something   0.5%       49%  -0.14  -0.04  -0.05  +0.20  -0.19 26
+ 71 Rajasthan Rifles Rifles              0.5%       49%  -0.16  -0.04  -0.17  -0.01  +0.13 26
+ 72 Sykesville Suns                      0.4%       49%  -0.18  -0.05  +0.05  +0.02  -0.12 23
+ 73 Bay Area Botanists F2P               0.4%       49%  -0.18  -0.05  +0.11  -0.06  -0.11 25
+ 74 Groton Gales                         0.4%       49%  -0.19  -0.05  -0.09  -0.07  +0.10 25
+ 75 Memphis Rivers                       0.5%       49%  -0.19  -0.05  +0.11  -0.07  -0.09 24
+ 76 Angola Mine Sweeepers                0.5%       49%  -0.20  -0.05  +0.11  -0.04  -0.13 26
+ 77 Toronto Blue Jays                    0.4%       48%  -0.22  -0.06  -0.28  +0.08  +0.14 19
+ 78 Mos Eisley Smugglers                 0.5%       48%  -0.26  -0.07  +0.07  -0.06  -0.08 25
+ 79 Castroville Mashers - JW             0.4%       48%  -0.29  -0.08  -0.22  +0.04  +0.10 25
+ 80 Atlanta Mariners                     0.4%       48%  -0.30  -0.08  -0.16  -0.00  +0.08 21
+ 81 Kansas City Torrent - JW             0.4%       48%  -0.31  -0.08  -0.09  +0.16  -0.16 26 <-- us
+ 82 BAGgin' Dingers TTC                  0.3%       47%  -0.40  -0.11  -0.16  -0.09  +0.14 22
+ 83 Manchester Atoms                     0.4%       47%  -0.41  -0.11  -0.24  -0.11  +0.24 25
+ 84 Flagship City Kitties                0.4%       46%  -0.52  -0.14  -0.26  -0.01  +0.13 24
+ 85 Cibao Aguilas                        0.3%       46%  -0.58  -0.16  +0.03  -0.07  -0.12 25
+ 86 Paramus Fisher Cats                  0.4%       46%  -0.59  -0.16  +0.13  -0.06  -0.23 22
+ 87 Kent Island Sharks                   0.3%       46%  -0.61  -0.17  +0.26  -0.16  -0.27 25
+ 88 Grover Beach Grouches                0.2%       46%  -0.63  -0.17  +0.08  +0.13  -0.38 24
+ 89 Texas Briskets                       0.4%       46%  -0.63  -0.17  -0.07  +0.04  -0.15 24
+ 90 Hardware City Rock Cats              0.3%       45%  -0.68  -0.19  -0.09  -0.11  +0.01 25
+ 91 Indianapolis Stray Cats              0.3%       45%  -0.68  -0.19  -0.01  +0.02  -0.20 26
+ 92 Tortilla Chips                       0.3%       45%  -0.70  -0.19  -0.15  -0.02  -0.02 24
+ 93 Guerreros de Oaxaca - JW             0.3%       45%  -0.75  -0.21  -0.04  +0.25  -0.41 26
+ 94 Heroes of the Bible TTC              0.2%       45%  -0.78  -0.21  -0.30  -0.22  +0.30 25
+ 95 Arcadia Wyverns                      0.2%       44%  -0.82  -0.22  -0.04  +0.07  -0.25 24
+ 96 Vancouver Pilots                     0.2%       44%  -0.88  -0.24  +0.17  -0.11  -0.29 23
+ 97 Red Dirt Cowboys                     0.3%       44%  -0.89  -0.24  -0.41  -0.04  +0.20 24
+ 98 Stanislaus Rock-a-Chaws - GH         0.2%       43%  -0.98  -0.27  -0.24  -0.03  -0.01 25
+ 99 Boston Sloths - HotL                 0.2%       43%  -1.00  -0.27  -0.03  +0.07  -0.32 25
+100 Fancher Creek Fedayi                 0.2%       43%  -1.01  -0.27  -0.01  -0.06  -0.20 25
+101 Tokyo Trail Blazers                  0.2%       43%  -1.08  -0.30  -0.02  -0.06  -0.22 24
+102 Winnipeg Blue Bombers - SCAL         0.2%       43%  -1.08  -0.30  +0.09  -0.06  -0.33 24
+103 Cedar Park Pandas                    0.1%       42%  -1.17  -0.32  +0.09  -0.09  -0.32 19
+104 Moncton Mosquitos                    0.1%       42%  -1.20  -0.33  -0.22  -0.09  -0.02 25
+105 LCFC FOXES                           0.2%       41%  -1.25  -0.34  -0.40  +0.08  -0.02 26
+106 Sacramento Rainiers                  0.1%       41%  -1.26  -0.35  -0.25  -0.04  -0.06 24
+107 Sugar High TTC                       0.1%       41%  -1.28  -0.35  +0.24  -0.16  -0.44 23
+108 O'block Scoundrels                   0.1%       41%  -1.33  -0.36  -0.22  -0.16  +0.02 23
+109 Bethlehem BP-37 Bombers              0.1%       41%  -1.36  -0.37  -0.43  -0.03  +0.08 25
+110 Spring Breakers                      0.2%       40%  -1.49  -0.41  -0.29  +0.18  -0.30 26
+111 Vancouver Jays                       0.1%       40%  -1.53  -0.42  -0.52  -0.01  +0.11 25
+112 Madison Mallards                     0.1%       39%  -1.63  -0.45  -0.06  -0.20  -0.19 26
+113 Savannah Hurricanes                  0.1%       38%  -1.73  -0.47  -0.04  +0.07  -0.50 22
+114 Zanesville Greys                     0.1%       38%  -1.81  -0.50  -0.43  +0.15  -0.22 24
+115 Cudahy Day Drinkers                  0.1%       37%  -1.95  -0.53  -0.34  -0.06  -0.13 25
+116 El Vampiro Ankle Biters              0.0%       36%  -2.00  -0.55  -0.15  -0.05  -0.35 23
+117 Orlando Heatstrokes                  0.0%       35%  -2.28  -0.62  +0.01  -0.14  -0.50 25
+118 Absolute Units                       0.0%       32%  -2.71  -0.74  -0.34  -0.12  -0.28 21
+119 Houston Swangas                      0.0%       32%  -2.71  -0.74  -0.45  -0.17  -0.12 23

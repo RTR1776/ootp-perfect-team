@@ -1,0 +1,514 @@
+[
+{
+"la": "Hackers",
+"a": "Dark Web Hackers",
+"sa": 0,
+"lb": "SLO",
+"b": "Boston Sloths - HotL",
+"sb": 5
+},
+{
+"la": "WR#1",
+"a": "Warner Robins Demons - HotL",
+"sa": 5,
+"lb": "CORG",
+"b": "Compton Corgis - HOTL",
+"sb": 3
+},
+{
+"la": "Deer - HOTL",
+"a": "Highland Deer - HOTL",
+"sa": 5,
+"lb": "SDTT",
+"b": "San Dimas Time Travelers - BFF",
+"sb": 1
+},
+{
+"la": "Springboks",
+"a": "Asbury Springboks",
+"sa": 5,
+"lb": "LAF",
+"b": "Laffy Comedians - JW",
+"sb": 0
+},
+{
+"la": "Ravens",
+"a": "New Haven Ravens",
+"sa": 4,
+"lb": "Beans",
+"b": "Chicago Beans",
+"sb": 5
+},
+{
+"la": "Tornadoes",
+"a": "Sixes Tornadoes",
+"sa": 5,
+"lb": "Expos TTC",
+"b": "Montreal Expos TTC",
+"sb": 2
+},
+{
+"la": "LPs - GH",
+"a": "Bonney Lake LPs - GH",
+"sa": 5,
+"lb": "Seals",
+"b": "Chicago Seals",
+"sb": 4
+},
+{
+"la": "Oil Barons",
+"a": "Philadelphia Oil Barons",
+"sa": 1,
+"lb": "HOTT",
+"b": "Mt Etna Hotter Otters - HotL",
+"sb": 5
+},
+{
+"la": "Highlanders",
+"a": "Denver Highlanders",
+"sa": 5,
+"lb": "Seasiders",
+"b": "Southend Seasiders",
+"sb": 0
+},
+{
+"la": "EVPK",
+"a": "EVC's Quinipacks Only Rippers PCK",
+"sa": 5,
+"lb": "Whalers",
+"b": "Sydney Whalers",
+"sb": 4
+},
+{
+"la": "GG",
+"a": "Globo Gym Purple Cobras - JW",
+"sa": 5,
+"lb": "Bison - HotL",
+"b": "Chargn Bison - HotL",
+"sb": 3
+},
+{
+"la": "CIB",
+"a": "Cibolo Packsters PCK",
+"sa": 1,
+"lb": "Clubbers",
+"b": "Country Clubbers",
+"sb": 5
+},
+{
+"la": "Dock",
+"a": "Dock Ellis Day-Trippers",
+"sa": 5,
+"lb": "Wombats",
+"b": "San Diego Wombats",
+"sb": 3
+},
+{
+"la": "SUM",
+"a": "Summerglen Seraphs TBD",
+"sa": 5,
+"lb": "Aqua Sox",
+"b": "Everett Aqua Sox",
+"sb": 1
+},
+{
+"la": "Batmen",
+"a": "Gotham City Batmen",
+"sa": 5,
+"lb": "Last Licks",
+"b": "Crouton's Last Licks",
+"sb": 2
+},
+{
+"la": "CC",
+"a": "Cape Cod Sharks - HotL",
+"sa": 0,
+"lb": "CAS",
+"b": "Castroville Mashers - JW",
+"sb": 5
+},
+{
+"la": "Brownies",
+"a": "New York Brownies",
+"sa": 5,
+"lb": "NorCal CGE",
+"b": "NorCal CGE",
+"sb": 3
+},
+{
+"la": "False Hustle",
+"a": "False Hustle",
+"sa": 5,
+"lb": "CHI#1",
+"b": "Chicago Gamblers - GH",
+"sb": 1
+},
+{
+"la": "Spiders - JW",
+"a": "Cleveland Spiders - JW",
+"sa": 1,
+"lb": "Preguntas",
+"b": "El Paso Preguntas",
+"sb": 5
+},
+{
+"la": "Grouches",
+"a": "Grover Beach Grouches",
+"sa": 5,
+"lb": "TBL",
+"b": "Legends of the Devil Rays TTC",
+"sb": 4
+},
+{
+"la": "Bunters",
+"a": "Billys Bunters",
+"sa": 0,
+"lb": "GAM",
+"b": "Gamehendge Lizards - HotL",
+"sb": 5
+},
+{
+"la": "Arcias",
+"a": "Orlando Arcias",
+"sa": 4,
+"lb": "Legends",
+"b": "Lyman Legends",
+"sb": 5
+},
+{
+"la": "NNT",
+"a": "Normal Night Owls - HotL",
+"sa": 5,
+"lb": "Bees",
+"b": "New England Bees",
+"sb": 0
+},
+{
+"la": "GUE",
+"a": "Guerreros de Oaxaca - JW",
+"sa": 5,
+"lb": "CHI#2",
+"b": "Chicago Gamblers - E6",
+"sb": 0
+},
+{
+"la": "SHR",
+"a": "Shibuya Shredders - GH",
+"sa": 5,
+"lb": "Surf - GH",
+"b": "Atlantic City Surf - GH",
+"sb": 3
+},
+{
+"la": "PUMP#1",
+"a": "Pumpkin Smashers - HOTL",
+"sa": 4,
+"lb": "WR#2",
+"b": "Warner Robins Demons PCK-HotL",
+"sb": 5
+},
+{
+"la": "Vols Deep",
+"a": "Vols Deep",
+"sa": 1,
+"lb": "CHA#1",
+"b": "Charlotte Aviators - JW",
+"sb": 5
+},
+{
+"la": "Mohicans",
+"a": "Madison Mohicans",
+"sa": 5,
+"lb": "RAT",
+"b": "Chicago Rat Finks - HotL",
+"sb": 4
+},
+{
+"la": "WAR",
+"a": "Honolulu Warriors - HotL",
+"sa": 4,
+"lb": "Rascals BFF",
+"b": "Roaming Rascals BFF",
+"sb": 5
+},
+{
+"la": "Corn Dogs",
+"a": "Crown Point Corn Dogs",
+"sa": 3,
+"lb": "Sportagie",
+"b": "Kamouraska Sportagie",
+"sb": 5
+},
+{
+"la": "Grizzlies",
+"a": "Portland Grizzlies",
+"sa": 5,
+"lb": "WBJ",
+"b": "Winnipeg Brew Jays - HotL",
+"sb": 0
+},
+{
+"la": "Briskets",
+"a": "Texas Briskets",
+"sa": 0,
+"lb": "LVB",
+"b": "Las Vegas Bat Country - JW",
+"sb": 5
+},
+{
+"la": "Spartans",
+"a": "New Barn Spartans",
+"sa": 5,
+"lb": "OGD",
+"b": "Ogden Raptors - HotL",
+"sb": 3
+},
+{
+"la": "MH",
+"a": "Morgan Hill Vaqueros - TBD",
+"sa": 4,
+"lb": "Hurricanes#1",
+"b": "Mayport Hurricanes",
+"sb": 5
+},
+{
+"la": "It Live",
+"a": "We'll Do It Live",
+"sa": 3,
+"lb": "Reds",
+"b": "Liverpool Reds",
+"sb": 5
+},
+{
+"la": "NATT",
+"a": "North American 20 and 30 Somethings",
+"sa": 2,
+"lb": "Swingers",
+"b": "Corpus Christi Swingers",
+"sb": 5
+},
+{
+"la": "WAT",
+"a": "Watertown Sword Guys TBD",
+"sa": 5,
+"lb": "Stars",
+"b": "Southport Stars",
+"sb": 2
+},
+{
+"la": "PMS",
+"a": "Phoenix Mango Slush - HOTL",
+"sa": 5,
+"lb": "Armadillos",
+"b": "Amarillo Armadillos",
+"sb": 2
+},
+{
+"la": "Tigers",
+"a": "Detroit Tigers",
+"sa": 5,
+"lb": "Incognito",
+"b": "Oysters Incognito",
+"sb": 0
+},
+{
+"la": "NYC",
+"a": "New Old Yankees TTC",
+"sa": 5,
+"lb": "Surge",
+"b": "Chester Surge",
+"sb": 1
+},
+{
+"la": "NP",
+"a": "New Platson Grand Petites HotL",
+"sa": 4,
+"lb": "Hurricanes#2",
+"b": "PSL Hurricanes",
+"sb": 5
+},
+{
+"la": "FIR",
+"a": "Firestone Murderhawks",
+"sa": 5,
+"lb": "Hellcats GH",
+"b": "Charlotte Hellcats GH",
+"sb": 4
+},
+{
+"la": "Speedster",
+"a": "Jinzhou Speedster",
+"sa": 1,
+"lb": "COL",
+"b": "Colorado Avalanche - JW",
+"sb": 5
+},
+{
+"la": "Cyclones",
+"a": "Brooklyn Cyclones",
+"sa": 4,
+"lb": "OKWW",
+"b": "OKC Whirlwinds - PCK",
+"sb": 5
+},
+{
+"la": "?",
+"a": "Cibao Aguilas",
+"sa": 4,
+"lb": "PURP",
+"b": "Shakedown 1977 Microbus TTC - GH",
+"sb": 5
+},
+{
+"la": "Supercells",
+"a": "Webster Groves Supercells",
+"sa": 2,
+"lb": "Tulsa Doom",
+"b": "Tulsa Doom",
+"sb": 5
+},
+{
+"la": "Lynx - HotL",
+"a": "Ottawa Lynx - HotL",
+"sa": 3,
+"lb": "Dockers",
+"b": "Door County Dockers",
+"sb": 5
+},
+{
+"la": "Lindy Hops",
+"a": "Lindy Hops",
+"sa": 0,
+"lb": "Friars - HotL",
+"b": "Providence Friars - HotL",
+"sb": 5
+},
+{
+"la": "Chiefs",
+"a": "Chilliwack Chiefs",
+"sa": 0,
+"lb": "CHA#2",
+"b": "Charlotte Dachshunds - GH",
+"sb": 5
+},
+{
+"la": "PUMP#2",
+"a": "Pumpkin Smashers - HotL",
+"sa": 0,
+"lb": "TB",
+"b": "The Black Freighter TBD",
+"sb": 5
+},
+{
+"la": "Nasty Boyz",
+"a": "B-Town Nasty Boyz",
+"sa": 0,
+"lb": "SafeZone",
+"b": "Alexandria SafeZone",
+"sb": 5
+},
+{
+"la": "Heat BFF",
+"a": "Chico Heat BFF",
+"sa": 5,
+"lb": "Nines",
+"b": "Bloody Nines",
+"sb": 3
+},
+{
+"la": "Swangas",
+"a": "Houston Swangas",
+"sa": 5,
+"lb": "Mashers",
+"b": "Madison Mashers",
+"sb": 4
+},
+{
+"la": "BB",
+"a": "Breslau Binturongs - HotL",
+"sa": 5,
+"lb": "Los Toros",
+"b": "Durham Los Toros",
+"sb": 1
+},
+{
+"la": "HOU",
+"a": "Houston Harambe - GH",
+"sa": 5,
+"lb": "Giants - CG",
+"b": "Telluride Giants - CG",
+"sb": 0
+},
+{
+"la": "Pheasants",
+"a": "Flint Pheasants",
+"sa": 0,
+"lb": "Sundevils",
+"b": "Charlotte Sundevils",
+"sb": 5
+},
+{
+"la": "DES",
+"a": "Desert Sand Dwellers - JW",
+"sa": 5,
+"lb": "Twins",
+"b": "Minnesota Twins",
+"sb": 3
+},
+{
+"la": "Why Knots",
+"a": "Why Knots",
+"sa": 5,
+"lb": "DC",
+"b": "Dry Creek Craw Daddies",
+"sb": 2
+},
+{
+"la": "ALB",
+"a": "Albion Rhody Rounders - HotL",
+"sa": 5,
+"lb": "Torrent - JW",
+"b": "Kansas City Torrent - JW",
+"sb": 3
+},
+{
+"la": "Blue - HotL",
+"a": "Ann Arbor Blue - HotL",
+"sa": 0,
+"lb": "Whips",
+"b": "Peninsula Whips",
+"sb": 5
+},
+{
+"la": "Finches",
+"a": "Greystones Finches",
+"sa": 0,
+"lb": "Fisher Cats",
+"b": "Paramus Fisher Cats",
+"sb": 5
+},
+{
+"la": "Kerim",
+"a": "NoseKerim Astea Kerim",
+"sa": 3,
+"lb": "Madness",
+"b": "Maple Madness",
+"sb": 5
+},
+{
+"la": "ALH",
+"a": "Alhambra Moors - HotL TTC",
+"sa": 5,
+"lb": "Hurricanes#3",
+"b": "Savannah Hurricanes",
+"sb": 1
+},
+{
+"la": "Bees - GH",
+"a": "AW Bees - GH",
+"sa": 5,
+"lb": "DEL",
+"b": "Delmarva Shorebirds_TTC",
+"sb": 1
+}
+]
