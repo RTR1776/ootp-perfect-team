@@ -1224,20 +1224,21 @@ def for_cwhit(path: str, name: str) -> str:
     ok, detail = cu.write_for_cwhit(path, os.path.join(CWHIT_DIR, his))
     return f"→ cwhit needs it: {his}" if ok else f"(cwhit needs {his}, but not sent: {detail})"
 
-DRAFT_CATCHUP = os.path.join(REPO, "Archive/.draft-imports-v1")
+DRAFT_CATCHUP = os.path.join(REPO, "Archive/.draft-imports-v2")
 
 def catch_up_drafts() -> None:
-    """Once: import every Perfect Draft series already filed in Archive/Completed (filed since 11-05, never imported)."""
+    """Once: re-import 5L Deadball with its run dates.
+    v1 (11-22/23) imported all 15 Perfect Draft series filed since 11-05 (batches 937 and 938, checked in the DB),
+    but with the old importer, which dated runs from the tournaments dump only. Draft runs are in the drafts dump,
+    so 5L's runs before its 10-19 format change (1907 to 1916) stayed in 5ldeadball. Re-imported with dates, they
+    move to 5ldeadball-pre20261019. No other draft series has a format date."""
     if os.path.exists(DRAFT_CATCHUP):
         return
-    have = {re.sub(r"_\d+\.csv$", "", f) for f in os.listdir(DEST) if f.endswith(".csv")}
-    slugs = sorted(v for v, _n, g in VARNAMES if g.startswith("pd") and v in have)
+    slugs = [s for s in ("5ldeadball",) if any(f.startswith(s + "_") and f.endswith(".csv") for f in os.listdir(DEST))]
     if not slugs:
         return
-    # In the foreground, one series at a time, with each result printed: run quietly behind "Watching…" it was
-    # killed when the window closed (11-22: two 5L attempts died staged, at 0 and 200 of ~1,900 rows).
-    print(f"\nImporting the Perfect Draft exports already filed ({len(slugs)} series, one time).")
-    print("Leave this window open; each series takes a minute or two.")
+    print("\nRe-importing 5L Deadball with its run dates (one time).")
+    print("Leave this window open; it takes a minute or two.")
     failed = []
     for slug in slugs:
         print(f"  {slug}…", end=" ", flush=True)
@@ -1256,7 +1257,7 @@ def catch_up_drafts() -> None:
         return
     with open(DRAFT_CATCHUP, "w") as f:
         f.write(time.strftime("%Y-%m-%d %H:%M") + "\n")
-    print("  all drafts imported.\n")
+    print("  5L re-imported.\n")
 
 def main() -> None:
     os.makedirs(DEST, exist_ok=True)
