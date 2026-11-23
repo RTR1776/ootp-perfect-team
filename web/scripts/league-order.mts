@@ -1,5 +1,5 @@
 /**
- * Batting order (lib/batting-order) for given nines in a league run environment at 1987 Yankee Stadium,
+ * Batting order (lib/batting-order) for given nines in a league run environment at PARK (default 1987 Yankee Stadium),
  * half weight; also scores the order as listed.
  *
  *   YEAR=2014 NINE_R="1B:George Brett,..." NINE_L="..." node --import tsx scripts/league-order.mts
@@ -12,7 +12,7 @@ import { calibrationSlope } from "@/lib/analytics/calibration";
 import { bestOrder, gameRuns, obp, orderEnv, paLine, shrink, slg } from "@/lib/batting-order";
 const YEAR = Number(process.env.YEAR ?? 2014);
 const era = leagueEraFor(YEAR)?.row ?? leagueRow(eraTable["0"]);
-const p = parkFor("1987 Yankee Stadium").row!;
+const p = parkFor(process.env.PARK ?? "1987 Yankee Stadium").row!;
 const park = { ...p, avgL: 1 + (p.avgL - 1) / 2, avgR: 1 + (p.avgR - 1) / 2, hrL: 1 + (p.hrL - 1) / 2, hrR: 1 + (p.hrR - 1) / 2, d2: 1 + (p.d2 - 1) / 2, d3: 1 + (p.d3 - 1) / 2 };
 const u = await loadHitterUniverse();
 for (const [hand, spec] of [["R", process.env.NINE_R], ["L", process.env.NINE_L]] as const) {

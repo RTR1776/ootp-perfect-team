@@ -1,22 +1,24 @@
 /**
- * KC's PEL staff on the league arm model (lib/league-staff scoreArms + staffSolve), with each arm's raw
- * league edge vs LHB and vs RHB. Env EXTRA="Name,..." adds candidates (marked *).
+ * KC's league staff on the league arm model (lib/league-staff scoreArms + staffSolve), with each arm's raw
+ * league edge vs LHB and vs RHB. Env EXTRA="Name,..." adds candidates (marked *); MINE="Name,..." replaces
+ * the staff; FAMILY=PEL|HD (default PEL) is the tier whose arm lines and slot innings are used.
  *
  *   node --import tsx scripts/league-staff-check.mts
  */
 import { loadHitterUniverse } from "@/lib/league-hitters";
 import { resolveArms, scoreArms, toStaffArm, leagueArmLines, leagueIpPerSlot, leagueArmEdges, edgeFor, sideEdge } from "@/lib/league-staff";
 import { staffSolve } from "@/lib/league-arms";
-const MINE = "Madison Bumgarner,Ben Sheets,Chris Sale,Mordecai Brown,Eddie Plank,Andrew Miller,Willie Hernandez,Zack Britton,Wade Davis,Louis Varland,Josh Hader,B.J. Ryan".split(",");
+const MINE = (process.env.MINE ?? "Madison Bumgarner,Ben Sheets,Chris Sale,Mordecai Brown,Eddie Plank,Andrew Miller,Willie Hernandez,Zack Britton,Wade Davis,Louis Varland,Josh Hader,B.J. Ryan").split(",");
+const FAMILY = (process.env.FAMILY ?? "PEL") as "PEL" | "HD";
 const EXTRA = (process.env.EXTRA ?? "Craig Kimbrel,Robb Nen,Yoshinobu Yamamoto,Christy Mathewson,Koji Uehara,Kirby Yates,Orel Hershiser,Justin Verlander,Sandy Koufax").split(",").filter(Boolean);
 const f2 = (n: number | null | undefined) => (n == null ? "  —  " : `${n >= 0 ? "+" : ""}${n.toFixed(2)}`);
 const u = await loadHitterUniverse();
 const { arms, warnings } = resolveArms([...MINE, ...EXTRA], u);
 for (const w of warnings) console.log("  !!", w);
-const lines = await leagueArmLines("PEL"), ip = await leagueIpPerSlot("PEL");
+const lines = await leagueArmLines(FAMILY), ip = await leagueIpPerSlot(FAMILY);
 const [eL, eR] = [await leagueArmEdges("vL"), await leagueArmEdges("vR")];
 const sc = scoreArms(arms, lines);
-console.log(`PEL slot innings: SP ${ip.sp.toFixed(0)}, RP ${ip.rp.toFixed(0)} (${ip.week})`);
+console.log(`${FAMILY} slot innings: SP ${ip.sp.toFixed(0)}, RP ${ip.rp.toFixed(0)} (${ip.week})`);
 console.log("arm                          SP/9    RP/9   PEL IP(sp/rp)  stam  | raw league vs LHB (IP)   vs RHB (IP)");
 for (const a of arms) {
   const s = sc.get(a.entry)!;

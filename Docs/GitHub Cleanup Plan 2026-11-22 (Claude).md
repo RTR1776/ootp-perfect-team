@@ -6,7 +6,7 @@ Each step says who does it and what it needs from L.J.
 
 **Status (11-22 evening, after L.J.'s "Proceed"):**
 - **Step 1:** done, in PR 202.
-- **Step 2:** the restore list and `Clean Up Branches.command` are written. The cloud proxy refused the tag push (403: a session pushes only to its own branch), so L.J. runs the command on the Mac after PR 202 merges.
+- **Step 2:** done 11-22. L.J. merged PR 202 and ran `Clean Up Branches.command` on the Mac. GitHub is down to `main` and `claude/elegant-cannon-nu9vrr`, and all 30 `archive/*` tags sit on the commits in the restore list (checked from the cloud).
 - **Step 3:** done.
 - **Step 4:** the dump loader now does it on each Monday load; there is no separate command. `LJ Cards and Card Shop/` stays, because `verify-ingest.ts` reads its card list.
 - **Step 5:** done; all six one-time commands had run.

@@ -156,15 +156,18 @@ export const DRAFT_FORMATS: Record<string, DraftFormat> = {
       { key: "S-any", label: "Silver", tier: "Silver", groups: ALL_GROUPS, count: 2, pack: "mixed" },
       { key: "G-any", label: "Gold", tier: "Gold", groups: ALL_GROUPS, count: 2, pack: "mixed" },
     ],
-    packSize: 6,
+    ordered: true,
+    // L.J.'s 11-22 draft, screen by screen: 13 rounds of 12 cards in this order, keeping 2, 1 x7, 3, 5, 5, 2, 2.
+    screens: screensOf(["B-C", 2], ["B-1B", 1], ["B-2B", 1], ["B-3B", 1], ["B-SS", 1], ["B-LF", 1], ["B-CF", 1], ["B-RF", 1],
+      ["I-bat", 3], ["B-SP", 5], ["B-RP", 5], ["S-any", 2], ["G-any", 2]),
+    packSize: 12,
     confirmed: [
+      "13 rounds of 12 cards, in this order (L.J.'s 11-22 draft screens): Bronze C keep 2; Bronze 1B/DH, 2B, 3B, SS, LF, CF, RF keep 1 each; Iron bats keep 3; Bronze SP keep 5; Bronze RP keep 5; Silver keep 2; Gold keep 2. The Silver and Gold packs mix bats and arms.",
       "1996 run environment with DH, 128 teams, Bo7 with a Bo9 final (L.J., 10-25).",
       "DH: pitchers took ~1% of plate appearances in every export on file.",
       "26 rounds: 2 Bronze C; one Bronze 1B/DH, 2B, 3B, SS, LF, CF and RF; 5 Bronze SP; 5 Bronze RP; 3 Iron bats (no C); 2 Silver; 2 Gold (exact on all 304 full teams, 10-22..10-25).",
     ],
     assumed: [
-      "Iron, Silver and Gold packs mix positions (they could be pick-a-position).",
-      "Packs show 6 cards (L.J.'s July note; the 10-22..25 exports fit 6-9).",
       "Park: 1984 Olympic Stadium, from the catalogue.",
     ],
   },

@@ -644,6 +644,9 @@ def finish_imports() -> str:
     if not _IMPORT_RESULTS:
         return ""
     failed = [s for s, ok, _ in _IMPORT_RESULTS if not ok]
+    if _CATCHUP[0] and not failed:
+        with open(DRAFT_CATCHUP, "w") as f:
+            f.write(time.strftime("%Y-%m-%d %H:%M") + "\n")
     lines = [f"  {'✗' if not ok else '✓'} {s}: {summ}" for s, ok, summ in _IMPORT_RESULTS]
     if not failed:
         print("recalibrating the model against the new play…")
@@ -1007,6 +1010,13 @@ def scan_paths() -> list:
         dirs.extend(glob.glob(g))
     return [d for d in dirs if os.path.isdir(d)]
 
+# A league export (PEL, HD45x, LD40x: the app's Upload page takes those) has the same columns as a
+# tournament export, so it was offered for filing as one. Same rule as the app's parseLeagueFilename.
+_LEAGUE_NAME = re.compile(r"pel|(?<![a-z0-9])(hd|ld)\d{3}(?![0-9])")
+
+def is_league_export(path: str) -> bool:
+    return bool(_LEAGUE_NAME.search(os.path.basename(path).lower().replace(".csv", "")))
+
 def looks_like_export(path: str) -> bool:
     """A SORTABLE STATS export, not a roster export.
 
@@ -1014,6 +1024,8 @@ def looks_like_export(path: str) -> bool:
     no stats and no ORG column at all. One slipped through as openweekly_25.csv:
     26 rows, zero teams, and it went to the DCFC queue looking like a
     tournament. The stats view is the one with ORG and the counting columns."""
+    if is_league_export(path):
+        return False
     try:
         with open(path, "r", encoding="utf-8", errors="replace") as f:
             head = f.readline()
@@ -1131,8 +1143,9 @@ def file_one(mt: float, p: str, label: str, filed: list) -> str:
         filed.append(name)
         print(f"✓ filed {name}" + ("" if group.startswith("pd") else "  " + for_cwhit(dest, name)))
         notify(f"Filed {name}")
-        if not group.startswith("pd"):
-            queue_import(varname)
+        # Perfect Drafts too (2026-11-22). They were filed and never imported, so no draft reached the app
+        # after the 11-05 full import and the 6L/5L study had nothing new. cwhit still gets no drafts.
+        queue_import(varname)
         return "ok"
 
 def cwhit_status() -> dict | None:
@@ -1164,9 +1177,26 @@ def for_cwhit(path: str, name: str) -> str:
     ok, detail = cu.write_for_cwhit(path, os.path.join(CWHIT_DIR, his))
     return f"→ cwhit needs it: {his}" if ok else f"(cwhit needs {his}, but not sent: {detail})"
 
+DRAFT_CATCHUP = os.path.join(REPO, "Archive/.draft-imports-v1")
+_CATCHUP = [False]
+
+def catch_up_drafts() -> None:
+    """Once: import every Perfect Draft series already filed in Archive/Completed (filed since 11-05, never imported)."""
+    if os.path.exists(DRAFT_CATCHUP):
+        return
+    have = {re.sub(r"_\d+\.csv$", "", f) for f in os.listdir(DEST) if f.endswith(".csv")}
+    slugs = sorted(v for v, _n, g in VARNAMES if g.startswith("pd") and v in have)
+    if not slugs:
+        return
+    print(f"importing the Perfect Draft exports already filed ({len(slugs)} series, once)…")
+    _CATCHUP[0] = True
+    for slug in slugs:
+        queue_import(slug)
+
 def main() -> None:
     os.makedirs(DEST, exist_ok=True)
     filed: list = []
+    catch_up_drafts()
 
     # WATCH FIRST. The picker should appear because you just hit download, not
     # because the script started. OOTP leaves its last export sitting in
