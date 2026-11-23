@@ -1,0 +1,36 @@
+# Daily Early Silver — Claude pick 2026-11-23, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Marlins Park --park-year 2017 --dh --min 40 --max 79 --size 26 --series earlysilver --sp 5 --rp 7 --bats 14)
+R:C Bob Boone (VAR) #87032
+R:1B Aiva Arquette (VAR) #84768
+R:2B Placido Polanco #87213
+R:3B John Henry Russell (VAR) #87438
+R:SS Jeremy Pena #87154
+R:LF Pete Rose #87466
+R:CF Carlos Gomez #87418
+R:RF Andy Van Slyke (VAR) #86936
+R:DH CJ Abrams #87385
+L:C Mike Zunino (VAR) #86431
+L:1B Aiva Arquette (VAR) #84768
+L:2B Placido Polanco #87213
+L:3B John Henry Russell (VAR) #87438
+L:SS Jeremy Pena #87154
+L:LF Willie McGee (VAR) #85753
+L:CF Carlos Gomez #87418
+L:RF Alex Rios #87214
+L:DH Ryan Braun #87222
+SP1 Francisco Liriano #87528
+SP2 Nick Altrock #87049
+SP3 Kelvim Escobar #87207
+SP4 Jacob deGrom #86675
+SP5 Bill Ricks #87162
+CL Mike Matthews (VAR) #87296
+RP1 John Bale (VAR) #87234
+RP2 Chad Bradford #86341
+RP3 Randy Myers #87467
+RP4 Dennis Cook (VAR) #83261
+RP5 Bruce Ruffin #86777
+RP6 Jack Wenninger #85125
+BN1 Ryan Braun #87222
+BN2 Willie McGee (VAR) #85753
+BN3 Henry Blackmon #87574
+BN4 Alex Rios #87214
+BN5 Mike Zunino (VAR) #86431

@@ -1,0 +1,36 @@
+# Daily Late Silver — Claude pick 2026-11-23, rebuilt from the catalogue's rules by current-rosters (--year 1992 --park Oriole Park at Camden Yards --park-year 1992 --dh --min 40 --max 79 --card-types 2,3,4,5,6,7,8,9,10 --size 26 --series latesilver --sp 5 --rp 6 --bats 15)
+R:C Jonathan Lucroy #87536
+R:1B Alec Burleson #87393
+R:2B John Henry Russell (VAR) #87438
+R:3B Aiva Arquette (VAR) #84768
+R:SS Josh Harrison #87535
+R:LF Pete Rose #87466
+R:CF Willie McGee (VAR) #85753
+R:RF Andy Van Slyke (VAR) #86936
+R:DH Mike Greenwell (VAR) #86930
+L:C Mike Zunino (VAR) #86431
+L:1B Aiva Arquette (VAR) #84768
+L:2B Brandon Phillips #87202
+L:3B John Henry Russell (VAR) #87438
+L:SS Josh Harrison #87535
+L:LF Willie McGee (VAR) #85753
+L:CF Deion Sanders #86962
+L:RF Alex Rios #87214
+L:DH Ryan Braun #87222
+SP1 Fritz Ostermueller #86357
+SP2 Kelvim Escobar #87207
+SP3 Nick Altrock #87049
+SP4 Jordan Montgomery #86354
+SP5 Francisco Liriano #87528
+CL Billy Swift #87292
+RP1 Chad Bradford #86341
+RP2 Jakie May (VAR) #85286
+RP3 Scott Williamson #87490
+RP4 Randy Myers #87467
+RP5 Bruce Ruffin #86777
+BN1 Angel Genao #84740
+BN2 Brandon Phillips #87202
+BN3 Ryan Braun #87222
+BN4 Alex Rios #87214
+BN5 Deion Sanders #86962
+BN6 Mike Zunino (VAR) #86431
