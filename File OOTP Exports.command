@@ -57,6 +57,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import threading
@@ -600,16 +601,33 @@ def _log(msg: str) -> None:
     except OSError:
         pass
 
-def _run_tsx(args: list, timeout: int = 300):
+def _run_tsx(args: list, timeout: int = 1800):
+    """Run a web/ script to the end. In its own session, writing to a file: Ctrl+C (which ends the watching) and
+    closing this window used to reach the script too and kill an import halfway through staging (11-22: two 5L
+    imports died "staged"). Now the import carries on and publishes; only a timeout stops it."""
     if not os.path.exists(TSX):
         return False, "tsx missing - run pnpm install in web/"
+    os.makedirs(os.path.dirname(IMPORT_LOG), exist_ok=True)
+    out_path = os.path.join(os.path.dirname(IMPORT_LOG), f".run-{os.getpid()}-{threading.get_ident()}.txt")
+    with open(out_path, "w", encoding="utf-8") as out:
+        p = subprocess.Popen([TSX] + args, cwd=WEB, env=_env_with_db(), stdout=out, stderr=subprocess.STDOUT,
+                             stdin=subprocess.DEVNULL, start_new_session=True)
     try:
-        out = subprocess.run([TSX] + args, cwd=WEB, env=_env_with_db(),
-                             capture_output=True, text=True, timeout=timeout)
+        rc = p.wait(timeout=timeout)
     except subprocess.TimeoutExpired:
+        try:
+            os.killpg(p.pid, signal.SIGTERM)
+        except OSError:
+            pass
         return False, "timed out"
-    tail = "\n".join((out.stdout + out.stderr).strip().splitlines()[-6:])
-    return out.returncode == 0, tail
+    try:
+        with open(out_path, encoding="utf-8", errors="replace") as f:
+            text = f.read()
+        os.remove(out_path)
+    except OSError:
+        text = ""
+    tail = "\n".join(text.strip().splitlines()[-6:])
+    return rc == 0, tail
 
 def _import_worker() -> None:
     while True:
@@ -644,9 +662,6 @@ def finish_imports() -> str:
     if not _IMPORT_RESULTS:
         return ""
     failed = [s for s, ok, _ in _IMPORT_RESULTS if not ok]
-    if _CATCHUP[0] and not failed:
-        with open(DRAFT_CATCHUP, "w") as f:
-            f.write(time.strftime("%Y-%m-%d %H:%M") + "\n")
     lines = [f"  {'✗' if not ok else '✓'} {s}: {summ}" for s, ok, summ in _IMPORT_RESULTS]
     if not failed:
         print("recalibrating the model against the new play…")
@@ -1210,7 +1225,6 @@ def for_cwhit(path: str, name: str) -> str:
     return f"→ cwhit needs it: {his}" if ok else f"(cwhit needs {his}, but not sent: {detail})"
 
 DRAFT_CATCHUP = os.path.join(REPO, "Archive/.draft-imports-v1")
-_CATCHUP = [False]
 
 def catch_up_drafts() -> None:
     """Once: import every Perfect Draft series already filed in Archive/Completed (filed since 11-05, never imported)."""
@@ -1220,10 +1234,29 @@ def catch_up_drafts() -> None:
     slugs = sorted(v for v, _n, g in VARNAMES if g.startswith("pd") and v in have)
     if not slugs:
         return
-    print(f"importing the Perfect Draft exports already filed ({len(slugs)} series, once)…")
-    _CATCHUP[0] = True
+    # In the foreground, one series at a time, with each result printed: run quietly behind "Watching…" it was
+    # killed when the window closed (11-22: two 5L attempts died staged, at 0 and 200 of ~1,900 rows).
+    print(f"\nImporting the Perfect Draft exports already filed ({len(slugs)} series, one time).")
+    print("Leave this window open; each series takes a minute or two.")
+    failed = []
     for slug in slugs:
-        queue_import(slug)
+        print(f"  {slug}…", end=" ", flush=True)
+        try:
+            ok, tail = _run_tsx(["scripts/import-observed.ts", "--series", slug])
+        except KeyboardInterrupt:
+            print("stopped. The import already running finishes on its own; the rest run next time.\n")
+            return
+        line = next((l.strip() for l in tail.splitlines() if "published" in l or "FAILED" in l), tail.splitlines()[-1] if tail else "")
+        print(("done: " if ok else "FAILED: ") + line)
+        _log(f"draft catch-up {slug}: {'ok' if ok else 'FAILED'} - {line}")
+        if not ok:
+            failed.append(slug)
+    if failed:
+        print(f"  {len(failed)} failed ({', '.join(failed)}): see Archive/import-log.txt. The filer will try them again next time.\n")
+        return
+    with open(DRAFT_CATCHUP, "w") as f:
+        f.write(time.strftime("%Y-%m-%d %H:%M") + "\n")
+    print("  all drafts imported.\n")
 
 def main() -> None:
     os.makedirs(DEST, exist_ok=True)

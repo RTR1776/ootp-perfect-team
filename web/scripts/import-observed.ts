@@ -133,8 +133,12 @@ async function main() {
   }
   const runStart = new Map<number, number>();
   const dumpDir = join(ROOT, "Tourney Data");
-  const dumpFile = existsSync(dumpDir) ? newestDumpFile(dumpDir, "tournaments") : undefined;
-  if (dumpFile) for (const e of parseDump(readFileSync(join(dumpDir, dumpFile), "utf8"))?.events ?? []) runStart.set(Number(e.id), e.start);
+  // Both dumps (2026-11-23): the Perfect Draft runs (5L slot 207, 6L slot 218) are only in the drafts one, so
+  // without it every 5L file was undated, and the pre-10-19 Lower Level runs landed in 5ldeadball itself.
+  for (const kind of ["tournaments", "drafts"] as const) {
+    const dumpFile = existsSync(dumpDir) ? newestDumpFile(dumpDir, kind) : undefined;
+    if (dumpFile) for (const e of parseDump(readFileSync(join(dumpDir, dumpFile), "utf8"))?.events ?? []) runStart.set(Number(e.id), e.start);
+  }
   const runOnOf = (slug: string, run: number): string | null => {
     const s = split.get(slug);
     const at = s ? runStart.get(s.slot * 10000 + run) : undefined;
