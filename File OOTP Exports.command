@@ -96,6 +96,7 @@ FP_CACHE = os.path.join(REPO, "Archive/.fingerprints.json")
 # OOTP keeps in online_data greets you on every launch, and a Cancel in the
 # watch loop came straight back on the next 1.5s poll.
 SKIP_CACHE = os.path.join(REPO, "Archive/.skipped.json")
+HELD_CACHE = os.path.join(REPO, "Archive/.held.json")   # originals copied aside by hold()
 WATCH_ONLY = "--watch" in sys.argv
 DAILY_EPOCH = date(2026, 3, 13)  # fallback only — see schedule() below
 # ---------------------------------------------------------------------------
@@ -1019,6 +1020,27 @@ def remember_skip(path: str, mtime: float) -> None:
 def was_skipped(path: str, mtime: float) -> bool:
     return abs(load_skips().get(path, -1) - mtime) < 1.0
 
+def _held() -> dict:
+    try:
+        with open(HELD_CACHE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def remember_held(path: str, mtime: float) -> None:
+    """An original whose copy was taken (see hold): neither offered again nor listed as skipped."""
+    d = _held()
+    d[path] = mtime
+    try:
+        os.makedirs(os.path.dirname(HELD_CACHE), exist_ok=True)
+        with open(HELD_CACHE, "w", encoding="utf-8") as f:
+            json.dump(d, f)
+    except OSError:
+        pass
+
+def was_held(path: str, mtime: float) -> bool:
+    return abs(_held().get(path, -1) - mtime) < 1.0
+
 def scan_paths() -> list:
     dirs = list(SCAN_DIRS)
     for g in SCAN_GLOBS:
@@ -1064,24 +1086,30 @@ def league_by_games(path: str) -> bool:
 def is_league_export(path: str) -> bool:
     return bool(_LEAGUE_NAME.search(os.path.basename(path).lower())) or league_by_games(path)
 
-def looks_like_export(path: str) -> bool:
-    """A SORTABLE STATS export, not a roster export.
+def not_an_export(path: str) -> str | None:
+    """None for a tournament SORTABLE STATS export; otherwise why the file is passed over. The watcher prints
+    the reason (11-23: L.J.'s 5L and 6L exports never reached the archive, and nothing said why).
 
-    Both begin "POS," — OOTP's roster view is POS,#,Name,Inf,Age,NAT,… and has
-    no stats and no ORG column at all. One slipped through as openweekly_25.csv:
-    26 rows, zero teams, and it went to the DCFC queue looking like a
-    tournament. The stats view is the one with ORG and the counting columns."""
-    if is_league_export(path):
-        return False
+    A roster export also begins "POS," — OOTP's roster view is POS,#,Name,Inf,Age,NAT,… and has no stats and
+    no ORG column at all. One slipped through as openweekly_25.csv: 26 rows, zero teams, and it went to the
+    DCFC queue looking like a tournament. The stats view is the one with ORG and the counting columns."""
+    if _LEAGUE_NAME.search(os.path.basename(path).lower()):
+        return "a league export (PEL, HD or LD in its name) - upload those on the app's Upload page"
+    if league_by_games(path):
+        return "a league export (every club played about the same number of games) - upload those on the app's Upload page"
     try:
         with open(path, "r", encoding="utf-8", errors="replace") as f:
             head = f.readline()
-    except OSError:
-        return False
+    except OSError as e:
+        return f"unreadable ({e})"
     if not (head.startswith("POS,") or head.startswith("POS;")):
-        return False
+        return "not a player stats export"
     cols = {c.strip() for c in re.split(r"[,;]", head)}
-    return "ORG" in cols and "PA" in cols and "BF" in cols
+    missing = [c for c in ("ORG", "PA", "BF") if c not in cols]
+    return f"not the sortable stats view (no {', '.join(missing)} column)" if missing else None
+
+def looks_like_export(path: str) -> bool:
+    return not_an_export(path) is None
 
 def settled(path: str) -> bool:
     try:
@@ -1100,10 +1128,24 @@ def find_exports() -> list:
             if looks_like_export(p):
                 try:
                     m = os.path.getmtime(p)
-                    if fresh(m) and not was_skipped(p, m):
+                    if fresh(m) and not was_skipped(p, m) and not was_held(p, m):
                         found.append((m, p))
                 except OSError:
                     pass
+    found.sort()
+    return found
+
+def skipped_exports() -> list:
+    """Exports from the last week sitting on disk that a dialog skipped (Cancel, Skip, Just Watch), oldest first."""
+    found = []
+    for d in scan_paths():
+        for p in glob.glob(os.path.join(d, "*.csv")):
+            try:
+                m = os.path.getmtime(p)
+            except OSError:
+                continue
+            if fresh(m) and was_skipped(p, m) and not was_held(p, m) and looks_like_export(p):
+                found.append((m, p))
     found.sort()
     return found
 
@@ -1134,6 +1176,26 @@ def has_games(path: str) -> bool:
     except (OSError, StopIteration):
         return False
     return False
+
+HOLD_DIR = os.path.join(REPO, "Inbox/Tourney Stats")
+
+def hold(p: str, mt: float) -> str:
+    """Copy an export out of OOTP's folder before anything is asked about it, and file the copy.
+
+    OOTP writes every export to the same file. An export made while a dialog was open overwrote the one being
+    filed: the dialog then moved the newer export under the older one's name, and the older one was gone. The
+    copy keeps OOTP's time, and the original is remembered as handled until OOTP writes it again."""
+    if os.path.abspath(os.path.dirname(p)) == os.path.abspath(HOLD_DIR):
+        return p
+    try:
+        os.makedirs(HOLD_DIR, exist_ok=True)
+        held = os.path.join(HOLD_DIR, time.strftime("held_%Y%m%d_%H%M%S", time.localtime(mt)) + f"_{int(mt * 1000) % 1000:03d}.csv")
+        shutil.copy2(p, held)
+    except OSError as e:
+        print(f"  (couldn't copy {os.path.basename(p)} aside: {e}; filing it in place)")
+        return p
+    remember_held(p, mt)
+    return held
 
 def file_one(mt: float, p: str, label: str, filed: list) -> str:
     """Prompt for and file a single export. Returns ok|skip."""
@@ -1270,6 +1332,12 @@ def main() -> None:
     # always up before you had exported anything - which is exactly backwards.
     # Anything already on disk is offered as a single yes/no, defaulting to no.
     exports = find_exports()
+    skipped = skipped_exports()
+    if skipped:
+        print(f"{len(skipped)} export(s) from the last {MAX_AGE_DAYS} days were skipped earlier and won't be offered again:")
+        for mt, p in skipped[-8:]:
+            print(f"  {time.strftime('%a %b %-d %H:%M', time.localtime(mt))}  {short(p)}")
+        print("  Export the tournament again from OOTP to file it.\n")
     if exports and not WATCH_ONLY:
         older = alert(
             f"{len(exports)} export(s) are already sitting unfiled:\n"
@@ -1280,7 +1348,7 @@ def main() -> None:
             ("File Them Now", "Just Watch"), "Just Watch")
         if older == "File Them Now":
             for i, (mt, p) in enumerate(exports, 1):
-                file_one(mt, p, f"File {i} of {len(exports)}", filed)
+                file_one(mt, hold(p, mt), f"File {i} of {len(exports)}", filed)
         else:
             for mt, p in exports:
                 remember_skip(p, mt)
@@ -1296,6 +1364,7 @@ def main() -> None:
             except OSError:
                 pass
     last_activity = time.time()
+    passed_over = {}   # path -> mtime already explained, so each reason prints once per export
     try:
         while time.time() - last_activity < IDLE_QUIT_MINUTES * 60:
             time.sleep(POLL_SECONDS)
@@ -1311,15 +1380,18 @@ def main() -> None:
                     # usually still writing on the first poll, and recording the
                     # mtime here made the next pass skip it as "already seen" -
                     # the export was dropped and never prompted for.
-                    if not fresh(m) or not settled(p) or not looks_like_export(p):
+                    if not fresh(m) or not settled(p):
+                        continue
+                    why = not_an_export(p)
+                    if why:
+                        if passed_over.get(p) != m:
+                            passed_over[p] = m
+                            print(f"  not filed: {os.path.basename(p)} ({time.strftime('%H:%M', time.localtime(m))}) is {why}")
                         continue
                     seen[p] = m
-                    result = file_one(m, p, "New export", filed)
-                    # Only forget the path when the file actually moved. Popping
-                    # it unconditionally is what made a dismissed picker reopen
-                    # on the very next poll and look like it never went away.
-                    if result == "ok":
-                        seen.pop(p, None)
+                    held = hold(p, m)
+                    seen[held] = m
+                    file_one(m, held, "New export", filed)
                     last_activity = time.time()
     except KeyboardInterrupt:
         pass
