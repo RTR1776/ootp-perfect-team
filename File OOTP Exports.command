@@ -1010,12 +1010,44 @@ def scan_paths() -> list:
         dirs.extend(glob.glob(g))
     return [d for d in dirs if os.path.isdir(d)]
 
-# A league export (PEL, HD45x, LD40x: the app's Upload page takes those) has the same columns as a
-# tournament export, so it was offered for filing as one. Same rule as the app's parseLeagueFilename.
-_LEAGUE_NAME = re.compile(r"pel|(?<![a-z0-9])(hd|ld)\d{3}(?![0-9])")
+# A league export (PEL, HD, LD: the app's Upload page takes those) has the same columns as a tournament
+# export, so it was offered for filing as one, with no tournament to pick (L.J. 11-22: "the league is named PEL
+# or HD"). Any file whose name has PEL, HD or LD<n> as its own word or prefix (PEL_vL, PEL2060v_L, HD, HD 453,
+# hd451_vR (1)) is one. Backstop for a league export left under OOTP's generic name: every club plays about the
+# same number of games (median/max per team 0.80-0.97 on the 87 league files in git, max 55-161 games), where a
+# bracket's median club goes out early (0.20-0.73 on 45 tournament exports, max 11-52 games).
+_LEAGUE_NAME = re.compile(r"(?<![a-z])(pel|hd|ld\d)")
+
+def league_by_games(path: str) -> bool:
+    try:
+        with open(path, "r", encoding="utf-8-sig", errors="replace") as f:
+            r = csv.reader(f)
+            head = [c.strip() for c in next(r)]
+            if "G" not in head or "ORG" not in head:
+                return False
+            gi, oi = head.index("G"), head.index("ORG")
+            team: dict = {}
+            for row in r:
+                if len(row) <= max(gi, oi):
+                    continue
+                org = row[oi].strip()
+                if not org or org == "-":
+                    continue
+                try:
+                    g = int(float(row[gi] or 0))
+                except ValueError:
+                    continue
+                team[org] = max(team.get(org, 0), g)
+    except (OSError, StopIteration):
+        return False
+    if len(team) < 10:
+        return False
+    games = sorted(team.values())
+    top, mid = games[-1], games[len(games) // 2]
+    return top >= 54 and mid >= 0.78 * top
 
 def is_league_export(path: str) -> bool:
-    return bool(_LEAGUE_NAME.search(os.path.basename(path).lower().replace(".csv", "")))
+    return bool(_LEAGUE_NAME.search(os.path.basename(path).lower())) or league_by_games(path)
 
 def looks_like_export(path: str) -> bool:
     """A SORTABLE STATS export, not a roster export.
