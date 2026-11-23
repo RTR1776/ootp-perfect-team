@@ -1,0 +1,35 @@
+# Monday Wonky Historical Slots — Claude pick 2026-11-23, rebuilt from the catalogue's rules by current-rosters (--year 2009 --park Coors Field --park-year 2026 --min 40 --max 99 --card-year-min 1800 --card-year-max 1949 --slots D13,S7,B6 --size 26 --series wonkyslots --sp 5 --rp 7 --bats 14)
+R:C Roy Campanella #86628
+R:1B Rudy York (VAR) #86429
+R:2B Joe Gordon #87419
+R:3B Henry Blackmon #87574
+R:SS Pythias Russ (VAR) #87083
+R:LF Cristobal Torriente #87441
+R:CF Jimmie Lyons (VAR) #87309
+R:RF Charlie Blackwell #87268
+L:C Roy Campanella #86628
+L:1B Rudy York (VAR) #86429
+L:2B Joe Gordon #87419
+L:3B John Henry Russell (VAR) #87438
+L:SS Pythias Russ (VAR) #87083
+L:LF Cristobal Torriente #87441
+L:CF Jimmie Lyons (VAR) #87309
+L:RF Charlie Blackwell #87268
+SP1 Bob Feller (VAR) #85650
+SP2 Count Leblanc (VAR) #86978
+SP3 Babe Ruth #86439
+SP4 Jack Stivetts (VAR) #87357
+SP5 Bill Ricks #87162
+CL Ed Reulbach #87376
+RP1 Joe Beggs (VAR) #86762
+RP2 Claude Grier #87086
+RP3 Nick Altrock #87049
+RP4 Fritz Ostermueller #86357
+RP5 Percy Miller #87437
+RP6 Jakie May (VAR) #85286
+BN1 Max Flack #87342
+BN2 Roger Bresnahan #87426
+BN3 John Henry Russell (VAR) #87438
+BN4 Pat Patterson #87080
+BN5 Billy Southworth (VAR) #86379
+BN6 Dave Brain (VAR) #85934
