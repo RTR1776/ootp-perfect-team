@@ -58,3 +58,6 @@ Inbox/rosters/[0-9][0-9][0-9].txt
 Inbox/rosters/[0-9][0-9][0-9][0-9][0-9][0-9][0-9].txt
 Inbox/rosters/*-seed.txt
 Inbox/rosters/summary.json
+
+# Exports the filer copies aside before filing (File OOTP Exports.command, hold())
+Inbox/Tourney Stats/
