@@ -105,9 +105,13 @@ test("the round a pick comes from, and how many it keeps, follow the game's list
   assert.equal(screenAt(pd3, 21), null, "done");
   assert.deepEqual([0, 1, 2, 7, 8, 9, 10, 19, 20].map((n) => keepFor(pd3, n)), [1, 2, 2, 1, 1, 1, 2, 2, 1]);
   assert.equal(keepFor(pd3, 1, 3), 2, "the game's list wins over the page's setting");
-  assert.equal(keepFor(six, 0, 2), 2, "no list: the page's setting");
-  assert.equal(keepFor(six, 0), 1);
-  assert.equal(screenAt(six, 0), null);
+  assert.equal(keepFor(five, 0, 2), 2, "no list: the page's setting");
+  assert.equal(keepFor(five, 0), 1);
+  assert.equal(screenAt(five, 0), null);
+  // The 6L since L.J.'s 11-22 screens: 2 catchers, a pick per position, then 3 Iron, 5 SP, 5 RP, 2 Silver, 2 Gold.
+  assert.deepEqual([0, 1, 2, 8, 9, 11, 12, 17, 22, 24, 25].map((n) => keepFor(six, n)), [2, 2, 1, 1, 3, 3, 5, 5, 2, 2, 2]);
+  assert.equal(screenAt(six, 10)?.screen.round, "I-bat");
+  assert.equal(screenAt(six, 26), null, "done after 26 picks");
 });
 
 test("the picks left come in the game's order with their own keep; a card typed in the wrong round costs that round", () => {
@@ -118,7 +122,8 @@ test("the picks left come in the game's order with their own keep; a card typed 
   assert.deepEqual(stepsLeft(pd3, { P: 6, B: 14 })![0], { key: "P", keep: 2 }, "after round 1, round 2");
   const early = stepsLeft(pd3, { P: 7, B: 13 })!;
   assert.deepEqual(early.slice(7, 9), [{ key: "B", keep: 1 }, { key: "B", keep: 1 }], "a Bronze typed first uses up round 5's");
-  assert.equal(stepsLeft(six, allRounds(six)), null);
+  assert.equal(stepsLeft(five, allRounds(five)), null);
+  assert.equal(stepsLeft(six, allRounds(six))!.length, 26);
 });
 
 test("a typed Perfect goes to the round whose band holds it, else any Perfect round left", () => {
@@ -132,7 +137,8 @@ test("a typed Perfect goes to the round whose band holds it, else any Perfect ro
 test("the screen list reads as the event screen does, and goes when the counts are set by hand", () => {
   const pd3 = DRAFT_FORMATS.ptms3pd3;
   assert.equal(screensText(pd3), "13 rounds of 12: R1 Perfect, keep 1 · R2-4 Perfect, keep 2 · R5-7 Bronze 60-69, keep 1 · R8-12 Bronze 60-69, keep 2 · R13 Bronze 60-69, keep 1");
-  assert.equal(screensText(six), null);
+  assert.equal(screensText(five), null);
+  assert.match(screensText(six)!, /^13 rounds of 12: R1 Bronze C, keep 2 · R2 Bronze 1B\/DH, keep 1/);
   const f = withCounts(pd3, { P: 8, B: 13 });
   assert.equal(f.screens, undefined);
   assert.equal(keepFor(f, 0), 2, "back to the format's keep");
@@ -146,7 +152,7 @@ test("the next round of an ordered draft is the first kind with rounds left; uno
   assert.equal(nextRound(pd1, after)?.key, "D", "two Perfect picks, then the Diamond rounds");
   const done = replay(pd1, Array.from({ length: 26 }, (_, k) => card(pd1.rounds.find((r, j) => k < pd1.rounds.slice(0, j + 1).reduce((a, x) => a + x.count, 0))!.tier, "SS"))).rem;
   assert.equal(nextRound(pd1, done), null, "nothing after the last pick");
-  assert.equal(nextRound(six, allRounds(six)), null, "the 6L's order is not on file: no guess with 13 kinds");
+  assert.equal(nextRound(six, allRounds(six))?.key, "B-C", "the 6L opens on its catcher round (11-22 screens)");
   assert.equal(nextRound(five, allRounds(five))?.key, "B", "3 kinds: the one with most left");
 });
 
