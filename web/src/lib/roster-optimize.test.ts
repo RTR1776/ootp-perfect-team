@@ -4,7 +4,7 @@ import { maxAssignment } from "./assign";
 import { BACKUP_PENALTY, CAP_BACKUP_FLOOR, backupFloorAt, backupPositions, missingBackups, optimizeRoster } from "./roster-optimize";
 import { capLedger } from "./cap-ledger";
 import { rosterObjective } from "./roster-objective";
-import type { FillCard, FillShape } from "./roster-fill";
+import { capStaff, poolShape, type FillCard, type FillShape } from "./roster-fill";
 import type { RosterRules } from "./roster-rules";
 
 /** Every assignment of rows to distinct columns, best total — the reference. */
@@ -472,4 +472,61 @@ test("a fixed pool short of a count rule still solves, and never keeps a card un
   assert.ok(r.legal, "a legal board");
   assert.ok(obj.objective(fill) > r.score, "the fill outscores it on bats alone; the floor holds anyway");
   assert.ok(Math.abs(r.score - obj.objective(r.slots)) < 1e-9);
+});
+
+/* Pranksgiving Pop-up, 2026-11-25 (L.J.'s drafted 26: 11 bats, 15 arms). No shortstop in the pool
+   clears the 60 floor, so the exact solve skipped every set and the climb's board stood: two cards
+   under the floor on each board (Fitzgerald 2B 28, Green SS 47) where one will do (Green to 2B, his
+   64 clears it). The pool cut to four slots; the reference is brute force over every board, ranked
+   on the cards under the floor first and then the score. */
+test("a fixed pool with no card at a position's floor: the exact solve seats the fewest out of place", () => {
+  const four: FillShape = { lineupPos: ["1B", "2B", "SS", "LF"], spKeys: [], rpKeys: [], benchKeys: ["BN1"], bats: 5 };
+  const r5: RosterRules = { ...rules, restrictions: { cards: 5 } };
+  const floor = { default: 60, "1B": 0 };
+  const pool = [
+    hitter(1, { "1B": 73, LF: 75 }), // Berkman
+    hitter(2, { "1B": 67, LF: 136 }), // Delahanty
+    hitter(3, { "2B": 28, SS: 9 }), // Fitzgerald
+    hitter(4, { "2B": 64, SS: 47 }), // Green
+    hitter(5, { "2B": 54, SS: 38 }), // Perdomo
+  ];
+  const runsR = new Map([[1, 27], [2, 40], [3, -10], [4, -30], [5, -28]]);
+  const runsL = new Map([[1, 15], [2, 39], [3, -10], [4, -8], [5, -12]]);
+  const obj = rosterObjective(pool, { shape: four, runsR, runsL });
+  const byId = new Map(pool.map((c) => [c.cardId, c]));
+  const rating = (id: number, pos: string) => byId.get(id)!.ratings[`Pos Rating ${pos}`] ?? 0;
+  const under = (id: number, pos: string) => (rating(id, pos) < (pos === "1B" ? 0 : 60) ? 1 : 0);
+  const perms = (xs: number[]): number[][] => (xs.length <= 1 ? [xs] : xs.flatMap((x) => perms(xs.filter((y) => y !== x)).map((p) => [x, ...p])));
+  const ids = pool.map((c) => c.cardId);
+  let ref = { m: Infinity, s: -Infinity };
+  for (const pr of perms(ids)) {
+    if (!four.lineupPos.every((p, i) => rating(pr[i], p) > 0)) continue;
+    for (const pl of perms(ids)) {
+      if (!four.lineupPos.every((p, i) => rating(pl[i], p) > 0)) continue;
+      const m = four.lineupPos.reduce((n, p, i) => n + under(pr[i], p) + under(pl[i], p), 0);
+      const s = obj.objective({ "R:1B": pr[0], "R:2B": pr[1], "R:SS": pr[2], "R:LF": pr[3], BN1: pr[4], "L:1B": pl[0], "L:2B": pl[1], "L:SS": pl[2], "L:LF": pl[3] });
+      if (m < ref.m || (m === ref.m && s > ref.s)) ref = { m, s };
+    }
+  }
+  // The climb's board: Delahanty at first, Fitzgerald at second, Green at short, on both boards.
+  const start = { "R:1B": 2, "R:2B": 3, "R:SS": 4, "R:LF": 1, BN1: 5, "L:1B": 2, "L:2B": 3, "L:SS": 4, "L:LF": 1 };
+  const r = optimizeRoster(start, pool, r5, four, { objective: obj.objective, slotValue: obj.slotValue, posFloor: floor, exactBoards: true });
+  const outOfPlace = four.lineupPos.reduce((n, p) => n + under(r.slots[`R:${p}`], p) + under(r.slots[`L:${p}`], p), 0);
+  assert.equal(ref.m, 2, "one card under the floor on each board is the least there is");
+  assert.equal(outOfPlace, ref.m, "as few cards under the floor as brute force");
+  assert.ok(Math.abs(r.score - ref.s) < 1e-9, `exact ${r.score} vs brute force ${ref.s}`);
+  assert.equal(r.slots["R:2B"], 4, "Green to second, where his 64 clears the floor");
+  assert.equal(r.slots["L:2B"], 4);
+  assert.deepEqual([r.slots["R:1B"], r.slots["R:LF"]], [1, 2], "Berkman at first, Delahanty in left");
+  assert.equal(new Set(Object.values(r.slots)).size, 5, "every card stays on the roster");
+});
+
+/* The same draft's shape: the event's 26 is 5 SP / 7 RP / 14 bats, which asks for three bats the pool
+   doesn't have, and the exact solve runs only when the bats on the board fill the lineup and bench. */
+test("a fixed pool's shape is its own: every bat it holds, the staff as far as its arms go", () => {
+  const staff = capStaff(26 - 5 - 9, 5, 9); // an event that would carry 9 relievers: capped at 7
+  assert.deepEqual({ sp: staff.sp, rp: staff.rp }, { sp: 5, rp: 7 });
+  assert.deepEqual(poolShape(staff, 11, 15, 9), { bats: 11, sp: 5, rp: 7 }, "Pranksgiving: 11 bats, three arms off the board");
+  assert.deepEqual(poolShape(staff, 16, 10, 9), { bats: 16, sp: 5, rp: 5 }, "ten arms: the pen takes what the rotation leaves");
+  assert.deepEqual(poolShape(staff, 8, 18, 9), { bats: 9, sp: 5, rp: 7 }, "never fewer bats than the lineup");
 });

@@ -16,7 +16,7 @@ import { db } from "@/db/client";
 import { cards, cardSnapshots, collectionCards, uploads } from "@/db/schema";
 import { formRatings } from "@/lib/card-forms";
 import {
-  HIT_POS, boardShape, fillOnce, fillRoster, fitMaps, isComplete, nextBenchKey, offShapeKeys, rosterShape, shapeKeys, type FillCard, type FillShape,
+  HIT_POS, boardShape, fillOnce, fillRoster, fitMaps, isComplete, nextBenchKey, offShapeKeys, poolShape, rosterShape, shapeKeys, type FillCard, type FillShape,
 } from "@/lib/roster-fill";
 import { rosterSize, validateRoster, type RosterRules, type RosterSlot } from "@/lib/roster-rules";
 import { cardEligibility } from "@/lib/roster-rules";
@@ -64,7 +64,8 @@ const DH = flag("dh");
 const MIN = num("min");
 const MAX = num("max");
 const CAP = num("cap");
-const SIZE = num("size", 26)!;
+/** The roster size. A fixed pool (--pool-ids) without --bats/--sp/--rp resets it to its own shape (poolShape). */
+let SIZE = num("size", 26)!;
 const NAME = val("name", "ad-hoc event")!;
 const VARIANT_CAP = num("variant-cap");
 const YEAR_MIN = num("card-year-min");
@@ -116,7 +117,12 @@ const SOLD = new Set((val("sold") ?? "").split(",").map((x) => Number(x.trim()))
  *   2 Negro League Star · 6 Future Legend · 7 Snapshot
  */
 const CARD_TYPES = new Set((val("card-types") ?? "").split(",").map((x) => Number(x.trim())).filter((n) => Number.isFinite(n) && n > 0));
-const OPTIMIZE = flag("optimize");
+/**
+ * --optimize: climb from the λ fills. A fixed pool (--pool-ids) always does, since without it the build is the
+ * greedy fill and the exact arrangement never runs (Pranksgiving Pop-up, 2026-11-25: 63.2 printed, 75.6 found
+ * with the climb); --no-optimize keeps the fill.
+ */
+const OPTIMIZE = flag("optimize") || (POOL_IDS.length > 0 && !flag("no-optimize"));
 /** --compare-search: also run /build's Optimise and Search longer (lib/roster-search) on the same inputs and print their scores. */
 const COMPARE_SEARCH = flag("compare-search") || flag("compare-only");
 /** --compare-only: /build's searches only, without the CLI's own λ climbs (its score was measured already). */
@@ -418,6 +424,8 @@ async function main() {
     console.log(`sold (--sold, not in the pool even if the collection upload still lists it): ${gone.map((c) => `${c.name} ${c.val} #${Math.abs(c.cardId)}`).join(", ") || "none of these were in this event's pool"}`);
   }
   if (CARD_TYPES.size) console.log(`card sets: ${cardTypeNames([...CARD_TYPES])} only`);
+  // A fixed pool's own bats and arms, before the two-way forms join (poolShape below).
+  const poolBats = pool.filter((c) => !c.isPitcher).length, poolArms = pool.filter((c) => c.isPitcher).length;
   // Two-way cards (lib/two-way): each also enters in the role it isn't listed in.
   {
     const forms = pool.map((c) => { const f = twoWayForm(c); return f ? { ...f, pos: f.isPitcher ? "P" : "DH" } : null; }).filter((f): f is P => f != null);
@@ -456,7 +464,18 @@ async function main() {
   const LHB_SHARE = LHB_SHARE_FLAG ?? meta?.lhbPaShare ?? 0.35;
   if (LHB_SHARE_FLAG != null || LHP_SHARE_FLAG != null) console.log(`field hands set by flag: ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats`);
   if (meta) console.log(`field (${SERIES}, ${meta.files} exports): ${Math.round(LHP_SHARE * 100)}% of batters faced thrown left-handed · ${Math.round(LHB_SHARE * 100)}% of PA by left-handed bats · ${meta.avgBats} bats / ${meta.avgSp} SP / ${meta.avgRp} RP per team`);
-  const shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any, YEAR_MIN, shapeGiven);
+  let shp = rosterShape(YEAR, lineupPos.length, rosterSize(rules) ?? SIZE, shapeMeta as any, YEAR_MIN, shapeGiven);
+  if (POOL_IDS.length && !shapeGiven) {
+    // A fixed pool's shape is its own: every bat it holds, the event's staff as far as its arms go.
+    const ps = poolShape(shp, poolBats, poolArms, lineupPos.length);
+    if (ps.bats !== shp.bats || ps.sp !== shp.sp || ps.rp !== shp.rp) {
+      const left = poolArms - ps.sp - ps.rp;
+      console.log(`pool shape: ${ps.bats} bats / ${ps.sp} SP / ${ps.rp} RP, ${ps.bats + ps.sp + ps.rp} players (the event's ${shp.bats} / ${shp.sp} / ${shp.rp} is not this pool's)${left > 0 ? ` · ${left} arm${left === 1 ? "" : "s"} past the staff caps stay off the board` : ""}`);
+      shp = { ...shp, ...ps };
+      SIZE = ps.bats + ps.sp + ps.rp;
+      rules.restrictions = { ...rules.restrictions, cards: SIZE };
+    }
+  }
   let shape: FillShape = {
     lineupPos, bats: shp.bats,
     spKeys: Array.from({ length: shp.sp }, (_, i) => `SP${i + 1}`),

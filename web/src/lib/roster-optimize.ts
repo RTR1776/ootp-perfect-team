@@ -790,8 +790,25 @@ export function optimizeRoster(
      * rule is replaced (startLegal). legal() doesn't read positions and the objective prices a glove
      * but holds no floor, so such a board can outscore every board inside them: the λ 0 fill for
      * PTMS 3 PD 2 (2026-11-19) started Moniak, 1B 11, at first, its last resort once Nimmala took third.
+     *
+     * Boards rank on the cards out of place first, then the score. A drafted pool can have no card
+     * that clears a floor: Pranksgiving Pop-up (L.J.'s 26, 2026-11-25) holds four shortstops, the
+     * best of them 47 against a floor of 60. Until then every set with a card out of place was
+     * skipped, so with none inside the floors nothing was tried and the climb's board stood, Tyler
+     * Fitzgerald (SS 9) at short and Pumpsie Green (SS 47) at second. Now such a pairing costs
+     * MISPLACED in the assignment, so each set seats the fewest cards out of place it can, and the
+     * score chooses among boards with as few: here Green at short, Fitzgerald at second. A card
+     * rated 0 at a position still never plays it.
      */
-    const misplaced = (t: FillResult) => [lineR, lineL].filter((rows) => !rows.every((k) => Number.isFinite(weight(k, t[k])))).length;
+    const MISPLACED = 1e6;
+    const fallback = (k: string, id: number): number => {
+      const w = weight(k, id);
+      if (Number.isFinite(w)) return w;
+      const pos = k.slice(2);
+      return (byId.get(id)?.ratings[`Pos Rating ${pos}`] ?? 0) > 0 ? o.slotValue!(k, id) - MISPLACED : -Infinity;
+    };
+    const outOfPlace = (t: FillResult, rows: readonly string[]) => rows.filter((k) => !Number.isFinite(weight(k, t[k]))).length;
+    const misplaced = (t: FillResult) => outOfPlace(t, lineR) + outOfPlace(t, lineL);
     let cur: FillResult = { ...from };
     let curScore = ok(cur) ? obj(cur) : -Infinity;
     const arms = [...new Set(staffKeys.map((k) => from[k]).filter((id): id is number => id != null))];
@@ -805,11 +822,12 @@ export function optimizeRoster(
     }
     for (const rows of [lineR, lineL]) {
       let bestT: FillResult | null = null;
-      let bestS = rows.every((k) => Number.isFinite(weight(k, cur[k]))) ? curScore : -Infinity;
+      let bestM = outOfPlace(cur, rows);
+      let bestS = curScore;
       const ix = rows.map((_, i) => i);
       for (;;) {
         const set = ix.map((i) => hitters[i]);
-        const w = rows.map((k) => set.map((id) => weight(k, id)));
+        const w = rows.map((k) => set.map((id) => fallback(k, id)));
         const a = maxAssignment(w);
         if (a && rows.every((_, i) => Number.isFinite(w[i][a[i]]))) {
           const t: FillResult = { ...cur };
@@ -824,8 +842,9 @@ export function optimizeRoster(
             else benchOk = false;
           }
           if (benchOk && ok(t)) {
-            const s = obj(t);
-            if (s > bestS + 1e-9) { bestS = s; bestT = t; }
+            const m = outOfPlace(t, rows);
+            const s = m <= bestM ? obj(t) : -Infinity;
+            if (m < bestM || (m === bestM && s > bestS + 1e-9)) { bestM = m; bestS = s; bestT = t; }
           }
         }
         // Next combination of rows.length indices out of hitters.length, in lexicographic order.
@@ -837,7 +856,7 @@ export function optimizeRoster(
       }
       if (bestT) { cur = bestT; curScore = bestS; }
     }
-    // Fewer boards with a card out of place wins outright; with as many, the higher score.
+    // Fewer cards out of place wins outright; with as many, the higher score.
     const dm = misplaced(cur) - misplaced(from);
     return Number.isFinite(curScore) && (dm < 0 || (dm === 0 && curScore > fromScore + 1e-9)) ? { slots: cur, score: curScore } : null;
   };

@@ -151,6 +151,22 @@ export function capStaff(bats: number, sp: number, rp: number): { bats: number; 
   return { bats: bats + (sp + rp) - (spC + rpC), sp: spC, rp: rpC };
 }
 
+/**
+ * The shape of a fixed pool (env-roster --pool-ids: a drafted 26): every bat in it, and the event's
+ * staff (`staff`, already capped by capStaff) as far as its arms go. The bats are whatever the pool
+ * holds, not what the roster size leaves after the staff: Pranksgiving Pop-up (L.J.'s 26, 2026-11-25)
+ * drafted 11 bats and 15 arms, the staff caps keep 12 arms, and the event's shape of 14 bats asked
+ * for three bats the pool doesn't have, so the exact arrangement never ran. Arms past the staff
+ * stay off the board; the roster is bats + sp + rp.
+ */
+export function poolShape(
+  staff: { sp: number; rp: number }, poolBats: number, poolArms: number, lineupSize: number,
+): { bats: number; sp: number; rp: number } {
+  const sp = Math.max(1, Math.min(staff.sp, poolArms));
+  const rp = Math.max(1, Math.min(staff.rp, poolArms - sp));
+  return { bats: Math.max(lineupSize, poolBats), sp, rp };
+}
+
 /* ------------------------------------------------------------ scoring */
 
 export function blend(r: Record<string, number>, base: string, vl: string, vr: string, wL = 0.3): number {
