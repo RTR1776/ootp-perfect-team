@@ -1,0 +1,36 @@
+# Wednesday 1950 to Now — Claude pick 2026-11-25, rebuilt from the catalogue's rules by current-rosters (--year 2010 --park Globe Life Field --park-year 2026 --dh --min 40 --max 105 --card-year-min 1950 --card-year-max 2026 --card-types 7,8 --size 26 --series 1950tonow --sp 5 --rp 7 --bats 14)
+R:C Rick Wilkins #87432
+R:1B Albert Pujols #87149
+R:2B Adam Kennedy #84172
+R:3B Kyle Seager #87286
+R:SS Elly De La Cruz #87387
+R:LF Curtis Granderson #86595
+R:CF Richard Hidalgo #86707
+R:RF Andruw Jones #87057
+R:DH Ben Rice #87395
+L:C Gabriel Moreno #87397
+L:1B Albert Pujols #87149
+L:2B Brandon Phillips #87202
+L:3B Kyle Seager #87286
+L:SS Elly De La Cruz #87387
+L:LF Richard Hidalgo #86707
+L:CF Andruw Jones #87057
+L:RF Seiya Suzuki #87381
+L:DH J.D. Martinez #87247
+SP1 Chris Sale #87406
+SP2 Ben Sheets #87414
+SP3 CC Sabathia #86350
+SP4 Josh Beckett #87058
+SP5 Larry Jackson #86646
+CL Andrew Miller #87138
+RP1 Josh Hader #87401
+RP2 Jake McGee (VAR) #86789
+RP3 Louis Varland #87400
+RP4 Robb Nen #83906
+RP5 Yoshinobu Yamamoto #87408
+RP6 Joel Pineiro (VAR) #87293
+BN1 J.D. Martinez #87247
+BN2 Gabriel Moreno #87397
+BN3 Seiya Suzuki #87381
+BN4 Brandon Phillips #87202
+BN5 Jose Oquendo #85738
