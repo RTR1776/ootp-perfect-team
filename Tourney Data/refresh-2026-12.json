@@ -1,0 +1,305 @@
+{
+ "capturedOn": "2026-11-25",
+ "source": "OOTP forums, 'Tournament Refresh Work in Progress', Nicolino Di Benedetto (PT Director of Product Management), 2026-11-25 4:22 PM, edited 5:26 PM",
+ "note": "Daily Iron, Bronze, Silver and Gold first; Diamond, Open and Weekly later, Perfect Drafts after that. Deploy date not given ('aiming for some time next week'), so every entry is `deferred` until L.J. sees it live. Apply with: pnpm import:refresh --file 'Tourney Data/refresh-2026-12.json' --live YYYY-MM-DD (the Chicago day the new formats first ran).",
+ "iron": {
+  "181": {
+   "old": "Daily PTCS 2 Iron Replay",
+   "new": "Daily Iron Up to 1969",
+   "text": "1968 RE, DH off, Variant Cap 8, 1967 KC Municipal Stadium",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')",
+   "cardYears": [
+    1800,
+    1969
+   ],
+   "why": "name: Up to 1969"
+  },
+  "111": {
+   "old": "Daily Iron Lunch",
+   "new": null,
+   "text": "Default RE",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "112": {
+   "old": "Daily Late Iron",
+   "new": null,
+   "text": "now at 2026 Progressive Field",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "113": {
+   "old": "Daily Iron Strikes Back",
+   "new": "Daily Iron 1970-Present",
+   "text": "2019 RE, DH on, 2026 Coors Field",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')",
+   "cardYears": [
+    1970,
+    2026
+   ],
+   "why": "name: 1970-Present"
+  },
+  "114": {
+   "old": "Daily Dank",
+   "new": null,
+   "text": "1991 RE, DH on, 1991 Cleveland Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "115": {
+   "old": "Daily Iron Cap",
+   "new": null,
+   "text": "1250 cap, 1950 RE, DH on, Variant Cap 9, 1949 Rickwood Field",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "116": {
+   "old": "Daily Live Iron",
+   "new": null,
+   "text": "now at 2026 Rate Field",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "163": {
+   "old": "Daily Iron Dreamland",
+   "new": null,
+   "text": "1988 RE, 1987 Shea Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "188": {
+   "old": "Daily Iron & Friends OOTP Era Slots",
+   "new": null,
+   "text": "2013 RE, 2013 Fenway Park",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  }
+ },
+ "bronze": {
+  "189": {
+   "old": "Daily Bronze PTCS 3 Replay Slots",
+   "new": "Daily Low Bronze Cap",
+   "text": "1355 cap, Default RE, DH on, 2026 Oriole Park at Camden Yards",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "120": {
+   "old": "Daily Bronze Only Cap",
+   "new": "Daily Bronze Cap",
+   "text": "1280 cap, 1999 RE, DH on, Variant Cap 10, 1998 Cinergy Field",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "117": {
+   "old": "Daily Early Bronze",
+   "new": null,
+   "text": "LE off, 2000 RE, DH on, 1999 Jacobs Field",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "118": {
+   "old": "Daily Bronze Only Curiosities",
+   "new": "Daily Bronze Up to 1945 (PTCS 8 Replay)",
+   "text": "Max Rebirth Era (1945) cards, 1919 RE, DH off, Variants on, 1903 South Side Park",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "119": {
+   "old": "Daily Late Bronze",
+   "new": null,
+   "text": "1942 RE, 1948 Briggs Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "121": {
+   "old": "Daily Live Bronze",
+   "new": null,
+   "text": "now at 2026 LoanDepot Park",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "122": {
+   "old": "Daily Low Bronze Only",
+   "new": null,
+   "text": "1996 RE, DH on, 1990 Metrodome",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "164": {
+   "old": "Daily Bronze 1910-59",
+   "new": "Daily Bronze 1946-2025",
+   "text": "1984 RE, 1984 Busch Stadium",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')",
+   "cardYears": [
+    1946,
+    2025
+   ],
+   "why": "name: 1946-2025"
+  },
+  "182": {
+   "old": "Daily Bronze OOTP Era",
+   "new": "Daily Bronze Heart",
+   "text": "cards from 1930-89, 1966 RE, DH off, 1966 Memorial Stadium (Baltimore)",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  }
+ },
+ "silver": {
+  "190": {
+   "old": "Daily Silver & Friends Slots",
+   "new": "Daily Silver Analytics Era to Live-Plus",
+   "text": "cards from 2015-26, 2019 RE, DH on, Variants on, 2024 Tropicana Field",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "123": {
+   "old": "Daily Early Silver",
+   "new": null,
+   "text": "LE off, 2026 Cheney Stadium (Tacoma Rainiers)",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "124": {
+   "old": "Daily Late Silver",
+   "new": null,
+   "text": "1977 RE, 1977 Oakland Coliseum",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "125": {
+   "old": "Daily Silver Only Cap",
+   "new": "Daily Silver Cap",
+   "text": "Best of 7, 1470 cap, 1983 RE, Variant Cap 9, 1984 Jack Murphy Stadium",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "126": {
+   "old": "Daily Live Silver",
+   "new": null,
+   "text": "now at 2026 Globe Life Field",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "127": {
+   "old": "Daily Silver Slots",
+   "new": null,
+   "text": "cards from 1961-2014 (Baseball Boom Era to Moneyball Years), Default RE, DH on, Variant Cap 11, 1987 Yankee Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "165": {
+   "old": "Daily Silver Snapshots",
+   "new": null,
+   "text": "2000 RE, 2016 Turner Field",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "183": {
+   "old": "Daily Roaring Silvers",
+   "new": null,
+   "text": "1922 RE, 1921 Baker Bowl",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "197": {
+   "old": "Daily Low Silver Only",
+   "new": null,
+   "text": "1988 RE, 1983 Exhibition Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  }
+ },
+ "gold": {
+  "128": {
+   "old": "Daily Low Gold Only",
+   "new": null,
+   "text": "1948 RE, DH off, 1945 Fenway Park",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "129": {
+   "old": "Daily Goldfather II",
+   "new": null,
+   "text": "1990 RE, DH on, 2008 Yankee Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "130": {
+   "old": "Daily Gold Cap",
+   "new": null,
+   "text": "1589 cap, 1933 RE, DH off, 1930 Hamtramck Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "131": {
+   "old": "Daily Live Gold",
+   "new": null,
+   "text": "now at Petco Park",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "132": {
+   "old": "Daily Gold Slots",
+   "new": null,
+   "text": "Slots (15 Gold, 6 Silver, 5 Bronze), cards from 2015-2026, Default RE, 2026 Busch Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "166": {
+   "old": "Daily Golden Age",
+   "new": null,
+   "text": "1919 RE, 1911 Polo Grounds",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "184": {
+   "old": "Daily Golden Heart",
+   "new": null,
+   "text": "1989 RE, 1983 Comiskey Park",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "191": {
+   "old": "Daily Low Gold Cap",
+   "new": null,
+   "text": "Default RE, 1962 Colt Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "198": {
+   "old": "Daily Gold Standard",
+   "new": null,
+   "text": "1999 RE, 2026 CHS Field (St. Paul Saints)",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  }
+ },
+ "open": {
+  "108": {
+   "old": "Low Gold Quick",
+   "new": "Diamond Analytics Era to Live-Plus Quick",
+   "text": "cards from 2015-26, 2016 RE, Variants on, Heinsohn Park",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "193": {
+   "old": "Dr. Dynastic's Daily Time Travelers Slots",
+   "new": null,
+   "text": "1987 RE, 1987 Yankee Stadium",
+   "envChanged": true,
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "138": {
+   "old": "Daily Early Years Cap",
+   "new": "Daily Keeping it 100 Cap",
+   "text": "Cards up to 100 overall, 1818 cap, Default RE, DH on, Variants on, 2026 American Family Field",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')"
+  },
+  "200": {
+   "old": null,
+   "new": "Deadball Quick Slots",
+   "text": "Deadball cards only with Slots (5 Gold, 5 Silver, 8 Bronze, 8 Iron), Best of 5, 16 teams, 1918 RE, Variants on, Heinsohn Park",
+   "deferred": "post 2026-11-25: not live yet ('aiming for some time next week')",
+   "added": true,
+   "cardYears": [
+    1800,
+    1919
+   ],
+   "eraNotSet": true,
+   "why": "'Deadball cards only' is the era (to 1919), not a card set"
+  }
+ }
+}

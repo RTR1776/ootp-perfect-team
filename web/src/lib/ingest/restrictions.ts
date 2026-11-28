@@ -59,6 +59,9 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   if (m && TIER_MAX[m[1].toUpperCase()]) r.valueMax = TIER_MAX[m[1].toUpperCase()];
   m = s.match(/cards?\s*<=\s*(\d{2,3})\b/i);
   if (m) r.valueMax = Number(m[1]);
+  // "Cards up to 100 overall" (Keeping it 100 Cap, refresh 2026-11-25): a value ceiling, not a year.
+  m = s.match(/cards?\s+up\s*to\s*(\d{2,3})\s+overall\b/i);
+  if (m) r.valueMax = Number(m[1]);
   m = s.match(/\bMIN\s+([A-Za-z]+)\b/i);
   if (m && TIER_MIN[m[1].toUpperCase()]) r.valueMin = TIER_MIN[m[1].toUpperCase()];
   m = s.match(/\bMIN\s+(\d{2,3})\b/i);
@@ -68,6 +71,9 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   // "<=1920 Era" is an era band; PT stores it as an upper year bound.
   m = s.match(/<=\s*(\d{4})\s*Era\b/i) || s.match(/cards?\s+up\s*to\s*(\d{4})/i) || s.match(/<=\s*(\d{4})(?!\s*(?:RE|Cap))\b/i);
   if (m) { r.yearMax = Number(m[1]); r.yearMin ??= 1800; }
+  // "Max Rebirth Era (1945) cards" (Bronze Up to 1945, refresh 2026-11-25): an era band named by its last year.
+  m = s.match(/\bmax\s+[A-Za-z' -]*?era\s*\((\d{4})\)/i);
+  if (m && r.yearMax == null) { r.yearMax = Number(m[1]); r.yearMin ??= 1800; }
   m = s.match(/>=\s*(\d{4})(?!\s*(?:RE|Cap))\b/i);
   if (m) r.yearMin = Number(m[1]);
   /**
@@ -152,7 +158,7 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   // ---- park ------------------------------------------------------------
   // "1982 Kingdome" and "2026 Dell Diamond" (Diamond refresh, Sep 9) carry no
   // Park/Stadium/Field suffix, so they are named outright.
-  m = s.match(/\b((?:\d{4}\s+)?[A-Z][A-Za-z'.]*(?:\s+[A-Z][A-Za-z'.]*)*\s+(?:Park|Stadium|Field|Grounds|Yards|Coliseum|Dome))\b/)
+  m = s.match(/\b((?:\d{4}\s+)?[A-Z][A-Za-z'.]*(?:\s+[A-Z][A-Za-z'.]*)*\s+(?:Park|Stadium|Field|Grounds|Yards|Coliseum|Dome|Bowl))\b/)
     || s.match(/\b((?:\d{4}\s+)?(?:Kingdome|Astrodome|Metrodome|SkyDome|Dell Diamond))\b/);
   if (m) r.park = m[1].trim();
   else if (/random[^,;]*stadiums?/i.test(s)) r.notes.push("random park");
@@ -181,6 +187,8 @@ export function parseRestrictions(raw: string | null | undefined): Restrictions 
   if (/\bnon-live\b/i.test(s)) r.notes.push("non-LIVE");
   if (/\bhistorical\b/i.test(s) && !r.cardTypes) r.notes.push("historical only");
   if (/\bLE\s*on\b/i.test(s)) r.notes.push("legends on");
+  // "LE off" (Early Bronze, Early Silver, refresh 2026-11-25): Limited Edition cards barred, the game's "No LE".
+  if (/\bLE\s*off\b|\bNo\s+LE\b/i.test(s)) r.notes.push("no LE");
 
   return r;
 }

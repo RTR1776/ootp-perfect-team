@@ -22,7 +22,8 @@ export interface CatalogueRules {
 }
 
 export interface CatalogueEdit {
-  envYear?: number;
+  /** null is the game's "Default RE" (the app reads it as 2010). */
+  envYear?: number | null;
   /** As the game shows it, "1958 Tiger Stadium"; the park name drops the year. */
   stadium?: string;
   dh?: boolean;
@@ -104,7 +105,7 @@ export function editCatalogueRules(row: CatalogueRules, e: CatalogueEdit): Catal
     cardYearMin: row.cardYearMin, cardYearMax: row.cardYearMax, restrictions: old,
   };
   return {
-    envYear: e.envYear ?? row.envYear,
+    envYear: e.envYear === undefined ? row.envYear : e.envYear,
     stadium: e.stadium ?? row.stadium,
     parkName: e.stadium != null ? e.stadium.replace(/^\d{4}\s+/, "") : row.parkName,
     dh: e.dh ?? row.dh,

@@ -77,11 +77,11 @@ const SKIP = new Set((val("skip") ?? "").split(",").map((s) => Number(s.trim()))
  * --patch rules.json: rule changes not in the catalogue yet, keyed by event id,
  * in catalogue:set's edit form (envYear, stadium, dh, value, cardYears, slots
  * as the game's line, teamCap, variantCap, noLimitedEdition, drop, text,
- * formatSince). They go through the same editCatalogueRules the catalogue
+ * formatSince, and name for a renamed event). They go through the same editCatalogueRules the catalogue
  * update uses, so a roster is built to the rules the Mac script is about to
  * write, and its save is checked against them once they are written.
  */
-const PATCH: Record<string, Omit<CatalogueEdit, "at" | "slots"> & { slots?: string }> = val("patch") ? JSON.parse(readFileSync(val("patch")!, "utf8")) : {};
+const PATCH: Record<string, Omit<CatalogueEdit, "at" | "slots"> & { slots?: string; name?: string }> = val("patch") ? JSON.parse(readFileSync(val("patch")!, "utf8")) : {};
 const OUT = val("out");
 /**
  * --add rows.json: events not in the catalogue yet (an announced championship),
@@ -248,7 +248,7 @@ async function main() {
     if (!p) return t;
     const rx = (t.restrictions ?? null) as Record<string, unknown> | null;
     const edit: CatalogueEdit = { ...p, slots: p.slots ? parseSlots(p.slots, (rx as { cards?: number } | null)?.cards ?? 26) : undefined, at: chicagoDay(new Date())! };
-    return { ...t, ...editCatalogueRules({ envYear: t.envYear, stadium: t.stadium, parkName: t.parkName, dh: t.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax, cardYearMin: t.cardYearMin, cardYearMax: t.cardYearMax, restrictions: rx }, edit) };
+    return { ...t, ...(p.name ? { name: p.name } : {}), ...editCatalogueRules({ envYear: t.envYear, stadium: t.stadium, parkName: t.parkName, dh: t.dh, ratingsMin: t.ratingsMin, ratingsMax: t.ratingsMax, cardYearMin: t.cardYearMin, cardYearMax: t.cardYearMax, restrictions: rx }, edit) };
   });
   const saved = await db.select({ t: rosters.tournamentId, notes: rosters.notes }).from(rosters);
   const savedNow = await newestSaved();

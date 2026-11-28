@@ -165,3 +165,17 @@ test("the All-Star Hardware slot split parses with Default RE", () => {
   assert.ok(r.notes.includes("default RE"));
 });
 
+
+test("refresh 2026-11-25 wording: a value ceiling in words, an era band, a Bowl, LE off", () => {
+  const hundred = parseRestrictions("Cards up to 100 overall, 1818 cap, Default RE, DH on, Variants on, 2026 American Family Field");
+  assert.equal(hundred.valueMax, 100);
+  assert.equal(hundred.yearMax, null, "100 overall is a value, not a year");
+  assert.equal(hundred.teamCap, 1818);
+  const rebirth = parseRestrictions("Max Rebirth Era (1945) cards, 1919 RE, DH off, Variants on, 1903 South Side Park");
+  assert.equal(rebirth.yearMax, 1945);
+  assert.equal(rebirth.reYear, 1919);
+  assert.equal(rebirth.park, "1903 South Side Park");
+  assert.equal(parseRestrictions("1922 RE, 1921 Baker Bowl").park, "1921 Baker Bowl");
+  assert.ok(parseRestrictions("LE off, 2000 RE, DH on, 1999 Jacobs Field").notes.includes("no LE"));
+  assert.ok(!parseRestrictions("1999 RE, 2026 CHS Field").notes.includes("no LE"));
+});
